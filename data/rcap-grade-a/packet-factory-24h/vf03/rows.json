@@ -25,10 +25,10 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 36,
-  "PASS_COMPLETE_INDEPENDENT": 15,
+  "families": 37,
+  "PASS_COMPLETE_INDEPENDENT": 17,
   "PASS": 0,
-  "FAIL_REPAIR_REQUIRED": 16,
+  "FAIL_REPAIR_REQUIRED": 17,
   "BLOCKED_SOURCE": 1,
   "BLOCKED_LEGAL_INPUT": 2,
   "STOPPED": 1,
@@ -8615,6 +8615,158 @@
    "commercialRoutesOpened": 0,
    "productionTouched": false,
    "grantsNothing": "This failure assigns repair only. It approves no output, opens no route, sets no price and grants no production authority."
+  },
+  {
+   "itemId": "ca-1203-43-set",
+   "lane": "VF03",
+   "wave": "National completion blitz — independent post-repair verification",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e",
+   "verifiedAt": "2026-09-03T21:50:39Z",
+   "verifiedBy": "VF03 (independent verification; this lane built, repaired, and rendered none of this family)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill",
+   "claim": {
+    "assertedBeforeArtifactRead": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 ca-1203-43-set",
+    "exitCode": 0,
+    "result": "CLAIM_OK VF03 ca-1203-43-set (independent-verification, grant set aba88f9c739b0e4a)",
+    "releasedAfterRowWrite": true,
+    "releaseResult": "RELEASED VF03 ca-1203-43-set"
+   },
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/private/tmp/legalease-grade-a-master-c29cebe/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family ca-1203-43-set --codex-cloud --minimum-captain-sha ef3cb7083b94142fd9cbeb990b2e3afc22b3018e",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable",
+    "limitations": [
+     "worktree_clean failed because the Captain's shared canonical worktree contained 63 concurrent uncommitted paths",
+     "corpus_environment_loaded failed because no shell marker was set, while the exact source root was supplied explicitly",
+     "master_library_complete and corpus_matches_committed_index failed because the staged source root is a family-scoped 242/499-file, 70/329-PDF extract rather than the national corpus"
+    ],
+    "captainOverrideApplied": "The assignment explicitly supplied this shared canonical repository and staged source root. The family-specific gate still bound all three required source files 3/3 by exact SHA-256 and byte length, and the stale-source block was clear. No national-corpus inference is used in this verdict."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=/private/tmp/legalease-grade-a-master-c29cebe/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-43-set -> PASS_COMPLETE, 8/186 written; all nine counters zero"
+   },
+   "failedObligations": [],
+   "unmeasuredObligations": [],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The family, sole route key, section 1203.43 label, primary CR-180, proposed CR-181, service CR-106, and box-7 statutory control agree across wiring, field map, route census, track treatment, instructions, and both fixtures. No sibling dismissal route is selected."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "CR-180, CR-181, and CR-106 were independently rehashed from the exact staged source bytes. All three SHA-256 values and byte lengths match source-receipt.json and the committed corpus index (3/3).",
+     "evidence": {
+      "CR-180": ["06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe", 110684],
+      "CR-181": ["f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504", 110123],
+      "CR-106": ["f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a", 104278]
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Each fixture contains the three manifest components in full: CR-180 primary filing (3 pages), CR-181 proposed order (2 pages), and CR-106 proof of service (2 pages). participant-instructions.md is also present."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All eight declared identity/caption/conviction-date writes per CR-180 fixture were re-read from output bytes. Canonical and boundary values are visible on their exact pages; the long boundary name, county, and case number remain complete and legible."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All 61 map-declared REQUIRED_BEFORE_FILING fields are named in participant-instructions.md, including all five offence rows and the post-service CR-106 facts. The instructions separately carry the manifest's docket-or-sworn-declaration evidence choice, DOJ-record option, participant signature/date, and explicit no-notarization statement."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The sole route-determined election, CR-180 box 7 for Penal Code section 1203.43, is selected in both fixtures and proved by the two expected diagonal segments inside the measured widget. The evidence-route and has/has-not choices remain for the participant."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All five conviction rows remain wholly empty; no row has written cells beside owed blanks. The instructions explicitly require unused rows to remain entirely empty."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Output-byte proof reports no protected field with a fixture value or added ink in either CR-180. CR-181 and CR-106 are exact unchanged official bytes, leaving signatures, dates, service facts, and court/prosecutor fields blank."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All six component PDFs and all 14 raster PNGs were independently rehashed from current bytes and match rendered-artifacts.json exactly. The family wrapper's fresh deterministic rebuild check also returned CHECK_OK.",
+     "evidence": {
+      "canonicalCR180": ["d2ee7689a134dd808796a840adc358badda96c90f2586601cb4867332768703e", 58510, 3],
+      "boundaryCR180": ["c0b2eeec2627a2566828f988f527fb325615ce567fbd7092a9122f749f0dee67", 58781, 3],
+      "unchangedCompanions": "CR-181 and CR-106 match their exact official source hashes in both fixtures",
+      "rastersMatched": "14/14"
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both seven-page fixture sets follow the manifest order without gaps or interleaving: CR-180 pages 1-3, CR-181 pages 1-2, then CR-106 pages 1-2."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The fresh wrapper check rastered deterministically, all 14 receipt-bound pages were inspected at full 612x792 resolution, and no clipping, overlap, off-page ink, or illegible fit was found. In particular, both repaired CR-180 page-3 fixtures no longer contain the previously clipped viewer-warning text, and the boundary caption values remain within their boxes."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the manifest destination exactly: the Superior Court in the county of conviction, with local filing details directed to that clerk."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions disclose that the filing fee is unresolved and county-specific, publish no invented amount, direct the participant to the proper Superior Court clerk, and name the manifest's FW-001 general California fee-waiver path with its limits."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions now name the manifest's prosecuting-attorney recipient and CR-106 proof. Because the held record establishes neither method nor timing, they expressly refuse to invent either and direct the participant to ask the Superior Court clerk before service; CR-106 itself presents mail and personal-delivery completion paths."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All four committed track-registry stops are stated: noncitizen/immigration consequences, prosecutor opposition, contested hearing, and inability to establish programme completion plus dismissal. The instructions also state the platform does not decide eligibility, file, appear, or provide legal advice."
+    }
+   },
+   "freshVerification": {
+    "focusedCompleteness": "PASS_COMPLETE; 8/186 written; nine counters all zero",
+    "deterministicBuildCheck": "CHECK_OK ca-1203-43-set",
+    "sourcesRehashed": "3/3 exact",
+    "artifactsRehashed": "6/6 exact",
+    "rastersRehashed": "14/14 exact",
+    "pagesVisuallyInspected": 14
+   },
+   "evidenceRead": [
+    "All records and both seven-page fixture sets under data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill",
+    "The exact three staged Master Library source PDFs named by source-receipt.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/rcap-all50/terminalization-treatments/ca.json"
+   ],
+   "artifactBytesMovedByThisLane": 0,
+   "overlayDirectoriesModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "This independent pass proves only packet completeness at the named base and exact hashes. It approves no output, promotes no family, opens no route, sets no price, and grants no production authority."
   }
  ],
  "supersededLaneMembership": {

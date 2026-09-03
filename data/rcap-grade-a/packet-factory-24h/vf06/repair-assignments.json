@@ -378,6 +378,42 @@
         "do not edit an artifact only to make an old receipt match it; rebuild and obtain a new exact-byte receipt",
         "this verification opens no commercial route and grants no approval"
       ]
+    },
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "lane": "VF06",
+      "assignedBy": "VF06 fresh independent verifier",
+      "verifiedAtBase": "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f",
+      "familyVerdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "decisiveDefect": "The participant instructions omit registry-required SBI/court-record verification workflows, and page 19 emits a partially populated conviction row whose unwritten statute and sentence-completion facts are neither classified REQUIRED_BEFORE_FILING nor surfaced for participant completion. The repaired 20-name/7-address widget typography passes and must be preserved.",
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS"
+      ],
+      "perObligation": {
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "The track requires checking the complete anywhere-conviction answer against the NJ State Police SBI record and, when that record is incomplete, checking each matter's county, court/level, identifiers, offence/statute, disposition and date against court records. participant-instructions.md contains neither workflow. Its raw 81-field inventory does retain ExpungeCntyName as REQUIRED_BEFORE_FILING, but mechanical field-name coverage is not a substitute for those acquisition/verification instructions. The verified-petition/notarization and monies-owed steps also are not made intelligible.",
+          "whatRepairMustDo": "Add participant-facing before-filing steps for obtaining/using the SBI history, comparing every conviction and correcting discrepancies, conditionally obtaining the missing court record/disposition, comparing every required matter fact and correcting discrepancies, and intelligibly completing the verified-petition/notarization and monies-owed steps. Preserve ExpungeCntyName as REQUIRED_BEFORE_FILING and keep proper-owner fields protected."
+        },
+        "REPEATING_ROWS": {
+          "measuredDetail": "On boundary page 19 the guilty route, guiltyDt, guiltyOff1 and guiltyCrt are written, but guiltyStatute and the final sentence/completion cells remain blank. The field map treats guiltyStatute, guiltyFinal1, guiltyFinal2, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt and guiltyFineDt as generic refuse entries, not REQUIRED_BEFORE_FILING, and the instructions do not name those missing facts. The resulting conviction row is visibly partial although incompleteRows is machine-reported as zero.",
+          "whatRepairMustDo": "Make the written conviction row complete. Safely write every held row fact that fits, and classify/surface every remaining required participant fact for clear hand completion before filing; otherwise withhold the entire row consistently. Rerun direct row-integrity checks rather than relying only on the current incompleteRows counter."
+        }
+      },
+      "acceptance": [
+        "all nj_disorderly_persons packetSet.requiredBeforeFiling workflows are intelligibly present, including the SBI and conditional court-record comparison/correction steps",
+        "ExpungeCntyName remains REQUIRED_BEFORE_FILING and is clearly named",
+        "no conviction row is partially populated without every remaining required fact being surfaced for completion",
+        "all 20 DefName and 7 DefAddrStr boundary widgets continue to fit independently at 6pt or larger with no clipping or collision",
+        "all 86 raster page hashes and both artifact hashes are re-earned if any fixture byte moves, followed by independent reverification"
+      ],
+      "repairMustNotDo": [
+        "do not regress the repaired widget-specific font sizing",
+        "do not print signatures, notary acts, court decisions, service events or other protected-owner facts",
+        "do not treat zero machine counters as proof that semantic guidance and row integrity pass",
+        "this verification opens no commercial route and grants no approval"
+      ]
     }
   ],
      "vf06ReDispatchWaveBlockedFamilies": {
