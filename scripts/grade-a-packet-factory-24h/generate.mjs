@@ -1305,7 +1305,16 @@ for (const f of IN.scoreboard.familiesDetail) {
    * the proven ones. */
   else if (ownerCorrection) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
-  else if (independentReturn?.verdict === "BLOCKED_SOURCE") state = "SOURCE_BLOCKED";
+  /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
+   * after central custody has acquired and hash-bound the exact source. Once
+   * readiness is true, that environment-scoped hold is no longer source work.
+   * Preserve any packet defects the same row measured, and preserve an open
+   * legal input above them; otherwise request the now-possible fresh read. */
+  else if (independentReturn?.verdict === "BLOCKED_SOURCE" && !readiness.ready) state = "SOURCE_BLOCKED";
+  else if (independentReturn?.verdict === "BLOCKED_SOURCE" && legalBlocked) state = "LEGAL_BLOCKED";
+  else if (independentReturn?.verdict === "BLOCKED_SOURCE"
+    && (independentReturn.failedObligationNames ?? []).length > 0) state = "FAIL_REPAIR_REQUIRED";
+  else if (independentReturn?.verdict === "BLOCKED_SOURCE") state = "VERIFY_PENDING";
   else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
   /*
    * A returned verdict outranks an active-owner claim.

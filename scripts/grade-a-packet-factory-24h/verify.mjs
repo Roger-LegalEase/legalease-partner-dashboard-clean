@@ -520,6 +520,13 @@ function run() {
   const currentSubstantiveByFamily = new Map();
   const onlyPreclaimFamilies = new Set();
   let preservedRefusalsBesideSubstantive = 0;
+  const projectedSourceBlockState = (family, row) => !family?.sourceReadiness?.ready
+    ? "SOURCE_BLOCKED"
+    : family.legalInputStatus === "OPEN_LEGAL_INPUT"
+      ? "LEGAL_BLOCKED"
+      : (row.failedObligationNames ?? []).length > 0
+        ? "FAIL_REPAIR_REQUIRED"
+        : "VERIFY_PENDING";
   if (!vr) claimRefusalProblems.push("no verifier-return extraction to check");
   else {
     const verifierRows = (vr.rows ?? []).filter((r) => r.isIndependentVerification);
@@ -563,8 +570,9 @@ function run() {
       }
       if (substantive.verdict === "FAIL_REPAIR_REQUIRED" && fam.state !== "FAIL_REPAIR_REQUIRED") {
         claimRefusalProblems.push(`${familyId} has a current repair-required verdict but the queue calls it ${fam.state}`);
-      } else if (substantive.verdict === "BLOCKED_SOURCE" && fam.state !== "SOURCE_BLOCKED") {
-        claimRefusalProblems.push(`${familyId} has a current source-blocked verdict but the queue calls it ${fam.state}`);
+      } else if (substantive.verdict === "BLOCKED_SOURCE"
+        && fam.state !== projectedSourceBlockState(fam, substantive)) {
+        claimRefusalProblems.push(`${familyId} has a current source-blocked verdict but the queue calls it ${fam.state} instead of ${projectedSourceBlockState(fam, substantive)}`);
       } else if (substantive.verdict === "BLOCKED_LEGAL_INPUT" && fam.state !== "LEGAL_BLOCKED") {
         claimRefusalProblems.push(`${familyId} has a current legal-blocked verdict but the queue calls it ${fam.state}`);
       } else if (substantive.verdict === "PASS_COMPLETE_INDEPENDENT"
@@ -587,7 +595,9 @@ function run() {
     claimRefusalProblems.length === 0,
     `${preservedRefusalsBesideSubstantive} preserved refusal row(s) beside current substantive verdicts, ${onlyPreclaimFamilies.size} only-refusal family(ies); ${claimRefusalProblems.length} problem(s): ${claimRefusalProblems.slice(0, 3).join(" | ")}`);
 
-  /* 32. A current source refusal stops at source; it never re-enters packet verification. */
+  /* 32. A current source refusal stops at source only while central custody
+   * still cannot bind the source. Once readiness is true, the state preserves
+   * any separately measured legal/packet defect, or requests a fresh read. */
   const sourceBlockProjectionProblems = [];
   const selectedSourceBlocks = (vr?.rows ?? []).filter((r) =>
     r.isIndependentVerification
@@ -600,13 +610,19 @@ function run() {
   for (const r of selectedSourceBlocks) {
     const fam = familyById.get(r.familyId);
     if (!fam) sourceBlockProjectionProblems.push(`${r.familyId} has a current BLOCKED_SOURCE verdict but no queue row`);
-    else if (fam.state !== "SOURCE_BLOCKED") sourceBlockProjectionProblems.push(`${r.familyId} has current BLOCKED_SOURCE from ${r.lane} but the queue calls it ${fam.state}`);
+    const expectedState = projectedSourceBlockState(fam, r);
+    if (fam && fam.state !== expectedState) sourceBlockProjectionProblems.push(`${r.familyId} has current BLOCKED_SOURCE from ${r.lane}, readiness ${fam.sourceReadiness?.ready}, and the queue calls it ${fam.state} instead of ${expectedState}`);
     const verificationDispatch = vf.find((assignment) => (assignment.items ?? []).includes(r.familyId));
-    if (verificationDispatch) sourceBlockProjectionProblems.push(`${r.familyId} is source-blocked but was redundantly dispatched to ${verificationDispatch.assignmentId}`);
-    if (liveVerificationClaims.has(r.familyId)) sourceBlockProjectionProblems.push(`${r.familyId} is source-blocked but still has a live independent-verification claim`);
+    if (expectedState === "VERIFY_PENDING") {
+      if (!verificationDispatch) sourceBlockProjectionProblems.push(`${r.familyId} is now source-ready but has no fresh verification dispatch`);
+      if (!liveVerificationClaims.has(r.familyId)) sourceBlockProjectionProblems.push(`${r.familyId} is now source-ready but has no live independent-verification claim`);
+    } else {
+      if (verificationDispatch) sourceBlockProjectionProblems.push(`${r.familyId} projects to ${expectedState} but was redundantly dispatched to ${verificationDispatch.assignmentId}`);
+      if (liveVerificationClaims.has(r.familyId)) sourceBlockProjectionProblems.push(`${r.familyId} projects to ${expectedState} but still has a live independent-verification claim`);
+    }
   }
   if (selectedSourceBlocks.length === 0) sourceBlockProjectionProblems.push("no current BLOCKED_SOURCE verdict exists; the check has no subject");
-  check("F32", "a current BLOCKED_SOURCE verdict projects only to SOURCE_BLOCKED and requests no reread",
+  check("F32", "a current BLOCKED_SOURCE verdict follows current custody without losing separately measured defects",
     sourceBlockProjectionProblems.length === 0,
     `${selectedSourceBlocks.length} current source block(s); ${sourceBlockProjectionProblems.length} problem(s): ${sourceBlockProjectionProblems.slice(0, 3).join(" | ")}`);
 
