@@ -16,10 +16,12 @@ const WORKER_PLAN_MODULE = path.join(SCRIPTS, "rcap-hosted-acceptance-worker-inp
 const CURRENT_BASE = "07675789a80e732d2b835c1e8ba2092b39201b79";
 const ACCEPTED_SOURCE = "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8";
 const ACCEPTED_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
-const CANONICAL_ACCEPTED_SOURCE = "441ee3188ee52047a012232d8d11f890a09b4ac5";
-const CANONICAL_ACCEPTED_DIGEST = "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c";
-const EVIDENCE_ONLY_CANDIDATE = "441ee3188ee52047a012232d8d11f890a09b4ac5";
+const CANONICAL_ACCEPTED_SOURCE = "b7ae6204295f8865e90bcbe4b47e1af0b34a78ba";
+const CANONICAL_ACCEPTED_DIGEST = "sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d";
+const EVIDENCE_ONLY_CANDIDATE = "2d793098a34559465f8c7def46ce78974952093f";
 const PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
+const AUTH_CONFIG_SOURCE = fs.readFileSync(path.join(SCRIPTS, "rcap-hosted-acceptance-auth-config.mjs"), "utf8");
+const DEPLOY_SOURCE = fs.readFileSync(path.join(SCRIPTS, "rcap-hosted-acceptance-deploy.mjs"), "utf8");
 
 const EXISTING_HOSTED_ENTRYPOINTS = [
   "rcap-hosted-acceptance-auth-config.mjs",
@@ -204,6 +206,24 @@ test("worker plan exposes exactly the canonical input path set", async () => {
     "Lane F worker-input plan module"
   );
   assert.deepEqual(CANONICAL_WORKER_INPUTS, CANONICAL_INPUTS);
+});
+
+test("Mississippi Preview preparation is bounded to four synthetic identities and a two-participant scope", () => {
+  for (const identity of [
+    "mvl-demo-admin@rcap-acceptance.test",
+    "mvl-demo-staff@rcap-acceptance.test",
+    "mvl-demo-participant-a@rcap-acceptance.test",
+    "mvl-demo-participant-b@rcap-acceptance.test"
+  ]) assert.match(AUTH_CONFIG_SOURCE, new RegExp(identity.replaceAll(".", "\\.")));
+  assert.match(AUTH_CONFIG_SOURCE, /MISSISSIPPI_PREVIEW_MODE \? \(u\.key === "A" \|\| u\.key === "B"\)/);
+  assert.match(AUTH_CONFIG_SOURCE, /preview_scope_is_exactly_participants_a_and_b/);
+  assert.match(AUTH_CONFIG_SOURCE, /partnerSlug\) do update|on conflict \(partner_slug\) do update/);
+  assert.match(AUTH_CONFIG_SOURCE, /no password or token recorded/);
+  assert.match(DEPLOY_SOURCE, /participants = MISSISSIPPI_PREVIEW_MODE/);
+  assert.match(DEPLOY_SOURCE, /SCOPE_IDS\.split\(","\)\.filter\(Boolean\)\.length !== 2/);
+  assert.match(DEPLOY_SOURCE, /rcapStagingScopeSha256=/);
+  assert.match(DEPLOY_SOURCE, /const args = \["vercel@latest", "deploy", "--archive=tgz", "--yes"/);
+  assert.doesNotMatch(DEPLOY_SOURCE.match(/const args = \[[^\n]+/)?.[0] ?? "", /--prod/);
 });
 
 test("same worker source SHA reuses the accepted immutable digest", async () => {

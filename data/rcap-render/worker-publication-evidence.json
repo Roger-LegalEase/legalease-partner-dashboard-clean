@@ -1,21 +1,21 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
   "importedFrom": {
-    "branch": "sprint/20260825-full-product-captain",
-    "commit": "441ee3188ee52047a012232d8d11f890a09b4ac5",
-    "note": "Imported from the rcap-render-worker-publication artifact uploaded by successful publish-only run 32856262198 attempt 1."
+    "branch": "claude/legalease-sprint-captain-utucnw",
+    "commit": "2d793098a34559465f8c7def46ce78974952093f",
+    "note": "Imported from rcap-render-worker-publication-b7ae6204295f8865e90bcbe4b47e1af0b34a78ba uploaded by successful publish-only run 33757592574 attempt 1. The workflow ran from the approval-record Captain commit while checking out and building the exact supplied b7ae6204 application SHA."
   },
-  "publicationTimestamp": "2026-08-25T13:57:59Z",
-  "workflowRunId": 32856262198,
+  "publicationTimestamp": "2026-09-03T12:52:56Z",
+  "workflowRunId": 33757592574,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "sourceSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
+  "sourceSha": "b7ae6204295f8865e90bcbe4b47e1af0b34a78ba",
   "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "441ee3188ee52047a012232d8d11f890a09b4ac5",
-  "immutableRegistryDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+  "imageTag": "b7ae6204295f8865e90bcbe4b47e1af0b34a78ba",
+  "immutableRegistryDigest": "sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d",
   "packageVisibility": "private",
   "packageVisibilityNote": "Carried forward as the package's standing visibility, not re-determined for this publication. The acceptance workflow re-proves it per run: its anonymous-pull step fails the run if GHCR ever issues an unauthenticated token for this repository.",
   "mutableLatestTagCreated": false,
@@ -23,18 +23,18 @@
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
   "canonicalIntegrationBranch": "main",
-  "releaseIntegrationBranch": "sprint/20260825-full-product-captain",
-  "containedIn": "sprint/20260825-full-product-captain",
+  "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
+  "containedIn": "claude/legalease-sprint-captain-utucnw",
   "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:441ee3188ee52047a012232d8d11f890a09b4ac5",
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32856262198",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:b7ae6204295f8865e90bcbe4b47e1af0b34a78ba",
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33757592574",
   "exactlyOnePublication": {
     "claim": "One image was published for this source SHA and its tag was never moved.",
-    "howItIsKnown": "Run 32856262198 succeeded on attempt 1. The tag guard ran twice inside the run — before the build and immediately before the push — and both checks found the source-SHA tag free. No replacement authorization was used.",
+    "howItIsKnown": "Run 33757592574 succeeded on attempt 1. The tag guard ran twice inside the run — before the build and immediately before the push — and both checks found the source-SHA tag free. No replacement authorization was used.",
     "attemptThatPublished": 1
   },
-  "registryPullByDigestStatus": "verified_by_worker_image_acceptance_workflow",
-  "registryPullByDigestNote": "Workflow run 32857155298 (#54), attempt 1, completed successfully on sprint/20260825-full-product-captain. It pulled sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c with GHCR authentication, proved the full-SHA tag resolves to the same digest, verified OCI revision 441ee3188ee52047a012232d8d11f890a09b4ac5, ran the worker fail-closed without credentials, passed health, shutdown, ownership, scratch, and secret-scan controls, and deployed or claimed nothing.",
+  "registryPullByDigestStatus": "pending_hosted_acceptance",
+  "registryPullByDigestNote": "Publication run 33757592574 proved the immutable digest and source-SHA-only tag. The bounded hosted acceptance phase must still authenticate to GHCR, pull this exact digest and verify its OCI revision before it may count as accepted. Nothing has been deployed or started by publication.",
   "supersededPublication": {
     "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
     "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
@@ -43,6 +43,13 @@
     "publicationRunId": 32307070302
   },
   "supersededChain": [
+    {
+      "sourceSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
+      "immutableRegistryDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+      "disposition": "superseded_by_source_drift",
+      "why": "Publication and read-only acceptance were valid for the older Colorado candidate. The Mississippi Clinic Mode feature changed canonical worker image inputs, requiring publish-only run 33757592574 from the exact b7ae6204 application SHA. The prior digest remains unchanged in GHCR and is not accepted for this Preview.",
+      "publicationRunId": 32856262198
+    },
     {
       "sourceSha": "7cc8675d2835675d5bf40d18e6e09468bd84f790",
       "immutableRegistryDigest": "sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d",
@@ -118,10 +125,10 @@
     }
   ],
   "reconciliationStatus": {
-    "state": "published_and_accepted_at_release_integration_head",
-    "reconciledMainBase": "57318c2046a9f8c149beff0053373ad3bfe3fc71",
-    "releaseIntegrationHead": "441ee3188ee52047a012232d8d11f890a09b4ac5",
-    "why": "Built from the exact Colorado juvenile fail-closed replacement application SHA. Publish-only run 32856262198 and read-only image acceptance run 32857155298 both succeeded for the immutable replacement digest. No deployment, worker update, migration, user change or session revocation was performed.",
+    "state": "published_pending_bounded_hosted_acceptance",
+    "reconciledMainBase": "b7ae6204295f8865e90bcbe4b47e1af0b34a78ba",
+    "releaseIntegrationHead": "2d793098a34559465f8c7def46ce78974952093f",
+    "why": "Built from the exact requested Mississippi Clinic Mode application SHA b7ae6204. Publish-only run 33757592574 succeeded and its artifact records no deployment, worker start, staging change or Production change. The approval-record Captain commit is image-input-equivalent; authenticated digest pull and hosted acceptance remain pending.",
     "priorDigestsRemainInRegistry": true
   },
   "supersededWorkerImageAcceptance": {

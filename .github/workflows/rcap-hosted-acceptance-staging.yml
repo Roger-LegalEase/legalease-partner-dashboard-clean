@@ -91,8 +91,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
-  AUTHORIZED_WORKER_DIGEST: sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c
+  AUTHORIZED_WORKER_SOURCE_SHA: b7ae6204295f8865e90bcbe4b47e1af0b34a78ba
+  AUTHORIZED_WORKER_DIGEST: sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
@@ -243,7 +243,7 @@ jobs:
         run: node scripts/rcap-hosted-acceptance-migrate.mjs
 
       # Isolated from the Phase 49–55 packet/payment sequence above. This phase
-      # applies only the three exact Clinic migration blobs read from the frozen
+      # applies only the eight exact Clinic Preview migration blobs read from the frozen
       # application commit, at the hashes and order explicitly authorized for
       # the named nonproduction acceptance project. It has no Preview, Stripe,
       # Checkout, payment, worker, browser, or generic migration path.
@@ -281,7 +281,7 @@ jobs:
       #   stripe_retarget  no             no       no              yes
       #   checkout_gate    no             no       yes             no
       #   browser          no             no       no              no (isolated browser=true)
-      #   clinic_migrate   no             no       no              no (exact three-file Clinic sequence only)
+      #   clinic_migrate   no             no       no              no (exact eight-file Clinic Preview sequence only)
       #   migrate          no             no       no              no
       #   preflight        no             no       no              no
       #   vercel_audit     no             no       no              no

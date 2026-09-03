@@ -51,6 +51,8 @@ const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
+const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
+const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
 
 if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
   console.error("DEPLOY: VERCEL_TOKEN, SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and one exact application SHA are required");
@@ -77,6 +79,21 @@ const REQUIRED_CASES = [
   "deployed_application_health_is_200",
   "delivery_route_refuses_on_the_deployed_instance"
 ];
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(String(value)).digest("hex");
+}
+
+function sqlText(value) {
+  return String(value).split("'").join("''");
+}
+
+function syntheticPassword(email) {
+  const material = crypto.createHmac("sha256", SUPABASE_ACCESS_TOKEN)
+    .update(`rcap-ms-clinic-preview:${email}`)
+    .digest("base64url");
+  return `Acceptance-${material.slice(0, 32)}!`;
+}
 
 async function vercelApi(pathname, init = {}) {
   const res = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
@@ -160,12 +177,12 @@ async function findReusableDeployment() {
       d.meta?.rcapAcceptanceProjectRef === PROJECT_REF &&
       d.meta?.rcapStripeConfigured === String(STRIPE_CONFIGURED) &&
       d.meta?.rcapRouteState === ROUTE_STATE_TAG &&
-      d.meta?.rcapReturnOrigin === RETURN_ORIGIN
+      d.meta?.rcapReturnOrigin === RETURN_ORIGIN &&
+      d.meta?.rcapClinicDemoMode === (CLINIC_DEMO_MODE || "none") &&
+      d.meta?.rcapStagingScopeSha256 === sha256(SCOPE_IDS)
   );
   return match ? { url: `https://${match.url}`, id: match.uid ?? match.id ?? null } : null;
 }
-
-const reusable = await findReusableDeployment();
 
 // Resolve the acceptance project's keys before the scoped-identity decision.
 // A completely fresh acceptance project has no consumer A yet, and the scope
@@ -178,42 +195,63 @@ if (!keys.anon || !keys.service) {
 
 // The scoped state names UUIDs, and a deployment's environment is fixed at
 // creation, so the scope has to be resolved BEFORE the build rather than after.
-// Consumer A alone: B stays outside on purpose, so the hosted admission test can
-// tell "the scope admitted its named identity" from "everyone gets in".
+// The bounded Mississippi Preview names exactly A and B. The legacy hosted
+// payment matrix continues to name A alone so its existing negative control
+// remains unchanged.
 if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
-  const lookup = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ query: "select id from auth.users where email = 'acceptance-consumer-a@rcap-acceptance.test' limit 1" })
-  });
-  const rows = await lookup.json().catch(() => null);
-  let id = Array.isArray(rows) ? rows[0]?.id : null;
-  if (!id) {
-    const created = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
+  const participants = MISSISSIPPI_PREVIEW_MODE
+    ? [
+        "mvl-demo-participant-a@rcap-acceptance.test",
+        "mvl-demo-participant-b@rcap-acceptance.test"
+      ]
+    : ["acceptance-consumer-a@rcap-acceptance.test"];
+  const resolved = [];
+  const outcomes = [];
+  for (const email of participants) {
+    const lookup = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
       method: "POST",
-      headers: {
-        apikey: keys.service,
-        Authorization: `Bearer ${keys.service}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: "acceptance-consumer-a@rcap-acceptance.test",
-        password: "Acceptance-a-4f7c21!",
-        email_confirm: true
-      })
+      headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ query: `select id from auth.users where lower(email)=lower('${sqlText(email)}') limit 1` })
     });
-    const createdUser = await created.json().catch(() => null);
-    id = createdUser?.id ?? createdUser?.user?.id ?? null;
-    evidence.syntheticConsumerBootstrap = id ? "created_consumer_a" : `failed_status_${created.status}`;
-  } else {
-    evidence.syntheticConsumerBootstrap = "reused_consumer_a";
+    const rows = await lookup.json().catch(() => null);
+    let id = Array.isArray(rows) ? rows[0]?.id : null;
+    if (!id) {
+      const created = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
+        method: "POST",
+        headers: {
+          apikey: keys.service,
+          Authorization: `Bearer ${keys.service}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password: syntheticPassword(email),
+          email_confirm: true
+        })
+      });
+      const createdUser = await created.json().catch(() => null);
+      id = createdUser?.id ?? createdUser?.user?.id ?? null;
+      outcomes.push(id ? `created_${email.split("@")[0]}` : `failed_${email.split("@")[0]}_${created.status}`);
+    } else {
+      outcomes.push(`reused_${email.split("@")[0]}`);
+    }
+    if (!id) {
+      console.error(`DEPLOY: staging_scoped identity ${email.split("@")[0]} could not be resolved in the pinned acceptance project`);
+      process.exit(1);
+    }
+    resolved.push(id);
   }
-  if (!id) {
-    console.error("DEPLOY: staging_scoped was requested but consumer A could not be resolved or created in the pinned acceptance project");
-    process.exit(1);
-  }
-  SCOPE_IDS = id;
+  SCOPE_IDS = resolved.join(",");
+  evidence.syntheticConsumerBootstrap = outcomes;
+  evidence.stagingScopeParticipantCount = resolved.length;
 }
+
+if (MISSISSIPPI_PREVIEW_MODE && (ROUTE_STATE !== "staging_scoped" || SCOPE_IDS.split(",").filter(Boolean).length !== 2)) {
+  console.error("DEPLOY: the Mississippi Clinic Preview requires staging_scoped delivery with exactly two participant UUIDs");
+  process.exit(1);
+}
+
+const reusable = await findReusableDeployment();
 
 // --- 1. Deploy to Preview ----------------------------------------------------
 // Public at build time, server-only at runtime. The delivery flag is passed
@@ -298,6 +336,8 @@ args.push("--meta", `rcapAcceptanceProjectRef=${PROJECT_REF}`);
 args.push("--meta", `rcapStripeConfigured=${STRIPE_CONFIGURED}`);
 args.push("--meta", `rcapRouteState=${ROUTE_STATE_TAG}`);
 args.push("--meta", `rcapReturnOrigin=${RETURN_ORIGIN}`);
+args.push("--meta", `rcapClinicDemoMode=${CLINIC_DEMO_MODE || "none"}`);
+args.push("--meta", `rcapStagingScopeSha256=${sha256(SCOPE_IDS)}`);
 
 const redact = (text) => redactHostedAcceptanceOutput(text, [
   VERCEL_TOKEN,

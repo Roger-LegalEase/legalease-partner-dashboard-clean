@@ -70,6 +70,7 @@ function record(caseId, passed, observed) {
 const SUPABASE_GATE = [
   "supabase_token_usable",
   "acceptance_project_resolves",
+  "acceptance_project_identity_is_exact",
   "acceptance_project_reachable_for_sql",
   "acceptance_project_carries_no_production_data"
 ];
@@ -151,6 +152,7 @@ if (SCOPE === "full") {
 const evidence = {
   schemaVersion: "rcap-hosted-acceptance-preflight/v1",
   acceptanceProjectRef: ACCEPTANCE_PROJECT_REF,
+  acceptanceProjectUrl: `https://${ACCEPTANCE_PROJECT_REF}.supabase.co`,
   scope: SCOPE,
   scopeMeaning: SCOPE === "supabase_only"
     ? "Only the Supabase gate was required. This authorizes writing to the acceptance project. It does NOT authorize deploying, and it is not a full preflight pass."
@@ -177,6 +179,17 @@ const evidence = {
     project
       ? `ref ${ACCEPTANCE_PROJECT_REF} resolves to name="${project.name}", org=${project.organization_id}, region=${project.region}, status=${project.status}, created=${project.created_at}`
       : `ref ${ACCEPTANCE_PROJECT_REF} is not among the projects this token can see`
+  );
+  const exactIdentity = Boolean(project)
+    && project.name === "legalease-rcap-acceptance"
+    && project.region === "us-west-2"
+    && project.status === "ACTIVE_HEALTHY";
+  record(
+    "acceptance_project_identity_is_exact",
+    exactIdentity,
+    project
+      ? `name=${project.name}; region=${project.region}; status=${project.status}; expected legalease-rcap-acceptance/us-west-2/ACTIVE_HEALTHY`
+      : "project identity unavailable because the pinned ref did not resolve"
   );
   if (project) {
     evidence.cases.projectIdentity = {

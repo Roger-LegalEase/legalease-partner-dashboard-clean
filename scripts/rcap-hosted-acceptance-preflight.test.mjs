@@ -12,6 +12,11 @@ const hostedWorkflow = fs.readFileSync(path.join(rootDir, ".github/workflows/rca
 const dispatcherWorkflow = fs.readFileSync(path.join(rootDir, ".github/workflows/rcap-f1-ephemeral-staging.yml"), "utf8");
 
 test("full preflight proves Preview isolation without reading Production values", () => {
+  assert.match(source, /acceptanceProjectUrl: `https:\/\/\$\{ACCEPTANCE_PROJECT_REF\}\.supabase\.co`/);
+  assert.match(source, /"acceptance_project_identity_is_exact"/);
+  assert.match(source, /project\.name === "legalease-rcap-acceptance"/);
+  assert.match(source, /project\.region === "us-west-2"/);
+  assert.match(source, /project\.status === "ACTIVE_HEALTHY"/);
   assert.match(source, /"production_environment_shape_snapshotted_without_values"/);
   assert.match(source, /"preview_binding_is_per_deployment_only"/);
   assert.doesNotMatch(source, /acceptance_ref_disjoint_from_vercel_production/);

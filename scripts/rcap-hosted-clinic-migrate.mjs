@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
-// Exact, isolated Clinic schema apply for the named nonproduction acceptance
-// project. The SQL is read from the frozen application commit with `git show`;
-// the working tree is never treated as migration authority.
+// Exact, isolated Clinic Preview schema apply for the named nonproduction
+// acceptance project. SQL is read from the frozen application commit with
+// `git show`; the working tree is never treated as migration authority. The
+// migration identities must independently agree with the existing staging
+// readiness record before the first database write.
 
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -16,8 +18,8 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const { root: evidenceDir } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 const evidencePath = path.join(evidenceDir, "clinic-migrate.json");
 
-const REQUIRED_APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
 const REQUIRED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
+const READINESS_PATH = "data/rcap-staging-authorization-readiness.json";
 const APPLICATION_SHA = (process.env.HOSTED_APPLICATION_SHA ?? "").trim();
 const PROJECT_REF = (process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "").trim();
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
@@ -37,6 +39,31 @@ const MIGRATIONS = Object.freeze([
     sequencePosition: 3,
     path: "supabase/migrations/20260825122000_clinic_mode_accounting_reporting.sql",
     sha256: "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010"
+  }),
+  Object.freeze({
+    sequencePosition: 4,
+    path: "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
+    sha256: "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c"
+  }),
+  Object.freeze({
+    sequencePosition: 5,
+    path: "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
+    sha256: "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb"
+  }),
+  Object.freeze({
+    sequencePosition: 6,
+    path: "supabase/migrations/20260901130000_consumer_private_delivery.sql",
+    sha256: "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621"
+  }),
+  Object.freeze({
+    sequencePosition: 7,
+    path: "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
+    sha256: "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424"
+  }),
+  Object.freeze({
+    sequencePosition: 8,
+    path: "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql",
+    sha256: "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"
   })
 ]);
 
@@ -50,7 +77,11 @@ const REQUIRED_TABLES = Object.freeze([
   "clinic_follow_ups",
   "clinic_incidents",
   "clinic_event_audit",
-  "clinic_packet_reservations"
+  "clinic_packet_reservations",
+  "consumer_pending_screening_results",
+  "participant_claim_events",
+  "consumer_packet_verifications",
+  "consumer_artifact_download_grants"
 ]);
 
 const REQUIRED_FUNCTIONS = Object.freeze([
@@ -75,7 +106,24 @@ const REQUIRED_FUNCTIONS = Object.freeze([
   "clinic_get_event_queue",
   "clinic_transition_event_case",
   "clinic_get_follow_ups",
-  "clinic_get_event_report"
+  "clinic_get_event_report",
+  "claim_pending_screening_result",
+  "participant_claim_events_append_only",
+  "attach_consumer_packet_artifact_if_verified",
+  "bind_consumer_checkout_verification",
+  "consumer_canonical_json",
+  "consumer_render_job_verification_guard",
+  "enqueue_verified_consumer_packet_render",
+  "get_consumer_briefcase_presentation_source",
+  "get_consumer_packet_artifact_authority",
+  "get_consumer_packet_verification_authority",
+  "persist_consumer_packet_verification",
+  "record_consumer_packet_payment",
+  "finalize_sponsored_packet_generation_if_verified",
+  "authorize_consumer_artifact_download",
+  "issue_consumer_artifact_download_grant",
+  "publish_validated_consumer_render_artifact",
+  "revoke_consumer_artifact_download_grant"
 ]);
 
 const secrets = [SUPABASE_ACCESS_TOKEN].filter(Boolean);
@@ -86,7 +134,7 @@ function sanitize(value) {
 }
 
 const evidence = {
-  schemaVersion: "rcap-hosted-clinic-migrate/v1",
+  schemaVersion: "rcap-hosted-clinic-migrate/v2",
   applicationSha: APPLICATION_SHA || null,
   acceptanceProjectRef: PROJECT_REF || null,
   migrationApplied: false,
@@ -206,8 +254,8 @@ function frozenMigrationBytes(migration) {
 async function main() {
   record(
     "exact_nonproduction_inputs_present",
-    APPLICATION_SHA === REQUIRED_APPLICATION_SHA && PROJECT_REF === REQUIRED_PROJECT_REF && Boolean(SUPABASE_ACCESS_TOKEN),
-    `application exact=${APPLICATION_SHA === REQUIRED_APPLICATION_SHA}; acceptance project exact=${PROJECT_REF === REQUIRED_PROJECT_REF}; credential supplied=${Boolean(SUPABASE_ACCESS_TOKEN)}`
+    /^[0-9a-f]{40}$/.test(APPLICATION_SHA) && PROJECT_REF === REQUIRED_PROJECT_REF && Boolean(SUPABASE_ACCESS_TOKEN),
+    `application is a full frozen SHA=${/^[0-9a-f]{40}$/.test(APPLICATION_SHA)}; acceptance project exact=${PROJECT_REF === REQUIRED_PROJECT_REF}; credential supplied=${Boolean(SUPABASE_ACCESS_TOKEN)}`
   );
 
   const loaded = MIGRATIONS.map((migration, index) => {
@@ -218,13 +266,29 @@ async function main() {
   });
   record(
     "frozen_candidate_migration_hashes_and_order_exact",
-    loaded.length === 3,
-    `3/3 files read directly from ${APPLICATION_SHA}; exact order and SHA-256 values verified before the first database write`
+    loaded.length === MIGRATIONS.length,
+    `${loaded.length}/${MIGRATIONS.length} files read directly from ${APPLICATION_SHA}; exact order and SHA-256 values verified before the first database write`
+  );
+
+  const readiness = JSON.parse(fs.readFileSync(path.join(rootDir, READINESS_PATH), "utf8"));
+  const independent = readiness.clinicModePreviewMigrationAuthorization;
+  const independentSequence = independent?.migrationsInApplyOrder ?? [];
+  const independentExact = independent?.status === "authorized_nonproduction_acceptance_only"
+    && independent?.acceptanceProjectRef === REQUIRED_PROJECT_REF
+    && independent?.productionAuthorized === false
+    && independentSequence.length === MIGRATIONS.length
+    && independentSequence.every((entry, index) => entry.sequencePosition === MIGRATIONS[index].sequencePosition
+      && entry.path === MIGRATIONS[index].path
+      && entry.sha256 === MIGRATIONS[index].sha256);
+  record(
+    "independent_readiness_hashes_and_order_exact",
+    independentExact,
+    `${independentSequence.length}/${MIGRATIONS.length} readiness identities agree; acceptance project exact=${independent?.acceptanceProjectRef === REQUIRED_PROJECT_REF}; Production authorized=${independent?.productionAuthorized === true}`
   );
 
   await managementQuery(`
     create table if not exists public.rcap_acceptance_clinic_migration_ledger (
-      sequence_position smallint primary key check (sequence_position between 1 and 3),
+      sequence_position smallint primary key check (sequence_position between 1 and 8),
       migration_path text not null unique,
       sha256 text not null unique check (sha256 ~ '^[0-9a-f]{64}$'),
       application_sha text not null check (application_sha ~ '^[0-9a-f]{40}$'),
@@ -232,6 +296,21 @@ async function main() {
     );
     revoke all on public.rcap_acceptance_clinic_migration_ledger from anon, authenticated;
     alter table public.rcap_acceptance_clinic_migration_ledger enable row level security;
+
+    do $$ begin
+      if exists (
+        select 1 from pg_constraint
+        where conrelid = 'public.rcap_acceptance_clinic_migration_ledger'::regclass
+          and conname = 'rcap_acceptance_clinic_migration_ledger_sequence_position_check'
+          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 8)))'
+      ) then
+        alter table public.rcap_acceptance_clinic_migration_ledger
+          drop constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check;
+        alter table public.rcap_acceptance_clinic_migration_ledger
+          add constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check
+          check (sequence_position between 1 and 8);
+      end if;
+    end $$;
 
     create or replace function public.clinic_acceptance_ledger_immutable()
     returns trigger language plpgsql set search_path = ''
@@ -266,12 +345,12 @@ async function main() {
     const exact = Number(actual.sequence_position) === expected.sequencePosition
       && actual.migration_path === expected.path
       && actual.sha256 === expected.sha256
-      && actual.application_sha === APPLICATION_SHA;
+      && /^[0-9a-f]{40}$/.test(String(actual.application_sha));
     if (!exact) {
       throw new ClinicMigrationFailure("existing_ledger_is_exact_prefix", `existing ledger is not an exact prefix; unexpected ledger row at position ${index + 1}`);
     }
   }
-  record("existing_ledger_is_exact_prefix", true, `${existing.length}/3 immutable entries already present and exact`);
+  record("existing_ledger_is_exact_prefix", true, `${existing.length}/${MIGRATIONS.length} immutable entries already present and exact`);
 
   for (let index = existing.length; index < loaded.length; index += 1) {
     const migration = loaded[index];
@@ -323,6 +402,41 @@ async function main() {
         where n.nspname='public' and p.proname in (${names(REQUIRED_FUNCTIONS)})
         order by p.proname
       ) as functions,
+      to_regprocedure('public.claim_pending_screening_result(text,uuid,jsonb,text)') is not null as atomic_claim_present,
+      to_regprocedure('public.enqueue_verified_consumer_packet_render(uuid,text,text,text,text,text,text,text,uuid,uuid,uuid,integer,uuid,uuid,text,jsonb,jsonb)') is not null as verified_enqueue_present,
+      to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)') is not null as private_download_present,
+      to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamptz,timestamptz,text,text,text,integer,integer,text)') is not null as jurisdiction_create_present,
+      exists(
+        select 1 from information_schema.columns
+        where table_schema='public' and table_name='clinic_events' and column_name='jurisdiction'
+      ) as jurisdiction_column_present,
+      pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%p.consumer_auth_user_id = g.consumer_auth_user_id%'
+        and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%order by p.revision desc%'
+        and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%limit 1%'
+        as tightened_private_download_present,
+      not exists (
+        select 1 from information_schema.role_table_grants g
+        where g.table_schema='public'
+          and g.grantee in ('anon','authenticated')
+          and g.table_name in (
+            'consumer_pending_screening_results','participant_claim_events',
+            'consumer_packet_verifications','consumer_artifact_download_grants'
+          )
+          and g.privilege_type in ('INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER')
+      ) as protected_table_grants_tight,
+      coalesce(has_function_privilege('service_role',to_regprocedure('public.claim_pending_screening_result(text,uuid,jsonb,text)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('anon',to_regprocedure('public.claim_pending_screening_result(text,uuid,jsonb,text)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.claim_pending_screening_result(text,uuid,jsonb,text)'),'EXECUTE'),false)
+        and coalesce(has_function_privilege('service_role',to_regprocedure('public.enqueue_verified_consumer_packet_render(uuid,text,text,text,text,text,text,text,uuid,uuid,uuid,integer,uuid,uuid,text,jsonb,jsonb)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('anon',to_regprocedure('public.enqueue_verified_consumer_packet_render(uuid,text,text,text,text,text,text,text,uuid,uuid,uuid,integer,uuid,uuid,text,jsonb,jsonb)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.enqueue_verified_consumer_packet_render(uuid,text,text,text,text,text,text,text,uuid,uuid,uuid,integer,uuid,uuid,text,jsonb,jsonb)'),'EXECUTE'),false)
+        and coalesce(has_function_privilege('service_role',to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('anon',to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)'),'EXECUTE'),false)
+        and coalesce(has_function_privilege('service_role',to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('anon',to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)'),'EXECUTE'),false)
+        as key_function_grants_tight,
       exists(
         select 1 from pg_trigger
         where tgname='clinic_acceptance_ledger_immutable'
@@ -336,14 +450,27 @@ async function main() {
   const functionNames = postgresArray(readback.functions);
   const tablesAndRlsExact = equalLists(tableNames, REQUIRED_TABLES) && equalLists(rlsTableNames, REQUIRED_TABLES);
   record(
-    "all_10_clinic_tables_exist_with_rls_enabled",
+    "all_required_tables_exist_with_rls_enabled",
     tablesAndRlsExact,
-    `all 10 Clinic tables exist with RLS enabled=${tablesAndRlsExact}; tables=${tableNames.length}; RLS=${rlsTableNames.length}`
+    `all ${REQUIRED_TABLES.length} required tables exist with RLS enabled=${tablesAndRlsExact}; tables=${tableNames.length}; RLS=${rlsTableNames.length}`
   );
   record(
-    "all_22_clinic_functions_exist",
+    "all_required_functions_exist",
     equalLists(functionNames, REQUIRED_FUNCTIONS),
-    `all 22 Clinic functions exist=${equalLists(functionNames, REQUIRED_FUNCTIONS)}; functions=${functionNames.length}`
+    `all ${REQUIRED_FUNCTIONS.length} required functions exist=${equalLists(functionNames, REQUIRED_FUNCTIONS)}; functions=${functionNames.length}`
+  );
+  const currentContractsPresent = truthy(readback.atomic_claim_present)
+    && truthy(readback.verified_enqueue_present)
+    && truthy(readback.private_download_present)
+    && truthy(readback.jurisdiction_create_present)
+    && truthy(readback.jurisdiction_column_present)
+    && truthy(readback.tightened_private_download_present)
+    && truthy(readback.protected_table_grants_tight)
+    && truthy(readback.key_function_grants_tight);
+  record(
+    "all_five_current_demo_migration_families_read_back",
+    currentContractsPresent,
+    `atomic claim=${truthy(readback.atomic_claim_present)}; launch rails=${truthy(readback.verified_enqueue_present)}; private delivery=${truthy(readback.private_download_present)}; tightened authorization=${truthy(readback.tightened_private_download_present)}; protected table grants=${truthy(readback.protected_table_grants_tight)}; key function grants=${truthy(readback.key_function_grants_tight)}; jurisdiction lock=${truthy(readback.jurisdiction_create_present) && truthy(readback.jurisdiction_column_present)}`
   );
 
   const finalLedgerRows = await managementQuery(`
@@ -356,19 +483,19 @@ async function main() {
     && finalLedger.every((row, index) => Number(row.sequence_position) === MIGRATIONS[index].sequencePosition
       && row.migration_path === MIGRATIONS[index].path
       && row.sha256 === MIGRATIONS[index].sha256
-      && row.application_sha === APPLICATION_SHA)
+      && /^[0-9a-f]{40}$/.test(String(row.application_sha)))
     && truthy(readback.ledger_immutable);
   record(
-    "ledger_records_all_3_exact_frozen_migrations",
+    "ledger_records_all_8_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 3 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
+    `ledger records all 8 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 
 try {
   await main();
   writeEvidence(true);
-  console.log("\nHOSTED CLINIC MIGRATE: PASS — exact frozen three-file Clinic sequence is present on acceptance only");
+  console.log("\nHOSTED CLINIC MIGRATE: PASS — exact frozen eight-file Clinic Preview sequence is present on acceptance only");
 } catch (error) {
   writeEvidence(false, error);
   console.error(`\nHOSTED CLINIC MIGRATE: FAIL — ${sanitize(error instanceof Error ? error.message : error)}`);

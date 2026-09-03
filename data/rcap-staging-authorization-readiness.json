@@ -3,6 +3,60 @@
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
   "note": "Worker image publication run 32688658427 and no-artifact acceptance run 32723173565 (#48) are bound to source 646d8969576e33b9ed72d3bca64b33b7e352c452 and digest sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402. Published and accepted do not mean deployed: the staging action remains prepared_queued_not_authorized, authorizes nothing, and still lacks 7 required environment values. No production worker, migration, user or session state changed.",
+  "clinicModePreviewMigrationAuthorization": {
+    "schemaVersion": "rcap-clinic-preview-migration-authorization/v1",
+    "status": "authorized_nonproduction_acceptance_only",
+    "authorizedBy": "Roger Roman",
+    "authorizedOn": "2026-09-03",
+    "authorizationReference": "Owner instruction to extend the existing protected GitHub-hosted Management API path for the bounded Mississippi Volunteer Lawyers Clinic Mode Preview.",
+    "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+    "productionAuthorized": false,
+    "adHocCaptainShellSqlAuthorized": false,
+    "migrationsInApplyOrder": [
+      {
+        "sequencePosition": 1,
+        "path": "supabase/migrations/20260825120000_clinic_mode_core.sql",
+        "sha256": "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef"
+      },
+      {
+        "sequencePosition": 2,
+        "path": "supabase/migrations/20260825121000_clinic_mode_security.sql",
+        "sha256": "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835"
+      },
+      {
+        "sequencePosition": 3,
+        "path": "supabase/migrations/20260825122000_clinic_mode_accounting_reporting.sql",
+        "sha256": "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010"
+      },
+      {
+        "sequencePosition": 4,
+        "path": "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
+        "sha256": "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c"
+      },
+      {
+        "sequencePosition": 5,
+        "path": "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
+        "sha256": "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb"
+      },
+      {
+        "sequencePosition": 6,
+        "path": "supabase/migrations/20260901130000_consumer_private_delivery.sql",
+        "sha256": "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621"
+      },
+      {
+        "sequencePosition": 7,
+        "path": "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
+        "sha256": "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424"
+      },
+      {
+        "sequencePosition": 8,
+        "path": "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql",
+        "sha256": "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"
+      }
+    ],
+    "idempotencyRule": "An existing immutable-ledger prefix at the exact paths and hashes is read back only; only the absent suffix may be applied.",
+    "hashDriftRule": "Any mismatch among frozen commit bytes, this independent record, and the protected runner refuses before the first migration write."
+  },
   "independent_security_proven": true,
   "sanctioned_consumer_reachability_proven": true,
   "staging_precondition_status": "satisfied",
@@ -21,12 +75,12 @@
     "finalIntegrationSha": {
       "status": "populated",
       "owner": "captain",
-      "value": "646d8969576e33b9ed72d3bca64b33b7e352c452 \u2014 security implementation and accepted worker-image source. Evidence head 225937513180ab2c98d54e792961f699cd4e2d74 contains publication evidence only and is image-input-equivalent to this source."
+      "value": "2d793098a34559465f8c7def46ce78974952093f \u2014 current Captain carrying Lawrence Blackmon's exact-hash approval; image-input-equivalent to published worker source b7ae6204295f8865e90bcbe4b47e1af0b34a78ba."
     },
     "requiredGithubChecksGreen": {
       "status": "populated",
       "owner": "captain",
-      "value": "RCAP worker image acceptance #48, run 32723173565, attempt 1, completed success on codex/rcap-internal-admin-release-evidence at 225937513180ab2c98d54e792961f699cd4e2d74. This field records the required image-acceptance check proven by this lane and does not claim merge or deployment."
+      "value": "Publish RCAP render worker run 33757592574, attempt 1, completed success from claude/legalease-sprint-captain-utucnw at workflow head 2d793098a34559465f8c7def46ce78974952093f. Its publication artifact binds source b7ae6204295f8865e90bcbe4b47e1af0b34a78ba to immutable digest sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d and records publish-only/no deploy. Authenticated digest-pull acceptance remains a hosted-run predicate."
     },
     "phase49": {
       "status": "populated",
@@ -65,8 +119,8 @@
     "workerImageSourceAndDigest": {
       "status": "populated",
       "owner": "captain",
-      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402, built from 646d8969576e33b9ed72d3bca64b33b7e352c452, full-SHA tag 646d8969576e33b9ed72d3bca64b33b7e352c452, publication run 32688658427 attempt 1; acceptance run 32723173565 (#48) attempt 1 succeeded from authenticated digest pull through health/readiness. No latest tag and no deployment.",
-      "supersedes": "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101 \u2014 superseded historical evidence, not deployable for this release."
+      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d, built from b7ae6204295f8865e90bcbe4b47e1af0b34a78ba, immutable source-SHA tag b7ae6204295f8865e90bcbe4b47e1af0b34a78ba, publication run 33757592574 attempt 1. Artifact 9894146176 records no latest tag, publish-only/no deploy, no worker claiming, and staging/Production unchanged. Execution uses this digest-pinned reference, never the tag.",
+      "supersedes": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c \u2014 valid historical Colorado candidate publication, retained unchanged and not deployable for the Mississippi Preview."
     },
     "workerDeploymentTarget": {
       "status": "blank",

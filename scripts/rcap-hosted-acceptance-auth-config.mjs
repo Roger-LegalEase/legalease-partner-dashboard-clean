@@ -16,7 +16,9 @@
 //     production-target, and carrying rcapApplicationSha equal to the frozen
 //     SHA — so a stale or unrelated deployment cannot become the auth callback
 //     target by accident.
-//   * It writes only `site_url` and `uri_allow_list`. It does not change
+//   * Auth configuration writes only `site_url` and `uri_allow_list`. In the
+//     bounded Mississippi mode it also upserts the one synthetic mvl-demo
+//     partner and its two synthetic partner roles. It does not change
 //     providers, JWT settings, session lifetimes, MFA, or any RLS policy.
 //
 // The identities are created confirmed through the admin API so no mail catcher
@@ -24,6 +26,7 @@
 // UUIDs — not the email addresses — are what the delivery control's staging
 // scope names.
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -44,6 +47,8 @@ const EXACT_DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
 const EXACT_PREVIEW_HOSTNAME = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
+const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
+const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
 
 if (!SUPABASE_ACCESS_TOKEN
   || PROJECT_REF !== EXPECTED_PROJECT_REF
@@ -72,7 +77,8 @@ const REQUIRED_CASES = [
   "auth_callbacks_point_at_the_preview_deployment",
   "synthetic_identities_exist_and_sign_in",
   "identities_are_obviously_synthetic",
-  "internal_admin_identity_is_provisioned"
+  ...(MISSISSIPPI_PREVIEW_MODE ? ["preview_scope_is_exactly_participants_a_and_b"] : []),
+  MISSISSIPPI_PREVIEW_MODE ? "clinic_partner_roles_are_provisioned" : "internal_admin_identity_is_provisioned"
 ];
 
 async function vercelApi(pathname) {
@@ -109,7 +115,7 @@ async function supabase(pathname, { method = "GET", key, token = null, body = nu
 
 // Deterministic, namespaced to this environment, and on a reserved-for-testing
 // TLD so these addresses can never resolve to a real inbox.
-const USERS = [
+const LEGACY_USERS = [
   { key: "A", email: "acceptance-consumer-a@rcap-acceptance.test", password: "Acceptance-a-4f7c21!" },
   { key: "B", email: "acceptance-consumer-b@rcap-acceptance.test", password: "Acceptance-b-8d3e95!" }
 ];
@@ -126,13 +132,35 @@ const INTERNAL_ADMIN = {
   password: "Acceptance-admin-2b6f04!"
 };
 
+function syntheticPassword(email) {
+  const material = crypto.createHmac("sha256", SUPABASE_ACCESS_TOKEN)
+    .update(`rcap-ms-clinic-preview:${email}`)
+    .digest("base64url");
+  return `Acceptance-${material.slice(0, 32)}!`;
+}
+
+const MS_CLINIC_IDENTITIES = [
+  { key: "PARTNER_ADMIN", role: "partner_admin", email: "mvl-demo-admin@rcap-acceptance.test" },
+  { key: "CLINIC_STAFF", role: "partner_staff", email: "mvl-demo-staff@rcap-acceptance.test" },
+  { key: "A", role: "participant", email: "mvl-demo-participant-a@rcap-acceptance.test" },
+  { key: "B", role: "participant", email: "mvl-demo-participant-b@rcap-acceptance.test" }
+].map((identity) => ({ ...identity, password: syntheticPassword(identity.email) }));
+
+const IDENTITIES = MISSISSIPPI_PREVIEW_MODE
+  ? MS_CLINIC_IDENTITIES
+  : [...LEGACY_USERS, { ...INTERNAL_ADMIN, role: "internal_admin" }];
+
 const evidence = {
   schemaVersion: "rcap-hosted-acceptance-auth/v1",
   acceptanceProjectRef: PROJECT_REF,
   applicationSha: APPLICATION_SHA,
-  wroteOnly: ["site_url", "uri_allow_list"],
+  authConfigurationFieldsWritten: ["site_url", "uri_allow_list"],
+  boundedDataWrites: MISSISSIPPI_PREVIEW_MODE
+    ? ["four synthetic auth users", "mvl-demo partner record", "two mvl-demo partner role rows"]
+    : ["three synthetic auth users", "one internal-admin partner role row"],
   touchedProductionProject: false
 };
+evidence.cohort = MISSISSIPPI_PREVIEW_MODE ? "bounded_mvl_demo_four_identity_cohort" : "legacy_hosted_acceptance";
 
 // --- 1. Re-read the one Preview resolved by the workflow boundary ------------
 let previewUrl = null;
@@ -212,20 +240,39 @@ let previewUrl = null;
 
   const created = [];
   const notes = [];
-  for (const user of [...USERS, INTERNAL_ADMIN]) {
+  for (const user of IDENTITIES) {
     // Idempotent: a 422 here means the identity already exists from an earlier
     // acceptance run, which is a pass, not a failure. The sign-in below is the
     // assertion that matters either way.
-    await supabase("/auth/v1/admin/users", {
+    const create = await supabase("/auth/v1/admin/users", {
       method: "POST",
       key: service,
       body: { email: user.email, password: user.password, email_confirm: true }
     });
-    const signIn = await supabase("/auth/v1/token?grant_type=password", {
+    let signIn = await supabase("/auth/v1/token?grant_type=password", {
       method: "POST",
       key: anon,
       body: { email: user.email, password: user.password }
     });
+    if (signIn.status !== 200 && create.status === 422) {
+      const lookup = await managementApi(`/v1/projects/${PROJECT_REF}/database/query`, {
+        method: "POST",
+        body: { query: `select id from auth.users where lower(email)=lower('${user.email.replaceAll("'", "''")}') limit 1` }
+      });
+      const id = Array.isArray(lookup.json) ? lookup.json[0]?.id : null;
+      if (id) {
+        await supabase(`/auth/v1/admin/users/${encodeURIComponent(id)}`, {
+          method: "PUT",
+          key: service,
+          body: { password: user.password, email_confirm: true }
+        });
+        signIn = await supabase("/auth/v1/token?grant_type=password", {
+          method: "POST",
+          key: anon,
+          body: { email: user.email, password: user.password }
+        });
+      }
+    }
     if (signIn.status === 200 && signIn.json?.user?.id) {
       created.push({ key: user.key, email: user.email, id: signIn.json.user.id });
     } else {
@@ -233,12 +280,12 @@ let previewUrl = null;
     }
   }
 
-  const expected = USERS.length + 1;
+  const expected = IDENTITIES.length;
   record(
     "synthetic_identities_exist_and_sign_in",
     created.length === expected,
     created.length === expected
-      ? `${created.length} GoTrue identities confirmed and signed in against ${SUPABASE_URL} (${USERS.length} consumers plus one internal admin)`
+      ? `${created.length} controlled synthetic identities confirmed and signed in against ${SUPABASE_URL}`
       : `identity setup incomplete: ${notes.join("; ")}`
   );
 
@@ -251,16 +298,92 @@ let previewUrl = null;
     `every acceptance identity is on the reserved .test TLD under @rcap-acceptance.test — ${created.map((u) => u.email).join(", ")}`
   );
 
-  evidence.identities = created;
+  evidence.identities = created.map((identity) => ({
+    key: identity.key,
+    email: identity.email,
+    id: identity.id,
+    role: IDENTITIES.find((entry) => entry.key === identity.key)?.role ?? null
+  }));
   // The scope names CONSUMERS only. An internal admin is a reviewer, not a
   // paying participant, and putting that identity in the delivery scope would
   // blur the one distinction the scoped state exists to make.
-  evidence.stagingScope = created.filter((u) => u.key !== "ADMIN").map((u) => u.id).join(",");
+  evidence.stagingScope = created
+    .filter((u) => MISSISSIPPI_PREVIEW_MODE ? (u.key === "A" || u.key === "B") : u.key !== "ADMIN")
+    .map((u) => u.id)
+    .join(",");
   // Only participant A is admitted in the admission test; B stays out of scope
   // on purpose so the matrix can tell "admitted" from "everyone gets in".
   evidence.stagingScopeAdmittingAOnly = created.find((u) => u.key === "A")?.id ?? null;
 
+  if (MISSISSIPPI_PREVIEW_MODE) {
+    const deployment = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}`);
+    const expectedScopeHash = crypto.createHash("sha256").update(evidence.stagingScope).digest("hex");
+    const exactScope = evidence.stagingScope.split(",").filter(Boolean).length === 2
+      && deployment.json?.meta?.rcapClinicDemoMode === "mississippi_preview"
+      && deployment.json?.meta?.rcapStagingScopeSha256 === expectedScopeHash
+      && deployment.json?.meta?.rcapRouteState === "staging_scoped";
+    record(
+      "preview_scope_is_exactly_participants_a_and_b",
+      exactScope,
+      `scope UUID count=2; metadata scope hash exact=${deployment.json?.meta?.rcapStagingScopeSha256 === expectedScopeHash}; route state=${deployment.json?.meta?.rcapRouteState ?? "absent"}`
+    );
+  }
+
   // --- 4. Give the internal admin the identity the gallery gate requires -----
+  if (MISSISSIPPI_PREVIEW_MODE) {
+    const admin = created.find((u) => u.key === "PARTNER_ADMIN");
+    const staff = created.find((u) => u.key === "CLINIC_STAFF");
+    if (!admin || !staff) {
+      record("clinic_partner_roles_are_provisioned", false, "partner administrator or clinic staff identity did not sign in");
+      finish();
+    }
+    const upsert = await managementApi(`/v1/projects/${PROJECT_REF}/database/query`, {
+      method: "POST",
+      body: {
+        query: `
+          insert into public.partner_records
+            (partner_id,partner_slug,partner_name,organization_name,program_tier,payment_status,qualification_status,provisioning_status)
+          values
+            ('mvl-demo','mvl-demo','Mississippi Volunteer Lawyers Demo','Mississippi Volunteer Lawyers Demo','sponsored','paid','qualified','provisioned')
+          on conflict (partner_slug) do update set
+            partner_name=excluded.partner_name,
+            organization_name=excluded.organization_name,
+            program_tier='sponsored',
+            payment_status='paid',
+            qualification_status='qualified',
+            provisioning_status='provisioned',
+            updated_at=now();
+
+          insert into public.partner_users (auth_user_id,partner_slug,role,status,invited_email)
+          values
+            ('${admin.id}','mvl-demo','partner_admin','active','${admin.email}'),
+            ('${staff.id}','mvl-demo','partner_staff','active','${staff.email}')
+          on conflict (auth_user_id) do update set
+            partner_slug=excluded.partner_slug,
+            role=excluded.role,
+            status='active',
+            invited_email=excluded.invited_email,
+            updated_at=now();
+
+          select id,auth_user_id,partner_slug,role,status
+            from public.partner_users
+           where auth_user_id in ('${admin.id}','${staff.id}')
+           order by role;
+        `
+      }
+    });
+    const roles = Array.isArray(upsert.json) ? upsert.json : [];
+    const adminRow = roles.find((row) => row.auth_user_id === admin.id);
+    const staffRow = roles.find((row) => row.auth_user_id === staff.id);
+    const exact = roles.length === 2
+      && adminRow?.partner_slug === "mvl-demo" && adminRow?.role === "partner_admin" && adminRow?.status === "active"
+      && staffRow?.partner_slug === "mvl-demo" && staffRow?.role === "partner_staff" && staffRow?.status === "active";
+    record("clinic_partner_roles_are_provisioned", exact, `mvl-demo partner roles exact=${exact}; rows=${roles.length}; no password or token recorded`);
+    evidence.partner = { slug: "mvl-demo", name: "Mississippi Volunteer Lawyers Demo" };
+    evidence.partnerUsers = roles.map((row) => ({ id: row.id, authUserId: row.auth_user_id, role: row.role, status: row.status }));
+    finish();
+  }
+
   const admin = created.find((u) => u.key === "ADMIN");
   if (!admin) {
     record("internal_admin_identity_is_provisioned", false, "the internal admin identity never signed in, so no partner_users row was written");
