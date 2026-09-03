@@ -1,0 +1,270 @@
+# Illinois expungement or sealing packet - il-seal-edu-set
+
+## Route selected
+
+Education-based sealing after completion of the last sentence and every printed eligibility condition.
+
+## Required before filing
+
+Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
+
+- Complete Arresting Agency - 2 on EXP-AD Request page 2
+- Complete Date of Arrest - 2 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 2 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 3 on EXP-AD Request page 2
+- Complete Arresting Agency - 3 on EXP-AD Request page 2
+- Complete Date of Arrest - 3 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 3 on EXP-AD Request page 2
+- Complete Arresting Agency - 4 on EXP-AD Request page 2
+- Complete Date of Arrest - 4 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 4 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 5 on EXP-AD Request page 2
+- Complete Arresting Agency - 5 on EXP-AD Request page 2
+- Complete Date of Arrest - 5 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 5 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 6 on EXP-AD Request page 2
+- Complete Arresting Agency - 6 on EXP-AD Request page 2
+- Complete Date of Arrest - 6 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 6 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 7 on EXP-AD Request page 2
+- Complete Arresting Agency - 7 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 8 on EXP-AD Request page 2
+- Complete Date of Arrest - 7 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 7 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 8 on EXP-AD Request page 2
+- Complete Arresting Agency - 8 on EXP-AD Request page 2
+- Complete Date of Arrest - 8 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 9 on EXP-AD Request page 2
+- Complete Arresting Agency - 9 on EXP-AD Request page 2
+- Complete Date of Arrest - 9 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 9 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 10 on EXP-AD Request page 2
+- Complete Arresting Agency - 10 on EXP-AD Request page 2
+- Complete Date of Arrest - 10 on EXP-AD Request page 2
+- Complete Outcome - For example RV S or P - 10 on EXP-AD Request page 2
+- Complete Arrest or Case Number - 2 on EXP-AD Request page 2
+- Complete 4 - Arrest or Case Number - 2 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 2 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 2 on EXP-AD Request page 4
+- Complete 4 - Outcome - 2 on EXP-AD Request page 4
+- Complete 4 - Arrest or Case Number - 3 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 3 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 3 on EXP-AD Request page 4
+- Complete 4 - Outcome - 3 on EXP-AD Request page 4
+- Complete Arrest or Case Number - 4 on EXP-AD Request page 2
+- Complete 4 - Arrest or Case Number - 4 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 4 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 4 on EXP-AD Request page 4
+- Complete 4 - Outcome - 4 on EXP-AD Request page 4
+- Complete 4 - Arrest or Case Number - 5 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 5 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 5 on EXP-AD Request page 4
+- Complete 4 - Outcome - 5 on EXP-AD Request page 4
+- Complete 4 - Arrest or Case Number - 6 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 6 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 6 on EXP-AD Request page 4
+- Complete 4 - Outcome - 6 on EXP-AD Request page 4
+- Complete 4 - Arrest or Case Number - 7 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 7 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 7 on EXP-AD Request page 4
+- Complete 4 - Outcome - 7 on EXP-AD Request page 4
+- Complete 4 - Arrest or Case Number - 8 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 8 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 8 on EXP-AD Request page 4
+- Complete 4 - Outcome - 8 on EXP-AD Request page 4
+- Complete 4 - Arrest or Case Number - 9 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 9 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 9 on EXP-AD Request page 4
+- Complete 4 - Outcome - 9 on EXP-AD Request page 4
+- Complete 4 - Arrest or Case Number - 10 on EXP-AD Request page 4
+- Complete 4 - Arresting Agency - 10 on EXP-AD Request page 4
+- Complete 4 - Date of Arrest - 10 on EXP-AD Request page 4
+- Complete 4 - Outcome - 10 on EXP-AD Request page 4
+- Complete arrest7 on EXP-AD Case List page 1
+- Complete arrest8 on EXP-AD Case List page 1
+- Complete arrest9 on EXP-AD Case List page 1
+- Complete arrest10 on EXP-AD Case List page 1
+- Complete arrest11 on EXP-AD Case List page 1
+- Complete arrest12 on EXP-AD Case List page 1
+- Complete arrest13 on EXP-AD Case List page 1
+- Complete arrest14 on EXP-AD Case List page 1
+- Complete arrest6 on EXP-AD Case List page 1
+- Complete arrest15 on EXP-AD Case List page 1
+- Complete arrest16 on EXP-AD Case List page 1
+- Complete arrest17 on EXP-AD Case List page 1
+- Complete arrest18 on EXP-AD Case List page 1
+- Complete arrest19 on EXP-AD Case List page 1
+- Complete arrest20 on EXP-AD Case List page 1
+- Complete arrest22 on EXP-AD Case List page 1
+- Complete arrest23 on EXP-AD Case List page 1
+- Complete arrest24 on EXP-AD Case List page 1
+- Complete arrest25 on EXP-AD Case List page 1
+- Complete arrest26 on EXP-AD Case List page 1
+- Complete arrest27 on EXP-AD Case List page 1
+- Complete arrest28 on EXP-AD Case List page 1
+- Complete arrest21 on EXP-AD Case List page 1
+- Complete arrest29 on EXP-AD Case List page 1
+- Complete arrest30 on EXP-AD Case List page 1
+- Complete arrest31 on EXP-AD Case List page 1
+- Complete arrest32 on EXP-AD Case List page 1
+- Complete arrest33 on EXP-AD Case List page 1
+- Complete arrest34 on EXP-AD Case List page 1
+- Complete arrest35 on EXP-AD Case List page 1
+- Complete arrest36 on EXP-AD Case List page 1
+- Complete arrest37 on EXP-AD Case List page 1
+- Complete arrest38 on EXP-AD Case List page 1
+- Complete arrest39 on EXP-AD Case List page 1
+- Complete arrest40 on EXP-AD Case List page 1
+- Complete arrest41 on EXP-AD Case List page 1
+- Complete arrest42 on EXP-AD Case List page 1
+- Complete arrest43 on EXP-AD Case List page 1
+- Complete arrest44 on EXP-AD Case List page 1
+- Complete arrest45 on EXP-AD Case List page 1
+- Complete arrest46 on EXP-AD Case List page 1
+- Complete arrest47 on EXP-AD Case List page 1
+- Complete arrest48 on EXP-AD Case List page 1
+- Complete arrest50 on EXP-AD Case List page 1
+- Complete arrest51 on EXP-AD Case List page 1
+- Complete arrest52 on EXP-AD Case List page 1
+- Complete arrest53 on EXP-AD Case List page 1
+- Complete arrest54 on EXP-AD Case List page 1
+- Complete arrest55 on EXP-AD Case List page 1
+- Complete arrest56 on EXP-AD Case List page 1
+- Complete arrest49 on EXP-AD Case List page 1
+- Complete arrest57 on EXP-AD Case List page 1
+- Complete arrest58 on EXP-AD Case List page 1
+- Complete arrest59 on EXP-AD Case List page 1
+- Complete arrest60 on EXP-AD Case List page 1
+- Complete arrest61 on EXP-AD Case List page 1
+- Complete arrest62 on EXP-AD Case List page 1
+- Complete arrest63 on EXP-AD Case List page 1
+- Complete arrest64 on EXP-AD Case List page 1
+- Complete arrest65 on EXP-AD Case List page 1
+- Complete arrest66 on EXP-AD Case List page 1
+- Complete arrest67 on EXP-AD Case List page 1
+- Complete arrest68 on EXP-AD Case List page 1
+- Complete arrest69 on EXP-AD Case List page 1
+- Complete arrest70 on EXP-AD Case List page 1
+- Complete arrest/case number 1 on EXP-AD Order Granting page 1
+- Complete arrest/case number 2 on EXP-AD Order Granting page 1
+- Complete arrest/case number 3 on EXP-AD Order Granting page 1
+- Complete arrest/case number 4 on EXP-AD Order Granting page 1
+- Complete arrest/case number 5 on EXP-AD Order Granting page 1
+- Complete arrest/case number 6 on EXP-AD Order Granting page 1
+- Complete arrest/case number 7 on EXP-AD Order Granting page 1
+- Complete arrest/case number 8 on EXP-AD Order Granting page 1
+- Complete arrest/case number 9 on EXP-AD Order Granting page 1
+- Complete arrest/case number 10 on EXP-AD Order Granting page 1
+- Complete arrest/case number 11 on EXP-AD Order Granting page 1
+- Complete arrest/case number 12 on EXP-AD Order Granting page 1
+- Complete arrest/case number 13 on EXP-AD Order Granting page 1
+- Complete arrest/case number 14 on EXP-AD Order Granting page 1
+- Complete arrest/case number 15 on EXP-AD Order Granting page 1
+- Complete arrest/case number 16 on EXP-AD Order Granting page 1
+- Complete arrest/case number 17 on EXP-AD Order Granting page 1
+- Complete arrest/case number 18 on EXP-AD Order Granting page 1
+- Complete arrest/case number 19 on EXP-AD Order Granting page 1
+- Complete arrest/case number 20 on EXP-AD Order Granting page 1
+- Complete arrest/case number 21 on EXP-AD Order Granting page 1
+- Complete arrest/case number 22 on EXP-AD Order Granting page 1
+- Complete arrest/case number 23 on EXP-AD Order Granting page 1
+- Complete arrest/case number 24 on EXP-AD Order Granting page 1
+- Complete arrest/case number 25 on EXP-AD Order Granting page 1
+- Complete arrest/case number 26 on EXP-AD Order Granting page 1
+- Complete arrest/case number 27 on EXP-AD Order Granting page 1
+- Complete arrest/case number 28 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 2 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 3 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 4 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 5 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 6 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 7 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 8 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 9 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 10 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 11 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 12 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 13 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 14 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 15 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 16 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 17 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 18 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 19 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 20 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 21 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 22 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 23 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 24 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 25 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 26 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 27 on EXP-AD Order Granting page 1
+- Complete arrest/case number - Sealing 28 on EXP-AD Order Granting page 1
+- Complete 3 - Defendant/Respondent on FW-CIV-APPLICATION page 1
+- Complete 8 - # of Adults on FW-CIV-APPLICATION page 1
+- Complete 9 - Number of Children Under 18 on FW-CIV-APPLICATION page 1
+- Complete 19 - My Employment Total on FW-CIV-APPLICATION page 2
+- Complete 21 - Social Security Total on FW-CIV-APPLICATION page 2
+- Complete 23 - Child Support Total on FW-CIV-APPLICATION page 2
+- Complete 25 - Unemployment Total on FW-CIV-APPLICATION page 2
+- Complete 27 - Pension Total on FW-CIV-APPLICATION page 2
+- Complete 29 - Money from Other Household Members Total on FW-CIV-APPLICATION page 2
+- Complete 31 - Type on FW-CIV-APPLICATION page 2
+- Complete 32 - Amount from Other on FW-CIV-APPLICATION page 2
+- Complete 33 - Type on FW-CIV-APPLICATION page 2
+- Complete 34 - Amount from Other on FW-CIV-APPLICATION page 2
+- Complete 35 - Type on FW-CIV-APPLICATION page 2
+- Complete 36 - Amount from Other on FW-CIV-APPLICATION page 2
+- Complete 37 - Total on FW-CIV-APPLICATION page 2
+- Complete 40 - My Employment Total on FW-CIV-APPLICATION page 2
+- Complete 42 - Social Security Total on FW-CIV-APPLICATION page 2
+- Complete 44 - Child Support Total on FW-CIV-APPLICATION page 2
+- Complete 46 - Unemployment Total on FW-CIV-APPLICATION page 2
+- Complete 48 - Pension Total on FW-CIV-APPLICATION page 2
+- Complete 50 - Money from Other Household Members Total on FW-CIV-APPLICATION page 2
+- Complete 52 - Type on FW-CIV-APPLICATION page 2
+- Complete 53 - Amount from Other on FW-CIV-APPLICATION page 2
+- Complete 54 - Type on FW-CIV-APPLICATION page 2
+- Complete 55 - Amount from Other on FW-CIV-APPLICATION page 2
+- Complete 56 - Type on FW-CIV-APPLICATION page 2
+- Complete 57 - Amount from Other on FW-CIV-APPLICATION page 2
+- Complete 58 - Total on FW-CIV-APPLICATION page 2
+- Complete 60 - Rent Total on FW-CIV-APPLICATION page 3
+- Complete 62 - Home Mortgage Total on FW-CIV-APPLICATION page 3
+- Complete 64 - Other Mortgage Total on FW-CIV-APPLICATION page 3
+- Complete 66 - Utilities Total on FW-CIV-APPLICATION page 3
+- Complete 68 - Food Total on FW-CIV-APPLICATION page 3
+- Complete 70 - Medical Total on FW-CIV-APPLICATION page 3
+- Complete 72 - Vehicle Total on FW-CIV-APPLICATION page 3
+- Complete 74 - Childcare Total on FW-CIV-APPLICATION page 3
+- Complete 76 - Child Support Total on FW-CIV-APPLICATION page 3
+- Complete 78 - Type on FW-CIV-APPLICATION page 3
+- Complete 79 - Amount from Other on FW-CIV-APPLICATION page 3
+- Complete 80 - Type on FW-CIV-APPLICATION page 3
+- Complete 81 - Amount from Other on FW-CIV-APPLICATION page 3
+- Complete 82 - Type on FW-CIV-APPLICATION page 3
+- Complete 83 - Amount from Other on FW-CIV-APPLICATION page 3
+- Complete 84 - Total on FW-CIV-APPLICATION page 3
+- Complete 87 - Value on FW-CIV-APPLICATION page 3
+- Complete 89 - Value on FW-CIV-APPLICATION page 3
+- Complete 90 - Total Home Mortgage on FW-CIV-APPLICATION page 3
+- Complete 92 - Value on FW-CIV-APPLICATION page 3
+- Complete 94 - Value on FW-CIV-APPLICATION page 3
+- Complete 97 - Value on FW-CIV-APPLICATION page 3
+- Complete 100 - Type on FW-CIV-APPLICATION page 3
+- Complete 101 - Amount from Other on FW-CIV-APPLICATION page 3
+- Complete 102 - Type on FW-CIV-APPLICATION page 3
+- Complete 103 - Amount from Other on FW-CIV-APPLICATION page 3
+- Complete 104 - Type on FW-CIV-APPLICATION page 3
+- Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
+- Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
+
+Attach certified dispositions and the pardon, eligibility certificate, educational proof, or other route-specific evidence identified above.
+
+## Filing and notice
+
+File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields.
+
+## Stop and get help
+
+Stop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.
