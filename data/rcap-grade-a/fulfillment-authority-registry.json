@@ -13,7 +13,7 @@
     "routes": [
       "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
     ],
-    "rule": "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record remains incomplete while the new participant-delivery hashes await counsel approval, participant final verification is unbound, or any technical Preview predicate is absent. The historical internal-review approval grants no delivery posture. A route absent from this registry fails closed."
+    "rule": "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi participant-delivery hashes have exact-output counsel approval, but the clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. The historical internal-review approval grants no delivery posture. A route absent from this registry fails closed."
   },
   "evidenceInputs": {
     "data/rcap-ledger/launch-graph.json": "2f3f5a5feb02907a2f7bec4a6f8f8c6c10e821f341e509f1a1e1a7ca23ef84aa",
@@ -25,7 +25,7 @@
     "data/rcap-grade-a/official-source-registry.json": "93b116987dc5c666d03de52132718e5ffde46d68888cc5337a617d5c60f7abf7",
     "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
     "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json": "a0dbb755fcad8e0916d26913e56219a2c2d5a52479b7f01492055000b79325b6",
-    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json": "1c76e62eb9b79295e78cbd41fd6a037994900b6f529d9e9211e5ff716a4920b5",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a",
     "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json": "74f8aab9cdfb2518b6ec57b1d888d52bddd31a6b8bba7adb874fa330a1025d26"
   },
   "records": [
@@ -142,10 +142,10 @@
         "reviewedAt": "2026-09-03"
       },
       "outputLegalApproval": {
-        "state": "pending",
-        "reviewerId": null,
-        "decidedAt": null,
-        "scopeSha256": "00def47232a3d07589239a6a4be8391b44f951301cee552e0b4e355efd7c7726"
+        "state": "passed",
+        "reviewerId": "Lawrence Blackmon",
+        "decidedAt": "2026-09-03",
+        "scopeSha256": "beb7d7f69f6c3cff724a15cf602a3d5ea97b42431cd2a415850d3d96f59436a4"
       },
       "finalVerification": {
         "contract": "rcap-final-verification-bound-inputs/v1",
@@ -161,8 +161,8 @@
           "changeKind": "created",
           "changedAt": "2026-09-03",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-          "reason": "Clinic Preview participant-delivery candidate derived from data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json, and data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json. Its new exact hashes are pending Lawrence Blackmon review; the earlier internal-review approval is historical and was not reused. Participant final verification remains intentionally unbound and delivery remains held.",
-          "recordSha256": "488c3f5c3effb7c63d4762386590b17268d3be4d1f66975f04c4ab5c00317ca0",
+          "reason": "Clinic Preview participant-delivery candidate derived from data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json, and data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json. Lawrence Blackmon approved the new exact participant-delivery hashes by owner attestation; the earlier internal-review approval remains historical and was not reused. Participant final verification and all technical Preview predicates remain independent, so delivery stays held.",
+          "recordSha256": "03fcf210bb5e40fd73c516b75dfd65a84681dd0da0fc2b08f79ad5119543c8b7",
           "supersedesRecordSha256": null
         }
       ]

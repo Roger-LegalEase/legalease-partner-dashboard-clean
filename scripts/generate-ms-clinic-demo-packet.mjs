@@ -84,6 +84,25 @@ const approvalStillBinds = existingApproval?.state === "approved"
   && existingApproval.specificationSha256 === sha256(specificationBytes)
   && existingApproval.canonicalSha256 === artifacts.find((artifact) => artifact.fixture === "canonical")?.sha256
   && existingApproval.boundarySha256 === artifacts.find((artifact) => artifact.fixture === "boundary")?.sha256;
+const existingParticipantApproval = existingEvidence?.participantDeliveryReview;
+const approvalCanonicalArtifact = artifacts.find((artifact) => artifact.fixture === "participant_delivery_canonical");
+const approvalBoundaryArtifact = artifacts.find((artifact) => artifact.fixture === "participant_delivery_boundary");
+const participantDeliveryApprovalStillBinds = existingParticipantApproval?.state === "approved"
+  && existingParticipantApproval.decision === "APPROVE"
+  && existingParticipantApproval.reviewerId === "Lawrence Blackmon"
+  && existingParticipantApproval.routeId === specification.routeKey
+  && existingParticipantApproval.packetFamily === specification.packetFamily
+  && existingParticipantApproval.previewPartnerSlug === "mvl-demo"
+  && existingParticipantApproval.packetSpecificationSha256 === sha256(specificationBytes)
+  && existingParticipantApproval.canonical?.sha256 === approvalCanonicalArtifact?.sha256
+  && existingParticipantApproval.canonical?.byteLength === approvalCanonicalArtifact?.byteLength
+  && existingParticipantApproval.canonical?.pageCount === approvalCanonicalArtifact?.pageCount
+  && existingParticipantApproval.boundary?.sha256 === approvalBoundaryArtifact?.sha256
+  && existingParticipantApproval.boundary?.byteLength === approvalBoundaryArtifact?.byteLength
+  && existingParticipantApproval.boundary?.pageCount === approvalBoundaryArtifact?.pageCount
+  && existingParticipantApproval.priorApprovalReused === false
+  && existingParticipantApproval.consumerPaidAuthorized === false
+  && existingParticipantApproval.productionAuthorized === false;
 const evidence = {
   schemaVersion: "rcap-grade-a-ms-clinic-demo-artifacts/v4",
   generatedBy: "scripts/generate-ms-clinic-demo-packet.mjs",
@@ -96,14 +115,16 @@ const evidence = {
   contentType: "application/pdf",
   deterministic: true,
   ...(approvalStillBinds ? { outputLegalApproval: existingApproval } : {}),
-  participantDeliveryReview: {
-    state: "pending_named_mississippi_counsel_exact_hash_approval",
-    priorApprovalReused: false,
-    approvalRecorded: false,
-    scope: "The exact participant-delivery canonical and boundary PDFs for the two synthetic mvl-demo Preview participants; sponsored Preview only after every technical predicate passes.",
-    consumerPaidAuthorized: false,
-    productionAuthorized: false
-  },
+  participantDeliveryReview: participantDeliveryApprovalStillBinds
+    ? existingParticipantApproval
+    : {
+        state: "pending_named_mississippi_counsel_exact_hash_approval",
+        priorApprovalReused: false,
+        approvalRecorded: false,
+        scope: "The exact participant-delivery canonical and boundary PDFs for the two synthetic mvl-demo Preview participants; sponsored Preview only after every technical predicate passes.",
+        consumerPaidAuthorized: false,
+        productionAuthorized: false
+      },
   artifacts
 };
 fs.writeFileSync(absolute(EVIDENCE_FILE), `${JSON.stringify(evidence, null, 2)}\n`);
@@ -125,6 +146,7 @@ const independentReviewPassed = reviewedArtifactsMatch
   && rasterReview.independentReview.summary?.fail === 0
   && rasterReview.independentReview.summary?.hold === 0;
 const outputLegalApprovalPassed = approvalStillBinds;
+const participantDeliveryApprovalPassed = participantDeliveryApprovalStillBinds;
 const participantDeliveryVisualReviewPassed = [deliveryCanonical, deliveryBoundary].every((artifact) => {
   const reviewed = participantDeliveryRasterReview?.artifacts?.find((candidate) => candidate.fixture === artifact.fixture);
   return reviewed?.sourcePdfSha256 === artifact.sha256
@@ -137,7 +159,9 @@ const wiring = {
   routeKey: specification.routeKey,
   routeKeys: [specification.routeKey],
   workType: "GRADE_A_PRODUCT_WIRING",
-  status: participantDeliveryVisualReviewPassed
+  status: participantDeliveryVisualReviewPassed && participantDeliveryApprovalPassed
+    ? "INSTALLED_LEGAL_APPROVAL_PASSED_HELD_FOR_TECHNICAL_PREVIEW_ACCEPTANCE"
+    : participantDeliveryVisualReviewPassed
     ? "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL"
     : independentReviewPassed
       ? "INSTALLED_HELD_FOR_PARTICIPANT_DELIVERY_VISUAL_REVIEW"
@@ -152,7 +176,9 @@ const wiring = {
   ],
   currentState: {
     serviceDisposition: "exact_runtime_route_and_grade_a_specification_installed",
-    commercialState: participantDeliveryVisualReviewPassed
+    commercialState: participantDeliveryVisualReviewPassed && participantDeliveryApprovalPassed
+      ? "HELD_PENDING_CORRECTED_WORKER_AND_TECHNICAL_PREVIEW_ACCEPTANCE"
+      : participantDeliveryVisualReviewPassed
       ? "HELD_PENDING_NEW_PARTICIPANT_DELIVERY_HASH_APPROVAL_AND_PREVIEW_ACCEPTANCE"
       : independentReviewPassed
         ? "HELD_PENDING_PARTICIPANT_DELIVERY_VISUAL_REVIEW_AND_NEW_COUNSEL_APPROVAL"
@@ -190,28 +216,48 @@ const wiring = {
       ? {
           status: "participant_delivery_all_pages_reviewed",
           receipt: PARTICIPANT_DELIVERY_RASTER_REVIEW_FILE,
-          externalDeliveryHolds: [
-            "named_mississippi_counsel_and_current_law_approval",
-            "court_confirmed_mcic_identifier_channel",
-            "participant_supplied_exhibits",
-            "classified_nonproduction_preview_acceptance"
-          ]
+          externalDeliveryHolds: participantDeliveryApprovalPassed
+            ? [
+                "corrected_immutable_worker_publication_and_ingestion",
+                "bounded_nonproduction_migration_application",
+                "current_preview_and_two_participant_staging_scope",
+                "complete_nonproduction_hosted_acceptance"
+              ]
+            : [
+                "named_mississippi_counsel_and_current_law_approval",
+                "court_confirmed_mcic_identifier_channel",
+                "participant_supplied_exhibits",
+                "classified_nonproduction_preview_acceptance"
+              ]
         }
       : { status: "pending_participant_delivery_page_review" },
-    counselReview: {
-      status: "pending_named_mississippi_counsel_for_new_participant_delivery_hashes",
-      approvedArtifactHashes: [],
-      priorApprovalReused: false,
-      historicalInternalReviewApproval: outputLegalApprovalPassed ? {
-        reviewerId: existingApproval.reviewerId,
-        decidedAt: existingApproval.decidedAt,
-        approvedArtifactHashes: [existingApproval.canonicalSha256, existingApproval.boundarySha256]
-      } : null
-    },
+    counselReview: participantDeliveryApprovalPassed
+      ? {
+          ...existingParticipantApproval,
+          status: "approved_exact_participant_delivery_hashes",
+          state: "passed",
+          historicalInternalReviewApproval: outputLegalApprovalPassed ? {
+            reviewerId: existingApproval.reviewerId,
+            decidedAt: existingApproval.decidedAt,
+            approvedArtifactHashes: [existingApproval.canonicalSha256, existingApproval.boundarySha256]
+          } : null
+        }
+      : {
+          status: "pending_named_mississippi_counsel_for_new_participant_delivery_hashes",
+          approvedArtifactHashes: [],
+          priorApprovalReused: false,
+          historicalInternalReviewApproval: outputLegalApprovalPassed ? {
+            reviewerId: existingApproval.reviewerId,
+            decidedAt: existingApproval.decidedAt,
+            approvedArtifactHashes: [existingApproval.canonicalSha256, existingApproval.boundarySha256]
+          } : null
+        },
     paymentEligible: false,
     sponsorshipEligible: false,
     whyPaymentIsClosed: "Consumer launch is outside the Clinic Mode Preview and remains held regardless of sponsored Preview acceptance.",
-    whySponsorshipIsClosed: participantDeliveryVisualReviewPassed
+    whySponsorshipIsClosed: participantDeliveryVisualReviewPassed && participantDeliveryApprovalPassed
+      ? "Lawrence Blackmon approved the two exact participant-delivery hashes. Sponsored generation remains held until the corrected immutable worker, bounded nonproduction migrations, current Preview, two-participant scope, and complete hosted acceptance journey all pass."
+      : participantDeliveryVisualReviewPassed
       ? "The participant-delivery pair is built and page-reviewed, but sponsored generation stays held until Lawrence Blackmon approves these new exact hashes and the nonproduction acceptance journey passes."
       : independentReviewPassed
         ? "The historical internal-review pair remains approved, but it is non-deliverable. Sponsored generation stays held until the new participant-delivery pages pass review, Lawrence approves their exact hashes, and nonproduction acceptance passes."
@@ -235,12 +281,16 @@ fulfillment.artifactProviderVersion = "2.0.0";
 fulfillment.rendererVersion = "2.0.0";
 fulfillment.requiredFacts = specification.requiredFacts.map((fact) => fact.factId);
 fulfillment.finalVerificationRequirements = specification.finalVerificationRequirements;
-fulfillment.artifactApprovalStatus = participantDeliveryVisualReviewPassed
+fulfillment.artifactApprovalStatus = participantDeliveryVisualReviewPassed && participantDeliveryApprovalPassed
+  ? "participant_delivery_exact_hashes_approved_held_for_technical_preview_acceptance"
+  : participantDeliveryVisualReviewPassed
   ? "participant_delivery_artifacts_built_and_rastered_pending_new_exact_hash_counsel_approval"
   : independentReviewPassed
     ? "historical_internal_review_approved_but_non_deliverable_participant_delivery_review_pending"
   : "revision_artifacts_built_pending_fresh_visual_independent_and_counsel_review";
-fulfillment.holdReason = participantDeliveryVisualReviewPassed
+fulfillment.holdReason = participantDeliveryVisualReviewPassed && participantDeliveryApprovalPassed
+  ? "Lawrence Blackmon approved the two exact participant-delivery hashes without qualifications. Sponsored delivery remains held for a corrected immutable worker, the bounded nonproduction migrations, a current Preview, two-participant staging scope, and the complete hosted acceptance journey. The historical internal-review approval remains separate and was not reused. Consumer launch and Production remain held."
+  : participantDeliveryVisualReviewPassed
   ? "The new participant-delivery canonical and boundary PDFs are deterministic and all pages have been raster reviewed. Delivery remains held for Lawrence Blackmon's approval of these new exact hashes, a new immutable worker, the bounded nonproduction migrations, and hosted Preview acceptance. The historical internal-review approval is not reused. Consumer launch remains held."
   : independentReviewPassed
     ? "The historical internal-review PDFs and their approval remain evidence but are non-deliverable. Delivery remains held for completed raster review and new exact-hash counsel approval of the participant-delivery pair, then a new immutable worker and hosted Preview acceptance. Consumer launch remains held."
@@ -272,27 +322,45 @@ fulfillment.visualReview = {
 };
 fulfillment.independentReview = {
   status: participantDeliveryVisualReviewPassed ? "participant_delivery_all_pages_reviewed" : "pending_participant_delivery_page_review",
-  externalDeliveryHolds: [
-    "new_participant_delivery_exact_hash_approval_by_lawrence_blackmon",
-    "court_confirmed_mcic_identifier_channel",
-    "participant_supplied_exhibits",
-    "nonproduction_browser_acceptance"
-  ]
+  externalDeliveryHolds: participantDeliveryApprovalPassed
+    ? [
+        "corrected_immutable_worker_publication_and_ingestion",
+        "bounded_nonproduction_migration_application",
+        "current_preview_and_two_participant_staging_scope",
+        "complete_nonproduction_hosted_acceptance"
+      ]
+    : [
+        "new_participant_delivery_exact_hash_approval_by_lawrence_blackmon",
+        "court_confirmed_mcic_identifier_channel",
+        "participant_supplied_exhibits",
+        "nonproduction_browser_acceptance"
+      ]
 };
-fulfillment.outputLegalReview = {
-  status: "pending_named_mississippi_counsel_for_new_participant_delivery_hashes",
-  reviewerId: null,
-  decidedAt: null,
-  qualifications: [],
-  authenticationKind: null,
-  authenticatedApprovalReference: null,
-  approvedArtifactHashes: [],
-  priorApprovalReused: false,
-  historicalInternalReviewApproval: outputLegalApprovalPassed ? {
-    reviewerId: existingApproval.reviewerId,
-    decidedAt: existingApproval.decidedAt,
-    approvedArtifactHashes: [existingApproval.canonicalSha256, existingApproval.boundarySha256]
-  } : null
-};
+fulfillment.outputLegalReview = participantDeliveryApprovalPassed
+  ? {
+      ...existingParticipantApproval,
+      status: "approved_exact_participant_delivery_hashes",
+      state: "passed",
+      historicalInternalReviewApproval: outputLegalApprovalPassed ? {
+        reviewerId: existingApproval.reviewerId,
+        decidedAt: existingApproval.decidedAt,
+        approvedArtifactHashes: [existingApproval.canonicalSha256, existingApproval.boundarySha256]
+      } : null
+    }
+  : {
+      status: "pending_named_mississippi_counsel_for_new_participant_delivery_hashes",
+      reviewerId: null,
+      decidedAt: null,
+      qualifications: [],
+      authenticationKind: null,
+      authenticatedApprovalReference: null,
+      approvedArtifactHashes: [],
+      priorApprovalReused: false,
+      historicalInternalReviewApproval: outputLegalApprovalPassed ? {
+        reviewerId: existingApproval.reviewerId,
+        decidedAt: existingApproval.decidedAt,
+        approvedArtifactHashes: [existingApproval.canonicalSha256, existingApproval.boundarySha256]
+      } : null
+    };
 fs.writeFileSync(absolute(FULFILLMENT_LEDGER_FILE), `${JSON.stringify(fulfillmentLedger, null, 2)}\n`);
 console.log(JSON.stringify(evidence, null, 2));

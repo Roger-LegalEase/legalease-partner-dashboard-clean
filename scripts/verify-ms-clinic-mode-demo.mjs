@@ -29,6 +29,12 @@ const RASTER_REVIEW = path.join(ROOT, "data/rcap-ledger/grade-a/ms-nonconviction
 const PARTICIPANT_A_FIXTURE = path.join(ROOT, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json");
 const PARTICIPANT_B_FIXTURE = path.join(ROOT, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-b.fixture.json");
 const PARTICIPANT_DELIVERY_RASTER_REVIEW = path.join(ROOT, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json");
+const COUNSEL_DECISION = "docs/rcap/grade-a/MS_CLINIC_DEMO_COUNSEL_DECISION_SHEET.md";
+const COUNSEL_REVIEW_PACKAGE = "docs/rcap/grade-a/MS_CLINIC_DEMO_PARTICIPANT_DELIVERY_COUNSEL_REVIEW.md";
+const PARTICIPANT_CANONICAL_SHA256 = "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f";
+const PARTICIPANT_BOUNDARY_SHA256 = "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1";
+const HISTORICAL_CANONICAL_SHA256 = "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40";
+const HISTORICAL_BOUNDARY_SHA256 = "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4";
 
 const read = (relativePath) => fs.readFileSync(path.join(ROOT, relativePath), "utf8");
 const specificationBytes = fs.readFileSync(SPECIFICATION);
@@ -163,16 +169,23 @@ assert.equal(fulfillment.privateDelivery, true);
 assert.equal(fulfillment.repeatDownload, true);
 assert.equal(fulfillment.consumerPosture, "held");
 assert.equal(fulfillment.sponsoredPosture, "held");
-assert.match(fulfillment.holdReason, /approval of these new exact hashes/i);
-assert.equal(fulfillment.outputLegalReview.status, "pending_named_mississippi_counsel_for_new_participant_delivery_hashes");
-assert.equal(fulfillment.outputLegalReview.reviewerId, null);
-assert.equal(fulfillment.outputLegalReview.decidedAt, null);
+assert.match(fulfillment.holdReason, /technical|corrected immutable worker/i);
+assert.equal(fulfillment.outputLegalReview.status, "approved_exact_participant_delivery_hashes");
+assert.equal(fulfillment.outputLegalReview.state, "passed");
+assert.equal(fulfillment.outputLegalReview.reviewerId, "Lawrence Blackmon");
+assert.equal(fulfillment.outputLegalReview.decision, "APPROVE");
+assert.equal(fulfillment.outputLegalReview.decidedAt, "2026-09-03");
 assert.deepEqual(fulfillment.outputLegalReview.qualifications, []);
-assert.deepEqual(fulfillment.outputLegalReview.approvedArtifactHashes, []);
+assert.equal(fulfillment.outputLegalReview.authenticationKind, "owner_attestation");
+assert.match(fulfillment.outputLegalReview.authenticatedApprovalReference, /^Owner attestation by Roger Roman/);
+assert.deepEqual(fulfillment.outputLegalReview.approvedArtifactHashes, [
+  PARTICIPANT_CANONICAL_SHA256,
+  PARTICIPANT_BOUNDARY_SHA256
+]);
 assert.equal(fulfillment.outputLegalReview.priorApprovalReused, false);
 assert.deepEqual(fulfillment.outputLegalReview.historicalInternalReviewApproval.approvedArtifactHashes, [
-  "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
-  "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+  HISTORICAL_CANONICAL_SHA256,
+  HISTORICAL_BOUNDARY_SHA256
 ]);
 
 const authorityRegistry = JSON.parse(read("data/rcap-grade-a/fulfillment-authority-registry.json"));
@@ -180,9 +193,9 @@ const authorityRecord = authorityRegistry.records.find((record) => record.routeI
 assert.ok(authorityRecord, "the canonical Grade-A authority has no exact Mississippi clinic record");
 assert.equal(authorityRecord.packetFamilyId, FAMILY);
 assert.equal(authorityRecord.packetSpecification.sha256, fulfillment.packetSpecificationSha256);
-assert.equal(authorityRecord.outputLegalApproval.state, "pending");
-assert.equal(authorityRecord.outputLegalApproval.reviewerId, null);
-assert.equal(authorityRecord.outputLegalApproval.decidedAt, null);
+assert.equal(authorityRecord.outputLegalApproval.state, "passed");
+assert.equal(authorityRecord.outputLegalApproval.reviewerId, "Lawrence Blackmon");
+assert.equal(authorityRecord.outputLegalApproval.decidedAt, "2026-09-03");
 assert.match(authorityRecord.outputLegalApproval.scopeSha256, /^[a-f0-9]{64}$/);
 assert.equal(authorityRecord.finalVerification.state, "unbound");
 const authorityProjection = JSON.parse(read("data/rcap-grade-a/fulfillment-authority-projection.json"));
@@ -258,9 +271,23 @@ assert.equal(evidence.packetFamily, FAMILY);
 assert.equal(evidence.specificationSha256, fulfillment.packetSpecificationSha256);
 assert.equal(evidence.deterministic, true);
 assert.equal(evidence.artifacts.length, 4);
-assert.equal(evidence.participantDeliveryReview.state, "pending_named_mississippi_counsel_exact_hash_approval");
+assert.equal(evidence.participantDeliveryReview.state, "approved");
+assert.equal(evidence.participantDeliveryReview.reviewerId, "Lawrence Blackmon");
+assert.equal(evidence.participantDeliveryReview.decision, "APPROVE");
+assert.equal(evidence.participantDeliveryReview.decidedAt, "2026-09-03");
+assert.deepEqual(evidence.participantDeliveryReview.qualifications, []);
+assert.equal(evidence.participantDeliveryReview.authenticationKind, "owner_attestation");
+assert.match(evidence.participantDeliveryReview.authenticatedApprovalReference, /^Owner attestation by Roger Roman/);
+assert.deepEqual(evidence.participantDeliveryReview.approvedArtifactHashes, [
+  PARTICIPANT_CANONICAL_SHA256,
+  PARTICIPANT_BOUNDARY_SHA256
+]);
 assert.equal(evidence.participantDeliveryReview.priorApprovalReused, false);
-assert.equal(evidence.participantDeliveryReview.approvalRecorded, false);
+assert.equal(evidence.participantDeliveryReview.approvalRecorded, true);
+assert.equal(evidence.participantDeliveryReview.consumerPaidAuthorized, false);
+assert.equal(evidence.participantDeliveryReview.productionAuthorized, false);
+assert.equal(evidence.outputLegalApproval.canonicalSha256, HISTORICAL_CANONICAL_SHA256);
+assert.equal(evidence.outputLegalApproval.boundarySha256, HISTORICAL_BOUNDARY_SHA256);
 for (const artifact of evidence.artifacts) {
   const bytes = fs.readFileSync(path.join(ROOT, artifact.file));
   assert.equal(createHash("sha256").update(bytes).digest("hex"), artifact.sha256);
@@ -381,10 +408,35 @@ assert.equal(wiring.family, FAMILY);
 assert.equal(wiring.currentState.generationAllowed, false);
 assert.equal(wiring.binding.paymentEligible, false);
 assert.equal(wiring.binding.sponsorshipEligible, false, "sponsorship must stay held until every technical Preview predicate passes");
-assert.equal(wiring.binding.counselReview.status, "pending_named_mississippi_counsel_for_new_participant_delivery_hashes");
+assert.equal(wiring.binding.counselReview.status, "approved_exact_participant_delivery_hashes");
+assert.equal(wiring.binding.counselReview.state, "passed");
+assert.equal(wiring.binding.counselReview.reviewerId, "Lawrence Blackmon");
+assert.deepEqual(wiring.binding.counselReview.approvedArtifactHashes, [
+  PARTICIPANT_CANONICAL_SHA256,
+  PARTICIPANT_BOUNDARY_SHA256
+]);
 assert.equal(wiring.binding.counselReview.priorApprovalReused, false);
 assert.equal(wiring.binding.packetSpecificationSha256, fulfillment.packetSpecificationSha256);
 assert.equal(wiring.binding.artifacts.canonical.sha256, evidence.artifacts.find((artifact) => artifact.fixture === "participant_delivery_canonical").sha256);
+
+for (const counselPath of [COUNSEL_DECISION, COUNSEL_REVIEW_PACKAGE]) {
+  const counselRecord = read(counselPath);
+  for (const exactValue of [
+    "Lawrence Blackmon",
+    "2026-09-03",
+    "APPROVE",
+    PARTICIPANT_CANONICAL_SHA256,
+    PARTICIPANT_BOUNDARY_SHA256,
+    HISTORICAL_CANONICAL_SHA256,
+    HISTORICAL_BOUNDARY_SHA256,
+    fulfillment.packetSpecificationSha256,
+    "sponsored_preview_only_two_synthetic_staging_participants_after_all_technical_gates_pass"
+  ]) assert.ok(counselRecord.includes(exactValue), `${counselPath} is missing ${exactValue}`);
+  assert.match(counselRecord, /owner attestation by Roger Roman/i);
+  assert.match(counselRecord, /not reused/i);
+  assert.match(counselRecord, /consumer-paid|consumer payment/i);
+  assert.match(counselRecord, /Production delivery/i);
+}
 
 const previewHandoff = read("docs/rcap/grade-a/MS_CLINIC_DEMO_PREVIEW_HANDOFF.md");
 for (const requirement of [
@@ -396,4 +448,4 @@ for (const requirement of [
   "production"
 ]) assert.ok(previewHandoff.toLowerCase().includes(requirement.toLowerCase()), `Preview handoff is missing: ${requirement}`);
 
-console.log(`Mississippi Clinic Mode demo repair: ${packet.documents.length} documents; 25 participant-delivery pages deterministic and raster-reviewed; new exact hashes pending counsel and all delivery held.`);
+console.log(`Mississippi Clinic Mode demo approval: ${packet.documents.length} documents; 25 participant-delivery pages deterministic and raster-reviewed; exact hashes approved and all technical delivery held.`);

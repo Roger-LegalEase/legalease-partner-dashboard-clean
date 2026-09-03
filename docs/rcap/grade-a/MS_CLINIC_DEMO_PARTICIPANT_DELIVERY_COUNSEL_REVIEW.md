@@ -1,8 +1,24 @@
 # Mississippi Clinic Mode participant-delivery counsel review
 
-Status: **PENDING — no approval recorded**
+Status: **APPROVED — both exact participant-delivery hashes**
 
-Reviewer requested: Lawrence Blackmon
+Reviewer: Lawrence Blackmon
+
+Decision date (UTC): 2026-09-03
+
+Decision: **APPROVE**
+
+Qualifications: None
+
+Authentication kind: `owner_attestation`
+
+Authenticated approval reference:
+
+> Owner attestation by Roger Roman that Lawrence Blackmon reviewed the actual
+> final participant-delivery canonical and boundary PDFs identified by exact
+> SHA-256 in the current Mississippi Volunteer Lawyers counsel-review package
+> and approved both artifacts for the bounded sponsored Clinic Mode Preview
+> without qualifications.
 
 Route: `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`
 
@@ -53,6 +69,9 @@ five-document packet structure are unchanged, but both byte hashes are new.
 
 ## Exact approval scope
 
+Delivery scope:
+`sponsored_preview_only_two_synthetic_staging_participants_after_all_technical_gates_pass`
+
 An approval may authorize only both exact hashes in the table above for this
 one Mississippi route and packet family, used for sponsored delivery in the
 bounded `mvl-demo` Vercel Preview to the two synthetic staging-scoped
@@ -83,5 +102,11 @@ specification-digest change invalidates the approval and requires a new review.
 > family, or changed bytes. Any packet-byte or specification-digest change
 > requires a new review.
 
-No approval, signature, or direct Lawrence message is represented by this
-pending review package.
+This record represents Roger Roman's owner attestation only. It does not
+represent a handwritten signature, electronic-signature provider, email,
+document ID, or direct Lawrence authentication evidence.
+
+Both exact participant-delivery hashes in this package are approved. The prior
+internal-review approval was not reused. Sponsored Preview delivery remains
+held until every technical predicate passes; consumer-paid and Production
+delivery remain closed.

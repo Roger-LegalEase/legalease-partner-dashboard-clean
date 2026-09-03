@@ -526,9 +526,10 @@ function candidateRecord(row) {
 /**
  * The clinic-demo route is deliberately supplemental to the frozen paid launch
  * denominator. Its participant-delivery build and raster evidence are real,
- * but the new exact hashes remain pending counsel review. The earlier approval
- * is historical evidence for different internal-review bytes and is never
- * carried into this record. Sponsored Preview posture remains held.
+ * and exact-output counsel approval are real. The earlier approval remains
+ * historical evidence for different internal-review bytes and is never carried
+ * into this record. Final verification and every technical Preview predicate
+ * remain independent, so sponsored Preview posture stays held.
  */
 function mississippiClinicCandidateRecord() {
   const specificationBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_SPECIFICATION));
@@ -561,26 +562,38 @@ function mississippiClinicCandidateRecord() {
   ) {
     throw new Error("Mississippi clinic historical internal-review approval is absent or no longer binds its exact bytes");
   }
-  if (participantReview?.state !== "pending_named_mississippi_counsel_exact_hash_approval"
+  if (participantReview?.state !== "approved"
+    || participantReview.reviewerId !== "Lawrence Blackmon"
+    || participantReview.decision !== "APPROVE"
+    || participantReview.decidedAt !== "2026-09-03"
+    || !Array.isArray(participantReview.qualifications)
+    || participantReview.qualifications.length !== 0
+    || participantReview.authenticationKind !== "owner_attestation"
+    || !participantReview.authenticatedApprovalReference?.startsWith("Owner attestation by Roger Roman")
+    || participantReview.routeId !== MS_CLINIC_ROUTE
+    || participantReview.packetFamily !== "ms-nonconv-set"
+    || participantReview.previewPartnerSlug !== "mvl-demo"
+    || participantReview.canonical?.sha256 !== canonical.sha256
+    || participantReview.canonical?.byteLength !== canonical.byteLength
+    || participantReview.canonical?.pageCount !== canonical.pageCount
+    || participantReview.boundary?.sha256 !== boundary.sha256
+    || participantReview.boundary?.byteLength !== boundary.byteLength
+    || participantReview.boundary?.pageCount !== boundary.pageCount
+    || participantReview.documentCount !== 5
+    || participantReview.packetSpecificationId !== "ms-nonconviction-expungement-99-19-71-4"
+    || participantReview.packetSpecificationVersion !== "2.0.0"
+    || participantReview.packetSpecificationSha256 !== sha256(specificationBytes)
+    || participantReview.rendererIdentity !== "rcap_grade_a_document_v1"
+    || participantReview.rendererVersion !== "2.0.0"
+    || participantReview.workerSourceSha !== "b680a4e4dd92e7422bc7030aa2189026929782a1"
+    || participantReview.deliveryScope !== "sponsored_preview_only_two_synthetic_staging_participants_after_all_technical_gates_pass"
     || participantReview.priorApprovalReused !== false
-    || participantReview.approvalRecorded !== false
+    || participantReview.approvalRecorded !== true
     || participantReview.consumerPaidAuthorized !== false
     || participantReview.productionAuthorized !== false) {
-    throw new Error("Mississippi participant-delivery review must remain pending without carrying the historical approval");
+    throw new Error("Mississippi participant-delivery approval is absent or no longer binds the exact approved bytes and scope");
   }
-  const approvalScopeSha256 = sha256(JSON.stringify({
-    routeId: MS_CLINIC_ROUTE,
-    packetFamily: "ms-nonconv-set",
-    previewPartnerSlug: "mvl-demo",
-    deliveryScope: participantReview.scope,
-    canonicalSha256: canonical.sha256,
-    boundarySha256: boundary.sha256,
-    specificationSha256: sha256(specificationBytes),
-    approvalRecorded: false,
-    priorApprovalReused: false,
-    consumerPaidAuthorized: false,
-    productionAuthorized: false
-  }));
+  const approvalScopeSha256 = sha256(stableStringify(participantReview));
 
   const composerBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/composer.ts"));
   const rendererBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/renderer.ts"));
@@ -665,9 +678,9 @@ function mississippiClinicCandidateRecord() {
       reviewedAt: rasterReview.status === "passed" ? rasterReview.reviewedOn : null
     },
     outputLegalApproval: {
-      state: "pending",
-      reviewerId: null,
-      decidedAt: null,
+      state: "passed",
+      reviewerId: participantReview.reviewerId,
+      decidedAt: participantReview.decidedAt,
       scopeSha256: approvalScopeSha256
     },
     finalVerification: {
@@ -685,7 +698,7 @@ function mississippiClinicCandidateRecord() {
     changeKind: "created",
     changedAt: "2026-09-03",
     changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-    reason: `Clinic Preview participant-delivery candidate derived from ${MS_CLINIC_SPECIFICATION}, ${MS_CLINIC_FIXTURE}, ${MS_CLINIC_ARTIFACTS}, and ${MS_CLINIC_RASTER_REVIEW}. Its new exact hashes are pending Lawrence Blackmon review; the earlier internal-review approval is historical and was not reused. Participant final verification remains intentionally unbound and delivery remains held.`,
+    reason: `Clinic Preview participant-delivery candidate derived from ${MS_CLINIC_SPECIFICATION}, ${MS_CLINIC_FIXTURE}, ${MS_CLINIC_ARTIFACTS}, and ${MS_CLINIC_RASTER_REVIEW}. Lawrence Blackmon approved the new exact participant-delivery hashes by owner attestation; the earlier internal-review approval remains historical and was not reused. Participant final verification and all technical Preview predicates remain independent, so delivery stays held.`,
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: null
   }];
@@ -708,7 +721,7 @@ const registry = {
   candidateScope: {
     jurisdictions: [...CANDIDATE_JURISDICTIONS, "MS"],
     routes: [MS_CLINIC_ROUTE],
-    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record remains incomplete while the new participant-delivery hashes await counsel approval, participant final verification is unbound, or any technical Preview predicate is absent. The historical internal-review approval grants no delivery posture. A route absent from this registry fails closed."
+    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi participant-delivery hashes have exact-output counsel approval, but the clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. The historical internal-review approval grants no delivery posture. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(fs.readFileSync(path.join(rootDir, LAUNCH_GRAPH), "utf8")),
