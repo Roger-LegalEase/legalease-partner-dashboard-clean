@@ -816,9 +816,23 @@ function run() {
   const legalProblems = [];
   const stale = fs.existsSync(path.join(ROOT, STALE)) ? read(STALE) : null;
   if (stale) {
-    const heldByLane = [...new Set((stale.rows ?? []).filter((r) => r.destination === "LEGAL").map((r) => r.familyId))];
-    const builders = new Set(a.filter((x) => x.lane === "packet-build").flatMap((x) => x.items ?? []));
-    const repairers = new Set(a.filter((x) => x.lane === "rapid-repair").flatMap((x) => x.items ?? []));
+    const currentVerifierHolds = (vr?.rows ?? []).filter((r) => r.isIndependentVerification
+      && r.verdict === "BLOCKED_LEGAL_INPUT" && !r.superseded);
+    for (const r of currentVerifierHolds) {
+      if (!(r.blockedLegalObligations ?? []).some((o) => o.finding))
+        legalProblems.push(`${r.familyId} has a current BLOCKED_LEGAL_INPUT verdict without an extracted finding`);
+    }
+    const heldByLane = [...new Set([
+      ...(stale.rows ?? []).filter((r) => r.destination === "LEGAL").map((r) => r.familyId),
+      ...currentVerifierHolds.map((r) => r.familyId),
+    ])];
+    /* ACTIVE_ASSIGNMENTS is an audit history as well as a live roster. A
+     * released repair in that file is not a current dispatch; only live grants
+     * can conflict with a legal hold. */
+    const liveClaims = (fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER).claims ?? [] : [])
+      .filter((c) => c.released !== true);
+    const builders = new Set(liveClaims.filter((c) => c.laneKind === "packet-build").flatMap((c) => c.familyIds ?? (c.familyId ? [c.familyId] : [])));
+    const repairers = new Set(liveClaims.filter((c) => c.laneKind === "repair" || c.laneKind === "shared-host-repair").flatMap((c) => c.familyIds ?? (c.familyId ? [c.familyId] : [])));
     for (const f of heldByLane) {
       if (builders.has(f)) legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a builder`);
       if (repairers.has(f)) legalProblems.push(`${f} was found BLOCKED_LEGAL_INPUT by a lane and is granted to a repairer`);

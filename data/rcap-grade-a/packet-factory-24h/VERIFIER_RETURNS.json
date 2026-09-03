@@ -21,10 +21,10 @@
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
   "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
   "counts": {
-    "returnDirectories": 42,
-    "rows": 498,
+    "returnDirectories": 43,
+    "rows": 501,
     "independentVerdicts": 183,
-    "failRepairRequired": 39,
+    "failRepairRequired": 38,
     "passIndependent": 136
   },
   "failRepairRequiredFamilies": [
@@ -65,7 +65,6 @@
     "vt_seal_nonconviction-set",
     "wa_vac_cannabis-set",
     "wa_vac_felony-set",
-    "wa_vac_homicide_victim_prostitution-set",
     "wv_conv_single_misdemeanor-set"
   ],
   "refusedAtTheClaimGate": {
@@ -2545,6 +2544,16 @@
       "unmeasuredObligations": [
         "SERVICE"
       ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "SERVICE"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -2669,6 +2678,23 @@
       "failedObligationNames": [],
       "unmeasuredObligations": [
         "CLIPPING_AND_OVERLAP",
+        "SERVICE"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": "Who must be served, and how, is not answerable from any committed record. The route contract at routes[13] of src/lib/legal-authority/routes/mississippi.json carries no service field, no notice field and no proof-of-service field — the question is not recorded as unresolved, it is simply not addressed anywhere in the record this route has. The packet states exactly that: 'No committed record this packet binds states who must be served on this route, or how. The office that answers it is the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order.' That is the honest thing to print, and it is not an answer to this obligation. It is recorded as blocked rather than as a pass because the packet does not say who must be served, and rather than as a failure because no repairer can supply from this repository an answer the repository does not hold.",
+          "evidence": {
+            "serviceFieldInTheRouteContract": "absent",
+            "noticeFieldInTheRouteContract": "absent",
+            "censusRequiresLegalReview": false,
+            "packetStatesTheAbsence": true,
+            "officeNamed": true,
+            "whoCanClearIt": "counsel, or a record that establishes the service rule for a § 99-15-26(5) petition. Not a repair lane."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
         "SERVICE"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
@@ -3049,6 +3075,22 @@
       "failedObligations": [],
       "failedObligationNames": [],
       "unmeasuredObligations": [
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
         "FEE_AND_WAIVER",
         "SERVICE"
       ],
@@ -5545,6 +5587,48 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf34",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The boundary packet clips shared-field values. Eighteen of 20 DefName appearances and six of seven repeated DefAddrStr appearances are incomplete or collide with adjacent printed text on pages 18, 23, 24, 27, 30, 31, 35, 38, 40, and 43. Examples: page 23 ends the name at 'Alexandrina-Katharine Montgome'; page 35 ends the street at '12345 Southwest Grandview Bouleva'; page 43 ends a name at '...Vandenberg-Oyel'. No page is blank or cropped.",
+          "evidence": {
+            "rasterPagesInspected": 86,
+            "contactSheetsInspected": 2,
+            "pagesWithDefects": [
+              18,
+              23,
+              24,
+              27,
+              30,
+              31,
+              35,
+              38,
+              40,
+              43
+            ],
+            "clippedNameAppearances": 18,
+            "clippedStreetAddressAppearances": 6,
+            "visualDefectsCounter": 24,
+            "blankPages": 0,
+            "croppedPages": 0
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
       "superseded": false
     },
     {
@@ -6058,6 +6142,16 @@
       "unmeasuredObligations": [
         "FEE_AND_WAIVER"
       ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "This is the blocked obligation and it is not scored. Recorded for whoever discharges the block: the packet already states the fee first-hand from the form's own face — \"There is no application fee\", quoted from the printed instruction, which I confirmed at line 2 of the extracted fixture text — records no waiver because there is no fee to waive, and separately distinguishes the DCJS Record Review fee and a possible notary charge as not being charges for this application. The open input is an artifact-specific approval, not a missing fact; on the evidence the packet now carries, the block looks dischargeable by re-reading rather than by new work, but discharging it is not this lane's to do.",
+          "evidence": "MASTER_QUEUE wave2LegalBlock and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json read here; participant-instructions.md read against pdftotext of the committed fixture bytes"
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
@@ -6075,6 +6169,21 @@
         "filingInstructions",
         "legalInput"
       ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "legalInput",
+          "finding": "MASTER_QUEUE records this family legalInputStatus OPEN_LEGAL_INPUT with basis LEGAL_APPROVAL_VERDICT, and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json records the decisive obligation — fee and waiver treatment for a named court — as an input still to be supplied and recorded in the controlling file before re-verification. The form's own face prints 'There is no application fee', but no controlling record has yet absorbed that answer and closed the input; an independent verifier does not settle open legal inputs. Until the input is recorded, no completeness verdict can issue.",
+          "evidence": {
+            "queueLegalInputStatus": "OPEN_LEGAL_INPUT",
+            "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+            "assignment": "data/rcap-grade-a/launch-control/WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json — family ny_mrta_marijuana-set, decisiveObligation 'fee and waiver treatment', action 'supply the missing input and record it in the controlling file, then re-verify'",
+            "faceEvidence": "the official form prints 'NOTE: There is no application fee.'"
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "legalInput"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
@@ -6089,6 +6198,24 @@
       "failedObligations": [],
       "failedObligationNames": [],
       "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "This is the obligation the owner block names, and it is not this reader's to clear. What can be recorded: MASTER_QUEUE at this base carries wave2LegalBlock {superseded: false, wave2DecisiveObligation: 'fee and waiver treatment', wave2LegalInputClass: MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT, wave2SendToLawrence: false}, with legalInputStatus OPEN_LEGAL_INPUT and legalInputBasis LEGAL_APPROVAL_VERDICT. What the packet now says, measured: it states 'There is no application fee', quotes the form's own printed parenthesis '(NOTE: There is no application fee.)' from the same instruction that says where to submit it, and records that the committed New York track record says the same and records no fee waiver because there is no fee to waive. It then separates two costs that are not this fee — the DCJS Record Review, which is a separate request to a separate agency, and a notary's charge where the submission channel requires notarisation, noting that nothing in the held sources sets that figure and that it is not a court fee. On the standard the owner set — a figure may be published only on current primary authority or on an official form the packet encloses — a zero-fee statement taken from the enclosed official form's own printed face is the permitted basis. That is a measurement, not an approval, and the approval input remains outstanding.",
+          "evidence": {
+            "legalInputStatus": "OPEN_LEGAL_INPUT",
+            "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+            "wave2Superseded": false,
+            "wave2DecisiveObligation": "fee and waiver treatment",
+            "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
+            "packetFeeBasis": "the enclosed official form's own printed face",
+            "packetFigure": "no application fee"
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
         "FEE_AND_WAIVER"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
@@ -9126,6 +9253,16 @@
       "unmeasuredObligations": [
         "COMPONENT_SET"
       ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The delivered review set physically contains all four statutory drafts and the unchanged BCI companion, but the packet says the drafts are not filing-ready and that the current local-court application, caption and filing instructions must still be obtained. build-findings.json and the queue keep that route-family binding/legal approval open, so the complete live filing component set cannot be established by this lane.",
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf32/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-oh-custom-pleading-clean-tracks",
@@ -9181,6 +9318,23 @@
       "failedObligationNames": [],
       "unmeasuredObligations": [
         "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The packet states everything the record holds, and the record does not hold the fee a participant would actually pay to file. Its dedicated 'WHAT THIS COSTS' page states, quoted from the registry, that OSBI treats expunging a court record as free and charges $150 to expunge an arrest record, that local law-enforcement fees may accompany it, that OSBI takes cashier's cheques or money orders and not personal cheques, and — in terms — that 'The district court filing fee is not established and is recorded as an open question', with the waiver recorded as 'Not established.' That is the honest and complete statement of a record that does not answer the question. It is recorded as blocked rather than as a pass because a participant still cannot learn what filing costs, and rather than as a failure because the registry itself carries this as a release_blocker on participant_instructions — 'The district court filing fee, which the review records as unresolved and which the packet therefore cannot state' — so no repairer can supply it from this repository.",
+          "evidence": {
+            "osbiArrestRecordFeeStated": "$150",
+            "courtRecordExpungementStated": "free",
+            "districtCourtFilingFee": "not established; recorded as an open question, and the packet says so",
+            "waiverRouteStated": "Not established. The district court filing fee position is an open question.",
+            "registryClassification": "release_blocker / participant_instructions",
+            "whoCanClearIt": "counsel or a source acquisition, not a repair lane"
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
         "FEE_AND_WAIVER"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
@@ -10413,6 +10567,24 @@
       "unmeasuredObligations": [
         "SERVICE"
       ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": {
+            "packetStates": "the prosecutor must receive a copy of what you file, by mail or by email",
+            "packetSourcedTo": "UT-BCI-EXP-INSTRUCTIONS, rehashed here to 9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa, Step 2",
+            "bciSourceTextConfirmedFromBytes": true,
+            "trackRegistrySays": "The petitioner does not effect service in the ordinary case: the court sends the filing to the prosecuting attorney",
+            "censusSays": "The court sends the filing to the prosecuting attorney; the petitioner does not serve",
+            "bothRecordsAddressThisExactRoute": true,
+            "resolvableByA3": false
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "SERVICE"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_acquittal-set",
@@ -11150,7 +11322,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_dismissed_without_prejudice-set",
@@ -11405,6 +11577,28 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
       "superseded": true
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf34",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The manifest and instructions require stage-one BCI before court filing. Manifest order is BCI application, conditional release, cover sheet, petition, order, acceptance, consent, victim statement, reply. Both PDFs instead place 1000EX pp1-2, 1020EX pp3-5, 1044XX pp6-7, 1146XX p8, 1148XX pp9-10, 1149XX pp11-13, 1169XX pp14-16, BCI application pp17-18, and release p19. The prerequisite agency stage is last and the petition/order precede the cover sheet.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "PAGE_ORDER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_without_prejudice-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_limitations-set",
@@ -11980,6 +12174,16 @@
       "failedObligations": [],
       "failedObligationNames": [],
       "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
         "FEE_AND_WAIVER"
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
@@ -13116,6 +13320,22 @@
       "unmeasuredObligations": [
         "LEGAL_INPUT"
       ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "LEGAL_INPUT",
+          "finding": "This is what decides the row. The family's own committed treatment record (data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon) is exact_supported_deferral: the statute does not resolve whether a pardoned misdemeanour runs on the three-year clock at 13 V.S.A. § 7602(c) or the seven-year clock at § 7602(d), and that timing question decides when the participant may file at all. VERMONT_REPAIR.json's pardonRoute disposition — 'counsel question VTL01; leaves the build and verification queues until answered' — is still in force: the VTL01 output directory data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/ does not exist and no counsel answer is recorded anywhere in the repository. The MASTER_QUEUE carries legalInputStatus SETTLED, which VERMONT_REPAIR itself records as the Captain-side error that produced this filing-ready packet. A packet that tells a participant how to file when the law does not resolve whether they may file yet cannot pass, however mechanically complete it is.",
+          "evidence": {
+            "treatmentRecord": "data/rcap-all50/terminalization-treatments/vt.json — vt_seal_pardon: exact_supported_deferral",
+            "repairRecord": "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json pardonRoute.disposition",
+            "counselQuestion": "docs/rcap/grade-a/packet-factory-24h/vermont-repair/VTL01_VT_PARDON_CLOCK.md",
+            "vtl01OutputDirectory": "data/rcap-grade-a/codex-cloud/vtl01-vt-pardon-clock/ — DOES NOT EXIST",
+            "queueContradiction": "MASTER_QUEUE legalInputStatus SETTLED vs the treatment record's deferral"
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "LEGAL_INPUT"
+      ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
@@ -13563,7 +13783,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wa_vac_homicide_victim_prostitution-set",
@@ -13606,6 +13826,46 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf15/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
       "superseded": true
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf34",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The review set physically contains 09.0100, 09.0200, and guidance, but the track asks whether a distinct RCW 9.96.060(7) family-member form or modified pleading is required. The correct filing components cannot be established until that question is answered.",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Current bytes place participant.full_legal_name in Defendant and first-person Declarant fields, while the route separately requires applicantName and victimName. Their legally correct placement depends on the unresolved pleading, so these prefills cannot be validated as route-correct.",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "09.0100 has four printed grounds, but none names RCW 9.96.060(7) or authorizes a family member's first-person declaration for a deceased victim. Marking one would misstate the route; route-options-block.json prohibits generation/runtime selection pending the answer.",
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_homicide_victim_prostitution-set",
+      "superseded": false
     },
     {
       "familyId": "wa_vac_misdemeanor_ordinary-set",
@@ -13755,6 +14015,22 @@
         "SELF_HELP_STOP"
       ],
       "unmeasuredObligations": [
+        "FEE_AND_WAIVER",
+        "ROUTE_OPTIONS"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "This is a blocked obligation and it is not scored. The family's own route-options-block.json records it, and the reasoning holds on re-reading: the form carries no election for RCW 9.96.060(6), and its only printed occurrence of \"substance use disorder\" sits inside section 5's RCW 46.61.5055 DUI deferred-prosecution list — a phrase that matches this route's words while answering a different section's question. The packet marks no checkbox, which is the right refusal rather than a missing mark. requiredOptionsMissing=0 is consistent with that: there is no election to be missing, which is the whole problem.",
+          "evidence": "route-options-block.json read here and its reading of CrRLJ 09.0100 confirmed against the re-hashed source bytes"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "This is the second blocked obligation and it is not scored. Recorded for whoever discharges the block: neither CrRLJ 09.0100 nor CrRLJ 09.0300 states a filing fee, the packet does not invent one, and it directs the participant to the clerk of the sentencing court with three specific questions — whether a fee applies, the amount, and whether a waiver is available and how to apply. The open input is the current fee schedule for a named court, which the wave-2 record itself describes as an operational fact to look up rather than a question for counsel.",
+          "evidence": "MASTER_QUEUE wave2LegalBlock and WAVE_2_LEGAL_INPUT_ASSIGNMENTS.json read here; participant-instructions.md read against the re-hashed sources"
+        }
+      ],
+      "blockedLegalObligationNames": [
         "FEE_AND_WAIVER",
         "ROUTE_OPTIONS"
       ],

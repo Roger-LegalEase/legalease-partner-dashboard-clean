@@ -1159,7 +1159,21 @@ for (const f of IN.scoreboard.familiesDetail) {
   const sourceIds = docs.map((d) => d.sourceId);
   const sourceHashes = docs.filter((d) => d.heldAs?.sha256).map((d) => ({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier }));
 
-  const laneHold = laneReturnLegalHolds.get(familyId) ?? null;
+  /* A current independent BLOCKED_LEGAL_INPUT return is itself the freshest
+   * legal stop. It must not wait to become a stale-lane return before the
+   * queue can represent it, and it must carry the verifier's exact findings
+   * rather than collapse back to VERIFYING. */
+  const currentVerifierLegalHold = independentReturn?.verdict === "BLOCKED_LEGAL_INPUT"
+    ? {
+        familyId,
+        foundBy: [`${independentReturn.lane} (current independent verification)`],
+        why: (independentReturn.blockedLegalObligations ?? [])
+          .map((o) => `${o.obligation}: ${o.finding ?? "legal input unresolved"}`)
+          .join(" | ") || "a current independent verifier returned BLOCKED_LEGAL_INPUT",
+        evidencePath: independentReturn.evidencePath ?? null
+      }
+    : null;
+  const laneHold = currentVerifierLegalHold ?? laneReturnLegalHolds.get(familyId) ?? null;
   const answeredLimbs = legalHoldLimbsAnswered.get(familyId) ?? [];
   const laneHoldNarrowed = laneHold && answeredLimbs.length > 0
     ? {
@@ -1213,6 +1227,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
   else if (ownerCorrection) state = "LEGAL_BLOCKED";
+  else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
   else if (guidanceOnly) state = "LEGITIMATE_GUIDANCE_ONLY";
   /*
    * A returned verdict outranks an active-owner claim.

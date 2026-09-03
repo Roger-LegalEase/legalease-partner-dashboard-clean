@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d9297976756e0be85f7f2a4988354be02aaa0054",
+  "minimumCaptainSha": "47103273ba5a3fcce85e2899384e79677b33d470",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -68,24 +68,23 @@
     "remaining": 345,
     "sourceReady": 83,
     "sourceBlocked": 70,
-    "legalBlocked": 32,
-    "verifyPending": 34,
-    "repairRequired": 24,
+    "legalBlocked": 33,
+    "verifyPending": 30,
+    "repairRequired": 26,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 83,
     "COMPLETE_PACKET_PROVEN": 94,
-    "VERIFY_PENDING": 34,
+    "VERIFY_PENDING": 30,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 70,
-    "FAIL_REPAIR_REQUIRED": 24,
-    "LEGAL_BLOCKED": 22,
+    "FAIL_REPAIR_REQUIRED": 26,
+    "LEGAL_BLOCKED": 25,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "VERIFIED_PASS": 1,
-    "WRONG_DELIVERY_TYPE": 1,
-    "VERIFYING": 1
+    "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 91,
@@ -160,7 +159,7 @@
     "familiesPerBuilder": 3.5,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 83 do, so a full roster of 24 builders averages 3.5 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 102 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 103 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -24049,140 +24048,38 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "FILING_DESTINATION",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP",
-        "SERVICE"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The field map declares ExpungeCntyName a candidate_write bound to factId matter.county, with four widgets on pages 18, 27, 30 and 40. It is written on none of them. It is absent from the 17 entries in actual-writes.json 'written', absent from all 17 entries of 'writtenProof', and this reader found no ink at any of the four rects in the delivered bytes: the caption on each of those four pages reads 'Superior Court of New Jersey / Law Division / ______ County / (where you are filing)' with the county line blank. The build disposes of it only as {reason: explicit_mapping_conflicts_with_field_name, category: mapping_conflict} — a machinery conflict, not a participant-facing classification. The same shared build host writes this fact on its sibling: ny_mrta_marijuana-set writes Court_County = matter.county ('ALBANY') on its canonical fixture, proving the fact is held and writable. This is the sibling shape the Captain flagged, present here. The 17 values the build does declare are all correct: this reader read all 17 back from the delivered bytes (55 inked appearances canonical, 54 boundary, the one-value delta matching the declared 17/16 delta exactly), so the sibling's other shape — declaring more writes than the bytes carry — does NOT repeat here.",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The boundary packet clips shared-field values. Eighteen of 20 DefName appearances and six of seven repeated DefAddrStr appearances are incomplete or collide with adjacent printed text on pages 18, 23, 24, 27, 30, 31, 35, 38, 40, and 43. Examples: page 23 ends the name at 'Alexandrina-Katharine Montgome'; page 35 ends the street at '12345 Southwest Grandview Bouleva'; page 43 ends a name at '...Vandenberg-Oyel'. No page is blank or cropped.",
           "evidence": {
-            "field": "ExpungeCntyName",
-            "decision": "candidate_write",
-            "factId": "matter.county",
-            "pages": [
+            "rasterPagesInspected": 86,
+            "contactSheetsInspected": 2,
+            "pagesWithDefects": [
               18,
+              23,
+              24,
               27,
               30,
-              40
+              31,
+              35,
+              38,
+              40,
+              43
             ],
-            "rects": [
-              {
-                "x": 391.748,
-                "y": 694.263,
-                "width": 148.298,
-                "height": 16.128
-              },
-              {
-                "x": 391.762,
-                "y": 690.944,
-                "width": 174.458,
-                "height": 16.127
-              },
-              {
-                "x": 398.979,
-                "y": 682,
-                "width": 148.298,
-                "height": 16.127
-              },
-              {
-                "x": 392.286,
-                "y": 676.158,
-                "width": 163.786,
-                "height": 16.127
-              }
-            ],
-            "inkedInDeliveredBytes": false,
-            "inWrittenList": false,
-            "inWrittenProof": false,
-            "buildDisposition": "explicit_mapping_conflicts_with_field_name / mapping_conflict",
-            "siblingWritesSameFact": "ny_mrta_marijuana-set Court_County = matter.county",
-            "declaredWritesVerifiedInBytes": {
-              "canonicalDeclared": 17,
-              "canonicalInkedAppearances": 55,
-              "boundaryDeclared": 16,
-              "boundaryInkedAppearances": 54,
-              "allDeclaredValuesFound": true
-            }
-          }
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Seven blanks reach the participant undisclosed. (1) The four ExpungeCntyName caption blanks above carry no blankTreatment at all — unlike SccCntyName, ProbCntyName and Prob2CntyName, which carry blankTreatment REQUIRED_BEFORE_FILING and DO appear in the instructions list — so the participant is never told to write the county in the caption of the Petition, the Order for Hearing, the Expungement Order or the Proof of Notice. (2) arrest3Statute, arrest4Statute and arrest5Statute are classified signature_or_date_participant_completion. They are statute cells in an arrest table, not signature or date fields; rows 1 and 2 of the same column are correctly REQUIRED_BEFORE_FILING and DO appear in the instructions. Because of the misclassification those three cells are omitted from the participant's 77-item blank list, while arrest3Dt, arrest3CaseNum, arrest4Dt, arrest4CaseNum, arrest5Dt and arrest5CaseNum are all listed. The participant is handed rows 3, 4 and 5 with the statute column silently missing.",
-          "evidence": {
-            "undisclosedCaptionBlanks": 4,
-            "misclassifiedStatuteCells": [
-              "arrest3Statute",
-              "arrest4Statute",
-              "arrest5Statute"
-            ],
-            "misclassifiedAs": "signature_or_date_participant_completion",
-            "correctlyClassifiedPeers": [
-              "arrest1Statute",
-              "arrest2Statute"
-            ],
-            "listedBlanksInInstructions": 77,
-            "instructionsFile": "participant-instructions.md"
-          }
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "finding": "The packet states no destination. The whole of what participant-instructions.md says about it is the catch-all at line 12: 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.' The registry entry for this family's own track records the answer: kind court, 'Superior Court, Criminal Division', 'Filed in the county of residence or a county where a conviction was adjudged, through the eCourts Expungement System or on the Judiciary kit forms.' This is the exact shape a prior lane failed on the sibling ny_mrta_marijuana-set, and the repair reached that sibling: NY's line 12 now reads 'Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.' NJ still carries the unrepaired line.",
-          "evidence": {
-            "packetLine12": "Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.",
-            "registryDestination": "Superior Court, Criminal Division — filed in the county of residence or a county where a conviction was adjudged, through the eCourts Expungement System or on the Judiciary kit forms",
-            "siblingRepairedLine12": "Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, Cost and Who must be served are each answered in their own section below.",
-            "sectionsPresentInSibling": [
-              "What it costs to file",
-              "Where to file",
-              "Who must be served",
-              "Where self-help ends"
-            ],
-            "sectionsPresentHere": []
-          }
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet states no fee and no waiver, and tells the participant to go and confirm fees. The registry entry for this family's own track answers it, and the answer is participant-favourable: 'No court filing fee. New Jersey Courts states \"It's free\", and the Judiciary kit was updated in June 2020 to remove the fee. The State Police charge for the SBI criminal history record.' Sending a participant away to confirm a fee that the bound record says does not exist is the defect, not the absence of a figure.",
-          "evidence": {
-            "packetFeeStatement": "none — only the line 12 catch-all",
-            "registryFees": "No court filing fee. New Jersey Courts states \"It's free\", and the Judiciary kit was updated in June 2020 to remove the fee. The State Police charge for the SBI criminal history record.",
-            "registryFeeWaiverRuleHeld": true
-          }
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet says only 'Complete service certificates only after service actually occurs' and defers service to the line 12 catch-all. It never says who must be served. The registry records both the service rule — 'Service on the required parties with the petition, and service of a certified copy of the signed order on every record-holding agency after entry' — and the notice list: the county prosecutor, the Attorney General, the State Police, the courts involved, the arresting agency, probation and any relevant municipal court. On a route whose kit contains a Proof of Notice form (p. 40) and three cover letters to served parties, a participant who is not told whom to serve cannot complete the packet.",
-          "evidence": {
-            "packetServiceStatement": "timing caution only; no recipients named",
-            "registryService": "Service on the required parties with the petition, and service of a certified copy of the signed order on every record-holding agency after entry.",
-            "registryNotice": "The county prosecutor, the Attorney General, the State Police, the courts involved, the arresting agency, probation and any relevant municipal court.",
-            "kitFormsRequiringService": [
-              "Form E Notice of Hearing",
-              "Form F Proof of Notice",
-              "Form G Notice Expungement Granted"
-            ]
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "Measured by the prescribed instrument. The registry entry for track nj_disorderly_persons records 29 self-help stop conditions in its own words, including hard ones: 'Immigration exposure. New Jersey expungement has no federal immigration effect.'; 'Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.'; 'Prior expungement, which N.J.S.A. 2C:52-14(e) bars except on the Clean Slate route.'; 'Prosecutor objection.'; 'Counting disputes at the five-offence line.' The packet conveys none of them. A grep of the whole family directory for 'stop and get help', 'immigration', 'five-offence', 'Title 39' and 'prosecutor objection' returns zero files. The sibling ny_mrta_marijuana-set, same build host, carries a full 'Where self-help ends' section quoting its registry stops word for word. On the specific hearing test: this registry entry records no hearing as the end of self-help, and the packet contains no sentence telling the participant to attend one, so that sub-test is clean — the failure is the wholesale absence of the section.",
-          "evidence": {
-            "registryStopConditions": 29,
-            "conveyedInPacket": 0,
-            "filesMentioningAnyStopCondition": 0,
-            "hearingSubTest": "clean — registry records no hearing as end of self-help and packet directs the participant to none",
-            "siblingWithSection": "ny_mrta_marijuana-set"
+            "clippedNameAppearances": 18,
+            "clippedStreetAddressAppearances": 6,
+            "visualDefectsCounter": 24,
+            "blankPages": 0,
+            "croppedPages": 0
           }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
@@ -27733,7 +27630,7 @@
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": {
         "superseded": false,
         "reason": "the current independent read is BLOCKED_LEGAL_INPUT, which does not answer the blocked obligation",
@@ -27743,7 +27640,14 @@
         "wave2SendToLawrence": false
       },
       "ownerCorrectionRequired": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "rcap-oh-custom-pleading-clean-tracks",
+        "foundBy": [
+          "vf32 (current independent verification)"
+        ],
+        "why": "COMPONENT_SET: The delivered review set physically contains all four statutory drafts and the unchanged BCI companion, but the packet says the drafts are not filing-ready and that the current local-court application, caption and filing instructions must still be obtained. build-findings.json and the queue keep that route-family binding/legal approval open, so the complete live filing component set cannot be established by this lane.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf32/rows.json"
+      },
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -27764,7 +27668,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs",
@@ -31825,18 +31729,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "PAGE_ORDER"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
+          "obligation": "PAGE_ORDER",
+          "finding": "The manifest and instructions require stage-one BCI before court filing. Manifest order is BCI application, conditional release, cover sheet, petition, order, acceptance, consent, victim statement, reply. Both PDFs instead place 1000EX pp1-2, 1020EX pp3-5, 1044XX pp6-7, 1146XX p8, 1148XX pp9-10, 1149XX pp11-13, 1169XX pp14-16, BCI application pp17-18, and release p19. The prerequisite agency stage is last and the petition/order precede the cover sheet.",
           "evidence": null
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
@@ -35118,14 +35022,21 @@
         "directAttachment": true
       },
       "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "wa_vac_homicide_victim_prostitution-set",
+        "foundBy": [
+          "vf34 (current independent verification)"
+        ],
+        "why": "COMPONENT_SET: The review set physically contains 09.0100, 09.0200, and guidance, but the track asks whether a distinct RCW 9.96.060(7) family-member form or modified pleading is required. The correct filing components cannot be established until that question is answered. | KNOWN_PREFILLS: Current bytes place participant.full_legal_name in Defendant and first-person Declarant fields, while the route separately requires applicantName and victimName. Their legally correct placement depends on the unresolved pleading, so these prefills cannot be validated as route-correct. | ROUTE_OPTIONS: 09.0100 has four printed grounds, but none names RCW 9.96.060(7) or authorizes a family member's first-person declaration for a deceased victim. Marking one would misstate the route; route-options-block.json prohibits generation/runtime selection pending the answer.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json"
+      },
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -35142,19 +35053,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
@@ -35372,7 +35275,7 @@
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": {
         "superseded": false,
         "reason": "the current independent read is BLOCKED_LEGAL_INPUT, which does not answer the blocked obligation",
@@ -35382,7 +35285,14 @@
         "wave2SendToLawrence": false
       },
       "ownerCorrectionRequired": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "wa_vac_substance_use_disorder-set",
+        "foundBy": [
+          "vf06 (current independent verification)"
+        ],
+        "why": "ROUTE_OPTIONS: This is a blocked obligation and it is not scored. The family's own route-options-block.json records it, and the reasoning holds on re-reading: the form carries no election for RCW 9.96.060(6), and its only printed occurrence of \"substance use disorder\" sits inside section 5's RCW 46.61.5055 DUI deferred-prosecution list — a phrase that matches this route's words while answering a different section's question. The packet marks no checkbox, which is the right refusal rather than a missing mark. requiredOptionsMissing=0 is consistent with that: there is no election to be missing, which is the whole problem. | FEE_AND_WAIVER: This is the second blocked obligation and it is not scored. Recorded for whoever discharges the block: neither CrRLJ 09.0100 nor CrRLJ 09.0300 states a filing fee, the packet does not invent one, and it directs the participant to the clerk of the sentencing court with three specific questions — whether a fee applies, the amount, and whether a waiver is available and how to apply. The open input is the current fee schedule for a named court, which the wave-2 record itself describes as an operational fact to look up rather than a question for counsel.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+      },
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -35403,7 +35313,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFYING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",

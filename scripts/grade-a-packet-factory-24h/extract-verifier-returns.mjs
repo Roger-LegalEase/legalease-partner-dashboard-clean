@@ -104,6 +104,7 @@ const obligationFailed = (raw) => {
   throw new Error(`unreadable obligation result ${JSON.stringify(r)}; the vocabulary is "PASS"/"FAIL"/"NOT_MEASURABLE_HERE"/"BLOCKED_LEGAL_INPUT" or a boolean and nothing else`);
 };
 const obligationUnmeasured = (r) => UNMEASURED.has(canonicalResult(r));
+const obligationBlockedLegal = (r) => canonicalResult(r) === "BLOCKED_LEGAL_INPUT";
 
 /*
  * A failing verdict that names no obligation is a verdict no repairer can act
@@ -199,6 +200,7 @@ for (const { base, name: d } of sweep) {
     if (verdict && !VERDICTS.includes(verdict)) { problems.push(`${d}/${familyId}: undeclared verdict ${verdict}`); continue; }
     let failedObligations = [];
     let unmeasuredObligations = [];
+    let blockedLegalObligations = [];
     if (r.proofObligations) {
       try {
         failedObligations = Object.entries(r.proofObligations)
@@ -206,6 +208,9 @@ for (const { base, name: d } of sweep) {
           .map(([k, v]) => ({ obligation: k, finding: v.finding ?? null, evidence: v.evidence ?? null }));
         unmeasuredObligations = Object.entries(r.proofObligations)
           .filter(([, v]) => obligationUnmeasured(v?.result)).map(([k]) => k).sort();
+        blockedLegalObligations = Object.entries(r.proofObligations)
+          .filter(([, v]) => obligationBlockedLegal(v?.result))
+          .map(([k, v]) => ({ obligation: k, finding: v.finding ?? null, evidence: v.evidence ?? null }));
       } catch (e) { problems.push(`${d}/${familyId}: ${e.message}`); continue; }
     }
     let obligationsReadFromElsewhere = false;
@@ -238,6 +243,10 @@ for (const { base, name: d } of sweep) {
       failedObligations, failedObligationNames: failedObligations.map((x) => x.obligation).sort(),
       ...(obligationsReadFromElsewhere ? { obligationsReadFromElsewhere: "this row's proofObligations named none; the failing obligations below were read from a named-obligation block elsewhere in the same row" } : {}),
       unmeasuredObligations,
+      ...(verdict === "BLOCKED_LEGAL_INPUT" && blockedLegalObligations.length ? {
+        blockedLegalObligations,
+        blockedLegalObligationNames: blockedLegalObligations.map((x) => x.obligation).sort(),
+      } : {}),
       evidencePath: `${base}/${d}/rows.json`,
       repairAssignmentsPath: fs.existsSync(path.join(ROOT, base, d, "repair-assignments.json"))
         ? `${base}/${d}/repair-assignments.json` : null,
