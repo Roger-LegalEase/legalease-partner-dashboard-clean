@@ -55,7 +55,7 @@ for (const [factId, unsafeValue] of [
 
 - [ ] **Step 3: Run the verifier and observe the expected failure**
 
-Run: `node scripts/verify-ms-clinic-filing-revision.mjs`  
+Run: `node scripts/verify-ms-clinic-filing-revision.mjs`
 Expected: FAIL at the first missing filing-revision fact or pleading section.
 
 - [ ] **Step 4: Commit the red test**
@@ -137,7 +137,7 @@ The canonical fixture must use `City of Jackson` as the synthetic docket plainti
 
 - [ ] **Step 5: Run the filing-revision verifier**
 
-Run: `node scripts/verify-ms-clinic-filing-revision.mjs`  
+Run: `node scripts/verify-ms-clinic-filing-revision.mjs`
 Expected: progress beyond missing-fact assertions and fail at unimplemented composer behavior.
 
 ### Task 3: Implement composer gates and pleading blocks
@@ -177,7 +177,7 @@ Map the specification's text and fact references into the typed blocks. Skip the
 
 - [ ] **Step 4: Run the verifier**
 
-Run: `node scripts/verify-ms-clinic-filing-revision.mjs`  
+Run: `node scripts/verify-ms-clinic-filing-revision.mjs`
 Expected: composer gates and structure PASS; renderer assertions still FAIL.
 
 ### Task 4: Render court documents as Mississippi pleadings
@@ -200,12 +200,12 @@ Keep the participant signature and contact block together. Render the verificati
 
 - [ ] **Step 4: Verify deterministic bytes and renderer output**
 
-Run: `node scripts/verify-ms-clinic-filing-revision.mjs`  
+Run: `node scripts/verify-ms-clinic-filing-revision.mjs`
 Expected: PASS with five documents, deterministic bytes, and no prohibited text.
 
 - [ ] **Step 5: Run the original demo verifier and typecheck**
 
-Run: `node scripts/verify-ms-clinic-mode-demo.mjs && npm run typecheck`  
+Run: `node scripts/verify-ms-clinic-mode-demo.mjs && npm run typecheck`
 Expected: PASS after updating its expected facts, version, review state, and page assertions.
 
 ### Task 5: Regenerate held artifacts and authority evidence
@@ -235,12 +235,12 @@ counselReview: { status: "revision_pending_named_mississippi_counsel", approvedA
 
 - [ ] **Step 2: Regenerate PDFs and hashes**
 
-Run: `node scripts/generate-ms-clinic-demo-packet.mjs`  
+Run: `node scripts/generate-ms-clinic-demo-packet.mjs`
 Expected: two deterministic PDFs and evidence bound to the new specification hash.
 
 - [ ] **Step 3: Regenerate authority projections**
 
-Run: `node scripts/generate-rcap-grade-a-fulfillment-authority.mjs`  
+Run: `node scripts/generate-rcap-grade-a-fulfillment-authority.mjs`
 Expected: Mississippi remains `INCOMPLETE` and commercially held.
 
 ### Task 6: Raster review, full verification, and independent review

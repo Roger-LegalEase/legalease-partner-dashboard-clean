@@ -1,8 +1,8 @@
 # Mississippi Clinic Demo Filing-Document Revision Design
 
-**Date:** September 3, 2026  
-**Route:** `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`  
-**Packet family:** `ms-nonconv-set`  
+**Date:** September 3, 2026
+**Route:** `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`
+**Packet family:** `ms-nonconv-set`
 **Status:** Approved for implementation; filing and delivery remain held
 
 ## Decision
