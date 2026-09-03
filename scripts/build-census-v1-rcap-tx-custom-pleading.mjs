@@ -239,6 +239,31 @@ const FIXTURES = {
   }
 };
 
+const TX_TRACK_IDS = [
+  "tx_exp_no_charge", "tx_exp_dismissed", "tx_exp_limitations",
+  "tx_exp_pardon_innocence", "tx_exp_pardon_other", "tx_exp_unlawful_carry",
+  "tx_exp_mistaken_identity", "tx_exp_specialty_court"
+];
+
+function registryStopConditions() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT,
+    "data/record-clearing/legal-design-track-registry.json"), "utf8"));
+  const byCondition = new Map();
+  for (const trackId of TX_TRACK_IDS) {
+    const track = registry.tracks.find((candidate) => candidate.trackId === trackId);
+    assert.ok(track, `${trackId}: missing from committed legal-design track registry`);
+    for (const condition of track.selfHelpStopConditions ?? []) {
+      if (!byCondition.has(condition)) byCondition.set(condition, []);
+      byCondition.get(condition).push(trackId);
+    }
+  }
+  return [...byCondition.entries()].map(([condition, trackIds]) => ({ condition, trackIds }));
+}
+
+const REGISTRY_STOPS = registryStopConditions();
+const REGISTRY_STOP_LINES = REGISTRY_STOPS.map(({ condition, trackIds }) =>
+  `- [${trackIds.join(", ")}] ${condition}`);
+
 const DOTS = (n = 84) => ".".repeat(n);
 
 const S = {
@@ -484,13 +509,7 @@ const COMPOSED_COMPONENTS = {
       L.push("The cause number on the first page is left blank because the form itself says so: 'The Clerk's office will fill in the Cause Number when you file this form.'", "");
       L.push("WHO SERVES WHOM - AND IT IS NOT YOU. On all eight routes the CLERK sends the petition and the notice of hearing, by certified mail return receipt requested or by secure e-mail, electronic transmission or fax. The court sets a hearing NOT EARLIER THAN THE 30TH DAY after the petition is filed and gives a copy of the petition and the notice to each official, agency or entity listed, OTHER THAN central federal depositories. On receipt, DPS notifies those itself - so you do not chase the FBI.", "");
       L.push("WHEN TO STOP AND GET HELP INSTEAD.");
-      L.push("- The state opposes the petition, or seeks retention of records under art. 55A.302.");
-      L.push("- The arrest produced MULTIPLE CHARGES WITH MIXED OUTCOMES. State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated.");
-      L.push("- A FELONY from the same transaction is present or arguable, which moves the wait to three years and can defeat the petition.");
-      L.push("- The applicable limitations period is contested, or you want full rather than partial expunction and the limitations analysis is not clear.");
-      L.push("- There is any ABSCONDING OR BAIL-JUMPING history. Article 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054.");
-      L.push("- The arrest may have been made on a community-supervision violation warrant.");
-      L.push("- You are not a United States citizen.", "");
+      L.push(...REGISTRY_STOP_LINES, "");
       L.push("WHAT THIS FORM IS NOT. It is not the expunction petition. It does not ask for expunction and it does not start a case. It asks the court to let you file without paying the fee, and it goes WITH the petition your route requires.");
       L.push("", `Route: ${ROUTE.routeKeys.join(" ; ")}`);
       return L.join("\n");
@@ -582,13 +601,7 @@ const INSTRUCTIONS = {
     "- **The county and state in the declaration**, which is where you sign."
   ],
   stopsLines: [
-    "- the state opposes the petition, or seeks retention of records under art. 55A.302;",
-    "- the arrest produced **multiple charges with mixed outcomes**. *State v. T.S.N.* and *Ex parte R.P.G.P.* govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated;",
-    "- a **felony from the same transaction** is present or arguable, which moves the wait to three years and can defeat the petition;",
-    "- the applicable limitations period is contested, or you want full rather than partial expunction and the limitations analysis is not clear;",
-    "- there is any **absconding or bail-jumping** history. Art. 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054;",
-    "- the arrest may have been made on a community-supervision violation warrant;",
-    "- you are not a United States citizen.",
+    ...REGISTRY_STOP_LINES,
     "",
     "Where self-help stops, the district clerk of the county where the petition will be filed answers the fee and publishes the agency list, and the clerk must give you this form free and without your asking."
   ],
@@ -1389,6 +1402,14 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+
+  assert.equal(REGISTRY_STOPS.length, 26,
+    "the eight served tracks must retain all 26 unique committed self-help stops");
+  const stopGuidance = INSTRUCTIONS.stopsLines.join("\n");
+  for (const { condition } of REGISTRY_STOPS) {
+    assert.ok(stopGuidance.includes(condition),
+      `participant guidance dropped a committed self-help stop: ${condition}`);
+  }
 
   const { resolved, failures } = resolveSources();
   if (failures.length > 0) {

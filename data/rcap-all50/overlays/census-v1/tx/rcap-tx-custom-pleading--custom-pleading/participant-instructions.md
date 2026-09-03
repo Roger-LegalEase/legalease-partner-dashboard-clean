@@ -150,13 +150,32 @@ Each is a blank on the official form named beside it. Fill every one that belong
 
 ## When to stop and get help instead
 
-- the state opposes the petition, or seeks retention of records under art. 55A.302;
-- the arrest produced **multiple charges with mixed outcomes**. *State v. T.S.N.* and *Ex parte R.P.G.P.* govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated;
-- a **felony from the same transaction** is present or arguable, which moves the wait to three years and can defeat the petition;
-- the applicable limitations period is contested, or you want full rather than partial expunction and the limitations analysis is not clear;
-- there is any **absconding or bail-jumping** history. Art. 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054;
-- the arrest may have been made on a community-supervision violation warrant;
-- you are not a United States citizen.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] The state opposes the petition, or seeks retention of records under art. 55A.302.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] The arrest produced multiple charges with mixed outcomes. State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] A felony from the same transaction is present or arguable, which moves the wait to three years and can defeat the petition.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] The applicable limitations period is contested, or the participant wants full rather than partial expunction and the limitations analysis is not clear.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] There is any absconding or bail-jumping history. Article 55A.154 makes an intentional or knowing absconder ineligible under arts. 55A.052(a)(1) to (3) and 55A.054, and a participant may not self-identify the fact.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] The arrest may have been made on a community-supervision violation warrant under art. 42A.751(b), which art. 55A.153 bars.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] Venue is unclear because the arrest and the alleged offence occurred in different counties.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] Immigration consequences.
+- [tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity, tx_exp_specialty_court] The participant wants to attack the underlying case rather than clear it.
+- [tx_exp_no_charge] Whether prosecuting on the offence is still possible, which decides partial versus full expunction under art. 55A.302(c).
+- [tx_exp_no_charge] Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out.
+- [tx_exp_dismissed] The dismissal reason is not stated on the face of the dismissal order.
+- [tx_exp_dismissed] The participant completed deferred adjudication rather than receiving a dismissal.
+- [tx_exp_dismissed] Whether the pretrial diversion was authorised under Government Code 76.011 rather than being an informal county programme.
+- [tx_exp_limitations] The limitations period itself, including tolling. This is a legal conclusion rather than a lookup, and the packet does not compute it.
+- [tx_exp_limitations] Any question whether the limitations clock was tolled by absence from the state, a pending indictment, or anything else.
+- [tx_exp_pardon_innocence] The pardon does not say on its face that it was granted on the basis of actual innocence.
+- [tx_exp_pardon_innocence] The underlying clemency or habeas relief is still being sought, which is outside scope.
+- [tx_exp_pardon_other] The document is not a pardon, or its type cannot be confirmed.
+- [tx_exp_unlawful_carry] The offence date or the statutory subsection cannot be confirmed from court records.
+- [tx_exp_mistaken_identity] Any dispute about whether the applicant is in fact the arrested person.
+- [tx_exp_mistaken_identity] The prosecutor declines to verify the application, which stops the matter before it reaches any court.
+- [tx_exp_mistaken_identity] The applicant cannot obtain authenticated fingerprint records.
+- [tx_exp_specialty_court] The attorney representing the state does not consent, which closes the streamlined route.
+- [tx_exp_specialty_court] The 30-day window has closed.
+- [tx_exp_specialty_court] A prior expunction was granted on the same specialty-court ground.
 
 Where self-help stops, the district clerk of the county where the petition will be filed answers the fee and publishes the agency list, and the clerk must give you this form free and without your asking.
 

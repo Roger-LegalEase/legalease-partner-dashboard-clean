@@ -4,7 +4,7 @@ This packet is prepared for **Correction Submission for an Automatic Partial Sea
 
 **You do not file anything in court on this route, and there is nothing to apply for.** The recorded New York rule is that CPL § 160.55 provides **automatic partial sealing** when a criminal action terminates in a qualifying violation or traffic-infraction conviction, unless the prosecutor or court timely establishes that the interests of justice require otherwise. For a post-November 1, 1991 qualifying disposition, **the participant ordinarily files nothing** — the clerk of the court notifies DCJS and the appropriate law-enforcement agencies.
 
-**This packet is for the case where that did not happen.** The seal is supposed to be automatic; sometimes the record does not show it. The recorded correction workflow is: obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and send the certified disposition to DCJS for correction. The two letters in this packet are the third and fourth of those steps.
+**This packet is for the DCJS step after the sentencing-court correction request.** The recorded workflow is: obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and then send the certified disposition to DCJS for correction. The court-request step has its own declared sibling family and is not duplicated here.
 
 **Read this before you start, because it decides whether this packet is any use to you at all.** A § 160.55 partial seal does **not seal the court file**. The recorded rule is exact about it, and about what follows: qualifying violations may disappear from common DCJS-based criminal-history results while the courthouse file remains publicly inspectable. Nobody may promise you that an ordinary § 160.55 violation will receive full court-file sealing through § 160.55, and this packet does not.
 
@@ -12,9 +12,9 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 ## Who decides this, and what you do not file
 
-**Two offices hold two different records, and each corrects only its own.** The court that disposed of your case holds the court record and originates the sealing notice. DCJS holds the statewide criminal-history record that most background checks are run against. Asking one to fix the other's record does not work, which is why the recorded workflow goes to both, in order.
+**Two offices hold two different records, and each corrects only its own.** The court that disposed of your case holds the court record and originates the sealing notice. DCJS holds the statewide criminal-history record that most background checks are run against. Complete the court-request step through its separate packet before using this DCJS packet.
 
-**You file no motion, no petition and no application.** On the recorded rule, the participant with a post-1991 qualifying disposition ordinarily files nothing; the seal is the law's doing and the clerk's, not yours. Both instruments here are letters asking a record-holder to correct its own record.
+**You file no motion, no petition and no application.** On the recorded rule, the participant with a post-1991 qualifying disposition ordinarily files nothing; the seal is the law's doing and the clerk's, not yours. The instrument here is correspondence asking DCJS to correct its own record.
 
 **Neither office is deciding whether you qualify.** The seal either applied at disposition or it did not. What you are asking for is that the record show what the statute already did — which is why the certified disposition is the whole of your evidence.
 
@@ -24,15 +24,12 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 | Component | What it is |
 | --- | --- |
-| `court_transmission_correction_request` | the letter you sign and send to the court that disposed of your case, asking it to transmit or correct the sealing notice for a disposition that seals automatically under CPL Sec. 160.55 |
 | `dcjs_correction_submission` | the letter you sign and send to DCJS with your certified disposition, asking it to correct its record so that the automatic partial seal appears on it |
 | `agency_route_sheet` | which office holds which record, what the partial seal does and does not reach, what each step costs so far as the repository establishes, and what you do NOT file |
 
 ## Where this goes
 
-**Letter one goes to the court that disposed of your case** — the criminal court, city, town or village court, or the county court, whichever entered the disposition. Its own records office is where a request to transmit or correct a sealing notice is received, because that court is where the notice originates.
-
-**Letter two goes to the New York State Division of Criminal Justice Services, to its Record Review Unit** — the office within DCJS that handles a person's request about their own criminal-history record. That is where a certified disposition is sent for correction under the recorded workflow.
+**This packet goes to the New York State Division of Criminal Justice Services, to its Record Review Unit** — the office within DCJS that handles a person's request about their own criminal-history record. That is where a certified disposition is sent for correction under the recorded workflow.
 
 **The repository does not hold either office's street address**, and the address a court's records office publishes changes. **The two authorities are named, and both can be reached:** the records office of the court printed on your certificate of disposition — that certificate names the court that issued it — and the DCJS Record Review Unit, which publishes the address it receives record-review and correction correspondence at. Ask each for its current address before you send.
 
@@ -50,11 +47,11 @@ The platform filled in what it holds about you: your name, your date of birth, y
 
 ## Who else has to be told
 
-**There is nobody to serve.** This is correspondence with two record-holding offices, not a proceeding: there is no opposing party, no district attorney to notify, no affidavit of service and no return date. No held record states any service requirement for either letter.
+**There is nobody to serve.** This is correspondence with a record-holding office, not a proceeding: there is no opposing party, no district attorney to notify, no affidavit of service and no return date. No held record states any service requirement for this submission.
 
-**Send each letter to its own office and keep dated proof.** Use a method that gives you a receipt and keep a full copy of everything, including the certified disposition you enclose. If either office later says nothing arrived, that receipt is what you have.
+**Keep dated proof of the DCJS submission.** Use a method that gives you a receipt and keep a full copy of everything, including the certified disposition you enclose.
 
-**Send the court letter first and the DCJS letter second.** That is the recorded order — the court transmits or corrects the notice, and the certified disposition then goes to DCJS — and sending them the other way round asks DCJS to correct a record on a notice the court has not sent.
+**Complete the separate sentencing-court request first, then send this DCJS submission.** That is the recorded order — the court transmits or corrects the notice, and the certified disposition then goes to DCJS.
 
 ## Documents you must obtain first
 
@@ -67,17 +64,6 @@ The platform filled in what it holds about you: your name, your date of birth, y
 ## The items you must supply
 
 Each is a labelled blank on the page named beside it. Fill every one that belongs to the page you are using, from the record itself, never from memory.
-
-### court_transmission_correction_request — Request to the Sentencing Court to Transmit or Correct the Sealing Notice
-
-| The blank on the document | What to write |
-| --- | --- |
-| Name of that court, as it is printed on the certificate of disposition | the name of the court that disposed of your case, copied from the certificate of disposition |
-| Address that court's records office receives correspondence at | the postal address that court's records office receives correspondence at - ask that office, since the repository holds no court address and they change |
-| What the criminal-history result shows for this case, and the date of the result | what your official criminal-history result still shows for this case, and the date printed on that result |
-| Date of the disposition, as printed on the certificate of disposition | the date of the disposition, copied exactly from the certificate of disposition |
-| Docket or case number of the case, as printed on the certificate of disposition | the docket or case number, copied exactly from the certificate of disposition |
-| How the case was disposed of, as printed on the certificate of disposition | how the case ended, copied exactly from the certificate of disposition - this is what makes the case one Sec. 160.55 seals automatically |
 
 ### dcjs_correction_submission — Correction Submission to the Division of Criminal Justice Services
 
@@ -94,18 +80,18 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 1. **Check first that the seal really has not applied.** Obtain your certificate of disposition and an official criminal-history result, and look at what the criminal-history result shows for this case. If the case no longer appears there, the automatic seal has worked and there is nothing to correct.
 2. **Check that the case is a post-November 1, 1991 disposition.** The recorded rule is that a pre-November 1, 1991 qualifying case may require a motion under the statute's legacy branch, which is a different instrument and is not in this packet.
 3. **Check that no interests-of-justice non-sealing order was entered.** If the court decided your case would not be sealed, nothing failed and this packet is the wrong instrument — see *When to stop and get help*.
-4. **Fill in every labelled blank on both letters** from the certificate of disposition and the criminal-history result. Each is listed in the table above with what belongs in it.
-5. **Sign and date each letter yourself.** The platform never signs for you and never dates a signature.
-6. **Send the court letter first**, to the records office of the court that disposed of the case, by a method that gives you a dated receipt.
-7. **Then send the DCJS letter**, with the certified disposition enclosed, to the DCJS Record Review Unit, again with a dated receipt.
+4. **Fill in every labelled blank on the DCJS submission** from the certificate of disposition and the criminal-history result. Each is listed in the table above with what belongs in it.
+5. **Sign and date the submission yourself.** The platform never signs for you and never dates a signature.
+6. **Complete the separate sentencing-court correction-request packet first**, and keep its dated delivery receipt.
+7. **Then send this DCJS submission**, with the certified disposition enclosed, to the DCJS Record Review Unit, again with a dated receipt.
 8. **Check the record afterwards.** Order another record review after a reasonable interval and see whether the case has gone from the criminal-history result. Keep both results — the one that showed the case and the one that does not.
 9. **Expect the court file to stay public.** The partial seal does not reach the courthouse file, and a corrected criminal-history result does not change that.
 
 ## Things the platform deliberately left blank
 
-- **Your signature on each letter, and the date beside it.** A signature is yours alone, and a date written before you sign it would be false.
+- **Your signature on the DCJS submission, and the date beside it.** A signature is yours alone, and a date written before you sign it would be false.
 - **Every fact about your case.** The platform holds no court record and no criminal-history result for you, and does not guess at either.
-- **The addresses of the two offices.** The repository holds neither, and both change; each office publishes its own.
+- **The street address of the DCJS Record Review Unit.** The repository does not hold it, and the unit publishes its current address.
 
 ## What this packet does not tell you, and who does
 
