@@ -15,10 +15,10 @@
   ],
   "cohortOnly": false,
   "counts": {
-    "rows": 13,
+    "rows": 15,
     "inFirstCohort": 5,
-    "documents": 26,
-    "pages": 152,
+    "documents": 30,
+    "pages": 184,
     "notEligible": 0
   },
   "rows": [
@@ -684,11 +684,174 @@
       "requestedScale": 2.5,
       "currentRasterState": "RASTER_PENDING",
       "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation::route::retroactive-first-offender-treatment-under-42-8-66",
+      "packetFamilyId": "rcap-ga-guidance-implementation",
+      "routeKey": "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66",
+      "route": "retroactive-first-offender-treatment-under-42-8-66",
+      "customerRouteId": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": true,
+      "equivalenceBasis": {
+        "masterQueue": "one COMPLETE_PACKET_PROVEN family routeKey",
+        "customerRegistry": "one customer route naming exactly this one known packet family",
+        "componentRoutes": "every rendered component is assigned to that one routeKey",
+        "bytes": "the route artifact is the family assembly itself; no copy or rewritten PDF exists"
+      },
+      "inFirstCohort": false,
+      "packetCommitSha": "775b43fb2f999951d7f0e17ae5f517af18e9193e",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+      "expectedPages": 4,
+      "fixtureSelection": {
+        "canonical": "the canonical family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes",
+        "boundary": "the boundary family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "retroactive-first-offender-treatment-under-42-8-66--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+          "pageCount": 4
+        },
+        {
+          "role": "canonical",
+          "name": "retroactive-first-offender-treatment-under-42-8-66--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+          "pageCount": 4
+        }
+      ],
+      "documentsDigest": "f37866d97a66d419dd42714b90bc9d2a39d3c9b6daab02a9a54ea9330b42185e",
+      "coverage": {
+        "documents": [
+          "retroactive-first-offender-treatment-under-42-8-66--boundary.pdf",
+          "retroactive-first-offender-treatment-under-42-8-66--canonical.pdf"
+        ],
+        "rastered": [
+          "retroactive-first-offender-treatment-under-42-8-66--boundary.pdf",
+          "retroactive-first-offender-treatment-under-42-8-66--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PASS",
+      "preexistingRasterAcceptance": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33605354695",
+        "jobId": "100168605630",
+        "boundToCanonicalSha256": "ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914",
+        "boundToBoundarySha256": "6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24",
+        "pagesMeasured": 8,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": 9837039993,
+          "name": "rcap-raster-rcap-ga-guidance-implementation-33605354695",
+          "zipSha256": "sha256:3e9642c8989f9a52089c619d5b338595938c01467f304a18c9743ba83e245e88",
+          "sizeInBytes": 3126341,
+          "expiresAt": "2026-09-16T07:56:06Z"
+        },
+        "source": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "whyItApplies": "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes"
+      },
+      "doesNotInheritTheFamilyReceipt": null
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading::route::first-offense-drug-possession-conditional-discharge-relief",
+      "packetFamilyId": "rcap-wv-custom-pleading",
+      "routeKey": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
+      "route": "first-offense-drug-possession-conditional-discharge-relief",
+      "customerRouteId": "WV:first-offense-drug-possession-conditional-discharge-relief",
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": true,
+      "equivalenceBasis": {
+        "masterQueue": "one COMPLETE_PACKET_PROVEN family routeKey",
+        "customerRegistry": "one customer route naming exactly this one known packet family",
+        "componentRoutes": "every rendered component is assigned to that one routeKey",
+        "bytes": "the route artifact is the family assembly itself; no copy or rewritten PDF exists"
+      },
+      "inFirstCohort": false,
+      "packetCommitSha": "775b43fb2f999951d7f0e17ae5f517af18e9193e",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194",
+      "expectedPages": 12,
+      "fixtureSelection": {
+        "canonical": "the canonical family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes",
+        "boundary": "the boundary family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "first-offense-drug-possession-conditional-discharge-relief--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194",
+          "pageCount": 12
+        },
+        {
+          "role": "canonical",
+          "name": "first-offense-drug-possession-conditional-discharge-relief--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06",
+          "pageCount": 12
+        }
+      ],
+      "documentsDigest": "67d04d8a45300b54e487fda4c99d7249efd80cf3c1ea2505b1794d87eeecac9c",
+      "coverage": {
+        "documents": [
+          "first-offense-drug-possession-conditional-discharge-relief--boundary.pdf",
+          "first-offense-drug-possession-conditional-discharge-relief--canonical.pdf"
+        ],
+        "rastered": [
+          "first-offense-drug-possession-conditional-discharge-relief--boundary.pdf",
+          "first-offense-drug-possession-conditional-discharge-relief--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PASS",
+      "preexistingRasterAcceptance": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "jobId": "100770327039",
+        "boundToCanonicalSha256": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06",
+        "boundToBoundarySha256": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194",
+        "pagesMeasured": 24,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": 9907871616,
+          "name": "rcap-raster-rcap-wv-custom-pleading-33791677725",
+          "zipSha256": "sha256:c2593173383f682a876aac2cdb6134141b4095f86c3ef692e3bcbee72138bd08",
+          "sizeInBytes": 6532593,
+          "expiresAt": "2026-09-17T18:46:41Z"
+        },
+        "source": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "whyItApplies": "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes"
+      },
+      "doesNotInheritTheFamilyReceipt": null
     }
   ],
   "notEligible": [],
   "packetPdfsModified": 0,
   "packetContentChanged": false,
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "focusedRegeneration": {
+    "families": [
+      "rcap-ga-guidance-implementation",
+      "rcap-wv-custom-pleading"
+    ],
+    "routes": [],
+    "rowsReplaced": 2,
+    "untouchedRowsPreserved": 13
+  }
 }

@@ -38,9 +38,14 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { PDFDocument } from "pdf-lib";
+import { singleRouteFamilyArtifacts } from "../lib/route-artifact-scope.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const COHORT_ONLY = process.argv.includes("--cohort-only");
+const ARGS = process.argv.slice(2);
+const COHORT_ONLY = ARGS.includes("--cohort-only");
+const multi = (flag) => ARGS.reduce((acc, arg, i) => (arg === flag && ARGS[i + 1] ? [...acc, ARGS[i + 1]] : acc), []);
+const ONLY_FAMILIES = multi("--family");
+const ONLY_ROUTES = multi("--route");
 const OVERLAYS = "data/rcap-all50/overlays/census-v1";
 const OUT = "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json";
 const REQUESTED_SCALE = 2.5;
@@ -56,6 +61,10 @@ const FIRST_COHORT_ROUTES = [
 const git = (a) => { try { return execFileSync("git", a, { cwd: ROOT, encoding: "utf8" }).trim(); } catch { return null; } };
 const readIf = (rel) => { const p = path.join(ROOT, rel); return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : null; };
 const sha256 = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).digest("hex");
+const master = readIf("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
+const customerRegistry = readIf("data/record-clearing/factory-v2-route-registry.json");
+const centralRasterQueue = readIf("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json");
+const centralRasterByFamily = new Map((centralRasterQueue?.rows ?? []).map((row) => [row.familyId, row]));
 
 /* Page count from the parser, never from a byte scan and never from the build
  * record: the queue pins what the renderer will be asked to render, and
@@ -77,16 +86,23 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
   for (const entry of fs.readdirSync(stateDir)) {
     const dir = `${OVERLAYS}/${state}/${entry}`;
     const rendered = readIf(`${dir}/reports/rendered-artifacts.json`);
-    if (!rendered || (rendered.routeArtifacts ?? []).length === 0) continue;
+    if (!rendered) continue;
     const familyId = rendered.familyId ?? entry.replace(/--[a-z-]+$/, "");
+    if (ONLY_FAMILIES.length > 0 && !ONLY_FAMILIES.includes(familyId)) continue;
+    const fieldMap = readIf(`${dir}/production-field-map.json`);
+    const routeArtifacts = (rendered.routeArtifacts ?? []).length > 0
+      ? rendered.routeArtifacts
+      : singleRouteFamilyArtifacts({ familyId, rendered, fieldMap, master, routeRegistry: customerRegistry });
+    if (routeArtifacts.length === 0) continue;
 
     const byRoute = new Map();
-    for (const a of rendered.routeArtifacts) {
+    for (const a of routeArtifacts) {
       if (!byRoute.has(a.route)) byRoute.set(a.route, []);
       byRoute.get(a.route).push(a);
     }
 
     for (const [route, artifacts] of byRoute) {
+      if (ONLY_ROUTES.length > 0 && !ONLY_ROUTES.includes(route)) continue;
       const documents = [];
       let refused = null;
       for (const a of artifacts) {
@@ -109,6 +125,19 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
         continue;
       }
 
+      const familyAssemblyIsRouteArtifact = artifacts.every((artifact) => artifact.familyAssemblyIsRouteArtifact === true);
+      const existingRaster = familyAssemblyIsRouteArtifact ? centralRasterByFamily.get(familyId) ?? null : null;
+      const receipt = existingRaster?.rasterReceipt ?? null;
+      const exactExistingRasterPass = existingRaster?.currentRasterState === "RASTER_PASS"
+        && receipt?.verdict === "RASTER_PASS"
+        && receipt?.coversTheWholeFamily === true
+        && existingRaster.canonicalPdfPath === canonical.path
+        && existingRaster.canonicalPdfSha256 === canonical.sha256
+        && existingRaster.boundaryPdfPath === boundary.path
+        && existingRaster.boundaryPdfSha256 === boundary.sha256
+        && receipt.boundToCanonicalSha256 === canonical.sha256
+        && receipt.boundToBoundarySha256 === boundary.sha256;
+
       rows.push({
         /* rcap-raster-batch.mjs keys on familyId and slugs it for the output
          * directory. A route row therefore carries a composite id so a verdict
@@ -117,16 +146,26 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
         packetFamilyId: familyId,
         routeKey: artifacts[0].routeKey,
         route,
+        customerRouteId: artifacts[0].customerRouteId ?? null,
         unitOfDelivery: "route_artifact",
+        familyAssemblyIsRouteArtifact,
+        equivalenceBasis: artifacts[0].equivalenceBasis ?? null,
         inFirstCohort: FIRST_COHORT_ROUTES.includes(route),
-        packetCommitSha: git(["rev-parse", "HEAD"]),
+        packetCommitSha: familyAssemblyIsRouteArtifact
+          ? existingRaster?.packetCommitSha ?? git(["rev-parse", "HEAD"])
+          : git(["rev-parse", "HEAD"]),
         canonicalPdfPath: canonical.path, canonicalPdfSha256: canonical.sha256,
         boundaryPdfPath: boundary.path, boundaryPdfSha256: boundary.sha256,
         expectedPages: canonical.pageCount,
-        fixtureSelection: {
-          canonical: "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
-          boundary: "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
-        },
+        fixtureSelection: familyAssemblyIsRouteArtifact
+          ? {
+              canonical: "the canonical family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes",
+              boundary: "the boundary family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes"
+            }
+          : {
+              canonical: "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
+              boundary: "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
+            },
         documents,
         documentsDigest: crypto.createHash("sha256").update(documents.map((d) => `${d.path}:${d.sha256}`).join("\n")).digest("hex"),
         coverage: {
@@ -137,20 +176,52 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
           basis: "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
         },
         requestedScale: REQUESTED_SCALE,
-        currentRasterState: "RASTER_PENDING",
-        doesNotInheritTheFamilyReceipt: "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
+        currentRasterState: exactExistingRasterPass ? "RASTER_PASS" : "RASTER_PENDING",
+        preexistingRasterAcceptance: exactExistingRasterPass
+          ? {
+              verdict: receipt.verdict,
+              workflowRunId: receipt.workflowRunId,
+              jobId: receipt.jobId,
+              boundToCanonicalSha256: receipt.boundToCanonicalSha256,
+              boundToBoundarySha256: receipt.boundToBoundarySha256,
+              pagesMeasured: receipt.pagesMeasured,
+              problemsFound: receipt.problemsFound,
+              receiptArtifact: receipt.receiptArtifact,
+              source: "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+              whyItApplies: "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes"
+            }
+          : null,
+        doesNotInheritTheFamilyReceipt: exactExistingRasterPass
+          ? null
+          : "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
       });
     }
   }
 }
 
 rows.sort((a, b) => (Number(b.inFirstCohort) - Number(a.inFirstCohort)) || a.familyId.localeCompare(b.familyId));
-const queued = COHORT_ONLY ? rows.filter((r) => r.inFirstCohort) : rows;
+const selectedRows = COHORT_ONLY ? rows.filter((r) => r.inFirstCohort) : rows;
+if ((ONLY_FAMILIES.length > 0 || ONLY_ROUTES.length > 0) && selectedRows.length === 0 && notEligible.length === 0) {
+  console.error("REFUSED: no route artifacts matched the explicit filter");
+  process.exit(1);
+}
+const existing = readIf(OUT);
+const selectedByFilters = (row) =>
+  (ONLY_FAMILIES.length === 0 || ONLY_FAMILIES.includes(row.packetFamilyId))
+  && (ONLY_ROUTES.length === 0 || ONLY_ROUTES.includes(row.route));
+const focused = ONLY_FAMILIES.length > 0 || ONLY_ROUTES.length > 0;
+const queued = focused && existing?.rows
+  ? [...existing.rows.filter((row) => !selectedByFilters(row)), ...selectedRows]
+  : selectedRows;
+const outputNotEligible = focused && existing?.notEligible
+  ? [...existing.notEligible.filter((row) => !selectedByFilters({ packetFamilyId: row.familyId, route: row.route })), ...notEligible]
+  : notEligible;
 
 const doc = {
+  ...(focused && existing ? existing : {}),
   schemaVersion: "rcap-route-artifact-raster-queue/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-route-artifact-raster-queue.mjs",
-  packetCommitSha: git(["rev-parse", "HEAD"]),
+  packetCommitSha: focused && existing?.packetCommitSha ? existing.packetCommitSha : git(["rev-parse", "HEAD"]),
   whyThisExists: "Route-scoped artifacts carry rasterPending: true and the family raster receipt binds to different bytes. This enrols each route artifact in central raster acceptance on its own hashes.",
   thisIsNotTheCaptainsQueue: "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json and MASTER_QUEUE.json are the Captain's and are not written by this lane. This manifest is lane-local and is read by rcap-raster-batch.mjs through --manifest.",
   consumedBy: "node scripts/rcap-raster-batch.mjs --manifest <this file> --family <familyId> --out <dir>",
@@ -162,10 +233,13 @@ const doc = {
     inFirstCohort: queued.filter((r) => r.inFirstCohort).length,
     documents: queued.reduce((n, r) => n + r.documents.length, 0),
     pages: queued.reduce((n, r) => n + r.documents.reduce((m, d) => m + d.pageCount, 0), 0),
-    notEligible: notEligible.length
+    notEligible: outputNotEligible.length
   },
   rows: queued,
-  notEligible,
+  notEligible: outputNotEligible,
+  focusedRegeneration: focused
+    ? { families: ONLY_FAMILIES, routes: ONLY_ROUTES, rowsReplaced: selectedRows.length, untouchedRowsPreserved: queued.length - selectedRows.length }
+    : null,
   packetPdfsModified: 0, packetContentChanged: false, commercialRoutesOpened: 0, productionTouched: false
 };
 
