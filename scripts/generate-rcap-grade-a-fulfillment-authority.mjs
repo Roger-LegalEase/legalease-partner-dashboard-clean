@@ -563,7 +563,7 @@ function mississippiClinicCandidateRecord() {
       scopeSha256: sha256(ownerDecision.scopeStatement ?? "")
     },
     packetSpecification: {
-      specId: "ms-nonconviction-expungement-99-19-71-4@1.0.0",
+      specId: "ms-nonconviction-expungement-99-19-71-4@2.0.0",
       sha256: sha256(specificationBytes),
       complete: true
     },
@@ -571,7 +571,7 @@ function mississippiClinicCandidateRecord() {
     provider: {
       providerId: "rcap_grade_a_composer_v1",
       rendererKind: "rcap_grade_a_document_v1",
-      rendererVersion: "1.0.0",
+      rendererVersion: "2.0.0",
       imageDigest: `sha256:${sha256(Buffer.concat([composerBytes, rendererBytes]))}`
     },
     fixture: {
@@ -586,7 +586,7 @@ function mississippiClinicCandidateRecord() {
     },
     packetCompleteness: {
       specificationId: "ms-nonconviction-expungement-99-19-71-4",
-      specificationVersion: "1.0.0",
+      specificationVersion: "2.0.0",
       specificationSha256: sha256(specificationBytes),
       filingApplication: { state: "covered", basis: "ms-nonconv-set:ms-nonconv-primary-filing-1" },
       proposedOrder: { state: "covered", basis: "ms-nonconv-set:ms-nonconv-proposed-order-2" },
@@ -607,7 +607,7 @@ function mississippiClinicCandidateRecord() {
         sha256: canonical.sha256,
         pageCount: canonical.pageCount,
         producedBy: {
-          renderer: "rcap_grade_a_document_v1@1.0.0",
+          renderer: "rcap_grade_a_document_v1@2.0.0",
           matchesRecordProvider: true,
           reconciliation: null,
           deterministicRenderVerified: artifacts.deterministic === true

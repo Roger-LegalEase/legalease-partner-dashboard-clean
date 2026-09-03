@@ -6,26 +6,26 @@
     "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
   ],
   "workType": "GRADE_A_PRODUCT_WIRING",
-  "status": "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL",
+  "status": "INSTALLED_HELD_FOR_REVISION_REVIEW",
   "authorityCreated": "held_grade_a_fulfillment_record",
   "generatedBy": "scripts/generate-ms-clinic-demo-packet.mjs",
   "derivedFrom": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
   "explicitNonGrants": [
     "This record authorizes deterministic build and controlled review only.",
     "It opens no consumer sale and grants no production deployment.",
-    "Sponsored delivery remains closed until named Mississippi counsel approves these exact artifact hashes."
+    "Sponsored delivery remains closed until the independent revision review and named Mississippi counsel approve these exact artifact hashes."
   ],
   "currentState": {
     "serviceDisposition": "exact_runtime_route_and_grade_a_specification_installed",
-    "commercialState": "HELD_PENDING_NAMED_COUNSEL_AND_PREVIEW_ACCEPTANCE",
+    "commercialState": "HELD_PENDING_FILING_REVISION_REVIEW_AND_NAMED_COUNSEL_APPROVAL",
     "existingArtifactIds": [
-      "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
-      "bc05ce2ea926be18a4eedf063bf03759fbf71b904c4ff67980aab65b482adda9"
+      "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+      "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
     ],
     "generationAllowed": false
   },
   "proposedRepresentation": {
-    "note": "The exact five-document packet is built and machine-verifiable. Delivery authority remains held.",
+    "note": "The revised five-document packet uses conventional pleading pages, a mandatory jurat, and a confidential synthetic MCIC identifier addendum. Delivery authority remains held.",
     "packetSetId": "ms-nonconv-set",
     "outputStrategy": "custom_pleading",
     "components": [
@@ -83,16 +83,16 @@
     ],
     "deliveryType": "custom_pleading",
     "packetSpecification": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
-    "packetSpecificationSha256": "de634d033c9f6fedad3c477a6eae50110c0f56ccc071d7c2bea026d22390c249",
+    "packetSpecificationSha256": "64e87e7d07e3645c26bc16df74264497db87e3e672808159773d943747a69acc",
     "artifactEvidence": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
     "artifacts": {
       "canonical": {
         "fixture": "canonical",
         "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json",
         "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-canonical.pdf",
-        "sha256": "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
-        "byteLength": 23136,
-        "pageCount": 10,
+        "sha256": "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+        "byteLength": 33848,
+        "pageCount": 12,
         "documentCount": 5,
         "verificationHash": "5db1df6b9c18875816333351b234817a910de50bd8fe5bf7a0f1111111111111"
       },
@@ -100,9 +100,9 @@
         "fixture": "boundary",
         "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.boundary.fixture.json",
         "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-boundary.pdf",
-        "sha256": "bc05ce2ea926be18a4eedf063bf03759fbf71b904c4ff67980aab65b482adda9",
-        "byteLength": 24344,
-        "pageCount": 10,
+        "sha256": "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4",
+        "byteLength": 37542,
+        "pageCount": 13,
         "documentCount": 5,
         "verificationHash": "d7778fc6857e27b09f1d5a38476c809e7388709aa8305e96d53c222222222222"
       }
@@ -111,22 +111,17 @@
     "instructions": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md",
     "rasterReview": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
     "independentReview": {
-      "status": "15_pass_0_fail_0_hold",
-      "obligations": 15,
-      "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
-      "externalDeliveryHolds": [
-        "named_mississippi_counsel_and_current_law_approval",
-        "classified_nonproduction_preview_acceptance"
-      ]
+      "status": "pending_independent_second_pass",
+      "obligations": 15
     },
     "counselReview": {
-      "status": "pending_named_mississippi_counsel",
+      "status": "revision_pending_named_mississippi_counsel",
       "approvedArtifactHashes": []
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
     "whyPaymentIsClosed": "Consumer launch is outside the clinic demo and named counsel has not approved these exact artifact hashes.",
-    "whySponsorshipIsClosed": "The packet is built and independently reviewed, but sponsored generation stays held until named Mississippi counsel approves the exact artifacts and the nonproduction acceptance journey passes.",
+    "whySponsorshipIsClosed": "The filing-document revision remains held until the independent second pass and named Mississippi counsel approval are recorded.",
     "maintenanceRelationship": {
       "rebuiltFrom": "scripts/generate-ms-clinic-demo-packet.mjs",
       "reRasterRequiredWhen": "either artifact hash changes",

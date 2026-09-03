@@ -111,6 +111,34 @@ const { composeGradeAPacket, GradeAPacketCompositionError } = await import(
 const { renderGradeAPacketPdf, GRADE_A_RENDERER_VERSION } = await import(
   "../src/lib/rcap/grade-a/renderer.ts"
 );
+const { mississippiNonConvictionPacketSafety } = await import(
+  "../src/lib/expungement-ai/packet-information.ts"
+);
+
+const safeRouteAnswers = {
+  pending_cases: "No",
+  trafficking_status: "No",
+  prior_relief: "No",
+  sentence_completion_date: "Yes",
+  financial_obligations: "Yes",
+  nonadjudication_or_diversion: "No",
+  open_co_defendant_matter: "No",
+  actual_arrest: "Yes",
+  release_confirmed: "Yes",
+  disposition_record_wording: "Charge dropped"
+};
+assert.deepEqual(
+  mississippiNonConvictionPacketSafety(safeRouteAnswers),
+  { safe: true, reason: "route_safety_confirmed" }
+);
+for (const id of ["actual_arrest", "release_confirmed"]) {
+  for (const answer of ["No", "Unsure"]) {
+    assert.deepEqual(
+      mississippiNonConvictionPacketSafety({ ...safeRouteAnswers, [id]: answer }),
+      { safe: false, reason: `route_changing_answer:${id}` }
+    );
+  }
+}
 
 assert.equal(fixture.generationPurpose, "internal_review");
 assert.equal(boundaryFixture.generationPurpose, "internal_review");
@@ -125,6 +153,22 @@ const service = packet.documents.find(({ documentId }) => documentId === "ms-ser
 assert.equal(petition?.presentation, "pleading");
 assert.equal(order?.presentation, "pleading");
 assert.equal(service?.presentation, "pleading");
+const orderIdentity = order?.blocks.find(({ kind }) => kind === "pleading_identity_list");
+assert.ok(
+  orderIdentity?.kind === "pleading_identity_list"
+  && orderIdentity.items.some(({ label }) => label === "Charge Classification"),
+  "the proposed order identity block omits the charge classification"
+);
+const courtSignature = order?.blocks.find(
+  (block) => block.kind === "official_signature" && /JUDGE$/.test(block.role)
+);
+assert.ok(courtSignature?.kind === "official_signature");
+assert.equal(courtSignature.title, "", "the dated SO ORDERED line is duplicated by a separate heading");
+assert.doesNotMatch(
+  JSON.stringify(service),
+  /(?<!\.)\.\.(?!\.)/,
+  "participant-supplied terminal punctuation creates a doubled period in the service certificate"
+);
 
 const packetText = JSON.stringify(packet);
 for (const requiredPhrase of [
@@ -151,8 +195,14 @@ for (const prohibited of [
   /SAMPLE PERSON/i,
   /MSB\s*#/i,
   /by and through (his|her|their) attorney/i,
-  /\b(his|her) Motion\b/i
+  /\b(his|her) Motion\b/i,
+  /\bat To be confirmed\b/i
 ]) assert.doesNotMatch(packetText, prohibited);
+assert.match(
+  JSON.stringify(boundaryPacket),
+  /39225-2747\. Deliver it/,
+  "the service-address insertion must end before the next instruction sentence"
+);
 
 const fullSsn = fixture.facts.social_security_number;
 const blocksWithFullSsn = packet.documents.flatMap((document) =>
@@ -207,6 +257,7 @@ const secondRender = await renderGradeAPacketPdf(composeGradeAPacket(specificati
 assert.deepEqual(firstRender, secondRender, "filing-revision PDF bytes are not deterministic");
 const parsed = await PDFDocument.load(firstRender);
 assert.ok(parsed.getPageCount() >= 8);
+assert.ok(parsed.getPageCount() <= 12, "canonical guidance spills a final line onto an otherwise blank page");
 for (const page of parsed.getPages()) {
   const { width, height } = page.getSize();
   assert.equal(width, 612);
@@ -214,7 +265,9 @@ for (const page of parsed.getPages()) {
 }
 
 const boundaryRender = await renderGradeAPacketPdf(boundaryPacket);
-assert.ok((await PDFDocument.load(boundaryRender)).getPageCount() >= parsed.getPageCount());
+const boundaryPageCount = (await PDFDocument.load(boundaryRender)).getPageCount();
+assert.ok(boundaryPageCount >= parsed.getPageCount());
+assert.ok(boundaryPageCount <= 13, "boundary guidance spills onto an avoidable extra page");
 
 console.log(
   `Mississippi filing revision: ${packet.documents.length} documents, ${parsed.getPageCount()} pages; `

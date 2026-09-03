@@ -34,7 +34,7 @@ assert.equal(specification.routeKey, ROUTE);
 assert.equal(specification.jurisdiction, "MS");
 assert.equal(specification.pathwayId, ROUTE.slice(3));
 assert.equal(specification.packetFamily, FAMILY);
-assert.equal(specification.specificationVersion, "1.0.0");
+assert.equal(specification.specificationVersion, "2.0.0");
 assert.equal(specification.legalSectionsBound, true);
 assert.deepEqual(
   specification.documents.map(({ role }) => role),
@@ -61,7 +61,15 @@ assert.deepEqual(
 const facts = new Map(specification.requiredFacts.map((fact) => [fact.factId, fact]));
 for (const factId of [
   "participant_full_legal_name",
+  "case_caption_plaintiff_name",
+  "case_caption_defendant_name",
+  "name_used_at_arrest",
+  "aliases",
   "date_of_birth",
+  "social_security_number",
+  "social_security_number_last_four",
+  "race",
+  "sex",
   "mailing_address",
   "phone_number",
   "email_address",
@@ -70,16 +78,28 @@ for (const factId of [
   "filing_location",
   "case_number",
   "charge",
+  "charge_legal_citation",
+  "charge_classification",
   "offense_date",
-  "arrest_or_citation_date",
-  "arresting_or_citing_agency",
-  "agency_case_or_citation_number",
+  "actual_arrest",
+  "arrest_date",
+  "arrest_location",
+  "arresting_agency",
+  "agency_case_number",
+  "release_confirmed",
+  "release_date_or_record_source",
   "disposition_date",
   "statutory_disposition_category",
   "prosecuting_authority_name",
   "prosecuting_authority_service_address",
+  "service_address_confirmation_status",
   "other_recordkeeping_agencies",
-  "indictment_record",
+  "mcic_identifier_delivery_method",
+  "mcic_identifier_method_confirmation_source",
+  "personal_impact_confirmed",
+  "personal_impact_statement",
+  "certified_disposition_exhibit_status",
+  "docket_sheet_exhibit_status",
   "case_outcome",
   "pending_cases",
   "record_type",
@@ -102,37 +122,14 @@ assert.deepEqual(
 for (const ownershipGroup of [
   "participantAtSigningFields",
   "participantAtServiceFields",
+  "notaryOwnedFields",
   "prosecutorOwnedFields",
   "courtOwnedFields"
 ]) assert.ok(specification.fieldOwnership[ownershipGroup].length > 0, `${ownershipGroup} is empty`);
-for (const factId of [
-  "court_type",
-  "court_name",
-  "filing_location",
-  "case_number",
-  "charge",
-  "offense_date",
-  "arrest_or_citation_date",
-  "arresting_or_citing_agency",
-  "agency_case_or_citation_number",
-  "disposition_date",
-  "statutory_disposition_category",
-  "prosecuting_authority_name",
-  "prosecuting_authority_service_address",
-  "other_recordkeeping_agencies",
-  "indictment_record",
-  "case_outcome",
-  "pending_cases",
-  "record_type",
-  "trafficking_status",
-  "disposition_record_wording",
-  "nonadjudication_or_diversion",
-  "open_co_defendant_matter"
-]) {
-  const fact = facts.get(factId);
-  assert.ok(fact.prompt?.trim(), `${factId} needs a plain-language prompt`);
-  assert.match(fact.helperText ?? "", /volunteer/i, `${factId} must say how a volunteer can help`);
-  assert.match(fact.helperText ?? "", /stop/i, `${factId} must name the unclear-record stopping rule`);
+for (const fact of facts.values()) {
+  assert.ok(fact.prompt?.trim(), `${fact.factId} needs a plain-language prompt`);
+  assert.match(fact.helperText ?? "", /volunteer/i, `${fact.factId} must say how a volunteer can help`);
+  assert.match(fact.helperText ?? "", /stop/i, `${fact.factId} must name the unclear-record stopping rule`);
 }
 
 const { packetSpecificationFor, composablePacketSpecificationFor } =
@@ -189,11 +186,19 @@ const safeRouteAnswers = {
   financial_obligations: "Yes",
   nonadjudication_or_diversion: "No",
   open_co_defendant_matter: "No",
+  actual_arrest: "Yes",
+  release_confirmed: "Yes",
   disposition_record_wording: "Charges dropped"
 };
 assert.equal(mississippiNonConvictionPacketSafety(safeRouteAnswers).safe, true);
 for (const id of ["nonadjudication_or_diversion", "open_co_defendant_matter"]) {
   for (const answer of ["Yes", "Unsure"]) {
+    const unsafe = mississippiNonConvictionPacketSafety({ ...safeRouteAnswers, [id]: answer });
+    assert.deepEqual(unsafe, { safe: false, reason: `route_changing_answer:${id}` });
+  }
+}
+for (const id of ["actual_arrest", "release_confirmed"]) {
+  for (const answer of ["No", "Unsure"]) {
     const unsafe = mississippiNonConvictionPacketSafety({ ...safeRouteAnswers, [id]: answer });
     assert.deepEqual(unsafe, { safe: false, reason: `route_changing_answer:${id}` });
   }
@@ -213,7 +218,7 @@ const secondRender = await renderGradeAPacketPdf(composeGradeAPacket(registered,
 assert.deepEqual(firstRender, secondRender, "the Mississippi packet is not deterministic");
 assert.ok(firstRender.subarray(0, 5).equals(Buffer.from("%PDF-")));
 const parsedPdf = await PDFDocument.load(firstRender);
-assert.ok(parsedPdf.getPageCount() >= 5, "the five-component packet rendered fewer than five pages");
+assert.ok(parsedPdf.getPageCount() >= 8, "the filing-revision packet rendered fewer than eight pages");
 for (const factId of facts.keys()) {
   const incomplete = structuredClone(fixture);
   delete incomplete.facts[factId];

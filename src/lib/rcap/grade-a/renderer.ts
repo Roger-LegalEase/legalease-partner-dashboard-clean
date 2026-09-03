@@ -27,8 +27,8 @@ const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
 const MARGIN = 54;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
-const BODY_SIZE = 10.5;
-const BODY_LEADING = 15;
+const BODY_SIZE = 10;
+const BODY_LEADING = 14.5;
 
 const INK = rgb(0.06, 0.13, 0.22);
 const MUTED = rgb(0.36, 0.41, 0.46);
@@ -384,7 +384,9 @@ function drawOfficialSignature(
   block: Extract<GradeABlock, { kind: "official_signature" }>
 ) {
   ensurePleading(cursor, document, fonts, context, 155);
-  drawPleadingText(cursor, document, fonts, context, block.title, { font: fonts.pleadingBold });
+  if (block.title.trim()) {
+    drawPleadingText(cursor, document, fonts, context, block.title, { font: fonts.pleadingBold });
+  }
   if (block.note) drawPleadingText(cursor, document, fonts, context, block.note, { font: fonts.pleadingItalic });
   cursor.y -= 24;
   drawBlankLine(cursor, fonts, 280);
@@ -474,15 +476,23 @@ function pleadingPageBreak(
   cursor.page = document.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
   context.pageNumber += 1;
   drawPleadingFooter(cursor.page, fonts, context);
-  const header = `${sanitize(context.court)} | CASE NO. ${sanitize(context.caseNumber)}`;
-  cursor.page.drawText(header, {
+  const court = sanitize(context.court);
+  const caseLabel = `CASE NO. ${sanitize(context.caseNumber)}`;
+  const titleText = sanitize(context.title);
+  cursor.page.drawText(court, {
     x: PLEADING_MARGIN,
     y: PAGE_HEIGHT - 44,
     size: 8.5,
     font: fonts.pleadingBody,
     color: MUTED
   });
-  const titleText = sanitize(context.title);
+  cursor.page.drawText(caseLabel, {
+    x: PLEADING_MARGIN,
+    y: PAGE_HEIGHT - 56,
+    size: 8.5,
+    font: fonts.pleadingBody,
+    color: MUTED
+  });
   cursor.page.drawText(titleText, {
     x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingItalic.widthOfTextAtSize(titleText, 8.5),
     y: PAGE_HEIGHT - 56,
@@ -656,7 +666,12 @@ function paragraph(
   const size = options.size ?? BODY_SIZE;
   const indent = options.indent ?? 0;
   const leading = size + 4.5;
-  for (const line of wrap(sanitize(text), fonts.body, size, CONTENT_WIDTH - indent)) {
+  const lines = wrap(sanitize(text), fonts.body, size, CONTENT_WIDTH - indent);
+  const paragraphHeight = lines.length * leading + 3;
+  if (paragraphHeight <= PAGE_HEIGHT - MARGIN * 2) {
+    ensure(cursor, document, paragraphHeight);
+  }
+  for (const line of lines) {
     ensure(cursor, document, leading);
     cursor.page.drawText(line, { x: MARGIN + indent, y: cursor.y, size, font: fonts.body, color: options.color ?? INK });
     cursor.y -= leading;

@@ -726,7 +726,7 @@
           "heading": "Order identity",
           "kind": "pleading_identity_list",
           "body": "The record subject to this Order is identified as follows:",
-          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number_last_four", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "race", "sex"],
+          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number_last_four", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "charge_classification", "race", "sex"],
           "fieldLabels": {
             "name_used_at_arrest": "Name used at the time of arrest",
             "aliases": "Aliases shown on the record",
@@ -737,6 +737,7 @@
             "agency_case_number": "Agency Number",
             "charge": "Charge at Arrest",
             "charge_legal_citation": "Code Section or Ordinance",
+            "charge_classification": "Charge Classification",
             "race": "Race",
             "sex": "Sex"
           },
@@ -760,7 +761,7 @@
           "body": "IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method."
         },
         {
-          "heading": "SO ORDERED AND ADJUDGED",
+          "heading": "",
           "kind": "court_signature_block",
           "body": "SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____.",
           "fields": ["court_type"]
@@ -873,7 +874,7 @@
   },
   "serviceAndNotice": {
     "serviceRequired": true,
-    "statement": "Deliver a public service copy to {{prosecuting_authority_name}} at {{prosecuting_authority_service_address}} only after the court or prosecutor confirms the address and local timing. Do not include the confidential MCIC identifier addendum. The certificate leaves the method, date, and signature blank until service occurs. Ask the records office whether advance notice, prosecutor approval as to form, or another local step is required.",
+    "statement": "Deliver a public service copy to {{prosecuting_authority_name}} using this service-address entry: {{prosecuting_authority_service_address}}. Deliver it only after the court or prosecutor confirms the address and local timing. Do not include the confidential MCIC identifier addendum. The certificate leaves the method, date, and signature blank until service occurs. Ask the records office whether advance notice, prosecutor approval as to form, or another local step is required.",
     "certificateOfServiceIncluded": true,
     "sourceOfRule": "The census-v1 legal design rejects importing the felony ten-day notice rule but includes contemporaneous service and a local-practice confirmation."
   },

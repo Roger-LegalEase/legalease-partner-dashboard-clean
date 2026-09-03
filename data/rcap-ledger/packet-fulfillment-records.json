@@ -82,10 +82,10 @@
       "artifactApprovalStatus": "composed_and_machine_verified_pending_counsel_review",
       "consumerPosture": "held",
       "sponsoredPosture": "held",
-      "holdReason": "Three things are outstanding and every one of them is a reason a participant should not yet be charged. (1) No counsel has reviewed the composed document set. Machine verification proves the packet is complete against its own specification; it says nothing about whether the specification is legally right. (2) Page-image review has not happened: this container has no PDF rasteriser, so the packet was reviewed as composed content and as parsed PDF structure rather than as rendered pages. (3) The specification records a gap in the approved legal design \u2014 neither the registry's required inputs nor the packet-set manifest names a first-offense confirmation, though the statute makes first-offense status an element and the motion asserts it. The fact is now collected and confirmed, and the gap belongs in the next legal-design review of this route. Opening either posture is an owner decision, not a consequence of this record existing.",
+      "holdReason": "Three things are outstanding and every one of them is a reason a participant should not yet be charged. (1) No counsel has reviewed the composed document set. Machine verification proves the packet is complete against its own specification; it says nothing about whether the specification is legally right. (2) Page-image review has not happened: this container has no PDF rasteriser, so the packet was reviewed as composed content and as parsed PDF structure rather than as rendered pages. (3) The specification records a gap in the approved legal design — neither the registry's required inputs nor the packet-set manifest names a first-offense confirmation, though the statute makes first-offense status an element and the motion asserts it. The fact is now collected and confirmed, and the gap belongs in the next legal-design review of this route. Opening either posture is an owner decision, not a consequence of this record existing.",
       "provenBy": "scripts/verify-grade-a-first-packet.mjs",
       "provenOn": "2026-08-28",
-      "proofSummary": "5 documents, 7 pages, 17,271 bytes, application/pdf, artifact sha256 97d288c0\u2026, 104 checks. Every required fact was removed one at a time and each removal proven to refuse composition by name; a whitespace-only fact, another route's matter, an unbound matter, an unimplemented section kind and an empty packet each proven to refuse. Determinism proven across separate processes. Three defects found during review and closed.",
+      "proofSummary": "5 documents, 7 pages, 17,271 bytes, application/pdf, artifact sha256 97d288c0…, 104 checks. Every required fact was removed one at a time and each removal proven to refuse composition by name; a whitespace-only fact, another route's matter, an unbound matter, an unimplemented section kind and an empty packet each proven to refuse. Determinism proven across separate processes. Three defects found during review and closed.",
       "artifactSha256": "97d288c01daa880c9f7ed329ac4e5b27d4465bb0cb3751f2816b5cdaf7cda964",
       "artifactBytes": 17271,
       "artifactPages": 7,
@@ -116,7 +116,7 @@
           "id": "mixed-orthography",
           "foundBy": "reading the composed document set",
           "severity": "copy",
-          "description": "Authored packet text used British spellings \u2014 misdemeanour, notarisation \u2014 beside the American spellings the compiled profile uses. A US filing packet that cannot spell its own offense level consistently reads as unreviewed.",
+          "description": "Authored packet text used British spellings — misdemeanour, notarisation — beside the American spellings the compiled profile uses. A US filing packet that cannot spell its own offense level consistently reads as unreviewed.",
           "closedBy": "Normalised the authored specification text and the composer's signature-block notes to American spelling. The approved manifest's own wording is left untouched.",
           "status": "closed"
         },
@@ -137,9 +137,9 @@
       "packetFamily": "ms-nonconv-set",
       "packetFamilyLabel": "Mississippi Non-Conviction Expungement Packet under Miss. Code Ann. Section 99-19-71(4)",
       "packetSpecificationId": "ms-nonconviction-expungement-99-19-71-4",
-      "packetSpecificationVersion": "1.0.0",
+      "packetSpecificationVersion": "2.0.0",
       "packetSpecificationPath": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
-      "packetSpecificationSha256": "de634d033c9f6fedad3c477a6eae50110c0f56ccc071d7c2bea026d22390c249",
+      "packetSpecificationSha256": "64e87e7d07e3645c26bc16df74264497db87e3e672808159773d943747a69acc",
       "packetComponents": [
         "primary filing or application",
         "proposed order where required",
@@ -154,37 +154,71 @@
         {
           "sourceId": "ms-nonconv-set@1.0.0",
           "kind": "owner_approved_packet_set_manifest",
-          "location": "data/record-clearing/legal-design-packet-set-manifests.json",
           "verification": "present_in_repository",
-          "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output"
+          "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "note": "Owner-approved packet structure under auth-2026-08-19-owner-legal-approval-completed-output."
         },
         {
           "sourceId": "ms-nonconv-set-production-field-map@census-v1",
           "kind": "production_field_map",
-          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json",
-          "verification": "present_in_repository"
+          "verification": "present_in_repository",
+          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json"
         },
         {
           "sourceId": "ms-nonconv-set-participant-instructions@census-v1",
           "kind": "participant_instructions",
-          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md",
-          "verification": "present_in_repository"
+          "verification": "present_in_repository",
+          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md"
         },
         {
           "sourceId": "MS.memo:ms-nonconv",
           "kind": "legal_design_intake_track",
-          "location": "data/record-clearing/legal-design-intake/MS.memo.json",
-          "verification": "present_in_repository"
+          "verification": "present_in_repository",
+          "location": "data/record-clearing/legal-design-intake/MS.memo.json"
+        },
+        {
+          "sourceId": "ms-clinic-filing-review-2026-09-03",
+          "kind": "filing_readiness_review",
+          "verification": "present_in_repository",
+          "location": "docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md",
+          "note": "Route-specific correction of caption, arrest-and-release, MCIC, fingerprint, service, exhibit, pro-se, and order requirements. Review input SHA-256 c267b8454beca090a828bfc31037aab959bac91130aec149150d5307fe18b8ee."
+        },
+        {
+          "sourceId": "lawrence-format-direction-2026-09-03",
+          "kind": "owner_approved_format_and_verification_direction",
+          "verification": "present_in_repository",
+          "location": "docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md",
+          "note": "The six-page sample, SHA-256 56f5d9bdc8e108fce0d47f818040ed09f9e08e22f7442d93de6d49c1f0a1117e, controls practical pleading structure only. Owner direction SHA-256 88497978c1411950ea3977a7ae32087e29fc375017cadc87b20d700c60623866."
+        },
+        {
+          "sourceId": "mississippi-mcic-administrative-code-title-31-part-2-chapter-6",
+          "kind": "official_administrative_rule",
+          "verification": "asserted_by_ingestion",
+          "note": "Requires identifying information, court certification and seal, forwarding to CIC, and processing of state and FBI records."
+        },
+        {
+          "sourceId": "mississippi-revised-notary-act-and-rules",
+          "kind": "official_notary_rule",
+          "verification": "asserted_by_ingestion",
+          "note": "Controls the LegalEase verification-on-oath workflow, personal appearance, identification, signing in the notary's presence, certificate, and stamp fields."
         }
       ],
       "artifactProvider": "rcap_grade_a_composer_v1",
-      "artifactProviderVersion": "1.0.0",
+      "artifactProviderVersion": "2.0.0",
       "renderer": "rcap_grade_a_document_v1",
-      "rendererVersion": "1.0.0",
+      "rendererVersion": "2.0.0",
       "contentType": "application/pdf",
       "requiredFacts": [
         "participant_full_legal_name",
+        "case_caption_plaintiff_name",
+        "case_caption_defendant_name",
+        "name_used_at_arrest",
+        "aliases",
         "date_of_birth",
+        "social_security_number",
+        "social_security_number_last_four",
+        "race",
+        "sex",
         "mailing_address",
         "phone_number",
         "email_address",
@@ -193,16 +227,28 @@
         "filing_location",
         "case_number",
         "charge",
+        "charge_legal_citation",
+        "charge_classification",
         "offense_date",
-        "arrest_or_citation_date",
-        "arresting_or_citing_agency",
-        "agency_case_or_citation_number",
+        "actual_arrest",
+        "arrest_date",
+        "arrest_location",
+        "arresting_agency",
+        "agency_case_number",
+        "release_confirmed",
+        "release_date_or_record_source",
         "disposition_date",
         "statutory_disposition_category",
         "prosecuting_authority_name",
         "prosecuting_authority_service_address",
+        "service_address_confirmation_status",
         "other_recordkeeping_agencies",
-        "indictment_record",
+        "mcic_identifier_delivery_method",
+        "mcic_identifier_method_confirmation_source",
+        "personal_impact_confirmed",
+        "personal_impact_statement",
+        "certified_disposition_exhibit_status",
+        "docket_sheet_exhibit_status",
         "case_outcome",
         "pending_cases",
         "record_type",
@@ -212,50 +258,60 @@
         "open_co_defendant_matter"
       ],
       "finalVerificationRequirements": [
-        "The participant confirms the court, filing location, cause number, charge, dates, agencies, and exact disposition category against the certified disposition and docket sheet.",
-        "The participant confirms the prosecuting authority and current service address with the records office of the court of origin.",
-        "The participant stops for an ambiguous disposition, venue, related pending matter, prosecutor treatment, or immigration concern.",
-        "Signature, service-time, prosecutor, and court fields remain blank for the person who owns each act."
+        "The participant copies the exact plaintiff, defendant, court, filing location, and case number from the original docket and certified disposition.",
+        "The participant confirms an actual arrest and subsequent release from an official record; citation-only matters stop for legal review.",
+        "The participant confirms the exact charge, statute or ordinance, misdemeanor classification, name used at arrest, aliases, agency identifier, and exact disposition wording.",
+        "The participant selects exactly one statutory disposition category shown by the certified record and stops for an ambiguous docket entry.",
+        "The participant confirms the court-approved MCIC identifier channel; full Social Security information appears only in that protected channel.",
+        "The participant inserts the certified disposition as Exhibit A and docket sheet as Exhibit B before the packet is filing-ready.",
+        "The participant confirms the prosecuting authority and does not represent its service address as confirmed until the court or prosecutor verifies it.",
+        "The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation.",
+        "Participant, notary, service-time, prosecutor, judge, clerk, and seal fields remain blank for the person or office that owns each act."
       ],
       "verificationBinding": "The Grade A packet is a deterministic function of the exact specification and the participant's protected final-verification snapshot. Any material fact edit invalidates the binding and requires verification and generation again.",
       "privateDelivery": true,
       "repeatDownload": true,
-      "artifactApprovalStatus": "artifacts_built_and_independently_rastered_pending_counsel_and_preview_acceptance",
+      "artifactApprovalStatus": "revision_artifacts_built_pending_fresh_visual_independent_and_counsel_review",
       "consumerPosture": "held",
       "sponsoredPosture": "held",
-      "holdReason": "The exact canonical and boundary PDFs are deterministic and passed author and independent visual review. Sponsored delivery remains held for named Mississippi counsel approval of these exact hashes and the nonproduction browser acceptance journey. Consumer launch remains outside this demo in every event.",
+      "holdReason": "The first artifact set was rejected for filing. These revised conventional pleadings remain held for fresh raster review, independent review, named Mississippi counsel approval, court confirmation of the MCIC identifier channel, participant exhibits, and nonproduction browser acceptance.",
       "provenBy": "scripts/verify-ms-clinic-mode-demo.mjs",
       "provenOn": "2026-09-03",
-      "proofSummary": "Five documents render as a 10-page PDF for both canonical and long-value boundary fixtures. Each required fact is removed one at a time and proven to refuse composition by name. Route-changing nonadjudication, open co-defendant, and ambiguous-disposition answers are denied. Two renders of each fixture are byte-identical. All 20 final page rasters were inspected; signature-block page-split defects were fixed, rerendered, and reinspected. Independent review passed; named-counsel and nonproduction browser acceptance remain held.",
+      "proofSummary": "Five documents render as 12 canonical pages and 13 boundary pages. The revision adds docket-exact captions, actual-arrest and release gates, exact charge details, a mandatory jurat, MCIC identifiers in a confidential synthetic addendum, corrected record-destruction language, clerk certification, pro-se signatures, unconfirmed-address treatment, and Exhibit A/B assembly holds.",
       "artifacts": [
         {
           "fixture": "canonical",
           "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-canonical.pdf",
-          "sha256": "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
-          "bytes": 23136,
-          "pages": 10
+          "sha256": "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+          "bytes": 33848,
+          "pages": 12
         },
         {
           "fixture": "boundary",
           "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-boundary.pdf",
-          "sha256": "bc05ce2ea926be18a4eedf063bf03759fbf71b904c4ff67980aab65b482adda9",
-          "bytes": 24344,
-          "pages": 10
+          "sha256": "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4",
+          "bytes": 37542,
+          "pages": 13
         }
       ],
       "artifactIsDeterministic": true,
       "visualReview": {
-        "status": "author_and_independent_visual_review_pass",
+        "status": "pending_fresh_revision_raster_review",
         "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
-        "pagesReviewed": 20
+        "pagesReviewed": 0
       },
       "independentReview": {
-        "status": "15_pass_0_fail_0_hold",
+        "status": "pending_revision_second_pass",
         "obligations": 15,
-        "externalDeliveryHolds": ["legal_source_freshness_and_named_counsel", "nonproduction_browser_acceptance"]
+        "externalDeliveryHolds": [
+          "named_mississippi_counsel_and_current_law",
+          "court_confirmed_mcic_identifier_channel",
+          "participant_supplied_exhibits",
+          "nonproduction_browser_acceptance"
+        ]
       },
       "outputLegalReview": {
-        "status": "pending_named_mississippi_counsel",
+        "status": "revision_pending_named_mississippi_counsel",
         "approvedArtifactHashes": []
       }
     }

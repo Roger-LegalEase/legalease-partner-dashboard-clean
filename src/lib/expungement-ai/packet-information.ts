@@ -1075,7 +1075,9 @@ export function mississippiNonConvictionPacketSafety(
     ["sentence_completion_date", "Yes"],
     ["financial_obligations", "Yes"],
     ["nonadjudication_or_diversion", "No"],
-    ["open_co_defendant_matter", "No"]
+    ["open_co_defendant_matter", "No"],
+    ["actual_arrest", "Yes"],
+    ["release_confirmed", "Yes"]
   ];
   for (const [id, expected] of requiredNeutralFacts) {
     if (answerText(answers[id]) !== expected.toLowerCase()) {

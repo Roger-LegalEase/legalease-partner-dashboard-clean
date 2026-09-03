@@ -131,7 +131,12 @@ function fact(matter: GradeAMatter, id: string): string {
 }
 
 function fill(text: string, matter: GradeAMatter): string {
-  return text.replaceAll(/\{\{([a-z0-9_]+)\}\}/g, (_match, id: string) => fact(matter, id));
+  return text
+    .replaceAll(/\{\{([a-z0-9_]+)\}\}/g, (_match, id: string) => fact(matter, id))
+    // A participant may paste a sentence-ending period into a fact that the
+    // reviewed template already punctuates. Collapse only an isolated doubled
+    // stop; leave deliberate ellipses untouched.
+    .replace(/([^.]|^)\.\.(?=\s|$)/g, "$1.");
 }
 
 const MISSISSIPPI_NONCONVICTION_ROUTE =
