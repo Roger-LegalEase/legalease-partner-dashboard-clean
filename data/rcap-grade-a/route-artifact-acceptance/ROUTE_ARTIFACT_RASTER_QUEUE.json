@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-route-artifact-raster-queue/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-route-artifact-raster-queue.mjs",
-  "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+  "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
   "whyThisExists": "Route-scoped artifacts carry rasterPending: true and the family raster receipt binds to different bytes. This enrols each route artifact in central raster acceptance on its own hashes.",
   "thisIsNotTheCaptainsQueue": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json and MASTER_QUEUE.json are the Captain's and are not written by this lane. This manifest is lane-local and is read by rcap-raster-batch.mjs through --manifest.",
   "consumedBy": "node scripts/rcap-raster-batch.mjs --manifest <this file> --family <familyId> --out <dir>",
@@ -18,7 +18,7 @@
     "rows": 13,
     "inFirstCohort": 5,
     "documents": 26,
-    "pages": 149,
+    "pages": 152,
     "notEligible": 0
   },
   "rows": [
@@ -29,12 +29,12 @@
       "route": "ks-12-4516-municipal",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": true,
-      "packetCommitSha": "feefa606e6b1477fe92a627949a979af9c0e0243",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-      "canonicalPdfSha256": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
+      "canonicalPdfSha256": "7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-      "boundaryPdfSha256": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f",
-      "expectedPages": 6,
+      "boundaryPdfSha256": "61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f",
+      "expectedPages": 8,
       "fixtureSelection": {
         "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
         "boundary": "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
@@ -44,18 +44,18 @@
           "role": "boundary",
           "name": "ks-12-4516-municipal--boundary.pdf",
           "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-          "sha256": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f",
-          "pageCount": 7
+          "sha256": "61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f",
+          "pageCount": 8
         },
         {
           "role": "canonical",
           "name": "ks-12-4516-municipal--canonical.pdf",
           "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-          "sha256": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
-          "pageCount": 6
+          "sha256": "7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8",
+          "pageCount": 8
         }
       ],
-      "documentsDigest": "682af594e9a30519d4eba0ede094da34b05ccee9008f7186768b3f5ec373b111",
+      "documentsDigest": "ea7721bc6ecddc495ace08eab47614475bf908fffe6f291fee30796ceca65be8",
       "coverage": {
         "documents": [
           "ks-12-4516-municipal--boundary.pdf",
@@ -71,10 +71,7 @@
       },
       "requestedScale": 2.5,
       "currentRasterState": "RASTER_PENDING",
-      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route",
-      "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
-      "repinnedBy": "FIX03 / fable/kspath, after the Kansas route line was changed from the machine key to the human label",
-      "packetCommitShaRepinnedBy": "FIX03 / fable/kspath. The row's hashes were repinned to the post-repair bytes but its packetCommitSha still named 0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f, at which this file's Kansas bytes are the pre-repair ones. A row that pins one set of bytes by hash and a different set by commit is not pinned. feefa606e6b1477fe92a627949a979af9c0e0243 is the commit that carries the hashes above."
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
     },
     {
       "familyId": "rcap-ks-custom-pleading::route::ks-12-4516a-municipal-arrest",
@@ -83,11 +80,11 @@
       "route": "ks-12-4516a-municipal-arrest",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": true,
-      "packetCommitSha": "feefa606e6b1477fe92a627949a979af9c0e0243",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-      "canonicalPdfSha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+      "canonicalPdfSha256": "3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-      "boundaryPdfSha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
+      "boundaryPdfSha256": "dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2",
       "expectedPages": 6,
       "fixtureSelection": {
         "canonical": "the route's own canonical artifact, declared in reports/rendered-artifacts.json under routeArtifacts",
@@ -98,18 +95,18 @@
           "role": "boundary",
           "name": "ks-12-4516a-municipal-arrest--boundary.pdf",
           "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-          "sha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
+          "sha256": "dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2",
           "pageCount": 6
         },
         {
           "role": "canonical",
           "name": "ks-12-4516a-municipal-arrest--canonical.pdf",
           "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-          "sha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+          "sha256": "3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275",
           "pageCount": 6
         }
       ],
-      "documentsDigest": "8f7993e98aa6621cb66367eaa4eb8b90c162a80435c8115a049181021a539200",
+      "documentsDigest": "1f0ee48acfe852d24c6783c67475077ce5773bf5e3f8436b8afda05bc5545bc4",
       "coverage": {
         "documents": [
           "ks-12-4516a-municipal-arrest--boundary.pdf",
@@ -125,10 +122,7 @@
       },
       "requestedScale": 2.5,
       "currentRasterState": "RASTER_PENDING",
-      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route",
-      "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a",
-      "repinnedBy": "FIX03 / fable/kspath, after the Kansas route line was changed from the machine key to the human label",
-      "packetCommitShaRepinnedBy": "FIX03 / fable/kspath. The row's hashes were repinned to the post-repair bytes but its packetCommitSha still named 0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f, at which this file's Kansas bytes are the pre-repair ones. A row that pins one set of bytes by hash and a different set by commit is not pinned. feefa606e6b1477fe92a627949a979af9c0e0243 is the commit that carries the hashes above."
+      "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS in data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json binds to the family assembly's SHA-256, which is not this file's SHA-256; it is not carried forward here and must not be read as covering this route"
     },
     {
       "familyId": "rcap-tn-custom-pleading::route::tn_eligible_conviction",
@@ -137,7 +131,7 @@
       "route": "tn_eligible_conviction",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": true,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/canonical.pdf",
       "canonicalPdfSha256": "b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/boundary.pdf",
@@ -188,7 +182,7 @@
       "route": "tn_judicial_diversion",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": true,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/canonical.pdf",
       "canonicalPdfSha256": "32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/boundary.pdf",
@@ -239,7 +233,7 @@
       "route": "tn_two_offense",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": true,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/canonical.pdf",
       "canonicalPdfSha256": "397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/boundary.pdf",
@@ -290,7 +284,7 @@
       "route": "tn_arrest_no_court_record",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/canonical.pdf",
       "canonicalPdfSha256": "4f407cc9573b786026d2599903d48ff13b31019c61112fb9129c595d4babb56d",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/boundary.pdf",
@@ -341,7 +335,7 @@
       "route": "tn_illegal_voting",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/canonical.pdf",
       "canonicalPdfSha256": "54de61f9367ae8038f30c61315638be2ec0e4196ff2297d2560375dd7bc45156",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/boundary.pdf",
@@ -392,7 +386,7 @@
       "route": "tn_mistaken_identity",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/canonical.pdf",
       "canonicalPdfSha256": "ce292942d0c1312f63c5700c6a707aee5fa6068e00195f26ed93bf3a24a61f89",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/boundary.pdf",
@@ -443,7 +437,7 @@
       "route": "tn_nonconviction_petition",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/canonical.pdf",
       "canonicalPdfSha256": "cf7a2630c3bdba5dbf58ab8b66c0c517472aafeda1b0899f394182c0ea43be07",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/boundary.pdf",
@@ -494,7 +488,7 @@
       "route": "tn_post_pardon",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/canonical.pdf",
       "canonicalPdfSha256": "03f4948be810f94ec2b430fc7684b3fea5da0f4977251dd6d5a419c2a95ec987",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/boundary.pdf",
@@ -545,7 +539,7 @@
       "route": "tn_pretrial_diversion",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/canonical.pdf",
       "canonicalPdfSha256": "3e2e151485ceb673901585f0c5d2d913e53fc5bfd837ff93c8c43ddaba664dac",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/boundary.pdf",
@@ -596,7 +590,7 @@
       "route": "tn_recovery_court",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/canonical.pdf",
       "canonicalPdfSha256": "a4e798f319fe06653e80f4b1ed3ff4b27b34b30854739a9ebc218b865d0225a5",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/boundary.pdf",
@@ -647,7 +641,7 @@
       "route": "tn_redaction",
       "unitOfDelivery": "route_artifact",
       "inFirstCohort": false,
-      "packetCommitSha": "0ae5ae6c0c4f7a86c74af84283605cc35cdfa92f",
+      "packetCommitSha": "9af92526846943a50cc29c98d756cf7149933e9c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/canonical.pdf",
       "canonicalPdfSha256": "af51506aed52e3f40385d864d0520e20db0f8fc2980c942aaef26bf36828b7ea",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/boundary.pdf",
