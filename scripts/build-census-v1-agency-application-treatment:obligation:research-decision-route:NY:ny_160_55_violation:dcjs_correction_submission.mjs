@@ -29,11 +29,9 @@
  *   correction -> motion or counsel if court previously entered an
  *   interests-of-justice nonsealing order
  *
- * The deliverable is therefore two pieces of correspondence — one to the
- * sentencing court, one to DCJS — and a route sheet saying what each office
- * is, what it needs, what it costs, and what the participant does NOT file.
- * Neither piece is a motion, a petition or an application, and neither is
- * styled as one.
+ * The deliverable is the DCJS correction submission and a route sheet. The
+ * sentencing-court request is the preceding workflow step, but it belongs to
+ * the separately declared sibling route and is not duplicated here.
  *
  * NO FORM IS INVENTED. Neither DCJS nor OCA publishes a Sec. 160.55
  * correction form and the decision names none; the correspondence is plainly
@@ -108,7 +106,7 @@ const SPEC = {
   officialComponents: {},
   officialCells: {},
 
-  components: ["court_transmission_correction_request", "dcjs_correction_submission", "agency_route_sheet"],
+  components: ["dcjs_correction_submission", "agency_route_sheet"],
 
   /*
    * FIX01/RT-1, ROUTE_IDENTITY.
@@ -128,27 +126,17 @@ const SPEC = {
    * a separate live subject in the claim ledger.
    */
   componentRoutes: {
-    court_transmission_correction_request:
-      "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
     dcjs_correction_submission:
       "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
     agency_route_sheet:
       "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission"
   },
   componentTitles: {
-    court_transmission_correction_request: "Request to the Sentencing Court to Transmit or Correct the Sealing Notice",
     dcjs_correction_submission: "Correction Submission to the Division of Criminal Justice Services",
     agency_route_sheet: "Who Holds What, What It Costs, and What You Do Not File"
   },
-  componentConditions: {
-    court_transmission_correction_request:
-      "Sent first. The recorded workflow asks the sentencing court to transmit or correct the sealing notice "
-      + "before the certified disposition goes to DCJS, because the court is the office that originates the notice."
-  },
+  componentConditions: {},
   componentDescriptions: {
-    court_transmission_correction_request:
-      "the letter you sign and send to the court that disposed of your case, asking it to transmit or correct the "
-      + "sealing notice for a disposition that seals automatically under CPL Sec. 160.55",
     dcjs_correction_submission:
       "the letter you sign and send to DCJS with your certified disposition, asking it to correct its record so "
       + "that the automatic partial seal appears on it",
@@ -221,21 +209,20 @@ const SPEC = {
 
   instructionsIntro: [
     "**You do not file anything in court on this route, and there is nothing to apply for.** The recorded New York rule is that CPL § 160.55 provides **automatic partial sealing** when a criminal action terminates in a qualifying violation or traffic-infraction conviction, unless the prosecutor or court timely establishes that the interests of justice require otherwise. For a post-November 1, 1991 qualifying disposition, **the participant ordinarily files nothing** — the clerk of the court notifies DCJS and the appropriate law-enforcement agencies.",
-    "**This packet is for the case where that did not happen.** The seal is supposed to be automatic; sometimes the record does not show it. The recorded correction workflow is: obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and send the certified disposition to DCJS for correction. The two letters in this packet are the third and fourth of those steps.",
+    "**This packet is for the DCJS step after the sentencing-court correction request.** The recorded workflow is: obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and then send the certified disposition to DCJS for correction. The court-request step has its own declared sibling family and is not duplicated here.",
     "**Read this before you start, because it decides whether this packet is any use to you at all.** A § 160.55 partial seal does **not seal the court file**. The recorded rule is exact about it, and about what follows: qualifying violations may disappear from common DCJS-based criminal-history results while the courthouse file remains publicly inspectable. Nobody may promise you that an ordinary § 160.55 violation will receive full court-file sealing through § 160.55, and this packet does not.",
     "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Everything about your case lives on the court's record and on your criminal-history result, so each of those is a labelled blank listed below, and you copy it from the document, never from memory."
   ],
 
   whoDecides: [
-    "**Two offices hold two different records, and each corrects only its own.** The court that disposed of your case holds the court record and originates the sealing notice. DCJS holds the statewide criminal-history record that most background checks are run against. Asking one to fix the other's record does not work, which is why the recorded workflow goes to both, in order.",
-    "**You file no motion, no petition and no application.** On the recorded rule, the participant with a post-1991 qualifying disposition ordinarily files nothing; the seal is the law's doing and the clerk's, not yours. Both instruments here are letters asking a record-holder to correct its own record.",
+    "**Two offices hold two different records, and each corrects only its own.** The court that disposed of your case holds the court record and originates the sealing notice. DCJS holds the statewide criminal-history record that most background checks are run against. Complete the court-request step through its separate packet before using this DCJS packet.",
+    "**You file no motion, no petition and no application.** On the recorded rule, the participant with a post-1991 qualifying disposition ordinarily files nothing; the seal is the law's doing and the clerk's, not yours. The instrument here is correspondence asking DCJS to correct its own record.",
     "**Neither office is deciding whether you qualify.** The seal either applied at disposition or it did not. What you are asking for is that the record show what the statute already did — which is why the certified disposition is the whole of your evidence.",
     "**One situation is not a correction at all, and you must know it before you write.** If the court previously entered an interests-of-justice order that your case would NOT be sealed, then nothing failed to happen: the seal was withheld on purpose. The recorded escalation for that is a motion or counsel, and it is not in this packet."
   ],
 
   filingDestination: [
-    "**Letter one goes to the court that disposed of your case** — the criminal court, city, town or village court, or the county court, whichever entered the disposition. Its own records office is where a request to transmit or correct a sealing notice is received, because that court is where the notice originates.",
-    "**Letter two goes to the New York State Division of Criminal Justice Services, to its Record Review Unit** — the office within DCJS that handles a person's request about their own criminal-history record. That is where a certified disposition is sent for correction under the recorded workflow.",
+    "**This packet goes to the New York State Division of Criminal Justice Services, to its Record Review Unit** — the office within DCJS that handles a person's request about their own criminal-history record. That is where a certified disposition is sent for correction under the recorded workflow.",
     "**The repository does not hold either office's street address**, and the address a court's records office publishes changes. **The two authorities are named, and both can be reached:** the records office of the court printed on your certificate of disposition — that certificate names the court that issued it — and the DCJS Record Review Unit, which publishes the address it receives record-review and correction correspondence at. Ask each for its current address before you send.",
     "**Nothing goes to a district attorney, and nothing is filed anywhere.** There is no proceeding on this route to file into."
   ],
@@ -248,9 +235,9 @@ const SPEC = {
   ],
 
   service: [
-    "**There is nobody to serve.** This is correspondence with two record-holding offices, not a proceeding: there is no opposing party, no district attorney to notify, no affidavit of service and no return date. No held record states any service requirement for either letter.",
-    "**Send each letter to its own office and keep dated proof.** Use a method that gives you a receipt and keep a full copy of everything, including the certified disposition you enclose. If either office later says nothing arrived, that receipt is what you have.",
-    "**Send the court letter first and the DCJS letter second.** That is the recorded order — the court transmits or corrects the notice, and the certified disposition then goes to DCJS — and sending them the other way round asks DCJS to correct a record on a notice the court has not sent."
+    "**There is nobody to serve.** This is correspondence with a record-holding office, not a proceeding: there is no opposing party, no district attorney to notify, no affidavit of service and no return date. No held record states any service requirement for this submission.",
+    "**Keep dated proof of the DCJS submission.** Use a method that gives you a receipt and keep a full copy of everything, including the certified disposition you enclose.",
+    "**Complete the separate sentencing-court request first, then send this DCJS submission.** That is the recorded order — the court transmits or corrects the notice, and the certified disposition then goes to DCJS."
   ],
 
   documentsToObtain: [
@@ -263,18 +250,18 @@ const SPEC = {
     "**Check first that the seal really has not applied.** Obtain your certificate of disposition and an official criminal-history result, and look at what the criminal-history result shows for this case. If the case no longer appears there, the automatic seal has worked and there is nothing to correct.",
     "**Check that the case is a post-November 1, 1991 disposition.** The recorded rule is that a pre-November 1, 1991 qualifying case may require a motion under the statute's legacy branch, which is a different instrument and is not in this packet.",
     "**Check that no interests-of-justice non-sealing order was entered.** If the court decided your case would not be sealed, nothing failed and this packet is the wrong instrument — see *When to stop and get help*.",
-    "**Fill in every labelled blank on both letters** from the certificate of disposition and the criminal-history result. Each is listed in the table above with what belongs in it.",
-    "**Sign and date each letter yourself.** The platform never signs for you and never dates a signature.",
-    "**Send the court letter first**, to the records office of the court that disposed of the case, by a method that gives you a dated receipt.",
-    "**Then send the DCJS letter**, with the certified disposition enclosed, to the DCJS Record Review Unit, again with a dated receipt.",
+    "**Fill in every labelled blank on the DCJS submission** from the certificate of disposition and the criminal-history result. Each is listed in the table above with what belongs in it.",
+    "**Sign and date the submission yourself.** The platform never signs for you and never dates a signature.",
+    "**Complete the separate sentencing-court correction-request packet first**, and keep its dated delivery receipt.",
+    "**Then send this DCJS submission**, with the certified disposition enclosed, to the DCJS Record Review Unit, again with a dated receipt.",
     "**Check the record afterwards.** Order another record review after a reasonable interval and see whether the case has gone from the criminal-history result. Keep both results — the one that showed the case and the one that does not.",
     "**Expect the court file to stay public.** The partial seal does not reach the courthouse file, and a corrected criminal-history result does not change that."
   ],
 
   deliberatelyBlank: [
-    "**Your signature on each letter, and the date beside it.** A signature is yours alone, and a date written before you sign it would be false.",
+    "**Your signature on the DCJS submission, and the date beside it.** A signature is yours alone, and a date written before you sign it would be false.",
     "**Every fact about your case.** The platform holds no court record and no criminal-history result for you, and does not guess at either.",
-    "**The addresses of the two offices.** The repository holds neither, and both change; each office publishes its own."
+    "**The street address of the DCJS Record Review Unit.** The repository does not hold it, and the unit publishes its current address."
   ],
 
   notTold: [
@@ -311,25 +298,16 @@ const SPEC = {
   buildFindings: [
     {
       finding:
-        "ROUTE_IDENTITY, and the boundary this repair did NOT decide. The controlling decision records a "
+        "ROUTE_IDENTITY. The controlling decision records a "
         + "three-step correction workflow - obtain certificate of disposition, ask the sentencing court to "
-        + "transmit or correct the sealing notice, send the certified disposition to DCJS - and this family "
-        + "implements it step for step, so pages 1-2 carry the sentencing-court letter. That letter is also the "
-        + "primary instrument of a separately declared route, "
+        + "transmit or correct the sealing notice, send the certified disposition to DCJS. The court request is "
+        + "the primary instrument of the separately declared route "
         + "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request, "
-        + "which a live sibling family (composed-treatment:...:sentencing_court_transmission_correction_request) "
-        + "holds and renders in a materially different wording. Two live families therefore ship two different "
-        + "letters asking the same office for the same act under the same statute, and no record in this "
-        + "repository reconciles them.",
+        + "which a live sibling family holds and renders.",
       consequence:
-        "What this repair fixed is the false per-document claim: pages 1-2 are footer-stamped and their "
-        + "documentPolicy keyed with the route they actually serve, instead of this family's DCJS route. What "
-        + "this repair deliberately did NOT do is decide the boundary. Deciding it means either retiring or "
-        + "subordinating the sibling family and adding its route key to this family's declared routeKeys, or "
-        + "taking pages 1-2 out of this packet and sending the participant to the sibling for step two. Both "
-        + "act on a family this lane holds no grant over, so the choice is escalated to Captain rather than "
-        + "taken. Until it is taken, a reader will see this family stamping a route its MASTER_QUEUE routeKeys "
-        + "do not list - which is the honest shape of an undecided boundary, and is visible on purpose."
+        "This family now ships only its DCJS submission and route sheet. It tells the participant to complete "
+        + "the sibling sentencing-court request first, without duplicating that sibling instrument or stamping "
+        + "a route outside this family's declared route set."
     },
     {
       finding:
@@ -337,7 +315,7 @@ const SPEC = {
         + "the recorded design: the controlling decision records that on this route the participant ordinarily "
         + "files nothing, and neither OCA nor DCJS publishes a Sec. 160.55 correction form.",
       consequence:
-        "The deliverable is two signed letters and a route sheet, authored from the committed decision and the "
+        "The deliverable is one signed DCJS submission and a route sheet, authored from the committed decision and the "
         + "compiled New York profile, both anchor-verified before composing. No form was substituted, none was "
         + "invented, and no page carries filing furniture that would make correspondence read as a motion."
     },
@@ -370,10 +348,8 @@ const SPEC = {
         "FILING_DESTINATION is a does-not-apply, not a gap: the recorded rule is that the participant ordinarily "
         + "FILES NOTHING and the clerk notifies DCJS and law-enforcement agencies.",
       consequence:
-        "The packet states that in terms - who does it instead of the participant - and then names the two "
-        + "offices the two letters actually go to: the records office of the court that disposed of the case, "
-        + "and the DCJS Record Review Unit. Neither address is held by the repository, and the packet says so "
-        + "and names each office rather than gesturing at one."
+        "The packet states that in terms - who does it instead of the participant - and names the DCJS Record "
+        + "Review Unit as the destination for this route's submission."
     },
     {
       finding:
@@ -389,13 +365,13 @@ const SPEC = {
         "The correction workflow has an order, and reversing it asks DCJS to correct a record on a notice the "
         + "court has not yet sent.",
       consequence:
-        "The court letter is component one and the DCJS letter component two; the order is stated in the "
-        + "component condition, in the service section and in the steps."
+        "The separate court-request step is named before this family's DCJS submission in the service section "
+        + "and in the steps."
     }
   ],
 
   counselQuestions: [
-    "The deliverable is two unstyled signed letters rather than any form, because neither OCA nor DCJS publishes one for a Sec. 160.55 correction and the controlling decision names none. Confirm that correspondence is the right participant-facing instrument, or supply the form.",
+    "The deliverable is an unstyled signed DCJS submission rather than a form, because DCJS publishes no Sec. 160.55 correction form and the controlling decision names none. Confirm that correspondence is the right participant-facing instrument, or supply the form.",
     "The packet publishes the certificate-of-disposition charges ($5 outside NYC, $10 within the five boroughs) from the compiled profile, whose table annotates that line to a Sec. 160.59 case. Confirm that the charge is the issuing court's price for the certificate and therefore the same for this route, or say that the figure may not be carried across.",
     "The packet names the DCJS Record Review Unit as the office that receives a correction submission about a person's own criminal-history record. Confirm that is the correct unit, or name the office that is.",
     "The packet tells a participant with an interests-of-justice non-sealing order to stop and take it to counsel, and carries no motion. Confirm that boundary.",
@@ -483,7 +459,7 @@ const SPEC = {
       L.push("CPL Sec. 160.55 DOES NOT SEAL THE COURT FILE. The recorded rule is that qualifying violations may disappear from common DCJS-based criminal-history results while the courthouse file remains publicly inspectable. Nobody may promise you that an ordinary Sec. 160.55 violation will receive full court-file sealing through Sec. 160.55, and this packet does not.", "");
       L.push("WHAT THIS IS, AND WHAT YOU DO NOT FILE", "");
       L.push("CPL Sec. 160.55 provides automatic partial sealing when a criminal action terminates in a qualifying violation or traffic-infraction conviction, unless the prosecutor or court timely establishes that the interests of justice require otherwise. For a post-November 1, 1991 qualifying disposition the participant ordinarily FILES NOTHING; the clerk notifies DCJS and the appropriate law-enforcement agencies.");
-      L.push("So you file no motion, no petition, no application and no proposed order. This packet is two letters, for the case where the automatic seal did not reach the record.", "");
+      L.push("So you file no motion, no petition, no application and no proposed order. This packet is the DCJS submission for the case where the automatic seal did not reach the record; the preceding sentencing-court request is supplied by its separate route family.", "");
       L.push("WHO HOLDS WHAT", "");
       L.push("The court that disposed of your case holds the court record and originates the sealing notice. DCJS holds the statewide criminal-history record that most background checks run against. Each corrects only its own record, which is why the recorded workflow goes to both, in this order: obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, then send the certified disposition to DCJS for correction.", "");
       L.push("WHAT IT COSTS", "");
@@ -492,7 +468,7 @@ const SPEC = {
       L.push("DCJS record review: a DCJS fee applies and the profile records no amount for it. The DCJS Record Review Unit publishes what its own record review costs; ask it before you order one.");
       L.push("There is no fee waiver here because there is no filing fee to waive. If you cannot pay the certificate charge, ask the court's records office what it does for a person who cannot pay; legal-aid organisations and county district-attorney sealing units assist at no cost.", "");
       L.push("WHO ELSE HAS TO BE TOLD", "");
-      L.push("Nobody. There is no opposing party, no district attorney to notify and no affidavit of service. Send each letter to its own office, keep dated proof, and send the court letter first.", "");
+      L.push("Nobody. There is no opposing party, no district attorney to notify and no affidavit of service. Complete the separate sentencing-court request first, then send this DCJS submission and keep dated proof.", "");
       L.push("WHEN TO STOP AND GET HELP", "");
       L.push("- the court previously entered an interests-of-justice order that the case would NOT be sealed - the recorded escalation is a motion or counsel;");
       L.push("- the disposition is from before November 1, 1991 - it may require a motion under the statute's legacy branch;");
@@ -501,7 +477,7 @@ const SPEC = {
       L.push("- either office refuses to correct the record;");
       L.push("- any immigration question is involved.", "");
       L.push("WHAT THIS PACKET IS NOT", "");
-      L.push("Two letters to two record-holding offices, authored from one recorded branch of CPL Sec. 160.55. Not an OCA or DCJS form - neither publishes one for this - not a motion, petition or application, not filed anywhere, not legal advice, not sent for you, and not a promise that either office will correct anything.");
+      L.push("A DCJS correction submission authored from one recorded branch of CPL Sec. 160.55. Not a DCJS form - none is published for this - not a motion, petition or application, not filed anywhere, not legal advice, not sent for you, and not a promise that DCJS will correct anything.");
     }
     L.push("", `Route: ${this.componentRoutes?.[componentId] ?? this.routes[0].routeKey}`);
     return L.join("\n");
@@ -1399,6 +1375,12 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+
+  const declaredRoutes = new Set(SPEC.routes.map((route) => route.routeKey));
+  for (const componentId of SPEC.components) {
+    assert.ok(declaredRoutes.has(SPEC.componentRoutes[componentId]),
+      `${componentId}: component route must belong to this family's declared route set`);
+  }
 
   const { resolved, failures } = resolveRecords();
   const { bound, failures: sourceFailures } = resolveOfficialDocuments();
