@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF01",
  "worker": "VF-SRC-A",
- "assignmentCount": 8,
+ "assignmentCount": 9,
  "assignments": [
   {
    "itemId": "ak-courtview-set",
@@ -206,6 +206,34 @@
    },
    "whatIsAlreadyClear": "Fourteen of the fifteen obligations are measured clear here, including the source hash recomputed from the corpus, both artifact hashes, the two-page order against the blank source, the 17-field census against the source's own AcroForm, no ink outside any write box, no ink in the one protected field, and four participant blanks all disclosed. The packet also corrects three field-name traps the shared binder would have fallen into - county onto the charges line, surname into the middle-initial box, full name into the acquittal-date box - and explains each to the participant.",
    "whatThisAssignmentDoesNotAuthorise": "Repairing this disclosure proves nothing about the family's legal content, approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+   "decisiveDefect": "This family declares only the DCJS correction-submission route but ships pages 1-2 under the separately recorded sentencing-court transmission/correction route. The current page footer and documentPolicy now name that foreign route accurately, which makes the remaining family-level mismatch explicit. The census defines the two routes independently, with different instruments and destinations, and a sibling family separately implements the sentencing-court route. No current record consolidates or subordinates them.",
+   "failedProofObligations": [
+    "ROUTE_IDENTITY"
+   ],
+   "perObligation": {
+    "ROUTE_IDENTITY": {
+     "measuredDetail": "Top-level route declarations in MASTER_QUEUE.json, source-receipt.json, production-field-map.json and product-wiring.json contain only obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission. Delivered page 2 and court_transmission_correction_request.documentPolicy contain obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request. The two exact census rows separately specify a certified-disposition submission to DCJS versus a written request to the sentencing court, and both are high-confidence with requiresLegalReview false.",
+     "whatRepairMustDo": "Establish one recorded family boundary and make every artifact agree with it. The least expansive repair is to keep this family limited to its declared DCJS route, remove the sentencing-court request pages from this family, and direct the participant to complete the separately owned sentencing-court route before using the DCJS submission. If Captain instead intentionally consolidates both routes here, record that decision, add both exact route keys to every family-level declaration, and retire or explicitly subordinate the duplicate sibling family so two materially different court letters do not survive as coequal outputs. In either case rebuild both fixtures, refresh all manifests/hashes, and obtain a new whole-family raster receipt."
+    }
+   },
+   "acceptanceProof": [
+    "Every route key printed in the delivered pages appears in the family-level routeKeys, and every family-level route key has exactly one authoritative instrument treatment.",
+    "The separate sentencing-court and DCJS census branches are either kept in separate non-duplicative families or consolidated by an explicit recorded Captain decision; no unresolved sibling duplication remains.",
+    "A fresh independent read binds the regenerated canonical and boundary hashes to a completed whole-family raster receipt and remeasures all 15 obligations."
+   ],
+   "repairMustNotDo": [
+    "do not silently delete or overwrite the sibling family's grant or artifacts",
+    "do not disguise the sentencing-court instrument with the DCJS route key",
+    "do not weaken the no-court-file-sealing warning or the existing self-help stops",
+    "this repair assignment opens no commercial route and grants no output approval"
+   ]
   }
  ],
  "supersededLaneMembership": {

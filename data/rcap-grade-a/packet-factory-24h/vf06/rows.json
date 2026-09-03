@@ -4820,6 +4820,333 @@
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (re-hashed)"
    ],
    "whatThisDoesNotDo": "An independent PASS proves this packet is complete. It approves no output, opens no commercial route, and the family remains BUILT_RASTER_PENDING with no central raster receipt bound to these bytes."
+  },
+  {
+   "itemId": "nj_arrest_no_conviction-set",
+   "lane": "VF06",
+   "laneKind": "independent-verification",
+   "worker": "VF06 (independent; built, repaired and rendered none of this family)",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+   "claimAssertion": {
+    "result": "CLAIM_OK",
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF06 nj_arrest_no_conviction-set",
+    "detail": "CLAIM_OK VF06 nj_arrest_no_conviction-set (independent-verification, grant set 1e9f307a4bc2414d)"
+   },
+   "preflight": {
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "command": "node scripts/verify-packet-build-environment.mjs --family nj_arrest_no_conviction-set --codex-cloud --minimum-captain-sha 0f56e754b1be1763032e9bb933adeaa523c0b2b2",
+    "detail": "8/14 passed, 6 failed, 3 not applicable. The failures were 10 concurrent uncommitted paths, absent node_modules/pdf-lib, absent private corpus, and the resulting corpus/source binding checks. These environment failures do not change the family verdict: the exact source was independently streamed and rehashed by the Captain, the committed artifacts were rehashed here, and the substantive packet defect was measured from committed files."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set",
+    "commandResult": "PASS_COMPLETE; 18/179 written; all nine counters zero",
+    "whyZeroCountersDoNotMakeThisAPass": "The counter verifies that every REQUIRED_BEFORE_FILING declaration is surfaced, not that the declaration is assigned to the correct actor/time or is intelligible. The committed field map and participant instructions fail that substantive obligation."
+   },
+   "rasterEvidence": {
+    "result": "RASTER_PASS",
+    "exactBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+    "workflowRunId": "33791677725",
+    "jobId": "100770326899",
+    "artifactId": "9908296762",
+    "artifactDigest": "sha256:6cee8f6b1bc1fc62c502254e8d067daf4d0d38a8e16ca3b2982e85d070ed7044",
+    "canonicalSha256": "912a2ada6ef04dd680aec20ef6c8c232d9af030a8d54695ba3b65d279d601e71",
+    "boundarySha256": "de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b",
+    "documentsDigest": "6155291e02dde7372360e87059ea3abbf5d8f2a8c35c9855c665ec56d8d91bf0",
+    "coverage": "whole family; 2 documents, 86 pages, 0 machine problems",
+    "bindingCheck": "Both fixture hashes were recomputed from the current committed bytes here and equal the receipt pins. The 43-page boundary contact sheet and pages 18 and 31 were also inspected here; the machine pass does not override the substantive instructions defect."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The family, source receipt, field map, product wiring and instructions bind the same route: obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6. The existing 'dismiss' control is selected on page 18 and all sibling route controls are neutralized."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The Captain independently streamed the exact CN-10557 REV-2020-06 source from the private release and recomputed c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, exactly matching source-receipt.json and product-wiring.json. The receipt also records 1,924,831 bytes and 43 pages."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All eight required packet-set roles are present. The exact 43-page Judiciary kit contains the four official-form roles (petition, accompanying statements, order for hearing and proposed order) plus its record-gathering, filing, service/objection and post-order blocks; participant-instructions.md carries the corresponding filing and service handoff. The two current fixtures each retain all 43 pages."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The canonical fixture has 17 exact participant/matter writes and the boundary fixture has 14; actual byte-derived proof reports no missing or wrong written values. Three unsafe boundary writes are deliberately held rather than clipped (arrest1CaseNum, the paired arrest1Dt for row integrity, and dismissOff1) and all three are disclosed with the exact held fact and hand-completion instruction."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "All 69 fields tagged REQUIRED_BEFORE_FILING are mechanically listed by source field, but the classification and participant copy are not defensible. At least 16 are court-owned or later-act facts unavailable before filing: orderHearYr, hearDay, hearTime, hearTimeM, sigHearJdg, orderFinalDay, MuniCrts, probDivCntys, sigFinalJdg, CoverLtrDDt, CoverLtrEDt, CoverLtrEHearDt, CoverLtrEHearTime, expungDocketNum, sigNoticeDt and CoverLtrGDt. This contradicts the same instructions' rules that judge/court/hearing/post-order fields remain with their proper owners and that service starts only after filed copies return. Fourteen displayed labels are exactly raw internal field names (cnt, contOffense2, sigHearJdg, jdgmntDocket1-4, sigFinalJdg, CoverLtrDDt, CoverLtrEDt, sigNoticeDt, ProbAddrStr, MuniCrtsAddrStr and IdbAddrStr), while others are truncated or meaningless, including '(original indict', '. I was arre', 'a', ',' and 'an Order of'. Naming a source field is not an intelligible instruction for what a participant must supply."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The required dismissed route election is drawn as two inset diagonal strokes inside the source's existing checkbox on page 18. No new box is invented; every alternative checkbox/dropdown is neutralized before flattening."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "No incomplete repeating row is emitted. In the boundary order table, arrest1CaseNum does not fit, so its paired arrest1Dt is also withheld; page 31 shows the row uniformly blank and the instructions name both held facts."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Byte-derived proof reports zero protectedInk, zero protectedVectorInk and zero protectedSourceOwnedAppearances in both fixtures. Signatures, signature dates, certificates, court, judge, prosecutor, clerk, agency and unperformed service fields carry no generated ink. The bad prefiling classification is scored separately under REQUIRED_BEFORE_FILING."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Current bytes recompute to canonical 912a2ada6ef04dd680aec20ef6c8c232d9af030a8d54695ba3b65d279d601e71 (575,400 bytes) and boundary de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b (577,533 bytes), exactly matching rendered-artifacts.json and the exact-base raster receipt. All 90 file hashes declared in rendered-artifacts.json (2 PDFs, 86 page rasters and 2 contact sheets) were recomputed here with zero mismatches."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both artifacts contain 43 letter-size pages, retaining the complete CN-10557 kit sequence. The full contact sheet shows the official instruction/forms sequence without gaps; the raster receipt covers all 86 pages."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Exact-base whole-family RASTER_PASS reports 0 machine problems across 86 pages. The boundary contact sheet and the densest written page 18 plus withheld-row page 31 were inspected; the long boundary values remain readable, the route mark stays inside its checkbox and the unsafe order-row values are withheld rather than clipped."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The instructions name the Superior Court, Criminal Division, Criminal Case Management Office in the applicable county, explain the multi-county call-first rule, distinguish paper-kit filing from eCourts and identify what to submit."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The instructions state there is no court filing fee and therefore no filing-fee waiver form, distinguish the SBI-history and possible notary costs, and separately address unpaid court assessments."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The kit and companion instructions say service begins only after filed copies return, require certified mail/return receipt, give the five-day timing from the signed hearing order, enumerate the Attorney General, State Police, prosecutor, court, police, custody, probation and State Grand Jury recipients as applicable, and explain proof of mailing and later signed-order distribution."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 13 selfHelpStopConditions from the nj_arrest_no_conviction track appear word for word in the named stop section, including diversion, open counts, objections, non-expungeable classifications, prior expungement, pending charges, financial assessments, incomplete identifiers, federal/out-of-state/tribal limits, immigration and Title 39/DWI."
+    }
+   },
+   "failedProofObligations": [
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+    "data/record-clearing/legal-design-track-registry.json (track nj_arrest_no_conviction)",
+    "data/record-clearing/legal-design-packet-set-manifests.json (packet set nj_arrest_no_conviction-set)",
+    "data/record-clearing/factory-v2-route-registry.json (NJ nonconviction pathway)",
+    "exact-base central raster receipt supplied by Captain: run 33791677725, job 100770326899, artifact 9908296762"
+   ],
+   "whatThisDoesNotDo": "This independent failure identifies a required repair. It approves no output, opens no commercial route and grants no runtime or production authority."
+  },
+  {
+   "itemId": "wv_conv_single_misdemeanor-set",
+   "lane": "VF06",
+   "laneKind": "independent-verification",
+   "worker": "VF06 (independent; built, repaired and rendered none of this family)",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+   "claimAssertion": {
+    "result": "CLAIM_OK",
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF06 wv_conv_single_misdemeanor-set",
+    "detail": "CLAIM_OK VF06 wv_conv_single_misdemeanor-set (independent-verification, grant set aec3aa0a4a28c9f1)"
+   },
+   "sourceEvidence": {
+    "result": "PASS",
+    "streamedSourceDirectory": "/private/tmp/wv-verifier-sources/",
+    "documents": [
+     {
+      "formNumber": "SCA-C906",
+      "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+      "byteLength": 176072,
+      "pageCount": 4,
+      "pinMatch": true
+     },
+     {
+      "formNumber": "SCA-C900",
+      "sha256": "89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e",
+      "byteLength": 204715,
+      "pageCount": 5,
+      "pinMatch": true
+     }
+    ],
+    "detail": "Both streamed controlled-source files were independently rehashed and byte-counted here; both exactly match source-receipt.json."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_conv_single_misdemeanor-set",
+    "commandResult": "PASS_COMPLETE; 21/166 written; all nine counters zero",
+    "whyZeroCountersDoNotMakeThisAPass": "The counter checks the family's declared packet model. It does not compare the delivered component set and participant instructions against the current track registry, which is where both substantive failures were measured."
+   },
+   "rasterEvidence": {
+    "result": "RASTER_PASS",
+    "exactBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+    "workflowRunId": "33791677725",
+    "jobId": "100770327067",
+    "artifactId": "9907926082",
+    "artifactDigest": "sha256:37e5f05b543629ba86e42b5771cc46c5ecbcb31c0b627e51e5309a56bc2187c8",
+    "canonicalSha256": "ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa",
+    "boundarySha256": "375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40",
+    "documentsDigest": "122b5e6bac7f569a9bac988276bac9aaebf259cf73895a21a1626b262b863e0d",
+    "coverage": "whole family; 2 documents, 18 pages, 0 machine problems",
+    "bindingCheck": "Current fixture bytes independently recompute to the canonical and boundary receipt pins. Both are 9 pages; all 18 committed raster PNG hashes were also recomputed with zero mismatches. The central machine pass does not override the two participant-facing substantive defects."
+   },
+   "currentByteEvidence": {
+    "canonical": {
+     "sha256": "ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa",
+     "byteLength": 391770,
+     "pageCount": 9
+    },
+    "boundary": {
+     "sha256": "375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40",
+     "byteLength": 391993,
+     "pageCount": 9
+    },
+    "entryBuildScript": {
+     "path": "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
+     "sha256": "6b767d979f6e765e6adb34bbdc9e2624b9f7c922dbab2caedd36179767631682"
+    },
+    "sharedBuildHost": {
+     "path": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+     "sha256": "e35cdad3e6c96ef5b28bb3ee8dfeea3a291b2f25c9d0937506a9212611b69979"
+    }
+   },
+   "independentReadback": {
+    "canonical": "19 writes reported, 19 visible, 0 text readback misses, 2 selection marks, 0 refused fields with ink, 0 words outside the page box and 0 cross-line overlaps",
+    "boundary": "19 writes reported, 19 visible, 0 text readback misses, 2 selection marks, 0 refused fields with ink, 0 words outside the page box and 0 cross-line overlaps",
+    "visual": "Fresh 144-dpi renders of both complete 9-page artifacts and original-resolution inspection of boundary pages 1-4 show no clipping, overlap or unreadable long-value stress case. Signatures, notary and service-event fields remain blank."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The family, source receipt, field map, product wiring and worklist bind the same single-misdemeanor pathway and route selection wv-sca-c906-single-misdemeanor. The operative SCA-C906 marks the standard single-misdemeanor waiting-period branch and leaves sibling branches unselected."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The exact streamed SCA-C906 source rehashes to 43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c at 176,072 bytes and the SCA-C900 source rehashes to 89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e at 204,715 bytes. Both match the current receipt."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The registry's packet set requires SCA-C906 for the petition, verification and certificate, plus process guidance for service and filing; it declares no SCA-C900 official form. The delivered 9-page packet nevertheless appends all five SCA-C900 pages. Page 5 is obsolete instructions and pages 6-9 are a second complete obsolete petition/verification/certificate. The warning in participant-instructions.md not to complete or file that embedded petition confirms the conflict but does not remove it from the participant-facing packet. Its text contradicts the current route: it says the petitioner was age 18-26, had no prior or subsequent convictions, cites the 2009 statute and gives a 10-day reply window, while the current registry gives a 30-day reply window."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixtures report 19 SCA-C906 writes; all 19 are visible in the exact current PDFs. Independent readback found zero missing written values, two expected selection marks and no write on the reference-only SCA-C900 pages."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The participant instructions enumerate the form blanks but omit required acquisition and confirmation work in the registry. They do not tell the participant to obtain certified copies of the disposition, judgment order and sentencing order from the clerk and compare the conviction date/sentence; they do not tell a participant who had incarceration or supervision to obtain written release/supervision-end proof from the institution or probation office and compare the end date. For a current restitution/protection/restraining/no-contact order, they say only to answer yes/no and attach it, omitting the registry's direction to obtain the copy from the clerk that entered it and check the answer. These are required-before-filing actions, not optional explanatory detail."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "On the operative SCA-C906, the single-misdemeanor standard waiting-period option is selected, the prior-relief answer is bound to a held screening fact, and alternate route options remain blank. The contradictory obsolete duplicate is scored under COMPONENT_SET rather than double-counted here."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The operative charge information is complete for the one held conviction and no partially populated repeating row appears. The completeness verifier reports incompleteRows 0."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The exact PDFs contain no generated ink in participant signatures, signing dates, the verification/notary block, certificate-of-service fields or other actor/event-protected fields. The verifier reports protectedWrites 0 and the write report reports no refused field with ink."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Current bytes recompute to canonical ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa (391,770 bytes) and boundary 375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40 (391,993 bytes), both 9 pages and exactly matching the exact-base raster receipt. All 18 committed raster PNG hashes match their manifest."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "In both fixtures, source-manifest pages 1-4 reproduce SCA-C906 pages 1-4 and pages 5-9 reproduce SCA-C900 pages 1-5 without reordering or gaps. The fact that the second component should not be delivered is scored under COMPONENT_SET."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Fresh extraction and geometry checks on both 9-page PDFs found 0 words outside the page box and 0 cross-line overlaps. Fresh full-packet renders plus original-resolution inspection of the boundary form pages show no clipped or overlapping writes; the exact-base raster receipt reports 0 machine problems across all 18 pages."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The instructions direct filing to the clerk of the circuit court of the county of conviction and identify the circuit court in which the conviction occurred, matching the track destination and venue."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The instructions state the $200 circuit-clerk filing fee, the separate $100 State Police fee payable only on grant, the absence of a held waiver route under section 61-11-26 and the clerk as the office to ask about ordinary civil indigency practice."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The current participant instructions correctly name the five recipients served by the petitioner, assign victim service to the prosecutor and protect the certificate until service occurs. The obsolete SCA-C900 10-day reply statement is a consequence of delivering the wrong extra component and is scored under COMPONENT_SET."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 10 selfHelpStopConditions for track wv_conv_single_misdemeanor appear in the packet's named stop section, including felony, violence/domestic-violence, CDL, pending-charge, protective-order, opposition, prior-relief, hearing, collateral-consequence and non-state-record boundaries."
+    }
+   },
+   "failedProofObligations": [
+    "COMPONENT_SET",
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/record-clearing/legal-design-track-registry.json (track wv_conv_single_misdemeanor)",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (exact-base receipt)",
+    "/private/tmp/wv-verifier-sources/ (exact controlled source stream)"
+   ],
+   "whatThisDoesNotDo": "This independent failure identifies one repair covering two separately measured obligations. It approves no output, opens no commercial route and grants no runtime or production authority."
   }
  ],
    "vf06ReDispatchWave": {

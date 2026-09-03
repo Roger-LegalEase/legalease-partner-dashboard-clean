@@ -27,10 +27,10 @@
  },
  "summary": {
   "families": 36,
-  "rows": 40,
+  "rows": 42,
   "PASS_COMPLETE_INDEPENDENT": 27,
-  "FAIL_REPAIR_REQUIRED": 11,
-  "BLOCKED_SOURCE": 0,
+  "FAIL_REPAIR_REQUIRED": 12,
+  "BLOCKED_SOURCE": 1,
   "BLOCKED_LEGAL_INPUT": 0,
   "PASS": 1,
   "STOPPED": 1,
@@ -8161,6 +8161,247 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
     "data/rcap-grade-a/stale-artifact-block.json"
    ]
+  },
+  {
+   "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "verifiedBy": "independent-verification lane VF01; built and repaired none of this family",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission (independent-verification, grant set 7d1a4392bf4dc562)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": false
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission: PASS_COMPLETE 11/26 written"
+   },
+   "failedProofObligations": [
+    "ROUTE_IDENTITY"
+   ],
+   "unmeasuredObligations": [],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The family declares exactly one route in MASTER_QUEUE.json, source-receipt.json, production-field-map.json and product-wiring.json: obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission. Its current packet nevertheless devotes pages 1-2 to a different route and says so on the page: obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request. The production field map assigns the same foreign route key to that component. The route census treats these as two separate high-confidence, participant-initiated routes with different instruments and destinations, and the sentencing-court route has its own live family. Current build-findings.json expressly says no repository record reconciles the two-family boundary. Correcting the footer exposed rather than cured the undeclared second route in this one-route family."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This is a zero-binary-source custom composition. Both committed records were independently rehashed from the exact current bytes and match source-receipt.json in hash and length: 2026-08-28-national-legal-decisions.json 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184,365 bytes and NY-new-york.json ee4926a11e1035c530f3e1cabd71783c260332c799726b175dc2f529f108fa1e at 188,645 bytes. Their relied-on automatic-seal workflow and fee anchors remain present. Current build script identity: a6dc58c9b32377ff6c4240605a8cbad252299493f6d764a80ed9d3d62b83af6 at 114,223 bytes."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The three declared current components agree across source receipt, field map and rendered-artifacts: court transmission request, DCJS correction submission and agency route sheet. All three own exactly two pages in both six-page manifests. Whether the first component belongs in this one-route family is the ROUTE_IDENTITY failure; no declared component byte is absent."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All 11 declared writes in each fixture were found in the exact component pages: five held identity facts on the court letter, the same five on the DCJS letter, and the participant name on the route sheet. The long boundary name, 86-character address, extended phone and email are visible and remain within the page. actual-writes.json reports 0 invisible writes and 0 glyphs outside measured write boxes."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All 11 required participant items are visible labelled blanks, classified in both field map and blank report, and individually disclosed in participant-instructions.md: six on the court letter and five on the DCJS submission. Each tells the participant which held record supplies the value. No additional visible blank was found."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet makes the two route-determined selections its record establishes: the post-November 1, 1991 automatic branch and correspondence rather than a motion, petition or application. It leaves no participant election control unselected and treats the pre-1991 branch as a stop."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The composed letters contain no repeating row or table-entry input structure."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The four protected blanks per fixture are the signature and signature-date lines on the two letters. Fresh raster and extracted-text review show all four empty; actual-writes.json reports no refused field with ink. There is no court-, prosecutor- or agency-owned decision field in these correspondence instruments."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both current fixture hashes and lengths were independently recomputed and match rendered-artifacts.json and the exact-base central receipt: canonical dbbec83187e79709468b55ac715b815a52ae19b6943fb597a96951eb45afdef3 at 14,177 bytes; boundary e2a7a09b65dcc5fbe3a44cf7dd2c6f069823259fe6fe7fb4844c0313f834880d at 14,744 bytes. Raster run 33791677725, job 100770327053, artifact 9907783288, ZIP sha256:4a75ada201edafb97a34d478f8da8849976c74a1da351aab11e6262af5b295a4; documents digest 90e2127cf4f0ed133759a53b715abce28955dfe1c6d8812692b0245389973f63; whole-family coverage, 2 documents, 12 pages, 0 problems."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both six-page fixtures match the manifest exactly: court request pages 1-2, DCJS submission pages 3-4, route sheet pages 5-6, with no gap or duplicate. The foreign route ownership of pages 1-2 is scored under ROUTE_IDENTITY, not as a sequencing defect."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Fresh 120-dpi local raster review covered all six boundary pages and found the long fixture values readable with no clipping or overlap. Independent Poppler word-box measurement found canonical 6 pages/1,228 words/0 outside/0 overlaps and boundary 6 pages/1,251 words/0 outside/0 overlaps. The central exact-hash raster independently reports 12 pages and 0 problems."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Each current instrument names its own correct destination and expressly says it is correspondence rather than a filing: the court letter goes to the disposing court's records office and the DCJS submission goes to the DCJS Record Review Unit. The extra sentencing-court route is a family-identity defect, but neither letter misdirects the participant."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet states the held route answer: automatic § 160.55 sealing costs $0 with no filing, hence no filing-fee waiver. It separately identifies the certificate-of-disposition charges recorded by the compiled profile ($5 outside New York City and $10 within the five boroughs), expressly discloses the profile's § 160.59 annotation, directs the participant to confirm the current court charge, and states that a DCJS record-review fee exists but the held source gives no amount."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The participant instructions and route sheet state there is nobody to serve: no opposing party, district-attorney notice, affidavit of service or return date. Each letter is sent directly to its record-holding office with dated proof retained."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The packet carries the controlling boundaries: stop for an interests-of-justice nonsealing order and use a motion or counsel; stop for a pre-November 1, 1991 disposition; do not promise court-file sealing; stop for a non-violation/non-traffic-infraction outcome, refusal by either office, or any immigration question. It repeatedly states that § 160.55 does not seal the courthouse file and promises no correction."
+    }
+   },
+   "preflight": {
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "familySourceBinding": "PASS: zero-source composition and committed legal records bound by hash",
+    "environmentalFailures": "shared dirty worktree, repository node_modules absent, and Master Library absent/incomplete/index unavailable; the focused verifier ran with the bundled dependency runtime"
+   },
+   "whatThisFailDoesNotDo": "This is an independent verdict and repair assignment only. VF01 modified no packet, fixture, route, queue, claim ledger, price, deployment or Production surface and did not release the claim."
+  },
+  {
+   "itemId": "tx_exp_acquittal-set",
+   "lane": "VF01",
+   "wave": "national-grade-a/2026-09-03",
+   "worker": "VF01-NATIONAL-GRADE-A (independent; built, repaired and rendered none of this packet)",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "verdict": "BLOCKED_SOURCE",
+   "laneDisposition": "BLOCKED_SOURCE",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 tx_exp_acquittal-set (independent-verification, grant set 109d56bd7fcb1a93)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": false
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [
+    "SOURCE_IDENTITY"
+   ],
+   "failedProofObligations": [
+    "PROTECTED_FIELDS"
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "writes": "17/198",
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set: PASS_COMPLETE 17/198 written",
+    "blindSpot": "The verifier reports only build-added writes. It does not detect the visible source-authored 12/15/2022 inside the field map's protected Today rectangle, so zero protectedWrites does not override the independently measured PROTECTED_FIELDS failure."
+   },
+   "evidence": {
+    "sourceGate": "The sole official source is absent from its declared private/human-source-returns custody and the private Master Library is unavailable, so expected SHA-256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d cannot be independently recomputed from source bytes.",
+    "artifacts": {
+     "canonical": "d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd",
+     "boundary": "0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15"
+    },
+    "raster": "Exact-base run 33791677725 job 100770326928 artifact 9908038000: RASTER_PASS, whole-family coverage, 2 documents, 46 pages, 0 machine problems; artifact digest sha256:d94d9d2432199c2e1b7c2d41dab418c9a15d4c66c93444f29d833824fe70a5dd; documents digest 358ce12a7eb94d60f39f2af256e9948061706ebf2a8d77edd6400f04d50cf00f."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The exact same two route keys appear in source receipt, field map, product wiring and the delivered page footers: the art. 55A.201 in-window request and art. 55A.251 out-of-window petition. The legal name and authorities agree with the committed tx_exp_acquittal registry record."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "NOT_MEASURABLE_HERE",
+     "detail": "The exact official Statement of Inability source declared at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf is absent, as is the private Master Library. Its expected SHA-256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d at 6,667,524 bytes / 12 pages / 132 AcroForm fields is cross-record consistent but could not be independently rehashed. Preflight therefore reports family_sources_bind FAIL, 1 of 1 source does not bind."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All six declared components are present in both exact 23-page manifests: request pages 1-2, information package 3-4, petition 5-6, proposed order 7, fee-waiver statement 8-19 and filing instructions 20-23. Each conditional pleading states its applicable calendar branch."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 17 declared writes per fixture appear on their owning component pages, including the longer boundary identity facts; the focused verifier reports knownRequiredFieldsMissing=0 and invisibleWrites=0. The inherited 12/15/2022 is not a known participant prefill and is scored separately as a protected-field defect."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 126 required-before-filing entries are individually disclosed in participant-instructions.md by label and field identity, including the case facts, agency/entity lists and every substantive fee-waiver entry; requiredFactsNotCollected=0 and unclassifiedBlanks=0."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The branch is determined by timing rather than participant preference: within 30 days uses the request and information package, while the closed/no-action branch uses the verified petition and proposed order. The 19 fee-waiver financial selections are genuine sworn participant choices and remain blank; requiredOptionsMissing=0."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Debt, dependent, property, other-expense and other-benefit repeating rows remain wholly participant-completed on both fixtures; no platform write creates a partial row and incompleteRows=0."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "Both exact fixtures visibly contain 12/15/2022 on packet page 18 inside tx_exp_acquittal-fee-waiver-statement-5.Today, beside the signature declaration. Independent text geometry places the word at x=99.7522..159.8002 and top=473.624..485.624; the field map's page-11 protected widget x=97.75, y=302.31, width=150, height=22 converts to top=467.69..489.69, fully containing it. The map says a date written before the Statement is sworn would be false, and participant instructions say dates beside signatures were left blank. Local 120-dpi raster review confirms the date in canonical and boundary bytes."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Independently recomputed committed hashes match rendered-artifacts and the exact-base raster receipt: canonical d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd at 976,888 bytes and boundary 0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15 at 977,529 bytes."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both exact artifacts have 23 pages, and their page manifests run 1 through 23 without gaps or duplicates in the six-component order. The twelve official fee-waiver pages occupy packet pages 8-19 in source-page order."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The whole-family central raster is bound to both current hashes and reports 2 documents / 46 pages / 0 machine problems. Fresh local 120-dpi inspection of the decisive canonical and boundary page 18 found no clipping or overlap; the visible pre-sworn date is a substantive protected-field defect, not a geometry failure."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet distinguishes the in-window trial-court request from the out-of-window filing through the district clerk for the county of arrest or alleged offence, warns that this may differ from the acquitting court, and directs the participant to obtain the clerk's art. 55A.253(c) agency list."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet states the mandatory timely-acquittal waiver under art. 102.0061(c), the ordinary county civil fee for the late district-court branch, the $100 fine-only justice/municipal fee, electronic versus $25 paper transmission costs, and includes the statewide inability-to-afford process without inventing a local fee."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "For the in-window branch the request follows notice to the state; for the petition branch the clerk sends the petition and hearing notice and agencies accept listed electronic service. The packet correctly states that the participant serves nobody and explains the participant's agency-list task."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 12 committed registry stop conditions are carried word for word, including mixed-outcome/criminal-episode and absconding bars, plus three packet-specific stops. The instructions identify the appropriate clerk/court/counsel boundaries and disclaim legal advice and filing on the participant's behalf."
+    }
+   },
+   "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 3 not applicable. Shared dirty-worktree and dependency failures are environmental; the decisive source failure is not: the sole private official source is absent and family_sources_bind is 0/1.",
+   "repairNeededAfterSourceRestored": "Remove the inherited 12/15/2022 from the protected Today field in every delivered fixture, then rebuild manifests and hashes and obtain a new exact-hash whole-family raster receipt. Reverify all 15 obligations from independently rehashed source bytes.",
+   "repairedNothing": true
   }
  ],
  "supersededLaneMembership": {

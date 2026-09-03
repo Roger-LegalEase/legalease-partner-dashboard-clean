@@ -6195,6 +6195,526 @@
       },
       "blindSpotAnswered": "The ordinal collision is invisible to every check that counts ordinals rather than names. Within each Mississippi track the delivered componentIds end 1, 2, 3, 4 — unique, contiguous, no duplicate — so an ordinal-based COMPONENT_SET check passes while a required component is missing, which is precisely the state West Virginia was repaired out of. It is caught only by comparing the delivered componentIds by NAME against the registry packetSet, and then by looking in the delivered pages for the content the missing component was supposed to carry. I did both: the names differ, and none of the 26 pages carries the records-to-obtain checklist the registry's twelve participantFilingRequirements describe.",
       "whatThisFailDoesNotDisturb": "This FAIL is a verdict and a repair assignment. This lane wrote into no overlay directory, ran no build script, moved no artifact byte, opened no route and changed no queue state. It also grants nothing in the other direction: Mississippi's legacy commercial authority was retired on 2026-08-28 and the fourteen passing obligations above do not restore it, do not reopen a route and do not set a price. Completeness is measured on the merits; authority comes only from a Grade-A fulfillment record keyed to an exact route and packet family."
+    },
+    {
+      "itemId": "rcap-nd-custom-pleading",
+      "lane": "VF11",
+      "wave": "National Grade A launch — exact-base independent verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "verifiedBy": "VF11 (independent verification; this lane built, repaired and rendered none of this family)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 rcap-nd-custom-pleading",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF11 rcap-nd-custom-pleading (independent-verification, grant set 568b03ae9a03ba36)",
+        "newGrantCreated": false,
+        "releasedByThisLane": false
+      },
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family rcap-nd-custom-pleading --codex-cloud --minimum-captain-sha 0f56e754b1be1763032e9bb933adeaa523c0b2b2",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+        "limitations": [
+          "worktree_clean failed because six shared-worktree paths were already modified by active lanes",
+          "pdf_lib_importable failed because repository node_modules is absent; the bundled pypdf/pdfplumber runtime was used for read-only PDF inspection",
+          "master_library_mounted, master_library_complete and corpus_matches_committed_index failed because the Master Library is absent"
+        ],
+        "whySourceIdentityRemainedMeasurable": "The preflight identifies this family as a zero-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition. Its three authoritative inputs are committed repository records and were rehashed directly from current bytes."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 1,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "focusedVerifierRawResult": "PASS_COMPLETE 48/175 written; all nine repository counters 0. Independent raster inspection supersedes its visualDefects 0 with 1 because the counter does not detect a footer overflow onto an otherwise blank page.",
+      "failedObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The family contains five distinct North Dakota routes and keeps each in its own contiguous component block. The five exact route keys agree across source-receipt.json, production-field-map.json, the route census and the delivered titles, statutory grounds and route footers.",
+          "evidence": {
+            "routeCount": 5,
+            "routeKeysMatched": 5,
+            "crossRouteComponentInterleaving": 0
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This is a zero-source custom composition from codified text; all three committed authoritative records rehash exactly from current repository bytes.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+              "byteLength": 16555956,
+              "match": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "byteLength": 16829383,
+              "match": true
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "byteLength": 2599752,
+              "match": true
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 18 components required across the five registry packetSets are rendered and present by exact component id. The family delivers 19 components because it also supplies a filing-instructions component for the marijuana route; the previously missing legal-effect-explanation component is now present and carries the three sections the authoritative specification requires.",
+          "evidence": {
+            "authoritativeRequiredComponents": 18,
+            "deliveredComponents": 19,
+            "missingRequiredComponents": 0,
+            "marijuanaLegalEffectExplanationPresent": true
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every one of the 48 declared canonical writes and 48 boundary writes was independently read from the exact saved PDF bytes within its own component page range; none is missing.",
+          "evidence": {
+            "canonicalDeclared": 48,
+            "canonicalFoundInOwnComponent": 48,
+            "boundaryDeclared": 48,
+            "boundaryFoundInOwnComponent": 48,
+            "missing": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 83 production-field-map requiredBeforeFiling disclosures are present in participant-instructions.md under their exact disclosure labels; no item is omitted or unclassified.",
+          "evidence": {
+            "declared": 83,
+            "labelsFound": 83,
+            "missingLabels": 0,
+            "unclassifiedBlanks": 0
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No printed election is route-determined. The packet delivers five separately titled statutory sets and tells the participant which record facts select the set; all 19 component maps declare zero selection controls and no option is marked on the participant's behalf.",
+          "evidence": {
+            "routeSets": 5,
+            "selectionControls": 0,
+            "requiredOptionsMissing": 0
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The composed pleadings use labelled free-text questions rather than repeating row grids. No row carries written cells beside an owed blank, and the independent completeness run reports incompleteRows 0.",
+          "evidence": {
+            "repeatingRowsWritten": 0,
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 127 canonical and 127 boundary refusals remain blank. Direct page inspection confirms blank participant signatures and dates, proof-of-service delivery facts and dates, court case numbers, court findings and judicial signature lines; actual artifact-byte inspection finds no refused field with ink.",
+          "evidence": {
+            "canonicalRefusals": 127,
+            "boundaryRefusals": 127,
+            "refusedFieldsWithInk": 0,
+            "protectedWrites": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current artifacts rehash exactly to reports/rendered-artifacts.json and to the central raster receipt.",
+          "evidence": [
+            {
+              "fixture": "canonical",
+              "sha256": "62aa435f485e9dbe4bf399e5da41ef7896489d8b172edbbce7f8b387f8838de4",
+              "byteLength": 85250,
+              "pageCount": 35,
+              "match": true
+            },
+            {
+              "fixture": "boundary",
+              "sha256": "2fb6b704906cdbfb631001447bbc758d77bab8c407a2e62dc8fceb0001b5f439",
+              "byteLength": 87324,
+              "pageCount": 36,
+              "match": true
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Within every route, each authoritative component appears in the registry's order: primary filing, proposed order, proof of service where required, legal-effect explanation where required, then filing guidance. Every page is attributed in the manifest and the two fixtures keep the same 19-component sequence. The boundary overflow page is scored as a visual overflow, not as a component reorder.",
+          "evidence": {
+            "canonicalPagesAttributed": "35/35",
+            "boundaryPagesAttributed": "36/36",
+            "componentSequenceMatchesAcrossFixtures": true,
+            "requiredComponentOrderViolations": 0
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The long boundary identity block overflows the pardoned-conviction primary filing's route footer onto a standalone page. Canonical pages 16-18 contain that component in three pages. Boundary pages 16-18 contain the substantive component, while boundary page 19 is otherwise blank and contains only 'Route: obligation:track-only:ND:nd-seal-pardoned-conviction'. That page has exactly 2 extracted words and 59 characters. A technically nonblank raster is still a participant-facing pagination defect.",
+          "evidence": {
+            "canonicalPageCount": 35,
+            "boundaryPageCount": 36,
+            "canonicalPardonedPrimaryPages": "16-18",
+            "boundaryPardonedPrimaryPages": "16-19",
+            "defectivePage": 19,
+            "defectivePageWords": 2,
+            "defectivePageCharacters": 59,
+            "defectivePageOnlyText": "Route: obligation:track-only:ND:nd-seal-pardoned-conviction",
+            "allOtherWordGeometry": "canonical 7412 words and boundary 7449 words; 0 off-page words and 0 intersecting word pairs",
+            "centralRasterMachineReport": "RASTER_PASS, 2 documents / 71 pages / 0 machine-reported problems; independent visual inspection found the orphan-page defect it missed"
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions state the registry destination separately for all five routes: the clerk of the existing criminal case for the three Chapter 12-60.1 routes, the clerk holding the DUI case, and the clerk holding the marijuana case. They preserve district-versus-municipal and existing-case distinctions.",
+          "evidence": {
+            "routesChecked": 5,
+            "destinationsStated": 5,
+            "missing": 0
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Fee and waiver posture is stated per route without borrowing a sibling answer. The three Chapter 12-60.1 routes say the fee and waiver are not established and direct the participant to the clerk; DUI and marijuana say no fee is identified and therefore no waiver applies.",
+          "evidence": {
+            "routesChecked": 5,
+            "feePosturesStated": 5,
+            "waiverPosturesStated": 5
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The three Chapter 12-60.1 routes require service on the prosecuting attorney before filing and include proof-of-service components left unsigned until delivery. The DUI route states no service or notice is required by the section; the marijuana route states none is stated by the subsection. These distinctions match the authoritative route records.",
+          "evidence": {
+            "routesChecked": 5,
+            "servicePosturesStated": 5,
+            "chapter12601ProofsOfService": 3,
+            "signedEarly": 0
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every authoritative stop condition and boundary statement is present verbatim in participant-instructions.md, including the mandatory attorney handoff for every felony petition, contested Chapter 12-60.1 matters, pardon uncertainties, DUI exclusions and marijuana first-offence limitations.",
+          "evidence": {
+            "registryStopConditions": 47,
+            "registryBoundaryStatements": 54,
+            "exactStatementsChecked": 101,
+            "missingExactStatements": 0
+          }
+        }
+      },
+      "rasterReceipt": {
+        "runId": "33791677725",
+        "jobId": "100770327017",
+        "artifactId": "9908205241",
+        "artifactDigest": "sha256:8efeea52e11aed8cfef77552c73b0ef78480c939f0d11fd74cb4b41babf8a62e",
+        "state": "RASTER_PASS",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "canonicalSha256": "62aa435f485e9dbe4bf399e5da41ef7896489d8b172edbbce7f8b387f8838de4",
+        "boundarySha256": "2fb6b704906cdbfb631001447bbc758d77bab8c407a2e62dc8fceb0001b5f439",
+        "documentsDigest": "11a90b09d6a14f7551841b8b8457d0111e03009b57e279292ac646fa434fc6f9",
+        "coverage": "whole family; 2 documents / 71 pages",
+        "machineReportedProblems": 0,
+        "independentFindingOverridesMachineZero": "Boundary page 19 is a route-footer-only overflow page and fails the visual-quality obligation."
+      },
+      "evidenceRead": [
+        "All 13 committed files under data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
+        "Both exact PDFs: 35-page canonical and 36-page boundary; all 71 pages rendered to PNG and inspected in contact sheets, with boundary pages 18-19 inspected at full resolution",
+        "All three bound committed legal records, rehashed from current bytes, with route packetSets, destinations, fee/service positions and 101 stop/boundary statements compared directly",
+        "Central raster run 33791677725, job 100770327017, artifact 9908205241, bound to the exact current PDF hashes"
+      ],
+      "artifactBytesMovedByThisLane": 0,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This failure is a repair direction only. It approves no output, opens no route, sets no price and promotes no family."
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "lane": "VF11",
+      "wave": "National Grade A launch — exact-base independent verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "verifiedBy": "VF11 (independent verification; this lane built, repaired and rendered none of this family)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF11 rcap-wa-custom-pleading-clean-tracks",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF11 rcap-wa-custom-pleading-clean-tracks (independent-verification, grant set 0536ccf722ccacaf)",
+        "releasedByThisLane": false
+      },
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family rcap-wa-custom-pleading-clean-tracks --codex-cloud --minimum-captain-sha 0f56e754b1be1763032e9bb933adeaa523c0b2b2",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+        "limitations": [
+          "worktree_clean failed because twelve shared-worktree paths were already modified by active lanes",
+          "pdf_lib_importable failed because repository node_modules is absent; Poppler and the bundled PDF runtime were used for read-only inspection",
+          "master_library_mounted, master_library_complete and corpus_matches_committed_index failed because the private corpus is absent"
+        ],
+        "whySourceIdentityRemainedMeasurable": "This is a zero-source custom composition. Its three authoritative inputs are committed repository records and were independently rehashed from current bytes."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "whyZeroCountersDoNotEstablishPass": "The counter only checks whether each declared blank is classified and disclosed. It does not compare a required-before-filing declaration against values the same artifact already prints, nor detect that an existing sentencing-case cause number is mislabeled as court-assigned at filing."
+      },
+      "focusedVerifierRawResult": "PASS_COMPLETE 16/46 written; all nine repository counters 0. Independent substantive comparison of the declarations, instructions and exact PDF bytes found a REQUIRED_BEFORE_FILING contradiction outside those counters.",
+      "failedObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The two route keys agree across source-receipt.json, product-wiring.json, production-field-map.json, the committed route census and the delivered route-specific titles, bodies and component groups: the RCW 9.95.240 post-probation vacation track and the RCW 10.97.060 WSP non-conviction deletion pathway remain distinct throughout.",
+          "evidence": {
+            "routeCount": 2,
+            "routeKeysMatched": 2,
+            "crossRouteComponentInterleaving": 0
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No official source binary is claimed. All three committed authoritative records rehash exactly from current repository bytes and match source-receipt.json.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+              "byteLength": 16555956,
+              "match": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "byteLength": 16829383,
+              "match": true
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "byteLength": 2599752,
+              "match": true
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All eight exact composed component ids required by the two committed packet sets are present in production-field-map.json and in both PDF manifests: four vacation components and four WSP deletion components. No foreign or missing component was found.",
+          "evidence": {
+            "declaredComponents": 8,
+            "canonicalComponents": 8,
+            "boundaryComponents": 8,
+            "missing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 16 declared writes in each fixture were independently located in the exact PDF bytes within their own component ranges. The printed full name, date of birth, mailing address, telephone and email appear on each route's primary filing as declared, and the participant name appears on the six other components.",
+          "evidence": {
+            "canonicalDeclared": 16,
+            "canonicalFound": 16,
+            "boundaryDeclared": 16,
+            "boundaryFound": 16,
+            "invisibleWrites": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Four declared required-before-filing blanks contradict facts printed by the platform on the same forms. On both route primary filings the packet prints the participant's full name and date of birth, then leaves C1 applicant name and C2 date of birth blank and says for all four that the platform holds no value. participant-instructions.md likewise says the platform filled the name and date of birth, then lists those same C1/C2 items as facts the participant must supply. In both fixtures this duplication is visible in the PDF bytes (canonical Jordan Avery Reyes / 1991-04-17; boundary Maria-Alejandra O'Shaughnessy-Whitfield / 1968-12-31). The vacation pleading also misstates the existing sentencing-case cause number as a case number the court may assign at filing: the motion caption says 'if the court assigns one at filing', the proposed order says 'if one was assigned', and the instructions repeat that treatment, although the committed track asks the participant for the cause number and the records checklist directs them to the existing sentencing-court docket.",
+          "evidence": {
+            "declaredRequiredBeforeFiling": 21,
+            "contradictoryHeldFactDeclarations": 4,
+            "affectedFields": [
+              "wa_vac_post_probation_9_95_240-primary-filing-1.fact_applicantName",
+              "wa_vac_post_probation_9_95_240-primary-filing-1.fact_dateOfBirth",
+              "wa_del_nonconviction-primary-filing-1.fact_applicantName",
+              "wa_del_nonconviction-primary-filing-1.fact_dateOfBirth"
+            ],
+            "causeNumberOwnershipMisstatements": 3,
+            "genuineUndisclosedItems": 0
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet presents two separate statutory sets rather than a printed election. All component maps declare zero selection controls, and no participant option is preselected or omitted.",
+          "evidence": {
+            "routeSets": 2,
+            "selectionControls": 0,
+            "requiredOptionsMissing": 0
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The composed documents contain no repeating row grid and no partially completed dependant row; the independent completeness run reports incompleteRows 0.",
+          "evidence": {
+            "repeatingRows": 0,
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All nine protected participant-signature/date and court/agency decision fields remain blank in both fixtures. refusedFieldsWithInk is empty and direct page review confirms no signature, signature date, court finding or judicial/agency decision was supplied.",
+          "evidence": {
+            "protectedRefusalsPerFixture": 9,
+            "refusedFieldsWithInk": 0,
+            "protectedWrites": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current fixture PDFs rehash exactly to reports/rendered-artifacts.json and to the exact-base central raster receipt.",
+          "evidence": [
+            {
+              "fixture": "canonical",
+              "sha256": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+              "byteLength": 46073,
+              "pageCount": 17,
+              "match": true
+            },
+            {
+              "fixture": "boundary",
+              "sha256": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d",
+              "byteLength": 46564,
+              "pageCount": 17,
+              "match": true
+            }
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both 17-page manifests attribute every page and keep the same eight-component sequence: vacation petition pages 1-3, order 4, checklist 5-6, instructions 7-9; WSP request 10-12, checklist 13-14, expectation setting 15-16, accuracy remedy 17.",
+          "evidence": {
+            "canonicalPagesAttributed": "17/17",
+            "boundaryPagesAttributed": "17/17",
+            "componentOrderViolations": 0
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 34 current pages were rendered and independently inspected. Long boundary identity/contact values remain visible without clipping or collision; no orphaned content or overlapping participant value was found. The exact-hash whole-family central receipt independently reports 0 machine problems.",
+          "evidence": {
+            "pagesInspected": 34,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "machineReportedProblems": 0,
+            "visualDefectsFound": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet names the sentencing-court clerk for the RCW 9.95.240 motion and Washington State Patrol for the RCW 10.97.060 deletion request, expressly distinguishing the WSP administrative route from a court filing.",
+          "evidence": {
+            "routesChecked": 2,
+            "destinationsStated": 2,
+            "missing": 0
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "For the court route the packet states that no held source establishes a filing fee or waiver and names the sentencing-court clerk as the checkable authority. For the WSP route it states there is no request fee, distinguishes possible record-product costs and states that an in-person review is free.",
+          "evidence": {
+            "routesChecked": 2,
+            "feePosturesStated": 2,
+            "waiverPosturesStated": 2
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The vacation set directs service on the prosecutor for the sentencing court and filing proof of service. The WSP set affirmatively states that no opposing-party service or court notice applies because the request goes directly to WSP.",
+          "evidence": {
+            "routesChecked": 2,
+            "servicePosturesStated": 2,
+            "missing": 0
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 12 authoritative vacation stop conditions and all 8 authoritative WSP-deletion stop conditions are carried in participant-facing guidance; the shared immigration stop is stated once and applies to both. The packet also states that the platform does not sign, decide eligibility or guarantee approval.",
+          "evidence": {
+            "vacationStopsChecked": 12,
+            "deletionStopsChecked": 8,
+            "missing": 0
+          }
+        }
+      },
+      "rasterReceipt": {
+        "runId": "33791677725",
+        "jobId": "100770327118",
+        "artifactId": "9907935198",
+        "artifactDigest": "sha256:0e782a2feaa9885cc2be5b9a9094667c60bd00662a5878d45c24133dfcf18cae",
+        "state": "RASTER_PASS",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "canonicalSha256": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+        "boundarySha256": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d",
+        "documentsDigest": "414c6c608908ef562720a816836e2bc5c3e6fa90b5d3ca33c0335432f6e45221",
+        "coverage": "whole family; 2 documents / 34 pages",
+        "machineReportedProblems": 0,
+        "substantiveLimit": "RASTER_PASS establishes visual integrity of these exact bytes; it does not cure the contradictory required-before-filing instructions."
+      },
+      "evidenceRead": [
+        "All committed family records under data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+        "Both exact 17-page PDFs; all 34 pages rendered and visually inspected, including both route primary filings at full resolution",
+        "All three bound committed legal records, rehashed from current bytes, with route packet sets, destinations, fees, service and stop conditions compared directly",
+        "Central raster run 33791677725, job 100770327118, artifact 9907935198, bound to the exact current PDF hashes"
+      ],
+      "artifactBytesMovedByThisLane": 0,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This failure is a repair direction only. It approves no output, opens no route, sets no price and promotes no family."
     }
   ],
   "determination": {

@@ -331,6 +331,48 @@
         "SERVICE"
       ],
       "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+    },
+    {
+      "itemId": "rcap-tx-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "VF10",
+      "assignedBy": "Codex VF10 independent verification",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
+      "decisiveDefect": "The delivered Statement mishandles a known date of birth on two pages and the common eight-route instructions omit 20 of the route registry's 26 unique self-help stop conditions. The focused verifier and central raster both report zero problems because the page-11 date blank is a non-AcroForm printed line and the route-specific legal stops are outside their structural counters.",
+      "failedProofObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "On packet page 2 both fixtures place a raw ISO date (1994-04-17 / 1972-12-31) over the official form's explicitly labelled Month Day Year line, reversing the requested presentation order. On packet page 11 the Option 1 'My date of birth is / Mi fecha de nacimiento es' three-part line remains blank in both fixtures even though DOB is held. Text readback finds each DOB value exactly once, while the Statement asks for it twice. The page-11 line is not an AcroForm field, is absent from field-census.census-v1.json and therefore evades knownRequiredFieldsMissing.",
+          "repairRequired": "Render the held date in month-day-year form on page 2 and overlay the same correctly presented date on the Option 1 date line on page 11 in both fixtures. Inventory the non-widget page-11 blank so future completeness checks can see it. Rebuild, rehash, raster all pages and independently reread both occurrences."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The map and instructions disclose all 96 inventoried required refusals but never disclose the page-11 Option 1 DOB blank. The instructions instead state that the platform filled the date of birth. A participant choosing Option 1 is thus left with a required declaration fact blank and no direction to complete it.",
+          "repairRequired": "The preferred repair is to prefill the held DOB on page 11. If the repaired renderer cannot safely write that printed line, classify and disclose it as a conditional required-before-filing item for Option 1 and correct the statement that DOB is already filled. Do not leave the paper, field inventory and participant instructions in disagreement."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Across tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity and tx_exp_specialty_court, the current legal-design intake carries 26 unique selfHelpStopConditions: nine shared and 17 route-specific. The packet carries six shared conditions in substance, narrows 'Immigration consequences' to non-citizenship, and omits the other 20. Missing shared conditions are venue uncertainty across counties, immigration consequences generally and an attempt to attack the underlying case. Missing route-specific conditions are: no-charge -- whether prosecution remains possible and whether Class C deferred disposition is community supervision; dismissed -- unstated dismissal reason, deferred adjudication rather than dismissal, and whether diversion was authorised under Government Code 76.011; limitations -- computing/tolling the limitations period and any tolling by absence, indictment or another event; pardon-innocence -- actual-innocence wording absent and clemency/habeas relief still being sought; pardon-other -- document not confirmed as a pardon; unlawful-carry -- offence date/subsection unconfirmed; mistaken-identity -- identity dispute, prosecutor refusal to verify, and unavailable authenticated fingerprints; specialty-court -- no state-attorney consent, closed 30-day window and prior expunction on the same ground.",
+          "repairRequired": "Make the stop guidance route-aware. For the selected route, carry all nine common registry stops plus that track's exact route-specific stops, without replacing 'Immigration consequences' with the narrower citizenship test. The composed PDF and participant-instructions.md must agree. Rebuild and independently reread every served route variant; one undifferentiated seven-bullet list is not sufficient for eight legally different routes."
+        }
+      ],
+      "obligationsAlreadyPassing": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "freshAcceptanceRequired": "After repair, rerun the focused completeness verifier, regenerate canonical and boundary artifacts, obtain a new exact-SHA whole-family raster receipt, and have an independent verifier visually reread the two DOB locations and compare the selected route's complete stop list against its current registry entry.",
+      "whatThisDoesNotChange": "The official source hash, eight served conditional component ids, filing destination, fee/waiver rule and service rule all passed at this base. Do not replace the official form, change route membership or duplicate the form eight times merely to repair these defects. This assignment opens no commercial route and approves no output."
     }
   ],
  "fableVA10Note": "The one assignment above FABLE-VA10's belongs to an earlier roster (ut_pet_traffic-set) and is left exactly as that lane wrote it; assignment ids are reused across shifts, so these six were written beside it rather than over it, and each carries a VA10- prefixed assignmentId, its own verifiedAtBase and raisedBy FABLE-VA10. The file's top-level generatedAtBase still describes the earlier lane's assignment, not these.",

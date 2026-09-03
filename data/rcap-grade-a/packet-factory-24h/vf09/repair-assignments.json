@@ -214,6 +214,52 @@
         "The three-page pleading, its two fixtures and their six rasters all rehash correctly and need no rebuild."
       ],
       "scopeLimit": "Repair inside this family directory and its build script only. This assignment opens no route, sets no price and promotes nothing."
+    },
+    {
+      "repairAssignmentId": "CODEX-VF09-TN-CUSTOM-PLEADING-2026-09-03",
+      "itemId": "rcap-tn-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading",
+      "raisedBy": "Codex VF09 independent verification",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "decisiveDefect": "The delivered family is internally self-consistent but does not implement the authoritative eleven-route contract. It omits or renames 20 of 38 prescribed packetSet components, the five district-attorney eligibility records replace 77 route-specific generation questions with duplicate generic blanks, and both exact 62-page fixtures contain a footer-only overflow page for tn_pretrial_diversion. The generator's nine counters and the existing machine raster report zero because they compare the generator to its own declarations and do not classify a two-word route-footer page as defective.",
+      "failedProofObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The current legal-design-track-registry.json prescribes 38 ordered components. The family renders 29; only 18 exact prescribed component IDs are present, 20 are absent, and eleven unprescribed generic filing-instructions IDs appear instead.",
+          "repair": "Render the route packetSet components the authoritative registry names, preserving their exact roles and route binding, or obtain an authorized legal-design change to the route contracts before rebuilding. Do not treat a generic consolidated instruction component as an exact component match merely because it contains some similar prose."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "tn_illegal_voting, tn_post_pardon, tn_recovery_court, tn_eligible_conviction and tn_two_offense each declare a participant eligibility record, but each eligibility record repeats the same generic recipient/court/case/date/ask blanks as its request. None of the 77 exact track-specific required questions across those five registry records is mapped as participantMustSupply. Material eligibility facts are consequently neither collected nor placed into the record the district attorney general is expected to use.",
+          "repair": "Replace the generic eligibility-record bodies with route-specific fields covering every current generationRequirement for each of the five tracks. Bind each field to its registry key, classify it REQUIRED_BEFORE_FILING, expose the exact question in the participant instructions, and make the report compare the authoritative generationRequirements rather than only the builder's own declared blanks. Preserve participant signatures and actor-owned fields as protected."
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "All internal manifests are sequential, but zero of eleven rendered component sequences equals its registry packetSet sequence because the prescribed guidance components are absent or renamed and consolidated.",
+          "repair": "After restoring the prescribed components, rebuild each route artifact and both family assemblies in the packetSet order field recorded for that route. Verify order against the registry independently of the generator's pageManifest, and keep packetPage and sourcePage sequences contiguous."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Page 34 of canonical.pdf and boundary.pdf is source page 3 of tn_pretrial_diversion-filing-instructions-2 and contains only `Route: obligation:track-only:TN:tn_pretrial_diversion`. It is also page 6 of both participant-deliverable tn_pretrial_diversion route PDFs. The fresh visual read found the same footer-only page in both hashes even though geometry has zero off-page words and zero text collisions and the central receipt reports zero problems.",
+          "repair": "Correct the tn_pretrial_diversion instruction pagination so the route footer remains with substantive content and no footer-only page is emitted. Regenerate canonical, boundary and both pretrial-diversion route artifacts; update manifests and exact hashes; rerun completeness; obtain a fresh whole-family raster; and require an independent visual reread of every regenerated page."
+        }
+      ],
+      "obligationsThatPassAndMustSurviveTheRepair": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "rerunRequired": "Regenerate all affected artifacts, rerun all nine counters, rehash every assembly and route PDF, obtain a fresh exact-hash central raster covering the whole family, and have a new independent verifier remeasure all fifteen obligations against the authoritative route records.",
+      "scopeLimit": "Repair only the family and its builder under an authorized repair lane. Do not open a commercial route, set a price, alter checkout, promote build status, manually edit the claim ledger or touch Production."
     }
   ],
   "fableVa9Append": {

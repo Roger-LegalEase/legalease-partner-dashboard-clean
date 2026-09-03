@@ -3,7 +3,7 @@
   "lane": "VF02",
   "worker": "VF-SRC-A",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "assignmentCount": 12,
+  "assignmentCount": 14,
   "assignments": [
     {
       "itemId": "oh_marijuana_expungement-set",
@@ -361,6 +361,81 @@
         "do not invent a filing fee or a service recipient; the packet's refusal to state either is sourced and deliberate",
         "do not open a route, set a price or change checkout"
       ]
+    },
+    {
+      "repairAssignmentId": "VF02-NATIONAL-VA-PAGE-ORDER-SELF-HELP-STOP",
+      "itemId": "va_seal_petition_misdemeanor-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill",
+      "raisedBy": "VF02",
+      "raisedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "decisiveDefect": "The packet reverses two components whose order is prescribed by the authoritative route registry, and it provides none of the route-specific conditions where self-help must stop.",
+      "failedProofObligations": [
+        "PAGE_ORDER",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": [
+        {
+          "obligation": "PAGE_ORDER",
+          "whatIsWrong": "Both canonical and boundary artifacts put commonwealth_service_and_stipulation_request before ccre_forwarding_request, and reports/rendered-artifacts.json describes that same reversed order.",
+          "whatTheRecordSays": "data/record-clearing/legal-design-track-registry.json, track va_seal_petition_misdemeanor, packetSet.components prescribes: order 1 primary_filing, order 2 ccre_forwarding_request, order 3 commonwealth_service_and_stipulation_request, order 4 records_checklist, order 5 filing_instructions.",
+          "howToRepair": "Change the assembled packet order and every participant-facing component list to the authoritative registry order: primary filing, CCRE forwarding request, Commonwealth service/stipulation request, records checklist, filing instructions. Re-render canonical and boundary artifacts and update their manifests and hashes.",
+          "howToProveTheRepair": "Read both PDFs page by page and show the CCRE request immediately after CC-1201 and before the Commonwealth request; compare that sequence directly to packetSet.components, not only to the generator's own manifest. Recompute artifact hashes and obtain a fresh exact-hash whole-family raster receipt."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "whatIsWrong": "participant-instructions.md ends with a generic disclaimer and has no route-specific stop section. It omits every stop condition held by the authoritative track registry.",
+          "whatTheRecordSays": "The track registry names nine conditions: Commonwealth objection/answer or a hearing; possible § 19.2-392.12(L) exclusion; family/household-member victim; firearm involvement; felony-history uncertainty; prior sealing under § 19.2-392.12; alcohol/drug rehabilitation; immigration consequences; and an attack on the underlying conviction. selfHelpBoundaries also says automated assistance ends if the Commonwealth objects or answers, or the court sets a hearing, while the initial packet still generates.",
+          "howToRepair": "Add a clear route-specific stop section to participant-instructions.md carrying all nine conditions and the initial-generation-versus-post-generation-handoff distinction. Use the committed registry; no new legal input is required.",
+          "howToProveTheRepair": "Match every registry stop condition term by term against the revised participant instructions and rendered filing guidance, and show zero missing conditions."
+        }
+      ],
+      "repairMustNotDo": [
+        "do not treat pageManifest/generator self-consistency as proof of page order; the authoritative route registry controls",
+        "do not remove or weaken the existing fee, destination, service, protected-field or route-selection treatment, all of which passed",
+        "do not open a route, set a price, change checkout or have VF02 verify its own repair"
+      ],
+      "reVerificationOwed": "After repair, a lane that neither built nor repaired the new bytes must rerun all fifteen obligations and bind a fresh raster receipt to the new canonical and boundary hashes.",
+      "grantsNothing": "This assignment grants nothing and promotes no family."
+    },
+    {
+      "repairAssignmentId": "VF02-NATIONAL-UT-ACQUITTAL-PAGE-ORDER-GEOMETRY",
+      "itemId": "ut_pet_acquittal-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+      "raisedBy": "VF02",
+      "raisedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "decisiveDefect": "The 19-page artifacts put the stage-one BCI documents last rather than first, contrary to the authoritative component order and the packet's own two-stage instructions. Independently, the participant name overwrites the printed first-person I in the BCI sworn declaration on page 18 of both deliverables.",
+      "failedProofObligations": [
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "perObligation": [
+        {
+          "obligation": "PAGE_ORDER",
+          "whatIsWrong": "Both canonical and boundary deliver component order 4,5,3,6,7,8,9,1,2: petition, proposed order, cover sheet, acceptance, consent, victim form, reply, BCI application, BCI third-party release. The BCI stage required to obtain the certificate used by paragraph 1 of the petition is placed after the court-stage papers.",
+          "whatTheRecordSays": "data/record-clearing/legal-design-track-registry.json, track ut_pet_acquittal, packetSet.components prescribes order 1 BCI application, 2 conditional third-party release, 3 civil cover sheet, 4 petition, 5 proposed order, 6 acceptance, 7 consent/waiver, 8 conditional victim form, 9 conditional reply, 10 instructions. Its destination and the current participant instructions both call BCI then court a fixed sequence.",
+          "howToRepair": "Reassemble both fixtures in the authoritative sequence, with the BCI application first and the conditional third-party release adjacent to it, followed by the court forms in registry order. Preserve the current participant instructions as the required tenth guidance component and update every page manifest and binding that describes the artifact.",
+          "howToProveTheRepair": "Read both regenerated PDFs page by page and compare their form block sequence directly against packetSet.components rather than only against the generator's own manifest. Recompute both artifact hashes and obtain a fresh exact-hash raster receipt after the bytes move."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "whatIsWrong": "On packet page 18, source page 2 of UT-BCI-EXP-APPLICATION, field p2-manual-declaration-name starts at x=50.50 while the printed declaration's I occupies x=49.74-52.74. Fresh geometry measured canonical Jordan over I by 2.24×3.41 pt and boundary Alexandrina over I by 2.24×2.74 pt; fresh rasters visibly show the first-person subject damaged.",
+          "whyTheCountersMissIt": "The written glyphs are inside their declared write box, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes and visualDefects remain 0. The box itself overlaps source text, which those counters do not test. The exact-hash central machine RASTER_PASS likewise does not override the independently reproduced substantive collision.",
+          "howToRepair": "Move the p2-manual-declaration-name write box to the right of the printed I and comma with a visible gap, preserving the remaining declaration text and the available participant-name width. This BCI page is shared by Utah sibling families, so apply the correction at the shared build-host configuration where appropriate rather than creating a one-family coordinate fork.",
+          "howToProveTheRepair": "Re-render canonical and boundary, extract source and written word boxes, and show zero intersection between the participant name and the printed I/comma. Inspect the declaration at high magnification, rerun completeness, recompute artifacts and bind a fresh raster receipt."
+        }
+      ],
+      "repairMustNotDo": [
+        "do not treat pageManifest self-consistency as proof of authoritative order",
+        "do not remove the BCI or conditional court components to make the sequence shorter",
+        "do not weaken the repaired automatic-first, fee, destination, service or self-help-stop instructions, all of which pass",
+        "do not open a route, set a price, change checkout or have VF02 verify its own repair"
+      ],
+      "reVerificationOwed": "After repair, a lane that neither built nor repaired the new bytes must rerun all fifteen obligations and bind a fresh exact-hash raster receipt to both fixtures.",
+      "grantsNothing": "This assignment grants nothing and promotes no family."
     }
   ],
   "va6Assignments": {

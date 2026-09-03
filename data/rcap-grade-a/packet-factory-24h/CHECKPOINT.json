@@ -6,23 +6,23 @@
   "checkpointNumber": 0,
   "checkpointMeans": "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
   "liveFamilyDenominator": 346,
-  "completePacketProven": 98,
+  "completePacketProven": 107,
   "states": {
-    "SOURCE_BLOCKED": 70,
+    "SOURCE_BLOCKED": 73,
     "SOURCE_READY": 83,
     "LEGAL_BLOCKED": 25,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
     "BUILT_RASTER_PENDING": 0,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 30,
+    "VERIFY_PENDING": 0,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 22,
+    "FAIL_REPAIR_REQUIRED": 40,
     "VERIFIED_PASS": 1,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
     "PRODUCT_PATH_PENDING": 0,
-    "COMPLETE_PACKET_PROVEN": 98,
+    "COMPLETE_PACKET_PROVEN": 107,
     "LEGITIMATE_GUIDANCE_ONLY": 0,
     "WRONG_DELIVERY_TYPE": 1,
     "GUIDANCE_READY": 9,
@@ -31,16 +31,16 @@
     "OUT_OF_SCOPE": 5
   },
   "sourceReady": 83,
-  "sourceBlocked": 70,
+  "sourceBlocked": 72,
   "assigned": 83,
   "completedSinceLastCheckpoint": 0,
   "newlySourceReady": 0,
   "returnedForRepair": 0,
   "codex": {
     "activeTasks": 0,
-    "queuedTasks": 60,
-    "lanesWithWorkAtDispatch": 47,
-    "lanesProvisionedEmpty": 13,
+    "queuedTasks": 56,
+    "lanesWithWorkAtDispatch": 37,
+    "lanesProvisionedEmpty": 19,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -441,6 +441,18 @@
       "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
     },
     {
+      "family": "tx_exp_acquittal-set",
+      "exactBlocker": "SOURCE_BOUND_BY_HELD_BYTES: official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+      "owner": "PROMO03",
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
+    },
+    {
+      "family": "tx_nd_conviction_no_supervision-set",
+      "exactBlocker": "SOURCE_BOUND_BY_HELD_BYTES: official-form:OCA Model Order of Nondisclosure under Section 411.0735, official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0735, official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+      "owner": "PROMO03",
+      "nextAction": "resolve or acquire the exact source identity, then release into the next available PF lane"
+    },
+    {
       "family": "tx_nd_dwi_conviction-set",
       "exactBlocker": "SOURCE_IDENTITY_UNRESOLVED: official-form:OCA Model Order of Nondisclosure under Section 411.0736, official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736, official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
       "owner": "DISC05",
@@ -496,6 +508,12 @@
     },
     {
       "family": "ca-851-91-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "ca-prop64-set",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"
@@ -604,6 +622,12 @@
     },
     {
       "family": "sc_17_22_950_summary-set",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "sd_arrest_expungement-set",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"

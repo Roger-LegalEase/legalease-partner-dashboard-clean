@@ -453,6 +453,64 @@
    ],
    "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
    "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  },
+  {
+   "wave": "packet-factory-24h/VF04/reissue (Codex VF04, 2026-09-03)",
+   "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "raisedBy": "Codex VF04 (independent; built, repaired and rastered none of these bytes)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+   "decisiveDefect": "REQUIRED_BEFORE_FILING: page 1 of both exact PDFs begins 'IN THE ............................................................ COURT', but this participant-completed court-caption entry is absent from production-field-map.json, reports/blanks-left-for-the-participant.json and participant-instructions.md. The parenthetical gives only the general venue rule. It does not supply the exact caption, tell the participant what to enter, or identify the source from which to obtain it. A participant can follow every instruction and still present an incomplete caption. The nine counters miss the defect because the dotted blank is authored page text rather than a mapped field.",
+   "failedProofObligations": [
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "The seven inventoried matter facts C1-C7 are each disclosed correctly, but the additional dotted court-caption entry on petition page 1 is not inventoried or disclosed. requiredFactsNotCollected=0 and unclassifiedBlanks=0 therefore do not measure it. Both exact fixtures carry the same defect: canonical sha256 704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492 and boundary sha256 6e85ef27ca1692b54d28e7a18618f0175e4ab3bc3ee71a9c3a7103a2caa5466b.",
+     "whyItMatters": "The caption is part of the filing document, and the instructions enumerate only the signature, signing date and court-assigned case number as deliberately blank. They also warn the participant not to guess an office name. The packet therefore neither completes the caption nor gives a safe, exact instruction for completing it.",
+     "repair": "Decide the valid exact court caption from a held case or venue fact and write it, or classify the caption as REQUIRED_BEFORE_FILING and tell the participant the exact text needed and the authoritative place to obtain it. Add the caption obligation to the production field map, blank report and participant instructions so the completeness contract can measure it. If a full court name is inserted, ensure the rendered composition does not duplicate the printed word COURT. Do not invent a county, and do not reclassify the court-assigned case number as platform-known. Regenerate canonical and boundary fixtures, rerun all completeness counters, obtain a fresh exact-hash whole-family raster, and require an independent reread of the repaired caption."
+    }
+   ],
+   "otherObligations": "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP all passed at the stated base.",
+   "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory or any shared queue, ledger, route, price or deployment surface was modified.",
+   "doNotDoInRepair": "Do not invent the participant's county or case number, import sibling-route fee or service rules, open a route, set a price, promote a build status or treat the machine raster's zero problems as proof that this authored-text blank is classified."
+  },
+  {
+   "wave": "packet-factory-24h/VF04/reissue (Codex VF04, 2026-09-03)",
+   "itemId": "ut_pet_no_charges-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "raisedBy": "Codex VF04 (independent; built, repaired and rastered none of these bytes)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill",
+   "decisiveDefect": "The never-charged route is presented as though a court case already exists: the fixtures prefill a criminal case number, the instructions direct filing in the county where the case was heard, omit the 30-day post-arrest threshold, and tell the participant to serve the prosecutor even though the controlling route says the court transmits the filing.",
+   "failedProofObligations": [
+    {
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "1000EX and 1020EX receive four matter.case_number writes in each fixture, although the route is for an arrest where charges were never filed and the track says no case exists. The exact artifacts visibly carry canonical 24-CR-001234 and boundary 2026-CR-900123-EXTENDED-CASE-IDENTIFIER.",
+     "repair": "Do not prefill an existing criminal-case number on this route. Preserve the form's case-number field for the court-assigned number and make the field map, refusal/readback record and participant instructions agree."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "participant-instructions.md omits the route's at-least-30-days-since-arrest threshold and does not explain that, because no court case was filed, the court supplies the case number. The completeness counters remain green because one prerequisite is legal prose and the other is currently misclassified as a known write.",
+     "repair": "State and measure the 30-day threshold before court filing. Classify the case-number field correctly for a never-filed case and tell the participant that the court assigns it; never ask the participant to invent one."
+    },
+    {
+     "obligation": "FILING_DESTINATION",
+     "finding": "The instructions say stage two goes to the district court for the county where the case was heard and the court listed for that case. A no-charges matter had no court case. The controlling route requires the district court in the county/district where the arrest occurred.",
+     "repair": "Replace the case-heard/case-listed directions with the no-charges venue rule: the district court in the county or district where the arrest occurred, with a court directory or clerk as the source for the exact judicial district and street address."
+    },
+    {
+     "obligation": "SERVICE",
+     "finding": "The instructions tell the participant to mail or email the prosecutor and complete service details. The controlling track and current Utah Courts process state that the court sends the filed papers to the prosecuting attorney and the petitioner does not effect ordinary service.",
+     "repair": "State that the court transmits the filing to the prosecutor. Explain the limited later use of Acceptance of Service, Consent and Waiver, and Proof of Service without directing routine participant service or premature service certification."
+    }
+   ],
+   "singleRepairAssignment": "Repair the no-charges route as one coherent stage-two workflow: remove the phantom known case number; add the 30-day and court-assigned-number instructions; correct venue to the arrest county/district; and correct prosecutor transmission to the court-sends rule. Rebuild both fixtures, rerun completeness/readback/geometry, obtain a fresh exact-hash whole-family raster receipt for any moved byte, then require a new independent 15-obligation read.",
+   "otherObligations": "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FEE_AND_WAIVER and SELF_HELP_STOP passed at the stated base.",
+   "evidencePins": "canonical sha256 1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143; boundary sha256 3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485; documentsDigest 112883542ca6dcdcf0400b592df0c275b1c90419b451d0d04ceb86908ec6e7d2; RASTER_PASS run 33791677725/job 100770327082/artifact 9907964839/ZIP sha256:8c670575251d4f486aee97c54ce38181aa22f0e4979a597c32ce7bb38ec5b319; 2 documents/38 pages/0 machine problems.",
+   "notRepairedHere": "This lane verifies and does not repair. No family artifact, generator, manifest, shared queue, ledger, route, price, deployment or Production surface was modified.",
+   "doNotDoInRepair": "Do not use the green field-level completeness counters or the zero-problem raster as evidence that these route semantics pass. Do not invent a case number, import venue from a filed-case sibling, make the participant serve when the court transmits, open a route, set a price or promote build status."
   }
  ],
   "supersededLaneMembership": {

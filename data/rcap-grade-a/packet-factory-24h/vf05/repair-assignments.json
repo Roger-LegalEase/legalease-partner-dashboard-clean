@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF05",
   "worker": "VF-SRC-A",
-  "assignmentCount": 5,
+  "assignmentCount": 11,
   "assignments": [
     {
       "itemId": "ar-misdemeanor-dwi-seal-set",
@@ -520,6 +520,106 @@
    ],
    "notRepairedHere": "This lane verifies and does not repair. Nothing in the family directory was modified.",
    "doNotDoInRepair": "Do not open a route, set a price, change checkout, or promote a build status. Do not run verify-packet-completeness.mjs --write. The nine counters are already zero and will stay zero through this repair; a counter run is not evidence that it was done."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+   "lane": "VF05",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedBy": "VF05-NATIONAL-GRADE-A",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
+   "decisiveDefect": "The exact current packet implements a Georgia Code section 42-8-62.1 petition and expressly says it is not the section 42-8-66 restriction route. Controlling decision CLD-2026-08-28-GA-RFO maps this same route key to a custom section 42-8-66 participant petition gated on written prosecutorial consent. The route-ratification and compiled-profile hold state is stale implementation data, not an unresolved legal question.",
+   "failedProofObligations": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS"
+   ],
+   "perObligation": {
+    "ROUTE_IDENTITY": {
+     "measuredDetail": "The packet selects section 42-8-62.1 and disclaims section 42-8-66, while CLD-2026-08-28-GA-RFO requires section 42-8-66 for the identical GA youthful-first-offender-restriction route key.",
+     "whatRepairMustDo": "Regenerate the family for the controlling section 42-8-66 route and keep the route key, packet heading, route selection, and participant instructions consistent."
+    },
+    "SOURCE_IDENTITY": {
+     "measuredDetail": "The three declared committed-record hashes recompute exactly (6b4188167447a5755503fa0ef8888af124431ce4367a30f20cb32006009cc058, 3992bda9c4961d0e9f19c05cb22c7efee84b1c21c8e5318ee73917ce02155507, and 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f), but the receipt treats the stale held-guidance/compiled state as the route authority and does not bind the superseding controlling decision. Exact hashes do not cure the wrong controlling source set.",
+     "whatRepairMustDo": "Refresh the source receipt and route authority chain to include and obey CLD-2026-08-28-GA-RFO; retire the superseded interim treatment from the active implementation basis."
+    },
+    "COMPONENT_SET": {
+     "measuredDetail": "The delivered four-page packet contains a section 42-8-62.1 petition plus filing instructions. It does not contain the consent-gated section 42-8-66 participant petition required by the controlling decision.",
+     "whatRepairMustDo": "Replace the wrong petition component with the required section 42-8-66 petition and represent the written-consent gate in the delivered component set."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "The packet lists six participant items but does not require written prosecutorial consent; instead it says consent belongs to a different route. CLD-2026-08-28-GA-RFO makes written consent a prerequisite for this route.",
+     "whatRepairMustDo": "Name written prosecutorial consent as required before filing, and prevent filing on this route when it is absent."
+    },
+    "ROUTE_OPTIONS": {
+     "measuredDetail": "The packet does not encode the controlling decision's consent-present filing branch, consent-absent attorney/prosecutor handoff, or post-2026 qualifying-order implementation-tracking branch.",
+     "whatRepairMustDo": "Encode all controlling branches and stop the self-help filing path when the consent gate is not satisfied."
+    }
+   },
+   "repairMustNotDo": [
+    "do not treat this as a new counsel question; the controlling decision is already committed",
+    "do not edit an artifact merely so an old raster receipt matches it",
+    "this verification opens no commercial route and grants no approval"
+   ]
+  },
+  {
+   "itemId": "in_section1_petition-set",
+   "lane": "VF05",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedBy": "VF05-NATIONAL-GRADE-A",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
+   "decisiveDefect": "The official Section 1 source bundle now independently binds at b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5, but the delivered packet still omits three required CCA Non Conviction Insert groups: Facts, Findings, and Exhibit pages. reports/missing-companion-forms.json records COMPONENT_SET OPEN and the current participant instructions correctly say not to file without them.",
+   "failedProofObligations": [
+    "COMPONENT_SET"
+   ],
+   "perObligation": {
+    "COMPONENT_SET": {
+     "measuredDetail": "The source bundle calls for the Non Conviction Insert Facts pages referenced at source page 4, Findings pages referenced at source page 10, and Exhibit pages referenced at source page 11. None is delivered. The current petition has no allegations supplied by the Facts insert, the proposed order has no findings supplied by the Findings insert, and there is no Exhibit A identifying agency records.",
+     "whatRepairMustDo": "Acquire the exact official CCA Non Conviction Insert Facts, Findings, and Exhibit pages; bind their source hashes; add them to the component manifest and both fixtures in the required order; preserve the do-not-file stop until all are present; then re-run completeness and exact-hash raster acceptance."
+    }
+   },
+   "repairMustNotDo": [
+    "do not treat the now-cleared official bundle hash as a remaining source block",
+    "do not clear COMPONENT_SET merely by deleting the current missing-companion record",
+    "this verification opens no commercial route and grants no approval"
+   ]
+  },
+  {
+   "itemId": "wv_conv_multiple_misdemeanors-set",
+   "lane": "VF05",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedBy": "VF05-NATIONAL-GRADE-A",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+   "decisiveDefect": "The exact four-page artifacts are visually and mechanically sound, but the participant guidance omits the controlling supporting-document prerequisites and retains the superseded one-petition/multi-county destination model. Both are implementation defects under existing committed decisions, not open legal questions.",
+   "failedProofObligations": [
+    "REQUIRED_BEFORE_FILING",
+    "FILING_DESTINATION"
+   ],
+   "perObligation": {
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "The controlling track record requires certified dispositions, judgment orders and sentencing orders for every conviction in the group, written proof that supervision on the last conviction ended, and attachment of those documents. The current participant instructions do not name or require any of them, even though SCA-C906 item n declares supporting documentation attached.",
+     "whatRepairMustDo": "Add participant-facing instructions to obtain the certified disposition, judgment order and sentencing order for each conviction, obtain written proof that supervision on the most recent conviction ended, identify the appropriate court/clerk or supervising agency as the source, and attach the required records before filing. Preserve the existing participant fields and all protected execution fields."
+    },
+    "FILING_DESTINATION": {
+     "measuredDetail": "NATIONAL-2026-08-28-C-WV-02 requires one petition per circuit court, no residence-county venue and no single receiving court for a multi-county group. The current instructions say a multi-county group is identified and grouped by circuit court but never require separate petitions, leaving the obsolete single-petition model in place.",
+     "whatRepairMustDo": "Implement one petition per circuit court and group in each petition only the convictions belonging to that court. State that residence county is not a venue shortcut, remove or rewrite every sentence and conditional supplemental-component rule that implies one petition can span circuit courts, and stop for counsel when the correct court mapping is unclear."
+    }
+   },
+   "acceptance": [
+    "Run the focused completeness verifier and independently measure all 15 obligations; zero mechanical counters do not by themselves clear either defect.",
+    "Rehash every changed artifact and source binding. If either PDF or its component manifest moves, obtain a fresh exact-hash whole-family raster receipt and repeat geometry/readback/visual inspection.",
+    "Do not weaken the ten existing self-help stops, fee/waiver guidance, service guidance, protected-field policy, or page order."
+   ],
+   "repairMustNotDo": [
+    "do not treat either defect as a new counsel question; the controlling decisions are committed",
+    "do not declare completion by changing only a completeness counter or stale report narrative",
+    "do not edit an artifact merely so the current raster receipt matches it",
+    "this verification opens no commercial route and grants no approval"
+   ]
   }
  ],
   "supersededLaneMembership": {
@@ -657,5 +757,32 @@
   "noRepairPerformed": true,
   "overlayDirectoriesModified": 0,
   "packetsModified": 0
+ },
+ "nationalGradeAVf05BlockedFamilies":
+ {
+  "verifier": "VF05-NATIONAL-GRADE-A",
+  "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+  "assignmentCountUpdated": "The existing array already contained 8 assignments while assignmentCount remained 5. Adding the GA and IN assignments made 10; assignmentCount was normalized to 10 so it now equals assignments.length.",
+  "sourceClearancesApplied": "Captain independently streamed and rehashed the exact IN bundle and all three WA sources. IN moved to FAIL_REPAIR_REQUIRED for COMPONENT_SET only, and WA moved to PASS_COMPLETE_INDEPENDENT. Their obsolete blocked-source entries were removed from this list.",
+  "whySeparate": "TX remains BLOCKED_SOURCE, not FAIL_REPAIR_REQUIRED. Its exact measured implementation defects are recorded here but it is intentionally excluded from assignments while the third human-source return is absent.",
+  "families": [
+   {
+    "itemId": "tx_nd_conviction_no_supervision-set",
+    "verdict": "BLOCKED_SOURCE",
+    "failedProofObligations": [
+     "SOURCE_IDENTITY",
+     "KNOWN_PREFILLS",
+     "PROTECTED_FIELDS",
+     "SELF_HELP_STOP"
+    ],
+    "sourceGate": "Three official source PDFs are unavailable: da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13, 6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680, bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d.",
+    "measuredDefects": [
+     "Exact canonical and boundary bytes contain source-authored 0 values in Value / Valor 11 (packet page 16) and Amount Cantidad 15 (page 17), despite the packet declaring participant financial facts blank.",
+     "Exact canonical and boundary bytes contain 12/15/2022 in protected sworn-declaration field Today on packet page 20; field-census policy=protect and the instructions say a pre-sworn date would be false.",
+     "Instructions omit the registry stop branch for any family-violence allegation; they mention only an affirmative court finding."
+    ],
+    "actionableAfterSourceRestored": "After the missing third human-source return is available, bind the source set; then clear all source-authored participant financial/date appearances from the delivered fee-waiver form, preserve the sworn date as participant completion, and add the missing family-violence-allegation stop. Re-render and obtain a new exact-hash raster receipt."
+   }
+  ]
  }
 }

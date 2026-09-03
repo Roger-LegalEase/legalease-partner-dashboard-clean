@@ -182,6 +182,72 @@
         "SELF_HELP_STOP"
       ],
       "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+    },
+    {
+      "assignmentId": "VF11-NATIONAL-ND-BOUNDARY-FOOTER-OVERFLOW-001",
+      "issuedBy": "VF11",
+      "issuedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "itemId": "rcap-nd-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
+      "decisiveDefect": "The boundary fixture's long identity/contact block pushes the pardoned-conviction primary filing's route footer onto a standalone otherwise blank page. Boundary page 19 contains only the two-word, 59-character route footer; the equivalent canonical component ends on page 18.",
+      "failedProofObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Canonical.pdf is 35 pages and its pardoned-conviction primary filing occupies pages 16-18. Boundary.pdf is 36 pages and that component occupies pages 16-19. Boundary page 18 contains the substantive end of the petition and the long participant contact block; page 19 contains only 'Route: obligation:track-only:ND:nd-seal-pardoned-conviction'. Direct extraction finds 2 words and 59 characters on page 19. The central receipt reports 71 pages and zero machine problems, but independent full-page rendering confirms the orphaned-page overflow."
+        }
+      ],
+      "repairInstruction": "Adjust pagination in scripts/build-census-v1-rcap-nd-custom-pleading.mjs so the route footer remains with meaningful content for the pardoned-conviction boundary component. Keep the long boundary values visible and untruncated; do not solve the defect by clipping, shrinking them below a legible size, deleting the route footer, or moving another isolated fragment onto page 19. Re-render both fixtures and inspect every page for orphaned headings, footers and continuation fragments.",
+      "howToProveTheRepair": [
+        "Read the repaired boundary PDF page by page and show that no page contains only a route footer or another orphaned fragment.",
+        "Compare canonical and boundary component manifests and explain any remaining page-count difference with substantive content on every page.",
+        "Recompute both artifact hashes and the documents digest, obtain a fresh exact-hash whole-family raster receipt, and have a lane that neither built nor repaired the new bytes rerun all fifteen obligations."
+      ],
+      "repairMustPreserve": [
+        "all five exact route identities and the current 19-component order",
+        "all 48 canonical and 48 boundary known prefills",
+        "all 83 required-before-filing disclosures and all 127 protected refusals per fixture",
+        "all five destination, fee/waiver and service treatments",
+        "all 101 exact registry stop-condition and boundary statements"
+      ],
+      "machineRasterBlindSpot": "A central RASTER_PASS with zero machine-reported problems does not cure a visibly orphaned route-footer-only page. The repair proof must include a human page review as well as the automated receipt.",
+      "notForThisLane": "VF11 measured this defect and may not repair or verify its own repair.",
+      "grantsNothing": "This assignment authorizes only a packet repair. It opens no route, sets no price and approves no output."
+    },
+    {
+      "assignmentId": "VF11-NATIONAL-WA-REQUIRED-BEFORE-FILING-CONTRADICTION-001",
+      "issuedBy": "VF11",
+      "issuedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "decisiveDefect": "Both route primary filings print the participant's name and date of birth, then ask the participant to supply those facts again in blank C1/C2 fields whose declarations falsely say the platform holds no value. The vacation route additionally treats the existing sentencing-case cause number as a new number the court may assign at filing.",
+      "failedProofObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Four declared required-before-filing fields contradict the exact delivered bytes and participant-instructions.md. The vacation and WSP deletion primary filings each print participant.full_legal_name and participant.date_of_birth, while their C1 applicant-name and C2 date-of-birth blanks say 'the platform holds no value for it'. The instructions first state that the platform filled the name and date of birth and then list the same four blanks as facts the participant must supply. This is present in both fixtures: canonical Jordan Avery Reyes / 1991-04-17 and boundary Maria-Alejandra O'Shaughnessy-Whitfield / 1968-12-31."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The RCW 9.95.240 motion belongs in an existing sentencing case and the committed generation requirements ask the participant for that case's cause number. Nevertheless, the motion caption calls it 'Case number, if the court assigns one at filing', the proposed order says 'if one was assigned', and the instructions tell the participant that the court assigns every caption number at filing. The packet's own records checklist instead correctly identifies the existing sentencing-court docket as the source of the cause number."
+        }
+      ],
+      "repairInstruction": "Make the required-before-filing declarations and participant instructions describe the bytes truthfully. On each route, do not ask for a full name or date of birth that the platform already prints. If another case-filed name is genuinely required, narrow C1 to the other/alias name only; otherwise convert name and birth date to explicit check-and-correct prompts or remove the duplicate blanks. Update the production field map and blank report so none says the platform holds no value for a fact it writes. For the vacation route, treat the cause number as the existing sentencing-case cause number: direct the participant to obtain it from the sentencing-court docket and place or hand-copy it consistently into the motion and proposed-order captions. Remove every statement that this existing-case number will be assigned at filing. Preserve the other genuine required-before-filing questions, protected signatures/dates and court/agency decisions, both exact routes and component order, and all destination, fee, service and stop-condition content. Rebuild both fixtures if any packet byte changes, obtain a fresh exact-hash whole-family raster receipt, and send the new bytes to a lane that neither built nor repaired them for all fifteen obligations.",
+      "howToProveTheRepair": [
+        "Compare every required-before-filing declaration against actual-writes.json and the exact fixture text; no field may say the platform lacks a fact that the same fixture prints.",
+        "Read both primary filings and participant-instructions.md and confirm there is no duplicate blank full-name or date-of-birth request; any retained alias or confirmation prompt must say exactly what the participant must do.",
+        "Read the vacation motion and proposed-order captions and confirm the existing sentencing-case cause number is requested and treated consistently, never as a new number assigned at filing.",
+        "Re-run the focused completeness verifier, recompute both artifact hashes, obtain a fresh exact-hash whole-family raster receipt, and have an independent lane remeasure all fifteen obligations."
+      ],
+      "repairMustPreserve": [
+        "both exact Washington route identities and the current eight-component order",
+        "all 16 genuine known prefills per fixture and all protected-field refusals",
+        "the remaining genuine required-before-filing questions and records-to-obtain guidance",
+        "both routes' filing destination, fee and waiver, service and self-help-stop treatments"
+      ],
+      "machineRasterBlindSpot": "The central exact-hash receipt is RASTER_PASS for 34 pages with zero machine problems. That proves visual integrity, not substantive consistency between printed facts and hand-completion instructions.",
+      "notForThisLane": "VF11 measured this defect and may not repair or verify its own repair.",
+      "grantsNothing": "This assignment authorizes only a packet repair. It opens no route, sets no price and approves no output."
     }
   ],
  "va11Note": {

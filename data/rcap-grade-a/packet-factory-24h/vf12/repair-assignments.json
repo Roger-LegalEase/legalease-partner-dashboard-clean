@@ -251,6 +251,50 @@
         "SELF_HELP_STOP"
       ],
       "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+    },
+    {
+      "itemId": "rcap-wi-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading",
+      "assignedBy": "independent-verification lane VF12",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "failedProofObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Restore the registry's conditional status-request semantics. The status request is only for a participant who wants to know whether the certificate has issued rather than ask that it be issued. Current componentConditions is empty in both production-field-map.json and rendered-artifacts.json, the participant component table omits the condition, and the generic steps direct every participant to complete/file the pages together."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Inventory and disclose the visible primary TO/addressee line as the registry-required current mailing address of the supervising authority. Remove the phantom primary case_number classification: the repaired primary letter has no case-number blank and expressly says no court assigns one. Correct the blanket case-number guidance so it does not tell the participant to leave the status request's real existing case/docket number blank."
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "Remove participant-facing court-filing instructions that contradict this administrative route. The participant sends the selected request to the supervising or detaining authority; it is not filed with a court, no court assigns this request a new case number, and the primary and status requests are not pages that every participant files together."
+        }
+      ],
+      "repairInstruction": "Make one coherent repair across the family generator and regenerated artifacts: (1) carry the status-only condition into componentConditions, the component table and step-by-step use instructions, clearly telling issue/forward requesters to use the primary request and status-only requesters to use the status request rather than sending both; (2) add the primary request's visible TO/name-and-address line to the field map, blank inventory and participant required-before-sending checklist, while deleting the nonexistent primary case_number entry and correcting the status request's existing case/docket-number guidance; and (3) replace court-filing/prosecutor/fee boilerplate with the registry's exact administrative destination, ordinary-mail channel, no-fee/no-waiver and no-service posture. Rebuild both fixtures, refresh all exact hashes/reports, and obtain a new whole-family raster receipt. Preserve the substantive request pages' correct neutral posture and all self-help stops.",
+      "acceptanceProof": [
+        "The focused completeness verifier passes and an independent inventory reports every visible blank exactly once, including the primary TO/addressee line, with no phantom primary case-number field.",
+        "componentConditions and participant instructions state the registry's status-only condition and never tell every participant to use both request components.",
+        "No participant-facing instruction describes this request as a court filing, says a court assigns it a new case number, or directs service on a prosecutor; the named destination is the supervising or detaining authority.",
+        "Canonical and boundary fixture hashes bind to a completed whole-family raster receipt at the repair base, with every page covered and zero clipping/overlap problems."
+      ],
+      "obligationsAlreadyPassing": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "doNotDo": "Do not turn this administrative request back into a petition, invent a judicial remedy, prefill the authority's current address, merge the primary and status-only requests, or weaken the existing stop/referral boundaries.",
+      "grantsNothing": "This assignment authorizes a repair only. It opens no route, sets no price, approves no packet and changes no Production state."
     }
   ],
   "fableV12Append": {

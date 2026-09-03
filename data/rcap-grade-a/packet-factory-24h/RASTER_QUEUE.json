@@ -20,21 +20,29 @@
     "whoDecides": "merging workflow changes to the default branch is Roger's decision"
   },
   "lastBatch": {
-    "workflowRunId": "33497786539",
-    "renderedCommitSha": "422ccb49e37966a14b5b4026a0054ce97c3af974",
-    "familiesRendered": 11,
+    "workflowRunId": "33791677725",
+    "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+    "familiesRendered": 22,
     "verdicts": {
-      "RASTER_PASS": 11,
+      "RASTER_PASS": 22,
       "RASTER_FAIL": 0,
       "RASTER_BLOCKED_ENVIRONMENT": 0
     },
-    "jobsGreen": "11/11",
-    "whatChangedSinceTheLastBatch": "Eleven of these rows were retargeted before dispatch: the queue had been pointing at one component of a multi-component packet because a substring match over a sorted listing picks canonical--<FORM>.pdf before canonical.pdf. These verdicts describe the assembled packet.",
+    "jobsGreen": "22/22",
     "partialCoverageAmongThese": 0,
-    "howTheVerdictIsKnown": "rcap-raster-batch.mjs exits 0 only on RASTER_PASS; RASTER_FAIL and RASTER_BLOCKED_ENVIRONMENT both exit 1, so a green job cannot carry another verdict.",
-    "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair (which the batch re-verifies from disk and refuses on mismatch), the job conclusion, and the receipt artifact id and zip digest.",
+    "canaryArtifact": {
+      "id": 9907619451,
+      "name": "rcap-raster-canary",
+      "zipSha256": "sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a",
+      "sizeInBytes": 5955,
+      "expiresAt": "2026-09-17T18:39:55Z"
+    },
+    "howTheVerdictIsKnown": "Every family job concluded success after the exact-SHA guard; rcap-raster-batch.mjs exits 0 only on RASTER_PASS, and each streamed verdict JSON was independently checked against the queue document digest, current PDF hashes, full-family coverage and zero reported problems.",
+    "receiptArtifactsReadHere": "Captain streamed each verdict JSON directly from its GitHub artifact. The verdicts enumerate the measured PNG pages; PNG pixels were not independently re-read during queue ingestion.",
     "packetPdfsModified": 0,
-    "bodiesCommitted": 0
+    "bodiesCommitted": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
   },
   "whatRasterPassDoesNotMean": "RASTER_PASS is one gate. It does not make a family PASS_COMPLETE, does not promote it, does not open a commercial route, and does not substitute for an independent read by a worker that did not build it.",
   "grantsNothing": "A RASTER_PASS proves the pages render as measured. It is one gate of several, it promotes nothing, and it opens no commercial route.",
@@ -101,11 +109,12 @@
       "RAS04": 40
     },
     "byState": {
-      "RASTER_PENDING": 28,
+      "RASTER_PENDING": 6,
       "RASTER_RUNNING": 0,
-      "RASTER_PASS": 133,
+      "RASTER_PASS": 155,
       "RASTER_FAIL": 0,
-      "RASTER_BLOCKED_ENVIRONMENT": 0
+      "RASTER_BLOCKED_ENVIRONMENT": 0,
+      "RASTER_LOCAL_PENDING_CENTRAL": 0
     },
     "notEligible": 185
   },
@@ -396,8 +405,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF01",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327053",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "dbbec83187e79709468b55ac715b815a52ae19b6943fb597a96951eb45afdef3",
+        "boundToBoundarySha256": "e2a7a09b65dcc5fbe3a44cf7dd2c6f069823259fe6fe7fb4844c0313f834880d",
+        "documentsMeasured": 2,
+        "pagesMeasured": 12,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission — 2 document(s), 12 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907783288,
+          "name": "rcap-raster-agency-application-treatment_obligation_research-decision-route_NY_ny_160_55_violation_dcjs_correction_submission-33791677725",
+          "zipSha256": "sha256:4a75ada201edafb97a34d478f8da8849976c74a1da351aab11e6262af5b295a4",
+          "sizeInBytes": 2958014,
+          "expiresAt": "2026-09-17T18:44:18Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907783288; its measurements account for 12 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
@@ -1281,8 +1320,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF02",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326865",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "06232e1f2a7888c27499f271395236d6eba1fbaddb1c1de4c47584d7905ffe5a",
+        "boundToBoundarySha256": "109e16a3e6c9a5e6f987632a7b491e99686112f096f3224df93552c4303f30b2",
+        "documentsMeasured": 2,
+        "pagesMeasured": 6,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS az_marijuana_expungement_superior_court-set — 2 document(s), 6 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "aoc-crem3f-canonical-filled.pdf",
+          "aoc-crem3f-boundary-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907738693,
+          "name": "rcap-raster-az_marijuana_expungement_superior_court-set-33791677725",
+          "zipSha256": "sha256:452e90a5845a5de82729359f696873b4615abbde7dbd41440c7348d6cb9efd15",
+          "sizeInBytes": 2065160,
+          "expiresAt": "2026-09-17T18:43:08Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907738693; its measurements account for 6 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
@@ -2334,8 +2403,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF03",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326918",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "90c4f8a029287843bc3de09f327c6dc27b99438d15d083fe5abd58efd7deb485",
+        "boundToBoundarySha256": "a6bcbd2ab9f34da7a08c1a5b1d5f4391bca586f08a20dbd7488959baf89b8b22",
+        "documentsMeasured": 2,
+        "pagesMeasured": 10,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 — 2 document(s), 10 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907775582,
+          "name": "rcap-raster-composed-treatment_obligation_runtime-only_MS_uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59-33791677725",
+          "zipSha256": "sha256:ebe7326741e3c4822c107d08d867d0a5c3ca1dabd36a586e9ec316ac273c7c69",
+          "sizeInBytes": 2342518,
+          "expiresAt": "2026-09-17T18:44:06Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907775582; its measurements account for 10 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
@@ -2529,8 +2628,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS04",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326999",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179",
+        "boundToBoundarySha256": "7ec9bdeb42a3fb3657aed1d6d1e8eeb01a2ee98935d08f7541174b1a31008359",
+        "documentsMeasured": 2,
+        "pagesMeasured": 10,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement — 2 document(s), 10 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907767099,
+          "name": "rcap-raster-composed-treatment_obligation_runtime-only_OK_juvenile-record-expungement-33791677725",
+          "zipSha256": "sha256:1be22adc6ed999a1997ad8f57c6dfb92969fb3acfa35a67688d613eb4dc0a509",
+          "sizeInBytes": 2808141,
+          "expiresAt": "2026-09-17T18:43:53Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907767099; its measurements account for 10 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
@@ -2724,8 +2853,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF04",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS03",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326897",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492",
+        "boundToBoundarySha256": "6e85ef27ca1692b54d28e7a18618f0175e4ab3bc3ee71a9c3a7103a2caa5466b",
+        "documentsMeasured": 2,
+        "pagesMeasured": 8,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement — 2 document(s), 8 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907767044,
+          "name": "rcap-raster-composed-treatment_obligation_runtime-only_WV_sex-trafficking-victim-vacatur-and-expungement-33791677725",
+          "zipSha256": "sha256:02c590ee1bfa2ae2d99125f294d6f240e97732207e5a6f283931636679c53ffd",
+          "sizeInBytes": 2950429,
+          "expiresAt": "2026-09-17T18:43:52Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907767044; its measurements account for 8 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
@@ -2769,8 +2928,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS04",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326945",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "6d6e3190303b0aec3a12c009f2e1f3fea579e70a9739c7916536f9119a6b9ecf",
+        "boundToBoundarySha256": "61dc959c94e8669b1b7844c1adca0353e66719a822cd97a3af26b8a612538241",
+        "documentsMeasured": 2,
+        "pagesMeasured": 8,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708 — 2 document(s), 8 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907756761,
+          "name": "rcap-raster-composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708-33791677725",
+          "zipSha256": "sha256:56d21f4309003f4ef3e07def428ef75ad481e4deac3b1d71ed47de971271d241",
+          "sizeInBytes": 2957298,
+          "expiresAt": "2026-09-17T18:43:36Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907756761; its measurements account for 8 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "composed-treatment:sc_17_22_950_summary",
@@ -4957,8 +5146,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS04",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326958",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241",
+        "boundToBoundarySha256": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d",
+        "documentsMeasured": 2,
+        "pagesMeasured": 30,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS in_section1_petition-set — 2 document(s), 30 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "packet-canonical-filled.pdf",
+          "packet-boundary-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907906083,
+          "name": "rcap-raster-in_section1_petition-set-33791677725",
+          "zipSha256": "sha256:6e6b67b6bd255ec41ec8b8b39bc217c0a51bd80b1b9ecd4665d9874cf6547b88",
+          "sizeInBytes": 6760484,
+          "expiresAt": "2026-09-17T18:47:38Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907906083; its measurements account for 30 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "ky_criminal_record_segregation-set",
@@ -6556,8 +6775,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF06",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS04",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326899",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "912a2ada6ef04dd680aec20ef6c8c232d9af030a8d54695ba3b65d279d601e71",
+        "boundToBoundarySha256": "de3224b08aec7d46796f74ecad09f3bb4d8e7928f6349324ccf070af6698399b",
+        "documentsMeasured": 2,
+        "pagesMeasured": 86,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS nj_arrest_no_conviction-set — 2 document(s), 86 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "cn-10557-canonical.pdf",
+          "cn-10557-boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9908296762,
+          "name": "rcap-raster-nj_arrest_no_conviction-set-33791677725",
+          "zipSha256": "sha256:6cee8f6b1bc1fc62c502254e8d067daf4d0d38a8e16ca3b2982e85d070ed7044",
+          "sizeInBytes": 36319234,
+          "expiresAt": "2026-09-17T18:58:17Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9908296762; its measurements account for 86 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "nj_clean_slate-set",
@@ -7931,8 +8180,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF07",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS03",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326883",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+        "boundToBoundarySha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+        "documentsMeasured": 2,
+        "pagesMeasured": 25,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS rcap-ks-custom-pleading — 2 document(s), 25 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907880370,
+          "name": "rcap-raster-rcap-ks-custom-pleading-33791677725",
+          "zipSha256": "sha256:28c5abfa8e65d1e7941ae5b3ad52bbef32f02007791af09156af6ffcd6353e51",
+          "sizeInBytes": 7429037,
+          "expiresAt": "2026-09-17T18:46:54Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907880370; its measurements account for 25 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "rcap-ms-custom-pleading",
@@ -8050,8 +8329,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF11",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327017",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "62aa435f485e9dbe4bf399e5da41ef7896489d8b172edbbce7f8b387f8838de4",
+        "boundToBoundarySha256": "2fb6b704906cdbfb631001447bbc758d77bab8c407a2e62dc8fceb0001b5f439",
+        "documentsMeasured": 2,
+        "pagesMeasured": 71,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS rcap-nd-custom-pleading — 2 document(s), 71 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9908205241,
+          "name": "rcap-raster-rcap-nd-custom-pleading-33791677725",
+          "zipSha256": "sha256:8efeea52e11aed8cfef77552c73b0ef78480c939f0d11fd74cb4b41babf8a62e",
+          "sizeInBytes": 16269759,
+          "expiresAt": "2026-09-17T18:55:49Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9908205241; its measurements account for 71 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "rcap-nv-custom-pleading",
@@ -8373,8 +8682,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF10",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326998",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "06ad787efc569d60d90fc85abb2e380f4485ee9685151a89e411439a52078d3b",
+        "boundToBoundarySha256": "fdcb1584a97ce8cf9bdad07b90270166d9671b4ba61092bd03abdb3b8be37e52",
+        "documentsMeasured": 2,
+        "pagesMeasured": 30,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS rcap-tx-custom-pleading — 2 document(s), 30 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907906965,
+          "name": "rcap-raster-rcap-tx-custom-pleading-33791677725",
+          "zipSha256": "sha256:428538cf337753736019462c91d83fd1002125c68223a1a001efbf9aa17954e7",
+          "sizeInBytes": 11763271,
+          "expiresAt": "2026-09-17T18:47:38Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907906965; its measurements account for 30 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
@@ -8418,8 +8757,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF11",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS03",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327118",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+        "boundToBoundarySha256": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d",
+        "documentsMeasured": 2,
+        "pagesMeasured": 34,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS rcap-wa-custom-pleading-clean-tracks — 2 document(s), 34 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907935198,
+          "name": "rcap-raster-rcap-wa-custom-pleading-clean-tracks-33791677725",
+          "zipSha256": "sha256:0e782a2feaa9885cc2be5b9a9094667c60bd00662a5878d45c24133dfcf18cae",
+          "sizeInBytes": 10319316,
+          "expiresAt": "2026-09-17T18:48:24Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907935198; its measurements account for 34 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "rcap-wi-custom-pleading",
@@ -8463,8 +8832,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF12",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS04",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326912",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "b9cf7091ab2f1feb80b0ba701583b767ae10a6dfe2f25fd5b00858cbe557c37b",
+        "boundToBoundarySha256": "08e2f3973f4966dbf4def5aa91ec103727c39f0e0132d84b5816a924b87f2a18",
+        "documentsMeasured": 2,
+        "pagesMeasured": 12,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS rcap-wi-custom-pleading — 2 document(s), 12 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907789463,
+          "name": "rcap-raster-rcap-wi-custom-pleading-33791677725",
+          "zipSha256": "sha256:00b1ef52e39db803664721ed2b382760d862bb71cca118bb86dad686fa15725e",
+          "sizeInBytes": 3892252,
+          "expiresAt": "2026-09-17T18:44:28Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907789463; its measurements account for 12 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "rcap-wv-custom-pleading",
@@ -8508,8 +8907,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327039",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06",
+        "boundToBoundarySha256": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194",
+        "documentsMeasured": 2,
+        "pagesMeasured": 24,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS rcap-wv-custom-pleading — 2 document(s), 24 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907871616,
+          "name": "rcap-raster-rcap-wv-custom-pleading-33791677725",
+          "zipSha256": "sha256:c2593173383f682a876aac2cdb6134141b4095f86c3ef692e3bcbee72138bd08",
+          "sizeInBytes": 6532593,
+          "expiresAt": "2026-09-17T18:46:41Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907871616; its measurements account for 24 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "ri_marijuana-set",
@@ -8750,8 +9179,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF01",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326928",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd",
+        "boundToBoundarySha256": "0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15",
+        "documentsMeasured": 2,
+        "pagesMeasured": 46,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS tx_exp_acquittal-set — 2 document(s), 46 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9908038000,
+          "name": "rcap-raster-tx_exp_acquittal-set-33791677725",
+          "zipSha256": "sha256:d94d9d2432199c2e1b7c2d41dab418c9a15d4c66c93444f29d833824fe70a5dd",
+          "sizeInBytes": 15055359,
+          "expiresAt": "2026-09-17T18:51:11Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9908038000; its measurements account for 46 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "tx_nd_conviction_no_supervision-set",
@@ -8795,8 +9254,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326947",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "52821ee02b5528ed73235b359d7d40bd27389792d41ba9d9b799b45515b444a6",
+        "boundToBoundarySha256": "614e65dca4a894127c9cfa87c6f6629458a96bff5ad2ec4bdc70eb4573fdf28c",
+        "documentsMeasured": 2,
+        "pagesMeasured": 48,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS tx_nd_conviction_no_supervision-set — 2 document(s), 48 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9908030844,
+          "name": "rcap-raster-tx_nd_conviction_no_supervision-set-33791677725",
+          "zipSha256": "sha256:b6d74867b279ef9a6773c2e99efeb9e6fd7a0d49765d4c32f644e2e98ee69001",
+          "sizeInBytes": 16132299,
+          "expiresAt": "2026-09-17T18:50:59Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9908030844; its measurements account for 48 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "tx_nd_dwi_probation-set",
@@ -8840,8 +9329,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF10",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS03",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327086",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "f4e76632fdd4e41ec7d36a635f30030c0cef37ce08a19980c3b82b9199869667",
+        "boundToBoundarySha256": "deb1c6505ee4ec2817bf4ce266adfdf2845f76ab4d217e37d9908210d94bbdfe",
+        "documentsMeasured": 2,
+        "pagesMeasured": 48,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS tx_nd_dwi_probation-set — 2 document(s), 48 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9908034210,
+          "name": "rcap-raster-tx_nd_dwi_probation-set-33791677725",
+          "zipSha256": "sha256:0c938fc187e2f82792ec88d15f76b68b0f67d95cfb75f5032c23c316db3aeb4b",
+          "sizeInBytes": 16046908,
+          "expiresAt": "2026-09-17T18:51:05Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9908034210; its measurements account for 48 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "ut_pet_acquittal-set",
@@ -9143,8 +9662,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF04",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS04"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS04",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327082",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143",
+        "boundToBoundarySha256": "3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485",
+        "documentsMeasured": 2,
+        "pagesMeasured": 38,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS ut_pet_no_charges-set — 2 document(s), 38 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907964839,
+          "name": "rcap-raster-ut_pet_no_charges-set-33791677725",
+          "zipSha256": "sha256:8c670575251d4f486aee97c54ce38181aa22f0e4979a597c32ce7bb38ec5b319",
+          "sizeInBytes": 12750129,
+          "expiresAt": "2026-09-17T18:49:12Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907964839; its measurements account for 38 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "va_exp_absolute_pardon-set",
@@ -9593,8 +10142,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF02",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS03",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326971",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "8c6b3c46f9fc874c55aa27764768693b419443970c102487adb8446fc2678c30",
+        "boundToBoundarySha256": "b8a85562ada431804a4da6b9e6943096934ae812507e57a39fa103fce2892989",
+        "documentsMeasured": 2,
+        "pagesMeasured": 18,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS va_seal_petition_misdemeanor-set — 2 document(s), 18 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907828058,
+          "name": "rcap-raster-va_seal_petition_misdemeanor-set-33791677725",
+          "zipSha256": "sha256:103b3118f575482c1e4e59c8b62902e18d263c50d67457e079121b333874c177",
+          "sizeInBytes": 5669646,
+          "expiresAt": "2026-09-17T18:45:31Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907828058; its measurements account for 18 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "vt_exp_decriminalized-set",
@@ -10210,8 +10789,40 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327120",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "1b595c985753ae1d9583eb628ddac64117ea786ef72cca84df6329e99b781166",
+        "boundToBoundarySha256": "54e9c1592824d9c3f429c9acc0346b7c7899a5ecfd6e17bb4cfd816163412783",
+        "documentsMeasured": 4,
+        "pagesMeasured": 6,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS wa_vac_cannabis-set — 4 document(s), 6 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "crrlj-09-0800-canonical-filled.pdf",
+          "crrlj-09-0870-canonical-filled.pdf",
+          "crrlj-09-0800-boundary-filled.pdf",
+          "crrlj-09-0870-boundary-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907740682,
+          "name": "rcap-raster-wa_vac_cannabis-set-33791677725",
+          "zipSha256": "sha256:68b891c9c6b28694b6f140aaa459233f0f3148c154dd2c81cc8fb9cecc1a56c2",
+          "sizeInBytes": 4614569,
+          "expiresAt": "2026-09-17T18:43:12Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907740682; its measurements account for 6 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "wa_vac_domestic_violence-set",
@@ -10897,8 +11508,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770326985",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "31a49f2d2216fd2c7a1327aa7f95f3214b8a760e9d46c05517d764d7bd60f90d",
+        "boundToBoundarySha256": "2a0b701a523d3f7c71f6327c6bd4384cbf438689d0be42d30b869f218f6e1dbe",
+        "documentsMeasured": 2,
+        "pagesMeasured": 8,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS wv_conv_multiple_misdemeanors-set — 2 document(s), 8 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907852466,
+          "name": "rcap-raster-wv_conv_multiple_misdemeanors-set-33791677725",
+          "zipSha256": "sha256:83490ca0db15d98c302caee137929e55784ee44d84df87e20604f79379841b10",
+          "sizeInBytes": 3495973,
+          "expiresAt": "2026-09-17T18:46:11Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907852466; its measurements account for 8 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "wv_conv_single_misdemeanor-set",
@@ -10942,8 +11583,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF06",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS03"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS03",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33791677725",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "jobId": "100770327067",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa",
+        "boundToBoundarySha256": "375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40",
+        "documentsMeasured": 2,
+        "pagesMeasured": 18,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS wv_conv_single_misdemeanor-set — 2 document(s), 18 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9907926082,
+          "name": "rcap-raster-wv_conv_single_misdemeanor-set-33791677725",
+          "zipSha256": "sha256:37e5f05b543629ba86e42b5771cc46c5ecbcb31c0b627e51e5309a56bc2187c8",
+          "sizeInBytes": 6623027,
+          "expiresAt": "2026-09-17T18:48:09Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33791677725; canary artifact 9907619451 has ZIP SHA-256 sha256:2c7e0a636c3ad675e07b1d6a6e71b1a0780f0a4a79e4c1b2f5f646361be4694a.",
+        "pinVerification": "The workflow guard proved checkout commit 88d688b8b6910f0c501cab0d72633554220d822b. Captain rehashed the canonical and boundary PDFs from the current worktree and both match the queue and verdict pins.",
+        "bytesReconfirmedAtIngestion": "Captain streamed the verdict JSON from artifact 9907926082; its measurements account for 18 page image(s), report no problem, and bind the complete declared document set. PNG pixels were not independently re-read during this ingestion. Packet PDFs were not modified."
+      }
     },
     {
       "familyId": "wv_dui_deferral_expungement-set",

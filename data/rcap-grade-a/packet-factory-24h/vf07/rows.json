@@ -6545,6 +6545,519 @@
           }
         }
       }
+    },
+    {
+      "itemId": "ct-decriminalized-set",
+      "lane": "VF07",
+      "worker": "Codex VF07 (independent; built and repaired none of these bytes)",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading",
+      "currentByteIdentity": {
+        "buildScript": {
+          "path": "scripts/build-census-v1-ct-decriminalized-set.mjs",
+          "sha256": "4bf19504958553916aead6992746adecbdb6e2c1e77026b6d3279d0c43490777",
+          "byteLength": 62843
+        },
+        "canonicalPdf": {
+          "sha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+          "byteLength": 10500,
+          "pageCount": 4
+        },
+        "boundaryPdf": {
+          "sha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+          "byteLength": 10688,
+          "pageCount": 4
+        },
+        "lapsedVerdictNotReused": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "rasterState": "RASTER_PASS",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The exact family id and the single route key obligation:track-only:CT:ct-decriminalized agree across source-receipt.json, production-field-map.json, product-wiring.json, MASTER_QUEUE.json, the committed census and the current rendered pages. The petition and instructions identify C.G.S. section 54-142d, State v. Menditto and State v. Dudley and ask for physical destruction rather than erasure.",
+          "evidence": {
+            "routeKey": "obligation:track-only:CT:ct-decriminalized",
+            "recordsAgree": 6
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This is a CUSTOM_PLEADING_FROM_CODIFIED_TEXT family with no source binary. All three committed authority records were rehashed from their current repository bytes and match the exact SHA-256 and byte length in source-receipt.json; all 16 declared anchor statements are bound by the current build script.",
+          "evidence": [
+            {
+              "recordId": "legal-design-track-registry:ct-decriminalized",
+              "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+              "byteLength": 16555956,
+              "anchors": 14,
+              "rehashMatches": true
+            },
+            {
+              "recordId": "legal-design-specifications:ct-decriminalized",
+              "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "byteLength": 16829383,
+              "anchors": 1,
+              "rehashMatches": true
+            },
+            {
+              "recordId": "route-obligation-census:1-route(s)",
+              "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "byteLength": 2599752,
+              "anchors": 1,
+              "rehashMatches": true
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current fixtures render both declared components: the two-page primary petition followed by the two-page filing instructions. No named component is absent.",
+          "evidence": {
+            "declaredAndPresent": [
+              "ct-decriminalized-primary-filing-1",
+              "ct-decriminalized-filing-instructions-2"
+            ],
+            "requiredComponentsMissing": 0
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All six declared writes in each fixture were found independently in the current PDF text: name on both components, plus date of birth, mailing address, telephone and email on the petition. This includes every long boundary value; no write is invisible.",
+          "evidence": {
+            "canonicalWritesFound": 6,
+            "boundaryWritesFound": 6,
+            "knownRequiredFieldsMissing": 0,
+            "invisibleWrites": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All four declared participant-supplied items are present as labelled blanks in both current PDFs and are named with their questions in participant-instructions.md: conviction details, offense sections, decriminalization basis and counts on docket. The required Judicial Branch case-look-up printout is also named with where to obtain it.",
+          "evidence": {
+            "declared": 4,
+            "disclosedInInstructions": 4,
+            "labelsAndQuestionsFoundInEachPdf": 4,
+            "unclassifiedBlanks": 0
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The route has no election control: zero selectionControls are declared on either component. The sole route-determined choice is expressed in the petition title, body and footer as the section 54-142d physical-destruction route, so no required option is unselected.",
+          "evidence": {
+            "selectionControls": 0,
+            "requiredOptionsMissing": 0
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The current field map contains no repeating row structure. Item C4 is one narrative blank asking for the number of counts, not a partially filled table, and the focused completeness verifier measured incompleteRows 0.",
+          "evidence": {
+            "repeatingRows": 0,
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The court-assigned case number, petitioner signature and signature date are the three declared protected blanks. Original-resolution inspection of both current fixtures shows all three empty, the signature warning remains visible, and no refused field carries ink.",
+          "evidence": {
+            "protectedFieldsDeclared": 3,
+            "canonicalProtectedWrites": 0,
+            "boundaryProtectedWrites": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current fixture files were rehashed from disk and match reports/rendered-artifacts.json on SHA-256, byte length and four-page count. The existing central RASTER_PASS binds those same two exact hashes, so the lapsed pre-move verdict was not reused and the current bytes are covered.",
+          "evidence": {
+            "canonical": {
+              "sha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+              "byteLength": 10500,
+              "pageCount": 4,
+              "allRecordedValuesMatch": true
+            },
+            "boundary": {
+              "sha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+              "byteLength": 10688,
+              "pageCount": 4,
+              "allRecordedValuesMatch": true
+            },
+            "rasterReceipt": {
+              "workflowRunId": "33605354695",
+              "jobId": "100168605569",
+              "artifactId": 9836931409,
+              "documentsMeasured": 2,
+              "pagesMeasured": 8,
+              "problemsFound": 0,
+              "canonicalHashMatchesCurrent": true,
+              "boundaryHashMatchesCurrent": true
+            }
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both page manifests are sequential 1 through 4 and match the current PDF bytes: primary petition source pages 1-2, then filing-instructions source pages 1-2. Original-resolution inspection confirms the same order.",
+          "evidence": {
+            "canonicalManifest": [
+              "primary_filing:1",
+              "primary_filing:2",
+              "filing_instructions:1",
+              "filing_instructions:2"
+            ],
+            "boundaryManifest": [
+              "primary_filing:1",
+              "primary_filing:2",
+              "filing_instructions:1",
+              "filing_instructions:2"
+            ],
+            "manifestMatchesBytes": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current PDFs were freshly rastered and all eight pages inspected at original resolution. Independent pdfplumber geometry found zero intersecting word boxes and zero words outside the 612-by-792-point page on 988 canonical and 993 boundary words; the long boundary name, address, phone and email are legible and contained. The hash-bound central receipt independently reports 0 problems across these same eight pages.",
+          "evidence": {
+            "canonical": {
+              "words": 988,
+              "overlapPairs": 0,
+              "wordsOutsidePage": 0
+            },
+            "boundary": {
+              "words": 993,
+              "overlapPairs": 0,
+              "wordsOutsidePage": 0
+            },
+            "centralRasterProblems": 0
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions file and both current PDFs name the committed destination and venue: Superior Court at the location where the conviction was effected or having custody of the records, or the Judicial Department records center for older courts.",
+          "evidence": {
+            "registryDestinationFoundInMarkdown": true,
+            "registryDestinationFoundInCanonicalPdf": true,
+            "registryDestinationFoundInBoundaryPdf": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet accurately states the held record: whether section 54-142a(k)'s no-fee rule reaches this different section 54-142d route is unresolved, and the waiver is unresolved with it. It invents no figure and names the Superior Court clerk or Judicial Department records center as the checkable authority for the fee and its waiver application.",
+          "evidence": {
+            "feeNonStatementCarried": true,
+            "waiverNonStatementCarried": true,
+            "checkableAuthorityNamed": true,
+            "inventedDollarFigures": 0
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions file and both current PDFs state the committed record's exact non-statements that no service or notice requirement is established, and they name the Superior Court clerk or Judicial Department records center as the office that answers who must be served and how.",
+          "evidence": {
+            "serviceRuleCarried": true,
+            "noticeRuleCarried": true,
+            "checkableAuthorityNamed": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All four committed selfHelpStopConditions are present in participant-instructions.md and both current PDFs: disputed or unclear decriminalization, the State v. Dudley probation issue, a court-set hearing, and an immigration matter. The additional committed handoff boundary for disputed facts or a contested hearing is also present.",
+          "evidence": {
+            "registryConditions": 4,
+            "presentInMarkdown": 4,
+            "presentInCanonicalPdf": 4,
+            "presentInBoundaryPdf": 4,
+            "additionalHandoffBoundaryPresent": true
+          }
+        }
+      },
+      "evidenceRead": {
+        "focusedVerifier": "PASS_COMPLETE, 6/13 written, all nine counters zero",
+        "sourceRecomputation": "3/3 current committed records match exact SHA-256 and byte length; 16 anchors bound",
+        "artifactRecomputation": "2/2 current PDFs match exact SHA-256, byte length and page count",
+        "rasterRebinding": "RASTER_PASS workflow 33605354695 / job 100168605569 / artifact 9836931409 binds both current hashes; 2 documents, 8 pages, 0 problems",
+        "independentGeometry": "8/8 current pages freshly rastered and inspected; 1981 words measured, 0 overlap pairs, 0 words outside page",
+        "allFifteenMeasured": true,
+        "unmeasuredObligations": []
+      },
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This independent PASS proves completeness only for the exact bytes at the recorded base. It approves no output, promotes no route and opens no commercial route."
+    },
+    {
+      "itemId": "rcap-ks-custom-pleading",
+      "assignmentId": "VF07",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "claimAssertion": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF07 rcap-ks-custom-pleading",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF07 rcap-ks-custom-pleading (independent-verification, grant set 1e9f307a4bc2414d)"
+      },
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family rcap-ks-custom-pleading --codex-cloud --minimum-captain-sha 0f56e754b1be1763032e9bb933adeaa523c0b2b2",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+        "failedChecks": [
+          "worktree_clean — 9 uncommitted paths from concurrent lanes",
+          "pdf_lib_importable — node_modules absent",
+          "master_library_mounted — absent",
+          "master_library_complete — absent corpus cannot be walked",
+          "corpus_matches_committed_index — absent corpus cannot be walked"
+        ],
+        "sourceImpact": "None for this zero-binary-source custom pleading: family_sources_bind passed and the three committed authority records were rehashed directly from repository bytes."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 2,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 3,
+        "allZero": false,
+        "measuredHere": true,
+        "shippedVerifierOutput": "PASS_COMPLETE 14/56 written; all nine machine counters zero",
+        "independentOverride": "The shipped verifier compares the family to its own internal declarations and does not detect the two authoritative component-id omissions or footer-only orphan pages."
+      },
+      "rasterState": {
+        "state": "RASTER_PASS_WITH_INDEPENDENT_VISUAL_FAILURE",
+        "workflowRunId": "33791677725",
+        "jobId": "100770326883",
+        "receiptArtifactId": 9907880370,
+        "receiptZipSha256": "sha256:28c5abfa8e65d1e7941ae5b3ad52bbef32f02007791af09156af6ffcd6353e51",
+        "renderedCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "canonicalSha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+        "boundarySha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+        "documentsDigest": "8c19439aa05a4a6257a5dd2498ef01066b1e98e81fbda7c4c93d4a593ae2bfbc",
+        "documentsMeasured": 2,
+        "pagesMeasured": 25,
+        "machineProblemsFound": 0,
+        "independentVisualProblemsFound": 3,
+        "finding": "The hash binding is current, but the machine pass missed a route-footer-only page in boundary.pdf and its two-document scope does not include the four route-specific participant deliverables."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both current five-segment track-pathway route keys agree across the route census, source receipt, field map, product wiring and rendered-artifact manifest. Extracted text from all six PDFs contains neither legacy track-only keys nor machine route keys; each route PDF carries only its own short human route label and statutory ground.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+              "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+            ],
+            "legacyKeyHitsInSixPdfs": 0,
+            "machineKeyHitsInSixPdfs": 0
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This is CUSTOM_PLEADING_FROM_CODIFIED_TEXT with no source binary. All three committed authority records rehash from their current bytes to the exact SHA-256 and byte length recorded in source-receipt.json, and both route rows are present in each applicable record.",
+          "evidence": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "sha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+              "byteLength": 16555956,
+              "matchesReceipt": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+              "byteLength": 16829383,
+              "matchesReceipt": true
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+              "byteLength": 2599752,
+              "matchesReceipt": true
+            }
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The authoritative track-registry packet sets, legal-design packet-set manifest and both committed route packet specifications require a process_guidance component at order 3 for each route. The rendered family instead declares and ships filing-instructions-3 under a different component id and role. Semantic guidance content exists, but exact required component identity does not: two required ids are missing and two undeclared substitutes are present.",
+          "evidence": {
+            "missingRequired": [
+              "ks-12-4516-municipal-process-guidance-3",
+              "ks-12-4516a-municipal-arrest-process-guidance-3"
+            ],
+            "undeclaredSubstitutes": [
+              "ks-12-4516-municipal-filing-instructions-3",
+              "ks-12-4516a-municipal-arrest-filing-instructions-3"
+            ],
+            "authoritativeSources": [
+              "data/record-clearing/legal-design-track-registry.json",
+              "data/record-clearing/legal-design-packet-set-manifests.json",
+              "data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json",
+              "data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json"
+            ]
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All fourteen declared writes per fixture are visible in the exact PDF text: name on all six components and date of birth, address, telephone and email on each primary filing. Whitespace-normalized extraction confirms the full long boundary address, and original-resolution rendering confirms the values remain legible.",
+          "evidence": {
+            "canonicalWritesFound": 14,
+            "boundaryWritesFound": 14,
+            "boundaryLongAddressFoundAfterWhitespaceNormalization": true,
+            "invisibleWrites": 0
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 28 participant-supplied blank labels and their supply text are present in participant-instructions.md, and all 28 appear as labelled dotted blanks on the correct route petition. The instructions also name the route-specific records, local form and fee information to obtain before filing.",
+          "evidence": {
+            "requiredBeforeFiling": 28,
+            "labelsAndSupplyTextPresent": 28,
+            "missing": 0,
+            "unclassifiedBlanks": 0
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No form election is appropriate: the participant's record determines which of the two route-specific sets applies. The instructions state that choice, each petition supplies its own statutory ground, no election control is printed, and no foreign-route component appears in either route PDF.",
+          "evidence": {
+            "declaredSelectionControls": 0,
+            "requiredOptionsMissing": 0,
+            "routeSpecificSets": 2
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Neither authoritative packet nor field map contains a repeating table. The numbered C-items are individual narrative blanks rather than rows with adjacent written and missing cells; no partial row exists.",
+          "evidence": {
+            "repeatingStructures": 0,
+            "incompleteRows": 0
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All fourteen protected blanks remain empty in both fixtures: court-assigned case numbers, petitioner signature/date lines, and every proposed-order decision, date and judicial-signature line. Original-resolution page inspection found no ink on a protected line.",
+          "evidence": {
+            "protectedBlanks": 14,
+            "protectedWrites": 0,
+            "refusedFieldsWithInk": 0
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All six declared PDFs exist and independently rehash to reports/rendered-artifacts.json with matching byte lengths and parsed page counts. The central receipt binds the current family canonical and boundary hashes at the exact review base; the receipt's visual-coverage limitation is scored under CLIPPING_AND_OVERLAP.",
+          "evidence": [
+            {"artifact":"family canonical","sha256":"006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24","byteLength":34362,"pageCount":12},
+            {"artifact":"family boundary","sha256":"3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2","byteLength":35191,"pageCount":13},
+            {"artifact":"municipal canonical route","sha256":"7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8","byteLength":20219,"pageCount":8},
+            {"artifact":"municipal boundary route","sha256":"61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f","byteLength":20427,"pageCount":8},
+            {"artifact":"arrest canonical route","sha256":"3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275","byteLength":18274,"pageCount":6},
+            {"artifact":"arrest boundary route","sha256":"dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2","byteLength":18476,"pageCount":6}
+          ]
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Within each route, the bytes follow the authoritative ordinal role order: primary filing, proposed order, then guidance/instructions. Every pageManifest is contiguous from 1 through the parsed page count and each component occupies one continuous page run. The order passes even though the exact third-component identity fails COMPONENT_SET.",
+          "evidence": {
+            "authoritativeRoleOrder": ["primary_filing","proposed_order","process_guidance"],
+            "renderedRoleOrder": ["primary_filing","proposed_order","filing_instructions"],
+            "ordinalSequenceMatches": true,
+            "manifestPageNumbersContiguous": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Independent rendering found three orphaned route-footer-only pages. Family boundary.pdf page 4 contains only 'Route: Municipal conviction or diversion expungement - K.S.A. 12-4516' (9 words, 69 characters); family canonical has no corresponding page. Both route-specific municipal canonical.pdf and boundary.pdf page 8 contain that same footer and nothing else. A technically nonblank page is still a pagination/overflow defect, and the two-document central raster's 0-problem result did not detect it.",
+          "evidence": {
+            "defectivePages": [
+              {"artifact":"fixtures/boundary.pdf","page":4,"words":9,"characters":69,"onlyText":"Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"},
+              {"artifact":"fixtures/routes/ks-12-4516-municipal/canonical.pdf","page":8,"words":9,"characters":69,"onlyText":"Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"},
+              {"artifact":"fixtures/routes/ks-12-4516-municipal/boundary.pdf","page":8,"words":9,"characters":69,"onlyText":"Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"}
+            ],
+            "familyPageCountDivergence": "canonical 12 pages; boundary 13 pages; the additional boundary page is the footer-only page 4",
+            "geometryAcrossAllSixPdfs": "13,572 extracted words; 0 off-page words; 0 same-line overlap pairs",
+            "centralMachineReport": "RASTER_PASS, 2 documents / 25 pages / 0 machine-reported problems"
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each route's delivered instruction pages name its own registry destination: the convicting Kansas municipal court for K.S.A. 12-4516, and the Kansas municipal court where the ordinance charge was brought for K.S.A. 12-4516a. Both identify the municipal court clerk and the local-form/charter-ordinance check.",
+          "evidence": {"registryDestinationsFoundInBothCanonicalRoutePdfs":2}
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each route carries its own fee subsection and the no-statewide-amount statement. The conviction/diversion set states no statutory waiver and local practice; the arrest set states the identity-theft no-fee exemption and that it is not a discretionary waiver. No sibling exemption is read across.",
+          "evidence": {"routeFeeRulesFound":2,"routeWaiverRulesFound":2,"inventedDollarFigures":0}
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both route instruction components state that the court causes notice and the participant does not serve, and identify notice to the prosecuting attorney and arresting law-enforcement agency under the correct route-specific subsection.",
+          "evidence": {"routeServiceRulesFound":2,"routeNoticeRulesFound":2}
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All six route-specific selfHelpStopConditions are present in each route PDF, and each also carries the committed generation/self-help handoff boundary. The municipal route includes prosecutor opposition, contested hearing, charter-ordinance variation, disputed state-equivalent offense, KORA registration and immigration; the arrest route includes its disputed grounds and wrong-route stop.",
+          "evidence": {"municipalStopConditionsFound":"6/6","arrestStopConditionsFound":"6/6","generationBoundaryFoundOnBoth":true}
+        }
+      },
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidenceRead": {
+        "focusedVerifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading -> PASS_COMPLETE 14/56 written; all nine machine counters zero",
+        "runtimeVerifier": "node scripts/verify-rcap-kansas-municipal-runtime-routes.mjs could not start: ERR_MODULE_NOT_FOUND typescript because node_modules is absent",
+        "routeArtifactVerifier": "Both invocations of verify-route-artifact-completeness.mjs could not start: ERR_MODULE_NOT_FOUND pdf-lib because node_modules is absent",
+        "independentPdfParsing": "pypdf parsed and extracted all 53 pages across six PDFs; hashes, byte lengths, page counts, route labels and prefills checked",
+        "independentGeometry": "pdfplumber measured 13,572 words across six PDFs; 0 off-page words and 0 same-line overlap pairs",
+        "independentVisualReview": "All 12 canonical and 13 boundary assembly pages plus all route-artifact pages were rendered locally and reviewed; three footer-only pages found",
+        "allFifteenMeasured": true
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This failure is a completeness verdict and repair assignment only. It approves no output, promotes no route and opens no commercial route."
     }
   ],
   "obligationSet": [

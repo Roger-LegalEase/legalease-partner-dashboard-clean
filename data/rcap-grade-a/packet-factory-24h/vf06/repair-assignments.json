@@ -304,6 +304,80 @@
         "do not close the defect by removing the boundary fixture or by shortening the boundary name — the fixture exists to find exactly this",
         "this verification opens no commercial route and grants no approval"
       ]
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "lane": "VF06",
+      "assignedBy": "VF06",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "decisiveDefect": "The 69-entry 'Exact facts still required before filing' inventory is mechanically complete but substantively unsafe and often unintelligible. It tells the participant to supply court-owned and post-filing facts before filing, including hearing/final-order dates, hearing time, both judge signatures, the court-assigned expungement docket number and notice/post-order dates, contradicting the same instructions' ownership and service-sequencing rules. It also exposes raw internal field names and truncated AcroForm tooltips as participant labels: 14 labels are exactly their internal name and several others are fragments such as '(original indict', '. I was arre', 'a', ',' and 'an Order of'.",
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "perObligation": {
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "production-field-map.json marks 69 fields REQUIRED_BEFORE_FILING and participant-instructions.md lists all 69 by source field, so the counter returns zero. At least these 16 declarations are owned by the court or arise only after filing: orderHearYr, hearDay, hearTime, hearTimeM, sigHearJdg, orderFinalDay, MuniCrts, probDivCntys, sigFinalJdg, CoverLtrDDt, CoverLtrEDt, CoverLtrEHearDt, CoverLtrEHearTime, expungDocketNum, sigNoticeDt and CoverLtrGDt. Fourteen effective labels equal the internal field name: cnt, contOffense2, sigHearJdg, jdgmntDocket1, jdgmntDocket2, jdgmntDocket3, jdgmntDocket4, sigFinalJdg, CoverLtrDDt, CoverLtrEDt, sigNoticeDt, ProbAddrStr, MuniCrtsAddrStr and IdbAddrStr. The participant copy reproduces those strings verbatim and also reproduces truncated labels, so it does not tell a participant what fact to supply.",
+          "whatRepairMustDo": "Reclassify every court-owned, hearing, service-event and post-order field out of REQUIRED_BEFORE_FILING and preserve it blank for the proper owner or later event. Audit all 69 declarations against the page and workflow stage. For every genuine participant prefiling blank, replace the AcroForm tooltip/internal-name label with a unique plain-language instruction that identifies the fact, the form/page or context, and—where relevant—the record to copy it from. Keep the three safe held-but-not-printed disclosures (arrest1CaseNum, paired arrest1Dt and dismissOff1) intact. Rebuild the instructions/field map consistently, rerun completeness, and independently verify the repaired family; if fixture bytes move, re-earn exact-hash raster acceptance."
+        }
+      },
+      "obligationsThatPassed": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "repairMustNotDo": [
+        "do not treat the zero completeness counters or RASTER_PASS as proof that participant-facing classifications are correct",
+        "do not print court, judge, service-event or post-order values merely to make the prefiling list disappear",
+        "do not weaken the three held-value disclosures or the complete self-help stop section",
+      "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "lane": "VF06",
+      "assignedBy": "VF06",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "familyVerdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+      "decisiveDefect": "The delivered packet appends a complete obsolete SCA-C900 instruction/petition block that is not a component in the current registry packet set and contradicts the current route, while the companion participant instructions omit three registry-required document-acquisition workflows needed before filing.",
+      "failedProofObligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "perObligation": {
+        "COMPONENT_SET": {
+          "measuredDetail": "The registry packet set names SCA-C906 for the petition, verification and certificate plus process guidance for service and filing; it declares no SCA-C900 form. Yet pages 5-9 of each delivered fixture reproduce all five SCA-C900 pages. Page 5 gives a 10-day reply window, contrary to the current registry's 30-day reply rule, and pages 6-9 contain an obsolete duplicate petition for an age-18-to-26/no-prior-or-subsequent-convictions route. participant-instructions.md itself calls the embedded petition outdated and tells the participant not to use it, proving it is not an operative required component.",
+          "whatRepairMustDo": "Remove the obsolete SCA-C900 pages from the participant-delivered packet. Deliver the registry's required service_package and filing_instructions as current route-specific process guidance, preserving the correct current SCA-C906 petition/verification/certificate and the correct 30-day opposition-reply treatment. Rebuild both fixtures and all exact-byte reports/rasters."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "The registry requires the participant to obtain certified disposition, judgment and sentencing orders from the clerk and compare the conviction date/sentence; conditionally obtain written supervision-end or release-date proof from probation/the institution and compare the date; and conditionally obtain any current restitution/protection/restraining/no-contact order from the issuing clerk and attach/check it. The current instructions list blanks and say to take dates from records, but do not give the first two acquisition/confirmation workflows and do not name how to obtain the current-order copy.",
+          "whatRepairMustDo": "Add all three registry-required acquisition and confirmation workflows to the participant-facing before-filing guidance, with the named source office, conditionality and compare/correct step. Keep signatures, notarization and service-event fields protected until their proper events."
+        }
+      },
+      "acceptance": [
+        "the rebuilt delivered component list matches the current registry packet set and contains no obsolete duplicate petition or contradictory SCA-C900 instructions",
+        "participant instructions carry each registry-required obtain_document and paired confirm_answer action for certified case/sentence records, supervision/release proof and any current order",
+        "the completeness verifier passes with exactly 15 independently measured obligations and no unmeasured obligation",
+        "new canonical and boundary hashes are bound to a fresh whole-family RASTER_PASS and then independently reverified"
+      ],
+      "repairMustNotDo": [
+        "do not treat the current RASTER_PASS or zero completeness counters as proof that the delivered component set and acquisition guidance are substantively correct",
+        "do not retain an obsolete duplicate petition merely because a warning tells the participant not to use it",
+        "do not edit an artifact only to make an old receipt match it; rebuild and obtain a new exact-byte receipt",
+        "this verification opens no commercial route and grants no approval"
+      ]
     }
   ],
      "vf06ReDispatchWaveBlockedFamilies": {

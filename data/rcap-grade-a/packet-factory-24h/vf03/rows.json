@@ -8115,6 +8115,506 @@
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json (the family's row)"
    ],
    "grantsNothing": "A blocked row approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+   "lane": "VF03",
+   "wave": "National Grade A launch — exact-base independent verification",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "verifiedBy": "VF03 (independent verification; this lane built, repaired and rendered none of this family)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+   "claim": {
+    "assertedBeforeArtifactRead": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+    "exitCode": 0,
+    "result": "CLAIM_OK VF03 composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 (independent-verification, grant set 44e9ea1ce094df2c)",
+    "releasedByThisLane": false
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 --codex-cloud --minimum-captain-sha 0f56e754b1be1763032e9bb933adeaa523c0b2b2",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "limitations": [
+     "worktree_clean failed because fifteen shared-worktree paths were already modified by active lanes",
+     "pdf_lib_importable failed because repository node_modules is absent; the bundled pdfplumber and Poppler runtimes were used for read-only PDF inspection",
+     "master_library_mounted, master_library_complete and corpus_matches_committed_index failed because the private corpus is absent"
+    ],
+    "whySourceIdentityRemainedMeasurable": "The preflight classifies this family as a zero-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition. Its two authoritative inputs are committed repository records and were independently rehashed from current bytes."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59, run here: PASS_COMPLETE, 7/20 written"
+   },
+   "failedObligations": [],
+   "unmeasuredObligations": [],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The exact runtime-only route key agrees across source-receipt.json, production-field-map.json, product-wiring.json, the route-obligation census and all three delivered components. The petition title and body consistently identify the § 99-15-59 twelve-month no-charge branch and expressly exclude the separate dismissed-charge branch.",
+     "evidence": {
+      "routeKey": "obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "runtimePathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "routeContractId": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "crossRouteComponents": 0
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No official source binary is claimed. Both committed authoritative records named by source-receipt.json were independently rehashed from current repository bytes and match their pinned SHA-256 and byte length exactly; the route object and compiled pathway anchors are present in those bytes.",
+     "evidence": [
+      {
+       "path": "src/lib/legal-authority/routes/mississippi.json",
+       "sha256": "1d533e72b993ce40bda1b7aa565a62d0585259280483ffccd9192395eeb00026",
+       "byteLength": 37570,
+       "match": true
+      },
+      {
+       "path": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+       "sha256": "d30c78bcdbcd4378d1d6e656dd65f8ebde3b6d231e7020add220e55d865ea689",
+       "byteLength": 416327,
+       "match": true
+      }
+     ]
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The contract's petition and proposed-order components are rendered as primary_filing and proposed_order. Its third named component is the participant's own arrest record, which cannot be authored by the build; the petition states that the arrest record is filed with it, and the delivered filing_instructions component tells the participant where to obtain it and to file it with the petition. The additive instructions component is present in both fixtures.",
+     "evidence": {
+      "contractComponents": [
+       "Petition under § 99-15-59",
+       "Arrest record",
+       "Proposed order"
+      ],
+      "renderedComponents": [
+       "primary_filing",
+       "proposed_order",
+       "filing_instructions"
+      ],
+      "participantRecordComponentAccountedFor": true,
+      "requiredComponentsMissing": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All seven declared writes in each fixture were independently read from normalized text extracted from the exact PDF bytes. The boundary mailing address wraps to a second line but remains complete and legible; no known value is missing or invisible.",
+     "evidence": {
+      "canonicalDeclared": 7,
+      "canonicalFound": 7,
+      "boundaryDeclared": 7,
+      "boundaryFound": 7,
+      "invisibleWrites": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All six declared hand-completion items are named on their pages and in participant-instructions.md: arrest date, arrest/booking number if present, arresting or citing agency, court and county/city, misdemeanor wording, and the matching court caption on the proposed order. The participant is separately told to obtain and attach the arrest record, confirm the misdemeanor/no-charge/no-prosecution/no-pending branch facts, count the full twelve months from the arrest or citation date and escalate related-count uncertainty.",
+     "evidence": {
+      "declaredRequiredBeforeFiling": 6,
+      "disclosed": 6,
+      "unclassifiedBlanks": 0,
+      "participantRecordNamed": true
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "This family is one route and one instrument set. The no-charge/dismissal distinction is a family boundary rather than a printed election; all three component maps carry zero selection controls and no route-determined option is missing.",
+     "evidence": {
+      "selectionControls": 0,
+      "requiredOptionsMissing": 0
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The composed documents contain labelled standalone blanks rather than repeating row structures. No row contains a written cell beside an owed blank, and the focused verifier reports incompleteRows 0.",
+     "evidence": {
+      "repeatingRows": 0,
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All seven protected blanks remain blank in both exact fixtures. Direct page review confirms no participant signature or signature date, court-assigned case number, proposed-order decision, judicial signature or judicial date carries ink; refusedFieldsWithInk is empty.",
+     "evidence": {
+      "protectedBlanksPerFixture": 7,
+      "refusedFieldsWithInk": 0,
+      "protectedWrites": 0
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both current fixture PDFs rehash exactly to reports/rendered-artifacts.json and to the exact-base central raster receipt.",
+     "evidence": [
+      {
+       "fixture": "canonical",
+       "sha256": "90c4f8a029287843bc3de09f327c6dc27b99438d15d083fe5abd58efd7deb485",
+       "byteLength": 12023,
+       "pageCount": 5,
+       "match": true
+      },
+      {
+       "fixture": "boundary",
+       "sha256": "a6bcbd2ab9f34da7a08c1a5b1d5f4391bca586f08a20dbd7488959baf89b8b22",
+       "byteLength": 12215,
+       "pageCount": 5,
+       "match": true
+      }
+     ]
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both five-page manifests are sequential and identical: primary filing pages 1-2, proposed order page 3, filing instructions pages 4-5. Every page is attributed and each component is contiguous.",
+     "evidence": {
+      "canonicalPagesAttributed": "5/5",
+      "boundaryPagesAttributed": "5/5",
+      "componentOrderViolations": 0
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both exact PDFs were freshly rendered and all ten pages were inspected, including the long boundary name, address, telephone and email at full resolution. No clipped text, collision, off-page glyph, orphaned fragment or illegible wrap was found. The exact-hash whole-family central receipt independently reports zero machine problems.",
+     "evidence": {
+      "pagesInspected": 10,
+      "charactersOutsidePageBox": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "machineReportedProblems": 0,
+      "visualDefectsFound": 0
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The route record identifies the destination only as the court with jurisdiction over the matter. The petition, proposed order and instructions preserve that exact destination, tell the participant to supply the court and county/city from the matter, and name that court's office as the authority that confirms the venue and filing method; no unsupported court type is invented.",
+     "evidence": {
+      "recordedDestination": "court with jurisdiction over the matter",
+      "participantFacingDestinationStated": true,
+      "venueInvented": false
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No held record establishes a fee for this § 99-15-59 route; the compiled profile's $150 material is keyed to § 99-19-71 and cannot be read across under DET-FEE-AND-WAIVER-001-A3. The packet states the non-establishment and identifies the office of the court with jurisdiction as the checkable authority to ask before filing. No route-specific waiver procedure is held, and the determination does not require inventing one where the fee itself is not established.",
+     "evidence": {
+      "routeSpecificFeeHeld": false,
+      "siblingRouteFeeNotImported": true,
+      "checkableAuthorityNamed": "office of the court with jurisdiction over the matter",
+      "determinationApplied": "DET-FEE-AND-WAIVER-001 with A1-A3"
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No held record establishes service for this branch. The delivered instructions say that expressly, warn that record silence is not a finding that no service is required, reject importing the § 99-19-71 district-attorney notice rule, and name the office of the court with jurisdiction as the authority to ask who must receive a copy, when and how before filing. This satisfies DET-FEE-AND-WAIVER-001's express extension to SERVICE.",
+     "evidence": {
+      "routeSpecificServiceRuleHeld": false,
+      "silenceDisclosed": true,
+      "wrongSiblingNoticeRejected": true,
+      "checkableAuthorityNamed": true
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The delivered filing-instructions pages and participant-instructions.md state six concrete stop conditions: anything other than a misdemeanor; any charge or prosecution activity during the twelve months; a filed-then-dismissed charge requiring the other branch; anything pending from the matter; uncertain related counts; and any immigration issue. The first, second and fourth carry every route-contract exclusion, the related-count stop carries the contract's required fact, and the branch stop prevents use of the wrong instrument. The packet also says it is not an official form or legal advice, is not filed for the participant and does not decide whether relief will be granted.",
+     "evidence": {
+      "routeContractExclusions": 3,
+      "routeContractExclusionsCarried": 3,
+      "participantFacingStops": 6,
+      "relatedCountsEscalated": true,
+      "platformLimitsStated": true
+     }
+    }
+   },
+   "rasterReceipt": {
+    "runId": "33791677725",
+    "jobId": "100770326918",
+    "artifactId": "9907775582",
+    "artifactDigest": "sha256:ebe7326741e3c4822c107d08d867d0a5c3ca1dabd36a586e9ec316ac273c7c69",
+    "state": "RASTER_PASS",
+    "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+    "canonicalSha256": "90c4f8a029287843bc3de09f327c6dc27b99438d15d083fe5abd58efd7deb485",
+    "boundarySha256": "a6bcbd2ab9f34da7a08c1a5b1d5f4391bca586f08a20dbd7488959baf89b8b22",
+    "documentsDigest": "8a3b61bf10682240a872c38ed74f6f6d3d0abd6400f4c95757c0162c5af4fb13",
+    "coverage": "whole family; 2 documents / 10 pages",
+    "machineReportedProblems": 0
+   },
+   "evidenceRead": [
+    "All committed family records under data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59--custom-pleading",
+    "Both exact five-page PDFs; all ten pages freshly rendered and visually inspected, with the boundary identity/contact pages inspected at full resolution",
+    "The exact route object in src/lib/legal-authority/routes/mississippi.json and exact pathway in src/lib/rcap-engine/compiled/profiles/MS-mississippi.json, both rehashed from current bytes",
+    "The exact route-obligation census entry and DET-FEE-AND-WAIVER-001 with amendments A1-A3",
+    "Central raster run 33791677725, job 100770326918, artifact 9907775582, bound to the exact current PDF hashes"
+   ],
+   "artifactBytesMovedByThisLane": 0,
+   "overlayDirectoriesModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "This independent pass proves only packet completeness at the named base and exact hashes. It approves no output, opens no route, sets no price and grants no production authority."
+  },
+  {
+   "itemId": "ut_pet_dismissed_with_prejudice-set",
+   "lane": "VF03",
+   "wave": "National Grade A launch — exact-base independent verification",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "verifiedBy": "VF03 (independent verification; this lane built, repaired and rendered none of this family)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+   "claim": {
+    "assertedBeforeArtifactRead": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 ut_pet_dismissed_with_prejudice-set",
+    "exitCode": 0,
+    "result": "CLAIM_OK VF03 ut_pet_dismissed_with_prejudice-set (independent-verification, grant set 871a329c1f41ad5d)",
+    "releasedByThisLane": false
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family ut_pet_dismissed_with_prejudice-set --codex-cloud --minimum-captain-sha 88d688b8b6910f0c501cab0d72633554220d822b",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 8/14 passed, 6 failed, 3 not applicable",
+    "limitations": [
+     "worktree_clean failed on shared-lane changes already present",
+     "pdf_lib_importable failed because repository node_modules is absent; bundled Poppler and Python were used read-only",
+     "the operational private corpus mount is absent, but the exact pinned Master Library archive is locally readable and its nine family sources were extracted to /private/tmp and rehashed independently"
+    ]
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_dismissed_with_prejudice-set -> PASS_COMPLETE, 38/444 written. The three independent failures below are contract comparisons the counter implementation does not detect."
+   },
+   "failedObligations": [
+    "ROUTE_OPTIONS",
+    "PAGE_ORDER",
+    "FILING_DESTINATION"
+   ],
+   "unmeasuredObligations": [],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The exact two route keys and routeSelectionId agree across the queue row, source receipt, field map, wiring, approval request and track registry. The packet is consistently the Utah dismissed-with-prejudice BCI-certificate-plus-court route; the court forms are disposition-neutral because BCI supplies the eligibility certificate.",
+     "evidence": {
+      "routeSelectionId": "ut-dismissed-with-prejudice-bci-plus-court",
+      "routeKeys": [
+       "obligation:unit:UT:ut_pet_dismissed_with_prejudice:ut_pet_dismissed_with_prejudice-bci-certificate",
+       "obligation:unit:UT:ut_pet_dismissed_with_prejudice:ut_pet_dismissed_with_prejudice-court-petition"
+      ]
+     }
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All nine bound official PDF sources were independently extracted from the exact local Master Library archive and rehashed. Every SHA-256 and byte length matches source-receipt.json; the archive itself rehashes to the committed corpus archive pin.",
+     "evidence": {
+      "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+      "sources": [
+       ["1000EX", "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611", 62671],
+       ["1020EX", "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2", 106091],
+       ["1044XX", "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52", 119736],
+       ["1146XX", "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad", 192790],
+       ["1148XX", "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288", 191518],
+       ["1149XX", "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3", 108630],
+       ["1169XX", "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244", 104506],
+       ["UT-BCI-EXP-APPLICATION", "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13", 2337718],
+       ["UT-BCI-THIRD-PARTY-RELEASE", "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451", 349009]
+      ],
+      "matches": "9/9"
+     }
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All nine official-form components named by the packet set appear as complete source-page blocks in both PDFs, and the tenth required process-guidance component is present as participant-instructions.md. No required or conditional component is omitted.",
+     "evidence": {
+      "contractComponents": 10,
+      "officialFormsPresent": 9,
+      "processGuidancePresent": true,
+      "requiredComponentsMissing": 0
+     }
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both exact PDFs carry 38 declared writes. Thirty text writes per fixture were page-scoped against fresh Poppler extraction; the only non-literal extractions were the county value interleaved with the form's printed County label and the long boundary mailing address split across layout tokens, and each was visibly complete on its exact raster page. All eight selection marks per fixture were visually present.",
+     "evidence": {
+      "writesPerFixture": 38,
+      "textWritesPerFixture": 30,
+      "selectionWritesPerFixture": 8,
+      "knownRequiredFieldsMissing": 0,
+      "invisibleWrites": 0
+     }
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions disclose all form-level REQUIRED_BEFORE_FILING labels and all fourteen packet-set prefiling requirements, including the BCI certificate and 180-day life, paid-in-full proof, all-state case history, certified dismissal order and date check, participant signature, prosecutor and judge ownership, both waiver paths, and the plea-in-abeyance discriminator.",
+     "evidence": {
+      "packetSetRequiredBeforeFiling": 14,
+      "mapRequiredLabelsUnique": 8,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0
+     }
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The packet marks District Court on both petition and proposed order even though the route contract says stage two is the district or justice court that decided the case. factsFor supplies no court-type fact; the generator derives both marks from route.case. A case-number route does not determine District rather than Justice, so these two elections are ungrounded.",
+     "evidence": {
+      "selectedControls": 8,
+      "unsupportedControls": [
+       "1000EX page 1: In the [X] District [ ] Justice Court of Utah",
+       "1020EX page 1 / packet page 3: In the [X] District [ ] Justice Court of Utah"
+      ],
+      "factIdUsed": "route.case",
+      "heldCourtTypeFact": false
+     }
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No partially completed repeating row is present. The official incident and optional service/reply tables remain wholly blank where their conditional branch is not active.",
+     "evidence": {
+      "incompleteRows": 0
+     }
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Fresh page review confirms participant signature and date, service certification, judge and court findings, prosecutor/victim, official fingerprint-taking and BCI-use-only fields remain blank. Both byte-proof records report refusedFieldsWithInk empty.",
+     "evidence": {
+      "protectedWrites": 0,
+      "refusedFieldsWithInkPerFixture": [0, 0]
+     }
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both committed fixture hashes, byte lengths and 19-page counts were recomputed. The document-set digest was independently regenerated using the queue generator's role/path/hash tuple algorithm and exactly matches the RASTER_PASS receipt.",
+     "evidence": {
+      "canonical": ["ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6", 3024920, 19],
+      "boundary": ["b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765", 3025560, 19],
+      "documentsDigest": "3d40444aed7bc7e338ab6ba626ac14a7ef4ed80472b7b18bdb9cd0c5bdbd4c6a",
+      "allMatch": true
+     }
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Both PDFs are internally contiguous but do not follow the authoritative packet-set component order or the route's fixed two-stage sequence. The contract begins BCI application, conditional third-party release, cover sheet, petition, proposed order; the PDFs begin petition, proposed order, cover sheet and do not place the BCI application/release until pages 17-19.",
+     "evidence": {
+      "contractOrder": ["UT-BCI-EXP-APPLICATION", "UT-BCI-THIRD-PARTY-RELEASE", "1044XX", "1000EX", "1020EX", "1146XX", "1148XX", "1149XX", "1169XX", "participant-instructions.md"],
+      "actualPdfOrder": ["1000EX", "1020EX", "1044XX", "1146XX", "1148XX", "1149XX", "1169XX", "UT-BCI-EXP-APPLICATION", "UT-BCI-THIRD-PARTY-RELEASE"],
+      "firstMismatch": "contract UT-BCI-EXP-APPLICATION; actual 1000EX",
+      "fixturesAffected": ["canonical", "boundary"]
+     }
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both PDFs were freshly rastered at 100 dpi and all 38 pages were inspected, including boundary pages 1, 3, 6, 17 and 18 at full resolution. Poppler bbox extraction found zero words outside the page boxes, all 60 declared text write boxes are inside Letter MediaBox, and no clipping, collision, orphan page or illegible wrap was found.",
+     "evidence": {
+      "pagesFreshlyRasteredAndInspected": 38,
+      "canonicalWords": 4210,
+      "boundaryWords": 4257,
+      "wordsOutsidePage": 0,
+      "writeBoxesOutsidePage": 0,
+      "visualDefectsFound": 0
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Stage one BCI is named correctly, but stage two is narrowed to 'The Utah district court for the county where the case was heard' and both court captions are marked District. The route contract instead requires the court that decided the case, district or justice court. A participant whose dismissal was entered in justice court is directed to and given forms marked for the wrong court type.",
+     "evidence": {
+      "contractDestination": "Stage one BCI; stage two the district or justice court that decided the case",
+      "instructionsDestination": "The Utah district court for the county where the case was heard",
+      "justiceCourtOptionDisclosed": false,
+      "districtMarks": 2
+     }
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions state the selected $150 court-fee row and 1305GE court waiver, the $65 non-refundable BCI application fee and BCI's pre-application indigency waiver, and the route-specific certificate-fee/plea-in-abeyance distinction. The exact 1044XX, BCI application, BCI instruction and waiver-source bytes were rehashed before use.",
+     "evidence": {
+      "courtFee": "$150",
+      "courtWaiver": "1305GE",
+      "bciApplicationFee": "$65.00",
+      "bciWaiverSequencingStated": true
+     }
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The exact held BCI Expungement Applicant Instructions rehash to 9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa and expressly say 'File the petition with the court and serve the Prosecutor' and 'Mail or email the prosecutor copies of what you file.' The participant instructions carry that recipient and method, and 1146XX is included. The contrary track-registry sentence is recorded as a registry fidelity concern; under AGENTS.md the official held source governs.",
+     "evidence": {
+      "recipient": "prosecutor",
+      "method": "mail or email",
+      "officialInstructionHash": "9e03980f512fe3aa89418539407f542a34d734a8c12516b40682dd50b9dadefa",
+      "acceptanceOfServiceIncluded": true
+     }
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The dedicated stop section carries all eight route-specific stop conditions: non-citizenship, objection/hearing, special certificate, argued public interest, conviction-count uncertainty, active protection order/injunction, appellate records, and an undismissed plea-in-abeyance case. It directs each to counsel or legal aid and states the packet is not legal advice or a filing service.",
+     "evidence": {
+      "registryStopConditions": 8,
+      "carried": 8,
+      "platformBoundaryStated": true
+     }
+    }
+   },
+   "rasterReceipt": {
+    "runId": "33488713831",
+    "jobId": "99795497771",
+    "artifactId": "9793202612",
+    "artifactDigest": "sha256:3fd93678d3dbd2b797d8b400711bdb5962f5a08ac82cfde9cfda899fc381166d",
+    "state": "RASTER_PASS",
+    "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+    "canonicalSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+    "boundarySha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+    "documentsDigest": "3d40444aed7bc7e338ab6ba626ac14a7ef4ed80472b7b18bdb9cd0c5bdbd4c6a",
+    "coverage": "both exact 19-page fixtures; 38 pages total",
+    "machineReportedProblems": 0
+   },
+   "concerns": [
+    "product-wiring.json still says acceptanceReceipt.coversTheWholeFamily false even though the queue receipt binds both exact artifact hashes",
+    "the track registry says the court serves the prosecutor, but the exact held official BCI instructions say the participant serves by mail or email; this row follows the official-source hierarchy and flags the registry as stale"
+   ],
+   "artifactBytesMovedByThisLane": 0,
+   "overlayDirectoriesModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "This failure assigns repair only. It approves no output, opens no route, sets no price and grants no production authority."
   }
  ],
  "supersededLaneMembership": {

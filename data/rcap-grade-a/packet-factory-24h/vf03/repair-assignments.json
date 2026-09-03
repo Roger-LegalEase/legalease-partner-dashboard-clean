@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A",
- "assignmentCount": 10,
+ "assignmentCount": 11,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -311,6 +311,39 @@
     "openLegalQuestions": "The registry carries two nonblocking research notes for this track — whether 'compelling necessity' under SDCL § 23A-3-27(4) has been construed, and whether counsel accepts the rest of the §§ 23A-3-26 to 23A-3-32 range as read now that § 23A-3-27 has been read at source and matches. Both are marked nonblocking and neither is a build defect."
    },
    "grantsNothing": "Repairing these defects proves the packet complete against the record. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "ut_pet_dismissed_with_prejudice-set",
+   "wave": "National Grade A launch — exact-base independent verification",
+   "lane": "VF03",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+   "decisiveDefect": "The packet reverses the route's fixed two-stage order and hardcodes a district-court destination that the route contract does not determine. The authoritative component order begins with the BCI application and conditional release, then the court forms; both PDFs begin with the petition/order and move BCI to pages 17-19. The route accepts a district or justice court based on the court that decided the case, but no fixture fact supplies court type and the generator marks District on both court forms from route.case while the participant instructions name only district court.",
+   "failedProofObligations": [
+    "ROUTE_OPTIONS",
+    "PAGE_ORDER",
+    "FILING_DESTINATION"
+   ],
+   "perObligation": {
+    "ROUTE_OPTIONS": {
+     "measuredDetail": "production-field-map.json and reports/actual-writes.json show two visible District Court marks: 1000EX packet page 1 and 1020EX packet page 3, both with factId route.case. factsFor in the shared builder contains participant and matter identity facts but no court-type fact. The route registry's venue and destination allow the district or justice court that decided the case.",
+     "whatRepairMustDo": "Collect and bind the actual court type, then mark District or Justice on every applicable form from that fact. Do not infer District from the existence of a case number or from route.case. Regenerate both fixtures and reread both marks independently."
+    },
+    "PAGE_ORDER": {
+     "measuredDetail": "The packet-set order is UT-BCI-EXP-APPLICATION, conditional UT-BCI-THIRD-PARTY-RELEASE, 1044XX, 1000EX, 1020EX, 1146XX, 1148XX, 1149XX, 1169XX, then process guidance. Both exact 19-page manifests instead run 1000EX, 1020EX, 1044XX, 1146XX, 1148XX, 1149XX, 1169XX, UT-BCI-EXP-APPLICATION, UT-BCI-THIRD-PARTY-RELEASE. The first mismatch is contract BCI application versus actual petition, and the route's fixed BCI-before-court sequence is reversed.",
+     "whatRepairMustDo": "Assemble the family in authoritative component order, preserving source-page order inside each form and presenting the process guidance as the required tenth component. Regenerate canonical and boundary artifacts, create a fresh whole-family raster receipt bound to both new hashes and document-set digest, and require a new independent page-by-page read."
+    },
+    "FILING_DESTINATION": {
+     "measuredDetail": "participant-instructions.md says 'The Utah district court for the county where the case was heard' and says both captions are already marked District. The track contract says 'the court that decided the case, district or justice court' and the official court forms expose both options. A justice-court participant is therefore sent to the wrong court type.",
+     "whatRepairMustDo": "State that stage two goes to the court that decided the case and preserve district-versus-justice as a fact-driven choice. Once the court type is collected, name it and mark it consistently; otherwise fail closed rather than defaulting to District."
+    }
+   },
+   "repairMustNotDo": [
+    "do not change source identities or rewrite official form content",
+    "do not treat the current RASTER_PASS as curing route-order or destination defects",
+    "do not edit artifacts merely so a receipt matches them",
+    "this verification opens no commercial route and grants no approval"
+   ]
   }
  ],
  "supersededLaneMembership": {

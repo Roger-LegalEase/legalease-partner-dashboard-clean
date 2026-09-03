@@ -5200,6 +5200,172 @@
           }
         }
       }
+    },
+    {
+      "itemId": "rcap-tn-custom-pleading",
+      "lane": "VF09",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading",
+      "verifier": "Codex VF09 (independent; built, repaired and rastered none of these bytes)",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "obligationsScored": 15,
+      "claim": {
+        "assert": "CLAIM_OK VF09 rcap-tn-custom-pleading (independent-verification, grant set ddd2cecd1764edc8)",
+        "exitCode": 0,
+        "releasedByThisLane": false
+      },
+      "currentByteIdentity": {
+        "buildScript": {
+          "sha256": "58a735548e8952f26c500b26c8a8c85beb53d5fe79b490ffbb7fccc8499e03c6",
+          "byteLength": 400128
+        },
+        "canonicalPdf": {
+          "sha256": "4bfc82385dee12229041fd0627335373210e632a5be2d9b002153e1444fe732b",
+          "byteLength": 178224,
+          "pageCount": 62
+        },
+        "boundaryPdf": {
+          "sha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a",
+          "byteLength": 181239,
+          "pageCount": 62
+        }
+      },
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33605354695",
+        "jobId": "100168607317",
+        "artifactId": 9837765344,
+        "zipSha256": "sha256:b2277228676811d41ce1c7fa4e3fbe09e02cc5f22c417816d69ee7df044fc5a7",
+        "documentsDigest": "099cf49e38e8e83969c5b403306290d575f111b18f382c86603fa29e723831ae",
+        "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+        "boundToCanonicalSha256": "4bfc82385dee12229041fd0627335373210e632a5be2d9b002153e1444fe732b",
+        "boundToBoundarySha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a",
+        "documentsMeasured": 2,
+        "pagesMeasured": 124,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true,
+        "stillBindsCurrentBytes": true,
+        "independentFinding": "The machine receipt did not detect the footer-only overflow page present in both exact fixture hashes; its zero-problem result does not cure that visual defect."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "focusedVerifier": "PASS_COMPLETE 100/278 written",
+        "blindSpotsFound": [
+          "requiredComponentsMissing compares the generator's 29-component declaration with its own output, not the 38 components prescribed by the eleven authoritative route packetSet contracts",
+          "requiredFactsNotCollected compares only the builder's declared blanks and does not detect the route-specific generation questions omitted from five generic eligibility records",
+          "visualDefects does not detect a page whose only content is the route footer"
+        ]
+      },
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The same ordered eleven unique route keys appear in source-receipt.json, production-field-map.json, product-wiring.json, MASTER_QUEUE.json and rendered-artifacts.json. Every route subpacket carries its own exact route key in its footer and its own statutory mechanism in the body."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This is a zero-document-source composition. All three committed authority records were independently rehashed from the exact current bytes and match source-receipt.json: legal-design-track-registry.json 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 at 16,555,956 bytes; legal-design-specifications.json cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16,829,383 bytes; route-obligation-candidate.json 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The authoritative legal-design track registry prescribes 38 ordered packetSet components across the eleven routes. The delivered family declares and renders 29. Only 18 prescribed component IDs are present; 20 prescribed components are absent, replaced by eleven generic filing-instructions components that the route contracts do not name. Examples include the missing tn_nonconviction_petition-no-cost-statement-2, tn_nonconviction_petition-no-court-history-routing-4, tn_redaction-scope-disclosure-3, and the separate certification-and-fee components prescribed for both diversion routes. Internal agreement among production-field-map.json, rendered-artifacts.json and the generator does not satisfy the authoritative route component contract."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One hundred writes per fixture use only the five held participant facts: full legal name, date of birth, mailing address, telephone and email. An independent page-scoped extraction checked all 100 canonical and all 100 boundary expected values against the pages of their own component; 200/200 were present and none was guessed from a case record."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "All 135 blanks the builder declares are disclosed, but five participant eligibility records do not collect the route-specific generation requirements in the exact bound registry. For tn_illegal_voting, tn_post_pardon, tn_recovery_court, tn_eligible_conviction and tn_two_offense, each request and each so-called eligibility record repeats the same five generic blanks: recipient address, court or office, case number, disposition date and an open-ended ask. The five registry records together declare 77 route-specific required questions, and none appears as a participantMustSupply question in those maps. Material omissions include the exact § 2-19-107 identification and fifteen-year facts; pardon date, Board of Parole vote and seven-category exclusion facts; recovery-court completion, DUI count/date and ten-year interval; exact eligible-code mapping, sentence completion and prior expunction; and two-offence count, mix, single-episode and once-per-lifetime facts. The zero requiredFactsNotCollected counter is therefore a builder-declaration false negative."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "This family contains eleven route-specific page sets rather than a shared form election. The participant instructions identify which pages belong to which situation, each subpacket is emitted separately under its exact route key, and the instructions direct any ambiguous fit to legal help rather than a guessed election."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The only repeating structure is the redaction count-by-count schedule. Each of its four charge blocks contains offence, statute section, outcome/date and removal-request fields; all sixteen cells are blank and all sixteen are REQUIRED_BEFORE_FILING, so no row is partially written."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 43 protected blanks remain empty in both fixtures: participant signatures and dates, case-number fields classified as court-assigned, and other court, clerk or prosecutor-owned entries. The fresh verifier reports protectedWrites 0, the byte-derived report has refusedFieldsWithInk empty, and the visual read found no signature or actor-owned prefill."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The canonical and boundary fixture SHA-256, byte lengths and 62-page counts were recomputed from current bytes and match rendered-artifacts.json and RASTER_QUEUE.json exactly. All 22 route artifacts were also independently rehashed and recounted: zero hash, byte-length or page-count mismatches. The exact-hash RASTER_PASS receipt remains bound to the two assembled fixture hashes."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The generator's 62-page assembly and its own page manifests are sequential, but zero of the eleven route component sequences equals the authoritative packetSet order. The registry orders 38 specifically named components; the rendered manifests order 29 and substitute a generic filing-instructions component for each route's prescribed guidance components. Page-order proof cannot be obtained by comparing a generator only with the manifest it generated while ignoring the route contract it claims to implement."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Fresh local Poppler rasters of all 124 pages were visually inspected. Page 34 of both assembled fixtures, which is page 6 of the tn_pretrial_diversion route packet and source page 3 of tn_pretrial_diversion-filing-instructions-2, contains only the two-word route footer and otherwise blank space. Pdfplumber independently confirms this is the sole low-content page: canonical 18,274 words and boundary 18,394 words, each with page 34 at two words, zero words outside the page box and zero overlapping word pairs. This dangling footer-only overflow page is a visual-quality failure even though the central raster and visualDefects counter report zero problems."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each of the eleven route rows in participant-instructions.md carries the registry's filing rule exactly. Court-petition routes name the originating or convicting court through its clerk; § 40-32-109 names the court with jurisdiction over the arrest offence; and district-attorney-preparation routes clearly state the two-step destination of the district attorney general's office followed by filing its petition with the convicting-court clerk."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "For all eleven routes the exact registry fee and waiver strings appear in the participant instructions. The packet distinguishes no-cost § 40-32-106(a)(1) routes from the clerk-fee routes under §§ 40-32-108(a), 40-32-109(e), and diversion subsection 40-32-106(d)(3); it declines to invent a § 8-21-401 amount or an unestablished waiver."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "For every route the registry's notice and service strings appear exactly. The instructions say the participant does not effect service, the clerk serves the district attorney general, and they preserve the route-specific evidence and recommendation timing where the registry provides it."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 119 selfHelpStopConditions across the eleven current registry records appear exactly in participant-instructions.md: carried counts are 6, 8, 10, 12, 9, 11, 10, 11, 14, 12 and 16, with zero missing. The packet also states that LegalEase signs nothing, decides no eligibility dispute, and opens no route."
+        }
+      },
+      "evidenceRead": {
+        "focusedVerifier": "PASS_COMPLETE 100/278 written; all nine counters zero",
+        "sourceRecomputation": "3/3 committed authority records match exact SHA-256 and byte length",
+        "artifactRecomputation": "2/2 assembled PDFs and 22/22 route PDFs match exact SHA-256, byte length and page count",
+        "knownPrefillReadback": "200/200 page-scoped expected values found in exact fixture text",
+        "requiredDisclosureRead": "135/135 builder-declared labels present, with the five-route source-contract omissions measured separately",
+        "visualAndGeometryRead": "124/124 pages rastered and inspected; 36,668 words, zero outside-page words, zero overlap pairs, one footer-only page in each fixture",
+        "allFifteenMeasured": true
+      },
+      "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable. Failures are the concurrently dirty worktree, absent repository node_modules and absent Master Library. This zero-binary-source family still binds all three committed authority records exactly, and the read-only verifier and bundled PDF tooling ran successfully.",
+      "commercialRoutesOpened": 0,
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "productionTouched": false,
+      "repairedNothing": true,
+      "grantsNothing": "This independent failure is a repair verdict only. It promotes nothing, opens no commercial route and approves no participant output."
     }
   ],
   "obligationSet": [

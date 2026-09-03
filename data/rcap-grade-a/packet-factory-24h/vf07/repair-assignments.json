@@ -289,6 +289,49 @@
         "ROUTE_OPTIONS — the single 'guilty' selection is drawn without redrawing the court's box or adding a new one."
       ],
       "scopeLimit": "Repair inside this family directory and its build script only. This assignment opens no route, sets no price and promotes nothing."
+    },
+    {
+      "repairAssignmentId": "RVC-VF07-KS-CUSTOM-PLEADING-20260903-001",
+      "itemId": "rcap-ks-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "raisedBy": "VF07 independent verification",
+      "raisedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading",
+      "decisiveDefect": "The family is internally self-consistent enough to make its own verifier pass, but it disagrees with the authoritative packet-set contract on both required guidance component ids and ships three visibly orphaned route-footer-only pages. The exact-hash central raster reports zero problems but missed the family boundary orphan and did not bind the four route-specific participant-deliverable hashes.",
+      "failedProofObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Both authoritative packet sets require a process_guidance component at order 3: ks-12-4516-municipal-process-guidance-3 and ks-12-4516a-municipal-arrest-process-guidance-3. Those ids are present in legal-design-track-registry.json, legal-design-packet-set-manifests.json and the two committed route packet specifications. The current builder, field map, manifests and PDFs instead use ks-12-4516-municipal-filing-instructions-3 and ks-12-4516a-municipal-arrest-filing-instructions-3 with role filing_instructions. Thus two required components are absent and two differently identified substitutes are present, even though their content is guidance-like.",
+          "repairInstruction": "Reconcile the generated component ids and roles to the authoritative packet-set contract across the builder and every regenerated family record and artifact. Preserve the substantive guidance content. If the authoritative contract is intentionally changed instead, that requires an authorized upstream record change before regeneration; internal generator agreement alone is not enough."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Independent page rendering finds three footer-only orphan pages. Family fixtures/boundary.pdf page 4 has only the 9-word, 69-character municipal-conviction route footer, producing a 12-page canonical versus 13-page boundary divergence. The participant-deliverable municipal route's canonical.pdf page 8 and boundary.pdf page 8 each contain the same footer and nothing else. The central receipt for run 33791677725 / job 100770326883 / artifact 9907880370 binds the family canonical 006811cc... and boundary 3f903f57... and reports 2 documents, 25 pages, 0 problems; it did not detect the boundary orphan and does not bind the four route-artifact hashes.",
+          "repairInstruction": "Adjust pagination so every route footer remains with meaningful content. Do not hide the defect by deleting the route label, clipping participant values, shrinking text below a readable size, or moving another isolated fragment onto the orphan page. Regenerate all six PDFs and inspect every page, including each route-specific participant deliverable."
+        }
+      ],
+      "repairValidationRequired": [
+        "Re-run the focused family verifier and independently compare the regenerated component set in both directions with the authoritative registry, packet-set manifest and route packet specifications.",
+        "Render and read every page of family canonical/boundary and all four route PDFs; no page may contain only a route footer, heading or other orphan fragment.",
+        "Obtain a fresh exact-SHA central raster receipt for the regenerated family canonical/boundary PDFs and raster evidence that explicitly binds all route-specific participant-deliverable hashes.",
+        "Re-run an independent fifteen-obligation verification at the exact repair base."
+      ],
+      "obligationsThatPassAndMustSurviveRepair": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "scopeLimit": "Repair only the family and its own builder under a proper repair grant. This verification lane edits neither. The assignment opens no route, changes no price and touches no deployment or Production."
     }
   ],
   "fableVcAppend": {
