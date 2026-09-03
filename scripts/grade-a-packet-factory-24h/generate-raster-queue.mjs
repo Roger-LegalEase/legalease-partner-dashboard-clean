@@ -32,7 +32,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 
@@ -81,11 +81,10 @@ const pageCount = async (p) => {
  * for exactly this reason.)
  *
  * Zero would be a lie and a throw would take the whole queue down, so the
- * probe returns null. The caller may then use the builder's page count only
- * when rendered-artifacts.json binds that positive count to the exact queued
- * SHA-256. Without that hash-bound fallback the family is still refused: a
- * receipt over an unknown number of pages is exactly the kind of verdict this
- * queue exists to prevent.
+ * probe returns null. The caller then asks Poppler's pdfinfo to independently
+ * parse the exact bytes. Without that second reader and a positive count the
+ * family is still refused: a receipt over an unknown number of pages is
+ * exactly the kind of verdict this queue exists to prevent.
  *
  * The parser narrates each unresolved object on the console. That chatter is
  * the reader's, not this generator's finding -- the finding is the named
@@ -95,6 +94,22 @@ const pageCountOrNull = async (p) => {
   const { warn, log, error } = console;
   Object.assign(console, { warn: () => {}, log: () => {}, error: () => {} });
   try { return await pageCount(p); } catch { return null; } finally { Object.assign(console, { warn, log, error }); }
+};
+
+/* Poppler reads the encryption wrapper and page tree independently of pdf-lib.
+ * This is evidence from the exact queued bytes, not a builder assertion. If it
+ * is unavailable or its output is ambiguous, the family remains ineligible. */
+const pdfInfoPageEvidenceOrNull = (p) => {
+  try {
+    const result = spawnSync("pdfinfo", [p], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    if (result.status !== 0) return null;
+    const hit = result.stdout.match(/^Pages:\s+(\d+)\s*$/m);
+    const n = hit ? Number(hit[1]) : 0;
+    if (!Number.isInteger(n) || n <= 0) return null;
+    const vr = spawnSync("pdfinfo", ["-v"], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    const version = `${vr.stdout ?? ""}\n${vr.stderr ?? ""}`.match(/pdfinfo version\s+([^\s]+)/i)?.[1] ?? "unknown";
+    return { method: "Poppler pdfinfo", version, pageCount: n, sourceSha256: sha256(p) };
+  } catch { return null; }
 };
 
 const packetCommit = git(["rev-parse", "HEAD"]);
@@ -193,13 +208,19 @@ const documentSet = async (dir, fixtures, pdfs) => {
     for (const name of named) {
       const abs = path.join(fixtures, name);
       const parsed = await pageCountOrNull(abs);
-      const declared = parsed === null ? declaredPageEvidence(dir, abs) : null;
+      const independentlyParsed = parsed === null ? pdfInfoPageEvidenceOrNull(abs) : null;
+      const pageCountEvidence = parsed !== null
+        ? { method: "pdf-lib", version: "1.17.1", pageCount: parsed, sourceSha256: sha256(abs) }
+        : independentlyParsed;
       rows.push({
         role, name, path: POSIX(path.relative(ROOT, abs)), sha256: sha256(abs),
-        pageCount: parsed ?? declared?.pageCount ?? null,
+        pageCount: pageCountEvidence?.pageCount ?? null,
+        pageCountEvidence,
         pageCountBasis: parsed !== null
           ? "parsed from the queued PDF bytes with pdf-lib"
-          : declared?.basis ?? null,
+          : independentlyParsed
+            ? "pdf-lib could not read the encrypted official PDF; Poppler pdfinfo independently parsed this count from the exact queued bytes"
+            : null,
       });
     }
   }
@@ -267,37 +288,6 @@ const resolveDeclared = (dir, file) => {
   return null;
 };
 
-/*
- * Some unchanged official forms are encrypted XFA PDFs. Chrome and Poppler can
- * render them, but pdf-lib cannot resolve their encrypted object streams even
- * with ignoreEncryption. The family builder already had to solve that exact
- * problem: it reads a pikepdf-unlocked derivative, copies the official bytes
- * unchanged into the packet, and records the resulting page count next to the
- * exact output SHA-256 in rendered-artifacts.json.
- *
- * That declaration is a safe fallback only when it names this exact file and
- * its recorded hash equals the bytes now on disk. A stale report, a missing
- * hash or an unpositive count proves nothing and remains unreadable.
- */
-const declaredPageEvidence = (dir, abs) => {
-  const p = path.join(dir, "reports", "rendered-artifacts.json");
-  if (!fs.existsSync(p)) return null;
-  let doc;
-  try { doc = JSON.parse(fs.readFileSync(p, "utf8")); } catch { return null; }
-  const hit = [...(doc.artifacts ?? []), ...(doc.pdfs ?? [])].find((a) => {
-    if (!a?.file) return false;
-    const resolved = resolveDeclared(dir, a.file);
-    return resolved && path.resolve(resolved) === path.resolve(abs);
-  });
-  if (!hit || !Number.isInteger(hit.pageCount) || hit.pageCount <= 0) return null;
-  const observed = sha256(abs);
-  if (!/^[0-9a-f]{64}$/.test(hit.sha256 ?? "") || hit.sha256 !== observed) return null;
-  return {
-    pageCount: hit.pageCount,
-    basis: "pdf-lib could not read the encrypted official PDF; the builder's rendered-artifacts report binds this page count to the exact queued SHA-256",
-  };
-};
-
 const declaredFixturePdfs = (dir) => {
   const p = path.join(dir, "reports", "rendered-artifacts.json");
   if (!fs.existsSync(p)) return [];
@@ -362,11 +352,22 @@ const pickFixture = (dir, root, fixture, pdfs) => {
 };
 
 const previous = fs.existsSync(path.join(ROOT, OUT)) ? read(OUT) : { rows: [] };
-const priorByFamily = new Map((previous.rows ?? []).map((r) => [r.familyId, r]));
+/* A temporarily ineligible family cannot stay in the live render matrix, but
+ * its old hash-bound receipt is still evidence about the bytes it names. Keep
+ * the full prior row in history, and consult that history if the family later
+ * becomes eligible again. */
+const priorByFamily = new Map([
+  ...(previous.historicalRasterRows ?? []),
+  ...(previous.rows ?? []),
+].map((r) => [r.familyId, r]));
 let carried = 0, invalidated = 0;
 const carryVerdict = (row) => {
   const prior = priorByFamily.get(row.familyId);
-  if (!prior?.rasterReceipt) return row;
+  if (!prior?.rasterReceipt) {
+    return (prior?.supersededReceipts ?? []).length
+      ? { ...row, supersededReceipts: prior.supersededReceipts }
+      : row;
+  }
   /* A receipt describes the document set that was rendered. If the row now asks
    * for a different set -- which is exactly what happens when a family that was
    * rendering one of its two canonical documents starts rendering both -- the
@@ -409,7 +410,13 @@ const carryVerdict = (row) => {
     }] };
   }
   carried++;
-  return { ...row, currentRasterState: prior.currentRasterState, nextOwner: prior.nextOwner, rasterReceipt: prior.rasterReceipt };
+  return {
+    ...row,
+    currentRasterState: prior.currentRasterState,
+    nextOwner: prior.nextOwner,
+    rasterReceipt: prior.rasterReceipt,
+    ...((prior.supersededReceipts ?? []).length ? { supersededReceipts: prior.supersededReceipts } : {}),
+  };
 };
 
 for (const f of master.families) {
@@ -459,6 +466,7 @@ for (const f of master.families) {
   const bPath = path.join(fixtures, boundary);
   const pdfsHere = found.pdfs;
   const coverage = coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name));
+  const primaryCanonical = documents.find((d) => d.role === "canonical" && d.name === canonical);
   rows.push({
     familyId: f.familyId,
     packetCommitSha: packetCommit,
@@ -466,7 +474,7 @@ for (const f of master.families) {
     canonicalPdfSha256: sha256(cPath),
     boundaryPdfPath: path.relative(ROOT, bPath),
     boundaryPdfSha256: sha256(bPath),
-    expectedPages: await pageCount(cPath),
+    expectedPages: primaryCanonical.pageCount,
     fixtureSelection: fixtureBasis.get(f.familyId) ?? null,
     /* Every document this row renders. canonicalPdfPath/boundaryPdfPath above
      * remain the primary pair -- other checks read them -- but they are no
@@ -507,6 +515,33 @@ rows.sort((a, b) => a.familyId.localeCompare(b.familyId));
 // one lane. One family, one lane: a second claim would be two readers writing
 // one verdict.
 rows.forEach((r, i) => { r.nextOwner = LANES[i % LANES.length]; });
+
+const liveFamilyIds = new Set(rows.map((r) => r.familyId));
+const historicalByFamily = new Map((previous.historicalRasterRows ?? []).map((r) => [r.familyId, r]));
+for (const prior of previous.rows ?? []) {
+  if (liveFamilyIds.has(prior.familyId) || (!prior.rasterReceipt && !(prior.supersededReceipts ?? []).length)) continue;
+  historicalByFamily.set(prior.familyId, {
+    ...prior,
+    movedToHistoryBecause: "the family is not eligible for the current raster matrix; the receipt remains true only of the exact bytes and coverage it names",
+  });
+}
+for (const id of liveFamilyIds) historicalByFamily.delete(id);
+const currentIneligibility = new Map(notEligible.map((r) => [r.familyId, r.why]));
+const historicalRasterRows = [...historicalByFamily.values()]
+  .map((r) => {
+    const { packetCommitSha, historicalPacketCommitSha, ...evidence } = r;
+    return {
+      ...evidence,
+      /* This is evidence history, not this dispatch's pin. Naming it as a
+       * packetCommitSha would make the convergence checker correctly read two
+       * active dispatch pins from one generated manifest. */
+      historicalPacketCommitSha: historicalPacketCommitSha ?? packetCommitSha ?? null,
+      historicalOnly: true,
+      currentGateAuthority: false,
+      currentIneligibility: currentIneligibility.get(r.familyId) ?? ["not present in the current live raster matrix"],
+    };
+  })
+  .sort((a, b) => a.familyId.localeCompare(b.familyId));
 
 const byLane = Object.fromEntries(LANES.map((l) => [l, rows.filter((r) => r.nextOwner === l).map((r) => r.familyId)]));
 const duplicated = rows.map((r) => r.familyId).filter((x, i, a) => a.indexOf(x) !== i);
@@ -605,6 +640,8 @@ const doc = {
   },
   byLane,
   rows,
+  historicalRasterRows,
+  historicalRasterRowCount: historicalRasterRows.length,
   // Named rather than counted, because "not eligible" hides the difference
   // between a family with no packet and a family with a failing counter.
   notEligible: notEligible.slice(0, 400),
@@ -674,5 +711,5 @@ EMIT.finish();
 if (CHECK) process.exit(0);
 
 console.log(`Wrote ${OUT} and ${LANES.length} raster prompts into ${PROMPTS}/`);
-console.log(`  ${rows.length} famil(ies) RASTER_PENDING · ${notEligible.length} not eligible`);
+console.log(`  ${rows.length} queued (${rows.filter((r) => r.currentRasterState === "RASTER_PENDING").length} RASTER_PENDING) · ${notEligible.length} not eligible`);
 for (const l of LANES) console.log(`    ${l}: ${byLane[l].length} famil(ies)`);

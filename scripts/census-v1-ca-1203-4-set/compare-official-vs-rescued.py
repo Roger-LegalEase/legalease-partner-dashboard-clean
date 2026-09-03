@@ -123,6 +123,90 @@ def rnd(x):
     return round(float(x), 6)
 
 
+def inherited(node, key):
+    guard = 0
+    while node is not None and guard < 64:
+        value = node.get(key)
+        if value is not None:
+            return value
+        node = node.get("/Parent")
+        guard += 1
+    return None
+
+
+def object_json(value, seen=None):
+    seen = set() if seen is None else seen
+    if value is None:
+        return None
+    if isinstance(value, pikepdf.Array):
+        return [object_json(item, seen) for item in value]
+    objgen = getattr(value, "objgen", (0, 0))
+    identity = tuple(objgen) if objgen != (0, 0) else None
+    if identity is not None and identity in seen:
+        return {"indirectCycle": True}
+    nested_seen = seen | ({identity} if identity is not None else set())
+    if isinstance(value, pikepdf.Stream):
+        body = bytes(value.read_bytes())
+        # /Length, /Filter and /DecodeParms describe serialization of the
+        # encoded stream. The decoded bytes above already capture their visual
+        # result. Every other key can alter rendering and is compared.
+        structural = {
+            str(key): object_json(value[key], nested_seen)
+            for key in sorted(value.keys(), key=str)
+            if str(key) not in ("/Length", "/Filter", "/DecodeParms")
+        }
+        return {"streamSha256": hashlib.sha256(body).hexdigest(),
+                "streamByteLength": len(body),
+                "streamDictionary": structural}
+    if isinstance(value, pikepdf.Dictionary):
+        return {str(key): object_json(value[key], nested_seen)
+                for key in sorted(value.keys(), key=str)}
+    if isinstance(value, (bool, int, float)):
+        return value
+    return str(value)
+
+
+def appearance_states(widget):
+    ap = widget.get("/AP")
+    if ap is None or "/N" not in ap:
+        return []
+    normal = ap["/N"]
+    if isinstance(normal, pikepdf.Stream):
+        return []
+    try:
+        return sorted(str(key).lstrip("/") for key in normal.keys())
+    except AttributeError:
+        return []
+
+
+def appearance_descriptor(widget):
+    """Decoded normal appearances, including selected state and resources."""
+    ap = widget.get("/AP")
+    if ap is None or "/N" not in ap:
+        return {"selectedState": object_json(widget.get("/AS")), "normal": None}
+    return {
+        "selectedState": object_json(widget.get("/AS")),
+        "normal": object_json(ap["/N"]),
+    }
+
+
+def xfa_descriptor(pdf):
+    if "/AcroForm" not in pdf.Root or "/XFA" not in pdf.Root.AcroForm:
+        return {"present": False, "sha256": None, "parts": 0}
+    xfa = pdf.Root.AcroForm["/XFA"]
+    parts = list(xfa) if isinstance(xfa, pikepdf.Array) else [xfa]
+    digest = hashlib.sha256()
+    for index, part in enumerate(parts):
+        if isinstance(part, pikepdf.Stream):
+            kind, body = b"stream", bytes(part.read_bytes())
+        else:
+            kind, body = b"object", str(part).encode("utf-8")
+        digest.update(str(index).encode("ascii") + b":" + kind + b":"
+                      + str(len(body)).encode("ascii") + b":" + body)
+    return {"present": True, "sha256": digest.hexdigest(),
+            "parts": len(parts)}
+
+
 def qualified_name(field):
     parts = []
     node = field
@@ -211,19 +295,28 @@ def describe(path):
         for w in nodes:
             rect = w.get("/Rect")
             page_ref = w.get("/P")
+            states = appearance_states(w)
+            appearance = appearance_descriptor(w)
             widgets.append(
                 {
                     "rect": [rnd(v) for v in rect] if rect is not None else None,
                     "pageIndex": pidx.get(page_ref.objgen) if page_ref is not None else None,
                     "flags": int(w.get("/F", 0)),
+                    "appearanceStates": states,
+                    "onStates": [state for state in states if state != "Off"],
+                    "selectedAppearanceState": appearance["selectedState"],
+                    "normalAppearance": appearance["normal"],
                 }
             )
         widgets.sort(key=lambda w: (w["pageIndex"] if w["pageIndex"] is not None else -1,
                                     w["rect"] or []))
         fields[name] = {
-            "fieldType": str(f.get("/FT")) if f.get("/FT") is not None else None,
-            "fieldFlags": int(f.get("/Ff", 0)),
+            "fieldType": str(inherited(f, "/FT")) if inherited(f, "/FT") is not None else None,
+            "fieldFlags": int(inherited(f, "/Ff") or 0),
             "maxLen": int(f["/MaxLen"]) if "/MaxLen" in f else None,
+            "options": object_json(inherited(f, "/Opt")),
+            "defaultValue": object_json(inherited(f, "/DV")),
+            "currentValue": object_json(inherited(f, "/V")),
             "widgets": widgets,
         }
 
@@ -233,6 +326,7 @@ def describe(path):
         "pages": pages,
         "fieldCount": len(fields),
         "fields": fields,
+        "xfa": xfa_descriptor(pdf),
         "encryption": None
         if enc is None
         else {
@@ -289,7 +383,7 @@ def diff(official, derivative):
     for name in sorted(on & rn):
         o, r = official["fields"][name], derivative["fields"][name]
         deltas = {}
-        for key in ("fieldType", "fieldFlags", "maxLen"):
+        for key in ("fieldType", "fieldFlags", "maxLen", "options", "defaultValue", "currentValue"):
             if o[key] != r[key]:
                 deltas[key] = {"official": o[key], "derivative": r[key]}
         if len(o["widgets"]) != len(r["widgets"]):

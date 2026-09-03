@@ -16,6 +16,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { PDFDocument } from "pdf-lib";
 import sharp from "sharp";
@@ -29,6 +30,7 @@ const COMMIT = flag("--commit") ?? null;
 const SCALE = Number(flag("--scale") ?? 2.5);
 const RUN_ID = flag("--run-id") ?? null;
 const OUT = path.resolve(flag("--out") ?? "raster-out");
+const UNLOCKER = path.join(ROOT, "scripts/raster/unlock-encrypted-pdf.py");
 
 /*
  * The family id as a PATH segment. An artifact rejects a colon in a file path
@@ -98,25 +100,68 @@ const inkFraction = async (png, paper) => {
  */
 const pageCount = async (p) => (await PDFDocument.load(fs.readFileSync(p), { ignoreEncryption: true, updateMetadata: false })).getPageCount();
 
-/* Chrome can render the encrypted XFA forms that pdf-lib cannot resolve. For
- * those documents only, the queue carries a positive builder count bound to
- * the exact PDF SHA-256. The queue generator verified that binding; this job
- * verifies the bytes again before reaching this function and renders exactly
- * that many pages. No unbound or merely asserted count is accepted. */
-const pageCountForTarget = async (abs, target) => {
-  try { return await pageCount(abs); }
-  catch (e) {
-    const hashBoundBuilderCount = Number.isInteger(target.expectedPages)
+/*
+ * pdf-lib cannot resolve the encrypted object streams in the unchanged
+ * Judicial Council XFA forms. qpdf can. The runner creates a temporary,
+ * decrypted review derivative only after the original bytes match the queue's
+ * SHA-256, then independently compares qpdf's page count with the queue's
+ * Poppler count. The packet PDF is never changed, and a disagreement refuses
+ * the render rather than choosing one reader.
+ */
+const rasterInputForTarget = async (abs, target, stage) => {
+  try {
+    return { file: abs, pages: await pageCount(abs), decryption: null };
+  } catch (originalError) {
+    const independentlyCounted = Number.isInteger(target.expectedPages)
       && target.expectedPages > 0
-      && /builder's rendered-artifacts report binds this page count to the exact queued SHA-256/.test(target.pageCountBasis ?? "");
-    if (!hashBoundBuilderCount) throw e;
-    return target.expectedPages;
+      && target.pageCountEvidence?.method === "Poppler pdfinfo"
+      && target.pageCountEvidence?.pageCount === target.expectedPages
+      && target.pageCountEvidence?.sourceSha256 === target.expected;
+    if (!independentlyCounted) throw originalError;
+    const python = process.env.RCAP_PIKEPDF_PYTHON || process.env.PYTHON || "python3";
+    const output = path.join(stage, `${target.name.replace(/[^A-Za-z0-9._-]/g, "_")}-decrypted.pdf`);
+    let evidence;
+    try {
+      evidence = JSON.parse(execFileSync(python, [UNLOCKER, "--input", abs, "--output", output], {
+        cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"],
+      }));
+    } catch (e) {
+      const detail = String(e.stderr || e.message);
+      const err = new Error(`the encrypted PDF could not be opened by the independent qpdf reader: ${detail.split("\n")[0]}`);
+      err.environmentBlocked = e.code === "ENOENT" || /ModuleNotFoundError|No module named ['\"]pikepdf['\"]/.test(detail);
+      throw err;
+    }
+    if (evidence.sourceSha256 !== target.expected) throw new Error("the decrypt reader did not bind to the queued source SHA-256");
+    const fidelity = evidence.structuralFidelity ?? {};
+    if (evidence.schemaVersion !== "rcap-decrypted-raster-input/v1"
+      || evidence.sourceEncrypted !== true
+      || evidence.emptyUserPasswordMatched !== true
+      || evidence.derivativeEncrypted !== false
+      || fidelity.pageGeometryEqual !== true
+      || fidelity.decodedPageContentStreamsEqual !== true
+      || fidelity.terminalFieldsAndWidgetsEqual !== true
+      || fidelity.xfaDigestEqual !== true) {
+      throw new Error("the decrypt reader did not return a complete passing structural-fidelity proof");
+    }
+    if (evidence.pageCount !== target.expectedPages) {
+      throw new Error(`independent page readers disagree: Poppler=${target.expectedPages}, qpdf=${evidence.pageCount}`);
+    }
+    const derivativePages = await pageCount(output);
+    if (derivativePages !== evidence.pageCount) throw new Error("pdf-lib reads a different page count from the decrypted derivative");
+    return { file: output, pages: evidence.pageCount, decryption: evidence };
   }
 };
 
 fs.mkdirSync(OUT, { recursive: true });
 const artifacts = [];
 const problems = [];
+const environmentProblems = [];
+const decryptionTransforms = [];
+const derivativeStage = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-raster-decrypted-"));
+process.once("exit", () => {
+  try { fs.rmSync(derivativeStage, { recursive: true, force: true }); }
+  catch { /* this process owns the temporary derivatives */ }
+});
 
 /*
  * Render every document the row names, not one canonical and one boundary.
@@ -136,6 +181,7 @@ const targets = (row.documents ?? []).length > 0
   ? row.documents.map((d) => ({
       kind: d.role, name: d.name, rel: d.path, expected: d.sha256,
       expectedPages: d.pageCount, pageCountBasis: d.pageCountBasis ?? null,
+      pageCountEvidence: d.pageCountEvidence ?? null,
     }))
   : [
       { kind: "canonical", name: "canonical", rel: row.canonicalPdfPath, expected: row.canonicalPdfSha256, expectedPages: row.expectedPages },
@@ -155,12 +201,14 @@ for (const target of targets) {
     problems.push(`${target.name}: ${rel} hashes ${observed} and the queue pinned ${expected}`);
     continue;
   }
-  let pages;
-  try { pages = await pageCountForTarget(abs, target); }
+  let rasterInput;
+  try { rasterInput = await rasterInputForTarget(abs, target, derivativeStage); }
   catch (e) {
-    problems.push(`${target.name}: the queued PDF's page count is unreadable and there is no hash-bound builder count (${String(e.message).split("\n")[0]})`);
+    (e.environmentBlocked ? environmentProblems : problems).push(`${target.name}: ${String(e.message).split("\n")[0]}`);
     continue;
   }
+  const pages = rasterInput.pages;
+  if (rasterInput.decryption) decryptionTransforms.push({ document: target.name, ...rasterInput.decryption });
   if (target.expectedPages && pages !== target.expectedPages) {
     problems.push(`${target.name}: ${pages} page(s) where the queue expected ${target.expectedPages}`);
   }
@@ -171,7 +219,7 @@ for (const target of targets) {
   fs.mkdirSync(dir, { recursive: true });
   for (let i = 0; i < pages; i += 1) {
     let render = null;
-    try { render = await rasterizePageCalibrated({ file: abs, pageIndex: i, magnify: SCALE, keep: dir }); }
+    try { render = await rasterizePageCalibrated({ file: rasterInput.file, pageIndex: i, magnify: SCALE, keep: dir }); }
     catch (e) { problems.push(`${target.name} page ${i + 1}: the render failed: ${String(e.message).split("\n")[0]}`); continue; }
     const png = render?.image;
     if (!png || !fs.existsSync(png)) { problems.push(`${target.name} page ${i + 1}: no PNG was written`); continue; }
@@ -199,7 +247,9 @@ for (const target of targets) {
   if (pages === 0) problems.push(`${target.name}: the PDF reports zero pages`);
 }
 
-const verdict = problems.length === 0 ? "RASTER_PASS" : "RASTER_FAIL";
+const verdict = problems.length > 0
+  ? "RASTER_FAIL"
+  : environmentProblems.length > 0 ? "RASTER_BLOCKED_ENVIRONMENT" : "RASTER_PASS";
 const doc = {
   schemaVersion: "rcap-raster-family-verdict/v1",
   familyId: FAMILY, verdict,
@@ -216,11 +266,14 @@ const doc = {
   documentsRendered: targets.map((t) => ({ role: t.kind, document: t.name, path: t.rel, pinned: t.expected })),
   documentsDigest: row.documentsDigest ?? null,
   coversTheWholeFamily: row.coverage?.complete ?? null,
-  pagesMeasured: artifacts.length, measurements: artifacts, problems,
+  decryptionTransforms,
+  decryptionRule: "An encrypted source is hashed before any transform; Poppler and qpdf must independently agree on its page count; only the temporary decrypted derivative is passed to pdf-lib for calibrated rendering; the queued packet bytes are never modified.",
+  pagesMeasured: artifacts.length, measurements: artifacts, problems, environmentProblems,
   whatThisDoesNotDecide: "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
   packetPdfsModified: 0, bodiesCommitted: 0, commercialRoutesOpened: 0, productionTouched: false
 };
 fs.writeFileSync(path.join(OUT, `${FAMILY_PATH}.verdict.json`), `${JSON.stringify(doc, null, 2)}\n`);
+try { fs.rmSync(derivativeStage, { recursive: true, force: true }); } catch { /* this job owns the temporary derivatives */ }
 console.log(`${verdict} ${FAMILY} — ${targets.length} document(s), ${artifacts.length} page(s) measured, ${problems.length} problem(s)`);
 for (const p of problems.slice(0, 10)) console.log(`  ${p}`);
 process.exit(verdict === "RASTER_PASS" ? 0 : 1);
