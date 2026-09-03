@@ -14,6 +14,17 @@ The platform filled in only identity and record facts it verifiably holds — na
 3. **Sign and date each form yourself**, and complete the proof of service only after service has actually occurred.
 4. **Leave CR-181 entirely blank**. The order for dismissal is the court's form.
 
+## What you must obtain, check and swear before you file
+
+These are the committed packet-set manifest's own words for this packet, not a summary of them. Each one is something the filing needs, the platform does not hold, and this packet therefore does not fill in.
+
+- Obtain Court docket and disposition. Ask the clerk of the Superior Court in the county of conviction. The docket is what settles the probation question and therefore the statute box. It comes from: Superior Court of the county of conviction. This one is conditional: Where the participant is unsure whether probation was granted.
+- Check your answer to "Were you placed on probation in this case?" against Court docket and disposition, and correct the packet if they disagree. This one is conditional: Where the participant is unsure whether probation was granted.
+- Signature and date — CR-180, petitioner signature block.
+- Interests-of-justice explanation — CR-180 box 3 and MC-031 where attached.
+- The petitioner signs CR-180.
+- The source review does not state a notarization requirement.
+
 ## When to stop and take this to a lawyer
 
 The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take the papers to a lawyer or a legal-aid office rather than filing them:
@@ -24,9 +35,27 @@ The committed track registry records these as the points where self-help ends on
 - The participant is not a United States citizen.
 - Whether probation was granted cannot be established from the participant's answer or their record.
 
-## What this packet does not tell you
+## Where you file this, and by when
 
-The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the conviction. An unsourced figure in a filing instruction would be worse than none. This is where this packet's self-help ends: fee, waiver, service, and local filing practice come from the clerk of that court, not from this packet.
+File CR-180 with box 3 elected, together with the proposed CR-181, in the Superior Court of the county of conviction. Petition for dismissal of an infraction is by written declaration except on a showing of compelling need.
+
+That rule is the committed packet-set manifest for this packet, not a guess at local practice. Read it against your own case before you rely on it: it tells you which court and what goes in together. It sets no filing deadline for this route, and none is invented here.
+
+## Who you must serve, and by when
+
+Serve the prosecuting attorney where notice is required and file CR-106 proof of service.
+
+This is why CR-106 ships with this packet: it is the proof that you served those parties. Serve first, then complete the proof of service — never the other way round. What the repository does not establish for this route is by what method service must be made and by when it must be made, so no rule for either is printed here — **ask the clerk of the Superior Court in the county of the conviction** before you serve, and do not read this packet's silence as permission to choose freely.
+
+## What this costs
+
+**The filing fee itself is the one question this packet cannot answer.** The committed packet-set manifest records the fee for this route as "Reimbursement of up to $60 to the county and $60 to the city, subject to an ability-to-pay determination under the PC 987.8(g)(2) standard, and expressly not a prerequisite to eligibility. § 1203.4a(e). Any court filing fee is unresolved and county-specific." — it varies from county to county and the repository does not hold the figure for yours, so none is printed here. Publishing an amount this packet does not hold would be worse than publishing none. **Ask the clerk of the Superior Court in the county of the conviction what the filing fee is for this petition**, and ask at the same time what payment methods that court accepts.
+
+**If you cannot pay it, ask about a fee waiver by name.** FW-001 is the general California fee waiver form. Inability to pay the § 1203.4a(e) reimbursement does not defeat eligibility. It is a separate form: it is not part of this packet, is not filled in for you, and is available from the California Courts self-help forms site along with the forms in this packet. Naming it is as far as the repository goes — whether a waiver is available on this particular petition, and what it requires of you, is decided on your own financial circumstances and on that court's practice, so **ask the clerk of the Superior Court in the county of the conviction for form FW-001 and whether a waiver applies to this filing**.
+
+## Where this packet's self-help ends
+
+This packet states what the repository holds for this route and nothing beyond it. The filing fee, the payment methods that court accepts, and any local intake rule — a cover sheet, a filing window, an e-filing requirement — come from the clerk of the Superior Court in the county of the conviction, not from this packet. It does not decide whether your conviction qualifies for relief under Penal Code section 1203.4a, it does not appear for you, and it is not legal advice. If your case does not match the route named at the top of this page, or if anyone opposes the petition, that is the point to get a lawyer or a legal-aid office rather than to press on with these papers.
 
 ## The blanks you must fill in
 
@@ -86,7 +115,7 @@ The platform holds no value for any of these, and this packet never guesses at o
 | 1 | `Page1[0].FillText72[2]` | the form prints `(state):` beside it — complete this only after service has actually occurred |
 | 1 | `Page1[0].RightCaption[0].CaseNumber[0]` | the form prints `Case Number:` beside it — complete this only after service has actually occurred |
 | 1 | `Page1[0].RightCaption[0].CourtInfo[0]` | the form prints `Superior Court of California, County of` beside it — complete this only after service has actually occurred |
-| 1 | `Page1[0].RightCaption[0].TCCaseName_ft[0]` | the form prints `TCCaseName_ft` beside it — complete this only after service has actually occurred |
+| 1 | `Page1[0].RightCaption[0].TCCaseName_ft[0]` | the form prints `Case Name:` beside it — complete this only after service has actually occurred |
 | 1 | `Page1[0].SrvMailingAddress1[0]` | the form prints `Street` beside it — complete this only after service has actually occurred |
 | 1 | `Page1[0].TextField6[0]` | the form prints `fill in the name of the document you are serving` beside it — complete this only after service has actually occurred |
 | 2 | `Page2[0].#area[1].SrvMailingAddress3[0]` | the form prints `Street` beside it — complete this only after service has actually occurred |

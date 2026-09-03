@@ -6,47 +6,45 @@
   "selfVerified": false,
   "productionTouched": false,
   "commercialRoutesOpened": 0,
-  "verdictNote": "These are builder/repair STOPPED rows, not independent verdicts and not PASS claims.",
+  "verdictNote": "These are completed builder/repair rows, not independent verdicts and not PASS claims. Every family still requires a fresh independent read.",
   "liveClaimsAsserted": {
     "ca-1203-41-set": "CLAIM_OK FIX02 (repair, grant set 0e43a229967467ca)",
     "ca-1203-42-set": "CLAIM_OK FIX03 (repair, grant set 0e43a229967467ca)",
     "ca-1203-43-set": "CLAIM_OK FIX04 (repair, grant set 0e43a229967467ca)",
     "ca-1203-4a-set": "CLAIM_OK FIX05 (repair, grant set 0e43a229967467ca)"
   },
-  "sharedBlocker": {
-    "kind": "ENVIRONMENT_SOURCE_BINDING",
-    "what": "MASTER_LIBRARY_SOURCE_DIR is unset because the pinned private Master Library is absent from this host.",
-    "buildFailure": "Error: MASTER_LIBRARY_SOURCE_DIR must be set explicitly to the extracted Master Library",
-    "bootstrapFailure": "bootstrap-private-corpus: no GITHUB_TOKEN or GH_TOKEN in the environment; the release is private",
-    "consequence": "The deterministic generator fails closed before resolving or hashing the official inputs. No family output was regenerated, so no repaired obligation is claimed.",
-    "partialOutputCleanup": "The failed ca-1203-41 attempt cleared approval-request.json and build-findings.json before source resolution. Exactly those two files were restored from current HEAD; all four overlay directories are unchanged."
+  "resolvedSourceBinding": {
+    "kind": "EXACT_HASH_ADDRESSED_LOCAL_CUSTODY",
+    "what": "The six source PDFs required by this repair were staged from the already-local Nationwide recovery pool into a temporary Master Library-shaped root.",
+    "verification": "Every staged input was rehashed and matched the exact SHA-256 pinned by the family builder before any rebuild ran.",
+    "repositoryTreatment": "No private source byte was copied into a tracked source tree; only family packet outputs and their byte-derived evidence changed."
   },
   "generatorWorkPrepared": {
     "file": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
     "scope": "Only the four CA-1203 config/guidance records, one family-gated CR-106 measured-label mechanism, and focused self-test assertions were changed.",
-    "testCoverage": "The self-test exercises the generated participant guidance against every manifest-held filing, service, and FW-001 action; proves the measured CR-106 Case Name caption is selected for all four families; proves an unrelated family retains its source label; and confirms nested-control detachment is opted into only for the four claimed CA-1203 families. Finished artifact behavior remains unclaimed until the corpus-backed rebuild runs.",
+    "testCoverage": "The self-test exercises the generated participant guidance against every manifest-held filing, service, and FW-001 action; proves the measured CR-106 Case Name caption is selected for all four families; proves an unrelated family retains its source label; and confirms nested-control detachment is opted into only for the four claimed CA-1203 families.",
     "tests": [
       "SELF_TEST_OK ca-1203-41-set",
       "SELF_TEST_OK ca-1203-42-set",
       "SELF_TEST_OK ca-1203-43-set",
       "SELF_TEST_OK ca-1203-4a-set"
     ],
-    "notAppliedToArtifacts": true
+    "notAppliedToArtifacts": false,
+    "artifactResult": "All four deterministic family rebuilds and all four read-only --check replays passed against the newly generated packet bytes."
   },
   "rows": [
     {
       "itemId": "ca-1203-41-set",
       "repairLane": "FIX02",
-      "status": "STOPPED",
+      "status": "COMPLETED",
       "obligationsTargeted": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING"],
-      "obligationsRepaired": [],
-      "blockedBy": "sharedBlocker",
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING"],
       "currentArtifactHashes": {
-        "participantInstructions": "afc9d4c0d97d0921ff6e66b8adf2874426d90e6d9e06be4607a15248ad8cea42",
-        "productionFieldMap": "29fccbea5450c65cb5d79257255de6392b351121e69aba89f0f0bf20433b3b4c",
-        "renderedArtifactsManifest": "f2343c45fac307dada09b0123d47dae413309cd7f7d43931fa22375db1f65dc7",
-        "canonicalPrimaryCr180": "87899cabff3d6c6c960d922c1baa88271a89d3aafde33d393f637eb92519f971",
-        "boundaryPrimaryCr180": "ff1177fde3dcc417fb9d1618828cd6a46690f3d6fbf5b4e60f3e0c77c39ae037"
+        "participantInstructions": "361b7eea8dafc8b22258012947a02e55264897150c0fea4f110890061e91d7f8",
+        "productionFieldMap": "4d341298b2d94021bd01731c029c96cb14d6baf1b252e0245943ce861242f14e",
+        "renderedArtifactsManifest": "590161d6bc0d73ad6fed29be4f73da5d48b4cfa7c9c064ea4755de8a43b89661",
+        "canonicalPrimaryCr180": "2299cbac4ebfb481b1566983535b75ee7a54b5d7053c6001c18345433448f45c",
+        "boundaryPrimaryCr180": "d6442ef54a6f32501082bc9bd8874092dac6a67126ee5630367aacb17b1cf8d1"
       },
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -59,21 +57,21 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "counterResult": "8/204 written on unchanged pre-repair artifacts; semantic and clipping obligations remain open."
+      "counterResult": "BUILD_OK and CHECK_OK on 2 packets, 8 artifacts and 16 fresh page rasters; repair is ready for independent verification.",
+      "needsIndependentRead": true
     },
     {
       "itemId": "ca-1203-42-set",
       "repairLane": "FIX03",
-      "status": "STOPPED",
+      "status": "COMPLETED",
       "obligationsTargeted": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING", "SERVICE"],
-      "obligationsRepaired": [],
-      "blockedBy": "sharedBlocker",
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING", "SERVICE"],
       "currentArtifactHashes": {
-        "participantInstructions": "102e20f3da830009d15933b1023a02b6249e08b0194b4ba00d994bc1ee3af32d",
-        "productionFieldMap": "a36bcddeb82d39f0cf4278658a632716de79e862c74146295c5b68c939850c31",
-        "renderedArtifactsManifest": "c2342e87d6ff0668f650cea9e2226fda9149ddab51d197e8472cac4bc077d531",
-        "canonicalPrimaryCr180": "0547db60c97d5549ddb78c13c6ec637a5f01673684b412f03b19d8006311194d",
-        "boundaryPrimaryCr180": "541b58c83e96d41ffe549df40e394914ba8530282d3c1690532007ac34cb8bdf"
+        "participantInstructions": "68efe812578355f6a7cb1c4dbfb4cbdf31ef33d7c09933f09cd974fbf76ec6d6",
+        "productionFieldMap": "a332e669536893b9b043d4bcd1581d2fcb2e85cf261fcbe58878f62e4132488a",
+        "renderedArtifactsManifest": "56b3146e38521fb530f9fd7a8b6c10d20993654566c6893cbb9b172190603fb1",
+        "canonicalPrimaryCr180": "8e6b20a4115966d8d6c6fb79ca2fe072a1c7ea6e790df149bb54fc2a234f82a2",
+        "boundaryPrimaryCr180": "fce33fd4f783f3a946bf0484e2f7acf5df379383e606f824d9f58b6cb5e020e5"
       },
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -86,21 +84,21 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "counterResult": "8/204 written on unchanged pre-repair artifacts; semantic and clipping obligations remain open."
+      "counterResult": "BUILD_OK and CHECK_OK on 2 packets, 8 artifacts and 16 fresh page rasters; repair is ready for independent verification.",
+      "needsIndependentRead": true
     },
     {
       "itemId": "ca-1203-43-set",
       "repairLane": "FIX04",
-      "status": "STOPPED",
+      "status": "COMPLETED",
       "obligationsTargeted": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING", "SERVICE"],
-      "obligationsRepaired": [],
-      "blockedBy": "sharedBlocker",
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING", "SERVICE"],
       "currentArtifactHashes": {
-        "participantInstructions": "62bad7e7a6aa8bd65d86232596a00be73309cd56bafff09a14e24fdb0390b99b",
-        "productionFieldMap": "0ad1d120e5e9401f7b9cc0525225d8fa65a7a2167998fd33372f83255202437a",
-        "renderedArtifactsManifest": "eb5c6f810b506ceee43a51fc240084c6e1a2004a913144af50c8a9f6330c5749",
-        "canonicalPrimaryCr180": "6f811f3fb3bb95da3bc85ed771ca9ea140ad03d76091a69110ae77d8269e66fe",
-        "boundaryPrimaryCr180": "b3e72daa4d9fe48d21d0b0baf8a266da4111c6710ebe4acb924cdb6f38ed248e"
+        "participantInstructions": "fa0422a4d832d6bdeb7ef817af9be1fb3c3684d84a9f22dd011fbbc3856da08a",
+        "productionFieldMap": "23d9c97f96173afa178b9376455bf8ee8d542307766f6bfe1e8943446f2d065e",
+        "renderedArtifactsManifest": "b9d51be242ac398e82fe26d06bac6f462ed04aeb6633912412fefda886f5c4aa",
+        "canonicalPrimaryCr180": "d2ee7689a134dd808796a840adc358badda96c90f2586601cb4867332768703e",
+        "boundaryPrimaryCr180": "c0b2eeec2627a2566828f988f527fb325615ce567fbd7092a9122f749f0dee67"
       },
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -113,21 +111,21 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "counterResult": "8/186 written on unchanged pre-repair artifacts; semantic and clipping obligations remain open."
+      "counterResult": "BUILD_OK and CHECK_OK on 2 packets, 6 artifacts and 14 fresh page rasters; repair is ready for independent verification.",
+      "needsIndependentRead": true
     },
     {
       "itemId": "ca-1203-4a-set",
       "repairLane": "FIX05",
-      "status": "STOPPED",
+      "status": "COMPLETED",
       "obligationsTargeted": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING", "SERVICE"],
-      "obligationsRepaired": [],
-      "blockedBy": "sharedBlocker",
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "REQUIRED_BEFORE_FILING", "SERVICE"],
       "currentArtifactHashes": {
-        "participantInstructions": "0689ef7a529530a1842e77f3ea927ca4b55dbe6da0b1cfcd63285f21cd108afb",
-        "productionFieldMap": "4424030929780a59af9875d4e41397192396adf8a2a0e42da15193532014a440",
-        "renderedArtifactsManifest": "85393d87ead7efad48768f38ab8205da3ead287f4e8b0cff63ae29905f0ef6df",
-        "canonicalPrimaryCr180": "9402db025221368d7bcc6705f8243aa358760fe2a59926bd72c16a1d98f69a5b",
-        "boundaryPrimaryCr180": "290d86703effd616724299f039e81ec5103a27de8d94c4eecee4d926f926dc65"
+        "participantInstructions": "b795ecd882815ff765c77eeb580d4735210894a3fbd6c75ec5b140985c565f22",
+        "productionFieldMap": "3148f84d3e57e4220fb85bf0b0a75497d16f87e85ddff850e01fc2b3866e1947",
+        "renderedArtifactsManifest": "170be3ed8bd8100c06d1698266211573084eb574bb4ae1f667b828ceb01a8f4a",
+        "canonicalPrimaryCr180": "c7dc7526816439ce0a709709613936dcbe6a9f580d1a7dacc6a62a52f17ebd45",
+        "boundaryPrimaryCr180": "86c5ef49a270c453ddbaca4d00d750b8db317a5fd45178a8f2989778ad0e7f4e"
       },
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -140,7 +138,8 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "counterResult": "8/204 written on unchanged pre-repair artifacts; semantic and clipping obligations remain open."
+      "counterResult": "BUILD_OK and CHECK_OK on 2 packets, 8 artifacts and 16 fresh page rasters; repair is ready for independent verification.",
+      "needsIndependentRead": true
     }
   ]
 }

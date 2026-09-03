@@ -693,7 +693,12 @@ Object.assign(FAMILY, {
     "obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
     ["guilty"], { guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge",
       guiltyCrt: "matter.court" },
-    "The measured conviction control is marked; no clean-slate or marijuana election is made."
+    "The measured conviction control is marked; no clean-slate or marijuana election is made.",
+    {},
+    {
+      fitTextPerWidget: true,
+      deny: ["ExpungeCntyName"],
+    }
   ),
   "nj_indictable_conviction-set": njFamily(
     "obligation:track-only:NJ:nj_indictable_conviction", ["guilty"], {
@@ -1249,6 +1254,13 @@ async function selfTest(familyId) {
   assert.equal(rasterLooksBlank({ channels: [{ min: 0, max: 255 }] }), false);
   assert.deepEqual(FAMILY["nj_clean_slate-set"].documents[0].selections, ["guilty"],
     "NJ clean-slate must never mark the court-owned cleanSlate control on Form C");
+  const disorderlyDocument = FAMILY["nj_disorderly_persons-set"].documents[0];
+  assert.equal(disorderlyDocument.fitTextPerWidget, true,
+    "NJ disorderly-persons repeated widgets must be fitted independently");
+  assert.ok(disorderlyDocument.deny.includes("ExpungeCntyName"),
+    "NJ disorderly-persons must not substitute residence county for filing county");
+  assert.equal(factMappingsForDocument(disorderlyDocument).ExpungeCntyName, undefined,
+    "NJ disorderly-persons ExpungeCntyName must remain REQUIRED_BEFORE_FILING");
   assert.deepEqual(routeSelectionProtection({
     name: "syntheticOrderControl",
     widgets: [{ page: 3, rect: { x: 10, y: 10, width: 12, height: 12 } }],
@@ -1314,7 +1326,7 @@ async function selfTest(familyId) {
     "performed-service fields remain protected through their refusal class",
   );
   assert.deepEqual(eastFamilyContract(familyId), { familyId, sourceBound: true, commercialAuthority: false });
-  assert.equal(classifyRefusal("Signature of Petitioner", "Signature"), "signature_or_sworn_participant_act");
+  assert.equal(classifyRefusal("Signature of Petitioner", "Signature"), "signature_or_date_participant_completion");
   assert.equal(classifyRefusal("UnknownDispositionDate", "Disposition date"), "required_before_filing");
   assert.equal(classifyRefusal("Date_of_Service", "Date of Service"), "unmailed_or_unperformed_service");
   assert.equal(classifyRefusal("Applicant_Email", "Email"), "required_before_filing");
@@ -3085,6 +3097,7 @@ async function checkOfficial(familyId, config) {
       exactFieldMap: liveMap,
       unwritableFields, documentTextLines: liveCensus.documentTextLines,
       alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
+      fitTextPerWidget: doc.fitTextPerWidget === true,
       title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} review artifact`,
     });
     const preSelectionBytes = finalized.bytes;

@@ -4,38 +4,46 @@
   "laneKind": "repair",
   "taskBaseSha": "c5eceb65fa65d2c6f785acd62adf7d437391cb69",
   "observedHeadWhenStopped": "cdb5ea60a7fd300d077a017ac749dd318f9cf72d",
-  "familiesRepaired": 0,
-  "familiesStopped": 2,
+  "familiesRepaired": 2,
+  "familiesStopped": 0,
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "selfVerified": false,
-  "laneSummary": "Both assigned defects were reproduced with focused current evidence. No family output was changed. The family-scoped California code repair is applied and its host self-test passes, but its checked-in artifacts remain red because the pinned Master Library corpus is not mounted in this Desktop environment. New Jersey is blocked by the same missing corpus. Both central repair claims remain asserted.",
+  "laneSummary": "Both assigned defects were reproduced and repaired with focused current evidence. California and New Jersey were rebuilt from exact hash-pinned source bytes and now pass their deterministic builds and read-only replay checks. Both rows remain repair claims, not independent verdicts, and require fresh independent reads.",
   "aboutTheNineCounters": "The focused completeness reader reports all nine counters at zero for both existing family outputs. Those counters do not detect either assigned boundary-length defect and are recorded only as unchanged census state, not as repair evidence or a verdict.",
   "rows": [
     {
       "itemId": "ca-851-91-set",
-      "status": "STOPPED",
-      "stopState": "CODE_READY_ENVIRONMENT_BLOCKED",
+      "status": "COMPLETED",
+      "stopState": null,
       "centralClaimLane": "FIX06",
       "claimAsserted": true,
       "claimReleased": false,
       "obligationsAssigned": [
         "KNOWN_PREFILLS"
       ],
-      "obligationRepaired": null,
+      "obligationRepaired": "KNOWN_PREFILLS",
       "obligationsReproduced": true,
-      "redEvidence": "Both boundary CR-409 artifacts have 12 finalizerWritten rows instead of the canonical fixture's 14. TCCaseName and ProtectedEmail are each absent from finalizerWritten and present in finalizerRefused with reason value_exceeds_widget_width_at_minimum_font. The focused current assertion therefore fails before any repair.",
+      "redEvidence": "Before repair, both boundary CR-409 artifacts had 12 finalizerWritten rows instead of the canonical fixture's 14. TCCaseName and ProtectedEmail were absent from finalizerWritten and present in finalizerRefused with reason value_exceeds_widget_width_at_minimum_font.",
       "measuredRootCause": "The exact boundary name and email require 195.6pt and 253.8pt at six points, while their CR-409 widgets provide only 172.38pt and 221.38pt of usable width. Trying the declared six-point minimum alone therefore cannot fit either value; both need a modest, measured horizontal scale as well as the six-point vertical size.",
       "codeRepairApplied": "Added a ca-851-91-set-only 85-percent minimum horizontal-scale policy to the exact mapped-fact overlay. The fitter first tries every ordinary readable size unchanged; only a single-line width refusal may use six-point text with a measured Tz scale, and it still refuses if the required scale would fall below 85 percent. The shared fitter and every unrelated family retain their prior behavior.",
-      "stoppedBecause": "MASTER_LIBRARY_SOURCE_DIR_UNSET_AND_PINNED_SOURCE_CORPUS_NOT_MOUNTED",
-      "unblockRequires": "A Desktop session with MASTER_LIBRARY_SOURCE_DIR bound to the pinned Expungement_AI_RCAP_Master_Library_Edition_1 corpus, followed by deterministic family rebuild and focused checks.",
+      "stoppedBecause": null,
+      "unblockRequires": null,
       "repairTestAdded": true,
       "repairTestPath": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
       "selfTestResult": "SELF_TEST_OK: both exact CR-409 boundary strings refuse without the family opt-in, fit at measured horizontal scales of at least 85 percent with the opt-in, remain within their recorded widget widths, and a synthetic exact-mapped appearance preserves the complete boundary name in output PDF bytes.",
-      "artifactAssertionResult": "EXPECTED_RED_UNTIL_REBUILD: pc-851-91-matter-of-right-boundary has 12 finalizerWritten rows; expected 14",
-      "generatorOutputChanges": 0,
-      "artifactHashes": null,
-      "artifactHashesNote": "No repaired artifact was generated, so no repair hash is claimed.",
+      "artifactAssertionResult": "BUILD_OK and CHECK_OK: both boundary CR-409 variants now carry all 14 mapped writes, including the complete TCCaseName and ProtectedEmail values at measured horizontal scales above the 85-percent floor.",
+      "generatorOutputChanges": 31,
+      "artifactHashes": {
+        "fieldCensus": "ec745d4f71cec15449e0e24a08af75371e3ddfcd46384e280a5e15960b5d4244",
+        "productionFieldMap": "f579bb6234891f7eeee30a9a5cdb04f6249207c5c7ea03f2239e43c3e1aebc8f",
+        "actualWrites": "17272d5199a43d7a298408b1045316cdf75061feb8e4a2a3c0229094db842043",
+        "packetEvidence": "10c133e4084028be7de3424d0983e2804bf90bf48fcb48ac66475f2ec0c78d7e",
+        "renderedArtifacts": "b94175105235967b9c6b7d5271529f63f36fc49b4234986bfd63b44c30c79fe3",
+        "matterOfRightBoundaryCr409": "03f3553ef8ead28973904ba6941778f2995a11290b2d1982a486308eea4e58be",
+        "interestsOfJusticeBoundaryCr409": "03f3553ef8ead28973904ba6941778f2995a11290b2d1982a486308eea4e58be"
+      },
+      "artifactHashesNote": "Every hash above was recomputed from the rebuilt tracked output.",
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -48,30 +56,40 @@
         "visualDefects": 0
       },
       "countersAfterAreUnchanged": true,
-      "claimNote": "FIX06 remains asserted. This row issues no verifier verdict and does not release or promote the family."
+      "claimNote": "FIX06 remains asserted until this completed repair is committed. This row issues no verifier verdict and does not promote the family.",
+      "needsIndependentRead": true
     },
     {
       "itemId": "nj_disorderly_persons-set",
-      "status": "STOPPED",
+      "status": "COMPLETED",
       "centralClaimLane": "FIX01",
       "claimAsserted": true,
       "claimReleased": false,
       "obligationsAssigned": [
         "CLIPPING_AND_OVERLAP"
       ],
-      "obligationRepaired": null,
+      "obligationRepaired": "CLIPPING_AND_OVERLAP",
       "obligationsReproduced": true,
-      "redEvidence": "The existing boundary actual-write record has no per-widget font-size evidence for repeated DefName or DefAddrStr. A focused regression assertion requires 20 DefName widget font sizes and 7 DefAddrStr widget font sizes, each at least six points, and currently fails because DefName.widgetFontSizes is absent. The standing raster finding identifies clipping/collision on pages 18, 23, 24, 27, 30, 31, 35, 38, 40, and 43.",
-      "measuredRootCause": "The family-scoped shared-host repair fitTextPerWidget is already committed, but the checked-in NJ artifacts predate it and must be regenerated from their pinned source bytes before the defect can be closed.",
-      "stoppedBecause": "MASTER_LIBRARY_SOURCE_DIR_UNSET_AND_PINNED_SOURCE_CORPUS_NOT_MOUNTED",
-      "unblockRequires": "A Desktop session with MASTER_LIBRARY_SOURCE_DIR bound to the pinned Expungement_AI_RCAP_Master_Library_Edition_1 corpus, followed by deterministic family rebuild and focused checks.",
+      "redEvidence": "Before repair, the boundary actual-write record had no per-widget font-size evidence for repeated DefName or DefAddrStr. The focused regression assertion required 20 DefName widget font sizes and 7 DefAddrStr widget font sizes, each at least six points, and failed because DefName.widgetFontSizes was absent. The standing raster finding identified clipping/collision on pages 18, 23, 24, 27, 30, 31, 35, 38, 40, and 43.",
+      "measuredRootCause": "The disorderly-persons family did not opt into the shared host's per-widget fitting, so one size was applied across repeated widgets with different widths. The same family also mapped residence county into the filing-county control before its wrapper reclassified that control. The repair opts only this family into per-widget fitting, denies that mapping, and aligns the read-only checker with the build path.",
+      "stoppedBecause": null,
+      "unblockRequires": null,
       "repairTestAdded": true,
       "repairTestPath": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
-      "generatorOutputChanges": 0,
+      "generatorOutputChanges": 29,
       "failedBuildSideEffectRecovered": true,
-      "recoveryNote": "The generator cleared its owned output before resolving the missing source. Exactly the NJ family directory was restored from current HEAD; it is clean against HEAD.",
-      "artifactHashes": null,
-      "artifactHashesNote": "No repaired artifact was generated, so no repair hash is claimed.",
+      "recoveryNote": "Historical pre-repair recovery: the first source-blocked attempt cleared its owned output, and the NJ directory was restored from HEAD before the successful source-bound rebuild. The current directory now carries only the scoped rebuilt output diff.",
+      "artifactAssertionResult": "BUILD PASS and CHECK PASS: DefName records 20 independently fitted widget sizes and DefAddrStr records seven, all at or above six points; ExpungeCntyName remains REQUIRED_BEFORE_FILING.",
+      "artifactHashes": {
+        "canonicalPdf": "c22cfd2d61ecd5f1b9f6b1eab65a5ad94b61aa6d3c7090950e54708a22b9630e",
+        "boundaryPdf": "5415f4f4992e3229962bcf4b69e1d1b0a4388117c454723a95e4107a6a8f4693",
+        "participantInstructions": "7dd6de7485f09cae109599711945f1a304d68c645e06998a108aa3eb8f0287f6",
+        "actualWrites": "32b63317f27dba746c67da88cf733421a1c427d29533199bef1854b38a109ae5",
+        "renderedArtifacts": "2ad7caaa8a21ba47ef0da8f88a2eb6b51235807434008e97af2038d2e65d36ef",
+        "canonicalContactSheet": "dda261f2e46c53952b3a9e20be830835002f6f4f76f52f2fd3b2c3942d5667e9",
+        "boundaryContactSheet": "def627f9a8d339a2ec2d984f844fc5cd0b37f4a2e33e9584e55ff8396cae8091"
+      },
+      "artifactHashesNote": "Every hash above was recomputed from the rebuilt tracked output.",
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -84,7 +102,8 @@
         "visualDefects": 0
       },
       "countersAfterAreUnchanged": true,
-      "claimNote": "FIX01 remains asserted. This row issues no verifier verdict and does not release or promote the family."
+      "claimNote": "FIX01 remains asserted until this completed repair is committed. This row issues no verifier verdict and does not promote the family.",
+      "needsIndependentRead": true
     }
   ]
 }

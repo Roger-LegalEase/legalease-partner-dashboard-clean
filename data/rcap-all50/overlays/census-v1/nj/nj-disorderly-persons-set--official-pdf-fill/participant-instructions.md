@@ -11,6 +11,14 @@ These files are deterministic review fixtures made from exact held official sour
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
 - Confirm current revision, local procedures, attachments, and proposed-order requirements before filing. Where to file, cost, and who must be served are each answered in their own section below.
 
+## Values this platform holds but did not print
+
+The blanks below are not blanks the platform has no fact for. It holds each of these values and could not put it on the paper, so it left the box **empty** rather than print something a court could not read, or leave a row half filled. **Write each one in by hand before you file.** Which of them bites on a real packet depends on how long that participant's own name, charge or docket number is; the fixtures a row was measured on are named in the last column.
+
+| Source field | The fact | Why it is not printed | Measured on |
+| --- | --- | --- | --- |
+| `arrest1CaseNum` | `matter.case_number` | the value does not fit this box at a size a court could read | boundary |
+
 ## What it costs to file
 
 There is **no court filing fee**. New Jersey Courts states **"It's free"**, and the Judiciary kit was updated in June 2020 to remove the filing fee. Because there is no court filing fee, there is no court filing fee to waive and no court-fee waiver form is needed for this petition.
@@ -29,10 +37,6 @@ Serve the petition as required and, after entry, serve a certified copy of the s
 
 The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.
 
-- County (where you are filing); write the same confirmed county on pages 18, 27, 30, and 40 (source field: `ExpungeCntyName`)
-- (statute) — arrest/custody row 3 (source field: `arrest3Statute`)
-- (statute) — arrest/custody row 4 (source field: `arrest4Statute`)
-- (statute) — arrest/custody row 5 (source field: `arrest5Statute`)
 - offense(s)) (source field: `arrestOff2`)
 - in violation of N.J.S.A. (statute(s)) (source field: `arrestStatute`)
 - (original indict (source field: `arrestMuni`)
@@ -52,6 +56,7 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - conviction. The compelling circumstances for the Court to gr (source field: `seek5yrsDetails`)
 - 3 (source field: `seekJuvNever`)
 - changeName (source field: `changeName`)
+- County (where you are filing) (source field: `ExpungeCntyName`)
 - , (source field: `orderHearYr`)
 - an Order of (source field: `hearDay`)
 - at (source field: `hearTime`)
@@ -68,10 +73,13 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - (statute (source field: `arrest2Statute`)
 - summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest2CaseNum`)
 - (statu (source field: `arrest3Dt`)
+- (statute) — arrest/custody row 3 (source field: `arrest3Statute`)
 - summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest3CaseNum`)
 - (statut (source field: `arrest4Dt`)
+- (statute) — arrest/custody row 4 (source field: `arrest4Statute`)
 - summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest4CaseNum`)
 - (statu (source field: `arrest5Dt`)
+- (statute) — arrest/custody row 5 (source field: `arrest5Statute`)
 - summons/warrant/ complaint/FJ or FO docket number) (source field: `arrest5CaseNum`)
 - If applicable, including the following Family Par (source field: `fjDocketNums`)
 - jdmnt (source field: `jdmnt`)
