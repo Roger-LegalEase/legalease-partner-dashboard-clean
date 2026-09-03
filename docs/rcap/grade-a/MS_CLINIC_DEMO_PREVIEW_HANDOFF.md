@@ -53,3 +53,41 @@ Named Mississippi counsel must separately approve the exact canonical and
 boundary artifact hashes recorded in
 `data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json` before the
 sponsored posture may open.
+
+## Continuation audit: 2026-09-03
+
+Commit `991fed86e9fd055b351b1422b36bcd2b9549bdd6` passed the four Clinic-local
+acceptance checks:
+
+- schema and RLS isolation, including the mutation suite;
+- participant ownership denials, including nine weakened-guard mutations;
+- desktop and mobile critical-route checks, including shared-device reset; and
+- accessibility checks at 320, 375, 390, and 412 CSS pixels against the WCAG
+  2.0, 2.1, and 2.2 A/AA axe-core rules used by the harness.
+
+The hosted safety-contract tests also passed: preflight 3/3, Vercel identity
+12/12, preparation 9/9, migration 5/5, full-matrix contract, staging-scoped
+Preview contract, and hosted-runner refusal probes.
+
+Hosted acceptance has four unresolved prerequisites:
+
+- `node scripts/generate-rcap-staging-action.mjs --check` refuses this commit
+  because its worker image inputs differ from the source behind the accepted
+  immutable worker digest. The team must publish and pin a digest for the
+  current full SHA before a hosted run can use these bytes.
+- The worktree has no Supabase acceptance credential. It cannot prove or query
+  project `hyflxnlhpmiqxvvcoiia` from the local shell.
+- The saved local Vercel session returned HTTP 403. The in-app Vercel login
+  reached the account's two-factor checkpoint, so the audit read no project or
+  deployment data.
+- The GitHub `hosted_vercel_audit` lane requires the application SHA to belong
+  to the canonical captain branch. This feature commit has not entered that
+  branch, and this audit did not bypass the ancestry gate.
+
+The packet-factory verifier passed 30/30 checks. Its canonical generator reports
+uncommitted generation drift in `MASTER_QUEUE.json` and `CHECKPOINT.json`; this
+branch did not rewrite those shared files.
+
+This continuation made no Preview deployment, hosted database request, tenant
+seed, Stripe request, or production request. Counsel approval and the
+participant-delivery prerequisites above still apply.
