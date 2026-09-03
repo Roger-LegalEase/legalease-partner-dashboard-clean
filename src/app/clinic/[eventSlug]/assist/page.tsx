@@ -15,5 +15,5 @@ export default async function ClinicAssistPage({ params }: { params: Promise<{ e
   if (!auth.isAuthenticated) redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(`/clinic/${eventSlug}/assist`)}`);
   const [event, entry] = await Promise.all([getPublicClinicEvent(eventSlug), getClinicEntryContext(eventSlug)]);
   const staff = await listApprovedClinicStaff(entry.eventId);
-  return <ClinicPrivacyBoundary cleanEntryPath={`/clinic/${eventSlug}`}><main className="min-h-screen bg-[#FBF7F2] px-4 py-10"><div className="mx-auto max-w-2xl"><p className="mb-5 text-sm font-bold text-[#0F6E56]">{event.name} · signed in participant</p><ClinicAssistanceClient eventSlug={eventSlug} staff={staff} /></div></main></ClinicPrivacyBoundary>;
+  return <ClinicPrivacyBoundary cleanEntryPath={`/clinic/${eventSlug}`}><main className="min-h-screen bg-[#FBF7F2] px-4 py-10"><div className="mx-auto max-w-2xl"><p className="mb-5 text-sm font-bold text-[#0F6E56]">{event.name} · signed in participant</p><ClinicAssistanceClient event={event} staff={staff} /></div></main></ClinicPrivacyBoundary>;
 }

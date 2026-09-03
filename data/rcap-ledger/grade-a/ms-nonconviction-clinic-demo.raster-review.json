@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-grade-a-raster-review/v1",
+  "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "packetFamily": "ms-nonconv-set",
+  "reviewedOn": "2026-09-03",
+  "rasterizer": "pdftoppm 144dpi",
+  "pageDimensions": "1224x1584 RGB PNG",
+  "status": "AUTHOR_AND_INDEPENDENT_VISUAL_REVIEW_PASS_COUNSEL_AND_PREVIEW_ACCEPTANCE_HELD",
+  "reviewScope": "All ten pages of both the canonical and boundary artifacts were inspected as rendered pixels for clipping, overlap, wrapping, blank-field ownership, heading continuity, and unreadable text.",
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "sourcePdfSha256": "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
+      "pageCount": 10,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-rasters/canonical",
+      "pageSha256": [
+        "36d027b2cf199fd948a9db04633db059317b3ec896f7313394e2b023a43313d5",
+        "6d2e20f40ccf54e99af292faa220f346b3c76d97b9cc85e0b18b5d117daa59fa",
+        "9203b7638c663188f7742bb3c4383fe7a00c2e1abb46f14103833f564f2cae81",
+        "eec41d8e9a665a215468a3d930d20f6b2cf7222d4c341196d8829a104b7897d4",
+        "d1acff4b0c633c5d12561f2519549657f295b7ca5707546133dd0d9b7150f07d",
+        "15f0acc2136ce828b59f3d0186ef7a8eea6133c6cae550f71ca3cc9c461bb3ae",
+        "a256d9709665448d5ad62f4b71179271be101aa52523ddf473c80d2f229dd1c7",
+        "14c3c9595c0e7197ee401f0ba81e923b0f62e6413a61706d511f55713fe4403b",
+        "2a23f2a7518a3fa8af2f83adc18f5741479d31f5e4ee72aac3dabb82a81b096f",
+        "b8bd749796f54bcb7fd47dc9c2105f20ff817ebc7d9d2c4ba58ca5f8f5f4d682"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "sourcePdfSha256": "bc05ce2ea926be18a4eedf063bf03759fbf71b904c4ff67980aab65b482adda9",
+      "pageCount": 10,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-rasters/boundary",
+      "pageSha256": [
+        "36d027b2cf199fd948a9db04633db059317b3ec896f7313394e2b023a43313d5",
+        "ace7d57d93b537493e766ab585210476dc78f57fd3d84d04aa837426cf4414c5",
+        "cb177dbbb843d1de6336b2f95fa527e4b2a210a06aa426f2cd9c074ec4bf4370",
+        "e38304f35b35ee444c970ba85c23dc42409d45310643f708d3276bdd18eea103",
+        "d1acff4b0c633c5d12561f2519549657f295b7ca5707546133dd0d9b7150f07d",
+        "f9c23ca40185551e9f2526de7c9d107af64d12b0abc322f44751aba503153f2e",
+        "a256d9709665448d5ad62f4b71179271be101aa52523ddf473c80d2f229dd1c7",
+        "725001d7d30d6e8b9c76407f299b20ac7a338833846b95cda8a510d1f3bdbaaa",
+        "255dd6656c1c32e97e002719d8f407dcff031c57284cef4077565dd5572dcbf6",
+        "dc0a0d5073e4b93d5645421a53333e4e3835f15858fe0c6cf70c7c14d9f67677"
+      ]
+    }
+  ],
+  "defects": [
+    {
+      "id": "signature-block-split-across-pages",
+      "severity": "layout",
+      "status": "closed",
+      "foundIn": "canonical petition pages 2-3",
+      "resolution": "The renderer now keeps participant and court signature headings with their complete signature blocks; both artifacts were regenerated and every final page was reinspected."
+    }
+  ],
+  "independentReview": {
+    "status": "passed",
+    "reviewer": "independent worker /root/ms_independent_review",
+    "reviewedAt": "2026-09-03",
+    "summary": { "pass": 15, "fail": 0, "hold": 0 },
+    "obligations": [
+      { "id": 1, "label": "ROUTE_IDENTITY", "verdict": "pass" },
+      { "id": 2, "label": "SOURCE_IDENTITY", "verdict": "pass" },
+      { "id": 3, "label": "COMPONENT_SET", "verdict": "pass" },
+      { "id": 4, "label": "KNOWN_PREFILLS", "verdict": "pass" },
+      { "id": 5, "label": "REQUIRED_BEFORE_FILING", "verdict": "pass" },
+      { "id": 6, "label": "ROUTE_OPTIONS", "verdict": "pass" },
+      { "id": 7, "label": "REPEATING_ROWS", "verdict": "pass" },
+      { "id": 8, "label": "PROTECTED_FIELDS", "verdict": "pass" },
+      { "id": 9, "label": "ARTIFACTS", "verdict": "pass" },
+      { "id": 10, "label": "PAGE_ORDER", "verdict": "pass" },
+      { "id": 11, "label": "CLIPPING_AND_OVERLAP", "verdict": "pass" },
+      { "id": 12, "label": "FILING_DESTINATION", "verdict": "pass" },
+      { "id": 13, "label": "FEE_AND_WAIVER", "verdict": "pass" },
+      { "id": 14, "label": "SERVICE", "verdict": "pass" },
+      { "id": 15, "label": "SELF_HELP_STOP", "verdict": "pass" }
+    ],
+    "externalHolds": [
+      "Named Mississippi counsel must confirm current law and approve the exact output artifacts.",
+      "The classified nonproduction Preview journey has not been executed."
+    ],
+    "visualFinding": "All 20 final page rasters match the receipt; no clipping, overlap, unresolved placeholder, or protected-field ink was found.",
+    "nonblockingPolish": "Pages 3 and 5 are continuation pages with substantial blank space, and page 7 begins with the continued word 'indictment.'"
+  },
+  "remainingReview": "All fifteen independent obligations pass. Named Mississippi counsel must still review the exact PDF hashes and current source law, and the classified nonproduction Preview journey remains unexecuted. Those are delivery-authority holds outside the fifteen-obligation rubric. This receipt grants no delivery authority."
+}

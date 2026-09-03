@@ -27,6 +27,10 @@ export function ClinicEntryClient({ event }: { event: PublicClinicEvent }) {
       <p className="text-xs font-black uppercase tracking-[0.2em] text-[#A8431F]">Event-specific access</p>
       <h2 className="mt-3 text-2xl font-black text-[#0F1E3D]">Enter this Clinic</h2>
       <p className="mt-3 text-sm leading-6 text-[#5C5750]">Enter the code provided by Clinic staff. The code is checked by the server and cannot grant access to another event or organization.</p>
+      <div className="mt-5 rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] p-4 text-sm leading-6 text-[#29453B]">
+        <p><strong>Screening is free</strong>, and the partner covers the packet. You will use your own account and keep ownership of your matter.</p>
+        <p className="mt-2">Have your court or arrest records ready. A volunteer can help you find and enter record facts, but LegalEase does not file the packet or guarantee relief.</p>
+      </div>
       <label className="mt-5 block text-sm font-black text-[#0F1E3D]" htmlFor="eventCode">Event access code</label>
       <input id="eventCode" name="eventCode" required minLength={8} maxLength={120} autoCapitalize="characters" spellCheck={false}
         aria-invalid={error ? true : undefined}

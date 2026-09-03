@@ -15,7 +15,7 @@ export type ActiveClinicParticipantContext = Pick<
 
 export async function getPublicClinicEvent(eventSlug: string): Promise<PublicClinicEvent> {
   const db = requireDatabase();
-  const result = await db.from("clinic_events").select("id,public_slug,name,starts_at,ends_at,timezone,location_name,geography,status")
+  const result = await db.from("clinic_events").select("id,public_slug,name,starts_at,ends_at,timezone,location_name,geography,jurisdiction,status")
     .eq("public_slug", normalizeSlug(eventSlug)).eq("status", "published").maybeSingle();
   if (result.error) throw new ClinicServiceError("unavailable", "Clinic entry is temporarily unavailable.");
   if (!result.data) throw new ClinicServiceError("not_found", "This Clinic event is not open.");
@@ -35,14 +35,18 @@ export async function getClinicParticipantSession(eventSlug: string): Promise<Cl
     .in("status", ["active", "handed_off"]).gt("expires_at", new Date().toISOString()).maybeSingle();
   if (sessionResult.error) throw new ClinicServiceError("unavailable", "Clinic handoff validation failed.");
   if (!sessionResult.data?.screening_session_id) throw new ClinicServiceError("forbidden", "The Clinic handoff is no longer active.");
-  const eventResult = await db.from("clinic_events").select("public_slug").eq("id", sessionResult.data.event_id).eq("public_slug", normalizeSlug(eventSlug)).maybeSingle();
+  const eventResult = await db.from("clinic_events").select("public_slug,partner_slug,name").eq("id", sessionResult.data.event_id).eq("public_slug", normalizeSlug(eventSlug)).maybeSingle();
   if (eventResult.error || !eventResult.data) throw new ClinicServiceError("forbidden", "The Clinic event does not match this handoff.");
+  const partnerResult = await db.from("partner_records").select("partner_name,organization_name")
+    .eq("partner_slug", eventResult.data.partner_slug).maybeSingle();
+  if (partnerResult.error) throw new ClinicServiceError("unavailable", "Clinic partner identity is temporarily unavailable.");
   const screeningResult = await db.from("screening_sessions").select("jurisdiction").eq("session_id", sessionResult.data.screening_session_id).maybeSingle();
   if (screeningResult.error || !screeningResult.data) throw new ClinicServiceError("forbidden", "The nationwide screening session is unavailable.");
   return {
     id: String(sessionResult.data.id), eventId: String(sessionResult.data.event_id), eventSlug: String(eventResult.data.public_slug),
     participantUserId: String(sessionResult.data.participant_user_id), screeningSessionId: String(sessionResult.data.screening_session_id),
     jurisdiction: String(screeningResult.data.jurisdiction),
+    partnerName: String(partnerResult.data?.partner_name ?? partnerResult.data?.organization_name ?? eventResult.data.name),
     status: sessionResult.data.status as ClinicParticipantSession["status"], expiresAt: String(sessionResult.data.expires_at)
   };
 }
@@ -91,10 +95,10 @@ export async function getClinicEntryContext(eventSlug: string) {
   const redemption = await db.from("clinic_event_access_redemptions").select("event_id,redeemed_at")
     .eq("redemption_nonce_hash", sha256(rawToken)).gt("redeemed_at", new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()).maybeSingle();
   if (redemption.error || !redemption.data) throw new ClinicServiceError("forbidden", "The event entry handoff expired.");
-  const event = await db.from("clinic_events").select("id,partner_slug,public_slug,name,status")
+  const event = await db.from("clinic_events").select("id,partner_slug,public_slug,name,jurisdiction,status")
     .eq("id", redemption.data.event_id).eq("public_slug", normalizeSlug(eventSlug)).eq("status", "published").maybeSingle();
   if (event.error || !event.data) throw new ClinicServiceError("forbidden", "The event entry handoff does not match this Clinic.");
-  return { eventId: String(event.data.id), partnerSlug: String(event.data.partner_slug), eventSlug: String(event.data.public_slug), eventName: String(event.data.name) };
+  return { eventId: String(event.data.id), partnerSlug: String(event.data.partner_slug), eventSlug: String(event.data.public_slug), eventName: String(event.data.name), jurisdiction: event.data.jurisdiction ? String(event.data.jurisdiction) : null };
 }
 
 export async function listApprovedClinicStaff(eventId: string) {
@@ -172,5 +176,5 @@ function requireDatabase() {
 function normalizeSlug(value: string) { return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) ? value : "invalid"; }
 function sha256(value: string) { return createHash("sha256").update(value).digest("hex"); }
 function mapPublicEvent(row: Record<string, unknown>): PublicClinicEvent {
-  return { id: String(row.id), publicSlug: String(row.public_slug), name: String(row.name), startsAt: String(row.starts_at), endsAt: String(row.ends_at), timezone: String(row.timezone), locationName: String(row.location_name), geography: String(row.geography), status: row.status as PublicClinicEvent["status"] };
+  return { id: String(row.id), publicSlug: String(row.public_slug), name: String(row.name), startsAt: String(row.starts_at), endsAt: String(row.ends_at), timezone: String(row.timezone), locationName: String(row.location_name), geography: String(row.geography), jurisdiction: row.jurisdiction ? String(row.jurisdiction) : null, status: row.status as PublicClinicEvent["status"] };
 }

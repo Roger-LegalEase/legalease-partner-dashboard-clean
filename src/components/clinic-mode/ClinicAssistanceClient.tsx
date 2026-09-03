@@ -1,21 +1,22 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import type { PublicClinicEvent } from "@/lib/clinic-mode/types";
 
 const jurisdictions = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 
-export function ClinicAssistanceClient({ eventSlug, staff }: { eventSlug: string; staff: Array<{ id: string; label: string }> }) {
+export function ClinicAssistanceClient({ event, staff }: { event: PublicClinicEvent; staff: Array<{ id: string; label: string }> }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  async function start(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function start(formEvent: FormEvent<HTMLFormElement>) {
+    formEvent.preventDefault();
     setBusy(true);
     setError("");
-    const data = new FormData(event.currentTarget);
+    const data = new FormData(formEvent.currentTarget);
     const response = await fetch("/api/clinic/assistance/start", {
       method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ eventSlug, eventStaffId: String(data.get("eventStaffId") ?? ""), jurisdiction: String(data.get("jurisdiction") ?? ""), consent: data.get("consent") === "yes" })
+      body: JSON.stringify({ eventSlug: event.publicSlug, eventStaffId: String(data.get("eventStaffId") ?? ""), jurisdiction: event.jurisdiction ?? String(data.get("jurisdiction") ?? ""), consent: data.get("consent") === "yes" })
     }).catch(() => null);
     const body = await response?.json().catch(() => null) as { screeningUrl?: string; error?: string } | null;
     if (!response?.ok || !body?.screeningUrl) {
@@ -33,7 +34,15 @@ export function ClinicAssistanceClient({ eventSlug, staff }: { eventSlug: string
       <p className="mt-4 text-sm leading-6 text-[#5C5750]">You remain the owner of your account, screening, matter, documents, and Briefcase. The approved staff member may help during this time-limited session only. Ending the Clinic session removes their assistance access.</p>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <label className="text-sm font-black text-[#0F1E3D]">Assisting staff member<select name="eventStaffId" required className={inputClass}><option value="">Select approved staff</option>{staff.map((person) => <option key={person.id} value={person.id}>{person.label}</option>)}</select></label>
-        <label className="text-sm font-black text-[#0F1E3D]">State or jurisdiction<select name="jurisdiction" required className={inputClass}><option value="">Select state</option>{jurisdictions.map((state) => <option key={state} value={state}>{state}</option>)}</select></label>
+        {event.jurisdiction ? (
+          <div className="rounded-md border border-[#CFC4B8] bg-[#F3F8F5] px-4 py-3 text-sm text-[#29453B]">
+            <span className="block font-black">State or jurisdiction</span>
+            <span className="mt-1 block">{event.jurisdiction} - fixed by this clinic event</span>
+            <input type="hidden" name="jurisdiction" value={event.jurisdiction} />
+          </div>
+        ) : (
+          <label className="text-sm font-black text-[#0F1E3D]">State or jurisdiction<select name="jurisdiction" required className={inputClass}><option value="">Select state</option>{jurisdictions.map((state) => <option key={state} value={state}>{state}</option>)}</select></label>
+        )}
       </div>
       <label className="mt-6 flex items-start gap-3 rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] p-4 text-sm leading-6 text-[#29453B]"><input type="checkbox" name="consent" value="yes" required className="mt-1 h-5 w-5" /><span><strong>I consent to assistance for this Clinic session.</strong> I understand I can end assistance at any time, and Clinic staff do not receive permanent access to my matter.</span></label>
       {error ? <p role="alert" className="mt-4 text-sm font-bold text-[#B43D20]">{error}</p> : null}

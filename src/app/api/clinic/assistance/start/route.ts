@@ -14,13 +14,17 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
   const eventSlug = typeof body?.eventSlug === "string" ? body.eventSlug : "";
   const eventStaffId = typeof body?.eventStaffId === "string" ? body.eventStaffId : "";
-  const jurisdiction = typeof body?.jurisdiction === "string" ? body.jurisdiction.trim().toUpperCase() : "";
+  const requestedJurisdiction = typeof body?.jurisdiction === "string" ? body.jurisdiction.trim().toUpperCase() : "";
   const consent = body?.consent === true;
-  if (!consent || !uuid(eventStaffId) || !/^[A-Z]{2,3}$/.test(jurisdiction)) {
+  if (!consent || !uuid(eventStaffId) || !/^[A-Z]{2,3}$/.test(requestedJurisdiction)) {
     return NextResponse.json({ success: false, error: "Consent, approved staff, and a state are required." }, { status: 400 });
   }
   try {
     const entry = await getClinicEntryContext(eventSlug);
+    const jurisdiction = entry.jurisdiction ?? requestedJurisdiction;
+    if (entry.jurisdiction && requestedJurisdiction !== entry.jurisdiction) {
+      return NextResponse.json({ success: false, error: "This Clinic event is fixed to another jurisdiction." }, { status: 400 });
+    }
     const screening = await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction });
     if (!screening.ok) return NextResponse.json({ success: false, error: screening.reason === "capacity_full" ? "Sponsored screening capacity is full." : "The partner screening is unavailable." }, { status: 409 });
     const db = getSupabaseAdminClient();

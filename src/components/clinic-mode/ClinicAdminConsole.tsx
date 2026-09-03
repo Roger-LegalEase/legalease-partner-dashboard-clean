@@ -38,6 +38,7 @@ export function ClinicAdminConsole({ events, workspace, internal }: Props) {
       method: "POST",
       body: JSON.stringify({
         partnerSlug: value(data, "partnerSlug") || undefined,
+        jurisdiction: value(data, "jurisdiction") || null,
         publicSlug: value(data, "publicSlug"), name: value(data, "name"),
         startsAt: new Date(value(data, "startsAt")).toISOString(),
         endsAt: new Date(value(data, "endsAt")).toISOString(),
@@ -99,6 +100,7 @@ export function ClinicAdminConsole({ events, workspace, internal }: Props) {
               <Field label="Timezone" name="timezone" defaultValue="America/New_York" required />
               <Field label="Location" name="locationName" required />
               <Field label="Geography" name="geography" placeholder="City, county, or statewide" required />
+              <Field label="Fixed jurisdiction (optional)" name="jurisdiction" placeholder="MS" />
               <Field label="Capacity" name="capacity" type="number" min="1" required />
               <Field label="Sponsored packet allocation" name="sponsorshipAllocation" type="number" min="0" />
             </div>

@@ -1,0 +1,700 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "ms-nonconviction-expungement-99-19-71-4",
+  "specificationVersion": "1.0.0",
+  "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "jurisdiction": "MS",
+  "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "pathwayLabel": "Mississippi non-conviction expungement for dismissal, no disposition, or acquittal",
+  "packetFamily": "ms-nonconv-set",
+  "packetFamilyLabel": "Mississippi Non-Conviction Expungement Packet under Miss. Code Ann. Section 99-19-71(4)",
+  "trackId": "ms-nonconv",
+  "packetSetId": "ms-nonconv-set",
+  "packetSetVersion": "1.0.0",
+  "profileId": "MS",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "legalSectionsBound": true,
+  "specificationNote": "This versioned specification is the exact five-document packet delivered for the bounded Mississippi non-conviction route. It is derived from the owner-approved ms-nonconv-set legal design, the census-v1 production field map, and its participant instructions. Local filing practice, the fee question, ambiguous docket entries, and other stated stopping conditions remain explicit participant checks rather than invented statewide answers.",
+  "statutoryAuthority": {
+    "primary": "Miss. Code Ann. Section 99-19-71(4)",
+    "sourceUrl": "https://legiscan.com/MS/text/HB1546/2026",
+    "ruleStatement": "Section 99-19-71(4) states that a justice, county, circuit, or municipal court shall expunge the record of a case when an arrest was made and the person was released and the case dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. The participant must confirm which category the record actually shows.",
+    "reliefIsMandatoryOnMotion": true,
+    "doNotImport": [
+      "Do not import the felony-conviction notice rule in Section 99-19-71(2)(b) as a universal rule for this subsection (4) packet.",
+      "Do not import a first-offender condition, a waiting period, sentence-completion requirements, or the one-felony lifetime cap from conviction routes.",
+      "Do not classify 'passed to the file,' 'retired to the file,' a remand, nonadjudication, diversion, or intervention court as this route without legal review."
+    ]
+  },
+  "sourceIdentities": [
+    {
+      "sourceId": "ms-nonconv-set@1.0.0",
+      "kind": "owner_approved_packet_set_manifest",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "note": "Owner-approved packet structure under auth-2026-08-19-owner-legal-approval-completed-output."
+    },
+    {
+      "sourceId": "ms-nonconv-set-production-field-map@census-v1",
+      "kind": "production_field_map",
+      "verification": "present_in_repository",
+      "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json"
+    },
+    {
+      "sourceId": "ms-nonconv-set-participant-instructions@census-v1",
+      "kind": "participant_instructions",
+      "verification": "present_in_repository",
+      "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md"
+    },
+    {
+      "sourceId": "MS.memo:ms-nonconv",
+      "kind": "legal_design_intake_track",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/legal-design-intake/MS.memo.json"
+    }
+  ],
+  "requiredFacts": [
+    {
+      "factId": "participant_full_legal_name",
+      "use": "participant identity, captions, and printed-name lines",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "What is your full legal name as it appears on the court record?",
+      "helperText": "Use the same spelling shown on the case record. A volunteer can help compare the documents. Stop and get legal help if the record names a different person."
+    },
+    {
+      "factId": "date_of_birth",
+      "use": "participant identity block",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What is your date of birth?",
+      "helperText": "Use your legal date of birth. A volunteer can help enter it. Stop if the record appears to belong to someone else."
+    },
+    {
+      "factId": "mailing_address",
+      "use": "participant contact block",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What mailing address should appear on the petition?",
+      "helperText": "Enter an address where you can reliably receive court mail. A volunteer can help format it. Stop if using this address would put you at risk."
+    },
+    {
+      "factId": "phone_number",
+      "use": "participant contact block",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What phone number should appear on the petition?",
+      "helperText": "Enter a safe number for court contact. A volunteer can help enter it. Stop if this number is not safe to disclose."
+    },
+    {
+      "factId": "email_address",
+      "use": "participant contact block",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What email address should appear on the petition?",
+      "helperText": "Enter an address you check and can safely disclose. A volunteer can help enter it. Stop if this address is not safe to use."
+    },
+    {
+      "factId": "court_type",
+      "use": "petition, proposed-order, and certificate captions",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What type of Mississippi court handled the case?",
+      "helperText": "Find 'Justice,' 'County,' 'Circuit,' or 'Municipal' on the disposition or docket. A volunteer can help locate it. Stop if the case moved between courts or the court is unclear.",
+      "questionType": "single_choice",
+      "options": ["Justice Court", "County Court", "Circuit Court", "Municipal Court"]
+    },
+    {
+      "factId": "court_name",
+      "use": "petition, proposed-order, and certificate captions",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What is the court's full name?",
+      "helperText": "Copy the court name from the certified disposition or docket sheet. A volunteer can help compare the records. Stop if two documents name different courts."
+    },
+    {
+      "factId": "filing_location",
+      "use": "county or municipality in every caption and filing instruction",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What county or municipality belongs in the court caption?",
+      "helperText": "Use the county for justice, county, or circuit court, or the city for municipal court. A volunteer can help locate it. Stop if venue is unclear."
+    },
+    {
+      "factId": "case_number",
+      "use": "cause or case number in every caption",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What cause or case number appears on the court record?",
+      "helperText": "Copy it exactly from the certified disposition and compare it with the docket. A volunteer can help check both. Stop if the numbers disagree."
+    },
+    {
+      "factId": "charge",
+      "use": "charge alleged in the petition",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "What charge appears on the court record?",
+      "helperText": "Copy the wording and statute number exactly when shown. A volunteer can help transcribe it. Stop if the charge or statute is unclear."
+    },
+    {
+      "factId": "offense_date",
+      "use": "alleged offense date in the petition",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What date does the record give for the alleged offense?",
+      "helperText": "Use the date on the charging paper or docket. A volunteer can help locate it. Stop if the records disagree."
+    },
+    {
+      "factId": "arrest_or_citation_date",
+      "use": "arrest or citation date in the petition",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What was the arrest or citation date?",
+      "helperText": "Use the arrest record, citation, or court papers. A volunteer can help locate it. Stop if the date cannot be confirmed."
+    },
+    {
+      "factId": "arresting_or_citing_agency",
+      "use": "petition facts and agencies directed in the proposed order",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Which agency arrested or cited you?",
+      "helperText": "Copy the agency's full name from the arrest record, citation, or docket. A volunteer can help locate it. Stop if the agency is unclear."
+    },
+    {
+      "factId": "agency_case_or_citation_number",
+      "use": "agency identifier in the petition and records checklist",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What agency case or citation number does the record show?",
+      "helperText": "Copy the identifier exactly. If the record shows none, enter 'None shown on the record.' A volunteer can help check. Stop if multiple identifiers conflict."
+    },
+    {
+      "factId": "disposition_date",
+      "use": "date the case ended in the petition",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "What date did the case end?",
+      "helperText": "Use the certified disposition order, not memory. A volunteer can help locate the entry date. Stop if the docket and order disagree."
+    },
+    {
+      "factId": "statutory_disposition_category",
+      "use": "the one subsection (4) case-ending category pleaded in the petition",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Which ending does the certified court record show?",
+      "helperText": "Choose only the category stated by the record. A volunteer can help read it. Stop for 'passed to file,' 'retired to file,' remand, diversion, nonadjudication, intervention court, or any unclear entry.",
+      "questionType": "single_choice",
+      "options": [
+        "Arrested and released; case dismissed",
+        "Charges dropped",
+        "No disposition of the case",
+        "Found not guilty at trial"
+      ]
+    },
+    {
+      "factId": "prosecuting_authority_name",
+      "use": "service recipient in the certificate and instructions",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Which prosecuting office handled the case?",
+      "helperText": "Confirm the office with the records office of the court of origin. A volunteer can help make that call. Stop if the correct district, county, or city prosecutor is unclear."
+    },
+    {
+      "factId": "prosecuting_authority_service_address",
+      "use": "confirmed service address in the certificate",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What mailing address did the court confirm for that prosecuting office?",
+      "helperText": "Confirm the current service address with the court's records office. A volunteer can help make the call. Stop rather than guessing an address."
+    },
+    {
+      "factId": "other_recordkeeping_agencies",
+      "use": "other agencies named in the proposed order",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What other agencies or offices does the record show as keeping this case?",
+      "helperText": "List each office shown on the records, or enter 'None shown on the record.' A volunteer can help review the papers. Stop if you are unsure which agencies hold the record."
+    },
+    {
+      "factId": "indictment_record",
+      "use": "indictment statement and conditional attachment checklist",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Was an indictment returned, and if so what date and court does it show?",
+      "helperText": "Copy the date and court only if an indictment exists; otherwise enter 'No indictment was returned.' A volunteer can help check the docket. Stop if the record is unclear."
+    },
+    {
+      "factId": "case_outcome",
+      "use": "route-safety confirmation preserved from screening",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "How did this case end?",
+      "helperText": "Confirm the answer against the certified disposition. A volunteer can help compare the record. Stop if it does not show dismissal, dropped charges, no disposition, or acquittal."
+    },
+    {
+      "factId": "pending_cases",
+      "use": "route-safety confirmation that no related case remains pending",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "Is this case, a related charge, or another case against you still pending?",
+      "helperText": "Use the current docket rather than memory. A volunteer can help check it. Stop if any case is open or the answer is unclear.",
+      "questionType": "single_choice",
+      "options": ["No", "Yes", "Unsure"]
+    },
+    {
+      "factId": "record_type",
+      "use": "route-safety confirmation that this is a criminal court record",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "What kind of court record is this?",
+      "helperText": "Confirm that the papers concern a Mississippi criminal case. A volunteer can help identify the record. Stop if this is a civil, juvenile, federal, or out-of-state matter."
+    },
+    {
+      "factId": "trafficking_status",
+      "use": "route-safety answer preserved from screening without importing a conviction-route conclusion",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "Did any charge involve trafficking, distribution, delivery, or manufacture?",
+      "helperText": "Copy the charge wording from the record. A volunteer can help locate it. Stop if the charge description is unclear.",
+      "questionType": "single_choice",
+      "options": ["No", "Yes", "Unsure"]
+    },
+    {
+      "factId": "disposition_record_wording",
+      "use": "exact case-ending language used to detect ambiguous docket entries",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "What exactly does the certified record say about how the case ended?",
+      "helperText": "Copy the wording exactly. A volunteer can help transcribe it. Stop for 'passed to the file,' 'retired to the file,' remand, or any wording that does not clearly match a statutory category."
+    },
+    {
+      "factId": "nonadjudication_or_diversion",
+      "use": "route-safety confirmation excluding nonadjudication, diversion, and intervention-court routes",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "Was this a nonadjudication, diversion, pretrial intervention, intervention court, or drug court matter?",
+      "helperText": "Check the docket and disposition. A volunteer can help read them. Stop if the answer is yes or unclear because those matters use a different route.",
+      "questionType": "single_choice",
+      "options": ["No", "Yes", "Unsure"]
+    },
+    {
+      "factId": "open_co_defendant_matter",
+      "use": "route-safety confirmation for a related open co-defendant matter",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant",
+      "prompt": "Was anyone charged with you whose case is still open?",
+      "helperText": "Check the current docket. A volunteer can help locate co-defendant entries. Stop if a related case is open or the answer is unclear.",
+      "questionType": "single_choice",
+      "options": ["No", "Yes", "Unsure"]
+    }
+  ],
+  "fieldOwnership": {
+    "participantOwnedFacts": [
+      "participant_full_legal_name",
+      "date_of_birth",
+      "mailing_address",
+      "phone_number",
+      "email_address",
+      "court_type",
+      "court_name",
+      "filing_location",
+      "case_number",
+      "charge",
+      "offense_date",
+      "arrest_or_citation_date",
+      "arresting_or_citing_agency",
+      "agency_case_or_citation_number",
+      "disposition_date",
+      "statutory_disposition_category",
+      "prosecuting_authority_name",
+      "prosecuting_authority_service_address",
+      "other_recordkeeping_agencies",
+      "indictment_record",
+      "case_outcome",
+      "pending_cases",
+      "record_type",
+      "trafficking_status",
+      "disposition_record_wording",
+      "nonadjudication_or_diversion",
+      "open_co_defendant_matter"
+    ],
+    "serverOwnedRouteFacts": ["jurisdiction", "pathway_id", "route_key", "packet_family"],
+    "participantAtSigningFields": ["petition_signature", "petition_signature_date"],
+    "participantAtServiceFields": ["service_method", "service_date", "certificate_signature"],
+    "prosecutorOwnedFields": ["approval_as_to_form_signature", "approval_as_to_form_date"],
+    "courtOwnedFields": ["judicial_findings", "order_entry_date", "judicial_signature"]
+  },
+  "finalVerificationRequirements": [
+    "The participant confirms the court type, court name, filing location, and case number against the certified disposition and docket sheet.",
+    "The participant confirms the charge, offense date, arrest or citation date, arresting or citing agency, agency identifier, and disposition date against the case records.",
+    "The participant selects exactly one statutory disposition category shown by the certified record and stops for an ambiguous docket entry.",
+    "The participant confirms the prosecuting authority and its current service address with the records office of the court of origin.",
+    "The participant confirms every other recordkeeping agency from the records and states whether an indictment exists.",
+    "Signature, service-time, prosecutor, and court fields remain blank for the person who owns each act."
+  ],
+  "documents": [
+    {
+      "documentId": "ms-cover-and-contents",
+      "role": "cover_and_contents",
+      "title": "Your Mississippi Non-Conviction Expungement Packet",
+      "order": 1,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "sections": [
+        {
+          "heading": "What this packet is",
+          "kind": "static",
+          "body": "This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records."
+        },
+        { "heading": "Packet contents", "kind": "contents_list" },
+        {
+          "heading": "Records to have beside you",
+          "kind": "participant_checklist_summary"
+        },
+        {
+          "heading": "Important limits",
+          "kind": "static",
+          "body": "LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies."
+        }
+      ]
+    },
+    {
+      "documentId": "ms-petition-for-expungement",
+      "role": "primary_filing",
+      "title": "Petition for Expungement under Miss. Code Ann. Section 99-19-71(4)",
+      "order": 2,
+      "outputStrategy": "custom_pleading",
+      "requirement": "required",
+      "manifestComponentIds": ["ms-nonconv-primary-filing-1"],
+      "sections": [
+        {
+          "heading": "Court caption",
+          "kind": "caption",
+          "fields": ["court_type", "court_name", "filing_location", "case_number", "participant_full_legal_name"]
+        },
+        {
+          "heading": "Participant information",
+          "kind": "caption",
+          "fields": ["date_of_birth", "mailing_address", "phone_number", "email_address"]
+        },
+        {
+          "heading": "Case style",
+          "kind": "static",
+          "body": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER"
+        },
+        {
+          "heading": "Verified record facts",
+          "kind": "grounds",
+          "assertions": [
+            {
+              "id": "charge-and-offense",
+              "text": "The court record states the charge as {{charge}} and gives the alleged offense date as {{offense_date}}.",
+              "facts": ["charge", "offense_date"]
+            },
+            {
+              "id": "arrest-facts",
+              "text": "The arrest or citation date was {{arrest_or_citation_date}}. The arresting or citing agency was {{arresting_or_citing_agency}}, and the agency case or citation number is {{agency_case_or_citation_number}}.",
+              "facts": ["arrest_or_citation_date", "arresting_or_citing_agency", "agency_case_or_citation_number"]
+            },
+            {
+              "id": "disposition",
+              "text": "The case ended on {{disposition_date}} in this one category shown by the certified record: {{statutory_disposition_category}}.",
+              "facts": ["disposition_date", "statutory_disposition_category"]
+            },
+            {
+              "id": "indictment",
+              "text": "Indictment record: {{indictment_record}}",
+              "facts": ["indictment_record"]
+            }
+          ]
+        },
+        {
+          "heading": "Statutory basis and statement of truth",
+          "kind": "static",
+          "body": "Miss. Code Ann. Section 99-19-71(4) provides that, upon petition, a justice, county, circuit, or municipal court shall expunge the record of a case when an arrest was made and the person was released and the case dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. The petitioner states that the facts in this petition are true and correct to the best of the petitioner's knowledge."
+        },
+        {
+          "heading": "Relief requested",
+          "kind": "static",
+          "body": "The petitioner asks the Court to expunge the record of this case under Miss. Code Ann. Section 99-19-71(4) and to direct the appropriate recordkeeping agencies as stated in the proposed order."
+        },
+        {
+          "heading": "Participant signature",
+          "kind": "signature_block",
+          "fields": ["participant_full_legal_name"],
+          "notarisationRequired": false
+        }
+      ]
+    },
+    {
+      "documentId": "ms-proposed-order",
+      "role": "proposed_order",
+      "title": "Proposed Order of Expungement",
+      "order": 3,
+      "outputStrategy": "custom_pleading",
+      "requirement": "required",
+      "manifestComponentIds": ["ms-nonconv-proposed-order-2"],
+      "sections": [
+        {
+          "heading": "Court caption",
+          "kind": "caption",
+          "fields": ["court_type", "court_name", "filing_location", "case_number", "participant_full_legal_name"]
+        },
+        {
+          "heading": "Case style",
+          "kind": "static",
+          "body": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER"
+        },
+        {
+          "heading": "Proposed findings and direction",
+          "kind": "grounds",
+          "assertions": [
+            {
+              "id": "proposed-disposition-finding",
+              "text": "The record presented to the Court identifies the case-ending category as: {{statutory_disposition_category}}.",
+              "facts": ["statutory_disposition_category"]
+            },
+            {
+              "id": "agency-direction",
+              "text": "The record identifies these custodians for the proposed direction: the Court, the appropriate sheriff's department, {{arresting_or_citing_agency}}, and these other recordkeeping agencies supplied from the record: {{other_recordkeeping_agencies}}.",
+              "facts": ["arresting_or_citing_agency", "other_recordkeeping_agencies"]
+            }
+          ]
+        },
+        {
+          "heading": "Proposed expungement direction",
+          "kind": "static",
+          "body": "IT IS ORDERED that all official records and recordations relating to Case No. {{case_number}} are expunged by every person and agency keeping them, including this Court, the appropriate sheriff's department, {{arresting_or_citing_agency}}, and {{other_recordkeeping_agencies}}, except that fingerprint records are not expunged."
+        },
+        {
+          "heading": "Proposed legal effect",
+          "kind": "static",
+          "body": "IT IS FURTHER ORDERED that fingerprint records are excepted from the requested expungement; that the petitioner is restored to the status occupied before the arrest, indictment, or information; and that the petitioner need not disclose the arrest, indictment, information, or trial in response to any inquiry except as otherwise provided by law, and is not guilty of perjury or false statement for failing to recite it."
+        },
+        {
+          "heading": "Approval as to form",
+          "kind": "static",
+          "body": "Reserved for the prosecuting authority where local practice uses this block. APPROVED AS TO FORM: ______________________________    DATE: __________________"
+        },
+        {
+          "heading": "Court findings, entry, and signature",
+          "kind": "court_signature_block",
+          "body": "PROPOSED FINDINGS (COURT): ________________________________________________________________    DATE OF ENTRY: __________________"
+        }
+      ]
+    },
+    {
+      "documentId": "ms-service-and-attachments",
+      "role": "certificate_of_service_and_attachment_checklist",
+      "title": "Certificate of Service and Attachment Checklist",
+      "order": 4,
+      "outputStrategy": "custom_pleading",
+      "requirement": "required",
+      "manifestComponentIds": ["ms-nonconv-certificate-of-service-3", "ms-nonconv-attachment-4"],
+      "sections": [
+        {
+          "heading": "Court caption",
+          "kind": "caption",
+          "fields": ["court_type", "court_name", "filing_location", "case_number", "participant_full_legal_name"]
+        },
+        {
+          "heading": "Case style",
+          "kind": "static",
+          "body": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER"
+        },
+        {
+          "heading": "Confirmed service recipient",
+          "kind": "grounds",
+          "assertions": [
+            {
+              "id": "service-recipient",
+              "text": "Prosecuting authority: {{prosecuting_authority_name}}. Confirmed service address: {{prosecuting_authority_service_address}}.",
+              "facts": ["prosecuting_authority_name", "prosecuting_authority_service_address"]
+            }
+          ]
+        },
+        {
+          "heading": "Complete when service occurs",
+          "kind": "static",
+          "body": "I certify that a true and correct copy of the Petition for Expungement and the proposed Order of Expungement was delivered to {{prosecuting_authority_name}} at {{prosecuting_authority_service_address}} by United States mail or hand delivery. Service method: ______________________________    Service date: __________________    These lines and the signature stay blank until the copy is actually delivered."
+        },
+        {
+          "heading": "Participant certificate signature",
+          "kind": "signature_block",
+          "fields": ["participant_full_legal_name"],
+          "notarisationRequired": false
+        },
+        { "heading": "Attachments to collect and check", "kind": "attachments" }
+      ]
+    },
+    {
+      "documentId": "ms-filing-and-next-steps",
+      "role": "filing_and_next_steps",
+      "title": "Filing Instructions, Next Steps, and When to Get Legal Help",
+      "order": 5,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "manifestComponentIds": ["ms-nonconv-instructions-5"],
+      "sections": [
+        { "heading": "Where this packet goes", "kind": "filing_destination" },
+        { "heading": "Confirm the fee or waiver", "kind": "fee_and_waiver" },
+        { "heading": "Service and local practice", "kind": "service_and_notice" },
+        { "heading": "Copies and records", "kind": "copy_requirements" },
+        {
+          "heading": "Limits after an order",
+          "kind": "static",
+          "body": "An expungement order does not direct destruction of fingerprint records. The Mississippi Criminal Information Center keeps a nonpublic record for first-offender determinations. An employer may still ask whether an order of expunction was entered. Keep a certified copy of any signed order and answer questions according to the law that applies to the particular question."
+        },
+        { "heading": "What happens next", "kind": "post_filing_timeline" },
+        { "heading": "Stop and get legal help", "kind": "hearing_and_objection_stops" },
+        { "heading": "Before you file", "kind": "participant_checklist" }
+      ]
+    }
+  ],
+  "filingDestination": {
+    "statement": "File in the court that handled the case. Before filing, contact that court's records office to confirm whether the petition uses the existing cause number or a new filing number and whether the court has a preferred local form or filing method.",
+    "office": "Records office or clerk for {{court_name}} in {{filing_location}}",
+    "newCaseOrExisting": "confirm_with_court_of_origin",
+    "sourceOfRule": "Miss. Code Ann. Section 99-19-71(4) and census-v1 participant instructions; local numbering and filing method remain court-specific."
+  },
+  "feeAndWaiver": {
+    "feeIdentified": false,
+    "statement": "No universal fee amount is printed in this packet. Ask the records office of the court that handled the case whether a filing fee applies to this subsection (4) petition.",
+    "waiverApplicable": true,
+    "waiverStatement": "If a fee applies and you cannot afford it, ask that court which pauper's affidavit or fee-waiver process it accepts. Do not assume a statewide amount or waiver form.",
+    "sourceOfRule": "The legal-design record preserves an open question about whether Section 99-19-72 applies to subsection (4), especially outside circuit court."
+  },
+  "serviceAndNotice": {
+    "serviceRequired": true,
+    "statement": "Deliver a copy to {{prosecuting_authority_name}} at the confirmed address {{prosecuting_authority_service_address}} when the local court directs. The certificate leaves the method and date blank until service actually occurs. Ask the records office whether advance notice, prosecutor approval as to form, or another local step is required.",
+    "certificateOfServiceIncluded": true,
+    "sourceOfRule": "The census-v1 legal design rejects importing the felony ten-day notice rule but includes contemporaneous service and a local-practice confirmation."
+  },
+  "copyRequirements": {
+    "statement": "Keep a complete copy of everything you file and a certified or conformed copy of any signed order. Ask the records office how many filing, judge, prosecutor, and participant copies the local court wants.",
+    "originalPlusCopies": "Signed original plus the number of copies confirmed by the court of origin",
+    "sourceOfRule": "The statute does not set a universal copy count; the court of origin is the named checkable authority."
+  },
+  "postFilingTimeline": [
+    {
+      "step": "File the signed petition, proposed order, certificate or service materials required by local practice, and the applicable attachments with the court of origin.",
+      "timing": "after every record fact and local filing step is confirmed"
+    },
+    {
+      "step": "Provide the prosecuting authority the copy required by the court and complete the certificate only when service occurs.",
+      "timing": "at the time directed by the court's local practice"
+    },
+    {
+      "step": "Watch for a hearing notice, request for another record, objection, or signed order.",
+      "timing": "after filing; the statute supplies no universal decision deadline"
+    },
+    {
+      "step": "If an order is signed, obtain and keep a certified or conformed copy and ask the court which listed agencies receive it and whether you must deliver copies.",
+      "timing": "promptly after entry of the order"
+    },
+    {
+      "step": "Follow up with the court and the agencies named in the order if the public record does not change after they have had time to process it.",
+      "timing": "on the timetable those offices confirm"
+    }
+  ],
+  "hearingAndObjectionStops": [
+    {
+      "situation": "The docket says 'passed to the file,' 'retired to the file,' remanded, or uses another ambiguous case-ending entry.",
+      "whatItMeans": "The repository does not establish that this route covers that entry.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The case moved between courts or the court of origin is unclear.",
+      "whatItMeans": "Venue and caption treatment require legal review before filing.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The case involved nonadjudication, pretrial intervention, diversion, intervention court, or drug court.",
+      "whatItMeans": "Those are different Mississippi routes with different legal treatment.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "A related charge or a co-defendant matter remains pending.",
+      "whatItMeans": "Filing may affect or disclose an open matter.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The prosecuting authority refuses to approve the proposed order as to form where the local court expects that approval.",
+      "whatItMeans": "Do not sign for the prosecutor or file as though approval was given.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "You are not a United States citizen or have any immigration concern.",
+      "whatItMeans": "Record clearing can interact with immigration law and requires qualified immigration advice.",
+      "stopAndGetHelp": true
+    }
+  ],
+  "attachments": [
+    {
+      "attachmentId": "ms-certified-disposition",
+      "title": "Certified disposition or case-ending order",
+      "requirement": "required",
+      "obtainedFrom": "Records office of the court that handled the case",
+      "whyNeeded": "It confirms the cause number, disposition date, and the exact way the case ended.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "attachmentId": "ms-docket-sheet",
+      "title": "Docket sheet",
+      "requirement": "required",
+      "obtainedFrom": "Records office of the court that handled the case",
+      "whyNeeded": "It confirms the caption, charge, case history, and whether an ambiguous entry requires legal help.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "attachmentId": "ms-indictment",
+      "title": "Indictment",
+      "requirement": "conditional",
+      "conditionDescription": "where a grand jury actually returned an indictment",
+      "obtainedFrom": "Circuit clerk or the records office identified on the docket",
+      "whyNeeded": "It confirms indictment details only in a case that was actually indicted.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "attachmentId": "ms-other-records",
+      "title": "Other record-specific attachment requested by the court",
+      "requirement": "conditional",
+      "conditionDescription": "where the records office identifies another local requirement",
+      "obtainedFrom": "The office holding that record",
+      "whyNeeded": "Local practice may require a record not prescribed statewide.",
+      "requiredBeforeFiling": true
+    }
+  ],
+  "participantChecklist": [
+    {
+      "id": "confirm-caption",
+      "text": "Compare the court, filing location, cause number, and your legal name against the certified disposition and docket sheet.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "confirm-case-facts",
+      "text": "Copy the charge, dates, agency, agency identifier, and exact disposition category from the records rather than memory.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "confirm-service",
+      "text": "Confirm the prosecuting office, current service address, timing, and any approval-as-to-form practice with the court of origin.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "confirm-fee-and-copies",
+      "text": "Ask the court of origin about the filing method, fee or waiver, and number of copies.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "protect-owned-fields",
+      "text": "Leave signature and service-time fields blank until you perform those acts, and leave prosecutor and court fields for those officials.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "stop-for-ambiguity",
+      "text": "Stop and get legal help if the disposition, venue, related pending matter, prosecutor treatment, or immigration effect is unclear.",
+      "requiredBeforeFiling": true
+    }
+  ]
+}

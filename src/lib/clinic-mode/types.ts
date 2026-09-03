@@ -14,6 +14,7 @@ export type ClinicEvent = {
   timezone: string;
   locationName: string;
   geography: string;
+  jurisdiction: string | null;
   capacity: number;
   status: ClinicEventStatus;
   sponsorshipAllocation: number | null;
@@ -61,6 +62,7 @@ export type ClinicEventWorkspace = {
 
 export type CreateClinicEventInput = {
   partnerSlug?: string;
+  jurisdiction?: string | null;
   publicSlug: string;
   name: string;
   startsAt: string;
@@ -84,7 +86,7 @@ export type CreateClinicAccessCodeInput = {
   expiresAt: string | null;
 };
 
-export type PublicClinicEvent = Pick<ClinicEvent, "id" | "publicSlug" | "name" | "startsAt" | "endsAt" | "timezone" | "locationName" | "geography" | "status">;
+export type PublicClinicEvent = Pick<ClinicEvent, "id" | "publicSlug" | "name" | "startsAt" | "endsAt" | "timezone" | "locationName" | "geography" | "jurisdiction" | "status">;
 
 export type ClinicParticipantSession = {
   id: string;
@@ -93,6 +95,7 @@ export type ClinicParticipantSession = {
   participantUserId: string;
   screeningSessionId: string;
   jurisdiction: string;
+  partnerName: string;
   status: "active" | "handed_off";
   expiresAt: string;
 };

@@ -42,10 +42,11 @@ export type BriefcasePresentationArtifact =
   | {
     status: "ready";
     canDownload: boolean;
-    source: "source_driven_packet_plan" | "mississippi_legacy_petition_packet" | "verified_render_job";
+    source: "source_driven_packet_plan" | "mississippi_legacy_petition_packet" | "grade_a_packet_specification" | "verified_render_job";
     packetId: string;
     packetPlanId: string | null;
     generatedAt: string;
+    pageCount?: number;
     documents: Array<{
       kind: "full" | "court";
       fileName: string;
@@ -237,6 +238,25 @@ function sanitizeProtectedPresentationArtifact(
       packetId: value.packetId,
       packetPlanId: null,
       generatedAt: value.generatedAt,
+      documents: [{ kind: "full", fileName: value.fileName, downloadPath: value.downloadPath }]
+    };
+  }
+  if (value.provider === "rcap_grade_a_composer_v1"
+    && value.source === "grade_a_packet_specification"
+    && typeof value.packetId === "string"
+    && typeof value.fileName === "string"
+    && typeof value.generatedAt === "string"
+    && typeof value.downloadPath === "string"
+    && typeof value.pageCount === "number"
+    && value.pageCount > 0) {
+    return {
+      status: "ready",
+      canDownload: true,
+      source: "grade_a_packet_specification",
+      packetId: value.packetId,
+      packetPlanId: null,
+      generatedAt: value.generatedAt,
+      pageCount: value.pageCount,
       documents: [{ kind: "full", fileName: value.fileName, downloadPath: value.downloadPath }]
     };
   }

@@ -119,7 +119,10 @@ export function composeGradeAPacket(
   // is composed. Composing the ones that happen to be satisfiable would hand a
   // participant a partial packet, which is the failure mode this whole gate
   // exists to prevent.
-  const missing = [...new Set(included.flatMap(factsUsedBy))]
+  const missing = [...new Set([
+    ...specification.requiredFacts.map((requiredFact) => requiredFact.factId),
+    ...included.flatMap(factsUsedBy)
+  ])]
     .filter((id) => fact(matter, id) === "")
     .sort();
   if (missing.length > 0) {
@@ -202,7 +205,9 @@ function composeSection(
     case "court_signature_block":
       // Never pre-filled and never dated. A judicial block that arrives with
       // anything in it is a fabricated judicial act.
-      return [head, {
+      return [head, ...(section.body
+        ? [{ kind: "paragraph", text: fill(section.body, matter) } as GradeABlock]
+        : []), {
         kind: "signature",
         label: "",
         lines: ["Judge", "Date"],
@@ -211,8 +216,8 @@ function composeSection(
 
     case "filing_destination":
       return [head,
-        { kind: "paragraph", text: specification.filingDestination.statement },
-        { kind: "labelled", label: "Office", value: specification.filingDestination.office }];
+        { kind: "paragraph", text: fill(specification.filingDestination.statement, matter) },
+        { kind: "labelled", label: "Office", value: fill(specification.filingDestination.office, matter) }];
 
     case "fee_and_waiver":
       return [head,
@@ -221,9 +226,9 @@ function composeSection(
 
     case "service_and_notice":
       return [head,
-        { kind: "paragraph", text: specification.serviceAndNotice.statement },
+        { kind: "paragraph", text: fill(specification.serviceAndNotice.statement, matter) },
         ...(specification.serviceAndNotice.whyNoCertificate
-          ? [{ kind: "paragraph", text: specification.serviceAndNotice.whyNoCertificate } as GradeABlock]
+          ? [{ kind: "paragraph", text: fill(specification.serviceAndNotice.whyNoCertificate, matter) } as GradeABlock]
           : [])];
 
     case "copy_requirements":

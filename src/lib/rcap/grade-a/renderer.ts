@@ -88,7 +88,22 @@ export function gradeAPacketFilename(packet: GradeAPacket): string {
 function drawDocument(cursor: Cursor, document: PDFDocument, fonts: Fonts, entry: GradeADocument) {
   kicker(cursor, document, fonts, entry.outputStrategy === "custom_pleading" ? "Court document" : "Instructions");
   title(cursor, document, fonts, entry.title);
-  for (const block of entry.blocks) drawBlock(cursor, document, fonts, block);
+  entry.blocks.forEach((block, index) => {
+    // A signature heading stranded at the foot of one page while its lines
+    // move to the next is more than ugly: it makes the signing instruction
+    // ambiguous. Keep the heading and the whole signature block together.
+    if (block.kind === "heading" && entry.blocks[index + 1]?.kind === "signature") {
+      ensure(cursor, document, 150);
+    }
+    if (
+      block.kind === "heading"
+      && entry.blocks[index + 1]?.kind === "paragraph"
+      && entry.blocks[index + 2]?.kind === "signature"
+    ) {
+      ensure(cursor, document, 205);
+    }
+    drawBlock(cursor, document, fonts, block);
+  });
 }
 
 function drawBlock(cursor: Cursor, document: PDFDocument, fonts: Fonts, block: GradeABlock) {
@@ -125,6 +140,7 @@ function signature(
   fonts: Fonts,
   block: Extract<GradeABlock, { kind: "signature" }>
 ) {
+  ensure(cursor, document, 125);
   space(cursor, 8);
   for (const line of block.lines) {
     ensure(cursor, document, 34);

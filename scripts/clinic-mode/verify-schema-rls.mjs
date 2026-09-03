@@ -11,7 +11,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const migrationPaths = [
   "supabase/migrations/20260825120000_clinic_mode_core.sql",
   "supabase/migrations/20260825121000_clinic_mode_security.sql",
-  "supabase/migrations/20260825122000_clinic_mode_accounting_reporting.sql"
+  "supabase/migrations/20260825122000_clinic_mode_accounting_reporting.sql",
+  "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql"
 ];
 const tableNames = [
   "clinic_events",
@@ -87,6 +88,7 @@ try {
   await verifyAccountingIdempotency(db);
   await verifyFollowUpAndReporting(db);
   await verifyActiveSessionBoundary(db);
+  await verifyJurisdictionLock(db);
 } finally {
   await db.close();
 }
@@ -129,6 +131,28 @@ async function verifyRlsAndPrivileges(db) {
     assert.ok(definition?.includes("SET search_path TO ''"), `${fn} must pin search_path`);
     assert.equal(await scalar(db, `select has_function_privilege('authenticated',p.oid,'EXECUTE') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='${fn}' limit 1`), false, `${fn} leaked direct browser execution`);
   }
+}
+
+async function verifyJurisdictionLock(db) {
+  const oldSignature = "public.clinic_create_event(uuid,text,text,text,timestamptz,timestamptz,text,text,text,integer,integer)";
+  const lockedSignature = "public.clinic_create_event(uuid,text,text,text,timestamptz,timestamptz,text,text,text,integer,integer,text)";
+  assert.ok(await scalar(db, `select to_regprocedure('${oldSignature}') is not null`), "the existing event-creation RPC signature was removed");
+  assert.ok(await scalar(db, `select to_regprocedure('${lockedSignature}') is not null`), "the jurisdiction-lock RPC signature is missing");
+  const eventId = await scalar(db, `select public.clinic_create_event(
+    '${ids.adminA}', 'tenant-a', 'synthetic-locked-ms', 'Synthetic locked Mississippi clinic',
+    '2026-09-03T13:00:00Z', '2026-09-03T20:00:00Z', 'America/Chicago',
+    'Synthetic location', 'Mississippi', 10, 2, 'MS'
+  )`);
+  assert.equal(await scalar(db, `select jurisdiction from public.clinic_events where id='${eventId}'`), "MS");
+  await assert.rejects(
+    () => serviceCall(db, `select public.clinic_create_event(
+      '${ids.adminA}', 'tenant-a', 'synthetic-invalid-jurisdiction', 'Synthetic invalid clinic',
+      '2026-09-03T13:00:00Z', '2026-09-03T20:00:00Z', 'America/Chicago',
+      'Synthetic location', 'Mississippi', 10, 2, 'ms'
+    )`),
+    /clinic_event_jurisdiction_invalid/i,
+    "the event RPC accepted a noncanonical jurisdiction"
+  );
 }
 
 async function verifyTenantAndParticipantIsolation(db) {

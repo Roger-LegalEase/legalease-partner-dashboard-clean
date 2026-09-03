@@ -676,9 +676,20 @@ check("no route in the shipped registry is commercially eligible without every p
   return null;
 });
 
-check("the candidate lanes are the only jurisdictions in the registry", () => {
+check("the candidate lanes and bounded Mississippi clinic route are the only jurisdictions in the registry", () => {
   const jurisdictions = [...new Set(registryDocument.records.map((record) => record.jurisdiction))].sort();
-  return jurisdictions.join(",") === "ND,OR" ? null : `the registry carries ${jurisdictions.join(",")}`;
+  return jurisdictions.join(",") === "MS,ND,OR" ? null : `the registry carries ${jurisdictions.join(",")}`;
+});
+
+check("Mississippi authority is limited to the one clinic-demo route", () => {
+  const mississippiRoutes = registryDocument.records
+    .filter((record) => record.jurisdiction === "MS")
+    .map((record) => record.routeId)
+    .sort();
+  const expected = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+  return mississippiRoutes.length === 1 && mississippiRoutes[0] === expected
+    ? null
+    : `unexpected Mississippi authority scope: ${mississippiRoutes.join(",") || "none"}`;
 });
 
 check("no synthetic route ever reaches the shipped registry", () => {

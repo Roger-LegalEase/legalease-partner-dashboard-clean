@@ -38,6 +38,9 @@ export default async function PacketAccuracyReviewPage({
     stateCode: item.jurisdiction ?? "",
     pathwayId: item.pathwayId
   }) : null;
+  const mississippiClinicPacket = sponsored
+    && item?.jurisdiction === "MS"
+    && item.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
   return (
     <BriefcaseShell
@@ -73,6 +76,18 @@ export default async function PacketAccuracyReviewPage({
             ) : null}
           </div>
 
+          {mississippiClinicPacket ? (
+            <div className="mt-6 rounded-[16px] border border-[#CFE4DD] bg-[#F3F8F5] p-6">
+              <h2 className="text-base font-bold text-[#0B1320]">Who completes each part</h2>
+              <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#475A6E] sm:grid-cols-2">
+                <li><strong>Prefilled by LegalEase</strong> - facts already collected during screening.</li>
+                <li><strong>Confirmed from the participant’s records</strong> - court, case, charge, date, agency, and service facts.</li>
+                <li><strong>Completed by the participant when signing or serving</strong> - signatures, service method, and service dates.</li>
+                <li><strong>Reserved for the prosecutor or court</strong> - approval, findings, entry date, and judicial signature.</li>
+              </ul>
+            </div>
+          ) : null}
+
           <div className="mt-6">
             <ReviewCard title="Read-only matter and system details" icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}>
               <p className="text-sm leading-6 text-[#475A6E]" id="verification-context-description">
@@ -101,6 +116,7 @@ export default async function PacketAccuracyReviewPage({
                 <li>Court, agency, service, record, and filing fees are separate.</li>
                 <li>The court or agency makes the final decision. Approval is not guaranteed.</li>
                 <li>Review names, dates, court information, and charges against your records before filing.</li>
+                {mississippiClinicPacket ? <li>Stop and get legal help for an ambiguous docket entry, unclear venue, diversion or nonadjudication, a related pending matter, prosecutor refusal, or an immigration concern.</li> : null}
               </ul>
             </ReviewCard>
           </div>

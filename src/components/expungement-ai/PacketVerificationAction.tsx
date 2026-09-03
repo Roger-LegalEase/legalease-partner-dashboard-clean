@@ -47,6 +47,7 @@ export function PacketVerificationAction({
   const router = useRouter();
   const [verified, setVerified] = useState(initiallyVerified);
   const [verifying, setVerifying] = useState(false);
+  const [preparing, setPreparing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sponsoredCopy = sponsoredReviewCopy(verified, packetReady);
   const nextActions = packetVerificationActions({ verified, packetReady, mode });
@@ -62,6 +63,23 @@ export function PacketVerificationAction({
       return;
     }
     setVerified(true);
+    if (mode === "sponsored") {
+      setPreparing(true);
+      const generated = await fetch("/api/expungement-ai/packet/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ briefcaseItemId: itemId })
+      }).catch(() => null);
+      if (!generated?.ok) {
+        setPreparing(false);
+        setError("We verified your facts, but could not prepare the clinic packet right now. Try again from this review.");
+        router.refresh();
+        return;
+      }
+      router.push(`/briefcase/${encodeURIComponent(itemId)}`);
+      router.refresh();
+      return;
+    }
     router.refresh();
   }
 
@@ -89,11 +107,15 @@ export function PacketVerificationAction({
         canVerify ? (
           <button
             className="mt-5 min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-60"
-            disabled={verifying}
+            disabled={verifying || preparing}
             onClick={() => void verify()}
             type="button"
           >
-            {verifying ? "Verifying packet facts..." : "I verified these packet facts"}
+            {preparing
+              ? "Preparing clinic packet..."
+              : verifying
+                ? mode === "sponsored" ? "Verifying and preparing..." : "Verifying packet facts..."
+                : mode === "sponsored" ? "Verify and prepare clinic packet" : "I verified these packet facts"}
           </button>
         ) : (
           <p className="mt-4 rounded-[10px] bg-white/10 px-4 py-3 text-sm font-semibold">
@@ -109,7 +131,7 @@ export function PacketVerificationAction({
           ) : null}
           {nextActions.generation?.mode === "sponsored_sync" ? (
             <div className="[&_button]:mt-0 [&_button]:bg-[#FF3B00]">
-              <PacketGenerateButton briefcaseItemId={itemId} mode="sponsored_sync" />
+              <PacketGenerateButton briefcaseItemId={itemId} mode="sponsored_sync" label="Prepare clinic packet" />
             </div>
           ) : null}
           {nextActions.generation?.mode === "paid_durable" ? (

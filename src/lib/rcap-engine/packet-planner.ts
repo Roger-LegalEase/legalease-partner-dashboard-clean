@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { EngineProfile, ScreeningPacketPlan } from "@/lib/rcap-engine/contracts";
+import { packetSpecificationRequiredFactIdsFor } from "@/lib/rcap/grade-a/packet-specification";
 
 export type CompiledScreeningPacketPlan = ScreeningPacketPlan & { packetReadyWhen: string[] };
 
@@ -10,13 +11,20 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
   const baseRequiredInputIds = plan.requiredInputIds ?? profile.packetGenerator.requiredInputs ?? [];
   const routedExactPacketFactIds = (profile.questionLifecycle?.exactPacketFactIds ?? [])
     .filter((id) => profile.questionLifecycle?.routeConsumers[id]?.includes(pathwayId));
+  const registeredPacketFactIds = packetSpecificationRequiredFactIdsFor(
+    `${profile.jurisdiction.code}:${pathwayId}`
+  );
 
   return {
     pathwayId,
     mode: plan.mode,
     formMappingStatus: plan.formMappingStatus,
     sourceFormIds: (plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
-    requiredInputIds: [...new Set([...baseRequiredInputIds, ...routedExactPacketFactIds])],
+    requiredInputIds: [...new Set([
+      ...baseRequiredInputIds,
+      ...routedExactPacketFactIds,
+      ...registeredPacketFactIds
+    ])],
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
     packetReadyWhen: plan.packetReadyWhen ?? []
   };

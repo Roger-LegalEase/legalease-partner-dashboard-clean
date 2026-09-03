@@ -193,21 +193,41 @@ const authoritativeReview = evaluateAuthoritativeScreeningResult({
 const msRequired = authoritativeReview.evaluation.packetPlan.requiredInputIds;
 const cleanPacketAnswers = {
   age_at_offense: { value: "30", unknown: false },
+  agency_case_or_citation_number: "HPD-2014-00125",
+  arrest_or_citation_date: "2014-01-10",
+  arresting_or_citing_agency: "Hinds County Sheriff's Office",
   case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  case_number: "25-CI-00125",
   charge: { value: "Synthetic misdemeanor charge", unknown: false },
   contact_information: "100 Acceptance Way, Jackson, MS 39201",
   county: { value: "Hinds County", unknown: false },
   court: { value: "Hinds County Circuit Court", unknown: false },
+  court_name: "Hinds County Circuit Court",
+  court_type: "Circuit Court",
+  date_of_birth: "1990-04-12",
   disposition_date: { value: "2015-01-15", unknown: false },
+  disposition_record_wording: "Charges dropped",
+  email_address: "acceptance.consumer@example.test",
+  filing_location: "Hinds County",
   financial_obligations: "Yes",
+  indictment_record: "No indictment was returned.",
+  mailing_address: "100 Acceptance Way, Jackson, MS 39201",
+  nonadjudication_or_diversion: "No",
   offense_category: { value: "Misdemeanor", unknown: false },
+  offense_date: "2014-01-01",
   offense_level: "Misdemeanor",
+  open_co_defendant_matter: "No",
+  other_recordkeeping_agencies: "Mississippi Criminal Information Center",
   participant_full_legal_name: "Acceptance Consumer",
   pending_cases: "No",
+  phone_number: "601-555-0125",
   prior_relief: "No",
+  prosecuting_authority_name: "Hinds County District Attorney's Office",
+  prosecuting_authority_service_address: "P.O. Box 22747, Jackson, MS 39225",
   record_type: "Arrest or charge",
   residency_or_location: { value: "Jackson, Mississippi", unknown: false },
   sentence_completion_date: "Yes",
+  statutory_disposition_category: "Charges dropped",
   trafficking_status: "No"
 };
 const reviewMatter = {
@@ -401,10 +421,14 @@ async function exerciseBuilderRoute(item, protectedVerification) {
   const transitions = [];
   const route = loadTsWithMocks("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts", {
     "@/lib/rcap/briefcase/auth": {
-      getRcapBriefcaseAuthState: async () => ({ isAuthenticated: true, userId: "route-owner" })
+      getRcapBriefcaseAuthState: async () => ({ isAuthenticated: true, isVerified: true, userId: "route-owner" })
     },
     "@/lib/expungement-ai/briefcase": {
       getBriefcaseItem: async (userId, itemId) => userId === "route-owner" && itemId === item.id ? item : null
+    },
+    "@/lib/expungement-ai/briefcase-presentation-authority": {
+      protectedPacketVerificationSeedFromTrustedSource: () => null,
+      readTrustedBriefcasePresentationSource: async () => ({ ok: false, reason: "not_expected_in_seeded_test" })
     },
     "@/lib/expungement-ai/packet-information": { packetInformationPatch, protectedPacketInformationModelFor },
     "@/lib/expungement-ai/verification-cas": {

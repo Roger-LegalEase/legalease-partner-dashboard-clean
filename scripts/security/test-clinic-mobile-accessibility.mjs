@@ -18,6 +18,26 @@ import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
+function resolveBrowserExecutable() {
+  const candidates = [];
+  if (process.env.CHROME_PATH) candidates.push(process.env.CHROME_PATH);
+  if (process.platform === "darwin") {
+    candidates.push("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+    candidates.push("/Applications/Chromium.app/Contents/MacOS/Chromium");
+  } else if (process.platform === "linux") {
+    candidates.push("/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser");
+  } else if (process.platform === "win32") {
+    candidates.push("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+  }
+  for (const candidate of candidates) {
+    try {
+      fs.accessSync(candidate, fs.constants.X_OK);
+      return candidate;
+    } catch { /* try the next executable */ }
+  }
+  return null;
+}
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const axeSource = fs.readFileSync(path.join(root, "node_modules/axe-core/axe.min.js"), "utf8");
 
@@ -82,7 +102,8 @@ const evidence = [];
 let browser;
 try {
   await waitFor(`${appUrl}${clinicPath}`, 90_000);
-  browser = await chromium.launch({ headless: true });
+  const executablePath = resolveBrowserExecutable();
+  browser = await chromium.launch({ headless: true, ...(executablePath ? { executablePath } : {}) });
 
   for (const viewport of VIEWPORTS) {
     const context = await browser.newContext({
@@ -243,9 +264,10 @@ async function verifyErrorAssociationAndAnnouncement(page, viewport) {
   // Next.js mounts its own route announcer with role="alert", so target the
   // field's error region rather than the role alone.
   const alert = page.locator("#eventCodeError[role=alert]");
-  await alert.waitFor({ state: "visible" });
-  assert.match(await alert.innerText(), /not valid for this event/iu,
-    `${viewport.name}: the rejection was not announced`);
+  await alert.filter({ hasText: /not valid for this event/iu }).waitFor({ state: "visible" });
+  const alertText = await alert.innerText();
+  assert.match(alertText, /not valid for this event/iu,
+    `${viewport.name}: the rejection was not announced (${JSON.stringify(alertText)})`);
 
   const association = await page.evaluate(() => {
     const input = document.querySelector("#eventCode");

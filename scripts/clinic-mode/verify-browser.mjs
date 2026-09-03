@@ -70,7 +70,13 @@ const authSession = {
   expires_in: 3600,
   expires_at: Math.floor(Date.now() / 1000) + 3600,
   refresh_token: "synthetic-refresh-token",
-  user: { id: participantUserId, email: "clinic.participant@example.test", aud: "authenticated", role: "authenticated" }
+  user: {
+    id: participantUserId,
+    email: "clinic.participant@example.test",
+    email_confirmed_at: "2026-09-01T12:00:00.000Z",
+    aud: "authenticated",
+    role: "authenticated"
+  }
 };
 const event = {
   id: "20000000-0000-4000-8000-000000000099",

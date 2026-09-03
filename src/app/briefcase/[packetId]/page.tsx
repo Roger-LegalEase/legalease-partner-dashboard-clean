@@ -33,6 +33,12 @@ export default async function BriefcasePacketPage({
   const factsVerified = item?.verificationStatus === "verified";
   const packetDraftAvailable = item?.packetDraft.status === "available";
   const artifact = item?.artifact.status === "ready" ? item.artifact : null;
+  const mississippiClinicPacket = sponsored
+    && item?.jurisdiction === "MS"
+    && item.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+  const packetComponents = item?.packetDraft.status === "available"
+    ? item.packetDraft.expectedComponents
+    : item?.checklist ?? [];
 
   return (
     <BriefcaseShell
@@ -60,7 +66,9 @@ export default async function BriefcasePacketPage({
           ) : (
             <>
               <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-                <h2 className="text-lg font-extrabold text-[#0B1320]">{humanMatterState(item)}</h2>
+                <h2 className="text-lg font-extrabold text-[#0B1320]">
+                  {mississippiClinicPacket ? "Your Mississippi clinic packet" : humanMatterState(item)}
+                </h2>
                 {sponsored ? (
                   <p className="mt-2 text-sm leading-6 text-[#5A6275]">Your packet is covered through your partner program. Complete the packet information and review it before generation.</p>
                 ) : (
@@ -71,7 +79,7 @@ export default async function BriefcasePacketPage({
                 )}
 
                 <ul className="mt-5 grid gap-2 text-sm leading-6 text-[#475A6E]">
-                  {item.checklist.map((component, index) => <li key={`${component}-${index}`}>• {component}</li>)}
+                  {packetComponents.map((component, index) => <li key={`${component}-${index}`}>• {component}</li>)}
                 </ul>
 
                 {!artifact && !packetDraftAvailable ? (
@@ -83,12 +91,12 @@ export default async function BriefcasePacketPage({
                 <div className="mt-6 flex flex-wrap gap-3">
                   {!artifact && packetDraftAvailable && item.packetProgress === "not_started" ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
-                      Complete packet information
+                      {mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Complete packet information"}
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "in_progress" ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
-                      Resume packet information
+                      {mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Resume packet information"}
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "facts_complete" ? (
@@ -107,7 +115,7 @@ export default async function BriefcasePacketPage({
                 </div>
               </div>
 
-              {artifact ? <ReadyPacket itemId={item.id} artifact={artifact} nextSteps={item.nextSteps} /> : null}
+              {artifact ? <ReadyPacket itemId={item.id} artifact={artifact} nextSteps={item.nextSteps} mississippiClinicPacket={mississippiClinicPacket} /> : null}
             </>
           )}
         </section>
@@ -154,21 +162,26 @@ function SavedResultValue({ item }: { item: BriefcasePresentationItem }) {
 function ReadyPacket({
   itemId,
   artifact,
-  nextSteps
+  nextSteps,
+  mississippiClinicPacket
 }: {
   itemId: string;
   artifact: Extract<BriefcasePresentationArtifact, { status: "ready" }>;
   nextSteps: string[];
+  mississippiClinicPacket: boolean;
 }) {
   return (
     <>
       <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6" data-packet-ready="true">
         <h2 className="text-lg font-extrabold text-[#0B1320]">Packet ready</h2>
-        <p className="mt-2 text-sm leading-6 text-[#5A6275]">Your private PDF is ready to download and reopen from this matter.</p>
+        <p className="mt-2 text-sm leading-6 text-[#5A6275]">
+          Your private PDF is ready to download and reopen from this matter.
+          {artifact.pageCount ? ` ${artifact.pageCount} pages.` : ""}
+        </p>
         <div className="mt-5 flex flex-wrap gap-3">
           {artifact.documents.map((document) => (
             <Link href={document.downloadPath} className="inline-flex min-h-11 items-center gap-2 rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" key={`${document.kind}:${document.downloadPath}`}>
-              <Download className="h-4 w-4" aria-hidden="true" /> Download {document.fileName}
+              <Download className="h-4 w-4" aria-hidden="true" /> {mississippiClinicPacket ? "Download Mississippi non-conviction expungement packet" : `Download ${document.fileName}`}
             </Link>
           ))}
         </div>

@@ -9,7 +9,8 @@
 //
 //   1. data/rcap-grade-a/fulfillment-authority-registry.json
 //      The canonical controlling registry. Candidate records are written here
-//      ONLY for the lanes that were asked for them — Oregon and North Dakota —
+//      ONLY for the lanes that were asked for them — Oregon, North Dakota, and
+//      the bounded Mississippi clinic-demo route —
 //      and only with the proof those lanes actually produced. Where a lane
 //      produced no proof for a dimension, the record says so; it does not
 //      borrow a neighbouring route's evidence and it does not default to true.
@@ -47,6 +48,10 @@ const WITNESS_FIXTURES = "data/rcap-ledger/public-witness-fixtures.json";
 const VISUAL_PROOF = "data/rcap-all50/contact-sheet-visual-proof.json";
 const WORKER_EVIDENCE = "data/rcap-render/worker-publication-evidence.json";
 const SOURCE_REGISTRY = "data/rcap-grade-a/official-source-registry.json";
+const MS_CLINIC_SPECIFICATION = "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json";
+const MS_CLINIC_FIXTURE = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json";
+const MS_CLINIC_ARTIFACTS = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json";
+const MS_CLINIC_RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json";
 // Lane-produced page-by-page visual review evidence. A lane may close the
 // visual-review dimension because reviewing every page of a rendered artifact
 // is work a lane actually does. It may not close output-level legal approval
@@ -59,6 +64,7 @@ const PROJECTION_OUT = "data/rcap-grade-a/fulfillment-authority-projection.json"
 
 /** The only jurisdictions this generator writes candidate records for. */
 const CANDIDATE_JURISDICTIONS = ["ND", "OR"];
+const MS_CLINIC_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
@@ -517,11 +523,139 @@ function candidateRecord(row) {
   return record;
 }
 
+/**
+ * The clinic-demo route is deliberately supplemental to the frozen paid launch
+ * denominator. Its build evidence is real, but it creates no commercial grant:
+ * named Mississippi counsel has not approved these exact bytes and no protected
+ * participant verification has been bound to them.
+ */
+function mississippiClinicCandidateRecord() {
+  const specificationBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_SPECIFICATION));
+  const fixtureBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_FIXTURE));
+  const artifacts = readJson(MS_CLINIC_ARTIFACTS);
+  const rasterReviewBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_RASTER_REVIEW));
+  const rasterReview = JSON.parse(rasterReviewBytes);
+  const canonical = artifacts.artifacts.find((artifact) => artifact.fixture === "canonical");
+  const canonicalRaster = rasterReview.artifacts?.find((artifact) => artifact.fixture === "canonical");
+  if (!canonical) throw new Error("Mississippi clinic artifact evidence has no canonical artifact");
+  if (!canonicalRaster) throw new Error("Mississippi clinic raster evidence has no canonical artifact");
+
+  const composerBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/composer.ts"));
+  const rendererBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/renderer.ts"));
+  const record = {
+    schemaVersion: GRADE_A_ADMISSION_SCHEMA_VERSION,
+    recordId: "grade-a-ms-non-conviction-expungement-clinic-demo-v1",
+    routeId: MS_CLINIC_ROUTE,
+    jurisdiction: "MS",
+    pathwayId: MS_CLINIC_ROUTE.slice(3),
+    packetFamilyId: "ms-nonconv-set",
+    serviceDisposition: "paid_packet_intended",
+    version: 1,
+    effectiveFrom: "2026-09-03",
+    supersededBy: null,
+    supersededAt: null,
+    revocation: { revoked: false, reason: null, revokedAt: null, revokedBy: null },
+    legalAuthority: {
+      recordId: ownerDecision.recordId,
+      version: ownerDecision.recordId,
+      status: "approved_by_decision_owner",
+      effectiveDate: ownerDecision.effectiveDate,
+      scopeSha256: sha256(ownerDecision.scopeStatement ?? "")
+    },
+    packetSpecification: {
+      specId: "ms-nonconviction-expungement-99-19-71-4@1.0.0",
+      sha256: sha256(specificationBytes),
+      complete: true
+    },
+    officialSources: [],
+    provider: {
+      providerId: "rcap_grade_a_composer_v1",
+      rendererKind: "rcap_grade_a_document_v1",
+      rendererVersion: "1.0.0",
+      imageDigest: `sha256:${sha256(Buffer.concat([composerBytes, rendererBytes]))}`
+    },
+    fixture: {
+      fixtureId: "ms-nonconviction-clinic-demo-canonical",
+      sha256: sha256(fixtureBytes),
+      deterministic: artifacts.deterministic === true
+    },
+    artifactValidation: {
+      state: "validated",
+      artifactSha256: canonical.sha256,
+      validatedAt: "2026-09-03"
+    },
+    packetCompleteness: {
+      specificationId: "ms-nonconviction-expungement-99-19-71-4",
+      specificationVersion: "1.0.0",
+      specificationSha256: sha256(specificationBytes),
+      filingApplication: { state: "covered", basis: "ms-nonconv-set:ms-nonconv-primary-filing-1" },
+      proposedOrder: { state: "covered", basis: "ms-nonconv-set:ms-nonconv-proposed-order-2" },
+      attachmentsAndSchedules: { state: "covered", basis: "ms-nonconv-set:ms-nonconv-attachment-4" },
+      serviceAndNotice: { state: "covered", basis: "ms-nonconv-set:ms-nonconv-certificate-of-service-3" },
+      filingDestination: { state: "covered", basis: "ms-nonconviction-expungement-99-19-71-4:filingDestination" },
+      feeAndWaiverInstructions: { state: "covered", basis: "ms-nonconviction-expungement-99-19-71-4:feeAndWaiver" },
+      copyRequirements: { state: "covered", basis: "ms-nonconviction-expungement-99-19-71-4:copyRequirements" },
+      postFilingSteps: { state: "covered", basis: "ms-nonconv-set:ms-nonconv-instructions-5" },
+      hearingAndObjectionStopConditions: { state: "covered", basis: "ms-nonconviction-expungement-99-19-71-4:hearingAndObjectionStops" },
+      customPleadingAuthority: {
+        required: true,
+        approved: true,
+        authorityId: ownerDecision.recordId
+      },
+      filingFormatArtifact: {
+        format: "pdf",
+        sha256: canonical.sha256,
+        pageCount: canonical.pageCount,
+        producedBy: {
+          renderer: "rcap_grade_a_document_v1@1.0.0",
+          matchesRecordProvider: true,
+          reconciliation: null,
+          deterministicRenderVerified: artifacts.deterministic === true
+        }
+      }
+    },
+    visualReview: {
+      state: rasterReview.independentReview?.status === "passed" ? "passed" : "pending",
+      pagesReviewed: rasterReview.independentReview?.status === "passed" ? canonicalRaster.pageCount : 0,
+      pageCount: canonicalRaster.pageCount,
+      evidenceSha256: sha256(rasterReviewBytes),
+      reviewedBy: rasterReview.independentReview?.status === "passed" ? rasterReview.independentReview.reviewer : null,
+      reviewedAt: rasterReview.independentReview?.status === "passed" ? rasterReview.independentReview.reviewedAt : null
+    },
+    outputLegalApproval: {
+      state: "pending",
+      reviewerId: null,
+      decidedAt: null,
+      scopeSha256: null
+    },
+    finalVerification: {
+      contract: "rcap-final-verification-bound-inputs/v1",
+      contractModule: "src/lib/rcap/fulfillment/final-verification-contract.ts",
+      state: "unbound",
+      verifierId: null,
+      boundInputsSha256: null,
+      verifiedAt: null
+    },
+    history: []
+  };
+  record.history = [{
+    version: 1,
+    changeKind: "created",
+    changedAt: "2026-09-03",
+    changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+    reason: `Build-only clinic candidate derived from ${MS_CLINIC_SPECIFICATION}, ${MS_CLINIC_FIXTURE}, ${MS_CLINIC_ARTIFACTS}, and ${MS_CLINIC_RASTER_REVIEW}. Named counsel approval and participant final verification remain intentionally absent.`,
+    recordSha256: fulfillmentRecordSha256(record),
+    supersedesRecordSha256: null
+  }];
+  return record;
+}
+
 const rows = launchGraph.rows
   .filter((row) => CANDIDATE_JURISDICTIONS.includes(row.jurisdiction))
   .sort((a, b) => a.pathwayKey.localeCompare(b.pathwayKey));
 
-const records = rows.map(candidateRecord);
+const records = [...rows.map(candidateRecord), mississippiClinicCandidateRecord()]
+  .sort((a, b) => a.routeId.localeCompare(b.routeId));
 
 const registry = {
   schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
@@ -530,8 +664,9 @@ const registry = {
   createsApproval: false,
   changesRuntime: false,
   candidateScope: {
-    jurisdictions: CANDIDATE_JURISDICTIONS,
-    rule: "Candidate records exist only for lanes that were asked to provide evidence. A jurisdiction absent from this registry is UNSUPPORTED_ROUTE and fails closed, which is the same denial an incomplete record produces."
+    jurisdictions: [...CANDIDATE_JURISDICTIONS, "MS"],
+    routes: [MS_CLINIC_ROUTE],
+    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record is build-only and remains incomplete until exact-output counsel approval and final verification are bound. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(fs.readFileSync(path.join(rootDir, LAUNCH_GRAPH), "utf8")),
@@ -540,7 +675,11 @@ const registry = {
     [WITNESS_FIXTURES]: sha256(fs.readFileSync(path.join(rootDir, WITNESS_FIXTURES), "utf8")),
     [VISUAL_PROOF]: sha256(fs.readFileSync(path.join(rootDir, VISUAL_PROOF), "utf8")),
     [WORKER_EVIDENCE]: sha256(fs.readFileSync(path.join(rootDir, WORKER_EVIDENCE), "utf8")),
-    [SOURCE_REGISTRY]: sha256(fs.readFileSync(path.join(rootDir, SOURCE_REGISTRY), "utf8"))
+    [SOURCE_REGISTRY]: sha256(fs.readFileSync(path.join(rootDir, SOURCE_REGISTRY), "utf8")),
+    [MS_CLINIC_SPECIFICATION]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_SPECIFICATION))),
+    [MS_CLINIC_FIXTURE]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_FIXTURE))),
+    [MS_CLINIC_ARTIFACTS]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_ARTIFACTS))),
+    [MS_CLINIC_RASTER_REVIEW]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_RASTER_REVIEW)))
   },
   records
 };
@@ -664,7 +803,7 @@ if (CHECK && projectionResult.changed) {
 }
 
 const verb = CHECK ? "verified" : "written";
-console.log(`Grade-A fulfillment authority ${verb}: ${records.length} candidate record(s) across ${CANDIDATE_JURISDICTIONS.join(", ")}.`);
+console.log(`Grade-A fulfillment authority ${verb}: ${records.length} candidate record(s) across ${[...CANDIDATE_JURISDICTIONS, "MS"].join(", ")}.`);
 console.log(`  ${COMPLETE_PACKET_PROVEN}: ${projection.counters.completePacketProven}`);
 console.log(`  INCOMPLETE: ${projection.counters.incomplete}   STALE: ${projection.counters.stale}`);
 console.log(`  commercially eligible: ${projection.counters.commerciallyEligible}`);

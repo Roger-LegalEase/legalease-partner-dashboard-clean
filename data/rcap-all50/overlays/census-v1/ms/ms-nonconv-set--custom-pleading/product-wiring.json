@@ -1,42 +1,77 @@
 {
   "schemaVersion": "rcap-census-v1-product-wiring/v1",
   "family": "ms-nonconv-set",
-  "routeKey": "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
   "routeKeys": [
-    "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
   ],
-  "workType": "PRODUCT_WIRING_REQUIRED",
-  "status": "DECLARED_NOT_INSTALLED",
-  "authorityCreated": "none",
-  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
-  "derivedFrom": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/rendered-artifacts.json",
+  "workType": "GRADE_A_PRODUCT_WIRING",
+  "status": "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL",
+  "authorityCreated": "held_grade_a_fulfillment_record",
+  "generatedBy": "scripts/generate-ms-clinic-demo-packet.mjs",
+  "derivedFrom": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
   "explicitNonGrants": [
-    "This document opens no commercial route.",
-    "It creates no fulfillment record and consumes no packet credit.",
-    "It marks no packet proven and grants no output approval.",
-    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
-    "It does not change any live RCAP route.",
-    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+    "This record authorizes deterministic build and controlled review only.",
+    "It opens no consumer sale and grants no production deployment.",
+    "Sponsored delivery remains closed until named Mississippi counsel approves these exact artifact hashes."
   ],
   "currentState": {
-    "serviceDisposition": "missing_from_compiled_runtime",
-    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
-    "existingArtifactIds": [],
+    "serviceDisposition": "exact_runtime_route_and_grade_a_specification_installed",
+    "commercialState": "HELD_PENDING_NAMED_COUNSEL_AND_PREVIEW_ACCEPTANCE",
+    "existingArtifactIds": [
+      "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
+      "bc05ce2ea926be18a4eedf063bf03759fbf71b904c4ff67980aab65b482adda9"
+    ],
     "generationAllowed": false
   },
   "proposedRepresentation": {
-    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "note": "The exact five-document packet is built and machine-verifiable. Delivery authority remains held.",
     "packetSetId": "ms-nonconv-set",
     "outputStrategy": "custom_pleading",
     "components": [
       {
-        "componentId": "ms-nonconv-set-component-1",
-        "role": "primary_filing",
+        "documentId": "ms-cover-and-contents",
+        "role": "cover_and_contents",
         "order": 1,
-        "documentId": "canonical",
-        "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "4ae768075a7f5aa534813a2303b24260e2b08308c0f3c7f18a4cc21531812ecf",
-        "requirement": "required"
+        "requirement": "required",
+        "manifestComponentIds": []
+      },
+      {
+        "documentId": "ms-petition-for-expungement",
+        "role": "primary_filing",
+        "order": 2,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-primary-filing-1"
+        ]
+      },
+      {
+        "documentId": "ms-proposed-order",
+        "role": "proposed_order",
+        "order": 3,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-proposed-order-2"
+        ]
+      },
+      {
+        "documentId": "ms-service-and-attachments",
+        "role": "certificate_of_service_and_attachment_checklist",
+        "order": 4,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-certificate-of-service-3",
+          "ms-nonconv-attachment-4"
+        ]
+      },
+      {
+        "documentId": "ms-filing-and-next-steps",
+        "role": "filing_and_next_steps",
+        "order": 5,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-instructions-5"
+        ]
       }
     ]
   },
@@ -44,39 +79,58 @@
     "family": "ms-nonconv-set",
     "jurisdiction": "MS",
     "routeKeys": [
-      "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+      "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
     ],
     "deliveryType": "custom_pleading",
-    "instrumentKinds": [
-      "Nonconviction Petition under current § 99-19-71(4)"
-    ],
-    "packetComponents": [],
+    "packetSpecification": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "packetSpecificationSha256": "de634d033c9f6fedad3c477a6eae50110c0f56ccc071d7c2bea026d22390c249",
+    "artifactEvidence": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+    "artifacts": {
+      "canonical": {
+        "fixture": "canonical",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-canonical.pdf",
+        "sha256": "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
+        "byteLength": 23136,
+        "pageCount": 10,
+        "documentCount": 5,
+        "verificationHash": "5db1df6b9c18875816333351b234817a910de50bd8fe5bf7a0f1111111111111"
+      },
+      "boundary": {
+        "fixture": "boundary",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.boundary.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-boundary.pdf",
+        "sha256": "bc05ce2ea926be18a4eedf063bf03759fbf71b904c4ff67980aab65b482adda9",
+        "byteLength": 24344,
+        "pageCount": 10,
+        "documentCount": 5,
+        "verificationHash": "d7778fc6857e27b09f1d5a38476c809e7388709aa8305e96d53c222222222222"
+      }
+    },
     "fieldMap": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md",
-    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/rendered-artifacts.json",
-    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/source-receipt.json",
-    "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33547709781",
-      "jobId": "99990088640",
-      "artifactId": "9816399050",
-      "boundToCanonicalSha256": "4ae768075a7f5aa534813a2303b24260e2b08308c0f3c7f18a4cc21531812ecf",
-      "coversTheWholeFamily": true
+    "rasterReview": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
+    "independentReview": {
+      "status": "15_pass_0_fail_0_hold",
+      "obligations": 15,
+      "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
+      "externalDeliveryHolds": [
+        "named_mississippi_counsel_and_current_law_approval",
+        "classified_nonproduction_preview_acceptance"
+      ]
     },
-    "lastIndependentVerification": {
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf03",
-      "verifiedAtBase": null
+    "counselReview": {
+      "status": "pending_named_mississippi_counsel",
+      "approvedArtifactHashes": []
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
-    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "whyPaymentIsClosed": "Consumer launch is outside the clinic demo and named counsel has not approved these exact artifact hashes.",
+    "whySponsorshipIsClosed": "The packet is built and independently reviewed, but sponsored generation stays held until named Mississippi counsel approves the exact artifacts and the nonproduction acceptance journey passes.",
     "maintenanceRelationship": {
-      "rebuiltFrom": "scripts/build-census-v1-ms-nonconv-set.mjs",
-      "sharedBuildHost": null,
-      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
-      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+      "rebuiltFrom": "scripts/generate-ms-clinic-demo-packet.mjs",
+      "reRasterRequiredWhen": "either artifact hash changes",
+      "reVerificationRequiredWhen": "the route, specification, facts, renderer, or artifact bytes change"
     }
   }
 }

@@ -7,20 +7,166 @@
   "candidateScope": {
     "jurisdictions": [
       "ND",
-      "OR"
+      "OR",
+      "MS"
     ],
-    "rule": "Candidate records exist only for lanes that were asked to provide evidence. A jurisdiction absent from this registry is UNSUPPORTED_ROUTE and fails closed, which is the same denial an incomplete record produces."
+    "routes": [
+      "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    ],
+    "rule": "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record is build-only and remains incomplete until exact-output counsel approval and final verification are bound. A route absent from this registry fails closed."
   },
   "evidenceInputs": {
-    "data/rcap-ledger/launch-graph.json": "e37b191af817376998147670ff20fac8cc0b64fdd3a21bba777212651902e1d0",
-    "data/rcap-ledger/paid-pathway-legal-join.json": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
+    "data/rcap-ledger/launch-graph.json": "2f3f5a5feb02907a2f7bec4a6f8f8c6c10e821f341e509f1a1e1a7ca23ef84aa",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75",
     "data/rcap-ledger/completed-output-counsel-manifest.json": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
     "data/rcap-ledger/public-witness-fixtures.json": "5d8142df48212083db67a8e55447b27405792f25a59a70a0f367da2f3309e498",
     "data/rcap-all50/contact-sheet-visual-proof.json": "9b34268741438fb1965324bee3ef6af4e7734614a5892fa4a96703aac9b52157",
     "data/rcap-render/worker-publication-evidence.json": "15e8e922db013d5a5a7b53ca56e43aeff7f33e4900b0381b3f6171d303509400",
-    "data/rcap-grade-a/official-source-registry.json": "93b116987dc5c666d03de52132718e5ffde46d68888cc5337a617d5c60f7abf7"
+    "data/rcap-grade-a/official-source-registry.json": "93b116987dc5c666d03de52132718e5ffde46d68888cc5337a617d5c60f7abf7",
+    "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json": "de634d033c9f6fedad3c477a6eae50110c0f56ccc071d7c2bea026d22390c249",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json": "ad6a52f479fc83783e3465f9c35126b12488403a2e2e087ffaf7a8d48e3bee82",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json": "c4a87102d9d22cbd2df5386225b816a915638ed2baf979e862627c49404da941",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json": "36352bdcb021c8e70f6b8c6eb302caca2a7fb429aa8f875bcf8c1448fb2096d4"
   },
   "records": [
+    {
+      "schemaVersion": "rcap-grade-a-fulfillment-authority/v2",
+      "recordId": "grade-a-ms-non-conviction-expungement-clinic-demo-v1",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "jurisdiction": "MS",
+      "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "packetFamilyId": "ms-nonconv-set",
+      "serviceDisposition": "paid_packet_intended",
+      "version": 1,
+      "effectiveFrom": "2026-09-03",
+      "supersededBy": null,
+      "supersededAt": null,
+      "revocation": {
+        "revoked": false,
+        "reason": null,
+        "revokedAt": null,
+        "revokedBy": null
+      },
+      "legalAuthority": {
+        "recordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "version": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "status": "approved_by_decision_owner",
+        "effectiveDate": "2026-08-19",
+        "scopeSha256": "f1276da1fdcdf24bece83a8e53b12fe96696f3001d82908600b6e394c552e7b5"
+      },
+      "packetSpecification": {
+        "specId": "ms-nonconviction-expungement-99-19-71-4@1.0.0",
+        "sha256": "de634d033c9f6fedad3c477a6eae50110c0f56ccc071d7c2bea026d22390c249",
+        "complete": true
+      },
+      "officialSources": [],
+      "provider": {
+        "providerId": "rcap_grade_a_composer_v1",
+        "rendererKind": "rcap_grade_a_document_v1",
+        "rendererVersion": "1.0.0",
+        "imageDigest": "sha256:bd52e61626195125f2e308e67c0b46eba195032c5685566ed9f622478660ab27"
+      },
+      "fixture": {
+        "fixtureId": "ms-nonconviction-clinic-demo-canonical",
+        "sha256": "ad6a52f479fc83783e3465f9c35126b12488403a2e2e087ffaf7a8d48e3bee82",
+        "deterministic": true
+      },
+      "artifactValidation": {
+        "state": "validated",
+        "artifactSha256": "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
+        "validatedAt": "2026-09-03"
+      },
+      "packetCompleteness": {
+        "specificationId": "ms-nonconviction-expungement-99-19-71-4",
+        "specificationVersion": "1.0.0",
+        "specificationSha256": "de634d033c9f6fedad3c477a6eae50110c0f56ccc071d7c2bea026d22390c249",
+        "filingApplication": {
+          "state": "covered",
+          "basis": "ms-nonconv-set:ms-nonconv-primary-filing-1"
+        },
+        "proposedOrder": {
+          "state": "covered",
+          "basis": "ms-nonconv-set:ms-nonconv-proposed-order-2"
+        },
+        "attachmentsAndSchedules": {
+          "state": "covered",
+          "basis": "ms-nonconv-set:ms-nonconv-attachment-4"
+        },
+        "serviceAndNotice": {
+          "state": "covered",
+          "basis": "ms-nonconv-set:ms-nonconv-certificate-of-service-3"
+        },
+        "filingDestination": {
+          "state": "covered",
+          "basis": "ms-nonconviction-expungement-99-19-71-4:filingDestination"
+        },
+        "feeAndWaiverInstructions": {
+          "state": "covered",
+          "basis": "ms-nonconviction-expungement-99-19-71-4:feeAndWaiver"
+        },
+        "copyRequirements": {
+          "state": "covered",
+          "basis": "ms-nonconviction-expungement-99-19-71-4:copyRequirements"
+        },
+        "postFilingSteps": {
+          "state": "covered",
+          "basis": "ms-nonconv-set:ms-nonconv-instructions-5"
+        },
+        "hearingAndObjectionStopConditions": {
+          "state": "covered",
+          "basis": "ms-nonconviction-expungement-99-19-71-4:hearingAndObjectionStops"
+        },
+        "customPleadingAuthority": {
+          "required": true,
+          "approved": true,
+          "authorityId": "auth-2026-08-19-owner-legal-approval-completed-output"
+        },
+        "filingFormatArtifact": {
+          "format": "pdf",
+          "sha256": "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
+          "pageCount": 10,
+          "producedBy": {
+            "renderer": "rcap_grade_a_document_v1@1.0.0",
+            "matchesRecordProvider": true,
+            "reconciliation": null,
+            "deterministicRenderVerified": true
+          }
+        }
+      },
+      "visualReview": {
+        "state": "passed",
+        "pagesReviewed": 10,
+        "pageCount": 10,
+        "evidenceSha256": "36352bdcb021c8e70f6b8c6eb302caca2a7fb429aa8f875bcf8c1448fb2096d4",
+        "reviewedBy": "independent worker /root/ms_independent_review",
+        "reviewedAt": "2026-09-03"
+      },
+      "outputLegalApproval": {
+        "state": "pending",
+        "reviewerId": null,
+        "decidedAt": null,
+        "scopeSha256": null
+      },
+      "finalVerification": {
+        "contract": "rcap-final-verification-bound-inputs/v1",
+        "contractModule": "src/lib/rcap/fulfillment/final-verification-contract.ts",
+        "state": "unbound",
+        "verifierId": null,
+        "boundInputsSha256": null,
+        "verifiedAt": null
+      },
+      "history": [
+        {
+          "version": 1,
+          "changeKind": "created",
+          "changedAt": "2026-09-03",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Build-only clinic candidate derived from data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json, and data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json. Named counsel approval and participant final verification remain intentionally absent.",
+          "recordSha256": "c349fd6e2305ec0dee3c4c7861396c609c7481d9b5cf635eeeb024dc3ef8e29d",
+          "supersedesRecordSha256": null
+        }
+      ]
+    },
     {
       "schemaVersion": "rcap-grade-a-fulfillment-authority/v1",
       "recordId": "grade-a-nd-deferred-imposition-dismissal-and-sealing-v1",
@@ -469,7 +615,7 @@
       },
       "packetSpecification": {
         "specId": "or_conviction_setaside-set",
-        "sha256": "b194e817de649d5814cfe25640fffa7532d79c444e4998105bc04e63ddd3740d",
+        "sha256": "ae0db5c87b270da76941ca88d84c137b8be3b4eda35fcea862f813b3b67596c1",
         "complete": true
       },
       "officialSources": [
@@ -507,18 +653,17 @@
       },
       "artifactValidation": {
         "state": "validated",
-        "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+        "artifactSha256": "0be9610b4374d4516d7830f3346ccd36c90ba10a8c9add9d29a5f09b99f85d76",
         "validatedAt": "2026-08-19"
       },
       "packetCompleteness": null,
       "visualReview": {
-        "state": "passed",
-        "pagesReviewed": 7,
-        "pageCount": 7,
-        "evidenceSha256": "5592b734410147f3a561f8ffe41027d3c0450f9dea7a85edfd00f628be9ced1e",
-        "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
-        "reviewedAt": "2026-08-29",
-        "evidencePath": "data/rcap-lane-c/oregon/visual-review.json"
+        "state": "pending",
+        "pagesReviewed": 0,
+        "pageCount": 0,
+        "evidenceSha256": null,
+        "reviewedBy": null,
+        "reviewedAt": null
       },
       "outputLegalApproval": {
         "state": "pending",
@@ -541,13 +686,13 @@
           "changedAt": "2026-08-19",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Candidate Grade-A fulfillment record derived from data/rcap-ledger/launch-graph.json, data/rcap-ledger/completed-output-counsel-manifest.json, data/rcap-all50/contact-sheet-visual-proof.json, data/rcap-ledger/public-witness-fixtures.json and data/rcap-render/worker-publication-evidence.json. No approval is created here.",
-          "recordSha256": "f9eb81b596ab0a78d504dc453ed51fc5e48f3d40c737cecd04ddd4e642624b06",
+          "recordSha256": "445204768981b6b4b7eaa3921224be64c752a9141301e967c603298a05de0624",
           "supersedesRecordSha256": null
         }
       ]
     },
     {
-      "schemaVersion": "rcap-grade-a-fulfillment-authority/v2",
+      "schemaVersion": "rcap-grade-a-fulfillment-authority/v1",
       "recordId": "grade-a-or-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c-v1",
       "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "jurisdiction": "OR",
@@ -573,7 +718,7 @@
       },
       "packetSpecification": {
         "specId": "or_acquittal-set",
-        "sha256": "cee130aae71f9282e0a88f7d8940a6d4d586482ed04a3d83d1be20fb4ac26c24",
+        "sha256": "babe107d53e84c83d50d50b528c86b13b20fa1421299ae3b3836a8a3f4e30059",
         "complete": true
       },
       "officialSources": [
@@ -607,88 +752,21 @@
       "fixture": {
         "fixtureId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
         "sha256": "996e7b002d65669d4d99f69c28f33dcbc2bd93c75a8db869ea1e414e7376e7ca",
-        "deterministic": true
+        "deterministic": false
       },
       "artifactValidation": {
-        "state": "validated",
-        "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
-        "validatedAt": "2026-08-19"
+        "state": "not_run",
+        "artifactSha256": null,
+        "validatedAt": null
       },
-      "packetCompleteness": {
-        "specificationId": "or-set-aside-without-conviction",
-        "specificationVersion": "1.0.0",
-        "specificationSha256": "202733318971677106a2aca7f6dc5c0407d69f9c4c24018fb92468313f66a912",
-        "filingApplication": {
-          "state": "covered",
-          "basis": "or_acquittal-set:or_acquittal-primary-filing-1 (official court form)"
-        },
-        "proposedOrder": {
-          "state": "covered",
-          "basis": "or_acquittal-set:or_acquittal-proposed-order-2 (official court form)"
-        },
-        "attachmentsAndSchedules": {
-          "state": "covered",
-          "basis": "or_acquittal-set: 3 participant obtain_document action(s)"
-        },
-        "serviceAndNotice": {
-          "state": "missing",
-          "basis": null
-        },
-        "filingDestination": {
-          "state": "missing",
-          "basis": null
-        },
-        "feeAndWaiverInstructions": {
-          "state": "missing",
-          "basis": null
-        },
-        "copyRequirements": {
-          "state": "missing",
-          "basis": null
-        },
-        "postFilingSteps": {
-          "state": "missing",
-          "basis": null
-        },
-        "hearingAndObjectionStopConditions": {
-          "state": "missing",
-          "basis": null
-        },
-        "customPleadingAuthority": {
-          "required": false,
-          "approved": false,
-          "authorityId": null
-        },
-        "filingFormatArtifact": {
-          "format": "pdf",
-          "sha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
-          "pageCount": 5,
-          "producedBy": {
-            "renderer": "scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory",
-            "matchesRecordProvider": false,
-            "reconciliation": "The record's provider is the digest-pinned worker image that renders packets at delivery. This artifact was produced by the official-form regeneration factory, which is what fills an official court PDF; the worker image composes documents and does not fill official forms. Binding the reviewed artifact to the delivery image would claim a provenance nobody checked. Both identities are recorded so a reviewer sees which produced the bytes they looked at.",
-            "deterministicRenderVerified": true
-          }
-        },
-        "companionArtifacts": [
-          {
-            "componentId": "or_acquittal-record-gathering-instructions-5",
-            "sourceId": "OR-OSP-SET-ASIDE-CCH",
-            "format": "pdf",
-            "sha256": "c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a",
-            "pageCount": 2
-          }
-        ]
-      },
+      "packetCompleteness": null,
       "visualReview": {
-        "state": "passed",
-        "pagesReviewed": 7,
-        "pageCount": 7,
-        "evidenceSha256": "e9303dddb8469ae9e27609576b2830d16562974de6fa1150f0b02fd69234edf9",
-        "reviewedBy": "scripts/verify-rcap-oregon-independent-visual-review.mjs (independent raster review)",
-        "reviewedAt": "2026-08-29",
-        "evidencePath": "data/rcap-lane-c/oregon/independent-visual-review.json",
-        "supersedes": "data/rcap-lane-c/oregon/visual-review.json"
+        "state": "pending",
+        "pagesReviewed": 0,
+        "pageCount": 0,
+        "evidenceSha256": null,
+        "reviewedBy": null,
+        "reviewedAt": null
       },
       "outputLegalApproval": {
         "state": "pending",
@@ -711,7 +789,7 @@
           "changedAt": "2026-08-19",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Candidate Grade-A fulfillment record derived from data/rcap-ledger/launch-graph.json, data/rcap-ledger/completed-output-counsel-manifest.json, data/rcap-all50/contact-sheet-visual-proof.json, data/rcap-ledger/public-witness-fixtures.json and data/rcap-render/worker-publication-evidence.json. No approval is created here.",
-          "recordSha256": "f7f04642f417ecf3d5e668f1e821e5246e84cf2dd7bf8e96be749885e330eb2e",
+          "recordSha256": "c267bccc3882e90e206e36996c44bc5a1fcab6f1c2488433e0f8baeadabdb66d",
           "supersedesRecordSha256": null
         }
       ]
@@ -743,7 +821,7 @@
       },
       "packetSpecification": {
         "specId": "or_contempt_setaside-set",
-        "sha256": "e2c372976bb45804f9e69fdd9aa778d34dcb4992aa9828956832b14cad869691",
+        "sha256": "a95683851a9eb52ae6cb677d56e9a81ff7bad2d2bba54bb9d3320745aae0b074",
         "complete": true
       },
       "officialSources": [
@@ -781,18 +859,17 @@
       },
       "artifactValidation": {
         "state": "validated",
-        "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+        "artifactSha256": "26cd818e480ec0e95ad8b1e53734a494b97f2af51b4f9ae4fe21553050a596fc",
         "validatedAt": "2026-08-19"
       },
       "packetCompleteness": null,
       "visualReview": {
-        "state": "passed",
-        "pagesReviewed": 7,
-        "pageCount": 7,
-        "evidenceSha256": "5592b734410147f3a561f8ffe41027d3c0450f9dea7a85edfd00f628be9ced1e",
-        "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
-        "reviewedAt": "2026-08-29",
-        "evidencePath": "data/rcap-lane-c/oregon/visual-review.json"
+        "state": "pending",
+        "pagesReviewed": 0,
+        "pageCount": 0,
+        "evidenceSha256": null,
+        "reviewedBy": null,
+        "reviewedAt": null
       },
       "outputLegalApproval": {
         "state": "pending",
@@ -815,7 +892,7 @@
           "changedAt": "2026-08-19",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Candidate Grade-A fulfillment record derived from data/rcap-ledger/launch-graph.json, data/rcap-ledger/completed-output-counsel-manifest.json, data/rcap-all50/contact-sheet-visual-proof.json, data/rcap-ledger/public-witness-fixtures.json and data/rcap-render/worker-publication-evidence.json. No approval is created here.",
-          "recordSha256": "371a070f89aa347062208a7ec4206c173f0922fc5fa692e41ef4e4067c3fe484",
+          "recordSha256": "d4d2bcc9db9d8a9e7fa6b403e3ca15a5a23f859d222359f0e9cc5bad55e356a9",
           "supersedesRecordSha256": null
         }
       ]

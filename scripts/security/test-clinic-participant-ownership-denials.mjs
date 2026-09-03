@@ -93,6 +93,10 @@ function fixtureTables() {
       { session_id: ids.screeningB, jurisdiction: "MS" },
       { session_id: ids.screeningAOnEventB, jurisdiction: "TX" }
     ],
+    partner_records: [
+      { partner_slug: "tenant-a", partner_name: "Tenant A Legal Partner", organization_name: "Tenant A Legal Partner" },
+      { partner_slug: "tenant-b", partner_name: "Tenant B Legal Partner", organization_name: "Tenant B Legal Partner" }
+    ],
     clinic_event_access_redemptions: [
       { event_id: ids.eventA, redemption_nonce_hash: sha256(tokens.entryA), redeemed_at: new Date().toISOString() },
       { event_id: ids.eventB, redemption_nonce_hash: sha256(tokens.entryB), redeemed_at: new Date().toISOString() },
@@ -156,6 +160,7 @@ async function runScenarios(service) {
   assert.equal(owned.participantUserId, ids.participantA, "the session did not resolve to the authenticated participant");
   assert.equal(owned.screeningSessionId, ids.screeningA, "the handoff did not resolve to its own matter");
   assert.equal(owned.eventSlug, "tenant-a-clinic");
+  assert.equal(owned.partnerName, "Tenant A Legal Partner");
 
   // --- Public event surface: published events only, and no private columns. ---
   as({});
@@ -163,7 +168,7 @@ async function runScenarios(service) {
   assert.equal(published.id, ids.eventA);
   assert.deepEqual(
     Object.keys(published).sort(),
-    ["endsAt", "geography", "id", "locationName", "name", "publicSlug", "startsAt", "status", "timezone"],
+    ["endsAt", "geography", "id", "jurisdiction", "locationName", "name", "publicSlug", "startsAt", "status", "timezone"],
     "the public Clinic event projection changed shape"
   );
   for (const key of Object.keys(published)) {

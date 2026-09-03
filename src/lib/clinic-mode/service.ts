@@ -87,7 +87,8 @@ export async function createClinicEvent(input: CreateClinicEventInput): Promise<
     p_location_name: input.locationName,
     p_geography: input.geography,
     p_capacity: input.capacity,
-    p_sponsorship_allocation: input.sponsorshipAllocation
+    p_sponsorship_allocation: input.sponsorshipAllocation,
+    p_jurisdiction: input.jurisdiction ?? null
   });
   if (result.error || typeof result.data !== "string") throw writeError(result.error?.message);
   return result.data;
@@ -181,6 +182,7 @@ function mapEvent(row: Record<string, unknown>): ClinicEvent {
     id: String(row.id), partnerSlug: String(row.partner_slug), publicSlug: String(row.public_slug), name: String(row.name),
     startsAt: String(row.starts_at), endsAt: String(row.ends_at), timezone: String(row.timezone),
     locationName: String(row.location_name), geography: String(row.geography), capacity: Number(row.capacity),
+    jurisdiction: row.jurisdiction ? String(row.jurisdiction) : null,
     status: row.status as ClinicEventStatus, sponsorshipAllocation: row.sponsorship_allocation === null ? null : Number(row.sponsorship_allocation),
     createdAt: String(row.created_at), updatedAt: String(row.updated_at)
   };

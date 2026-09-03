@@ -108,7 +108,7 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
   }
 }
 
-export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
+export function ScreeningFlow({ state, initialSessionId, partnerDisplayName }: { state: string; initialSessionId?: string; partnerDisplayName?: string }) {
   const router = useRouter();
   const { t: translate, locale } = useLocalization();
   // Only the server-validated active-benefit session prop enables partner
@@ -492,6 +492,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             onPacketAction={() => void handlePacketAction()}
             actionError={packetActionError}
             hasScreeningSession={isPartnerSession}
+            partnerDisplayName={partnerDisplayName}
           />
         </div>
       </FlowFrame>

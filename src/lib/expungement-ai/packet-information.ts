@@ -21,6 +21,10 @@ import {
   type ProtectedPacketVerificationRecord,
   type ProtectedPacketVerificationTransition
 } from "@/lib/expungement-ai/verification-cas";
+import {
+  packetSpecificationFactFor,
+  type PacketSpecificationFact
+} from "@/lib/rcap/grade-a/packet-specification";
 
 export type PacketInformationStage = "not_started" | "in_progress" | "facts_complete" | "ready_to_generate";
 
@@ -170,6 +174,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   for (const question of allPublicQuestions(publicProfile)) {
     questionById.set(question.id, toProfileQuestion(question));
   }
+  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds);
 
   let questions = requiredInputIds
     .filter((id) => !(id in serverFacts))
@@ -244,6 +249,15 @@ export function missingRequiredInputs(
 }
 
 export function expectedPacketComponents(plan: PacketPlan | null): string[] {
+  if (plan?.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
+    return [
+      "Petition for Expungement",
+      "Proposed Order",
+      "Certificate of Service",
+      "Attachment and Records Checklist",
+      "Filing Instructions and Attorney Handoff Conditions"
+    ];
+  }
   if (plan?.mode === "official_form_overlay_or_source_form_set") {
     return [
       "Completed self-help court forms for this matter",
@@ -566,6 +580,7 @@ function protectedPacketQuestionSurface(
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
     questionById.set(question.id, toProfileQuestion(question));
   }
+  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds);
   let questions = requiredInputIds
     .filter((id) => !(id in serverFacts))
     .map((id) => questionById.get(id) ?? fallbackPacketQuestion(id))
@@ -1050,6 +1065,33 @@ export function packetInformationReviewSafety(
   return { safe: result.safe, reason: result.reason };
 }
 
+export function mississippiNonConvictionPacketSafety(
+  answers: Record<string, AnswerValue>
+): { safe: true; reason: string } | { safe: false; reason: string } {
+  const requiredNeutralFacts: Array<[string, string]> = [
+    ["pending_cases", "No"],
+    ["trafficking_status", "No"],
+    ["prior_relief", "No"],
+    ["sentence_completion_date", "Yes"],
+    ["financial_obligations", "Yes"],
+    ["nonadjudication_or_diversion", "No"],
+    ["open_co_defendant_matter", "No"]
+  ];
+  for (const [id, expected] of requiredNeutralFacts) {
+    if (answerText(answers[id]) !== expected.toLowerCase()) {
+      return { safe: false, reason: `route_changing_answer:${id}` };
+    }
+  }
+
+  const dispositionWording = answerText(answers.disposition_record_wording);
+  const ambiguous = /passed\s+to\s+(?:the\s+)?file|retired\s+to\s+(?:the\s+)?file|remand|non.?adjudication|diversion|intervention\s+court|drug\s+court/;
+  const statutoryEnding = /dismiss|charges?\s+dropped|no\s+disposition|not\s+guilty|acquit|no.?bill|nolle|not\s+prosecuted/;
+  if (!dispositionWording || ambiguous.test(dispositionWording) || !statutoryEnding.test(dispositionWording)) {
+    return { safe: false, reason: "route_changing_answer:disposition_record_wording" };
+  }
+  return { safe: true, reason: "route_safety_confirmed" };
+}
+
 type AuthoritativePacketContext =
   | { safe: false; reason: string }
   | {
@@ -1088,18 +1130,8 @@ function authoritativePacketContext(
   // These Mississippi facts are source-rule inputs. A contradictory answer
   // cannot remain attached to the ordinary non-conviction packet.
   if (model.stateCode === "MS" && model.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
-    const requiredNeutralFacts: Array<[string, string]> = [
-      ["pending_cases", "No"],
-      ["trafficking_status", "No"],
-      ["prior_relief", "No"],
-      ["sentence_completion_date", "Yes"],
-      ["financial_obligations", "Yes"]
-    ];
-    for (const [id, expected] of requiredNeutralFacts) {
-      if (answerText(answers[id]) !== expected.toLowerCase()) {
-        return { safe: false, reason: `route_changing_answer:${id}` };
-      }
-    }
+    const routeSafety = mississippiNonConvictionPacketSafety(answers);
+    if (!routeSafety.safe) return routeSafety;
   }
 
   const screeningAnswers = answerRecord(screening.answers);
@@ -1339,6 +1371,30 @@ const FALLBACK_PACKET_QUESTIONS: Record<string, ProfileQuestion> = {
 function fallbackPacketQuestion(id: string): ProfileQuestion {
   return FALLBACK_PACKET_QUESTIONS[id]
     ?? packetQuestion(id, answerLabel(id), "text_or_unknown", "Enter the wording from your court or agency record when possible.");
+}
+
+function installPacketSpecificationQuestions(
+  questions: Map<string, ProfileQuestion>,
+  jurisdiction: string,
+  pathwayId: string | null,
+  requiredInputIds: string[]
+) {
+  const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
+  for (const factId of requiredInputIds) {
+    const fact = packetSpecificationFactFor(routeKey, factId);
+    if (!fact?.prompt) continue;
+    questions.set(factId, packetQuestionFromSpecification(fact));
+  }
+}
+
+function packetQuestionFromSpecification(fact: PacketSpecificationFact): ProfileQuestion {
+  return packetQuestion(
+    fact.factId,
+    fact.prompt ?? answerLabel(fact.factId),
+    fact.questionType ?? "text",
+    fact.helperText,
+    fact.options ?? null
+  );
 }
 
 function packetQuestion(

@@ -2,6 +2,7 @@ import specification from "@/../data/record-clearing/packet-specifications/ND-fi
 import oregonSetAside from "@/../data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json";
 import kansasMunicipalConvictionOrDiversion from "@/../data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json";
 import kansasMunicipalArrestRecord from "@/../data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json";
+import mississippiNonConviction from "@/../data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -25,6 +26,11 @@ export type PacketSpecificationFact = {
   use: string;
   inRegistryRequiredInputs: boolean;
   gapNote?: string;
+  ownership?: "participant" | "server";
+  prompt?: string;
+  helperText?: string;
+  questionType?: string;
+  options?: string[];
 };
 
 export type PacketSpecificationSection = {
@@ -46,6 +52,8 @@ export type PacketSpecificationDocument = {
   conditionDescription?: string;
   includeWhen?: string;
   manifestComponentId?: string;
+  /** One rendered document may intentionally cover multiple manifest components. */
+  manifestComponentIds?: string[];
   sections: PacketSpecificationSection[];
 };
 
@@ -102,6 +110,15 @@ export type PacketSpecification = {
   }>;
   requiredFacts: PacketSpecificationFact[];
   finalVerificationRequirements: string[];
+  legalSectionsBound?: true;
+  fieldOwnership?: {
+    participantOwnedFacts: string[];
+    serverOwnedRouteFacts: string[];
+    participantAtSigningFields: string[];
+    participantAtServiceFields: string[];
+    prosecutorOwnedFields: string[];
+    courtOwnedFields: string[];
+  };
   documents: PacketSpecificationDocument[];
   filingDestination: { statement: string; office: string; newCaseOrExisting: string; sourceOfRule: string };
   feeAndWaiver: {
@@ -177,7 +194,8 @@ const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<str
   // filing practice is court by court, and the approved memorandum yields to a
   // municipal court's own published instrument wherever one exists.
   [(kansasMunicipalConvictionOrDiversion as unknown as DerivedPacketSpecification).routeKey, kansasMunicipalConvictionOrDiversion as unknown as DerivedPacketSpecification],
-  [(kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification).routeKey, kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification]
+  [(kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification).routeKey, kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification],
+  [(mississippiNonConviction as unknown as PacketSpecification).routeKey, mississippiNonConviction as unknown as PacketSpecification]
 ]);
 
 /**
@@ -212,6 +230,19 @@ export function composablePacketSpecificationFor(routeKey: string): PacketSpecif
   const spec = SPECIFICATIONS.get(routeKey);
   if (!spec || !specificationLegalSectionsBound(spec)) return undefined;
   return spec as PacketSpecification;
+}
+
+/** Packet-completion facts supplied by the exact registered document set. */
+export function packetSpecificationRequiredFactIdsFor(routeKey: string): string[] {
+  return composablePacketSpecificationFor(routeKey)?.requiredFacts.map((fact) => fact.factId) ?? [];
+}
+
+/** Presentation metadata for one exact packet fact, when the specification owns it. */
+export function packetSpecificationFactFor(
+  routeKey: string,
+  factId: string
+): PacketSpecificationFact | undefined {
+  return composablePacketSpecificationFor(routeKey)?.requiredFacts.find((fact) => fact.factId === factId);
 }
 
 export function packetSpecificationRouteKeys(): string[] {

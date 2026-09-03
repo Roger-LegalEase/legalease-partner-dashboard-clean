@@ -132,7 +132,8 @@ export function ScreeningResult({
   onEditAnswers,
   onPacketAction,
   actionError,
-  hasScreeningSession = false
+  hasScreeningSession = false,
+  partnerDisplayName
 }: {
   evaluation: ScreeningEvaluation;
   stateName: string;
@@ -144,6 +145,7 @@ export function ScreeningResult({
   // session already exists). In that mode the consumer pay-and-generate flow does not apply —
   // the packet action saves to Briefcase and no $50 charge is shown here.
   hasScreeningSession?: boolean;
+  partnerDisplayName?: string;
 }) {
   const { locale, t: translate, text: localizeText } = useLocalization();
   const presentation = RESULT_PRESENTATION[evaluation.resultCode];
@@ -156,6 +158,10 @@ export function ScreeningResult({
   const routeLabel = evaluation.pathwayLabel
     ? localizeText(evaluation.pathwayLabel)
     : translate(routeLabelKey, `${stateName} record-clearing`, { state: stateName });
+  const isMississippiClinicPacket = hasScreeningSession
+    && stateName === "Mississippi"
+    && evaluation.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    && isPacketReady;
 
   return (
     <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
@@ -164,10 +170,14 @@ export function ScreeningResult({
         {translate(RESULT_EYEBROW_KEYS[evaluation.resultCode], presentation.eyebrow)}
       </p>
       <h1 className="mt-3 text-[26px] font-extrabold leading-tight text-[#0B1320] md:text-[32px]">
-        {isPacketReady ? translate("result.packet_title", "You may be able to prepare an expungement packet.") : localizeText(evaluation.userLabel)}
+        {isMississippiClinicPacket
+          ? "A Mississippi non-conviction expungement path may be available."
+          : isPacketReady ? translate("result.packet_title", "You may be able to prepare an expungement packet.") : localizeText(evaluation.userLabel)}
       </h1>
       <p className="mt-2 text-sm font-semibold text-[#8A93A6]">
-        {isPacketReady ? localizeText(packetSubheading(stateName, evaluation, routeLabel)) : stateName}
+        {isMississippiClinicPacket
+          ? "Save this result to your Briefcase and continue."
+          : isPacketReady ? localizeText(packetSubheading(stateName, evaluation, routeLabel)) : stateName}
       </p>
       <p className="mt-3 inline-flex rounded-full bg-[#F7F3EC] px-3 py-1.5 text-xs font-bold text-[#334155]">
         {stateName}: {routeLabel}
@@ -255,7 +265,7 @@ export function ScreeningResult({
       {hasScreeningSession ? (
         <p className="mt-6 rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] px-4 py-3 text-sm font-semibold leading-6 text-[#29453B]" data-partner-coverage="verified">
           {isPacketReady
-            ? "Your packet is covered by your partner program."
+            ? `Your packet is covered by ${partnerDisplayName ?? "your partner program"}.`
             : "Your saved result and next steps are covered by your partner program."}
         </p>
       ) : null}

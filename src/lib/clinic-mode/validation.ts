@@ -22,6 +22,7 @@ export function parseCreateClinicEvent(value: unknown): CreateClinicEventInput {
   if (Date.parse(endsAt) <= Date.parse(startsAt)) throw new ClinicValidationError("endsAt must be after startsAt.");
   return {
     partnerSlug: optionalSlug(body.partnerSlug),
+    jurisdiction: optionalJurisdiction(body.jurisdiction),
     publicSlug: slug(body.publicSlug, "publicSlug"),
     name: text(body.name, "name", 3, 160),
     startsAt,
@@ -97,6 +98,14 @@ function slug(value: unknown, field: string) {
 
 function optionalSlug(value: unknown) {
   return value === undefined || value === null || value === "" ? undefined : slug(value, "partnerSlug");
+}
+
+function optionalJurisdiction(value: unknown) {
+  if (value === undefined || value === null || value === "") return null;
+  if (typeof value !== "string" || !/^[A-Za-z]{2,3}$/.test(value.trim())) {
+    throw new ClinicValidationError("jurisdiction must be a two- or three-letter code.");
+  }
+  return value.trim().toUpperCase();
 }
 
 function integer(value: unknown, field: string, min: number, max: number) {

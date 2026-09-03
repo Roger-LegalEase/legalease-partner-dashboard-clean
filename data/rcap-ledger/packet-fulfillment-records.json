@@ -129,6 +129,135 @@
           "status": "closed"
         }
       ]
+    },
+    {
+      "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "jurisdiction": "MS",
+      "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "packetFamily": "ms-nonconv-set",
+      "packetFamilyLabel": "Mississippi Non-Conviction Expungement Packet under Miss. Code Ann. Section 99-19-71(4)",
+      "packetSpecificationId": "ms-nonconviction-expungement-99-19-71-4",
+      "packetSpecificationVersion": "1.0.0",
+      "packetSpecificationPath": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "packetSpecificationSha256": "de634d033c9f6fedad3c477a6eae50110c0f56ccc071d7c2bea026d22390c249",
+      "packetComponents": [
+        "primary filing or application",
+        "proposed order where required",
+        "certificate of service",
+        "attachments or schedules",
+        "filing destination",
+        "fee or waiver instructions",
+        "service or notice",
+        "post-filing steps"
+      ],
+      "sourceIdentities": [
+        {
+          "sourceId": "ms-nonconv-set@1.0.0",
+          "kind": "owner_approved_packet_set_manifest",
+          "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "verification": "present_in_repository",
+          "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output"
+        },
+        {
+          "sourceId": "ms-nonconv-set-production-field-map@census-v1",
+          "kind": "production_field_map",
+          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json",
+          "verification": "present_in_repository"
+        },
+        {
+          "sourceId": "ms-nonconv-set-participant-instructions@census-v1",
+          "kind": "participant_instructions",
+          "location": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md",
+          "verification": "present_in_repository"
+        },
+        {
+          "sourceId": "MS.memo:ms-nonconv",
+          "kind": "legal_design_intake_track",
+          "location": "data/record-clearing/legal-design-intake/MS.memo.json",
+          "verification": "present_in_repository"
+        }
+      ],
+      "artifactProvider": "rcap_grade_a_composer_v1",
+      "artifactProviderVersion": "1.0.0",
+      "renderer": "rcap_grade_a_document_v1",
+      "rendererVersion": "1.0.0",
+      "contentType": "application/pdf",
+      "requiredFacts": [
+        "participant_full_legal_name",
+        "date_of_birth",
+        "mailing_address",
+        "phone_number",
+        "email_address",
+        "court_type",
+        "court_name",
+        "filing_location",
+        "case_number",
+        "charge",
+        "offense_date",
+        "arrest_or_citation_date",
+        "arresting_or_citing_agency",
+        "agency_case_or_citation_number",
+        "disposition_date",
+        "statutory_disposition_category",
+        "prosecuting_authority_name",
+        "prosecuting_authority_service_address",
+        "other_recordkeeping_agencies",
+        "indictment_record",
+        "case_outcome",
+        "pending_cases",
+        "record_type",
+        "trafficking_status",
+        "disposition_record_wording",
+        "nonadjudication_or_diversion",
+        "open_co_defendant_matter"
+      ],
+      "finalVerificationRequirements": [
+        "The participant confirms the court, filing location, cause number, charge, dates, agencies, and exact disposition category against the certified disposition and docket sheet.",
+        "The participant confirms the prosecuting authority and current service address with the records office of the court of origin.",
+        "The participant stops for an ambiguous disposition, venue, related pending matter, prosecutor treatment, or immigration concern.",
+        "Signature, service-time, prosecutor, and court fields remain blank for the person who owns each act."
+      ],
+      "verificationBinding": "The Grade A packet is a deterministic function of the exact specification and the participant's protected final-verification snapshot. Any material fact edit invalidates the binding and requires verification and generation again.",
+      "privateDelivery": true,
+      "repeatDownload": true,
+      "artifactApprovalStatus": "artifacts_built_and_independently_rastered_pending_counsel_and_preview_acceptance",
+      "consumerPosture": "held",
+      "sponsoredPosture": "held",
+      "holdReason": "The exact canonical and boundary PDFs are deterministic and passed author and independent visual review. Sponsored delivery remains held for named Mississippi counsel approval of these exact hashes and the nonproduction browser acceptance journey. Consumer launch remains outside this demo in every event.",
+      "provenBy": "scripts/verify-ms-clinic-mode-demo.mjs",
+      "provenOn": "2026-09-03",
+      "proofSummary": "Five documents render as a 10-page PDF for both canonical and long-value boundary fixtures. Each required fact is removed one at a time and proven to refuse composition by name. Route-changing nonadjudication, open co-defendant, and ambiguous-disposition answers are denied. Two renders of each fixture are byte-identical. All 20 final page rasters were inspected; signature-block page-split defects were fixed, rerendered, and reinspected. Independent review passed; named-counsel and nonproduction browser acceptance remain held.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-canonical.pdf",
+          "sha256": "20ec78604f6cbc89967bd8da18f5185d2e43a420d9e28a56c4ed82c2850dff6d",
+          "bytes": 23136,
+          "pages": 10
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-boundary.pdf",
+          "sha256": "bc05ce2ea926be18a4eedf063bf03759fbf71b904c4ff67980aab65b482adda9",
+          "bytes": 24344,
+          "pages": 10
+        }
+      ],
+      "artifactIsDeterministic": true,
+      "visualReview": {
+        "status": "author_and_independent_visual_review_pass",
+        "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
+        "pagesReviewed": 20
+      },
+      "independentReview": {
+        "status": "15_pass_0_fail_0_hold",
+        "obligations": 15,
+        "externalDeliveryHolds": ["legal_source_freshness_and_named_counsel", "nonproduction_browser_acceptance"]
+      },
+      "outputLegalReview": {
+        "status": "pending_named_mississippi_counsel",
+        "approvedArtifactHashes": []
+      }
     }
   ]
 }
