@@ -225,6 +225,20 @@ function assertFix13Repair() {
   for (const field of ["ExpungeCntyName", "arrest3Statute", "arrest4Statute", "arrest5Statute"]) {
     assert.ok(instructions.includes(`source field: \`${field}\``), `${field}: participant disclosure is absent`);
   }
+
+  const actualWrites = readJson(`${out}/reports/actual-writes.json`);
+  const boundary = actualWrites.artifacts.find((artifact) => artifact.fixture === "boundary");
+  assert.ok(boundary, "boundary actual-write evidence is absent");
+  for (const [field, widgetCount] of [["DefName", 20], ["DefAddrStr", 7]]) {
+    const write = boundary.written.find((row) => row.field === field);
+    assert.ok(write, `${field}: boundary prefill write is absent`);
+    assert.equal(write.widgetFontSizes?.length, widgetCount,
+      `${field}: every repeated widget must carry its own measured font size`);
+    assert.ok(write.widgetFontSizes.every((size) => size >= 6),
+      `${field}: a repeated widget fell below the six-point readability floor`);
+    assert.equal(write.widgetsFittedIndividually, widgetCount,
+      `${field}: every repeated appearance must use its widget-specific fit`);
+  }
 }
 
 const args = process.argv.slice(2);

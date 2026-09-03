@@ -22,7 +22,8 @@ import { finalizeFlatOverlay, finalizeOfficialForm, PARTICIPANT_INK, PARTICIPANT
 import { drawnAt, flattenedWidgets } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { resolveFact } from "./rcap-official-forms/rcap-field-semantics.mjs";
-import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
+import { fitTextToWidget, HORIZONTAL_PADDING, MIN_READABLE_FONT_SIZE }
+  from "./rcap-official-forms/rcap-text-fitting.mjs";
 import { scanBytesForActiveContent } from "./rcap-official-forms/rcap-active-content.mjs";
 import { loadAppearanceSemantics, dispositionsForFamily }
   from "./rcap-official-forms/rcap-appearance-semantics.mjs";
@@ -33,7 +34,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 process.chdir(rootDir);
 const require = createRequire(import.meta.url);
 const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
-const { PDFDocument, PDFName, PDFRawStream, StandardFonts, decodePDFRawStream,
+const { PDFDocument, PDFDict, PDFName, PDFRawStream, StandardFonts, decodePDFRawStream,
   pushGraphicsState, popGraphicsState, translate, drawObject } = require("pdf-lib");
 const sharp = require("sharp");
 
@@ -161,22 +162,31 @@ const FAMILIES = Object.freeze({
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-1203-41"],
     formNumbers: ["CR-180", "CR-181", "CR-106", "MC-031"],
+    detachNestedControlFields: true,
+    useMeasuredCr106Labels: true,
+    useMeasuredMc031Labels: true,
   },
   "ca-1203-42-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-1203-42"],
     formNumbers: ["CR-180", "CR-181", "CR-106", "MC-031"],
+    detachNestedControlFields: true,
+    useMeasuredCr106Labels: true,
     useMeasuredMc031Labels: true,
   },
   "ca-1203-43-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-1203-43"],
     formNumbers: ["CR-180", "CR-181", "CR-106"],
+    detachNestedControlFields: true,
+    useMeasuredCr106Labels: true,
   },
   "ca-1203-4a-set": {
     jurisdiction: "ca", outcome: "build_ca", primaryForm: "CR-180",
     routeKeys: ["obligation:track-only:CA:ca-1203-4a"],
     formNumbers: ["CR-180", "CR-181", "CR-106", "MC-031"],
+    detachNestedControlFields: true,
+    useMeasuredCr106Labels: true,
     useMeasuredMc031Labels: true,
   },
   "ca-17b-reduction-set": {
@@ -189,6 +199,7 @@ const FAMILIES = Object.freeze({
     routeKeys: ["obligation:track-only:CA:ca-851-91"],
     formNumbers: ["CR-409", "CR-410", "CR-106", "MC-031"],
     useMeasuredMc031Labels: true,
+    minimumHorizontalScalePercent: 85,
     /*
      * FIX06, CLIPPING_AND_OVERLAP on all four delivered primary filings.
      *
@@ -512,6 +523,26 @@ const CA_MC031_MEASURED_LABELS = Object.freeze({
   NoticeFooter1:
     "For your protection and privacy, please press the Clear This Form button after you have printed the form.",
 });
+
+// CR-106 exposes this caption field only under its internal XFA-derived name.
+// Keep the measured printed caption family-gated so unrelated CA packets retain
+// byte-for-byte generation behavior until their own repair is claimed.
+const CA_CR106_MEASURED_LABELS = Object.freeze({
+  "CR-106[0].Page1[0].RightCaption[0].TCCaseName_ft[0]": "Case Name:",
+});
+
+function caEffectiveLabel(config, formNumber, field) {
+  const measuredCr106Label = config.useMeasuredCr106Labels === true && formNumber === "CR-106"
+    ? CA_CR106_MEASURED_LABELS[field.name] ?? null : null;
+  const measuredMc031Label = config.useMeasuredMc031Labels === true && formNumber === "MC-031"
+    ? CA_MC031_MEASURED_LABELS[field.name] ?? null : null;
+  return {
+    effectiveLabel: measuredCr106Label ?? measuredMc031Label ?? field.tooltip ?? field.shortName ?? null,
+    ...(measuredCr106Label || measuredMc031Label
+      ? { effectiveLabelBasis: `printed ${formNumber} caption measured against the exact widget rectangle` }
+      : {}),
+  };
+}
 
 const CA_ROUTE_VARIANTS = Object.freeze({
   "ca-1203-41-set": Object.freeze([Object.freeze({
@@ -1536,8 +1567,6 @@ function caMapAndCensus(familyId, config, bridge) {
     assert.ok(form, `${formNumber}: pikepdf census missing`);
     const mappedNames = new Set();
     const fieldRows = form.fields.map((field) => {
-      const measuredMc031Label = config.useMeasuredMc031Labels === true && formNumber === "MC-031"
-        ? CA_MC031_MEASURED_LABELS[field.name] ?? null : null;
       const baseFactId = formNumber === config.primaryForm ? primaryMappings[field.name] ?? null : null;
       const textControl = formNumber === config.primaryForm ? textControls.get(field.name) ?? null : null;
       const selectionControl = formNumber === config.primaryForm ? selectionControls.get(field.name) ?? null : null;
@@ -1546,10 +1575,7 @@ function caMapAndCensus(familyId, config, bridge) {
       const base = {
         formNumber, documentId: source.documentId, documentRole: source.role,
         fieldName: field.name, fieldType: field.fieldType,
-        effectiveLabel: measuredMc031Label ?? field.tooltip ?? field.shortName ?? null,
-        ...(measuredMc031Label
-          ? { effectiveLabelBasis: "printed MC-031 caption measured against the exact widget rectangle" }
-          : {}),
+        ...caEffectiveLabel(config, formNumber, field),
         flags: field.flags, maxLen: field.maxLen, widgets: field.widgets,
       };
       if (baseFactId || textControl) {
@@ -1962,26 +1988,37 @@ const CA_PARTICIPANT_GUIDANCE = Object.freeze({
     title: "Penal Code section 1203.41 dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
-    statesHeldServiceAction: true,
+    statesHeldParticipantActions: true,
+    statesManifestPreFilingActs: true,
     statesRegistryStopConditions: "ca-1203-41",
+    reliefQuestion: "whether your conviction and completed sentence qualify for relief under Penal Code section 1203.41",
   }),
   "ca-1203-42-set": Object.freeze({
     title: "Penal Code section 1203.42 dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    statesHeldParticipantActions: true,
+    statesManifestPreFilingActs: true,
     statesRegistryStopConditions: "ca-1203-42",
+    reliefQuestion: "whether your conviction qualifies for relief under Penal Code section 1203.42",
   }),
   "ca-1203-43-set": Object.freeze({
     title: "Penal Code section 1203.43 dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    statesHeldParticipantActions: true,
+    statesManifestPreFilingActs: true,
     statesRegistryStopConditions: "ca-1203-43",
+    reliefQuestion: "whether your case qualifies for relief under Penal Code section 1203.43",
   }),
   "ca-1203-4a-set": Object.freeze({
     title: "Penal Code section 1203.4a dismissal",
     countyOf: "conviction", orderForm: "CR-181", orderName: "order for dismissal",
     primaryName: "CR-180 (Petition for Dismissal)",
+    statesHeldParticipantActions: true,
+    statesManifestPreFilingActs: true,
     statesRegistryStopConditions: "ca-1203-4a",
+    reliefQuestion: "whether your conviction qualifies for relief under Penal Code section 1203.4a",
   }),
   "ca-17b-reduction-set": Object.freeze({
     title: "Penal Code section 17(b)/17(d)(2) reduction",
@@ -3477,7 +3514,36 @@ async function overlayCaRouteTextControls(sourceBytes, measuredControls, variant
   };
 }
 
-async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, facts, report }) {
+function fitCaExactMappedValue({ font, text, rect, multiline = false,
+  minimumHorizontalScalePercent = null }) {
+  const ordinary = fitTextToWidget({
+    font, text, rect, multiline, maxFontSize: 9,
+    minFontSize: MIN_READABLE_FONT_SIZE,
+    evaluateDeclaredMinimumSize: minimumHorizontalScalePercent > 0,
+  });
+  if (ordinary.outcome !== "refused" || multiline
+    || !(minimumHorizontalScalePercent > 0)
+    || ordinary.reason !== "value_exceeds_widget_width_at_minimum_font") return ordinary;
+
+  const requiredWidth = font.widthOfTextAtSize(String(text), MIN_READABLE_FONT_SIZE);
+  const usableWidth = Number(rect?.width ?? 0) - HORIZONTAL_PADDING;
+  const horizontalScalePercent = Math.floor((usableWidth / requiredWidth) * 1000) / 10;
+  if (!(horizontalScalePercent >= minimumHorizontalScalePercent)
+    || !(MIN_READABLE_FONT_SIZE <= Number(rect?.height ?? 0) - 1)) return ordinary;
+  return {
+    outcome: "horizontally_scaled",
+    fontSize: MIN_READABLE_FONT_SIZE,
+    horizontalScalePercent,
+    lines: [String(text)],
+    value: String(text),
+    rect,
+    requiredWidthAtMinimum: Number(requiredWidth.toFixed(1)),
+    usableWidth: Number(usableWidth.toFixed(2)),
+  };
+}
+
+async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, facts, report,
+  minimumHorizontalScalePercent = null }) {
   const alreadyWritten = new Set(report.written.map((row) => row.field));
   const duplicateLosers = new Set(report.refused
     .filter((row) => row.reason === "duplicate_widget_for_one_slot")
@@ -3508,10 +3574,10 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
       const rect = { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
       return {
         widget, widgetIndex, rect,
-        fit: fitTextToWidget({
+        fit: fitCaExactMappedValue({
           font, text: String(value), rect,
           multiline: field.flags?.includes("multiline") === true,
-          maxFontSize: 9, minFontSize: 6,
+          minimumHorizontalScalePercent,
         }),
       };
     });
@@ -3551,6 +3617,7 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
         "BT",
         `${n(ink.r)} ${n(ink.g)} ${n(ink.b)} rg`,
         `/F0 ${n(fit.fontSize)} Tf`,
+        ...(fit.horizontalScalePercent ? [`${n(fit.horizontalScalePercent)} Tz`] : []),
         ...fit.lines.flatMap((line, index) => [
           `1 0 0 1 2 ${n(firstBaseline - index * lineHeight)} Tm`,
           `${font.encodeText(line).toString()} Tj`,
@@ -3567,6 +3634,11 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
         drawObject(key), popGraphicsState());
       widgetWrites.push({ widgetIndex, page: widget.pageIndex + 1, rect,
         fontSize: fit.fontSize, outcome: fit.outcome,
+        ...(fit.horizontalScalePercent ? {
+          horizontalScalePercent: fit.horizontalScalePercent,
+          requiredWidthAtMinimum: fit.requiredWidthAtMinimum,
+          usableWidth: fit.usableWidth,
+        } : {}),
         renderedAs: "form_xobject_appearance", xObject: key.toString() });
     }
     written.push({ field: fieldName, factId, value: String(value),
@@ -3598,12 +3670,26 @@ async function overlayCaExactMappedFacts({ bytes, formCensus, explicitMappings, 
   };
 }
 
+function caScopedFinalizerOptions(config) {
+  return {
+    detachNestedControlFields: config.detachNestedControlFields === true,
+    minimumHorizontalScalePercent: config.minimumHorizontalScalePercent ?? null,
+  };
+}
+
+function caExactOverlayPolicy(officialOptions) {
+  return {
+    minimumHorizontalScalePercent: officialOptions.minimumHorizontalScalePercent ?? null,
+  };
+}
+
 async function finalizeCaPrimaryFixture({ formCensus, variant, officialOptions }) {
   const finalized = await finalizeCaFixture(officialOptions);
   const exactMapped = await overlayCaExactMappedFacts({
     bytes: finalized.bytes, formCensus,
     explicitMappings: officialOptions.explicitMappings,
     facts: officialOptions.facts, report: finalized.report,
+    ...caExactOverlayPolicy(officialOptions),
   });
   const official = { ...finalized, bytes: exactMapped.bytes, report: exactMapped.report };
   const measuredRouteTextControls = measuredRouteTextControlsForVariant(formCensus, variant);
@@ -3986,7 +4072,7 @@ async function buildCa(familyId, config) {
               documentTextLines: [], maxFontSize: 9, minFontSize: 6,
               title: CA_FORMS[config.primaryForm].documentId,
               // Per-family, and only where the family's config asks for it.
-              detachNestedControlFields: config.detachNestedControlFields === true,
+              ...caScopedFinalizerOptions(config),
               /*
                * What this family's classified fields' appearances MEAN.
                *
@@ -4734,6 +4820,74 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
   assert.ok(extractTextItems(exactFactProofPdf.getPages()[0])
     .some((item) => String(item.text ?? "").includes(CANONICAL["matter.conviction_date"])),
   "exact conviction-date fallback must be visible in the output bytes");
+  const ca851FitPdf = await PDFDocument.create();
+  const ca851FitFont = await ca851FitPdf.embedFont(StandardFonts.Helvetica);
+  const ca851BoundaryFits = [
+    {
+      field: "TCCaseName",
+      text: BOUNDARY["participant.full_legal_name"],
+      rect: { x: 396.87, y: 352.7, width: 176.38, height: 14.88 },
+    },
+    {
+      field: "ProtectedEmail",
+      text: BOUNDARY["participant.email"],
+      rect: { x: 161.52, y: 355.67, width: 225.38, height: 12 },
+    },
+  ];
+  for (const specimen of ca851BoundaryFits) {
+    assert.equal(fitCaExactMappedValue({
+      font: ca851FitFont, text: specimen.text, rect: specimen.rect,
+    }).outcome, "refused", `${specimen.field}: unscaled boundary control must stay red`);
+    const fit = fitCaExactMappedValue({
+      font: ca851FitFont, text: specimen.text, rect: specimen.rect,
+      minimumHorizontalScalePercent: FAMILIES["ca-851-91-set"].minimumHorizontalScalePercent,
+    });
+    assert.equal(fit.outcome, "horizontally_scaled",
+      `${specimen.field}: the family-scoped repair must fit the exact boundary value`);
+    assert.ok(fit.horizontalScalePercent >= 85 && fit.horizontalScalePercent <= 100,
+      `${specimen.field}: horizontal scaling left the declared readable range`);
+    assert.ok((fit.requiredWidthAtMinimum * fit.horizontalScalePercent) / 100 <= fit.usableWidth,
+      `${specimen.field}: scaled boundary value still exceeds its measured widget`);
+  }
+  const scaledBoundaryField = "CR-409[0].Page1[0].rightCaption[0].TCCaseName[0]";
+  const scaledBoundaryOverlay = await overlayCaExactMappedFacts({
+    bytes: exactFactSourceBytes,
+    formCensus: { fields: [{
+      name: scaledBoundaryField, fieldType: "/Tx", flags: [],
+      widgets: [{ pageIndex: 0, rect: [20, 80, 196.38, 94.88] }],
+    }] },
+    explicitMappings: { [scaledBoundaryField]: "participant.full_legal_name" },
+    facts: BOUNDARY,
+    report: {
+      written: [], refused: [{ field: scaledBoundaryField,
+        reason: "value_exceeds_widget_width_at_minimum_font" }],
+      protectedFields: [], expectedValues: [],
+    },
+    minimumHorizontalScalePercent: FAMILIES["ca-851-91-set"].minimumHorizontalScalePercent,
+  });
+  const scaledBoundaryWrite = scaledBoundaryOverlay.report.written[0]?.widgets?.[0];
+  assert.equal(scaledBoundaryWrite?.outcome, "horizontally_scaled");
+  assert.ok(scaledBoundaryWrite.horizontalScalePercent >= 85);
+  const scaledBoundaryPdf = await PDFDocument.load(scaledBoundaryOverlay.bytes, {
+    ignoreEncryption: true, updateMetadata: false,
+  });
+  const scaledBoundaryPage = scaledBoundaryPdf.getPages()[0];
+  const scaledBoundaryXObjects = scaledBoundaryPage.node.Resources()
+    ?.lookupMaybe?.(PDFName.of("XObject"), PDFDict);
+  const scaledBoundaryStreams = [...(scaledBoundaryXObjects?.entries?.() ?? [])]
+    .map(([, ref]) => scaledBoundaryPdf.context.lookup(ref))
+    .filter((stream) => stream instanceof PDFRawStream)
+    .map((stream) => Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"));
+  assert.ok(scaledBoundaryStreams.some((stream) =>
+    stream.includes(`${scaledBoundaryWrite.horizontalScalePercent} Tz`)),
+  "the CA-851 exact-mapped appearance must emit its measured horizontal scale into PDF bytes");
+  assert.ok(extractTextItems(scaledBoundaryPage)
+    .some((item) => String(item.text ?? "").includes(BOUNDARY["participant.full_legal_name"])),
+  "the horizontally scaled CA-851 boundary name must remain complete in the output bytes");
+  assert.equal(caScopedFinalizerOptions(FAMILIES["ca-851-91-set"]).minimumHorizontalScalePercent, 85,
+    "the production family config must forward the CA-851 scale policy into finalization");
+  assert.equal(caExactOverlayPolicy({ minimumHorizontalScalePercent: 85 }).minimumHorizontalScalePercent, 85,
+    "finalization must forward the CA-851 scale policy into the exact-mapped overlay");
   const caUnion = new Set(Object.values(FAMILIES).filter((family) => family.jurisdiction === "ca")
     .flatMap((family) => family.formNumbers));
   assert.deepEqual([...caUnion].sort(), Object.keys(CA_FORMS).sort());
@@ -4758,8 +4912,57 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
   assert.deepEqual(Object.entries(FAMILIES)
     .filter(([, family]) => family.useMeasuredMc031Labels === true)
     .map(([familyId]) => familyId).sort(), [
-    "ca-1203-42-set", "ca-1203-4a-set", "ca-851-91-set",
+    "ca-1203-41-set", "ca-1203-42-set", "ca-1203-4a-set", "ca-851-91-set",
   ]);
+  const repaired1203Families = [
+    "ca-1203-41-set", "ca-1203-42-set", "ca-1203-43-set", "ca-1203-4a-set",
+  ];
+  assert.deepEqual(Object.entries(FAMILIES)
+    .filter(([, family]) => family.useMeasuredCr106Labels === true)
+    .map(([familyId]) => familyId).sort(), repaired1203Families);
+  assert.deepEqual(Object.entries(FAMILIES)
+    .filter(([, family]) => family.minimumHorizontalScalePercent != null)
+    .map(([familyId, family]) => [familyId, family.minimumHorizontalScalePercent]),
+  [["ca-851-91-set", 85]]);
+  assert.deepEqual(Object.entries(FAMILIES)
+    .filter(([, family]) => family.detachNestedControlFields === true)
+    .map(([familyId]) => familyId).filter((familyId) => familyId.startsWith("ca-1203-")).sort(),
+  repaired1203Families);
+  assert.deepEqual(Object.entries(CA_PARTICIPANT_GUIDANCE)
+    .filter(([, guidance]) => guidance.statesHeldParticipantActions === true
+      && guidance.statesManifestPreFilingActs === true)
+    .map(([familyId]) => familyId).filter((familyId) => familyId.startsWith("ca-1203-")).sort(),
+  repaired1203Families);
+  const cr106CaseNameField = {
+    name: "CR-106[0].Page1[0].RightCaption[0].TCCaseName_ft[0]",
+    tooltip: "TCCaseName_ft", shortName: "TCCaseName_ft[0]",
+  };
+  for (const familyId of repaired1203Families) {
+    assert.deepEqual(caEffectiveLabel(FAMILIES[familyId], "CR-106", cr106CaseNameField), {
+      effectiveLabel: "Case Name:",
+      effectiveLabelBasis: "printed CR-106 caption measured against the exact widget rectangle",
+    }, `${familyId}: CR-106 must expose the measured printed Case Name caption`);
+    const held = caHeldParticipantActions(familyId);
+    const instructions = caParticipantInstructions(familyId, FAMILIES[familyId], {
+      refusals: [], selections: [], statutorySelectionsByVariant: {},
+    });
+    for (const heading of [
+      "## What you must obtain, check and swear before you file",
+      "## Where you file this, and by when",
+      "## Who you must serve, and by when",
+      "## What this costs",
+      "## Where this packet's self-help ends",
+    ]) assert.ok(instructions.includes(heading), `${familyId}: missing generated guidance section ${heading}`);
+    for (const statement of [held.file, held.serveParty, held.payFee, held.applyFeeWaiver].filter(Boolean)) {
+      assert.ok(instructions.includes(statement),
+        `${familyId}: generated guidance dropped a manifest-held participant action`);
+    }
+    assert.match(instructions, /FW-001/,
+      `${familyId}: generated guidance must name the manifest-held fee-waiver form`);
+  }
+  assert.deepEqual(caEffectiveLabel(FAMILIES["ca-851-91-set"], "CR-106", cr106CaseNameField), {
+    effectiveLabel: "TCCaseName_ft",
+  }, "an unrelated family must retain the source label until its own repair is claimed");
   for (const mappings of Object.values(CA_PRIMARY_WRITES)) {
     assert.ok(Object.values(mappings).includes("matter.case_number"));
     assert.ok(Object.values(mappings).includes("participant.full_legal_name"));
