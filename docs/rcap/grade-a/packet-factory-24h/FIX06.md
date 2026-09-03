@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `cdb5ea60a7fd300d077a017ac749dd318f9cf72d` (or the newer dispatch base)
+**Minimum required ancestor:** `775b43fb2f999951d7f0e17ae5f517af18e9193e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-851-91-set \
+  --family rcap-ks-custom-pleading \
   --codex-cloud \
-  --minimum-captain-sha cdb5ea60a7fd300d077a017ac749dd318f9cf72d
+  --minimum-captain-sha 775b43fb2f999951d7f0e17ae5f517af18e9193e
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,9 +56,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 3 families
 
-- `ca-851-91-set`
 - `rcap-ks-custom-pleading`
 - `vt_exp_decriminalized-set`
 - `wv_conv_multiple_misdemeanors-set`
@@ -74,11 +73,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-851-91-set.mjs`
 - `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 

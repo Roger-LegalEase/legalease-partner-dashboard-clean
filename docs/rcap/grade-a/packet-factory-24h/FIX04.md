@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `cdb5ea60a7fd300d077a017ac749dd318f9cf72d` (or the newer dispatch base)
+**Minimum required ancestor:** `775b43fb2f999951d7f0e17ae5f517af18e9193e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-43-set \
+  --family ca-17b-reduction-set \
   --codex-cloud \
-  --minimum-captain-sha cdb5ea60a7fd300d077a017ac749dd318f9cf72d
+  --minimum-captain-sha 775b43fb2f999951d7f0e17ae5f517af18e9193e
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,9 +56,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 9 families
+## The 8 families
 
-- `ca-1203-43-set`
 - `ca-17b-reduction-set` — failing: knownRequiredFieldsMissing
 - `dc_yra_set_aside-set`
 - `ny_mrta_marijuana-set`
@@ -79,7 +78,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix04/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/**`
@@ -88,7 +86,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**`
-- `scripts/build-census-v1-ca-1203-43-set.mjs`
 - `scripts/build-census-v1-ca-17b-reduction-set.mjs`
 - `scripts/build-census-v1-dc_yra_set_aside-set.mjs`
 - `scripts/build-census-v1-ny_mrta_marijuana-set.mjs`

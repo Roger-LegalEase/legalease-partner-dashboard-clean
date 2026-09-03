@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "cdb5ea60a7fd300d077a017ac749dd318f9cf72d",
+  "minimumCaptainSha": "775b43fb2f999951d7f0e17ae5f517af18e9193e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -67,19 +67,20 @@
     "guidanceOnly": 0,
     "remaining": 344,
     "sourceReady": 83,
-    "sourceBlocked": 72,
-    "legalBlocked": 35,
+    "sourceBlocked": 70,
+    "legalBlocked": 32,
     "verifyPending": 0,
-    "repairRequired": 38,
+    "repairRequired": 34,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 83,
     "COMPLETE_PACKET_PROVEN": 107,
-    "FAIL_REPAIR_REQUIRED": 40,
+    "FAIL_REPAIR_REQUIRED": 36,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_BLOCKED": 73,
-    "LEGAL_BLOCKED": 25,
+    "SOURCE_BLOCKED": 70,
+    "LEGAL_BLOCKED": 26,
+    "BUILT_RASTER_PENDING": 6,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "VERIFIED_PASS": 1,
@@ -163,7 +164,7 @@
     "familiesPerBuilder": 3.5,
     "targetPerBuilder": "15 to 25",
     "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 83 do, so a full roster of 24 builders averages 3.5 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 107 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 102 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -4443,26 +4444,30 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf33",
-        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-41-canonical/cr-106-unchanged-official.pdf, pc-1203-41-canonical/cr-181-unchanged-official.pdf, pc-1203-41-canonical/mc-031-unchanged-official.pdf, pc-1203-41-boundary/cr-106-unchanged-official.pdf, pc-1203-41-boundary/cr-181-unchanged-official.pdf, pc-1203-41-boundary/mc-031-unchanged-official.pdf"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "legalInputBasis": null,
       "wave2LegalBlock": {
-        "superseded": false,
-        "reason": "the current independent read is FAIL_REPAIR_REQUIRED, which does not answer the blocked obligation",
+        "superseded": true,
         "wave2ReturnCommit": "b39918e73206a17f240289932873c847c3122cdc",
         "wave2DecisiveObligation": "fee and waiver treatment",
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
-        "wave2SendToLawrence": false
+        "wave2SendToLawrence": false,
+        "supersededBy": {
+          "lane": "vf01",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e"
+        },
+        "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+        "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
       },
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
@@ -4482,31 +4487,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The current instructions omit declared before-filing checks/actions for the sentence record, no-notarization posture and FW-001, and nine MC-031 rows falsely claim internal names such as FillText10 and NoticeFooter1 are words printed beside participant blanks.",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All 16 current page rasters were read. On CR-180 page 3 in both canonical and boundary, the flattened Warning viewer-control text is clipped at the left edge so only 'd privacy, please press the Clear This Form button after you' is visible. visualDefects is 2.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The instructions disclose an unresolved county-specific fee but omit the committed conditional FW-001 fee-waiver route.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-41-set.mjs",
@@ -4623,26 +4608,30 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf33",
-        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-42-canonical/cr-106-unchanged-official.pdf, pc-1203-42-canonical/cr-181-unchanged-official.pdf, pc-1203-42-canonical/mc-031-unchanged-official.pdf, pc-1203-42-boundary/cr-106-unchanged-official.pdf, pc-1203-42-boundary/cr-181-unchanged-official.pdf, pc-1203-42-boundary/mc-031-unchanged-official.pdf"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "legalInputBasis": null,
       "wave2LegalBlock": {
-        "superseded": false,
-        "reason": "the current independent read is FAIL_REPAIR_REQUIRED, which does not answer the blocked obligation",
+        "superseded": true,
         "wave2ReturnCommit": "009b6204b4ee3b6d6e9b58a82b8832883c17fd4f",
         "wave2DecisiveObligation": "exact route identity",
         "wave2LegalInputClass": "MISSING_LEGAL_REVIEW_RECORD",
-        "wave2SendToLawrence": false
+        "wave2SendToLawrence": false,
+        "supersededBy": {
+          "lane": "vf02",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f"
+        },
+        "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+        "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
       },
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
@@ -4662,37 +4651,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The instructions do not reproduce the declared before-filing docket/abstract check for realignment, signature/no-notarization actions or FW-001 step. They also misdescribe the CR-106 TCCaseName_ft internal name as printed page text.",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All 16 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The instructions appropriately avoid inventing the unresolved fee amount but omit the committed conditional FW-001 fee-waiver path.",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet ships CR-106 but says who must be served is unknown, while the current packet-set manifest identifies the prosecuting attorney. A required service recipient is therefore omitted.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-42-set.mjs",
@@ -4792,14 +4755,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf33",
-        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf03",
+        "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "4 of 6 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-43-canonical/cr-106-unchanged-official.pdf, pc-1203-43-canonical/cr-181-unchanged-official.pdf, pc-1203-43-boundary/cr-106-unchanged-official.pdf, pc-1203-43-boundary/cr-181-unchanged-official.pdf"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -4824,37 +4785,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The current instructions omit the declared docket-or-declaration confirmation, signature/no-notarization actions and FW-001 step, and misdescribe CR-106 TCCaseName_ft as printed page text.",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All 14 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The unresolved county-specific amount is disclosed, but the instructions omit the committed conditional FW-001 fee-waiver route.",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The instructions say the service recipient is unknown even though the current packet-set manifest names the prosecuting attorney; CR-106 alone does not cure the missing recipient instruction.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-43-set.mjs",
@@ -4971,14 +4906,12 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf33",
-        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "6 of 8 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-1203-4a-canonical/cr-106-unchanged-official.pdf, pc-1203-4a-canonical/cr-181-unchanged-official.pdf, pc-1203-4a-canonical/mc-031-unchanged-official.pdf, pc-1203-4a-boundary/cr-106-unchanged-official.pdf, pc-1203-4a-boundary/cr-181-unchanged-official.pdf, pc-1203-4a-boundary/mc-031-unchanged-official.pdf"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -5003,37 +4936,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The instructions omit the declared probation-record confirmation, signature/no-notarization actions, section 1203.4a reimbursement treatment and FW-001 step, and misdescribe CR-106 TCCaseName_ft as printed page text.",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All 16 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The instructions call fee and waiver wholly unknown, omitting the committed up-to-$60 county/up-to-$60 city reimbursement, ability-to-pay/non-eligibility rule and FW-001 waiver path.",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The instructions say whom to serve is unknown although the committed packet-set manifest names the prosecuting attorney where notice is required.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-4a-set.mjs",
@@ -5134,7 +5041,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "8 of 12 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-17b-felony-to-misdemeanor-canonical/cr-106-unchanged-official.pdf, pc-17b-felony-to-misdemeanor-canonical/cr-181-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-canonical/cr-106-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-canonical/cr-181-unchanged-official.pdf, pc-17b-felony-to-misdemeanor-boundary/cr-106-unchanged-official.pdf, pc-17b-felony-to-misdemeanor-boundary/cr-181-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-boundary/cr-106-unchanged-official.pdf, pc-17d2-misdemeanor-to-infraction-boundary/cr-181-unchanged-official.pdf",
         "nonvisual completeness counters not zero: knownRequiredFieldsMissing"
       ],
       "legalInputStatus": "SETTLED",
@@ -5284,26 +5190,30 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf33",
-        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "12 of 16 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: pc-851-91-interests-of-justice-canonical/cr-106-unchanged-official.pdf, pc-851-91-interests-of-justice-canonical/cr-410-unchanged-official.pdf, pc-851-91-interests-of-justice-canonical/mc-031-unchanged-official.pdf, pc-851-91-matter-of-right-canonical/cr-106-unchanged-official.pdf, pc-851-91-matter-of-right-canonical/cr-410-unchanged-official.pdf, pc-851-91-matter-of-right-canonical/mc-031-unchanged-official.pdf, pc-851-91-interests-of-justice-boundary/cr-106-unchanged-official.pdf, pc-851-91-interests-of-justice-boundary/cr-410-unchanged-official.pdf, pc-851-91-interests-of-justice-boundary/mc-031-unchanged-official.pdf, pc-851-91-matter-of-right-boundary/cr-106-unchanged-official.pdf, pc-851-91-matter-of-right-boundary/cr-410-unchanged-official.pdf, pc-851-91-matter-of-right-boundary/mc-031-unchanged-official.pdf"
-      ],
-      "legalInputStatus": "OPEN_LEGAL_INPUT",
+      "rasterEnrolmentRefusal": null,
+      "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": "LEGAL_APPROVAL_VERDICT",
+      "legalInputBasis": null,
       "wave2LegalBlock": {
-        "superseded": false,
-        "reason": "the current independent read is FAIL_REPAIR_REQUIRED, which does not answer the blocked obligation",
+        "superseded": true,
         "wave2ReturnCommit": "838d75fed7c4628fa501cd135c81b748f1522afa",
         "wave2DecisiveObligation": "fee and waiver treatment",
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
-        "wave2SendToLawrence": false
+        "wave2SendToLawrence": false,
+        "supersededBy": {
+          "lane": "vf05",
+          "verdict": "PASS_COMPLETE_INDEPENDENT",
+          "verifiedAtBase": "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f"
+        },
+        "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
+        "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
       },
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
@@ -5323,19 +5233,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Each canonical CR-409 contains 14 mapped writes, but both byte-identical boundary variants contain only 12. TCCaseName and ProtectedEmail are refused as value_exceeds_widget_width_at_minimum_font and are visibly blank. These are two distinct missing mapped prefills, not four duplicate-instance defects.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-851-91-set.mjs",
@@ -5528,7 +5430,7 @@
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": [
-        "8 of 12 queued document(s) will not open in the parser that counts their pages, so \"every page rendered\" cannot be proven about them: hs-11361-8-completed-sentence-application-canonical/cr-401-unchanged-official.pdf, hs-11361-8-completed-sentence-application-canonical/cr-403-unchanged-official.pdf, hs-11361-8-currently-serving-petition-canonical/cr-401-unchanged-official.pdf, hs-11361-8-currently-serving-petition-canonical/cr-403-unchanged-official.pdf, hs-11361-8-completed-sentence-application-boundary/cr-401-unchanged-official.pdf, hs-11361-8-completed-sentence-application-boundary/cr-403-unchanged-official.pdf, hs-11361-8-currently-serving-petition-boundary/cr-401-unchanged-official.pdf, hs-11361-8-currently-serving-petition-boundary/cr-403-unchanged-official.pdf"
+        "an open legal input"
       ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
@@ -5565,7 +5467,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-prop64-set.mjs",
@@ -24964,10 +24866,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf34",
-        "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf06",
+        "verifiedAtBase": "2c9c0a0014b90ccf194f4c1fb65dde08c1ab094a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -24994,39 +24896,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The boundary packet clips shared-field values. Eighteen of 20 DefName appearances and six of seven repeated DefAddrStr appearances are incomplete or collide with adjacent printed text on pages 18, 23, 24, 27, 30, 31, 35, 38, 40, and 43. Examples: page 23 ends the name at 'Alexandrina-Katharine Montgome'; page 35 ends the street at '12345 Southwest Grandview Bouleva'; page 43 ends a name at '...Vandenberg-Oyel'. No page is blank or cropped.",
-          "evidence": {
-            "rasterPagesInspected": 86,
-            "contactSheetsInspected": 2,
-            "pagesWithDefects": [
-              18,
-              23,
-              24,
-              27,
-              30,
-              31,
-              35,
-              38,
-              40,
-              43
-            ],
-            "clippedNameAppearances": 18,
-            "clippedStreetAddressAppearances": 6,
-            "visualDefectsCounter": 24,
-            "blankPages": 0,
-            "croppedPages": 0
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
@@ -30822,7 +30696,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_exp_acquittal-set.mjs",
@@ -31087,7 +30961,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",

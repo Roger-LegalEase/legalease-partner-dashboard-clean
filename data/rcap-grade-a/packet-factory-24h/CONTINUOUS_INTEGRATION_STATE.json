@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-03T06:25:55.442Z",
-  "captainHead": "a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab",
+  "generatedAt": "2026-09-03T22:46:20.464Z",
+  "captainHead": "775b43fb2f999951d7f0e17ae5f517af18e9193e",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-03T06:45:55.442Z",
-    "nextSourceReleaseDeadline": "2026-09-03T06:55:55.442Z",
+    "nextIntegrationDeadline": "2026-09-03T23:06:20.464Z",
+    "nextSourceReleaseDeadline": "2026-09-03T23:16:20.464Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 30,
+        "measured": 0,
         "threshold": 20,
-        "triggered": true
+        "triggered": false
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 22,
+        "measured": 36,
         "threshold": 20,
         "triggered": true
       },
@@ -80,17 +80,17 @@
     "liveFamilyDenominator": 346,
     "sourceReady": 83,
     "sourceBlocked": 70,
-    "legalBlocked": 25,
-    "verifyPending": 30,
-    "repairRequired": 22,
+    "legalBlocked": 26,
+    "verifyPending": 0,
+    "repairRequired": 36,
     "byState": {
       "SOURCE_READY": 83,
-      "COMPLETE_PACKET_PROVEN": 98,
-      "VERIFY_PENDING": 30,
+      "COMPLETE_PACKET_PROVEN": 107,
+      "FAIL_REPAIR_REQUIRED": 36,
       "OUT_OF_SCOPE": 5,
       "SOURCE_BLOCKED": 70,
-      "FAIL_REPAIR_REQUIRED": 22,
-      "LEGAL_BLOCKED": 25,
+      "LEGAL_BLOCKED": 26,
+      "BUILT_RASTER_PENDING": 6,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
       "VERIFIED_PASS": 1,
