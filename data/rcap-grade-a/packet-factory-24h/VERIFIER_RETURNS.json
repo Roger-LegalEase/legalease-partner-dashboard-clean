@@ -21,11 +21,11 @@
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
   "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
   "counts": {
-    "returnDirectories": 43,
-    "rows": 501,
-    "independentVerdicts": 183,
-    "failRepairRequired": 38,
-    "passIndependent": 136
+    "returnDirectories": 47,
+    "rows": 508,
+    "independentVerdicts": 179,
+    "failRepairRequired": 30,
+    "passIndependent": 140
   },
   "failRepairRequiredFamilies": [
     "az_marijuana_expungement_arrest_no_charges-set",
@@ -37,9 +37,6 @@
     "ca-851-91-set",
     "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
-    "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
-    "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
-    "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
     "dc_yra_set_aside-set",
     "in_arrest_no_charges-set",
     "in_section1_petition-set",
@@ -49,11 +46,6 @@
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "rcap-ks-custom-pleading",
-    "rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
-    "rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
-    "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
-    "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
-    "rcap-ms-custom-pleading",
     "rcap-nv-custom-pleading",
     "rcap-ok-custom-pleading",
     "ri_nonconviction_sealing-set",
@@ -2644,6 +2636,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "superseded": false
     },
     {
@@ -2728,6 +2734,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
       "superseded": false
     },
     {
@@ -2807,6 +2827,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
       "superseded": false
     },
@@ -7610,76 +7644,223 @@
     },
     {
       "familyId": "rcap-ks-custom-pleading",
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
-      "lane": "vf09",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "ks-municipal-independent-review",
       "isIndependentVerification": true,
-      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
-      "failedObligations": [],
-      "failedObligationNames": [],
+      "verifiedAtBase": null,
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "6/6 raster pages contain right-edge clipping; overlap was independently measured on every page and no text-overlap pair was found.",
+          "evidence": {
+            "clippingMeasuredOnEveryPage": true,
+            "overlapMeasuredOnEveryPage": true,
+            "directRasterInspectionOnEveryPage": true,
+            "clippedPages": 6,
+            "overlapPages": 0,
+            "maximumRightOverrunPt": 65,
+            "pages": [
+              {
+                "page": 1,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-001.png",
+                "rasterSha256": "91ebdba7c50cf6302e81a1c42aa5a7f4c3817eef372350d2abb71e3ef0fe241e",
+                "rasterByteLength": 802945,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 54,
+                "inkPixelsWithinFivePxOfPageEdge": 396,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 33,
+                "textLinesOutsideMediaBox": 12,
+                "maximumRightOverrunPt": 48.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 2,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-002.png",
+                "rasterSha256": "7c68fbae8bebae6887940dfba6c5d74c2177c5cdcc3bb4fb668b66bc8e6165c9",
+                "rasterByteLength": 530765,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 69,
+                "inkPixelsWithinFivePxOfPageEdge": 300,
+                "inkMarginsPx": {
+                  "left": 180,
+                  "top": 194,
+                  "right": 0,
+                  "bottom": 204
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 32,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 3,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-003.png",
+                "rasterSha256": "bd4347a5d53440d04e730794e8804ad3bf669e8dd08da153243ed745375b1a4d",
+                "rasterByteLength": 593474,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 54,
+                "inkPixelsWithinFivePxOfPageEdge": 272,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 177,
+                  "right": 0,
+                  "bottom": 199
+                },
+                "textLinesMeasured": 34,
+                "textLinesOutsideMediaBox": 7,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 4,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-004.png",
+                "rasterSha256": "dcd037ce66c6a5d64809944b1562e18148f901b47fab69a3eea72e6b7e5a73ec",
+                "rasterByteLength": 363369,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 40,
+                "inkPixelsWithinFivePxOfPageEdge": 168,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 743
+                },
+                "textLinesMeasured": 20,
+                "textLinesOutsideMediaBox": 3,
+                "maximumRightOverrunPt": 37.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 5,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-005.png",
+                "rasterSha256": "338f999501d803b938c2a77198c1f9a60880451dba5e59a0e92b6c70c62bc0fa",
+                "rasterByteLength": 988253,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 150,
+                "inkPixelsWithinFivePxOfPageEdge": 796,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 159,
+                  "right": 0,
+                  "bottom": 199
+                },
+                "textLinesMeasured": 35,
+                "textLinesOutsideMediaBox": 20,
+                "maximumRightOverrunPt": 59.5,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              },
+              {
+                "page": 6,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-006.png",
+                "rasterSha256": "4a83826f040f470880790cda686c70fa640152b606efad3a7d17afe1c096252b",
+                "rasterByteLength": 755455,
+                "dimensionsPx": {
+                  "width": 1530,
+                  "height": 1980
+                },
+                "rasterScalePixelsPerPoint": 2.5,
+                "pageEdgeInkPixels": 63,
+                "inkPixelsWithinFivePxOfPageEdge": 567,
+                "inkMarginsPx": {
+                  "left": 179,
+                  "top": 158,
+                  "right": 0,
+                  "bottom": 561
+                },
+                "textLinesMeasured": 28,
+                "textLinesOutsideMediaBox": 10,
+                "maximumRightOverrunPt": 65,
+                "measuredTextOverlapPairCount": 0,
+                "directRasterInspectionCompleted": true,
+                "clippingMeasured": true,
+                "clippingObserved": true,
+                "overlapMeasured": true,
+                "overlapObserved": false,
+                "readabilityMeasured": true,
+                "readabilityResult": "FAIL_CLIPPED_TEXT",
+                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
+              }
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
       "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
       "superseded": true
     },
     {
       "familyId": "rcap-ks-custom-pleading",
-      "verdict": "BLOCKED_SOURCE",
-      "lane": "vf10",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
-      "failedObligations": [
-        {
-          "obligation": "0",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "1",
-          "finding": null,
-          "evidence": null
-        }
-      ],
-      "failedObligationNames": [
-        "0",
-        "1"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
-      "superseded": true
-    },
-    {
-      "familyId": "rcap-ks-custom-pleading",
-      "verdict": "BLOCKED_SOURCE",
-      "lane": "vf10",
-      "isIndependentVerification": true,
-      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
-      "failedObligations": [
-        {
-          "obligation": "0",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "1",
-          "finding": null,
-          "evidence": null
-        }
-      ],
-      "failedObligationNames": [
-        "0",
-        "1"
-      ],
-      "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
-      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
-      "superseded": true
-    },
-    {
-      "familyId": "rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "ks-municipal-independent-review",
       "isIndependentVerification": true,
@@ -7966,11 +8147,11 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516-municipal::boundary",
-      "superseded": false
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": true
     },
     {
-      "familyId": "rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
+      "familyId": "rcap-ks-custom-pleading",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "ks-municipal-independent-review",
       "isIndependentVerification": true,
@@ -7989,25 +8170,25 @@
             "pages": [
               {
                 "page": 1,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-001.png",
-                "rasterSha256": "91ebdba7c50cf6302e81a1c42aa5a7f4c3817eef372350d2abb71e3ef0fe241e",
-                "rasterByteLength": 802945,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-001.png",
+                "rasterSha256": "3acd2d2dd443a429ce29dedc5542dab86af48978a55f11a0d112b55e79f47201",
+                "rasterByteLength": 765308,
                 "dimensionsPx": {
                   "width": 1530,
                   "height": 1980
                 },
                 "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 54,
-                "inkPixelsWithinFivePxOfPageEdge": 396,
+                "pageEdgeInkPixels": 138,
+                "inkPixelsWithinFivePxOfPageEdge": 744,
                 "inkMarginsPx": {
-                  "left": 179,
+                  "left": 177,
                   "top": 159,
                   "right": 0,
                   "bottom": 204
                 },
                 "textLinesMeasured": 33,
                 "textLinesOutsideMediaBox": 12,
-                "maximumRightOverrunPt": 48.5,
+                "maximumRightOverrunPt": 59.5,
                 "measuredTextOverlapPairCount": 0,
                 "directRasterInspectionCompleted": true,
                 "clippingMeasured": true,
@@ -8020,25 +8201,25 @@
               },
               {
                 "page": 2,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-002.png",
-                "rasterSha256": "7c68fbae8bebae6887940dfba6c5d74c2177c5cdcc3bb4fb668b66bc8e6165c9",
-                "rasterByteLength": 530765,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-002.png",
+                "rasterSha256": "60cd2eae3deb0d0610b1bd76451e6983ddf50d65ce4a976bb8f38659bf9ba538",
+                "rasterByteLength": 529726,
                 "dimensionsPx": {
                   "width": 1530,
                   "height": 1980
                 },
                 "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 69,
-                "inkPixelsWithinFivePxOfPageEdge": 300,
+                "pageEdgeInkPixels": 94,
+                "inkPixelsWithinFivePxOfPageEdge": 295,
                 "inkMarginsPx": {
                   "left": 180,
-                  "top": 194,
+                  "top": 177,
                   "right": 0,
-                  "bottom": 204
+                  "bottom": 240
                 },
                 "textLinesMeasured": 35,
                 "textLinesOutsideMediaBox": 6,
-                "maximumRightOverrunPt": 32,
+                "maximumRightOverrunPt": 43,
                 "measuredTextOverlapPairCount": 0,
                 "directRasterInspectionCompleted": true,
                 "clippingMeasured": true,
@@ -8051,25 +8232,25 @@
               },
               {
                 "page": 3,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-003.png",
-                "rasterSha256": "bd4347a5d53440d04e730794e8804ad3bf669e8dd08da153243ed745375b1a4d",
-                "rasterByteLength": 593474,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-003.png",
+                "rasterSha256": "d67c6cc3f26e9ef870176b561d3bee022252df163c98a7f9a5ce5f855d7e9f4f",
+                "rasterByteLength": 424787,
                 "dimensionsPx": {
                   "width": 1530,
                   "height": 1980
                 },
                 "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 54,
-                "inkPixelsWithinFivePxOfPageEdge": 272,
+                "pageEdgeInkPixels": 34,
+                "inkPixelsWithinFivePxOfPageEdge": 257,
                 "inkMarginsPx": {
                   "left": 179,
-                  "top": 177,
+                  "top": 158,
                   "right": 0,
-                  "bottom": 199
+                  "bottom": 779
                 },
-                "textLinesMeasured": 34,
-                "textLinesOutsideMediaBox": 7,
-                "maximumRightOverrunPt": 37.5,
+                "textLinesMeasured": 22,
+                "textLinesOutsideMediaBox": 6,
+                "maximumRightOverrunPt": 48.5,
                 "measuredTextOverlapPairCount": 0,
                 "directRasterInspectionCompleted": true,
                 "clippingMeasured": true,
@@ -8082,16 +8263,16 @@
               },
               {
                 "page": 4,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-004.png",
-                "rasterSha256": "dcd037ce66c6a5d64809944b1562e18148f901b47fab69a3eea72e6b7e5a73ec",
-                "rasterByteLength": 363369,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-004.png",
+                "rasterSha256": "3d784c39c50d164644ce42973efa7b54762796005f1eb9f595c86feb8d063c5d",
+                "rasterByteLength": 370358,
                 "dimensionsPx": {
                   "width": 1530,
                   "height": 1980
                 },
                 "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 40,
-                "inkPixelsWithinFivePxOfPageEdge": 168,
+                "pageEdgeInkPixels": 73,
+                "inkPixelsWithinFivePxOfPageEdge": 290,
                 "inkMarginsPx": {
                   "left": 179,
                   "top": 159,
@@ -8099,7 +8280,7 @@
                   "bottom": 743
                 },
                 "textLinesMeasured": 20,
-                "textLinesOutsideMediaBox": 3,
+                "textLinesOutsideMediaBox": 4,
                 "maximumRightOverrunPt": 37.5,
                 "measuredTextOverlapPairCount": 0,
                 "directRasterInspectionCompleted": true,
@@ -8113,25 +8294,25 @@
               },
               {
                 "page": 5,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-005.png",
-                "rasterSha256": "338f999501d803b938c2a77198c1f9a60880451dba5e59a0e92b6c70c62bc0fa",
-                "rasterByteLength": 988253,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-005.png",
+                "rasterSha256": "bf6a81f49740b5e1aeaefbad1f751cd16704b280e2cdf1bc919c343af980d4da",
+                "rasterByteLength": 974089,
                 "dimensionsPx": {
                   "width": 1530,
                   "height": 1980
                 },
                 "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 150,
-                "inkPixelsWithinFivePxOfPageEdge": 796,
+                "pageEdgeInkPixels": 143,
+                "inkPixelsWithinFivePxOfPageEdge": 806,
                 "inkMarginsPx": {
-                  "left": 179,
+                  "left": 177,
                   "top": 159,
                   "right": 0,
-                  "bottom": 199
+                  "bottom": 204
                 },
-                "textLinesMeasured": 35,
-                "textLinesOutsideMediaBox": 20,
-                "maximumRightOverrunPt": 59.5,
+                "textLinesMeasured": 34,
+                "textLinesOutsideMediaBox": 16,
+                "maximumRightOverrunPt": 65,
                 "measuredTextOverlapPairCount": 0,
                 "directRasterInspectionCompleted": true,
                 "clippingMeasured": true,
@@ -8144,25 +8325,25 @@
               },
               {
                 "page": 6,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516-municipal/canonical/page-006.png",
-                "rasterSha256": "4a83826f040f470880790cda686c70fa640152b606efad3a7d17afe1c096252b",
-                "rasterByteLength": 755455,
+                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-006.png",
+                "rasterSha256": "59b7b2d5d4a695c85dcd70249799d5f1e270b02867443964f8268345b357d143",
+                "rasterByteLength": 694834,
                 "dimensionsPx": {
                   "width": 1530,
                   "height": 1980
                 },
                 "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 63,
-                "inkPixelsWithinFivePxOfPageEdge": 567,
+                "pageEdgeInkPixels": 92,
+                "inkPixelsWithinFivePxOfPageEdge": 455,
                 "inkMarginsPx": {
                   "left": 179,
-                  "top": 158,
+                  "top": 194,
                   "right": 0,
-                  "bottom": 561
+                  "bottom": 634
                 },
-                "textLinesMeasured": 28,
-                "textLinesOutsideMediaBox": 10,
-                "maximumRightOverrunPt": 65,
+                "textLinesMeasured": 27,
+                "textLinesOutsideMediaBox": 11,
+                "maximumRightOverrunPt": 54,
                 "measuredTextOverlapPairCount": 0,
                 "directRasterInspectionCompleted": true,
                 "clippingMeasured": true,
@@ -8183,11 +8364,11 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516-municipal::canonical",
-      "superseded": false
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": true
     },
     {
-      "familyId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
+      "familyId": "rcap-ks-custom-pleading",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "ks-municipal-independent-review",
       "isIndependentVerification": true,
@@ -8443,225 +8624,78 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
       "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::boundary",
-      "superseded": false
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": true
     },
     {
-      "familyId": "rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "ks-municipal-independent-review",
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
       "isIndependentVerification": true,
-      "verifiedAtBase": null,
+      "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "6/6 raster pages contain right-edge clipping; overlap was independently measured on every page and no text-overlap pair was found.",
-          "evidence": {
-            "clippingMeasuredOnEveryPage": true,
-            "overlapMeasuredOnEveryPage": true,
-            "directRasterInspectionOnEveryPage": true,
-            "clippedPages": 6,
-            "overlapPages": 0,
-            "maximumRightOverrunPt": 65,
-            "pages": [
-              {
-                "page": 1,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-001.png",
-                "rasterSha256": "3acd2d2dd443a429ce29dedc5542dab86af48978a55f11a0d112b55e79f47201",
-                "rasterByteLength": 765308,
-                "dimensionsPx": {
-                  "width": 1530,
-                  "height": 1980
-                },
-                "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 138,
-                "inkPixelsWithinFivePxOfPageEdge": 744,
-                "inkMarginsPx": {
-                  "left": 177,
-                  "top": 159,
-                  "right": 0,
-                  "bottom": 204
-                },
-                "textLinesMeasured": 33,
-                "textLinesOutsideMediaBox": 12,
-                "maximumRightOverrunPt": 59.5,
-                "measuredTextOverlapPairCount": 0,
-                "directRasterInspectionCompleted": true,
-                "clippingMeasured": true,
-                "clippingObserved": true,
-                "overlapMeasured": true,
-                "overlapObserved": false,
-                "readabilityMeasured": true,
-                "readabilityResult": "FAIL_CLIPPED_TEXT",
-                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
-              },
-              {
-                "page": 2,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-002.png",
-                "rasterSha256": "60cd2eae3deb0d0610b1bd76451e6983ddf50d65ce4a976bb8f38659bf9ba538",
-                "rasterByteLength": 529726,
-                "dimensionsPx": {
-                  "width": 1530,
-                  "height": 1980
-                },
-                "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 94,
-                "inkPixelsWithinFivePxOfPageEdge": 295,
-                "inkMarginsPx": {
-                  "left": 180,
-                  "top": 177,
-                  "right": 0,
-                  "bottom": 240
-                },
-                "textLinesMeasured": 35,
-                "textLinesOutsideMediaBox": 6,
-                "maximumRightOverrunPt": 43,
-                "measuredTextOverlapPairCount": 0,
-                "directRasterInspectionCompleted": true,
-                "clippingMeasured": true,
-                "clippingObserved": true,
-                "overlapMeasured": true,
-                "overlapObserved": false,
-                "readabilityMeasured": true,
-                "readabilityResult": "FAIL_CLIPPED_TEXT",
-                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
-              },
-              {
-                "page": 3,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-003.png",
-                "rasterSha256": "d67c6cc3f26e9ef870176b561d3bee022252df163c98a7f9a5ce5f855d7e9f4f",
-                "rasterByteLength": 424787,
-                "dimensionsPx": {
-                  "width": 1530,
-                  "height": 1980
-                },
-                "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 34,
-                "inkPixelsWithinFivePxOfPageEdge": 257,
-                "inkMarginsPx": {
-                  "left": 179,
-                  "top": 158,
-                  "right": 0,
-                  "bottom": 779
-                },
-                "textLinesMeasured": 22,
-                "textLinesOutsideMediaBox": 6,
-                "maximumRightOverrunPt": 48.5,
-                "measuredTextOverlapPairCount": 0,
-                "directRasterInspectionCompleted": true,
-                "clippingMeasured": true,
-                "clippingObserved": true,
-                "overlapMeasured": true,
-                "overlapObserved": false,
-                "readabilityMeasured": true,
-                "readabilityResult": "FAIL_CLIPPED_TEXT",
-                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
-              },
-              {
-                "page": 4,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-004.png",
-                "rasterSha256": "3d784c39c50d164644ce42973efa7b54762796005f1eb9f595c86feb8d063c5d",
-                "rasterByteLength": 370358,
-                "dimensionsPx": {
-                  "width": 1530,
-                  "height": 1980
-                },
-                "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 73,
-                "inkPixelsWithinFivePxOfPageEdge": 290,
-                "inkMarginsPx": {
-                  "left": 179,
-                  "top": 159,
-                  "right": 0,
-                  "bottom": 743
-                },
-                "textLinesMeasured": 20,
-                "textLinesOutsideMediaBox": 4,
-                "maximumRightOverrunPt": 37.5,
-                "measuredTextOverlapPairCount": 0,
-                "directRasterInspectionCompleted": true,
-                "clippingMeasured": true,
-                "clippingObserved": true,
-                "overlapMeasured": true,
-                "overlapObserved": false,
-                "readabilityMeasured": true,
-                "readabilityResult": "FAIL_CLIPPED_TEXT",
-                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
-              },
-              {
-                "page": 5,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-005.png",
-                "rasterSha256": "bf6a81f49740b5e1aeaefbad1f751cd16704b280e2cdf1bc919c343af980d4da",
-                "rasterByteLength": 974089,
-                "dimensionsPx": {
-                  "width": 1530,
-                  "height": 1980
-                },
-                "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 143,
-                "inkPixelsWithinFivePxOfPageEdge": 806,
-                "inkMarginsPx": {
-                  "left": 177,
-                  "top": 159,
-                  "right": 0,
-                  "bottom": 204
-                },
-                "textLinesMeasured": 34,
-                "textLinesOutsideMediaBox": 16,
-                "maximumRightOverrunPt": 65,
-                "measuredTextOverlapPairCount": 0,
-                "directRasterInspectionCompleted": true,
-                "clippingMeasured": true,
-                "clippingObserved": true,
-                "overlapMeasured": true,
-                "overlapObserved": false,
-                "readabilityMeasured": true,
-                "readabilityResult": "FAIL_CLIPPED_TEXT",
-                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
-              },
-              {
-                "page": 6,
-                "rasterPath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rasters/ks-12-4516a-municipal-arrest/canonical/page-006.png",
-                "rasterSha256": "59b7b2d5d4a695c85dcd70249799d5f1e270b02867443964f8268345b357d143",
-                "rasterByteLength": 694834,
-                "dimensionsPx": {
-                  "width": 1530,
-                  "height": 1980
-                },
-                "rasterScalePixelsPerPoint": 2.5,
-                "pageEdgeInkPixels": 92,
-                "inkPixelsWithinFivePxOfPageEdge": 455,
-                "inkMarginsPx": {
-                  "left": 179,
-                  "top": 194,
-                  "right": 0,
-                  "bottom": 634
-                },
-                "textLinesMeasured": 27,
-                "textLinesOutsideMediaBox": 11,
-                "maximumRightOverrunPt": 54,
-                "measuredTextOverlapPairCount": 0,
-                "directRasterInspectionCompleted": true,
-                "clippingMeasured": true,
-                "clippingObserved": true,
-                "overlapMeasured": true,
-                "overlapObserved": false,
-                "readabilityMeasured": true,
-                "readabilityResult": "FAIL_CLIPPED_TEXT",
-                "visualFinding": "Right-edge glyphs visibly terminate at the page boundary; the vector text geometry independently extends beyond the 612-point MediaBox."
-              }
-            ]
-          }
+          "obligation": "0",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "1",
+          "finding": null,
+          "evidence": null
         }
       ],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "0",
+        "1"
       ],
       "unmeasuredObligations": [],
-      "evidencePath": "data/rcap-grade-a/codex-cloud/ks-municipal-independent-review/rows.json",
-      "repairAssignmentsPath": null,
-      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading::ks-12-4516a-municipal-arrest::canonical",
-      "superseded": false
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf10",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "cef3d1cfb1d93e75337f6a142031d2d55e23382b",
+      "failedObligations": [
+        {
+          "obligation": "0",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "1",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "0",
+        "1"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": true
     },
     {
       "familyId": "rcap-ms-custom-pleading",
@@ -8770,6 +8804,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-ms-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf36",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading",
       "superseded": false
     },
@@ -9381,6 +9429,28 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf29/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf37",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FIX19 measured 160 pages but returned RASTER_FAIL: canonical page 39 is near-empty and contains only an orphaned '-expungement' footer fragment; independent Poppler rasterization reproduces the defect.",
+          "evidence": "data/rcap-grade-a/codex-cloud/fix19-ok-raster-return.json"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf37/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
       "superseded": false
     },
@@ -12683,6 +12753,30 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf35",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "All local packet and selective-raster artifacts rehash, but at the read base product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf35/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_exp_decriminalized-set",
       "superseded": false
     },
     {
@@ -13149,6 +13243,30 @@
       ],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf31/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf31/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf35",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "failedObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "All local packet and selective-raster artifacts rehash, but at the read base product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf35/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
       "superseded": false
     },

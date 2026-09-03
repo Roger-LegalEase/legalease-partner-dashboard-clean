@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "47103273ba5a3fcce85e2899384e79677b33d470",
+  "minimumCaptainSha": "a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "06b04bdd5132acdbae621315152070bb922f099441387602167f699e3a4eb1c3",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "7e13cd5bd17f2876c225188a5a59bc346d9e41eb189566ae1040f812c4fa37fe",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -63,23 +63,23 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 1,
+    "activeFamiliesExcluded": 3,
     "guidanceOnly": 0,
-    "remaining": 345,
+    "remaining": 343,
     "sourceReady": 83,
     "sourceBlocked": 70,
     "legalBlocked": 33,
     "verifyPending": 30,
-    "repairRequired": 26,
+    "repairRequired": 20,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 83,
-    "COMPLETE_PACKET_PROVEN": 94,
+    "COMPLETE_PACKET_PROVEN": 98,
     "VERIFY_PENDING": 30,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 70,
-    "FAIL_REPAIR_REQUIRED": 26,
+    "FAIL_REPAIR_REQUIRED": 22,
     "LEGAL_BLOCKED": 25,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -110,6 +110,8 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "oh_marijuana_expungement-set",
+      "pa_pardon_expungement-set",
       "sd_arrest_expungement-set"
     ],
     "staleRosterFamilies": [
@@ -1770,7 +1772,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -7137,25 +7138,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The PDF geometry is clean—130 canonical and 131 boundary text draws produced zero off-page runs and zero overlapping run pairs—but no current raster exists to measure non-text clipping or visual overlap. reports/rendered-artifacts.json says everyPageRastered=false, rasterSkipped=true, rasterEngine=null, rasterPages=[], the family has no raster directory, and RASTER_QUEUE.json says RASTER_PENDING with no receipt. A visual pass is not inferred from text geometry.",
-          "evidence": {
-            "currentRasterState": "RASTER_PENDING",
-            "nextOwner": "RAS02",
-            "rasterDirectoryExists": false,
-            "rasterPageRecords": 0,
-            "rasterReceipt": null
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4.mjs",
@@ -7221,25 +7208,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Decoded PDF geometry found zero off-page or overlapping text runs across 129 canonical and 130 boundary draws. That cannot prove the pixels: there is no raster directory, the rendered-artifacts report records rasterSkipped=true and zero raster pages, and the queue is RASTER_PENDING with no receipt. Visual approval is therefore refused.",
-          "evidence": {
-            "currentRasterState": "RASTER_PENDING",
-            "nextOwner": "RAS03",
-            "rasterDirectoryExists": false,
-            "rasterPageRecords": 0,
-            "rasterReceipt": null
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26.mjs",
@@ -7305,25 +7278,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The decoded geometry of 112 canonical and 113 boundary text draws has no off-page or overlapping run, but no current raster exists. The report explicitly says rasterSkipped=true with no raster engine or page records, the directory is absent, and the central queue is RASTER_PENDING without a receipt. Text geometry is not substituted for pixel review.",
-          "evidence": {
-            "currentRasterState": "RASTER_PENDING",
-            "nextOwner": "RAS04",
-            "rasterDirectoryExists": false,
-            "rasterPageRecords": 0,
-            "rasterReceipt": null
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs",
@@ -21351,7 +21310,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -21745,7 +21703,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -25574,8 +25531,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX17",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -25586,7 +25543,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "or_contempt_setaside-set",
@@ -26650,8 +26608,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX17",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -26662,7 +26620,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "pa_summary_conviction-set",
@@ -27373,25 +27332,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Decoded content-stream geometry found zero off-page or overlapping text runs across 689 canonical and 698 boundary draws, including every long boundary value. No current raster exists: everyPageRastered=false, rasterSkipped=true, rasterPages=[], no raster directory, and central state RASTER_PENDING without a receipt. Pixel-level approval is not inferred.",
-          "evidence": {
-            "currentRasterState": "RASTER_PENDING",
-            "nextOwner": "RAS04",
-            "rasterDirectoryExists": false,
-            "rasterPageRecords": 0,
-            "rasterReceipt": null
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ms-custom-pleading.mjs",
@@ -27625,7 +27570,9 @@
         "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27755,14 +27702,8 @@
       "failedObligations": [
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Decoded geometry found no off-page or overlapping text run among 2,056 canonical and 2,064 boundary draws. Actual pixel evidence is absent: rendered-artifacts says rasterSkipped=true with no raster page records, no raster directory exists, and RASTER_QUEUE says RASTER_PENDING with no receipt. The clean text geometry is not treated as a raster review.",
-          "evidence": {
-            "currentRasterState": "RASTER_PENDING",
-            "nextOwner": "RAS04",
-            "rasterDirectoryExists": false,
-            "rasterPageRecords": 0,
-            "rasterReceipt": null
-          }
+          "finding": "FIX19 measured 160 pages but returned RASTER_FAIL: canonical page 39 is near-empty and contains only an orphaned '-expungement' footer fragment; independent Poppler rasterization reproduces the defect.",
+          "evidence": "data/rcap-grade-a/codex-cloud/fix19-ok-raster-return.json"
         }
       ],
       "continuationResult": null,
@@ -32526,7 +32467,6 @@
       },
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -33469,24 +33409,12 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER",
-        "SELF_HELP_STOP",
-        "SERVICE"
+        "ARTIFACTS"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet says the filing fee and waiver applicability are not established and tells the participant to ask the clerk, while the committed track and packet-set record say there is no filing fee on this track and make 600-00228 conditional only where a fee is charged. The packet neither states the held no-fee answer nor applies its own condition.",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The instructions say a copy must be served on the prosecuting office but leave the method and deadline unknown. The obligation requires who and how; the committed track says the participant does not serve process and, for a stipulation, takes or sends it to the prosecutor, who files it under section 7602(a)(4).",
-          "evidence": null
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The track records 11 selfHelpStopConditions, but participant-instructions.md and rendered pages 7-8 contain no stop section and none of those conditions; the generic 'not legal advice' disclaimer does not state where self-help ends.",
+          "obligation": "ARTIFACTS",
+          "finding": "All local packet and selective-raster artifacts rehash, but at the read base product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes.",
           "evidence": null
         }
       ],
@@ -34094,36 +34022,12 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "FEE_AND_WAIVER",
-        "KNOWN_PREFILLS",
-        "ROUTE_IDENTITY",
-        "SERVICE"
+        "ARTIFACTS"
       ],
       "failedObligations": [
         {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": "The participant pages now print a correct human label, but production-field-map.json and every documentPolicy still carry obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing, which occurs in no census route. MASTER_QUEUE and product-wiring carry three obligation:unit:VT:vt_seal_nonconviction keys instead.",
-          "evidence": null
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "On boundary packet page 3 (200-00132 page 1), participant.email field 34i is empty with no refusal/disclosure, and field 34d's expected full name Maria-Alejandra O'Shaughnessy-Whitfield is visibly clipped to Maria-Alejandra O'Shaughnessy-WI in the 2448x3168 raster.",
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Raster measurement contradicts visualDefects=0: boundary packet page 3 clips the right end of the field 34d name at the write-box edge, rendering Maria-Alejandra O'Shaughnessy-WI instead of the expected Maria-Alejandra O'Shaughnessy-Whitfield. The canonical counterpart fits and provides the control.",
-          "evidence": null
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": "The packet says the filing fee and waiver applicability are not established and directs the participant to ask the clerk; the committed track says no filing fee and the packet-set makes 600-00228 conditional only where a fee is charged, on this track none.",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet explicitly leaves both recipient and method unknown. The committed track says no participant service of process and directs a stipulation to the prosecuting office for the respondent to file; the required who/how answer is therefore neither stated nor accurately fenced.",
+          "obligation": "ARTIFACTS",
+          "finding": "All local packet and selective-raster artifacts rehash, but at the read base product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes.",
           "evidence": null
         }
       ],
@@ -35021,7 +34925,9 @@
         "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35270,7 +35176,9 @@
         "custodyClass": "SOURCE_ALREADY_HELD",
         "directAttachment": true
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,

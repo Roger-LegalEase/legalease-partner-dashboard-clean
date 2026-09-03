@@ -349,7 +349,10 @@ function run() {
       ? fs.readFileSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"), "utf8") : "";
     const vermontText = fs.existsSync(path.join(ROOT, DIR, "VERMONT_REPAIR.json"))
       ? fs.readFileSync(path.join(ROOT, DIR, "VERMONT_REPAIR.json"), "utf8") : "";
-    const dispatchedSomewhere = `${repairText}${vermontText}${JSON.stringify(a)}`;
+    /* A live repair grant is already a dispatch, including a deliberately held
+     * off-roster lane. It must not be replaced merely to make this text search
+     * find an internal prompt. */
+    const dispatchedSomewhere = `${repairText}${vermontText}${JSON.stringify(a)}${JSON.stringify([...repairLive])}`;
     /*
      * Scoped to the family, not to the corpus of dispatch text.
      *
@@ -374,6 +377,10 @@ function run() {
       for (const x of a ?? []) {
         if (x.lane !== "rapid-repair" && x.lane !== "shared-host-repair") continue;
         for (const row of x.detail ?? []) if (row.familyId === familyId) out.push(JSON.stringify(row));
+      }
+      if (repairLive.has(familyId)) {
+        const held = master.families.find((f) => f.familyId === familyId);
+        if (held) out.push(JSON.stringify(held));
       }
       return out.join("\n");
     };
@@ -698,6 +705,17 @@ function run() {
           for (const id of w.subjectIds ?? []) dispatched.add(`packet-family::${id}::${op}`);
         }
       } catch { ledgerProblems.push("the external assignment index exists and does not parse"); }
+    }
+    /*
+     * MASTER_QUEUE may preserve an already-live Captain claim as active
+     * ownership without emitting a replacement factory prompt. That is still
+     * dispatched work: the named lane can assert the grant, and listing it in
+     * ACTIVE_ASSIGNMENTS as well would be the double-dispatch F4 forbids.
+     */
+    for (const c of ledger.claims ?? []) {
+      if (c.released === true || c.subjectType !== "packet-family") continue;
+      const held = master.families.find((f) => f.familyId === c.subjectId && f.activeOwner === c.lane);
+      if (held) dispatched.add(`${c.subjectType}::${c.subjectId}::${c.operation}`);
     }
     const granted = new Set((ledger.claims ?? []).map((c) => `${c.subjectType}::${c.subjectId}::${c.operation}`));
     for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);

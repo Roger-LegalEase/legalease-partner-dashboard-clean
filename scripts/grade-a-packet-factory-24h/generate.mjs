@@ -1530,6 +1530,7 @@ for (const f of families) {
  * ownership: a failed family with no LIVE claim on it is dispatchable.
  */
 const liveClaimLanesByFamily = new Map();
+const liveRepairClaimLaneByFamily = new Map();
 try {
   const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
   for (const c of led.claims ?? []) {
@@ -1537,9 +1538,27 @@ try {
     for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : [])) {
       if (!liveClaimLanesByFamily.has(fid)) liveClaimLanesByFamily.set(fid, new Set());
       liveClaimLanesByFamily.get(fid).add(c.lane);
+      if (c.subjectType === "packet-family" && c.operation === "rapid-repair")
+        liveRepairClaimLaneByFamily.set(fid, c.lane);
     }
   }
 } catch { /* no ledger yet */ }
+/*
+ * A Captain-transferred repair claim can intentionally outlive the generator's
+ * current FIX packing. It is still executable: claim.mjs accepts the lane, and
+ * replacing it before its worker returns is double-dispatch. Carry that live
+ * claim as active ownership so the ordinary packer leaves it alone.
+ */
+for (const f of families) {
+  const lane = liveRepairClaimLaneByFamily.get(f.familyId);
+  const numbered = /^FIX(\d+)$/.exec(lane ?? "");
+  const outsideGeneratedPacking = numbered && Number(numbered[1]) > FIX_LANES_ELASTIC;
+  if (!f.activeOwner && f.state === "FAIL_REPAIR_REQUIRED" && outsideGeneratedPacking) {
+    f.activeOwner = lane;
+    f.activeOwnerLane = "rapid-repair";
+    f.activeOwnershipBasis = "the live Captain-transferred repair claim remains authoritative until it is released";
+  }
+}
 /* The roster owner holds the family only while its own claim is alive (or the
  * family carries no returned FAIL). A live claim held by a DIFFERENT lane —
  * the repair grant this dispatch itself minted last run — is that lane's
@@ -3145,6 +3164,10 @@ const claimDispatchKey2 = (c) => `${c.subjectType}::${c.subjectId}::${c.operatio
 const withdrawnNow = [];
 const survivingClaims = [...claimRowsRespectingExternal, ...preservedGrants].filter((c) => {
   if (c.released === true) return true;
+  /* Active ownership derived from this exact live claim is an intentional
+   * hold, not a retired-lane orphan or a dissolved obligation. */
+  const heldFamily = c.subjectType === "packet-family" ? familyIndex.get(c.subjectId) : null;
+  if (heldFamily?.activeOwner === c.lane) return true;
   if (!dispatchLaneIds.has(c.lane) && !externalLanes.has(c.lane) && dispatchedKeys.has(claimDispatchKey2(c))) {
     withdrawnNow.push({ subjectType: c.subjectType, subjectId: c.subjectId, operation: c.operation, lane: c.lane,
       withdrawnAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),

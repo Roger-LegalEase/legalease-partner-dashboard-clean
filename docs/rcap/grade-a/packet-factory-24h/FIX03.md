@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `74ebc7b997643120ea326dcbe50fdefa61fb1f1a` (or the newer dispatch base)
+**Minimum required ancestor:** `a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ca-1203-42-set \
+  --family rcap-nv-custom-pleading \
   --codex-cloud \
-  --minimum-captain-sha 74ebc7b997643120ea326dcbe50fdefa61fb1f1a
+  --minimum-captain-sha a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,11 +56,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 2 families
 
+- `rcap-nv-custom-pleading`
 - `ca-1203-42-set`
-- `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
-- `wa_vac_homicide_victim_prostitution-set`
 
 ## What you receive
 
@@ -73,12 +72,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
+- `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/**`
+- `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
 - `scripts/build-census-v1-ca-1203-42-set.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs`
-- `scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs`
 
 ## Never write here
 

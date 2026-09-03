@@ -188,7 +188,15 @@ for (const { base, name: d } of sweep) {
   const scoredTokens = new Set(JSON.stringify(doc).match(/[A-Z][A-Z_]{4,}/g) ?? []);
   const unscoredObligations = PROOF_OBLIGATIONS.filter((o) => !scoredTokens.has(o));
   for (const r of list) {
-    const familyId = r.itemId ?? r.familyId ?? r.family ?? null;
+    /*
+     * A verifier may emit both a family verdict and child artifact rows.  In
+     * those child rows `itemId` names the route/fixture measurement while the
+     * explicit `familyId` names the queue subject that owns it.  Preferring
+     * itemId invented four Kansas "families" containing `::canonical` or
+     * `::boundary`; no such queue subjects can exist, so F29 could neither
+     * dispatch nor retire them after the parent repair completed.
+     */
+    const familyId = r.familyId ?? r.itemId ?? r.family ?? null;
     if (!familyId) { problems.push(`${d}: a row names no family`); continue; }
     // BUILT_RASTER_PENDING is a factory workflow state, not a launch verdict
     // (the prompt contract says so in as many words). It zeroes nothing and

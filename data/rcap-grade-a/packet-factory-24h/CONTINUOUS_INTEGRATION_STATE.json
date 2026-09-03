@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-02T20:44:04.028Z",
-  "captainHead": "74ebc7b997643120ea326dcbe50fdefa61fb1f1a",
+  "generatedAt": "2026-09-03T06:25:55.442Z",
+  "captainHead": "a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-02T21:04:04.028Z",
-    "nextSourceReleaseDeadline": "2026-09-02T21:14:04.028Z",
+    "nextIntegrationDeadline": "2026-09-03T06:45:55.442Z",
+    "nextSourceReleaseDeadline": "2026-09-03T06:55:55.442Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 45,
+        "measured": 30,
         "threshold": 20,
         "triggered": true
       },
@@ -46,9 +46,9 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 18,
+        "measured": 22,
         "threshold": 20,
-        "triggered": false
+        "triggered": true
       },
       {
         "when": "SOURCE_READY > 80",
@@ -62,9 +62,9 @@
           "PF23",
           "PF24"
         ],
-        "measured": 79,
+        "measured": 83,
         "threshold": 80,
-        "triggered": false
+        "triggered": true
       }
     ],
     "builderExpansionRule": "Assign a released family to an existing builder where ownership permits. Create PF17+ only when SOURCE_READY exceeds the capacity of the existing sixteen."
@@ -78,24 +78,23 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 79,
-    "sourceBlocked": 74,
-    "legalBlocked": 22,
-    "verifyPending": 45,
-    "repairRequired": 18,
+    "sourceReady": 83,
+    "sourceBlocked": 70,
+    "legalBlocked": 25,
+    "verifyPending": 30,
+    "repairRequired": 22,
     "byState": {
-      "SOURCE_READY": 79,
-      "COMPLETE_PACKET_PROVEN": 90,
-      "VERIFY_PENDING": 44,
+      "SOURCE_READY": 83,
+      "COMPLETE_PACKET_PROVEN": 98,
+      "VERIFY_PENDING": 30,
       "OUT_OF_SCOPE": 5,
-      "SOURCE_BLOCKED": 74,
-      "FAIL_REPAIR_REQUIRED": 18,
-      "LEGAL_BLOCKED": 22,
+      "SOURCE_BLOCKED": 70,
+      "FAIL_REPAIR_REQUIRED": 22,
+      "LEGAL_BLOCKED": 25,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
       "VERIFIED_PASS": 1,
-      "WRONG_DELIVERY_TYPE": 1,
-      "VERIFYING": 1
+      "WRONG_DELIVERY_TYPE": 1
     }
   },
   "commercialRoutesOpened": 0,

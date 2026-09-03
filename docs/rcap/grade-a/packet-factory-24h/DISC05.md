@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `74ebc7b997643120ea326dcbe50fdefa61fb1f1a` (or the newer dispatch base)
+**Minimum required ancestor:** `a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC05 \
   --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' \
   --codex-cloud \
-  --minimum-captain-sha 74ebc7b997643120ea326dcbe50fdefa61fb1f1a
+  --minimum-captain-sha a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**8 obligations · 4 families this lane WOULD release if every one of them resolves · hosts: ND, TX, UT**
+**8 obligations · 5 families this lane WOULD release if every one of them resolves · hosts: ND, TX, UT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -132,7 +132,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 74ebc7b997643120ea326dcbe50fdefa61fb1f1a
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source-obligation 'census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha a6e0f5c055dd497c6da63f43a3b4c8a6c2c2ccab
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -141,7 +141,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC05 --source
 
 ### Families this lane would release
 
-`census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `nd-prohibit-remote-public-access-set`, `tx_nd_dwi_conviction-set`
+`census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `nd-prohibit-remote-public-access-set`, `tx_nd_dwi_conviction-set`, `ut_pet_remove_link-set`
 
 
 ### Settle these first
