@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 197,
+  "scriptsScanned": 205,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -316,6 +316,90 @@
       ],
       "transitiveImports": [
         "build-census-v1-ga-host.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-il-exp-pardon-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-il-exp-precompletion-set.mjs",
+        "build-census-v1-il-exp-qualprob-set.mjs",
+        "build-census-v1-il-exp-supervision-set.mjs",
+        "build-census-v1-il-seal-2yr-set.mjs",
+        "build-census-v1-il-seal-3yr-set.mjs",
+        "build-census-v1-il-seal-edu-set.mjs",
+        "build-census-v1-il-seal-nonconv-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-il-exp-precompletion-set.mjs",
+      "imports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-il-exp-qualprob-set.mjs",
+      "imports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-il-exp-supervision-set.mjs",
+      "imports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-il-seal-2yr-set.mjs",
+      "imports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-il-seal-3yr-set.mjs",
+      "imports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-il-seal-edu-set.mjs",
+      "imports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-il-seal-nonconv-set.mjs",
+      "imports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-il-exp-pardon-set.mjs"
       ],
       "importedBy": []
     },
@@ -842,6 +926,19 @@
       "owner": "UNOWNED_IN_THIS_WAVE"
     },
     {
+      "script": "build-census-v1-il-exp-pardon-set.mjs",
+      "importers": [
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
       "script": "build-census-v1-ne-setaside-custodial-set.mjs",
       "importers": [
         "ne-setaside-noncustodial-set",
@@ -927,6 +1024,23 @@
             "al-misd-conviction-set",
             "al-misd-dwop-set",
             "al-pardoned-felony-set"
+          ]
+        }
+      ]
+    },
+    {
+      "lane": "PF03",
+      "withheld": [
+        {
+          "script": "scripts/build-census-v1-il-exp-pardon-set.mjs",
+          "importedByFamiliesOutsideThisLane": [
+            "il-exp-precompletion-set",
+            "il-exp-qualprob-set",
+            "il-exp-supervision-set",
+            "il-seal-2yr-set",
+            "il-seal-3yr-set",
+            "il-seal-edu-set",
+            "il-seal-nonconv-set"
           ]
         }
       ]
