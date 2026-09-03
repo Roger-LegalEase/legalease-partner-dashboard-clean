@@ -4,6 +4,12 @@ This packet is prepared for **Expungement Following an Unconditional Pardon**.
 
 The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.
 
+## Before you choose either route
+
+1. **Obtain a copy of the pardon from the Pennsylvania Board of Pardons.** LegalEase does not collect, inspect, or authenticate it.
+2. **Confirm the pardon type shown by the document.** Read the pardon itself and record whether it is unconditional or conditional. Do not infer the answer from memory. The automatic expungement route described here is for an unconditional pardon; a conditional pardon may instead lead to Clean Slate limited access.
+3. **Record the quarterly verification date.** After at least one full quarterly transmission cycle, check the Clerk of Courts docket and your Pennsylvania State Police criminal history, then record the date you checked. The Board of Pardons transmits eligible unconditional-pardon records to AOPC quarterly; AOPC sends them to the court of common pleas, which confirms the criteria and orders expungement.
+
 ## Where you file this
 
 File the completed packet with the **Clerk of Courts of the judicial district where the charges were disposed** — the county named in the caption above. A Rule 790 expungement petition is decided by a judge of the **Court of Common Pleas** of that district, and it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case.
@@ -29,7 +35,7 @@ The petition prints a `Judicial District number` and a `County of ______` line o
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 2. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.
 3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
-4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.
+4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. Where the automatic route has already cleared your record, there is nothing here to file. If the record still appears after the quarterly cycle, do not assume that this fallback petition is available; its availability on that showing remains a release question for this review artifact.
 5. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.
 
 ## The items you must supply
@@ -122,11 +128,27 @@ The petition prints a `Judicial District number` and a `County of ______` line o
 | 2 | Reason for expungement on the Rule 790 information page | your own statement of the reason for expungement, as the Rule 790 information page asks for it |
 | 2 | Criminal justice agencies to be served with the order | the criminal justice agencies on which the order should be served, so the court can name them in its order |
 
+### process_guidance — process_guidance
+
+| Page | The blank on the form | What to write |
+| --- | --- | --- |
+| 1 | Copy of the pardon | obtain a copy from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it |
+| 1 | Pardon type shown by the document | read the pardon itself and record whether it is unconditional or conditional; do not infer the answer from memory |
+| 1 | Quarterly verification date | record the date you checked the docket and criminal history after at least one full quarterly transmission cycle |
+
 ## Things the platform deliberately left blank
 
 - **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.
 - **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.
 - **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.
+
+## When to stop and get legal help
+
+- The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.
+- Whether the pardon is conditional or unconditional cannot be determined from the document.
+- The record still appears after the quarterly cycle and the fallback route's availability is unclear.
+
+At any of these stops, do not file this packet on your own. The Clerk of Courts can answer procedural questions, but only a lawyer can advise whether the fallback route is legally available.
 
 ## What this packet is not
 

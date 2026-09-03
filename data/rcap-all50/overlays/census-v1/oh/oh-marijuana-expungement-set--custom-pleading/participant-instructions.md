@@ -1,42 +1,46 @@
-# Ohio custom-pleading packet — participant instructions
+# Ohio marijuana or hashish possession expungement — participant instructions
 
-This packet contains one statutory-content draft and one unchanged official Ohio BCI request held as post-order companion evidence. The drafts are review artifacts. They are not statewide Ohio court forms and they are not filing-ready.
+This packet contains one statutory-content draft, an unsigned proposed order, and one unchanged official Ohio BCI request. The draft is a review artifact. It is not a statewide Ohio court form, is not filing-ready, and does not decide eligibility.
 
 ## What you must supply before filing
 
-- **Name of court and local caption.** The pleading prints “LOCAL CAPTION MUST BE CONFIRMED” because no held source names a statewide Ohio caption; the participant supplies the caption the sentencing court uses and does not guess.
-- **Date of arrest.** The pleading prints “[ARREST DATE TO BE CONFIRMED]” because the packet holds no arrest date; the participant reads it off the certified record and does not guess.
-- **Date of disposition.** The pleading prints “[DISPOSITION DATE TO BE CONFIRMED]” because the packet holds no disposition date; the participant reads it off the certified record and does not guess.
-- **Arresting agency.** The pleading prints “[ARRESTING AGENCY MUST BE CONFIRMED]” because the packet holds no agency name; the participant reads it off the certified record and does not guess.
-- **Date of birth and Social Security Number, if the local court form requires them.** The pleading carries a note that these identifiers are added by the applicant where the local form or local rule requires them; the packet holds no value for either and writes neither.
-- **Ohio Rev. Code Sec. 2953.61 same-act charge schedule.** Paragraph 9 of this application promises a list of every charge arising from the same act, and Ohio Rev. Code Sec. 2953.61 makes that list decisive for whether the qualifying conviction can be expunged at all. The packet holds no charge list and never guesses one; the attachment schedule names it as a document the participant assembles from the certified record and files with the application.
+- **Name of court and local caption.** Use the caption required by the Ohio sentencing court; do not guess.
+- **Date of arrest.** Copy it from the certified court record.
+- **Date of disposition.** Confirm that the conviction, guilty plea, or dismissal occurred before March 20, 2026.
+- **Arresting agency.** Copy the agency name from the certified court record.
+- **Date of birth and Social Security Number, if the local court form requires them.** Add these yourself only where that court requires them; this packet stores and writes neither value.
+- **Ohio Rev. Code Sec. 2953.61 same-act charge schedule.** Assemble a written list of every charge arising from the same act and how each charge ended. The statute generally prevents clearing only part of a same-act record when the charges have different final dispositions.
 
-## What you must obtain
+## Records and checks you must complete
 
-- The certified disposition for the case, from the court that handled it.
-- Your Ohio BCI criminal-history record.
-- The current local application, caption and filing instructions from the Ohio court that handled the case.
+1. Obtain your Ohio BCI criminal-history record from the Ohio Bureau of Criminal Identification and Investigation. Check your answer about every Ohio case, in every court, against that record and correct the packet if they disagree.
+2. Obtain from the clerk of the sentencing court a certified disposition and the complaint, indictment, or information showing the substance, quantity, and exact division of Ohio Rev. Code Sec. 2925.11. Check the packet's quantity and citation against those documents and correct any disagreement.
+3. Obtain the sentencing court's current local application, caption, filing instructions, and proposed-order requirements. Transfer only reviewed content to that court's paper.
+4. Sign and date the application yourself. Confirm any local notarization requirement; the held route record does not identify one.
+5. Present the $50 filing fee or the court's required indigency showing to the clerk when filing. Ohio Rev. Code Sec. 2953.321(G) charges fifty dollars unless the applicant is indigent; indigency excuses that fee.
 
 ## Where this is filed
 
-In the Ohio court that handled the case. No held source in this packet names a statewide Ohio filing office or a statewide application, so the sentencing court's own clerk is the office that tells you the caption, the form and the filing counter to use.
+Apply to the Ohio sentencing court and file with that court's clerk. No statewide mandatory application is held for this new section, so the sentencing court's current local paper remains a release requirement.
 
-## What this costs
+## Notice, service, and hearing
 
-No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure. Ask the clerk of the Ohio court that handled the case what the current filing fee is and whether a waiver (an affidavit of indigency) is available, before you file. This packet does not state an amount because it holds no source for one.
+You do not separately serve the prosecutor under the held route record. The court sets a hearing, notifies the prosecutor, and directs any required probation inquiry; the prosecutor may object by filing an objection with the court. The hearing is held 45 to 90 days after filing. This packet generates no certificate of service.
 
-## Who is served
+## If an order is granted
 
-No held source in this packet states who must be served or how. Ask the same clerk. These drafts generate no certificate of service, and you must not complete one before service has actually happened.
+Only a signed judicial order operates. After entry, send the signed order to BCI with the unchanged Sealings and Expungements Request included in this packet. Do not prefill or send that BCI request before a signed order exists.
 
-## You sign; nothing here is signed for you
+## When to stop and get legal help
 
-- You sign and date the application. The signature and date rules are left blank on purpose.
-- Do not complete judge, clerk, prosecutor, agency, hearing, or order fields.
-- The official Ohio BCI request is a post-order transmission aid, not your primary court filing. It is included unchanged and is not prefilled; it is not sent before a signed order exists.
+- Any question about the exact ORC 2925.11 division, or about the substance or quantity.
+- Any hashish matter near the fifteen-gram line.
+- Mixed cases with non-marijuana charges, which trigger ORC 2953.61.
+- Any disposition on or after March 20, 2026, which is outside the section.
+- Any incident that produced more than one charge with different dispositions, which triggers ORC 2953.61.
+- Pending criminal proceedings or open warrants.
+- Prosecutor objection, and any victim objection where applicable.
+- Choosing between sealing and expungement, which is a legal judgment with different waits and different exclusions.
+- Immigration exposure.
 
-## What this packet is not
-
-This packet is not legal advice, is not a lawyer, and does not decide whether you are eligible. It does not guarantee any court outcome. Eligibility under the cited Ohio statutes, the same-act limitation in Ohio Rev. Code § 2953.61, waiting periods and every statutory exclusion all require review against the primary authority and your own record before you file. If any of that is unclear, stop and ask a lawyer or an Ohio legal-aid office.
-
-Tracks in this packet: `oh_marijuana_expungement`. Commercial and runtime authority remain false.
+This packet is not legal advice, is not filed for you, and does not guarantee that a court will grant relief. Commercial and runtime authority remain false.

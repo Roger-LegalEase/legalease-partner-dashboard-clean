@@ -85,6 +85,33 @@ const DOCUMENT_OF_COMPONENT = {
   proposed_order: "PA-RCRIM-P-790-ORDER",
   process_guidance: "process_guidance"
 };
+const PACKET_COMPONENT_IDS = [
+  "component:pa_pardon_expungement-process-guidance-1",
+  "component:pa_pardon_expungement-primary-filing-2",
+  "component:pa_pardon_expungement-proposed-order-3",
+];
+const PARDON_ROUTE_PREREQUISITES = [
+  {
+    field: "copy_of_pardon",
+    label: "Copy of the pardon",
+    participantMustSupply: "obtain a copy from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it",
+  },
+  {
+    field: "pardon_type_confirmation",
+    label: "Pardon type shown by the document",
+    participantMustSupply: "read the pardon itself and record whether it is unconditional or conditional; do not infer the answer from memory",
+  },
+  {
+    field: "quarterly_verification_date",
+    label: "Quarterly verification date",
+    participantMustSupply: "record the date you checked the docket and criminal history after at least one full quarterly transmission cycle",
+  },
+];
+const PARDON_SELF_HELP_STOPS = [
+  "The participant has not yet obtained a pardon; the pardon application itself is out of scope and is a referral.",
+  "Whether the pardon is conditional or unconditional cannot be determined from the document.",
+  "The record still appears after the quarterly cycle and the fallback route's availability is unclear.",
+];
 
 /* ------------------------------------------------------------------ *
  * The petition. Named entries are the writes, the protected fields and the
@@ -531,11 +558,17 @@ function composedBody(config, facts, resolved) {
   L.push("The census records two routes for this family, and they are told apart by something neither of these forms asks:", "");
   for (const r of config.routes) L.push(`- ${r.label}: ${r.carriedBy === "process_guidance" ? "this page" : `Form ${r.carriedBy}`}.`);
   L.push("");
-  L.push("If the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.", "");
-  L.push("HOW TO FIND OUT WHICH ONE YOU ARE IN", "");
-  L.push("Ask the Clerk of Courts for the county in the caption above what the docket now shows for this case. The petition in this packet also has a box for attaching your Pennsylvania State Police criminal history, and that history is the document that shows what is still on the record. If the record is already clear, stop; if it is not, file the petition.", "");
-  L.push("This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from, and an unsourced criterion in a filing instruction is worse than none.", "");
-  L.push("IF YOU DO FILE", "");
+  L.push("BEFORE YOU CHOOSE A ROUTE", "");
+  L.push("Obtain a copy of the pardon from the Pennsylvania Board of Pardons. Read that document itself and record whether the pardon is unconditional or conditional. LegalEase does not collect, inspect, or authenticate it.", "");
+  L.push("Copy of the pardon obtained: ________________________________________________");
+  L.push("Pardon type shown by the document (unconditional or conditional): ____________________");
+  L.push("A pardon is executive clemency and does not by itself erase the record. For an unconditional pardon, the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts quarterly, AOPC sends the record to the court of common pleas, and the court orders expungement after confirming the criteria. A conditional pardon may instead lead to Clean Slate limited access.", "");
+  L.push("After at least one full quarterly transmission cycle, check the Clerk of Courts docket and your Pennsylvania State Police criminal history. Record the date of that check as your quarterly verification date. If the automatic route has cleared the record, there is nothing here to file.", "");
+  L.push("Quarterly verification date: ________________________________________________", "");
+  L.push("WHEN TO STOP AND GET HELP", "");
+  for (const stop of PARDON_SELF_HELP_STOPS) L.push(`- ${stop}`);
+  L.push("Do not treat a still-visible record as permission to file. The fallback Rule 790 packet is a review artifact whose availability on that showing remains a release question; get legal help if that availability is unclear.", "");
+  L.push("IF THE FALLBACK ROUTE IS CONFIRMED AND YOU FILE", "");
   L.push("File the petition with the Clerk of Courts. The order in this packet is tendered WITH the petition -- it is the order the judge signs, not a document you fill in or sign. The platform has written only the style of the case into it. Do not sign the order.", "");
   L.push("The petition asks for a great deal the platform does not hold: the presiding official who heard the case and their court address, the affiant on the complaint and theirs, the Offense Tracking Number, and every charge row with its title, section, subsection, description, counts, grade and disposition. All of it is listed in this packet's participant instructions, by the words printed beside each blank.", "");
   L.push("WHAT THIS PACKET IS NOT", "");
@@ -582,13 +615,21 @@ function composedMap(config) {
     { ...base("petitioner_name", "Petitioner named on this page"), factId: "participant.full_legal_name", kind: "composed_text", document: id },
     { ...base("case_number", "Case No. printed on this page"), factId: "matter.case_number", kind: "composed_text", document: id }
   ];
+  const prerequisites = PARDON_ROUTE_PREREQUISITES.map((row) => ({
+    ...base(row.field, row.label),
+    reason: `the participant supplies this before choosing or filing a route: ${row.participantMustSupply}`,
+    category: null, completenessClass: null, class: null,
+    disposition: "REQUIRED_BEFORE_FILING", requiredBeforeFiling: true,
+    routeDetermined: false, identity: `${id} field ${row.field}`,
+    factId: null, document: id, participantMustSupply: row.participantMustSupply,
+  }));
   return {
     formNumber: id,
     documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: config.guidanceRouteKey },
     structuralClass: "composed_document",
     explicitMappings: {}, roleRefusals: [], selectionControls: [],
-    canonicalWrites: writes, canonicalRefusals: [],
-    boundaryWrites: writes, boundaryRefusals: []
+    canonicalWrites: writes, canonicalRefusals: prerequisites,
+    boundaryWrites: writes, boundaryRefusals: prerequisites
   };
 }
 
@@ -763,6 +804,10 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push(`# What you must do before you file — ${config.routeName}`, "");
   out.push(`This packet is prepared for **${config.legalName}**.`, "");
   out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.", "");
+  out.push("## Before you choose either route", "");
+  out.push("1. **Obtain a copy of the pardon from the Pennsylvania Board of Pardons.** LegalEase does not collect, inspect, or authenticate it.");
+  out.push("2. **Confirm the pardon type shown by the document.** Read the pardon itself and record whether it is unconditional or conditional. Do not infer the answer from memory. The automatic expungement route described here is for an unconditional pardon; a conditional pardon may instead lead to Clean Slate limited access.");
+  out.push("3. **Record the quarterly verification date.** After at least one full quarterly transmission cycle, check the Clerk of Courts docket and your Pennsylvania State Police criminal history, then record the date you checked. The Board of Pardons transmits eligible unconditional-pardon records to AOPC quarterly; AOPC sends them to the court of common pleas, which confirms the criteria and orders expungement.", "");
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Clerk of Courts of the judicial district where the charges were disposed** — the county named in the caption above. A Rule 790 expungement petition is decided by a judge of the **Court of Common Pleas** of that district, and it is decided there even if a magisterial district judge or a Philadelphia Municipal Court judge disposed of the case.", "");
   out.push("The petition prints a `Judicial District number` and a `County of ______` line on page 1, and those identify the district you are filing in. If you do not know which district your case was in, the docket number on your paperwork identifies it, and the Clerk of Courts can tell you from the docket number.", "");
@@ -777,7 +822,7 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.");
   out.push("3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
-  out.push("4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.");
+  out.push("4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. Where the automatic route has already cleared your record, there is nothing here to file. If the record still appears after the quarterly cycle, do not assume that this fallback petition is available; its availability on that showing remains a release question for this review artifact.");
   out.push("5. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.", "");
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
@@ -790,6 +835,10 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
   out.push("- **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.");
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
+  out.push("## When to stop and get legal help", "");
+  for (const stop of PARDON_SELF_HELP_STOPS) out.push(`- ${stop}`);
+  out.push("");
+  out.push("At any of these stops, do not file this packet on your own. The Clerk of Courts can answer procedural questions, but only a lawyer can advise whether the fallback route is legally available.", "");
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order — and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.", "");
   out.push(`_Route carried by the petition in this packet: ${config.routeKey}_`);
@@ -798,6 +847,36 @@ function instructionsMarkdown(config, resolved, rbf) {
 }
 
 /* ---- artifacts ------------------------------------------------------------ */
+function refreshPacketLocalWiring(outDir, artifacts) {
+  const wiringFile = path.join(ROOT, outDir, "product-wiring.json");
+  assert.ok(fs.existsSync(wiringFile), `${outDir}: product-wiring.json is absent`);
+  const wiring = JSON.parse(fs.readFileSync(wiringFile, "utf8"));
+  assert.ok(wiring.binding, `${outDir}: product wiring has no binding`);
+  wiring.binding.packetComponents = [...PACKET_COMPONENT_IDS];
+
+  const canonical = artifacts.find((artifact) => artifact.fixture === "canonical");
+  assert.ok(canonical, `${outDir}: no canonical artifact was produced`);
+  for (const component of wiring.proposedRepresentation?.components ?? []) {
+    if (component.file === canonical.file) component.sha256 = canonical.sha256;
+  }
+  fs.writeFileSync(wiringFile, `${JSON.stringify(wiring, null, 2)}\n`);
+}
+
+function assertFix17Repair(outDir) {
+  const wiring = JSON.parse(fs.readFileSync(path.join(ROOT, outDir, "product-wiring.json"), "utf8"));
+  assert.deepEqual(wiring.binding?.packetComponents, PACKET_COMPONENT_IDS,
+    "pa_pardon_expungement-set: product wiring dropped the required process-guidance component");
+  const instructions = fs.readFileSync(path.join(ROOT, outDir, "participant-instructions.md"), "utf8");
+  for (const row of PARDON_ROUTE_PREREQUISITES) {
+    assert.ok(instructions.includes(row.label),
+      `pa_pardon_expungement-set: participant instructions dropped ${row.label}`);
+  }
+  for (const stop of PARDON_SELF_HELP_STOPS) {
+    assert.ok(instructions.includes(stop),
+      `pa_pardon_expungement-set: participant instructions dropped self-help stop ${stop}`);
+  }
+}
+
 function writeArtifacts(ctx) {
   const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped } = ctx;
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
@@ -883,6 +962,8 @@ function writeArtifacts(ctx) {
     ],
     approvedForLive: false, live: false, commercialRoutesOpened: 0
   }, null, 2)}\n`);
+  refreshPacketLocalWiring(outDir, artifacts);
+  assertFix17Repair(outDir);
 }
 
 /* ---- the one exported entry point ---------------------------------------- */
@@ -916,6 +997,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   assert.equal(uncaptioned.length, 0, `${uncaptioned.length} widget(s) have no printed line to read a caption from: ${JSON.stringify(uncaptioned)}`);
 
   if (checkOnly) {
+    assertFix17Repair(outDir);
     return {
       familyId, status: "CHECK_ONLY",
       documents: censuses.map((c) => {
