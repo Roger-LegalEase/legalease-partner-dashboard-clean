@@ -2,7 +2,7 @@
 
 This packet is prepared for **Petition to Expunge a Conviction for Conduct No Longer Prohibited by Law, 13 V.S.A. § 7602**.
 
-The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.
+The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. This page lists the petition and stipulation items that are yours by the words printed beside each blank. The fee-waiver form is not one of those items on this no-fee track.
 
 One qualification on that, and it is the reason this paragraph is not a flat promise. Some of these boxes are small. Where a value the platform holds is too long to print in its box at a size a court could read, the platform leaves that box **empty** rather than print something illegible or ink over a printed rule — and it names the value on the instruction page bound into your own packet, under **Values the platform holds but could not print**, so you can write it in by hand. Read that section if it is there.
 
@@ -12,17 +12,15 @@ File the completed packet with the **Vermont Superior Court, Criminal Division**
 
 Both the petition (200-00129) and the stipulation (200-00132A) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.
 
-One thing this packet does **not** tell you, because it is not established here and an unsourced figure in a filing instruction is worse than none:
+## What it costs, and when the fee-waiver form applies
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.
+**There is no filing fee for this petition.** Under 32 V.S.A. § 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. § 1201(a); it does not apply to this expungement under 13 V.S.A. § 7602.
 
-## Who gets served
+Form **600-00228**, *Application to Waive Filing Fees and Service Costs*, is conditional only where a filing fee is actually charged and the participant cannot pay it. **No fee is charged on this track, so do not complete or file 600-00228 for this petition.**
 
-A copy goes to the office that prosecuted your case. The committed record for this route states it: "Whichever office prosecuted the offence, the State's Attorney or the Attorney General, unless that office authorises the other to act (§ 7602(a)(3))." In practice that is the State's Attorney for the unit where the case was decided, unless the Attorney General prosecuted it.
+## Filing and prosecutor workflow
 
-The State's Attorney's signature on the stipulation is **not** service and does not substitute for it: a signed stipulation and a served copy are two different things.
-
-What is **not** established here is the **method** and the **deadline** — how the copy must be delivered, and by when. Ask the clerk of the unit above those two questions. This packet names the office because the record names it, and stops there because the record stops there.
+**You do not serve the prosecutor with process. If you file the petition, the court provides a copy to the prosecutor. If you use the stipulation, take or send it to the office that prosecuted your case - the State's Attorney, or the Attorney General if that office prosecuted it. The prosecutor signs and files the stipulation with the court; under 13 V.S.A. Sec. 7602(a)(4), the respondent files it. The committed route record identifies that prosecuting office this way: "Whichever office prosecuted the offence, the State's Attorney or the Attorney General, unless that office authorises the other to act (§ 7602(a)(3))."**
 
 ## What is in this packet
 
@@ -30,7 +28,7 @@ What is **not** established here is the **method** and the **deadline** — how 
 | --- | --- |
 | `petition` | **200-00129** — Petition to Expunge Criminal History |
 | `stipulation_and_proposed_order` | **200-00132A** — Stipulation to Expunge Criminal History Record + Order |
-| `fee_waiver_application` | **600-00228** — Application to Waive Filing Fees and Service Costs |
+| `fee_waiver_application` | **600-00228** — Application to Waive Filing Fees and Service Costs — conditional only if a fee is actually charged and the participant cannot pay it; do not complete or file it on this track |
 | `filing_and_expectation_instructions` | the page that says where the packet goes and what to expect |
 
 ## What you must do
@@ -38,10 +36,10 @@ What is **not** established here is the **method** and the **deadline** — how 
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 2. **Answer question 2(d) on the petition yourself.** That question — whether the offence is no longer prohibited by law — is the whole ground of this route, and it is your assertion about your own record. The platform never ticks it for you.
 3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
-4. **Get the State's Attorney to sign the stipulation (200-00132A).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00129) on its own and ask the court to set a hearing.
-5. **File the fee waiver (600-00228) only if you cannot pay.**
+4. **For a stipulation, take or send form 200-00132A to the prosecuting office.** If the prosecutor agrees, the prosecutor signs and files it with the court. If the prosecutor will not stipulate, file the petition (200-00129) on its own; if the court schedules a hearing, stop and get legal help as stated below.
+5. **Do not file form 600-00228 on this track.** There is no filing fee here. The waiver is used only where a fee is actually charged and the participant cannot pay it.
 
-## The items you must supply
+## The petition and stipulation items you must supply
 
 ### 200-00129 — Petition to Expunge Criminal History
 
@@ -101,75 +99,6 @@ What is **not** established here is the **method** and the **deadline** — how 
 | 1 | State Agency (other state entities to notify) | a second agency the court should notify, if there is one |
 | 1 | Mailing Address (third line) | a third mailing-address line, only if your address needs one |
 
-### 600-00228 — Application to Waive Filing Fees and Service Costs
-
-| Page | The blank on the form | What to write |
-| --- | --- | --- |
-| 1 | SUPERIOR COURT DIVISION | the Superior Court division your case is in |
-| 1 | Unit (Superior Court unit) | the Superior Court unit (county) where the case was decided |
-| 1 | Mailing Address: (if different from street address) | a mailing address, only if it is different from your street address |
-| 1 | Work Phone: | your work phone number, if you have one |
-| 1 | Total Number Living in Household (spouse, partner & dependents) | how many people live in your household, counting a spouse or partner and any dependants |
-| 1 | Employer Name | your employer's name, if you are employed |
-| 1 | Employer Address | your employer's address |
-| 1 | Employer Address | that second employer's address |
-| 1 | Employer Name | a second employer's name, if you have one |
-| 1 | Type of Assistance: | the type of public assistance you receive, if you receive any |
-| 1 | Monthly Amount $ | the monthly amount of that public assistance |
-| 1 | Gross Income from Wages | your gross monthly income from wages |
-| 1 | Rent or Mortgage Payment | your monthly rent or mortgage payment |
-| 1 | Unemployment Compensation | your monthly unemployment compensation, if any |
-| 1 | Electric Service | your monthly electricity bill |
-| 1 | Child Support (income received) | child support you receive each month, if any |
-| 1 | Phone (monthly expense) | your monthly phone bill |
-| 1 | Other Income | any other monthly income |
-| 1 | Fuel (heat and/or gas) | your monthly fuel, heating or gas cost |
-| 1 | Food | your monthly food cost |
-| 1 | the unlabelled expense line printed left of Clothing | the household expense on this line of the form |
-| 1 | Self-Employment/Business Income (other than wages) | your monthly self-employment or business income, if any |
-| 1 | Clothing | your monthly clothing cost |
-| 1 | Medical | your monthly medical cost |
-| 1 | Child Support (monthly expense) | child support you pay each month, if any |
-| 1 | Total Monthly Income | your total monthly income |
-| 1 | Auto Loan Payment | your monthly car loan payment, if any |
-| 1 | Total Income in the past 12 months | your total income over the past twelve months |
-| 1 | Property Taxes | your monthly property tax, if you pay it |
-| 1 | Insurance (health, auto, etc.) | your monthly insurance cost |
-| 1 | Other Expenses | any other monthly expense |
-| 2 | Vehicle Amount Owed | how much you still owe on that vehicle |
-| 2 | Vehicles Make, Model | the make and model of a vehicle you own, if you own one |
-| 2 | Vehicle Net Value | that vehicle's net value |
-| 2 | Vehicle Year / Fair Market Value | that vehicle's year and fair market value |
-| 2 | Vehicles Make, Model | a second vehicle's make and model, if you own one |
-| 2 | Vehicle Year / Fair Market Value | that second vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed | how much you still owe on that second vehicle |
-| 2 | Vehicle Net Value | that second vehicle's net value |
-| 2 | Vehicles Make, Model | a third vehicle's make and model, if you own one |
-| 2 | Vehicle Amount Owed | how much you still owe on that third vehicle |
-| 2 | Vehicle Net Value | that third vehicle's net value |
-| 2 | Vehicle Year / Fair Market Value | that third vehicle's year and fair market value |
-| 2 | Vehicles Make, Model | a fourth vehicle's make and model, if you own one |
-| 2 | Vehicle Year / Fair Market Value | that fourth vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed | how much you still owe on that fourth vehicle |
-| 2 | Vehicle Net Value | that fourth vehicle's net value |
-| 2 | Real Property Description | a description of real property you own, if you own any |
-| 2 | Real Property Mortgage | the mortgage on that property |
-| 2 | Real Property Net Value | that property's net value |
-| 2 | Real Property FMV | that property's fair market value |
-| 2 | Real Property Description | a second property's description, if you own one |
-| 2 | Real Property FMV | that second property's fair market value |
-| 2 | Real Property Mortgage | the mortgage on that second property |
-| 2 | Real Property Net Value | that second property's net value |
-| 2 | Cash on Hand | how much cash you have on hand |
-| 2 | Checking Account | the balance of your checking account |
-| 2 | Savings Accounts | the balance of your savings accounts |
-| 2 | Total Cash Assets | your total cash assets |
-| 2 | Other Assets FMV | that asset's fair market value |
-| 2 | Other Assets Description | a description of any other asset — tools, equipment, stocks and so on |
-| 2 | Other Assets FMV | that second asset's fair market value |
-| 2 | Other Assets Description | a second other asset, if you have one |
-| 2 | These are additional reasons why I cannot afford the fees: | anything else you want the court to know about why you cannot afford the fees — this is yours to write |
-
 ## Boxes too small for a long value
 
 On these forms the following boxes are small enough that a long value cannot be printed in them at a readable size. If yours is too long, the box is left empty and the value is named on the instruction page in your own packet for you to write in by hand.
@@ -183,6 +112,22 @@ On these forms the following boxes are small enough that a long value cannot be 
 - **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.
 - **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.
 - **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.
+
+## When to stop and get a lawyer
+
+The committed track registry at `data/record-clearing/legal-design-track-registry.json`, track `vt_exp_decriminalized`, field `selfHelpStopConditions`, holds these eleven stopping conditions. They are reproduced in its own words and order. If any describes your case, stop and take the matter to a lawyer or legal-aid office rather than filing:
+
+- The prosecutor opposes the petition, or the court schedules a hearing.
+- A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.
+- Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.
+- The criminal history record mixes qualifying and nonqualifying offences.
+- The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.
+- The offence may be a listed crime under 13 V.S.A. § 5301(7).
+- Any felony not plainly on the § 7601(4)(B) list.
+- Immigration consequences.
+- The participant wants to attack the underlying conviction rather than clear the record.
+- The participant cannot establish from a documented source that the conduct is no longer prohibited. "Old marijuana" is not enough.
+- The conviction is a regulated-drug possession offence and the amount involved is not established.
 
 ## What this packet is not
 

@@ -63,6 +63,7 @@ const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/vt";
 const FIXED_DATE = "2026-01-01T00:00:00.000Z";
 
@@ -76,6 +77,7 @@ function corpusRoot() {
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
+const FEE_WAIVER_NOT_APPLICABLE = "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route";
 
 const WRITE = (fact) => ({ policy: "write", fact });
 const SUPPLY = (what) => ({ policy: "supply", what });
@@ -299,10 +301,23 @@ const FORMS = {
 };
 const ORDER = ["200-00130", "200-00132", "600-00228"];
 
+const ROUTE_KEYS = Object.freeze([
+  "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
+  "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition",
+  "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition"
+]);
+
 export const FAMILY_CONFIGS = Object.freeze({
   "vt_seal_nonconviction-set": {
     jurisdiction: "VT",
-    routeKey: "obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing",
+    routeKey: ROUTE_KEYS[0],
+    routeKeys: ROUTE_KEYS,
+    documentRouteKeys: {
+      "200-00130": [ROUTE_KEYS[1]],
+      "200-00132": [ROUTE_KEYS[2]],
+      "600-00228": [ROUTE_KEYS[1], ROUTE_KEYS[2]],
+      process_guidance: [ROUTE_KEYS[0]]
+    },
     // The committed track registry entry this route's self-help stop conditions
     // are read from at build time. Naming the track rather than carrying the
     // conditions keeps them out of an editor's hands.
@@ -319,6 +334,36 @@ export const FAMILY_CONFIGS = Object.freeze({
     ]
   }
 });
+
+function assertCommittedRouteKeys(familyId, config) {
+  const outDir = `${OVERLAY_ROOT}/${familyId.replace(/_/g, "-")}--official-pdf-fill`;
+  const wiringPath = path.join(ROOT, outDir, "product-wiring.json");
+  assert.ok(fs.existsSync(wiringPath), `${familyId}: committed product-wiring.json is missing`);
+  const wiring = JSON.parse(fs.readFileSync(wiringPath, "utf8"));
+  assert.deepEqual(wiring.routeKeys, config.routeKeys,
+    `${familyId}: builder route keys must exactly match committed product wiring`);
+  assert.equal(wiring.routeKey, config.routeKey,
+    `${familyId}: primary builder route key must exactly match committed product wiring`);
+
+  const census = JSON.parse(fs.readFileSync(path.join(ROOT, ROUTE_CENSUS), "utf8"));
+  const censusKeys = new Set((census.routes ?? []).map((row) => row.routeKey));
+  for (const routeKey of config.routeKeys) {
+    assert.ok(censusKeys.has(routeKey), `${familyId}: route key is absent from the committed census: ${routeKey}`);
+  }
+}
+
+function documentPolicy(config, documentId) {
+  const routeKeys = config.documentRouteKeys[documentId];
+  assert.ok(Array.isArray(routeKeys) && routeKeys.length > 0,
+    `${documentId}: no committed census/product-wiring route key assigned`);
+  for (const routeKey of routeKeys) {
+    assert.ok(config.routeKeys.includes(routeKey), `${documentId}: document policy carries an unknown route key ${routeKey}`);
+  }
+  return {
+    mode: "participant", captionOnly: false, documentAcceptsFill: true,
+    routeKey: routeKeys[0], routeKeys
+  };
+}
 
 const FIXTURES = {
   canonical: {
@@ -524,6 +569,8 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    evaluateDeclaredMinimumSize: true,
+    alignWidgetFontSizeToFit: true,
     title: FORMS[source.formNumber].title
   });
   if (process.env.VT_DEBUG_RENDER) {
@@ -572,14 +619,16 @@ function composedBody(config, facts, resolved) {
   L.push("1. THE CONTESTED PETITION", "");
   L.push("File the petition (200-00130) with the Vermont Superior Court, Criminal Division, in the unit where your case was decided. The State's Attorney may oppose it and the court may set a hearing. This is the route that does not need anybody's agreement.", "");
   L.push("2. THE STIPULATED SEALING", "");
-  L.push("If the State's Attorney will agree, the stipulation (200-00132) is quicker: you and the State's Attorney both sign it and the court may seal the record on that agreement. The court cannot act on a stipulation the State's Attorney has not signed, so this route depends on somebody outside this packet.", "");
+  L.push("If the prosecuting office will agree, sign the stipulation (200-00132) and take or send it to that office. The participant does not file the stipulation: the prosecutor signs and files it with the court. The court may then seal the record on that agreement.", "");
   L.push("If the State's Attorney will not sign, that is not the end of it. File the petition on its own and ask the court to set a hearing. The two routes use the same underlying facts and this packet prepares both.", "");
   L.push("3. THE ROUTE THAT FILES NOTHING", "");
   L.push("Some non-conviction records are cleared without a petition at all, and a packet that only ever told you to file would be telling you to do work you may not need to do. Before you file, ask the clerk of the unit above whether the record you are asking about has already been sealed, or is due to be, without a filing. If it has, nothing in this packet needs to be filed.", "");
   L.push("This page states no timetable and no criterion for that, because neither is established by the forms this packet is built from. The clerk of the unit is who can tell you where your own record stands.", "");
-  L.push("WHAT THIS PACKET DOES NOT TELL YOU", "");
-  L.push("- The filing fee, and whether it can be waived. The waiver form (600-00228) is included; the amount it waives is not stated here. Ask the clerk.");
-  L.push("- Who must be served, and how. Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.", "");
+  L.push("NO FILING FEE ON THIS TRACK", "");
+  L.push("There is no filing fee on this non-conviction sealing track. Under 32 V.S.A. Sec. 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. Sec. 1201(a). This track does not seal a conviction.", "");
+  L.push("Form 600-00228 is conditional only where a filing fee is actually charged and the participant cannot pay it. No fee is charged on this track, so do not complete or file the fee-waiver form for this petition.", "");
+  L.push("NO PARTICIPANT SERVICE OF PROCESS", "");
+  L.push("You do not serve the prosecutor with process. If you file the petition, the court provides a copy to the prosecutor. If you use the stipulation, take or send it to the prosecuting office; the prosecutor signs and files it with the court.", "");
   L.push("WHAT THIS PACKET IS NOT", "");
   L.push("This is a prepared set of official Vermont forms and this guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.", "");
   /* FIX02, ROUTE_IDENTITY. The other participant-facing surface that printed
@@ -628,7 +677,7 @@ function composedMap(config) {
   ];
   return {
     formNumber: id,
-    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: config.routeKey },
+    documentPolicy: documentPolicy(config, id),
     structuralClass: "composed_document",
     explicitMappings: {}, roleRefusals: [], selectionControls: [],
     canonicalWrites: writes, canonicalRefusals: [],
@@ -641,6 +690,7 @@ const OFFROUTE_REASON = (why) => `${why}; this branch of the form is never popul
 
 function officialFieldMap(source, census, report, config, marks = []) {
   const written = new Set(report.written.map((w) => w.field));
+  const feeWaiverNotApplicable = source.formNumber === "600-00228";
   const canonicalWrites = []; const canonicalRefusals = []; const selectionControls = [];
   for (const r of census.rows) {
     const base = {
@@ -667,18 +717,21 @@ function officialFieldMap(source, census, report, config, marks = []) {
     if (r.isSelectionControl) {
       const protect = r.policy === "protect";
       const offroute = r.policy === "offroute";
-      const cls = protect ? r.refusalClass : (offroute ? null : ELECTION_CLASS);
+      const cls = protect ? r.refusalClass : ((offroute || feeWaiverNotApplicable) ? null : ELECTION_CLASS);
       selectionControls.push({
         ...base, selectionId: r.key, kind: "selection_control", type: "checkbox",
         widgets: [{ page: r.page, rect: r.rect, rectBasis: r.rectBasis }],
         disposition: "explicit_refusal",
         reason: protect ? "signature or date field; never prefilled by this build"
           : offroute ? OFFROUTE_REASON(r.routeReason)
-            : "a sworn assertion or legal election the route does not determine; only the participant may make it",
+            : feeWaiverNotApplicable ? FEE_WAIVER_NOT_APPLICABLE
+              : "a sworn assertion or legal election the route does not determine; only the participant may make it",
         category: cls, completenessClass: cls, class: cls,
         requiredBeforeFiling: false, routeDetermined: false, document: source.formNumber,
         why: protect ? "the participant signs and dates this themselves at filing time"
-          : offroute ? r.routeReason : "only the participant may make this election"
+          : offroute ? r.routeReason
+            : feeWaiverNotApplicable ? "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+              : "only the participant may make this election"
       });
       continue;
     }
@@ -702,6 +755,15 @@ function officialFieldMap(source, census, report, config, marks = []) {
       });
       continue;
     }
+    if (feeWaiverNotApplicable) {
+      canonicalRefusals.push({
+        ...base, reason: FEE_WAIVER_NOT_APPLICABLE,
+        category: null, completenessClass: null, class: null,
+        requiredBeforeFiling: false, routeDetermined: false, document: source.formNumber,
+        why: "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+      });
+      continue;
+    }
     canonicalRefusals.push({
       ...base, reason: `the participant supplies this before filing: ${r.what}`,
       category: null, completenessClass: null, class: null,
@@ -713,7 +775,7 @@ function officialFieldMap(source, census, report, config, marks = []) {
   }
   return {
     formNumber: source.formNumber,
-    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: config.routeKey },
+    documentPolicy: documentPolicy(config, source.formNumber),
     structuralClass: "acroform",
     component: FORMS[source.formNumber].component,
     explicitMappings: Object.fromEntries(census.rows.filter((r) => r.policy === "write").map((r) => [r.name, r.fact])),
@@ -806,23 +868,30 @@ function instructionsMarkdown(config, resolved, rbf) {
   const out = [];
   out.push(`# What you must do before you file — ${config.routeName}`, "");
   out.push(`This packet is prepared for **${config.legalName}**.`, "");
-  out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.", "");
+  out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. This page lists the petition and stipulation items that are yours by the words printed beside each blank. The fee-waiver form is not one of those items on this no-fee track.", "");
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.", "");
   out.push("Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
-  out.push("Two things this packet does **not** tell you, because neither is established here and an unsourced figure in a filing instruction is worse than none:", "");
-  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.");
-  out.push("- **Who must be served, and how.** Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.", "");
+  out.push("## What it costs, and when the fee-waiver form applies", "");
+  out.push("**There is no filing fee on this non-conviction sealing track.** Under 32 V.S.A. § 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. § 1201(a). This track does not seal a conviction.", "");
+  out.push("Form **600-00228**, *Application to Waive Filing Fees and Service Costs*, is conditional only where a filing fee is actually charged and the participant cannot pay it. **No fee is charged on this track, so do not complete or file 600-00228 for this petition.**", "");
+  out.push("## Filing and prosecutor workflow", "");
+  out.push("**You do not serve the prosecutor with process.** If you file the petition, the court provides a copy to the prosecutor. If you use the stipulation, sign it and take or send it to the prosecuting office; the prosecutor signs and files it with the court.", "");
   out.push("## What is in this packet", "");
   out.push("| Component | Document |", "| --- | --- |");
-  for (const r of resolved) out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title} |`);
+  for (const r of resolved) {
+    const conditional = r.formNumber === "600-00228"
+      ? " — conditional only if a fee is actually charged and the participant cannot pay it; do not complete or file it on this track"
+      : "";
+    out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title}${conditional} |`);
+  }
   out.push("| `filing_and_expectation_instructions` | the page that says where the packet goes and what to expect |", "");
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Say which non-conviction ending applies to your case.** Question 2 of the petition offers three: you were cited or arrested but no charge was filed, a charge was filed and the court found no probable cause, or a charge was filed and the court dismissed it. Those are three different things and only you know which happened. The packet has already stated that you were **not convicted** — that much the route decides — and it leaves the rest to you.");
   out.push("3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
-  out.push("4. **Decide which route you are taking.** If the State's Attorney will sign the stipulation (200-00132), that is the quicker route and the court may seal on that agreement. If they will not, file the petition (200-00130) on its own and ask the court to set a hearing. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.");
-  out.push("5. **File the fee waiver (600-00228) only if you cannot pay.**", "");
+  out.push("4. **Decide which route you are taking.** For a stipulation, sign form 200-00132 and take or send it to the prosecuting office; the prosecutor signs and files it with the court. If the prosecutor will not stipulate, file the petition (200-00130) on its own. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.");
+  out.push("5. **Do not file form 600-00228 on this track.** There is no filing fee here. The waiver is used only where a fee is actually charged and the participant cannot pay it.", "");
   /*
    * FIX02, SELF_HELP_STOP. Step 4 tells the participant to ask the court to set
    * a hearing, and this route's committed registry entry records BOTH a
@@ -833,7 +902,7 @@ function instructionsMarkdown(config, resolved, rbf) {
    * place and in the same terms.
    */
   out.push("**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone — and it records an objection \"in the interests of justice\" as converting the automatic route into a § 7603(b) hearing. The hearing date stands either way, so start looking for help the day you learn of one.", "");
-  out.push("## The items you must supply", "");
+  out.push("## The petition and stipulation items you must supply", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${FORMS[doc]?.title ?? doc}`, "");
     out.push("| Page | The blank on the form | What to write |", "| --- | --- | --- |");
@@ -868,18 +937,8 @@ function instructionsMarkdown(config, resolved, rbf) {
 
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Vermont forms and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will seal the record.", "");
-  /*
-   * FIX02, ROUTE_IDENTITY. This line printed
-   * `obligation:track-pathway:VT:vt_seal_nonconviction:non-conviction-sealing`,
-   * a machine route id occurring nowhere in the census and nowhere in compiled
-   * runtime -- its only occurrences are this builder, this family's field map
-   * and these instructions. The census and product-wiring.json carry three
-   * `obligation:unit:VT:...` keys instead. Per the owner's decision the
-   * participant-facing page prints a short human-readable label and the machine
-   * route id stays in manifests and wiring only; `config.routeKey` is therefore
-   * unchanged and still flows to documentPolicy and to the rendered-artifacts
-   * routeKeys, and only what the participant reads has changed.
-   */
+  /* Participant-facing pages carry a human label. Exact machine keys remain in
+   * production-field-map.json and each documentPolicy record. */
   out.push(`_Route: ${config.routeName} (${config.statute})_`);
   return `${out.join("\n")}\n`;
 }
@@ -890,10 +949,17 @@ function writeArtifacts(ctx) {
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
   W("production-field-map.json", `${JSON.stringify({
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
-    familyId, routeKeys: [config.routeKey], routeSelectionId: config.routeSelectionId,
+    familyId, routeKeys: config.routeKeys, routeSelectionId: config.routeSelectionId,
     jurisdiction: config.jurisdiction, statute: config.statute, legalName: config.legalName,
     officialForms: resolved.map((r) => r.formNumber),
     componentSet: COMPONENTS, documentOfComponent: DOCUMENT_OF_COMPONENT,
+    componentRequirements: {
+      fee_waiver_application: {
+        requirement: "conditional",
+        conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
+        filingDispositionForThisTrack: "do_not_file"
+      }
+    },
     captionBasis: "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
     routeSelectionsMade: [],
@@ -915,6 +981,13 @@ function writeArtifacts(ctx) {
   W("reports/rendered-artifacts.json", `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
+    componentRequirements: {
+      fee_waiver_application: {
+        requirement: "conditional",
+        conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
+        filingDispositionForThisTrack: "do_not_file"
+      }
+    },
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterSkipped, rasterPages
@@ -954,7 +1027,9 @@ function writeArtifacts(ctx) {
       { finding: "The census records THREE routes for this family, and one of them files nothing at all.", consequence: "A composed process-guidance page carries that third route. A packet that only ever told the participant to file would be telling them to do work they may not need to do, and dropping the route rather than carrying it would have lost a third of what the family was built for." },
       { finding: "Which non-conviction ending applies -- never charged, no probable cause, or dismissed -- is three different things that happened to a participant's own case.", consequence: "All three boxes stay the participant's, and the instructions say in terms which part the route decided and which part it did not." },
       { finding: "Every caption in this map is read out of the pinned binary at build time rather than transcribed.", consequence: "The guard against a changed form is the exact SHA-256 source binding, which fails the family closed on any byte." },
-      { finding: "600-00228 is a financial affidavit and the platform holds none of its figures.", consequence: `${rbf.length} blanks across the packet are required-before-filing and every one is named in participant-instructions.md.` }
+      { finding: "The held fee answer is no filing fee on this non-conviction track; the $90 fee in 32 V.S.A. Sec. 1431(e) is limited to sealing a DUI conviction.", consequence: "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it; the participant is told not to complete or file it on this track." },
+      { finding: "The participant does not serve the prosecutor with process.", consequence: "The court provides a filed petition to the prosecutor. For a stipulation, the participant takes or sends the form to the prosecuting office, and the prosecutor signs and files it with the court." },
+      { finding: "The boundary stipulation's printed-name and email widgets require the finalizer's existing minimum-size and widget-appearance alignment safeguards.", consequence: "Field 34d carries the full boundary name in fitted visible ink, and field 34i preserves the held boundary email rather than disappearing without an explicit refusal." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -973,6 +1048,7 @@ function writeArtifacts(ctx) {
 export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   const config = FAMILY_CONFIGS[familyId];
   assert.ok(config, `unknown family ${familyId}`);
+  assertCommittedRouteKeys(familyId, config);
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
   const { resolved, failures } = resolveSources(familyId);
@@ -1034,6 +1110,14 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       const single = `${outDir}/fixtures/${fixtureName}--${source.formNumber}.pdf`;
       fs.writeFileSync(path.join(ROOT, single), bytes);
       const proof = await byteProof(source, census, path.join(ROOT, single), report, fixtureName);
+      if (fixtureName === "boundary" && source.formNumber === "200-00132") {
+        for (const [field, factId] of [["34d", "participant.full_legal_name"], ["34i", "participant.email"]]) {
+          const actual = proof.actualWrites.find((row) => row.field === field);
+          assert.ok(actual, `boundary packet page 3 field ${field} was not preserved in the finalized bytes`);
+          assert.equal(actual.drawnText.join(""), facts[factId],
+            `boundary packet page 3 field ${field} does not carry the full held ${factId}`);
+        }
+      }
       // Every mark this packet claims must be readable in the bytes, inside its
       // own measured box, and nothing may have landed outside one.
       const added = marks.length > 0 ? await addedPaintedPaths(filled, bytes) : [];

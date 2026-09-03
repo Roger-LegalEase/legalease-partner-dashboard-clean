@@ -36,7 +36,9 @@
  * verified field map for. Their widget names are the same, so the policy
  * assignments are the same assignments, restated here against the expungement
  * binaries and their own coordinates rather than shared across a lane boundary.
- * 600-00228 is the same form in both packets and its policy is unchanged.
+ * 600-00228 is the same source form in both packets. It is conditional: because
+ * this route has no filing fee, its participant-supplied fields are not treated
+ * as required-before-filing items.
  *
  * Rasterization goes through scripts/raster/pdf-page-raster.mjs (Chromium,
  * calibrated). Never Poppler.
@@ -63,6 +65,7 @@ const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/vt";
 const FIXED_DATE = "2026-01-01T00:00:00.000Z";
 
@@ -76,6 +79,7 @@ function corpusRoot() {
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
+const FEE_WAIVER_NOT_APPLICABLE = "no filing fee is charged on this track, so the fee-waiver branch is not applicable and this participant-supplied field is never populated with participant data on this route";
 
 const WRITE = (fact) => ({ policy: "write", fact });
 const SUPPLY = (what) => ({ policy: "supply", what });
@@ -407,6 +411,28 @@ function boundRouteRecord(config) {
   };
 }
 
+function boundSelfHelpStopRecord(config) {
+  const abs = path.join(ROOT, TRACK_REGISTRY);
+  assert.ok(fs.existsSync(abs),
+    `the committed legal-design track registry is not at ${TRACK_REGISTRY}`);
+  const bytes = fs.readFileSync(abs);
+  const registry = JSON.parse(bytes.toString("utf8"));
+  const track = (registry.tracks ?? []).find((row) => row.trackId === "vt_exp_decriminalized");
+  assert.ok(track, "the committed registry carries no vt_exp_decriminalized track");
+  const conditions = (track.selfHelpStopConditions ?? [])
+    .map((condition) => String(condition).trim()).filter(Boolean);
+  assert.equal(conditions.length, 11,
+    `vt_exp_decriminalized must reproduce the eleven held self-help stopping conditions; read ${conditions.length}`);
+  return {
+    path: TRACK_REGISTRY,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    trackId: track.trackId,
+    field: "selfHelpStopConditions",
+    conditions
+  };
+}
+
 /* ---- source binding ------------------------------------------------------ */
 function resolveSources(familyId) {
   const config = FAMILY_CONFIGS[familyId];
@@ -599,10 +625,11 @@ async function byteProof(source, census, file, report, fixtureName) {
  * destination detail this build bound and asserted rather than from anything
  * written here from memory.
  */
-function serviceRecipientSentence(routeRecord) {
-  return "A copy goes to the office that prosecuted your case. The committed record for this route states it: "
-    + `"${routeRecord.destinationDetail.replace(/\s+$/, "").replace(/\.$/, "")}."`
-    + " In practice that is the State's Attorney for the unit where the case was decided, unless the Attorney General prosecuted it.";
+function filingAndNoticeWorkflow(routeRecord) {
+  return "You do not serve the prosecutor with process. If you file the petition, the court provides a copy to the prosecutor. "
+    + "If you use the stipulation, take or send it to the office that prosecuted your case - the State's Attorney, or the Attorney General if that office prosecuted it. "
+    + "The prosecutor signs and files the stipulation with the court; under 13 V.S.A. Sec. 7602(a)(4), the respondent files it. "
+    + `The committed route record identifies that prosecuting office this way: "${routeRecord.destinationDetail.replace(/\s+$/, "").replace(/\.$/, "")}."`;
 }
 
 /*
@@ -621,7 +648,7 @@ function refusedPrefillLines(refusedPrefills) {
   return L;
 }
 
-function composedBody(config, facts, resolved, routeRecord, refusedPrefills) {
+function composedBody(config, facts, resolved, routeRecord, stopRecord, refusedPrefills) {
   const L = [];
   L.push("FILING AND EXPECTATION INSTRUCTIONS", "");
   L.push(`Petitioner: ${facts["participant.full_legal_name"]}`);
@@ -630,18 +657,26 @@ function composedBody(config, facts, resolved, routeRecord, refusedPrefills) {
   L.push("WHERE THIS GOES", "");
   L.push("File the completed packet with the VERMONT SUPERIOR COURT, CRIMINAL DIVISION, in the unit where your case was decided. Both the petition (200-00129) and the stipulation (200-00132A) print SUPERIOR COURT CRIMINAL DIVISION across the top of page 1, and the Unit box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
   L.push("WHAT THIS PACKET CONTAINS", "");
-  for (const r of resolved) L.push(`- ${r.formNumber}: ${FORMS[r.formNumber].title}`);
+  for (const r of resolved) {
+    const conditional = r.formNumber === "600-00228"
+      ? " (conditional only if a filing fee is actually charged and the participant cannot pay it; do not complete or file it on this track)"
+      : "";
+    L.push(`- ${r.formNumber}: ${FORMS[r.formNumber].title}${conditional}`);
+  }
   L.push("- These instructions.", "");
   L.push("WHAT TO EXPECT", "");
   L.push("This route asks the court to expunge a conviction because the conduct is no longer prohibited by law. Question 2(d) of the petition is where you say so, and it is your assertion about your own offence: the platform does not tick it for you and does not decide whether it is true of your record.", "");
-  L.push("The stipulation (200-00132A) is an agreement between you and the State's Attorney. The court cannot act on a stipulation the State's Attorney has not signed. If the State's Attorney will not sign, file the petition on its own and ask the court to set a hearing.", "");
-  L.push("The fee waiver application (600-00228) is filed only if you cannot pay. It is a financial affidavit, and the platform holds none of its figures.", "");
-  L.push("WHO GETS SERVED", "");
-  L.push(`${serviceRecipientSentence(routeRecord)} The State's Attorney's signature on the stipulation is not service and does not substitute for it: a signed stipulation and a served copy are two different things.`, "");
-  L.push("What is NOT established here is the METHOD and the DEADLINE - how the copy must be delivered, and by when. Ask the clerk of the unit above those two questions. This packet names the office because the record names it, and stops there because the record stops there.", "");
+  L.push("The stipulation (200-00132A) is an agreement between you and the prosecuting office. Take or send it to that office. If the prosecutor agrees, the prosecutor signs and files the stipulation with the court. If the prosecutor will not stipulate, file the petition on its own; a scheduled hearing is one of the stopping conditions below.", "");
+  L.push("NO FILING FEE ON THIS TRACK", "");
+  L.push("There is no filing fee for this petition. Under 32 V.S.A. Sec. 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. Sec. 1201(a); it does not apply to this expungement under 13 V.S.A. Sec. 7602.", "");
+  L.push("Form 600-00228 is conditional only where a filing fee is actually charged and the participant cannot pay it. No fee is charged on this track, so do not complete or file the fee-waiver form for this petition.", "");
+  L.push("NO PARTICIPANT SERVICE OF PROCESS", "");
+  L.push(filingAndNoticeWorkflow(routeRecord), "");
   L.push(...refusedPrefillLines(refusedPrefills));
-  L.push("ONE THING THIS PACKET DOES NOT TELL YOU", "");
-  L.push("- The filing fee, and whether it can be waived. Ask the clerk of the unit above what the fee is for a petition to expunge under 13 V.S.A. Sec. 7602 and whether the waiver in this packet applies. The form is included; the amount it waives is not stated here.", "");
+  L.push("WHEN TO STOP AND GET A LAWYER", "");
+  L.push("The committed track registry holds the following eleven stopping conditions. If any describes your case, stop and take the matter to a lawyer or legal-aid office rather than filing:", "");
+  for (const condition of stopRecord.conditions) L.push(`- ${condition}`);
+  L.push("");
   L.push("WHAT THIS PACKET IS NOT", "");
   L.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
   L.push(`Route: ${config.routeLabel}`);
@@ -732,6 +767,7 @@ function composedMap(config) {
 /* ---- field map ------------------------------------------------------------ */
 function officialFieldMap(source, census, report, config) {
   const written = new Set(report.written.map((w) => w.field));
+  const feeWaiverNotApplicable = source.formNumber === "600-00228";
   const canonicalWrites = []; const canonicalRefusals = []; const selectionControls = [];
   for (const r of census.rows) {
     const base = {
@@ -747,16 +783,19 @@ function officialFieldMap(source, census, report, config) {
     }
     if (r.isSelectionControl) {
       const protect = r.policy === "protect";
-      const cls = protect ? r.refusalClass : ELECTION_CLASS;
+      const cls = protect ? r.refusalClass : feeWaiverNotApplicable ? null : ELECTION_CLASS;
       selectionControls.push({
         ...base, selectionId: r.key, kind: "selection_control", type: "checkbox",
         widgets: [{ page: r.page, rect: r.rect, rectBasis: r.rectBasis }],
         disposition: "explicit_refusal",
         reason: protect ? "signature or date field; never prefilled by this build"
-          : "a sworn assertion or legal election the route does not determine; only the participant may make it",
+          : feeWaiverNotApplicable ? FEE_WAIVER_NOT_APPLICABLE
+            : "a sworn assertion or legal election the route does not determine; only the participant may make it",
         category: cls, completenessClass: cls, class: cls,
         requiredBeforeFiling: false, routeDetermined: false, document: source.formNumber,
-        why: protect ? "the participant signs and dates this themselves at filing time" : "only the participant may make this election"
+        why: protect ? "the participant signs and dates this themselves at filing time"
+          : feeWaiverNotApplicable ? "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
+            : "only the participant may make this election"
       });
       continue;
     }
@@ -768,6 +807,15 @@ function officialFieldMap(source, census, report, config) {
         why: r.refusalClass === SIGNATURE
           ? "the participant signs and dates this themselves at filing time"
           : "the court, the clerk or the State's Attorney owns this field"
+      });
+      continue;
+    }
+    if (feeWaiverNotApplicable) {
+      canonicalRefusals.push({
+        ...base, reason: FEE_WAIVER_NOT_APPLICABLE,
+        category: null, completenessClass: null, class: null,
+        requiredBeforeFiling: false, routeDetermined: false, document: source.formNumber,
+        why: "form 600-00228 is used only when a fee is actually charged and the participant cannot pay it; no fee is charged on this track"
       });
       continue;
     }
@@ -869,34 +917,38 @@ function requiredBeforeFilingItems(maps) {
     .sort((a, b) => ((order[a.document] ?? 99) - (order[b.document] ?? 99)) || (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
 }
 
-function instructionsMarkdown(config, resolved, rbf, routeRecord, refusedPrefillsByFixture) {
+function instructionsMarkdown(config, resolved, rbf, routeRecord, stopRecord, refusedPrefillsByFixture) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const out = [];
   out.push(`# What you must do before you file — ${config.routeName}`, "");
   out.push(`This packet is prepared for **${config.legalName}**.`, "");
-  out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.", "");
+  out.push("The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. This page lists the petition and stipulation items that are yours by the words printed beside each blank. The fee-waiver form is not one of those items on this no-fee track.", "");
   out.push("One qualification on that, and it is the reason this paragraph is not a flat promise. Some of these boxes are small. Where a value the platform holds is too long to print in its box at a size a court could read, the platform leaves that box **empty** rather than print something illegible or ink over a printed rule — and it names the value on the instruction page bound into your own packet, under **Values the platform holds but could not print**, so you can write it in by hand. Read that section if it is there.", "");
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Vermont Superior Court, Criminal Division**, in the unit where your case was decided.", "");
   out.push("Both the petition (200-00129) and the stipulation (200-00132A) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.", "");
-  out.push("One thing this packet does **not** tell you, because it is not established here and an unsourced figure in a filing instruction is worse than none:", "");
-  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.", "");
-  out.push("## Who gets served", "");
-  out.push(`${serviceRecipientSentence(routeRecord)}`, "");
-  out.push("The State's Attorney's signature on the stipulation is **not** service and does not substitute for it: a signed stipulation and a served copy are two different things.", "");
-  out.push("What is **not** established here is the **method** and the **deadline** — how the copy must be delivered, and by when. Ask the clerk of the unit above those two questions. This packet names the office because the record names it, and stops there because the record stops there.", "");
+  out.push("## What it costs, and when the fee-waiver form applies", "");
+  out.push("**There is no filing fee for this petition.** Under 32 V.S.A. § 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. § 1201(a); it does not apply to this expungement under 13 V.S.A. § 7602.", "");
+  out.push("Form **600-00228**, *Application to Waive Filing Fees and Service Costs*, is conditional only where a filing fee is actually charged and the participant cannot pay it. **No fee is charged on this track, so do not complete or file 600-00228 for this petition.**", "");
+  out.push("## Filing and prosecutor workflow", "");
+  out.push(`**${filingAndNoticeWorkflow(routeRecord)}**`, "");
   out.push("## What is in this packet", "");
   out.push("| Component | Document |", "| --- | --- |");
-  for (const r of resolved) out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title} |`);
+  for (const r of resolved) {
+    const conditional = r.formNumber === "600-00228"
+      ? " — conditional only if a fee is actually charged and the participant cannot pay it; do not complete or file it on this track"
+      : "";
+    out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title}${conditional} |`);
+  }
   out.push("| `filing_and_expectation_instructions` | the page that says where the packet goes and what to expect |", "");
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Answer question 2(d) on the petition yourself.** That question — whether the offence is no longer prohibited by law — is the whole ground of this route, and it is your assertion about your own record. The platform never ticks it for you.");
   out.push("3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
-  out.push("4. **Get the State's Attorney to sign the stipulation (200-00132A).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00129) on its own and ask the court to set a hearing.");
-  out.push("5. **File the fee waiver (600-00228) only if you cannot pay.**", "");
-  out.push("## The items you must supply", "");
+  out.push("4. **For a stipulation, take or send form 200-00132A to the prosecuting office.** If the prosecutor agrees, the prosecutor signs and files it with the court. If the prosecutor will not stipulate, file the petition (200-00129) on its own; if the court schedules a hearing, stop and get legal help as stated below.");
+  out.push("5. **Do not file form 600-00228 on this track.** There is no filing fee here. The waiver is used only where a fee is actually charged and the participant cannot pay it.", "");
+  out.push("## The petition and stipulation items you must supply", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${FORMS[doc]?.title ?? doc}`, "");
     out.push("| Page | The blank on the form | What to write |", "| --- | --- | --- |");
@@ -919,6 +971,9 @@ function instructionsMarkdown(config, resolved, rbf, routeRecord, refusedPrefill
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
   out.push("- **The State's Attorney's signature, date and printed name, and the court's order on the stipulation.** Those belong to the prosecutor and the judge.");
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
+  out.push("## When to stop and get a lawyer", "");
+  out.push(`The committed track registry at \`${stopRecord.path}\`, track \`${stopRecord.trackId}\`, field \`${stopRecord.field}\`, holds these eleven stopping conditions. They are reproduced in its own words and order. If any describes your case, stop and take the matter to a lawyer or legal-aid office rather than filing:`, "");
+  out.push(...stopRecord.conditions.map((condition) => `- ${condition}`), "");
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.", "");
   out.push(`_Route: ${config.routeLabel}_`);
@@ -928,7 +983,7 @@ function instructionsMarkdown(config, resolved, rbf, routeRecord, refusedPrefill
 /* ---- artifacts ------------------------------------------------------------ */
 function writeArtifacts(ctx) {
   const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
-    rasterSkipped, routeRecord, refusedPrefillsByFixture } = ctx;
+    rasterSkipped, routeRecord, stopRecord, refusedPrefillsByFixture } = ctx;
   const refusedEverywhere = Object.entries(refusedPrefillsByFixture ?? {})
     .flatMap(([fixture, rows]) => rows.map((r) => ({ fixture, ...r })));
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
@@ -938,6 +993,13 @@ function writeArtifacts(ctx) {
     jurisdiction: config.jurisdiction, statute: config.statute, legalName: config.legalName,
     officialForms: resolved.map((r) => r.formNumber),
     componentSet: COMPONENTS, documentOfComponent: DOCUMENT_OF_COMPONENT,
+    componentRequirements: {
+      fee_waiver_application: {
+        requirement: "conditional",
+        conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
+        filingDispositionForThisTrack: "do_not_file"
+      }
+    },
     captionBasis: "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
     routeSelectionsMade: [],
@@ -960,6 +1022,11 @@ function writeArtifacts(ctx) {
       anchorStatementsVerified: SERVICE_ANCHORS,
       destinationName: routeRecord.destinationName,
       destinationDetail: routeRecord.destinationDetail
+    }, {
+      recordId: `legal-design-track-registry:${stopRecord.trackId}:${stopRecord.field}`,
+      path: stopRecord.path, sha256: stopRecord.sha256, byteLength: stopRecord.byteLength,
+      role: "the eleven held self-help stopping conditions reproduced in both participant instruction surfaces",
+      conditionCount: stopRecord.conditions.length
     }],
     composedComponentsAuthoredByThisBuild: ["filing_and_expectation_instructions"],
     commercialRoutesOpened: 0
@@ -967,6 +1034,13 @@ function writeArtifacts(ctx) {
   W("reports/rendered-artifacts.json", `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
+    componentRequirements: {
+      fee_waiver_application: {
+        requirement: "conditional",
+        conditionDescription: "Only where a filing fee is actually charged; on this track none is.",
+        filingDispositionForThisTrack: "do_not_file"
+      }
+    },
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     /*
      * Every write the finalizer refused, per fixture. Silence here is what let
@@ -1012,12 +1086,13 @@ function writeArtifacts(ctx) {
   W("build-findings.json", `${JSON.stringify({
     schemaVersion: "rcap-family-build-findings/v1", familyId,
     findings: [
-      { finding: "200-00129 and 200-00132A are the expungement counterparts of the sealing forms 200-00130 and 200-00132, and carry the same widget names.", consequence: "The policy assignments are the same assignments, restated against the expungement binaries and their own coordinates rather than shared across a lane boundary. 600-00228 is the same form in both packets and its policy is unchanged." },
+      { finding: "200-00129 and 200-00132A are the expungement counterparts of the sealing forms 200-00130 and 200-00132, and carry the same widget names.", consequence: "The petition and stipulation policy assignments are restated against the expungement binaries and their own coordinates rather than shared across a lane boundary. Form 600-00228 is the same source form, but its participant-supplied fields are not required on this no-fee route." },
       { finding: "Every caption in this map is read out of the pinned binary at build time rather than transcribed.", consequence: "The caption a participant reads is the text actually printed beside their blank. The guard against a changed form is the exact SHA-256 source binding, which fails the family closed on any byte." },
       { finding: "200-00129 asks one question 200-00130 does not: question 2(d), whether the conduct is no longer prohibited by law.", consequence: "That is the ground of this route and it is a sworn assertion about the participant's own offence, so both boxes are left for the participant and the instructions say so in terms. It is not treated as an election the route determines." },
-      { finding: "600-00228 is a financial affidavit and the platform holds none of its figures.", consequence: `${rbf.length} blanks across the packet are required-before-filing and every one is named in participant-instructions.md.` },
+      { finding: "The held fee answer is no filing fee on this track; the $90 fee in 32 V.S.A. Sec. 1431(e) is limited to sealing a DUI conviction.", consequence: "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it; the participant is told not to complete or file it on this track." },
       { finding: `The finalizer refused ${refusedEverywhere.length} prefill(s) across the two fixtures because the value did not fit its box at a readable size: ${refusedEverywhere.map((r) => `${r.fixture}/${r.formNumber} ${r.field} (${r.factId})`).join(", ") || "none"}.`, consequence: "The box is left empty rather than carrying illegible ink, and every refusal is now named on the instruction page bound into that packet and recorded in reports/rendered-artifacts.json. Before this repair a refusal reached no artifact at all and the participant page promised the value had been filled in." },
-      { finding: `Who is served is read from the committed route-obligation census, bound at ${routeRecord.sha256.slice(0, 12)} and re-asserted against ${SERVICE_ANCHORS.length} anchor statements.`, consequence: `The packet names the prosecuting office because the record names it -- "${routeRecord.destinationDetail}" -- and still discloses that the method and the deadline are not established here.` }
+      { finding: `The prosecutor identity is read from the committed route-obligation census, bound at ${routeRecord.sha256.slice(0, 12)} and re-asserted against ${SERVICE_ANCHORS.length} anchor statements.`, consequence: "The packet states that the participant does not serve process: the court provides a filed petition to the prosecutor, while a stipulation is taken or sent to the prosecuting office and filed by the prosecutor under 13 V.S.A. Sec. 7602(a)(4)." },
+      { finding: `The committed vt_exp_decriminalized track holds ${stopRecord.conditions.length} self-help stopping conditions.`, consequence: "All eleven are reproduced in their held words and order in participant-instructions.md and the composed instruction pages." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -1037,6 +1112,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   assert.ok(config, `unknown family ${familyId}`);
   await assertRouteLabel(config);
   const routeRecord = boundRouteRecord(config);
+  const stopRecord = boundSelfHelpStopRecord(config);
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
   const { resolved, failures } = resolveSources(familyId);
@@ -1117,7 +1193,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       if (fixtureName === "canonical") maps.push(officialFieldMap(source, census, report, config));
     }
     refusedPrefillsByFixture[fixtureName] = refusedHere;
-    const instrBytes = await renderComposedPdf(composedBody(config, facts, resolved, routeRecord, refusedHere), "Filing and Expectation Instructions");
+    const instrBytes = await renderComposedPdf(composedBody(config, facts, resolved, routeRecord, stopRecord, refusedHere), "Filing and Expectation Instructions");
     const instrDoc = await PDFDocument.load(instrBytes, { ignoreEncryption: true });
     for (const [i, p] of (await packet.copyPages(instrDoc, instrDoc.getPageIndices())).entries()) {
       packet.addPage(p);
@@ -1161,7 +1237,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructions = instructionsMarkdown(config, resolved, rbf, routeRecord, refusedPrefillsByFixture);
+  const instructions = instructionsMarkdown(config, resolved, rbf, routeRecord, stopRecord, refusedPrefillsByFixture);
   const audit = builderCounters(maps, {
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture, valuesReportedByFinalizer: p.valuesReportedByFinalizer,
@@ -1172,7 +1248,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   }, instructions);
 
   writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
-    rasterSkipped: skipRaster, routeRecord, refusedPrefillsByFixture });
+    rasterSkipped: skipRaster, routeRecord, stopRecord, refusedPrefillsByFixture });
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
   return {
     familyId, status: allZero ? "COMPLETED" : "STOPPED",
