@@ -5655,6 +5655,18 @@
       "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "al-misd-dwop-set", "status": "STOPPED", "verdict": "BLOCKED_SOURCE", "overlayDirectoryTouched": false,
+      "claim": "CLAIM_OK PF01 al-misd-dwop-set",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family al-misd-dwop-set --codex-cloud --minimum-captain-sha 775b43fb2f999951d7f0e17ae5f517af18e9193e",
+      "rowGateResult": "FAIL family_sources_bind — 1 of 2 source(s) do not bind",
+      "sourceThatDidNotBind": { "sourceId": "official-form:CR-65", "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf", "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39", "byteLength": 468056, "custody": "nationwide_recovery_pool_2026_09_02" },
+      "sourceThatBound": { "sourceId": "official-form:C-10-CRIMINAL", "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8" },
+      "why": "The authenticated Master Library is mounted, but the committed index places CR-65 in the separate repository-relative nationwide_recovery_pool_2026_09_02 custody, which is not mounted here.",
+      "counters": { "knownRequiredFieldsMissing": null, "requiredFactsNotCollected": null, "unclassifiedBlanks": null, "incompleteRows": null, "requiredOptionsMissing": null, "requiredComponentsMissing": null, "invisibleWrites": null, "protectedWrites": null, "visualDefects": null },
+      "countersNotMeasuredBecause": "The source gate stopped the family before any artifact was read or produced.", "artifacts": [], "claimReleaseRequired": true,
+      "packetsSelfVerified": 0, "commercialRoutesOpened": 0, "productionTouched": false
     }
   ],
   "twoWavesReturnedAtThisPath": {
