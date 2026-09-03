@@ -73,6 +73,61 @@ const touches = (a, b) => { const ra = rootOf(a); const rb = rootOf(b); return r
 
 const gitOk = (args) => { try { execFileSync("git", args, { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
 
+/*
+ * A verifier assignment is executable only when claim.mjs --assert can accept
+ * every item it names. Released claims remain valid history when they are not
+ * dispatched; a released claim in a current VF assignment is an instruction
+ * to do work the named lane is forbidden to begin.
+ */
+function verificationClaimProblems(active, ledger) {
+  const problems = [];
+  for (const assignment of active.assignments ?? []) {
+    if (assignment.lane !== "independent-verification") continue;
+    for (const familyId of assignment.items ?? []) {
+      const claims = (ledger.claims ?? []).filter((claim) =>
+        claim.subjectType === "packet-family"
+        && claim.subjectId === familyId
+        && claim.operation === "independent-verification");
+      if (claims.length !== 1) {
+        problems.push(`${assignment.assignmentId}/${familyId}: ${claims.length} matching claims`);
+        continue;
+      }
+      const claim = claims[0];
+      if (claim.lane !== assignment.assignmentId) {
+        problems.push(`${assignment.assignmentId}/${familyId}: matching claim belongs to ${claim.lane}`);
+      } else if (claim.laneKind !== "independent-verification") {
+        problems.push(`${assignment.assignmentId}/${familyId}: matching claim has laneKind ${claim.laneKind}`);
+      } else if (claim.released) {
+        problems.push(`${assignment.assignmentId}/${familyId}: matching claim is released at ${claim.releasedAt ?? "an unknown time"}`);
+      }
+    }
+  }
+  return problems;
+}
+
+const focusedInvariantIndex = process.argv.indexOf("--check-verification-claim-invariant");
+if (focusedInvariantIndex >= 0) {
+  const activePath = process.argv[focusedInvariantIndex + 1];
+  const ledgerPath = process.argv[focusedInvariantIndex + 2];
+  if (!activePath || !ledgerPath) {
+    console.error("usage: verify.mjs --check-verification-claim-invariant <active-assignments.json> <claim-ledger.json>");
+    process.exit(2);
+  }
+  const active = JSON.parse(fs.readFileSync(path.resolve(activePath), "utf8"));
+  const ledger = JSON.parse(fs.readFileSync(path.resolve(ledgerPath), "utf8"));
+  const problems = verificationClaimProblems(active, ledger);
+  if (problems.length) {
+    console.error(`UNASSERTABLE_VERIFICATION_DISPATCH ${problems.length}`);
+    for (const problem of problems) console.error(`  ${problem}`);
+    process.exit(1);
+  }
+  const count = (active.assignments ?? [])
+    .filter((assignment) => assignment.lane === "independent-verification")
+    .reduce((total, assignment) => total + (assignment.items ?? []).length, 0);
+  console.log(`VERIFICATION_CLAIMS_ASSERTABLE ${count}`);
+  process.exit(0);
+}
+
 const results = [];
 const check = (id, title, ok, observed = "") => { results.push({ id, title, ok, observed }); };
 
@@ -865,6 +920,7 @@ function run() {
     }
     const granted = new Set((ledger.claims ?? []).map((c) => `${c.subjectType}::${c.subjectId}::${c.operation}`));
     for (const d of dispatched) if (!granted.has(d)) ledgerProblems.push(`${d} is dispatched and not granted`);
+    for (const problem of verificationClaimProblems(active, ledger)) ledgerProblems.push(problem);
     /*
      * AND GRANTED TO THE LANE THAT WAS TOLD TO DO IT.
      *

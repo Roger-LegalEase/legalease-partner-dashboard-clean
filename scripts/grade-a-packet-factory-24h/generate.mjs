@@ -29,6 +29,60 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 process.chdir(ROOT);
 const CHECK = process.argv.includes("--check");
 
+function verificationClaimProblems(assignments, claims) {
+  const problems = [];
+  for (const assignment of assignments) {
+    if (assignment.lane !== "independent-verification") continue;
+    for (const familyId of assignment.items ?? []) {
+      const matchingClaims = claims.filter((claim) =>
+        claim.subjectType === "packet-family"
+        && claim.subjectId === familyId
+        && claim.operation === "independent-verification");
+      if (matchingClaims.length !== 1) {
+        problems.push(`${assignment.assignmentId}/${familyId}: ${matchingClaims.length} matching claims`);
+        continue;
+      }
+      const claim = matchingClaims[0];
+      if (claim.lane !== assignment.assignmentId) {
+        problems.push(`${assignment.assignmentId}/${familyId}: matching claim belongs to ${claim.lane}`);
+      } else if (claim.laneKind !== "independent-verification") {
+        problems.push(`${assignment.assignmentId}/${familyId}: matching claim has laneKind ${claim.laneKind}`);
+      } else if (claim.released) {
+        problems.push(`${assignment.assignmentId}/${familyId}: matching claim is released at ${claim.releasedAt ?? "an unknown time"}`);
+      }
+    }
+  }
+  return problems;
+}
+
+function reportUnassertableVerificationDispatch(assignments, claims) {
+  const problems = verificationClaimProblems(assignments, claims);
+  if (!problems.length) return false;
+  console.error(`REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH ${problems.length}`);
+  for (const problem of problems.slice(0, 12)) console.error(`  ${problem}`);
+  if (problems.length > 12) console.error(`  ... and ${problems.length - 12} more`);
+  console.error("Nothing was written. Integrate the completed verifier return or deliberately reissue a new work cycle before regenerating the dispatch.");
+  return true;
+}
+
+const focusedInvariantIndex = process.argv.indexOf("--check-verification-claim-invariant");
+if (focusedInvariantIndex >= 0) {
+  const activePath = process.argv[focusedInvariantIndex + 1];
+  const ledgerPath = process.argv[focusedInvariantIndex + 2];
+  if (!activePath || !ledgerPath) {
+    console.error("usage: generate.mjs --check-verification-claim-invariant <active-assignments.json> <claim-ledger.json>");
+    process.exit(2);
+  }
+  const active = JSON.parse(fs.readFileSync(path.resolve(activePath), "utf8"));
+  const ledger = JSON.parse(fs.readFileSync(path.resolve(ledgerPath), "utf8"));
+  if (reportUnassertableVerificationDispatch(active.assignments ?? [], ledger.claims ?? [])) process.exit(1);
+  const count = (active.assignments ?? [])
+    .filter((assignment) => assignment.lane === "independent-verification")
+    .reduce((total, assignment) => total + (assignment.items ?? []).length, 0);
+  console.log(`VERIFICATION_CLAIMS_ASSERTABLE ${count}`);
+  process.exit(0);
+}
+
 const OUT_DIR = "data/rcap-grade-a/packet-factory-24h";
 const PROMPT_DIR = "docs/rcap/grade-a/packet-factory-24h";
 const LC = "data/rcap-grade-a/launch-control";
@@ -3332,6 +3386,17 @@ for (const asg of assignments) {
 
 const mergedClaims = survivingClaims
   .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
+
+/*
+ * FAIL CLOSED BEFORE ANY GENERATED FILE IS FLUSHED.
+ *
+ * A released claim is legitimate history only while it is outside the current
+ * dispatch. If a VF assignment names it, claim.mjs --assert will return exit 9
+ * and the worker cannot begin. The reissue logic above deliberately declines
+ * to reopen a just-completed work cycle; this guard keeps that anti-loop rule
+ * while refusing to publish the unassertable assignment it leaves behind.
+ */
+if (reportUnassertableVerificationDispatch(assignments, mergedClaims)) process.exit(1);
 
 const claimLedgerRecord = {
   schemaVersion: "rcap-claim-ledger/v2",
