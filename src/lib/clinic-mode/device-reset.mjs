@@ -112,10 +112,31 @@ async function clearIndexedDatabases(environment) {
 
 async function clearCacheStorage(environment) {
   if (!environment.caches?.keys) return false;
+  const removeCache = (name) => environment.caches.delete(name);
   const cacheNames = await environment.caches.keys();
-  const outcomes = await Promise.all(cacheNames.map((name) => environment.caches.delete(name)));
+  const outcomes = await Promise.all(cacheNames.map(removeCache));
   const stuck = cacheNames.filter((_, index) => outcomes[index] === false);
-  if (stuck.length > 0) throw new Error(`cached responses were not deleted: ${stuck.join(", ")}`);
+  if (stuck.length > 0) {
+    const stillPresent = new Set(await environment.caches.keys());
+    const genuinelyStuck = stuck.filter((name) => stillPresent.has(name));
+    if (genuinelyStuck.length > 0) {
+      throw new Error(`cached responses were not deleted: ${genuinelyStuck.join(", ")}`);
+    }
+  }
+
+  // Clear-Site-Data processing and Cache Storage deletion can overlap in a
+  // real browser. A successful delete is not sufficient evidence while the
+  // cache name is still enumerable, so yield once, retry any survivor, and
+  // verify the final state before reporting the device clean.
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  const survivors = await environment.caches.keys();
+  if (survivors.length > 0) {
+    await Promise.all(survivors.map(removeCache));
+  }
+  const remaining = await environment.caches.keys();
+  if (remaining.length > 0) {
+    throw new Error(`cached responses survived verification: ${remaining.join(", ")}`);
+  }
   return true;
 }
 

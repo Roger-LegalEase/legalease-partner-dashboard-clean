@@ -183,7 +183,7 @@ async function verifySourceContract() {
     ["storage removal fallback", "for (const key of keys) storage.removeItem?.(key);", ""],
     ["surviving-entry check", "if (remaining > 0) throw new Error(`${remaining} ${area} entries survived the reset`);", ""],
     ["IndexedDB enumeration honesty", 'throw new Error("this browser cannot enumerate IndexedDB databases");', "return false;"],
-    ["Cache Storage delete check", "if (stuck.length > 0) throw new Error(`cached responses were not deleted: ${stuck.join(\", \")}`);", ""],
+    ["Cache Storage deletion", "const removeCache = (name) => environment.caches.delete(name);", "const removeCache = async () => true;"],
     ["service worker unregister check", 'if (outcomes.some((outcome) => outcome === false)) throw new Error("a service worker refused to unregister");', ""],
     ["history neutralization", "history.pushState(null, \"\", cleanEntryPath);\n    }", "}"],
     ["popstate guard", 'environment.addEventListener("popstate", () => {', "const unusedGuard = (() => {"]
@@ -270,7 +270,8 @@ function fakeBrowser() {
       }
     },
     caches: {
-      keys: async () => ["screening-shell", "packet-previews"],
+      keys: async () => ["screening-shell", "packet-previews"]
+        .filter((name) => !browser.deletedCaches.includes(name)),
       delete: async (name) => { browser.deletedCaches.push(name); return true; }
     },
     navigator: {

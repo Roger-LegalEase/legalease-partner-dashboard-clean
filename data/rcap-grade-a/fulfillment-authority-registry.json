@@ -615,7 +615,7 @@
       },
       "packetSpecification": {
         "specId": "or_conviction_setaside-set",
-        "sha256": "ae0db5c87b270da76941ca88d84c137b8be3b4eda35fcea862f813b3b67596c1",
+        "sha256": "b194e817de649d5814cfe25640fffa7532d79c444e4998105bc04e63ddd3740d",
         "complete": true
       },
       "officialSources": [
@@ -653,17 +653,18 @@
       },
       "artifactValidation": {
         "state": "validated",
-        "artifactSha256": "0be9610b4374d4516d7830f3346ccd36c90ba10a8c9add9d29a5f09b99f85d76",
+        "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
         "validatedAt": "2026-08-19"
       },
       "packetCompleteness": null,
       "visualReview": {
-        "state": "pending",
-        "pagesReviewed": 0,
-        "pageCount": 0,
-        "evidenceSha256": null,
-        "reviewedBy": null,
-        "reviewedAt": null
+        "state": "passed",
+        "pagesReviewed": 7,
+        "pageCount": 7,
+        "evidenceSha256": "5592b734410147f3a561f8ffe41027d3c0450f9dea7a85edfd00f628be9ced1e",
+        "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
+        "reviewedAt": "2026-08-29",
+        "evidencePath": "data/rcap-lane-c/oregon/visual-review.json"
       },
       "outputLegalApproval": {
         "state": "pending",
@@ -686,13 +687,13 @@
           "changedAt": "2026-08-19",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Candidate Grade-A fulfillment record derived from data/rcap-ledger/launch-graph.json, data/rcap-ledger/completed-output-counsel-manifest.json, data/rcap-all50/contact-sheet-visual-proof.json, data/rcap-ledger/public-witness-fixtures.json and data/rcap-render/worker-publication-evidence.json. No approval is created here.",
-          "recordSha256": "445204768981b6b4b7eaa3921224be64c752a9141301e967c603298a05de0624",
+          "recordSha256": "f9eb81b596ab0a78d504dc453ed51fc5e48f3d40c737cecd04ddd4e642624b06",
           "supersedesRecordSha256": null
         }
       ]
     },
     {
-      "schemaVersion": "rcap-grade-a-fulfillment-authority/v1",
+      "schemaVersion": "rcap-grade-a-fulfillment-authority/v2",
       "recordId": "grade-a-or-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c-v1",
       "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "jurisdiction": "OR",
@@ -718,7 +719,7 @@
       },
       "packetSpecification": {
         "specId": "or_acquittal-set",
-        "sha256": "babe107d53e84c83d50d50b528c86b13b20fa1421299ae3b3836a8a3f4e30059",
+        "sha256": "cee130aae71f9282e0a88f7d8940a6d4d586482ed04a3d83d1be20fb4ac26c24",
         "complete": true
       },
       "officialSources": [
@@ -755,18 +756,85 @@
         "deterministic": false
       },
       "artifactValidation": {
-        "state": "not_run",
-        "artifactSha256": null,
-        "validatedAt": null
+        "state": "validated",
+        "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+        "validatedAt": "2026-08-19"
       },
-      "packetCompleteness": null,
+      "packetCompleteness": {
+        "specificationId": "or-set-aside-without-conviction",
+        "specificationVersion": "1.0.0",
+        "specificationSha256": "202733318971677106a2aca7f6dc5c0407d69f9c4c24018fb92468313f66a912",
+        "filingApplication": {
+          "state": "covered",
+          "basis": "or_acquittal-set:or_acquittal-primary-filing-1 (official court form)"
+        },
+        "proposedOrder": {
+          "state": "covered",
+          "basis": "or_acquittal-set:or_acquittal-proposed-order-2 (official court form)"
+        },
+        "attachmentsAndSchedules": {
+          "state": "covered",
+          "basis": "or_acquittal-set: 3 participant obtain_document action(s)"
+        },
+        "serviceAndNotice": {
+          "state": "missing",
+          "basis": null
+        },
+        "filingDestination": {
+          "state": "missing",
+          "basis": null
+        },
+        "feeAndWaiverInstructions": {
+          "state": "missing",
+          "basis": null
+        },
+        "copyRequirements": {
+          "state": "missing",
+          "basis": null
+        },
+        "postFilingSteps": {
+          "state": "missing",
+          "basis": null
+        },
+        "hearingAndObjectionStopConditions": {
+          "state": "missing",
+          "basis": null
+        },
+        "customPleadingAuthority": {
+          "required": false,
+          "approved": false,
+          "authorityId": null
+        },
+        "filingFormatArtifact": {
+          "format": "pdf",
+          "sha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+          "pageCount": 5,
+          "producedBy": {
+            "renderer": "scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory",
+            "matchesRecordProvider": false,
+            "reconciliation": "The record's provider is the digest-pinned worker image that renders packets at delivery. This artifact was produced by the official-form regeneration factory, which is what fills an official court PDF; the worker image composes documents and does not fill official forms. Binding the reviewed artifact to the delivery image would claim a provenance nobody checked. Both identities are recorded so a reviewer sees which produced the bytes they looked at.",
+            "deterministicRenderVerified": true
+          }
+        },
+        "companionArtifacts": [
+          {
+            "componentId": "or_acquittal-record-gathering-instructions-5",
+            "sourceId": "OR-OSP-SET-ASIDE-CCH",
+            "format": "pdf",
+            "sha256": "c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a",
+            "pageCount": 2
+          }
+        ]
+      },
       "visualReview": {
-        "state": "pending",
-        "pagesReviewed": 0,
-        "pageCount": 0,
-        "evidenceSha256": null,
-        "reviewedBy": null,
-        "reviewedAt": null
+        "state": "passed",
+        "pagesReviewed": 7,
+        "pageCount": 7,
+        "evidenceSha256": "e9303dddb8469ae9e27609576b2830d16562974de6fa1150f0b02fd69234edf9",
+        "reviewedBy": "scripts/verify-rcap-oregon-independent-visual-review.mjs (independent raster review)",
+        "reviewedAt": "2026-08-29",
+        "evidencePath": "data/rcap-lane-c/oregon/independent-visual-review.json",
+        "supersedes": "data/rcap-lane-c/oregon/visual-review.json"
       },
       "outputLegalApproval": {
         "state": "pending",
@@ -789,7 +857,7 @@
           "changedAt": "2026-08-19",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Candidate Grade-A fulfillment record derived from data/rcap-ledger/launch-graph.json, data/rcap-ledger/completed-output-counsel-manifest.json, data/rcap-all50/contact-sheet-visual-proof.json, data/rcap-ledger/public-witness-fixtures.json and data/rcap-render/worker-publication-evidence.json. No approval is created here.",
-          "recordSha256": "c267bccc3882e90e206e36996c44bc5a1fcab6f1c2488433e0f8baeadabdb66d",
+          "recordSha256": "51ea9e75c206f665ab560ce88b91a57c371433ffb10c7807a57bb8569206baf4",
           "supersedesRecordSha256": null
         }
       ]
@@ -821,7 +889,7 @@
       },
       "packetSpecification": {
         "specId": "or_contempt_setaside-set",
-        "sha256": "a95683851a9eb52ae6cb677d56e9a81ff7bad2d2bba54bb9d3320745aae0b074",
+        "sha256": "e2c372976bb45804f9e69fdd9aa778d34dcb4992aa9828956832b14cad869691",
         "complete": true
       },
       "officialSources": [
@@ -859,17 +927,18 @@
       },
       "artifactValidation": {
         "state": "validated",
-        "artifactSha256": "26cd818e480ec0e95ad8b1e53734a494b97f2af51b4f9ae4fe21553050a596fc",
+        "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
         "validatedAt": "2026-08-19"
       },
       "packetCompleteness": null,
       "visualReview": {
-        "state": "pending",
-        "pagesReviewed": 0,
-        "pageCount": 0,
-        "evidenceSha256": null,
-        "reviewedBy": null,
-        "reviewedAt": null
+        "state": "passed",
+        "pagesReviewed": 7,
+        "pageCount": 7,
+        "evidenceSha256": "5592b734410147f3a561f8ffe41027d3c0450f9dea7a85edfd00f628be9ced1e",
+        "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
+        "reviewedAt": "2026-08-29",
+        "evidencePath": "data/rcap-lane-c/oregon/visual-review.json"
       },
       "outputLegalApproval": {
         "state": "pending",
@@ -892,7 +961,7 @@
           "changedAt": "2026-08-19",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
           "reason": "Candidate Grade-A fulfillment record derived from data/rcap-ledger/launch-graph.json, data/rcap-ledger/completed-output-counsel-manifest.json, data/rcap-all50/contact-sheet-visual-proof.json, data/rcap-ledger/public-witness-fixtures.json and data/rcap-render/worker-publication-evidence.json. No approval is created here.",
-          "recordSha256": "d4d2bcc9db9d8a9e7fa6b403e3ca15a5a23f859d222359f0e9cc5bad55e356a9",
+          "recordSha256": "371a070f89aa347062208a7ec4206c173f0922fc5fa692e41ef4e4067c3fe484",
           "supersedesRecordSha256": null
         }
       ]
