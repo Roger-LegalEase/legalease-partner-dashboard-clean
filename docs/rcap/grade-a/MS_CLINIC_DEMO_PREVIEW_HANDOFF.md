@@ -91,7 +91,33 @@ the account's organization page. That organization listed zero project links
 and no link for `hyflxnlhpmiqxvvcoiia`. The audit did not open SQL Editor or
 issue a database request.
 
-Hosted acceptance has four unresolved prerequisites:
+GitHub Actions supplied the protected credential path that the browser account
+could not provide. [Run 33751219456](https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33751219456)
+dispatched `hosted_preflight` from existing branch
+`sprint/20260825-full-product-captain` at
+`de28d4220e21710b9e340b461b6dc2c5403951cf`. That commit passed the workflow's
+ancestry and byte-equivalence guards against worker source
+`441ee3188ee52047a012232d8d11f890a09b4ac5` and digest
+`sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c`.
+
+The run's sanitized `preflight.json` recorded these facts:
+
+- Supabase resolved project `hyflxnlhpmiqxvvcoiia` as
+  `legalease-rcap-acceptance`, region `us-west-2`, status `ACTIVE_HEALTHY`.
+- The read-only SQL boundary reached the acceptance project. An acceptance
+  marker stamped on 2026-08-25 established the project's nonproduction
+  identity despite existing synthetic acceptance rows.
+- Vercel resolved project `prj_cdgwGzFqIHgEUlzEburSLaZETdQV` and confirmed
+  per-deployment Preview binding. The preflight read environment key names and
+  targets but did not request or read stored values.
+- All eight required verdicts passed. The evidence reported no missing or
+  failed case.
+
+GitHub marked both migration paths, Preview deployment, acceptance Auth
+configuration, participant creation, Stripe, browser, worker, and packet
+journey steps as skipped. The run performed no hosted write.
+
+Hosted acceptance has three unresolved prerequisites:
 
 - `node scripts/generate-rcap-staging-action.mjs --check` refuses this commit
   because its worker image inputs differ from the source behind the accepted
@@ -100,9 +126,6 @@ Hosted acceptance has four unresolved prerequisites:
 - No READY Preview carries this branch's application SHA and required
   metadata. The stale `441ee318` deployment must not be reused for current
   acceptance.
-- The worktree has no Supabase acceptance credential, and the signed-in browser
-  account cannot access project `hyflxnlhpmiqxvvcoiia`. The team must restore
-  authorized access before the preflight can prove the project's data boundary.
 - The GitHub `hosted_vercel_audit` lane requires the application SHA to belong
   to the canonical captain branch. This feature commit has not entered that
   branch, and this audit did not bypass the ancestry gate.
@@ -111,6 +134,7 @@ The packet-factory verifier passed 30/30 checks. Its canonical generator reports
 uncommitted generation drift in `MASTER_QUEUE.json` and `CHECKPOINT.json`; this
 branch did not rewrite those shared files.
 
-This continuation made no Preview deployment, hosted database request, tenant
-seed, Stripe request, or production request. Counsel approval and the
+This continuation issued read-only hosted Supabase and Vercel preflight
+requests. It made no Preview deployment, hosted database write, tenant seed,
+Stripe request, or production request. Counsel approval and the
 participant-delivery prerequisites above remain open.
