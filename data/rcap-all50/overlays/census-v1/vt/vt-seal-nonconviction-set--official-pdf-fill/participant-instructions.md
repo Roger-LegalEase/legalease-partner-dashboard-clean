@@ -2,7 +2,7 @@
 
 This packet is prepared for **Petition to Seal a Non-Conviction Record, 13 V.S.A. Sec. 7603**.
 
-The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. Everything else on these forms is yours, and this page lists every one of them by the words printed beside the blank.
+The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number. This page lists the petition and stipulation items that are yours by the words printed beside each blank. The fee-waiver form is not one of those items on this no-fee track.
 
 ## Where you file this
 
@@ -10,10 +10,15 @@ File the completed packet with the **Vermont Superior Court, Criminal Division**
 
 Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.
 
-Two things this packet does **not** tell you, because neither is established here and an unsourced figure in a filing instruction is worse than none:
+## What it costs, and when the fee-waiver form applies
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above. The waiver form is included; the amount it waives is not stated here.
-- **Who must be served, and how.** Ask the same clerk. The State's Attorney's signature on the stipulation is not service and does not substitute for it.
+**There is no filing fee on this non-conviction sealing track.** Under 32 V.S.A. § 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. § 1201(a). This track does not seal a conviction.
+
+Form **600-00228**, *Application to Waive Filing Fees and Service Costs*, is conditional only where a filing fee is actually charged and the participant cannot pay it. **No fee is charged on this track, so do not complete or file 600-00228 for this petition.**
+
+## Filing and prosecutor workflow
+
+**You do not serve the prosecutor with process.** If you file the petition, the court provides a copy to the prosecutor. If you use the stipulation, sign it and take or send it to the prosecuting office; the prosecutor signs and files it with the court.
 
 ## What is in this packet
 
@@ -21,7 +26,7 @@ Two things this packet does **not** tell you, because neither is established her
 | --- | --- |
 | `petition` | **200-00130** — Petition to Seal Criminal History |
 | `stipulation_and_proposed_order` | **200-00132** — Stipulation to Seal Criminal History Record + Order |
-| `fee_waiver_application` | **600-00228** — Application to Waive Filing Fees and Service Costs |
+| `fee_waiver_application` | **600-00228** — Application to Waive Filing Fees and Service Costs — conditional only if a fee is actually charged and the participant cannot pay it; do not complete or file it on this track |
 | `filing_and_expectation_instructions` | the page that says where the packet goes and what to expect |
 
 ## What you must do
@@ -29,12 +34,12 @@ Two things this packet does **not** tell you, because neither is established her
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 2. **Say which non-conviction ending applies to your case.** Question 2 of the petition offers three: you were cited or arrested but no charge was filed, a charge was filed and the court found no probable cause, or a charge was filed and the court dismissed it. Those are three different things and only you know which happened. The packet has already stated that you were **not convicted** — that much the route decides — and it leaves the rest to you.
 3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
-4. **Decide which route you are taking.** If the State's Attorney will sign the stipulation (200-00132), that is the quicker route and the court may seal on that agreement. If they will not, file the petition (200-00130) on its own and ask the court to set a hearing. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.
-5. **File the fee waiver (600-00228) only if you cannot pay.**
+4. **Decide which route you are taking.** For a stipulation, sign form 200-00132 and take or send it to the prosecuting office; the prosecutor signs and files it with the court. If the prosecutor will not stipulate, file the petition (200-00130) on its own. The process-guidance page in this packet sets out both, and the third route — the one that files nothing — as well.
+5. **Do not file form 600-00228 on this track.** There is no filing fee here. The waiver is used only where a fee is actually charged and the participant cannot pay it.
 
 **A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone — and it records an objection "in the interests of justice" as converting the automatic route into a § 7603(b) hearing. The hearing date stands either way, so start looking for help the day you learn of one.
 
-## The items you must supply
+## The petition and stipulation items you must supply
 
 ### 200-00130 — Petition to Seal Criminal History
 
@@ -91,75 +96,6 @@ Two things this packet does **not** tell you, because neither is established her
 | 1 | Address (other state entities to notify) | that second agency's address |
 | 1 | State Agency (other state entities to notify) | a second agency the court should notify, if there is one |
 | 1 | Mailing Address (third line) | a third mailing-address line, only if your address needs one |
-
-### 600-00228 — Application to Waive Filing Fees and Service Costs
-
-| Page | The blank on the form | What to write |
-| --- | --- | --- |
-| 1 | SUPERIOR COURT DIVISION | the Superior Court division your case is in |
-| 1 | Unit (Superior Court unit) | the Superior Court unit (county) where the case was decided |
-| 1 | Mailing Address: (if different from street address) | a mailing address, only if it is different from your street address |
-| 1 | Work Phone: | your work phone number, if you have one |
-| 1 | Total Number Living in Household (spouse, partner & dependents) | how many people live in your household, counting a spouse or partner and any dependants |
-| 1 | Employer Name | your employer's name, if you are employed |
-| 1 | Employer Address | your employer's address |
-| 1 | Employer Address | that second employer's address |
-| 1 | Employer Name | a second employer's name, if you have one |
-| 1 | Type of Assistance: | the type of public assistance you receive, if you receive any |
-| 1 | Monthly Amount $ | the monthly amount of that public assistance |
-| 1 | Gross Income from Wages | your gross monthly income from wages |
-| 1 | Rent or Mortgage Payment | your monthly rent or mortgage payment |
-| 1 | Unemployment Compensation | your monthly unemployment compensation, if any |
-| 1 | Electric Service | your monthly electricity bill |
-| 1 | Child Support (income received) | child support you receive each month, if any |
-| 1 | Phone (monthly expense) | your monthly phone bill |
-| 1 | Other Income | any other monthly income |
-| 1 | Fuel (heat and/or gas) | your monthly fuel, heating or gas cost |
-| 1 | Food | your monthly food cost |
-| 1 | the unlabelled expense line printed left of Clothing | the household expense on this line of the form |
-| 1 | Self-Employment/Business Income (other than wages) | your monthly self-employment or business income, if any |
-| 1 | Clothing | your monthly clothing cost |
-| 1 | Medical | your monthly medical cost |
-| 1 | Child Support (monthly expense) | child support you pay each month, if any |
-| 1 | Total Monthly Income | your total monthly income |
-| 1 | Auto Loan Payment | your monthly car loan payment, if any |
-| 1 | Total Income in the past 12 months | your total income over the past twelve months |
-| 1 | Property Taxes | your monthly property tax, if you pay it |
-| 1 | Insurance (health, auto, etc.) | your monthly insurance cost |
-| 1 | Other Expenses | any other monthly expense |
-| 2 | Vehicle Amount Owed | how much you still owe on that vehicle |
-| 2 | Vehicles Make, Model | the make and model of a vehicle you own, if you own one |
-| 2 | Vehicle Net Value | that vehicle's net value |
-| 2 | Vehicle Year / Fair Market Value | that vehicle's year and fair market value |
-| 2 | Vehicles Make, Model | a second vehicle's make and model, if you own one |
-| 2 | Vehicle Year / Fair Market Value | that second vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed | how much you still owe on that second vehicle |
-| 2 | Vehicle Net Value | that second vehicle's net value |
-| 2 | Vehicles Make, Model | a third vehicle's make and model, if you own one |
-| 2 | Vehicle Amount Owed | how much you still owe on that third vehicle |
-| 2 | Vehicle Net Value | that third vehicle's net value |
-| 2 | Vehicle Year / Fair Market Value | that third vehicle's year and fair market value |
-| 2 | Vehicles Make, Model | a fourth vehicle's make and model, if you own one |
-| 2 | Vehicle Year / Fair Market Value | that fourth vehicle's year and fair market value |
-| 2 | Vehicle Amount Owed | how much you still owe on that fourth vehicle |
-| 2 | Vehicle Net Value | that fourth vehicle's net value |
-| 2 | Real Property Description | a description of real property you own, if you own any |
-| 2 | Real Property Mortgage | the mortgage on that property |
-| 2 | Real Property Net Value | that property's net value |
-| 2 | Real Property FMV | that property's fair market value |
-| 2 | Real Property Description | a second property's description, if you own one |
-| 2 | Real Property FMV | that second property's fair market value |
-| 2 | Real Property Mortgage | the mortgage on that second property |
-| 2 | Real Property Net Value | that second property's net value |
-| 2 | Cash on Hand | how much cash you have on hand |
-| 2 | Checking Account | the balance of your checking account |
-| 2 | Savings Accounts | the balance of your savings accounts |
-| 2 | Total Cash Assets | your total cash assets |
-| 2 | Other Assets FMV | that asset's fair market value |
-| 2 | Other Assets Description | a description of any other asset — tools, equipment, stocks and so on |
-| 2 | Other Assets FMV | that second asset's fair market value |
-| 2 | Other Assets Description | a second other asset, if you have one |
-| 2 | These are additional reasons why I cannot afford the fees: | anything else you want the court to know about why you cannot afford the fees — this is yours to write |
 
 ## Things the platform deliberately left blank
 
