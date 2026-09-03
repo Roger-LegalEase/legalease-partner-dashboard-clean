@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "6322ee375927b9948e60ccb30eb3548b7172dfa4",
+  "minimumCaptainSha": "d9297976756e0be85f7f2a4988354be02aaa0054",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -69,18 +69,18 @@
     "sourceReady": 83,
     "sourceBlocked": 70,
     "legalBlocked": 32,
-    "verifyPending": 39,
-    "repairRequired": 19,
+    "verifyPending": 34,
+    "repairRequired": 24,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 83,
     "COMPLETE_PACKET_PROVEN": 94,
-    "VERIFY_PENDING": 39,
+    "VERIFY_PENDING": 34,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 70,
+    "FAIL_REPAIR_REQUIRED": 24,
     "LEGAL_BLOCKED": 22,
-    "FAIL_REPAIR_REQUIRED": 19,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "VERIFIED_PASS": 1,
@@ -3296,18 +3296,36 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "SELF_HELP_STOP"
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The canonical artifact writes all 13 mapped values, but the current boundary artifact writes only 12: Email Address is refused as value_exceeds_widget_width_at_minimum_font and is visibly absent. knownRequiredFieldsMissing is therefore 1.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The packet-set manifest declares the quantity-evidence confirmation and no-fee rule as required before filing. The current instructions do not give that evidence-check instruction and instead tell the participant to ask whether a fee exists.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The current instructions say the fee and waiver are unknown, while the committed packet-set manifest says Rule 36(a)(4) bars a filing fee. The participant is therefore sent to investigate a fee the current route record says does not exist.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The current instructions tell the participant to ask whom and how to serve, while the committed packet-set manifest says no participant service is required because Rule 36(b)(2) puts transmittal on the court.",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
@@ -4318,24 +4336,30 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "SELF_HELP_STOP",
-        "SERVICE"
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "SERVICE",
-          "finding": null,
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The current instructions omit declared before-filing checks/actions for the sentence record, no-notarization posture and FW-001, and nine MC-031 rows falsely claim internal names such as FillText10 and NoticeFooter1 are words printed beside participant blanks.",
           "evidence": null
         },
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 16 current page rasters were read. On CR-180 page 3 in both canonical and boundary, the flattened Warning viewer-control text is clipped at the left edge so only 'd privacy, please press the Clear This Form button after you' is visible. visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The instructions disclose an unresolved county-specific fee but omit the committed conditional FW-001 fee-waiver route.",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-41-set.mjs",
@@ -4485,24 +4509,36 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
         "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "SERVICE"
       ],
       "failedObligations": [
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
+          "finding": "The instructions do not reproduce the declared before-filing docket/abstract check for realignment, signature/no-notarization actions or FW-001 step. They also misdescribe the CR-106 TCCaseName_ft internal name as printed page text.",
           "evidence": null
         },
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 16 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The instructions appropriately avoid inventing the unresolved fee amount but omit the committed conditional FW-001 fee-waiver path.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet ships CR-106 but says who must be served is unknown, while the current packet-set manifest identifies the prosecuting attorney. A required service recipient is therefore omitted.",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-42-set.mjs",
@@ -4628,18 +4664,36 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "SELF_HELP_STOP"
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The current instructions omit the declared docket-or-declaration confirmation, signature/no-notarization actions and FW-001 step, and misdescribe CR-106 TCCaseName_ft as printed page text.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 14 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The unresolved county-specific amount is disclosed, but the instructions omit the committed conditional FW-001 fee-waiver route.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The instructions say the service recipient is unknown even though the current packet-set manifest names the prosecuting attorney; CR-106 alone does not cure the missing recipient instruction.",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-43-set.mjs",
@@ -4782,24 +4836,36 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
         "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "SERVICE"
       ],
       "failedObligations": [
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
+          "finding": "The instructions omit the declared probation-record confirmation, signature/no-notarization actions, section 1203.4a reimbursement treatment and FW-001 step, and misdescribe CR-106 TCCaseName_ft as printed page text.",
           "evidence": null
         },
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 16 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The instructions call fee and waiver wholly unknown, omitting the committed up-to-$60 county/up-to-$60 city reimbursement, ability-to-pay/non-eligibility rule and FW-001 waiver path.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The instructions say whom to serve is unknown although the committed packet-set manifest names the prosecuting attorney where notice is required.",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-4a-set.mjs",
@@ -5081,18 +5147,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Each canonical CR-409 contains 14 mapped writes, but both byte-identical boundary variants contain only 12. TCCaseName and ProtectedEmail are refused as value_exceeds_widget_width_at_minimum_font and are visibly blank. These are two distinct missing mapped prefills, not four duplicate-instance defects.",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-851-91-set.mjs",
@@ -27259,7 +27325,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ks-custom-pleading.mjs",
@@ -36756,11 +36822,11 @@
     }
   ],
   "totals": {
-    "lanes": 56,
+    "lanes": 60,
     "builders": 24,
     "verifiers": 12,
     "sourceLanes": 16,
-    "repairLanes": 4,
+    "repairLanes": 8,
     "familiesAssignedToBuilders": 83,
     "sourceObligationsAssigned": 129,
     "actualPromotedAndReleased": 83,

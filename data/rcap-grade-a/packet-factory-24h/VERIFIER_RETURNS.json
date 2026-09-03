@@ -21,8 +21,8 @@
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
   "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
   "counts": {
-    "returnDirectories": 38,
-    "rows": 492,
+    "returnDirectories": 42,
+    "rows": 498,
     "independentVerdicts": 183,
     "failRepairRequired": 39,
     "passIndependent": 136
@@ -1081,7 +1081,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_marijuana_expungement_arrest_no_charges-set",
@@ -1121,6 +1121,48 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
       "superseded": true
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf33",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The canonical artifact writes all 13 mapped values, but the current boundary artifact writes only 12: Email Address is refused as value_exceeds_widget_width_at_minimum_font and is visibly absent. knownRequiredFieldsMissing is therefore 1.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The packet-set manifest declares the quantity-evidence confirmation and no-fee rule as required before filing. The current instructions do not give that evidence-check instruction and instead tell the participant to ask whether a fee exists.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The current instructions say the fee and waiver are unknown, while the committed packet-set manifest says Rule 36(a)(4) bars a filing fee. The participant is therefore sent to investigate a fee the current route record says does not exist.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The current instructions tell the participant to ask whom and how to serve, while the committed packet-set manifest says no participant service is required because Rule 36(b)(2) puts transmittal on the court.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
+      "superseded": false
     },
     {
       "familyId": "az_marijuana_expungement_superior_court-set",
@@ -1276,6 +1318,42 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-41-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf33",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The current instructions omit declared before-filing checks/actions for the sentence record, no-notarization posture and FW-001, and nine MC-031 rows falsely claim internal names such as FillText10 and NoticeFooter1 are words printed beside participant blanks.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 16 current page rasters were read. On CR-180 page 3 in both canonical and boundary, the flattened Warning viewer-control text is clipped at the left edge so only 'd privacy, please press the Clear This Form button after you' is visible. visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The instructions disclose an unresolved county-specific fee but omit the committed conditional FW-001 fee-waiver route.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-41-set",
       "superseded": false
     },
     {
@@ -1304,7 +1382,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-42-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ca-1203-42-set",
@@ -1338,6 +1416,48 @@
       "superseded": true
     },
     {
+      "familyId": "ca-1203-42-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf33",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions do not reproduce the declared before-filing docket/abstract check for realignment, signature/no-notarization actions or FW-001 step. They also misdescribe the CR-106 TCCaseName_ft internal name as printed page text.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 16 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The instructions appropriately avoid inventing the unresolved fee amount but omit the committed conditional FW-001 fee-waiver path.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The packet ships CR-106 but says who must be served is unknown, while the current packet-set manifest identifies the prosecuting attorney. A required service recipient is therefore omitted.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-42-set",
+      "superseded": false
+    },
+    {
       "familyId": "ca-1203-43-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
@@ -1356,6 +1476,48 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-43-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf33",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The current instructions omit the declared docket-or-declaration confirmation, signature/no-notarization actions and FW-001 step, and misdescribe CR-106 TCCaseName_ft as printed page text.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 14 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The unresolved county-specific amount is disclosed, but the instructions omit the committed conditional FW-001 fee-waiver route.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The instructions say the service recipient is unknown even though the current packet-set manifest names the prosecuting attorney; CR-106 alone does not cure the missing recipient instruction.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-43-set",
       "superseded": false
     },
@@ -1384,6 +1546,48 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-4a-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf33",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions omit the declared probation-record confirmation, signature/no-notarization actions, section 1203.4a reimbursement treatment and FW-001 step, and misdescribe CR-106 TCCaseName_ft as printed page text.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 16 current page rasters were read. Both CR-180 page-3 artifacts clip the flattened Warning viewer-control text at the left edge; visualDefects is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The instructions call fee and waiver wholly unknown, omitting the committed up-to-$60 county/up-to-$60 city reimbursement, ability-to-pay/non-eligibility rule and FW-001 waiver path.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The instructions say whom to serve is unknown although the committed packet-set manifest names the prosecuting attorney where notice is required.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json",
+      "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-4a-set",
       "superseded": false
     },
@@ -1615,7 +1819,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ca-851-91-set",
@@ -1647,6 +1851,30 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf17/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set",
       "superseded": true
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf33",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Each canonical CR-409 contains 14 mapped writes, but both byte-identical boundary variants contain only 12. TCCaseName and ProtectedEmail are refused as value_exceeds_widget_width_at_minimum_font and are visibly blank. These are two distinct missing mapped prefills, not four duplicate-instance defects.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-851-91-set",
+      "superseded": false
     },
     {
       "familyId": "ca-prop64-set",
