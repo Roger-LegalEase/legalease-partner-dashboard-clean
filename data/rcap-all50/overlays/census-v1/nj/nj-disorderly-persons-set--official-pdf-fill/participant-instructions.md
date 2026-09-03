@@ -33,6 +33,26 @@ File with the **Superior Court, Criminal Division**, in the county where the par
 
 Serve the petition as required and, after entry, serve a certified copy of the signed order on every record-holding agency. The held notice list is: **the county prosecutor, the Attorney General, the State Police, the courts involved, the arresting agency, probation, and any relevant municipal court**. Keep the existing rule below: complete service certificates only after service actually occurs.
 
+## All 11 actions required before filing
+
+The legal-design track records the following 11 actions. Review every one before filing; do not treat the generated sample values as a substitute for these checks.
+
+- Check your answer to "List every conviction you have anywhere, including other states and federal court, with the grading and the date." against New Jersey State Police State Bureau of Identification criminal history record, and correct the packet if they disagree.
+- Check your answer to "For each matter: the county, the court and its level, the complaint or indictment number, the docket number, the offence and statute, the disposition and its date." against Court records and dispositions for any matter the SBI record does not show, and correct the packet if they disagree.
+- Verification of the petition — The verified petition under N.J.S.A. 2C:52-7.
+- The judge's signature line on the proposed order — Proposed expungement order.
+- The monies-owed section of the proposed order — Proposed expungement order.
+- Filing through the eCourts Expungement System — The Judiciary's own portal.
+- Serving a certified copy of the signed order on every record-holding agency — The service checklist built from the SBI history.
+- The petition is duly verified by the participant.
+- Verification as the Judiciary kit and the eCourts system require.
+- No court filing fee. New Jersey Courts states "It's free", and the Judiciary kit was updated in June 2020 to remove the fee. The State Police charge for the SBI criminal history record.
+- not applicable to the court filing. There is no filing fee to waive.
+
+For the two record checks, first compare the complete list of convictions against the fingerprint-based State Police SBI history and correct every disagreement. If the SBI history omits a matter or disposition, obtain that court's records and compare and correct the county, court and level, complaint or indictment number, docket number, offence and statute, disposition, and disposition date.
+
+Complete and duly verify the petition before filing. Follow the Judiciary kit and eCourts verification workflow, including notarization when that workflow requires it; the participant must not write in the notary's own execution block. Leave the judge's signature line for the judge, but ensure the proposed order carries the exact monies-owed information the court requires. Post-entry service of the certified signed order occurs only after the judge signs it.
+
 ## Exact facts still required before filing
 
 The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.
@@ -40,6 +60,14 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - offense(s)) (source field: `arrestOff2`)
 - in violation of N.J.S.A. (statute(s)) (source field: `arrestStatute`)
 - (original indict (source field: `arrestMuni`)
+- Charges of (name of offense(s)) — continuation line (source field: `guiltyOff2`)
+- Statute(s) violated — selected conviction row (source field: `guiltyStatute`)
+- Final sentence — selected conviction row, line 1 (source field: `guiltyFinal1`)
+- Final sentence — selected conviction row, line 2 (source field: `guiltyFinal2`)
+- Jail/prison/incarceration term or type (source field: `guiltyTimeType`)
+- Date jail/prison/incarceration was completed (source field: `guiltyDocCmpltDt`)
+- Date probation was completed (source field: `guiltyProbDt`)
+- Date fines were paid (source field: `guiltyFineDt`)
 - contOwe (source field: `contOwe`)
 - Original (source field: `oweDocket`)
 - in the amount of $ (source field: `oweAmt`)

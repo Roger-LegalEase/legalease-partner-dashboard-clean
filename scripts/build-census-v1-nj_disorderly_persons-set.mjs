@@ -88,13 +88,23 @@ function repairFieldMapAndWriteReport() {
     ["arrest3Statute", "(statute) — arrest/custody row 3"],
     ["arrest4Statute", "(statute) — arrest/custody row 4"],
     ["arrest5Statute", "(statute) — arrest/custody row 5"],
+    ["guiltyOff2", "Charges of (name of offense(s)) — continuation line"],
+    ["guiltyStatute", "Statute(s) violated — selected conviction row"],
+    ["guiltyFinal1", "Final sentence — selected conviction row, line 1"],
+    ["guiltyFinal2", "Final sentence — selected conviction row, line 2"],
+    ["guiltyTimeType", "Jail/prison/incarceration term or type"],
+    ["guiltyDocCmpltDt", "Date jail/prison/incarceration was completed"],
+    ["guiltyProbDt", "Date probation was completed"],
+    ["guiltyFineDt", "Date fines were paid"],
   ]);
   for (const [field, label] of labels) {
     const index = fields.findIndex((row) => row.field === field);
     assert.notEqual(index, -1, `${field}: field-map row is absent`);
     const reason = field === "ExpungeCntyName"
       ? "REQUIRED_BEFORE_FILING: confirm the filing county and write it in all four caption widgets; the held residence-county value is not substituted for this filing-venue fact."
-      : "REQUIRED_BEFORE_FILING: this is a participant arrest-table statute cell, not a signature or date field; surface it to the participant and do not guess.";
+      : field.startsWith("arrest")
+        ? "REQUIRED_BEFORE_FILING: this is a participant arrest-table statute cell, not a signature or date field; surface it to the participant and do not guess."
+        : "REQUIRED_BEFORE_FILING: this blank belongs to the selected page-19 conviction row; surface the exact participant fact and do not leave a partially classified row.";
     fields[index] = requiredBeforeFilingRow(fields[index], label, reason);
   }
   writeJson(mapFile, map);
@@ -157,16 +167,50 @@ Serve the petition as required and, after entry, serve a certified copy of the s
     instructions = instructions.replace(marker, `${filingSections}${marker}`);
   }
 
+  if (!instructions.includes("## All 11 actions required before filing")) {
+    const marker = "\n## Exact facts still required before filing\n";
+    assert.ok(instructions.includes(marker), "required-before-filing section marker is absent");
+    const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+    const track = registry.tracks.find((candidate) => candidate.trackId === "nj_disorderly_persons");
+    assert.ok(track, "nj_disorderly_persons legal-design track is absent");
+    const actions = track.packetSet.requiredBeforeFiling;
+    assert.equal(actions.length, 11, "expected exactly 11 registry required-before-filing actions");
+    const actionRows = actions.map((action) => `- ${action}`).join("\n");
+    const actionSection = `
+## All 11 actions required before filing
+
+The legal-design track records the following 11 actions. Review every one before filing; do not treat the generated sample values as a substitute for these checks.
+
+${actionRows}
+
+For the two record checks, first compare the complete list of convictions against the fingerprint-based State Police SBI history and correct every disagreement. If the SBI history omits a matter or disposition, obtain that court's records and compare and correct the county, court and level, complaint or indictment number, docket number, offence and statute, disposition, and disposition date.
+
+Complete and duly verify the petition before filing. Follow the Judiciary kit and eCourts verification workflow, including notarization when that workflow requires it; the participant must not write in the notary's own execution block. Leave the judge's signature line for the judge, but ensure the proposed order carries the exact monies-owed information the court requires. Post-entry service of the certified signed order occurs only after the judge signs it.
+`;
+    instructions = instructions.replace(marker, `${actionSection}${marker}`);
+  }
+
   const requiredIntro = "The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n";
-  if (!instructions.includes("source field: `ExpungeCntyName`")) {
-    assert.ok(instructions.includes(requiredIntro), "required-before-filing introduction is absent");
-    const additions = [
-      "- County (where you are filing); write the same confirmed county on pages 18, 27, 30, and 40 (source field: `ExpungeCntyName`)",
-      "- (statute) — arrest/custody row 3 (source field: `arrest3Statute`)",
-      "- (statute) — arrest/custody row 4 (source field: `arrest4Statute`)",
-      "- (statute) — arrest/custody row 5 (source field: `arrest5Statute`)",
-    ].join("\n");
-    instructions = instructions.replace(requiredIntro, `${requiredIntro}${additions}\n`);
+  assert.ok(instructions.includes(requiredIntro), "required-before-filing introduction is absent");
+  const requiredFieldDisclosures = [
+    ["ExpungeCntyName", "County (where you are filing); write the same confirmed county on pages 18, 27, 30, and 40"],
+    ["arrest3Statute", "(statute) — arrest/custody row 3"],
+    ["arrest4Statute", "(statute) — arrest/custody row 4"],
+    ["arrest5Statute", "(statute) — arrest/custody row 5"],
+    ["guiltyOff2", "Charges of (name of offense(s)) — continuation line on the selected page-19 conviction row"],
+    ["guiltyStatute", "Statute(s) violated — selected page-19 conviction row"],
+    ["guiltyFinal1", "Final sentence — selected page-19 conviction row, line 1"],
+    ["guiltyFinal2", "Final sentence — selected page-19 conviction row, line 2"],
+    ["guiltyTimeType", "Jail/prison/incarceration term or type — selected page-19 conviction row"],
+    ["guiltyDocCmpltDt", "Date jail/prison/incarceration was completed — selected page-19 conviction row"],
+    ["guiltyProbDt", "Date probation was completed — selected page-19 conviction row"],
+    ["guiltyFineDt", "Date fines were paid — selected page-19 conviction row"],
+  ];
+  const missingDisclosures = requiredFieldDisclosures
+    .filter(([field]) => !instructions.includes(`source field: \`${field}\``))
+    .map(([field, label]) => `- ${label} (source field: \`${field}\`)`);
+  if (missingDisclosures.length > 0) {
+    instructions = instructions.replace(requiredIntro, `${requiredIntro}${missingDisclosures.join("\n")}\n`);
   }
 
   if (!instructions.includes("### Held `selfHelpBoundaries` (15 entries)")) {
@@ -202,6 +246,7 @@ function assertFix13Repair() {
   assertPdfRecordsMatch();
   const map = readJson(`${out}/production-field-map.json`);
   const fields = map.documents[0].fields;
+  const instructions = fs.readFileSync(abs(`${out}/participant-instructions.md`), "utf8");
   for (const field of ["ExpungeCntyName", "arrest3Statute", "arrest4Statute", "arrest5Statute"]) {
     const row = fields.find((candidate) => candidate.field === field);
     assert.ok(row, `${field}: field-map row is absent`);
@@ -209,7 +254,35 @@ function assertFix13Repair() {
     assert.equal(row.blankTreatment, "REQUIRED_BEFORE_FILING", `${field}: blank treatment is wrong`);
     assert.equal(row.requiredBeforeFiling, true, `${field}: required flag is absent`);
   }
-  const instructions = fs.readFileSync(abs(`${out}/participant-instructions.md`), "utf8");
+
+  const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+  const track = registry.tracks.find((candidate) => candidate.trackId === "nj_disorderly_persons");
+  assert.ok(track, "nj_disorderly_persons legal-design track is absent");
+  assert.equal(track.packetSet.requiredBeforeFiling.length, 11,
+    "the focused repair is pinned to all 11 registry required-before-filing actions");
+  for (const action of track.packetSet.requiredBeforeFiling) {
+    assert.ok(instructions.includes(action), `registry required-before-filing action is absent: ${action}`);
+  }
+
+  const convictionRowRequiredFields = [
+    "guiltyOff2",
+    "guiltyStatute",
+    "guiltyFinal1",
+    "guiltyFinal2",
+    "guiltyTimeType",
+    "guiltyDocCmpltDt",
+    "guiltyProbDt",
+    "guiltyFineDt",
+  ];
+  for (const field of convictionRowRequiredFields) {
+    const row = fields.find((candidate) => candidate.field === field);
+    assert.ok(row, `${field}: page-19 conviction-row field is absent`);
+    assert.equal(row.decision, "refuse", `${field}: must remain unwritten`);
+    assert.equal(row.blankTreatment, "REQUIRED_BEFORE_FILING", `${field}: blank treatment is wrong`);
+    assert.equal(row.requiredBeforeFiling, true, `${field}: required flag is absent`);
+    assert.ok(instructions.includes(`source field: \`${field}\``),
+      `${field}: participant disclosure is absent`);
+  }
   for (const heading of ["## What it costs to file", "## Where to file", "## Who must be served", "## Where self-help ends"]) {
     assert.ok(instructions.includes(heading), `${heading}: instruction section is absent`);
   }
@@ -229,6 +302,14 @@ function assertFix13Repair() {
   const actualWrites = readJson(`${out}/reports/actual-writes.json`);
   const boundary = actualWrites.artifacts.find((artifact) => artifact.fixture === "boundary");
   assert.ok(boundary, "boundary actual-write evidence is absent");
+  for (const artifact of actualWrites.artifacts) {
+    for (const field of convictionRowRequiredFields) {
+      assert.equal(artifact.written.some((row) => row.field === field), false,
+        `${artifact.fixture}: ${field} must not be written`);
+      assert.ok(artifact.refused.some((row) => row.field === field),
+        `${artifact.fixture}: ${field} refusal evidence is absent`);
+    }
+  }
   for (const [field, widgetCount] of [["DefName", 20], ["DefAddrStr", 7]]) {
     const write = boundary.written.find((row) => row.field === field);
     assert.ok(write, `${field}: boundary prefill write is absent`);
