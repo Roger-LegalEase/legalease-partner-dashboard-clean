@@ -256,6 +256,8 @@ for (const [factId, unsafeValue] of [
   ["mcic_identifier_delivery_method", "Not court-approved"],
   ["mcic_identifier_method_confirmation_source", "banana"],
   ["mcic_identifier_method_confirmation_source", "Court confirmation denied"],
+  ["mcic_identifier_method_confirmation_source", "Confirmed by the Hinds County Circuit Clerk on 9999-99-99"],
+  ["mcic_identifier_method_confirmation_source", "Confirmed by the Hinds County Circuit Clerk on 2099-01-01"],
   ["service_address_confirmation_status", "banana"],
   ["service_address_confirmation_status", "Court confirmation denied"],
   ["certified_disposition_exhibit_status", "Not attached"],
