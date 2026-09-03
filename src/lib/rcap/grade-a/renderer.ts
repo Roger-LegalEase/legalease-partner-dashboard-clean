@@ -27,8 +27,6 @@ const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
 const MARGIN = 54;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
-const BODY_SIZE = 10;
-const BODY_LEADING = 14.5;
 
 const INK = rgb(0.06, 0.13, 0.22);
 const MUTED = rgb(0.36, 0.41, 0.46);
@@ -37,6 +35,11 @@ const RULE = rgb(0.85, 0.89, 0.93);
 type Fonts = { body: PDFFont; bold: PDFFont };
 type Cursor = { page: PDFPage; y: number };
 type PleadingFonts = Fonts & { pleadingBody: PDFFont; pleadingBold: PDFFont; pleadingItalic: PDFFont };
+type GuidanceLayout = {
+  bodySize: number;
+  bodyLeading: number;
+  keepBlocksTogether: boolean;
+};
 type PleadingContext = {
   court: string;
   caseNumber: string;
@@ -49,6 +52,16 @@ const PLEADING_MARGIN = 72;
 const PLEADING_CONTENT_WIDTH = PAGE_WIDTH - PLEADING_MARGIN * 2;
 const PLEADING_BODY_SIZE = 12;
 const PLEADING_LEADING = 18;
+const LEGACY_GUIDANCE_LAYOUT: GuidanceLayout = {
+  bodySize: 10.5,
+  bodyLeading: 15,
+  keepBlocksTogether: false
+};
+const MS_REVISION_GUIDANCE_LAYOUT: GuidanceLayout = {
+  bodySize: 10,
+  bodyLeading: 14.5,
+  keepBlocksTogether: true
+};
 
 export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffer> {
   if (packet.documents.length === 0) {
@@ -74,24 +87,37 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
   document.setCreationDate(stamp);
   document.setModificationDate(stamp);
 
-  const fonts: PleadingFonts = {
+  const fonts: Fonts = {
     body: await document.embedFont(StandardFonts.Helvetica),
-    bold: await document.embedFont(StandardFonts.HelveticaBold),
-    pleadingBody: await document.embedFont(StandardFonts.TimesRoman),
-    pleadingBold: await document.embedFont(StandardFonts.TimesRomanBold),
-    pleadingItalic: await document.embedFont(StandardFonts.TimesRomanItalic)
+    bold: await document.embedFont(StandardFonts.HelveticaBold)
   };
 
-  const cursor: Cursor = { page: document.addPage([PAGE_WIDTH, PAGE_HEIGHT]), y: PAGE_HEIGHT - MARGIN };
-
   const ordered = [...packet.documents].sort((left, right) => left.order - right.order);
+  const hasPleading = ordered.some((entry) => entry.presentation === "pleading");
+  const pleadingFonts: PleadingFonts | null = hasPleading
+    ? {
+        ...fonts,
+        pleadingBody: await document.embedFont(StandardFonts.TimesRoman),
+        pleadingBold: await document.embedFont(StandardFonts.TimesRomanBold),
+        pleadingItalic: await document.embedFont(StandardFonts.TimesRomanItalic)
+      }
+    : null;
+  const cursor: Cursor = { page: document.addPage([PAGE_WIDTH, PAGE_HEIGHT]), y: PAGE_HEIGHT - MARGIN };
+  const guidanceLayout = packet.routeKey === "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    && packet.specificationVersion === "2.0.0"
+    ? MS_REVISION_GUIDANCE_LAYOUT
+    : LEGACY_GUIDANCE_LAYOUT;
   ordered.forEach((entry, index) => {
     if (index > 0) pageBreak(cursor, document);
-    if (entry.presentation === "pleading") drawPleadingDocument(cursor, document, fonts, entry);
-    else drawDocument(cursor, document, fonts, entry);
+    if (entry.presentation === "pleading") {
+      if (!pleadingFonts) throw new Error(`Pleading fonts were not loaded for ${entry.documentId}.`);
+      drawPleadingDocument(cursor, document, pleadingFonts, entry);
+    } else {
+      drawDocument(cursor, document, fonts, entry, guidanceLayout);
+    }
   });
 
-  drawProvenanceFooter(cursor, document, fonts, packet);
+  drawProvenanceFooter(cursor, document, fonts, packet, guidanceLayout);
 
   const bytes = await document.save({ useObjectStreams: false });
   return Buffer.from(bytes);
@@ -546,48 +572,62 @@ function drawCenteredWrapped(
   return y;
 }
 
-function drawDocument(cursor: Cursor, document: PDFDocument, fonts: Fonts, entry: GradeADocument) {
+function drawDocument(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: Fonts,
+  entry: GradeADocument,
+  layout: GuidanceLayout
+) {
   kicker(cursor, document, fonts, entry.outputStrategy === "custom_pleading" ? "Court document" : "Instructions");
   title(cursor, document, fonts, entry.title);
   entry.blocks.forEach((block, index) => {
     // A signature heading stranded at the foot of one page while its lines
     // move to the next is more than ugly: it makes the signing instruction
     // ambiguous. Keep the heading and the whole signature block together.
-    if (block.kind === "heading" && entry.blocks[index + 1]?.kind === "signature") {
+    if (layout.keepBlocksTogether && block.kind === "heading" && entry.blocks[index + 1]?.kind === "signature") {
       ensure(cursor, document, 150);
     }
     if (
-      block.kind === "heading"
+      layout.keepBlocksTogether
+      && block.kind === "heading"
       && entry.blocks[index + 1]?.kind === "paragraph"
       && entry.blocks[index + 2]?.kind === "signature"
     ) {
       ensure(cursor, document, 205);
     }
-    drawBlock(cursor, document, fonts, block);
+    drawBlock(cursor, document, fonts, block, layout);
   });
 }
 
-function drawBlock(cursor: Cursor, document: PDFDocument, fonts: Fonts, block: GradeABlock) {
+function drawBlock(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: Fonts,
+  block: GradeABlock,
+  layout: GuidanceLayout
+) {
   switch (block.kind) {
     case "heading":
       heading(cursor, document, fonts, block.text);
       return;
     case "paragraph":
-      paragraph(cursor, document, fonts, block.text);
+      paragraph(cursor, document, fonts, block.text, {}, layout);
       return;
     case "labelled":
-      labelled(cursor, document, fonts, block.label, block.value);
+      labelled(cursor, document, fonts, block.label, block.value, layout);
       return;
     case "bulleted":
-      for (const item of block.items) paragraph(cursor, document, fonts, `- ${item}`, { indent: 12 });
+      for (const item of block.items) paragraph(cursor, document, fonts, `- ${item}`, { indent: 12 }, layout);
       space(cursor, 4);
       return;
     case "numbered":
-      block.items.forEach((item, index) => paragraph(cursor, document, fonts, `${index + 1}. ${item}`, { indent: 12 }));
+      block.items.forEach((item, index) =>
+        paragraph(cursor, document, fonts, `${index + 1}. ${item}`, { indent: 12 }, layout));
       space(cursor, 4);
       return;
     case "signature":
-      signature(cursor, document, fonts, block);
+      signature(cursor, document, fonts, block, layout);
       return;
     case "rule":
       horizontalRule(cursor, document);
@@ -599,9 +639,10 @@ function signature(
   cursor: Cursor,
   document: PDFDocument,
   fonts: Fonts,
-  block: Extract<GradeABlock, { kind: "signature" }>
+  block: Extract<GradeABlock, { kind: "signature" }>,
+  layout: GuidanceLayout
 ) {
-  ensure(cursor, document, 125);
+  if (layout.keepBlocksTogether) ensure(cursor, document, 125);
   space(cursor, 8);
   for (const line of block.lines) {
     ensure(cursor, document, 34);
@@ -615,24 +656,30 @@ function signature(
     cursor.page.drawText(sanitize(line), { x: MARGIN, y: cursor.y, size: 8, font: fonts.body, color: MUTED });
     cursor.y -= 18;
   }
-  if (block.label) labelled(cursor, document, fonts, "Printed name", block.label);
-  paragraph(cursor, document, fonts, block.note, { color: MUTED, size: 9 });
+  if (block.label) labelled(cursor, document, fonts, "Printed name", block.label, layout);
+  paragraph(cursor, document, fonts, block.note, { color: MUTED, size: 9 }, layout);
 }
 
-function drawProvenanceFooter(cursor: Cursor, document: PDFDocument, fonts: Fonts, packet: GradeAPacket) {
+function drawProvenanceFooter(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: Fonts,
+  packet: GradeAPacket,
+  layout: GuidanceLayout
+) {
   // The packet says what it was built from. A participant who comes back with a
   // question, and anyone reviewing a complaint about one of these, can tell
   // exactly which specification produced the pages in their hand.
   pageBreak(cursor, document);
   kicker(cursor, document, fonts, "About this packet");
   title(cursor, document, fonts, packet.packetFamilyLabel);
-  labelled(cursor, document, fonts, "Route", packet.routeKey);
-  labelled(cursor, document, fonts, "Packet specification", `${packet.specificationId} v${packet.specificationVersion}`);
-  labelled(cursor, document, fonts, "Prepared from verification", packet.verificationHash);
+  labelled(cursor, document, fonts, "Route", packet.routeKey, layout);
+  labelled(cursor, document, fonts, "Packet specification", `${packet.specificationId} v${packet.specificationVersion}`, layout);
+  labelled(cursor, document, fonts, "Prepared from verification", packet.verificationHash, layout);
   paragraph(cursor, document, fonts,
     "This packet was prepared from the answers you confirmed at final verification. If any of those answers change, "
     + "the packet has to be prepared again — a filing built on a superseded answer is worse than no filing.",
-    { color: MUTED, size: 9 });
+    { color: MUTED, size: 9 }, layout);
 }
 
 function kicker(cursor: Cursor, document: PDFDocument, fonts: Fonts, text: string) {
@@ -661,14 +708,15 @@ function paragraph(
   document: PDFDocument,
   fonts: Fonts,
   text: string,
-  options: { color?: ReturnType<typeof rgb>; size?: number; indent?: number } = {}
+  options: { color?: ReturnType<typeof rgb>; size?: number; indent?: number } = {},
+  layout: GuidanceLayout = LEGACY_GUIDANCE_LAYOUT
 ) {
-  const size = options.size ?? BODY_SIZE;
+  const size = options.size ?? layout.bodySize;
   const indent = options.indent ?? 0;
   const leading = size + 4.5;
   const lines = wrap(sanitize(text), fonts.body, size, CONTENT_WIDTH - indent);
   const paragraphHeight = lines.length * leading + 3;
-  if (paragraphHeight <= PAGE_HEIGHT - MARGIN * 2) {
+  if (layout.keepBlocksTogether && paragraphHeight <= PAGE_HEIGHT - MARGIN * 2) {
     ensure(cursor, document, paragraphHeight);
   }
   for (const line of lines) {
@@ -679,14 +727,21 @@ function paragraph(
   cursor.y -= 3;
 }
 
-function labelled(cursor: Cursor, document: PDFDocument, fonts: Fonts, label: string, value: string) {
-  ensure(cursor, document, BODY_LEADING * 2);
+function labelled(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: Fonts,
+  label: string,
+  value: string,
+  layout: GuidanceLayout = LEGACY_GUIDANCE_LAYOUT
+) {
+  ensure(cursor, document, layout.bodyLeading * 2);
   cursor.page.drawText(sanitize(label.toUpperCase()), { x: MARGIN, y: cursor.y, size: 7.5, font: fonts.bold, color: MUTED });
   cursor.y -= 12;
-  for (const line of wrap(sanitize(value), fonts.body, BODY_SIZE, CONTENT_WIDTH)) {
-    ensure(cursor, document, BODY_LEADING);
-    cursor.page.drawText(line, { x: MARGIN, y: cursor.y, size: BODY_SIZE, font: fonts.body, color: INK });
-    cursor.y -= BODY_LEADING;
+  for (const line of wrap(sanitize(value), fonts.body, layout.bodySize, CONTENT_WIDTH)) {
+    ensure(cursor, document, layout.bodyLeading);
+    cursor.page.drawText(line, { x: MARGIN, y: cursor.y, size: layout.bodySize, font: fonts.body, color: INK });
+    cursor.y -= layout.bodyLeading;
   }
   cursor.y -= 4;
 }
