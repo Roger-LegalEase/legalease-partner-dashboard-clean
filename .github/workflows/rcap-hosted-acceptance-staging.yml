@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_audit, migrate, clinic_migrate, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
+        description: "preflight, vercel_audit, migrate, clinic_migrate, clinic_preview, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -85,6 +85,10 @@ on:
       # let me reach the application".
       VERCEL_AUTOMATION_BYPASS_SECRET:
         required: false
+      HOSTED_CLINIC_DEMO_PASSWORD:
+        required: true
+      HOSTED_CLINIC_DEMO_ACCESS_CODE:
+        required: true
 
 permissions:
   contents: read
@@ -184,7 +188,10 @@ jobs:
             || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
           git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
-          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+          # This server-only post-claim Clinic binding is not imported by the
+          # render worker. It is the one measured application repair in this
+          # Preview; every actual worker input remains byte-compared below.
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src ':(exclude)src/lib/clinic-mode/result-follow-up.ts' \
             || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
           git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
             || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
@@ -261,6 +268,11 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-hosted-clinic-migrate.mjs
 
+      - name: Verify the bounded MVL Clinic Preview orchestration contract
+        id: verify_clinic_preview
+        if: inputs.phase == 'clinic_preview'
+        run: node scripts/verify-rcap-hosted-ms-clinic-preview.mjs
+
       # Deploys the FROZEN application bytes. The equivalence check above has
       # already proven this checkout is byte-identical to application_sha on
       # src, package.json, package-lock.json, tsconfig.json, next.config.ts and
@@ -281,6 +293,7 @@ jobs:
       #   stripe_retarget  no             no       no              yes
       #   checkout_gate    no             no       yes             no
       #   browser          no             no       no              no (isolated browser=true)
+      #   clinic_preview   yes            no       no              no (bounded MVL seed + no-Stripe journey)
       #   clinic_migrate   no             no       no              no (exact ten-file Clinic Preview sequence only)
       #   migrate          no             no       no              no
       #   preflight        no             no       no              no
@@ -292,15 +305,16 @@ jobs:
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
           case "$PHASE" in
-            full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false ;;
-            deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
-            replace_preview) DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
-            accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false ;;
-            payment)         DEPLOY=true;  MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false ;;
-            stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true;  BROWSER=false ;;
-            checkout_gate)   DEPLOY=false; MATRIX=false; GATE=true;  RETARGET=false; BROWSER=false ;;
-            browser)         DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=true  ;;
-            clinic_migrate|migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
+            full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false ;;
+            clinic_preview)  DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true  ;;
+            deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
+            replace_preview) DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
+            accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
+            payment)         DEPLOY=true;  MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
+            stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true;  BROWSER=false; CLINIC=false ;;
+            checkout_gate)   DEPLOY=false; MATRIX=false; GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false ;;
+            browser)         DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=true;  CLINIC=false ;;
+            clinic_migrate|migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false ;;
             *)
               echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
               exit 1
@@ -313,6 +327,7 @@ jobs:
             echo "gate=$GATE"
             echo "retarget=$RETARGET"
             echo "browser=$BROWSER"
+            echo "clinic=$CLINIC"
             # A read-only diagnosis phase: no Preview, no Checkout, no payment,
             # but it does need the registry to probe inside the published image.
             if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
@@ -320,13 +335,13 @@ jobs:
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
             # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$PHASE" = "replace_preview" ]; then
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$PHASE" = "replace_preview" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
             fi
           } >> "$GITHUB_OUTPUT"
-          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE stripeRetarget=$RETARGET browser=$BROWSER"
+          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE stripeRetarget=$RETARGET browser=$BROWSER clinic=$CLINIC"
 
       - name: Retarget the one existing Stripe sandbox webhook to the exact Preview
         id: stripe_retarget
@@ -367,9 +382,10 @@ jobs:
       # operator's instruction to test one specific deployment.
       - name: Resolve the Preview this run will use
         id: resolve_preview
-        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true'
+        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           # The resolver reads the CANDIDATE from the inputs. Everything
           # downstream reads the RESOLVED identity from this step's outputs.
@@ -378,6 +394,7 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
       - name: Deploy the frozen application SHA to Vercel Preview
@@ -390,13 +407,15 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
-          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ steps.contract.outputs.clinic != 'true' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ steps.contract.outputs.clinic != 'true' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           # Every phase whose normalized contract transacts opens the route only
           # to the named synthetic identity the deploy resolves. Nontransacting
           # phases leave the control at its disabled default.
           HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped == 'true' && 'staging_scoped' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
         run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
@@ -405,7 +424,7 @@ jobs:
       # site_url and uri_allow_list, and only on the acceptance project.
       - name: Configure acceptance Auth and create the synthetic identities
         id: auth_identities
-        if: steps.contract.outputs.matrix == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.clinic == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -413,6 +432,8 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
           HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
         run: node scripts/rcap-hosted-acceptance-auth-config.mjs
 
       # The golden-journey matrix needs a built application to serve the
@@ -443,8 +464,58 @@ jobs:
       # synthesizes a completion event, runs the worker, or cleans up the item.
       - name: Install frozen application dependencies for the Checkout gate
         id: gate_deps
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
         run: npm ci
+
+      - name: Seed only the bounded synthetic MVL Clinic cohort
+        id: clinic_seed
+        if: steps.contract.outputs.clinic == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          HOSTED_CLINIC_DEMO_ACCESS_CODE: ${{ secrets.HOSTED_CLINIC_DEMO_ACCESS_CODE }}
+        run: node scripts/rcap-hosted-ms-clinic-preview-seed.mjs
+
+      - name: Run the MVL Clinic screening-to-packet journey without Stripe
+        id: clinic_journey
+        if: steps.contract.outputs.clinic == 'true'
+        env:
+          RCAP_BROWSER_BASE_URL: https://${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
+          RCAP_BROWSER_EMAIL: mvl-demo-participant-a@rcap-acceptance.test
+          RCAP_BROWSER_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          RCAP_BROWSER_NEGATIVE_EMAIL: mvl-demo-participant-b@rcap-acceptance.test
+          RCAP_BROWSER_NEGATIVE_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          RCAP_BROWSER_STAFF_EMAIL: mvl-demo-staff@rcap-acceptance.test
+          RCAP_BROWSER_STAFF_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          RCAP_BROWSER_PARTNER_SLUG: mvl-demo
+          RCAP_BROWSER_CLINIC_EVENT_ID: 77000000-0000-4000-8000-000000000055
+          RCAP_BROWSER_CLINIC_EVENT_SLUG: mississippi-volunteer-lawyers-demo
+          RCAP_BROWSER_CLINIC_EVENT_NAME: Mississippi Volunteer Lawyers Clinic Mode Demo
+          RCAP_BROWSER_CLINIC_ACCESS_CODE: ${{ secrets.HOSTED_CLINIC_DEMO_ACCESS_CODE }}
+          RCAP_BROWSER_VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          RCAP_BROWSER_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          RCAP_BROWSER_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_BROWSER_ACCEPTANCE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          RCAP_BROWSER_EXPECTED_SCOPE_SHA256: ${{ steps.auth_identities.outputs.staging_scope_sha256 }}
+          RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          RCAP_BROWSER_ALLOW_MUTATION: "1"
+          RCAP_BROWSER_EVIDENCE_DIR: hosted-acceptance-evidence/ms-clinic-preview
+        run: node scripts/verify-rcap-commercial-browser.mjs
+
+      - name: Bind the Clinic journey to server-side scope, credit, artifact, and reset evidence
+        id: clinic_audit
+        if: steps.contract.outputs.clinic == 'true' && steps.clinic_journey.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_BROWSER_EVIDENCE_DIR: hosted-acceptance-evidence/ms-clinic-preview
+        run: node scripts/rcap-hosted-ms-clinic-preview-audit.mjs
 
       # Placed AFTER the registry login and the dependency install, because it
       # needs both: it pulls the private image by digest, and it imports the
@@ -582,11 +653,16 @@ jobs:
           RUNS_GATE: ${{ steps.contract.outputs.gate }}
           RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
           RUNS_BROWSER: ${{ steps.contract.outputs.browser }}
+          RUNS_CLINIC: ${{ steps.contract.outputs.clinic }}
           O_DIAGNOSE: ${{ steps.worker_contract.outcome }}
           O_VERIFY_BROWSER: ${{ steps.verify_browser.outcome }}
           O_BROWSER: ${{ steps.hosted_browser.outcome }}
           O_VERIFY_CLINIC_MIGRATE: ${{ steps.verify_clinic_migrate.outcome }}
           O_CLINIC_MIGRATE: ${{ steps.clinic_migrate.outcome }}
+          O_VERIFY_CLINIC_PREVIEW: ${{ steps.verify_clinic_preview.outcome }}
+          O_CLINIC_SEED: ${{ steps.clinic_seed.outcome }}
+          O_CLINIC_JOURNEY: ${{ steps.clinic_journey.outcome }}
+          O_CLINIC_AUDIT: ${{ steps.clinic_audit.outcome }}
           O_RESOLVE: ${{ steps.resolve_preview.outcome }}
           O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
           O_DEPLOY: ${{ steps.deploy_preview.outcome }}
@@ -611,7 +687,7 @@ jobs:
               *)       echo "  $2  $1"; fail=1 ;;
             esac
           }
-          echo "phase=$PHASE contract=$O_CONTRACT matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE"
+          echo "phase=$PHASE contract=$O_CONTRACT matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE clinic=$RUNS_CLINIC"
           # Without this, a contract step that failed or never ran leaves
           # RUNS_MATRIX empty, the assertions below are all skipped, and this
           # gate reports success having checked nothing — the exact vacuous pass
@@ -625,7 +701,20 @@ jobs:
             true/*/false|false/true/false|false/false/true|false/false/false) ;;
             *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE' browser='$RUNS_BROWSER', which is not a decision this gate can read"; exit 1 ;;
           esac
-          if [ "$RUNS_MATRIX" = "true" ]; then
+          if [ "$RUNS_CLINIC" = "true" ]; then
+            require "Clinic Preview orchestration contract" "$O_VERIFY_CLINIC_PREVIEW"
+            require "Preview resolution boundary" "$O_RESOLVE"
+            if [ "$O_REUSED" != "true" ]; then
+              require "deploy one Clinic Preview" "$O_DEPLOY"
+            else
+              echo "  ok       exact Clinic Preview reused; no deployment command executed"
+            fi
+            require "acceptance Auth and MVL identities" "$O_AUTH"
+            require "frozen dependencies" "$O_DEPS"
+            require "Clinic synthetic seed" "$O_CLINIC_SEED"
+            require "Clinic screening-to-packet journey" "$O_CLINIC_JOURNEY"
+            require "Clinic server-side audit" "$O_CLINIC_AUDIT"
+          elif [ "$RUNS_MATRIX" = "true" ]; then
             require "Preview resolution boundary"        "$O_RESOLVE"
             # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
             if [ "$O_REUSED" != "true" ]; then

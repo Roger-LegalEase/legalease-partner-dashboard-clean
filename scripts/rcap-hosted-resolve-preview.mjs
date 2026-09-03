@@ -22,6 +22,7 @@
 // not evidence; the deployment record is.
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import {
   expectedHostedReturnOrigin,
@@ -36,7 +37,11 @@ const DEPLOYMENT_ID_INPUT = (process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "").tri
 const APPLICATION_SHA = (process.env.HOSTED_APPLICATION_SHA ?? "").trim();
 const PROJECT_REF = (process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
+const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
+const EXPECTED_CLINIC_DEMO_MODE = CLINIC_DEMO_MODE || "none";
+const EXPECTED_STRIPE_CONFIGURED = CLINIC_DEMO_MODE === "mississippi_preview" ? "false" : "true";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 if (!/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
@@ -50,6 +55,9 @@ if (PROJECT_REF !== EXPECTED_PROJECT_REF) {
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 const EXPECTED_RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA);
 const EXPECTED_RETURN_HOST = new URL(EXPECTED_RETURN_ORIGIN).host;
+const EXPECTED_CLINIC_SCOPE_SHA256 = CLINIC_DEMO_MODE === "mississippi_preview"
+  ? await resolveClinicScopeSha256()
+  : null;
 
 // Phases that transact — Checkout, payment, worker, artifact, delivery — need
 // the delivery route OPEN and narrowed to the named synthetic identity. Phases
@@ -142,8 +150,11 @@ async function findExistingExactPreview() {
       && isPreviewTarget(full.target)
       && meta.rcapApplicationSha === APPLICATION_SHA
       && meta.rcapAcceptanceProjectRef === PROJECT_REF
-      && meta.rcapStripeConfigured === "true"
+      && meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
       && meta.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
+      && meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
+      && (CLINIC_DEMO_MODE !== "mississippi_preview"
+        || (EXPECTED_CLINIC_SCOPE_SHA256 && meta.rcapStagingScopeSha256 === EXPECTED_CLINIC_SCOPE_SHA256))
       && routeStateAcceptable(state);
     let aliasBound = false;
     if (matches) {
@@ -237,6 +248,19 @@ deployedReturnOrigin === EXPECTED_RETURN_ORIGIN
   ? ok("deployment_carries_the_deterministic_return_origin", deployedReturnOrigin)
   : bad("deployment_carries_the_deterministic_return_origin", `deployment records ${deployedReturnOrigin ?? "(none)"}, expected ${EXPECTED_RETURN_ORIGIN}`);
 
+meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
+  ? ok("deployment_carries_the_exact_clinic_mode", EXPECTED_CLINIC_DEMO_MODE)
+  : bad("deployment_carries_the_exact_clinic_mode", `deployment records ${meta.rcapClinicDemoMode ?? "(none)"}, expected ${EXPECTED_CLINIC_DEMO_MODE}`);
+meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
+  ? ok("deployment_carries_the_expected_stripe_posture", `rcapStripeConfigured=${EXPECTED_STRIPE_CONFIGURED}`)
+  : bad("deployment_carries_the_expected_stripe_posture", `deployment records ${meta.rcapStripeConfigured ?? "(none)"}, expected ${EXPECTED_STRIPE_CONFIGURED}`);
+if (CLINIC_DEMO_MODE === "mississippi_preview") {
+  EXPECTED_CLINIC_SCOPE_SHA256 && meta.rcapStagingScopeSha256 === EXPECTED_CLINIC_SCOPE_SHA256
+    ? ok("deployment_carries_the_exact_two_participant_scope", EXPECTED_CLINIC_SCOPE_SHA256)
+    : bad("deployment_carries_the_exact_two_participant_scope",
+      `deployment records ${meta.rcapStagingScopeSha256 ?? "(none)"}; expected ${EXPECTED_CLINIC_SCOPE_SHA256 ?? "unresolvable synthetic cohort"}`);
+}
+
 try {
   const aliased = await api(`/v13/deployments/${encodeURIComponent(EXPECTED_RETURN_HOST)}`);
   const aliasDeploymentId = aliased.id ?? aliased.uid ?? null;
@@ -307,3 +331,17 @@ if (problems.length > 0) {
 
 emit("reused_exact_ready_preview", { hostname: resolvedHost, deploymentId, readyState, target, applicationSha: deployedSha, routeState: observedRouteState, rest });
 console.log(`  reusing ${origin} (${deploymentId}); no Vercel deployment command was executed.`);
+
+async function resolveClinicScopeSha256() {
+  if (!SUPABASE_ACCESS_TOKEN) return null;
+  const response = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `select id,email from auth.users where lower(email) in ('mvl-demo-participant-a@rcap-acceptance.test','mvl-demo-participant-b@rcap-acceptance.test') order by case lower(email) when 'mvl-demo-participant-a@rcap-acceptance.test' then 1 else 2 end`
+    })
+  });
+  const rows = await response.json().catch(() => null);
+  if (!response.ok || !Array.isArray(rows) || rows.length !== 2 || rows.some((row) => !/^[0-9a-f-]{36}$/i.test(row?.id ?? ""))) return null;
+  return createHash("sha256").update(rows.map((row) => row.id).join(",")).digest("hex");
+}

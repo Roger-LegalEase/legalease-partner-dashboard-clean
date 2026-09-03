@@ -30,14 +30,33 @@ export function clinicReviewTreatmentFor(evaluation: ScreeningEvaluation): Clini
   };
 }
 
+export type ClinicCaseTreatment = {
+  queueStatus: "attorney_review" | "packet_ready";
+  routeDisposition: "referral" | "packet";
+};
+
+/**
+ * Bind every packet-capable Clinic claim to its saved matter before sponsored
+ * finalization. Non-packet outcomes remain unchanged unless they have an
+ * explicit Clinic review treatment above.
+ */
+export function clinicCaseTreatmentFor(evaluation: ScreeningEvaluation): ClinicCaseTreatment | null {
+  if (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution") {
+    return { queueStatus: "packet_ready", routeDisposition: "packet" };
+  }
+  const review = clinicReviewTreatmentFor(evaluation);
+  return review ? { queueStatus: review.queueStatus, routeDisposition: review.routeDisposition } : null;
+}
+
 export async function createClinicReviewFollowUpForSavedMatter(input: {
   participantUserId: string;
   screeningSessionId: string;
   matterId: string;
   evaluation: ScreeningEvaluation;
 }) {
-  const treatment = clinicReviewTreatmentFor(input.evaluation);
-  if (!treatment) return { outcome: "not_required" as const, followUpId: null };
+  const caseTreatment = clinicCaseTreatmentFor(input.evaluation);
+  if (!caseTreatment) return { outcome: "not_required" as const, followUpId: null };
+  const reviewTreatment = clinicReviewTreatmentFor(input.evaluation);
 
   const db = getSupabaseAdminClient();
   if (!db) throw new Error("clinic_follow_up_database_unavailable");
@@ -61,13 +80,15 @@ export async function createClinicReviewFollowUpForSavedMatter(input: {
     p_participant_user_id: input.participantUserId,
     p_screening_session_id: input.screeningSessionId,
     p_matter_id: input.matterId,
-    p_queue_status: treatment.queueStatus,
-    p_route_disposition: treatment.routeDisposition,
+    p_queue_status: caseTreatment.queueStatus,
+    p_route_disposition: caseTreatment.routeDisposition,
     p_jurisdiction: input.evaluation.jurisdiction
   });
   if (clinicCase.error || typeof clinicCase.data !== "string") {
     throw new Error("clinic_follow_up_case_binding_failed");
   }
+
+  if (!reviewTreatment) return { outcome: "case_bound" as const, followUpId: null };
 
   const followUpId = stableUuid(`clinic-review:${clinicCase.data}:${COLORADO_JUVENILE_PATHWAY}`);
   const followUp = await db.from("clinic_follow_ups").upsert({
@@ -78,8 +99,8 @@ export async function createClinicReviewFollowUpForSavedMatter(input: {
     due_at: null,
     status: "open",
     communication_state: "draft",
-    participant_safe_message: treatment.participantSafeMessage,
-    internal_notes: treatment.internalNotes,
+    participant_safe_message: reviewTreatment.participantSafeMessage,
+    internal_notes: reviewTreatment.internalNotes,
     created_by: input.participantUserId,
     completed_at: null
   }, { onConflict: "id", ignoreDuplicates: true });

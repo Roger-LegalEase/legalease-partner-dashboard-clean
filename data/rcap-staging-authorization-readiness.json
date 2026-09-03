@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "The corrected Mississippi Clinic Preview worker was published immutably by successful publish-only run 33764350427. Failed hosted migration run 33766002005 truthfully exposed one missing provenance prerequisite after applying and ledgering migration four; the protected Clinic sequence now carries that prerequisite before launch rails. Authenticated digest pull and every remaining bounded hosted acceptance predicate are still required. Consumer payment, sponsored Preview delivery pending technical acceptance, and Production all remain closed.",
+  "note": "The corrected Mississippi Clinic Preview worker was published immutably by successful publish-only run 33764350427. The repaired bounded hosted migration completed successfully in run 33787521004: all ten authorized hashes read back exactly, all required RLS/function/provenance/finalizer gates passed, and Production was untouched. Current Preview, exact two-participant scope, synthetic cohort, and hosted journey evidence remain required. Consumer payment, sponsored Preview delivery pending technical acceptance, and Production remain closed.",
   "clinicModePreviewMigrationAuthorization": {
     "schemaVersion": "rcap-clinic-preview-migration-authorization/v1",
     "status": "authorized_nonproduction_acceptance_only",
@@ -101,6 +101,24 @@
       "failedLaunchObjectsPresent": false,
       "readMethod": "Supabase Management API read-only catalog and immutable-ledger query",
       "productionTouched": false
+    },
+    "successfulHostedApplication": {
+      "observedAt": "2026-09-03T17:57:35Z",
+      "workflowRunId": 33787521004,
+      "evidenceArtifactId": 9906026621,
+      "projectRef": "hyflxnlhpmiqxvvcoiia",
+      "applicationSha": "7880054bc92d2ed3cfe230ade3524c0d0b42dfda",
+      "workerSourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+      "workerDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+      "migrationCount": 10,
+      "exactHashReadbackCount": 10,
+      "requiredRlsTableCount": 15,
+      "requiredFunctionCount": 41,
+      "atomicSponsoredFinalizerVerified": true,
+      "clinicJurisdictionLockVerified": true,
+      "immutableLedgerExact": true,
+      "productionTouched": false,
+      "verdict": "passed"
     }
   },
   "independent_security_proven": true,

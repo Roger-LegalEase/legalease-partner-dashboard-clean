@@ -140,7 +140,7 @@ check(
 );
 
 const followUpSource = fs.readFileSync(path.join(root, "src/lib/clinic-mode/result-follow-up.ts"), "utf8");
-for (const marker of ["clinic_upsert_case", 'p_queue_status: treatment.queueStatus', 'p_route_disposition: treatment.routeDisposition', '.from("clinic_follow_ups").upsert', "stableUuid"]) {
+for (const marker of ["clinic_upsert_case", 'p_queue_status: caseTreatment.queueStatus', 'p_route_disposition: caseTreatment.routeDisposition', '.from("clinic_follow_ups").upsert', "stableUuid"]) {
   check(followUpSource.includes(marker), `Clinic follow-up implementation is missing ${marker}`);
 }
 

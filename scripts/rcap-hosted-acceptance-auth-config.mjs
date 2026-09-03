@@ -49,6 +49,7 @@ const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
+const CLINIC_DEMO_PASSWORD = (process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? "").trim();
 
 if (!SUPABASE_ACCESS_TOKEN
   || PROJECT_REF !== EXPECTED_PROJECT_REF
@@ -60,6 +61,10 @@ if (!SUPABASE_ACCESS_TOKEN
 }
 if (!VERCEL_TOKEN) {
   console.error("AUTH: VERCEL_TOKEN is required to resolve the pinned nonproduction Preview project");
+  process.exit(1);
+}
+if (MISSISSIPPI_PREVIEW_MODE && CLINIC_DEMO_PASSWORD.length < 20) {
+  console.error("AUTH: HOSTED_CLINIC_DEMO_PASSWORD must contain at least 20 characters in Mississippi Preview mode");
   process.exit(1);
 }
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
@@ -133,6 +138,7 @@ const INTERNAL_ADMIN = {
 };
 
 function syntheticPassword(email) {
+  if (MISSISSIPPI_PREVIEW_MODE) return CLINIC_DEMO_PASSWORD;
   const material = crypto.createHmac("sha256", SUPABASE_ACCESS_TOKEN)
     .update(`rcap-ms-clinic-preview:${email}`)
     .digest("base64url");
@@ -167,9 +173,12 @@ let previewUrl = null;
 {
   const res = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}`);
   const match = res.json;
+  const alias = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_PREVIEW_HOSTNAME)}`);
+  const aliasDeploymentId = alias.json?.id ?? alias.json?.uid ?? null;
   const exact = res.status === 200
-    && match?.id === EXACT_DEPLOYMENT_ID
-    && match?.url === EXACT_PREVIEW_HOSTNAME
+    && (match?.id === EXACT_DEPLOYMENT_ID || match?.uid === EXACT_DEPLOYMENT_ID)
+    && alias.status === 200
+    && aliasDeploymentId === EXACT_DEPLOYMENT_ID
     && (match?.readyState ?? match?.state) === "READY"
     && (match?.target === null || match?.target === "preview")
     && match?.meta?.rcapApplicationSha === APPLICATION_SHA
@@ -180,7 +189,7 @@ let previewUrl = null;
     Boolean(previewUrl),
     previewUrl
       ? `${previewUrl} — READY, target=${JSON.stringify(match.target ?? null)}, rcapApplicationSha=${APPLICATION_SHA}`
-      : `resolved deployment ${EXACT_DEPLOYMENT_ID} did not preserve the exact READY nonproduction candidate contract`
+      : `resolved deployment ${EXACT_DEPLOYMENT_ID} or SHA-scoped alias ${EXACT_PREVIEW_HOSTNAME} did not preserve the exact READY nonproduction candidate contract`
   );
   if (!previewUrl) finish();
   evidence.previewUrl = previewUrl;
@@ -442,6 +451,10 @@ function finish() {
   if (evidence.passed) {
     console.log(`AUTH PASSED — ${PROJECT_REF} callbacks point at ${evidence.previewUrl}`);
     console.log(`  staging scope (UUIDs): ${evidence.stagingScope}`);
+    if (process.env.GITHUB_OUTPUT && evidence.stagingScope) {
+      const scopeHash = crypto.createHash("sha256").update(evidence.stagingScope).digest("hex");
+      fs.appendFileSync(process.env.GITHUB_OUTPUT, `staging_scope_sha256=${scopeHash}\n`);
+    }
   }
   process.exit(evidence.passed ? 0 : 1);
 }

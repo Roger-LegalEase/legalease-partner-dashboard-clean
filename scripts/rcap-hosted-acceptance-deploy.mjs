@@ -53,6 +53,7 @@ let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
+const CLINIC_DEMO_PASSWORD = (process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? "").trim();
 
 if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
   console.error("DEPLOY: VERCEL_TOKEN, SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and one exact application SHA are required");
@@ -89,10 +90,16 @@ function sqlText(value) {
 }
 
 function syntheticPassword(email) {
+  if (MISSISSIPPI_PREVIEW_MODE) return CLINIC_DEMO_PASSWORD;
   const material = crypto.createHmac("sha256", SUPABASE_ACCESS_TOKEN)
     .update(`rcap-ms-clinic-preview:${email}`)
     .digest("base64url");
   return `Acceptance-${material.slice(0, 32)}!`;
+}
+
+if (MISSISSIPPI_PREVIEW_MODE && CLINIC_DEMO_PASSWORD.length < 20) {
+  console.error("DEPLOY: HOSTED_CLINIC_DEMO_PASSWORD must contain at least 20 characters in Mississippi Preview mode");
+  process.exit(1);
 }
 
 async function vercelApi(pathname, init = {}) {
