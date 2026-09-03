@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "rcap-grade-a-ms-clinic-demo-artifacts/v3",
+  "schemaVersion": "rcap-grade-a-ms-clinic-demo-artifacts/v4",
   "generatedBy": "scripts/generate-ms-clinic-demo-packet.mjs",
   "generatedOn": "2026-09-03",
   "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
@@ -28,6 +28,14 @@
     "specificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
     "invalidationRule": "Any packet-byte or specification-digest change invalidates this approval and requires new review."
   },
+  "participantDeliveryReview": {
+    "state": "pending_named_mississippi_counsel_exact_hash_approval",
+    "priorApprovalReused": false,
+    "approvalRecorded": false,
+    "scope": "The exact participant-delivery canonical and boundary PDFs for the two synthetic mvl-demo Preview participants; sponsored Preview only after every technical predicate passes.",
+    "consumerPaidAuthorized": false,
+    "productionAuthorized": false
+  },
   "artifacts": [
     {
       "fixture": "canonical",
@@ -37,6 +45,7 @@
       "byteLength": 33848,
       "pageCount": 12,
       "documentCount": 5,
+      "generationPurpose": "internal_review",
       "verificationHash": "5db1df6b9c18875816333351b234817a910de50bd8fe5bf7a0f1111111111111"
     },
     {
@@ -47,7 +56,30 @@
       "byteLength": 37542,
       "pageCount": 13,
       "documentCount": 5,
+      "generationPurpose": "internal_review",
       "verificationHash": "d7778fc6857e27b09f1d5a38476c809e7388709aa8305e96d53c222222222222"
+    },
+    {
+      "fixture": "participant_delivery_canonical",
+      "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json",
+      "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf",
+      "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+      "byteLength": 33774,
+      "pageCount": 12,
+      "documentCount": 5,
+      "generationPurpose": "participant_delivery",
+      "verificationHash": "f8c520342faecf3be4b3f5d5dc7e84a44ced9d7e02cb284aa2134d01f4487340"
+    },
+    {
+      "fixture": "participant_delivery_boundary",
+      "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-b.fixture.json",
+      "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf",
+      "sha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+      "byteLength": 37430,
+      "pageCount": 13,
+      "documentCount": 5,
+      "generationPurpose": "participant_delivery",
+      "verificationHash": "d9b2244b276e5e8e0eb50a4cc1140a8de3830050876f06fd4a559e08eeb2eed8"
     }
   ]
 }

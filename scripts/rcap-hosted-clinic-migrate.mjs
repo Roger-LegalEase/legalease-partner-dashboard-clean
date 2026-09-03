@@ -64,6 +64,11 @@ const MIGRATIONS = Object.freeze([
     sequencePosition: 8,
     path: "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql",
     sha256: "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"
+  }),
+  Object.freeze({
+    sequencePosition: 9,
+    path: "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql",
+    sha256: "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"
   })
 ]);
 
@@ -288,7 +293,7 @@ async function main() {
 
   await managementQuery(`
     create table if not exists public.rcap_acceptance_clinic_migration_ledger (
-      sequence_position smallint primary key check (sequence_position between 1 and 8),
+      sequence_position smallint primary key check (sequence_position between 1 and 9),
       migration_path text not null unique,
       sha256 text not null unique check (sha256 ~ '^[0-9a-f]{64}$'),
       application_sha text not null check (application_sha ~ '^[0-9a-f]{40}$'),
@@ -302,13 +307,13 @@ async function main() {
         select 1 from pg_constraint
         where conrelid = 'public.rcap_acceptance_clinic_migration_ledger'::regclass
           and conname = 'rcap_acceptance_clinic_migration_ledger_sequence_position_check'
-          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 8)))'
+          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 9)))'
       ) then
         alter table public.rcap_acceptance_clinic_migration_ledger
           drop constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check;
         alter table public.rcap_acceptance_clinic_migration_ledger
           add constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check
-          check (sequence_position between 1 and 8);
+          check (sequence_position between 1 and 9);
       end if;
     end $$;
 
@@ -406,6 +411,7 @@ async function main() {
       to_regprocedure('public.enqueue_verified_consumer_packet_render(uuid,text,text,text,text,text,text,text,uuid,uuid,uuid,integer,uuid,uuid,text,jsonb,jsonb)') is not null as verified_enqueue_present,
       to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)') is not null as private_download_present,
       to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamptz,timestamptz,text,text,text,integer,integer,text)') is not null as jurisdiction_create_present,
+      to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)') is not null as sponsored_finalizer_present,
       exists(
         select 1 from information_schema.columns
         where table_schema='public' and table_name='clinic_events' and column_name='jurisdiction'
@@ -414,6 +420,11 @@ async function main() {
         and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%order by p.revision desc%'
         and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%limit 1%'
         as tightened_private_download_present,
+      pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%for update%'
+        and pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%partner_sponsorship%'
+        and pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%packet_status = ''ready''%'
+        and pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%mvl-demo%'
+        as atomic_sponsored_finalizer_present,
       not exists (
         select 1 from information_schema.role_table_grants g
         where g.table_schema='public'
@@ -436,6 +447,15 @@ async function main() {
         and coalesce(has_function_privilege('service_role',to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)'),'EXECUTE'),false)
         and not coalesce(has_function_privilege('anon',to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)'),'EXECUTE'),false)
         and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)'),'EXECUTE'),false)
+        and coalesce(has_function_privilege('service_role',to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('anon',to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)'),'EXECUTE'),false)
+        and not exists (
+          select 1 from information_schema.routine_privileges rp
+          where rp.routine_schema='public'
+            and rp.routine_name='finalize_sponsored_packet_generation_if_verified'
+            and rp.grantee='PUBLIC' and rp.privilege_type='EXECUTE'
+        )
         as key_function_grants_tight,
       exists(
         select 1 from pg_trigger
@@ -463,14 +483,16 @@ async function main() {
     && truthy(readback.verified_enqueue_present)
     && truthy(readback.private_download_present)
     && truthy(readback.jurisdiction_create_present)
+    && truthy(readback.sponsored_finalizer_present)
     && truthy(readback.jurisdiction_column_present)
     && truthy(readback.tightened_private_download_present)
+    && truthy(readback.atomic_sponsored_finalizer_present)
     && truthy(readback.protected_table_grants_tight)
     && truthy(readback.key_function_grants_tight);
   record(
-    "all_five_current_demo_migration_families_read_back",
+    "all_six_current_demo_migration_families_read_back",
     currentContractsPresent,
-    `atomic claim=${truthy(readback.atomic_claim_present)}; launch rails=${truthy(readback.verified_enqueue_present)}; private delivery=${truthy(readback.private_download_present)}; tightened authorization=${truthy(readback.tightened_private_download_present)}; protected table grants=${truthy(readback.protected_table_grants_tight)}; key function grants=${truthy(readback.key_function_grants_tight)}; jurisdiction lock=${truthy(readback.jurisdiction_create_present) && truthy(readback.jurisdiction_column_present)}`
+    `atomic claim=${truthy(readback.atomic_claim_present)}; launch rails=${truthy(readback.verified_enqueue_present)}; private delivery=${truthy(readback.private_download_present)}; tightened authorization=${truthy(readback.tightened_private_download_present)}; atomic sponsored finalization=${truthy(readback.atomic_sponsored_finalizer_present)}; protected table grants=${truthy(readback.protected_table_grants_tight)}; key function grants=${truthy(readback.key_function_grants_tight)}; jurisdiction lock=${truthy(readback.jurisdiction_create_present) && truthy(readback.jurisdiction_column_present)}`
   );
 
   const finalLedgerRows = await managementQuery(`
@@ -486,16 +508,16 @@ async function main() {
       && /^[0-9a-f]{40}$/.test(String(row.application_sha)))
     && truthy(readback.ledger_immutable);
   record(
-    "ledger_records_all_8_exact_frozen_migrations",
+    "ledger_records_all_9_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 8 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
+    `ledger records all 9 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 
 try {
   await main();
   writeEvidence(true);
-  console.log("\nHOSTED CLINIC MIGRATE: PASS — exact frozen eight-file Clinic Preview sequence is present on acceptance only");
+  console.log("\nHOSTED CLINIC MIGRATE: PASS — exact frozen nine-file Clinic Preview sequence is present on acceptance only");
 } catch (error) {
   writeEvidence(false, error);
   console.error(`\nHOSTED CLINIC MIGRATE: FAIL — ${sanitize(error instanceof Error ? error.message : error)}`);

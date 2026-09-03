@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "Worker image publication run 32688658427 and no-artifact acceptance run 32723173565 (#48) are bound to source 646d8969576e33b9ed72d3bca64b33b7e352c452 and digest sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402. Published and accepted do not mean deployed: the staging action remains prepared_queued_not_authorized, authorizes nothing, and still lacks 7 required environment values. No production worker, migration, user or session state changed.",
+  "note": "The bounded Mississippi Clinic Preview repair changes canonical worker inputs, so every earlier immutable worker publication remains historical evidence and is not executable for this repair. A new full-SHA, digest-pinned publication is required after the repair commit. Participant delivery, consumer payment, staging authorization and Production all remain closed.",
   "clinicModePreviewMigrationAuthorization": {
     "schemaVersion": "rcap-clinic-preview-migration-authorization/v1",
     "status": "authorized_nonproduction_acceptance_only",
@@ -52,6 +52,11 @@
         "sequencePosition": 8,
         "path": "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql",
         "sha256": "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"
+      },
+      {
+        "sequencePosition": 9,
+        "path": "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql",
+        "sha256": "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"
       }
     ],
     "idempotencyRule": "An existing immutable-ledger prefix at the exact paths and hashes is read back only; only the absent suffix may be applied.",
@@ -73,14 +78,14 @@
   },
   "fields": {
     "finalIntegrationSha": {
-      "status": "populated",
+      "status": "blocked",
       "owner": "captain",
-      "value": "2d793098a34559465f8c7def46ce78974952093f \u2014 current Captain carrying Lawrence Blackmon's exact-hash approval; image-input-equivalent to published worker source b7ae6204295f8865e90bcbe4b47e1af0b34a78ba."
+      "value": "Pending the exact pushed repair commit; the previous image-input-equivalence claim is superseded because this repair changes canonical worker inputs."
     },
     "requiredGithubChecksGreen": {
-      "status": "populated",
-      "owner": "captain",
-      "value": "Publish RCAP render worker run 33757592574, attempt 1, completed success from claude/legalease-sprint-captain-utucnw at workflow head 2d793098a34559465f8c7def46ce78974952093f. Its publication artifact binds source b7ae6204295f8865e90bcbe4b47e1af0b34a78ba to immutable digest sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d and records publish-only/no deploy. Authenticated digest-pull acceptance remains a hosted-run predicate."
+      "status": "blocked",
+      "owner": "Roger",
+      "value": "Run 33757592574 remains valid historical evidence for source b7ae6204295f8865e90bcbe4b47e1af0b34a78ba and digest sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d. The repaired worker has not yet been published or accepted."
     },
     "phase49": {
       "status": "populated",
@@ -117,9 +122,9 @@
       "note": "Vercel per docs/PHASE_17. The three Vercel repository secrets are present but not yet usable: VERCEL_TOKEN authenticates and can see one team, and VERCEL_ORG_ID matches none of that team's ids or slugs. Both VERCEL_ORG_ID and VERCEL_PROJECT_ID are 60-character values beginning 'vcp_3', which is an access-token shape rather than a team id ('team_...') or a project id ('prj_...'). Until those two are corrected the deployment step cannot run; the acceptance database is unaffected and is already fully provisioned."
     },
     "workerImageSourceAndDigest": {
-      "status": "populated",
-      "owner": "captain",
-      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d, built from b7ae6204295f8865e90bcbe4b47e1af0b34a78ba, immutable source-SHA tag b7ae6204295f8865e90bcbe4b47e1af0b34a78ba, publication run 33757592574 attempt 1. Artifact 9894146176 records no latest tag, publish-only/no deploy, no worker claiming, and staging/Production unchanged. Execution uses this digest-pinned reference, never the tag.",
+      "status": "blocked",
+      "owner": "Roger",
+      "value": "The prior immutable digest sha256:788b0a991bc628ff49d0debb0294bf05fa8fe1c97e3b6e55dc3f6bafb613f73d remains historical and must not execute the repaired source. The next value must come from a successful full-SHA publication of the exact repair commit and must be used only by immutable digest-pinned reference.",
       "supersedes": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c \u2014 valid historical Colorado candidate publication, retained unchanged and not deployable for the Mississippi Preview."
     },
     "workerDeploymentTarget": {

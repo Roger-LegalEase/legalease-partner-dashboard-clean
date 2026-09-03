@@ -49,9 +49,9 @@ const VISUAL_PROOF = "data/rcap-all50/contact-sheet-visual-proof.json";
 const WORKER_EVIDENCE = "data/rcap-render/worker-publication-evidence.json";
 const SOURCE_REGISTRY = "data/rcap-grade-a/official-source-registry.json";
 const MS_CLINIC_SPECIFICATION = "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json";
-const MS_CLINIC_FIXTURE = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json";
+const MS_CLINIC_FIXTURE = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json";
 const MS_CLINIC_ARTIFACTS = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json";
-const MS_CLINIC_RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json";
+const MS_CLINIC_RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json";
 // Lane-produced page-by-page visual review evidence. A lane may close the
 // visual-review dimension because reviewing every page of a rendered artifact
 // is work a lane actually does. It may not close output-level legal approval
@@ -525,9 +525,10 @@ function candidateRecord(row) {
 
 /**
  * The clinic-demo route is deliberately supplemental to the frozen paid launch
- * denominator. Its build evidence and exact-output counsel approval are real,
- * but neither creates a commercial grant: no protected participant verification
- * has been bound to the record and the sponsored Preview posture remains held.
+ * denominator. Its participant-delivery build and raster evidence are real,
+ * but the new exact hashes remain pending counsel review. The earlier approval
+ * is historical evidence for different internal-review bytes and is never
+ * carried into this record. Sponsored Preview posture remains held.
  */
 function mississippiClinicCandidateRecord() {
   const specificationBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_SPECIFICATION));
@@ -535,38 +536,50 @@ function mississippiClinicCandidateRecord() {
   const artifacts = readJson(MS_CLINIC_ARTIFACTS);
   const rasterReviewBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_RASTER_REVIEW));
   const rasterReview = JSON.parse(rasterReviewBytes);
-  const canonical = artifacts.artifacts.find((artifact) => artifact.fixture === "canonical");
-  const boundary = artifacts.artifacts.find((artifact) => artifact.fixture === "boundary");
-  const approval = artifacts.outputLegalApproval;
-  const canonicalRaster = rasterReview.artifacts?.find((artifact) => artifact.fixture === "canonical");
+  const canonical = artifacts.artifacts.find((artifact) => artifact.fixture === "participant_delivery_canonical");
+  const boundary = artifacts.artifacts.find((artifact) => artifact.fixture === "participant_delivery_boundary");
+  const historicalCanonical = artifacts.artifacts.find((artifact) => artifact.fixture === "canonical");
+  const historicalBoundary = artifacts.artifacts.find((artifact) => artifact.fixture === "boundary");
+  const historicalApproval = artifacts.outputLegalApproval;
+  const participantReview = artifacts.participantDeliveryReview;
+  const canonicalRaster = rasterReview.artifacts?.find((artifact) => artifact.fixture === "participant_delivery_canonical");
   if (!canonical) throw new Error("Mississippi clinic artifact evidence has no canonical artifact");
   if (!boundary) throw new Error("Mississippi clinic artifact evidence has no boundary artifact");
   if (!canonicalRaster) throw new Error("Mississippi clinic raster evidence has no canonical artifact");
-  if (
-    approval?.state !== "approved" ||
-    approval.decision !== "APPROVE" ||
-    approval.reviewerId !== "Lawrence Blackmon" ||
-    approval.decidedAt !== "2026-09-03" ||
-    approval.routeId !== MS_CLINIC_ROUTE ||
-    approval.packetFamily !== "ms-nonconv-set" ||
-    approval.canonicalSha256 !== canonical.sha256 ||
-    approval.boundarySha256 !== boundary.sha256 ||
-    approval.specificationSha256 !== sha256(specificationBytes) ||
-    approval.consumerPaidAuthorized !== false ||
-    approval.productionAuthorized !== false
+  if (!historicalCanonical || !historicalBoundary ||
+    historicalApproval?.state !== "approved" ||
+    historicalApproval.decision !== "APPROVE" ||
+    historicalApproval.reviewerId !== "Lawrence Blackmon" ||
+    historicalApproval.decidedAt !== "2026-09-03" ||
+    historicalApproval.routeId !== MS_CLINIC_ROUTE ||
+    historicalApproval.packetFamily !== "ms-nonconv-set" ||
+    historicalApproval.canonicalSha256 !== historicalCanonical.sha256 ||
+    historicalApproval.boundarySha256 !== historicalBoundary.sha256 ||
+    historicalApproval.specificationSha256 !== sha256(specificationBytes) ||
+    historicalApproval.consumerPaidAuthorized !== false ||
+    historicalApproval.productionAuthorized !== false
   ) {
-    throw new Error("Mississippi clinic output legal approval is absent or does not bind the exact bounded route artifacts");
+    throw new Error("Mississippi clinic historical internal-review approval is absent or no longer binds its exact bytes");
+  }
+  if (participantReview?.state !== "pending_named_mississippi_counsel_exact_hash_approval"
+    || participantReview.priorApprovalReused !== false
+    || participantReview.approvalRecorded !== false
+    || participantReview.consumerPaidAuthorized !== false
+    || participantReview.productionAuthorized !== false) {
+    throw new Error("Mississippi participant-delivery review must remain pending without carrying the historical approval");
   }
   const approvalScopeSha256 = sha256(JSON.stringify({
-    routeId: approval.routeId,
-    packetFamily: approval.packetFamily,
-    previewPartnerSlug: approval.previewPartnerSlug,
-    deliveryScope: approval.deliveryScope,
-    canonicalSha256: approval.canonicalSha256,
-    boundarySha256: approval.boundarySha256,
-    specificationSha256: approval.specificationSha256,
-    consumerPaidAuthorized: approval.consumerPaidAuthorized,
-    productionAuthorized: approval.productionAuthorized
+    routeId: MS_CLINIC_ROUTE,
+    packetFamily: "ms-nonconv-set",
+    previewPartnerSlug: "mvl-demo",
+    deliveryScope: participantReview.scope,
+    canonicalSha256: canonical.sha256,
+    boundarySha256: boundary.sha256,
+    specificationSha256: sha256(specificationBytes),
+    approvalRecorded: false,
+    priorApprovalReused: false,
+    consumerPaidAuthorized: false,
+    productionAuthorized: false
   }));
 
   const composerBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/composer.ts"));
@@ -604,7 +617,7 @@ function mississippiClinicCandidateRecord() {
       imageDigest: `sha256:${sha256(Buffer.concat([composerBytes, rendererBytes]))}`
     },
     fixture: {
-      fixtureId: "ms-nonconviction-clinic-demo-canonical",
+      fixtureId: "ms-nonconviction-clinic-demo-participant-a",
       sha256: sha256(fixtureBytes),
       deterministic: artifacts.deterministic === true
     },
@@ -644,17 +657,17 @@ function mississippiClinicCandidateRecord() {
       }
     },
     visualReview: {
-      state: rasterReview.independentReview?.status === "passed" ? "passed" : "pending",
-      pagesReviewed: rasterReview.independentReview?.status === "passed" ? canonicalRaster.pageCount : 0,
+      state: rasterReview.status === "passed" && canonicalRaster.pagesReviewed === canonicalRaster.pageCount ? "passed" : "pending",
+      pagesReviewed: rasterReview.status === "passed" ? canonicalRaster.pagesReviewed : 0,
       pageCount: canonicalRaster.pageCount,
       evidenceSha256: sha256(rasterReviewBytes),
-      reviewedBy: rasterReview.independentReview?.status === "passed" ? rasterReview.independentReview.reviewer : null,
-      reviewedAt: rasterReview.independentReview?.status === "passed" ? rasterReview.independentReview.reviewedAt : null
+      reviewedBy: rasterReview.status === "passed" ? rasterReview.reviewer : null,
+      reviewedAt: rasterReview.status === "passed" ? rasterReview.reviewedOn : null
     },
     outputLegalApproval: {
-      state: "passed",
-      reviewerId: approval.reviewerId,
-      decidedAt: approval.decidedAt,
+      state: "pending",
+      reviewerId: null,
+      decidedAt: null,
       scopeSha256: approvalScopeSha256
     },
     finalVerification: {
@@ -672,7 +685,7 @@ function mississippiClinicCandidateRecord() {
     changeKind: "created",
     changedAt: "2026-09-03",
     changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-    reason: `Clinic Preview candidate derived from ${MS_CLINIC_SPECIFICATION}, ${MS_CLINIC_FIXTURE}, ${MS_CLINIC_ARTIFACTS}, and ${MS_CLINIC_RASTER_REVIEW}. Exact-output counsel approval is recorded; participant final verification remains intentionally unbound and delivery remains held.`,
+    reason: `Clinic Preview participant-delivery candidate derived from ${MS_CLINIC_SPECIFICATION}, ${MS_CLINIC_FIXTURE}, ${MS_CLINIC_ARTIFACTS}, and ${MS_CLINIC_RASTER_REVIEW}. Its new exact hashes are pending Lawrence Blackmon review; the earlier internal-review approval is historical and was not reused. Participant final verification remains intentionally unbound and delivery remains held.`,
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: null
   }];
@@ -695,7 +708,7 @@ const registry = {
   candidateScope: {
     jurisdictions: [...CANDIDATE_JURISDICTIONS, "MS"],
     routes: [MS_CLINIC_ROUTE],
-    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record remains incomplete until participant final verification and every technical Preview predicate are bound. Exact-output counsel approval alone grants no delivery posture. A route absent from this registry fails closed."
+    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record remains incomplete while the new participant-delivery hashes await counsel approval, participant final verification is unbound, or any technical Preview predicate is absent. The historical internal-review approval grants no delivery posture. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(fs.readFileSync(path.join(rootDir, LAUNCH_GRAPH), "utf8")),

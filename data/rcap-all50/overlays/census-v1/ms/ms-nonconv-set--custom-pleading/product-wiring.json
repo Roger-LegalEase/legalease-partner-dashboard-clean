@@ -6,7 +6,7 @@
     "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
   ],
   "workType": "GRADE_A_PRODUCT_WIRING",
-  "status": "INSTALLED_HELD_FOR_PREVIEW_ACCEPTANCE",
+  "status": "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL",
   "authorityCreated": "held_grade_a_fulfillment_record",
   "generatedBy": "scripts/generate-ms-clinic-demo-packet.mjs",
   "derivedFrom": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
@@ -17,10 +17,10 @@
   ],
   "currentState": {
     "serviceDisposition": "exact_runtime_route_and_grade_a_specification_installed",
-    "commercialState": "HELD_PENDING_TECHNICAL_PREVIEW_ACCEPTANCE",
+    "commercialState": "HELD_PENDING_NEW_PARTICIPANT_DELIVERY_HASH_APPROVAL_AND_PREVIEW_ACCEPTANCE",
     "existingArtifactIds": [
-      "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
-      "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+      "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+      "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1"
     ],
     "generationAllowed": false
   },
@@ -87,6 +87,30 @@
     "artifactEvidence": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
     "artifacts": {
       "canonical": {
+        "fixture": "participant_delivery_canonical",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf",
+        "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+        "byteLength": 33774,
+        "pageCount": 12,
+        "documentCount": 5,
+        "generationPurpose": "participant_delivery",
+        "verificationHash": "f8c520342faecf3be4b3f5d5dc7e84a44ced9d7e02cb284aa2134d01f4487340"
+      },
+      "boundary": {
+        "fixture": "participant_delivery_boundary",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-b.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf",
+        "sha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+        "byteLength": 37430,
+        "pageCount": 13,
+        "documentCount": 5,
+        "generationPurpose": "participant_delivery",
+        "verificationHash": "d9b2244b276e5e8e0eb50a4cc1140a8de3830050876f06fd4a559e08eeb2eed8"
+      }
+    },
+    "historicalInternalReviewArtifacts": {
+      "canonical": {
         "fixture": "canonical",
         "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json",
         "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-canonical.pdf",
@@ -94,6 +118,7 @@
         "byteLength": 33848,
         "pageCount": 12,
         "documentCount": 5,
+        "generationPurpose": "internal_review",
         "verificationHash": "5db1df6b9c18875816333351b234817a910de50bd8fe5bf7a0f1111111111111"
       },
       "boundary": {
@@ -104,41 +129,43 @@
         "byteLength": 37542,
         "pageCount": 13,
         "documentCount": 5,
+        "generationPurpose": "internal_review",
         "verificationHash": "d7778fc6857e27b09f1d5a38476c809e7388709aa8305e96d53c222222222222"
       }
     },
     "fieldMap": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md",
-    "rasterReview": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
+    "rasterReview": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
     "independentReview": {
-      "status": "15_pass_0_fail_0_hold",
-      "obligations": 15,
-      "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
+      "status": "participant_delivery_all_pages_reviewed",
+      "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
       "externalDeliveryHolds": [
+        "named_mississippi_counsel_and_current_law_approval",
         "court_confirmed_mcic_identifier_channel",
         "participant_supplied_exhibits",
         "classified_nonproduction_preview_acceptance"
       ]
     },
     "counselReview": {
-      "status": "approved_exact_artifact_hashes",
-      "reviewerId": "Lawrence Blackmon",
-      "decidedAt": "2026-09-03",
-      "qualifications": [],
-      "authenticationKind": "owner_attestation",
-      "authenticatedApprovalReference": "Owner attestation by Roger Roman on 2026-09-03 that Lawrence Blackmon approved both exact SHA-256 hashes for the bounded Mississippi Volunteer Lawyers Clinic Mode Preview sponsored journey without qualifications.",
-      "approvedArtifactHashes": [
-        "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
-        "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
-      ]
+      "status": "pending_named_mississippi_counsel_for_new_participant_delivery_hashes",
+      "approvedArtifactHashes": [],
+      "priorApprovalReused": false,
+      "historicalInternalReviewApproval": {
+        "reviewerId": "Lawrence Blackmon",
+        "decidedAt": "2026-09-03",
+        "approvedArtifactHashes": [
+          "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+          "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+        ]
+      }
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
     "whyPaymentIsClosed": "Consumer launch is outside the Clinic Mode Preview and remains held regardless of sponsored Preview acceptance.",
-    "whySponsorshipIsClosed": "Exact-output counsel approval is recorded, but sponsored generation stays held until every nonproduction technical acceptance predicate passes.",
+    "whySponsorshipIsClosed": "The participant-delivery pair is built and page-reviewed, but sponsored generation stays held until Lawrence Blackmon approves these new exact hashes and the nonproduction acceptance journey passes.",
     "maintenanceRelationship": {
       "rebuiltFrom": "scripts/generate-ms-clinic-demo-packet.mjs",
-      "reRasterRequiredWhen": "either artifact hash changes",
+      "reRasterRequiredWhen": "either current participant-delivery artifact hash changes",
       "reVerificationRequiredWhen": "the route, specification, facts, renderer, or artifact bytes change"
     }
   }

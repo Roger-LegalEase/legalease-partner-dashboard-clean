@@ -20,7 +20,6 @@ import {
   artifactStorageContext,
   commercialAdmissionRefusalBody,
   commercialRouteIdentity,
-  entitlementContext,
   finalVerificationSnapshotFrom,
   fulfillmentRequestContext
 } from "@/lib/rcap/render/commercial-admission";
@@ -81,12 +80,7 @@ export async function POST(request: NextRequest) {
           ownerUserId: auth.userId,
           packetFamilyId: sponsoredIdentity.packetFamilyId
         }),
-        entitlement: entitlementContext({
-          kind: "sponsored_credit",
-          idempotencyKey: packet.protectedSponsorship.sourceSessionId,
-          alreadyConsumed: false,
-          serverVerified: true
-        }),
+        entitlement: packet.protectedSponsorship.entitlement,
         storage: artifactStorageContext({
           privateStorage: true,
           artifactSha256: "artifactSha256" in packet.artifactRefs && typeof packet.artifactRefs.artifactSha256 === "string"

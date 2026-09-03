@@ -96,7 +96,17 @@ function completenessProof(overrides = {}) {
     postFilingSteps: covered("postFilingTimeline"),
     hearingAndObjectionStopConditions: covered("hearingAndObjectionStops"),
     customPleadingAuthority: { required: true, approved: true, authorityId: "zz-drafting-authority" },
-    filingFormatArtifact: { format: "pdf", sha256: sha256("filing.pdf"), pageCount: 4 },
+    filingFormatArtifact: {
+      format: "pdf",
+      sha256: sha256("filing.pdf"),
+      pageCount: 4,
+      producedBy: {
+        renderer: "ghcr.io/example/rcap-render-worker@sha256:0000000000000000000000000000000000000000000000000000000000000001",
+        matchesRecordProvider: true,
+        reconciliation: null,
+        deterministicRenderVerified: true
+      }
+    },
     ...overrides
   };
 }

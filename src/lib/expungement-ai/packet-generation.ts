@@ -1,5 +1,7 @@
 import "server-only";
 
+import { createHash } from "node:crypto";
+
 import {
   getBriefcaseItem,
   getBriefcaseItemForWebhook,
@@ -118,6 +120,7 @@ export type ConsumerPacketStatus = {
   protectedSponsorship?: {
     sourceSessionId: string;
     expectedVerificationHash: string;
+    entitlement: EntitlementContext;
   };
 };
 
@@ -171,7 +174,8 @@ export async function generatePaidConsumerPacket({
   const partnerSponsored = sponsorship.sponsored;
   const verification = await assertPacketGenerationAllowed(userId, item, dryRunMode, {
     paymentRequired: !partnerSponsored,
-    verification: currentVerification
+    verification: currentVerification,
+    entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
   });
 
   if (!(await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
@@ -193,7 +197,8 @@ export async function generatePaidConsumerPacket({
         canDownload: false,
         protectedSponsorship: {
           sourceSessionId: sponsorship.sourceSessionId,
-          expectedVerificationHash: verification.hash
+          expectedVerificationHash: verification.hash,
+          entitlement: sponsorship.entitlement
         }
       };
     }
@@ -280,7 +285,8 @@ export async function getConsumerPacketStatus({
   const partnerSponsored = sponsorship.sponsored;
   await assertPacketGenerationAllowed(userId, item, item.paymentProvider === "dry_run", {
     paymentRequired: !partnerSponsored,
-    verification: currentVerification
+    verification: currentVerification,
+    entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
   });
   return { packetStatus: "not_started", canDownload: false };
 }
@@ -576,7 +582,7 @@ export async function attachMississippiLegacyPacketArtifact({
   if (protectedReady?.source === "mississippi_legacy_petition_packet" && protectedReady.packetId === rcapPacketId) {
     return { packetStatus: "ready", artifactRefs: protectedReady, canDownload: true };
   }
-  const { verification, sponsorship } = await assertMississippiPartnerPacketReady(userId, item);
+  const { verification, sponsorship, admission } = await assertMississippiPartnerPacketReady(userId, item);
 
   const artifactRefs: ConsumerPacketArtifactRefs = {
     provider: "rcap_legacy_mississippi",
@@ -592,7 +598,8 @@ export async function attachMississippiLegacyPacketArtifact({
     sessionId: sponsorship.sourceSessionId,
     briefcaseItemId: item.id,
     expectedVerificationHash: verification.hash,
-    artifactRefs
+    artifactRefs,
+    admission
   });
   if (!finalization.ok) {
     throw new ConsumerPacketGenerationError("Partner packet coverage could not be finalized for this matter.");
@@ -643,6 +650,13 @@ export async function assertPacketGenerationAllowed(
   }
 
   let entitlement = options.entitlement ?? null;
+  if (!paymentRequired && (
+    entitlement?.kind !== "sponsored_credit"
+    || entitlement.serverVerified !== true
+    || !entitlement.idempotencyKey
+  )) {
+    throw new ConsumerPacketSponsorshipAuthorityUnavailableError("protected_sponsored_entitlement_missing");
+  }
   if (paymentRequired && !(dryRunMode && item.paymentProvider === "dry_run")) {
     const payment = await consumerPacketPaymentAuthority(item.id, userId);
     if (!payment.valid) throw new ConsumerPacketPaymentRequiredError();
@@ -884,7 +898,14 @@ export function buildMississippiPacketInformationArtifact(item: ConsumerBriefcas
 }
 
 async function assertMississippiPartnerPacketReady(userId: string, item: ConsumerBriefcaseItem) {
-  const verification = await assertPacketGenerationAllowed(userId, item, false, { paymentRequired: false });
+  const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
+  if (!sponsorship.sponsored) {
+    throw new ConsumerPacketPaymentRequiredError();
+  }
+  const verification = await assertPacketGenerationAllowed(userId, item, false, {
+    paymentRequired: false,
+    entitlement: sponsorship.entitlement
+  });
   if (verification.snapshot.jurisdiction !== "MS") {
     throw new ConsumerPacketNotAllowedError(verification.snapshot.resultCode ?? "guidance_only");
   }
@@ -896,11 +917,31 @@ async function assertMississippiPartnerPacketReady(userId: string, item: Consume
     verification.snapshot.pathwayId,
     "sponsored entitlement"
   );
-  const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
-  if (!sponsorship.sponsored) {
-    throw new ConsumerPacketPaymentRequiredError();
-  }
-  return { verification, sponsorship };
+  const matterId = consumerMatterIdForItem(item.id);
+  const identity = commercialRouteIdentity({
+    jurisdiction: verification.snapshot.jurisdiction,
+    pathwayId: verification.snapshot.pathwayId
+  });
+  return {
+    verification,
+    sponsorship,
+    admission: {
+      identity,
+      context: fulfillmentRequestContext({
+        participantUserId: userId,
+        matterId,
+        matterOwnerUserId: userId,
+        finalVerification: finalVerificationSnapshotFrom({
+          snapshot: verification.snapshot,
+          verificationHash: verification.hash,
+          matterId,
+          ownerUserId: userId,
+          packetFamilyId: identity.packetFamilyId
+        }),
+        entitlement: sponsorship.entitlement
+      })
+    }
+  };
 }
 
 async function requireCurrentPacketSponsorshipAuthority(
@@ -908,7 +949,13 @@ async function requireCurrentPacketSponsorshipAuthority(
   item: ConsumerBriefcaseItem
 ): Promise<
   | { sponsored: false; sourceSessionId: null }
-  | { sponsored: true; sourceSessionId: string }
+  | {
+    sponsored: true;
+    sourceSessionId: string;
+    partnerSlug: string;
+    matterId: string;
+    entitlement: EntitlementContext;
+  }
 > {
   const source = await readTrustedBriefcasePresentationSource({
     consumerAuthUserId: userId,
@@ -919,7 +966,25 @@ async function requireCurrentPacketSponsorshipAuthority(
   if (!source.value.partnerBenefitActive || !source.value.partnerSlug || !source.value.sourceSessionId) {
     throw new ConsumerPacketSponsorshipAuthorityUnavailableError("protected_partner_source_missing");
   }
-  return { sponsored: true, sourceSessionId: source.value.sourceSessionId };
+  const matterId = consumerMatterIdForItem(item.id);
+  if (source.value.matterId !== matterId) {
+    throw new ConsumerPacketSponsorshipAuthorityUnavailableError("protected_partner_matter_mismatch");
+  }
+  const idempotencyKey = createHash("sha256")
+    .update(`rcap-sponsored-credit/v1\0${source.value.sourceSessionId}\0${item.id}\0${matterId}`)
+    .digest("hex");
+  return {
+    sponsored: true,
+    sourceSessionId: source.value.sourceSessionId,
+    partnerSlug: source.value.partnerSlug,
+    matterId,
+    entitlement: entitlementContext({
+      kind: "sponsored_credit",
+      idempotencyKey,
+      alreadyConsumed: packetAlreadyGenerated(item),
+      serverVerified: true
+    })
+  };
 }
 
 async function updatePacketMetadata({

@@ -132,6 +132,42 @@ assert(
   "Negative control failed: replacing the exact-matter claim redirect was not detected."
 );
 
+const sponsoredEntitlementOmitted = {
+  ...sources,
+  packetGeneration: sources.packetGeneration.replaceAll(
+    "entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined",
+    "entitlement: undefined"
+  )
+};
+assert(
+  approvedCommercialFlowViolations(sponsoredEntitlementOmitted).some((message) => message.includes("sponsored_credit entitlement")),
+  "Negative control failed: omitting the protected sponsored entitlement was not detected."
+);
+
+const sponsoredEntitlementFalsified = {
+  ...sources,
+  packetGeneration: sources.packetGeneration.replace(
+    'kind: "sponsored_credit",\n      idempotencyKey,\n      alreadyConsumed: packetAlreadyGenerated(item),\n      serverVerified: true',
+    'kind: "sponsored_credit",\n      idempotencyKey,\n      alreadyConsumed: packetAlreadyGenerated(item),\n      serverVerified: false'
+  )
+};
+assert(
+  approvedCommercialFlowViolations(sponsoredEntitlementFalsified).some((message) => message.includes("server-verified sponsored entitlement")),
+  "Negative control failed: falsifying serverVerified on the sponsored entitlement was not detected."
+);
+
+const sponsoredConsumerFallback = {
+  ...sources,
+  packetGeneration: sources.packetGeneration.replace(
+    "if (!paymentRequired && (",
+    "if (false && ("
+  )
+};
+assert(
+  approvedCommercialFlowViolations(sponsoredConsumerFallback).some((message) => message.includes("before any consumer-payment probe")),
+  "Negative control failed: allowing sponsored generation to reach consumer-payment fallback was not detected."
+);
+
 if (failures.length) {
   console.error("Expungement.ai DTC approved-flow verifier failed:");
   for (const failure of failures) console.error(`- ${failure}`);
@@ -223,6 +259,47 @@ function approvedCommercialFlowViolations(input) {
       && input.packetGeneration.includes("requireCurrentPacketSponsorshipAuthority")
       && input.packetGeneration.includes("paymentRequired: !partnerSponsored"),
     "Only the current protected owner/item/source sponsorship token may bypass consumer payment."
+  );
+  const sponsoredGuard = input.packetGeneration.indexOf("if (!paymentRequired && (");
+  const consumerPaymentProbe = input.packetGeneration.indexOf("if (paymentRequired && !(dryRunMode");
+  const sponsoredEntitlementStart = input.packetGeneration.indexOf('kind: "sponsored_credit"');
+  const sponsoredEntitlementEnd = input.packetGeneration.indexOf("  };", sponsoredEntitlementStart);
+  const sponsoredEntitlementSource = sponsoredEntitlementStart >= 0 && sponsoredEntitlementEnd > sponsoredEntitlementStart
+    ? input.packetGeneration.slice(sponsoredEntitlementStart, sponsoredEntitlementEnd)
+    : "";
+  require(
+    (input.packetGeneration.match(/entitlement: sponsorship\.sponsored \? sponsorship\.entitlement : undefined/g) ?? []).length === 2,
+    "Every sponsored generation/status admission must receive the protected sponsored_credit entitlement."
+  );
+  require(
+    sponsoredEntitlementSource.includes('kind: "sponsored_credit"')
+      && sponsoredEntitlementSource.includes("serverVerified: true")
+      && input.packetGeneration.includes('createHash("sha256")')
+      && input.packetGeneration.includes("rcap-sponsored-credit/v1")
+      && input.packetGeneration.includes("source.value.sourceSessionId")
+      && input.packetGeneration.includes("item.id")
+      && input.packetGeneration.includes("matterId"),
+    "The server-verified sponsored entitlement must carry a stable nonempty session/item/matter idempotency key."
+  );
+  require(
+    sponsoredGuard >= 0 && consumerPaymentProbe > sponsoredGuard
+      && input.packetGeneration.slice(sponsoredGuard, consumerPaymentProbe).includes('entitlement?.kind !== "sponsored_credit"')
+      && input.packetGeneration.slice(sponsoredGuard, consumerPaymentProbe).includes("entitlement.serverVerified !== true")
+      && input.packetGeneration.slice(sponsoredGuard, consumerPaymentProbe).includes("!entitlement.idempotencyKey"),
+    "Missing or falsified sponsorship must fail closed before any consumer-payment probe."
+  );
+  require(
+    input.packetGeneration.includes('if (source.value.product !== "rcap_partner")')
+      && input.packetGeneration.includes("!source.value.partnerBenefitActive")
+      && input.packetGeneration.includes("source.value.matterId !== matterId"),
+    "serverVerified may be set only after protected product, benefit, partner, source-session, owner/item, and matter binding."
+  );
+  require(
+    input.packetGenerateRoute.includes("entitlement: packet.protectedSponsorship.entitlement")
+      && !input.packetGenerateRoute.includes("body?.entitlement")
+      && !input.packetGenerateRoute.includes("body?.sponsorship")
+      && !input.packetGenerateRoute.includes("body?.partner"),
+    "The final sponsored generate route must use only its server-resolved entitlement and authority."
   );
   require(input.presentationAuthority.includes("row.partner_benefit_active !== true") && input.presentationAuthority.includes("source_linkage_sha256"), "Current sponsorship must require active protected partner benefit and exact linkage digest.");
   require(input.briefcase.includes('.eq("flow_mode", "rcap")') && input.briefcase.includes('.eq("partner_benefit_active", true)'), "Partner sponsorship detection must require persisted RCAP mode and an active benefit.");

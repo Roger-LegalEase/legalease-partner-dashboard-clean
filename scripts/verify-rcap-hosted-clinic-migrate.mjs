@@ -59,19 +59,21 @@ includesEvery(migrationScript, [
   'sha256: "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424"',
   'path: "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql"',
   'sha256: "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"',
+  'path: "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql"',
+  'sha256: "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"',
   "independent_readiness_hashes_and_order_exact",
   "git",
   '["show", `${APPLICATION_SHA}:${migration.path}`]'
 ], "frozen commit/hash source contract");
-check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact eight-file sequence");
-check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 8, "protected runner does not contain exactly eight migration identities");
+check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact nine-file sequence");
+check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 9, "protected runner does not contain exactly nine migration identities");
 
 const authorized = readiness.clinicModePreviewMigrationAuthorization;
 check(authorized?.status === "authorized_nonproduction_acceptance_only", "independent readiness does not carry the bounded nonproduction authorization");
 check(authorized?.acceptanceProjectRef === "hyflxnlhpmiqxvvcoiia", "independent readiness names the wrong acceptance project");
 check(authorized?.productionAuthorized === false, "independent readiness permits Production");
 check(authorized?.adHocCaptainShellSqlAuthorized === false, "independent readiness permits ad hoc Captain SQL");
-check(authorized?.migrationsInApplyOrder?.length === 8, "independent readiness does not pin exactly eight migrations");
+check(authorized?.migrationsInApplyOrder?.length === 9, "independent readiness does not pin exactly nine migrations");
 
 includesEvery(migrationScript, [
   "rcap_acceptance_clinic_migration_ledger",
@@ -106,8 +108,9 @@ includesEvery(migrationScript, [
   "key_function_grants_tight",
   '"all_required_tables_exist_with_rls_enabled"',
   '"all_required_functions_exist"',
-  '"all_five_current_demo_migration_families_read_back"',
-  "ledger records all 8 exact frozen migrations"
+  '"all_six_current_demo_migration_families_read_back"',
+  "atomic_sponsored_finalizer_present",
+  "ledger records all 9 exact frozen migrations"
 ], "Clinic Preview catalog/RLS/readback contract");
 
 includesEvery(migrationScript, [
@@ -125,4 +128,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact eight-file nonproduction Clinic Preview sequence`);
+console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact nine-file nonproduction Clinic Preview sequence`);
