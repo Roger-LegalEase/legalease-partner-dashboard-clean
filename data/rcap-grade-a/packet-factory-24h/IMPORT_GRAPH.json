@@ -2,9 +2,71 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 191,
+  "scriptsScanned": 197,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
+    {
+      "script": "build-census-v1-al-diversion-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-al-felony-dwop-set.mjs",
+        "build-census-v1-al-felony-nonconviction-90-set.mjs",
+        "build-census-v1-al-misd-conviction-set.mjs",
+        "build-census-v1-al-misd-dwop-set.mjs",
+        "build-census-v1-al-pardoned-felony-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-al-felony-dwop-set.mjs",
+      "imports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-al-felony-nonconviction-90-set.mjs",
+      "imports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-al-misd-conviction-set.mjs",
+      "imports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-al-misd-dwop-set.mjs",
+      "imports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-al-pardoned-felony-set.mjs",
+      "imports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-al-diversion-set.mjs"
+      ],
+      "importedBy": []
+    },
     {
       "script": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
       "imports": [],
@@ -730,6 +792,17 @@
   ],
   "sharedHosts": [
     {
+      "script": "build-census-v1-al-diversion-set.mjs",
+      "importers": [
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-pardoned-felony-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
       "script": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
       "importers": [
         "az_marijuana_expungement_superior_court-set",
@@ -842,5 +915,21 @@
       "owner": "UNOWNED_IN_THIS_WAVE"
     }
   ],
-  "scriptsWithheldFromLanes": []
+  "scriptsWithheldFromLanes": [
+    {
+      "lane": "PF02",
+      "withheld": [
+        {
+          "script": "scripts/build-census-v1-al-diversion-set.mjs",
+          "importedByFamiliesOutsideThisLane": [
+            "al-felony-dwop-set",
+            "al-felony-nonconviction-90-set",
+            "al-misd-conviction-set",
+            "al-misd-dwop-set",
+            "al-pardoned-felony-set"
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "0d717b639e7ef905c1cbb5abe999414e03fff6c9",
+  "minimumCaptainSha": "6986b10813f9efa3aa9d1dacc45870e9566936e9",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -1226,7 +1226,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1238,8 +1237,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -1251,7 +1250,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill",
       "ownedPaths": [
@@ -1259,8 +1258,14 @@
         "scripts/build-census-v1-al-diversion-set.mjs"
       ],
       "prohibitedPaths": [],
-      "importedBy": [],
-      "exclusiveScript": true
+      "importedBy": [
+        "al-felony-dwop-set",
+        "al-felony-nonconviction-90-set",
+        "al-misd-conviction-set",
+        "al-misd-dwop-set",
+        "al-pardoned-felony-set"
+      ],
+      "exclusiveScript": false
     },
     {
       "familyId": "al-felony-dwop-set",
@@ -1333,7 +1338,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1345,8 +1349,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -1358,8 +1362,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**",
@@ -1440,7 +1444,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1452,8 +1455,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -1465,8 +1468,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/**",
@@ -1547,7 +1550,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1559,8 +1561,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -1572,8 +1574,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-conviction-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/**",
@@ -1654,7 +1656,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1666,8 +1667,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -1679,8 +1680,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-dwop-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**",
@@ -1959,7 +1960,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1971,8 +1971,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -1984,8 +1984,8 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
-      "buildScriptExists": false,
-      "sharedBuildHost": null,
+      "buildScriptExists": true,
+      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**",
