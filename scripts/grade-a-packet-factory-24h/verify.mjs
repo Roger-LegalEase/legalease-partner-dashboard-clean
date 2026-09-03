@@ -555,6 +555,47 @@ function run() {
     sourceBlockProjectionProblems.length === 0,
     `${selectedSourceBlocks.length} current source block(s); ${sourceBlockProjectionProblems.length} problem(s): ${sourceBlockProjectionProblems.slice(0, 3).join(" | ")}`);
 
+  /* 33. An owner-refused delivery type awaits an owner-selected replacement,
+   * not another reading of bytes the independent verifier already passed. */
+  const wrongDeliveryProblems = [];
+  const wrongDeliveryFamilies = master.families.filter((f) => f.state === "WRONG_DELIVERY_TYPE");
+  const actualVerifyPending = master.families.filter((f) => f.state === "VERIFY_PENDING" && !f.activeOwner).length;
+  if (master.denominator?.verifyPending !== actualVerifyPending) {
+    wrongDeliveryProblems.push(`denominator says ${master.denominator?.verifyPending ?? "missing"} verify-pending but ${actualVerifyPending} unowned family row(s) are VERIFY_PENDING`);
+  }
+  for (const fam of wrongDeliveryFamilies) {
+    if (!fam.ownerDeliveryTypeRefusal) wrongDeliveryProblems.push(`${fam.familyId} has no exact owner refusal`);
+    if (fam.activeOwner) wrongDeliveryProblems.push(`${fam.familyId} awaits an owner replacement but still names active owner ${fam.activeOwner}`);
+    const dispatch = vf.find((assignment) => (assignment.items ?? []).includes(fam.familyId));
+    if (dispatch) wrongDeliveryProblems.push(`${fam.familyId} awaits an owner replacement but was dispatched to ${dispatch.assignmentId}`);
+    if (liveVerificationClaims.has(fam.familyId)) wrongDeliveryProblems.push(`${fam.familyId} awaits an owner replacement but has a live reread claim`);
+  }
+  if (wrongDeliveryFamilies.length === 0) wrongDeliveryProblems.push("no WRONG_DELIVERY_TYPE family exists; the check has no subject");
+  check("F33", "owner-refused delivery types stay out of VERIFY_PENDING and independent rereview",
+    wrongDeliveryProblems.length === 0,
+    `${wrongDeliveryFamilies.length} owner-refused family(ies); ${wrongDeliveryProblems.length} problem(s): ${wrongDeliveryProblems.slice(0, 3).join(" | ")}`);
+
+  /* 34. A live verifier grant must describe work the current state machine
+   * still says is owed. F24 proves that grants and dispatch agree, but agreement
+   * can preserve a stale grant forever: the generator intentionally seeds live
+   * grants into their holder even when the family is already proven. A repaired
+   * or rebuilt family belongs in VERIFY_PENDING; a claimed family being read is
+   * VERIFYING. Anything else needs its grant released before regeneration. */
+  const staleVerificationGrantProblems = [];
+  for (const claim of (verdictLedger?.claims ?? []).filter((c) =>
+    c.laneKind === "independent-verification" && c.released !== true)) {
+    for (const familyId of claim.familyIds ?? (claim.familyId ? [claim.familyId] : [])) {
+      const fam = familyById.get(familyId);
+      if (!fam) staleVerificationGrantProblems.push(`${claim.lane} holds ${familyId}, which has no queue row`);
+      else if (!["VERIFY_PENDING", "VERIFYING"].includes(fam.state)) {
+        staleVerificationGrantProblems.push(`${claim.lane} holds ${familyId}, but its current state is ${fam.state}`);
+      }
+    }
+  }
+  check("F34", "every live verifier grant has a current verification state",
+    staleVerificationGrantProblems.length === 0,
+    `${liveVerificationClaims.size} live verification family grant(s); ${staleVerificationGrantProblems.length} stale problem(s): ${staleVerificationGrantProblems.slice(0, 3).join(" | ")}`);
+
   check("F14", "every builder prompt carries task isolation and the row-stop contract",
     pfPrompts.length === pf.length && missingClauses.length === 0,
     `${pfPrompts.length}/${pf.length} prompt(s); ${missingClauses.length} missing clause(s): ${missingClauses.slice(0, 3).join(" | ")}`);
@@ -1254,6 +1295,62 @@ if (MUTATIONS) {
         claim.releasedAt = null;
         return withClaimsDigest(j);
       } },
+    /* F33. An owner product refusal is not verification work. */
+    { on: "master", id: "F33", name: "inflating VERIFY_PENDING with an owner-refused delivery type is caught", mutate: (j) => {
+        const wrong = (j.families ?? []).find((f) => f.state === "WRONG_DELIVERY_TYPE");
+        if (!wrong) throw new Error("F33 denominator mutation requires a WRONG_DELIVERY_TYPE family");
+        j.denominator.verifyPending += 1;
+        return j;
+      } },
+    { on: "active", id: "F33", name: "dispatching an owner-refused delivery type to independent rereview is caught", mutate: (j) => {
+        const master = read(`${DIR}/MASTER_QUEUE.json`);
+        const wrong = (master.families ?? []).find((f) => f.state === "WRONG_DELIVERY_TYPE");
+        const lane = (j.assignments ?? []).find((a) => a.lane === "independent-verification");
+        if (!wrong || !lane) throw new Error("F33 dispatch mutation requires a wrong-delivery family and verifier lane");
+        lane.items = [...new Set([...(lane.items ?? []), wrong.familyId])];
+        return j;
+      } },
+    { on: "ledger", id: "F33", name: "reopening independent rereview for an owner-refused delivery type is caught", mutate: (j) => {
+        const master = read(`${DIR}/MASTER_QUEUE.json`);
+        const wrong = (master.families ?? []).find((f) => f.state === "WRONG_DELIVERY_TYPE");
+        const claim = (j.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(wrong?.familyId));
+        if (!wrong || !claim) throw new Error("F33 claim mutation requires a released verification claim for a wrong-delivery family");
+        claim.released = false;
+        claim.releasedAt = null;
+        return withClaimsDigest(j);
+      } },
+    /* F34. A finished packet cannot keep a verifier busy without a current
+     * verification state. This is the exact stale-grant shape that F24 cannot
+     * distinguish from an intentionally dispatched reread. */
+    { on: "ledger+active", id: "F34", mustStayGreen: ["F24"], name: "matching grant and dispatch on an already-proven null-lapse family is caught", mutate: ({ ledger, active }) => {
+        const master = read(`${DIR}/MASTER_QUEUE.json`);
+        const proven = (master.families ?? []).find((f) => f.state === "COMPLETE_PACKET_PROVEN" && !f.verificationLapsedBecause);
+        const claim = (ledger.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(proven?.familyId));
+        const lane = (active.assignments ?? []).find((a) => a.lane === "independent-verification");
+        if (!proven || !claim || !lane) throw new Error("F34 mutation requires a proven null-lapse family, released verification claim, and verifier lane");
+        claim.lane = lane.assignmentId;
+        claim.released = false;
+        claim.releasedAt = null;
+        lane.items = [...new Set([...(lane.items ?? []), proven.familyId])];
+        lane.itemCount = lane.items.length;
+        return { ledger: withClaimsDigest(ledger), active };
+      } },
+    { on: "master+ledger+active", id: "F34", expectPass: true, mustStayGreen: ["F24"], name: "a matching live grant in VERIFY_PENDING stays green", mutate: ({ master, ledger, active }) => {
+        const proven = (master.families ?? []).find((f) => f.state === "COMPLETE_PACKET_PROVEN" && !f.verificationLapsedBecause);
+        const claim = (ledger.claims ?? []).find((c) => c.laneKind === "independent-verification" && c.released === true && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(proven?.familyId));
+        const lane = (active.assignments ?? []).find((a) => a.lane === "independent-verification");
+        if (!proven || !claim || !lane) throw new Error("F34 positive control requires a proven family, released verification claim, and verifier lane");
+        proven.state = "VERIFY_PENDING";
+        master.byState.COMPLETE_PACKET_PROVEN -= 1;
+        master.byState.VERIFY_PENDING = (master.byState.VERIFY_PENDING ?? 0) + 1;
+        master.denominator.verifyPending += 1;
+        claim.lane = lane.assignmentId;
+        claim.released = false;
+        claim.releasedAt = null;
+        lane.items = [...new Set([...(lane.items ?? []), proven.familyId])];
+        lane.itemCount = lane.items.length;
+        return { master, ledger: withClaimsDigest(ledger), active };
+      } },
     /* F30. The three ways moving the visual gate could quietly become waiving it. */
     { on: "rasterQueue", id: "F30", name: "a queued PDF with no exact hash is caught", mutate: (j) => { j.rows[0].canonicalPdfSha256 = null; return j; } },
     { on: "rasterQueue", id: "F30", name: "an undeclared raster state is caught", mutate: (j) => { j.rows[0].currentRasterState = "RASTER_PROBABLY_FINE"; return j; } },
@@ -1301,16 +1398,26 @@ if (MUTATIONS) {
        * breaking the rasterizer's resolver on purpose -- died in JSON.parse
        * before it could prove anything. A case says which by carrying
        * mutateText or mutate. */
+      const touchedTargets = c.on.split("+");
       if (c.on === "prompt") fs.writeFileSync(promptTarget, c.mutateText(originalPrompt.toString("utf8")));
       else if (c.mutateText) fs.writeFileSync(targets[c.on], c.mutateText(originals[c.on].toString("utf8")));
-      else fs.writeFileSync(targets[c.on], `${JSON.stringify(c.mutate(JSON.parse(originals[c.on].toString("utf8"))), null, 2)}\n`);
+      else if (touchedTargets.length > 1) {
+        const inputs = Object.fromEntries(touchedTargets.map((key) =>
+          [key, JSON.parse(originals[key].toString("utf8"))]));
+        const outputs = c.mutate(inputs);
+        for (const key of touchedTargets) {
+          fs.writeFileSync(targets[key], `${JSON.stringify(outputs[key], null, 2)}\n`);
+        }
+      } else fs.writeFileSync(targets[c.on], `${JSON.stringify(c.mutate(JSON.parse(originals[c.on].toString("utf8"))), null, 2)}\n`);
       let caught = false;
+      let collateral = [];
       try {
         const after = run();
         caught = after.failed.some((f) => f.id === c.id);
+        collateral = (c.mustStayGreen ?? []).filter((id) => after.failed.some((f) => f.id === id));
       } catch { caught = true; }
       if (c.on === "prompt") fs.writeFileSync(promptTarget, originalPrompt);
-      else fs.writeFileSync(targets[c.on], originals[c.on]);
+      else for (const key of touchedTargets) fs.writeFileSync(targets[key], originals[key]);
       /*
        * Most cases prove the check CATCHES something. A few prove it does not
        * over-catch: when a check is narrowed -- F24 was narrowed to exempt
@@ -1318,12 +1425,12 @@ if (MUTATIONS) {
        * narrowing is free to widen into a hole and no case would notice.
        */
       if (c.expectPass) {
-        console.log(`  ${caught ? "OVER-CAUGHT" : "stayed green"} [${c.id}] ${c.name}`);
-        if (caught) undetected += 1;
+        console.log(`  ${caught || collateral.length ? "OVER-CAUGHT" : "stayed green"} [${c.id}] ${c.name}${collateral.length ? `; unexpectedly failed ${collateral.join(", ")}` : ""}`);
+        if (caught || collateral.length) undetected += 1;
         continue;
       }
-      console.log(`  ${caught ? "detected " : "MISSED   "} [${c.id}] ${c.name}`);
-      if (!caught) undetected += 1;
+      console.log(`  ${caught && collateral.length === 0 ? "detected " : "MISSED   "} [${c.id}] ${c.name}${collateral.length ? `; unexpectedly failed ${collateral.join(", ")}` : ""}`);
+      if (!caught || collateral.length) undetected += 1;
     }
   } finally {
     for (const [k, p] of Object.entries(targets)) fs.writeFileSync(p, originals[k]);

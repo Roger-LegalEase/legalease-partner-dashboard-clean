@@ -1653,6 +1653,7 @@ const rosterLaneHasReturnedThisFamily = (f) => {
     && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner));
 };
 const ownerStillHolds = (f) => f.activeOwner
+  && !(f.state === "WRONG_DELIVERY_TYPE" && f.activeOwnerLane === "independent-verification")
   && !(f.state === "FAIL_REPAIR_REQUIRED" && !(liveClaimLanesByFamily.get(f.familyId)?.has(f.activeOwner)))
   && !rosterLaneHasReturnedThisFamily(f);
 /* Ended ownership is cleared on the row itself, so every downstream reader —
@@ -1675,23 +1676,16 @@ const sourceReady = remaining.filter((f) => f.state === "SOURCE_READY");
 const sourceBlocked = remaining.filter((f) => f.state === "SOURCE_BLOCKED" && f.legalInputStatus !== "OPEN_LEGAL_INPUT");
 const legalBlocked = remaining.filter((f) => f.legalInputStatus === "OPEN_LEGAL_INPUT");
 /*
- * A family the owner has ruled delivers the wrong instrument still owes a read.
- *
- * WRONG_DELIVERY_TYPE is not a resting place. The owner's ruling settles that
- * the current artifact may not ship; what it does not settle is which of the
- * treatments replaces it, and that is a question about the packet that only an
- * independent read of the packet can answer. Leaving these out of the
- * verification pool left rcap-sc-custom-pleading in the worst possible state --
- * under an owner finding, out of the proven set, and grantable to nobody, so
- * the read that would confirm and refine the finding could not be dispatched at
- * all. A verifier sent anyway was refused NOT_GRANTED and correctly stopped.
- *
- * So they are dealt like any other family awaiting a verdict. The ruling stands
- * whatever the read returns: a verdict cannot restore a family the owner has
- * ruled against, because the ruling is about what the route may deliver and the
- * verdict is about how good the delivery is.
+ * Verification work is represented by the verification state, not by an owner
+ * product refusal. WRONG_DELIVERY_TYPE says the current instrument may not
+ * ship and awaits the owner's replacement treatment. A second read of already
+ * passed bytes cannot choose that treatment, and counting the refusal here made
+ * the denominator claim one VERIFY_PENDING family while no family row had that
+ * state. It also emitted a verifier assignment whose central claim was already
+ * released. A later repair or rebuild will move the family to VERIFY_PENDING
+ * through the ordinary byte-lapse guards when a new artifact actually exists.
  */
-const verifyPending = remaining.filter((f) => f.state === "VERIFY_PENDING" || f.state === "WRONG_DELIVERY_TYPE");
+const verifyPending = remaining.filter((f) => f.state === "VERIFY_PENDING");
 const repairRequired = remaining.filter((f) => f.state === "FAIL_REPAIR_REQUIRED");
 
 /*
@@ -2207,7 +2201,9 @@ const liveVerificationLaneOf = (() => {
     const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
     for (const c of led.claims ?? []) {
       if (c.released === true || c.laneKind !== "independent-verification") continue;
-      for (const f of c.familyIds ?? (c.familyId ? [c.familyId] : [])) if (f) m.set(f, c.lane);
+      for (const f of c.familyIds ?? (c.familyId ? [c.familyId] : [])) {
+        if (f && ["VERIFY_PENDING", "VERIFYING"].includes(familyIndex.get(f)?.state)) m.set(f, c.lane);
+      }
     }
   } catch { /* no ledger yet; the deal is a plain round-robin */ }
   return m;
@@ -2221,22 +2217,19 @@ for (const f of verifyPending) {
   else unheldPool.push(f.familyId);
 }
 /*
- * A LIVE GRANT IS A DISPATCH, EVEN WHEN THE FAMILY IS NOT VERIFY_PENDING.
+ * A LIVE GRANT PINS THE LANE; THE CURRENT STATE STILL DECIDES WHETHER WORK IS
+ * OWED.
  *
  * The loop above walks verifyPending, so a lane holding a live grant on a
- * family in any other state contributed nothing to its own seed list and the
- * dispatch never named the work. That is not a hypothetical: rcap-ks- and
- * rcap-tn-custom-pleading are COMPLETE_PACKET_PROVEN, and when their route-
- * scoped artifacts were regenerated as new bytes the second read had to be
- * granted on the proven families. F24 immediately and correctly reported both
- * as "granted, not dispatched, and not released" -- the same leak that let
- * VF15, VF16 and VF17 hold eighteen live grants no assignment named.
+ * family in any other state contributes nothing to its own seed list. A live
+ * grant used to override that and force even COMPLETE_PACKET_PROVEN families
+ * back into the dispatch, which preserved two stale VF08 grants indefinitely:
+ * F24 saw grant and dispatch agree and therefore had no mismatch to report.
  *
- * The re-read case is the ordinary one: proving a family once does not freeze
- * its bytes forever, and the grant is what authorises the reader. So ownership
- * is taken from the ledger for every live grant, and verifyPending decides only
- * which UNHELD families are dealt out. A held family is seeded to its holder
- * whatever state it is in.
+ * A legitimate reread first enters VERIFY_PENDING because its packet, source,
+ * or raster evidence changed; a claimed read is VERIFYING. The ledger then
+ * pins that current work to its holder. The grant is authority to perform work,
+ * not authority to manufacture work the state machine says is finished.
  */
 const seededAlready = new Set([...heldByLane.values()].flat());
 for (const [familyId, lane] of liveVerificationLaneOf) {

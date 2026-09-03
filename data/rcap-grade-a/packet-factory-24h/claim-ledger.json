@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "88d688b8b6910f0c501cab0d72633554220d822b",
+  "generatedAtCommit": "cdb5ea60a7fd300d077a017ac749dd318f9cf72d",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -707,8 +707,8 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T22:51:27.890Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -1274,10 +1274,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX02",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T19:12:50.880Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3702,7 +3702,8 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-03T21:03:47.669Z"
     },
     {
       "subjectType": "packet-family",
@@ -4479,10 +4480,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T19:18:12.310Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5685,10 +5686,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T22:51:28.471Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6103,10 +6104,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T12:57:39.767Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6851,7 +6852,8 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-03T21:03:47.997Z"
     },
     {
       "subjectType": "packet-family",
@@ -6983,10 +6985,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T12:34:11.942Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12314,7 +12316,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4c3262e9cdfe929e853f2039f7b8e9fc877b120499235ce0f952973412e97c83",
+  "claimsDigest": "0e43a229967467ca0a40efaacb176c0b8ed2705cf524ded5d13c69047c188c6d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -22794,6 +22796,22 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-03T19:51:35.280Z"
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-prost-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-03T21:03:47.669Z"
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_survivor_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-03T21:03:47.997Z"
     }
   ],
   "reissues": [
@@ -26856,6 +26874,66 @@
       "previouslyReleasedAt": "2026-09-02T08:16:28.066Z",
       "reissuedAt": "2026-09-03T20:53:22.823Z",
       "reason": "Captain completion blitz: SOURCE_READY rostered build lacked a live central claim"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T22:51:27.890Z",
+      "reissuedAt": "2026-09-03T21:12:03.052Z",
+      "reason": "Current VF33 failure requires repair of KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, FEE_AND_WAIVER, and SERVICE; the prior FIX01 release predates that current failure."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T19:12:50.880Z",
+      "reissuedAt": "2026-09-03T21:12:03.133Z",
+      "reason": "Current VF05 failure requires ARTIFACTS wiring-digest repair; the prior FIX02 release predates that current failure."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T19:18:12.310Z",
+      "reissuedAt": "2026-09-03T21:12:03.199Z",
+      "reason": "Current VF06 failure requires REQUIRED_BEFORE_FILING repair; the prior FIX03 release predates that current failure."
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "sd_arrest_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T22:51:28.471Z",
+      "reissuedAt": "2026-09-03T21:12:03.265Z",
+      "reason": "Current VF34 failure requires SOURCE_IDENTITY repair for changed UJS-232 and UJS-394 official bytes; the prior FIX04 release predates that current failure."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_no_charges-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T12:57:39.767Z",
+      "reissuedAt": "2026-09-03T21:12:03.331Z",
+      "reason": "Current VF04 failure requires KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, FILING_DESTINATION, and SERVICE repair; the prior FIX05 release predates that current failure."
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-02T12:34:11.942Z",
+      "reissuedAt": "2026-09-03T21:12:03.399Z",
+      "reason": "Current VF05 failure requires REQUIRED_BEFORE_FILING and FILING_DESTINATION repair; the prior FIX06 release predates that current failure."
     }
   ],
   "transfers": [
