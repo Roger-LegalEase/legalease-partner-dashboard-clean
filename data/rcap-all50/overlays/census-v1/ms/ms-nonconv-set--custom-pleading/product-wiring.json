@@ -6,18 +6,18 @@
     "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
   ],
   "workType": "GRADE_A_PRODUCT_WIRING",
-  "status": "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL",
+  "status": "INSTALLED_HELD_FOR_PREVIEW_ACCEPTANCE",
   "authorityCreated": "held_grade_a_fulfillment_record",
   "generatedBy": "scripts/generate-ms-clinic-demo-packet.mjs",
   "derivedFrom": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
   "explicitNonGrants": [
     "This record authorizes deterministic build and controlled review only.",
     "It opens no consumer sale and grants no production deployment.",
-    "Sponsored delivery remains closed until the independent revision review and named Mississippi counsel approve these exact artifact hashes."
+    "Sponsored delivery remains closed until every technical Preview acceptance predicate passes."
   ],
   "currentState": {
     "serviceDisposition": "exact_runtime_route_and_grade_a_specification_installed",
-    "commercialState": "HELD_PENDING_NAMED_COUNSEL_AND_PREVIEW_ACCEPTANCE",
+    "commercialState": "HELD_PENDING_TECHNICAL_PREVIEW_ACCEPTANCE",
     "existingArtifactIds": [
       "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
       "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
@@ -115,20 +115,27 @@
       "obligations": 15,
       "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
       "externalDeliveryHolds": [
-        "named_mississippi_counsel_and_current_law_approval",
         "court_confirmed_mcic_identifier_channel",
         "participant_supplied_exhibits",
         "classified_nonproduction_preview_acceptance"
       ]
     },
     "counselReview": {
-      "status": "revision_pending_named_mississippi_counsel",
-      "approvedArtifactHashes": []
+      "status": "approved_exact_artifact_hashes",
+      "reviewerId": "Lawrence Blackmon",
+      "decidedAt": "2026-09-03",
+      "qualifications": [],
+      "authenticationKind": "owner_attestation",
+      "authenticatedApprovalReference": "Owner attestation by Roger Roman on 2026-09-03 that Lawrence Blackmon approved both exact SHA-256 hashes for the bounded Mississippi Volunteer Lawyers Clinic Mode Preview sponsored journey without qualifications.",
+      "approvedArtifactHashes": [
+        "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+        "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+      ]
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
-    "whyPaymentIsClosed": "Consumer launch is outside the clinic demo and named counsel has not approved these exact artifact hashes.",
-    "whySponsorshipIsClosed": "The packet is built and independently reviewed, but sponsored generation stays held until named Mississippi counsel approves the exact artifacts and the nonproduction acceptance journey passes.",
+    "whyPaymentIsClosed": "Consumer launch is outside the Clinic Mode Preview and remains held regardless of sponsored Preview acceptance.",
+    "whySponsorshipIsClosed": "Exact-output counsel approval is recorded, but sponsored generation stays held until every nonproduction technical acceptance predicate passes.",
     "maintenanceRelationship": {
       "rebuiltFrom": "scripts/generate-ms-clinic-demo-packet.mjs",
       "reRasterRequiredWhen": "either artifact hash changes",

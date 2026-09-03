@@ -525,9 +525,9 @@ function candidateRecord(row) {
 
 /**
  * The clinic-demo route is deliberately supplemental to the frozen paid launch
- * denominator. Its build evidence is real, but it creates no commercial grant:
- * named Mississippi counsel has not approved these exact bytes and no protected
- * participant verification has been bound to them.
+ * denominator. Its build evidence and exact-output counsel approval are real,
+ * but neither creates a commercial grant: no protected participant verification
+ * has been bound to the record and the sponsored Preview posture remains held.
  */
 function mississippiClinicCandidateRecord() {
   const specificationBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_SPECIFICATION));
@@ -536,9 +536,38 @@ function mississippiClinicCandidateRecord() {
   const rasterReviewBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_RASTER_REVIEW));
   const rasterReview = JSON.parse(rasterReviewBytes);
   const canonical = artifacts.artifacts.find((artifact) => artifact.fixture === "canonical");
+  const boundary = artifacts.artifacts.find((artifact) => artifact.fixture === "boundary");
+  const approval = artifacts.outputLegalApproval;
   const canonicalRaster = rasterReview.artifacts?.find((artifact) => artifact.fixture === "canonical");
   if (!canonical) throw new Error("Mississippi clinic artifact evidence has no canonical artifact");
+  if (!boundary) throw new Error("Mississippi clinic artifact evidence has no boundary artifact");
   if (!canonicalRaster) throw new Error("Mississippi clinic raster evidence has no canonical artifact");
+  if (
+    approval?.state !== "approved" ||
+    approval.decision !== "APPROVE" ||
+    approval.reviewerId !== "Lawrence Blackmon" ||
+    approval.decidedAt !== "2026-09-03" ||
+    approval.routeId !== MS_CLINIC_ROUTE ||
+    approval.packetFamily !== "ms-nonconv-set" ||
+    approval.canonicalSha256 !== canonical.sha256 ||
+    approval.boundarySha256 !== boundary.sha256 ||
+    approval.specificationSha256 !== sha256(specificationBytes) ||
+    approval.consumerPaidAuthorized !== false ||
+    approval.productionAuthorized !== false
+  ) {
+    throw new Error("Mississippi clinic output legal approval is absent or does not bind the exact bounded route artifacts");
+  }
+  const approvalScopeSha256 = sha256(JSON.stringify({
+    routeId: approval.routeId,
+    packetFamily: approval.packetFamily,
+    previewPartnerSlug: approval.previewPartnerSlug,
+    deliveryScope: approval.deliveryScope,
+    canonicalSha256: approval.canonicalSha256,
+    boundarySha256: approval.boundarySha256,
+    specificationSha256: approval.specificationSha256,
+    consumerPaidAuthorized: approval.consumerPaidAuthorized,
+    productionAuthorized: approval.productionAuthorized
+  }));
 
   const composerBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/composer.ts"));
   const rendererBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/renderer.ts"));
@@ -623,10 +652,10 @@ function mississippiClinicCandidateRecord() {
       reviewedAt: rasterReview.independentReview?.status === "passed" ? rasterReview.independentReview.reviewedAt : null
     },
     outputLegalApproval: {
-      state: "pending",
-      reviewerId: null,
-      decidedAt: null,
-      scopeSha256: null
+      state: "passed",
+      reviewerId: approval.reviewerId,
+      decidedAt: approval.decidedAt,
+      scopeSha256: approvalScopeSha256
     },
     finalVerification: {
       contract: "rcap-final-verification-bound-inputs/v1",
@@ -643,7 +672,7 @@ function mississippiClinicCandidateRecord() {
     changeKind: "created",
     changedAt: "2026-09-03",
     changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-    reason: `Build-only clinic candidate derived from ${MS_CLINIC_SPECIFICATION}, ${MS_CLINIC_FIXTURE}, ${MS_CLINIC_ARTIFACTS}, and ${MS_CLINIC_RASTER_REVIEW}. Named counsel approval and participant final verification remain intentionally absent.`,
+    reason: `Clinic Preview candidate derived from ${MS_CLINIC_SPECIFICATION}, ${MS_CLINIC_FIXTURE}, ${MS_CLINIC_ARTIFACTS}, and ${MS_CLINIC_RASTER_REVIEW}. Exact-output counsel approval is recorded; participant final verification remains intentionally unbound and delivery remains held.`,
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: null
   }];
@@ -666,7 +695,7 @@ const registry = {
   candidateScope: {
     jurisdictions: [...CANDIDATE_JURISDICTIONS, "MS"],
     routes: [MS_CLINIC_ROUTE],
-    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record is build-only and remains incomplete until exact-output counsel approval and final verification are bound. A route absent from this registry fails closed."
+    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record remains incomplete until participant final verification and every technical Preview predicate are bound. Exact-output counsel approval alone grants no delivery posture. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(fs.readFileSync(path.join(rootDir, LAUNCH_GRAPH), "utf8")),

@@ -35,6 +35,7 @@ const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 const specificationBytes = fs.readFileSync(absolute(SPECIFICATION_FILE));
 const specification = JSON.parse(specificationBytes);
+const existingEvidence = fs.existsSync(absolute(EVIDENCE_FILE)) ? readJson(EVIDENCE_FILE) : null;
 const { composeGradeAPacket } = await import("../src/lib/rcap/grade-a/composer.ts");
 const { renderGradeAPacketPdf } = await import("../src/lib/rcap/grade-a/renderer.ts");
 
@@ -63,8 +64,16 @@ for (const variant of variants) {
   });
 }
 
+const existingApproval = existingEvidence?.outputLegalApproval;
+const approvalStillBinds = existingApproval?.state === "approved"
+  && existingApproval.decision === "APPROVE"
+  && existingApproval.routeId === specification.routeKey
+  && existingApproval.packetFamily === specification.packetFamily
+  && existingApproval.specificationSha256 === sha256(specificationBytes)
+  && existingApproval.canonicalSha256 === artifacts.find((artifact) => artifact.fixture === "canonical")?.sha256
+  && existingApproval.boundarySha256 === artifacts.find((artifact) => artifact.fixture === "boundary")?.sha256;
 const evidence = {
-  schemaVersion: "rcap-grade-a-ms-clinic-demo-artifacts/v2",
+  schemaVersion: "rcap-grade-a-ms-clinic-demo-artifacts/v3",
   generatedBy: "scripts/generate-ms-clinic-demo-packet.mjs",
   generatedOn: "2026-09-03",
   routeKey: specification.routeKey,
@@ -74,6 +83,7 @@ const evidence = {
   renderer: "rcap_grade_a_document_v1@2.0.0",
   contentType: "application/pdf",
   deterministic: true,
+  ...(approvalStillBinds ? { outputLegalApproval: existingApproval } : {}),
   artifacts
 };
 fs.writeFileSync(absolute(EVIDENCE_FILE), `${JSON.stringify(evidence, null, 2)}\n`);
@@ -89,14 +99,17 @@ const independentReviewPassed = reviewedArtifactsMatch
   && rasterReview.independentReview.summary?.pass === 15
   && rasterReview.independentReview.summary?.fail === 0
   && rasterReview.independentReview.summary?.hold === 0;
+const outputLegalApprovalPassed = approvalStillBinds;
 const wiring = {
   schemaVersion: "rcap-census-v1-product-wiring/v1",
   family: specification.packetFamily,
   routeKey: specification.routeKey,
   routeKeys: [specification.routeKey],
   workType: "GRADE_A_PRODUCT_WIRING",
-  status: independentReviewPassed
-    ? "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL"
+  status: independentReviewPassed && outputLegalApprovalPassed
+    ? "INSTALLED_HELD_FOR_PREVIEW_ACCEPTANCE"
+    : independentReviewPassed
+      ? "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL"
     : "INSTALLED_HELD_FOR_REVISION_REVIEW",
   authorityCreated: "held_grade_a_fulfillment_record",
   generatedBy: "scripts/generate-ms-clinic-demo-packet.mjs",
@@ -104,12 +117,14 @@ const wiring = {
   explicitNonGrants: [
     "This record authorizes deterministic build and controlled review only.",
     "It opens no consumer sale and grants no production deployment.",
-    "Sponsored delivery remains closed until the independent revision review and named Mississippi counsel approve these exact artifact hashes."
+    "Sponsored delivery remains closed until every technical Preview acceptance predicate passes."
   ],
   currentState: {
     serviceDisposition: "exact_runtime_route_and_grade_a_specification_installed",
-    commercialState: independentReviewPassed
-      ? "HELD_PENDING_NAMED_COUNSEL_AND_PREVIEW_ACCEPTANCE"
+    commercialState: independentReviewPassed && outputLegalApprovalPassed
+      ? "HELD_PENDING_TECHNICAL_PREVIEW_ACCEPTANCE"
+      : independentReviewPassed
+        ? "HELD_PENDING_NAMED_COUNSEL_AND_PREVIEW_ACCEPTANCE"
       : "HELD_PENDING_FILING_REVISION_REVIEW_AND_NAMED_COUNSEL_APPROVAL",
     existingArtifactIds: artifacts.map((artifact) => artifact.sha256),
     generationAllowed: false
@@ -152,12 +167,24 @@ const wiring = {
           ]
         }
       : { status: "pending_independent_second_pass", obligations: 15 },
-    counselReview: { status: "revision_pending_named_mississippi_counsel", approvedArtifactHashes: [] },
+    counselReview: outputLegalApprovalPassed
+      ? {
+          status: "approved_exact_artifact_hashes",
+          reviewerId: existingApproval.reviewerId,
+          decidedAt: existingApproval.decidedAt,
+          qualifications: existingApproval.qualifications,
+          authenticationKind: existingApproval.authenticationKind,
+          authenticatedApprovalReference: existingApproval.authenticatedApprovalReference,
+          approvedArtifactHashes: [existingApproval.canonicalSha256, existingApproval.boundarySha256]
+        }
+      : { status: "revision_pending_named_mississippi_counsel", approvedArtifactHashes: [] },
     paymentEligible: false,
     sponsorshipEligible: false,
-    whyPaymentIsClosed: "Consumer launch is outside the clinic demo and named counsel has not approved these exact artifact hashes.",
-    whySponsorshipIsClosed: independentReviewPassed
-      ? "The packet is built and independently reviewed, but sponsored generation stays held until named Mississippi counsel approves the exact artifacts and the nonproduction acceptance journey passes."
+    whyPaymentIsClosed: "Consumer launch is outside the Clinic Mode Preview and remains held regardless of sponsored Preview acceptance.",
+    whySponsorshipIsClosed: independentReviewPassed && outputLegalApprovalPassed
+      ? "Exact-output counsel approval is recorded, but sponsored generation stays held until every nonproduction technical acceptance predicate passes."
+      : independentReviewPassed
+        ? "The packet is built and independently reviewed, but sponsored generation stays held until named Mississippi counsel approves the exact artifacts and the nonproduction acceptance journey passes."
       : "The filing-document revision remains held until the independent second pass and named Mississippi counsel approval are recorded.",
     maintenanceRelationship: {
       rebuiltFrom: "scripts/generate-ms-clinic-demo-packet.mjs",
@@ -178,11 +205,15 @@ fulfillment.artifactProviderVersion = "2.0.0";
 fulfillment.rendererVersion = "2.0.0";
 fulfillment.requiredFacts = specification.requiredFacts.map((fact) => fact.factId);
 fulfillment.finalVerificationRequirements = specification.finalVerificationRequirements;
-fulfillment.artifactApprovalStatus = independentReviewPassed
-  ? "artifacts_built_and_independently_rastered_pending_counsel_and_preview_acceptance"
+fulfillment.artifactApprovalStatus = independentReviewPassed && outputLegalApprovalPassed
+  ? "artifacts_built_independently_rastered_and_counsel_approved_pending_preview_acceptance"
+  : independentReviewPassed
+    ? "artifacts_built_and_independently_rastered_pending_counsel_and_preview_acceptance"
   : "revision_artifacts_built_pending_fresh_visual_independent_and_counsel_review";
-fulfillment.holdReason = independentReviewPassed
-  ? "The exact canonical and boundary PDFs are deterministic and passed author and independent visual review. Delivery remains held for named Mississippi counsel approval of these exact hashes, court confirmation of the MCIC identifier channel, participant insertion of the required exhibits, and the nonproduction browser acceptance journey. Consumer launch remains outside this demo in every event."
+fulfillment.holdReason = independentReviewPassed && outputLegalApprovalPassed
+  ? "The exact canonical and boundary PDFs are deterministic, passed author and independent visual review, and received exact-hash counsel approval. Delivery remains held for the current immutable worker, bounded nonproduction migrations and identities, court confirmation of the MCIC identifier channel, participant insertion of the required exhibits, and the hosted Preview acceptance journey. Consumer launch remains outside this demo in every event."
+  : independentReviewPassed
+    ? "The exact canonical and boundary PDFs are deterministic and passed author and independent visual review. Delivery remains held for named Mississippi counsel approval of these exact hashes, court confirmation of the MCIC identifier channel, participant insertion of the required exhibits, and the nonproduction browser acceptance journey. Consumer launch remains outside this demo in every event."
   : "The first artifact set was rejected for filing. These revised conventional pleadings remain held for fresh raster review, independent review, named Mississippi counsel approval, court confirmation of the MCIC identifier channel, participant exhibits, and nonproduction browser acceptance.";
 fulfillment.proofSummary = `Five documents render as ${canonical.pageCount} canonical pages and ${boundary.pageCount} boundary pages. The revision adds docket-exact captions, actual-arrest and release gates, exact charge details, a mandatory jurat, MCIC identifiers in a confidential synthetic addendum, corrected record-destruction language, clerk certification, pro-se signatures, unconfirmed-address treatment, and Exhibit A/B assembly holds.`;
 fulfillment.artifacts = artifacts.map((artifact) => ({
@@ -205,15 +236,22 @@ fulfillment.independentReview = {
   status: independentReviewPassed ? "15_pass_0_fail_0_hold" : "pending_revision_second_pass",
   obligations: 15,
   externalDeliveryHolds: [
-    "named_mississippi_counsel_and_current_law",
+    ...(outputLegalApprovalPassed ? [] : ["named_mississippi_counsel_and_current_law"]),
     "court_confirmed_mcic_identifier_channel",
     "participant_supplied_exhibits",
     "nonproduction_browser_acceptance"
   ]
 };
 fulfillment.outputLegalReview = {
-  status: "revision_pending_named_mississippi_counsel",
-  approvedArtifactHashes: []
+  status: outputLegalApprovalPassed ? "approved_exact_artifact_hashes" : "revision_pending_named_mississippi_counsel",
+  reviewerId: outputLegalApprovalPassed ? existingApproval.reviewerId : null,
+  decidedAt: outputLegalApprovalPassed ? existingApproval.decidedAt : null,
+  qualifications: outputLegalApprovalPassed ? existingApproval.qualifications : [],
+  authenticationKind: outputLegalApprovalPassed ? existingApproval.authenticationKind : null,
+  authenticatedApprovalReference: outputLegalApprovalPassed ? existingApproval.authenticatedApprovalReference : null,
+  approvedArtifactHashes: outputLegalApprovalPassed
+    ? [existingApproval.canonicalSha256, existingApproval.boundarySha256]
+    : []
 };
 fs.writeFileSync(absolute(FULFILLMENT_LEDGER_FILE), `${JSON.stringify(fulfillmentLedger, null, 2)}\n`);
 console.log(JSON.stringify(evidence, null, 2));

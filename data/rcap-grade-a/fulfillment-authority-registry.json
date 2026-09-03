@@ -13,7 +13,7 @@
     "routes": [
       "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
     ],
-    "rule": "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record is build-only and remains incomplete until exact-output counsel approval and final verification are bound. A route absent from this registry fails closed."
+    "rule": "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi clinic record remains incomplete until participant final verification and every technical Preview predicate are bound. Exact-output counsel approval alone grants no delivery posture. A route absent from this registry fails closed."
   },
   "evidenceInputs": {
     "data/rcap-ledger/launch-graph.json": "2f3f5a5feb02907a2f7bec4a6f8f8c6c10e821f341e509f1a1e1a7ca23ef84aa",
@@ -25,7 +25,7 @@
     "data/rcap-grade-a/official-source-registry.json": "93b116987dc5c666d03de52132718e5ffde46d68888cc5337a617d5c60f7abf7",
     "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
     "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json": "7757b0d48d642d790d2ec20d9fd9893606669899e61072bfa948d3e203931489",
-    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json": "3277a04d1ebeff1c5c93ef6ca41622774a1fed32fe229b0008e2d1edcd572f51",
+    "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json": "0abbedca01205c6f202c0023dce88ebdcf21a7cc3fc41fce783e2569aa7b7981",
     "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json": "f1e61c12b95dc30a941c1ef9c04a72d89d538f99d4022289a081ed3b274b66b1"
   },
   "records": [
@@ -142,10 +142,10 @@
         "reviewedAt": "2026-09-03"
       },
       "outputLegalApproval": {
-        "state": "pending",
-        "reviewerId": null,
-        "decidedAt": null,
-        "scopeSha256": null
+        "state": "passed",
+        "reviewerId": "Lawrence Blackmon",
+        "decidedAt": "2026-09-03",
+        "scopeSha256": "19c448c2c7e7e035347556fb344e2e41b838a549c8c22cc9b03059670429062e"
       },
       "finalVerification": {
         "contract": "rcap-final-verification-bound-inputs/v1",
@@ -161,8 +161,8 @@
           "changeKind": "created",
           "changedAt": "2026-09-03",
           "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-          "reason": "Build-only clinic candidate derived from data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json, and data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json. Named counsel approval and participant final verification remain intentionally absent.",
-          "recordSha256": "f4d2457217abec509567003486d58f22ae2516764e69661ab3f9ee3ed6b85d05",
+          "reason": "Clinic Preview candidate derived from data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json, data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json, and data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json. Exact-output counsel approval is recorded; participant final verification remains intentionally unbound and delivery remains held.",
+          "recordSha256": "74fe9c71461336bc51ec1563345c7c46caf84ca9574637a564448ed6044501fd",
           "supersedesRecordSha256": null
         }
       ]

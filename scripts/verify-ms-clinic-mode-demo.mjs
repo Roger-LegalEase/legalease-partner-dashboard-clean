@@ -160,14 +160,25 @@ assert.equal(fulfillment.privateDelivery, true);
 assert.equal(fulfillment.repeatDownload, true);
 assert.equal(fulfillment.consumerPosture, "held");
 assert.equal(fulfillment.sponsoredPosture, "held");
-assert.match(fulfillment.holdReason, /counsel|legal review/i);
+assert.match(fulfillment.holdReason, /hosted Preview acceptance/i);
+assert.equal(fulfillment.outputLegalReview.status, "approved_exact_artifact_hashes");
+assert.equal(fulfillment.outputLegalReview.reviewerId, "Lawrence Blackmon");
+assert.equal(fulfillment.outputLegalReview.decidedAt, "2026-09-03");
+assert.deepEqual(fulfillment.outputLegalReview.qualifications, []);
+assert.deepEqual(fulfillment.outputLegalReview.approvedArtifactHashes, [
+  "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+  "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+]);
 
 const authorityRegistry = JSON.parse(read("data/rcap-grade-a/fulfillment-authority-registry.json"));
 const authorityRecord = authorityRegistry.records.find((record) => record.routeId === ROUTE);
 assert.ok(authorityRecord, "the canonical Grade-A authority has no exact Mississippi clinic record");
 assert.equal(authorityRecord.packetFamilyId, FAMILY);
 assert.equal(authorityRecord.packetSpecification.sha256, fulfillment.packetSpecificationSha256);
-assert.equal(authorityRecord.outputLegalApproval.state, "pending");
+assert.equal(authorityRecord.outputLegalApproval.state, "passed");
+assert.equal(authorityRecord.outputLegalApproval.reviewerId, "Lawrence Blackmon");
+assert.equal(authorityRecord.outputLegalApproval.decidedAt, "2026-09-03");
+assert.match(authorityRecord.outputLegalApproval.scopeSha256, /^[a-f0-9]{64}$/);
 assert.equal(authorityRecord.finalVerification.state, "unbound");
 const authorityProjection = JSON.parse(read("data/rcap-grade-a/fulfillment-authority-projection.json"));
 const projectedAuthority = authorityProjection.routes.find((record) => record.routeId === ROUTE);
@@ -316,7 +327,8 @@ assert.equal(wiring.routeKey, ROUTE);
 assert.equal(wiring.family, FAMILY);
 assert.equal(wiring.currentState.generationAllowed, false);
 assert.equal(wiring.binding.paymentEligible, false);
-assert.equal(wiring.binding.sponsorshipEligible, false, "sponsorship must stay held until named counsel approval");
+assert.equal(wiring.binding.sponsorshipEligible, false, "sponsorship must stay held until every technical Preview predicate passes");
+assert.equal(wiring.binding.counselReview.status, "approved_exact_artifact_hashes");
 assert.equal(wiring.binding.packetSpecificationSha256, fulfillment.packetSpecificationSha256);
 assert.equal(wiring.binding.artifacts.canonical.sha256, evidence.artifacts.find((artifact) => artifact.fixture === "canonical").sha256);
 
@@ -330,4 +342,4 @@ for (const requirement of [
   "production"
 ]) assert.ok(previewHandoff.toLowerCase().includes(requirement.toLowerCase()), `Preview handoff is missing: ${requirement}`);
 
-console.log(`Mississippi Clinic Mode demo: ${packet.documents.length} documents, ${parsedPdf.getPageCount()} pages; held for named counsel approval.`);
+console.log(`Mississippi Clinic Mode demo: ${packet.documents.length} documents, ${parsedPdf.getPageCount()} pages; counsel-approved and held for technical Preview acceptance.`);
