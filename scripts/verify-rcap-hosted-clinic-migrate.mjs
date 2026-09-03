@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -9,6 +10,8 @@ const hosted = fs.readFileSync(path.join(root, ".github/workflows/rcap-hosted-ac
 const readiness = JSON.parse(fs.readFileSync(path.join(root, "data/rcap-staging-authorization-readiness.json"), "utf8"));
 const migrationScriptPath = path.join(root, "scripts/rcap-hosted-clinic-migrate.mjs");
 const migrationScript = fs.existsSync(migrationScriptPath) ? fs.readFileSync(migrationScriptPath, "utf8") : "";
+const provenanceMigrationPath = path.join(root, "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql");
+const provenanceMigration = fs.existsSync(provenanceMigrationPath) ? fs.readFileSync(provenanceMigrationPath, "utf8") : "";
 
 let checks = 0;
 const failures = [];
@@ -51,6 +54,8 @@ includesEvery(migrationScript, [
   'sha256: "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010"',
   'path: "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql"',
   'sha256: "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c"',
+  'path: "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql"',
+  'sha256: "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132"',
   'path: "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql"',
   'sha256: "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb"',
   'path: "supabase/migrations/20260901130000_consumer_private_delivery.sql"',
@@ -65,15 +70,39 @@ includesEvery(migrationScript, [
   "git",
   '["show", `${APPLICATION_SHA}:${migration.path}`]'
 ], "frozen commit/hash source contract");
-check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact nine-file sequence");
-check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 9, "protected runner does not contain exactly nine migration identities");
+check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact ten-file sequence");
+check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 10, "protected runner does not contain exactly ten migration identities");
 
 const authorized = readiness.clinicModePreviewMigrationAuthorization;
 check(authorized?.status === "authorized_nonproduction_acceptance_only", "independent readiness does not carry the bounded nonproduction authorization");
 check(authorized?.acceptanceProjectRef === "hyflxnlhpmiqxvvcoiia", "independent readiness names the wrong acceptance project");
 check(authorized?.productionAuthorized === false, "independent readiness permits Production");
 check(authorized?.adHocCaptainShellSqlAuthorized === false, "independent readiness permits ad hoc Captain SQL");
-check(authorized?.migrationsInApplyOrder?.length === 9, "independent readiness does not pin exactly nine migrations");
+check(authorized?.migrationsInApplyOrder?.length === 10, "independent readiness does not pin exactly ten migrations");
+check(
+  authorized?.migrationsInApplyOrder?.every((entry) => {
+    const bytes = fs.readFileSync(path.join(root, entry.path));
+    return crypto.createHash("sha256").update(bytes).digest("hex") === entry.sha256;
+  }),
+  "an independently authorized migration hash does not match the tracked bytes"
+);
+
+includesEvery(provenanceMigration, [
+  "create table if not exists public.consumer_packet_artifact_provenance",
+  "consumer_packet_artifact_provenance: incompatible column shape",
+  "consumer_packet_artifact_provenance: incompatible constraint shape",
+  "consumer_packet_artifact_provenance: incompatible owner index",
+  "consumer_packet_artifact_provenance: direct RLS policy is incompatible",
+  "consumer_packet_artifact_provenance_legacy_evidence_required",
+  "consumer_packet_artifact_provenance_user_idx",
+  "alter table public.consumer_packet_artifact_provenance enable row level security",
+  "revoke all on table public.consumer_packet_artifact_provenance from public, anon, authenticated",
+  "create or replace function public.consumer_packet_artifact_provenance_immutable()",
+  "create or replace function public.rcap_participant_erasure_authority()",
+  "grant execute on function public.consumer_packet_artifact_provenance_immutable() to service_role",
+  "grant execute on function public.rcap_participant_erasure_authority() to service_role"
+], "authoritative protected provenance prerequisite");
+check(!/insert\s+into\s+public\.consumer_packet_artifact_provenance|update\s+public\.consumer_packet_artifact_provenance|delete\s+from\s+public\.consumer_packet_artifact_provenance/i.test(provenanceMigration), "provenance prerequisite mutates artifact rows");
 
 includesEvery(migrationScript, [
   "rcap_acceptance_clinic_migration_ledger",
@@ -108,15 +137,16 @@ includesEvery(migrationScript, [
   "key_function_grants_tight",
   '"all_required_tables_exist_with_rls_enabled"',
   '"all_required_functions_exist"',
-  '"all_six_current_demo_migration_families_read_back"',
+  '"consumer_artifact_provenance_prerequisite_exact"',
+  '"all_seven_current_demo_migration_families_read_back"',
   "atomic_sponsored_finalizer_present",
-  "ledger records all 9 exact frozen migrations"
+  "ledger records all 10 exact frozen migrations"
 ], "Clinic Preview catalog/RLS/readback contract");
 
 includesEvery(migrationScript, [
   "migrationApplied",
   "productionTouched: false",
-  "rcap-hosted-clinic-migrate/v2",
+  "rcap-hosted-clinic-migrate/v3",
   "clinic-migrate.json"
 ], "redacted nonproduction evidence contract");
 check(!/VERCEL|STRIPE|--prod|production\.supabase/i.test(migrationScript), "Clinic migration script reaches a deployment, Stripe, or Production surface");
@@ -128,4 +158,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact nine-file nonproduction Clinic Preview sequence`);
+console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact ten-file nonproduction Clinic Preview sequence`);

@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import { ephemeralPgAvailable, startEphemeralPg } from "./lib/rcap-ephemeral-pg.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const provenanceMigration = path.join(root, "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql");
 const migration = path.join(root, "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql");
 
 if (!ephemeralPgAvailable()) {
@@ -184,6 +185,7 @@ function refusal(label, overrides, callOverrides, reason) {
 
 try {
   db.sql(baseline());
+  db.applyFile(provenanceMigration);
   db.applyFile(migration);
 
   check(
@@ -283,6 +285,7 @@ function baseline() {
       source_pending_result_id uuid, artifact_refs_json jsonb not null default '{}',
       packet_status text not null default 'not_started', updated_at timestamptz not null default now()
     );
+    create table public.packet_render_jobs (id uuid primary key);
     create function public.consumer_matter_id_for_briefcase_item(p_item_id uuid)
     returns uuid language sql immutable set search_path='' as $$ select p_item_id $$;
     create table public.consumer_packet_verifications (
@@ -318,13 +321,6 @@ function baseline() {
       overage_amount_cents integer not null default 0,
       overage_packet_price_cents integer not null default 5000,
       updated_at timestamptz not null default now()
-    );
-    create table public.consumer_packet_artifact_provenance (
-      briefcase_item_id uuid primary key, consumer_auth_user_id uuid not null,
-      matter_id uuid not null, render_job_id uuid, verification_hash text,
-      entitlement_source text not null, artifact jsonb not null, legacy_evidence jsonb,
-      revision integer not null default 1, created_at timestamptz default now(),
-      updated_at timestamptz default now()
     );
     create table public.rcap_record_events (
       id uuid primary key default gen_random_uuid(), record_type text, record_id text,

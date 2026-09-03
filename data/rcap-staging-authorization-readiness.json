@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "The corrected Mississippi Clinic Preview worker was published immutably by successful publish-only run 33764350427. Its digest is ingested and the current Captain is worker-input-equivalent to source b680a4e4; authenticated digest pull and every remaining bounded hosted acceptance predicate are still required. Consumer payment, sponsored Preview delivery pending technical acceptance, and Production all remain closed.",
+  "note": "The corrected Mississippi Clinic Preview worker was published immutably by successful publish-only run 33764350427. Failed hosted migration run 33766002005 truthfully exposed one missing provenance prerequisite after applying and ledgering migration four; the protected Clinic sequence now carries that prerequisite before launch rails. Authenticated digest pull and every remaining bounded hosted acceptance predicate are still required. Consumer payment, sponsored Preview delivery pending technical acceptance, and Production all remain closed.",
   "clinicModePreviewMigrationAuthorization": {
     "schemaVersion": "rcap-clinic-preview-migration-authorization/v1",
     "status": "authorized_nonproduction_acceptance_only",
@@ -35,32 +35,73 @@
       },
       {
         "sequencePosition": 5,
+        "path": "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql",
+        "sha256": "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132"
+      },
+      {
+        "sequencePosition": 6,
         "path": "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
         "sha256": "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb"
       },
       {
-        "sequencePosition": 6,
+        "sequencePosition": 7,
         "path": "supabase/migrations/20260901130000_consumer_private_delivery.sql",
         "sha256": "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621"
       },
       {
-        "sequencePosition": 7,
+        "sequencePosition": 8,
         "path": "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
         "sha256": "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424"
       },
       {
-        "sequencePosition": 8,
+        "sequencePosition": 9,
         "path": "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql",
         "sha256": "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"
       },
       {
-        "sequencePosition": 9,
+        "sequencePosition": 10,
         "path": "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql",
         "sha256": "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"
       }
     ],
     "idempotencyRule": "An existing immutable-ledger prefix at the exact paths and hashes is read back only; only the absent suffix may be applied.",
-    "hashDriftRule": "Any mismatch among frozen commit bytes, this independent record, and the protected runner refuses before the first migration write."
+    "hashDriftRule": "Any mismatch among frozen commit bytes, this independent record, and the protected runner refuses before the first migration write.",
+    "postFailureHostedPrefix": {
+      "observedAt": "2026-09-03T14:46:15Z",
+      "workflowRunId": 33766002005,
+      "evidenceArtifactId": 9897545305,
+      "projectRef": "hyflxnlhpmiqxvvcoiia",
+      "entries": [
+        {
+          "sequencePosition": 1,
+          "path": "supabase/migrations/20260825120000_clinic_mode_core.sql",
+          "sha256": "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
+          "applicationSha": "441ee3188ee52047a012232d8d11f890a09b4ac5"
+        },
+        {
+          "sequencePosition": 2,
+          "path": "supabase/migrations/20260825121000_clinic_mode_security.sql",
+          "sha256": "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
+          "applicationSha": "441ee3188ee52047a012232d8d11f890a09b4ac5"
+        },
+        {
+          "sequencePosition": 3,
+          "path": "supabase/migrations/20260825122000_clinic_mode_accounting_reporting.sql",
+          "sha256": "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010",
+          "applicationSha": "441ee3188ee52047a012232d8d11f890a09b4ac5"
+        },
+        {
+          "sequencePosition": 4,
+          "path": "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql",
+          "sha256": "9d4cfcc1849585ad609fe04547cdaf2186582e7369fac1c4868d414de1f9113c",
+          "applicationSha": "3285b6606605549c4ea730610f2c3e55c1e32859"
+        }
+      ],
+      "nextPositionLedgerRows": 0,
+      "failedLaunchObjectsPresent": false,
+      "readMethod": "Supabase Management API read-only catalog and immutable-ledger query",
+      "productionTouched": false
+    }
   },
   "independent_security_proven": true,
   "sanctioned_consumer_reachability_proven": true,
@@ -80,7 +121,7 @@
     "finalIntegrationSha": {
       "status": "populated",
       "owner": "captain",
-      "value": "3285b6606605549c4ea730610f2c3e55c1e32859 contains corrected worker source b680a4e4dd92e7422bc7030aa2189026929782a1 as an ancestor and is worker-input-equivalent across the canonical worker-input path set."
+      "value": "The replacement dispatch must use the exact pushed Captain commit carrying the ten-file Clinic migration sequence as both application_sha and tools_sha. Corrected worker source b680a4e4dd92e7422bc7030aa2189026929782a1 remains its ancestor and must remain worker-input-equivalent across the canonical worker-input path set."
     },
     "requiredGithubChecksGreen": {
       "status": "populated",

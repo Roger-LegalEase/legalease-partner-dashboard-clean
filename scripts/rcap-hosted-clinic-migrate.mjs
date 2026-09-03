@@ -47,26 +47,31 @@ const MIGRATIONS = Object.freeze([
   }),
   Object.freeze({
     sequencePosition: 5,
+    path: "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql",
+    sha256: "eb4969342a488c281152323693f4ef90732026a16f443218e53231e09cf78132"
+  }),
+  Object.freeze({
+    sequencePosition: 6,
     path: "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
     sha256: "510883d3aa6b0b34140b7b1d09ecaf9662cd45915e6a1ea4d657e85e0f84ffeb"
   }),
   Object.freeze({
-    sequencePosition: 6,
+    sequencePosition: 7,
     path: "supabase/migrations/20260901130000_consumer_private_delivery.sql",
     sha256: "ab3c23fa13bc52bbf9604e1811e5fec989a7291fb840e1ae5994a12100395621"
   }),
   Object.freeze({
-    sequencePosition: 7,
+    sequencePosition: 8,
     path: "supabase/migrations/20260901140000_tighten_consumer_artifact_authorization.sql",
     sha256: "cb0c3289f91b2eb5381fc663217149818ef2bfb0460e420c48f1091f87caf424"
   }),
   Object.freeze({
-    sequencePosition: 8,
+    sequencePosition: 9,
     path: "supabase/migrations/20260903120000_clinic_event_jurisdiction_lock.sql",
     sha256: "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"
   }),
   Object.freeze({
-    sequencePosition: 9,
+    sequencePosition: 10,
     path: "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql",
     sha256: "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"
   })
@@ -86,6 +91,7 @@ const REQUIRED_TABLES = Object.freeze([
   "consumer_pending_screening_results",
   "participant_claim_events",
   "consumer_packet_verifications",
+  "consumer_packet_artifact_provenance",
   "consumer_artifact_download_grants"
 ]);
 
@@ -124,6 +130,8 @@ const REQUIRED_FUNCTIONS = Object.freeze([
   "get_consumer_packet_verification_authority",
   "persist_consumer_packet_verification",
   "record_consumer_packet_payment",
+  "rcap_participant_erasure_authority",
+  "consumer_packet_artifact_provenance_immutable",
   "finalize_sponsored_packet_generation_if_verified",
   "authorize_consumer_artifact_download",
   "issue_consumer_artifact_download_grant",
@@ -139,7 +147,7 @@ function sanitize(value) {
 }
 
 const evidence = {
-  schemaVersion: "rcap-hosted-clinic-migrate/v2",
+  schemaVersion: "rcap-hosted-clinic-migrate/v3",
   applicationSha: APPLICATION_SHA || null,
   acceptanceProjectRef: PROJECT_REF || null,
   migrationApplied: false,
@@ -293,7 +301,7 @@ async function main() {
 
   await managementQuery(`
     create table if not exists public.rcap_acceptance_clinic_migration_ledger (
-      sequence_position smallint primary key check (sequence_position between 1 and 9),
+      sequence_position smallint primary key check (sequence_position between 1 and 10),
       migration_path text not null unique,
       sha256 text not null unique check (sha256 ~ '^[0-9a-f]{64}$'),
       application_sha text not null check (application_sha ~ '^[0-9a-f]{40}$'),
@@ -307,13 +315,13 @@ async function main() {
         select 1 from pg_constraint
         where conrelid = 'public.rcap_acceptance_clinic_migration_ledger'::regclass
           and conname = 'rcap_acceptance_clinic_migration_ledger_sequence_position_check'
-          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 9)))'
+          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 10)))'
       ) then
         alter table public.rcap_acceptance_clinic_migration_ledger
           drop constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check;
         alter table public.rcap_acceptance_clinic_migration_ledger
           add constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check
-          check (sequence_position between 1 and 9);
+          check (sequence_position between 1 and 10);
       end if;
     end $$;
 
@@ -416,6 +424,51 @@ async function main() {
         select 1 from information_schema.columns
         where table_schema='public' and table_name='clinic_events' and column_name='jurisdiction'
       ) as jurisdiction_column_present,
+      (
+        select count(*) = 11
+          and count(*) filter (where column_name='briefcase_item_id' and ordinal_position=1 and udt_name='uuid' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='consumer_auth_user_id' and ordinal_position=2 and udt_name='uuid' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='matter_id' and ordinal_position=3 and udt_name='uuid' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='render_job_id' and ordinal_position=4 and udt_name='uuid' and is_nullable='YES') = 1
+          and count(*) filter (where column_name='verification_hash' and ordinal_position=5 and udt_name='text' and is_nullable='YES') = 1
+          and count(*) filter (where column_name='entitlement_source' and ordinal_position=6 and udt_name='text' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='artifact' and ordinal_position=7 and udt_name='jsonb' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='legacy_evidence' and ordinal_position=8 and udt_name='jsonb' and is_nullable='YES') = 1
+          and count(*) filter (where column_name='revision' and ordinal_position=9 and udt_name='int4' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='created_at' and ordinal_position=10 and udt_name='timestamptz' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='updated_at' and ordinal_position=11 and udt_name='timestamptz' and is_nullable='NO') = 1
+        from information_schema.columns
+        where table_schema='public' and table_name='consumer_packet_artifact_provenance'
+      ) as provenance_columns_exact,
+      (
+        select count(*) = 7
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_pkey' and pg_get_constraintdef(oid)='PRIMARY KEY (briefcase_item_id)') = 1
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_briefcase_item_id_fkey' and pg_get_constraintdef(oid)='FOREIGN KEY (briefcase_item_id) REFERENCES consumer_briefcase_items(id) ON DELETE CASCADE') = 1
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_render_job_id_fkey' and pg_get_constraintdef(oid)='FOREIGN KEY (render_job_id) REFERENCES packet_render_jobs(id)') = 1
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_verification_hash_check' and pg_get_constraintdef(oid)='CHECK (((verification_hash IS NULL) OR (verification_hash ~ ''^[a-f0-9]{64}$''::text)))') = 1
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_entitlement_source_check' and pg_get_constraintdef(oid)='CHECK ((entitlement_source = ANY (ARRAY[''consumer_payment''::text, ''partner_sponsorship''::text, ''legacy_backfill''::text])))') = 1
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_revision_check' and pg_get_constraintdef(oid)='CHECK ((revision >= 1))') = 1
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_legacy_evidence_required' and pg_get_constraintdef(oid)='CHECK (((entitlement_source <> ''legacy_backfill''::text) OR (legacy_evidence IS NOT NULL)))') = 1
+        from pg_constraint
+        where conrelid='public.consumer_packet_artifact_provenance'::regclass
+      ) as provenance_constraints_exact,
+      exists(
+        select 1 from pg_index i join pg_class x on x.oid=i.indexrelid
+        where i.indrelid='public.consumer_packet_artifact_provenance'::regclass
+          and x.relname='consumer_packet_artifact_provenance_user_idx'
+          and i.indisvalid and not i.indisunique
+          and i.indnkeyatts=1 and i.indpred is null and i.indexprs is null
+          and pg_get_indexdef(i.indexrelid)='CREATE INDEX consumer_packet_artifact_provenance_user_idx ON public.consumer_packet_artifact_provenance USING btree (consumer_auth_user_id)'
+      ) as provenance_owner_index_exact,
+      exists(
+        select 1 from pg_trigger
+        where tgname='consumer_packet_artifact_provenance_immutable'
+          and tgrelid='public.consumer_packet_artifact_provenance'::regclass
+          and not tgisinternal
+      ) and not exists(
+        select 1 from pg_policy
+        where polrelid='public.consumer_packet_artifact_provenance'::regclass
+      ) as provenance_immutable_and_policyless,
       pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%p.consumer_auth_user_id = g.consumer_auth_user_id%'
         and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%order by p.revision desc%'
         and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%limit 1%'
@@ -428,12 +481,13 @@ async function main() {
       not exists (
         select 1 from information_schema.role_table_grants g
         where g.table_schema='public'
-          and g.grantee in ('anon','authenticated')
+          and g.grantee in ('PUBLIC','anon','authenticated')
           and g.table_name in (
             'consumer_pending_screening_results','participant_claim_events',
-            'consumer_packet_verifications','consumer_artifact_download_grants'
+            'consumer_packet_verifications','consumer_packet_artifact_provenance',
+            'consumer_artifact_download_grants'
           )
-          and g.privilege_type in ('INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER')
+          and g.privilege_type in ('SELECT','INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER')
       ) as protected_table_grants_tight,
       coalesce(has_function_privilege('service_role',to_regprocedure('public.claim_pending_screening_result(text,uuid,jsonb,text)'),'EXECUTE'),false)
         and not coalesce(has_function_privilege('anon',to_regprocedure('public.claim_pending_screening_result(text,uuid,jsonb,text)'),'EXECUTE'),false)
@@ -454,6 +508,18 @@ async function main() {
           select 1 from information_schema.routine_privileges rp
           where rp.routine_schema='public'
             and rp.routine_name='finalize_sponsored_packet_generation_if_verified'
+            and rp.grantee='PUBLIC' and rp.privilege_type='EXECUTE'
+        )
+        and coalesce(has_function_privilege('service_role',to_regprocedure('public.rcap_participant_erasure_authority()'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('anon',to_regprocedure('public.rcap_participant_erasure_authority()'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.rcap_participant_erasure_authority()'),'EXECUTE'),false)
+        and coalesce(has_function_privilege('service_role',to_regprocedure('public.consumer_packet_artifact_provenance_immutable()'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('anon',to_regprocedure('public.consumer_packet_artifact_provenance_immutable()'),'EXECUTE'),false)
+        and not coalesce(has_function_privilege('authenticated',to_regprocedure('public.consumer_packet_artifact_provenance_immutable()'),'EXECUTE'),false)
+        and not exists (
+          select 1 from information_schema.routine_privileges rp
+          where rp.routine_schema='public'
+            and rp.routine_name in ('rcap_participant_erasure_authority','consumer_packet_artifact_provenance_immutable')
             and rp.grantee='PUBLIC' and rp.privilege_type='EXECUTE'
         )
         as key_function_grants_tight,
@@ -479,6 +545,15 @@ async function main() {
     equalLists(functionNames, REQUIRED_FUNCTIONS),
     `all ${REQUIRED_FUNCTIONS.length} required functions exist=${equalLists(functionNames, REQUIRED_FUNCTIONS)}; functions=${functionNames.length}`
   );
+  const provenancePrerequisiteExact = truthy(readback.provenance_columns_exact)
+    && truthy(readback.provenance_constraints_exact)
+    && truthy(readback.provenance_owner_index_exact)
+    && truthy(readback.provenance_immutable_and_policyless);
+  record(
+    "consumer_artifact_provenance_prerequisite_exact",
+    provenancePrerequisiteExact,
+    `columns=${truthy(readback.provenance_columns_exact)}; constraints=${truthy(readback.provenance_constraints_exact)}; owner index=${truthy(readback.provenance_owner_index_exact)}; immutable trigger and no direct policy=${truthy(readback.provenance_immutable_and_policyless)}`
+  );
   const currentContractsPresent = truthy(readback.atomic_claim_present)
     && truthy(readback.verified_enqueue_present)
     && truthy(readback.private_download_present)
@@ -487,10 +562,11 @@ async function main() {
     && truthy(readback.jurisdiction_column_present)
     && truthy(readback.tightened_private_download_present)
     && truthy(readback.atomic_sponsored_finalizer_present)
+    && provenancePrerequisiteExact
     && truthy(readback.protected_table_grants_tight)
     && truthy(readback.key_function_grants_tight);
   record(
-    "all_six_current_demo_migration_families_read_back",
+    "all_seven_current_demo_migration_families_read_back",
     currentContractsPresent,
     `atomic claim=${truthy(readback.atomic_claim_present)}; launch rails=${truthy(readback.verified_enqueue_present)}; private delivery=${truthy(readback.private_download_present)}; tightened authorization=${truthy(readback.tightened_private_download_present)}; atomic sponsored finalization=${truthy(readback.atomic_sponsored_finalizer_present)}; protected table grants=${truthy(readback.protected_table_grants_tight)}; key function grants=${truthy(readback.key_function_grants_tight)}; jurisdiction lock=${truthy(readback.jurisdiction_create_present) && truthy(readback.jurisdiction_column_present)}`
   );
@@ -508,16 +584,16 @@ async function main() {
       && /^[0-9a-f]{40}$/.test(String(row.application_sha)))
     && truthy(readback.ledger_immutable);
   record(
-    "ledger_records_all_9_exact_frozen_migrations",
+    "ledger_records_all_10_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 9 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
+    `ledger records all 10 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 
 try {
   await main();
   writeEvidence(true);
-  console.log("\nHOSTED CLINIC MIGRATE: PASS — exact frozen nine-file Clinic Preview sequence is present on acceptance only");
+  console.log("\nHOSTED CLINIC MIGRATE: PASS — exact frozen ten-file Clinic Preview sequence is present on acceptance only");
 } catch (error) {
   writeEvidence(false, error);
   console.error(`\nHOSTED CLINIC MIGRATE: FAIL — ${sanitize(error instanceof Error ? error.message : error)}`);

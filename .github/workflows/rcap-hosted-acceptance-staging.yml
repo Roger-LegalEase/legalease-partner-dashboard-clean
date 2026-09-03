@@ -243,7 +243,7 @@ jobs:
         run: node scripts/rcap-hosted-acceptance-migrate.mjs
 
       # Isolated from the Phase 49–55 packet/payment sequence above. This phase
-      # applies only the nine exact Clinic Preview migration blobs read from the frozen
+      # applies only the ten exact Clinic Preview migration blobs read from the frozen
       # application commit, at the hashes and order explicitly authorized for
       # the named nonproduction acceptance project. It has no Preview, Stripe,
       # Checkout, payment, worker, browser, or generic migration path.
@@ -281,7 +281,7 @@ jobs:
       #   stripe_retarget  no             no       no              yes
       #   checkout_gate    no             no       yes             no
       #   browser          no             no       no              no (isolated browser=true)
-      #   clinic_migrate   no             no       no              no (exact nine-file Clinic Preview sequence only)
+      #   clinic_migrate   no             no       no              no (exact ten-file Clinic Preview sequence only)
       #   migrate          no             no       no              no
       #   preflight        no             no       no              no
       #   vercel_audit     no             no       no              no
