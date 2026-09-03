@@ -26,7 +26,10 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const ARGS = process.argv.slice(2);
 const flag = (n) => { const i = ARGS.indexOf(n); return i < 0 ? null : ARGS[i + 1]; };
+const multi = (n) => ARGS.reduce((acc, arg, i) => (arg === n && ARGS[i + 1] ? [...acc, ARGS[i + 1]] : acc), []);
 const RECEIPTS = flag("--receipts");
+const ONLY_FAMILIES = multi("--family");
+const ONLY_ROUTES = multi("--route");
 const DIR = "data/rcap-grade-a/route-artifact-acceptance";
 const OUT = `${DIR}/ROUTE_ARTIFACT_ACCEPTANCE.json`;
 
@@ -59,7 +62,7 @@ if (RECEIPTS && fs.existsSync(RECEIPTS)) {
 }
 
 const FIFTEEN = [
-  "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, against the family's own componentRoutes",
+  "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, or an exact one-route family equivalence, against the family's own componentRoutes",
   "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes — source-receipt.json",
   "COMPONENT SET: every component the ROUTE names is present in THIS artifact, and no component of another route is",
   "KNOWN PREFILLS: every known required fact is written and readable from this artifact's own bytes, on the page it belongs to",
@@ -78,6 +81,8 @@ const FIFTEEN = [
 
 const rows = [];
 for (const c of completeness.results) {
+  if (ONLY_FAMILIES.length > 0 && !ONLY_FAMILIES.includes(c.familyId)) continue;
+  if (ONLY_ROUTES.length > 0 && !ONLY_ROUTES.includes(c.route)) continue;
   const det = determinism.artifacts.find((a) => a.file === c.file) ?? null;
   const qrow = queue.rows.find((r) => r.route === c.route && r.packetFamilyId === c.familyId) ?? null;
   const receipt = qrow ? receipts.get(qrow.familyId) ?? null : null;
@@ -92,7 +97,10 @@ for (const c of completeness.results) {
     sha256: onDisk,
     byteLength: c.bytes.byteLengthObserved,
     pageCount: c.bytes.pageCountParsed,
-    unitOfDelivery: "route_artifact",
+    unitOfDelivery: c.unitOfDelivery ?? "route_artifact",
+    customerRouteId: c.customerRouteId ?? null,
+    familyAssemblyIsRouteArtifact: c.familyAssemblyIsRouteArtifact === true,
+    equivalenceBasis: c.equivalenceBasis ?? null,
     inFirstCohort: qrow?.inFirstCohort ?? false,
 
     deterministicRebuild: det
@@ -153,16 +161,38 @@ for (const c of completeness.results) {
         pngPagesRetained: false,
         whyPngPagesAreNotCommitted: "the rendered pages are tens of megabytes per family and this container is at capacity; the per-page measurements are in the receipt, and a verifier who wants the images re-renders from the pinned SHA-256, which is the point of pinning it"
       }
-      : { state: "RASTER_PENDING", why: "this artifact was not enrolled in a completed raster run by this lane", receipt: null },
+      : qrow?.preexistingRasterAcceptance
+        ? (() => {
+            const accepted = qrow.preexistingRasterAcceptance;
+            const bound = c.fixture === "canonical" ? accepted.boundToCanonicalSha256 : accepted.boundToBoundarySha256;
+            return {
+              state: accepted.verdict,
+              boundToSha256: bound,
+              boundToTheseBytes: bound === onDisk,
+              pagesMeasured: c.bytes.pageCountParsed,
+              problems: accepted.problemsFound === 0 ? [] : [`the source receipt reports ${accepted.problemsFound} problem(s)`],
+              workflowRunId: accepted.workflowRunId,
+              jobId: accepted.jobId,
+              receiptArtifact: accepted.receiptArtifact,
+              evidence: accepted.source,
+              equivalenceBasis: accepted.whyItApplies,
+              doesNotBorrowNeighbouringBytes: c.familyAssemblyIsRouteArtifact === true
+            };
+          })()
+        : { state: "RASTER_PENDING", why: "this artifact was not enrolled in a completed raster run by this lane", receipt: null },
 
     independentVerification: {
       pending: true,
-      whyThisLaneMayNotClose: "this lane produced these artifacts and then measured them. A builder reading its own evidence is not independent verification of it, whatever the evidence says.",
+      whyThisLaneMayNotClose: c.familyAssemblyIsRouteArtifact
+        ? "The family and route bytes are identical, but this lane only proved that scope equivalence. It did not independently re-read the route under the fifteen obligations, so the existing family verdict is cited as upstream evidence and not silently promoted into a new route verdict."
+        : "this lane produced these artifacts and then measured them. A builder reading its own evidence is not independent verification of it, whatever the evidence says.",
       verdictVocabulary: ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT"],
       measureTheseFifteenRouteScoped: FIFTEEN,
       readThese: [
         c.file,
-        `${c.directory}/reports/rendered-artifacts.json — the routeArtifacts row for ${c.routeKey} / ${c.fixture}`,
+        c.familyAssemblyIsRouteArtifact
+          ? `${c.directory}/reports/rendered-artifacts.json — the ${c.fixture} family artifact and component set used by the exact one-route equivalence`
+          : `${c.directory}/reports/rendered-artifacts.json — the routeArtifacts row for ${c.routeKey} / ${c.fixture}`,
         `${c.directory}/production-field-map.json — componentRoutes, and the maps entries for this route's components only`,
         `${c.directory}/reports/actual-writes.json — the ${c.fixture} fixture's actualWrites, filtered to this route's documents`,
         `${c.directory}/participant-instructions.md — the required-before-filing disclosures and this route's which-pages-are-yours table`,
@@ -170,7 +200,9 @@ for (const c of completeness.results) {
         `${DIR}/ROUTE_ARTIFACT_DETERMINISM.json`,
         `${DIR}/ROUTE_ARTIFACT_COMPLETENESS.json`,
         `${DIR}/ROUTE_ARTIFACT_RASTER_QUEUE.json`,
-        receipt?.file ?? `${DIR}/raster-receipts/ — no receipt exists for this artifact`,
+        receipt?.file ?? (qrow?.preexistingRasterAcceptance?.source
+          ? `${qrow.preexistingRasterAcceptance.source} — the existing receipt binds the same family-assembly bytes that are this one route's artifact`
+          : `${DIR}/raster-receipts/ — no receipt exists for this artifact`),
         `${DIR}/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download`,
         `${DIR}/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on`
       ],
@@ -186,14 +218,31 @@ for (const c of completeness.results) {
   });
 }
 
-const cohort = rows.filter((r) => r.inFirstCohort);
+if ((ONLY_FAMILIES.length > 0 || ONLY_ROUTES.length > 0) && rows.length === 0) {
+  console.error("REFUSED: no route acceptance rows matched the explicit filter");
+  process.exit(1);
+}
+
+const existingAcceptance = read(OUT);
+const selectedByFilters = (row) =>
+  (ONLY_FAMILIES.length === 0 || ONLY_FAMILIES.includes(row.familyId))
+  && (ONLY_ROUTES.length === 0 || ONLY_ROUTES.includes(row.route));
+const focused = ONLY_FAMILIES.length > 0 || ONLY_ROUTES.length > 0;
+const outputRows = focused && existingAcceptance?.rows
+  ? [...existingAcceptance.rows.filter((row) => !selectedByFilters(row)), ...rows]
+  : rows;
+
+const cohort = outputRows.filter((r) => r.inFirstCohort);
 const doc = {
+  ...(focused && existingAcceptance ? existingAcceptance : {}),
   schemaVersion: "rcap-route-artifact-acceptance/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs",
-  atCommit: git(["rev-parse", "HEAD"]),
+  atCommit: focused && existingAcceptance?.atCommit ? existingAcceptance.atCommit : git(["rev-parse", "HEAD"]),
   whatThisIs: "Per-artifact acceptance evidence for the route-scoped packets: deterministic rebuild, current hash, route-scoped component completeness, and raster acceptance bound to the artifact's own bytes.",
-  whatRemainsOpen: "Independent verification, on every row. This lane built these artifacts and may not verify them.",
-  centralRasterRun: central
+  whatRemainsOpen: "Independent route-scoped verification remains open on every row. A family verdict is not promoted merely because route equivalence was established.",
+  centralRasterRun: focused && existingAcceptance?.centralRasterRun
+    ? existingAcceptance.centralRasterRun
+    : central
     ? {
       workflowRunId: central.workflowRunId, runUrl: central.runUrl,
       renderedCommitSha: central.renderedCommitSha,
@@ -203,27 +252,31 @@ const doc = {
       record: `${DIR}/CENTRAL_RASTER_RUN.json`
     }
     : null,
-  whyTheBuilderFlagsWereNotFlipped: "Each routeArtifacts row in reports/rendered-artifacts.json still reads rasterPending: true and independentVerificationPending: true. Those are written unconditionally by the builder, so editing them by hand would make the artifacts stop reproducing — and reproducing is the property this very record establishes. The raster state and the verification state live here instead, keyed to the artifact's SHA-256, and this record is what supersedes the builder's flag. A reader who needs the current state reads this file, not the build report.",
+  whyTheBuilderFlagsWereNotFlipped: "Builder reports are not edited by this evidence assembler. Existing multi-route artifacts retain their builder-time pending flags; exact one-route family aliases retain their original family-artifact rows and create no copied PDF. Current raster and verification state lives here, keyed to exact SHA-256, so the build remains reproducible and this record carries only evidence gathered later.",
   familyAssembliesUnchanged: (determinism.artifacts ?? []).filter((a) => a.unit === "family_assembly")
     .map((a) => ({ file: a.file, committedSha256: a.committedSha256, rebuildSha256: a.rebuild1Sha256, unchanged: a.matchesCommitted && a.deterministic })),
   counts: {
-    routeArtifacts: rows.length,
+    ...(focused && existingAcceptance?.counts ? existingAcceptance.counts : {}),
+    routeArtifacts: outputRows.length,
     inFirstCohort: cohort.length,
-    deterministicRebuildReproduces: rows.filter((r) => r.deterministicRebuild.result === "REPRODUCES").length,
-    routeCompletenessPass: rows.filter((r) => r.routeScopedCompleteness.result === "ROUTE_PASS_COMPLETE").length,
-    rasterPass: rows.filter((r) => r.rasterAcceptance.state === "RASTER_PASS").length,
-    rasterStillPending: rows.filter((r) => r.rasterAcceptance.state !== "RASTER_PASS").length,
-    independentVerificationPending: rows.filter((r) => r.independentVerification.pending).length
+    deterministicRebuildReproduces: outputRows.filter((r) => r.deterministicRebuild.result === "REPRODUCES").length,
+    routeCompletenessPass: outputRows.filter((r) => r.routeScopedCompleteness.result === "ROUTE_PASS_COMPLETE").length,
+    rasterPass: outputRows.filter((r) => r.rasterAcceptance.state === "RASTER_PASS").length,
+    rasterStillPending: outputRows.filter((r) => r.rasterAcceptance.state !== "RASTER_PASS").length,
+    independentVerificationPending: outputRows.filter((r) => r.independentVerification.pending).length
   },
   packetContentChanged: false, packetPdfsModified: 0,
   commercialRoutesOpened: 0, productionTouched: false,
   captainQueuesWritten: [],
   whatTheCaptainWouldHaveToIngest: {
     file: "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-    change: "thirteen route rows carrying their own pinned hashes, or a note that route artifacts are rastered through the lane-local manifest at data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
+    change: `${queue.counts.rows} route rows carrying their own pinned hashes; an exact one-route family alias may cite an existing central family receipt only when the route artifact is those same bytes`,
     notWrittenByThisLane: "MASTER_QUEUE.json and RASTER_QUEUE.json are the Captain's; the evidence is prepared here and the queues are left alone"
   },
-  rows
+  focusedRegeneration: focused
+    ? { families: ONLY_FAMILIES, routes: ONLY_ROUTES, rowsReplaced: rows.length, untouchedRowsPreserved: outputRows.length - rows.length }
+    : null,
+  rows: outputRows
 };
 
 fs.mkdirSync(path.join(ROOT, DIR), { recursive: true });

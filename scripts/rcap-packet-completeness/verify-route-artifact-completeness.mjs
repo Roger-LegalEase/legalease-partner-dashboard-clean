@@ -51,6 +51,7 @@ import { fileURLToPath } from "node:url";
 import { PDFDocument } from "pdf-lib";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf } from "./completeness-contract.mjs";
 import { extractTextItems, groupIntoLines } from "../rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { singleRouteFamilyArtifacts } from "../lib/route-artifact-scope.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const ARGS = process.argv.slice(2);
@@ -64,6 +65,8 @@ const ONLY_ROUTES = multi("--route");
 
 const readIf = (rel) => { const p = path.join(ROOT, rel); return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : null; };
 const sha256 = (buf) => crypto.createHash("sha256").update(buf).digest("hex");
+const MASTER = readIf("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
+const ROUTE_REGISTRY = readIf("data/record-clearing/factory-v2-route-registry.json");
 
 /* The same row normalisation the builders use for this field-map schema:
  * maps[].canonicalWrites / canonicalRefusals / roleRefusals / selectionControls. */
@@ -186,13 +189,19 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
   for (const entry of fs.readdirSync(stateDir)) {
     const dir = `${OVERLAYS}/${state}/${entry}`;
     const rendered = readIf(`${dir}/reports/rendered-artifacts.json`);
-    if (!rendered || (rendered.routeArtifacts ?? []).length === 0) continue;
-    families.push({ dir, familyId: rendered.familyId ?? entry.replace(/--[a-z-]+$/, "") });
+    if (!rendered) continue;
+    const familyId = rendered.familyId ?? entry.replace(/--[a-z-]+$/, "");
+    const fieldMap = readIf(`${dir}/production-field-map.json`);
+    const routeArtifacts = (rendered.routeArtifacts ?? []).length > 0
+      ? rendered.routeArtifacts
+      : singleRouteFamilyArtifacts({ familyId, rendered, fieldMap, master: MASTER, routeRegistry: ROUTE_REGISTRY });
+    if (routeArtifacts.length === 0) continue;
+    families.push({ dir, familyId, routeArtifacts });
   }
 }
 
 const results = [];
-for (const { dir, familyId } of families) {
+for (const { dir, familyId, routeArtifacts } of families) {
   if (ONLY_FAMILIES.length > 0 && !ONLY_FAMILIES.includes(familyId)) continue;
   const fieldMap = readIf(`${dir}/production-field-map.json`);
   const rendered = readIf(`${dir}/reports/rendered-artifacts.json`);
@@ -205,7 +214,7 @@ for (const { dir, familyId } of families) {
     continue;
   }
 
-  for (const artifact of rendered.routeArtifacts ?? []) {
+  for (const artifact of routeArtifacts) {
     if (ONLY_ROUTES.length > 0 && !ONLY_ROUTES.includes(artifact.route)) continue;
 
     const findings = [];
@@ -281,6 +290,10 @@ for (const { dir, familyId } of families) {
     results.push({
       familyId, directory: dir,
       routeKey: artifact.routeKey, route: artifact.route, fixture: artifact.fixture,
+      customerRouteId: artifact.customerRouteId ?? null,
+      unitOfDelivery: artifact.unitOfDelivery ?? "route_artifact",
+      familyAssemblyIsRouteArtifact: artifact.familyAssemblyIsRouteArtifact === true,
+      equivalenceBasis: artifact.equivalenceBasis ?? null,
       file: artifact.file, result,
       bytes: {
         sha256Observed: observedSha, sha256Recorded: artifact.sha256,
@@ -308,17 +321,38 @@ for (const { dir, familyId } of families) {
   }
 }
 
+if ((ONLY_FAMILIES.length > 0 || ONLY_ROUTES.length > 0) && results.length === 0) {
+  console.error("REFUSED: no route artifacts matched the explicit filter");
+  process.exit(1);
+}
+
+/* A focused run replaces only the rows it was asked to measure. This lets a
+ * sparse, family-scoped worktree add current evidence without deleting
+ * historical rows for families it intentionally did not materialize. */
+const existing = readIf(OUT);
+const focused = ONLY_FAMILIES.length > 0 || ONLY_ROUTES.length > 0;
+const selectedByFilters = (row) =>
+  (ONLY_FAMILIES.length === 0 || ONLY_FAMILIES.includes(row.familyId))
+  && (ONLY_ROUTES.length === 0 || ONLY_ROUTES.includes(row.route));
+const outputResults = WRITE && focused && existing?.results
+  ? [...existing.results.filter((row) => !selectedByFilters(row)), ...results]
+  : results;
+
 const doc = {
+  ...(focused && existing ? existing : {}),
   schemaVersion: "rcap-route-artifact-completeness/v1",
   generatedBy: "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs",
   whatThisMeasures: "For each route-scoped artifact: that its bytes still bind to the build record, that it carries exactly the components the family's own componentRoutes assigns to that route and no other route's, that every value bound to those components is readable back from the artifact's own bytes, and the nine completeness counters over that route's field-map rows alone.",
   whatThisIsNot: "Not independent verification, not a raster verdict, and not a promotion. This is the builder-side lane's own measurement of artifacts the same lane is submitting.",
   whichRowsTheCountersRead: "canonicalWrites and canonicalRefusals, the same rows verify-packet-completeness.mjs reads for this field-map schema, so a route counter and a family counter mean the same thing. The read-back is fixture-specific: it uses the fixture's own actualWrites and the fixture's own artifact bytes.",
-  routeArtifactsMeasured: results.length,
-  allPass: results.every((r) => r.result === "ROUTE_PASS_COMPLETE"),
-  byResult: results.reduce((acc, r) => { acc[r.result] = (acc[r.result] ?? 0) + 1; return acc; }, {}),
+  routeArtifactsMeasured: outputResults.length,
+  allPass: outputResults.every((r) => r.result === "ROUTE_PASS_COMPLETE"),
+  byResult: outputResults.reduce((acc, r) => { acc[r.result] = (acc[r.result] ?? 0) + 1; return acc; }, {}),
+  focusedRegeneration: focused
+    ? { families: ONLY_FAMILIES, routes: ONLY_ROUTES, rowsReplaced: results.length, untouchedRowsPreserved: outputResults.length - results.length }
+    : null,
   packetPdfsModified: 0, packetContentChanged: false, commercialRoutesOpened: 0, productionTouched: false,
-  results
+  results: outputResults
 };
 
 if (WRITE) {
@@ -331,6 +365,6 @@ for (const r of results) {
   console.log(`  ${mark} ${r.familyId} · ${r.route} · ${r.fixture} — ${r.result} — ${r.componentSet.declaredByTheFamilyForThisRoute.length} component(s), ${r.readBackFromTheseBytes.valuesReadBack}/${r.readBackFromTheseBytes.valuesBoundToThisRoute} value(s) read back, ${r.totals.written}/${r.totals.terminalFields} written`);
   for (const f of r.findings.slice(0, 6)) console.log(`       ${f.counter}: ${f.why ?? f.basis ?? f.label ?? ""}`);
 }
-console.log(`\n  ${results.length} route artifact(s) measured · ${Object.entries(doc.byResult).map(([k, v]) => `${v} ${k}`).join(" · ")}`);
+console.log(`\n  ${results.length} route artifact(s) measured this run · ${outputResults.length} total · ${Object.entries(doc.byResult).map(([k, v]) => `${v} ${k}`).join(" · ")}`);
 if (WRITE) console.log(`  written: ${OUT}`);
 process.exit(doc.allPass ? 0 : 1);
