@@ -780,20 +780,20 @@ check(
 // ==============================================================================
 check(
   "master_library_complete",
-  "The mounted corpus carries the declared file, PDF and jurisdiction counts",
-  "A short extract is worse than no extract: every field map keyed to a missing binary would report a form with no source. The bootstrap refuses a short extract and so does this.",
+  "The mounted corpus carries at least the declared file, PDF and jurisdiction counts",
+  "A short extract is worse than no extract: every field map keyed to a missing binary would report a form with no source. This gate enforces immutable minimums while allowing governed recovery files to extend the corpus.",
   (env) => {
     const root = masterLibraryRoot(env);
     const files = filesUnder(root);
     if (files === null) return { ok: false, walkable: false, detail: "the corpus root cannot be walked (absent is not empty)" };
     const pdfs = files.filter((f) => f.toLowerCase().endsWith(".pdf"));
     const jurisdictions = new Set(files.map((f) => f.match(/^STATES\/([A-Z]{2})\//)?.[1]).filter(Boolean));
-    const ok = files.length >= EXPECT_FILES && pdfs.length === EXPECT_PDFS && jurisdictions.size >= EXPECT_JURISDICTIONS - 6;
+    const ok = files.length >= EXPECT_FILES && pdfs.length >= EXPECT_PDFS && jurisdictions.size >= EXPECT_JURISDICTIONS - 6;
     return {
       ok, walkable: true, files: files.length, pdfs: pdfs.length, jurisdictions: jurisdictions.size,
       expected: { files: EXPECT_FILES, pdfs: EXPECT_PDFS },
       detail: ok ? `${files.length} files, ${pdfs.length} PDFs, ${jurisdictions.size} jurisdictions`
-        : `short extract: ${files.length}/${EXPECT_FILES} files, ${pdfs.length}/${EXPECT_PDFS} PDFs`
+        : `below immutable minimum: ${files.length}/${EXPECT_FILES} files, ${pdfs.length}/${EXPECT_PDFS} PDFs`
     };
   }
 );
@@ -1188,6 +1188,15 @@ function cloudScenarios() {
     });
   };
 
+  const accept = (scenario, mustAccept, result) => {
+    findings.push({
+      scenario, check: mustAccept, refused: result.ok === false,
+      accepted: result.ok === true,
+      detail: result.detail,
+      verdict: result.ok === true ? "ACCEPTED_AS_IT_MUST" : "REFUSED — THE GATE REJECTS A VALID CORPUS"
+    });
+  };
+
   try {
     delete process.env.MASTER_LIBRARY_SOURCE_DIR;
 
@@ -1245,6 +1254,20 @@ function cloudScenarios() {
     const shortExtract = makeEnv("cloud-short-corpus");
     record("the corpus counts are wrong", "master_library_complete",
       run("master_library_complete", shortExtract.env, {}));
+
+    const recoveredCorpus = makeEnv("cloud-recovered-corpus");
+    const recoveredRoot = path.join(recoveredCorpus.env, MASTER_LIBRARY_RELATIVE);
+    for (let i = 1; i < EXPECT_PDFS + 1; i += 1) {
+      const jurisdiction = String.fromCharCode(65 + Math.floor(i / 26), 65 + (i % 26));
+      const dir = path.join(recoveredRoot, "STATES", jurisdiction);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, `RECOVERED-${i}.pdf`), FAKE_BYTES);
+    }
+    for (let i = 0; i < EXPECT_FILES - EXPECT_PDFS; i += 1) {
+      fs.writeFileSync(path.join(recoveredRoot, `governance-${i}.txt`), "synthetic\n");
+    }
+    accept("a governed recovery raises the corpus above its immutable minimum", "master_library_complete",
+      run("master_library_complete", recoveredCorpus.env, {}));
 
     const noSource = makeEnv("cloud-source-absent", { corpus: false });
     record("a family source is absent from the corpus", "family_sources_bind",
