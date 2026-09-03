@@ -101,9 +101,9 @@
       "RAS04": 41
     },
     "byState": {
-      "RASTER_PENDING": 34,
+      "RASTER_PENDING": 33,
       "RASTER_RUNNING": 0,
-      "RASTER_PASS": 130,
+      "RASTER_PASS": 131,
       "RASTER_FAIL": 0,
       "RASTER_BLOCKED_ENVIRONMENT": 0
     },
@@ -7982,8 +7982,46 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33672468930",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "247b790b6decf4ab14924914b10ad16a6ab57400",
+        "jobId": "100390017750",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "0f054975494d0bb97d66418cc4ba84f6ca3da146e48b3182072bbda3d35e944e",
+        "boundToBoundarySha256": "6dc6ddc9242f0818237154075c5b0a2074ec60081d43f38eb259c5b4c7775048",
+        "documentsMeasured": 2,
+        "pagesMeasured": 100,
+        "problemsFound": 0,
+        "runnerLine": "RASTER_PASS rcap-nv-custom-pleading — 2 document(s), 100 page(s) measured, 0 problem(s)",
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "receiptArtifact": {
+          "id": 9863889420,
+          "name": "rcap-raster-rcap-nv-custom-pleading-33672468930",
+          "zipSha256": "sha256:421dcfdacac502777ceb644d042ae4f8a7aa5d8f06c6b12295d837416a208fd4",
+          "sizeInBytes": 28459804,
+          "expiresAt": "2026-09-16T19:40:40Z"
+        },
+        "canaryPrecondition": "The synthetic canary and live negative controls passed in the same run before the Nevada family job ran.",
+        "pinVerification": "The workflow guard proved checkout commit 247b790b6decf4ab14924914b10ad16a6ab57400. Both Nevada PDFs and all five committed raster-mechanism files are byte-identical between that rendered commit and Captain base fc95a33ac24622e70e86114eaca363d3c4b1f350.",
+        "bytesReconfirmedAtIngestion": "Captain recomputed both current PDF SHA-256 values and matched the receipt pins. FIX18 decoded and rehashed all 100 actual PNGs and directly inspected every page for clipping and overlap.",
+        "actualPageReadback": {
+          "return": "data/rcap-grade-a/codex-cloud/fix18-nv-raster-return.json",
+          "pngsDecoded": 100,
+          "pngHashesRecomputed": 100,
+          "pngByteLengthsMatched": 100,
+          "pagesVisuallyInspected": 100,
+          "clippingDetected": false,
+          "overlapDetected": false
+        }
+      }
     },
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
