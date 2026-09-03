@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "specificationId": "ms-nonconviction-expungement-99-19-71-4",
-  "specificationVersion": "1.0.0",
+  "specificationVersion": "2.0.0",
   "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
   "jurisdiction": "MS",
   "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
@@ -10,11 +10,11 @@
   "packetFamilyLabel": "Mississippi Non-Conviction Expungement Packet under Miss. Code Ann. Section 99-19-71(4)",
   "trackId": "ms-nonconv",
   "packetSetId": "ms-nonconv-set",
-  "packetSetVersion": "1.0.0",
+  "packetSetVersion": "2.0.0",
   "profileId": "MS",
   "profileVersion": "2026-06-19-source-conversion-1",
   "legalSectionsBound": true,
-  "specificationNote": "This versioned specification is the exact five-document packet delivered for the bounded Mississippi non-conviction route. It is derived from the owner-approved ms-nonconv-set legal design, the census-v1 production field map, and its participant instructions. Local filing practice, the fee question, ambiguous docket entries, and other stated stopping conditions remain explicit participant checks rather than invented statewide answers.",
+  "specificationNote": "This revised five-document packet separates plain-language participant guidance from conventional Mississippi court pleadings. The filing pages adapt the verified structure of a submitted Mississippi expunction petition without copying its attorney language, facts, names, errors, or legal conclusions. Actual arrest, release, docket-exact caption, charge details, exhibits, notarized verification, MCIC identifiers, and court-specific processing remain fail-closed requirements. Delivery stays held pending independent review and named Mississippi counsel approval of the revised artifact hashes.",
   "statutoryAuthority": {
     "primary": "Miss. Code Ann. Section 99-19-71(4)",
     "sourceUrl": "https://legiscan.com/MS/text/HB1546/2026",
@@ -51,6 +51,32 @@
       "kind": "legal_design_intake_track",
       "verification": "present_in_repository",
       "location": "data/record-clearing/legal-design-intake/MS.memo.json"
+    },
+    {
+      "sourceId": "ms-clinic-filing-review-2026-09-03",
+      "kind": "filing_readiness_review",
+      "verification": "present_in_repository",
+      "location": "docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md",
+      "note": "Route-specific correction of caption, arrest-and-release, MCIC, fingerprint, service, exhibit, pro-se, and order requirements. Review input SHA-256 c267b8454beca090a828bfc31037aab959bac91130aec149150d5307fe18b8ee."
+    },
+    {
+      "sourceId": "lawrence-format-direction-2026-09-03",
+      "kind": "owner_approved_format_and_verification_direction",
+      "verification": "present_in_repository",
+      "location": "docs/rcap/grade-a/MS_CLINIC_DEMO_LAWRENCE_REVISION_DESIGN.md",
+      "note": "The six-page sample, SHA-256 56f5d9bdc8e108fce0d47f818040ed09f9e08e22f7442d93de6d49c1f0a1117e, controls practical pleading structure only. Owner direction SHA-256 88497978c1411950ea3977a7ae32087e29fc375017cadc87b20d700c60623866."
+    },
+    {
+      "sourceId": "mississippi-mcic-administrative-code-title-31-part-2-chapter-6",
+      "kind": "official_administrative_rule",
+      "verification": "asserted_by_ingestion",
+      "note": "Requires identifying information, court certification and seal, forwarding to CIC, and processing of state and FBI records."
+    },
+    {
+      "sourceId": "mississippi-revised-notary-act-and-rules",
+      "kind": "official_notary_rule",
+      "verification": "asserted_by_ingestion",
+      "note": "Controls the LegalEase verification-on-oath workflow, personal appearance, identification, signing in the notary's presence, certificate, and stamp fields."
     }
   ],
   "requiredFacts": [
@@ -63,12 +89,76 @@
       "helperText": "Use the same spelling shown on the case record. A volunteer can help compare the documents. Stop and get legal help if the record names a different person."
     },
     {
+      "factId": "case_caption_plaintiff_name",
+      "use": "docket-exact plaintiff name in every court caption",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What exact plaintiff name appears in the original docket caption?",
+      "helperText": "Copy the plaintiff name exactly, including City of, State of, or another named entity. A volunteer can help compare the docket and disposition. Stop rather than reconstructing or guessing the case style."
+    },
+    {
+      "factId": "case_caption_defendant_name",
+      "use": "docket-exact defendant name in every court caption",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What exact defendant name appears in the original docket caption?",
+      "helperText": "Copy the defendant name exactly from the docket. A volunteer can help compare it with the disposition. Stop if the records use conflicting names."
+    },
+    {
+      "factId": "name_used_at_arrest",
+      "use": "petition identity paragraph, proposed order, and confidential MCIC addendum",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What name did the arrest record use?",
+      "helperText": "Copy the name from the arrest record. A volunteer can help compare it with the docket. Stop if the arrest record appears to identify another person."
+    },
+    {
+      "factId": "aliases",
+      "use": "petition identity paragraph and confidential MCIC addendum",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What aliases or other names does the arrest or court record list?",
+      "helperText": "List only names shown on the records, or enter None shown on the record. A volunteer can help review the name fields. Stop if an unfamiliar alias appears."
+    },
+    {
       "factId": "date_of_birth",
       "use": "participant identity block",
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
       "prompt": "What is your date of birth?",
       "helperText": "Use your legal date of birth. A volunteer can help enter it. Stop if the record appears to belong to someone else."
+    },
+    {
+      "factId": "social_security_number",
+      "use": "full identifier in the confidential MCIC processing addendum only",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What Social Security number must the court-approved MCIC processing copy use?",
+      "helperText": "Enter the full number only for the protected MCIC processing channel. A volunteer can explain where it will appear but should not copy it elsewhere. Stop if the court has not approved the identifier method."
+    },
+    {
+      "factId": "social_security_number_last_four",
+      "use": "masked public identifier and consistency check against the protected full number",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What are the last four digits of that Social Security number?",
+      "helperText": "Enter the last four digits separately so LegalEase can verify the protected value. A volunteer can explain the check. Stop if the digits do not match."
+    },
+    {
+      "factId": "race",
+      "use": "petition identity paragraph, proposed order, and confidential MCIC addendum",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What race value does the arrest record use?",
+      "helperText": "Copy the value from the arrest record for MCIC matching. A volunteer can help locate the field. Stop if the record is missing or unclear."
+    },
+    {
+      "factId": "sex",
+      "use": "petition identity paragraph, proposed order, and confidential MCIC addendum",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What sex value does the arrest record use?",
+      "helperText": "Copy the value from the arrest record for MCIC matching. A volunteer can help locate the field. Stop if the record is missing or unclear."
     },
     {
       "factId": "mailing_address",
@@ -137,6 +227,22 @@
       "helperText": "Copy the wording and statute number exactly when shown. A volunteer can help transcribe it. Stop if the charge or statute is unclear."
     },
     {
+      "factId": "charge_legal_citation",
+      "use": "exact Mississippi Code section or municipal ordinance in the petition and order",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What exact statute or ordinance citation appears for the charge?",
+      "helperText": "Copy the code section or ordinance exactly from the charging or court record. A volunteer can help locate it. Stop if no reliable citation appears."
+    },
+    {
+      "factId": "charge_classification",
+      "use": "misdemeanor classification in the petition and order",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "How does the record classify the charge?",
+      "helperText": "Use the classification printed in the court record. A volunteer can help locate it. Stop if the classification is missing or conflicts across records."
+    },
+    {
       "factId": "offense_date",
       "use": "alleged offense date in the petition",
       "inRegistryRequiredInputs": false,
@@ -145,28 +251,64 @@
       "helperText": "Use the date on the charging paper or docket. A volunteer can help locate it. Stop if the records disagree."
     },
     {
-      "factId": "arrest_or_citation_date",
-      "use": "arrest or citation date in the petition",
+      "factId": "actual_arrest",
+      "use": "statutory eligibility gate requiring an actual arrest",
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
-      "prompt": "What was the arrest or citation date?",
-      "helperText": "Use the arrest record, citation, or court papers. A volunteer can help locate it. Stop if the date cannot be confirmed."
+      "prompt": "Does the official record confirm that an actual arrest was made?",
+      "helperText": "Choose Yes only when an arrest record or court record confirms an arrest. A volunteer can help distinguish an arrest from a citation. Stop for a citation-only record, No, or Unsure.",
+      "questionType": "single_choice",
+      "options": ["Yes", "No", "Unsure"]
     },
     {
-      "factId": "arresting_or_citing_agency",
-      "use": "petition facts and agencies directed in the proposed order",
+      "factId": "arrest_date",
+      "use": "actual arrest date in the petition, order, and MCIC addendum",
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
-      "prompt": "Which agency arrested or cited you?",
-      "helperText": "Copy the agency's full name from the arrest record, citation, or docket. A volunteer can help locate it. Stop if the agency is unclear."
+      "prompt": "What date does the record give for the actual arrest?",
+      "helperText": "Copy the arrest date from the arrest or court record. A volunteer can help compare the documents. Stop if only a citation date appears or the dates conflict."
     },
     {
-      "factId": "agency_case_or_citation_number",
-      "use": "agency identifier in the petition and records checklist",
+      "factId": "arrest_location",
+      "use": "arrest location and jurisdiction allegation in the petition",
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
-      "prompt": "What agency case or citation number does the record show?",
-      "helperText": "Copy the identifier exactly. If the record shows none, enter 'None shown on the record.' A volunteer can help check. Stop if multiple identifiers conflict."
+      "prompt": "Where does the record say the arrest occurred?",
+      "helperText": "Copy the city and county from the record. A volunteer can help locate them. Stop if the location is missing or conflicts with the court's jurisdiction."
+    },
+    {
+      "factId": "arresting_agency",
+      "use": "petition facts, proposed order, MCIC addendum, and custodian direction",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Which agency made the arrest?",
+      "helperText": "Copy the agency's full name from the arrest record. A volunteer can help locate it. Stop if the agency is missing or unclear."
+    },
+    {
+      "factId": "agency_case_number",
+      "use": "agency arrest identifier in the petition, order, and MCIC addendum",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What agency case or arrest number does the record show?",
+      "helperText": "Copy the identifier exactly from the arrest record. A volunteer can help check it. Stop if multiple records show conflicting identifiers."
+    },
+    {
+      "factId": "release_confirmed",
+      "use": "statutory eligibility gate requiring release following arrest",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Does the official record confirm release after the arrest?",
+      "helperText": "Choose Yes only when the record confirms release. A volunteer can help locate the release entry. Stop for No, Unsure, or no supporting record.",
+      "questionType": "single_choice",
+      "options": ["Yes", "No", "Unsure"]
+    },
+    {
+      "factId": "release_date_or_record_source",
+      "use": "release allegation and record-source detail in the petition and order",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "What release date or official record source confirms release?",
+      "helperText": "Enter the release date when shown; otherwise identify the official record that confirms release. A volunteer can help locate the entry. Stop if release cannot be documented."
     },
     {
       "factId": "disposition_date",
@@ -201,11 +343,21 @@
     },
     {
       "factId": "prosecuting_authority_service_address",
-      "use": "confirmed service address in the certificate",
+      "use": "service address or explicit court-confirmation placeholder in the certificate",
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
       "prompt": "What mailing address did the court confirm for that prosecuting office?",
       "helperText": "Confirm the current service address with the court's records office. A volunteer can help make the call. Stop rather than guessing an address."
+    },
+    {
+      "factId": "service_address_confirmation_status",
+      "use": "prevents an unverified prosecutor address from being represented as confirmed",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Has the court or prosecutor confirmed the service address?",
+      "helperText": "Choose Confirmed only after the court or prosecutor verifies the address. A volunteer can help make the call. Stop before completing service if the status remains unconfirmed.",
+      "questionType": "single_choice",
+      "options": ["Confirmed by court or prosecutor", "To be confirmed before filing or service"]
     },
     {
       "factId": "other_recordkeeping_agencies",
@@ -216,12 +368,54 @@
       "helperText": "List each office shown on the records, or enter 'None shown on the record.' A volunteer can help review the papers. Stop if you are unsure which agencies hold the record."
     },
     {
-      "factId": "indictment_record",
-      "use": "indictment statement and conditional attachment checklist",
+      "factId": "mcic_identifier_delivery_method",
+      "use": "court-approved channel for sensitive identifiers required for MCIC processing",
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
-      "prompt": "Was an indictment returned, and if so what date and court does it show?",
-      "helperText": "Copy the date and court only if an indictment exists; otherwise enter 'No indictment was returned.' A volunteer can help check the docket. Stop if the record is unclear."
+      "prompt": "Which identifier-delivery method did the court approve?",
+      "helperText": "Use the method the court specifies: signed order, confidential addendum, MCIC sheet, or nonpublic certified copy. A volunteer can help record the answer. Stop if the court has not chosen a method."
+    },
+    {
+      "factId": "mcic_identifier_method_confirmation_source",
+      "use": "source and date of the court-specific sensitive-identifier instruction",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Who at the court confirmed that MCIC identifier method, and when?",
+      "helperText": "Record the court office, staff role or published instruction, and confirmation date. A volunteer can help document the call. Stop before participant delivery if the source is not confirmed."
+    },
+    {
+      "factId": "personal_impact_confirmed",
+      "use": "controls the optional participant-specific impact allegation",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Do you want to include a true, participant-specific impact statement?",
+      "helperText": "Choose Yes only if the statement is true for you. A volunteer can help record your own words. Stop rather than using a manufactured hardship statement.",
+      "questionType": "single_choice",
+      "options": ["Yes", "No"]
+    },
+    {
+      "factId": "personal_impact_statement",
+      "use": "optional paragraph included only after participant confirmation",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "State the employment or background-screening impact in your own words, or enter Not included.",
+      "helperText": "Use a brief statement that is true for you. A volunteer can help with clarity without inventing facts. Stop if you cannot confirm the statement."
+    },
+    {
+      "factId": "certified_disposition_exhibit_status",
+      "use": "Exhibit A assembly and filing-readiness gate",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Is the certified disposition ready to insert as Exhibit A?",
+      "helperText": "Confirm that you have the certified court record, not a checklist or screenshot. A volunteer can help inspect it. Stop before filing if Exhibit A is missing."
+    },
+    {
+      "factId": "docket_sheet_exhibit_status",
+      "use": "Exhibit B assembly and filing-readiness gate",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "prompt": "Is the docket sheet ready to insert as Exhibit B?",
+      "helperText": "Confirm that you have the court docket sheet, not the LegalEase checklist. A volunteer can help inspect it. Stop before filing if Exhibit B is missing."
     },
     {
       "factId": "case_outcome",
@@ -291,7 +485,15 @@
   "fieldOwnership": {
     "participantOwnedFacts": [
       "participant_full_legal_name",
+      "case_caption_plaintiff_name",
+      "case_caption_defendant_name",
+      "name_used_at_arrest",
+      "aliases",
       "date_of_birth",
+      "social_security_number",
+      "social_security_number_last_four",
+      "race",
+      "sex",
       "mailing_address",
       "phone_number",
       "email_address",
@@ -300,16 +502,28 @@
       "filing_location",
       "case_number",
       "charge",
+      "charge_legal_citation",
+      "charge_classification",
       "offense_date",
-      "arrest_or_citation_date",
-      "arresting_or_citing_agency",
-      "agency_case_or_citation_number",
+      "actual_arrest",
+      "arrest_date",
+      "arrest_location",
+      "arresting_agency",
+      "agency_case_number",
+      "release_confirmed",
+      "release_date_or_record_source",
       "disposition_date",
       "statutory_disposition_category",
       "prosecuting_authority_name",
       "prosecuting_authority_service_address",
+      "service_address_confirmation_status",
       "other_recordkeeping_agencies",
-      "indictment_record",
+      "mcic_identifier_delivery_method",
+      "mcic_identifier_method_confirmation_source",
+      "personal_impact_confirmed",
+      "personal_impact_statement",
+      "certified_disposition_exhibit_status",
+      "docket_sheet_exhibit_status",
       "case_outcome",
       "pending_cases",
       "record_type",
@@ -319,18 +533,22 @@
       "open_co_defendant_matter"
     ],
     "serverOwnedRouteFacts": ["jurisdiction", "pathway_id", "route_key", "packet_family"],
-    "participantAtSigningFields": ["petition_signature", "petition_signature_date"],
+    "participantAtSigningFields": ["petition_signature", "petition_verification_signature", "petition_signature_date"],
     "participantAtServiceFields": ["service_method", "service_date", "certificate_signature"],
+    "notaryOwnedFields": ["notary_signature", "notary_printed_name", "notary_commission_expiration", "notary_commission_identification_number", "notary_official_stamp"],
     "prosecutorOwnedFields": ["approval_as_to_form_signature", "approval_as_to_form_date"],
-    "courtOwnedFields": ["judicial_findings", "order_entry_date", "judicial_signature"]
+    "courtOwnedFields": ["judicial_findings", "order_entry_date", "judicial_signature", "clerk_certification", "court_seal"]
   },
   "finalVerificationRequirements": [
-    "The participant confirms the court type, court name, filing location, and case number against the certified disposition and docket sheet.",
-    "The participant confirms the charge, offense date, arrest or citation date, arresting or citing agency, agency identifier, and disposition date against the case records.",
+    "The participant copies the exact plaintiff, defendant, court, filing location, and case number from the original docket and certified disposition.",
+    "The participant confirms an actual arrest and subsequent release from an official record; citation-only matters stop for legal review.",
+    "The participant confirms the exact charge, statute or ordinance, misdemeanor classification, name used at arrest, aliases, agency identifier, and exact disposition wording.",
     "The participant selects exactly one statutory disposition category shown by the certified record and stops for an ambiguous docket entry.",
-    "The participant confirms the prosecuting authority and its current service address with the records office of the court of origin.",
-    "The participant confirms every other recordkeeping agency from the records and states whether an indictment exists.",
-    "Signature, service-time, prosecutor, and court fields remain blank for the person who owns each act."
+    "The participant confirms the court-approved MCIC identifier channel; full Social Security information appears only in that protected channel.",
+    "The participant inserts the certified disposition as Exhibit A and docket sheet as Exhibit B before the packet is filing-ready.",
+    "The participant confirms the prosecuting authority and does not represent its service address as confirmed until the court or prosecutor verifies it.",
+    "The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation.",
+    "Participant, notary, service-time, prosecutor, judge, clerk, and seal fields remain blank for the person or office that owns each act."
   ],
   "documents": [
     {
@@ -352,6 +570,11 @@
           "kind": "participant_checklist_summary"
         },
         {
+          "heading": "Signing and notarization",
+          "kind": "static",
+          "body": "DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete."
+        },
+        {
           "heading": "Important limits",
           "kind": "static",
           "body": "LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies."
@@ -361,125 +584,220 @@
     {
       "documentId": "ms-petition-for-expungement",
       "role": "primary_filing",
-      "title": "Petition for Expungement under Miss. Code Ann. Section 99-19-71(4)",
+      "title": "Petition for Expunction of Record",
       "order": 2,
       "outputStrategy": "custom_pleading",
       "requirement": "required",
+      "presentation": "pleading",
       "manifestComponentIds": ["ms-nonconv-primary-filing-1"],
       "sections": [
         {
-          "heading": "Court caption",
-          "kind": "caption",
-          "fields": ["court_type", "court_name", "filing_location", "case_number", "participant_full_legal_name"]
+          "heading": "PETITION FOR EXPUNCTION OF RECORD",
+          "kind": "pleading_caption",
+          "fields": ["court_name", "case_caption_plaintiff_name", "case_caption_defendant_name", "case_number"]
         },
         {
-          "heading": "Participant information",
-          "kind": "caption",
-          "fields": ["date_of_birth", "mailing_address", "phone_number", "email_address"]
+          "heading": "Introduction",
+          "kind": "pleading_paragraph",
+          "body": "COMES NOW {{participant_full_legal_name}}, Petitioner in the above-styled and numbered cause, appearing pro se, and files this Petition for Expunction of Record pursuant to Miss. Code Ann. Section 99-19-71(4), and in support thereof would show unto the Court the following, to-wit:"
         },
         {
-          "heading": "Case style",
-          "kind": "static",
-          "body": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER"
-        },
-        {
-          "heading": "Verified record facts",
-          "kind": "grounds",
+          "heading": "Numbered allegations",
+          "kind": "pleading_numbered_assertions",
           "assertions": [
             {
-              "id": "charge-and-offense",
-              "text": "The court record states the charge as {{charge}} and gives the alleged offense date as {{offense_date}}.",
-              "facts": ["charge", "offense_date"]
+              "id": "statutory-basis",
+              "text": "Miss. Code Ann. Section 99-19-71(4) provides that, upon petition therefor, a justice, county, circuit, or municipal court shall expunge the record of a case in which an arrest was made, the person arrested was released, and the case was dismissed, the charges were dropped, there was no disposition of the case, or the person was found not guilty at trial.",
+              "facts": []
             },
             {
-              "id": "arrest-facts",
-              "text": "The arrest or citation date was {{arrest_or_citation_date}}. The arresting or citing agency was {{arresting_or_citing_agency}}, and the agency case or citation number is {{agency_case_or_citation_number}}.",
-              "facts": ["arrest_or_citation_date", "arresting_or_citing_agency", "agency_case_or_citation_number"]
+              "id": "arrest-release-and-disposition",
+              "text": "Petitioner was arrested on or about {{arrest_date}} in {{arrest_location}}, within the jurisdiction of this Court, by {{arresting_agency}} and was charged with {{charge}}, classified in the record as {{charge_classification}}, in violation of {{charge_legal_citation}}. Petitioner was thereafter released following the arrest, as confirmed by {{release_date_or_record_source}}. The certified court record states that on or about {{disposition_date}} the case ended as follows: {{disposition_record_wording}}. The statutory case-ending category is {{statutory_disposition_category}}. A certified copy of the disposition is attached as Exhibit A. A copy of the docket sheet is attached as Exhibit B.",
+              "facts": ["arrest_date", "arrest_location", "arresting_agency", "charge", "charge_classification", "charge_legal_citation", "release_date_or_record_source", "disposition_date", "disposition_record_wording", "statutory_disposition_category"]
             },
             {
-              "id": "disposition",
-              "text": "The case ended on {{disposition_date}} in this one category shown by the certified record: {{statutory_disposition_category}}.",
-              "facts": ["disposition_date", "statutory_disposition_category"]
+              "id": "personal-impact",
+              "text": "{{personal_impact_statement}}",
+              "facts": ["personal_impact_confirmed", "personal_impact_statement"]
             },
             {
-              "id": "indictment",
-              "text": "Indictment record: {{indictment_record}}",
-              "facts": ["indictment_record"]
+              "id": "entitlement",
+              "text": "Petitioner is entitled to expunction of the aforesaid arrest record pursuant to Miss. Code Ann. Section 99-19-71(4), and the interests of justice would be served by granting the requested relief.",
+              "facts": []
             }
           ]
         },
         {
-          "heading": "Statutory basis and statement of truth",
-          "kind": "static",
-          "body": "Miss. Code Ann. Section 99-19-71(4) provides that, upon petition, a justice, county, circuit, or municipal court shall expunge the record of a case when an arrest was made and the person was released and the case dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. The petitioner states that the facts in this petition are true and correct to the best of the petitioner's knowledge."
+          "heading": "AUTO",
+          "kind": "pleading_identity_list",
+          "body": "Petitioner presents the following relevant identifying information in support of this Petition:",
+          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number_last_four", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "charge_classification", "race", "sex"],
+          "fieldLabels": {
+            "name_used_at_arrest": "Name used at the time of arrest",
+            "aliases": "Aliases shown on the record",
+            "date_of_birth": "Date of Birth",
+            "social_security_number_last_four": "Social Security Number",
+            "arrest_date": "Date of Arrest",
+            "arresting_agency": "Arresting Agency",
+            "agency_case_number": "Agency Number",
+            "charge": "Charge at Arrest",
+            "charge_legal_citation": "Code Section or Ordinance",
+            "charge_classification": "Charge Classification",
+            "race": "Race",
+            "sex": "Sex"
+          },
+          "fieldValueTemplates": {
+            "social_security_number_last_four": "XXX-XX-{{social_security_number_last_four}}"
+          }
         },
         {
-          "heading": "Relief requested",
-          "kind": "static",
-          "body": "The petitioner asks the Court to expunge the record of this case under Miss. Code Ann. Section 99-19-71(4) and to direct the appropriate recordkeeping agencies as stated in the proposed order."
+          "heading": "Prayer for relief",
+          "kind": "pleading_paragraph",
+          "body": "WHEREFORE, PREMISES CONSIDERED, Petitioner respectfully prays that this Honorable Court enter an Order of Expunction directing that all records of the arrest and charge described herein be expunged and that the Clerk forward a certified, sealed copy of the Order and the approved MCIC identifier material to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these other recordkeeping agencies identified from the record: {{other_recordkeeping_agencies}}."
         },
         {
-          "heading": "Participant signature",
-          "kind": "signature_block",
+          "heading": "Respectfully submitted",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Petitioner, Pro Se",
+          "fields": ["participant_full_legal_name", "mailing_address", "phone_number", "email_address"]
+        },
+        {
+          "heading": "VERIFICATION",
+          "kind": "verification_on_oath",
+          "body": "I, {{participant_full_legal_name}}, being first duly sworn, state that I am the Petitioner in this action; that I have read the foregoing Petition for Expunction of Record; and that the factual statements contained in the Petition are true and correct to the best of my knowledge, information, and belief.",
+          "jurat": "Signed and sworn to or affirmed before me on this ______ day of ____________________, 20____, by {{participant_full_legal_name}}.",
           "fields": ["participant_full_legal_name"],
-          "notarisationRequired": false
+          "notarisationRequired": true
         }
       ]
     },
     {
       "documentId": "ms-proposed-order",
       "role": "proposed_order",
-      "title": "Proposed Order of Expungement",
+      "title": "Order Granting Expunction of Record",
       "order": 3,
       "outputStrategy": "custom_pleading",
       "requirement": "required",
+      "presentation": "pleading",
       "manifestComponentIds": ["ms-nonconv-proposed-order-2"],
       "sections": [
         {
-          "heading": "Court caption",
-          "kind": "caption",
-          "fields": ["court_type", "court_name", "filing_location", "case_number", "participant_full_legal_name"]
+          "heading": "ORDER GRANTING EXPUNCTION OF RECORD",
+          "kind": "pleading_caption",
+          "fields": ["court_name", "case_caption_plaintiff_name", "case_caption_defendant_name", "case_number"]
         },
         {
-          "heading": "Case style",
-          "kind": "static",
-          "body": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER"
+          "heading": "Opening",
+          "kind": "pleading_paragraph",
+          "body": "THIS CAUSE came on for consideration of the Petition for Expunction of Record. The Court, having considered the Petition and the record and being satisfied that it has jurisdiction over the parties and subject matter, FINDS, ORDERS, AND ADJUDGES as follows:"
         },
         {
-          "heading": "Proposed findings and direction",
-          "kind": "grounds",
+          "heading": "Findings",
+          "kind": "pleading_numbered_assertions",
           "assertions": [
             {
-              "id": "proposed-disposition-finding",
-              "text": "The record presented to the Court identifies the case-ending category as: {{statutory_disposition_category}}.",
-              "facts": ["statutory_disposition_category"]
+              "id": "jurisdiction",
+              "text": "This Court handled the above-styled and numbered case and has authority to consider the requested relief.",
+              "facts": []
             },
             {
-              "id": "agency-direction",
-              "text": "The record identifies these custodians for the proposed direction: the Court, the appropriate sheriff's department, {{arresting_or_citing_agency}}, and these other recordkeeping agencies supplied from the record: {{other_recordkeeping_agencies}}.",
-              "facts": ["arresting_or_citing_agency", "other_recordkeeping_agencies"]
+              "id": "arrest",
+              "text": "{{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}.",
+              "facts": ["name_used_at_arrest", "arrest_date", "arresting_agency", "charge", "charge_classification", "charge_legal_citation"]
+            },
+            {
+              "id": "release",
+              "text": "Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}.",
+              "facts": ["release_date_or_record_source"]
+            },
+            {
+              "id": "disposition",
+              "text": "The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}.",
+              "facts": ["disposition_date", "disposition_record_wording", "statutory_disposition_category"]
+            },
+            {
+              "id": "entitlement",
+              "text": "Petitioner is entitled to expunction under Miss. Code Ann. Section 99-19-71(4).",
+              "facts": []
             }
           ]
         },
         {
-          "heading": "Proposed expungement direction",
-          "kind": "static",
-          "body": "IT IS ORDERED that all official records and recordations relating to Case No. {{case_number}} are expunged by every person and agency keeping them, including this Court, the appropriate sheriff's department, {{arresting_or_citing_agency}}, and {{other_recordkeeping_agencies}}, except that fingerprint records are not expunged."
+          "heading": "Order identity",
+          "kind": "pleading_identity_list",
+          "body": "The record subject to this Order is identified as follows:",
+          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number_last_four", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "race", "sex"],
+          "fieldLabels": {
+            "name_used_at_arrest": "Name used at the time of arrest",
+            "aliases": "Aliases shown on the record",
+            "date_of_birth": "Date of Birth",
+            "social_security_number_last_four": "Social Security Number",
+            "arrest_date": "Date of Arrest",
+            "arresting_agency": "Arresting Agency",
+            "agency_case_number": "Agency Number",
+            "charge": "Charge at Arrest",
+            "charge_legal_citation": "Code Section or Ordinance",
+            "race": "Race",
+            "sex": "Sex"
+          },
+          "fieldValueTemplates": {
+            "social_security_number_last_four": "Provided in the confidential MCIC addendum; last four {{social_security_number_last_four}}"
+          }
         },
         {
-          "heading": "Proposed legal effect",
-          "kind": "static",
-          "body": "IT IS FURTHER ORDERED that fingerprint records are excepted from the requested expungement; that the petitioner is restored to the status occupied before the arrest, indictment, or information; and that the petitioner need not disclose the arrest, indictment, information, or trial in response to any inquiry except as otherwise provided by law, and is not guilty of perjury or false statement for failing to recite it."
+          "heading": "Relief",
+          "kind": "pleading_paragraph",
+          "body": "IT IS ORDERED AND ADJUDGED that the record of the arrest and charge identified above in Case No. {{case_number}} is expunged."
         },
         {
-          "heading": "Approval as to form",
-          "kind": "static",
-          "body": "Reserved for the prosecuting authority where local practice uses this block. APPROVED AS TO FORM: ______________________________    DATE: __________________"
+          "heading": "Records direction",
+          "kind": "pleading_paragraph",
+          "body": "IT IS FURTHER ORDERED that the Mississippi Criminal Information Center and every other person or agency maintaining records within the scope of this Order shall purge, expunge, or destroy those records as required by Mississippi law, subject only to any nonpublic record of the expunction order expressly permitted to be retained by statute."
         },
         {
-          "heading": "Court findings, entry, and signature",
+          "heading": "Certified transmission",
+          "kind": "pleading_paragraph",
+          "body": "IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method."
+        },
+        {
+          "heading": "SO ORDERED AND ADJUDGED",
           "kind": "court_signature_block",
-          "body": "PROPOSED FINDINGS (COURT): ________________________________________________________________    DATE OF ENTRY: __________________"
+          "body": "SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____.",
+          "fields": ["court_type"]
+        },
+        {
+          "heading": "APPROVED AS TO FORM",
+          "kind": "prosecutor_signature_block",
+          "body": "Optional block for the prosecuting authority when the court's local practice uses it."
+        },
+        {
+          "heading": "CERTIFIED TRUE COPY",
+          "kind": "clerk_certification_block",
+          "body": "The clerk completes this certification after entry of the Order and affixes the Court's seal."
+        },
+        {
+          "heading": "CONFIDENTIAL MCIC IDENTIFIER ADDENDUM",
+          "kind": "confidential_identifier_addendum",
+          "body": "COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery.",
+          "fields": ["name_used_at_arrest", "aliases", "date_of_birth", "social_security_number", "arrest_date", "arresting_agency", "agency_case_number", "charge", "charge_legal_citation", "charge_classification", "race", "sex", "case_number", "disposition_record_wording", "mcic_identifier_delivery_method", "mcic_identifier_method_confirmation_source"],
+          "fieldLabels": {
+            "name_used_at_arrest": "Name used at the time of arrest",
+            "aliases": "Aliases shown on the record",
+            "date_of_birth": "Date of Birth",
+            "social_security_number": "Social Security Number",
+            "arrest_date": "Date of Arrest",
+            "arresting_agency": "Arresting Agency",
+            "agency_case_number": "Agency Number",
+            "charge": "Charge at Arrest",
+            "charge_legal_citation": "Code Section or Ordinance",
+            "charge_classification": "Charge Classification",
+            "race": "Race",
+            "sex": "Sex",
+            "case_number": "Court Case Number",
+            "disposition_record_wording": "Disposition",
+            "mcic_identifier_delivery_method": "Identifier Delivery Method",
+            "mcic_identifier_method_confirmation_source": "Method Confirmation Source"
+          }
         }
       ]
     },
@@ -490,41 +808,30 @@
       "order": 4,
       "outputStrategy": "custom_pleading",
       "requirement": "required",
+      "presentation": "pleading",
       "manifestComponentIds": ["ms-nonconv-certificate-of-service-3", "ms-nonconv-attachment-4"],
       "sections": [
         {
-          "heading": "Court caption",
-          "kind": "caption",
-          "fields": ["court_type", "court_name", "filing_location", "case_number", "participant_full_legal_name"]
+          "heading": "CERTIFICATE OF SERVICE",
+          "kind": "pleading_caption",
+          "fields": ["court_name", "case_caption_plaintiff_name", "case_caption_defendant_name", "case_number"]
         },
         {
-          "heading": "Case style",
-          "kind": "static",
-          "body": "STATE OF MISSISSIPPI v. {{participant_full_legal_name}}, PETITIONER"
+          "heading": "Certificate",
+          "kind": "service_certificate",
+          "body": "I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy.",
+          "fields": ["participant_full_legal_name", "prosecuting_authority_name", "service_address_confirmation_status", "prosecuting_authority_service_address"]
         },
         {
-          "heading": "Confirmed service recipient",
-          "kind": "grounds",
-          "assertions": [
-            {
-              "id": "service-recipient",
-              "text": "Prosecuting authority: {{prosecuting_authority_name}}. Confirmed service address: {{prosecuting_authority_service_address}}.",
-              "facts": ["prosecuting_authority_name", "prosecuting_authority_service_address"]
-            }
-          ]
-        },
-        {
-          "heading": "Complete when service occurs",
-          "kind": "static",
-          "body": "I certify that a true and correct copy of the Petition for Expungement and the proposed Order of Expungement was delivered to {{prosecuting_authority_name}} at {{prosecuting_authority_service_address}} by United States mail or hand delivery. Service method: ______________________________    Service date: __________________    These lines and the signature stay blank until the copy is actually delivered."
-        },
-        {
-          "heading": "Participant certificate signature",
-          "kind": "signature_block",
-          "fields": ["participant_full_legal_name"],
-          "notarisationRequired": false
-        },
-        { "heading": "Attachments to collect and check", "kind": "attachments" }
+          "heading": "ATTACHMENT ASSEMBLY STATUS",
+          "kind": "pleading_identity_list",
+          "body": "The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record.",
+          "fields": ["certified_disposition_exhibit_status", "docket_sheet_exhibit_status"],
+          "fieldLabels": {
+            "certified_disposition_exhibit_status": "Exhibit A - Certified disposition",
+            "docket_sheet_exhibit_status": "Exhibit B - Docket sheet"
+          }
+        }
       ]
     },
     {
@@ -543,7 +850,7 @@
         {
           "heading": "Limits after an order",
           "kind": "static",
-          "body": "An expungement order does not direct destruction of fingerprint records. The Mississippi Criminal Information Center keeps a nonpublic record for first-offender determinations. An employer may still ask whether an order of expunction was entered. Keep a certified copy of any signed order and answer questions according to the law that applies to the particular question."
+          "body": "The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question."
         },
         { "heading": "What happens next", "kind": "post_filing_timeline" },
         { "heading": "Stop and get legal help", "kind": "hearing_and_objection_stops" },
@@ -566,19 +873,23 @@
   },
   "serviceAndNotice": {
     "serviceRequired": true,
-    "statement": "Deliver a copy to {{prosecuting_authority_name}} at the confirmed address {{prosecuting_authority_service_address}} when the local court directs. The certificate leaves the method and date blank until service actually occurs. Ask the records office whether advance notice, prosecutor approval as to form, or another local step is required.",
+    "statement": "Deliver a public service copy to {{prosecuting_authority_name}} at {{prosecuting_authority_service_address}} only after the court or prosecutor confirms the address and local timing. Do not include the confidential MCIC identifier addendum. The certificate leaves the method, date, and signature blank until service occurs. Ask the records office whether advance notice, prosecutor approval as to form, or another local step is required.",
     "certificateOfServiceIncluded": true,
     "sourceOfRule": "The census-v1 legal design rejects importing the felony ten-day notice rule but includes contemporaneous service and a local-practice confirmation."
   },
   "copyRequirements": {
-    "statement": "Keep a complete copy of everything you file and a certified or conformed copy of any signed order. Ask the records office how many filing, judge, prosecutor, and participant copies the local court wants.",
-    "originalPlusCopies": "Signed original plus the number of copies confirmed by the court of origin",
+    "statement": "Keep a participant copy without the confidential MCIC identifier addendum. Prepare service copies without that addendum. Give sensitive identifiers only through the court-approved MCIC channel. Keep a certified or conformed copy of any signed order and ask the records office how many filing, judge, prosecutor, and participant copies the local court wants.",
+    "originalPlusCopies": "Notarized filing original with Exhibits A and B, protected MCIC material through the approved channel, and the number of public copies confirmed by the court",
     "sourceOfRule": "The statute does not set a universal copy count; the court of origin is the named checkable authority."
   },
   "postFilingTimeline": [
     {
-      "step": "File the signed petition, proposed order, certificate or service materials required by local practice, and the applicable attachments with the court of origin.",
-      "timing": "after every record fact and local filing step is confirmed"
+      "step": "Sign the Petition and Verification in the physical presence of a notary after the notary administers an oath or affirmation and checks your identification.",
+      "timing": "after the packet facts are final and before filing"
+    },
+    {
+      "step": "Insert the certified disposition as Exhibit A and the docket sheet as Exhibit B, then file the notarized petition, proposed order, and materials required by local practice with the court of origin.",
+      "timing": "after every record fact, exhibit, and local filing step is confirmed"
     },
     {
       "step": "Provide the prosecuting authority the copy required by the court and complete the certificate only when service occurs.",
@@ -673,7 +984,22 @@
     },
     {
       "id": "confirm-case-facts",
-      "text": "Copy the charge, dates, agency, agency identifier, and exact disposition category from the records rather than memory.",
+      "text": "Confirm an actual arrest and release, then copy the exact charge, citation, classification, dates, arrest name, aliases, agency identifier, and disposition wording from the records rather than memory.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "insert-exhibits",
+      "text": "Insert the participant-supplied certified disposition as Exhibit A and docket sheet as Exhibit B; the generated assembly checklist is not an attachment.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "complete-verification",
+      "text": "Do not sign in advance. Sign the Petition and Verification in the physical presence of a notary after taking an oath or affirmation, and have the notary complete the certificate and official stamp.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "protect-mcic-identifiers",
+      "text": "Use the court-approved MCIC identifier channel and remove the confidential addendum from participant and service copies.",
       "requiredBeforeFiling": true
     },
     {

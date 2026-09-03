@@ -30,6 +30,8 @@ export type GradeAMatter = {
   /** The exact protected verification hash this packet is bound to. */
   verificationHash: string;
   verifiedAt: string;
+  /** Internal review may render synthetic held artifacts without pretending court confirmation. */
+  generationPurpose?: "participant_delivery" | "internal_review";
 };
 
 export type GradeABlock =
@@ -39,7 +41,45 @@ export type GradeABlock =
   | { kind: "bulleted"; items: string[] }
   | { kind: "numbered"; items: string[] }
   | { kind: "signature"; label: string; lines: string[]; note: string }
-  | { kind: "rule" };
+  | { kind: "rule" }
+  | {
+      kind: "pleading_caption";
+      court: string;
+      plaintiff: string;
+      defendant: string;
+      caseNumber: string;
+      title: string;
+    }
+  | { kind: "pleading_paragraph"; text: string; number?: string }
+  | {
+      kind: "pleading_identity_list";
+      introduction?: string;
+      number?: string;
+      items: Array<{ label: string; value: string }>;
+    }
+  | {
+      kind: "pleading_signature";
+      heading: string;
+      name: string;
+      role: string;
+      contactLines: string[];
+    }
+  | {
+      kind: "notary_verification";
+      title: string;
+      statement: string;
+      jurat: string;
+      participantName: string;
+      venueState: string;
+    }
+  | { kind: "service_certificate"; title: string; statement: string; participantName: string }
+  | { kind: "official_signature"; title: string; role: string; note?: string }
+  | {
+      kind: "confidential_identifier_addendum";
+      title: string;
+      warning: string;
+      items: Array<{ label: string; value: string }>;
+    };
 
 export type GradeADocument = {
   documentId: string;
@@ -47,6 +87,7 @@ export type GradeADocument = {
   title: string;
   order: number;
   outputStrategy: "custom_pleading" | "process_guidance";
+  presentation: "guidance" | "pleading";
   blocks: GradeABlock[];
 };
 
@@ -79,6 +120,7 @@ function factsUsedBy(document: PacketSpecificationDocument): string[] {
       for (const [, id] of assertion.text.matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
     }
     for (const [, id] of (section.body ?? "").matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
+    for (const [, id] of (section.jurat ?? "").matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
   }
   return [...used].sort();
 }
@@ -90,6 +132,52 @@ function fact(matter: GradeAMatter, id: string): string {
 
 function fill(text: string, matter: GradeAMatter): string {
   return text.replaceAll(/\{\{([a-z0-9_]+)\}\}/g, (_match, id: string) => fact(matter, id));
+}
+
+const MISSISSIPPI_NONCONVICTION_ROUTE =
+  "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+
+function validateRouteSpecificFacts(specification: PacketSpecification, matter: GradeAMatter): void {
+  if (specification.routeKey !== MISSISSIPPI_NONCONVICTION_ROUTE) return;
+
+  const invalid: string[] = [];
+  if (fact(matter, "actual_arrest") !== "Yes") invalid.push("actual_arrest must be Yes");
+  if (fact(matter, "release_confirmed") !== "Yes") invalid.push("release_confirmed must be Yes");
+  if (/citation only|no (custodial )?arrest/i.test(fact(matter, "record_type"))) {
+    invalid.push("a citation-only record does not establish the actual arrest required by this route");
+  }
+
+  const fullSsnDigits = fact(matter, "social_security_number").replace(/\D/g, "");
+  const lastFour = fact(matter, "social_security_number_last_four").replace(/\D/g, "");
+  if (fullSsnDigits.length !== 9 || lastFour.length !== 4 || !fullSsnDigits.endsWith(lastFour)) {
+    invalid.push("social_security_number does not match social_security_number_last_four");
+  }
+
+  for (const exhibitFact of ["certified_disposition_exhibit_status", "docket_sheet_exhibit_status"]) {
+    if (/^(missing|no|none|not available|unsure)$/i.test(fact(matter, exhibitFact))) {
+      invalid.push(`${exhibitFact} does not confirm that the participant-supplied court record is available`);
+    }
+  }
+
+  if (matter.generationPurpose !== "internal_review") {
+    const methodSource = fact(matter, "mcic_identifier_method_confirmation_source");
+    if (/not (yet )?confirmed|pending|required|synthetic|unknown|unsure/i.test(methodSource)) {
+      invalid.push("the court of origin has not confirmed the MCIC identifier-delivery method");
+    }
+    for (const exhibitFact of ["certified_disposition_exhibit_status", "docket_sheet_exhibit_status"]) {
+      if (!/(attached|inserted|ready|available)/i.test(fact(matter, exhibitFact))) {
+        invalid.push(`${exhibitFact} is not ready for participant delivery`);
+      }
+    }
+  }
+
+  if (invalid.length > 0) {
+    throw new GradeAPacketCompositionError(
+      matter.routeKey,
+      [],
+      `route-specific filing gate failed: ${invalid.join("; ")}. The packet is not composed.`
+    );
+  }
 }
 
 export function composeGradeAPacket(
@@ -133,6 +221,8 @@ export function composeGradeAPacket(
     );
   }
 
+  validateRouteSpecificFacts(specification, matter);
+
   for (const document of included) {
     documents.push({
       documentId: document.documentId,
@@ -140,7 +230,9 @@ export function composeGradeAPacket(
       title: document.title,
       order: document.order,
       outputStrategy: document.outputStrategy,
-      blocks: document.sections.flatMap((section) => composeSection(section, specification, matter, included))
+      presentation: document.presentation ?? "guidance",
+      blocks: document.sections.flatMap((section) =>
+        composeSection(section, specification, matter, included, document.presentation ?? "guidance"))
     });
   }
 
@@ -160,11 +252,109 @@ function composeSection(
   section: PacketSpecificationSection,
   specification: PacketSpecification,
   matter: GradeAMatter,
-  included: PacketSpecificationDocument[]
+  included: PacketSpecificationDocument[],
+  presentation: "guidance" | "pleading"
 ): GradeABlock[] {
   const head: GradeABlock = { kind: "heading", text: section.heading };
 
   switch (section.kind) {
+    case "pleading_caption":
+      return [{
+        kind: "pleading_caption",
+        court: fact(matter, "court_name"),
+        plaintiff: fact(matter, "case_caption_plaintiff_name"),
+        defendant: fact(matter, "case_caption_defendant_name"),
+        caseNumber: fact(matter, "case_number"),
+        title: section.heading
+      }];
+
+    case "pleading_paragraph":
+      return [{ kind: "pleading_paragraph", text: fill(section.body ?? "", matter) }];
+
+    case "pleading_numbered_assertions": {
+      const assertions = (section.assertions ?? []).filter((assertion) =>
+        assertion.id !== "personal-impact" || fact(matter, "personal_impact_confirmed") === "Yes");
+      return assertions.map((assertion, index) => ({
+        kind: "pleading_paragraph" as const,
+        text: fill(assertion.text, matter),
+        number: `${index + 1}.`
+      }));
+    }
+
+    case "pleading_identity_list": {
+      const hasImpact = fact(matter, "personal_impact_confirmed") === "Yes";
+      const number = section.heading === "AUTO"
+        ? (hasImpact ? "5." : "4.")
+        : (/^\d+\.$/.test(section.heading) ? section.heading : undefined);
+      return [{
+        kind: "pleading_identity_list",
+        introduction: fill(section.body ?? "", matter),
+        number,
+        items: (section.fields ?? []).map((field) => ({
+          label: section.fieldLabels?.[field] ?? captionLabel(field),
+          value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter)
+        }))
+      }];
+    }
+
+    case "pro_se_signature_block":
+      return [{
+        kind: "pleading_signature",
+        heading: section.heading,
+        name: fact(matter, "participant_full_legal_name"),
+        role: fill(section.body ?? "{{participant_full_legal_name}}, Petitioner, Pro Se", matter),
+        contactLines: [
+          fact(matter, "mailing_address"),
+          `Telephone: ${fact(matter, "phone_number")}`,
+          `Email: ${fact(matter, "email_address")}`
+        ]
+      }];
+
+    case "verification_on_oath":
+      return [{
+        kind: "notary_verification",
+        title: section.heading,
+        statement: fill(section.body ?? "", matter),
+        jurat: fill(section.jurat ?? "", matter),
+        participantName: fact(matter, "participant_full_legal_name"),
+        venueState: "STATE OF MISSISSIPPI"
+      }];
+
+    case "service_certificate":
+      return [{
+        kind: "service_certificate",
+        title: "CERTIFICATE OF SERVICE",
+        statement: fill(section.body ?? "", matter),
+        participantName: fact(matter, "participant_full_legal_name")
+      }];
+
+    case "prosecutor_signature_block":
+      return [{
+        kind: "official_signature",
+        title: section.heading,
+        role: "PROSECUTING ATTORNEY",
+        note: fill(section.body ?? "", matter)
+      }];
+
+    case "clerk_certification_block":
+      return [{
+        kind: "official_signature",
+        title: section.heading,
+        role: `${fact(matter, "court_type").toUpperCase()} CLERK`,
+        note: fill(section.body ?? "", matter)
+      }];
+
+    case "confidential_identifier_addendum":
+      return [{
+        kind: "confidential_identifier_addendum",
+        title: section.heading,
+        warning: fill(section.body ?? "", matter),
+        items: (section.fields ?? []).map((field) => ({
+          label: section.fieldLabels?.[field] ?? captionLabel(field),
+          value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter)
+        }))
+      }];
+
     case "static":
       return [head, { kind: "paragraph", text: fill(section.body ?? "", matter) }];
 
@@ -203,6 +393,14 @@ function composeSection(
       }];
 
     case "court_signature_block":
+      if (presentation === "pleading") {
+        return [{
+          kind: "official_signature",
+          title: section.heading,
+          role: `${fact(matter, "court_type").toUpperCase()} JUDGE`,
+          note: fill(section.body ?? "", matter)
+        }];
+      }
       // Never pre-filled and never dated. A judicial block that arrives with
       // anything in it is a fabricated judicial act.
       return [head, ...(section.body

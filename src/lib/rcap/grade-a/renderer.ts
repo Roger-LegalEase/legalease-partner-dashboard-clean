@@ -20,7 +20,7 @@ import type { GradeABlock, GradeADocument, GradeAPacket } from "@/lib/rcap/grade
  */
 
 export const GRADE_A_RENDERER_KIND = "rcap_grade_a_document_v1";
-export const GRADE_A_RENDERER_VERSION = "1.0.0";
+export const GRADE_A_RENDERER_VERSION = "2.0.0";
 export const GRADE_A_CONTENT_TYPE = "application/pdf";
 
 const PAGE_WIDTH = 612;
@@ -36,6 +36,19 @@ const RULE = rgb(0.85, 0.89, 0.93);
 
 type Fonts = { body: PDFFont; bold: PDFFont };
 type Cursor = { page: PDFPage; y: number };
+type PleadingFonts = Fonts & { pleadingBody: PDFFont; pleadingBold: PDFFont; pleadingItalic: PDFFont };
+type PleadingContext = {
+  court: string;
+  caseNumber: string;
+  title: string;
+  pageNumber: number;
+  confidential: boolean;
+};
+
+const PLEADING_MARGIN = 72;
+const PLEADING_CONTENT_WIDTH = PAGE_WIDTH - PLEADING_MARGIN * 2;
+const PLEADING_BODY_SIZE = 12;
+const PLEADING_LEADING = 18;
 
 export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffer> {
   if (packet.documents.length === 0) {
@@ -61,9 +74,12 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
   document.setCreationDate(stamp);
   document.setModificationDate(stamp);
 
-  const fonts: Fonts = {
+  const fonts: PleadingFonts = {
     body: await document.embedFont(StandardFonts.Helvetica),
-    bold: await document.embedFont(StandardFonts.HelveticaBold)
+    bold: await document.embedFont(StandardFonts.HelveticaBold),
+    pleadingBody: await document.embedFont(StandardFonts.TimesRoman),
+    pleadingBold: await document.embedFont(StandardFonts.TimesRomanBold),
+    pleadingItalic: await document.embedFont(StandardFonts.TimesRomanItalic)
   };
 
   const cursor: Cursor = { page: document.addPage([PAGE_WIDTH, PAGE_HEIGHT]), y: PAGE_HEIGHT - MARGIN };
@@ -71,7 +87,8 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
   const ordered = [...packet.documents].sort((left, right) => left.order - right.order);
   ordered.forEach((entry, index) => {
     if (index > 0) pageBreak(cursor, document);
-    drawDocument(cursor, document, fonts, entry);
+    if (entry.presentation === "pleading") drawPleadingDocument(cursor, document, fonts, entry);
+    else drawDocument(cursor, document, fonts, entry);
   });
 
   drawProvenanceFooter(cursor, document, fonts, packet);
@@ -83,6 +100,440 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
 export function gradeAPacketFilename(packet: GradeAPacket): string {
   const slug = packet.routeKey.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
   return `${slug || "legalease"}-packet.pdf`;
+}
+
+function drawPleadingDocument(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  entry: GradeADocument
+) {
+  const caption = entry.blocks.find(
+    (block): block is Extract<GradeABlock, { kind: "pleading_caption" }> => block.kind === "pleading_caption"
+  );
+  if (!caption) throw new Error(`Pleading document ${entry.documentId} has no pleading caption.`);
+
+  const context: PleadingContext = {
+    court: caption.court,
+    caseNumber: caption.caseNumber,
+    title: caption.title,
+    pageNumber: 1,
+    confidential: false
+  };
+  cursor.y = PAGE_HEIGHT - PLEADING_MARGIN;
+  drawPleadingFooter(cursor.page, fonts, context);
+
+  for (const block of entry.blocks) {
+    switch (block.kind) {
+      case "pleading_caption":
+        drawPleadingCaption(cursor, document, fonts, context, block);
+        break;
+      case "pleading_paragraph":
+        drawPleadingParagraph(cursor, document, fonts, context, block.text, block.number);
+        break;
+      case "pleading_identity_list":
+        drawPleadingIdentityList(cursor, document, fonts, context, block);
+        break;
+      case "pleading_signature":
+        drawPleadingSignature(cursor, document, fonts, context, block);
+        break;
+      case "notary_verification":
+        drawNotaryVerification(cursor, document, fonts, context, block);
+        break;
+      case "service_certificate":
+        drawServiceCertificate(cursor, document, fonts, context, block);
+        break;
+      case "official_signature":
+        drawOfficialSignature(cursor, document, fonts, context, block);
+        break;
+      case "confidential_identifier_addendum":
+        context.title = block.title;
+        context.confidential = true;
+        pleadingPageBreak(cursor, document, fonts, context);
+        drawConfidentialAddendum(cursor, document, fonts, context, block);
+        break;
+      default:
+        throw new Error(`Pleading document ${entry.documentId} contains unsupported block ${block.kind}.`);
+    }
+  }
+}
+
+function drawPleadingCaption(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  block: Extract<GradeABlock, { kind: "pleading_caption" }>
+) {
+  ensurePleading(cursor, document, fonts, context, 245);
+  cursor.y = drawCenteredWrapped(
+    cursor.page,
+    fonts.pleadingBold,
+    sanitize(block.court.toUpperCase()),
+    PLEADING_BODY_SIZE,
+    PLEADING_CONTENT_WIDTH,
+    cursor.y,
+    PLEADING_LEADING
+  ) - 36;
+
+  const leftWidth = 290;
+  const plaintiffLines = wrap(sanitize(block.plaintiff.toUpperCase()), fonts.pleadingBold, 12, leftWidth);
+  for (const line of plaintiffLines) {
+    cursor.page.drawText(line, {
+      x: PLEADING_MARGIN,
+      y: cursor.y,
+      size: 12,
+      font: fonts.pleadingBold,
+      color: INK
+    });
+    cursor.y -= PLEADING_LEADING;
+  }
+  cursor.page.drawText("PLAINTIFF", {
+    x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBold.widthOfTextAtSize("PLAINTIFF", 12),
+    y: cursor.y + PLEADING_LEADING,
+    size: 12,
+    font: fonts.pleadingBold,
+    color: INK
+  });
+  cursor.y -= 18;
+  cursor.page.drawText("VS.", { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+  const caseLabel = `CASE NO. ${sanitize(block.caseNumber)}`;
+  cursor.page.drawText(caseLabel, {
+    x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBold.widthOfTextAtSize(caseLabel, 12),
+    y: cursor.y,
+    size: 12,
+    font: fonts.pleadingBold,
+    color: INK
+  });
+  cursor.y -= 36;
+
+  const defendantLines = wrap(sanitize(block.defendant.toUpperCase()), fonts.pleadingBold, 12, leftWidth);
+  for (const line of defendantLines) {
+    cursor.page.drawText(line, {
+      x: PLEADING_MARGIN,
+      y: cursor.y,
+      size: 12,
+      font: fonts.pleadingBold,
+      color: INK
+    });
+    cursor.y -= PLEADING_LEADING;
+  }
+  const defendantRole = "DEFENDANT/PETITIONER";
+  cursor.page.drawText(defendantRole, {
+    x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBold.widthOfTextAtSize(defendantRole, 12),
+    y: cursor.y + PLEADING_LEADING,
+    size: 12,
+    font: fonts.pleadingBold,
+    color: INK
+  });
+  cursor.y -= 30;
+  cursor.y = drawCenteredWrapped(
+    cursor.page,
+    fonts.pleadingBold,
+    sanitize(block.title),
+    13,
+    PLEADING_CONTENT_WIDTH,
+    cursor.y,
+    18
+  );
+  const titleWidth = Math.min(fonts.pleadingBold.widthOfTextAtSize(sanitize(block.title), 13), PLEADING_CONTENT_WIDTH);
+  cursor.page.drawLine({
+    start: { x: (PAGE_WIDTH - titleWidth) / 2, y: cursor.y + 14 },
+    end: { x: (PAGE_WIDTH + titleWidth) / 2, y: cursor.y + 14 },
+    thickness: 0.7,
+    color: INK
+  });
+  cursor.y -= 24;
+}
+
+function drawPleadingParagraph(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  text: string,
+  number?: string
+) {
+  ensurePleading(cursor, document, fonts, context, number ? 58 : 40);
+  if (number) {
+    const width = fonts.pleadingBold.widthOfTextAtSize(number, 12);
+    cursor.page.drawText(number, {
+      x: (PAGE_WIDTH - width) / 2,
+      y: cursor.y,
+      size: 12,
+      font: fonts.pleadingBold,
+      color: INK
+    });
+    cursor.y -= 24;
+  }
+  drawPleadingText(cursor, document, fonts, context, text, { firstLineIndent: 36 });
+  cursor.y -= 9;
+}
+
+function drawPleadingIdentityList(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  block: Extract<GradeABlock, { kind: "pleading_identity_list" }>
+) {
+  if (block.number) {
+    ensurePleading(cursor, document, fonts, context, 58);
+    const width = fonts.pleadingBold.widthOfTextAtSize(block.number, 12);
+    cursor.page.drawText(block.number, {
+      x: (PAGE_WIDTH - width) / 2,
+      y: cursor.y,
+      size: 12,
+      font: fonts.pleadingBold,
+      color: INK
+    });
+    cursor.y -= 24;
+  } else if (block.introduction) {
+    ensurePleading(cursor, document, fonts, context, 52);
+  }
+  if (block.introduction) {
+    drawPleadingText(cursor, document, fonts, context, block.introduction, { firstLineIndent: 36 });
+    cursor.y -= 8;
+  }
+  block.items.forEach((item, index) => {
+    const letter = String.fromCharCode(97 + index);
+    drawPleadingText(cursor, document, fonts, context, `(${letter}) ${item.label}: ${item.value}`, { indent: 24 });
+    cursor.y -= 3;
+  });
+  cursor.y -= 8;
+}
+
+function drawPleadingSignature(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  block: Extract<GradeABlock, { kind: "pleading_signature" }>
+) {
+  ensurePleading(cursor, document, fonts, context, 205);
+  drawPleadingText(cursor, document, fonts, context, block.heading);
+  cursor.y -= 18;
+  drawPleadingText(cursor, document, fonts, context, block.role, { font: fonts.pleadingBold });
+  cursor.y -= 28;
+  drawBlankLine(cursor, fonts, 280);
+  drawPleadingText(cursor, document, fonts, context, block.name.toUpperCase());
+  for (const line of block.contactLines) drawPleadingText(cursor, document, fonts, context, line);
+  cursor.y -= 12;
+}
+
+function drawNotaryVerification(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  block: Extract<GradeABlock, { kind: "notary_verification" }>
+) {
+  ensurePleading(cursor, document, fonts, context, 390);
+  cursor.y = drawCenteredWrapped(
+    cursor.page,
+    fonts.pleadingBold,
+    sanitize(block.title),
+    13,
+    PLEADING_CONTENT_WIDTH,
+    cursor.y,
+    18
+  ) - 18;
+  drawPleadingText(cursor, document, fonts, context, block.statement, { firstLineIndent: 36 });
+  cursor.y -= 20;
+  drawBlankLine(cursor, fonts, 280);
+  drawPleadingText(cursor, document, fonts, context, `${block.participantName.toUpperCase()}, PETITIONER PRO SE`);
+  cursor.y -= 16;
+  drawPleadingText(cursor, document, fonts, context, block.venueState, { font: fonts.pleadingBold });
+  drawPleadingText(cursor, document, fonts, context, "COUNTY OF ______________________________", { font: fonts.pleadingBold });
+  cursor.y -= 12;
+  drawPleadingText(cursor, document, fonts, context,
+    block.jurat,
+    { firstLineIndent: 36 });
+  cursor.y -= 24;
+  drawBlankLine(cursor, fonts, 280);
+  drawPleadingText(cursor, document, fonts, context, "NOTARY PUBLIC", { font: fonts.pleadingBold });
+  drawPleadingText(cursor, document, fonts, context, "Printed Name: ______________________________");
+  drawPleadingText(cursor, document, fonts, context, "My Commission Expires: ____________________");
+  drawPleadingText(cursor, document, fonts, context, "Commission Identification No.: _____________");
+  drawPleadingText(cursor, document, fonts, context, "[OFFICIAL NOTARY STAMP]", { font: fonts.pleadingBold });
+  cursor.y -= 12;
+}
+
+function drawServiceCertificate(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  block: Extract<GradeABlock, { kind: "service_certificate" }>
+) {
+  drawPleadingText(cursor, document, fonts, context, block.statement, { firstLineIndent: 36 });
+  cursor.y -= 18;
+  drawPleadingText(cursor, document, fonts, context, "Method of service: __________________________________________");
+  drawPleadingText(cursor, document, fonts, context, "Date of service: _____________________________________________");
+  cursor.y -= 26;
+  drawBlankLine(cursor, fonts, 280);
+  drawPleadingText(cursor, document, fonts, context, `${block.participantName.toUpperCase()}, PETITIONER PRO SE`);
+  cursor.y -= 12;
+}
+
+function drawOfficialSignature(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  block: Extract<GradeABlock, { kind: "official_signature" }>
+) {
+  ensurePleading(cursor, document, fonts, context, 155);
+  drawPleadingText(cursor, document, fonts, context, block.title, { font: fonts.pleadingBold });
+  if (block.note) drawPleadingText(cursor, document, fonts, context, block.note, { font: fonts.pleadingItalic });
+  cursor.y -= 24;
+  drawBlankLine(cursor, fonts, 280);
+  drawPleadingText(cursor, document, fonts, context, block.role, { font: fonts.pleadingBold });
+  if (/CLERK$/.test(block.role)) {
+    drawPleadingText(cursor, document, fonts, context, "Date: ______________________________");
+    drawPleadingText(cursor, document, fonts, context, "[COURT SEAL]", { font: fonts.pleadingBold });
+  }
+  cursor.y -= 12;
+}
+
+function drawConfidentialAddendum(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  block: Extract<GradeABlock, { kind: "confidential_identifier_addendum" }>
+) {
+  cursor.y = drawCenteredWrapped(
+    cursor.page,
+    fonts.pleadingBold,
+    sanitize(block.title),
+    14,
+    PLEADING_CONTENT_WIDTH,
+    cursor.y,
+    19
+  ) - 16;
+  drawPleadingText(cursor, document, fonts, context, block.warning, { font: fonts.pleadingBold });
+  cursor.y -= 12;
+  block.items.forEach((item) => {
+    drawPleadingText(cursor, document, fonts, context, `${item.label}: ${item.value}`, { indent: 18 });
+    cursor.y -= 3;
+  });
+}
+
+function drawPleadingText(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  text: string,
+  options: { indent?: number; firstLineIndent?: number; font?: PDFFont } = {}
+) {
+  const indent = options.indent ?? 0;
+  const firstLineIndent = options.firstLineIndent ?? 0;
+  const font = options.font ?? fonts.pleadingBody;
+  const lines = wrap(sanitize(text), font, PLEADING_BODY_SIZE, PLEADING_CONTENT_WIDTH - indent - firstLineIndent);
+  lines.forEach((line, index) => {
+    ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+    cursor.page.drawText(line, {
+      x: PLEADING_MARGIN + indent + (index === 0 ? firstLineIndent : 0),
+      y: cursor.y,
+      size: PLEADING_BODY_SIZE,
+      font,
+      color: INK
+    });
+    cursor.y -= PLEADING_LEADING;
+  });
+}
+
+function drawBlankLine(cursor: Cursor, fonts: PleadingFonts, width: number) {
+  cursor.page.drawLine({
+    start: { x: PLEADING_MARGIN, y: cursor.y },
+    end: { x: PLEADING_MARGIN + width, y: cursor.y },
+    thickness: 0.7,
+    color: INK
+  });
+  cursor.y -= fonts.pleadingBody.heightAtSize(PLEADING_BODY_SIZE) + 7;
+}
+
+function ensurePleading(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext,
+  needed: number
+) {
+  if (cursor.y - needed < PLEADING_MARGIN) pleadingPageBreak(cursor, document, fonts, context);
+}
+
+function pleadingPageBreak(
+  cursor: Cursor,
+  document: PDFDocument,
+  fonts: PleadingFonts,
+  context: PleadingContext
+) {
+  cursor.page = document.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  context.pageNumber += 1;
+  drawPleadingFooter(cursor.page, fonts, context);
+  const header = `${sanitize(context.court)} | CASE NO. ${sanitize(context.caseNumber)}`;
+  cursor.page.drawText(header, {
+    x: PLEADING_MARGIN,
+    y: PAGE_HEIGHT - 44,
+    size: 8.5,
+    font: fonts.pleadingBody,
+    color: MUTED
+  });
+  const titleText = sanitize(context.title);
+  cursor.page.drawText(titleText, {
+    x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingItalic.widthOfTextAtSize(titleText, 8.5),
+    y: PAGE_HEIGHT - 56,
+    size: 8.5,
+    font: fonts.pleadingItalic,
+    color: MUTED
+  });
+  cursor.page.drawLine({
+    start: { x: PLEADING_MARGIN, y: PAGE_HEIGHT - 64 },
+    end: { x: PAGE_WIDTH - PLEADING_MARGIN, y: PAGE_HEIGHT - 64 },
+    thickness: 0.5,
+    color: RULE
+  });
+  cursor.y = PAGE_HEIGHT - 86;
+}
+
+function drawPleadingFooter(page: PDFPage, fonts: PleadingFonts, context: PleadingContext) {
+  const left = context.confidential
+    ? "CONFIDENTIAL MCIC PROCESSING COPY - DO NOT SERVE OR PUBLICLY FILE"
+    : `CASE NO. ${sanitize(context.caseNumber)}`;
+  page.drawText(left, { x: PLEADING_MARGIN, y: 38, size: 8, font: fonts.pleadingBody, color: MUTED });
+  const pageLabel = `Page ${context.pageNumber}`;
+  page.drawText(pageLabel, {
+    x: PAGE_WIDTH - PLEADING_MARGIN - fonts.pleadingBody.widthOfTextAtSize(pageLabel, 8),
+    y: 38,
+    size: 8,
+    font: fonts.pleadingBody,
+    color: MUTED
+  });
+}
+
+function drawCenteredWrapped(
+  page: PDFPage,
+  font: PDFFont,
+  text: string,
+  size: number,
+  maxWidth: number,
+  y: number,
+  leading: number
+) {
+  for (const line of wrap(text, font, size, maxWidth)) {
+    page.drawText(line, {
+      x: (PAGE_WIDTH - font.widthOfTextAtSize(line, size)) / 2,
+      y,
+      size,
+      font,
+      color: INK
+    });
+    y -= leading;
+  }
+  return y;
 }
 
 function drawDocument(cursor: Cursor, document: PDFDocument, fonts: Fonts, entry: GradeADocument) {

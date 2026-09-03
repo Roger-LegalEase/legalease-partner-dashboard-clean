@@ -37,7 +37,10 @@ export type PacketSpecificationSection = {
   heading: string;
   kind: string;
   body?: string;
+  jurat?: string;
   fields?: string[];
+  fieldLabels?: Record<string, string>;
+  fieldValueTemplates?: Record<string, string>;
   assertions?: Array<{ id: string; text: string; facts: string[] }>;
   notarisationRequired?: boolean;
 };
@@ -48,6 +51,7 @@ export type PacketSpecificationDocument = {
   title: string;
   order: number;
   outputStrategy: "custom_pleading" | "process_guidance";
+  presentation?: "guidance" | "pleading";
   requirement: "required" | "conditional";
   conditionDescription?: string;
   includeWhen?: string;
@@ -116,6 +120,7 @@ export type PacketSpecification = {
     serverOwnedRouteFacts: string[];
     participantAtSigningFields: string[];
     participantAtServiceFields: string[];
+    notaryOwnedFields?: string[];
     prosecutorOwnedFields: string[];
     courtOwnedFields: string[];
   };
