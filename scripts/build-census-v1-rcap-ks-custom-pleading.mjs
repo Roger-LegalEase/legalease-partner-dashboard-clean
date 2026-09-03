@@ -3,7 +3,7 @@
  * FABLE-PC census-v1 builder — Kansas municipal-court expungement, K.S.A. 12-4516
  * (ordinance conviction or diversion) and K.S.A. 12-4516a (ordinance arrest).
  *
- *   node "scripts/build-census-v1-rcap-ks-custom-pleading.mjs" [--check] [--no-raster]
+ *   node "scripts/build-census-v1-rcap-ks-custom-pleading.mjs" [--check] [--no-raster] [--route-artifacts-only]
  *
  * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS
  *
@@ -1227,6 +1227,15 @@ async function renderComposedPdf(fullText, title) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
+  /* Standard Times is not embedded, so a PDF viewer may substitute glyphs
+   * wider than pdf-lib's nominal Times metrics. Wrap against the larger of
+   * those metrics and the standard-font 500-unit fallback used when a PDF has
+   * no /Widths array. This keeps the visible substitute inside the same
+   * 72-point margins without changing the font size or any packet content. */
+  const renderedWidth = (text) => Math.max(
+    font.widthOfTextAtSize(text, fontSize),
+    [...text].length * fontSize * 0.5
+  );
   let page = pdf.addPage([width, height]);
   let y = height - margin;
   const draw = (line) => {
@@ -1237,7 +1246,7 @@ async function renderComposedPdf(fullText, title) {
   const splitToken = (token) => {
     const chunks = []; let current = "";
     for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
+      if (current && renderedWidth(`${current}${ch}`) > maxWidth) { chunks.push(current); current = ch; }
       else current += ch;
     }
     if (current) chunks.push(current);
@@ -1245,11 +1254,11 @@ async function renderComposedPdf(fullText, title) {
   };
   const wrap = (line) => {
     if (!line) return [""];
-    const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
+    const words = line.split(/\s+/).flatMap((w) => renderedWidth(w) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
     for (const w of words) {
       const candidate = current ? `${current} ${w}` : w;
-      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) current = candidate;
+      if (renderedWidth(candidate) <= maxWidth) current = candidate;
       else { if (current) rows.push(current); current = w; }
     }
     if (current) rows.push(current);
@@ -1572,6 +1581,7 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+  const routeArtifactsOnly = argv.includes("--route-artifacts-only");
 
   const { resolved, failures } = resolveRecords();
   if (failures.length > 0) {
@@ -1603,7 +1613,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const rasterPages = [];
   const pdfsDeclared = [];
 
-  for (const fixtureName of ["canonical", "boundary"]) {
+  for (const fixtureName of routeArtifactsOnly ? [] : ["canonical", "boundary"]) {
     const facts = SPEC.fixtures[fixtureName];
     const packet = await PDFDocument.create();
     stampDeterministic(packet);
@@ -1752,6 +1762,31 @@ export async function runFamily(argv = process.argv.slice(2)) {
         independentVerificationPending: true
       });
     }
+  }
+
+  if (routeArtifactsOnly) {
+    const renderedArtifactsPath = `${OUT}/reports/rendered-artifacts.json`;
+    const renderedArtifacts = JSON.parse(fs.readFileSync(path.join(ROOT, renderedArtifactsPath), "utf8"));
+    assert.strictEqual(renderedArtifacts.familyId, SPEC.familyId,
+      `${renderedArtifactsPath}: belongs to a different family`);
+    assert.strictEqual(renderedArtifacts.routeArtifacts?.length, routeArtifacts.length,
+      `${renderedArtifactsPath}: does not declare exactly the four route artifacts this repair rebuilds`);
+    renderedArtifacts.routeArtifacts = routeArtifacts;
+    writeJson(renderedArtifactsPath, renderedArtifacts);
+    return {
+      familyId: SPEC.familyId,
+      status: "ROUTE_ARTIFACTS_REBUILT",
+      routeArtifactHashes: routeArtifacts.map((a) => ({
+        fixture: a.fixture,
+        route: a.route,
+        packetSha256: a.sha256,
+        byteLength: a.byteLength,
+        pages: a.pageCount
+      })),
+      familyAssemblyWritten: false,
+      metadataWritten: [renderedArtifactsPath],
+      productionTouched: false
+    };
   }
 
   const rbf = requiredBeforeFilingItems(maps);
