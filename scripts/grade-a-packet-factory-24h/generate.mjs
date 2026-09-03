@@ -1340,16 +1340,14 @@ for (const f of IN.scoreboard.familiesDetail) {
     && !legalBlocked
     && fs.existsSync(path.join(ROOT, `${directory}/product-wiring.json`))) state = "COMPLETE_PACKET_PROVEN";
   /*
-   * A family the visual gate declined to enrol is held at VERIFY_PENDING with
-   * the queue's own reason, not advanced to VERIFIED_PASS. VERIFIED_PASS is one
-   * of the states L4 reads as proven, and a family with no raster row has
-   * nothing for L4 to read. Enrolling it is real work with a named owner --
-   * the queue says which documents it could not open -- and until that is done
-   * the honest state is "read and passed, awaiting a visual gate it cannot yet
-   * enter".
+   * A family the visual gate declined to enrol is held at BUILT_RASTER_PENDING
+   * with the queue's own reason, not advanced to VERIFIED_PASS. Its independent
+   * read is current and complete; the work still owed is raster acceptance, not
+   * another independent read. VERIFIED_PASS is one of the states L4 reads as
+   * proven, and a family with no raster row has nothing for L4 to read.
    */
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
-    && rasterNotEligible.has(familyId)) state = "VERIFY_PENDING";
+    && rasterNotEligible.has(familyId)) state = "BUILT_RASTER_PENDING";
   /*
    * A PASS IS ABOUT BYTES, AND BYTES MOVE.
    *
@@ -1384,11 +1382,12 @@ for (const f of IN.scoreboard.familiesDetail) {
    * page yet examined.
    *
    * Not enrolled and not yet run are different reasons and the same answer:
-   * until a hash-bound RASTER_PASS covers the current bytes, the honest state
-   * is that the family still owes something, not that it is verified.
+   * until a hash-bound RASTER_PASS covers the current bytes, the family remains
+   * BUILT_RASTER_PENDING. The independent PASS still stands, so this is not
+   * VERIFY_PENDING and must not manufacture a second verifier assignment.
    */
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
-    && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
+    && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT") state = "VERIFIED_PASS";
   /*
    * AND THE REPAIR HAS TO POSTDATE THE VERDICT.
@@ -1533,20 +1532,16 @@ for (const f of IN.scoreboard.familiesDetail) {
      * treatment has not been checked by anyone but its author. Carried here so
      * the caveat travels with the state instead of living in a file the reader
      * may not open. */
-    /* Why a passing verdict stopped counting, carried where the state is. A
-     * family sent back to VERIFY_PENDING from a PASS looks identical to one
-     * that never had a verdict, and a verifier picking it up deserves to know
-     * it is re-reading rather than reading. */
+    /* Why a passing verdict stopped counting, carried where the state is. Only
+     * packet/source lapse returns a PASS to VERIFY_PENDING. Missing raster proof
+     * leaves the verdict current and uses BUILT_RASTER_PENDING instead. */
     verificationLapsedBecause: (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
       && state === "VERIFY_PENDING")
       ? (boundSourceDriftedSinceVerdict(directory)
           ? { lapse: "BOUND_SOURCE_DRIFTED", ...boundSourceDriftedSinceVerdict(directory),
               meaning: "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source." }
-          : familyMovedSinceVerdict(independentReturn, directory, buildScript)
-            ? { lapse: "FAMILY_MOVED_SINCE_THE_VERDICT",
-                meaning: "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist." }
-            : { lapse: "RASTER_NOT_ENROLLED",
-                meaning: "The verdict stands but the visual gate could not enrol the family, so there is no raster receipt for L4 to read." })
+          : { lapse: "FAMILY_MOVED_SINCE_THE_VERDICT",
+              meaning: "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist." })
       : null,
     terminalTreatment: terminalTreatment
       ? {
