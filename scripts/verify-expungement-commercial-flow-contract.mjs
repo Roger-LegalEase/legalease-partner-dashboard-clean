@@ -245,7 +245,7 @@ const cleanPacketAnswers = {
   release_date_or_record_source: "Synthetic release record dated 2014-01-10",
   residency_or_location: { value: "Jackson, Mississippi", unknown: false },
   sentence_completion_date: "Yes",
-  service_address_confirmation_status: "Confirmed by the Hinds County District Attorney's Office on 2026-08-15",
+  service_address_confirmation_status: "Confirmed by court or prosecutor",
   sex: "Not stated in synthetic test",
   social_security_number: "999-88-0125",
   social_security_number_last_four: "0125",

@@ -373,7 +373,14 @@
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
       "prompt": "Which identifier-delivery method did the court approve?",
-      "helperText": "Use the method the court specifies: signed order, confidential addendum, MCIC sheet, or nonpublic certified copy. A volunteer can help record the answer. Stop if the court has not chosen a method."
+      "helperText": "Choose only the method the court specifies. A volunteer can help record the answer. Stop if the court has not chosen one of these protected methods.",
+      "questionType": "single_choice",
+      "options": [
+        "Confidential court-approved MCIC identifier addendum",
+        "Court-approved MCIC identifier sheet",
+        "Court-approved nonpublic certified copy",
+        "Court-approved signed-order identifier channel"
+      ]
     },
     {
       "factId": "mcic_identifier_method_confirmation_source",
@@ -381,7 +388,7 @@
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
       "prompt": "Who at the court confirmed that MCIC identifier method, and when?",
-      "helperText": "Record the court office, staff role or published instruction, and confirmation date. A volunteer can help document the call. Stop before participant delivery if the source is not confirmed."
+      "helperText": "Enter Confirmed by [court or clerk office] on YYYY-MM-DD. A volunteer can help document the court office, staff role, and date. Stop before participant delivery if the source is not confirmed."
     },
     {
       "factId": "personal_impact_confirmed",
@@ -407,7 +414,9 @@
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
       "prompt": "Is the certified disposition ready to insert as Exhibit A?",
-      "helperText": "Confirm that you have the certified court record, not a checklist or screenshot. A volunteer can help inspect it. Stop before filing if Exhibit A is missing."
+      "helperText": "Choose Attached as Exhibit A only after the certified court record is physically or digitally inserted, not merely available. A volunteer can help inspect it. Stop before filing if Exhibit A is missing.",
+      "questionType": "single_choice",
+      "options": ["Attached as Exhibit A", "Not attached"]
     },
     {
       "factId": "docket_sheet_exhibit_status",
@@ -415,7 +424,9 @@
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
       "prompt": "Is the docket sheet ready to insert as Exhibit B?",
-      "helperText": "Confirm that you have the court docket sheet, not the LegalEase checklist. A volunteer can help inspect it. Stop before filing if Exhibit B is missing."
+      "helperText": "Choose Inserted as Exhibit B only after the court docket sheet is physically or digitally inserted, not merely available. A volunteer can help inspect it. Stop before filing if Exhibit B is missing.",
+      "questionType": "single_choice",
+      "options": ["Inserted as Exhibit B", "Not inserted"]
     },
     {
       "factId": "case_outcome",

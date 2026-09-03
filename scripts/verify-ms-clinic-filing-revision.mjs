@@ -247,17 +247,21 @@ participantDelivery.generationPurpose = "participant_delivery";
 participantDelivery.facts.mcic_identifier_delivery_method = "Confidential court-approved MCIC identifier addendum";
 participantDelivery.facts.mcic_identifier_method_confirmation_source =
   "Confirmed by the Hinds County Circuit Clerk on 2026-09-03";
-participantDelivery.facts.service_address_confirmation_status =
-  "Confirmed by the Hinds County District Attorney's Office on 2026-09-03";
+participantDelivery.facts.service_address_confirmation_status = "Confirmed by court or prosecutor";
 participantDelivery.facts.certified_disposition_exhibit_status = "Attached as Exhibit A";
 participantDelivery.facts.docket_sheet_exhibit_status = "Inserted as Exhibit B";
 assert.doesNotThrow(() => composeGradeAPacket(specification, participantDelivery));
 for (const [factId, unsafeValue] of [
   ["mcic_identifier_delivery_method", "None"],
+  ["mcic_identifier_delivery_method", "Not court-approved"],
   ["mcic_identifier_method_confirmation_source", "banana"],
+  ["mcic_identifier_method_confirmation_source", "Court confirmation denied"],
   ["service_address_confirmation_status", "banana"],
+  ["service_address_confirmation_status", "Court confirmation denied"],
   ["certified_disposition_exhibit_status", "Not attached"],
-  ["docket_sheet_exhibit_status", "Not inserted"]
+  ["certified_disposition_exhibit_status", "Attached status unknown"],
+  ["docket_sheet_exhibit_status", "Not inserted"],
+  ["docket_sheet_exhibit_status", "Inserted status unsure"]
 ]) {
   const unsafe = structuredClone(participantDelivery);
   unsafe.facts[factId] = unsafeValue;
