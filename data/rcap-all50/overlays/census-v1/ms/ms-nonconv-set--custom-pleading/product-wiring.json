@@ -6,7 +6,7 @@
     "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
   ],
   "workType": "GRADE_A_PRODUCT_WIRING",
-  "status": "INSTALLED_HELD_FOR_REVISION_REVIEW",
+  "status": "INSTALLED_HELD_FOR_NAMED_COUNSEL_APPROVAL",
   "authorityCreated": "held_grade_a_fulfillment_record",
   "generatedBy": "scripts/generate-ms-clinic-demo-packet.mjs",
   "derivedFrom": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
@@ -17,7 +17,7 @@
   ],
   "currentState": {
     "serviceDisposition": "exact_runtime_route_and_grade_a_specification_installed",
-    "commercialState": "HELD_PENDING_FILING_REVISION_REVIEW_AND_NAMED_COUNSEL_APPROVAL",
+    "commercialState": "HELD_PENDING_NAMED_COUNSEL_AND_PREVIEW_ACCEPTANCE",
     "existingArtifactIds": [
       "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
       "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
@@ -111,8 +111,15 @@
     "instructions": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md",
     "rasterReview": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
     "independentReview": {
-      "status": "pending_independent_second_pass",
-      "obligations": 15
+      "status": "15_pass_0_fail_0_hold",
+      "obligations": 15,
+      "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.raster-review.json",
+      "externalDeliveryHolds": [
+        "named_mississippi_counsel_and_current_law_approval",
+        "court_confirmed_mcic_identifier_channel",
+        "participant_supplied_exhibits",
+        "classified_nonproduction_preview_acceptance"
+      ]
     },
     "counselReview": {
       "status": "revision_pending_named_mississippi_counsel",
@@ -121,7 +128,7 @@
     "paymentEligible": false,
     "sponsorshipEligible": false,
     "whyPaymentIsClosed": "Consumer launch is outside the clinic demo and named counsel has not approved these exact artifact hashes.",
-    "whySponsorshipIsClosed": "The filing-document revision remains held until the independent second pass and named Mississippi counsel approval are recorded.",
+    "whySponsorshipIsClosed": "The packet is built and independently reviewed, but sponsored generation stays held until named Mississippi counsel approves the exact artifacts and the nonproduction acceptance journey passes.",
     "maintenanceRelationship": {
       "rebuiltFrom": "scripts/generate-ms-clinic-demo-packet.mjs",
       "reRasterRequiredWhen": "either artifact hash changes",
