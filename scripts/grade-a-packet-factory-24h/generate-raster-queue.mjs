@@ -81,12 +81,11 @@ const pageCount = async (p) => {
  * for exactly this reason.)
  *
  * Zero would be a lie and a throw would take the whole queue down, so the
- * probe returns null and the caller refuses the family by name. It must never
- * become a queued row: rcap-raster-batch.mjs counts pages with this same
- * parser and then renders that many, so a document whose page count nobody can
- * read cannot have "every page rendered" proven about it, and a receipt over an
- * unknown number of pages is exactly the kind of verdict this queue exists to
- * refuse.
+ * probe returns null. The caller may then use the builder's page count only
+ * when rendered-artifacts.json binds that positive count to the exact queued
+ * SHA-256. Without that hash-bound fallback the family is still refused: a
+ * receipt over an unknown number of pages is exactly the kind of verdict this
+ * queue exists to prevent.
  *
  * The parser narrates each unresolved object on the console. That chatter is
  * the reader's, not this generator's finding -- the finding is the named
@@ -187,13 +186,21 @@ const coverageOf = (pdfs, fixture, rendered) => {
  * this changes what a job renders and touches neither the workflow matrix nor
  * the receipt naming.
  */
-const documentSet = async (fixtures, pdfs) => {
+const documentSet = async (dir, fixtures, pdfs) => {
   const rows = [];
   for (const role of ["canonical", "boundary"]) {
     const named = pdfs.includes(`${role}.pdf`) ? [`${role}.pdf`] : pdfs.filter((x) => x.includes(role));
     for (const name of named) {
       const abs = path.join(fixtures, name);
-      rows.push({ role, name, path: POSIX(path.relative(ROOT, abs)), sha256: sha256(abs), pageCount: await pageCountOrNull(abs) });
+      const parsed = await pageCountOrNull(abs);
+      const declared = parsed === null ? declaredPageEvidence(dir, abs) : null;
+      rows.push({
+        role, name, path: POSIX(path.relative(ROOT, abs)), sha256: sha256(abs),
+        pageCount: parsed ?? declared?.pageCount ?? null,
+        pageCountBasis: parsed !== null
+          ? "parsed from the queued PDF bytes with pdf-lib"
+          : declared?.basis ?? null,
+      });
     }
   }
   return rows;
@@ -258,6 +265,37 @@ const walkPdfs = (root, rel = "") => {
 const resolveDeclared = (dir, file) => {
   for (const c of [path.resolve(ROOT, file), path.resolve(dir, file)]) if (fs.existsSync(c)) return c;
   return null;
+};
+
+/*
+ * Some unchanged official forms are encrypted XFA PDFs. Chrome and Poppler can
+ * render them, but pdf-lib cannot resolve their encrypted object streams even
+ * with ignoreEncryption. The family builder already had to solve that exact
+ * problem: it reads a pikepdf-unlocked derivative, copies the official bytes
+ * unchanged into the packet, and records the resulting page count next to the
+ * exact output SHA-256 in rendered-artifacts.json.
+ *
+ * That declaration is a safe fallback only when it names this exact file and
+ * its recorded hash equals the bytes now on disk. A stale report, a missing
+ * hash or an unpositive count proves nothing and remains unreadable.
+ */
+const declaredPageEvidence = (dir, abs) => {
+  const p = path.join(dir, "reports", "rendered-artifacts.json");
+  if (!fs.existsSync(p)) return null;
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(p, "utf8")); } catch { return null; }
+  const hit = [...(doc.artifacts ?? []), ...(doc.pdfs ?? [])].find((a) => {
+    if (!a?.file) return false;
+    const resolved = resolveDeclared(dir, a.file);
+    return resolved && path.resolve(resolved) === path.resolve(abs);
+  });
+  if (!hit || !Number.isInteger(hit.pageCount) || hit.pageCount <= 0) return null;
+  const observed = sha256(abs);
+  if (!/^[0-9a-f]{64}$/.test(hit.sha256 ?? "") || hit.sha256 !== observed) return null;
+  return {
+    pageCount: hit.pageCount,
+    basis: "pdf-lib could not read the encrypted official PDF; the builder's rendered-artifacts report binds this page count to the exact queued SHA-256",
+  };
 };
 
 const declaredFixturePdfs = (dir) => {
@@ -397,10 +435,10 @@ for (const f of master.families) {
       /* Read the set the row would render before deciding the family may be
        * queued, so a document the parser cannot open refuses the family here
        * rather than aborting the render job that was dispatched to prove it. */
-      documents = await documentSet(fixtures, pdfs);
+      documents = await documentSet(dir, fixtures, pdfs);
       const unreadable = documents.filter((d) => d.pageCount === null).map((d) => d.name);
       if (unreadable.length) {
-        eligibility.push(`${unreadable.length} of ${documents.length} queued document(s) will not open in the parser that counts their pages, so "every page rendered" cannot be proven about them: ${unreadable.join(", ")}`);
+        eligibility.push(`${unreadable.length} of ${documents.length} queued document(s) have neither a parser-readable page count nor a hash-bound builder count, so "every page rendered" cannot be proven about them: ${unreadable.join(", ")}`);
       }
     }
   }

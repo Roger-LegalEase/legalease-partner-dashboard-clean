@@ -98,6 +98,22 @@ const inkFraction = async (png, paper) => {
  */
 const pageCount = async (p) => (await PDFDocument.load(fs.readFileSync(p), { ignoreEncryption: true, updateMetadata: false })).getPageCount();
 
+/* Chrome can render the encrypted XFA forms that pdf-lib cannot resolve. For
+ * those documents only, the queue carries a positive builder count bound to
+ * the exact PDF SHA-256. The queue generator verified that binding; this job
+ * verifies the bytes again before reaching this function and renders exactly
+ * that many pages. No unbound or merely asserted count is accepted. */
+const pageCountForTarget = async (abs, target) => {
+  try { return await pageCount(abs); }
+  catch (e) {
+    const hashBoundBuilderCount = Number.isInteger(target.expectedPages)
+      && target.expectedPages > 0
+      && /builder's rendered-artifacts report binds this page count to the exact queued SHA-256/.test(target.pageCountBasis ?? "");
+    if (!hashBoundBuilderCount) throw e;
+    return target.expectedPages;
+  }
+};
+
 fs.mkdirSync(OUT, { recursive: true });
 const artifacts = [];
 const problems = [];
@@ -117,7 +133,10 @@ const problems = [];
  * before this change still renders exactly what it used to.
  */
 const targets = (row.documents ?? []).length > 0
-  ? row.documents.map((d) => ({ kind: d.role, name: d.name, rel: d.path, expected: d.sha256, expectedPages: d.pageCount }))
+  ? row.documents.map((d) => ({
+      kind: d.role, name: d.name, rel: d.path, expected: d.sha256,
+      expectedPages: d.pageCount, pageCountBasis: d.pageCountBasis ?? null,
+    }))
   : [
       { kind: "canonical", name: "canonical", rel: row.canonicalPdfPath, expected: row.canonicalPdfSha256, expectedPages: row.expectedPages },
       { kind: "boundary", name: "boundary", rel: row.boundaryPdfPath, expected: row.boundaryPdfSha256, expectedPages: null },
@@ -136,7 +155,12 @@ for (const target of targets) {
     problems.push(`${target.name}: ${rel} hashes ${observed} and the queue pinned ${expected}`);
     continue;
   }
-  const pages = await pageCount(abs);
+  let pages;
+  try { pages = await pageCountForTarget(abs, target); }
+  catch (e) {
+    problems.push(`${target.name}: the queued PDF's page count is unreadable and there is no hash-bound builder count (${String(e.message).split("\n")[0]})`);
+    continue;
+  }
   if (target.expectedPages && pages !== target.expectedPages) {
     problems.push(`${target.name}: ${pages} page(s) where the queue expected ${target.expectedPages}`);
   }
