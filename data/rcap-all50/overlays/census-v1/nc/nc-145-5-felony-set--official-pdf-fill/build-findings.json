@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nc_145_5_felony-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "SIX WRITES ON A 110-FIELD FORM, and the ratio is the finding rather than a gap. An entire side of AOC-CR-297 belongs to the SBI, the AOC records officer, the court and the clerk; Side One carries a certificate of service that would be untrue if completed before service and a REQUEST BY JUDGE block that is the judge's. Of the remainder, the substance is conviction facts — offence class, disposition, sentence completion, restitution, prior expunctions — that no held record establishes for any participant.",
+      "consequence": "104 blanks are classified rather than written: protected where the field is the court's, the clerk's, the SBI's or a certificate of service; attorney-only where it is counsel's; a genuine participant election where the form offers a choice this route does not make; and required-before-filing, with the record it is copied from named, for every conviction fact. Each of the manifest's own obtain_document and confirm_answer items is carried into participant-instructions.md."
+    },
+    {
+      "finding": "CAPTION-CAPTURE DEFECT on Side One's identifier row, the same shared-host defect this jurisdiction's other families report. PetitionerZip is captured as \"Race\"; DLNo and DLState as \"Drivers License No.StateRaceSex\"; Race as \"State\"; Sex and AttorneyMailAddress and AttorneyCity as \"Full Social Security No\"; DOB as \"Date Of BirthFull Social Security No\"; SSN as \"NOTE TO PETITIONER\"; and AttorneyState as the whole NOTE TO PETITIONER paragraph.",
+      "consequence": "On THIS form the defect produces no mis-write — every affected blank is refused rather than filled, which is the safe direction — but each is refused for the wrong reason. All are declared required-before-filing or attorney-only with the true reason stated. Reported for the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs. The sibling family nc_146_acquittal_petition-set records the same defect producing an actual mis-write on AOC-CR-288, where a date of birth was bound to the Full Social Security No. blank."
+    },
+    {
+      "finding": "THE CERTIFICATE OF SERVICE. AOC-CR-297 carries one on Side One, with four method boxes, the district attorney's email address of record, a date served, a signature of the person serving, and an acceptance block for the district attorney.",
+      "consequence": "Every field of it is left blank and classified protected, on the completeness contract's own ground that a certificate of mailing before mailing has happened must remain blank. The instructions tell the participant to serve FIRST and complete it after, and state that the 30-day hearing clock in the form's own NOTE TO CLERK runs from the date they write there."
+    },
+    {
+      "finding": "PARAGRAPH 2's TWO BRANCHES are a case characterization rather than a route election. The ten-year and twenty-year tiers turn on how many nonviolent felony convictions the participant has and whether any were disposed in the same session of court; the committed track registry records that the same-session question can move a petitioner between tiers or between ineligible and eligible, and names it as a point where self-help stops.",
+      "consequence": "Both boxes are classified as genuine participant elections with that reason stated, and neither is ticked. The route determines the statute and the instrument, and states both; it does not determine how many felonies a person has."
+    },
+    {
+      "finding": "PetitionerMailAddress, the second line of the petitioner's address block, binds participant.street_address exactly as PetitionerStreetAddress does.",
+      "consequence": "Refused by role. The platform holds one street address and writes it once; filling both would print the same street address twice on the face of the petition."
+    },
+    {
+      "finding": "AOC-CV-226's \"Full Permanent Mailing Address Of Applicant (if different than above)\" block binds the participant's address, because the form's printed ligature comes through as \"di(uerent\" and the shared if-different refusal therefore does not fire.",
+      "consequence": "The whole block is refused by role, so the address is never written into the block that exists for a DIFFERENT one. That leaves the Street Number And Street Name line above it to the participant: it binds nothing either, since no descriptor matches its printed caption. Identical to the finding the dismissal family records against the same binary."
+    },
+    {
+      "finding": "FEE_AND_WAIVER, tested against A1-A4. The committed packet-set manifest is a held source under A2 and answers with a figure: \"$175 per petition\", with the indigency waiver on AOC-CV-226. The form's own caption carries the same warning.",
+      "consequence": "The packet states the amount, carries the waiver instrument, states separately that G.S. 15A-150 expunction costs are not taxed against the petitioner, and draws attention to the words \"per petition\" where G.S. 15A-145.5(c4) may mean petitions in more than one county. Per A4 nothing in the packet says it does not state an amount, because it does state one."
+    },
+    {
+      "finding": "THE AFFIDAVITS THE PETITION CERTIFIES ARE ATTACHED ARE NOT IN THIS PACKET. Paragraph 3 certifies that the affidavits required by G.S. 15A-145.5(c1) are attached; they are third parties' sworn statements of good character. The packet-set manifest carries a good_character_affidavit_request component with outputStrategy process_guidance, and two further process_guidance components — record_gathering_guidance and filing_and_followthrough_guidance — that this build does not render as separate documents.",
+      "consequence": "All three are carried in participant-instructions.md, and the absence of the affidavits is stated in terms rather than left to be discovered at the clerk's counter. A document mapped and not rendered is a missing companion form; a process-guidance component rendered as guidance is not."
+    },
+    {
+      "finding": "SOURCE RESOLUTION. All three of this family's binaries appear TWICE in the committed corpus index at the same SHA-256 — once under master_library and once under d_source_packs, a pinned release this container does not carry.",
+      "consequence": "This build resolves an index entry by preferring one whose bytes are present AND hash to the pinned digest, rather than taking the first entry that carries the hash. The binding is still exact SHA-256 and the receipt records which custody supplied the bytes."
+    }
+  ]
+}
