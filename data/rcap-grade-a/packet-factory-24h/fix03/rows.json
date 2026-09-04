@@ -305,6 +305,118 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "2a44668e7f912c16739d7f3a70f7be5af0d2fb00",
+      "dispatchGeneratedAtBase": "d75d00dfc4c778ffef1bbe2df72ba5aa8d325fa6",
+      "stopClass": "PROHIBITED_PATH_CONFLICT",
+      "claim": {
+        "assertion": "CLAIM_OK FIX03 oh_marijuana_expungement-set (repair, grant set b524d9f534bce1bc)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "obligationsAssigned": [
+        "ARTIFACTS",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "whyStopped": "FIX03.md simultaneously grants the exact Ohio family directory under Owned paths and forbids data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set* under Never write here. The existing FIX03 return applies PROHIBITED_PATH_CONFLICT to an identical owned/prohibited collision. Repairing all six obligations requires changing that exact directory, so the never-write rule controls and no durable repair is committed.",
+      "reproducedDefects": {
+        "missingDeclaredCompanion": "companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
+        "incompletePacketComponents": "1 of 5 held components bound",
+        "participantGuidanceOmissions": [
+          "BCI case comparison and charging-document comparison",
+          "$50 fee or indigency showing",
+          "court notice and prosecutor objection",
+          "all nine held self-help stop conditions"
+        ],
+        "focusedCompletenessBlindSpot": "PASS_COMPLETE 6/14 written with all nine counters zero before any output repair"
+      },
+      "whatThisLaneDid": "Claimed the family, passed the exact 14/14 preflight, reproduced the six dispatched failures, and restored every exploratory family/builder change after the prohibited-path collision was identified. No Ohio family or builder byte remains changed.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredByThisLane": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "2a44668e7f912c16739d7f3a70f7be5af0d2fb00",
+      "rowStopReason": "BLOCKED_BEFORE_CLAIM",
+      "claim": {
+        "assertion": "ALREADY_RELEASED: composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 at 2026-09-04T00:03:48.301Z",
+        "assertExitCode": 9,
+        "assertedBeforeArtifactRead": true,
+        "releasedBeforeThisLane": true
+      },
+      "obligationsAssignedFromControlPlane": [
+        "ARTIFACTS"
+      ],
+      "obligationsRepaired": [],
+      "whyStopped": "The exact FIX03 claim was already released at the authoritative base. The lane therefore read no Alaska family artifact or builder and made no Alaska change.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasurementBasis": "Current MASTER_QUEUE control-plane row only; no artifact was read after claim refusal.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "tx_exp_acquittal-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "2a44668e7f912c16739d7f3a70f7be5af0d2fb00",
+      "rowStopReason": "BLOCKED_BEFORE_CLAIM",
+      "claim": {
+        "assertion": "ALREADY_RELEASED: tx_exp_acquittal-set at 2026-09-03T23:53:21.163Z",
+        "assertExitCode": 9,
+        "assertedBeforeArtifactRead": true,
+        "releasedBeforeThisLane": true
+      },
+      "obligationsAssignedFromControlPlane": [],
+      "obligationsRepaired": [],
+      "whyStopped": "The exact FIX03 claim was already released at the authoritative base. The lane therefore read no Texas family artifact or builder and made no Texas change. The current MASTER_QUEUE row carries no failed-obligation name, so this return does not invent one.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasurementBasis": "Current MASTER_QUEUE control-plane row only; no artifact was read after claim refusal.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "reportedNotRepaired": [
@@ -546,5 +658,21 @@
         }
       ]
     }
+  },
+  "fix03Captain2a446Append": {
+    "worker": "FIX03 rapid repair",
+    "authoritativeBase": "2a44668e7f912c16739d7f3a70f7be5af0d2fb00",
+    "dispatchGeneratedAtBase": "d75d00dfc4c778ffef1bbe2df72ba5aa8d325fa6",
+    "claimGrantSet": "b524d9f534bce1bc",
+    "tally": {
+      "COMPLETED": 0,
+      "STOPPED": 3
+    },
+    "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+    "priorRowsPreserved": true,
+    "selfVerified": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "scopeConflict": "The prompt's exact Ohio owned path is also on its Never write list; no Ohio family or builder change remains."
   }
 }
