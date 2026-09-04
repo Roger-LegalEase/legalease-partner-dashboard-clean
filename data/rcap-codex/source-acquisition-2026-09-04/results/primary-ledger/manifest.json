@@ -1,0 +1,1325 @@
+{
+  "schemaVersion": "rcap-targeted-source-acquisition-manifest/v1",
+  "batchId": "source-acquisition-28-families-2026-09-04",
+  "requestedAt": "2026-09-04T00:00:00-04:00",
+  "purpose": "Acquire and currentness-check the original issuer bytes for the 28 substantive acquisition/currentness families supplied by the owner. Deduplicate shared documents, preserve local scope, and record exact source receipts.",
+  "familyCount": 28,
+  "familyIds": [
+    "mo-575-120-identity-theft-correction-set",
+    "mo-610-122-arrest-expungement-set",
+    "mo-610-140-arrest-set",
+    "mo-610-140-conviction-set",
+    "mo-art-xiv-marijuana-set",
+    "rcap-mo-custom-pleading",
+    "mo-610-145-mistaken-identity-set",
+    "de_discretionary_family_court-set",
+    "de_discretionary_superior_court-set",
+    "de_mandatory_expungement-set",
+    "de_pardon_expungement-set",
+    "ma-expunge-k-set",
+    "ma-seal-admin-set",
+    "ma-seal-court-set",
+    "ma-seal-decrim-set",
+    "ky_nonconviction_expungement-set",
+    "ky_protective_order_record_expungement-set",
+    "me-seal-gen-set",
+    "me-seal-survivor-set",
+    "wv_acc_treatment_job_readiness-set",
+    "wv_conv_nonviolent_felony-set",
+    "ca-diversion-seal-set",
+    "co_municipal_conviction_seal-set",
+    "ga-nonconv-pre2013-set",
+    "mt_mmrta_completed-set",
+    "mt_mmrta_serving-set",
+    "nd-regular-pardon-set",
+    "tx_nd_dwi_conviction-set"
+  ],
+  "distinctSourceCount": 34,
+  "requiredDistinctSourceCount": 33,
+  "custodyInstruction": "Workflow artifact only until identity/currentness review; then copy the artifact unchanged into owner-only Drive custody. Do not commit acquired binaries to the public repository.",
+  "rules": [
+    "Save issuer-original binary bytes; never print a webpage to PDF.",
+    "One acquisition per distinct document; bind the same hash to every covered family.",
+    "Never silently substitute another form number or a post-2013 process for the Georgia pre-2013 request.",
+    "Reject redirects outside the source's approved official host suffixes.",
+    "A local court mirror may clear an issuer source only when its hash exactly matches a pinned issuer copy.",
+    "Currentness, supersession, and route use remain review decisions even after bytes are acquired."
+  ],
+  "sources": [
+    {
+      "sourceId": "MO-FI-05",
+      "jurisdiction": "MO",
+      "familyIds": [
+        "mo-575-120-identity-theft-correction-set",
+        "mo-610-122-arrest-expungement-set",
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set",
+        "mo-art-xiv-marijuana-set",
+        "rcap-mo-custom-pleading"
+      ],
+      "repositorySourceLabels": [
+        "FI-05"
+      ],
+      "issuingAuthority": "Missouri Courts / Office of State Courts Administrator",
+      "officialLandingPages": [
+        "https://www.courts.mo.gov/page.jsp?id=191585",
+        "https://www.courts.mo.gov/page.jsp"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.courts.mo.gov/file.jsp?id=34052",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.courts.mo.gov/page.jsp?id=191585"
+        },
+        {
+          "url": "https://stlcountycourts.com/forms/associate-civil/confidential-case-filing-information-sheet/",
+          "kind": "official_local_court_mirror",
+          "acceptOnlyIfExpectedHashMatches": true
+        }
+      ],
+      "expectedPrintedTitle": "Confidential Case Filing Information Sheet – Non-Domestic Relations",
+      "expectedPrintedFormNumber": "FI-05",
+      "expectedRevisionOrEffectiveDate": "SJRC (04-23); attached Case Types List SJRC (07-23)",
+      "expectedSha256": [
+        "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e"
+      ],
+      "scope": "Missouri statewide court form",
+      "relationship": "Shared confidential filing-information component; one acquired file binds to six families.",
+      "notes": [
+        "Do not re-download per family. The local-court mirror is acceptable only if its bytes match the pinned OSCA hash."
+      ],
+      "allowedHostSuffixes": [
+        ".courts.mo.gov",
+        "stlcountycourts.com"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MO-CR301",
+      "jurisdiction": "MO",
+      "familyIds": [
+        "mo-610-145-mistaken-identity-set"
+      ],
+      "repositorySourceLabels": [
+        "CR301"
+      ],
+      "issuingAuthority": "Missouri Courts / Office of State Courts Administrator",
+      "officialLandingPages": [
+        "https://www.courts.mo.gov/page.jsp?id=191585",
+        "https://www.16thcircuit.org/miscellaneous-forms"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.courts.mo.gov/file.jsp?id=116396",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.16thcircuit.org/miscellaneous-forms"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Expungement – Mistaken Identity",
+      "expectedPrintedFormNumber": "CR301",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8"
+      ],
+      "scope": "Missouri statewide court form",
+      "relationship": "Standalone petition.",
+      "notes": [
+        "Do not substitute CR310, CR311, CR360, or another criminal form."
+      ],
+      "allowedHostSuffixes": [
+        ".courts.mo.gov",
+        ".16thcircuit.org"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-FORM-281",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_discretionary_family_court-set"
+      ],
+      "repositorySourceLabels": [
+        "FORM-281"
+      ],
+      "issuingAuthority": "Delaware Family Court / Delaware Courts",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.delaware.gov/forms/download.aspx?id=386",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Petition For Expungement of Adult Record",
+      "expectedPrintedFormNumber": "281",
+      "expectedRevisionOrEffectiveDate": "11/26/2025",
+      "expectedSha256": [],
+      "scope": "Delaware statewide Family Court",
+      "relationship": "Standalone parent petition.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-FORM-281E",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_discretionary_family_court-set"
+      ],
+      "repositorySourceLabels": [
+        "FORM-281E"
+      ],
+      "issuingAuthority": "Delaware Family Court / Delaware Courts",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.delaware.gov/forms/download.aspx?id=107268",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Adult Expungement Charge Extension Sheet",
+      "expectedPrintedFormNumber": "281E",
+      "expectedRevisionOrEffectiveDate": "09/21/2018",
+      "expectedSha256": [],
+      "scope": "Delaware statewide Family Court",
+      "relationship": "Continuation/charge-extension sheet to Form 281; not a standalone initiating filing.",
+      "notes": [
+        "Verify continuation relationship from the issuer file itself."
+      ],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-CIV-EXP-02-A",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_discretionary_superior_court-set",
+        "de_pardon_expungement-set"
+      ],
+      "repositorySourceLabels": [
+        "CIV_EXP_02_A"
+      ],
+      "issuingAuthority": "Delaware Superior Court / Delaware Courts",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.delaware.gov/forms/download.aspx?id=118538",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Expungement Petition Form",
+      "expectedPrintedFormNumber": "CIV_EXP_02_A",
+      "expectedRevisionOrEffectiveDate": "06/12/2024",
+      "expectedSha256": [],
+      "scope": "Delaware statewide Superior Court",
+      "relationship": "Shared parent petition; acquire once and bind to two families.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-CIV-EXP-02-B",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_discretionary_superior_court-set"
+      ],
+      "repositorySourceLabels": [
+        "CIV_EXP_02_B"
+      ],
+      "issuingAuthority": "Delaware Superior Court / Delaware Courts",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.delaware.gov/forms/download.aspx?id=164808",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Expungement Petition Form Additional Charges Extension Sheet",
+      "expectedPrintedFormNumber": "CIV_EXP_02_B",
+      "expectedRevisionOrEffectiveDate": "06/12/2024",
+      "expectedSha256": [],
+      "scope": "Delaware statewide Superior Court",
+      "relationship": "Continuation/additional-charges sheet to CIV_EXP_02_A.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-CIV-EXP-04-A",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_discretionary_superior_court-set"
+      ],
+      "repositorySourceLabels": [
+        "CIV_EXP_04_A"
+      ],
+      "issuingAuthority": "Delaware Superior Court / Delaware Courts",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.delaware.gov/forms/download.aspx?id=118518",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Expungement Order Granting Form",
+      "expectedPrintedFormNumber": "CIV_EXP_04_A",
+      "expectedRevisionOrEffectiveDate": "05/29/2024",
+      "expectedSha256": [],
+      "scope": "Delaware statewide Superior Court",
+      "relationship": "Proposed/granting-order component.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-CIV-EXP-08-A",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_pardon_expungement-set"
+      ],
+      "repositorySourceLabels": [
+        "CIV_EXP_08_A"
+      ],
+      "issuingAuthority": "Delaware Superior Court / Delaware Courts",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.delaware.gov/forms/download.aspx?id=119268",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Expungement New Order Granting after Pardon",
+      "expectedPrintedFormNumber": "CIV_EXP_08_A",
+      "expectedRevisionOrEffectiveDate": "05/30/2024",
+      "expectedSha256": [],
+      "scope": "Delaware statewide Superior Court",
+      "relationship": "Granting-order component for pardon-based expungement.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-SBI-MANDATORY",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_mandatory_expungement-set"
+      ],
+      "repositorySourceLabels": [
+        "DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION"
+      ],
+      "issuingAuthority": "Delaware State Police, State Bureau of Identification",
+      "officialLandingPages": [
+        "https://dsp.delaware.gov/expungements/",
+        "https://dsp.delaware.gov/units/"
+      ],
+      "candidates": [
+        {
+          "url": "https://dsp.delaware.gov/expungements/",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)(mandatory|adult).*(expung|criminal history)|(expung|criminal history).*(application|request)",
+          "hrefRegex": "(?i)\\.(pdf|docx?|rtf)(\\?|$)"
+        },
+        {
+          "url": "https://dsp.delaware.gov/units/",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)expung|criminal history",
+          "hrefRegex": "(?i)\\.(pdf|docx?|rtf)(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": null,
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Delaware statewide SBI administrative process",
+      "relationship": "Agency application, if the issuer currently publishes a distinct downloadable application.",
+      "notes": [
+        "Repository label is descriptive. Capture the issuer's actual title and form number.",
+        "If no downloadable application exists, record that current official SBI pages do not expose a public binary; do not invent or substitute a court petition."
+      ],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MA-PETITION-EXPUNGEMENT-100K",
+      "jurisdiction": "MA",
+      "familyIds": [
+        "ma-expunge-k-set"
+      ],
+      "repositorySourceLabels": [
+        "Petition for Expungement, G.L. c. 276, § 100K"
+      ],
+      "issuingAuthority": "Massachusetts Court System / Massachusetts Probation Service",
+      "officialLandingPages": [
+        "https://www.mass.gov/how-to/request-a-non-time-based-expungement-of-your-criminal-record",
+        "https://www.mass.gov/lists/court-forms-for-criminal-records"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.mass.gov/how-to/request-a-non-time-based-expungement-of-your-criminal-record",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)^\\s*Petition for Expungement Form(?:\\s*\\(|\\s*$)",
+          "excludeTextRegex": "(?i)marijuana|time-based"
+        },
+        {
+          "url": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)^\\s*Petition for Expungement Form(?:\\s*\\(|\\s*$)",
+          "excludeTextRegex": "(?i)marijuana|time-based"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Expungement Form",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": "12/20/2018",
+      "expectedSha256": [],
+      "scope": "Massachusetts statewide court form",
+      "relationship": "Standalone non-time-based § 100K petition.",
+      "notes": [
+        "Do not substitute the time-based Petition to Expunge or the marijuana-offense petition under § 100K¼."
+      ],
+      "allowedHostSuffixes": [
+        ".mass.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MA-PETITION-TO-SEAL",
+      "jurisdiction": "MA",
+      "familyIds": [
+        "ma-seal-admin-set",
+        "ma-seal-decrim-set"
+      ],
+      "repositorySourceLabels": [
+        "Petition to Seal"
+      ],
+      "issuingAuthority": "Office of the Commissioner of Probation / Massachusetts Probation Service",
+      "officialLandingPages": [
+        "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "https://www.mass.gov/how-to/request-to-seal-your-criminal-record"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)^\\s*Petition to Seal Form(?:\\s*\\(|\\s*$)",
+          "excludeTextRegex": "(?i)nolle|dismissal"
+        },
+        {
+          "url": "https://www.mass.gov/how-to/request-to-seal-your-criminal-record",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)Petition to seal conviction records|Petition to Seal Form",
+          "excludeTextRegex": "(?i)nolle|dismissal"
+        }
+      ],
+      "expectedPrintedTitle": "Petition to Seal Form",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": "04/2012",
+      "expectedSha256": [],
+      "scope": "Massachusetts statewide administrative sealing process",
+      "relationship": "Shared parent form. Part A, box 4 is a route election for decriminalized conduct, not a separate PDF.",
+      "notes": [
+        "Acquire once if bytes are identical for the administrative and decriminalized families."
+      ],
+      "allowedHostSuffixes": [
+        ".mass.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MA-TC0057",
+      "jurisdiction": "MA",
+      "familyIds": [
+        "ma-seal-court-set"
+      ],
+      "repositorySourceLabels": [
+        "TC0057"
+      ],
+      "issuingAuthority": "Massachusetts Trial Court",
+      "officialLandingPages": [
+        "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "https://www.mass.gov/how-to/request-to-seal-your-criminal-record"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)Petition to Seal Criminal Records for Nolle Prosequi or Dismissal"
+        },
+        {
+          "url": "https://www.mass.gov/how-to/request-to-seal-your-criminal-record",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)Petition to Seal Criminal Records for Nolle Prosequi or Dismissal"
+        }
+      ],
+      "expectedPrintedTitle": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal",
+      "expectedPrintedFormNumber": "TC0057",
+      "expectedRevisionOrEffectiveDate": "03/2024",
+      "expectedSha256": [],
+      "scope": "Massachusetts Trial Court, statewide",
+      "relationship": "Standalone court petition for nolle prosequi/dismissal cases.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".mass.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "KY-AOC-497",
+      "jurisdiction": "KY",
+      "familyIds": [
+        "ky_nonconviction_expungement-set"
+      ],
+      "repositorySourceLabels": [
+        "AOC-497"
+      ],
+      "issuingAuthority": "Kentucky Court of Justice",
+      "officialLandingPages": [
+        "https://www.kycourts.gov/Legal-Forms/Pages/default.aspx"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.pdf",
+          "kind": "direct_binary"
+        },
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Pages/default.aspx",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)AOC[- ]?497\\b",
+          "excludeTextRegex": "(?i)497\\.2"
+        }
+      ],
+      "expectedPrintedTitle": "Expungement Order (for Acquittal, Dismissal, or Failure to Indict)",
+      "expectedPrintedFormNumber": "AOC-497",
+      "expectedRevisionOrEffectiveDate": "07/2020",
+      "expectedSha256": [],
+      "scope": "Kentucky statewide court form",
+      "relationship": "Order component corresponding to AOC-497.2.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".kycourts.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "KY-AOC-497.2",
+      "jurisdiction": "KY",
+      "familyIds": [
+        "ky_nonconviction_expungement-set"
+      ],
+      "repositorySourceLabels": [
+        "AOC-497.2"
+      ],
+      "issuingAuthority": "Kentucky Court of Justice",
+      "officialLandingPages": [
+        "https://www.kycourts.gov/Legal-Forms/Pages/default.aspx"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.2.pdf",
+          "kind": "direct_binary"
+        },
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Pages/default.aspx",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)AOC[- ]?497\\.2"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Expungement (for Acquittal, Dismissal, or Failure to Indict)",
+      "expectedPrintedFormNumber": "AOC-497.2",
+      "expectedRevisionOrEffectiveDate": "07/2020",
+      "expectedSha256": [],
+      "scope": "Kentucky statewide court form",
+      "relationship": "Standalone petition; AOC-497 is its order component.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".kycourts.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "KY-AOC-275.18",
+      "jurisdiction": "KY",
+      "familyIds": [
+        "ky_protective_order_record_expungement-set"
+      ],
+      "repositorySourceLabels": [
+        "AOC-275.18"
+      ],
+      "issuingAuthority": "Kentucky Court of Justice",
+      "officialLandingPages": [
+        "https://www.kycourts.gov/Legal-Forms/Pages/default.aspx"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/275.18.pdf",
+          "kind": "direct_binary"
+        },
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Pages/default.aspx",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)AOC[- ]?275\\.18"
+        }
+      ],
+      "expectedPrintedTitle": "Motion for Expungement of Emergency/Temporary Order of Protection",
+      "expectedPrintedFormNumber": "AOC-275.18",
+      "expectedRevisionOrEffectiveDate": "01/2016",
+      "expectedSha256": [],
+      "scope": "Kentucky statewide court form",
+      "relationship": "Standalone motion.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".kycourts.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "ME-CR-218",
+      "jurisdiction": "ME",
+      "familyIds": [
+        "me-seal-gen-set"
+      ],
+      "repositorySourceLabels": [
+        "CR-218"
+      ],
+      "issuingAuthority": "Maine Judicial Branch",
+      "officialLandingPages": [
+        "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index"
+      ],
+      "candidates": [
+        {
+          "url": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)^\\s*CR-218\\s*$",
+          "hrefRegex": "(?i)CR-218|Form"
+        }
+      ],
+      "expectedPrintedTitle": "Motion to Seal Criminal History",
+      "expectedPrintedFormNumber": "CR-218",
+      "expectedRevisionOrEffectiveDate": "07/01/2024",
+      "expectedSha256": [],
+      "scope": "Maine statewide court form",
+      "relationship": "Standalone motion.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".maine.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "ME-CR-307",
+      "jurisdiction": "ME",
+      "familyIds": [
+        "me-seal-survivor-set"
+      ],
+      "repositorySourceLabels": [
+        "CR-307"
+      ],
+      "issuingAuthority": "Maine Judicial Branch",
+      "officialLandingPages": [
+        "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index"
+      ],
+      "candidates": [
+        {
+          "url": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)^\\s*CR-307\\s*$",
+          "hrefRegex": "(?i)CR-307|Form"
+        },
+        {
+          "url": "https://www.courts.maine.gov/help/criminal/sealing-victims.html",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)CR-307|Motion to Seal Conviction"
+        }
+      ],
+      "expectedPrintedTitle": "Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation",
+      "expectedPrintedFormNumber": "CR-307",
+      "expectedRevisionOrEffectiveDate": "Effective 07/29/2026; revision 06/01/2026",
+      "expectedSha256": [
+        "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1"
+      ],
+      "scope": "Maine statewide court form",
+      "relationship": "Standalone motion.",
+      "notes": [
+        "The family-level expected hash is ambiguous between CR-307 and CR-308; compare both and report which, if either, matches."
+      ],
+      "allowedHostSuffixes": [
+        ".maine.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "ME-CR-308",
+      "jurisdiction": "ME",
+      "familyIds": [
+        "me-seal-survivor-set"
+      ],
+      "repositorySourceLabels": [
+        "CR-308"
+      ],
+      "issuingAuthority": "Maine Judicial Branch",
+      "officialLandingPages": [
+        "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index"
+      ],
+      "candidates": [
+        {
+          "url": "https://mjbportal.courts.maine.gov/CourtForms/FormsLists/Index",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)^\\s*CR-308\\s*$",
+          "hrefRegex": "(?i)CR-308|Form"
+        },
+        {
+          "url": "https://www.courts.maine.gov/help/criminal/sealing-victims.html",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)CR-308|Order on Motion"
+        }
+      ],
+      "expectedPrintedTitle": "Order on Motion to Seal Conviction of Criminal History for Victims of Sex Trafficking or Sexual Exploitation",
+      "expectedPrintedFormNumber": "CR-308",
+      "expectedRevisionOrEffectiveDate": "Effective 07/29/2026; revision 06/01/2026",
+      "expectedSha256": [
+        "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1"
+      ],
+      "scope": "Maine statewide court form",
+      "relationship": "Order component.",
+      "notes": [
+        "The family-level expected hash is ambiguous between CR-307 and CR-308; compare both and report which, if either, matches."
+      ],
+      "allowedHostSuffixes": [
+        ".maine.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "WV-SCA-C906",
+      "jurisdiction": "WV",
+      "familyIds": [
+        "wv_acc_treatment_job_readiness-set"
+      ],
+      "repositorySourceLabels": [
+        "SCA-C906"
+      ],
+      "issuingAuthority": "Supreme Court of Appeals of West Virginia / West Virginia Judiciary",
+      "officialLandingPages": [
+        "https://www.courtswv.gov/node/598"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.courtswv.gov/node/598",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)SCA[- ]?C906|Petition for Expungement of Misdemeanor",
+          "hrefRegex": "(?i)\\.pdf(\\?|$)|C906"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Expungement of Misdemeanor Violations and Traffic Citations",
+      "expectedPrintedFormNumber": "SCA-C906",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222"
+      ],
+      "scope": "West Virginia statewide court form",
+      "relationship": "Standalone petition.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".courtswv.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "WV-SCA-C907",
+      "jurisdiction": "WV",
+      "familyIds": [
+        "wv_acc_treatment_job_readiness-set",
+        "wv_conv_nonviolent_felony-set"
+      ],
+      "repositorySourceLabels": [
+        "SCA-C907"
+      ],
+      "issuingAuthority": "Supreme Court of Appeals of West Virginia / West Virginia Judiciary",
+      "officialLandingPages": [
+        "https://www.courtswv.gov/node/599"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.courtswv.gov/node/599",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)SCA[- ]?C907|Petition for Expungement of Felony",
+          "hrefRegex": "(?i)\\.pdf(\\?|$)|C907"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Expungement of Felony Violations",
+      "expectedPrintedFormNumber": "SCA-C907",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c"
+      ],
+      "scope": "West Virginia statewide court form",
+      "relationship": "Shared standalone petition; acquire once and bind to two families.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".courtswv.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "CA-SDSC-CRM-307",
+      "jurisdiction": "CA",
+      "familyIds": [
+        "ca-diversion-seal-set"
+      ],
+      "repositorySourceLabels": [
+        "SDSC-CRM-307"
+      ],
+      "issuingAuthority": "Superior Court of California, County of San Diego",
+      "officialLandingPages": [
+        "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalforms"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.sdcourt.ca.gov/sdcourt/criminal2/criminalforms",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)CRM[- ]?307|Petition for Sealing of Arrest Records After Successful Completion",
+          "hrefRegex": "(?i)CRM[-_ ]?307|\\.pdf(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Sealing of Arrest Records After Successful Completion of Pen. Code § 851.90 Diversion or Deferred Entry of Judgment",
+      "expectedPrintedFormNumber": "SDSC CRM-307",
+      "expectedRevisionOrEffectiveDate": "New 05/2019",
+      "expectedSha256": [],
+      "scope": "San Diego County Superior Court local form",
+      "relationship": "Standalone county-local petition.",
+      "notes": [
+        "Do not bind this source as a statewide California form."
+      ],
+      "allowedHostSuffixes": [
+        ".sdcourt.ca.gov",
+        ".ca.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "CO-JDF-683",
+      "jurisdiction": "CO",
+      "familyIds": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "repositorySourceLabels": [
+        "JDF-683"
+      ],
+      "issuingAuthority": "Colorado Judicial Branch",
+      "officialLandingPages": [
+        "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/petition-seal-municipal-conviction-records"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/petition-seal-municipal-conviction-records",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)JDF\\s*683.*PDF|JDF683\\.pdf",
+          "hrefRegex": "(?i)JDF[-_ ]?683.*\\.pdf|\\.pdf(\\?|$)",
+          "preferExtension": ".pdf"
+        }
+      ],
+      "expectedPrintedTitle": "Petition to Seal Municipal Conviction Records",
+      "expectedPrintedFormNumber": "JDF 683",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Colorado statewide Judicial Branch form",
+      "relationship": "Standalone petition.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".coloradojudicial.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "CO-JDF-684",
+      "jurisdiction": "CO",
+      "familyIds": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "repositorySourceLabels": [
+        "JDF-684"
+      ],
+      "issuingAuthority": "Colorado Judicial Branch",
+      "officialLandingPages": [
+        "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-seal-criminal-conviction-municipal-records"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-seal-criminal-conviction-municipal-records",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)JDF\\s*684.*PDF|JDF684\\.pdf",
+          "hrefRegex": "(?i)JDF[-_ ]?684.*\\.pdf|\\.pdf(\\?|$)",
+          "preferExtension": ".pdf"
+        }
+      ],
+      "expectedPrintedTitle": "Order Denying Seal Criminal Conviction Municipal Records",
+      "expectedPrintedFormNumber": "JDF 684",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Colorado statewide Judicial Branch form",
+      "relationship": "Denial-order component; not the granting/proposed sealing order.",
+      "notes": [
+        "Current issuer identity indicates JDF 684 is a denial order. Confirm whether the repository incorrectly treats it as the corresponding proposed order."
+      ],
+      "allowedHostSuffixes": [
+        ".coloradojudicial.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "CO-JDF-686-RECONCILIATION",
+      "jurisdiction": "CO",
+      "familyIds": [
+        "co_municipal_conviction_seal-set"
+      ],
+      "repositorySourceLabels": [
+        "JDF-686"
+      ],
+      "issuingAuthority": "Colorado Judicial Branch",
+      "officialLandingPages": [
+        "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-seal-criminal-conviction-municipal-records"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-seal-criminal-conviction-municipal-records",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)JDF\\s*686.*PDF|JDF686\\.pdf",
+          "hrefRegex": "(?i)JDF[-_ ]?686.*\\.pdf|\\.pdf(\\?|$)",
+          "preferExtension": ".pdf"
+        }
+      ],
+      "expectedPrintedTitle": "Order to Seal Municipal Conviction Records",
+      "expectedPrintedFormNumber": "JDF 686",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Colorado statewide Judicial Branch form",
+      "relationship": "Current granting/sealing-order component used to reconcile the JDF-684 identity question.",
+      "notes": [
+        "Reconciliation-only source added because JDF 684 is the denial order."
+      ],
+      "allowedHostSuffixes": [
+        ".coloradojudicial.gov"
+      ],
+      "requiredForUserBatch": false,
+      "reconciliationOnly": true
+    },
+    {
+      "sourceId": "GA-GCIC-PRE-2013-RESTRICTION-REQUEST",
+      "jurisdiction": "GA",
+      "familyIds": [
+        "ga-nonconv-pre2013-set"
+      ],
+      "repositorySourceLabels": [
+        "GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013"
+      ],
+      "issuingAuthority": "Georgia Bureau of Investigation / Georgia Crime Information Center",
+      "officialLandingPages": [
+        "https://gbi.georgia.gov/services/georgia-criminal-history-record-restrictions"
+      ],
+      "candidates": [
+        {
+          "url": "https://gbi.georgia.gov/services/georgia-criminal-history-record-restrictions",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)Request to Restrict Arrest Record Instructions and Request Form|before July 1, 2013",
+          "hrefRegex": "(?i)\\.pdf(\\?|$)|restrict.*arrest"
+        }
+      ],
+      "expectedPrintedTitle": "Request to Restrict Arrest Record Instructions and Request Form",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Georgia statewide GCIC process for arrests before July 1, 2013",
+      "relationship": "Combined instructions and agency request form.",
+      "notes": [
+        "Do not substitute the post-July 1, 2013 prosecutor process."
+      ],
+      "allowedHostSuffixes": [
+        ".georgia.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MT-MMRTA-FORM-A",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_serving-set"
+      ],
+      "repositorySourceLabels": [
+        "MT-FORM-A"
+      ],
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialLandingPages": [
+        "https://courts.mt.gov/Forms/mmrta"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.mt.gov/Forms/mmrta",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)MMRTA\\s*FORM\\s*A|Form A.*Petition for Expungement",
+          "hrefRegex": "(?i)form[-_ ]?a|\\.docx?(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving)",
+      "expectedPrintedFormNumber": "MMRTA Form A",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d"
+      ],
+      "scope": "Montana statewide court form",
+      "relationship": "Standalone petition for a person currently serving a sentence.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".mt.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MT-MMRTA-FORM-B",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_completed-set"
+      ],
+      "repositorySourceLabels": [
+        "MT-FORM-B"
+      ],
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialLandingPages": [
+        "https://courts.mt.gov/Forms/mmrta"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.mt.gov/Forms/mmrta",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)MMRTA\\s*FORM\\s*B|Form B.*Petition for Expungement",
+          "hrefRegex": "(?i)form[-_ ]?b|\\.docx?(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "MMRTA Form B — Petition for Expungement or Redesignation (completed sentence)",
+      "expectedPrintedFormNumber": "MMRTA Form B",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207"
+      ],
+      "scope": "Montana statewide court form",
+      "relationship": "Standalone petition for a completed sentence.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".mt.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MT-MMRTA-PROPOSED-ORDER",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_completed-set",
+        "mt_mmrta_serving-set"
+      ],
+      "repositorySourceLabels": [
+        "MT-OCA-MMRTA"
+      ],
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialLandingPages": [
+        "https://courts.mt.gov/Forms/mmrta"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.mt.gov/Forms/mmrta",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)Proposed Order.*(Expungement|Resentencing|Redesignation)|^\\s*Proposed Order\\s*$",
+          "hrefRegex": "(?i)order|\\.docx?(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e"
+      ],
+      "scope": "Montana statewide court form",
+      "relationship": "Shared proposed-order component.",
+      "notes": [
+        "Repository document ID MT-OCA-MMRTA collides with the Certificate of Service; preserve distinct issuer names and hashes."
+      ],
+      "allowedHostSuffixes": [
+        ".mt.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MT-MMRTA-CERTIFICATE-OF-SERVICE",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_completed-set",
+        "mt_mmrta_serving-set"
+      ],
+      "repositorySourceLabels": [
+        "MT-OCA-MMRTA"
+      ],
+      "issuingAuthority": "Montana Office of the Court Administrator",
+      "officialLandingPages": [
+        "https://courts.mt.gov/Forms/mmrta"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.mt.gov/Forms/mmrta",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)MMRTA.*Certificate of Service|Certificate of Service.*MMRTA|^\\s*Certificate of Service",
+          "hrefRegex": "(?i)certificate|service|\\.docx?(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "Certificate of Service — MMRTA Petition",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+      ],
+      "scope": "Montana statewide court form",
+      "relationship": "Shared certificate-of-service component.",
+      "notes": [
+        "Repository document ID MT-OCA-MMRTA collides with the Proposed Order; preserve distinct issuer names and hashes."
+      ],
+      "allowedHostSuffixes": [
+        ".mt.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MT-DOJ-CRISS-REMOVAL-REQUEST",
+      "jurisdiction": "MT",
+      "familyIds": [
+        "mt_mmrta_completed-set",
+        "mt_mmrta_serving-set"
+      ],
+      "repositorySourceLabels": [
+        "EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+      ],
+      "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation, CRISS",
+      "officialLandingPages": [
+        "https://dojmt.gov/dci-home/conviction-expungement-process/",
+        "https://courts.mt.gov/Forms/mmrta"
+      ],
+      "candidates": [
+        {
+          "url": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Expungement/Removal Request Form",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": "Updated 04/29/2024",
+      "expectedSha256": [
+        "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7"
+      ],
+      "scope": "Montana statewide DOJ/CRISS administrative process",
+      "relationship": "Second-stage agency request form.",
+      "notes": [
+        "Preserve the actual state-issued filename and title."
+      ],
+      "allowedHostSuffixes": [
+        ".mt.gov",
+        "dojmt.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "ND-SFN-14859",
+      "jurisdiction": "ND",
+      "familyIds": [
+        "nd-regular-pardon-set"
+      ],
+      "repositorySourceLabels": [
+        "SFN 14859"
+      ],
+      "issuingAuthority": "North Dakota Pardon Advisory Board / North Dakota Department of Corrections and Rehabilitation",
+      "officialLandingPages": [
+        "https://www.docr.nd.gov/pardon-advisory-board"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.docr.nd.gov/sites/default/files/documents/parole_pardon/Pardon/Applications/North%20Dakota%20Pardon%20Advisory%20Board%20Application%20(1).pdf",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.docr.nd.gov/pardon-advisory-board"
+        },
+        {
+          "url": "https://www.docr.nd.gov/pardon-advisory-board",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)Pardon Advisory Board application|SFN\\s*14859",
+          "hrefRegex": "(?i)\\.pdf(\\?|$)|Application"
+        }
+      ],
+      "expectedPrintedTitle": "North Dakota Pardon Advisory Board Application",
+      "expectedPrintedFormNumber": "SFN 14859",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "North Dakota statewide pardon process",
+      "relationship": "Standalone regular pardon application.",
+      "notes": [
+        "Do not substitute the summary marijuana pardon application."
+      ],
+      "allowedHostSuffixes": [
+        ".nd.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "TX-OCA-411.0736-MODEL-PETITION",
+      "jurisdiction": "TX",
+      "familyIds": [
+        "tx_nd_dwi_conviction-set"
+      ],
+      "repositorySourceLabels": [
+        "OCA Model Petition for an Order of Nondisclosure under § 411.0736"
+      ],
+      "issuingAuthority": "Texas Office of Court Administration / Texas Judicial Branch",
+      "officialLandingPages": [
+        "https://www.txcourts.gov/forms/orders-of-nondisclosure/"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.txcourts.gov/forms/orders-of-nondisclosure/",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)(411\\.0736).*(Model Petition|Petition)|(Model Petition|Petition).*(411\\.0736)",
+          "hrefRegex": "(?i)411[-_. ]?0736|\\.pdf(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "Model Petition for an Order of Nondisclosure under Section 411.0736",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Texas statewide OCA model form",
+      "relationship": "Standalone model petition.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".txcourts.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "TX-OCA-411.0736-MODEL-ORDER",
+      "jurisdiction": "TX",
+      "familyIds": [
+        "tx_nd_dwi_conviction-set"
+      ],
+      "repositorySourceLabels": [
+        "OCA Model Order of Nondisclosure under § 411.0736"
+      ],
+      "issuingAuthority": "Texas Office of Court Administration / Texas Judicial Branch",
+      "officialLandingPages": [
+        "https://www.txcourts.gov/forms/orders-of-nondisclosure/"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.txcourts.gov/forms/orders-of-nondisclosure/",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)(411\\.0736).*(Model Order|Order)|(Model Order|Order).*(411\\.0736)",
+          "hrefRegex": "(?i)411[-_. ]?0736|\\.pdf(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "Model Order of Nondisclosure under Section 411.0736",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Texas statewide OCA model form",
+      "relationship": "Proposed/model order component.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".txcourts.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "TX-STATEMENT-INABILITY-TO-AFFORD",
+      "jurisdiction": "TX",
+      "familyIds": [
+        "tx_nd_dwi_conviction-set"
+      ],
+      "repositorySourceLabels": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+      ],
+      "issuingAuthority": "Texas Judicial Branch / Texas Office of Court Administration",
+      "officialLandingPages": [
+        "https://www.txcourts.gov/forms/"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.txcourts.gov/forms/",
+          "kind": "landing_page",
+          "linkTextRegex": "(?i)Statement of Inability to Afford (Payment of )?Court Costs or an Appeal Bond",
+          "hrefRegex": "(?i)inability|court[-_ ]?cost|\\.pdf(\\?|$)"
+        }
+      ],
+      "expectedPrintedTitle": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+      "expectedPrintedFormNumber": null,
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [],
+      "scope": "Texas statewide court form",
+      "relationship": "Conditional fee-waiver component.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".txcourts.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    }
+  ]
+}
