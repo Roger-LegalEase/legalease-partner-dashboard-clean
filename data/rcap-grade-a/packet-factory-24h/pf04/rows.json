@@ -661,16 +661,15 @@
     "minimumCaptainSha": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
     "status": "IN_PROGRESS",
     "familiesAssigned": 8,
-    "rowsReturned": 2,
-    "familiesCompleted": 1,
+    "rowsReturned": 3,
+    "familiesCompleted": 2,
     "familiesStopped": 1,
     "remaining": [
       "hi_712_1200_deferred_expungement-set",
       "hi_dag_danc_expungement-set",
       "ia-7251-set",
       "mn_petition_609a02_subd3-set",
-      "mt_deferred_dismissal-set",
-      "tx_nd_dwi_deferred-set"
+      "mt_deferred_dismissal-set"
     ],
     "packetsSelfVerified": 0,
     "commercialRoutesOpened": 0,
@@ -726,6 +725,33 @@
         "overlayFilesChanged": 0,
         "artifacts": [],
         "counters": null,
+        "selfVerified": false
+      },
+      {
+        "itemId": "tx_nd_dwi_deferred-set",
+        "status": "COMPLETED",
+        "result": "BUILT_RASTER_PENDING",
+        "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
+        "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
+        "rowGate": "PASS 14/14; 3/3 sources exact",
+        "artifacts": [
+          {"fixture": "canonical", "sha256": "a991f3b4e6a27ebf11bd52ef3370f7e0e4d2b63282ea57585932a172ed0d98e6", "pageCount": 24},
+          {"fixture": "boundary", "sha256": "6892d5d7e21334cc8a4f30507e40db5f5ec8759b7043701ab04cf5ead4c909cd", "pageCount": 24}
+        ],
+        "focusedCheck": "PASS_COMPLETE 15/193 written",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "allNineCountersZero": true,
+        "deterministic": true,
         "selfVerified": false
       }
     ]
