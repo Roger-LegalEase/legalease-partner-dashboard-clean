@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "65fd29ae7691662fff49872e561b9b6e7164dee7",
+  "minimumCaptainSha": "d7a96bedb3356d637c67ef48aa43b39117891196",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -69,18 +69,18 @@
     "sourceReady": 59,
     "sourceBlocked": 70,
     "legalBlocked": 33,
-    "verifyPending": 9,
+    "verifyPending": 8,
     "repairRequired": 48,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 59,
-    "COMPLETE_PACKET_PROVEN": 114,
+    "COMPLETE_PACKET_PROVEN": 115,
     "FAIL_REPAIR_REQUIRED": 48,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 70,
     "LEGAL_BLOCKED": 27,
-    "VERIFY_PENDING": 9,
+    "VERIFY_PENDING": 8,
     "VERIFIED_PASS": 2,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -12008,7 +12008,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -12038,7 +12043,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-hi_dag_danc_expungement-set.mjs",

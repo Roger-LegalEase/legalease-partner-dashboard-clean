@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "il-seal-edu-set",
+  "routeKey": "obligation:track-only:IL:il-seal-edu",
+  "routeKeys": [
+    "obligation:track-only:IL:il-seal-edu"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "il-seal-edu-set",
+    "jurisdiction": "IL",
+    "routeKeys": [
+      "obligation:track-only:IL:il-seal-edu"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "attachment",
+      "fee_waiver",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:il-seal-edu-attachment-2",
+      "component:il-seal-edu-fee-waiver-4",
+      "component:il-seal-edu-primary-filing-1",
+      "component:il-seal-edu-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:FW-CIV-APPLICATION",
+        "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:EXP-AD Case List",
+        "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:EXP-AD Order Granting",
+        "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:EXP-AD Request",
+        "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33836771479",
+      "jobId": "100911322156",
+      "artifactId": "9923720415",
+      "boundToCanonicalSha256": "e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-il-seal-edu-set.mjs",
+      "sharedBuildHost": "build-census-v1-il-exp-pardon-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "il-seal-edu-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "il-seal-edu-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "EXP-AD Request",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0",
+        "requirement": "required"
+      },
+      {
+        "componentId": "il-seal-edu-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "EXP-AD Case List",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0",
+        "requirement": "required"
+      },
+      {
+        "componentId": "il-seal-edu-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "EXP-AD Order Granting",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0",
+        "requirement": "required"
+      },
+      {
+        "componentId": "il-seal-edu-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "FW-CIV-APPLICATION",
+        "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0",
+        "requirement": "required"
+      }
+    ]
+  }
+}

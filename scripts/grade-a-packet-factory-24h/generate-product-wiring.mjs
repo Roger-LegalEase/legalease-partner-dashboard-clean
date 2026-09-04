@@ -176,7 +176,7 @@ for (const f of master.families) {
    * matched by this test already matched the anchored one, so widening it
    * writes exactly one record that was previously skipped and rewrites none.
    */
-  const docs = (art.artifacts ?? art.pdfs ?? []).filter((a) => /(^|-)canonical(-|$)/.test(String(a.fixture ?? "")));
+  const docs = (art.artifacts ?? art.pdfs ?? art.packets ?? []).filter((a) => /(^|-)canonical(-|$)/.test(String(a.fixture ?? "")));
   if (docs.length === 0) continue;
   /*
    * A component is a document a participant files. It is NOT a rendering, and
@@ -207,7 +207,9 @@ for (const f of master.families) {
   const componentGroups = [];
   const groupIndex = new Map();
   if (isAssembledPacket) {
-    for (const d of docs) for (const documentId of (d.documents ?? d.components)) {
+    for (const d of docs) for (const document of (d.documents ?? d.components)) {
+      const documentId = typeof document === "string" ? document : document?.documentId;
+      if (!documentId) continue;
       if (!groupIndex.has(documentId)) { groupIndex.set(documentId, componentGroups.length); componentGroups.push({ key: documentId, renderings: [] }); }
       componentGroups[groupIndex.get(documentId)].renderings.push(d);
     }

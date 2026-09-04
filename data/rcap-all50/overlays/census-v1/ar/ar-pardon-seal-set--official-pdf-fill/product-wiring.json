@@ -55,5 +55,60 @@
   "sharedManifestsTouched": false,
   "otherFamiliesTouched": false,
   "legacyGeneratorsTouched": false,
-  "liveRcapRoutesTouched": false
+  "liveRcapRoutesTouched": false,
+  "binding": {
+    "family": "ar-pardon-seal-set",
+    "jurisdiction": "AR",
+    "routeKeys": [
+      "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-1",
+      "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ACIC pardoned-offender petition and order (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ar-pardon-seal-primary-filing-2",
+      "component:ar-pardon-seal-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+        "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+        "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33844904078",
+      "jobId": "100935414040",
+      "artifactId": "9926415353",
+      "boundToCanonicalSha256": "3b1576d92c2008ba2548522fd16e8025b3e4cbff1f0f40343577ab29477af9ea",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ar-pardon-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

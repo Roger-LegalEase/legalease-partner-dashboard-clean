@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "65fd29ae7691662fff49872e561b9b6e7164dee7",
+  "atCommit": "d7a96bedb3356d637c67ef48aa43b39117891196",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -35,14 +35,14 @@
     }
   ],
   "counts": {
-    "completePacketProven": 114,
+    "completePacketProven": 115,
     "familiesInsideTheOwnerApproval": 57,
     "provenAndApproved": 3,
     "inCohort": 0,
     "cohortRoutes": 0,
-    "provenButOutsideAnyExistingApproval": 111
+    "provenButOutsideAnyExistingApproval": 112
   },
-  "whyTheCohortIsSmall": "The decision owner's completed-output approval covers 57 families and 114 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave and the proof covers the later census-v1 packet wave, so only the 3 in both can enter a first cohort without a new legal decision. The proven figure is also lower than it was: the owner's batch adoption refused sixteen families as the wrong delivery type and withheld nine more pending named corrections, and those families are correctly not proven.",
+  "whyTheCohortIsSmall": "The decision owner's completed-output approval covers 57 families and 115 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave and the proof covers the later census-v1 packet wave, so only the 3 in both can enter a first cohort without a new legal decision. The proven figure is also lower than it was: the owner's batch adoption refused sixteen families as the wrong delivery type and withheld nine more pending named corrections, and those families are correctly not proven.",
   "cohort": [],
   "cohortRouteIds": [],
   "routeReachability": {
@@ -371,6 +371,12 @@
     {
       "familyId": "ga-vacated-j2-set",
       "jurisdiction": "GA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "hi_dag_danc_expungement-set",
+      "jurisdiction": "HI",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -2339,6 +2345,36 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf04",
         "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "hi_dag_danc_expungement-set",
+      "jurisdiction": "HI",
+      "routeKeys": [
+        "obligation:track-pathway:HI:hi_dag_danc_expungement:deferred-acceptance-one-year"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf"
       },
       "legalApproval": null
     },

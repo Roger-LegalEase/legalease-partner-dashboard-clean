@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "al-pardoned-felony-set",
+  "routeKey": "obligation:track-pathway:AL:al-pardoned-felony:eligible-conviction-expungement-under-the-redeemer-act",
+  "routeKeys": [
+    "obligation:track-pathway:AL:al-pardoned-felony:eligible-conviction-expungement-under-the-redeemer-act",
+    "obligation:track-pathway:AL:al-pardoned-felony:pardoned-felony-expungement-under-ala-code-15-27-2-c"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "al-pardoned-felony-set",
+    "jurisdiction": "AL",
+    "routeKeys": [
+      "obligation:track-pathway:AL:al-pardoned-felony:eligible-conviction-expungement-under-the-redeemer-act",
+      "obligation:track-pathway:AL:al-pardoned-felony:pardoned-felony-expungement-under-ala-code-15-27-2-c"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "fee_waiver",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:al-pardoned-felony-certificate-of-service-2",
+      "component:al-pardoned-felony-fee-waiver-3",
+      "component:al-pardoned-felony-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:C-10-CRIMINAL",
+        "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-65",
+        "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33836771479",
+      "jobId": "100911322060",
+      "artifactId": "9923727948",
+      "boundToCanonicalSha256": "daebc229c57301406bbfea3babc6a9ec56bd56ee44b474e51b6b3308beb0158c",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
+      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "al-pardoned-felony-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "al-pardoned-felony-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "CR-65",
+        "file": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "daebc229c57301406bbfea3babc6a9ec56bd56ee44b474e51b6b3308beb0158c",
+        "requirement": "required"
+      },
+      {
+        "componentId": "al-pardoned-felony-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "C-10-CRIMINAL",
+        "file": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "daebc229c57301406bbfea3babc6a9ec56bd56ee44b474e51b6b3308beb0158c",
+        "requirement": "required"
+      }
+    ]
+  }
+}
