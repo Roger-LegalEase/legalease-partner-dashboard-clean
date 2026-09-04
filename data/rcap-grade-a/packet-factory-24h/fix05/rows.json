@@ -105,6 +105,60 @@
   "selfVerified": false,
   "rows": [
     {
+      "itemId": "dc_yra_set_aside-set",
+      "routeKeys": [
+        "obligation:track-only:DC:dc_yra_set_aside"
+      ],
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification and central raster acceptance remain required.",
+      "baseSha": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
+      "claim": "CLAIM_OK FIX05 dc_yra_set_aside-set (repair, grant set 654dba97bdac5557)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairedByThisLane": true,
+      "whatWasDone": "Completed the focused REQUIRED_BEFORE_FILING return against current committed records. The exact required statement, 'The source review does not state a notarization requirement for this motion.', is carried in participant-instructions.md and on the rendered filing-instructions page, followed by a direction to confirm procedure with the clerk's office of Superior Court of the District of Columbia, Criminal Division. The durable builder at this exact base already carried that sentence, so the lane did not add duplicate prose or alter packet bytes; it rebuilt twice and refreshed the source-receipt pin to the current track-registry bytes.",
+      "proof": "String-exact grep finds the statement in participant-instructions.md; pdftotext finds it on canonical packet page 4. The builder --check resolves three committed records and sixteen anchors. Focused completeness passes 6/13 written with all nine counters zero.",
+      "deterministicRebuild": "Two consecutive --no-raster builds produced identical canonical and boundary SHA-256 values and byte lengths.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca",
+          "byteLength": 10964,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63",
+          "byteLength": 11147,
+          "pageCount": 4
+        }
+      ],
+      "focusedEvidence": [
+        "two executions of node scripts/build-census-v1-dc_yra_set_aside-set.mjs --no-raster => identical hashes and lengths",
+        "node scripts/build-census-v1-dc_yra_set_aside-set.mjs --check --no-raster => CHECK_ONLY, 3 records bound, 16 anchors verified",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_yra_set_aside-set => PASS_COMPLETE 6/13 written",
+        "participant-instructions.md and pdftotext of canonical.pdf contain the exact notarization non-statement"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "claimReleased": false,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
       "itemId": "ca-851-91-set",
       "status": "STOPPED",
       "verdict": "BUILT_RASTER_PENDING for the repaired obligations; two obligations returned unrepaired",
