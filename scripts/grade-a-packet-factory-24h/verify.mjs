@@ -391,12 +391,15 @@ function run() {
      * claim means the repair is still running and the family stays failed. */
     const repairDone = new Set();
     const repairLive = new Set();
+    const repairLiveLaneByFamily = new Map();
     {
       const led = fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER) : null;
       for (const c of led?.claims ?? []) {
         if (c.laneKind !== "repair" && c.laneKind !== "shared-host-repair") continue;
-        for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : []))
+        for (const fid of c.familyIds ?? (c.familyId ? [c.familyId] : [])) {
           (c.released === true ? repairDone : repairLive).add(fid);
+          if (c.released !== true) repairLiveLaneByFamily.set(fid, c.lane);
+        }
       }
     }
     const failedFamilies = (vr.rows ?? []).filter((r) => r.isIndependentVerification && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
@@ -409,7 +412,27 @@ function run() {
     /* A live repair grant is already a dispatch, including a deliberately held
      * off-roster lane. It must not be replaced merely to make this text search
      * find an internal prompt. */
-    const dispatchedSomewhere = `${repairText}${vermontText}${JSON.stringify(a)}${JSON.stringify([...repairLive])}`;
+    const generatedRepairAssignments = a.filter((assignment) =>
+      assignment.lane === "rapid-repair" || assignment.lane === "shared-host-repair");
+    const generatedRepairLaneIds = new Set(generatedRepairAssignments.map((assignment) => assignment.assignmentId));
+    const highestGeneratedFix = Math.max(0, ...[...generatedRepairLaneIds].map((lane) => {
+      const match = /^FIX(\d+)$/.exec(lane);
+      return match ? Number(match[1]) : 0;
+    }));
+    const retainedOffRosterLane = (familyId) => {
+      const lane = repairLiveLaneByFamily.get(familyId);
+      const match = /^FIX(\d+)$/.exec(lane ?? "");
+      const family = master.families.find((candidate) => candidate.familyId === familyId);
+      return Boolean(match)
+        && Number(match[1]) > highestGeneratedFix
+        && !generatedRepairLaneIds.has(lane)
+        && family?.activeOwner === lane
+        && family?.activeOwnerLane === "rapid-repair";
+    };
+    const dispatchedSomewhere = (familyId) => repairText.includes(familyId)
+      || vermontText.includes(familyId)
+      || generatedRepairAssignments.some((assignment) => (assignment.items ?? []).includes(familyId))
+      || retainedOffRosterLane(familyId);
     /*
      * Scoped to the family, not to the corpus of dispatch text.
      *
@@ -435,7 +458,7 @@ function run() {
         if (x.lane !== "rapid-repair" && x.lane !== "shared-host-repair") continue;
         for (const row of x.detail ?? []) if (row.familyId === familyId) out.push(JSON.stringify(row));
       }
-      if (repairLive.has(familyId)) {
+      if (repairLive.has(familyId) && retainedOffRosterLane(familyId)) {
         const held = master.families.find((f) => f.familyId === familyId);
         if (held) out.push(JSON.stringify(held));
       }
@@ -445,7 +468,7 @@ function run() {
       const fam = master.families.find((f) => f.familyId === r.familyId);
       if (!fam) { returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and is not in the queue at all`); continue; }
       if (PROVEN.has(fam.state)) returnedVerdictProblems.push(`${r.familyId} was failed by ${r.lane} and the queue still calls it ${fam.state}`);
-      if (!dispatchedSomewhere.includes(r.familyId)) returnedVerdictProblems.push(`${r.familyId} was failed and is dispatched to no repair lane`);
+      if (!dispatchedSomewhere(r.familyId)) returnedVerdictProblems.push(`${r.familyId} was failed and is dispatched to no repair lane`);
       const forThisFamily = evidenceFor(r.familyId);
       for (const o of r.failedObligationNames ?? []) {
         if (!forThisFamily.includes(o)) returnedVerdictProblems.push(`${r.familyId} failed ${o} and no repair dispatch names that obligation for that family`);
@@ -552,6 +575,34 @@ function run() {
     const rasterPassed = new Set((rq?.rows ?? [])
       .filter((r) => r.currentRasterState === "RASTER_PASS")
       .map((r) => r.familyId));
+    /* A released repair can legitimately move an old FAIL back to
+     * VERIFY_PENDING, but only as executable reread work.  F29 already treats
+     * the released repair as superseding the repair dispatch; F31 must not
+     * contradict that transition merely because this family also happens to
+     * carry an older claim-gate refusal.  Require all three records that make
+     * the transition real: completed repair, live verification grant, and the
+     * matching verifier dispatch. */
+    const verdictLedger = fs.existsSync(path.join(ROOT, LEDGER)) ? read(LEDGER) : null;
+    const repairedFamilies = new Set();
+    const liveRepairFamilies = new Set();
+    const liveVerificationFamilies = new Set();
+    for (const claim of verdictLedger?.claims ?? []) {
+      const ids = claim.familyIds ?? (claim.familyId ? [claim.familyId] : []);
+      if (claim.laneKind === "repair" || claim.laneKind === "shared-host-repair") {
+        for (const id of ids) (claim.released === true ? repairedFamilies : liveRepairFamilies).add(id);
+      }
+      if (claim.laneKind === "independent-verification" && claim.released !== true) {
+        for (const id of ids) liveVerificationFamilies.add(id);
+      }
+    }
+    const hasVerificationDispatch = (familyId) => vf.some((assignment) =>
+      (assignment.items ?? []).includes(familyId));
+    const isExecutablePostRepairReread = (familyId, family) =>
+      family.state === "VERIFY_PENDING"
+      && repairedFamilies.has(familyId)
+      && !liveRepairFamilies.has(familyId)
+      && liveVerificationFamilies.has(familyId)
+      && hasVerificationDispatch(familyId);
     for (const [familyId, substantive] of currentSubstantiveByFamily) {
       if (!verifierRows.some((r) => r.familyId === familyId && r.verdict === "BLOCKED_BEFORE_CLAIM")) continue;
       const fam = familyById.get(familyId);
@@ -568,7 +619,9 @@ function run() {
         claimRefusalProblems.push(`${familyId} selected ${selected?.lane ?? "none"}/${selected?.verdict ?? "none"} instead of ${substantive.lane}/${substantive.verdict}`);
         continue;
       }
-      if (substantive.verdict === "FAIL_REPAIR_REQUIRED" && fam.state !== "FAIL_REPAIR_REQUIRED") {
+      if (substantive.verdict === "FAIL_REPAIR_REQUIRED"
+        && fam.state !== "FAIL_REPAIR_REQUIRED"
+        && !isExecutablePostRepairReread(familyId, fam)) {
         claimRefusalProblems.push(`${familyId} has a current repair-required verdict but the queue calls it ${fam.state}`);
       } else if (substantive.verdict === "BLOCKED_SOURCE"
         && fam.state !== projectedSourceBlockState(fam, substantive)) {
@@ -1338,6 +1391,26 @@ if (MUTATIONS) {
           evidencePath: refusal.evidencePath ?? null
         };
         return j;
+      } },
+    { on: "ledger", id: "F31", name: "a post-repair reread is refused while its repair claim is still live", mutate: (j) => {
+        const master = read(`${DIR}/MASTER_QUEUE.json`);
+        const returns = read(`${DIR}/VERIFIER_RETURNS.json`);
+        const refusalFamilies = new Set((returns.rows ?? [])
+          .filter((row) => row.isIndependentVerification && row.verdict === "BLOCKED_BEFORE_CLAIM")
+          .map((row) => row.familyId));
+        const reread = (master.families ?? []).find((f) =>
+          f.state === "VERIFY_PENDING"
+          && f.selectedIndependentVerdict?.verdict === "FAIL_REPAIR_REQUIRED"
+          && refusalFamilies.has(f.familyId));
+        if (!reread) throw new Error("F31 repair-reread mutation requires a VERIFY_PENDING family with a prior repair-required verdict");
+        const repair = (j.claims ?? []).find((c) =>
+          (c.laneKind === "repair" || c.laneKind === "shared-host-repair")
+          && c.released === true
+          && (c.familyIds ?? (c.familyId ? [c.familyId] : [])).includes(reread.familyId));
+        if (!repair) throw new Error(`F31 repair-reread mutation requires a released repair claim for ${reread.familyId}`);
+        repair.released = false;
+        repair.releasedAt = null;
+        return withClaimsDigest(j);
       } },
     { on: "master", id: "F32", name: "a current source block sent back to verification is caught", mutate: (j) => {
         const returns = JSON.parse(fs.readFileSync(path.join(ROOT, DIR, "VERIFIER_RETURNS.json"), "utf8"));
