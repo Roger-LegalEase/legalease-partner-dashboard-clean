@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "mi_setaside_trafficking-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "MC 227b carries a sworn Proof of Service on page 3 covering the prosecuting official, Attorney General, Michigan State Police, and the notice of hearing.",
+      "consequence": "Its selections, mailing dates, signature date, and signature remain blank until the service statements are true. The participant instructions carry the official sequence through filing, mailing, and returning the completed proof to the court."
+    },
+    {
+      "finding": "The conviction table asks for the crime, the charge code, the date of conviction and the case number, and instruction 4 says to get the exact date and charge FROM THE COURT and to attach a certified copy of each.",
+      "consequence": "No cell of it is written. That record is not one the platform holds, and a line with the crime filled and the conviction date blank would read as finished while missing the fact the application turns on. All sixteen cells are declared and disclosed."
+    },
+    {
+      "finding": "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" — three facts in one free-text box. The platform holds all three separately and the shared semantic registry has no composed fact for a name-address-telephone block, so a field, which takes one fact, can bind at most one of them.",
+      "consequence": "The box is left to the participant and the reason is stated in the disclosure rather than implied. Writing only the name would put a third of an answer in the box the court reads for the applicant's contact details. The gap is a shared-registry one: a composed participant contact fact would let this box be filled, and that list is outside this family's owned paths."
+    },
+    {
+      "finding": "scripts/build-census-v1-mi-setaside-trafficking-set.mjs (hyphenated) also writes this family's overlay directory and predates this builder.",
+      "consequence": "The two must not both be run against the same output. Flagged rather than resolved here: the other script is outside this focused family's writable paths, so removing or redirecting it is the Captain's call."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}
