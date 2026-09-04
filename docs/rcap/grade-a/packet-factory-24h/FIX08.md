@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `db51be31df421caaff2e6c889a41decbdd81e2b8` (or the newer dispatch base)
+**Minimum required ancestor:** `a9d4f8ca56c9a292383c7a4ebed8c3e2128946eb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction' \
   --codex-cloud \
-  --minimum-captain-sha db51be31df421caaff2e6c889a41decbdd81e2b8
+  --minimum-captain-sha a9d4f8ca56c9a292383c7a4ebed8c3e2128946eb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,10 +43,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-cannabis-vacate-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-qualprob-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-seal-2yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'rcap-tx-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ut_pet_acquittal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'wv_conv_single_misdemeanor-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ct-decriminalized-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'rcap-ok-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'tx_nd_conviction_no_supervision-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'wv_conv_multiple_misdemeanors-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -70,10 +70,10 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `il-cannabis-vacate-set`
 - `il-exp-nonconv-set`
 - `il-exp-qualprob-set`
-- `il-seal-2yr-set`
-- `rcap-tx-custom-pleading`
-- `ut_pet_acquittal-set`
-- `wv_conv_single_misdemeanor-set`
+- `ct-decriminalized-set`
+- `rcap-ok-custom-pleading`
+- `tx_nd_conviction_no_supervision-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -90,17 +90,17 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs`
 - `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
 - `scripts/build-census-v1-il-exp-nonconv-set.mjs`
 - `scripts/build-census-v1-il-exp-qualprob-set.mjs`
-- `scripts/build-census-v1-il-seal-2yr-set.mjs`
-- `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
+- `scripts/build-census-v1-ct-decriminalized-set.mjs`
+- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
+- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
 
 ## Never write here
 
