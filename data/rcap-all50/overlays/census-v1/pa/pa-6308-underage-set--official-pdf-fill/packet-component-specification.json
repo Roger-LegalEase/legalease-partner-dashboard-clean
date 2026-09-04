@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-packet-component-specification/v1",
+  "familyId": "pa_6308_underage-set",
+  "routeKeys": [
+    "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
+  ],
+  "status": "ROUTE_VEHICLE_MAPPED_OFFICIAL_ARTIFACTS_BUILT_COMPONENT_REMAINDER_DISCLOSED",
+  "courtStatusMetadata": {
+    "factId": "matter.court_level",
+    "requiredRecordSource": "court docket or clerk-certified disposition",
+    "selectors": [
+      {
+        "value": "magisterial_district_judge",
+        "officialVehicle": [
+          "PA-RCRIM-P-490-PETITION",
+          "PA-RCRIM-P-490-ORDER"
+        ]
+      },
+      {
+        "value": "court_of_common_pleas",
+        "officialVehicle": [
+          "PA-RCRIM-P-790-PETITION",
+          "PA-RCRIM-P-790-ORDER"
+        ]
+      }
+    ],
+    "noInferenceRule": "Do not select from the charge label, packet directory name, or user recollection. Stop without producing a participant artifact when the court record does not establish the court level."
+  },
+  "serviceCertificate": {
+    "componentId": "pa_6308_underage-certificate-of-service-3",
+    "status": "REQUIRED_NOT_GENERATED",
+    "recipient": "attorney for the Commonwealth",
+    "timing": "concurrently with filing",
+    "noGuessRule": "Do not invent a locally accepted service method or service facts. The participant completes the certificate only after service actually occurs."
+  },
+  "sourceBindings": [
+    "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/route-vehicle-map.json",
+    "data/record-clearing/legal-design-track-registry.json"
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

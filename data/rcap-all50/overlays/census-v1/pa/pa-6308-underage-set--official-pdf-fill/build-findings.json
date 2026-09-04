@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "pa_6308_underage-set",
+  "status": "artifact_evidence_built_review_required",
+  "routeKeys": [
+    "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
+  ],
+  "notes": [
+    "Rule 490 is selected only when the court record establishes a magisterial-district-judge case; Rule 790 is selected only when it establishes a court-of-common-pleas case.",
+    "If the court level is absent or outside those two recorded values, generation stops before any participant artifact is selected.",
+    "The required custom certificate-of-service component remains a separately disclosed build remainder; this mapping does not invent one."
+  ],
+  "hardRulesVerified": [
+    "exact source path, SHA-256, and byte length matched the corpus index and installed source",
+    "every field received an explicit candidate-write, route-selection, or refusal disposition",
+    "signatures, dates, unperformed service, court, prosecutor, clerk, agency, and notary fields carried no generated ink",
+    "all emitted PDF pages were rasterized and byte-inventoried"
+  ],
+  "blockers": [
+    "completed-output legal approval has not been granted",
+    "commercial release and runtime selection remain disabled",
+    "current revision/status and local court practice must be confirmed",
+    "court-status branch and conditional fee-waiver use require participant/local confirmation"
+  ],
+  "commercialAuthority": false,
+  "runtimeSelectable": false
+}
