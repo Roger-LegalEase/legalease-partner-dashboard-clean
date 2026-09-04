@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `5accc78f70733e9937917e29d0541f91afe8ce3f`
+**Minimum required ancestor:** `d74ffe8c74f7c794188349d859a0ff3690b3b70e`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -20,10 +20,10 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission
 
-- canonical `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/fixtures/canonical.pdf` — `dbbec83187e79709468b55ac715b815a52ae19b6943fb597a96951eb45afdef3`
-- boundary `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/fixtures/boundary.pdf` — `e2a7a09b65dcc5fbe3a44cf7dd2c6f069823259fe6fe7fb4844c0313f834880d`
-- expected pages 6 · requested scale 2.5
-- built by FIX01
+- canonical `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/fixtures/canonical.pdf` — `8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec`
+- boundary `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/fixtures/boundary.pdf` — `c48c6e8cea3616ada41949087580f4db52ea94a0613fa55942f4f62de5fe4878`
+- expected pages 4 · requested scale 2.5
+- built by VF01
 
 ### ak-tf800-set
 
@@ -79,7 +79,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/fixtures/canonical.pdf` — `2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad`
 - boundary `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/fixtures/boundary.pdf` — `d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7`
 - expected pages 8 · requested scale 2.5
-- built by FIX02
+- built by FIX01
 
 ### composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26
 
@@ -97,10 +97,10 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement
 
-- canonical `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/canonical.pdf` — `704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492`
-- boundary `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/boundary.pdf` — `6e85ef27ca1692b54d28e7a18618f0175e4ab3bc3ee71a9c3a7103a2caa5466b`
+- canonical `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/canonical.pdf` — `58487688e22fdb3d5d1566899add22a2489253462a91f7c056cfc67ea748f282`
+- boundary `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/fixtures/boundary.pdf` — `d041ae07adbeccc2c54a8f46a73df01e10f5769295a792ea4420190c52a9d9e6`
 - expected pages 4 · requested scale 2.5
-- built by FIX02
+- built by VF03
 
 ### ct-cannabis-petition-set
 
@@ -170,7 +170,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` — `a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271`
 - boundary `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` — `4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23`
 - expected pages 15 · requested scale 2.5
-- built by FIX01
+- built by FIX03
 
 ### ky_void_seal_controlled_substance-set
 
@@ -258,10 +258,10 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### rcap-wa-custom-pleading-clean-tracks
 
-- canonical `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/canonical.pdf` — `8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db`
-- boundary `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/boundary.pdf` — `ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d`
+- canonical `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/canonical.pdf` — `e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0`
+- boundary `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/boundary.pdf` — `bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756`
 - expected pages 17 · requested scale 2.5
-- built by FIX02
+- built by VF07
 
 ### ri_nonconviction_sealing-set
 

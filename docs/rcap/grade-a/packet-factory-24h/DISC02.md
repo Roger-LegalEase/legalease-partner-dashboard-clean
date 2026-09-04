@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5accc78f70733e9937917e29d0541f91afe8ce3f` (or the newer dispatch base)
+**Minimum required ancestor:** `d74ffe8c74f7c794188349d859a0ff3690b3b70e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC02 \
-  --source-obligation 'fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION' \
+  --source-obligation 'de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION' \
   --codex-cloud \
-  --minimum-captain-sha 5accc78f70733e9937917e29d0541f91afe8ce3f
+  --minimum-captain-sha d74ffe8c74f7c794188349d859a0ff3690b3b70e
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC02 <itemId>`
-- The committed assignment contains exactly 13 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 14 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC02 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**13 obligations · 5 families this lane WOULD release if every one of them resolves · hosts: FL, IA, IN**
+**14 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: DE, FL, IA, IN**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,6 +105,7 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
+| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
 | `fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-10yr-bridge-set` | unresolved exact identity or URL | `ACQ` |
 | `fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | `official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-early-juvenile-set` | unresolved exact identity or URL | `ACQ` |
 | `fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-expunction-set` | unresolved exact identity or URL | `ACQ` |
@@ -119,13 +120,13 @@ the issuing court or agency that publishes the document
 | `in_conviction_misd-set::official-form:CCA conviction expungement order` | `official-form:CCA conviction expungement order` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
 | `in_conviction_misd-set::official-form:CCA conviction expungement petition` | `official-form:CCA conviction expungement petition` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 13 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 14 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC02');
-if (!a || a.items.length !== 13) throw new Error('DISC02 committed item count changed');
+if (!a || a.items.length !== 14) throw new Error('DISC02 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC02',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -137,7 +138,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source-obligation 'fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION' --codex-cloud --minimum-captain-sha 5accc78f70733e9937917e29d0541f91afe8ce3f
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source-obligation 'de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION' --codex-cloud --minimum-captain-sha d74ffe8c74f7c794188349d859a0ff3690b3b70e
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -146,7 +147,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source
 
 ### Families this lane would release
 
-`fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`
+`de_mandatory_expungement-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`
 
 
 ### Settle these first
@@ -158,6 +159,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source
 | FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION | FL | 3 |
 | Certification of Service by Mailing or Delivery | IA | 3 |
 | CCA conviction expungement order | IN | 3 |
+| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
 | FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION | FL | 1 |
 | FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION | FL | 1 |
 

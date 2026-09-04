@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5accc78f70733e9937917e29d0541f91afe8ce3f` (or the newer dispatch base)
+**Minimum required ancestor:** `d74ffe8c74f7c794188349d859a0ff3690b3b70e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC06 \
-  --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED' \
+  --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
   --codex-cloud \
-  --minimum-captain-sha 5accc78f70733e9937917e29d0541f91afe8ce3f
+  --minimum-captain-sha d74ffe8c74f7c794188349d859a0ff3690b3b70e
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**6 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: MA, MT, WA**
+**6 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: AR, UT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,12 +105,12 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | WA | `exact-source-identity` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | unresolved exact identity or URL | `ACQ` |
-| `ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K` | `official-form:Petition for Expungement, G.L. c. 276, § 100K` | MA | `exact-source-identity` | `ma-expunge-k-set` | unresolved exact identity or URL | `ACQ` |
-| `ma-seal-admin-set::official-form:Petition to Seal (Office of the Commissioner of Probation)` | `official-form:Petition to Seal (Office of the Commissioner of Probation)` | MA | `exact-source-identity` | `ma-seal-admin-set` | unresolved exact identity or URL | `ACQ` |
-| `ma-seal-decrim-set::official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | `official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | MA | `exact-source-identity` | `ma-seal-decrim-set` | unresolved exact identity or URL | `ACQ` |
-| `mt_mmrta_completed-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
-| `mt_mmrta_serving-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_serving-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
+| `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
+| `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement` | unresolved exact identity or URL | `ACQ` |
+| `census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED` | `NO_DOCUMENT_SOURCE_NAMED` | UT | `exact-source-identity` | `census-pending-family:UT:path-m-juvenile-expungement` | unresolved exact identity or URL | `ACQ` |
+| `ut_pet_remove_link-set::official-form:1110GE or 1111GE` | `official-form:1110GE or 1111GE` | UT | `exact-source-identity` | `ut_pet_remove_link-set` | unresolved exact identity or URL | `ACQ` |
 
 Deterministically assert exactly the 6 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -130,7 +130,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source-obligation 'census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED' --codex-cloud --minimum-captain-sha 5accc78f70733e9937917e29d0541f91afe8ce3f
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha d74ffe8c74f7c794188349d859a0ff3690b3b70e
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -139,7 +139,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source
 
 ### Families this lane would release
 
-`census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `ma-expunge-k-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`, `mt_mmrta_completed-set`, `mt_mmrta_serving-set`
+`ar-act346-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `ut_pet_remove_link-set`
 
 
 ### Settle these first
@@ -148,11 +148,12 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC06 --source
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 2 |
-| Petition for Expungement, G.L. c. 276, § 100K | MA | 1 |
-| Petition to Seal (Office of the Commissioner of Probation) | MA | 1 |
-| Petition to Seal (Office of the Commissioner of Probation), Part A box 4 | MA | 1 |
-| NO_DOCUMENT_SOURCE_NAMED | WA | 0 |
+| ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
+| ACIC-UNIFORM-ORDER-TO-SEAL | AR | 1 |
+| ACIC-ORDER-VETERANS-COURT | AR | 1 |
+| 1110GE or 1111GE | UT | 1 |
+| NO_DOCUMENT_SOURCE_NAMED | UT | 0 |
+| NO_DOCUMENT_SOURCE_NAMED | UT | 0 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

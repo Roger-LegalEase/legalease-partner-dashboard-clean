@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5accc78f70733e9937917e29d0541f91afe8ce3f` (or the newer dispatch base)
+**Minimum required ancestor:** `d74ffe8c74f7c794188349d859a0ff3690b3b70e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family rcap-nd-custom-pleading \
   --codex-cloud \
-  --minimum-captain-sha 5accc78f70733e9937917e29d0541f91afe8ce3f
+  --minimum-captain-sha d74ffe8c74f7c794188349d859a0ff3690b3b70e
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,10 +56,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 3 families
 
 - `rcap-nd-custom-pleading`
 - `vt_seal_nonconviction-set`
+- `tx_nd_conviction_no_supervision-set`
 
 ## What you receive
 
@@ -74,8 +75,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix07/**`
 - `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
 - `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
 - `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
 
 ## Never write here
 

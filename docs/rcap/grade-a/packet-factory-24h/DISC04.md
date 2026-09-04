@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5accc78f70733e9937917e29d0541f91afe8ce3f` (or the newer dispatch base)
+**Minimum required ancestor:** `d74ffe8c74f7c794188349d859a0ff3690b3b70e` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC04 \
-  --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' \
+  --source-obligation 'mi_setaside_application-set::official-form:MC 227' \
   --codex-cloud \
-  --minimum-captain-sha 5accc78f70733e9937917e29d0541f91afe8ce3f
+  --minimum-captain-sha d74ffe8c74f7c794188349d859a0ff3690b3b70e
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +40,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC04 <itemId>`
-- The committed assignment contains exactly 8 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 6 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC04 <itemId>`.
 
@@ -78,7 +78,7 @@ Turn a descriptive label into a document identity: exact form number, official p
 
 the issuing court or agency that publishes the document
 
-**8 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: AR, DE, MI**
+**6 obligations · 4 families this lane WOULD release if every one of them resolves · hosts: MI, MT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,22 +105,20 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | `official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS` | AR | `exact-source-identity` | `ar-act346-set` | unresolved exact identity or URL | `ACQ` |
-| `ar-misdemeanor-seal-set::official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | `official-form:ACIC-UNIFORM-PETITION-TO-SEAL` | AR | `exact-source-identity` | `ar-misdemeanor-seal-set` | unresolved exact identity or URL | `ACQ` |
-| `ar-veterans-court-set::official-form:ACIC-ORDER-VETERANS-COURT` | `official-form:ACIC-ORDER-VETERANS-COURT` | AR | `exact-source-identity` | `ar-veterans-court-set` | unresolved exact identity or URL | `ACQ` |
-| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
 | `mi_setaside_application-set::official-form:MC 227` | `official-form:MC 227` | MI | `exact-source-identity` | `mi_setaside_application-set` | unresolved exact identity or URL | `ACQ` |
 | `mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service` | `official-form:MC 227 page 3 Proof of Service` | MI | `exact-source-identity` | `mi_setaside_application-set` | unresolved exact identity or URL | `ACQ` |
 | `mi_setaside_first_owi-set::official-form:MC 227 item 2.c` | `official-form:MC 227 item 2.c` | MI | `exact-source-identity` | `mi_setaside_first_owi-set` | unresolved exact identity or URL | `ACQ` |
 | `mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service` | `official-form:MC 227 page 3 Proof of Service` | MI | `exact-source-identity` | `mi_setaside_first_owi-set` | unresolved exact identity or URL | `ACQ` |
+| `mt_mmrta_completed-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_completed-set` | unresolved exact identity or URL | `ACQ` |
+| `mt_mmrta_serving-set::official-form:MT-OCA-MMRTA` | `official-form:MT-OCA-MMRTA` | MT | `exact-source-identity` | `mt_mmrta_serving-set` | unresolved exact identity or URL | `ACQ` |
 
-Deterministically assert exactly the 8 committed itemIds (failures are recorded per row and do not terminate the loop):
+Deterministically assert exactly the 6 committed itemIds (failures are recorded per row and do not terminate the loop):
 
 ```sh
 node - <<'NODE'
 const {spawnSync}=require('node:child_process');
 const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC04');
-if (!a || a.items.length !== 8) throw new Error('DISC04 committed item count changed');
+if (!a || a.items.length !== 6) throw new Error('DISC04 committed item count changed');
 for (const itemId of a.items) {
   const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC04',itemId],{stdio:'inherit'});
   if (r.status !== 0) console.error('ROW_STOP', itemId);
@@ -132,7 +130,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'ar-act346-set::official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS' --codex-cloud --minimum-captain-sha 5accc78f70733e9937917e29d0541f91afe8ce3f
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source-obligation 'mi_setaside_application-set::official-form:MC 227' --codex-cloud --minimum-captain-sha d74ffe8c74f7c794188349d859a0ff3690b3b70e
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -141,7 +139,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 
 ### Families this lane would release
 
-`ar-act346-set`, `ar-misdemeanor-seal-set`, `ar-veterans-court-set`, `de_mandatory_expungement-set`, `mi_setaside_application-set`, `mi_setaside_first_owi-set`
+`mi_setaside_application-set`, `mi_setaside_first_owi-set`, `mt_mmrta_completed-set`, `mt_mmrta_serving-set`
 
 
 ### Settle these first
@@ -151,10 +149,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id DISC04 --source
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
 | MC 227 page 3 Proof of Service | MI | 2 |
-| ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS | AR | 1 |
-| ACIC-UNIFORM-ORDER-TO-SEAL | AR | 1 |
-| ACIC-ORDER-VETERANS-COURT | AR | 1 |
-| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
+| EXPUNGEMENTREMOVALREQUESTFORM.DOCX | MT | 2 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 
