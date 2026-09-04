@@ -301,6 +301,156 @@
       "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "workerId": "CODEX-CS2-PF06-RESUME",
+      "workerBranch": "codex/cs2-pf06-resume",
+      "continuationBaseSha": "00b53aae2a2317cc6aa4f6c157e1d9b700edb523",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
+      "overlayFilesChanged": 14,
+      "routeKeys": [
+        "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction"
+      ],
+      "source": {
+        "documentId": "AOC-CREM2F-071221",
+        "componentDocumentId": "AOC-CREM2F-071221-CONT",
+        "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+        "byteLength": 72602,
+        "pageCount": 3,
+        "componentRole": "The same official three-page binary carries the primary petition and its continuation/contact page."
+      },
+      "allSourcesExact": true,
+      "sourceBindingCheck": {
+        "result": "PASS",
+        "detail": "The already-held CREM2F binary bound by exact SHA-256 and the builder reported 42 mapped terminal fields."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "focusedCompletenessCheck": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_limited_jurisdiction-set",
+        "result": "PASS_COMPLETE",
+        "scope": "Builder-side focused completeness only; this is not independent verification."
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+          "byteLength": 91386,
+          "pageCount": 3
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+          "byteLength": 91479,
+          "pageCount": 3
+        }
+      ],
+      "determinism": {
+        "proved": true,
+        "rebuildsCompared": 2,
+        "result": "Both builds produced identical canonical and boundary SHA-256 values and byte lengths."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerification": "NOT_PERFORMED",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "mi_setaside_trafficking-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "blocker": "BLOCKED_SOURCE official-form:MC-227B exact pinned binary is absent",
+      "workerId": "CODEX-CS2-PF06-RESUME",
+      "workerBranch": "codex/cs2-pf06-resume",
+      "continuationBaseSha": "00b53aae2a2317cc6aa4f6c157e1d9b700edb523",
+      "routeKeys": [
+        "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application"
+      ],
+      "missingSource": {
+        "sourceId": "official-form:MC-227B",
+        "documentId": "MC-227B",
+        "componentRole": "primary filing with embedded Proof of Service",
+        "pathInArchive": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+        "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+        "byteLength": 370315,
+        "pageCount": 4
+      },
+      "why": "The committed source index pins MC-227B exactly, but those bytes are not mounted in this Codespace. Both the current --check and --no-raster build commands returned BLOCKED_SOURCE before touching the overlay, so a two-run deterministic rebuild is not proven.",
+      "overlayFilesChanged": 0,
+      "overlayFilesChangedScope": "No Michigan overlay file changed during either source-blocked build command; the files described below are preserved WIP artifacts created before this continuation encountered the missing mount.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNotMeasuredBecause": "The current source-gated build stopped before producing current artifacts; the zero-counter result below applies only to the preserved WIP bytes.",
+      "preservedWipEvidence": {
+        "sourceIndependentSelfTest": "PASS",
+        "focusedCompletenessCheck": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+          "result": "PASS_COMPLETE",
+          "counters": {
+            "knownRequiredFieldsMissing": 0,
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "incompleteRows": 0,
+            "requiredOptionsMissing": 0,
+            "requiredComponentsMissing": 0,
+            "invisibleWrites": 0,
+            "protectedWrites": 0,
+            "visualDefects": 0
+          },
+          "scope": "Source-independent checks over preserved WIP bytes; not a current deterministic rebuild and not independent verification."
+        },
+        "artifacts": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361",
+            "byteLength": 378569,
+            "pageCount": 4
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9",
+            "byteLength": 378604,
+            "pageCount": 4
+          }
+        ]
+      },
+      "determinism": {
+        "proved": false,
+        "rebuildsCompared": 0,
+        "why": "The exact pinned MC-227B source binary is absent."
+      },
+      "claimStateObserved": "The PF06 packet-build claim remains live; this worker did not release it.",
+      "independentVerification": "NOT_PERFORMED",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
