@@ -15,10 +15,10 @@
   ],
   "cohortOnly": false,
   "counts": {
-    "rows": 14,
+    "rows": 15,
     "inFirstCohort": 5,
-    "documents": 28,
-    "pages": 190,
+    "documents": 30,
+    "pages": 200,
     "notEligible": 0
   },
   "rows": [
@@ -871,10 +871,91 @@
         "whyItApplies": "the route receipt binds this exact route id, document set, paths and SHA-256 values"
       },
       "doesNotInheritTheFamilyReceipt": null
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set::route::regime-1-expungement-available-now",
+      "packetFamilyId": "va_exp_absolute_pardon-set",
+      "routeKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+      "route": "regime-1-expungement-available-now",
+      "customerRouteId": "VA:regime-1-expungement-available-now",
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": true,
+      "equivalenceBasis": {
+        "masterQueue": "one COMPLETE_PACKET_PROVEN family routeKey",
+        "customerRegistry": "one customer route naming exactly this one known packet family",
+        "componentRoutes": "every rendered component is assigned to that one routeKey",
+        "bytes": "the route artifact is the family assembly itself; no copy or rewritten PDF exists"
+      },
+      "inFirstCohort": false,
+      "packetCommitSha": "acb37376d920ccfb13dac09de6d97775a70e5602",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+      "expectedPages": 5,
+      "fixtureSelection": {
+        "canonical": "the canonical family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes",
+        "boundary": "the boundary family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "regime-1-expungement-available-now--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+          "pageCount": 5
+        },
+        {
+          "role": "canonical",
+          "name": "regime-1-expungement-available-now--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+          "pageCount": 5
+        }
+      ],
+      "documentsDigest": "12848bc451579542ec3f89ef0e156897d3b297cb6b15913fabceee7f1ae41bc8",
+      "coverage": {
+        "documents": [
+          "regime-1-expungement-available-now--boundary.pdf",
+          "regime-1-expungement-available-now--canonical.pdf"
+        ],
+        "rastered": [
+          "regime-1-expungement-available-now--boundary.pdf",
+          "regime-1-expungement-available-now--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PASS",
+      "preexistingRasterAcceptance": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33574304514",
+        "jobId": "100075268196",
+        "boundToCanonicalSha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+        "boundToBoundarySha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+        "receiptArtifact": {
+          "id": "9826171095",
+          "name": "rcap-raster-va_exp_absolute_pardon-set-33574304514",
+          "zipSha256": "sha256:2827037b7474370332e832a45bfd405f893532522330f5198cd463fc77751f73",
+          "expiresAt": "2026-09-16T00:17:01Z"
+        },
+        "source": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "whyItApplies": "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes"
+      },
+      "doesNotInheritTheFamilyReceipt": null
     }
   ],
   "notEligible": [],
-  "focusedRegeneration": null,
+  "focusedRegeneration": {
+    "families": [
+      "va_exp_absolute_pardon-set"
+    ],
+    "routes": [],
+    "rowsReplaced": 1,
+    "untouchedRowsPreserved": 14
+  },
   "packetPdfsModified": 0,
   "packetContentChanged": false,
   "commercialRoutesOpened": 0,

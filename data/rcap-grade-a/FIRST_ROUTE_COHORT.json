@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "84cb894c5b1a416cc1d3f4ed4c4cc76b4918bf5a",
+  "atCommit": "32a6a01dea86b2109a5d3a35b6e332c9049ffb50",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -389,10 +389,9 @@
   "routeReachability": {
     "whatThisSeparates": "A route key names work this factory did. A runtime route id is what screening and the Briefcase resolve. Only a route with both can be sold once a visual review returns; a track-only route cannot be addressed at all, however complete its packet.",
     "routeKeysInTheCohort": 7,
-    "addressableByTheRuntime": 0,
-    "notAddressableByTheRuntime": 7,
-    "addressable": [],
-    "notAddressable": [
+    "addressableByTheRuntime": 7,
+    "notAddressableByTheRuntime": 0,
+    "addressable": [
       "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
       "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
       "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
@@ -401,16 +400,54 @@
       "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
       "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
     ],
-    "recordsDisagreeOn": [
-      "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
-      "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
-      "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
-      "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
-      "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
-      "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
-      "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
+    "runtimeMappings": [
+      {
+        "routeKey": "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
+        "runtimePathwayId": "dc_actual_innocence_expungement_16_803",
+        "runtimeRouteId": "DC:dc_actual_innocence_expungement_16_803",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+        "runtimePathwayId": "felony-prostitution-relief",
+        "runtimeRouteId": "IL:felony-prostitution-relief",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "runtimePathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "runtimeRouteId": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "runtimePathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "runtimeRouteId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+        "runtimePathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
+        "runtimeRouteId": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+        "runtimePathwayId": "regime-1-expungement-available-now",
+        "runtimeRouteId": "VA:regime-1-expungement-available-now",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
+        "runtimePathwayId": "felony-conviction-expungement-w-s-7-13-1502",
+        "runtimeRouteId": "WY:felony-conviction-expungement-w-s-7-13-1502",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      }
     ],
-    "whenTheRecordsDisagree": "The route key's own shape and FIRST_COHORT_RUNTIME_IDENTITY.json are read independently. A route listed here is counted NOT addressable and the disagreement is the finding: one of the two records is stale."
+    "notAddressable": [],
+    "failedMappings": [],
+    "recordsDisagreeOn": [],
+    "whenTheRecordsDisagree": "The route key's own shape and the canonical route-obligation census are read independently. A missing, duplicated or mismatched census mapping is counted NOT addressable and the disagreement is the finding; no jurisdiction allowlist or inferred pathway is substituted."
   },
   "provenFamiliesNeedingANewLegalReview": [
     {
