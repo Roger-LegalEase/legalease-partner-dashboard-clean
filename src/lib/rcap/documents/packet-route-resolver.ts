@@ -11,7 +11,10 @@ import path from "node:path";
 
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
 import { legalRouteContract, routeCheckoutIsClosed } from "@/lib/legal-authority/index";
-import { factoryV2RouteFor } from "@/lib/rcap/documents/factory-v2-registry";
+import {
+  factoryV2RouteFor,
+  factoryV2RouteMigrationFor
+} from "@/lib/rcap/documents/factory-v2-registry";
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 import {
   completeGuidanceForTrack,
@@ -148,12 +151,20 @@ export type PacketRouteResolution = {
     profileVersion: string;
     requiredInputIds: string[];
     officialFormIds: string[];
+    packetFamilyId: string | null;
+    retiredLegacyRouteMigrated: boolean;
   };
 };
 
 export type PacketRouteInput = {
   state?: string | null;
   pathway?: string | null;
+  /**
+   * Never accepted from this boundary. Packet-family identity is resolved from
+   * the server-owned route specification; the presence of this field fails the
+   * request closed even when its value happens to be correct.
+   */
+  packetFamilyId?: string | null;
   /**
    * The server-owned composed-route track id. Never populated from an
    * unverified client body: the caller resolves it from the screening
@@ -503,6 +514,15 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
     return { ...DISABLED, jurisdiction: "", pathwayId, reason: "No jurisdiction was supplied; a packet route cannot be resolved." };
   }
 
+  if (Object.prototype.hasOwnProperty.call(input, "packetFamilyId")) {
+    return {
+      ...DISABLED,
+      jurisdiction,
+      pathwayId,
+      reason: "Client-supplied packet-family authority is not accepted; the server resolves the family from the exact route specification."
+    };
+  }
+
   /**
    * A proven-incomplete packet closes the route before anything else is asked.
    *
@@ -694,7 +714,13 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
     return { ...DISABLED, jurisdiction, pathwayId, reason: `No compiled profile exists for ${jurisdiction}.` };
   }
 
-  if (LEGACY_VERIFIED.has(jurisdiction)) {
+  // ADR-0004 remains a jurisdiction-wide retirement fence. One route may pass
+  // it only when the factory registry validates an exact route migration
+  // against its generated seven-input row and its registered packet family.
+  // A missing, malformed or mismatched migration therefore falls back to the
+  // retired renderer, never to a sibling or jurisdiction-wide factory grant.
+  const retiredLegacyRouteMigration = factoryV2RouteMigrationFor(jurisdiction, pathwayId);
+  if (LEGACY_VERIFIED.has(jurisdiction) && !retiredLegacyRouteMigration) {
     return {
       routeKind: "legacy_retired",
       jurisdiction,
@@ -727,8 +753,8 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   }
 
   // factory_v2: ONE shared branch, reached only after every suppression above
-  // has declined the route, and only outside the legacy-verified jurisdictions,
-  // whose live generators keep their own route.
+  // has declined the route. A retired-legacy jurisdiction reaches it only for
+  // an exact migration validated above; every sibling keeps the retired route.
   //
   // Admission is decided entirely by the generated registry, on seven build
   // inputs — authoritative profile and pathway, exact packet set, packet
@@ -758,7 +784,9 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
         registryTrackIds: factoryRoute.registryTrackIds,
         profileVersion: factoryRoute.profileVersion,
         requiredInputIds: factoryRoute.requiredInputIds,
-        officialFormIds: factoryRoute.officialFormIds
+        officialFormIds: factoryRoute.officialFormIds,
+        packetFamilyId: factoryRoute.packetFamilyId,
+        retiredLegacyRouteMigrated: factoryRoute.retiredLegacyRouteMigration !== null
       }
     };
   }

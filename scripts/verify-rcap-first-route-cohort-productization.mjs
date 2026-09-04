@@ -1,0 +1,329 @@
+#!/usr/bin/env node
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { register } from "node:module";
+import { fileURLToPath } from "node:url";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+process.chdir(ROOT);
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+const MUTATIONS = process.argv.includes("--mutations");
+const MIGRATIONS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
+const FACTORY_REGISTRY_PATH = "data/record-clearing/factory-v2-route-registry.json";
+const FULFILLMENT_REGISTRY_PATH = "data/rcap-grade-a/fulfillment-authority-registry.json";
+const OWNER_DECISION_PATH = "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json";
+const POST_APPROVAL_AUDIT_PATH = "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json";
+
+const read = (relative) => JSON.parse(fs.readFileSync(path.join(ROOT, relative), "utf8"));
+const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
+const stableStringify = (value) => {
+  if (value === null || typeof value !== "object") return JSON.stringify(value) ?? "null";
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`).join(",")}}`;
+};
+
+const {
+  packetSpecificationFor,
+  specificationContentSha256
+} = await import("../src/lib/rcap/grade-a/packet-specification.ts");
+const {
+  factoryV2RouteFor,
+  factoryV2RouteMigrationFor,
+  resetFactoryV2RegistryCache
+} = await import("../src/lib/rcap/documents/factory-v2-registry.ts");
+const {
+  resolvePacketRoute
+} = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+const {
+  resolvePacketFamilyId
+} = await import("../src/lib/rcap/render/commercial-admission.ts");
+
+const ROUTES = [
+  {
+    jurisdiction: "DC",
+    pathwayId: "dc_actual_innocence_expungement_16_803",
+    familyId: "dc_innocence_expungement-set",
+    trackIds: ["dc_innocence_expungement"],
+    specificationPath: "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
+    overlayRoot: "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading",
+    migrated: true,
+    components: ["primary_filing", "prosecutor_service", "filing_instructions"],
+    artifacts: {
+      canonical: ["d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076", 14157, 5],
+      boundary: ["84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d", 14422, 5]
+    }
+  },
+  {
+    jurisdiction: "MS",
+    pathwayId: "additional-justice-court-misdemeanor-relief-9-11-15-3",
+    familyId: "ms-misd-addl-set",
+    trackIds: ["ms-misd-addl"],
+    specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading",
+    migrated: true,
+    components: [
+      "ms-misd-addl-primary-filing-1",
+      "ms-misd-addl-proposed-order-2",
+      "ms-misd-addl-certificate-of-service-3",
+      "ms-misd-addl-attachment-4",
+      "ms-misd-addl-instructions-5"
+    ],
+    artifacts: {
+      canonical: ["7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c", 21298, 8],
+      boundary: ["96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5", 21617, 8]
+    }
+  },
+  {
+    jurisdiction: "MS",
+    pathwayId: "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    familyId: "ms-misd-addl-set",
+    trackIds: ["ms-misd-addl"],
+    specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading",
+    migrated: true,
+    components: [
+      "ms-misd-addl-primary-filing-1",
+      "ms-misd-addl-proposed-order-2",
+      "ms-misd-addl-certificate-of-service-3",
+      "ms-misd-addl-attachment-4",
+      "ms-misd-addl-instructions-5"
+    ],
+    artifacts: {
+      canonical: ["7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c", 21298, 8],
+      boundary: ["96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5", 21617, 8]
+    }
+  },
+  {
+    jurisdiction: "WY",
+    pathwayId: "felony-conviction-expungement-w-s-7-13-1502",
+    familyId: "wy_fel_1502-set",
+    trackIds: ["wy_fel_1502"],
+    specificationPath: "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
+    overlayRoot: "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading",
+    migrated: false,
+    components: [
+      "wy_fel_1502-primary-filing-1",
+      "wy_fel_1502-proposed-order-2",
+      "wy_fel_1502-verification-3",
+      "wy_fel_1502-certificate-of-service-4",
+      "wy_fel_1502-filing-instructions-5"
+    ],
+    artifacts: {
+      canonical: ["3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30", 21843, 8],
+      boundary: ["703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800", 22165, 8]
+    }
+  }
+].map((route) => ({ ...route, routeId: `${route.jurisdiction}:${route.pathwayId}` }));
+
+const REQUIRED_BUILD_INPUTS = [
+  "authoritativeProfile",
+  "authoritativePathway",
+  "exactPacketSet",
+  "packetSpecification",
+  "requiredParticipantFields",
+  "sourceOrApprovedComposedDocument",
+  "deterministicFixture"
+];
+
+const firstCohort = read("data/rcap-grade-a/FIRST_ROUTE_COHORT.json");
+assert.equal(firstCohort.atCommit, "ed6d2662839318dd84dc28428916217b9eb3c4ed",
+  "the derived first-route cohort evidence commit must not change");
+assert.deepEqual(firstCohort.cohort.map((row) => row.familyId).sort(),
+  ["dc_innocence_expungement-set", "ms-misd-addl-set", "wy_fel_1502-set"],
+  "the productization scope must remain the selected three families");
+
+const manifests = read(MIGRATIONS_PATH);
+const migrations = manifests.factoryV2RouteMigrations ?? [];
+assert.deepEqual(migrations.map((row) => row.routeId).sort(), ROUTES.filter((row) => row.migrated).map((row) => row.routeId).sort(),
+  "the migration crosswalk must contain exactly the three retired-legacy routes and no jurisdiction-wide row");
+for (const migration of migrations) {
+  assert.equal(migration.scope, "route_only");
+  assert.equal(migration.ownerDecisionRecordId, "OWN-ADOPT-2026-09-02-BATCH-53");
+  assert.equal(migration.createsCommercialAuthority, false);
+  assert.equal(migration.opensRoute, false);
+}
+
+const generatorSource = fs.readFileSync(path.join(ROOT, "scripts/generate-rcap-factory-v2-registry.mjs"), "utf8");
+assert.match(generatorSource, /const PACKET_SETS = "data\/record-clearing\/legal-design-packet-set-manifests\.json"/,
+  "the migration crosswalk must live in the existing packet-set input consumed by the factory-v2 generator");
+assert.match(generatorSource, /packetSets = read\(PACKET_SETS\)/);
+assert.match(generatorSource, /packetSetManifests: \{ path: PACKET_SETS, sha256: sha256\(PACKET_SETS\) \}/,
+  "the generator must continue to digest-pin the migration input");
+
+const rawRegistry = read(FACTORY_REGISTRY_PATH);
+const fulfillment = read(FULFILLMENT_REGISTRY_PATH);
+const ownerDecision = read(OWNER_DECISION_PATH);
+const postApprovalAudit = read(POST_APPROVAL_AUDIT_PATH);
+assert.equal(ownerDecision.recordId, "OWN-ADOPT-2026-09-02-BATCH-53");
+for (const route of ROUTES) {
+  const raw = rawRegistry.routes.find((row) => row.pathwayKey === route.routeId);
+  assert.ok(raw, `${route.routeId}: generated factory-v2 row missing`);
+  assert.ok(REQUIRED_BUILD_INPUTS.every((name) => raw.buildInputs?.[name] === true),
+    `${route.routeId}: all seven generated build inputs must remain true`);
+  assert.deepEqual(raw.unmetBuildInputs, [], `${route.routeId}: generated build inputs unexpectedly unmet`);
+  assert.deepEqual(raw.packetSetIds, [route.familyId]);
+  assert.deepEqual(raw.registryTrackIds, route.trackIds);
+  assert.equal(raw.factoryV2Resolves, !route.migrated,
+    `${route.routeId}: only retired-legacy ownership may distinguish the raw generated admission`);
+  assert.equal(raw.legacyGeneratorOwnsThisJurisdiction, route.migrated);
+
+  const spec = packetSpecificationFor(route.routeId);
+  assert.ok(spec, `${route.routeId}: route-scoped packet specification missing`);
+  assert.equal(spec.packetFamily, route.familyId);
+  assert.ok((spec.routeKeys ?? [spec.routeKey]).includes(route.routeId));
+  assert.equal(spec.legalSectionsBoundBy?.ownerDecisionRecordId, ownerDecision.recordId);
+  assert.equal(spec.legalSectionsBoundBy?.postApprovalAuditVerdict, "COVERED_BY_EXISTING_APPROVAL");
+  assert.equal(resolvePacketFamilyId(route.routeId), route.familyId,
+    `${route.routeId}: server-owned family crosswalk mismatch`);
+  assert.equal(specificationContentSha256(spec), spec.specificationSha256,
+    `${route.routeId}: runtime must expose the committed specification digest`);
+
+  const specFile = read(route.specificationPath);
+  const recordedSpecSha = specFile.specificationSha256;
+  delete specFile.specificationSha256;
+  assert.equal(sha256(stableStringify(specFile)), recordedSpecSha,
+    `${route.routeId}: specification content digest is stale`);
+  assert.deepEqual(spec.documents.slice().sort((a, b) => a.order - b.order).map((document) => document.documentId), route.components,
+    `${route.routeId}: specification does not bind the approved component set in order`);
+
+  const rendered = read(`${route.overlayRoot}/reports/rendered-artifacts.json`);
+  assert.deepEqual(rendered.componentSet, route.components, `${route.routeId}: shipping report component set drifted`);
+  assert.deepEqual(spec.approvedArtifacts?.map((artifact) => artifact.fixture).sort(), ["boundary", "canonical"]);
+  const adoptionQualification = ownerDecision.adoption.qualifications.find((qualification) =>
+    qualification.families.includes(route.familyId));
+  assert.ok(adoptionQualification, `${route.routeId}: owner decision does not adopt the family`);
+  const adoptedArtifacts = adoptionQualification.digestConditionRecordedPerFamily[route.familyId];
+  assert.ok(adoptedArtifacts, `${route.routeId}: owner decision has no exact artifact pins`);
+  const currentAudit = postApprovalAudit.families.find((row) => row.familyId === route.familyId);
+  assert.equal(currentAudit?.verdict, "COVERED_BY_EXISTING_APPROVAL");
+  assert.equal(currentAudit?.reviewedAgainstApprovalRecordId, ownerDecision.recordId);
+  assert.equal(currentAudit?.currentIndependentVerification?.verdict, "PASS_COMPLETE_INDEPENDENT");
+  assert.equal(currentAudit?.mayEnterTheFirstCohort, true);
+  for (const [fixture, [expectedSha, expectedBytes, expectedPages]] of Object.entries(route.artifacts)) {
+    const artifact = spec.approvedArtifacts.find((candidate) => candidate.fixture === fixture);
+    const reportArtifact = rendered.pdfs.find((candidate) => candidate.fixture === fixture);
+    const adoptedArtifact = adoptedArtifacts.find((candidate) => candidate.fixture === fixture);
+    assert.ok(artifact && reportArtifact, `${route.routeId}/${fixture}: artifact binding missing`);
+    assert.ok(adoptedArtifact, `${route.routeId}/${fixture}: owner decision artifact binding missing`);
+    assert.deepEqual(artifact.components, route.components);
+    assert.equal(artifact.sha256, expectedSha);
+    assert.equal(artifact.byteLength, expectedBytes);
+    assert.equal(artifact.pageCount, expectedPages);
+    assert.equal(reportArtifact.sha256, expectedSha);
+    assert.equal(reportArtifact.byteLength, expectedBytes);
+    assert.equal(reportArtifact.pageCount, expectedPages);
+    assert.equal(adoptedArtifact.file, artifact.file);
+    assert.equal(adoptedArtifact.sha256, expectedSha);
+    const bytes = fs.readFileSync(path.join(ROOT, artifact.file));
+    assert.equal(sha256(bytes), expectedSha, `${route.routeId}/${fixture}: shipping bytes changed`);
+    assert.equal(bytes.length, expectedBytes, `${route.routeId}/${fixture}: shipping byte length changed`);
+  }
+
+  const factory = factoryV2RouteFor(route.jurisdiction, route.pathwayId);
+  assert.ok(factory, `${route.routeId}: exact route not admitted by factory-v2`);
+  assert.equal(factory.packetFamilyId, route.familyId);
+  assert.deepEqual(factory.packetSetIds, [route.familyId]);
+  assert.deepEqual(factory.registryTrackIds, route.trackIds);
+  assert.equal(factoryV2RouteMigrationFor(route.jurisdiction, route.pathwayId)?.routeId ?? null,
+    route.migrated ? route.routeId : null);
+
+  const resolution = resolvePacketRoute({ state: route.jurisdiction, pathway: route.pathwayId });
+  assert.equal(resolution.routeKind, "factory_v2", `${route.routeId}: exact route did not select factory-v2`);
+  assert.equal(resolution.factoryV2?.packetFamilyId, route.familyId);
+  assert.equal(resolution.factoryV2?.retiredLegacyRouteMigrated, route.migrated);
+  assert.equal(resolution.sellable, false, `${route.routeId}: productization must not open checkout`);
+  assert.equal(resolution.creditConsumable, false, `${route.routeId}: productization must not open sponsored credit`);
+  assert.equal(resolution.availability, "UNFINISHED", `${route.routeId}: absent fulfillment authority must remain the next gate`);
+  assert.equal(fulfillment.records.some((record) => record.routeId === route.routeId), false,
+    `${route.routeId}: this lane must not create a fulfillment record`);
+}
+
+const siblings = [
+  ["DC", "dc_motion_seal_nonconviction_16_806"],
+  ["DC", "dc_motion_seal_misdemeanor_conviction_5yr_16_806"],
+  ["MS", "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"],
+  ["MS", "eligible-felony-conviction-expungement-99-19-71"]
+];
+for (const [jurisdiction, pathwayId] of siblings) {
+  assert.equal(factoryV2RouteFor(jurisdiction, pathwayId), null,
+    `${jurisdiction}:${pathwayId}: retired sibling gained factory authority`);
+  const resolution = resolvePacketRoute({ state: jurisdiction, pathway: pathwayId });
+  assert.equal(resolution.routeKind, "legacy_retired", `${jurisdiction}:${pathwayId}: retired sibling reopened`);
+  assert.equal(resolution.sellable, false);
+  assert.equal(resolution.creditConsumable, false);
+}
+
+const migratedRouteIds = new Set(ROUTES.filter((route) => route.migrated).map((route) => route.routeId));
+const everyRetiredSibling = rawRegistry.routes.filter((row) =>
+  ["DC", "MS"].includes(row.jurisdiction) && !migratedRouteIds.has(row.pathwayKey));
+assert.ok(everyRetiredSibling.length > siblings.length, "retired-sibling census unexpectedly empty");
+for (const sibling of everyRetiredSibling) {
+  assert.equal(factoryV2RouteFor(sibling.jurisdiction, sibling.pathwayId), null,
+    `${sibling.pathwayKey}: retired sibling gained factory authority`);
+  const resolution = resolvePacketRoute({ state: sibling.jurisdiction, pathway: sibling.pathwayId });
+  assert.notEqual(resolution.routeKind, "factory_v2", `${sibling.pathwayKey}: retired sibling migrated by inference`);
+  assert.equal(resolution.sellable, false);
+  assert.equal(resolution.creditConsumable, false);
+}
+
+for (const route of ROUTES) {
+  assert.equal(factoryV2RouteFor(route.jurisdiction === "DC" ? "MS" : "DC", route.pathwayId), null,
+    `${route.routeId}: wrong jurisdiction selected the route`);
+  const supplied = resolvePacketRoute({
+    state: route.jurisdiction,
+    pathway: route.pathwayId,
+    packetFamilyId: route.familyId
+  });
+  assert.equal(supplied.routeKind, "disabled", `${route.routeId}: client-supplied family authority was accepted`);
+  assert.equal(supplied.sellable, false);
+  assert.match(supplied.reason, /Client-supplied packet-family authority is not accepted/);
+}
+
+if (MUTATIONS) {
+  const original = fs.readFileSync(path.join(ROOT, MIGRATIONS_PATH), "utf8");
+  const originalSha = sha256(original);
+  const checkMutation = (label, mutate, routeId) => {
+    const changed = JSON.parse(original);
+    mutate(changed);
+    try {
+      fs.writeFileSync(path.join(ROOT, MIGRATIONS_PATH), `${JSON.stringify(changed, null, 2)}\n`);
+      resetFactoryV2RegistryCache();
+      const route = ROUTES.find((candidate) => candidate.routeId === routeId);
+      assert.ok(route, `${label}: unknown test route`);
+      assert.equal(factoryV2RouteFor(route.jurisdiction, route.pathwayId), null, `${label}: mutation was not denied`);
+      assert.equal(resolvePacketRoute({ state: route.jurisdiction, pathway: route.pathwayId }).routeKind, "legacy_retired",
+        `${label}: mutated route did not fall back to the retired fence`);
+      console.log(`caught  ${label}`);
+    } finally {
+      fs.writeFileSync(path.join(ROOT, MIGRATIONS_PATH), original);
+      resetFactoryV2RegistryCache();
+    }
+  };
+
+  checkMutation("wrong packet family", (doc) => {
+    doc.factoryV2RouteMigrations[0].packetFamilyId = "dc_seal_nonconviction-set";
+  }, "DC:dc_actual_innocence_expungement_16_803");
+  checkMutation("wildcard route scope", (doc) => {
+    doc.factoryV2RouteMigrations[0].routeId = "DC:*";
+  }, "DC:dc_actual_innocence_expungement_16_803");
+  checkMutation("commercial authority flag", (doc) => {
+    doc.factoryV2RouteMigrations[1].createsCommercialAuthority = true;
+  }, "MS:additional-justice-court-misdemeanor-relief-9-11-15-3");
+  checkMutation("route-open flag", (doc) => {
+    doc.factoryV2RouteMigrations[1].opensRoute = true;
+  }, "MS:additional-justice-court-misdemeanor-relief-9-11-15-3");
+  checkMutation("unbound owner decision", (doc) => {
+    doc.factoryV2RouteMigrations[1].ownerDecisionRecordId = "UNAPPROVED";
+  }, "MS:additional-justice-court-misdemeanor-relief-9-11-15-3");
+  checkMutation("duplicate route migration", (doc) => {
+    doc.factoryV2RouteMigrations.push({ ...doc.factoryV2RouteMigrations[0] });
+  }, "DC:dc_actual_innocence_expungement_16_803");
+
+  assert.equal(sha256(fs.readFileSync(path.join(ROOT, MIGRATIONS_PATH), "utf8")), originalSha,
+    "mutation checks did not restore the authoritative migration input byte-for-byte");
+}
+
+console.log(`First-route cohort productization PASS (${ROUTES.length} routes; ${MUTATIONS ? "fail-closed mutations checked" : "focused route/spec/resolver checks"}).`);
