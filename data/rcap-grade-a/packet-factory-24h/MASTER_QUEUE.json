@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b05d5d85e91c6af364d7cf725abbda0ca78bc20f",
+  "minimumCaptainSha": "191e10af5d1ef6869059d66bc8109dadf5b746c3",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -71,18 +71,18 @@
     "sourceReady": 60,
     "sourceBlocked": 75,
     "legalBlocked": 5,
-    "verifyPending": 14,
+    "verifyPending": 13,
     "repairRequired": 48,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 60,
-    "COMPLETE_PACKET_PROVEN": 115,
+    "COMPLETE_PACKET_PROVEN": 116,
     "FAIL_REPAIR_REQUIRED": 48,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 75,
     "PRODUCT_PATH_PENDING": 10,
-    "VERIFY_PENDING": 14,
+    "VERIFY_PENDING": 13,
     "VERIFIED_PASS": 2,
     "LEGAL_BLOCKED": 5,
     "HANDOFF_READY": 2,
@@ -36142,17 +36142,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf06",
-        "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "lane": "current-byte-independent-verification-ut-pet-traffic-c28d49571",
+        "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ut-pet-traffic-c28d49571/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": {
@@ -36162,9 +36159,9 @@
         "wave2LegalInputClass": "MISSING_ROUTE_FAMILY_BINDING",
         "wave2SendToLawrence": false,
         "supersededBy": {
-          "lane": "vf06",
+          "lane": "current-byte-independent-verification-ut-pet-traffic-c28d49571",
           "verdict": "PASS_COMPLETE_INDEPENDENT",
-          "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+          "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa"
         },
         "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
         "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
@@ -36208,7 +36205,7 @@
       "failedObligations": [],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_traffic-set.mjs",
