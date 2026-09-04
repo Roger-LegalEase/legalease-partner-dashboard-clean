@@ -1,4 +1,18 @@
 {
+  "nationalRead20260904": {
+    "wave": "packet-factory-24h/VF04/national-six-family-read (CODEX-CS2-VF04-NATIONAL, 2026-09-04)",
+    "worker": "CODEX-CS2-VF04-NATIONAL (independent; repaired none of these packets)",
+    "baseSha": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+    "familiesRead": 6,
+    "assignmentsAddedHere": 1,
+    "assignedFamily": "rcap-ms-custom-pleading",
+    "productPathHoldsNotMisroutedAsRepair": ["rcap-ga-guidance-implementation"],
+    "noRepairPerformed": true,
+    "centralStateEdits": 0,
+    "claimsReleased": 0,
+    "routesOpened": 0,
+    "productionTouched": false
+  },
   "vtdReading": {
     "reading": "packet-factory-24h/VF04 (VT-D, 2026-09-02)",
     "whatThisMarkerIs": "One repair assignment was appended to this file by VT-D, carrying \"wave\": \"packet-factory-24h/VF04 (VT-D, 2026-09-02)\". Everything already here was written by earlier workers on this lane and is preserved byte for byte; nothing in it is edited or withdrawn.",
@@ -581,6 +595,66 @@
    "notBlocked": "Not BLOCKED_SOURCE: all four official source binaries are independently hash-exact. Not BLOCKED_LEGAL_INPUT: every defect is directly observable in the delivered bytes and settled route selection.",
    "notRepairedHere": "This lane wrote no packet, overlay, generator, route, launch or Production file.",
    "doNotDoInRepair": "Do not treat green focused counters as clearing the 18 visible partial rows. Do not delete required instructions, repin broken PDFs, change the route, open a commercial path or promote the family."
+  },
+  {
+    "wave": "packet-factory-24h/VF04/national-six-family-read (CODEX-CS2-VF04-NATIONAL, 2026-09-04)",
+    "itemId": "rcap-ms-custom-pleading",
+    "lane": "VF04",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+    "raisedBy": "CODEX-CS2-VF04-NATIONAL (independent; built, repaired and rastered none of these packet bytes)",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+    "failedProofObligations": [
+      "COMPONENT_SET",
+      "PAGE_ORDER",
+      "CLIPPING_AND_OVERLAP"
+    ],
+    "decisiveDefect": "The controlling registry requires five ordered components per route; the packet renders four, omitting each required attachment-4 records checklist and replacing the prescribed instructions-5 with filing-instructions-4. The current PDF bytes also contain near-empty overflow pages: canonical page 21 is route-footer-only, boundary page 21 is an email plus that footer, and both page 17s contain only the tail of one DUI bullet plus a route footer.",
+    "perObligation": {
+      "COMPONENT_SET": {
+        "measuredDetail": "legal-design-track-registry.json declares 15 required components across ms-drug-cd, ms-dui and ms-mip: primary-filing-1, proposed-order-2, certificate-of-service-3, attachment-4 and instructions-5 per route. The delivered family declares 12. All three attachment-4 IDs and all three instructions-5 IDs are absent; one filing-instructions-4 per route occupies the attachment ordinal. None of the 12 participantFilingRequirements appears as a records checklist in the delivered PDF.",
+        "whatRepairMustDo": "Render a distinct attachment-4 records checklist and a distinct instructions-5 component for each route, using the controlling component IDs and the registry's 12 participantFilingRequirements. Do not merge the checklist into an untracked generic instruction component."
+      },
+      "PAGE_ORDER": {
+        "measuredDetail": "The controlling order is primary filing, proposed order, certificate of service, attachment, instructions. Both page manifests go directly from certificate-of-service-3 to filing-instructions-4, so they do not follow the controlling packetSet order.",
+        "whatRepairMustDo": "Assemble each route block in exact controlling order 1 through 5 after adding the missing component, then verify order against the registry rather than against the builder's own emitted manifest."
+      },
+      "CLIPPING_AND_OVERLAP": {
+        "measuredDetail": "All 52 current pages were text-swept. Canonical page 21 has only the 89-character ms-mip route footer; boundary page 21 has only the overflow email and footer (153 characters); page 17 in both fixtures has only 'delivered, signed only after delivery (Clearing a first DUI)' and its footer (122 characters). Fresh 100-dpi local rasters of canonical pages 17 and 21 visually confirm the near-blank pages. RASTER_QUEUE nevertheless reports RASTER_PASS, 52 pages measured, 0 problems for these exact hashes.",
+        "whatRepairMustDo": "Repaginate the composed components so no page contains only a footer, contact-line spill or trailing bullet fragment. Sweep every page after both canonical and boundary rebuilds and require a fresh exact-hash raster receipt."
+      }
+    },
+    "currentArtifacts": [
+      {"fixture":"canonical","sha256":"2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0","byteLength":69082,"pageCount":26},
+      {"fixture":"boundary","sha256":"09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f","byteLength":70320,"pageCount":26}
+    ],
+    "rasterReceiptRead": {"workflowRunId":"33711294456","jobId":"100511842295","artifactId":9877279526,"artifactZipSha256":"sha256:1311e741e1bb4315f9dd047915b6e6bda9965fb0b27ef5e4868add6f80e4f51c","boundToCurrentBytes":true,"reportedProblems":0,"independentlyContradicted":true},
+    "obligationsThatPassedAndMustNotRegress": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "ARTIFACTS",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP"
+    ],
+    "nineCountersAtRead": "PASS_COMPLETE, 33/122 written; all nine counters zero. The component and overflow findings are independent false negatives in those counters.",
+    "repairMustNotDo": [
+      "Do not edit a source or artifact merely so a receipt matches it.",
+      "Do not change legal authority, route identity, filing destination, fee/waiver, service or stop conditions.",
+      "Do not treat the existing RASTER_PASS as clearing rebuilt bytes; any PDF-byte change requires a fresh exact-hash receipt.",
+      "This assignment opens no route and grants no Production authority."
+    ],
+    "noRepairPerformed": true,
+    "centralStateEdits": 0,
+    "claimsReleased": 0,
+    "routesOpened": 0,
+    "productionTouched": false
   }
  ],
   "supersededLaneMembership": {
