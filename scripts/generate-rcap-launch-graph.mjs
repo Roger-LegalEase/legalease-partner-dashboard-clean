@@ -285,6 +285,7 @@ for (const pathway of intended) {
     noProblematicPdfHold: problemAssets.length === 0
   };
   const unmetGates = Object.entries(gates).filter(([, met]) => !met).map(([name]) => name);
+  const fulfillmentAuthorityAdmitted = isOperationallySellable(pathway.pathwayKey ?? key);
 
   rows.push({
     pathwayKey: key,
@@ -360,17 +361,13 @@ for (const pathway of intended) {
 
     operationalGates: gates,
     unmetOperationalGates: unmetGates,
-    // The commercial decision is read from the one Grade-A authority, not
-    // recomputed here. The nine operational gates above stay exactly as they
-    // were and keep being reported, but they are diagnostics now rather than a
-    // second commercial rule: two computations of the same fact are two places
-    // to get it wrong, and the second one is the one that gets it wrong later.
-    //
-    // The gates and the authority are also reported side by side, so a
-    // divergence between "every operational gate is met" and "the authority
-    // admits this route" is visible as data instead of being silently resolved
-    // in favour of whichever computation ran last.
-    operationallySellable: isOperationallySellable(pathway.pathwayKey ?? key),
+    // Grade-A fulfillment authority is an additional closed door. It cannot
+    // override any existing runtime, payment, source, legal, renderer or hold
+    // restriction represented by the operational gates above. Conversely,
+    // satisfying those older gates cannot substitute for the canonical
+    // fulfillment record. A route is sellable only at their intersection.
+    fulfillmentAuthorityAdmitted,
+    operationallySellable: fulfillmentAuthorityAdmitted && unmetGates.length === 0,
     allOperationalGatesMet: unmetGates.length === 0
   });
 }

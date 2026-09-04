@@ -21,11 +21,11 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | EXACT TRACK + PACKET SET | 222 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
 | OWNER-APPROVED LEGAL | 95 |
-| FACTORY_V2 RESOLVED | 167 |
+| FACTORY_V2 RESOLVED | 165 |
 | PAYMENT ALLOWED | 28 |
-| DETERMINISTICALLY RENDERED (complete packet) | 42 |
-| — composed text proven deterministic | 167 |
-| — official forms named but not held here | 125 |
+| DETERMINISTICALLY RENDERED (complete packet) | 41 |
+| — composed text proven deterministic | 165 |
+| — official forms named but not held here | 124 |
 | OPERATIONALLY SELLABLE | 0 |
 
 Operationally sellable means all nine of: correct public witness; authoritative intended pathway;
@@ -45,9 +45,9 @@ owner-authorized action through the consumer-delivery control under the all-51 l
 | `CUSTOM_PLEADING_READY` | 0 |
 | `GUIDANCE_READY` | 0 |
 | `HANDOFF_READY` | 5 |
-| `MAINTENANCE_HOLD` | 19 |
+| `MAINTENANCE_HOLD` | 23 |
 | `LEGAL_HOLD` | 8 |
-| `UNFINISHED` | 230 |
+| `UNFINISHED` | 226 |
 
 Per-state counts are carried in `availability.byState` of the JSON ledger.
 
@@ -56,10 +56,10 @@ Per-state counts are carried in `availability.byState` of the JSON ledger.
 | Unmet gate | Routes |
 |---|---:|
 | `paymentAllowed` | 234 |
-| `deterministicArtifactProven` | 220 |
+| `deterministicArtifactProven` | 221 |
 | `technicalApprovalCurrent` | 192 |
 | `ownerApprovedLegalDesign` | 167 |
-| `rendererSelected` | 68 |
+| `rendererSelected` | 70 |
 | `packetSpecificationComplete` | 40 |
 | `noProblematicPdfHold` | 19 |
 

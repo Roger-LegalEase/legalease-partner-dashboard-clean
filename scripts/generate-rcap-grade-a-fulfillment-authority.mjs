@@ -131,7 +131,7 @@ const FIRST_COHORT_VERIFICATION = {
 // the other.
 const FIRST_COHORT_ROUTES = [
   {
-    assignmentClaim: "obligation:track-pathway:DC:dc_actual_innocence_expungement_16_803",
+    assignmentClaim: "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
     routeId: "DC:dc_actual_innocence_expungement_16_803",
     familyId: "dc_innocence_expungement-set",
     specificationPath: "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
@@ -144,7 +144,7 @@ const FIRST_COHORT_ROUTES = [
     verification: FIRST_COHORT_VERIFICATION["dc_innocence_expungement-set"]
   },
   {
-    assignmentClaim: "obligation:track-pathway:MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    assignmentClaim: "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
     routeId: "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
     familyId: "ms-misd-addl-set",
     specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
@@ -154,7 +154,7 @@ const FIRST_COHORT_ROUTES = [
     verification: FIRST_COHORT_VERIFICATION["ms-misd-addl-set"]
   },
   {
-    assignmentClaim: "obligation:track-pathway:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    assignmentClaim: "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
     routeId: "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
     familyId: "ms-misd-addl-set",
     specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
@@ -164,7 +164,7 @@ const FIRST_COHORT_ROUTES = [
     verification: FIRST_COHORT_VERIFICATION["ms-misd-addl-set"]
   },
   {
-    assignmentClaim: "obligation:track-pathway:WY:felony-conviction-expungement-w-s-7-13-1502",
+    assignmentClaim: "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502",
     routeId: "WY:felony-conviction-expungement-w-s-7-13-1502",
     familyId: "wy_fel_1502-set",
     specificationPath: "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",

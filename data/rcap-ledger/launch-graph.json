@@ -14,7 +14,7 @@
   "inputs": {
     "data/rcap-ledger/sellable-pathway-closure.json": "92dc0ae26c187c247690de921a2d9d144845cc5dddf354e2f3baa0653f86de1a",
     "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
-    "data/record-clearing/legal-design-packet-set-manifests.json": "bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66",
+    "data/record-clearing/legal-design-packet-set-manifests.json": "2a9f24db0abd9f52e1947d800057b43b6156673ebc86463bb724dfeeabb56f58",
     "data/rcap-ledger/public-witness-answer-sets.json": "120fd18ca819f5332a030913df9f9015e6ebf2ae7cd09c48f377f21097380862",
     "data/record-clearing/factory-v2-route-registry.json": "3ac67d697139f812e6663010c7b6797ece4ee9d7bf6942ae81d8ca7d4bc7c815",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
@@ -51,12 +51,20 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 167,
-    "factoryV2Resolved": 167,
+    "factoryV2Selected": 165,
+    "factoryV2Resolved": 165,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
         "suppressedBy": "exact_supported_deferral"
+      },
+      {
+        "pathwayKey": "CT:absolute-pardon-resulting-in-erasure",
+        "suppressedBy": "guidance_only"
+      },
+      {
+        "pathwayKey": "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "suppressedBy": "guidance_only"
       },
       {
         "pathwayKey": "KY:felony-conviction-431073",
@@ -88,18 +96,18 @@
       }
     ],
     "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 167,
-    "deterministicallyRendered": 42,
-    "officialFormsNamedButNotHeldInThisRepository": 125,
+    "deterministicallyRenderedComposedText": 165,
+    "deterministicallyRendered": 41,
+    "officialFormsNamedButNotHeldInThisRepository": 124,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 167,
     "technicalApprovalCurrent": 192,
-    "deterministicArtifactProven": 220,
+    "deterministicArtifactProven": 221,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 234,
-    "rendererSelected": 68,
+    "rendererSelected": 70,
     "packetSpecificationComplete": 40
   },
   "availability": {
@@ -119,9 +127,9 @@
       "CUSTOM_PLEADING_READY": 0,
       "GUIDANCE_READY": 0,
       "HANDOFF_READY": 5,
-      "MAINTENANCE_HOLD": 19,
+      "MAINTENANCE_HOLD": 23,
       "LEGAL_HOLD": 8,
-      "UNFINISHED": 230
+      "UNFINISHED": 226
     },
     "byState": {
       "AK": {
@@ -192,9 +200,9 @@
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
-        "MAINTENANCE_HOLD": 0,
+        "MAINTENANCE_HOLD": 1,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 4
+        "UNFINISHED": 3
       },
       "DE": {
         "PACKET_READY": 0,
@@ -354,9 +362,9 @@
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 2,
-        "MAINTENANCE_HOLD": 1,
+        "MAINTENANCE_HOLD": 3,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 12
+        "UNFINISHED": 10
       },
       "MT": {
         "PACKET_READY": 0,
@@ -579,9 +587,9 @@
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
-        "MAINTENANCE_HOLD": 0,
+        "MAINTENANCE_HOLD": 1,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 3
+        "UNFINISHED": 2
       }
     }
   },
@@ -689,6 +697,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -780,6 +789,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -871,6 +881,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -971,6 +982,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1075,6 +1087,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1182,6 +1195,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1282,6 +1296,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1382,6 +1397,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1482,6 +1498,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1583,6 +1600,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1675,6 +1693,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1776,6 +1795,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1876,6 +1896,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -1977,6 +1998,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2076,6 +2098,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2178,6 +2201,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2280,6 +2304,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2383,6 +2408,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2488,6 +2514,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2578,6 +2605,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2677,6 +2705,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2769,6 +2798,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2860,6 +2890,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -2918,13 +2949,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "ct-absolute-pardon-set",
-          "ct-pardon-erasure-set"
-        ],
-        "reason": "CT absolute-pardon-resulting-in-erasure builds through the shared packet factory from packet set ct-absolute-pardon-set, ct-pardon-erasure-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "CT has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -2937,15 +2965,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "ae8376ee2b63deef8236ee5119778af587043a025ebc06c1135b529b7008b4c8",
-        "characters": 2595,
-        "sections": 10,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -2959,13 +2979,16 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": true,
         "technicalApprovalCurrent": true,
-        "rendererSelected": true,
-        "deterministicArtifactProven": true,
+        "rendererSelected": false,
+        "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
-        "paymentAllowed"
+        "paymentAllowed",
+        "rendererSelected",
+        "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3016,12 +3039,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "ct-cleanslate-petition-set"
-        ],
-        "reason": "CT petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202 builds through the shared packet factory from packet set ct-cleanslate-petition-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "CT has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -3034,15 +3055,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "4bbc4981c70b0cc3a01f7ae3ac8444fb5c4aee9a4116c4aefdb5627939322b4a",
-        "characters": 2648,
-        "sections": 10,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -3056,7 +3069,7 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
+        "rendererSelected": false,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
@@ -3064,8 +3077,10 @@
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
+        "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3074,7 +3089,7 @@
       "jurisdiction": "DC",
       "pathwayId": "dc_actual_innocence_expungement_16_803",
       "pathwayLabel": "Actual-innocence expungement by motion under D.C. Code § 16-803",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -3163,6 +3178,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3251,6 +3267,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3339,6 +3356,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3427,6 +3445,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3528,6 +3547,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3628,6 +3648,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3729,6 +3750,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3831,6 +3853,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -3934,6 +3957,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4034,6 +4058,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4136,6 +4161,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4236,6 +4262,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4340,6 +4367,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4431,6 +4459,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4535,6 +4564,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4632,6 +4662,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4731,6 +4762,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4830,6 +4862,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -4932,6 +4965,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5041,6 +5075,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5140,6 +5175,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5240,6 +5276,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5341,6 +5378,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5441,6 +5479,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5541,6 +5580,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5641,6 +5681,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5740,6 +5781,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5839,6 +5881,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -5938,6 +5981,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6037,6 +6081,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6136,6 +6181,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6234,6 +6280,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6328,6 +6375,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6431,6 +6479,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6534,6 +6583,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6633,6 +6683,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6729,6 +6780,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6832,6 +6884,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -6935,6 +6988,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7049,6 +7103,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7162,6 +7217,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7266,6 +7322,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7377,6 +7434,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7482,6 +7540,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7581,6 +7640,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7680,6 +7740,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7785,6 +7846,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -7890,6 +7952,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8005,6 +8068,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8118,6 +8182,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8226,6 +8291,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8330,6 +8396,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8434,6 +8501,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8539,6 +8607,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8644,6 +8713,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8747,6 +8817,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8859,6 +8930,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -8952,6 +9024,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9054,6 +9127,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9158,6 +9232,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9263,6 +9338,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9366,6 +9442,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9466,6 +9543,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9566,6 +9644,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9666,6 +9745,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9757,6 +9837,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9857,6 +9938,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -9957,6 +10039,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10066,6 +10149,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10167,6 +10251,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10268,6 +10353,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10374,6 +10460,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10475,6 +10562,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10566,6 +10654,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10667,6 +10756,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10767,6 +10857,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10874,6 +10965,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -10981,6 +11073,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11082,6 +11175,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11183,6 +11277,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11284,6 +11379,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11384,6 +11480,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11485,6 +11582,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11576,6 +11674,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11679,6 +11778,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11776,6 +11876,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11879,6 +11980,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -11982,6 +12084,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12085,6 +12188,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12187,6 +12291,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12288,6 +12393,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12296,7 +12402,7 @@
       "jurisdiction": "MS",
       "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
       "pathwayLabel": "Additional justice-court misdemeanor relief",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -12385,6 +12491,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12393,7 +12500,7 @@
       "jurisdiction": "MS",
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "pathwayLabel": "Additional municipal-court misdemeanor relief",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -12482,6 +12589,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12569,6 +12677,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12657,6 +12766,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12747,6 +12857,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12836,6 +12947,7 @@
       "unmetOperationalGates": [
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -12943,6 +13055,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13050,6 +13163,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13156,6 +13270,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13245,6 +13360,7 @@
       "unmetOperationalGates": [
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13332,6 +13448,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13438,6 +13555,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13526,6 +13644,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13632,6 +13751,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13739,6 +13859,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13842,6 +13963,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -13942,6 +14064,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14080,6 +14203,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14209,6 +14333,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14329,6 +14454,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14425,6 +14551,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14524,6 +14651,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14623,6 +14751,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14730,6 +14859,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14830,6 +14960,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -14921,6 +15052,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15010,6 +15142,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15123,6 +15256,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15242,6 +15376,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15361,6 +15496,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15473,6 +15609,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15563,6 +15700,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15654,6 +15792,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15758,6 +15897,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15862,6 +16002,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -15964,6 +16105,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16064,6 +16206,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16155,6 +16298,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16255,6 +16399,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16346,6 +16491,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16452,6 +16598,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16558,6 +16705,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16662,6 +16810,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16753,6 +16902,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16852,6 +17002,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -16951,6 +17102,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17048,6 +17200,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17147,6 +17300,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17251,6 +17405,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17353,6 +17508,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17456,6 +17612,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17558,6 +17715,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17659,6 +17817,7 @@
       "unmetOperationalGates": [
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17761,6 +17920,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17852,6 +18012,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -17943,6 +18104,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18047,6 +18209,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18147,6 +18310,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18246,6 +18410,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18345,6 +18510,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18444,6 +18610,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18543,6 +18710,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18642,6 +18810,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18741,6 +18910,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18840,6 +19010,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -18944,6 +19115,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19048,6 +19220,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19147,6 +19320,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19246,6 +19420,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19345,6 +19520,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19444,6 +19620,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19543,6 +19720,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19642,6 +19820,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19741,6 +19920,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19840,6 +20020,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -19931,6 +20112,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20022,6 +20204,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20122,6 +20305,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20223,6 +20407,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20333,6 +20518,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20434,6 +20620,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20535,6 +20722,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20635,6 +20823,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20726,6 +20915,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20817,6 +21007,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -20951,6 +21142,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21050,6 +21242,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21157,6 +21350,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21257,6 +21451,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21357,6 +21552,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21462,6 +21658,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21567,6 +21764,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21658,6 +21856,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21763,6 +21962,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21868,6 +22068,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -21959,6 +22160,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22050,6 +22252,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22149,6 +22352,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22248,6 +22452,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22347,6 +22552,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22438,6 +22644,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22530,6 +22737,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22623,6 +22831,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22716,6 +22925,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22814,6 +23024,7 @@
         "paymentAllowed",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22906,6 +23117,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -22998,6 +23210,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23090,6 +23303,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23242,6 +23456,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23350,6 +23565,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23458,6 +23674,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23570,6 +23787,7 @@
       "unmetOperationalGates": [
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23674,6 +23892,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23782,6 +24001,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23890,6 +24110,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -23996,6 +24217,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24094,6 +24316,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24213,6 +24436,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24332,6 +24556,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24451,6 +24676,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24570,6 +24796,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24675,6 +24902,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24794,6 +25022,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -24891,6 +25120,7 @@
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25010,6 +25240,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25111,6 +25342,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25212,6 +25444,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25314,6 +25547,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25417,6 +25651,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25518,6 +25753,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25617,6 +25853,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25727,6 +25964,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25817,6 +26055,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -25924,6 +26163,7 @@
         "deterministicArtifactProven",
         "noProblematicPdfHold"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26028,6 +26268,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26119,6 +26360,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26223,6 +26465,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26323,6 +26566,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26435,6 +26679,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26534,6 +26779,7 @@
       "unmetOperationalGates": [
         "paymentAllowed"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26643,6 +26889,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26750,6 +26997,7 @@
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26859,6 +27107,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -26867,7 +27116,7 @@
       "jurisdiction": "WY",
       "pathwayId": "felony-conviction-expungement-w-s-7-13-1502",
       "pathwayLabel": "Felony conviction expungement - W.S. 7-13-1502",
-      "availability": "UNFINISHED",
+      "availability": "MAINTENANCE_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -26955,6 +27204,7 @@
         "paymentAllowed",
         "technicalApprovalCurrent"
       ],
+      "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -27059,6 +27309,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     },
@@ -27163,6 +27414,7 @@
         "rendererSelected",
         "deterministicArtifactProven"
       ],
+      "fulfillmentAuthorityAdmitted": false,
       "operationallySellable": false,
       "allOperationalGatesMet": false
     }

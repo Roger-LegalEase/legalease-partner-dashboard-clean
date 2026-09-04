@@ -101,8 +101,11 @@ function failures({ graph, closure }) {
       fail(typeof gates[name] === "boolean", `P-gate ${row.pathwayKey}: ${name} is not recorded`);
     }
     const unmet = PREDICATE.filter((name) => gates[name] !== true);
-    fail(row.operationallySellable === (unmet.length === 0),
-      `P-sellable ${row.pathwayKey}: operationallySellable=${row.operationallySellable} with ${unmet.length} unmet gate(s)`);
+    fail(typeof row.fulfillmentAuthorityAdmitted === "boolean",
+      `P-authority ${row.pathwayKey}: fulfillmentAuthorityAdmitted is not recorded as a boolean`);
+    const expectedSellable = unmet.length === 0 && row.fulfillmentAuthorityAdmitted === true;
+    fail(row.operationallySellable === expectedSellable,
+      `P-sellable ${row.pathwayKey}: operationallySellable=${row.operationallySellable} with ${unmet.length} unmet gate(s) and fulfillmentAuthorityAdmitted=${row.fulfillmentAuthorityAdmitted}`);
     fail(JSON.stringify([...(row.unmetOperationalGates ?? [])].sort()) === JSON.stringify([...unmet].sort()),
       `P-unmet ${row.pathwayKey}: the recorded unmet list does not match the gates`);
   }
@@ -190,6 +193,14 @@ if (MUTATIONS) {
     ["a counter inflated past the rows", (d) => { d.graph.counters.operationallySellable += 1; }],
     ["a route called sellable with an unmet gate", (d) => {
       const row = d.graph.rows.find((candidate) => candidate.unmetOperationalGates.length > 0);
+      row.operationallySellable = true;
+    }],
+    ["a route called sellable without fulfillment authority", (d) => {
+      const row = d.graph.rows[0];
+      for (const gate of PREDICATE) row.operationalGates[gate] = true;
+      row.unmetOperationalGates = [];
+      row.allOperationalGatesMet = true;
+      row.fulfillmentAuthorityAdmitted = false;
       row.operationallySellable = true;
     }],
     ["the predicate quietly shortened", (d) => { d.graph.operationalPredicate = d.graph.operationalPredicate.slice(0, 4); }],
