@@ -2447,10 +2447,14 @@ const RASTER_RULE = [
 /* How to claim, said explicitly. The ledger exists; a prompt that does not
  * name it leaves the worker to invent a protocol, which is what VF12 correctly
  * refused to do. */
-const CLAIM_RULE = (laneId) => [
-  `Assert every family before reading or writing anything: \`node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${laneId} <familyId>\``,
+const shellQuote = (value) => `'${String(value).replaceAll("'", "'\\''")}'`;
+const CLAIM_RULE = (laneId, itemIds = []) => itemIds.length > 0 ? [
+  `Assert only these ${itemIds.length} exact famil${itemIds.length === 1 ? "y" : "ies"} before reading or writing family content:`,
+  ...itemIds.map((familyId) => `\`node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${laneId} ${shellQuote(familyId)}\``),
   "A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.",
-  `Release each family when it is finished: \`node scripts/grade-a-packet-factory-24h/claim.mjs --release ${laneId} <familyId>\`, and leave that in your diff.`
+  "Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return."
+] : [
+  "This lane currently holds no family. Do not launch it and do not invent a family identifier."
 ];
 const SOURCE_CLAIM_RULE = (laneId, itemIds) => [
   `Assert each exact source obligation before reading evidence: \`node scripts/grade-a-packet-factory-24h/claim.mjs --assert ${laneId} <itemId>\``,
@@ -2528,7 +2532,9 @@ const base = (id, lane, slug, extra) => ({
   captainBranch: CAPTAIN_BRANCH,
   workerBranch: "work",
   minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
-  preflight: `node ${PREFLIGHT} --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
+  preflight: extra.items?.length
+    ? `node ${PREFLIGHT} --family ${shellQuote(extra.items[0])} --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`
+    : `node ${PREFLIGHT} --assignment ${FACT}/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
   preflightMustReturn: PREFLIGHT_MUST_RETURN,
   /*
    * Only a lane that produces a packet needs to know what happens to its pages.
@@ -2542,7 +2548,7 @@ const base = (id, lane, slug, extra) => ({
    * is that it is not.
    */
   rasterRule: lane === "packet-build" || lane === "rapid-repair" ? RASTER_RULE : null,
-  claimRule: CLAIM_RULE(id),
+  claimRule: CLAIM_RULE(id, extra.items ?? []),
   prohibitedCommands: CLOUD_PROHIBITED,
   theDiffIsTheReturn: "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
   returnDirectory: `${FACT}/${slug}`,
@@ -2595,7 +2601,8 @@ for (let i = 0; i < PF_LANES; i += 1) {
       `${FACT}/${slug}/checkpoints.json — one entry per five-family checkpoint, written as it lands`
     ],
     outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
-    focusedTests: ["node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"],
+    focusedTests: fams.map((family) =>
+      `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ${shellQuote(family.familyId)}`),
     stopConditions: [
       "ROW STOP — a family whose source does not bind by exact SHA-256 is STOPPED as BLOCKED_SOURCE naming the identity that failed. Continue to the next family.",
       "ROW STOP — a family that needs a legal input you do not have is STOPPED as BLOCKED_LEGAL_INPUT. Never guess a legal answer and never research one.",
@@ -2770,7 +2777,8 @@ for (let i = 0; i < VF_LANES; i += 1) {
       `${FACT}/${slug}/repair-assignments.json — every FAIL_REPAIR_REQUIRED, with the decisive defect and the exact failed proof obligations`
     ],
     outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: VERDICTS, rule: "An unrecognised verdict is refused at integration rather than translated." },
-    focusedTests: ["node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>"],
+    focusedTests: seedItems.map((familyId) =>
+      `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ${shellQuote(familyId)}`),
     stopConditions: [
       "LANE STOP — you write into no overlay directory and no build script.",
       "LANE STOP — you claim before you read.",
@@ -3334,13 +3342,16 @@ const promptFor = (a) => {
     p.push(`**${rc.aStoppedFamilyWritesNothing}**`, "");
     p.push(rc.theLaneCompletesNormally, "");
   } else {
+    const exactFamily = a.items?.[0] ?? null;
     p.push("## Before anything else", "", "```sh",
       "source $HOME/.legalease-corpus-env",
       `node ${PREFLIGHT} \\`,
       ...(a.itemKind === "sourceObligation" ? [
         `  --assignment-id ${a.assignmentId} \\`,
         ...(a.items?.length ? [`  --source-obligation '${a.items[0].replaceAll("'", "'\\''")}' \\`] : [])
-      ] : [`  --family ${a.items?.[0] ?? "<FAMILY_ID>"} \\`]),
+      ] : exactFamily
+        ? [`  --family ${shellQuote(exactFamily)} \\`]
+        : [`  --assignment ${FACT}/ACTIVE_ASSIGNMENTS.json \\`]),
       "  --codex-cloud \\",
       `  --minimum-captain-sha ${a.minimumCaptainSha}`,
       "```", "");
@@ -3353,7 +3364,9 @@ const promptFor = (a) => {
      */
     const mustReturn = a.itemKind === "sourceObligation"
       ? a.preflightMustReturn
-      : denominatorForCommand(`node ${PREFLIGHT} --family ${a.items?.[0] ?? "<FAMILY_ID>"} --codex-cloud`).mustReturn;
+      : denominatorForCommand(exactFamily
+        ? `node ${PREFLIGHT} --family ${shellQuote(exactFamily)} --codex-cloud`
+        : `node ${PREFLIGHT} --assignment ${FACT}/ACTIVE_ASSIGNMENTS.json --codex-cloud`).mustReturn;
     const shortOne = a.itemKind === "sourceObligation" ? null : Number(/(\d+)\/\d+/.exec(mustReturn)?.[1] ?? 0) - 1;
     p.push(`It must print **\`${mustReturn}\`**.${a.itemKind === "sourceObligation"
       ? " The lane gate and each owned row gate must both pass."

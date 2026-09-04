@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `208f78babd0ed4e3938df7b99c53c78e464e8be1` (or the newer dispatch base)
+**Minimum required ancestor:** `5bf0bc0161c445e9da34e2850d71f311c0cdf3ee` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family al-misd-conviction-set \
+  --family 'al-misd-conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha 208f78babd0ed4e3938df7b99c53c78e464e8be1
+  --minimum-captain-sha 5bf0bc0161c445e9da34e2850d71f311c0cdf3ee
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,16 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert every family before reading or writing anything: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 <familyId>`
+- Assert only these 7 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'al-misd-conviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'il-seal-nonconv-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'tx_nd_dwi_deferred-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ny_mrta_marijuana-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'rcap-wi-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ut_pet_no_charges-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
-- Release each family when it is finished: `node scripts/grade-a-packet-factory-24h/claim.mjs --release FIX05 <familyId>`, and leave that in your diff.
+- Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
 ## How to raster
 
