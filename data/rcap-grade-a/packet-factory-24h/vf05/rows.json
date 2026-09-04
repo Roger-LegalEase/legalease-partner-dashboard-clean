@@ -5577,6 +5577,136 @@
    "failedProofObligations": [],
    "productPath": "The route census says paid_packet_intended but LAUNCH_GRAPH_CLOSED, and product wiring is DECLARED_NOT_INSTALLED with generationAllowed false. This is a deliberately closed path awaiting separate authority, not a delivery mismatch; this PASS opens nothing.",
    "packetEdits": 0,"centralEdits": 0,"releases": 0,"routesOpened": 0,"productionTouched": false
+  },
+  {
+   "wave": "CODEX-CS1-VF05-CT-WV/706dbbd/2026-09-04",
+   "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+   "lane": "VF05",
+   "worker": "CODEX-CS1-VF05-CT-WV (independent; built, repaired, sourced and raster-accepted neither assigned family)",
+   "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+   "verdict": "PRODUCT_PATH_PENDING",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+   "claim": "CLAIM_OK VF05 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure (independent-verification, grant set e5af0a189c908787); asserted before family content; not released",
+   "exactRoute": "obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+   "exactRouteDeliveryDefect": "The current route-obligation record requires currentOutputStrategy participant_agency_application and a participant-signed absolute-pardon application submitted through the Board of Pardons and Paroles portal, but the only delivered component is agency_preparation_guide. The PDF expressly says it is not an official form, not a court filing and not a substitute for the Board's application; the route record still has packetFamilyId null, packetSetId null, existingArtifactIds [], and missingImplementationWork requiring the participant-facing agency-application workflow and an exact route output artifact.",
+   "sourceIdentity": {
+    "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT; no official application binary is claimed",
+    "rehash": [
+     "data/record-clearing/legal-design-intake/CT.memo.json = 90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448 / 171609 bytes",
+     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json = 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149 bytes",
+     "data/rcap-ledger/completed-output-counsel-manifest.json = 99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c / 321161 bytes, recomputed from the exact tracked blob because sparse checkout does not materialize the path"
+    ],
+    "allPinsExact": true
+   },
+   "artifacts": {
+    "canonical": {"sha256":"83cdb5a02b746d5c922fa73c37bc556106d4882822c241ac1a881099fbce8d42","byteLength":5829,"pages":2,"rehashExact":true},
+    "boundary": {"sha256":"41a1b3284fcfb61aaa2e9949167b89cdbc1aa88af518f3bee1fde531e2223cf1","byteLength":5979,"pages":2,"rehashExact":true}
+   },
+   "rasterEvidence": {
+    "requiredCurrentGovernedEvidencePresent": false,
+    "queueState": "RASTER_PENDING",
+    "nextOwner": "RAS02",
+    "documentsDigest": "81ed24d56382197fae31d109db3576f47d2c68187c78ca73085b4e36dd7e0d59",
+    "currentExactHashGovernedReceipt": null,
+    "supplementalLocalInspection": "The repository's calibrated raster runner was executed read-only against the exact two hashes at base 706dbbd, producing local RASTER_PASS over 4/4 pages with 0 problems and 0 environment problems. Every page was visually inspected and nonblank/croppedToThePage=true; ink fractions canonical [0.04840092097445039,0.01267379679144385], boundary [0.049622140522875814,0.014446301247771836]. Independent PDF word-box inspection found 0 off-page words and 0 same-band overlaps. This local evidence is not substituted for the required governed receipt."
+   },
+   "nineCounters": {"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true,"verifierResult":"PASS_COMPLETE 5/10 written"},
+   "proofObligations": {
+    "ROUTE_IDENTITY":{"measured":true,"result":"PRODUCT_PATH_PENDING","finding":"The guide prints the exact route key and describes the right Connecticut absolute-pardon/erasure pathway, but its deliverable type does not satisfy that route's participant_agency_application contract."},
+    "SOURCE_IDENTITY":{"measured":true,"result":"PASS","finding":"All three composition-source pins and lengths recompute exactly; no official application binary is represented as held."},
+    "COMPONENT_SET":{"measured":true,"result":"PRODUCT_PATH_PENDING","finding":"Both fixtures contain the declared two-page agency_preparation_guide, but the exact route requires a participant-facing application workflow/output and the guide expressly disclaims being that application."},
+    "KNOWN_PREFILLS":{"measured":true,"result":"PASS","finding":"All five declared identity/contact facts are visible in each fixture; actual-writes records 5/5 per fixture and no invisible write."},
+    "REQUIRED_BEFORE_FILING":{"measured":true,"result":"PASS","finding":"All five declared confirmation items are printed as labelled participant blanks and named in participant instructions."},
+    "ROUTE_OPTIONS":{"measured":true,"result":"PASS","finding":"The exact post-1974 absolute-pardon-resulting-in-erasure pathway is named; no route-determined election is left unresolved or auto-selected."},
+    "REPEATING_ROWS":{"measured":true,"result":"PASS","finding":"This guide has no repeating fact table and no partially written row."},
+    "PROTECTED_FIELDS":{"measured":true,"result":"PASS","finding":"The guide contains no signature/date or official-owned completion field; it directs the participant to sign only the Board's application and actual-writes reports no refused field with ink."},
+    "ARTIFACTS":{"measured":true,"result":"PASS","finding":"Canonical and boundary SHA-256, byte lengths and two-page counts recompute exactly and match the artifact records and current raster-queue pins."},
+    "PAGE_ORDER":{"measured":true,"result":"PASS","finding":"Both fixtures contain the two contiguous guide pages in manifest order; page 2 is a nonblank continuation, not an orphan page."},
+    "CLIPPING_AND_OVERLAP":{"measured":true,"result":"FAIL","finding":"The exact current hashes have no governed raster receipt: RASTER_QUEUE records RASTER_PENDING and nextOwner RAS02. Local calibrated rastering and visual/bbox inspection found all 4 pages nonblank with 0 geometry problems, but the required governed exact-hash evidence is absent and local evidence cannot replace it."},
+    "FILING_DESTINATION":{"measured":true,"result":"PASS","finding":"The guide identifies the Board of Pardons and Paroles ePardon process and clearly says this is not a court filing."},
+    "FEE_AND_WAIVER":{"measured":true,"result":"PASS","finding":"The held record says the no-fee claim is unverified; the guide invents no figure and tells the participant to confirm the current fee with the Board's own ePardon materials."},
+    "SERVICE":{"measured":true,"result":"PASS","finding":"No court-service step applies to this agency route; submission is through the Board's own ePardon process and the guide does not fabricate service."},
+    "SELF_HELP_STOP":{"measured":true,"result":"PASS","finding":"The guide stops for counsel when a hearing is set or an immigration issue exists and refers current eligibility/timing uncertainty back to the Board and Connecticut counsel."}
+   },
+   "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+   "productPendingObligations": ["ROUTE_IDENTITY","COMPONENT_SET"],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/record-clearing/legal-design-intake/CT.memo.json",
+    "data/rcap-ledger/completed-output-counsel-manifest.json"
+   ],
+   "packetEdits": 0,"sourceEdits":0,"legalEdits":0,"centralEdits":0,"claimEdits":0,"routeEdits":0,"fulfillmentEdits":0,"releases":0,"routesOpened":0,"productionTouched":false
+  },
+  {
+   "wave": "CODEX-CS1-VF05-CT-WV/706dbbd/2026-09-04",
+   "itemId": "rcap-wv-custom-pleading",
+   "lane": "VF05",
+   "worker": "CODEX-CS1-VF05-CT-WV (independent; built, repaired, sourced and raster-accepted neither assigned family)",
+   "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+   "claim": "CLAIM_OK VF05 rcap-wv-custom-pleading (independent-verification, grant set e5af0a189c908787); asserted before family content; not released",
+   "exactRoute": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
+   "supersedesEarlierVf05Read": "The VF05 PASS_COMPLETE_INDEPENDENT row at 88d688b8b6910f0c501cab0d72633554220d822b bound obsolete 12-page hashes. The current artifacts are 11 pages, the prior RASTER_PASS is explicitly superseded in RASTER_QUEUE, and this fresh read found substantive defects the nine-counter verifier does not detect.",
+   "sourceIdentity": {
+    "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT; zero official-form binaries",
+    "rehash": [
+     "data/record-clearing/legal-design-track-registry.json = 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes",
+     "data/record-clearing/legal-design-specifications.json = f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391 bytes",
+     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json = 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149 bytes"
+    ],
+    "allPinsExact": true
+   },
+   "artifacts": {
+    "canonical": {"sha256":"b7ada7da2dde97c38d45f15e691b0a2bbb1f2d8b9e52b47a3d17edebb829e8e4","byteLength":32570,"pages":11,"rehashExact":true},
+    "boundary": {"sha256":"4a1df2802934d5dc8c9579132e3f26417740c3823fc70a9fb2a25bc7768302ca","byteLength":33135,"pages":11,"rehashExact":true}
+   },
+   "rasterEvidence": {
+    "requiredCurrentGovernedEvidencePresent": false,
+    "queueState": "RASTER_PENDING",
+    "nextOwner": "RAS02",
+    "documentsDigest": "bd55c2bb0a4ade918061513ac711348940cf1b2419f37551c3e2ae8e032e818a",
+    "supersededReceipt": "workflow 33791677725 binds old canonical c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06 and boundary 18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194, 12 pages each; RASTER_QUEUE marks it superseded because the row now renders a different set of documents",
+    "supplementalLocalInspection": "The repository's calibrated raster runner was executed read-only against the exact current hashes at base 706dbbd, producing local RASTER_PASS over 22/22 pages with 0 problems and 0 environment problems. Every page was visually inspected and nonblank/croppedToThePage=true; minimum ink fraction was 0.013745729352346999 on page 11 of each fixture, and calibration residual was 0 on every page. Independent PDF word-box inspection found canonical 3172 words and boundary 3188 words, with 0 off-page words and 0 same-band overlaps. This local evidence is not substituted for the required governed receipt."
+   },
+   "nineCounters": {"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true,"verifierResult":"PASS_COMPLETE 16/56 written","whyNotDispositive":"The focused verifier does not detect the duplicated known DOB blanks, the missing oath/jurat/notary and hearing-notice fields, or the internally false and single-recipient service certificate."},
+   "proofObligations": {
+    "ROUTE_IDENTITY":{"measured":true,"result":"PASS","finding":"The route key, § 60A-4-407 conditional-discharge mechanism, court actor and requested expungement agree across the registry, route census, field map and all packet faces."},
+    "SOURCE_IDENTITY":{"measured":true,"result":"PASS","finding":"All three committed legal-record pins and lengths recompute exactly; the family correctly claims no official statewide form binary."},
+    "COMPONENT_SET":{"measured":true,"result":"FAIL","finding":"The five component IDs occur in the declared order, but pages 4-6 do not substantively deliver the required supporting_affidavit: except for the heading they repeat the application, contain no sworn declaration, oath, jurat, notary block, or notarial signature/seal field, and end only with the petitioner's ordinary signature/date line. A label-only duplicate is not the registry's required sworn affidavit."},
+    "KNOWN_PREFILLS":{"measured":true,"result":"FAIL","finding":"Each fixture visibly writes the held participant.date_of_birth in the petitioner block of both the application and purported affidavit, yet leaves each document's required C2 date-of-birth answer blank and production-field-map falsely says the platform holds no value. The exact known fact is therefore not written on the two required C2 fields where it belongs; knownRequiredFieldsMissing=0 is a declaration blind spot."},
+    "REQUIRED_BEFORE_FILING":{"measured":true,"result":"FAIL","finding":"The current registry requires affidavit signature/date/jurat and notarization, a judicial-division line, separate prosecuting-attorney and probation-office addresses, and a hearing date on the application notice line. The PDFs and participant instructions contain no oath/jurat/notary block, no hearing-date notice line, no judicial-division instruction, and only one singular service-recipient/address block; these source-declared completion items are absent from the field map and from the participant checklist."},
+    "ROUTE_OPTIONS":{"measured":true,"result":"PASS","finding":"The packet is fixed to the one § 60A-4-407 route and no route-determined election is left blank or falsely selected."},
+    "REPEATING_ROWS":{"measured":true,"result":"PASS","finding":"No existing repeating row is partially populated. The missing second service-recipient block is scored under SERVICE and REQUIRED_BEFORE_FILING, not treated as a partially written row."},
+    "PROTECTED_FIELDS":{"measured":true,"result":"PASS","finding":"Existing petition/affidavit/certificate signature and date lines, case-number lines, and performed-service fields remain blank; actual-writes reports no refused field with ink. The absent official jurat/hearing fields are scored under COMPONENT_SET and REQUIRED_BEFORE_FILING."},
+    "ARTIFACTS":{"measured":true,"result":"PASS","finding":"The current canonical and boundary SHA-256, byte lengths and eleven-page counts recompute exactly and match rendered-artifact and queue pins."},
+    "PAGE_ORDER":{"measured":true,"result":"PASS","finding":"Both fixtures preserve the declared order: application pages 1-3, purported affidavit pages 4-6, certificate page 7, checklist page 8, instructions pages 9-11."},
+    "CLIPPING_AND_OVERLAP":{"measured":true,"result":"FAIL","finding":"No governed raster receipt binds the exact current hashes. The queue is RASTER_PENDING; its only RASTER_PASS binds the superseded 12-page pair. Local calibrated raster/visual/bbox review found all 22 current pages nonblank with 0 geometry problems, but that is supplemental and cannot satisfy the required current governed evidence."},
+    "FILING_DESTINATION":{"measured":true,"result":"PASS","finding":"The packet consistently directs filing to the clerk of the court that entered the conditional discharge and imposed probation after the six-month period."},
+    "FEE_AND_WAIVER":{"measured":true,"result":"PASS","finding":"It states § 60A-4-407 charges no application fee, discloses possible civil-clerk uncertainty and outstanding court costs, and accurately states that no waiver is identified in the held section."},
+    "SERVICE":{"measured":true,"result":"FAIL","finding":"Instructions require service on both the county prosecuting attorney and supervising probation office, but the certificate has only one singular recipient/address/method block. It also certifies delivery of a proposed order although no proposed order exists in the five-component packet and the filing instructions say to file the application, affidavit and certificate. As written it cannot truthfully evidence both required deliveries and may make the signer attest to serving a nonexistent component."},
+    "SELF_HELP_STOP":{"measured":true,"result":"PASS","finding":"The packet carries the route's stops for probation violations/revocation, prior drug conviction/discharge, the unresolved § 61-11-26 interaction, contested hearing/prosecutor objection, local-form refusal, and immigration/firearm/licensing or out-of-state consequences."}
+   },
+   "failedProofObligations": ["COMPONENT_SET","KNOWN_PREFILLS","REQUIRED_BEFORE_FILING","CLIPPING_AND_OVERLAP","SERVICE"],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+   ],
+   "packetEdits": 0,"sourceEdits":0,"legalEdits":0,"centralEdits":0,"claimEdits":0,"routeEdits":0,"fulfillmentEdits":0,"releases":0,"routesOpened":0,"productionTouched":false
   }
  ],
  "supersededLaneMembership": {
