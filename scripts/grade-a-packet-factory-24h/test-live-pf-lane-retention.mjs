@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
 
 const packetClaim = {
@@ -35,5 +38,13 @@ const ignored = livePacketLaneByFamily([
 ]);
 assert.equal(ignored.size, 0);
 assert.equal(effectivePacketLaneCount(16, ignored), 16);
+
+const generatorSource = fs.readFileSync(
+  path.join(path.dirname(fileURLToPath(import.meta.url)), "generate.mjs"),
+  "utf8"
+);
+assert.doesNotMatch(generatorSource, /finding: `Thirty-two lanes/);
+assert.doesNotMatch(generatorSource, /whyNotFewerBuilders: "The roster is kept at sixteen/);
+assert.match(generatorSource, /PF_LANES \+ VF_LANES \+ FIX_LANES/);
 
 console.log("OK live PF lane-retention regression");
