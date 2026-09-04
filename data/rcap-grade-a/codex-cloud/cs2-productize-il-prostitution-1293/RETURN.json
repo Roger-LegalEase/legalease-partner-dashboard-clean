@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-codex-cloud-productization-return/v1",
+  "workerId": "CODEX-CS2-PROD-IL-PROSTITUTION",
+  "createdAt": "2026-09-04T17:47:42Z",
+  "exactBase": "1293a53e2526bf5e4043428604e439d16b8e3fbc",
+  "branch": "codex/cs2-productize-il-prostitution-1293",
+  "commit": "beed7d5c5c52f103989919a9d52506b8431ac5e9",
+  "localImplementationCommit": "ab44d1800555c5c3d8d80aec191aec6bc1bb9426",
+  "pushed": "YES",
+  "status": "READY_FOR_GRADE_A_FULFILLMENT_RECORD_GENERATION",
+  "claim": {
+    "result": "CLAIM_OK",
+    "workerId": "CODEX-CS2-PROD-IL-PROSTITUTION",
+    "routeKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+    "runtimeRoute": "IL:felony-prostitution-relief",
+    "familyId": "il-prostitution-j-vacate-set",
+    "broaderScopeClaimed": false,
+    "competingLiveLegacyClaimFound": false
+  },
+  "family": "il-prostitution-j-vacate-set",
+  "route": {
+    "obligationRouteKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+    "runtimeRouteId": "IL:felony-prostitution-relief",
+    "registryTrackId": "il-prostitution-j-vacate",
+    "packetFamilyId": "il-prostitution-j-vacate-set",
+    "automaticSiblingAdmitted": false,
+    "tracklessAggregateRouteAdmitted": false
+  },
+  "packetSpecification": {
+    "path": "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+    "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+    "legalSectionsBoundBy": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "createsCommercialAuthority": false,
+    "opensRoute": false
+  },
+  "artifacts": {
+    "canonical": {
+      "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+      "byteLength": 7802,
+      "pageCount": 3
+    },
+    "boundary": {
+      "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+      "byteLength": 7980,
+      "pageCount": 3
+    },
+    "bytesReusedUnderCommittedOneRouteComponentEquivalence": true,
+    "packetBytesChanged": false
+  },
+  "evidenceConsumed": [
+    "COMPLETE_PACKET_PROVEN for il-prostitution-j-vacate-set",
+    "data/rcap-grade-a/FIRST_ROUTE_COHORT.json exact route/family/runtime mapping",
+    "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json exact-hash RASTER_PASS workflow run 33574304514",
+    "data/rcap-grade-a/packet-factory-24h/vf01/il-prostitution-j-vacate-set-current-return.json independent verifier vf01",
+    "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json decision OWN-ADOPT-2026-09-02-BATCH-53",
+    "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json current COVERED_BY_EXISTING_APPROVAL verdict",
+    "canonical and boundary artifact hashes and three-page counts rechecked from repository bytes"
+  ],
+  "exactNextGate": {
+    "gate": "GRADE_A_FULFILLMENT_RECORD_GENERATION",
+    "owner": "separate fulfillment worker",
+    "routeId": "IL:felony-prostitution-relief",
+    "packetFamilyId": "il-prostitution-j-vacate-set",
+    "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+    "currentAdmissionDenial": "fulfillment_no_record",
+    "fulfillmentGeneratorOrFilesTouchedHere": false
+  },
+  "tests": [
+    {
+      "command": "node scripts/verify-rcap-first-route-cohort-productization.mjs",
+      "result": "PASS",
+      "coverage": "packet specification, exact server route/track/family crosswalk, factory-v2 admission, resolver, shared render-job path, commercial money gates"
+    },
+    {
+      "command": "node scripts/verify-rcap-first-route-cohort-productization.mjs --mutations",
+      "result": "PASS",
+      "coverage": "eight fail-closed mutations including IL sibling-track and sibling-packet substitution"
+    },
+    {
+      "command": "node --check; jq empty; targeted TypeScript transpilation; git diff --check; sha256sum; pdfinfo",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Stopped before assertions because src/lib/rcap-engine/profile-registry.ts is intentionally not materialized in this sparse checkout; equivalent factory behavior is covered by the passing focused verifier."
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-path.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Stopped before assertions on the same unmaterialized profile registry; the exact IL buildRenderJobSpec path and sibling denials pass in the focused verifier."
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Stopped before assertions because src/components/rcap/documents/DocumentPacketRenderer.tsx is intentionally not materialized; consumer checkout, sponsored entitlement, and packet-credit admission all return fulfillment_no_record in the focused verifier."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "tsc exits 2 on unmaterialized baseline modules including rcap-engine, Supabase, expungement-ai, and server-runtime-environment; changed TypeScript files transpile and execute in the focused verifier."
+    }
+  ],
+  "changedPaths": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+    "scripts/verify-rcap-first-route-cohort-productization.mjs",
+    "src/lib/rcap/documents/factory-v2-registry.ts",
+    "src/lib/rcap/documents/packet-route-resolver.ts",
+    "src/lib/rcap/grade-a/packet-specification.ts",
+    "data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json"
+  ],
+  "forbiddenCentralEdits": 0,
+  "claimsReleased": 0,
+  "routesOpened": 0,
+  "canariesRun": 0,
+  "mainTouched": false,
+  "ProductionTouched": "NO"
+}
