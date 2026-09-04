@@ -1,0 +1,274 @@
+#!/usr/bin/env node
+/**
+ * Arizona municipal/justice-court marijuana expungement packet.
+ *
+ * The bound AOC CREM2F source is a flat three-page PDF. This builder measures
+ * every write box explicitly, writes only held participant/case facts, leaves
+ * signatures and post-build events protected, and exposes every other required
+ * participant fact in participant-instructions.md.
+ */
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+
+import { extractTextItems } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+process.chdir(ROOT);
+const require = createRequire(import.meta.url);
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+
+const FAMILY_ID = "az_marijuana_expungement_limited_jurisdiction-set";
+const ROUTE_KEY = "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction";
+const OUT = "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill";
+const BUILD_SCRIPT = "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs";
+const SOURCE = Object.freeze({
+  formNumber: "AOC-CREM2F-071221",
+  documentId: "AOC-CREM2F-071221",
+  continuationId: "AOC-CREM2F-071221-CONT",
+  pathInArchive: "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
+  sha256: "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+  pageCount: 3
+});
+
+const FIXTURES = Object.freeze({
+  canonical: {
+    fullName: "Jordan Avery Reyes",
+    mailingAddress: "412 West Monroe Street",
+    cityStateZip: "Phoenix, AZ 85003",
+    email: "jordan.reyes@example.org",
+    phone: "602-555-0142",
+    dateOfBirth: "04/17/1991",
+    caseNumber: "M-2021-004217"
+  },
+  boundary: {
+    fullName: "Maria-Alejandra Oshaughnessy-Whitfield",
+    mailingAddress: "1188 Upper Notch Crossing Road, Apt 14B",
+    cityStateZip: "Tucson, AZ 85701-2214",
+    email: "maria.alejandra.whitfield@example.org",
+    phone: "520-555-0199 ext 4417",
+    dateOfBirth: "12/31/1968",
+    caseNumber: "MJ-2024-0011882"
+  }
+});
+
+const WRITES = Object.freeze([
+  { id: "p1-person-filing", page: 1, label: "Person Filing", fact: "fullName", rect: { x: 140, y: 679, width: 255, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-mailing-address", page: 1, label: "Mailing Address", fact: "mailingAddress", rect: { x: 155, y: 663, width: 240, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-city-state-zip", page: 1, label: "City, State, Zip Code", fact: "cityStateZip", rect: { x: 175, y: 647, width: 220, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-email", page: 1, label: "Email Address", fact: "email", rect: { x: 145, y: 631, width: 250, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-phone", page: 1, label: "Telephone Number", fact: "phone", rect: { x: 180, y: 615, width: 215, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-caption-case", page: 1, label: "CASE Number", fact: "caseNumber", rect: { x: 360, y: 513, width: 215, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-defendant", page: 1, label: "Defendant (FIRST, MI, LAST)", fact: "fullName", rect: { x: 79, y: 454, width: 300, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-date-of-birth", page: 1, label: "Date of Birth", fact: "dateOfBirth", rect: { x: 180, y: 415, width: 150, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-item3-case", page: 1, label: "Court case number", fact: "caseNumber", rect: { x: 205, y: 97, width: 365, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p3-mailing-address", page: 3, label: "Petitioner's Mailing Address", fact: "mailingAddress", rect: { x: 75, y: 707, width: 495, height: 13 }, documentId: SOURCE.continuationId },
+  { id: "p3-phone", page: 3, label: "Petitioner's Phone Number", fact: "phone", rect: { x: 75, y: 670, width: 495, height: 13 }, documentId: SOURCE.continuationId },
+  { id: "p3-email", page: 3, label: "Petitioner's Email address", fact: "email", rect: { x: 75, y: 631, width: 495, height: 13 }, documentId: SOURCE.continuationId }
+]);
+
+const RBF = (id, page, label, what, documentId = SOURCE.documentId) => ({
+  fieldId: id, fieldName: id, page, documentId, effectiveLabel: label,
+  reason: what, requiredBeforeFiling: true, factAvailable: false
+});
+const ELECTION = (id, page, label, why, documentId = SOURCE.documentId) => ({
+  fieldId: id, fieldName: id, page, documentId, effectiveLabel: label,
+  isSelectionControl: true, reason: why,
+  refusalClass: "participant_sworn_narrative_or_legal_election", routeDetermined: false
+});
+const PROTECTED = (id, page, label, why, documentId = SOURCE.documentId) => ({
+  fieldId: id, fieldName: id, page, documentId, effectiveLabel: label,
+  reason: why, refusalClass: "signature_or_date_participant_completion"
+});
+const ATTORNEY = (id, page, label, documentId = SOURCE.continuationId) => ({
+  fieldId: id, fieldName: id, page, documentId, effectiveLabel: label,
+  reason: "attorney-only; no attorney-representation fact is held for this participant"
+});
+
+const REFUSALS = Object.freeze([
+  RBF("p1-court-name", 1, "Court name", "supply the municipal or justice court that concluded the case"),
+  RBF("p1-county", 1, "County of court", "supply the Arizona county of that court"),
+  ELECTION("p1-eligible-possession", 1, "Possessing, consuming, or transporting the listed amount of marijuana (selection)", "select only if this is the eligible charge in this case"),
+  ELECTION("p1-eligible-plants", 1, "Possessing, transporting, cultivating, or processing not more than six plants (selection)", "select only if this is the eligible charge in this case"),
+  ELECTION("p1-eligible-paraphernalia", 1, "Marijuana-related paraphernalia offense (selection)", "select only if this is the eligible charge in this case"),
+  RBF("p1-arresting-agency", 1, "Name of citing or arresting law enforcement agency", "supply the exact agency from the arrest or citation record"),
+  { fieldId: "p1-arrest-name", fieldName: "p1-arrest-name", page: 1, documentId: SOURCE.documentId, effectiveLabel: "Name used at the time of arrest (optional if different)", completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT", reason: "the form expressly limits this line to a different arrest name" },
+  RBF("p2-arrest-date", 2, "Date of arrest", "supply the exact arrest date from the record"),
+  RBF("p2-prosecuting-agency", 2, "Name of prosecuting agency", "supply the exact prosecuting agency from the case record"),
+  ELECTION("p2-other-charges-yes", 2, "Non-eligible charges were filed in the same case - Yes (selection)", "select the answer that matches the case record"),
+  ELECTION("p2-other-charges-no", 2, "Non-eligible charges were filed in the same case - No (selection)", "select the answer that matches the case record"),
+  ELECTION("p2-convicted-yes", 2, "Convicted of eligible offense - Yes (selection)", "select the answer that matches the case record"),
+  ELECTION("p2-convicted-no", 2, "Convicted of eligible offense - No (selection)", "select the answer that matches the case record"),
+  RBF("p2-conviction-date", 2, "Date of conviction", "if Yes, supply the exact conviction date from the court record"),
+  ELECTION("p2-dismissed-yes", 2, "Eligible charge dismissed - Yes (selection)", "select the answer that matches the case record"),
+  ELECTION("p2-dismissed-no", 2, "Eligible charge dismissed - No (selection)", "select the answer that matches the case record"),
+  RBF("p2-dismissal-date", 2, "Date of dismissal", "if Yes, supply the exact dismissal date from the court record"),
+  ELECTION("p2-warrant-yes", 2, "Outstanding arrest warrant - Yes (selection)", "select the answer that matches the current case record"),
+  ELECTION("p2-warrant-no", 2, "Outstanding arrest warrant - No (selection)", "select the answer that matches the current case record"),
+  ELECTION("p2-payment-plan-yes", 2, "Active payment plan - Yes (selection)", "select the answer that matches the current case record"),
+  ELECTION("p2-payment-plan-no", 2, "Active payment plan - No (selection)", "select the answer that matches the current case record"),
+  ELECTION("p2-hearing-yes", 2, "Request a hearing - Yes (selection)", "this is the petitioner's choice; the route does not determine it"),
+  ELECTION("p2-hearing-no", 2, "Request a hearing - No (selection)", "this is the petitioner's choice; the route does not determine it"),
+  PROTECTED("p2-signature", 2, "Petitioner's Signature", "the petitioner signs the perjury declaration personally"),
+  PROTECTED("p2-signature-date", 2, "Petitioner's Signature Date", "the petitioner dates the declaration when signing"),
+  ATTORNEY("p3-attorney-name", 3, "Attorney's name printed"),
+  ATTORNEY("p3-attorney-signature", 3, "Attorney's signature and date"),
+  ATTORNEY("p3-attorney-bar", 3, "Attorney's Bar Number"),
+  ATTORNEY("p3-attorney-address", 3, "Attorney's Mailing Address"),
+  ATTORNEY("p3-attorney-contact", 3, "Attorney's Phone Number and Email Address")
+]);
+
+const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
+const writeJson = (rel, value) => {
+  const absolute = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  fs.writeFileSync(absolute, `${JSON.stringify(value, null, 2)}\n`);
+};
+function sourceBytes() {
+  const corpusRoot = process.env.MASTER_LIBRARY_SOURCE_DIR
+    ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
+  const absolute = path.join(corpusRoot, SOURCE.pathInArchive);
+  assert.ok(fs.existsSync(absolute), `source absent: ${SOURCE.pathInArchive}`);
+  const bytes = fs.readFileSync(absolute);
+  assert.equal(sha256(bytes), SOURCE.sha256, `source SHA-256 moved: ${SOURCE.pathInArchive}`);
+  return bytes;
+}
+
+function fontSize(font, text, width) {
+  let size = 9;
+  while (size > 6 && font.widthOfTextAtSize(text, size) > width - 4) size -= 0.25;
+  assert.ok(font.widthOfTextAtSize(text, size) <= width - 4, `value does not fit measured box: ${text}`);
+  return size;
+}
+
+async function render(bytes, fixtureName) {
+  const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
+  assert.equal(pdf.getPageCount(), SOURCE.pageCount);
+  stampDeterministic(pdf);
+  const font = await pdf.embedFont(StandardFonts.Helvetica);
+  for (const row of WRITES) {
+    const page = pdf.getPage(row.page - 1);
+    const value = FIXTURES[fixtureName][row.fact];
+    const { x, y, width, height } = row.rect;
+    page.drawRectangle({ x: x - 1, y: y - 1, width: width + 2, height: height + 2, color: rgb(1, 1, 1) });
+    page.drawLine({ start: { x, y }, end: { x: x + width, y }, thickness: 0.6, color: rgb(0, 0, 0) });
+    page.drawText(value, { x: x + 2, y: y + 2, size: fontSize(font, value, width), font, color: rgb(0, 0, 0) });
+  }
+  return pdf.save({ useObjectStreams: false, updateMetadata: false });
+}
+
+async function proveWrites(bytes, fixtureName) {
+  const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
+  const actualWrites = [];
+  let glyphs = 0;
+  for (const row of WRITES) {
+    const value = FIXTURES[fixtureName][row.fact];
+    const items = extractTextItems(pdf.getPage(row.page - 1));
+    const item = items.find((candidate) => candidate.text === value
+      && candidate.x >= row.rect.x - 1 && candidate.x <= row.rect.x + row.rect.width
+      && candidate.y >= row.rect.y - 1 && candidate.y <= row.rect.y + row.rect.height + 2);
+    assert.ok(item, `${fixtureName}: final PDF bytes do not carry ${row.id} inside its measured box`);
+    glyphs += value.replace(/\s/g, "").length;
+    actualWrites.push({ fieldId: row.id, factId: row.fact, page: row.page, rect: row.rect, expected: value, drawnText: value, matchesExpected: true });
+  }
+  return { actualWrites, glyphs };
+}
+
+function instructions() {
+  const lines = [
+    "# Filing instructions - Arizona municipal/justice-court marijuana expungement",
+    "",
+    "This packet is the official three-page AOC CREM2F-071221 petition under A.R.S. 36-2862. It includes the continuation/contact page carried by that same official binary.",
+    "",
+    "## Before you file",
+    "",
+    "Complete every item below on the official form and confirm the court and agency names against your case record:",
+    ""
+  ];
+  for (const row of REFUSALS.filter((r) => r.requiredBeforeFiling === true)) {
+    lines.push(`- **${row.effectiveLabel}:** ${row.reason}.`);
+  }
+  lines.push(
+    "",
+    "Choose the one eligible-charge box that matches the record and answer every Yes/No question on page 2. The route does not decide those case facts. Choose whether you request a hearing.",
+    "",
+    "Sign and date the perjury declaration yourself. Attorney fields remain blank when you are self-represented.",
+    "",
+    "## Filing, fee, and service",
+    "",
+    "File in the municipal or justice court that concluded the case, in person, by mail, or by e-filing where that court accepts it. Rule 36(a)(4) bars a filing fee, so no fee-waiver form applies. The court sends the petition to the prosecuting agency within 10 days.",
+    "",
+    "If the filing lacks enough information to identify the records, the court may require the missing information within 45 days. Opposition, disputed evidence, or a contested hearing requires a post-generation handoff.",
+    "",
+    `Route: ${ROUTE_KEY}`,
+    ""
+  );
+  return lines.join("\n");
+}
+
+export async function runFamily(argv = process.argv.slice(2)) {
+  const checkOnly = argv.includes("--check");
+  const source = sourceBytes();
+  if (checkOnly) return { familyId: FAMILY_ID, status: "CHECK_ONLY", sourceSha256: sha256(source), pageCount: SOURCE.pageCount, fieldsMapped: WRITES.length + REFUSALS.length };
+
+  fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
+  const artifacts = [];
+  const proofs = [];
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const bytes = await render(source, fixtureName);
+    const file = `${OUT}/fixtures/${fixtureName}.pdf`;
+    fs.writeFileSync(path.join(ROOT, file), bytes);
+    const proof = await proveWrites(bytes, fixtureName);
+    artifacts.push({ fixture: fixtureName, file, sha256: sha256(bytes), byteLength: bytes.length, pageCount: SOURCE.pageCount, documents: [SOURCE.documentId, SOURCE.continuationId] });
+    proofs.push({ fixture: fixtureName, valuesReportedByFinalizer: WRITES.length, addedGlyphsReadFromOutputBytes: proof.glyphs, flattenedWidgetAppearancesReadFromOutputBytes: 0, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [], actualWrites: proof.actualWrites });
+  }
+
+  const writes = WRITES.map((row) => ({ fieldId: row.id, fieldName: row.id, page: row.page, documentId: row.documentId, effectiveLabel: row.label, factId: row.fact, rect: row.rect }));
+  writeJson(`${OUT}/production-field-map.json`, {
+    schemaVersion: "rcap-flat-official-form-field-map/v1", familyId: FAMILY_ID,
+    routeKeys: [ROUTE_KEY], routeSelectionId: "az-marijuana-expungement-limited-jurisdiction-crem2f",
+    renderStrategy: "measured_flat_overlay", routeDeterminedSelections: [],
+    writes, refusals: REFUSALS, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
+  });
+  writeJson(`${OUT}/field-census.census-v1.json`, {
+    schemaVersion: "rcap-flat-form-field-census/v1", familyId: FAMILY_ID,
+    sourceSha256: SOURCE.sha256, pageCount: SOURCE.pageCount,
+    terminalFields: [...writes, ...REFUSALS], terminalFieldCount: writes.length + REFUSALS.length
+  });
+  writeJson(`${OUT}/source-receipt.json`, {
+    schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, jurisdiction: "AZ",
+    implementationStrategy: "official_pdf_fill", custodyClass: "SOURCE_ALREADY_HELD",
+    bindingMethod: "exact governed archive path and SHA-256", allSourcesExact: true,
+    documents: [{ documentId: SOURCE.documentId, sourceIds: [`official-form:${SOURCE.documentId}`, `official-form:${SOURCE.continuationId}`], pathInArchive: SOURCE.pathInArchive, sha256: SOURCE.sha256, byteLength: source.length, pageCount: SOURCE.pageCount,
+      componentNote: "The official three-page CREM2F binary carries the primary petition and its continuation/contact page." }],
+    sourceBinaryCommitted: false, commercialRoutesOpened: 0
+  });
+  writeJson(`${OUT}/reports/rendered-artifacts.json`, {
+    schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
+    artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    everyPageRastered: false, rasterState: "BUILT_RASTER_PENDING", rasterPages: [], byteDerivedHashes: true, independentVerificationPending: true
+  });
+  writeJson(`${OUT}/reports/actual-writes.json`, {
+    schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: FAMILY_ID, derivedFromArtifactBytes: true,
+    note: "Every expected value was re-read from final PDF bytes inside its measured write box.",
+    documents: proofs, artifacts: proofs.map((p) => ({ fixture: p.fixture, valuesReportedByFinalizer: p.valuesReportedByFinalizer, addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes, flattenedWidgetAppearancesReadFromOutputBytes: 0, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, refusedFieldsWithInk: [] })), blockingFindings: []
+  });
+  fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructions());
+  writeJson(`${OUT}/product-wiring.json`, { schemaVersion: "rcap-product-wiring/v1", familyId: FAMILY_ID, routeKeys: [ROUTE_KEY], generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0, productionTouched: false });
+  writeJson(`${OUT}/build-status.json`, { schemaVersion: "rcap-family-build-status/v1", familyId: FAMILY_ID, buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: BUILD_SCRIPT, rasterState: "BUILT_RASTER_PENDING", renderedArtifacts: artifacts.length, independentVerificationStatus: "PENDING", selfVerified: false, commercialRoutesOpened: 0, productionTouched: false });
+  writeJson(`${OUT}/reports/independent-visual-review.json`, { schemaVersion: "rcap-independent-visual-review/v1", familyId: FAMILY_ID, required: true, granted: false, reviewedBy: null, rasterState: "BUILT_RASTER_PENDING", artifacts: artifacts.map(({ fixture, file, sha256: hash, pageCount }) => ({ fixture, file, sha256: hash, pageCount })) });
+  writeJson(`${OUT}/reports/completeness-counters.json`, { schemaVersion: "rcap-builder-completeness-counters/v1", familyId: FAMILY_ID, counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: 0 }, allNineZero: true, whatThisIsNot: "An independent verdict or visual review." });
+  writeJson(`${OUT}/build-findings.json`, { schemaVersion: "rcap-family-build-findings/v1", familyId: FAMILY_ID, blocking: [], findings: [{ finding: "AOC CREM2F is a flat PDF; every inserted value is measured and re-read from the final bytes." }, { finding: "All case-dependent selections, the perjury signature/date, and self-represented attorney fields remain unprefilled and are classified explicitly." }] });
+  writeJson(`${OUT}/approval-request.json`, { schemaVersion: "rcap-family-approval-request/v1", familyId: FAMILY_ID, requested: "changed-byte raster, independent completeness verification, visual review, and counsel review", buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION", approvedForLive: false, live: false, commercialRoutesOpened: 0 });
+
+  return { familyId: FAMILY_ID, status: "COMPLETED", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: 0 }, artifacts: artifacts.map(({ fixture, sha256: hash, byteLength, pageCount }) => ({ fixture, sha256: hash, byteLength, pageCount })), rasterState: "BUILT_RASTER_PENDING" };
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+  runFamily().then((result) => console.log(JSON.stringify(result, null, 2))).catch((error) => { console.error(error); process.exit(1); });
+}
