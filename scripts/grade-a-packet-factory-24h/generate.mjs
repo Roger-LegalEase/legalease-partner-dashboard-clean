@@ -1409,7 +1409,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * these nine families sat at VERIFIED_PASS, which L4 and F30 read as proven —
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
-  else if (ownerCorrection && !ownerCorrectionAwaitsReread) state = "LEGAL_BLOCKED";
+  else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
@@ -1687,8 +1687,8 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     laneReturnLegalHold: laneHoldNarrowed,
     executionReclassification,
-    executionOwner: executionReclassification?.executionOwner ?? null,
-    nextExecutableAction: executionReclassification?.nextExecutableAction ?? null,
+    executionOwner: executionReclassification?.executionOwner ?? holdReclassification?.executionOwner ?? null,
+    nextExecutableAction: executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
     routeMappingStatus: routeMappingOpen
       ? (executionReclassification ? "OWNER_DIRECTED_MAPPING_PENDING" : "UNBOUND_TO_A_PACKET_FAMILY")
       : "BOUND",
@@ -1848,7 +1848,7 @@ const guidance = families.filter((f) => f.state === "LEGITIMATE_GUIDANCE_ONLY");
 const remaining = families.filter((f) => !f.activeOwner && f.state !== "LEGITIMATE_GUIDANCE_ONLY");
 const sourceReady = remaining.filter((f) => f.state === "SOURCE_READY");
 const sourceBlocked = remaining.filter((f) => f.state === "SOURCE_BLOCKED" && f.legalInputStatus !== "OPEN_LEGAL_INPUT");
-const legalBlocked = remaining.filter((f) => f.legalInputStatus === "OPEN_LEGAL_INPUT");
+const legalBlocked = remaining.filter((f) => f.state === "LEGAL_BLOCKED");
 /*
  * Verification work is represented by the verification state, not by an owner
  * product refusal. WRONG_DELIVERY_TYPE says the current instrument may not

@@ -1180,7 +1180,7 @@ function run() {
   const stale = fs.existsSync(path.join(ROOT, STALE)) ? read(STALE) : null;
   if (stale) {
     const ownerReclassified = new Set(master.families
-      .filter((f) => f.executionReclassification)
+      .filter((f) => f.executionReclassification || f.legalHoldReclassification)
       .map((f) => f.familyId));
     const currentVerifierHolds = (vr?.rows ?? []).filter((r) => r.isIndependentVerification
       && r.verdict === "BLOCKED_LEGAL_INPUT" && !r.superseded

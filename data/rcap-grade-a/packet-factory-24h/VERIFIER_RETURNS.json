@@ -19,13 +19,25 @@
     "false"
   ],
   "obligationVocabularyNote": "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
-  "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
+  "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. An exact owner-confirmed substantive selection in LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json preserves environment-scoped BLOCKED_SOURCE history without letting that environment refusal remain a legal hold; it expires on the next substantive read at or after the record's Captain SHA. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
+  "chronologySelections": [
+    {
+      "familyId": "ca-prop64-set",
+      "selectedVerdict": {
+        "lane": "vf12",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
+      },
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+    }
+  ],
   "counts": {
-    "returnDirectories": 47,
-    "rows": 566,
+    "returnDirectories": 53,
+    "rows": 572,
     "independentVerdicts": 195,
     "failRepairRequired": 47,
-    "passIndependent": 142
+    "passIndependent": 143
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -1611,6 +1623,20 @@
     {
       "familyId": "az_wrongful_arrest_clearance-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "frozen-registry-independent-verification-az-wrongful-arrest",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/frozen-registry-independent-verification-az-wrongful-arrest/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
       "isIndependentVerification": true,
       "verifiedAtBase": null,
@@ -1692,7 +1718,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf32/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ca-1203-41-set",
@@ -2386,7 +2412,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ca-prop64-set",
@@ -2610,7 +2636,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
-      "superseded": true
+      "chronologySelection": {
+        "disposition": "SELECT_SUBSTANTIVE_VERDICT",
+        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+        "recordedAtCaptainSha": "dbd8a738abfe56992317961859d883375c976195",
+        "historicalVerdictPreserved": {
+          "lane": "vf02",
+          "verdict": "BLOCKED_SOURCE",
+          "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+          "whyHistorical": "The return records a verifier environment where the private master corpus was absent; that environment-scoped refusal remains history and is not a legal ruling."
+        },
+        "selectionExpiresWhen": "A later independent substantive verdict declares a verifiedAtBase equal to or descending from recordedAtCaptainSha."
+      },
+      "superseded": false
     },
     {
       "familyId": "ca-prop64-set",
@@ -4023,6 +4062,20 @@
     {
       "familyId": "ct-decriminalized-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "frozen-registry-independent-verification-ct-decriminalized",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/frozen-registry-independent-verification-ct-decriminalized/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-decriminalized-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ct-decriminalized-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf04",
       "isIndependentVerification": true,
       "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
@@ -4046,7 +4099,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-decriminalized-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ct-decriminalized-set",
@@ -4605,6 +4658,20 @@
     },
     {
       "familyId": "id_felony_reduction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "frozen-registry-independent-verification-id-felony-reduction",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/frozen-registry-independent-verification-id-felony-reduction/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_felony_reduction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "id_felony_reduction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -4637,7 +4704,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_felony_reduction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "id_felony_reduction-set",
@@ -4758,6 +4825,20 @@
     {
       "familyId": "id_set_aside_dismissal-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "frozen-registry-independent-verification-id-set-aside",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/frozen-registry-independent-verification-id-set-aside/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_set_aside_dismissal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "id_set_aside_dismissal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
@@ -4781,7 +4862,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_set_aside_dismissal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "id_set_aside_dismissal-set",
@@ -9942,6 +10023,20 @@
     },
     {
       "familyId": "rcap-ms-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "frozen-registry-independent-verification-ms-custom-pleading",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/frozen-registry-independent-verification-ms-custom-pleading/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ms-custom-pleading",
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf04",
       "isIndependentVerification": true,
@@ -10062,7 +10157,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf36/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-nd-custom-pleading",
@@ -11366,6 +11461,20 @@
     },
     {
       "familyId": "rcap-wv-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "frozen-registry-independent-verification-wv-custom-pleading",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/frozen-registry-independent-verification-wv-custom-pleading/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -11406,7 +11515,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-wv-custom-pleading",
