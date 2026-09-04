@@ -20,10 +20,11 @@
  * The stage-2 unit was held unavailable on two questions, and they are not the
  * same kind of question.
  *
- *   (a) WHETHER A STATEWIDE FORM EXISTS. This is a source question and it is
- *       now answered: NO statewide form exists for an I.C. 34-28-5-15
- *       infraction petition in any source this repository holds. Every Indiana
- *       PDF in the mounted Master Library (the CCA Section 1 non-conviction
+ *   (a) WHETHER A STATEWIDE FORM EXISTS. The held-source portion of this
+ *       question is answered: no applicable statewide form for an I.C.
+ *       34-28-5-15 infraction petition appears in any source this repository
+ *       holds. Every Indiana PDF in the mounted Master Library (the CCA
+ *       Section 1 non-conviction
  *       petition-and-order bundle, its inserts, its instructions, and the
  *       Section 2, 3 and 4 conviction inserts) and every Indiana PDF in the
  *       partial Nationwide custody was text-extracted on this pass: the
@@ -32,11 +33,11 @@
  *       expungement form, which is a different chapter and a different
  *       remedy. The registry's own officialFormId and officialSourceUrl for
  *       this component are null. Outbound fetching of the CCA forms index was
- *       refused at CONNECT in this container, so the absence rests on held
- *       sources; it is stated as such rather than as a fetch.
- *       An answered "no form exists" is precisely the condition on which this
- *       repository drafts a controlled pleading, and the family's own
- *       legalDesignDecision says so: "Stage 2 is a verified participant
+ *       refused at CONNECT in this container, so current official-index
+ *       confirmation remains outstanding. This build states the held-corpus
+ *       result without turning it into a claim that no form exists.
+ *       The held-source result supports a controlled pleading, and the
+ *       family's own legalDesignDecision says so: "Stage 2 is a verified participant
  *       petition and is therefore packet-capable as a custom pleading."
  *
  *   (b) HOW COUNTIES HANDLE THE MC CASE-TYPE ASSIGNMENT where no cause number
@@ -99,8 +100,9 @@
  *                draftingProhibitedBecause quoting the registry, and the
  *                the missing determination assigned to the source-acquisition
  *                lanes. That record is UPDATED by this correction: drafted is
- *                now true, the form half of the gate is recorded as answered
- *                (no statewide form exists), and the MC case-type half is
+ *                now true, the held-corpus form search is recorded as complete
+ *                while current official-index confirmation remains outstanding,
+ *                and the MC case-type half is
  *                recorded as a participant-facing blank rather than a drafting
  *                bar. The build now REFUSES to run if that record ever says
  *                drafted:false again, which is the mirror of the guard it

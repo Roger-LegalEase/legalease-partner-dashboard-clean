@@ -1,11 +1,12 @@
 {
   "schemaVersion": "rcap-packet-factory-lane-return/v1",
   "lane": "FIX04",
-  "worker": "FIX04 rapid-repair, Codex",
+  "worker": "CODEX-CS2-FIX04-RESUME",
   "laneKind": "repair",
-  "baseSha": "ecf63471a53d99e7e170d1847ade3a0ead855359",
-  "workerBranch": "codex/repair-fix04-20260904",
-  "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+  "baseSha": "00b53aae2a2317cc6aa4f6c157e1d9b700edb523",
+  "workerBranch": "codex/cs2-fix04-resume",
+  "claimHandling": "All three live FIX04 repair grants were asserted read-only. This worker did not release or modify a claim.",
+  "preflight": "The clean continuation passed repository identity, exact Captain ancestry, FIX04 assignment, worktree, and Node checks. The Codespace no longer has the governed Master Library mount, so the corpus-bound AL and IL preflight/build reruns remain unavailable; no source was reacquired. A shared existing dependency tree was reused for source-independent tests.",
   "selfVerified": false,
   "productionTouched": false,
   "commercialRoutesOpened": 0,
@@ -14,33 +15,26 @@
     "il-seal-edu-set",
     "in_infraction_nondisclosure-set"
   ],
-  "familiesStopped": [
-    "ar-pardon-seal-set",
-    "az_marijuana_expungement_arrest_no_charges-set",
-    "nj_arrest_no_conviction-set",
-    "rcap-tx-custom-pleading",
-    "ut_pet_dismissed_with_prejudice-set",
-    "wv_conv_single_misdemeanor-set"
-  ],
-  "nineCountersZeroOn": [
-    "ar-pardon-seal-set"
-  ],
-  "rasterRuleApplied": "Every changed PDF is BUILT_RASTER_PENDING. Eight nonvisual counters are zero; visualDefects is unmeasured until the central independent raster verdict.",
-  "grantsNothing": "This repair return issues no independent verdict, proves no family, opens no commercial route, touches no production path and weakens no gate.",
+  "familiesStopped": [],
+  "nineCountersZeroOn": [],
+  "rasterRuleApplied": "Every changed PDF remains BUILT_RASTER_PENDING. Eight nonvisual counters are zero; visualDefects is unmeasured until central raster acceptance runs against the exact current hashes.",
+  "grantsNothing": "This repair return issues no independent verdict, proves no family, releases no claim, opens no commercial route, touches no Production path, and weakens no gate.",
   "rows": [
     {
       "itemId": "al-felony-nonconviction-90-set",
+      "routeKeys": [
+        "obligation:track-only:AL:al-felony-nonconviction-90"
+      ],
       "status": "COMPLETED",
       "claim": "CLAIM_OK FIX04 al-felony-nonconviction-90-set (repair, grant set 63a15be7ddeed116)",
-      "claimReleased": "RELEASED FIX04 al-felony-nonconviction-90-set",
       "factoryState": "BUILT_RASTER_PENDING",
       "obligationRepaired": [
         "KNOWN_PREFILLS",
         "REQUIRED_BEFORE_FILING",
         "SELF_HELP_STOP"
       ],
-      "whatWasDone": "Replaced the generic shared-host wrapper with a family-owned builder. Direction strings are no longer written as charge, grounds, agency or detention facts; all opaque undefined financial-field labels are replaced with usable participant prompts; the exact Section III outcome remains participant-owned; and the instructions now state the certified-record, 90-day, signature, notarization, filing-fee, fee-waiver and licensing/firearm steps.",
-      "deterministicRebuild": "Two post-repair builds produced identical canonical and boundary SHA-256 values.",
+      "whatWasDone": "Replaced the generic shared-host wrapper with a family-owned builder. Seven printed direction strings are no longer written as charge, grounds, agency, or detention facts; all 33 opaque undefined financial-field labels are replaced with usable participant prompts; the exact Section III outcome remains participant-owned; and the instructions now state the certified-record, 90-day, signature, notarization, filing-fee, fee-waiver, licensing, and firearm steps.",
+      "deterministicRebuild": "The inherited repair evidence records two identical post-repair builds, and the resumed continuation confirms those committed bytes still match the recorded hashes and lengths. A fresh corpus-bound rerun is unavailable because the governed Master Library mount is absent from this Codespace; no substitute source was acquired.",
       "artifacts": [
         {
           "fixture": "canonical",
@@ -56,8 +50,9 @@
         }
       ],
       "focusedEvidence": [
-        "node scripts/build-census-v1-al-felony-nonconviction-90-set.mjs --self-test => repair invariants PASS",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set => PASS_COMPLETE 31/216 written"
+        "node scripts/build-census-v1-al-felony-nonconviction-90-set.mjs --self-test => al-felony-nonconviction-90-set: repair invariants PASS",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set => PASS_COMPLETE 31/216 written",
+        "sha256sum and wc -c => both artifacts exactly match the recorded current hashes and lengths"
       ],
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -72,36 +67,12 @@
       }
     },
     {
-      "itemId": "ar-pardon-seal-set",
-      "status": "STOPPED",
-      "stopClass": "FAILED_OBLIGATION_NOT_REPRODUCIBLE",
-      "claim": "CLAIM_OK FIX04 ar-pardon-seal-set (repair, grant set 63a15be7ddeed116)",
-      "claimReleased": "RELEASED FIX04 ar-pardon-seal-set",
-      "obligationRepaired": [],
-      "obligationStopped": [
-        "COMPONENT_SET",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP",
-        "SERVICE"
-      ],
-      "whyStopped": "The dispatch supplied null findings and null evidence for all four obligations. The required focused completeness check reports PASS_COMPLETE 6/68 with every mechanical counter zero. The lane contract forbids re-deriving a family when the handed-off failure is not reproducible, so no AR artifact or builder was changed.",
-      "countersAfter": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      }
-    },
-    {
       "itemId": "il-seal-edu-set",
+      "routeKeys": [
+        "obligation:track-only:IL:il-seal-edu"
+      ],
       "status": "COMPLETED",
       "claim": "CLAIM_OK FIX04 il-seal-edu-set (repair, grant set 63a15be7ddeed116)",
-      "claimReleased": "RELEASED FIX04 il-seal-edu-set",
       "factoryState": "BUILT_RASTER_PENDING",
       "obligationRepaired": [
         "KNOWN_PREFILLS",
@@ -111,8 +82,8 @@
         "ROUTE_OPTIONS",
         "SELF_HELP_STOP"
       ],
-      "whatWasDone": "Replaced the generic shared-host wrapper with a family-owned education-route builder. Only the sealing branch and item 22 are selected; item 15 and unrelated two- and three-year routes remain unselected; the inactive expungement table and unused sealing rows remain blank; one active sealing row carries the correct case facts; clerk case-number fields remain protected; and the instructions now state the transcript, certified-disposition comparison, per-case election, educational evidence, hearing-date, wet-signature, fee-waiver and all omitted stop conditions.",
-      "deterministicRebuild": "Two post-repair builds produced identical canonical and boundary SHA-256 values.",
+      "whatWasDone": "Replaced the generic shared-host wrapper with a family-owned education-route builder. Only the sealing branch and item 22 are selected; item 15 and the expungement table remain blank; one active sealing row carries the correct charge and case facts while unused rows remain blank; Circuit Clerk case-number captions and printed directions remain protected; and the instructions state the ISP transcript, certified-disposition comparison, per-case election, educational credential, hearing-date, wet-signature, fee-waiver, identity-theft/unrecognized-record, federal/out-of-state, reconsideration, denial, and transcript-ambiguity requirements.",
+      "deterministicRebuild": "The inherited repair evidence records two identical post-repair builds, and the resumed continuation confirms those committed bytes still match the recorded hashes and lengths. A fresh corpus-bound rerun is unavailable because the governed Master Library mount is absent from this Codespace; no substitute source was acquired.",
       "artifacts": [
         {
           "fixture": "canonical",
@@ -129,7 +100,8 @@
       ],
       "focusedEvidence": [
         "node scripts/build-census-v1-il-seal-edu-set.mjs --self-test => il-seal-edu-set self-test passed",
-        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set => PASS_COMPLETE 40/424 written"
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set => PASS_COMPLETE 40/424 written",
+        "sha256sum and wc -c => both artifacts exactly match the recorded current hashes and lengths"
       ],
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -145,15 +117,18 @@
     },
     {
       "itemId": "in_infraction_nondisclosure-set",
+      "routeKeys": [
+        "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1",
+        "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-2"
+      ],
       "status": "COMPLETED",
       "claim": "CLAIM_OK FIX04 in_infraction_nondisclosure-set (repair, grant set 63a15be7ddeed116)",
-      "claimReleased": "RELEASED FIX04 in_infraction_nondisclosure-set",
       "factoryState": "BUILT_RASTER_PENDING",
       "obligationRepaired": [
         "SOURCE_IDENTITY"
       ],
-      "whatWasDone": "Removed the unsupported claim that Indiana publishes no statewide form and eliminated the receipt's contradictory statement that the rendered petition remains undrafted. The receipt and participant-facing packet now distinguish the exact held-corpus result from the still-outstanding live official-forms-index confirmation after the recorded refused fetch.",
-      "deterministicRebuild": "Two post-repair builds produced identical canonical and boundary SHA-256 values.",
+      "whatWasDone": "Removed the unsupported claim that Indiana publishes no statewide form and eliminated the receipt's contradictory statement that the rendered petition remains undrafted. Builder commentary, the receipt, and participant-facing packet now distinguish the exact held-corpus result from the still-outstanding live official-forms-index confirmation after the recorded refused fetch.",
+      "deterministicRebuild": "Two resumed continuation builds produced identical canonical and boundary SHA-256 values and byte lengths.",
       "artifacts": [
         {
           "fixture": "canonical",
@@ -169,7 +144,8 @@
         }
       ],
       "focusedEvidence": [
-        "node scripts/build-census-v1-in_infraction_nondisclosure-set.mjs --self-test => source-identity self-test passed",
+        "two executions of node scripts/build-census-v1-in_infraction_nondisclosure-set.mjs => identical hashes and lengths",
+        "node scripts/build-census-v1-in_infraction_nondisclosure-set.mjs --self-test => in_infraction_nondisclosure-set source-identity self-test passed",
         "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set => PASS_COMPLETE 2/19 written"
       ],
       "countersAfter": {
@@ -183,79 +159,6 @@
         "protectedWrites": 0,
         "visualDefects": null
       }
-    },
-    {
-      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
-      "status": "STOPPED",
-      "stopClass": "BLOCKED_BEFORE_CLAIM",
-      "claimResult": "ALREADY_RELEASED: az_marijuana_expungement_arrest_no_charges-set at 2026-09-03T23:53:10.974Z",
-      "claimExitCode": 9,
-      "obligationRepaired": [],
-      "obligationStopped": [
-        "FEE_AND_WAIVER",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SERVICE"
-      ],
-      "whyStopped": "The mandatory assertion refused. This dispatch did not inspect or change the family artifacts.",
-      "countersAfter": null
-    },
-    {
-      "itemId": "nj_arrest_no_conviction-set",
-      "status": "STOPPED",
-      "stopClass": "BLOCKED_BEFORE_CLAIM",
-      "claimResult": "ALREADY_RELEASED: nj_arrest_no_conviction-set at 2026-09-04T04:13:08.891Z",
-      "claimExitCode": 9,
-      "obligationRepaired": [],
-      "obligationStopped": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "whyStopped": "The mandatory assertion refused. This dispatch did not inspect or change the family artifacts.",
-      "countersAfter": null
-    },
-    {
-      "itemId": "rcap-tx-custom-pleading",
-      "status": "STOPPED",
-      "stopClass": "BLOCKED_BEFORE_CLAIM",
-      "claimResult": "ALREADY_RELEASED: rcap-tx-custom-pleading at 2026-09-03T23:53:18.437Z",
-      "claimExitCode": 9,
-      "obligationRepaired": [],
-      "obligationStopped": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
-      ],
-      "whyStopped": "The mandatory assertion refused. This dispatch did not inspect or change the family artifacts.",
-      "countersAfter": null
-    },
-    {
-      "itemId": "ut_pet_dismissed_with_prejudice-set",
-      "status": "STOPPED",
-      "stopClass": "BLOCKED_BEFORE_CLAIM",
-      "claimResult": "ALREADY_RELEASED: ut_pet_dismissed_with_prejudice-set at 2026-09-04T05:38:19.637Z",
-      "claimExitCode": 9,
-      "obligationRepaired": [],
-      "obligationStopped": [
-        "FILING_DESTINATION",
-        "PAGE_ORDER",
-        "ROUTE_OPTIONS"
-      ],
-      "whyStopped": "The mandatory assertion refused. This dispatch did not inspect or change the family artifacts.",
-      "countersAfter": null
-    },
-    {
-      "itemId": "wv_conv_single_misdemeanor-set",
-      "status": "STOPPED",
-      "stopClass": "BLOCKED_BEFORE_CLAIM",
-      "claimResult": "ALREADY_RELEASED: wv_conv_single_misdemeanor-set at 2026-09-04T05:46:20.467Z",
-      "claimExitCode": 9,
-      "obligationRepaired": [],
-      "obligationStopped": [
-        "COMPONENT_SET",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "whyStopped": "The mandatory assertion refused. This dispatch did not inspect or change the family artifacts.",
-      "countersAfter": null
     }
   ]
 }
