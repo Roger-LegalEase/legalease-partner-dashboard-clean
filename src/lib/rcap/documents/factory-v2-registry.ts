@@ -54,7 +54,7 @@ export type FactoryV2Route = {
   packetFamilyId: string | null;
   /** Present only for an exact route migrated out of a retired legacy jurisdiction. */
   retiredLegacyRouteMigration: FactoryV2RouteMigration | null;
-  /** Present only for the exact unapproved CT route/track/family technical crosswalk. */
+  /** Present only for an exact unapproved route/track/family technical crosswalk. */
   exactRouteProductization: FactoryV2ExactRouteProductization | null;
   /** True when the caller must name the exact server-owned track. */
   exactTrackSelectionRequired: boolean;
@@ -72,6 +72,30 @@ const CT_CLEANSLATE_PRODUCTIZATION = {
   packetFamilyId: "ct-cleanslate-petition-set",
   scope: "route_track_family_only",
   nextGate: "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation"
+} as const;
+const ID_SET_ASIDE_PRODUCTIZATION = {
+  obligationRouteKey: "obligation:track-only:ID:id_set_aside_dismissal",
+  runtimeRouteId: "ID:id_set_aside_dismissal",
+  jurisdiction: "ID",
+  pathwayId: "id_set_aside_dismissal",
+  registryTrackIds: ["id_set_aside_dismissal"],
+  packetFamilyId: "id_set_aside_dismissal-set",
+  scope: "route_track_family_only",
+  nextGate: "current ID owner legal approval and post-approval change audit, then separate fulfillment-authority and canary evidence",
+  profileVersion: "2026-06-19-source-conversion-1",
+  requiredInputIds: [
+    "case_outcome", "charge", "contact_information", "county", "court", "disposition_date",
+    "financial_obligations", "jurisdiction", "offense_category", "participant_full_legal_name",
+    "pathway_id", "prior_relief"
+  ],
+  components: [
+    ["id_set_aside_dismissal-primary-filing-1", "primary_filing", "custom_pleading", 1],
+    ["id_set_aside_dismissal-filing-instructions-2", "filing_instructions", "process_guidance", 2]
+  ],
+  artifacts: [
+    ["canonical", "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc", 10134, 4],
+    ["boundary", "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f", 10351, 4]
+  ]
 } as const;
 
 const REQUIRED_BUILD_INPUTS = [
@@ -140,7 +164,19 @@ type RawPacketSet = {
   jurisdiction?: unknown;
   trackId?: unknown;
   packetSetId?: unknown;
+  components?: unknown;
   factoryV2RouteProductization?: unknown;
+};
+
+type RawPacketSetComponent = {
+  componentId?: unknown;
+  role?: unknown;
+  requirement?: unknown;
+  conditionDescription?: unknown;
+  outputStrategy?: unknown;
+  officialFormId?: unknown;
+  officialSourceUrl?: unknown;
+  order?: unknown;
 };
 
 type RawExactRouteProductization = {
@@ -290,6 +326,74 @@ function loadCtCleanSlateProductization(): FactoryV2ExactRouteProductization | n
   }
 }
 
+/**
+ * The generated registry has no track-only Idaho pathway. Admit this one
+ * technical identity only when the manifest repeats the exact route, track,
+ * family and two components already present in the committed packet bytes.
+ */
+function loadIdSetAsideProductization(): FactoryV2ExactRouteProductization | null {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(path.join(process.cwd(), ROUTE_MIGRATIONS_PATH), "utf8")) as {
+      packetSets?: unknown;
+    };
+    if (!Array.isArray(parsed.packetSets)) return null;
+    const matches = (parsed.packetSets as RawPacketSet[]).filter((packetSet) =>
+      packetSet.packetSetId === ID_SET_ASIDE_PRODUCTIZATION.packetFamilyId);
+    if (matches.length !== 1) return null;
+    const packetSet = matches[0];
+    const row = packetSet.factoryV2RouteProductization as RawExactRouteProductization | null;
+    const components = Array.isArray(packetSet.components)
+      ? packetSet.components as RawPacketSetComponent[]
+      : [];
+    const componentsMatch = components.length === ID_SET_ASIDE_PRODUCTIZATION.components.length
+      && ID_SET_ASIDE_PRODUCTIZATION.components.every((expected, index) => {
+        const [componentId, role, outputStrategy, order] = expected;
+        const component = components[index];
+        return component?.componentId === componentId
+          && component.role === role
+          && component.requirement === "required"
+          && component.conditionDescription === null
+          && component.outputStrategy === outputStrategy
+          && component.officialFormId === null
+          && component.officialSourceUrl === null
+          && component.order === order;
+      });
+    if (!row || typeof row !== "object" || Array.isArray(row)
+      || !componentsMatch
+      || packetSet.jurisdiction !== ID_SET_ASIDE_PRODUCTIZATION.jurisdiction
+      || packetSet.trackId !== ID_SET_ASIDE_PRODUCTIZATION.registryTrackIds[0]
+      || row.obligationRouteKey !== ID_SET_ASIDE_PRODUCTIZATION.obligationRouteKey
+      || row.runtimeRouteId !== ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId
+      || row.jurisdiction !== ID_SET_ASIDE_PRODUCTIZATION.jurisdiction
+      || row.pathwayId !== ID_SET_ASIDE_PRODUCTIZATION.pathwayId
+      || !exactStringList(row.registryTrackIds, ID_SET_ASIDE_PRODUCTIZATION.registryTrackIds)
+      || row.packetFamilyId !== ID_SET_ASIDE_PRODUCTIZATION.packetFamilyId
+      || row.packetFamilyId !== packetSet.packetSetId
+      || row.scope !== ID_SET_ASIDE_PRODUCTIZATION.scope
+      || row.legalApproval !== null
+      || row.postApprovalChangeAudit !== null
+      || row.createsCommercialAuthority !== false
+      || row.opensRoute !== false
+      || row.nextGate !== ID_SET_ASIDE_PRODUCTIZATION.nextGate) return null;
+    return {
+      obligationRouteKey: ID_SET_ASIDE_PRODUCTIZATION.obligationRouteKey,
+      runtimeRouteId: ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId,
+      jurisdiction: ID_SET_ASIDE_PRODUCTIZATION.jurisdiction,
+      pathwayId: ID_SET_ASIDE_PRODUCTIZATION.pathwayId,
+      registryTrackIds: [...ID_SET_ASIDE_PRODUCTIZATION.registryTrackIds],
+      packetFamilyId: ID_SET_ASIDE_PRODUCTIZATION.packetFamilyId,
+      scope: ID_SET_ASIDE_PRODUCTIZATION.scope,
+      legalApproval: null,
+      postApprovalChangeAudit: null,
+      createsCommercialAuthority: false,
+      opensRoute: false,
+      nextGate: ID_SET_ASIDE_PRODUCTIZATION.nextGate
+    };
+  } catch {
+    return null;
+  }
+}
+
 function admissible(
   route: RawRoute,
   migration: FactoryV2RouteMigration | null,
@@ -312,9 +416,10 @@ function admissible(
   if (stringList(route.requiredInputIds).length === 0) return false;
   const jurisdiction = route.jurisdiction.trim().toUpperCase();
   const routeId = `${jurisdiction}:${route.pathwayId.trim()}`;
-  // Once CT is route-productized, its generated jurisdiction rows are not an
-  // aggregate grant. Only the exact manifest crosswalk below may pass.
-  if (jurisdiction === CT_CLEANSLATE_PRODUCTIZATION.jurisdiction && !exactProductization) return false;
+  // Exact productization is never an aggregate grant. CT fences its one
+  // jurisdiction-specific row; Idaho fences only this synthetic route id.
+  if ((jurisdiction === CT_CLEANSLATE_PRODUCTIZATION.jurisdiction
+    || routeId === ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId) && !exactProductization) return false;
   if (exactProductization) {
     if (migration) return false;
     if (routeId !== exactProductization.runtimeRouteId) return false;
@@ -349,11 +454,72 @@ function admissible(
   return true;
 }
 
+function installIdSetAsideProductization(
+  admitted: Map<string, FactoryV2Route>,
+  exactProductization: FactoryV2ExactRouteProductization | null
+) {
+  if (!exactProductization || admitted.has(ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId)) return;
+  const specification = packetSpecificationForTrack(
+    ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId,
+    ID_SET_ASIDE_PRODUCTIZATION.registryTrackIds[0]
+  );
+  if (!specification
+    || specification.packetFamily !== ID_SET_ASIDE_PRODUCTIZATION.packetFamilyId
+    || specification.packetSetId !== ID_SET_ASIDE_PRODUCTIZATION.packetFamilyId
+    || specification.pathwayId !== ID_SET_ASIDE_PRODUCTIZATION.pathwayId
+    || !(specification.routeKeys ?? [specification.routeKey]).includes(ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId)
+    || specificationLegalSectionsBound(specification)
+    || !/^[0-9a-f]{64}$/.test(specificationContentSha256(specification))) return;
+
+  const documents = specification.documents.slice().sort((left, right) => left.order - right.order);
+  const documentsMatch = documents.length === ID_SET_ASIDE_PRODUCTIZATION.components.length
+    && ID_SET_ASIDE_PRODUCTIZATION.components.every((expected, index) => {
+      const [componentId, role, outputStrategy, order] = expected;
+      const document = documents[index];
+      return document?.documentId === componentId
+        && document.manifestComponentId === componentId
+        && document.role === role
+        && document.outputStrategy === outputStrategy
+        && document.order === order;
+    });
+  if (!documentsMatch) return;
+
+  const artifactEvidence = "artifactEvidence" in specification ? specification.artifactEvidence : undefined;
+  const componentIds = ID_SET_ASIDE_PRODUCTIZATION.components.map(([componentId]) => componentId);
+  const artifactsMatch = Array.isArray(artifactEvidence)
+    && artifactEvidence.length === ID_SET_ASIDE_PRODUCTIZATION.artifacts.length
+    && ID_SET_ASIDE_PRODUCTIZATION.artifacts.every(([fixture, digest, byteLength, pageCount]) => {
+      const artifact = artifactEvidence.find((candidate) => candidate.fixture === fixture);
+      return artifact?.sha256 === digest
+        && artifact.byteLength === byteLength
+        && artifact.pageCount === pageCount
+        && artifact.authority === "technical_evidence_only"
+        && exactStringList(artifact.components, componentIds);
+    });
+  if (!artifactsMatch) return;
+
+  admitted.set(ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId, {
+    pathwayKey: ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId,
+    jurisdiction: ID_SET_ASIDE_PRODUCTIZATION.jurisdiction,
+    pathwayId: ID_SET_ASIDE_PRODUCTIZATION.pathwayId,
+    registryTrackIds: [...ID_SET_ASIDE_PRODUCTIZATION.registryTrackIds],
+    packetSetIds: [ID_SET_ASIDE_PRODUCTIZATION.packetFamilyId],
+    profileVersion: ID_SET_ASIDE_PRODUCTIZATION.profileVersion,
+    requiredInputIds: [...ID_SET_ASIDE_PRODUCTIZATION.requiredInputIds],
+    officialFormIds: [],
+    packetFamilyId: ID_SET_ASIDE_PRODUCTIZATION.packetFamilyId,
+    retiredLegacyRouteMigration: null,
+    exactRouteProductization: exactProductization,
+    exactTrackSelectionRequired: true
+  });
+}
+
 function loadAll(): Map<string, FactoryV2Route> {
   if (cache) return cache;
   const admitted = new Map<string, FactoryV2Route>();
   const migrations = loadRouteMigrations();
   const ctCleanSlateProductization = loadCtCleanSlateProductization();
+  const idSetAsideProductization = loadIdSetAsideProductization();
   const file = path.join(process.cwd(), REGISTRY_PATH);
   try {
     if (fs.existsSync(file)) {
@@ -365,7 +531,9 @@ function loadAll(): Map<string, FactoryV2Route> {
         const migration = migrations.get(routeId) ?? null;
         const exactProductization = routeId === CT_CLEANSLATE_PRODUCTIZATION.runtimeRouteId
           ? ctCleanSlateProductization
-          : null;
+          : routeId === ID_SET_ASIDE_PRODUCTIZATION.runtimeRouteId
+            ? idSetAsideProductization
+            : null;
         if (!admissible(route, migration, exactProductization)) continue;
         const specification = packetSpecificationFor(routeId);
         const rawRegistryTrackIds = stringList(route.registryTrackIds);
@@ -396,6 +564,7 @@ function loadAll(): Map<string, FactoryV2Route> {
                 || !exactStringList(rawPacketSetIds, packetSetIds)))
         });
       }
+      installIdSetAsideProductization(admitted, idSetAsideProductization);
     }
   } catch {
     // A malformed registry admits nothing. It never partially admits, and it

@@ -10,6 +10,7 @@ import dcActualInnocenceExpungement from "@/../data/record-clearing/packet-speci
 import mississippiAdditionalMisdemeanorRelief from "@/../data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json";
 import wyomingFelonyConvictionExpungement from "@/../data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json";
 import connecticutCleanSlatePetition from "@/../data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json";
+import idahoSetAsideDismissal from "@/../data/record-clearing/packet-specifications/ID-set-aside-dismissal.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -260,7 +261,8 @@ const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<str
   ["MS:additional-justice-court-misdemeanor-relief-9-11-15-3", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
   ["MS:additional-municipal-court-misdemeanor-relief-21-23-7-6", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
   [(wyomingFelonyConvictionExpungement as unknown as PacketSpecification).routeKey, wyomingFelonyConvictionExpungement as unknown as PacketSpecification],
-  [(connecticutCleanSlatePetition as unknown as DerivedPacketSpecification).routeKey, connecticutCleanSlatePetition as unknown as DerivedPacketSpecification]
+  [(connecticutCleanSlatePetition as unknown as DerivedPacketSpecification).routeKey, connecticutCleanSlatePetition as unknown as DerivedPacketSpecification],
+  [(idahoSetAsideDismissal as unknown as DerivedPacketSpecification).routeKey, idahoSetAsideDismissal as unknown as DerivedPacketSpecification]
 ]);
 
 /**

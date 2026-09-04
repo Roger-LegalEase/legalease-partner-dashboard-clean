@@ -158,6 +158,8 @@ export type PacketRouteResolution = {
     obligationRouteKey?: string;
     legalApprovalEstablished?: false;
     postApprovalChangeAuditEstablished?: false;
+    fulfillmentAuthorityEstablished?: false;
+    canaryEvidenceEstablished?: false;
     nextGate?: string;
   };
 };
@@ -778,6 +780,7 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId);
   if (factoryRoute) {
     const exactProductization = factoryRoute.exactRouteProductization;
+    const isIdahoSetAsideProductization = exactProductization?.runtimeRouteId === "ID:id_set_aside_dismissal";
     return {
       routeKind: "factory_v2",
       jurisdiction,
@@ -785,8 +788,10 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
       rendererKind: "packet_document_v1",
       sellable: false,
       creditConsumable: false,
-      reason: exactProductization
-        ? `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Current owner legal approval and a post-approval change audit are not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
+      reason: isIdahoSetAsideProductization
+        ? `ID id_set_aside_dismissal has an exact technical route/track/family mapping through packet set id_set_aside_dismissal-set at profile version ${factoryRoute.profileVersion}. Current ID owner legal approval and a post-approval change audit are not established; fulfillment authority, payment, sponsorship, credit, delivery, canary evidence, route opening and Production remain closed.`
+        : exactProductization
+          ? `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Current owner legal approval and a post-approval change audit are not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
         : `${jurisdiction} ${pathwayId} builds through the shared packet factory from packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here.`,
       factoryV2: {
         packetSetIds: factoryRoute.packetSetIds,
@@ -803,7 +808,13 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
               legalApprovalEstablished: false as const,
               postApprovalChangeAuditEstablished: false as const,
               obligationRouteKey: exactProductization.obligationRouteKey,
-              nextGate: exactProductization.nextGate
+              nextGate: exactProductization.nextGate,
+              ...(isIdahoSetAsideProductization
+                ? {
+                    fulfillmentAuthorityEstablished: false as const,
+                    canaryEvidenceEstablished: false as const
+                  }
+                : {})
             }
           : {})
       }

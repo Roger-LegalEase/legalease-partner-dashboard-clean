@@ -187,6 +187,33 @@ const ROUTES = [
     }
   },
   {
+    jurisdiction: "ID",
+    pathwayId: "id_set_aside_dismissal",
+    obligationRouteKey: "obligation:track-only:ID:id_set_aside_dismissal",
+    familyId: "id_set_aside_dismissal-set",
+    trackIds: ["id_set_aside_dismissal"],
+    inputTrackId: "id_set_aside_dismissal",
+    specificationPath: "data/record-clearing/packet-specifications/ID-set-aside-dismissal.v1.json",
+    overlayRoot: "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading",
+    migrated: false,
+    synthetic: true,
+    ownerApproved: false,
+    exactTrackSelectionRequired: true,
+    nextGate: "current ID owner legal approval and post-approval change audit, then separate fulfillment-authority and canary evidence",
+    components: [
+      "id_set_aside_dismissal-primary-filing-1",
+      "id_set_aside_dismissal-filing-instructions-2"
+    ],
+    manifestComponents: [
+      ["primary_filing", "custom_pleading", null],
+      ["filing_instructions", "process_guidance", null]
+    ],
+    artifacts: {
+      canonical: ["7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc", 10134, 4],
+      boundary: ["69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f", 10351, 4]
+    }
+  },
+  {
     jurisdiction: "CT",
     pathwayId: "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
     obligationRouteKey: "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
@@ -198,7 +225,9 @@ const ROUTES = [
     migrated: false,
     ownerApproved: false,
     exactTrackSelectionRequired: true,
+    nextGate: "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation",
     components: ["ct-cleanslate-petition-primary-filing-1"],
+    manifestComponents: [["primary_filing", "official_pdf_fill", "JD-CR-202"]],
     artifacts: {
       canonical: ["d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06", 248957, 2],
       boundary: ["e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052", 248978, 2]
@@ -253,6 +282,10 @@ assert.equal(ctCohortEvidence.checks.coveredByAnExistingOwnerApproval, false);
 assert.equal(ctCohortEvidence.checks.noSubstantiveLegalChangeSinceThatApproval, false);
 assert.equal(ctCohortEvidence.legalApproval, null);
 assert.equal(ctCohortEvidence.inCohort, false);
+assert.equal(selectedFamilies.has("id_set_aside_dismissal-set"), false,
+  "Idaho must not be inferred into the owner-approved cohort from technical packet proof");
+assert.equal(firstCohort.allRows.some((row) => row.familyId === "id_set_aside_dismissal-set"), false,
+  "the current cohort contains no Idaho row that could establish route-level owner approval");
 
 const manifests = read(MIGRATIONS_PATH);
 const migrations = manifests.factoryV2RouteMigrations ?? [];
@@ -280,6 +313,22 @@ assert.deepEqual(ctPacketSet[0].factoryV2RouteProductization, {
   opensRoute: false,
   nextGate: "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation"
 });
+const idPacketSet = manifests.packetSets.filter((row) => row.packetSetId === "id_set_aside_dismissal-set");
+assert.equal(idPacketSet.length, 1, "the Idaho family must have one exact packet-set row");
+assert.deepEqual(idPacketSet[0].factoryV2RouteProductization, {
+  obligationRouteKey: "obligation:track-only:ID:id_set_aside_dismissal",
+  runtimeRouteId: "ID:id_set_aside_dismissal",
+  jurisdiction: "ID",
+  pathwayId: "id_set_aside_dismissal",
+  registryTrackIds: ["id_set_aside_dismissal"],
+  packetFamilyId: "id_set_aside_dismissal-set",
+  scope: "route_track_family_only",
+  legalApproval: null,
+  postApprovalChangeAudit: null,
+  createsCommercialAuthority: false,
+  opensRoute: false,
+  nextGate: "current ID owner legal approval and post-approval change audit, then separate fulfillment-authority and canary evidence"
+});
 
 const generatorSource = fs.readFileSync(path.join(ROOT, "scripts/generate-rcap-factory-v2-registry.mjs"), "utf8");
 assert.match(generatorSource, /const PACKET_SETS = "data\/record-clearing\/legal-design-packet-set-manifests\.json"/,
@@ -301,15 +350,20 @@ const fulfillmentRecordsAlreadyAtBase = new Set([
 assert.equal(ownerDecision.recordId, "OWN-ADOPT-2026-09-02-BATCH-53");
 for (const route of ROUTES) {
   const raw = rawRegistry.routes.find((row) => row.pathwayKey === route.routeId);
-  assert.ok(raw, `${route.routeId}: generated factory-v2 row missing`);
-  assert.ok(REQUIRED_BUILD_INPUTS.every((name) => raw.buildInputs?.[name] === true),
-    `${route.routeId}: all seven generated build inputs must remain true`);
-  assert.deepEqual(raw.unmetBuildInputs, [], `${route.routeId}: generated build inputs unexpectedly unmet`);
-  assert.deepEqual(raw.packetSetIds, route.rawPacketSetIds);
-  assert.deepEqual(raw.registryTrackIds, route.rawTrackIds);
-  assert.equal(raw.factoryV2Resolves, !route.migrated,
-    `${route.routeId}: only retired-legacy ownership may distinguish the raw generated admission`);
-  assert.equal(raw.legacyGeneratorOwnsThisJurisdiction, route.migrated);
+  if (route.synthetic) {
+    assert.equal(raw, undefined,
+      `${route.routeId}: productization must not pretend the generated registry already supplied this track-only identity`);
+  } else {
+    assert.ok(raw, `${route.routeId}: generated factory-v2 row missing`);
+    assert.ok(REQUIRED_BUILD_INPUTS.every((name) => raw.buildInputs?.[name] === true),
+      `${route.routeId}: all seven generated build inputs must remain true`);
+    assert.deepEqual(raw.unmetBuildInputs, [], `${route.routeId}: generated build inputs unexpectedly unmet`);
+    assert.deepEqual(raw.packetSetIds, route.rawPacketSetIds);
+    assert.deepEqual(raw.registryTrackIds, route.rawTrackIds);
+    assert.equal(raw.factoryV2Resolves, !route.migrated,
+      `${route.routeId}: only retired-legacy ownership may distinguish the raw generated admission`);
+    assert.equal(raw.legacyGeneratorOwnsThisJurisdiction, route.migrated);
+  }
 
   const spec = packetSpecificationFor(route.routeId);
   assert.ok(spec, `${route.routeId}: route-scoped packet specification missing`);
@@ -328,8 +382,7 @@ for (const route of ROUTES) {
     assert.equal(spec.legalApproval, null);
     assert.equal(spec.postApprovalChangeAudit, null);
     assert.equal(specificationLegalSectionsBound(spec), false);
-    assert.equal(spec.nextGate,
-      "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation");
+    assert.equal(spec.nextGate, route.nextGate);
   }
   assert.equal(resolvePacketFamilyId(route.routeId), route.familyId,
     `${route.routeId}: server-owned family crosswalk mismatch`);
@@ -338,6 +391,43 @@ for (const route of ROUTES) {
 
   const specFile = read(route.specificationPath);
   const recordedSpecSha = specFile.specificationSha256;
+  if (route.jurisdiction === "ID") {
+    assert.deepEqual(specFile.sourceComposition, {
+      custodyClass: "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      sourceBinaryCount: 0,
+      officialBinaryInvented: false,
+      authorityReferenceShippedAsSourceComponent: false,
+      receipt: "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/source-receipt.json"
+    });
+    assert.deepEqual(specFile.independentVerificationEvidence, {
+      verdict: "PASS_COMPLETE_INDEPENDENT",
+      lane: "VF04",
+      wave: "packet-factory-24h/VF04/integrated-FIX02-independent-reread",
+      verifiedAtBase: "cf492847858f0dccd3266a15b00a23499f462935",
+      record: "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      currentAtProductizationBase: "57d60a73fa0dcb105bcc49390f94bf3fd3ecbd55",
+      currentAfterIntegratedRepair: "FIX02",
+      selfVerification: false
+    });
+    assert.deepEqual(specFile.rasterEvidence, {
+      verdict: "RASTER_PASS",
+      workflowRunId: "33605354695",
+      jobId: "100168605472",
+      artifactId: 9837134404,
+      coversTheWholeFamily: true,
+      boundToCanonicalSha256: "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+      boundToBoundarySha256: "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f"
+    });
+    const vf04 = read("data/rcap-grade-a/packet-factory-24h/vf04/rows.json").rows.find((row) =>
+      row.itemId === route.familyId && row.wave.includes("integrated-FIX02-independent-reread"));
+    assert.equal(vf04?.verdict, "PASS_COMPLETE_INDEPENDENT",
+      "the current post-FIX02 VF04 verdict must remain the bound verdict");
+    assert.deepEqual(vf04?.artifacts.map((artifact) =>
+      [artifact.fixture, artifact.sha256, artifact.byteLength, artifact.pageCount]), [
+      ["canonical", "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc", 10134, 4],
+      ["boundary", "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f", 10351, 4]
+    ]);
+  }
   delete specFile.specificationSha256;
   assert.equal(sha256(stableStringify(specFile)), recordedSpecSha,
     `${route.routeId}: specification content digest is stale`);
@@ -348,10 +438,16 @@ for (const route of ROUTES) {
   if (route.ownerApproved) {
     assert.deepEqual(rendered.componentSet, route.components, `${route.routeId}: shipping report component set drifted`);
   } else {
-    assert.deepEqual(ctPacketSet[0].components.map((component) => component.componentId), route.components,
+    const technicalPacketSet = manifests.packetSets.filter((row) => row.packetSetId === route.familyId);
+    assert.equal(technicalPacketSet.length, 1, `${route.routeId}: exact packet-set row is not unique`);
+    assert.deepEqual(technicalPacketSet[0].components.map((component) => component.componentId), route.components,
       `${route.routeId}: packet-set component set drifted`);
-    assert.deepEqual(ctPacketSet[0].components.map((component) => [component.role, component.outputStrategy, component.officialFormId]),
-      [["primary_filing", "official_pdf_fill", "JD-CR-202"]]);
+    assert.deepEqual(technicalPacketSet[0].components.map((component) =>
+      [component.role, component.outputStrategy, component.officialFormId]), route.manifestComponents);
+    if (route.jurisdiction === "ID") {
+      assert.deepEqual(rendered.componentSet, route.components,
+        `${route.routeId}: rendered family does not match the exact packet-set components`);
+    }
   }
   const specificationArtifacts = route.ownerApproved ? spec.approvedArtifacts : spec.artifactEvidence;
   assert.deepEqual(specificationArtifacts?.map((artifact) => artifact.fixture).sort(), ["boundary", "canonical"]);
@@ -368,11 +464,13 @@ for (const route of ROUTES) {
     assert.equal(currentAudit?.currentIndependentVerification?.verdict, "PASS_COMPLETE_INDEPENDENT");
     assert.equal(currentAudit?.mayEnterTheFirstCohort, true);
   } else {
-    assert.equal(ownerDecision.adoption.qualifications.some((qualification) =>
-      qualification.families.includes(route.familyId)), false,
-    `${route.routeId}: CT unexpectedly appears in the existing owner decision`);
+    if (route.jurisdiction === "CT") {
+      assert.equal(ownerDecision.adoption.qualifications.some((qualification) =>
+        qualification.families.includes(route.familyId)), false,
+      `${route.routeId}: CT unexpectedly appears in the existing owner decision`);
+    }
     assert.equal(postApprovalAudit.families.some((row) => row.familyId === route.familyId), false,
-      `${route.routeId}: CT unexpectedly appears in the post-approval audit`);
+      `${route.routeId}: a missing post-approval audit must not be inferred`);
   }
   const reportArtifacts = rendered.pdfs ?? rendered.artifacts;
   for (const [fixture, [expectedSha, expectedBytes, expectedPages]] of Object.entries(route.artifacts)) {
@@ -425,8 +523,12 @@ for (const route of ROUTES) {
     assert.equal(resolution.factoryV2?.legalApprovalEstablished, false);
     assert.equal(resolution.factoryV2?.postApprovalChangeAuditEstablished, false);
     assert.equal(resolution.factoryV2?.obligationRouteKey, route.obligationRouteKey);
-    assert.equal(resolution.factoryV2?.nextGate,
-      "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation");
+    assert.equal(resolution.factoryV2?.nextGate, route.nextGate);
+    if (route.jurisdiction === "ID") {
+      assert.equal(resolution.factoryV2?.fulfillmentAuthorityEstablished, false);
+      assert.equal(resolution.factoryV2?.canaryEvidenceEstablished, false);
+      assert.match(resolution.reason, /payment, sponsorship, credit, delivery, canary evidence, route opening and Production remain closed/);
+    }
   }
   assert.equal(resolution.sellable, false, `${route.routeId}: productization must not open checkout`);
   assert.equal(resolution.creditConsumable, false, `${route.routeId}: productization must not open sponsored credit`);
@@ -490,6 +592,44 @@ for (const pathwayId of ["", "*", "absolute-pardon-resulting-in-erasure"]) {
   assert.equal(resolution.sellable, false);
   assert.equal(resolution.creditConsumable, false);
 }
+
+const idaho = ROUTES.find((route) => route.familyId === "id_set_aside_dismissal-set");
+assert.ok(idaho, "the Idaho route fixture is missing");
+assert.equal(packetSpecificationForTrack(idaho.routeId, "id_felony_reduction"), undefined,
+  "the Idaho felony-reduction sibling inherited the set-aside specification");
+for (const trackId of [undefined, "", "id_felony_reduction", "id_clean_slate_shield"]) {
+  assert.equal(factoryV2RouteFor(idaho.jurisdiction, idaho.pathwayId, trackId), null,
+    `Idaho ${trackId || "trackless"}: exact route admitted without its one server-owned track`);
+  const resolution = resolvePacketRoute({
+    state: idaho.jurisdiction,
+    pathway: idaho.pathwayId,
+    trackId
+  });
+  assert.notEqual(resolution.routeKind, "factory_v2",
+    `Idaho ${trackId || "trackless"}: exact packet family was admitted by inference`);
+  assert.equal(resolution.sellable, false);
+  assert.equal(resolution.creditConsumable, false);
+}
+for (const pathwayId of ["", "*", "id_felony_reduction"]) {
+  assert.equal(factoryV2RouteFor("ID", pathwayId, "id_set_aside_dismissal"), null,
+    `ID:${pathwayId || "<aggregate>"}: sibling, wildcard or aggregate route gained factory authority`);
+  const resolution = resolvePacketRoute({ state: "ID", pathway: pathwayId, trackId: "id_set_aside_dismissal" });
+  assert.notEqual(resolution.routeKind, "factory_v2",
+    `ID:${pathwayId || "<aggregate>"}: sibling, wildcard or aggregate route was productized`);
+  assert.equal(resolution.sellable, false);
+  assert.equal(resolution.creditConsumable, false);
+}
+const clientSelectedIdahoFamily = resolvePacketRoute({
+  state: idaho.jurisdiction,
+  pathway: idaho.pathwayId,
+  trackId: idaho.inputTrackId,
+  packetFamilyId: "id_felony_reduction-set"
+});
+assert.equal(clientSelectedIdahoFamily.routeKind, "disabled",
+  "a client-selected Idaho sibling family was accepted");
+assert.equal(clientSelectedIdahoFamily.sellable, false);
+assert.equal(clientSelectedIdahoFamily.creditConsumable, false);
+assert.match(clientSelectedIdahoFamily.reason, /Client-supplied packet-family authority is not accepted/);
 
 for (const route of ROUTES) {
   assert.equal(factoryV2RouteFor(
@@ -563,6 +703,23 @@ for (const trackId of [undefined, "ct-absolute-pardon"]) {
   assert.notEqual(siblingRender.route.routeKind, "factory_v2");
 }
 
+const idRenderInput = {
+  packetId: "id-productization-verifier",
+  state: idaho.jurisdiction,
+  pathway: idaho.pathwayId,
+  packetFields: {}
+};
+const idRender = buildRenderJobSpec({ ...idRenderInput, trackId: idaho.inputTrackId });
+assert.ok(idRender.spec, "the exact Idaho route did not reach the shared render-job path");
+assert.equal(idRender.route.routeKind, "factory_v2");
+assert.equal(idRender.spec.routeId, idaho.routeId);
+for (const trackId of [undefined, "id_felony_reduction"]) {
+  const siblingRender = buildRenderJobSpec({ ...idRenderInput, trackId });
+  assert.equal(siblingRender.spec, null,
+    `Idaho ${trackId ?? "trackless"}: a render job inherited the set-aside family`);
+  assert.notEqual(siblingRender.route.routeKind, "factory_v2");
+}
+
 const ilCommercialIdentity = commercialRouteIdentity({
   jurisdiction: illinois.jurisdiction,
   pathwayId: illinois.pathwayId
@@ -587,6 +744,19 @@ for (const admissionPoint of ["consumer_checkout", "sponsored_entitlement", "pac
   assert.equal(decision.admitted, false, `${admissionPoint}: Connecticut productization opened commercial authority`);
   assert.equal(decision.denialCode, "fulfillment_no_record",
     `${admissionPoint}: Connecticut must remain refused until separate fulfillment authority exists`);
+}
+
+const idCommercialIdentity = commercialRouteIdentity({
+  jurisdiction: idaho.jurisdiction,
+  pathwayId: idaho.pathwayId
+});
+assert.equal(idCommercialIdentity.packetFamilyId, idaho.familyId,
+  "the money gate did not derive the Idaho packet family from the server-owned specification");
+for (const admissionPoint of ["consumer_checkout", "sponsored_entitlement", "packet_credit_admission"]) {
+  const decision = admitCommercial(admissionPoint, idCommercialIdentity, null);
+  assert.equal(decision.admitted, false, `${admissionPoint}: Idaho productization opened commercial authority`);
+  assert.equal(decision.denialCode, "fulfillment_no_record",
+    `${admissionPoint}: Idaho must remain refused at the missing Grade-A fulfillment record`);
 }
 
 if (MUTATIONS) {
@@ -652,6 +822,30 @@ if (MUTATIONS) {
     const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "ct-cleanslate-petition-set");
     packetSet.factoryV2RouteProductization.runtimeRouteId = "CT:*";
   }, "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202");
+  checkMutation("Idaho wrong packet family substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "id_set_aside_dismissal-set");
+    packetSet.factoryV2RouteProductization.packetFamilyId = "id_felony_reduction-set";
+  }, "ID:id_set_aside_dismissal");
+  checkMutation("Idaho sibling track substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "id_set_aside_dismissal-set");
+    packetSet.factoryV2RouteProductization.registryTrackIds = ["id_felony_reduction"];
+  }, "ID:id_set_aside_dismissal");
+  checkMutation("Idaho trackless substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "id_set_aside_dismissal-set");
+    packetSet.factoryV2RouteProductization.registryTrackIds = [];
+  }, "ID:id_set_aside_dismissal");
+  checkMutation("Idaho aggregate route substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "id_set_aside_dismissal-set");
+    packetSet.factoryV2RouteProductization.runtimeRouteId = "ID";
+  }, "ID:id_set_aside_dismissal");
+  checkMutation("Idaho wildcard route substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "id_set_aside_dismissal-set");
+    packetSet.factoryV2RouteProductization.runtimeRouteId = "ID:*";
+  }, "ID:id_set_aside_dismissal");
+  checkMutation("Idaho delivered component substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "id_set_aside_dismissal-set");
+    packetSet.components[1].componentId = "id_felony_reduction-filing-instructions-2";
+  }, "ID:id_set_aside_dismissal");
 
   assert.equal(sha256(fs.readFileSync(path.join(ROOT, MIGRATIONS_PATH), "utf8")), originalSha,
     "mutation checks did not restore the authoritative migration input byte-for-byte");
