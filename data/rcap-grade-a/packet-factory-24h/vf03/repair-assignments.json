@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A + Codex VF03 fbd22ae2",
- "assignmentCount": 13,
+ "assignmentCount": 14,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -428,8 +428,32 @@
     "do not convert the education route into a multi-route packet",
     "do not edit artifacts merely so a receipt matches them",
     "this verification opens no commercial route and grants no approval"
-   ]
-  }
+  ]
+ },
+ {
+  "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+  "lane": "VF03",
+  "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The latest repair changed both fixture hashes, but product-wiring.json still advertises the superseded canonical hash and superseded raster receipt. RASTER_QUEUE correctly marks the current fixture pair RASTER_PENDING, so the current bytes lack a hash-bound central visual acceptance receipt.",
+  "failedProofObligations": ["ARTIFACTS", "CLIPPING_AND_OVERLAP"],
+  "perObligation": {
+   "ARTIFACTS": {
+    "measuredDetail": "Current canonical is 58487688e22fdb3d5d1566899add22a2489253462a91f7c056cfc67ea748f282 and current boundary is d041ae07adbeccc2c54a8f46a73df01e10f5769295a792ea4420190c52a9d9e6. product-wiring.json still names canonical 704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492 in acceptanceReceipt and proposedRepresentation.",
+    "whatRepairMustDo": "After central raster acceptance is earned for the current pair, regenerate the family-scoped product-wiring record from current rendered artifacts so no field names a superseded hash or receipt. Do not alter fixture bytes merely to recover the old hash."
+   },
+   "CLIPPING_AND_OVERLAP": {
+    "measuredDetail": "All eight current pages were freshly rastered locally and visually inspected with no problem, but the only central receipt binds the former bytes and is explicitly superseded in RASTER_QUEUE.",
+    "whatRepairMustDo": "Run the existing central raster workflow against the exact current canonical and boundary hashes, ingest its complete-family receipt, and require a new independent review after the current hash-bound RASTER_PASS exists."
+   }
+  },
+  "repairMustNotDo": [
+   "do not change packet content merely to match a stale receipt",
+   "do not reuse or relabel the superseded raster receipt",
+   "this verification opens no commercial route and grants no approval"
+  ]
+ }
  ],
  "supersededLaneMembership": {
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
