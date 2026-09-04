@@ -2934,7 +2934,11 @@ function composedBody(componentId, facts) {
       return String(value);
     }));
   }
-  lines.push("", `Route: ${c.routeKey}`);
+  // This component reaches the bottom margin at boundary fixture lengths. Do
+  // not spend its final line on whitespace and orphan the route footer; retain
+  // the established spacing for every other component.
+  if (componentId === "nd-seal-pardoned-conviction-primary-filing-1") lines.push(`Route: ${c.routeKey}`);
+  else lines.push("", `Route: ${c.routeKey}`);
   return lines.join("\n");
 }
 
@@ -3029,6 +3033,25 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
     }
   }
   return { actualWrites, glyphs, pagesRead: pages.length };
+}
+
+async function assertFix07RouteFooterPagination() {
+  const componentId = "nd-seal-pardoned-conviction-primary-filing-1";
+  const route = `Route: ${COMPONENT[componentId].routeKey}`;
+  const bytes = await renderComposedPdf(
+    composedBody(componentId, SPEC.fixtures.boundary),
+    COMPONENT[componentId].title
+  );
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const pageTexts = doc.getPages().map((page) =>
+    groupIntoLines(extractTextItems(page)).map((line) => line.text).join(" ").replace(/\s+/g, " ").trim()
+  );
+  assert.ok(pageTexts.some((text) => text.includes(route)), "the repaired component must retain its route footer");
+  assert.ok(
+    pageTexts.every((text) => text !== route),
+    "the boundary component must not create a page containing only its route footer"
+  );
+  return { componentId, pages: pageTexts.length, routeOnlyPages: pageTexts.filter((text) => text === route).length };
 }
 
 /* ---- the builder's own count of the nine counters ----------------------------- */
@@ -3226,6 +3249,7 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+  const assertFix07 = argv.includes("--assert-fix07");
 
   const { resolved, failures } = resolveRecords();
   if (failures.length > 0) {
@@ -3233,6 +3257,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
       familyId: SPEC.familyId, status: "BLOCKED_SOURCE", failedSourceIdentities: failures,
       why: "a committed record this family composes from is missing or no longer carries an anchor statement, so nothing may be composed against it",
       overlayDirectoryTouched: false
+    };
+  }
+
+  if (assertFix07) {
+    return {
+      familyId: SPEC.familyId,
+      status: "FIX07_ASSERTIONS_PASSED",
+      routeFooterPagination: await assertFix07RouteFooterPagination()
     };
   }
 
