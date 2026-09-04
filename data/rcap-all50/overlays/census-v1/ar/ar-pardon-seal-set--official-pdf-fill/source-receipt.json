@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ar-pardon-seal-set",
+  "worklistGroupId": "ar-pardon-seal-set",
+  "implementationStrategy": "official_pdf_fill",
+  "jurisdiction": "AR",
+  "routeKeys": [
+    "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+  ],
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "whyNoAcquisition": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json classifies this family SOURCE_ALREADY_HELD with commissionAcquisition false: both document sources resolve to files already in the verified corpus. Nothing was fetched from a court or agency host, and no mirror, cache, aggregator or lookalike form was consulted. The pinned Master Library was recovered through scripts/rcap-corpus/bootstrap-private-corpus.sh, which verifies the archive hash and the corpus's own governance checksums before extracting.",
+  "sourceArchive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+  "bindingMethod": {
+    "how": "Each binary is hashed on disk and the digest compared with BOTH the family's pinned value and the committed corpus index entry at the same path; the byte length and the revision label are compared with the index as well.",
+    "absenceAndMismatchAreDifferentFindings": {
+      "SOURCE_ABSENT_FROM_INDEX": "the committed index names no entry at this path",
+      "SOURCE_ABSENT_FROM_DISK": "the index names it but the corpus does not hold it",
+      "SOURCE_MISMATCH_AGAINST_INDEX": "the index declares a different digest from the family pin",
+      "SOURCE_MISMATCH_ON_DISK": "the bytes on disk hash to something else",
+      "SOURCE_BYTE_LENGTH_DISAGREES_WITH_INDEX": "same digest claim, different length",
+      "SOURCE_REVISION_DISAGREES_WITH_INDEX": "same digest claim, different revision label"
+    },
+    "neitherIsAPass": true
+  },
+  "priorAttemptThisReopens": {
+    "gateReport": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/gate-report.json",
+    "status": "BLOCKED_ENVIRONMENT_SOURCE_CORPUS_UNREACHABLE",
+    "whatWasBlocking": "bootstrap-private-corpus.sh failed resolving the pinned release asset with HTTP 403: the credential in that container could not read Roger-LegalEase/legalease-source-artifacts. Both sources were recorded NOT_BOUND_SOURCE_ABSENT — an absence, not a mismatch — and neither PDF was opened.",
+    "howItWasReopened": "The source-artifacts repository was attached to this session read-only, after which the same unmodified bootstrap resolved the asset, verified the archive digest a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 and extracted the corpus. Nothing about the block's diagnosis was wrong: it was an access-capability block, and granting the access cleared it.",
+    "whatThePriorAttemptCarriedForward": "Both documents flat at 0 AcroForm fields, the flat DWI sibling as the pattern, and the one-day revision skew. Each was labelled there as resting on the committed index rather than on the bytes. All three are now CONFIRMED against the bytes by this build and are no longer index-only claims."
+  },
+  "documents": [
+    {
+      "sourceId": "official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL",
+      "documentRole": "PETITION",
+      "officialTitle": "Petition to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC)",
+      "revision": "REV-2022-03-08",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL__petition-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-08__EN.pdf",
+      "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+      "byteLength": 222717,
+      "pageCount": 4,
+      "bindingResult": "BOUND_EXACT",
+      "structuralClassInTheIndex": "flat_pdf",
+      "acroFieldCountInTheIndex": 0,
+      "acroFieldCountReadFromTheBytes": 0,
+      "structuralClassConfirmedFromTheBytes": true
+    },
+    {
+      "sourceId": "official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL",
+      "documentRole": "PROPOSED_ORDER",
+      "officialTitle": "Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "issuingAuthority": "Arkansas Crime Information Center (ACIC)",
+      "revision": "REV-2022-03-07",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL__order-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-07__EN.pdf",
+      "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+      "byteLength": 139996,
+      "pageCount": 3,
+      "bindingResult": "BOUND_EXACT",
+      "structuralClassInTheIndex": "flat_pdf",
+      "acroFieldCountInTheIndex": 0,
+      "acroFieldCountReadFromTheBytes": 0,
+      "structuralClassConfirmedFromTheBytes": true
+    }
+  ],
+  "revisionSkew": {
+    "order": "REV-2022-03-07",
+    "petition": "REV-2022-03-08",
+    "observation": "The proposed order carries a revision date one day BEFORE the petition it is filed with. Both labels are confirmed from the corpus index and from each document's own printed footer.",
+    "treatment": "Recorded as an observed property of the pinned pair. It is not an error, it is not corrected, neither document is substituted for a same-dated one, and no later revision was sought — egress to the issuing authority is refused by policy and this family is SOURCE_ALREADY_HELD."
+  },
+  "egress": {
+    "courtOrAgencyHostsContacted": 0,
+    "mirrorsOrCachesConsulted": 0,
+    "statement": "Acquisition was not commissioned and none was attempted. The only network access this build depended on was the pinned GitHub release that carries the Master Library archive."
+  }
+}
