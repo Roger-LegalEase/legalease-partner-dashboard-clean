@@ -1,21 +1,44 @@
-# RCAP 28-family source-acquisition results
+# RCAP 28-family source results — final source posture
 
-This directory is the repository-visible evidence package for the owner-assigned 28-family acquisition batch dated 2026-09-04.
+This directory contains the evidence, corrections, custody records, and owner authorization for the 28-family source batch dated 2026-09-04.
 
-## What is here
+## Final accounting
 
-- `primary-ledger/`: the exact lightweight ledger artifact from successful run `33866926858`, including the 28-family manifest, acquisition summary, YAML/CSV ledgers, family-source bindings, source receipts, and extracted text.
-- `supplement-ledger/`: the non-binary evidence from corrected successful supplement run `33868246348`.
-- `artifact-custody.json`: immutable run, artifact, digest, size, and expiration identifiers for retrieving the issuer-original bytes.
+- owner-assigned families: `28`
+- families with every required downloadable source verified: `27/27`
+- no-public-binary process families: `1` — `de_mandatory_expungement-set`
+- families still source-blocked: `0`
+- required downloadable source records verified: `32/32`
+- binary-bearing source records verified or owner-supplied: `33/33`
+- all source records resolved: `34/34`
 
-## What is deliberately not here
+This is source resolution, not an automatic claim that every family is field-mapped, rendered, legally released, or production ready. The captain is authorized to complete those remaining steps.
 
-The issuer-original PDFs and DOCX files remain in authenticated GitHub Actions artifact custody. This repository is public, while the owner assignment required owner-only source custody. No original source binary may be copied into the public Git tree without a separate owner decision.
+## Current controlling records
 
-## Fail-closed reading rule
+- `final-source-resolution.json`
+- `owner-production-authorization.json`
+- `artifact-custody.json`
+- `corrections/DE-FORM-281-date-provenance.json`
+- `corrections/MO-CR301-owner-supplied-source-completion.json`
+- `../OWNER-PRODUCTION-AUTHORIZATION-2026-09-04.md`
+- `../CAPTAIN-HANDOFF.md`
 
-A successful workflow run proves that the workflow completed and produced a receipt for every planned source record. It does **not** prove that every source was acquired. Read `primary-ledger/acquisition-summary.json`, each source receipt, and the supplement disposition summary together. Preserve `unresolved`, `not_acquired`, `issuer_binary_blocked_http_403`, and `no_public_binary_exposed` as distinct outcomes. Never convert one into `acquired` merely because a neighboring source succeeded.
+The primary and supplement ledgers and acquisition-time receipts remain under `primary-ledger/` and `supplement-ledger/` as historical evidence.
 
-## Corrected supplement
+## Team access
 
-Run `33868246348` is the controlling supplement. It supersedes failed run `33867794063`. Its verification gate required the San Diego CRM-307 source and the Texas § 411.0736 model petition and model order to be acquired, while Missouri CR301 remained an explicit OSCA HTTP-403 issuer-host block and Delaware mandatory expungement remained a no-public-binary agency-process disposition.
+The primary archive, corrected supplement archive, and CR301 are shared read-only with the `legalease.com` Google Workspace domain and are not discoverable in domain search. The captain may also download the immutable workflow artifacts directly through `gh run download` from Codespace.
+
+The owner has approved extracting and committing the individual blank official source forms into the repository's established source locations or Git LFS where runtime and packet generation need them. No additional custody or owner approval is required.
+
+## Reading rule
+
+Use the latest controlling correction, completion, final-resolution, custody, and owner-authorization records for current status. Do not let an older acquisition-time `not_acquired`, HTTP failure, owner-only instruction, or stop report override later verified evidence.
+
+Preserve real distinctions:
+
+- Delaware mandatory expungement is SBI process guidance, not a downloadable form.
+- California CRM-307 remains San Diego County-local.
+- Missouri CR301's automated OSCA HTTP 403 remains provenance, not a source hold.
+- Actual legal, license, PII, security, rendering, and acceptance failures must still be fixed before production release.
