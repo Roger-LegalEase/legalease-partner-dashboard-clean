@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `3312fdcb5bbc8a78055a753c3b81228e88669cc7` (or the newer dispatch base)
+**Minimum required ancestor:** `adc6eb67e436eb7af6e46e239b1afa6fedf38767` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC03 \
   --source-obligation 'ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT' \
   --codex-cloud \
-  --minimum-captain-sha 3312fdcb5bbc8a78055a753c3b81228e88669cc7
+  --minimum-captain-sha adc6eb67e436eb7af6e46e239b1afa6fedf38767
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -135,7 +135,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT' --codex-cloud --minimum-captain-sha 3312fdcb5bbc8a78055a753c3b81228e88669cc7
+node scripts/verify-packet-build-environment.mjs --assignment-id DISC03 --source-obligation 'ar-drug-court-set::official-form:ACIC-ORDER-DRUG-COURT' --codex-cloud --minimum-captain-sha adc6eb67e436eb7af6e46e239b1afa6fedf38767
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
