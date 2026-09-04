@@ -398,6 +398,141 @@
       "centralStateEdits": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "worker": "CODEX-CS1-FIX08-DE1017A",
+      "lane": "FIX08",
+      "laneKind": "repair",
+      "captainBase": "b714a8b5a9b03ab366cb6e8e566747847e192ab8",
+      "selectedVerdictBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "branch": "codex/cs1-fix08-de1017a-b714",
+      "claimGrantSet": "0689f13d0bd12b19",
+      "claimAsserted": true,
+      "failedProofObligationsAtDispatch": [
+        "SOURCE_IDENTITY",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER"
+      ],
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER"
+      ],
+      "repair": "The selected VF02 failure is reproduced at 588f9e7: its family receipt pins the older whole census record and its PDFs carry literal markdown plus an incomplete SBI conditional. The exact b714 family already contains the focused fixes. This lane proved the exact Delaware contract, compiled pathway and census route identities unchanged, rebuilt the existing zero-document-source PROCESS_GUIDANCE/CUSTOM_PLEADING family twice from clean artifact state, and preserved the corrected current bytes. No PDF or other initiating binary was acquired or invented.",
+      "repairAttributionNote": "The focused fixes were present in the assigned b714 base. repairedByThisLane records completion of this dispatched repair row through exact-baseline reproduction, source-identity continuity proof, two clean deterministic rebuilds, focused completeness, extracted-text checks, visible-write checks and inspection of every rendered page; it does not claim new family-byte changes at b714.",
+      "sourcePinRepair": {
+        "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "receiptPinAtSelectedFailure": {
+          "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "byteLength": 2599752
+        },
+        "actualRecordAtSelectedFailure": {
+          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "byteLength": 2607149
+        },
+        "currentReceiptPin": {
+          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "byteLength": 2607149
+        },
+        "receiptAlreadyFreshAtCaptainBase": true,
+        "exactDeCensusRoute": {
+          "canonicalSha256Before": "bf67e9c3641832c28c1d07f05498d01ed9995b0fbf1609e8393b312a8a064f30",
+          "canonicalSha256After": "bf67e9c3641832c28c1d07f05498d01ed9995b0fbf1609e8393b312a8a064f30",
+          "canonicalByteLengthBefore": 4555,
+          "canonicalByteLengthAfter": 4555,
+          "unchanged": true
+        }
+      },
+      "exactIdentityProof": {
+        "routeContract": {
+          "pointer": "/routes/2",
+          "matches": 1,
+          "canonicalSha256": "6ccc8485855902f4ffdfa8d06f7634723a4f13639d5501e2f483a71dbba29d76",
+          "canonicalByteLength": 1931,
+          "unchanged": true
+        },
+        "compiledProfilePathway": {
+          "pointer": "/pathways/3",
+          "matches": 1,
+          "canonicalSha256": "9e712c2d48789608a2d4cb7bac1f5c6417a8cbec78af1300e15850d155868152",
+          "canonicalByteLength": 5787,
+          "unchanged": true
+        },
+        "censusRoute": {
+          "pointer": "/routes/35",
+          "matches": 1,
+          "canonicalSha256": "bf67e9c3641832c28c1d07f05498d01ed9995b0fbf1609e8393b312a8a064f30",
+          "canonicalByteLength": 4555,
+          "unchanged": true
+        }
+      },
+      "currentContentPreserved": {
+        "literalMarkdownInExtractedPdfText": false,
+        "truncatedSbiConditionalInExtractedPdfText": false,
+        "completeSbiConditionalPresent": true,
+        "unsupportedFeeAmountAdded": false,
+        "participantFacingFeeGuidance": "No court filing fee arises from this agency request. The controlling compiled record gives no SBI fee amount; it says the SBI letter provides instructions and any fees, and the packet directs the participant to the SBI at 302-739-5884."
+      },
+      "artifactsBefore": {
+        "canonical": {
+          "sha256": "beff0335614104209bfb84cdc639e5c1e5d8d7306f362d866447d5b2e62b0161",
+          "byteLength": 11872,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "571b757a63de7aaa36e9e9c473fca00ffa9c61de3c5a5ee439a7b843781113a6",
+          "byteLength": 12050,
+          "pageCount": 4
+        }
+      },
+      "artifactsAfter": {
+        "canonical": {
+          "sha256": "beff0335614104209bfb84cdc639e5c1e5d8d7306f362d866447d5b2e62b0161",
+          "byteLength": 11872,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "571b757a63de7aaa36e9e9c473fca00ffa9c61de3c5a5ee439a7b843781113a6",
+          "byteLength": 12050,
+          "pageCount": 4
+        }
+      },
+      "artifactBytesChanged": false,
+      "deterministicBuildPasses": 2,
+      "deterministicGeneratedFileManifest": true,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedChecks": {
+        "packetCompleteness": "PASS_COMPLETE; 6/12 written; all nine counters zero",
+        "builderCheck": "CHECK_ONLY; 3 records bound; 8 anchors verified; 2 components; 6 writes; 6 blanks",
+        "textExtraction": "PASS for canonical and boundary: no literal markdown, no truncated conditional, complete SBI conditional and supported no-amount fee guidance present",
+        "visibleWrites": "PASS; all 6 declared writes readable in both canonical and boundary output bytes",
+        "pageInspection": "PASS; 8/8 pages inspected, with no clipping, overlap, blank page or obscured write",
+        "routeArtifactCompleteness": "NOT_APPLICABLE: this family declares assembled canonical/boundary fixtures and no separate route-artifact row; the focused route-artifact verifier refused the empty explicit match rather than returning a pass"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterAcceptanceCreated": false,
+      "independentVerification": "PENDING",
+      "claimReleased": false,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "centralStateEdits": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "currentDispatchAppend": {
