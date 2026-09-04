@@ -417,6 +417,52 @@
       "countersMeasurementBasis": "Current MASTER_QUEUE control-plane row only; no artifact was read after claim refusal.",
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "2927edb21a04c95a33ca9d4565cadfad270679f1",
+      "rowStopReason": "DISPATCH_FAILURE_NOT_REPRODUCIBLE",
+      "claim": {
+        "assertion": "CLAIM_OK FIX03 al-felony-dwop-set (repair, grant set 666a78394456c599)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "obligationsAssigned": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsRepaired": [],
+      "whyStopped": "The exact six dispatched failures do not reproduce at the authoritative base. The family-owned regression reports repair invariants PASS and the focused completeness check reports PASS_COMPLETE with all nine counters zero. Commit 1dcd88293, already present in the base, repaired the same Alabama semantics and regenerated these exact artifacts; this lane did not rewrite already-correct bytes or claim a second repair.",
+      "focusedEvidence": [
+        "node scripts/build-census-v1-al-felony-dwop-set.mjs --check => al-felony-dwop-set: repair invariants PASS",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set => PASS_COMPLETE 32/216 written"
+      ],
+      "artifactsUnchanged": [
+        "canonical d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543 905868 bytes",
+        "boundary e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e 906110 bytes",
+        "participant-instructions 36a1989c3a67c9deba21a9ef66ed5e001f3b8880809490992df6896e624afc54 4753 bytes"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "selfVerified": false,
+      "needsIndependentRead": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "reportedNotRepaired": [
