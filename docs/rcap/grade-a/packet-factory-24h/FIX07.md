@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `1d45ea69896bb577982dcb5ffb2aa0f2834e18cc` (or the newer dispatch base)
+**Minimum required ancestor:** `b5ab00da9d9163d7f3f517d574a99542b64b93ee` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-pardoned-felony-set' \
   --codex-cloud \
-  --minimum-captain-sha 1d45ea69896bb577982dcb5ffb2aa0f2834e18cc
+  --minimum-captain-sha b5ab00da9d9163d7f3f517d574a99542b64b93ee
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,16 +38,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 9 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'al-pardoned-felony-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ct-decriminalized-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nc_146_dismissal_petition-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'pa_pardon_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-seal-2yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'rcap-tx-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ut_pet_acquittal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'wv_conv_single_misdemeanor-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'rcap-wa-custom-pleading-clean-tracks'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ut_pet_dismissed_with_prejudice-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -65,7 +64,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 9 families
+## The 8 families
 
 - `al-pardoned-felony-set`
 - `ct-decriminalized-set`
@@ -73,9 +72,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `nc_146_dismissal_petition-set`
 - `pa_pardon_expungement-set`
 - `il-seal-2yr-set`
-- `rcap-tx-custom-pleading`
-- `ut_pet_acquittal-set`
-- `wv_conv_single_misdemeanor-set`
+- `rcap-wa-custom-pleading-clean-tracks`
+- `ut_pet_dismissed_with_prejudice-set`
 
 ## What you receive
 
@@ -94,17 +92,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-pardoned-felony-set.mjs`
 - `scripts/build-census-v1-ct-decriminalized-set.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-nc_146_dismissal_petition-set.mjs`
 - `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
-- `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
+- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
+- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
 
 ## Never write here
 
