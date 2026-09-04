@@ -20,10 +20,11 @@
  * The stage-2 unit was held unavailable on two questions, and they are not the
  * same kind of question.
  *
- *   (a) WHETHER A STATEWIDE FORM EXISTS. This is a source question and it is
- *       now answered: NO statewide form exists for an I.C. 34-28-5-15
- *       infraction petition in any source this repository holds. Every Indiana
- *       PDF in the mounted Master Library (the CCA Section 1 non-conviction
+ *   (a) WHETHER A STATEWIDE FORM EXISTS. The held-source portion of this
+ *       question is answered: no applicable statewide form for an I.C.
+ *       34-28-5-15 infraction petition appears in any source this repository
+ *       holds. Every Indiana PDF in the mounted Master Library (the CCA
+ *       Section 1 non-conviction
  *       petition-and-order bundle, its inserts, its instructions, and the
  *       Section 2, 3 and 4 conviction inserts) and every Indiana PDF in the
  *       partial Nationwide custody was text-extracted on this pass: the
@@ -32,11 +33,11 @@
  *       expungement form, which is a different chapter and a different
  *       remedy. The registry's own officialFormId and officialSourceUrl for
  *       this component are null. Outbound fetching of the CCA forms index was
- *       refused at CONNECT in this container, so the absence rests on held
- *       sources; it is stated as such rather than as a fetch.
- *       An answered "no form exists" is precisely the condition on which this
- *       repository drafts a controlled pleading, and the family's own
- *       legalDesignDecision says so: "Stage 2 is a verified participant
+ *       refused at CONNECT in this container, so current official-index
+ *       confirmation remains outstanding. This build states the held-corpus
+ *       result without turning it into a claim that no form exists.
+ *       The held-source result supports a controlled pleading, and the
+ *       family's own legalDesignDecision says so: "Stage 2 is a verified participant
  *       petition and is therefore packet-capable as a custom pleading."
  *
  *   (b) HOW COUNTIES HANDLE THE MC CASE-TYPE ASSIGNMENT where no cause number
@@ -99,8 +100,9 @@
  *                draftingProhibitedBecause quoting the registry, and the
  *                the missing determination assigned to the source-acquisition
  *                lanes. That record is UPDATED by this correction: drafted is
- *                now true, the form half of the gate is recorded as answered
- *                (no statewide form exists), and the MC case-type half is
+ *                now true, the held-corpus form search is recorded as complete
+ *                while current official-index confirmation remains outstanding,
+ *                and the MC case-type half is
  *                recorded as a participant-facing blank rather than a drafting
  *                bar. The build now REFUSES to run if that record ever says
  *                drafted:false again, which is the mirror of the guard it
@@ -191,12 +193,13 @@ const BUILT_COMPONENT_NOTE = Object.freeze({
     + "assignment is unconfirmed'), and the component's own dependency record stated drafted:false with "
     + "dependencyKind unresolved_form_question.",
   whatChanged:
-    "The form half of the gate is answered from held sources: no statewide form exists for an I.C. 34-28-5-15 "
-    + "infraction petition. Every Indiana PDF in the mounted Master Library and in the partial Nationwide custody "
+    "The held-source search found no applicable statewide form for an I.C. 34-28-5-15 infraction petition. "
+    + "Every Indiana PDF in the mounted Master Library and in the partial Nationwide custody "
     + "was text-extracted and none contains '34-28-5-15' or 'infraction'; every Coalition for Court Access "
     + "instrument held is an I.C. 35-38-9 expungement form. The registry's officialFormId and officialSourceUrl "
     + "for this component are null. Outbound fetching of the CCA forms index was refused at CONNECT in this "
-    + "container, so the absence rests on held sources and is stated as such. The MC case-type half is a "
+    + "container, so official forms index live confirmation remains outstanding and the held-corpus limit is "
+    + "stated expressly. The MC case-type half is a "
     + "county-practice question that was never a drafting bar: it is a blank on the petition's caption, declared "
     + "required before filing, with the clerk named as the authority — which is what the family's own records "
     + "already direct.",
@@ -317,7 +320,7 @@ function composedBody(componentId, facts) {
   L.push(DOTS(), "");
   L.push("IF THE ORDER WAS ALREADY ENTERED: there is nothing to file. The order runs to the clerk and any case management system operator, restricting disclosure to non-criminal-justice organisations and individuals. Note that in Indiana, record relief restricts access to the records; it does not remove them.", "");
   L.push("IF NO ORDER WAS ENTERED, OR YOUR SITUATION IS A DEFERRAL OR SATISFIED JUDGMENT: the statute provides a verified petition, with these recorded features - it is filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held; there is no fee; it is served on the prosecuting attorney, who has thirty days to file a notice in opposition; and the earliest filing dates are: found not to have committed it - 30 days after judgment; vacatur final or certified - 365 days; conduct not prosecuted - 2 years after the conduct; dismissal with no new action filed - 30 days after dismissal; deferral or judgment satisfied - 5 years.", "");
-  L.push("THE PETITION IS THE SECOND DOCUMENT IN THIS PACKET. Use it only if this check comes back empty - no order entered - or if your route is the deferral or satisfied-judgment branch. Indiana publishes no statewide form for an I.C. 34-28-5-15 petition, so what follows is drafted to the statute's own requirements. Before you file it, ask the clerk of the court where the infraction was handled TWO things: what that court requires for an I.C. 34-28-5-15 petition, and - if no cause number was ever assigned to your infraction - how that county assigns the MC case type. This packet leaves that caption line blank on purpose rather than guessing a county convention that varies.", "");
+  L.push("THE PETITION IS THE SECOND DOCUMENT IN THIS PACKET. Use it only if this check comes back empty - no order entered - or if your route is the deferral or satisfied-judgment branch. No applicable statewide form is held in this packet's governed source corpus; live confirmation at the official forms index remains outstanding after a refused fetch. What follows is therefore a controlled pleading drafted to the recorded statute requirements, not a claim that no form exists. Before you file it, ask the clerk of the court where the infraction was handled TWO things: what that court requires for an I.C. 34-28-5-15 petition, and - if no cause number was ever assigned to your infraction - how that county assigns the MC case type. This packet leaves that caption line blank on purpose rather than guessing a county convention that varies.", "");
   L.push("WHEN TO STOP AND GET HELP INSTEAD:");
   L.push("- the prosecuting attorney files a notice in opposition;");
   L.push("- the court sets a hearing;");
@@ -371,7 +374,7 @@ function petitionBody(facts) {
   L.push("FOR THE COURT ONLY - do not write below this line.", "");
   L.push("The Court, having considered the petition, ORDERS:" + DOTS(40));
   L.push("JUDGE " + DOTS(40) + "   DATE " + DOTS(24), "");
-  L.push("BEFORE YOU FILE THIS. Ask the clerk of the court where the infraction was handled what that court requires for an I.C. 34-28-5-15 petition, and - if no cause number was ever assigned - how that county assigns the MC case type. Indiana publishes no statewide form for this petition and county handling of the case-type assignment is not uniform, so the caption above is left for you and the clerk to complete rather than guessed. Do not file this petition if the clerk tells you the Court already entered a non-disclosure order in your cause: the relief already exists.", "");
+  L.push("BEFORE YOU FILE THIS. Ask the clerk of the court where the infraction was handled what that court requires for an I.C. 34-28-5-15 petition, and - if no cause number was ever assigned - how that county assigns the MC case type. No applicable statewide form is held in this packet's governed source corpus, and live confirmation at the official forms index remains outstanding after a refused fetch; this controlled pleading does not claim that no form exists. County handling of the case-type assignment is also unconfirmed, so the caption above is left for you and the clerk to complete rather than guessed. Do not file this petition if the clerk tells you the Court already entered a non-disclosure order in your cause: the relief already exists.", "");
   L.push("STOP AND GET HELP INSTEAD IF: the prosecuting attorney files a notice in opposition; the Court sets a hearing; prosecution was deferred and the five-year clock has not run; or the county's MC case-type handling is unclear.", "");
   L.push("Note that in Indiana, record relief restricts access to the records; it does not remove them.", "");
   L.push(`Routes: ${ROUTE.routeKeys.join(" ; ")}`);
@@ -691,7 +694,7 @@ function participantInstructions(maps, rbfItems) {
   out.push("It is **two documents, in the order you use them**.", "");
   out.push("**The stage-1 check comes first.** The statute requires the court to order non-disclosure on its own where the person is not prosecuted, the charge is dismissed, the person is adjudged not to have committed the infraction, or an adjudication is vacated — so the first step is to find out whether that already happened, because **where it did there is nothing to file** and you are done.", "");
   out.push("**The stage-2 verified petition comes second, and only if you need it.** Use it where the check comes back empty — no order was entered — or where your route is the deferral or satisfied-judgment branch, which the automatic rule does not reach.", "");
-  out.push("**Indiana publishes no statewide form for an I.C. 34-28-5-15 petition.** That was checked against every Indiana form this repository holds: all of them are Coalition for Court Access expungement forms under a different chapter, I.C. 35-38-9, and not one of them mentions this statute or infractions. So the petition here is drafted to the statute's own requirements rather than filled onto a form.", "");
+  out.push("**No applicable statewide form is held in this packet's governed source corpus for an I.C. 34-28-5-15 petition.** Every Indiana form the repository holds is a Coalition for Court Access expungement form under a different chapter, I.C. 35-38-9, and none mentions this statute or infractions. Live confirmation at the official forms index remains outstanding after a refused fetch, so this packet does not claim that no form exists. The petition is a controlled pleading drafted to the recorded statute requirements rather than filled onto a held form.", "");
   out.push("**One thing on the petition is deliberately left blank, and you should know why.** Where no cause number was ever assigned to your infraction, the petition is filed under an **MC case type** — and how a county assigns that is not uniform and is not published anywhere this packet can read. Guessing it risks the petition being rejected at the counter, so the caption line is left for you and the clerk. **Ask the clerk of the court where the infraction was handled** what that court requires for an I.C. 34-28-5-15 petition, and how the county assigns the MC case type if you have no cause number.", "");
 
   out.push("## The items you must supply", "");
@@ -829,6 +832,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeKeys: ROUTE.routeKeys,
     statutoryAuthority: ROUTE.statute, legalName: ROUTE.legalName,
     allSourcesExact: true,
+    officialFormExistenceStatus:
+      "NOT_CONFIRMED_CURRENT — no applicable statewide form is held in the governed corpus; official forms index live confirmation remains outstanding after the recorded refused fetch",
     groundingRecords: records,
     documents: [],
     composedComponentsAuthoredByThisBuild: COMPONENTS,
@@ -836,7 +841,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     sourceBinaryCommitted: false, commercialRoutesOpened: 0,
     whatThisReceiptDoesNotEstablish: [
       "that I.C. 34-28-5-15 as recorded in the memo (reviewed 2026-07-30) is the current text of the statute",
-      "whether a statewide form exists for the stage-2 petition (the open question that keeps it undrafted)",
+      "whether a current statewide form exists for the stage-2 petition; official forms index live confirmation remains outstanding after the recorded refused fetch",
       "how counties handle the MC case-type assignment where no cause number was assigned",
       "that any output is approved for participant delivery",
       "that any record qualifies for non-disclosure under I.C. 34-28-5-15"
@@ -950,13 +955,14 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "exists.",
         consequence:
           "The petition is drafted and the packet now renders both declared components in the manifest's order. "
-          + "The form half of the gate is ANSWERED rather than waived: no statewide form exists for an I.C. "
-          + "34-28-5-15 infraction petition in any source this repository holds — every Indiana PDF in the mounted "
+          + "The held-source search found no applicable statewide form for an I.C. 34-28-5-15 infraction petition "
+          + "in any source this repository holds — every Indiana PDF in the mounted "
           + "Master Library and in the partial Nationwide custody was text-extracted on this pass and none "
           + "contains '34-28-5-15' or 'infraction', every Coalition for Court Access instrument held being an "
           + "I.C. 35-38-9 expungement form, and the registry's officialFormId and officialSourceUrl for this "
           + "component are null. Outbound fetching of the CCA forms index was refused at CONNECT (HTTP 403), so "
-          + "the absence rests on held sources and the exact URL is recorded in the dependency record. The MC "
+          + "official forms index live confirmation remains outstanding; the held-corpus limit and exact URL are "
+          + "recorded rather than converted into a nonexistence claim. The MC "
           + "case-type half was never a drafting bar: it is a caption blank declared REQUIRED_BEFORE_FILING with "
           + "the county clerk named, which is what the family's own records already direct. Every clause of the "
           + "petition traces to the memo, the manifest or the dependency record's own recordedButNotRendered "
@@ -1000,7 +1006,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
     approvedForLive: false, live: false, commercialRoutesOpened: 0,
     counselQuestionsRaised: [
-      "THE STAGE-2 VERIFIED PETITION IS NOW BUILT, under OWNER_CORRECTIONS_REQUIRED.json Q7 of 2026-09-02. It is a composed pleading, not a form fill, because no statewide form exists: every Indiana PDF in the mounted Master Library and in the partial Nationwide custody was text-extracted on this build and none contains '34-28-5-15' or 'infraction'. THE SUBSTANCE OF THE PETITION IS WHAT COUNSEL MUST READ. Every clause traces to this family's own records — the caption to the memo's venue rule, paragraphs 3 and 4 to its six eligibleDispositions and five waitingPeriods, paragraph 6 to rules.fees, paragraph 7 to rules.service and rules.notice, and the verification to rules.participantSignature and the single manualCompletionItem — but a drafted pleading is a legal instrument and no verifier can approve its wording for it. Approve, amend or reject the petition as drafted.",
+      "THE STAGE-2 VERIFIED PETITION IS NOW BUILT, under OWNER_CORRECTIONS_REQUIRED.json Q7 of 2026-09-02. It is a composed pleading, not a form fill, because no applicable statewide form is held in the governed corpus: every Indiana PDF in the mounted Master Library and in the partial Nationwide custody was text-extracted on this build and none contains '34-28-5-15' or 'infraction'. Official forms index live confirmation remains outstanding after the recorded refused fetch; this packet does not claim that no form exists. THE SUBSTANCE OF THE PETITION IS WHAT COUNSEL MUST READ. Every clause traces to this family's own records — the caption to the memo's venue rule, paragraphs 3 and 4 to its six eligibleDispositions and five waitingPeriods, paragraph 6 to rules.fees, paragraph 7 to rules.service and rules.notice, and the verification to rules.participantSignature and the single manualCompletionItem — but a drafted pleading is a legal instrument and no verifier can approve its wording for it. Approve, amend or reject the petition as drafted.",
       "The MC case-type caption line is left BLANK and declared required before filing, with the county clerk named, because county handling of the assignment is unconfirmed and unpublished. Confirm that a blank with a named authority is the right treatment rather than a stop condition that withholds the petition entirely.",
       "Confirm the timing table and the petition's paragraph 4 (the statute's earliest filing dates per disposition) are stated correctly for participant use.",
       "The petition instructs the participant NOT to file where the clerk says an order was already entered. Confirm that instruction is placed strongly enough on the petition's own face as well as in the instructions."
@@ -1040,8 +1046,25 @@ export async function runFamily(argv = process.argv.slice(2)) {
   };
 }
 
+async function selfTest() {
+  const receiptText = fs.readFileSync(path.join(ROOT, OUT, "source-receipt.json"), "utf8");
+  const instructionsText = fs.readFileSync(path.join(ROOT, OUT, "participant-instructions.md"), "utf8");
+  const renderedText = [];
+  for (const fixture of ["canonical", "boundary"]) {
+    const bytes = fs.readFileSync(path.join(ROOT, OUT, "fixtures", `${fixture}.pdf`));
+    const document = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+    renderedText.push(document.getPages().map((page) => groupIntoLines(extractTextItems(page)).map((line) => line.text).join(" ")).join("\n"));
+  }
+  const allParticipantFacingText = [instructionsText, ...renderedText].join("\n");
+  assert.doesNotMatch(allParticipantFacingText, /Indiana publishes no statewide form|no statewide form exists/i, "participant-facing text must not claim a nonexistence that current official-index evidence does not establish");
+  assert.doesNotMatch(receiptText, /open question that keeps it undrafted/i, "receipt must not call a rendered petition undrafted");
+  assert.match(receiptText, /official forms index[^.]*confirmation[^.]*outstanding/i, "receipt must disclose the outstanding official-index confirmation");
+  console.log("in_infraction_nondisclosure-set source-identity self-test passed");
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
-  runFamily()
-    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+  const operation = process.argv.includes("--self-test") ? selfTest() : runFamily();
+  operation
+    .then((r) => { if (r) console.log(JSON.stringify(r, null, 2)); })
     .catch((e) => { console.error(e); process.exit(1); });
 }
