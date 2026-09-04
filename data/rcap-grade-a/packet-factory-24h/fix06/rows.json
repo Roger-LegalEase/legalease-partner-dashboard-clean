@@ -403,11 +403,14 @@
     },
     {
       "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
-      "status": "COMPLETED_READY_FOR_INDEPENDENT_VERIFICATION",
-      "workerId": "CODEX-CS2-FIX06-AK-WIRING",
+      "status": "COMPLETED",
+      "workerId": "CODEX-CS1-FIX06-AK-EVIDENCE-TRANSITION",
+      "repairedByThisLane": true,
       "lane": "FIX06",
-      "baseSha": "1882e708e3c1ce18b7ea3201df9c2b66403cba48",
-      "branch": "codex/cs2-fix06-ak-wiring-1293",
+      "laneKind": "repair",
+      "baseSha": "b1448800f0f947cbe5161fa68ec238a720b994c9",
+      "vf05FailureBaseSha": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+      "branch": "codex/cs1-fix06-ak-evidence-transition-b144",
       "routeKeys": [
         "obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
       ],
@@ -417,7 +420,7 @@
       "obligationsRepaired": [
         "ARTIFACTS"
       ],
-      "claimAssertion": "CLAIM_OK FIX06 composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 (repair, grant set 4fa9f3db9a71c3fe)",
+      "claimAssertion": "CLAIM_OK FIX06 composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 (repair, grant set b66ed2c1a0d2d885)",
       "sourceGate": {
         "familySourcesBind": "PASS — zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); committed legal records remain hash-bound inside the builder",
         "globalChecksUnavailable": [
@@ -427,7 +430,10 @@
         ],
         "continuedUnderZeroSourceRule": true
       },
-      "whatWasDone": "Added family-scoped generation and non-writing check mode, proved with a focused regression that a stale proposal component digest is re-pinned whenever the exact file bytes move, and made receipt lookup retain only current or historical RASTER_PASS receipts whose complete-coverage pins still match the canonical and boundary files on disk. Regeneration and the final generator check were confined to this exact AK family.",
+      "whatWasDone": "Preserved the shared product-wiring repair and added the missing fail-closed state transition for its demonstrated no-packet-byte-change case. A completed post-verdict repair may now supersede a FAIL without packet movement only when the sole failed obligation is ARTIFACTS, product-wiring changed after the verdict, every proposal and acceptance pin matches a recomputed current file digest, an exact whole-family RASTER_PASS binds the current canonical and boundary hashes, the repair row and current completeness each carry exactly nine zero counters, the repair grant is released, no repair grant remains live, and Captain emits an assertable independent-verification claim and dispatch. Every substantive obligation retains the packet-byte-movement requirement.",
+      "repair": {
+        "ARTIFACTS": "The current wiring proposal is pinned to the exact current canonical bytes and its acceptance receipt agrees with raster run 33596784162. The factory now recognizes that post-verdict bookkeeping repair without pretending packet bytes moved, while refusing mismatched, stale, absent, mixed-obligation or pre-verdict evidence."
+      },
       "wiringIdentity": {
         "failedVerifierProposalComponentSha256": "9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a",
         "currentProposalComponentSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
@@ -441,6 +447,7 @@
         "boundary": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7"
       },
       "artifactBytesChanged": false,
+      "packetHashesUnchanged": true,
       "rasterReceipt": {
         "verdict": "RASTER_PASS",
         "workflowRunId": "33596784162",
@@ -452,7 +459,8 @@
         "packetCompleteness": "PASS_COMPLETE — 10/32 written; all nine counters zero",
         "productWiringGenerator": "PASS — exact-family regeneration followed by clean --check",
         "artifactIdentityRegression": "PASS — exact stale pin detected without writes, digest followed two exact-byte changes, unselected family stayed byte-identical, exact receipt retained and superseded receipt refused",
-        "existingV2WiringRegression": "PASS"
+        "postRepairRereadRegression": "PASS — positive exact ARTIFACTS bookkeeping transition plus negative mismatched, stale, absent, mixed-obligation, pre-verdict, grant-order and dispatch controls",
+        "focusedGeneratorEvidence": "PASS — recomputed canonical 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad and boundary d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7 against raster run 33596784162 without writing central generated state"
       },
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -468,6 +476,7 @@
       "independentVerificationPerformed": false,
       "selfVerification": 0,
       "claimReleased": false,
+      "claimsReleased": 0,
       "centralStateEdits": 0,
       "routesOpened": 0,
       "productionTouched": false

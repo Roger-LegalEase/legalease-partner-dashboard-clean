@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "workerId": "CODEX-CS1-FIX06-AK-EVIDENCE-TRANSITION",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "base": "b1448800f0f947cbe5161fa68ec238a720b994c9",
+  "branch": "codex/cs1-fix06-ak-evidence-transition-b144",
+  "commit": "reported in the final worker handoff after this return record is committed",
+  "pushed": "YES",
+  "claim": "CLAIM_OK FIX06 composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 (repair, grant set b66ed2c1a0d2d885)",
+  "family": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+  "route": "obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+  "selectedIndependentFailure": {
+    "lane": "vf05",
+    "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
+    "failedObligationNames": [
+      "ARTIFACTS"
+    ],
+    "obsoleteProposalSha256": "9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a"
+  },
+  "obligationsRepaired": [
+    "ARTIFACTS"
+  ],
+  "repairDisposition": "The prior shared generator repair already refreshed product-wiring to the exact current bytes, but the factory could not supersede vf05 because product-wiring bookkeeping is intentionally excluded from substantive family-byte movement. This repair adds a fail-closed ARTIFACTS-only evidence transition. The ordinary SOURCE_IDENTITY, legal, content, fee, service, destination, self-help, component, visual and field paths still require packet/build-byte movement.",
+  "stateMachine": {
+    "ordinaryByteMovementRequirementPreserved": true,
+    "noByteMovementException": "exactly one failed obligation named ARTIFACTS",
+    "requiresRepairEvidenceAfterVerdict": true,
+    "requiresProductWiringChangedAfterVerdict": true,
+    "requiresEveryDeclaredAndRecomputedPinToMatch": true,
+    "requiresCurrentWholeFamilyRasterPass": true,
+    "requiresExactlyNineZeroRepairCounters": true,
+    "requiresExactlyNineZeroCurrentCounters": true,
+    "requiresReleasedRepairGrantBeforeGeneration": true,
+    "requiresNoLiveRepairGrant": true,
+    "requiresMatchingLiveIndependentVerificationClaimAndDispatch": true,
+    "currentTreeDisposition": "The FIX06 repair grant remains live as required by the worker contract, so current central generated state remains FAIL_REPAIR_REQUIRED. Captain must release the grant before regeneration; the same generation must create the assertable independent reread claim and dispatch or it fails before emitting files."
+  },
+  "artifactIdentity": {
+    "productWiringSha256": "4ea5a449ba30b9b9c08ffc4ce87c0a3c298142e4ac0bdfe73089b7bbd899b7f9",
+    "canonicalSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "boundarySha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+    "packetHashesUnchanged": true,
+    "packetBytesEdited": false
+  },
+  "rasterReceipt": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33596784162",
+    "boundToCanonicalSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "boundToBoundarySha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+    "coversTheWholeFamily": true
+  },
+  "regressionCoverage": {
+    "positive": "Exact post-verdict ARTIFACTS bookkeeping, exact proposal and acceptance pins, exact current canonical and boundary hashes, matching whole-family raster receipt, released repair, zero counters and an independent claim/dispatch transition.",
+    "negative": [
+      "mismatched proposal pin",
+      "mismatched acceptance pin",
+      "mismatched raster boundary pin",
+      "stale acceptance verdict",
+      "absent bookkeeping",
+      "mixed obligations",
+      "pre-verdict bookkeeping",
+      "pre-verdict repair evidence",
+      "incomplete repair or current counters",
+      "unreleased or live repair grant",
+      "absent independent claim",
+      "absent independent dispatch",
+      "every enumerated substantive obligation without packet-byte movement"
+    ]
+  },
+  "tests": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-post-repair-reread.mjs",
+      "result": "PASS — ordinary movement preserved; exact ARTIFACTS-only positive and all focused negatives passed"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 --check",
+      "result": "PASS — 0 need creation, 0 need refresh, 1 unchanged"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "result": "PASS_COMPLETE — 10/32 written; all nine counters zero"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate.mjs --check-artifacts-only-reread-evidence composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "result": "PASS — recomputed canonical and boundary hashes and matched raster run 33596784162; no central generated state written"
+    },
+    {
+      "command": "node --check scripts/grade-a-packet-factory-24h/generate.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "changedPaths": [
+    "scripts/grade-a-packet-factory-24h/generate.mjs",
+    "scripts/grade-a-packet-factory-24h/post-repair-reread.mjs",
+    "scripts/grade-a-packet-factory-24h/test-post-repair-reread.mjs",
+    "data/rcap-grade-a/packet-factory-24h/fix06/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix06-ak-evidence-transition-b144/RETURN.json"
+  ],
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "productionTouched": "NO"
+}
