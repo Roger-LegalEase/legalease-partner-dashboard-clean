@@ -169,19 +169,25 @@ const SPEC = {
 
   formIdentityNote:
     "Neither the Office of Court Administration nor DCJS publishes a CPL Sec. 160.55 correction form, and the "
-    + "controlling decision names none. Both pieces of correspondence are therefore authored by this build from "
-    + "the committed records. Nothing here carries a court index number block, a notice of motion, an "
+    + "controlling decision names none. The one letter this family ships — the DCJS correction submission — is "
+    + "therefore authored by this build from the committed records, as is the route sheet that accompanies it. "
+    + "Nothing here carries a court index number block, a notice of motion, an "
     + "affirmation or any other filing furniture, no OCA or DCJS form number appears on any page, and no form "
     + "was substituted or invented.",
 
   agencyTreatmentNote:
     "This is an AGENCY APPLICATION, not a court filing. CPL Sec. 160.55 seals automatically and, on the recorded "
-    + "rule, a participant with a post-1991 qualifying disposition ordinarily files nothing at all. The two "
-    + "instruments here are letters asking two record-holding offices to correct their own records. No motion, "
+    + "rule, a participant with a post-1991 qualifying disposition ordinarily files nothing at all. The one "
+    + "instrument this family ships is a letter asking a single record-holding office, DCJS, to correct its own "
+    + "record; the second component is a route sheet the participant reads and sends to nobody. The preceding "
+    + "sentencing-court request is the primary instrument of the separately declared sibling route "
+    + "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request "
+    + "and is not carried here. No motion, "
     + "petition, application or proposed order is filed with any court on this route.",
 
   routeSelectionNote:
-    "One route, one pair of instruments, and the route itself states which branch of Sec. 160.55 it is: the "
+    "One route and one instrument — the DCJS correction submission, delivered with a route sheet that is read "
+    + "rather than sent — and the route itself states which branch of Sec. 160.55 it is: the "
     + "post-November 1, 1991 automatic branch, whose correction workflow the committed decision sets out step for "
     + "step. The pre-1991 legacy branch, which the same decision records may require a motion, is a route "
     + "boundary and a stop condition here rather than an election on any page. The participant is never asked to "
@@ -198,10 +204,12 @@ const SPEC = {
     },
     {
       selection: "instrument",
-      value: "correspondence to the sentencing court and to DCJS, in that order",
+      value: "one letter of correspondence to DCJS, the final step of the recorded correction workflow",
       determinedBy:
         "the recorded correction workflow: ask the sentencing court to transmit or correct the sealing notice, "
-        + "then send the certified disposition to DCJS for correction"
+        + "then send the certified disposition to DCJS for correction. Only that final step is carried here. The "
+        + "sentencing-court request is the primary instrument of the separately declared sibling route "
+        + "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
     }
   ],
 
@@ -281,10 +289,12 @@ const SPEC = {
   ],
 
   whatThisIsNot:
-    "This is two pieces of correspondence to two record-holding offices, authored from one recorded branch of "
-    + "CPL Sec. 160.55. It is not an OCA or DCJS form — neither office publishes one for this — it is not a "
+    "This is one piece of correspondence to one record-holding office, DCJS, together with a route sheet you "
+    + "read rather than send, authored from one recorded branch of "
+    + "CPL Sec. 160.55. The sentencing-court request that precedes it has its own separate packet and is not in "
+    + "here. It is not an OCA or DCJS form — neither office publishes one for this — it is not a "
     + "motion, a petition or an application, it is not filed anywhere, it is not legal advice, it is not sent for "
-    + "you, and it is not a promise that either office will correct anything. It is emphatically not a promise "
+    + "you, and it is not a promise that DCJS will correct anything. It is emphatically not a promise "
     + "that an ordinary Sec. 160.55 violation will receive full court-file sealing through Sec. 160.55, because "
     + "the recorded rule is that it will not.",
 

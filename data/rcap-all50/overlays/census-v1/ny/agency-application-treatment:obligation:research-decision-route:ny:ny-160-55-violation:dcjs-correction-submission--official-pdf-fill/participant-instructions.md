@@ -111,6 +111,6 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 
 ## What this packet is not
 
-This is two pieces of correspondence to two record-holding offices, authored from one recorded branch of CPL Sec. 160.55. It is not an OCA or DCJS form — neither office publishes one for this — it is not a motion, a petition or an application, it is not filed anywhere, it is not legal advice, it is not sent for you, and it is not a promise that either office will correct anything. It is emphatically not a promise that an ordinary Sec. 160.55 violation will receive full court-file sealing through Sec. 160.55, because the recorded rule is that it will not.
+This is one piece of correspondence to one record-holding office, DCJS, together with a route sheet you read rather than send, authored from one recorded branch of CPL Sec. 160.55. The sentencing-court request that precedes it has its own separate packet and is not in here. It is not an OCA or DCJS form — neither office publishes one for this — it is not a motion, a petition or an application, it is not filed anywhere, it is not legal advice, it is not sent for you, and it is not a promise that DCJS will correct anything. It is emphatically not a promise that an ordinary Sec. 160.55 violation will receive full court-file sealing through Sec. 160.55, because the recorded rule is that it will not.
 
 _Route(s): obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission_
