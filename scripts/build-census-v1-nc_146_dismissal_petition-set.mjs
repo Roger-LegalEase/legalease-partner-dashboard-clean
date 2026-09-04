@@ -99,7 +99,35 @@ const SPEC = {
         "none required by the AOC form for dismissals. A DNA expunction application under G.S. 15A-146(b1) is a separate matter and must be served on the district attorney not less than 20 days before the hearing.",
         "Obtain Copies of the charging documents, dismissal orders and judgments. Obtain and keep permanent copies before filing. After an expunction, access to these records is restricted and you may be unable to obtain them if you later need to prove what actually happened, most acutely in an immigration proceeding.",
         "Applies where the district attorney petitions rather than the participant. G.S. 15A-146 permits either."
-      ]
+      ],
+      /* The exact object this build relies on, bound separately from the whole
+       * file. The manifest is a national record and unrelated central edits move
+       * its whole-file digest without touching this packet set; a receipt that
+       * pins only the file therefore reports drift about bytes this family never
+       * read. The object hash is the one that must not move. */
+      exactObject: { kind: "packetSet", id: "nc_146_dismissal_petition-set" }
+    },
+    {
+      /* participant-instructions.md quotes this registry's stop conditions
+       * verbatim -- "A felony charge dismissed pursuant to a plea agreement" and
+       * the § 15A-145.4 / § 15A-145.6 sequencing stop -- and attributes them to
+       * "the committed track registry". A receipt that omits the record the
+       * output quotes does not bind what the output actually relies on. */
+      recordId: "legal-design-track-registry:nc_146_dismissal_petition",
+      path: "data/record-clearing/legal-design-track-registry.json",
+      role:
+        "the committed legal-design track registry. participant-instructions.md quotes this track's "
+        + "selfHelpStopConditions verbatim and names the registry as their source, so the stop conditions the "
+        + "packet presents are bound to these exact bytes",
+      mustContain: [
+        "A felony charge dismissed pursuant to a plea agreement.",
+        "An incapable-to-proceed dismissal, in either direction given the open question about pre-December 2025 cases.",
+        "A deferred prosecution or conditional discharge dismissal, which carries the fee and different rules.",
+        "Anyone who may later need G.S. 15A-145.4 or 15A-145.6 relief, because sequencing matters.",
+        "DNA expunction, which carries its own service and hearing requirements.",
+        "Any immigration matter."
+      ],
+      exactObject: { kind: "track", id: "nc_146_dismissal_petition" }
     }
   ],
 
@@ -830,6 +858,35 @@ const isOfficial = (componentId) => Object.hasOwn(OFFICIAL, componentId);
  * statement this build RELIES ON, re-read from the committed bytes before
  * anything is composed. The build refuses if a record is missing or an anchor
  * is no longer there. */
+/* Canonical-object SHA-256: the object's keys sorted recursively, serialised
+ * compactly, and terminated with one newline. It is the digest the independent
+ * verifier computes, so a receipt written any other way cannot be compared to
+ * the verdict that reads it. */
+function sortKeysDeep(value) {
+  if (Array.isArray(value)) return value.map(sortKeysDeep);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.keys(value).sort().map((k) => [k, sortKeysDeep(value[k])]));
+  }
+  return value;
+}
+
+function canonicalObjectSha256(value) {
+  return crypto.createHash("sha256").update(Buffer.from(`${JSON.stringify(sortKeysDeep(value))}\n`, "utf8")).digest("hex");
+}
+
+/* Locate the one object inside a national record that this family relies on.
+ * Returns null when the record does not carry it, which resolveRecords treats
+ * as a binding failure rather than writing an unbound receipt. */
+function selectExactObject(parsed, exactObject) {
+  if (exactObject.kind === "packetSet") {
+    return (parsed.packetSets ?? []).find((entry) => entry.packetSetId === exactObject.id) ?? null;
+  }
+  if (exactObject.kind === "track") {
+    return (parsed.tracks ?? []).find((entry) => entry.trackId === exactObject.id) ?? null;
+  }
+  return null;
+}
+
 function resolveRecords() {
   const resolved = [];
   const failures = [];
@@ -850,10 +907,28 @@ function resolveRecords() {
       });
       continue;
     }
+    let exactObject = null;
+    if (rec.exactObject) {
+      const selected = selectExactObject(JSON.parse(text), rec.exactObject);
+      if (selected === null) {
+        failures.push({
+          recordId: rec.recordId, path: rec.path,
+          why: `the committed record no longer carries the exact ${rec.exactObject.kind} object this build relies on`,
+          missingObject: rec.exactObject
+        });
+        continue;
+      }
+      exactObject = {
+        kind: rec.exactObject.kind, id: rec.exactObject.id,
+        canonicalObjectSha256: canonicalObjectSha256(selected),
+        canonicalisation: "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8"
+      };
+    }
     resolved.push({
       recordId: rec.recordId, path: rec.path, role: rec.role,
       sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
-      byteLength: bytes.length, anchorsVerified: (rec.mustContain ?? []).length
+      byteLength: bytes.length, anchorsVerified: (rec.mustContain ?? []).length,
+      exactObject
     });
   }
   return { resolved, failures };
@@ -1882,7 +1957,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
       sourceIds: [`committed-record:${r.path}`], recordId: r.recordId,
       pathInRepository: r.path, sha256: r.sha256, byteLength: r.byteLength,
       instrumentKind: "committed_record_bound_as_authority",
-      role: r.role, anchorStatementsVerified: r.anchorsVerified
+      role: r.role, anchorStatementsVerified: r.anchorsVerified,
+      exactObject: r.exactObject
     })),
     documents: bound.map((b) => ({
       sourceIds: [b.doc.sourceId], documentId: b.doc.documentId, formNumber: b.doc.formNumber ?? b.doc.documentId,
