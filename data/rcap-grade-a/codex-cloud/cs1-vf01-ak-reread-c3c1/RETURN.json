@@ -1,0 +1,212 @@
+{
+  "schemaVersion": "rcap-codex-cloud-independent-reread-return/v1",
+  "workerId": "CODEX-CS1-VF01-AK-REREAD",
+  "status": "COMPLETED",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "base": "c3c1b92db5770fe2e22ea2098988de9c933e09bd",
+  "branch": "codex/cs1-vf01-ak-reread-c3c1",
+  "commit": "reported in the final worker handoff after this return record is committed",
+  "family": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+  "route": "obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+  "claim": {
+    "assertion": "CLAIM_OK VF01 composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 (independent-verification, grant set 425f35316dd9de61)",
+    "assertedBeforeFamilyContentRead": true,
+    "released": false
+  },
+  "independence": "The worker did not build this packet, did not perform the ARTIFACTS repair or evidence-transition repair, and independently remeasured the current bytes and records without accepting the earlier FAIL or either repair assertion as proof.",
+  "hashes": {
+    "canonicalPdfSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "boundaryPdfSha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+    "productWiringSha256": "4ea5a449ba30b9b9c08ffc4ce87c0a3c298142e4ac0bdfe73089b7bbd899b7f9",
+    "sourceReceiptSha256": "18b43b7691397fc7cc7086fe382b010f0ef1716e96b34af5c039ad8b27e1f5d9",
+    "productionFieldMapSha256": "64edb26d1d136545dd95d244ffe2647cbdd1d230619604fc08990d6b994d258c",
+    "renderedArtifactsSha256": "c638006133fd703abd87f203bde351a03625a830ab3f8f9a8f640c6e5761106f"
+  },
+  "rasterRun": "33596784162",
+  "rasterReceipt": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33596784162",
+    "jobId": "100142453389",
+    "artifactId": "9833842021",
+    "renderedCommitSha": "92239810a4b96c6cffb87929a45cf56d8a20cbf5",
+    "boundToCanonicalSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "boundToBoundarySha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+    "coversTheWholeFamily": true,
+    "currentRasterPagesInspected": 16,
+    "currentRasterHashesMatched": 16,
+    "currentRasterPagesNonblank": 16
+  },
+  "productWiringPins": {
+    "proposalCanonicalSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "acceptanceCanonicalSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "acceptanceWorkflowRunId": "33596784162",
+    "acceptanceCoversWholeFamily": true,
+    "currentState": "DECLARED_NOT_INSTALLED",
+    "productDefectFound": false
+  },
+  "packetManifest": {
+    "canonicalPages": 8,
+    "boundaryPages": 8,
+    "componentOrder": [
+      "primary_filing (pages 1-2)",
+      "subsection_f_exclusions_statement (page 3)",
+      "compliance_at_discharge_statement (page 4)",
+      "prosecutor_service (page 5)",
+      "proposed_order (page 6)",
+      "filing_instructions (pages 7-8)"
+    ],
+    "orderMatchedBothPdfs": true
+  },
+  "sourceEvidence": {
+    "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "privateCorpusRequired": false,
+    "receiptBoundRecords": [
+      {
+        "path": "src/lib/legal-authority/routes/national-report-batch-b.json",
+        "sha256": "883d5bb82f9190dae66d78250e1dc9f1ee3055f580e43e6336ba36c1e30b4522",
+        "byteLength": 25265,
+        "receiptMatch": true
+      },
+      {
+        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+        "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+        "byteLength": 184365,
+        "receiptMatch": true
+      }
+    ],
+    "routeCensusRequiredCodifiedAuthority": {
+      "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      "sha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
+      "byteLength": 188501,
+      "routeSpecificStatementsRead": true
+    }
+  },
+  "measuredObligations": {
+    "routeIdentity": {
+      "result": "PASS",
+      "measurement": "The one exact route agrees across product wiring, field map, source receipt, census identity, legal authority, and all delivered-page footers."
+    },
+    "sourceIdentity": {
+      "result": "PASS",
+      "measurement": "Both receipt-bound committed records rehash exactly; this zero-document custom pleading needs no private corpus, and the current route-required compiled AK profile was separately hashed and read."
+    },
+    "componentSet": {
+      "result": "PASS",
+      "measurement": "All six rendered components are present; all three participant-provided record/evidence attachments are disclosed; the no-erasure instruction is present."
+    },
+    "knownPrefills": {
+      "result": "PASS",
+      "measurement": "All ten declared writes in each fixture were found in extracted PDF text and visibly inspected, including every long boundary value."
+    },
+    "requiredBeforeFilingFacts": {
+      "result": "PASS",
+      "measurement": "All eleven declared items are visibly blank, labelled, and disclosed in participant-instructions.md, with the source records to consult."
+    },
+    "routeOptions": {
+      "result": "PASS",
+      "measurement": "The one-route pleading has no route-determined election or selection control; requiredOptionsMissing=0."
+    },
+    "repeatingRows": {
+      "result": "PASS",
+      "measurement": "No repeating row exists and incompleteRows=0."
+    },
+    "protectedFields": {
+      "result": "PASS",
+      "measurement": "All eleven participant-, service-, and court-owned protected fields remain blank in both PDFs and every current raster; protectedWrites=0."
+    },
+    "artifactHashes": {
+      "result": "PASS",
+      "measurement": "Both PDFs independently rehash to the assigned exact digests and agree with the repaired proposal pin, artifact manifest, central queue, receipt, and receipt-rendered commit."
+    },
+    "pageOrder": {
+      "result": "PASS",
+      "measurement": "Both PDFs follow the exact 2+1+1+1+1+2 page manifest."
+    },
+    "clippingOverlap": {
+      "result": "PASS",
+      "measurement": "All sixteen current raster pages were inspected and are nonblank; all raster hashes match; bbox analysis found zero page-edge crossings and zero same-line overlaps."
+    },
+    "filingDestination": {
+      "result": "PASS",
+      "measurement": "Instructions direct filing in the original criminal case at the sentencing court and explicitly reject a new civil filing."
+    },
+    "feeWaiver": {
+      "result": "PASS",
+      "measurement": "No held route-specific source supplies an amount or waiver rule; the packet says so, refuses the sibling-route $0 figure, and names the sentencing court office as the checkable authority."
+    },
+    "serviceNotice": {
+      "result": "PASS",
+      "measurement": "The prosecutor is named as recipient; no held source supplies this route's delivery method, so the packet names the sentencing court office as the authority and preserves service date/signature."
+    },
+    "selfHelpStop": {
+      "result": "PASS",
+      "measurement": "All legal-design counsel stops are present, including contested compliance, prior denial, disputed discharge, possible subsection-(f) exclusion, collateral issues, and immigration."
+    }
+  },
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+  },
+  "tests": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 '<exact-family>'",
+      "result": "PASS — CLAIM_OK, independent-verification grant set 425f35316dd9de61"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family '<exact-family>'",
+      "result": "PASS_COMPLETE — 10/32 written; all nine counters zero"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family '<exact-family>' --check",
+      "result": "PASS — 0 need creation, 0 need refresh, 1 unchanged"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate.mjs --check-artifacts-only-reread-evidence '<exact-family>'",
+      "result": "PASS — ARTIFACTS_ONLY_REREAD_EVIDENCE_OK; canonical, boundary, and raster run 33596784162 matched"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-post-repair-reread.mjs",
+      "result": "PASS — exact ARTIFACTS-only evidence transition and negative controls"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-product-wiring-v2-packets.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-packet-build-environment.mjs --family '<exact-family>' --codex-cloud --minimum-captain-sha c3c1b92db5770fe2e22ea2098988de9c933e09bd",
+      "result": "DIAGNOSTIC 10/14 — family_sources_bind PASS for this zero-source composition; generic assignment-file and private-corpus checks fail but are inapplicable to this zero-document reread"
+    },
+    {
+      "command": "sha256sum, pdfinfo, pdftotext -layout, pdftotext -bbox-layout, raster PNG hash and pixel-variance checks",
+      "result": "PASS — exact hashes; 8+8 pages; all visible writes read; 0 edge crossings; 0 same-line overlaps; 16/16 raster hashes matched and pages nonblank"
+    },
+    {
+      "command": "node --check scripts/grade-a-packet-factory-24h/post-repair-reread.mjs && node --check scripts/grade-a-packet-factory-24h/generate.mjs",
+      "result": "PASS"
+    }
+  ],
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-vf01-ak-reread-c3c1/RETURN.json"
+  ],
+  "repairAssignmentsEdited": false,
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "packetEdits": 0,
+  "selfRepair": 0,
+  "routesOpened": 0,
+  "productionTouched": "NO"
+}
