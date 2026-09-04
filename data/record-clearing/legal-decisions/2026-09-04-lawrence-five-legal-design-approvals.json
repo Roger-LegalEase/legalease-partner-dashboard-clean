@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "rcap-legal-decisions/v1",
+  "recordId": "LWD-2026-09-04-FIVE-LEGAL-DESIGN-APPROVALS",
+  "createsApproval": true,
+  "approvalScope": "LEGAL_DESIGN_AND_IMPLEMENTATION_AUTHORITY_ONLY",
+  "createsOutputLevelApproval": false,
+  "outputApprovalRequired": true,
+  "productionAuthorized": false,
+  "checkoutAuthorized": false,
+  "decisionOwner": "Lawrence Blackmon",
+  "decisionDate": null,
+  "decisionDateStatus": "NOT_STATED_IN_APPROVAL_COMMUNICATION_DATE_LINE_LEFT_BLANK",
+  "communicationReceivedByCaptainOn": "2026-09-04",
+  "authenticationKind": "ROGER_ROMAN_ATTESTED_COUNSEL_COMMUNICATION",
+  "exactApprovalReference": "Roger Roman supplied the approval communication directly in the canonical Captain task on 2026-09-04; no email identifier, electronic-signature event, direct authentication record, signature, or counsel approval date was supplied.",
+  "exactApprovalCommunication": "I have reviewed the five legal-design determinations dated September 4, 2026,\ncovering the North Dakota, Hawaii, Kentucky, Nebraska, and Washington families\nidentified in the review package.\n\nI APPROVE ALL FIVE AS WRITTEN, including the stated qualifications, self-help\nstops, filing actors, instruments, destinations, required components, service\nrules, and route distinctions.\n\nThis approval authorizes LegalEase to implement the approved legal designs. It\ndoes not constitute approval of packet bytes that have not yet been generated\nand reviewed. New or changed participant-facing artifacts remain subject to\nexact-output review and approval before commercial release.\n\nLawrence Blackmon\nDate:",
+  "recordedAtCaptainSha": "ecf63471a53d99e7e170d1847ade3a0ead855359",
+  "note": "These decisions answer only the five named legal-design questions. Historical holds remain evidence but no longer control current execution state. This record proves no packet, approves no exact output, opens no commercial route, and authorizes no Production change.",
+  "decisions": [
+    {
+      "decisionId": "LWD-2026-09-04-ND-NONCONVICTION-AUTO-CLOSE",
+      "jurisdiction": "ND",
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "routeKeys": [
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:original_case_enforcement_motion",
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request"
+      ],
+      "decision": "REVISE_THE_TREATMENT",
+      "approved": true,
+      "implementationStatus": "PENDING",
+      "implementationStateOverride": "FAIL_REPAIR_REQUIRED",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Revise the current treatment to the approved 61-day Rule 45 calculation, clerk-request gate, enforcement escalation, components, service rules, effective-date qualification, and self-help stops; deterministically rebuild, raster changed bytes, and obtain an independent verdict.",
+      "approvedDesign": {
+        "closureDue": "61 days after entry of the qualifying order of nonconviction",
+        "timeComputation": ["exclude the entry date", "count calendar days", "include day 61", "when day 61 is a Saturday, Sunday, or legal holiday, use the next non-holiday business day"],
+        "anchor": "the court's entry date for the order of nonconviction",
+        "clerkRequest": {
+          "instrument": "nonfiled administrative correspondence; never caption or represent it as a motion",
+          "generationConditions": ["the 61-day period has expired", "the order qualifies for automatic closure", "the North Dakota court-controlled record remains publicly accessible", "the participant seeks performance of the existing closure duty rather than additional substantive relief"],
+          "requiredComponents": ["participant identity and contact information", "court and case number", "charge", "date of entry of the nonconviction order", "Rule 45 calculation", "N.D.C.C. § 12-60.1-05 citation", "identification of continued public access", "copy of the order or docket entry", "request for correction and written confirmation"],
+          "service": "formal service does not apply to the informal clerk request"
+        },
+        "enforcementMotion": {
+          "generationConditions": ["express clerk refusal, which permits immediate escalation", "clerk statement that judicial action is required", "five business days after confirmed receipt of the clerk request while the court-controlled record remains public"],
+          "cureRuleQualification": "the five-business-day interval is a LegalEase administrative-cure rule, not a statutory waiting period or jurisdictional prerequisite",
+          "destination": "the original district-court or municipal-court criminal case",
+          "requiredComponents": ["original caption and case number", "Motion to Enforce Statutory Closure of Order-of-Nonconviction Record, or materially equivalent accurate title", "date and nature of the order", "statutory and Rule 45 calculation", "statement addressing statutory exclusions", "evidence of continued public access", "prior clerk request and receipt evidence when applicable", "declaration for facts outside the court record", "requested closure relief", "proposed order"],
+          "service": "include proof of service on every other party under the applicable North Dakota criminal and incorporated civil rules"
+        },
+        "selfHelpStops": ["opposition", "contested hearing", "plea-agreement or mixed-disposition uncertainty", "unfitness or lack-of-responsibility exclusions", "pending appeal or post-disposition proceeding", "disputed mixed conviction/nonconviction scope", "downstream private publication rather than court publication", "requests concerning law-enforcement, prosecutor, federal, or third-party records"],
+        "effectiveDateQualification": "Apply the August 1, 2025 effective-date qualification. Earlier orders use the separate petition procedure."
+      },
+      "officialPrimaryAuthorities": [{"citation": "N.D.C.C. § 12-60.1-05", "url": "https://ndlegis.gov/cencode/t12c60-1.pdf"}],
+      "outputApprovalRequired": true,
+      "productionAuthorized": false
+    },
+    {
+      "decisionId": "LWD-2026-09-04-HI-712-1200-DEFERRED-EXPUNGEMENT",
+      "jurisdiction": "HI",
+      "familyId": "hi_712_1200_deferred_expungement-set",
+      "routeKeys": ["obligation:track-pathway:HI:hi_712_1200_deferred_expungement:deferred-prostitution-three-year"],
+      "decision": "LEGALEASE_MUST_FULFILL",
+      "approved": true,
+      "implementationStatus": "PENDING",
+      "implementationStateOverride": "SOURCE_READY",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Bind the already-held current HCJDC Form 159(b), build the chapter 853 discharge-and-dismissal application packet with both date gates, required attachments, current fee branches, no-service treatment, limitations, and self-help stops; then raster and independently verify it.",
+      "approvedDesign": {
+        "qualifyingBranch": "HRS § 712-1200(4)(c), when the participant received chapter 853 deferred proceedings followed by discharge and dismissal",
+        "excludedBranches": ["ordinary conviction", "ordinary probation", "dismissal unrelated to chapter 853", "a subsequent-offense matter barred from the relevant deferral"],
+        "instrument": "current HCJDC Form 159(b), Application for Expungement of Arrest Records, revised June 3, 2026",
+        "filingActor": "the participant",
+        "destination": "Hawaii Criminal Justice Data Center, Department of the Attorney General, using the current form's delivery instructions",
+        "waitingPeriod": "three years",
+        "anchor": "chapter 853 discharge date, using the entered date of the discharge-and-dismissal order for product computation",
+        "splitDateRule": "when discharge and dismissal appear on different dates, require both final dismissal and three years after discharge",
+        "requiredComponents": ["current HCJDC Form 159(b)", "requested participant identity, alias, arrest, court, charge, and contact information", "participant signature", "valid government photo ID", "current required payment instrument", "self-addressed stamped envelope", "copy of the chapter 853 discharge-and-dismissal order or docket record as a LegalEase packet safeguard"],
+        "dismissalCopyQualification": "do not require certification unless the agency or matter-specific facts require it",
+        "service": "no prosecutor or court service is required for the HCJDC administrative application",
+        "fees": ["$35 first application", "$50 subsequent application", "preserve the current form's payment-method instructions", "do not represent that a waiver exists without direct current agency authority"],
+        "limitations": ["preserve every approved self-help stop", "state clearly that HCJDC expungement does not erase every court, federal, or privately held record"]
+      },
+      "officialPrimaryAuthorities": [
+        {"citation": "HRS § 712-1200", "url": "https://www.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0712/"},
+        {"citation": "Hawaii Criminal Justice Data Center", "url": "https://ag.hawaii.gov/hcjdc/"}
+      ],
+      "outputApprovalRequired": true,
+      "productionAuthorized": false
+    },
+    {
+      "decisionId": "LWD-2026-09-04-KY-PARDON-EXPUNGEMENT",
+      "jurisdiction": "KY",
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "routeKeys": ["obligation:track-pathway:KY:ky_felony_expungement_after_pardon:felony-conviction-431073"],
+      "decision": "BOUNDED_SELF_HELP_DELIVERY_APPROVED",
+      "approved": true,
+      "implementationStatus": "PENDING",
+      "implementationStateOverride": "SOURCE_BLOCKED",
+      "additionalRequiredSourceIds": ["official-form:AOC-026"],
+      "missingSourceObligations": [{"sourceId": "official-form:AOC-026", "reason": "The approved IFP branch requires AOC-026, and no exact held AOC-026 binary is present in the governed local source corpus. Only this exact source obligation remains source-blocked."}],
+      "executionOwner": "SOURCE",
+      "nextExecutableAction": "Acquire and hash-bind current AOC-026, then build AOC-496.3 paid-certification and IFP variants in the original criminal case without duplicating unrelated packet architecture; raster and independently verify the exact outputs.",
+      "approvedDesign": {
+        "instrument": "official AOC-496.3, Application to Vacate and Expunge Felony Conviction; do not substitute a custom motion",
+        "destination": "the original criminal case through the Office of Circuit Court Clerk for the convicting county",
+        "eligibility": ["a full pardon covering the exact conviction", "five years since completion of sentence, probation, or parole, whichever occurred later", "no felony or misdemeanor conviction during the preceding five years", "no pending felony or misdemeanor proceeding"],
+        "pardonDateQualification": "do not use the pardon date as sentence completion unless the pardon and official record establish that it terminated the remaining sentence",
+        "attachments": ["complete pardon copy", "current expungement-eligibility certification for the ordinary paid branch"],
+        "ordinaryPaidBranch": ["require the current expungement-eligibility certification", "enforce its current validity period", "include the $40 certification charge, $50 filing fee, and conditional $250 post-grant fee according to current authority"],
+        "ifpBranch": ["use AOC-026", "allow filing without pre-purchasing the certification where current clerk authority permits", "do not assume the initial IFP ruling automatically reaches the later $250 fee", "require an order expressly addressing the later fee when waiver is sought"],
+        "verification": "AOC-496.3 must be signed and verified under oath",
+        "coverSheet": "do not include a statewide civil cover sheet by default",
+        "orderTreatment": "treat AOC-496.4 as a court order, not automatically as a participant-filed proposed order",
+        "continuationPages": "include only where necessary",
+        "filingUnit": "one operative filing per original criminal case",
+        "service": "the circuit clerk sends the accepted application to the appropriate prosecuting authority; do not require redundant participant service unless the clerk directs it",
+        "postFiling": ["60-day prosecutor-response period", "120-day no-response pathway", "possible grant without hearing", "immediate professional handoff upon opposition or contested hearing"],
+        "filingMethodQualification": "do not promise statewide pro se electronic filing or filing by mail without current clerk confirmation",
+        "selfHelp": "preserve all approved self-help stops and post-filing steps"
+      },
+      "officialPrimaryAuthorities": [
+        {"citation": "AOC-496.3", "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.3.pdf"},
+        {"citation": "KRS 431.073", "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=431.073"},
+        {"citation": "KRS 431.079", "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=431.079"}
+      ],
+      "outputApprovalRequired": true,
+      "productionAuthorized": false
+    },
+    {
+      "decisionId": "LWD-2026-09-04-NE-TRAFFICKING-SETASIDE-SEAL",
+      "jurisdiction": "NE",
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "routeKeys": ["obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion", "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion"],
+      "decision": "TWO_STAGE_ADULT_REMEDY_AND_SEPARATE_JUVENILE_TREATMENT",
+      "approved": true,
+      "implementationStatus": "PENDING",
+      "implementationStateOverride": "PRODUCT_PATH_PENDING",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Remove the duplicate vehicle conflict, model the approved custom section 29-3005 set-aside followed by adult CC-6-12 sealing, split the juvenile mechanism into a fail-closed branch, then build, raster, and independently verify the implemented outputs.",
+      "approvedDesign": {
+        "adultSetAside": {
+          "state": "IMPLEMENTATION_PENDING",
+          "instrument": "custom Motion to Set Aside Conviction or Adjudication Under Neb. Rev. Stat. § 29-3005",
+          "prohibitedVehicles": ["do not use CC-6-12 to initiate the set-aside", "do not substitute ordinary CC-6-11 for the trafficking-specific § 29-3005 motion"],
+          "destination": "the sentencing court or the court entering the juvenile adjudication",
+          "trigger": "completion of the sentence or juvenile disposition and a claim that the offense resulted directly from sex trafficking",
+          "requiredComponents": ["original caption and case number", "conviction or adjudication", "completion date", "trafficking-victim status", "direct-result nexus", "statutory citation", "mandatory relief request", "optional in-camera-hearing request", "supporting declaration", "proposed findings and order", "signature and contact information", "locally compliant hearing or scheduling document"],
+          "evidencePath": "allow declaration and corroboration when no official trafficking-victim certification exists; government documentation is not an absolute prerequisite",
+          "localProcedure": "insert court-specific service and hearing-notice instructions rather than presenting one local practice as a statewide statutory rule",
+          "selfHelp": "preserve all approved self-help stops"
+        },
+        "adultSealing": {
+          "state": "SEQUENTIAL_IMPLEMENTATION_PENDING",
+          "instrument": "CC-6-12 only after a signed trafficking-related § 29-3005 set-aside order exists",
+          "destination": "the sentencing court",
+          "attachments": ["signed trafficking-related § 29-3005 set-aside order"],
+          "service": "do not add participant service when the court controls notice unless local procedure requires it",
+          "hearing": "treat the participant hearing as expected under current official instructions"
+        },
+        "juvenile": {
+          "state": "FAIL_CLOSED_EXACT_INSTRUMENT_AND_PROCEDURE_PENDING",
+          "prohibitedVehicle": "do not use CC-6-12 for juvenile adjudications",
+          "treatment": "split juvenile sealing into the appropriate Nebraska juvenile sealing mechanism and keep it fail-closed until its exact instrument and procedure are bound"
+        }
+      },
+      "officialPrimaryAuthorities": [
+        {"citation": "Neb. Rev. Stat. § 29-3005", "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-3005"},
+        {"citation": "Neb. Rev. Stat. § 29-3523", "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-3523"},
+        {"citation": "CC-6-12", "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf"}
+      ],
+      "outputApprovalRequired": true,
+      "productionAuthorized": false
+    },
+    {
+      "decisionId": "LWD-2026-09-04-WA-DECEASED-HOMICIDE-VICTIM",
+      "jurisdiction": "WA",
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "routeKeys": ["obligation:track-only:WA:wa_vac_homicide_victim_prostitution"],
+      "decision": "USE_CUSTOM_FAMILY_MEMBER_PETITION_AND_DECLARATION",
+      "approved": true,
+      "implementationStatus": "PENDING",
+      "implementationStateOverride": "FAIL_REPAIR_REQUIRED",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Rename the route treatment to the deceased-homicide-victim family-member identity, replace the mismatched first-person pattern-form treatment with the approved custom petition and declaration, preserve the Kitsap-only override and exact stops, then deterministically rebuild, raster, and independently verify it.",
+      "approvedDesign": {
+        "routeIdentity": "family-member application for a deceased homicide victim with a prostitution conviction under RCW 9.96.060(7); remove 'trafficking victim' unless a different route independently requires trafficking status",
+        "instrument": "custom Petition and Declaration for Order Vacating Conviction of Deceased Homicide Victim Under RCW 9.96.060(7)",
+        "patternFormProhibition": "do not use ordinary CrRLJ 09.0100 in a way that makes the family member swear to the deceased defendant's personal facts in the first person",
+        "filingActor": "family member applying on behalf of the deceased defendant",
+        "destination": "original sentencing court",
+        "identitySeparation": ["applicant identity, address, contact information, relationship, and capacity", "deceased defendant identity, criminal-case name, and case number"],
+        "declarationLimits": ["state only facts within the applicant's knowledge or supported by attached records", "describe the deceased person's conviction, death, and homicide status in the third person", "do not require trafficking-victim documentation"],
+        "eligibility": ["family-member applicant", "deceased homicide victim", "conviction under RCW 9A.88.030"],
+        "municipalQualification": "do not automatically route a municipal-ordinance conviction into this branch",
+        "requiredAttachments": ["conviction or docket record", "death certificate", "homicide-status documentation when the death certificate is insufficient", "relationship documentation or sworn relationship evidence", "local scheduling or cover document", "proposed order only where locally required"],
+        "localOverride": "use the local Kitsap form only as a court-specific override for that court; never treat it as the statewide instrument",
+        "governingOffenseCitation": "RCW 9A.88.030",
+        "service": "use a court-specific service module",
+        "fee": "do not hardcode a statewide filing fee or promise zero cost",
+        "hearing": "treat a hearing as expected unless the sentencing court confirms paper disposition",
+        "selfHelpStops": ["disputed relationship", "disputed homicide status", "identity matching dispute", "statutory-scope dispute", "court rejection of the custom vehicle", "evidentiary dispute", "contested hearing"]
+      },
+      "officialPrimaryAuthorities": [
+        {"citation": "RCW 9.96.060", "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=9.96.060"},
+        {"citation": "Washington Courts vacating and sealing forms", "url": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38"}
+      ],
+      "outputApprovalRequired": true,
+      "productionAuthorized": false
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

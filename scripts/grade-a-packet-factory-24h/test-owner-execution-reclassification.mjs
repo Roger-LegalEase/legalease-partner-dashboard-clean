@@ -7,12 +7,13 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const master = JSON.parse(fs.readFileSync(path.join(root, "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), "utf8"));
 
-const genuineLegal = new Set([
-  "composed-treatment:nd-nonconviction-auto-close-verify",
-  "hi_712_1200_deferred_expungement-set",
-  "ky_felony_expungement_after_pardon-set",
-  "ne-trafficking-setaside-and-seal-set",
-  "wa_vac_homicide_victim_prostitution-set"
+const genuineLegal = new Set([]);
+const approvedFive = new Map([
+  ["composed-treatment:nd-nonconviction-auto-close-verify", "FAIL_REPAIR_REQUIRED"],
+  ["hi_712_1200_deferred_expungement-set", "SOURCE_READY"],
+  ["ky_felony_expungement_after_pardon-set", "SOURCE_BLOCKED"],
+  ["ne-trafficking-setaside-and-seal-set", "PRODUCT_PATH_PENDING"],
+  ["wa_vac_homicide_victim_prostitution-set", "FAIL_REPAIR_REQUIRED"]
 ]);
 const reclassified = new Set([
   "ca-prop64-set", "in_infraction_nondisclosure-set", "ms-fel-set",
@@ -27,7 +28,15 @@ const reclassified = new Set([
 ]);
 
 const legal = new Set(master.families.filter((f) => f.state === "LEGAL_BLOCKED").map((f) => f.familyId));
-assert.deepEqual([...legal].sort(), [...genuineLegal].sort(), "only the five genuine counsel matters may remain LEGAL_BLOCKED");
+assert.deepEqual([...legal].sort(), [...genuineLegal].sort(), "no answered September 4 counsel matter may remain LEGAL_BLOCKED");
+for (const [familyId, expectedState] of approvedFive) {
+  const row = master.families.find((f) => f.familyId === familyId);
+  assert.ok(row, `missing approved family ${familyId}`);
+  assert.equal(row.state, expectedState, `${familyId} did not enter its exact approved execution state`);
+  assert.equal(row.counselDesignApproval?.reviewer, "Lawrence Blackmon", `${familyId} does not bind the reviewer`);
+  assert.equal(row.counselDesignApproval?.outputApprovalRequired, true, `${familyId} must still require exact-output approval`);
+  assert.equal(row.counselDesignApproval?.productionAuthorized, false, `${familyId} must remain closed in Production`);
+}
 for (const familyId of reclassified) {
   const row = master.families.find((f) => f.familyId === familyId);
   assert.ok(row, `missing family ${familyId}`);

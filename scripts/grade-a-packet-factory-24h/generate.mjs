@@ -292,9 +292,35 @@ const INPUTS = {
   sourceDeterminations: "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
   ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
-  legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
+  legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+  fiveLegalDesignApprovals: "data/record-clearing/legal-decisions/2026-09-04-lawrence-five-legal-design-approvals.json"
 };
 const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)]));
+
+/*
+ * COUNSEL-APPROVED DESIGNS CLEAR ONLY THE QUESTION THEY ANSWERED.
+ *
+ * This record is legal-design and implementation authority, not a verdict on
+ * packet bytes. The five families leave LEGAL_BLOCKED for their exact next
+ * executable states, while every output-level and Production gate remains
+ * closed. An implementation cohort later marks its decision IMPLEMENTED; until
+ * then the explicit transition prevents stale lane returns and owner holds
+ * from re-creating the answered legal question on every regeneration.
+ */
+if (IN.fiveLegalDesignApprovals?.decisionOwner !== "Lawrence Blackmon"
+  || IN.fiveLegalDesignApprovals?.createsOutputLevelApproval !== false
+  || IN.fiveLegalDesignApprovals?.outputApprovalRequired !== true
+  || IN.fiveLegalDesignApprovals?.productionAuthorized !== false) {
+  throw new Error("the five-family counsel record must preserve exact-output review and Production closure");
+}
+const counselDesignApprovalByFamily = new Map();
+for (const decision of IN.fiveLegalDesignApprovals?.decisions ?? []) {
+  if (decision.approved !== true || !decision.familyId || !decision.implementationStateOverride) continue;
+  if (decision.outputApprovalRequired !== true || decision.productionAuthorized !== false) {
+    throw new Error(`${decision.familyId}: counsel design approval cannot authorize packet bytes or Production`);
+  }
+  counselDesignApprovalByFamily.set(decision.familyId, decision);
+}
 
 /* An identity established by reading the document is exact in the only sense
  * this set cares about: the custody row names one path and one SHA-256, and
@@ -1447,6 +1473,16 @@ for (const f of IN.scoreboard.familiesDetail) {
   const independentFail = independentReturn?.verdict === "FAIL_REPAIR_REQUIRED";
 
   const sourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
+  const counselDesignApproval = counselDesignApprovalByFamily.get(familyId) ?? null;
+  const readinessReconciliation = counselDesignApproval?.additionalRequiredSourceIds?.length
+    ? {
+        ...(sourceReconciliation ?? {}),
+        additionalRequiredSourceIds: [...new Set([
+          ...(sourceReconciliation?.additionalRequiredSourceIds ?? []),
+          ...counselDesignApproval.additionalRequiredSourceIds
+        ])]
+      }
+    : sourceReconciliation;
   const strategy = sourceReconciliation?.implementationStrategyOverride ?? f.implementationStrategy;
   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
   const directory = comp?.directory
@@ -1457,12 +1493,12 @@ for (const f of IN.scoreboard.familiesDetail) {
   const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/reports/rendered-artifacts.json`));
 
   const originalSourceIds = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("official-form:"))))];
-  const removedSourceIds = new Set(sourceReconciliation?.satisfiedWithoutStandaloneBinary ?? []);
-  const replacementSourceIds = new Map(Object.entries(sourceReconciliation?.sourceReplacements ?? {}));
+  const removedSourceIds = new Set(readinessReconciliation?.satisfiedWithoutStandaloneBinary ?? []);
+  const replacementSourceIds = new Map(Object.entries(readinessReconciliation?.sourceReplacements ?? {}));
   const effectiveSourceIds = [...new Set([
     ...originalSourceIds.flatMap((id) => replacementSourceIds.has(id) ? replacementSourceIds.get(id) : [id])
       .filter((id) => !removedSourceIds.has(id)),
-    ...(sourceReconciliation?.additionalRequiredSourceIds ?? [])
+    ...(readinessReconciliation?.additionalRequiredSourceIds ?? [])
   ])];
   const forms = effectiveSourceIds.map((s) => s.slice(14)).sort();
   const components = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("component:"))))].sort();
@@ -1470,7 +1506,7 @@ for (const f of IN.scoreboard.familiesDetail) {
 
   const docs = custody?.documentSources ?? [];
   const inexact = docs.filter((d) => !d.resolved || !EXACT_TIERS.has(d.tier));
-  const readiness = sourceReadiness(familyId, f.worklistGroupId, custody, routes, f.holds, strategy, sourceReconciliation);
+  const readiness = sourceReadiness(familyId, f.worklistGroupId, custody, routes, f.holds, strategy, readinessReconciliation);
   /* A route not bound to any packet family cannot be built whatever it holds;
    * the block carries its reason so no family is blocked silently. */
   if (routes.length === 0) {
@@ -1574,7 +1610,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   const holdReclassificationNextState = ["POST_REPAIR_REREAD_REQUIRED", "SELECT_SUBSTANTIVE_VERDICT"]
     .includes(holdReclassification?.disposition)
     && !reclassificationRereadReturned ? "VERIFY_PENDING" : null;
-  const legalBlocked = (executionReclassification || holdReclassification) ? false : (
+  const legalBlocked = (executionReclassification || holdReclassification || counselDesignApproval) ? false : (
     routes.some((r) => openCounselRoutes.has(r.routeKey))
     || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)
     || Boolean(laneHold)
@@ -1582,7 +1618,9 @@ for (const f of IN.scoreboard.familiesDetail) {
   );
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
-  const routeMappingOpen = executionReclassification?.stateOverride === "PRODUCT_PATH_PENDING" || notAFamily;
+  const routeMappingOpen = executionReclassification?.stateOverride === "PRODUCT_PATH_PENDING"
+    || counselDesignApproval?.implementationStateOverride === "PRODUCT_PATH_PENDING"
+    || notAFamily;
 
   const nineZero = comp ? Object.values(comp.counters).every((v) => v === 0) : null;
   const completenessStatus = comp ? comp.result : artifactPresent ? "NOT_AUDITED" : "NOT_BUILT";
@@ -1608,14 +1646,15 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
   else if (holdReclassificationNextState) state = holdReclassificationNextState;
   else if (executionReclassification?.stateOverride) state = executionReclassification.stateOverride;
+  else if (counselDesignApproval?.implementationStatus !== "IMPLEMENTED") state = counselDesignApproval.implementationStateOverride;
   /* An owner withholding outranks a passing verdict for the same reason a
    * delivery-type refusal does: the verdict says the packet is well made, and
    * the withholding says it may not ship as made. Left below the PASS branch
    * these nine families sat at VERIFIED_PASS, which L4 and F30 read as proven —
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
-  else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification) state = "LEGAL_BLOCKED";
-  else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
+  else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification && !counselDesignApproval) state = "LEGAL_BLOCKED";
+  else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT" && !counselDesignApproval) state = "LEGAL_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
    * readiness is true, that environment-scoped hold is no longer source work.
@@ -1849,7 +1888,25 @@ for (const f of IN.scoreboard.familiesDetail) {
         }
       : null,
     rasterEnrolmentRefusal: rasterNotEligible.get(familyId) ?? null,
-    legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
+    legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT"
+      : counselDesignApproval ? "SETTLED_BY_COUNSEL_DESIGN_APPROVAL"
+      : "SETTLED",
+    counselDesignApproval: counselDesignApproval
+      ? {
+          reviewer: IN.fiveLegalDesignApprovals.decisionOwner,
+          decisionRecord: INPUTS.fiveLegalDesignApprovals,
+          decisionId: counselDesignApproval.decisionId,
+          decision: counselDesignApproval.decision,
+          decisionDate: IN.fiveLegalDesignApprovals.decisionDate,
+          decisionDateStatus: IN.fiveLegalDesignApprovals.decisionDateStatus,
+          authenticationKind: IN.fiveLegalDesignApprovals.authenticationKind,
+          implementationStatus: counselDesignApproval.implementationStatus,
+          implementationStateOverride: counselDesignApproval.implementationStateOverride,
+          additionalRequiredSourceIds: counselDesignApproval.additionalRequiredSourceIds ?? [],
+          outputApprovalRequired: counselDesignApproval.outputApprovalRequired,
+          productionAuthorized: counselDesignApproval.productionAuthorized
+        }
+      : null,
     /* Carried on the row so a reader sees the refusal and its grounds where the
      * state is, rather than having to know a separate decision file exists. */
     ownerDeliveryTypeRefusal: deliveryTypeRefusal
@@ -1895,7 +1952,7 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
-    legalInputBasis: (executionReclassification || holdReclassification) ? null
+    legalInputBasis: (executionReclassification || holdReclassification || counselDesignApproval) ? null
       : (ownerCorrection && !ownerCorrectionAwaitsReread) ? "OWNER_CORRECTION_REQUIRED"
       : laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
@@ -1910,8 +1967,14 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     laneReturnLegalHold: laneHoldNarrowed,
     executionReclassification,
-    executionOwner: executionReclassification?.executionOwner ?? holdReclassification?.executionOwner ?? null,
-    nextExecutableAction: executionReclassification?.nextExecutableAction ?? holdReclassification?.nextExecutableAction ?? null,
+    executionOwner: counselDesignApproval?.executionOwner
+      ?? executionReclassification?.executionOwner
+      ?? holdReclassification?.executionOwner
+      ?? null,
+    nextExecutableAction: counselDesignApproval?.nextExecutableAction
+      ?? executionReclassification?.nextExecutableAction
+      ?? holdReclassification?.nextExecutableAction
+      ?? null,
     routeMappingStatus: routeMappingOpen
       ? (executionReclassification ? "OWNER_DIRECTED_MAPPING_PENDING" : "UNBOUND_TO_A_PACKET_FAMILY")
       : "BOUND",
