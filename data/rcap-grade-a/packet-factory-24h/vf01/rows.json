@@ -8533,6 +8533,406 @@
    },
    "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14; shared-worktree/cloud-marker/full-corpus-index checks failed, but the exact family source binding passed 4/4 and all four source hashes were independently recomputed.",
    "repairedNothing": true
+  },
+  {
+   "itemId": "al-diversion-set",
+   "lane": "VF01",
+   "wave": "packet-factory-24h/2026-09-04",
+   "worker": "VF01 independent verification; this lane did not build, repair, or raster this packet",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill",
+   "queueStateAtRead": "VERIFY_PENDING",
+   "legalInputStatusAtRead": "SETTLED",
+   "rasterStateAtRead": "RASTER_PENDING",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 al-diversion-set (independent-verification, grant set 48d63cc9dc94c9a4)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": true
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "PROTECTED_FIELDS",
+    "SERVICE"
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "writes": "37/216",
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <itemId>: PASS_COMPLETE 37/216 written",
+    "blindSpot": "The focused counter engine accepts the field map as its classification authority. It therefore misses semantically wrong writes, attorney-only ink misclassified as participant ink, and opaque required-before-filing labels; its all-zero result cannot override direct inspection of the PDF bytes, field map, actual-writes report and participant instructions."
+   },
+   "evidence": {
+    "sourceBytes": [
+     "CR-65: 468056 bytes, sha256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, independently rehashed from Nationwide_Recovery_Pool_2026-09-02 custody",
+     "C-10-CRIMINAL: 711433 bytes, sha256 527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8, independently rehashed from Master Library custody"
+    ],
+    "artifacts": {
+     "canonical": "908043 bytes, 11 pages, sha256 e48735ac0ce95d253521ae40b35af659177130ddb3ffdf798496a190b8304b9b",
+     "boundary": "908501 bytes, 11 pages, sha256 fd953692393c7184c3ee44b45be2abadf36afafccf920663c0d6f8a450c9ccb3"
+    },
+    "raster": "RASTER_QUEUE enrols these exact hashes at packet commit 5accc78f70733e9937917e29d0541f91afe8ce3f with RASTER_PENDING / next owner RAS04; no central receipt exists. Both exact PDFs were freshly rendered locally at 120 dpi and every page was available for inspection. No PASS relies on pending raster evidence."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The sole route key obligation:track-pathway:AL:al-diversion:non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a agrees across MASTER_QUEUE, production-field-map and participant instructions; CR-65 option 8.5 is visibly selected."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both exact official source files were independently rehashed from the two declared custodies. SHA-256 and byte lengths match source-receipt.json and MASTER_QUEUE exactly; family preflight bound 2/2."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both 11-page fixtures contain the eight-page CR-65 primary/service document followed by the three-page C-10-CRIMINAL fee-waiver document, covering all three declared components."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The packet writes facts into the wrong legal fields: the participant full name is placed in C-10-CRIMINAL “Spouse’s Full Name (if married)”; the participant phone is placed in “Employer’s Telephone Number” and in CR-65’s attorney telephone line; the current case number is placed on CR-65 page 6 where the form asks for the county of a previous expungement. CR-65 page 5 also substitutes generic instructions (“The charge shown on the certified case record”, “Agency shown on the certified arrest record”, and “See the selected statutory route...”) for the requested held case facts."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "All 63 declared items appear literally, but 47 are unusable technical labels rather than named participant facts, including Text1/Text2 and C-10 fields “undefined” through “undefined_32”. A participant cannot determine what those blanks require from participant-instructions.md."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "CR-65 option 8.5, the exact diversion/court-program branch named by the route, is visibly checked; other fact-dependent elections remain blank for participant confirmation."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "No repeating-row partial-write defect was found in the CR-65 or C-10 components; the duplicate page-5 narrative lines are continuation lines rather than separate case rows."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "CR-65 page 6 visibly carries the participant phone 334-555-0142 on the attorney telephone line even though no representation fact is held. That is attorney-only ink prohibited by this obligation. Signature, notary and court-decision fields otherwise remain blank."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both committed PDF byte streams were independently rehashed and their SHA-256, byte lengths and page counts match reports/rendered-artifacts.json and RASTER_QUEUE exactly."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Each fixture is 11 pages in source order: CR-65 pages 1-8 followed by C-10-CRIMINAL pages 1-3."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Fresh 120-dpi review of all canonical and boundary pages found the long boundary name, address and email fitted inside their write regions with no observed overlap or cut-off. The wrong-field writes are substantive mapping/protection failures, not geometry failures."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md directs filing in the criminal division of the Alabama circuit court in the county where the charge was filed, matching the route."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md states the recorded $500 fee and identifies the included C-10-CRIMINAL affidavit and court-completed order as the indigency route."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "participant-instructions.md names the district attorney, law-enforcement agency and court clerk and says to use separate page-7 certificates, but it never tells the participant which legally valid service method to use; it merely says to record the method after service. The form offers Personal, Sheriff or Other without resolving the required “how”."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet tells the participant to stop automated assistance for prosecutor/victim opposition, a contested hearing, mismatch with the selected option, or possible immigration consequences."
+    }
+   },
+   "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing: 14/14 applicable, source bind 2/2.",
+   "repairedNothing": true
+  },
+  {
+   "itemId": "il-exp-qualprob-set",
+   "lane": "VF01",
+   "wave": "packet-factory-24h/2026-09-04",
+   "worker": "VF01 independent verification; this lane did not build, repair, or raster this packet",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+   "queueStateAtRead": "VERIFY_PENDING",
+   "legalInputStatusAtRead": "SETTLED",
+   "rasterStateAtRead": "RASTER_PENDING",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 il-exp-qualprob-set (independent-verification, grant set 48d63cc9dc94c9a4)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": true
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REPEATING_ROWS",
+    "CLIPPING_AND_OVERLAP",
+    "SERVICE"
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "writes": "71/424",
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <itemId>: PASS_COMPLETE 71/424 written",
+    "blindSpot": "The focused counter engine trusts the declared fact-to-field mapping and its report-level visualDefects flag. It does not detect that case numbers were mapped into charge columns, that inactive-route rows were partially written, or that the rendered Case List ellipsizes held values; direct byte and pixel inspection therefore controls these obligation failures."
+   },
+   "evidence": {
+    "sourceBytes": [
+     "EXP-AD Request: 1015247 bytes, sha256 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+     "EXP-AD Case List: 744328 bytes, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+     "EXP-AD Order Granting: 823679 bytes, sha256 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+     "FW-CIV-APPLICATION: 1051549 bytes, sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+    ],
+    "artifacts": {
+     "canonical": "1735035 bytes, 13 pages, sha256 24ae04d570ecd6e796f30b580b68d22e8870e1ea2a321204c266fc55941e6fe3",
+     "boundary": "1735665 bytes, 13 pages, sha256 21731bad31dd1cb7340d13bbdfae9d5ec3d3b914948ad25b16d1240fbf93f62e"
+    },
+    "raster": "RASTER_QUEUE enrols these exact hashes at packet commit 5accc78f70733e9937917e29d0541f91afe8ce3f with RASTER_PENDING / next owner RAS03; no central receipt exists. Both exact PDFs were freshly rendered locally at 120 dpi; the visual defects below are visible in those pixels."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The sole qualified-probation expungement route key agrees across MASTER_QUEUE, production-field-map and instructions; Request page 1 selects expungement and page 3 selects qualified probation option 8."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All four official sources were independently rehashed from Master Library or Nationwide Recovery Pool custody. Their hashes and byte lengths match source-receipt.json; family preflight bound 4/4."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both 13-page fixtures contain EXP-AD Request (6), Case List (1), Order Granting (2), and FW-CIV-APPLICATION (4), covering all four declared components."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "Every “List all charges for each case number” field on Request pages 2 and 4 is populated with the case number, not a charge. The active qualified-probation expungement row also says outcome “Dismissed”, and the inactive sealing table is populated. The Case List’s held charge is emitted as the literal ellipsized placeholder “Charge exactly as shown o…”."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 250 field-map refusals marked required before filing are listed by field identity and page in participant-instructions.md, including remaining case-row and fee-waiver fields."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The Request’s expungement option and qualified-probation option 8 are visibly selected, while fact-dependent alternative branches remain blank."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "On Request page 2 rows 2-10 contain a written charge-column case number beside blank arrest/case number, agency, date and outcome cells. The same defect appears in the inactive sealing table on page 4. This is 18 visibly partial rows per fixture."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Participant signature, State’s Attorney/prosecutor/ISP/agency receipt, judge, order-decision and later-completion fields remain blank; no protected write was found in either fixture."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixture PDFs were independently rehashed; hashes, byte lengths and 13-page counts match rendered-artifacts.json and RASTER_QUEUE exactly."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixtures preserve the declared source order: six Request pages, one Case List page, two Order pages and four fee-waiver pages."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The canonical Case List visibly cuts the held charge to “Charge exactly as shown o…”. The boundary Case List visibly ellipsizes the long arresting-agency, charge and outcome values, and boundary Request page 2 ellipsizes the long agency and outcome. These are current rendered-byte defects despite visualDefects=0 in the focused report."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md directs a separate filing with the circuit clerk in every county of arrest or charge and the matching Cook County district."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md states locally varying clerk fees, the ISP $60 order-processing charge/no petition fee, and the included Rule 298 FW-CIV-APPLICATION waiver route."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "participant-instructions.md says only that the circuit clerk performs statutory service after filing. It names neither the recipients nor the service method, so it does not answer who must be served and how."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet stops automated assistance for objections by named authorities, a contested hearing, mismatch in printed eligibility facts, or immigration consequences."
+    }
+   },
+   "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing: 14/14 applicable, source bind 4/4.",
+   "repairedNothing": true
+  },
+  {
+   "itemId": "il-seal-2yr-set",
+   "lane": "VF01",
+   "wave": "packet-factory-24h/2026-09-04",
+   "worker": "VF01 independent verification; this lane did not build, repair, or raster this packet",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+   "queueStateAtRead": "VERIFY_PENDING",
+   "legalInputStatusAtRead": "SETTLED",
+   "rasterStateAtRead": "RASTER_PENDING",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 il-seal-2yr-set (independent-verification, grant set 48d63cc9dc94c9a4)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": true
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REPEATING_ROWS",
+    "CLIPPING_AND_OVERLAP",
+    "SERVICE"
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "writes": "72/424",
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <itemId>: PASS_COMPLETE 72/424 written",
+    "blindSpot": "The focused counter engine trusts the declared fact-to-field mapping and its report-level visualDefects flag. It does not detect that case numbers were mapped into charge columns, that inactive-route rows were partially written, or that the rendered Case List ellipsizes held values; direct byte and pixel inspection therefore controls these obligation failures."
+   },
+   "evidence": {
+    "sourceBytes": [
+     "EXP-AD Request: 1015247 bytes, sha256 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+     "EXP-AD Case List: 744328 bytes, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+     "EXP-AD Order Granting: 823679 bytes, sha256 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+     "FW-CIV-APPLICATION: 1051549 bytes, sha256 b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5"
+    ],
+    "artifacts": {
+     "canonical": "1735091 bytes, 13 pages, sha256 3547e310f87cf63a59b8d700884bc5399555d630a1d681d54ca47a850446648b",
+     "boundary": "1735720 bytes, 13 pages, sha256 d469a794056a8b64c55ab7ee3c09df8f47860f17ce5573afe1d5b6732641b52b"
+    },
+    "raster": "RASTER_QUEUE enrols these exact hashes at packet commit 5accc78f70733e9937917e29d0541f91afe8ce3f with RASTER_PENDING / next owner RAS02; no central receipt exists. Both exact PDFs were freshly rendered locally at 120 dpi; the visual defects below are visible in those pixels."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The sole adult-conviction sealing route key agrees across MASTER_QUEUE, production-field-map and instructions; Request pages 4-5 select sealing, “asking to seal”, and the two-year misdemeanor/ordinance-conviction option 17."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All four official sources were independently rehashed from Master Library or Nationwide Recovery Pool custody. Their hashes and byte lengths match source-receipt.json; family preflight bound 4/4."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both 13-page fixtures contain EXP-AD Request (6), Case List (1), Order Granting (2), and FW-CIV-APPLICATION (4), covering all four declared components."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "Every “List all charges for each case number” field on Request pages 2 and 4 is populated with the case number, not a charge. The inactive expungement table is populated even though the route selects sealing, and the Case List’s held charge is emitted as the literal ellipsized placeholder “Charge exactly as shown o…”."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All 250 field-map refusals marked required before filing are listed by field identity and page in participant-instructions.md, including remaining case-row and fee-waiver fields."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The Request’s sealing option, “asking to seal” election and two-year misdemeanor/ordinance-conviction option 17 are visibly selected; alternative eligibility branches remain blank."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "On inactive Request page 2 rows 2-10 contain a written charge-column case number beside blank arrest/case number, agency, date and outcome cells. Active sealing page 4 repeats the same defect in rows 2-10. This is 18 visibly partial rows per fixture."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Participant signature, State’s Attorney/prosecutor/ISP/agency receipt, judge, order-decision and later-completion fields remain blank; no protected write was found in either fixture."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixture PDFs were independently rehashed; hashes, byte lengths and 13-page counts match rendered-artifacts.json and RASTER_QUEUE exactly."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixtures preserve the declared source order: six Request pages, one Case List page, two Order pages and four fee-waiver pages."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The canonical Case List visibly cuts the held charge to “Charge exactly as shown o…”. The boundary Case List visibly ellipsizes the long arresting-agency, charge and outcome values, and boundary Request page 2 ellipsizes the long agency and outcome. These are current rendered-byte defects despite visualDefects=0 in the focused report."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md directs a separate filing with the circuit clerk in every county of arrest or charge and the matching Cook County district."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "filing-instructions.md states locally varying clerk fees, the ISP $60 order-processing charge/no petition fee, and the included Rule 298 FW-CIV-APPLICATION waiver route."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "participant-instructions.md says only that the circuit clerk performs statutory service after filing. It names neither the recipients nor the service method, so it does not answer who must be served and how."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet stops automated assistance for objections by named authorities, a contested hearing, mismatch in printed eligibility facts, or immigration consequences."
+    }
+   },
+   "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing: 14/14 applicable, source bind 4/4.",
+   "repairedNothing": true
   }
  ],
  "supersededLaneMembership": {
@@ -9076,5 +9476,31 @@
   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
   "rowsAdded": 4,
   "note": "Rows appended, not re-serialised. Earlier rows for the same itemId are left in place and are superseded by verifiedAtBase under this file's own supersession rule."
+ },
+ "vf01Fbd22ae2Append": {
+  "worker": "VF01 independent verifier",
+  "authoritativeBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+  "familiesRead": [
+   "al-diversion-set",
+   "il-exp-qualprob-set",
+   "il-seal-2yr-set"
+  ],
+  "claimGrantSet": "48d63cc9dc94c9a4",
+  "claimAssertionsPrecededEveryArtifactRead": true,
+  "sourceBytesRehashed": true,
+  "artifactBytesRehashed": true,
+  "focusedCompletenessRunForEveryFamily": true,
+  "centralRasterState": "All three exact-hash queue entries are RASTER_PENDING; local 120-dpi render inspection was performed, and no PASS verdict is asserted.",
+  "tally": {
+   "PASS_COMPLETE_INDEPENDENT": 0,
+   "FAIL_REPAIR_REQUIRED": 3,
+   "BLOCKED_SOURCE": 0,
+   "BLOCKED_LEGAL_INPUT": 0
+  },
+  "overlaysModified": 0,
+  "routesModified": 0,
+  "productionTouched": false,
+  "repairedNothing": true,
+  "priorRowsPreserved": true
  }
 }
