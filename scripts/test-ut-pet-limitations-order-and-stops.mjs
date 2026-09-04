@@ -20,6 +20,7 @@ const packetSets = readJson("data/record-clearing/legal-design-packet-set-manife
 const registry = readJson("data/record-clearing/legal-design-track-registry.json");
 const receipt = JSON.parse(fs.readFileSync(path.join(outputDir, "source-receipt.json"), "utf8"));
 const rendered = JSON.parse(fs.readFileSync(path.join(outputDir, "reports/rendered-artifacts.json"), "utf8"));
+const findings = JSON.parse(fs.readFileSync(path.join(outputDir, "build-findings.json"), "utf8"));
 const instructions = fs.readFileSync(path.join(outputDir, "participant-instructions.md"), "utf8");
 
 const packetSet = packetSets.packetSets.find((row) => row.packetSetId === familyId);
@@ -74,5 +75,11 @@ assert.ok(
   instructions.includes("LegalEase does not calculate whether the limitations period has run; the BCI certificate is the answer."),
   `${familyId}: instructions omit the limitations-specific closing`
 );
+
+const findingsText = JSON.stringify(findings);
+assert.ok(findingsText.includes("sworn declaration on packet page 2"),
+  `${familyId}: build findings do not identify the declaration's current packet page`);
+assert.equal(findingsText.includes("sworn declaration on packet page 18"), false,
+  `${familyId}: build findings retain the pre-reorder declaration page`);
 
 console.log(`${familyId}: manifest order and eight registry stop conditions OK`);
