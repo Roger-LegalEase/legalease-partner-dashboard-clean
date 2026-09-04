@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-CA-PROP64-IN-INFRACTION-IL-CANNABIS",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-CLOUD-INDEPENDENT-READER",
+  "baseSha": "018cd558455454ca44e7deac8efa7b0e881375d3",
+  "claimsReissued": 0,
+  "claimHandling": "This was an expressly commissioned current-byte reread without claim reissue; no claim was asserted, reissued, modified, or released.",
+  "independence": "The reader built or repaired none of these three families and modified no packet, source, raster, queue, route, legal, Production, or consolidated-verdict bytes.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "FAIL_REPAIR_REQUIRED": 2,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "STOPPED": 0
+  },
+  "rows": [
+    {
+      "itemId": "ca-prop64-set",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill",
+      "currentBytePins": {
+        "sourceReceipt": {"sha256": "20b7cd66d4285888110cd0b9211cf7ccdefef4ecb2a5b45dc376218c5464fea0", "byteLength": 6034},
+        "fieldMap": {"sha256": "31ba1474b9dc637f40b040c99447e01204fc53e189d2e0837177d91339370731", "byteLength": 170946},
+        "participantInstructions": {"sha256": "f24b5f4d6c79d445d7692e84866d6ba4cdbbb343789e51a1c5d5b2ea1df3c5c5", "byteLength": 14274},
+        "actualWrites": {"sha256": "4478d51362b720d6043d50906d2b5add88209fa689be2ea37c3093513af7ec30", "byteLength": 170785},
+        "renderedArtifacts": {"sha256": "6019c67e2fb1ae9b2de18bc2c18d3d543f9335d0505e1e393e056108d887f0c2", "byteLength": 34588}
+      },
+      "sourceBinding": {
+        "allSourcesRehashed": true,
+        "sources": [
+          {"formNumber": "CR-400", "sha256": "d325bb75f5a90b7864eab8fa43a905db7f2a9c233bb89fe412f609dee9ab35a1", "byteLength": 82246, "match": true},
+          {"formNumber": "CR-401", "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01", "byteLength": 80276, "match": true},
+          {"formNumber": "CR-403", "sha256": "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff", "byteLength": 102018, "match": true}
+        ]
+      },
+      "artifacts": [
+        {"fixture": "completed-sentence canonical CR-400", "sha256": "87f93a9b4273a1af89de31a7576ae0e4aae86e42361bfacfae042574695885d4", "pageCount": 1},
+        {"fixture": "currently-serving canonical CR-400", "sha256": "7369e11b1d4ffd7caf7d2a0b9ed981f738c109b94194652fafe0df6ad120cc84", "pageCount": 1},
+        {"fixture": "completed-sentence boundary CR-400", "sha256": "53b07cf75b2fee362fcfa07a9f080d86dc04ae4adb705fe4039078508884ac4a", "pageCount": 1},
+        {"fixture": "currently-serving boundary CR-400", "sha256": "ac3f310b0bdfe8244965e31f1953a90df70e39e264ac9cdc81f384b9906b2290", "pageCount": 1},
+        {"sharedOfficialCompanions": ["CR-401", "CR-403"], "sha256": ["394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01", "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff"], "copiesAcrossFixtures": 8}
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "jobId": "100953975731",
+        "artifactId": "9928691151",
+        "artifactZipSha256": "5a8dc1a6668a9af723fbed058bd59a378ca79119e983cc2b9b2fac01b742bfbd",
+        "documentsMeasured": 12,
+        "pagesMeasured": 16,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true,
+        "boundToCurrentBytes": true
+      },
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The completed-sentence application and currently-serving petition remain distinct and each CR-400 carries only its exact two route elections."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "CR-400, CR-401, and CR-403 were independently rehashed from held bytes and match the current receipt by digest and length."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Each route ships CR-400, CR-401, and CR-403 in canonical and boundary fixtures; the raster receipt covers all 12 documents."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "Focused completeness reports 3/148 written and zero missing facts; canonical and boundary names, email, county, and case identifiers remain visible."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "Every participant, offence-election, signature, service, and court-owned blank is classified and surfaced without a write."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "Only the two controls determined by each exact route are selected; every offence and participant election remains unmarked with explicit guidance."},
+        "PROTECTED_REGIONS": {"measured": true, "result": "PASS", "finding": "No signature, service, court, attorney-only, or order field is written; protectedWrites is zero."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Fresh review of every unique canonical page and both boundary CR-400 pages found no clipping or overlap, including the long boundary name and email; current full-family raster reports zero problems."},
+        "OUTPUT_BYTE_PROOF": {"measured": true, "result": "PASS", "finding": "All declared artifact hashes match current bytes and all claimed writes are proven in finalized output bytes."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Each route presents CR-400, then CR-401 proof of service, then CR-403 proposed order, matching the controlling packet manifest."},
+        "PARTICIPANT_GUIDANCE": {"measured": true, "result": "PASS", "finding": "Instructions distinguish both Prop 64 branches, explain every remaining election, and tell the participant to verify the route before signing."},
+        "FILING_AND_COPIES": {"measured": true, "result": "PASS", "finding": "Instructions identify the Superior Court in the county of conviction and the exact filing set, while directing local intake and copy questions to that clerk."},
+        "FEE": {"measured": true, "result": "PASS", "finding": "The route-specific $0 filing statement is preserved; certified-copy costs are distinguished and FW-001 is a contingent fallback rather than part of the packet."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "Instructions require service on the prosecuting agency before completing CR-401 and fail closed on unestablished method and timing."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The current owner-reclassified route keeps the recorded adverse-consequence, disputed-eligibility, opposition, and mismatched-route stops explicit and opens no commercial route."}
+      },
+      "failedProofObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": []
+    },
+    {
+      "itemId": "in_infraction_nondisclosure-set",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "currentBytePins": {
+        "sourceReceipt": {"sha256": "8ba548aaf4e325510ba5899a03d9d031df98037bb7574988b8e3003b6fc28ab6", "byteLength": 4273},
+        "fieldMap": {"sha256": "ee90b92fda5fc6b1bea1e50961fe24a54007695e8b5600cb317e251216efacd7", "byteLength": 73543},
+        "participantInstructions": {"sha256": "11ced841aaf68f1b9238b8104c6e3c98e3281826974a70c69d19a0c33ccfdcde", "byteLength": 8368},
+        "actualWrites": {"sha256": "b01ea607cbb78b6dcc511697a8425cff25b288129a310007ad6d45218f8091bf", "byteLength": 3784},
+        "renderedArtifacts": {"sha256": "f4f7fa8636212b21d75ab4a52fc02efbe126ab02b8c0cc264df140a91981d08f", "byteLength": 7096}
+      },
+      "sourceBinding": {
+        "allCommittedGroundingRecordsRehashed": true,
+        "records": [
+          {"path": "data/record-clearing/legal-design-intake/IN.memo.json", "sha256": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb", "byteLength": 176778, "match": true},
+          {"path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d", "byteLength": 3677637, "match": true},
+          {"path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json", "sha256": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c", "byteLength": 8069, "match": true}
+        ],
+        "ownerCorrectionQ7Honored": true,
+        "provenanceContradiction": "The receipt says the missing-form question was resolved and both components were authored, but its whatThisReceiptDoesNotEstablish list still says whether a statewide form exists is open and keeps the petition undrafted."
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "42561798f77784f77ff76defad21ebc6c867fbeafe1f724c9140b27937fd5a49", "byteLength": 12874, "pageCount": 4, "rehashMatch": true},
+        {"fixture": "boundary", "sha256": "4a6285024e1fa6e64604acab113d0b6f98dd2df04809fec4a75e244a36859e5a", "byteLength": 12938, "pageCount": 4, "rehashMatch": true}
+      ],
+      "rasterEvidence": {"verdict": "RASTER_PASS", "workflowRunId": "33850403312", "jobId": "100953975734", "artifactId": "9928515811", "artifactZipSha256": "141a2fb90ad012c5d0bc20ecd8b833008cf6d705858e993990da8619a99464a9", "documentsMeasured": 2, "pagesMeasured": 8, "problemsFound": 0, "coversTheWholeFamily": true, "boundToCurrentBytes": true},
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The stage-1 court-record check precedes the conditional stage-2 petition and both exact route keys remain bound."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "FAIL", "finding": "All three committed grounding records rehash exactly, but the current source receipt is internally stale: it both records the missing-form question resolved and the petition built, and says the same open question keeps it undrafted."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Owner correction Q7 is honored: both the process-guidance and required primary-filing components are present in each four-page packet."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "Both participant-name writes are proven in each finalized fixture; focused completeness reports 2/19 written and zero missing facts."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All 13 required participant/clerk facts are individually disclosed with why and what to supply, including the MC number, court-record answer, timing, verification, and service facts."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "No participant branch is guessed: stage 1 determines whether anything must be filed, and the disposition drives the timing branch."},
+        "PROTECTED_REGIONS": {"measured": true, "result": "PASS", "finding": "All participant, clerk, service, signature, verification, and court-owned regions remain blank; protectedWrites is zero."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Current admitted full-family raster measured all eight pages with zero problems; focused visual counter is zero."},
+        "OUTPUT_BYTE_PROOF": {"measured": true, "result": "PASS", "finding": "Both artifact hashes and lengths independently match the current rendered-artifact record, and both claimed writes are read back from output bytes."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "The two-page stage-1 check is followed by the two-page conditional verified petition in both fixtures."},
+        "PARTICIPANT_GUIDANCE": {"measured": true, "result": "FAIL", "finding": "The participant-facing assertion that Indiana publishes no statewide form is broader than the receipt/dependency evidence, which expressly says live confirmation at the official forms index remains outstanding after a refused fetch. The source receipt simultaneously says the question remains unresolved."},
+        "FILING_AND_COPIES": {"measured": true, "result": "PASS", "finding": "Venue, clerk contact, conditional filing, caption/MC handling, and local filing requirements are stated without guessing county practice."},
+        "FEE": {"measured": true, "result": "PASS", "finding": "The controlling legal-design records and petition state no filing fee; no unsupported amount is introduced."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "Service on the prosecuting attorney and the thirty-day opposition period are explicit; service details are completed only afterward."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Opposition, hearing, premature filing, and unclear county MC practice all trigger explicit stops."}
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY", "PARTICIPANT_GUIDANCE"],
+      "failedObligationNames": ["SOURCE_IDENTITY", "PARTICIPANT_GUIDANCE"],
+      "unmeasuredObligations": []
+    },
+    {
+      "itemId": "il-cannabis-vacate-set",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill",
+      "currentBytePins": {
+        "sourceReceipt": {"sha256": "80d88597d288162943791be11e9de6075476d89bc0ee3b90bf389913158b3964", "byteLength": 3030},
+        "fieldMap": {"sha256": "815515295477a4980ef9535791033dcd521cb73890cf8ff007f693034acd8355", "byteLength": 223965},
+        "participantInstructions": {"sha256": "daf52296a3006b65dd3543096360b99aaf6a2d547724227bc27810e5f66dc729", "byteLength": 20878},
+        "actualWrites": {"sha256": "90c20104edcc3e75e3e94dd9a504c9048e4a1316a8b94a90844475980bf3b3b6", "byteLength": 24592},
+        "renderedArtifacts": {"sha256": "3264c08f06a605100febd168b73e261602212e9a1cb8a07e69a28c845cd1be24", "byteLength": 2678}
+      },
+      "sourceBinding": {
+        "receiptSourceCount": 6,
+        "receiptAllSourcesExact": true,
+        "independentCurrentByteRehash": "BLOCKED_ENVIRONMENT",
+        "blocker": "The only located held Illinois source path is cloud-backed and timed out on read; with disk critically constrained, no duplicate source corpus was staged. Exact receipt digests remain pinned but were not independently recomputed in this reread."
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "193f946a37e357f34e4453c30efaa00913026e972b7f02c1da2c620ac86544de", "byteLength": 1904312, "pageCount": 11, "rehashMatch": true},
+        {"fixture": "boundary", "sha256": "3782c17a6e8a069cb6d666cf92c885d646558e7235333929db1fa212edf41055", "byteLength": 1905045, "pageCount": 11, "rehashMatch": true}
+      ],
+      "rasterEvidence": {"verdict": "RASTER_PASS", "workflowRunId": "33844904078", "jobId": "100935414046", "artifactId": "9926421145", "artifactZipSha256": "cfc2a38e566904b9987a72f2a7bd86b7e06bfcc27d5f75d24f4390ad20a75d8a", "documentsMeasured": 2, "pagesMeasured": 22, "problemsFound": 0, "coversTheWholeFamily": true, "boundToCurrentBytes": true},
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The packet and instructions identify only the eligible Illinois misdemeanor/Class 4 cannabis conviction vacatur-and-expungement route."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "FAIL", "finding": "The receipt pins six exact official-form sources, but the current held files could not be independently read and rehashed in this environment; source identity is therefore not independently established."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "All six declared components are included: motion, cannabis continuation, official instructions, notice, notice continuation, and proposed order."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "Focused completeness reports 62/422 writes and zero missing required facts; every claimed write is present in finalized bytes."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "FAIL", "finding": "The controlling manifest requires the Illinois State Police Access and Review transcript, a case-number compare-and-correct step, and the ISP $60 order-processing disclosure. Current instructions substitute a generic certified disposition and omit those exact actions and cost."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "Eligibility/classification and case facts remain participant-supplied, and continuation use is explicitly conditional."},
+        "PROTECTED_REGIONS": {"measured": true, "result": "PASS", "finding": "Court, clerk, hearing, service, signature, date, and proposed-order fields remain blank; protectedWrites is zero."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "The admitted current-byte raster covers all 22 canonical/boundary pages and reports zero problems; focused visualDefects is zero."},
+        "OUTPUT_BYTE_PROOF": {"measured": true, "result": "PASS", "finding": "Both assembled PDFs independently match their rendered-artifact hashes and lengths; actual-writes evidence is byte-derived."},
+        "PAGE_ORDER": {"measured": true, "result": "FAIL", "finding": "The rendered packet is alphabetic (Additional Cannabis, Additional Notice, Getting Started, Motion, Notice, Order), not controlling manifest order 1-6 (Motion, Additional Cannabis, Getting Started, Notice, Additional Notice, Order)."},
+        "PARTICIPANT_GUIDANCE": {"measured": true, "result": "FAIL", "finding": "The instructions omit the exact ISP transcript/compare-and-correct steps and present the packet in a sequence that puts continuations before the filing they continue."},
+        "FILING_AND_COPIES": {"measured": true, "result": "PASS", "finding": "The circuit court in the county of conviction, filing set, and clerk confirmation for current local method and copies are explicit."},
+        "FEE": {"measured": true, "result": "FAIL", "finding": "County filing fee/waiver uncertainty is stated, but the controlling manifest's exact $60 Illinois State Police court-order processing cost is omitted."},
+        "SERVICE": {"measured": true, "result": "FAIL", "finding": "The controlling manifest states clerk service under section 5.2(i)(3), while current instructions merely tell the participant to confirm notice recipients with the clerk and do not surface that service model."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Nonmatching route, incomplete sentence, conflicting records, State's Attorney opposition, contested hearing, and collateral consequences all trigger explicit stops."}
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY", "REQUIRED_BEFORE_FILING", "PAGE_ORDER", "PARTICIPANT_GUIDANCE", "FEE", "SERVICE"],
+      "failedObligationNames": ["SOURCE_IDENTITY", "REQUIRED_BEFORE_FILING", "PAGE_ORDER", "PARTICIPANT_GUIDANCE", "FEE", "SERVICE"],
+      "unmeasuredObligations": []
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "sharedGeneratedStateModified": 0,
+  "claimsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
