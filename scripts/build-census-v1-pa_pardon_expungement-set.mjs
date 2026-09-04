@@ -533,11 +533,17 @@ function composedBody(config, facts, resolved) {
   L.push("");
   L.push("If the automatic route has already cleared the record, there is nothing here to file. A packet that only ever told you to file would be telling you to do work you may not need to do, and to pay for it.", "");
   L.push("HOW TO FIND OUT WHICH ONE YOU ARE IN", "");
+  L.push("First obtain a copy of the pardon from the Pennsylvania Board of Pardons. LegalEase does not collect, inspect or authenticate it. Confirm from that copy whether the pardon is unconditional or conditional; if the document and your answer disagree, correct the packet before proceeding.", "");
+  L.push("For an unconditional pardon, the Board of Pardons transmits eligible records to AOPC quarterly, AOPC sends the record to the court of common pleas, and the court orders expungement after confirming the criteria. Record the date you checked whether that quarterly process cleared your record:", "");
+  L.push("Quarterly verification date: ____________________", "");
   L.push("Ask the Clerk of Courts for the county in the caption above what the docket now shows for this case. The petition in this packet also has a box for attaching your Pennsylvania State Police criminal history, and that history is the document that shows what is still on the record. If the record is already clear, stop; if it is not, file the petition.", "");
-  L.push("This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from, and an unsourced criterion in a filing instruction is worse than none.", "");
   L.push("IF YOU DO FILE", "");
   L.push("File the petition with the Clerk of Courts. The order in this packet is tendered WITH the petition -- it is the order the judge signs, not a document you fill in or sign. The platform has written only the style of the case into it. Do not sign the order.", "");
   L.push("The petition asks for a great deal the platform does not hold: the presiding official who heard the case and their court address, the affiant on the complaint and theirs, the Offense Tracking Number, and every charge row with its title, section, subsection, description, counts, grade and disposition. All of it is listed in this packet's participant instructions, by the words printed beside each blank.", "");
+  L.push("STOP AND GET HELP", "");
+  L.push("- The participant has not yet obtained a pardon. If that is you, the pardon application itself is outside this packet and requires a referral.");
+  L.push("- You cannot determine from the pardon document whether it is conditional or unconditional.");
+  L.push("- The record still appears after the quarterly cycle and it is unclear whether the fallback Rule 790 petition is available.", "");
   L.push("WHAT THIS PACKET IS NOT", "");
   L.push("This is a prepared petition, a tendered official order and this guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.", "");
   L.push(`Route carried by this page: ${config.guidanceRouteKey}`);
@@ -746,13 +752,38 @@ function builderCounters(maps, actualWrites, instructionsText) {
   return { counters, findings, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
 }
 
-function requiredBeforeFilingItems(maps) {
+function requiredBeforeFilingItems(maps, config) {
   const order = Object.fromEntries([...ORDER_OF_DOCUMENTS, "process_guidance"].map((f, i) => [f, i]));
-  return maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.requiredBeforeFiling === true).map((r) => ({
+  const widgetItems = maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.requiredBeforeFiling === true).map((r) => ({
     document: m.formNumber, field: r.field, page: r.page, y: r.rect?.y ?? null,
     printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
     identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
-  })))
+  })));
+  const guidanceItems = config ? [
+    {
+      document: "process_guidance", field: "process_guidance.pardon_copy", page: 1, y: null,
+      printedContext: "First obtain a copy of the pardon", disclosureLabel: "Copy of the pardon",
+      identity: "process_guidance action pardon_copy",
+      why: "the held packet manifest requires the pardon document before this route is selected",
+      participantMustSupply: "obtain a copy of the pardon from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it"
+    },
+    {
+      document: "process_guidance", field: "process_guidance.pardon_type_confirmation", page: 1, y: null,
+      printedContext: "Confirm from that copy whether the pardon is unconditional or conditional",
+      disclosureLabel: "Pardon type confirmation",
+      identity: "process_guidance action pardon_type_confirmation",
+      why: "the held route sends conditional and unconditional pardons to different relief",
+      participantMustSupply: "compare the pardon document with your answer about whether it is unconditional or conditional, and correct the packet if they disagree"
+    },
+    {
+      document: "process_guidance", field: "process_guidance.quarterly_verification_date", page: 1, y: null,
+      printedContext: "Quarterly verification date", disclosureLabel: "Quarterly verification date",
+      identity: "process_guidance action quarterly_verification_date",
+      why: "the held packet manifest requires the participant to record when they checked whether the automatic quarterly route cleared the record",
+      participantMustSupply: "record the date you checked whether the Board-to-AOPC-to-court quarterly process cleared your record"
+    }
+  ] : [];
+  return [...widgetItems, ...guidanceItems]
     .sort((a, b) => ((order[a.document] ?? 99) - (order[b.document] ?? 99)) || (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
 }
 
@@ -774,11 +805,14 @@ function instructionsMarkdown(config, resolved, rbf) {
   for (const r of resolved) out.push(`| \`${FORMS[r.formNumber].component}\` | **${r.formNumber}** — ${FORMS[r.formNumber].title} |`);
   out.push("| `process_guidance` | the page that tells you which of the two routes you are in, and what to expect if you file |", "");
   out.push("## What you must do", "");
-  out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
-  out.push("2. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.");
-  out.push("3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
-  out.push("4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.");
-  out.push("5. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.", "");
+  out.push("1. **Obtain a copy of the pardon** from the Pennsylvania Board of Pardons. LegalEase does not collect, inspect or authenticate it.");
+  out.push("2. **Confirm from that copy whether the pardon is unconditional or conditional.** If the document and your answer disagree, correct the packet before proceeding.");
+  out.push("3. **Record the quarterly verification date** when you check whether the automatic Board-to-AOPC-to-court process cleared your record: ____________________.");
+  out.push("4. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
+  out.push("5. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.");
+  out.push("6. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.");
+  out.push("7. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.");
+  out.push("8. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.", "");
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${FORMS[doc]?.title ?? doc}`, "");
@@ -790,6 +824,10 @@ function instructionsMarkdown(config, resolved, rbf) {
   out.push("- **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.");
   out.push("- **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.");
   out.push("- **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.", "");
+  out.push("## Stop and get help", "");
+  out.push("- The participant has not yet obtained a pardon. If that is you, the pardon application itself is outside this packet and requires a referral.");
+  out.push("- You cannot determine from the pardon document whether it is conditional or unconditional.");
+  out.push("- The record still appears after the quarterly cycle and it is unclear whether the fallback Rule 790 petition is available.", "");
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Pennsylvania forms — the statewide Pa.R.Crim.P. 790 petition and blank expungement order — and a process-guidance page. It is not legal advice, it is not filed for you, and it does not decide whether the court will order expungement.", "");
   out.push(`_Route carried by the petition in this packet: ${config.routeKey}_`);
@@ -1017,7 +1055,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
   }
 
-  const rbf = requiredBeforeFilingItems(maps);
+  const rbf = requiredBeforeFilingItems(maps, config);
   const instructions = instructionsMarkdown(config, resolved, rbf);
   const audit = builderCounters(maps, {
     artifacts: writeProofs.map((p) => ({
@@ -1046,8 +1084,39 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   };
 }
 
+export function assertPaPardonParticipantRepairContract() {
+  const config = FAMILY_CONFIGS["pa_pardon_expungement-set"];
+  const guidance = composedBody(config, FIXTURES.canonical, []);
+  const instructions = instructionsMarkdown(config, [], []);
+  const requiredActions = requiredBeforeFilingItems([], config);
+  const requiredInBoth = [
+    "obtain a copy of the pardon",
+    "confirm from that copy whether the pardon is unconditional or conditional",
+    "quarterly verification date",
+    "has not yet obtained a pardon",
+    "cannot determine from the pardon document whether it is conditional or unconditional",
+    "still appears after the quarterly cycle"
+  ];
+  for (const phrase of requiredInBoth) {
+    assert.ok(guidance.toLowerCase().includes(phrase), `process guidance omits: ${phrase}`);
+    assert.ok(instructions.toLowerCase().includes(phrase), `participant instructions omit: ${phrase}`);
+  }
+  assert.doesNotMatch(guidance, /states no timetable/i,
+    "process guidance must not deny the held quarterly timetable");
+  assert.deepEqual(requiredActions.map((row) => row.field), [
+    "process_guidance.pardon_copy",
+    "process_guidance.pardon_type_confirmation",
+    "process_guidance.quarterly_verification_date"
+  ], "the production field map must carry the three non-widget required actions");
+  console.log("PA_PARDON_PARTICIPANT_REPAIR_CONTRACT_OK");
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
-  runFamilyById("pa_pardon_expungement-set")
-    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
-    .catch((e) => { console.error(e); process.exit(1); });
+  if (process.argv.includes("--self-test")) {
+    assertPaPardonParticipantRepairContract();
+  } else {
+    runFamilyById("pa_pardon_expungement-set")
+      .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+      .catch((e) => { console.error(e); process.exit(1); });
+  }
 }
