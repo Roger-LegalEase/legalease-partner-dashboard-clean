@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "FROZEN-REGISTRY-INDEPENDENT-VERIFICATION-CT-DECRIMINALIZED",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-LEGAL-PURGE-W1",
+  "baseSha": "2753847a4d6b718a4a60e031619244d68c143883",
+  "claimsReissued": 0,
+  "claimHandling": "This file persists the already-completed post-repin reread; no released claim was reissued.",
+  "independence": "The worker did not build or repair the packet or raster artifacts. It proved the relevant frozen-registry track unchanged, re-pinned only the source receipt, then reread the exact unchanged packet bytes.",
+  "verdictSummary": {"PASS_COMPLETE_INDEPENDENT": 1, "PASS": 0, "FAIL_REPAIR_REQUIRED": 0, "BLOCKED_SOURCE": 0, "BLOCKED_LEGAL_INPUT": 0, "BLOCKED_BEFORE_CLAIM": 0, "STOPPED": 0},
+  "rows": [
+    {
+      "itemId": "ct-decriminalized-set",
+      "lane": "FROZEN-REGISTRY-INDEPENDENT-VERIFICATION-CT-DECRIMINALIZED",
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading",
+      "sourceBinding": {"registrySha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4", "registryByteLength": 16586143, "relevantTrack": "ct-decriminalized", "relevantTrackSemantics": "IDENTICAL_TO_PRE_REGISTRY_REWRITE", "allCommittedRecordsRehashed": true},
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955", "byteLength": 10500, "pageCount": 4},
+        {"fixture": "boundary", "sha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73", "byteLength": 10688, "pageCount": 4}
+      ],
+      "rasterEvidence": {"verdict": "RASTER_PASS", "workflowRunId": "33605354695", "jobId": "100168605569", "artifactId": 9836931409, "boundToCanonicalSha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955", "coversTheWholeFamily": true},
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The exact Connecticut decriminalized-offense route and statutory mechanism are present."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Every committed source rehashes to its receipt; the frozen registry pin is exact."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both required route components are present in each manifest."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All six declared writes are present in both fixtures."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All four required-before-filing items are disclosed."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The single route remains distinct from neighboring Connecticut remedies."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "No incomplete repeating row was found."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "No refused or participant-owned protected field carries ink."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDFs match their exact recorded hashes, lengths and four-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests are contiguous and preserve component order."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "The whole-family raster receipt remains bound to unchanged bytes and records zero defects."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The track's Superior Court destination is stated."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The recorded fee and waiver guidance is preserved."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The packet states the track's service and notice guidance."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The route's self-help stopping conditions are stated."}
+      },
+      "failedProofObligations": [],
+      "evidenceRead": ["source receipt and all committed source bytes", "field map, writes, blanks and completeness reports", "both exact PDF artifacts", "instructions, rendered-artifacts report and product wiring"]
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
