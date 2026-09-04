@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "mi_setaside_trafficking-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "MC 227b carries a sworn Proof of Service on page 3, and the court's instruction sheet puts its completion after required copies are mailed to Michigan State Police, the Attorney General, and the prosecuting official.",
+      "consequence": "Its selections, dates, and signature are left blank because completing proof before service would be false."
+    },
+    {
+      "finding": "The conviction table asks for the crime, the charge code, the date of conviction and the case number, and instruction 4 says to get the exact date and charge FROM THE COURT and to attach a certified copy of each.",
+      "consequence": "No cell of it is written. That record is not one the platform holds, and a line with the crime filled and the conviction date blank would read as finished while missing the fact the application turns on. All sixteen cells are declared and disclosed."
+    },
+    {
+      "finding": "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" — three facts in one free-text box. The platform holds all three separately and the shared semantic registry has no composed fact for a name-address-telephone block, so a field, which takes one fact, can bind at most one of them.",
+      "consequence": "The box is left to the participant and the reason is stated in the disclosure rather than implied. Writing only the name would put a third of an answer in the box the court reads for the applicant's contact details. The gap is a shared-registry one: a composed participant contact fact would let this box be filled, and that list is outside this family's owned paths."
+    },
+    {
+      "finding": "This family has one exclusive builder and one exact MC 227b source binary.",
+      "consequence": "The builder binds the dispatch SHA-256 as well as the committed corpus index and mounted bytes."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}

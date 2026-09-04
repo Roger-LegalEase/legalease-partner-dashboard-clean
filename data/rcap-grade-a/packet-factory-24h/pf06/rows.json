@@ -98,15 +98,15 @@
     "workerBranch": "codex/pf06-full-2927",
     "shiftBaseSha": "2927edb21a04c95a33ca9d4565cadfad270679f1",
     "familiesAssigned": 5,
-    "rowsReturned": 2,
+    "rowsReturned": 3,
     "familiesCompleted": [
-      "tx_nd_probation_misdemeanor-set"
+      "tx_nd_probation_misdemeanor-set",
+      "mi_setaside_trafficking-set"
     ],
     "familiesStopped": [
       "al-trafficking-set"
     ],
     "familiesRemaining": [
-      "mi_setaside_trafficking-set",
       "nc_145_5_felony-set",
       "ne-seal-pardoned-set"
     ],
@@ -270,6 +270,53 @@
         "data/record-clearing/legal-design-intake/AL.memo.json trackId al-trafficking controllingAuthority/components"
       ],
       "claimHeld": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "mi_setaside_trafficking-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "claim": "CLAIM_OK PF06 mi_setaside_trafficking-set (packet-build, grant set 86d98e2e16357212)",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable; family_sources_bind 2/2 exact to one four-page MC 227b binary",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361",
+          "byteLength": 378569,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9",
+          "byteLength": 378604,
+          "pageCount": 4
+        }
+      ],
+      "determinism": {
+        "proved": true,
+        "rebuildsCompared": 2,
+        "result": "canonical and boundary SHA-256 values remained identical"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claimHeld": false,
+      "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
     },
