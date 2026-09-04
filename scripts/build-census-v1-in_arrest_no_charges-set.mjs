@@ -1329,6 +1329,33 @@ async function main() {
         ],
         captionOnly: doc.captionOnly,
         documentTextLines: census.documentTextLines,
+        /*
+         * CLIPPING_AND_OVERLAP, vf06 at base 247b790b.
+         *
+         * cap-PetitionerFullName is one field name that renders into fourteen
+         * widgets of this bundle, from 161.1 to 342.2 points wide. The fit was
+         * measured once, against widgets[0], and that one measurement was
+         * applied to all fourteen: on the boundary fixture the name overran
+         * three of them and the appearance was clipped at the widget edge, so
+         * Form ACR printed "...Oyelaran y Fitzwilliam" with "III" cut off,
+         * page 7 printed "...Oyelaran y" with "Fitzwilliam III" gone, and page
+         * 9 printed "...Oyelaran y Fitzwilli". The engine's own fit rule works
+         * -- it refused cap-COUNTY and Address in this same fixture -- it was
+         * simply never run against the narrowest widget carrying the name.
+         *
+         * fitTextPerWidget measures every widget on its own rectangle, takes
+         * the field's stored value from the most constraining one, and writes
+         * each widget's own size into that widget's own /DA. Where no readable
+         * size holds the value in every widget the field is refused outright
+         * and becomes a disclosed required-before-filing blank, which is the
+         * same answer this engine already gives for a single box too small for
+         * its value.
+         *
+         * Opt-in per FAMILY. Forty-odd builders share this finalizer and a
+         * repair lane does not decide what the others produce on their next
+         * rebuild; a single-widget field measures identically either way.
+         */
+        fitTextPerWidget: true,
         title: `IN ${doc.documentId}`
       });
 
