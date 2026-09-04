@@ -44,6 +44,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| County in the Circuit Court caption | the county of conviction or juvenile adjudication, copied from the court record |
 | Item C1 - exact offense/statute | Exact offense/statute — copied from the record itself, not from memory |
 | Item C2 - conviction/adjudication | Conviction/adjudication — copied from the record itself, not from memory |
 | Item C3 - trafficking period | Trafficking period — copied from the record itself, not from memory |

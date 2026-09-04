@@ -4,23 +4,13 @@
   "requiredBeforeFiling": [
     {
       "document": "wa_vac_post_probation_9_95_240-primary-filing-1",
-      "field": "wa_vac_post_probation_9_95_240-primary-filing-1.fact_applicantName",
+      "field": "wa_vac_post_probation_9_95_240-primary-filing-1.fact_otherName",
       "page": 1,
-      "printedContext": "Item C1 - applicant name",
-      "disclosureLabel": "Item C1 - applicant name",
-      "identity": "wa_vac_post_probation_9_95_240-primary-filing-1 field fact_applicantName",
-      "why": "the committed track registry records this as a required generation input for wa_vac_post_probation_9_95_240, and the platform holds no value for it",
-      "participantMustSupply": "What is your full legal name, and any other name the case was filed under?"
-    },
-    {
-      "document": "wa_vac_post_probation_9_95_240-primary-filing-1",
-      "field": "wa_vac_post_probation_9_95_240-primary-filing-1.fact_dateOfBirth",
-      "page": 1,
-      "printedContext": "Item C2 - date of birth",
-      "disclosureLabel": "Item C2 - date of birth",
-      "identity": "wa_vac_post_probation_9_95_240-primary-filing-1 field fact_dateOfBirth",
-      "why": "the committed track registry records this as a required generation input for wa_vac_post_probation_9_95_240, and the platform holds no value for it",
-      "participantMustSupply": "What is your date of birth?"
+      "printedContext": "Item C1 - any other name the case was filed under",
+      "disclosureLabel": "Item C1 - any other name the case was filed under",
+      "identity": "wa_vac_post_probation_9_95_240-primary-filing-1 field fact_otherName",
+      "why": "the platform holds the current legal name but has not seen the case record and cannot know whether it used another name",
+      "participantMustSupply": "any other name the case was filed under, or write none if there is no other name"
     },
     {
       "document": "wa_vac_post_probation_9_95_240-primary-filing-1",
@@ -133,24 +123,34 @@
       "participantMustSupply": "Did the case end in a guilty plea, or in a verdict after a not guilty plea?"
     },
     {
-      "document": "wa_del_nonconviction-primary-filing-1",
-      "field": "wa_del_nonconviction-primary-filing-1.fact_applicantName",
+      "document": "wa_vac_post_probation_9_95_240-primary-filing-1",
+      "field": "wa_vac_post_probation_9_95_240-primary-filing-1.case_number",
       "page": 1,
-      "printedContext": "Item C1 - applicant name",
-      "disclosureLabel": "Item C1 - applicant name",
-      "identity": "wa_del_nonconviction-primary-filing-1 field fact_applicantName",
-      "why": "the committed track registry records this as a required generation input for wa_del_nonconviction, and the platform holds no value for it",
-      "participantMustSupply": "What is your full legal name, and any other name the case may have been under?"
+      "printedContext": "Cause number from the existing sentencing case",
+      "disclosureLabel": "Cause number from the existing sentencing case",
+      "identity": "wa_vac_post_probation_9_95_240-primary-filing-1 field case_number",
+      "why": "this motion is filed in the existing sentencing case and the committed track requires its cause number",
+      "participantMustSupply": "the cause number copied from the existing sentencing-court docket"
+    },
+    {
+      "document": "wa_vac_post_probation_9_95_240-proposed-order-2",
+      "field": "wa_vac_post_probation_9_95_240-proposed-order-2.order_case_number",
+      "page": 1,
+      "printedContext": "Cause number from the existing sentencing case in the proposed-order caption",
+      "disclosureLabel": "Cause number from the existing sentencing case in the proposed-order caption",
+      "identity": "wa_vac_post_probation_9_95_240-proposed-order-2 field order_case_number",
+      "why": "the proposed order travels with the motion in the existing sentencing case",
+      "participantMustSupply": "the same cause number copied from the existing sentencing-court docket and written on the motion"
     },
     {
       "document": "wa_del_nonconviction-primary-filing-1",
-      "field": "wa_del_nonconviction-primary-filing-1.fact_dateOfBirth",
+      "field": "wa_del_nonconviction-primary-filing-1.fact_otherName",
       "page": 1,
-      "printedContext": "Item C2 - date of birth",
-      "disclosureLabel": "Item C2 - date of birth",
-      "identity": "wa_del_nonconviction-primary-filing-1 field fact_dateOfBirth",
-      "why": "the committed track registry records this as a required generation input for wa_del_nonconviction, and the platform holds no value for it",
-      "participantMustSupply": "What is your date of birth?"
+      "printedContext": "Item C1 - any other name the case may have been under",
+      "disclosureLabel": "Item C1 - any other name the case may have been under",
+      "identity": "wa_del_nonconviction-primary-filing-1 field fact_otherName",
+      "why": "the platform holds the current legal name but has not seen the case record and cannot know whether it used another name",
+      "participantMustSupply": "any other name the case may have been under, or write none if there is no other name"
     },
     {
       "document": "wa_del_nonconviction-primary-filing-1",
@@ -216,13 +216,6 @@
   "protectedBlanks": [
     {
       "document": "wa_vac_post_probation_9_95_240-primary-filing-1",
-      "field": "wa_vac_post_probation_9_95_240-primary-filing-1.case_number",
-      "label": "Case number of this filing, if the court assigns one at filing",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
-      "why": "if a number is assigned, the court assigns it at filing"
-    },
-    {
-      "document": "wa_vac_post_probation_9_95_240-primary-filing-1",
       "field": "wa_vac_post_probation_9_95_240-primary-filing-1.petition_signature",
       "label": "Signature of the person named in the caption, on the petition",
       "refusalClass": "signature_or_date_participant_completion",
@@ -234,13 +227,6 @@
       "label": "Date beside the signature on the petition",
       "refusalClass": "signature_or_date_participant_completion",
       "why": "a date written before the document is signed would be false"
-    },
-    {
-      "document": "wa_vac_post_probation_9_95_240-proposed-order-2",
-      "field": "wa_vac_post_probation_9_95_240-proposed-order-2.order_case_number",
-      "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
-      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
-      "why": "the proposed order is filed with the petition, before any number exists"
     },
     {
       "document": "wa_vac_post_probation_9_95_240-proposed-order-2",

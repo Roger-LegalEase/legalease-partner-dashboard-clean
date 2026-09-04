@@ -85,15 +85,14 @@
  *                       identified well enough to actually reach, and the same
  *                       office the petition is sent to.
  *
- * WHAT THIS BUILD WRITES, AND THE ONE PLACE IT SPLITS A FACT
+ * WHAT THIS BUILD WRITES, AND WHAT IT REFUSES TO SPLIT
  *
- * The platform holds the participant's name, date of birth, mailing address and
- * telephone number, and writes those four. The form asks for the address SPLIT
- * across Mailing Address, City, State and Zip, and the platform holds it as one
- * line. The one line is written into Mailing Address, which is what it is, and
- * City, State and Zip are left as declared blanks the participant completes
- * from the same address. That is recorded here because it is a deliberate
- * choice between two imperfect options, not an oversight.
+ * The platform holds one full legal-name string, date of birth, one-line
+ * mailing address and telephone number. It writes only date of birth and
+ * telephone number. The form asks for the name in three separately captioned
+ * Last, First and Middle blanks, and for the address in four parts. This build
+ * does not guess either split; both are declared required-before-filing items
+ * that the participant copies from their own information.
  *
  * WHAT IT DELIBERATELY DOES NOT WRITE. Race, ethnicity and gender are printed
  * on this form. The platform does not collect race or ethnicity, and does not
@@ -251,13 +250,14 @@ const FIELDS = {
     caption: "Print:", captionAt: { page: 1, y: 534 },
     label: "Printed name of the petitioner - last, first and middle",
     writeBox: { x: 56, y: 529, width: 350, height: 13 },
-    ...WRITE("participant.full_legal_name")
+    ...SUPPLY("your last name in the Last Name blank, first name in the First Name blank, and middle name in the Middle Name blank",
+      "the platform holds one full legal-name string and this form asks for three separately captioned name parts; splitting a person's name by position would invent which words belong to which part")
   },
   date_of_birth: {
     section: S.IDENTITY, page: 1,
     caption: "Date of Birth:", captionAt: { page: 1, y: 534 },
     label: "Date of Birth of the petitioner",
-    writeBox: { x: 474, y: 529, width: 110, height: 13 },
+    writeBox: { x: 474, y: 534, width: 110, height: 10 },
     ...WRITE("participant.date_of_birth")
   },
   alias_name: {
@@ -319,7 +319,7 @@ const FIELDS = {
     section: S.IDENTITY, page: 1,
     caption: "Phone #", captionAt: { page: 1, y: 471 },
     label: "Phone number of the petitioner",
-    writeBox: { x: 436, y: 466, width: 148, height: 13 },
+    writeBox: { x: 436, y: 471, width: 148, height: 10 },
     ...WRITE("participant.phone")
   },
   fathers_name: {
@@ -435,7 +435,7 @@ const INSTRUCTIONS = {
     "",
     "**You send this to one office, and then you wait.** The Commissioner of Probation certifies eligibility under §§ 100I and 100J, and only then does the matter reach a judge with the district attorney on notice. Your part is the one petition.",
     "",
-    "The platform filled in the three facts it holds about you in the shape this form asks for them: your printed name, your date of birth and your phone number. Everything else on the form is a blank listed below.",
+    "The platform filled in your date of birth and phone number. It holds your full legal name as one string, but this form asks separately for Last Name, First Name and Middle Name. The packet does not guess that split: write each name part in its own printed blank as listed below.",
     "",
     "**Your address is not filled in, and that is deliberate.** This form splits it across four blanks — Mailing Address, City, State and Zip. The platform holds your address as a single line, and guessing where the street ends and the city begins would invent structure it does not have. You copy the four parts from the address you already have.",
     "",
@@ -444,7 +444,7 @@ const INSTRUCTIONS = {
     "**The form asks your race, your ethnicity and your gender. The platform left all three blank on purpose** — it does not collect race or ethnicity and does not hold a gender, and it will not guess. You fill them in yourself, or leave them, as you choose. The Social Security number is blank for the same kind of reason: the platform does not hold it and would not print it onto a form if it did."
   ],
   componentBlurbs: {
-    [PRIMARY]: "the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your name, date of birth and phone written in and every other blank left for you",
+    [PRIMARY]: "the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your date of birth and phone written in and every other blank, including the separately labelled name parts, left for you",
     [GUIDANCE]: "what happens after you send it, what is known about cost, and where self-help stops"
   },
   documentsLines: [
@@ -454,7 +454,7 @@ const INSTRUCTIONS = {
   stepsLines: [
     "1. **Get your own CORI from DCJIS** before you fill anything in. It is how you check the docket number, which section box applies, and whether your record holds not more than two convictions or two non-conviction records.",
     "2. **Mark one of the three boxes** — § 100F, § 100G or § 100H — from what your record shows.",
-    "3. **Fill in every remaining blank**: alias or maiden name, the four parts of your address, occupation, Social Security number, father's name, mother's maiden name, spouse's name, and race, ethnicity and gender if you choose to state them.",
+    "3. **Fill in every remaining blank**: your last, first and middle names in their separately labelled blanks; alias or maiden name; the four parts of your address; occupation; Social Security number; father's name; mother's maiden name; spouse's name; and race, ethnicity and gender if you choose to state them.",
     "4. **Read the fourteen statements above the signature line.** Signing means every one of them is true of the offence you are asking to expunge — including that you were under 21 when it was committed, that you have no additional offences other than minor motor vehicle violations anywhere, and that you are not currently the subject of an active criminal investigation.",
     "5. **Sign and date it**, under penalties of perjury.",
     "6. **Mail it to the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108.** That address is printed on the form itself, twice.",
@@ -467,6 +467,7 @@ const INSTRUCTIONS = {
     "- **Race, ethnicity and gender.** Deliberately blank: the platform does not collect race or ethnicity and does not hold a gender.",
     "- **Your Social Security number.** The platform does not hold it and would not print it.",
     "- **The whole address — street, city, state and zip.** The platform holds it as one line and this form wants four parts. It does not guess where one ends and the next begins, and the long-address fixture confirmed a one-line address does not physically fit the street blank.",
+    "- **Your last, first and middle names.** The platform holds one full legal-name string and does not guess how to divide it among three separately captioned blanks.",
     "- **Alias or maiden name, occupation, father's name, mother's maiden name and spouse's name.** The platform holds none of them."
   ],
   stopsLines: [
@@ -482,7 +483,7 @@ const INSTRUCTIONS = {
     "Where self-help stops, the office that answers is the **Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108** — the same office this petition is sent to."
   ],
   notLines: [
-    "This is the official Massachusetts Probation Service Petition to Expunge with the three facts the platform writes into it, and a page explaining what happens next. It is not legal advice, it is not sent for you, and it does not decide whether you are eligible — the Commissioner of Probation certifies that under §§ 100I and 100J.",
+    "This is the official Massachusetts Probation Service Petition to Expunge with the date of birth and phone number the platform writes into it, and a page explaining what happens next. It is not legal advice, it is not sent for you, and it does not decide whether you are eligible — the Commissioner of Probation certifies that under §§ 100I and 100J.",
     "",
     "**Expungement here means permanent destruction, and that cuts both ways.** An order requires the clerk of the court where the record was created to destroy or permanently erase the trial court records, and requires criminal justice agencies to erase the record from publicly available police logs and to answer inquiries by saying that no record exists. The form warns that once the record is destroyed you cannot get a copy from the court — so if you want copies of anything you filed, or of the petition itself, **make them before the court orders expungement**."
   ]
@@ -1138,6 +1139,15 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+
+  assert.equal(FIELDS.petitioner_name.policy, "supply",
+    "an unsplit full-name fact must not be written across the form's separate last/first/middle blanks");
+  assert.match(FIELDS.petitioner_name.what, /last.*first.*middle/i,
+    "the participant instruction must identify all three printed name sub-blanks");
+  assert.ok(FIELDS.date_of_birth.writeBox.y > 531,
+    "date-of-birth ink must sit above the measured printed rule");
+  assert.ok(FIELDS.phone_number.writeBox.y > 468,
+    "telephone ink must sit above the measured printed rule");
 
   const { source, failures } = resolveSource();
   if (failures.length > 0) {
