@@ -16414,8 +16414,38 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "VF01",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975798",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "c2811db63f9e2d180e2dccc4745855f59cc5550fb63bd3147d8ca981f5df28b8",
+        "boundToBoundarySha256": "4df5090c138ae6359b6066ca70e1c4ecfdcfda52fb26d281b005a3c54eea4f96",
+        "documentsCovered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 2,
+        "pagesMeasured": 48,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "9928680345",
+          "name": "rcap-raster-tx_nd_probation_misdemeanor-set-33850403312",
+          "zipSha256": "sha256:1ef6a81622e623843174a5c7da63ef60b44b196a3141aaf7242f7dba1966d3c5",
+          "sizeInBytes": 15550790,
+          "expiresAt": "2026-09-18T08:08:36Z"
+        },
+        "receiptArtifactInspection": "Captain downloaded the artifact, matched its ZIP SHA-256 to the Actions API digest, extracted its exact verdict JSON, and validated run, commit, complete document coverage, page count, document-set digest, and every queued/local PDF hash before admission.",
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33850403312; canary artifact 9928346970 has ZIP SHA-256 sha256:9167f715023ed7055d6321f7774125257f4eeabad80278f835ebe8668e59954a.",
+        "pinVerification": "The workflow guard proved checkout commit b61e502996185ac1e23da4d0ae3f6b5b0a092a16; Captain rehashed every declared PDF from the current worktree and matched every queue and receipt pin.",
+        "admittedBy": "Captain, by fail-closed receipt ingestion that rejects stale bytes, failed jobs, and incomplete coverage"
+      }
     },
     {
       "familyId": "ut_pet_acquittal-set",
