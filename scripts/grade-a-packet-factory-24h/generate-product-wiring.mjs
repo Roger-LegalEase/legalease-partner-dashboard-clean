@@ -17,9 +17,64 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const master = read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
+
+let checkOnly = false;
+let selectedFamilyId = null;
+for (let i = 2; i < process.argv.length; i++) {
+  const arg = process.argv[i];
+  if (arg === "--check") {
+    checkOnly = true;
+    continue;
+  }
+  if (arg === "--family") {
+    if (selectedFamilyId !== null || !process.argv[i + 1] || process.argv[i + 1].startsWith("--")) {
+      console.error("usage: node generate-product-wiring.mjs [--check] [--family <familyId>]");
+      process.exit(2);
+    }
+    selectedFamilyId = process.argv[++i];
+    continue;
+  }
+  console.error(`unknown argument: ${arg}`);
+  console.error("usage: node generate-product-wiring.mjs [--check] [--family <familyId>]");
+  process.exit(2);
+}
+
+const selectedFamilies = selectedFamilyId === null
+  ? master.families
+  : master.families.filter((f) => f.familyId === selectedFamilyId);
+if (selectedFamilyId !== null && selectedFamilies.length !== 1) {
+  console.error(`family not found in MASTER_QUEUE.json: ${selectedFamilyId}`);
+  process.exit(2);
+}
+
 const rasterQueue = (() => { try { return read("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"); } catch { return { rows: [] }; } })();
 const verifierReturns = (() => { try { return read("data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json"); } catch { return { rows: [] }; } })();
-const rasterByFamily = new Map((rasterQueue.rows ?? []).map((r) => [r.familyId, r]));
+const rasterCandidatesByFamily = new Map();
+for (const r of [...(rasterQueue.historicalRasterRows ?? []), ...(rasterQueue.rows ?? [])]) {
+  if (!r.familyId) continue;
+  const candidates = rasterCandidatesByFamily.get(r.familyId) ?? [];
+  candidates.push(r);
+  rasterCandidatesByFamily.set(r.familyId, candidates);
+}
+const fileMatchesDigest = (rel, digest) => {
+  if (!rel || !/^[0-9a-f]{64}$/.test(String(digest ?? ""))) return false;
+  const abs = path.join(ROOT, rel);
+  if (!fs.existsSync(abs)) return false;
+  return crypto.createHash("sha256").update(fs.readFileSync(abs)).digest("hex") === digest;
+};
+const exactRasterFor = (familyId) => {
+  const candidates = rasterCandidatesByFamily.get(familyId) ?? [];
+  for (let i = candidates.length - 1; i >= 0; i--) {
+    const candidate = candidates[i];
+    const receipt = candidate.rasterReceipt;
+    if (!receipt || receipt.coversTheWholeFamily !== true) continue;
+    if (!fileMatchesDigest(candidate.canonicalPdfPath, receipt.boundToCanonicalSha256)) continue;
+    if (receipt.boundToBoundarySha256
+      && !fileMatchesDigest(candidate.boundaryPdfPath, receipt.boundToBoundarySha256)) continue;
+    return candidate;
+  }
+  return null;
+};
 const currentVerdict = new Map();
 for (const r of verifierReturns.rows ?? []) {
   if (!r.isIndependentVerification || !r.verdict || r.superseded) continue;
@@ -42,7 +97,7 @@ for (const r of verifierReturns.rows ?? []) {
  * binding is a description of a deliverable, not a grant to sell it.
  */
 const bindingFor = (f) => {
-  const raster = rasterByFamily.get(f.familyId) ?? null;
+  const raster = exactRasterFor(f.familyId);
   const verdict = currentVerdict.get(f.familyId) ?? null;
   const has = (rel) => fs.existsSync(path.join(ROOT, f.directory, rel));
   return {
@@ -111,7 +166,7 @@ const NON_GRANTS = [
 let written = 0, skipped = 0, refreshed = 0, bespokeBindingsPreserved = 0;
 const digestsRepinned = [];
 const digestFileMissing = [];
-for (const f of master.families) {
+for (const f of selectedFamilies) {
   const wiringPath = path.join(ROOT, f.directory, "product-wiring.json");
   const artifactsPath = path.join(ROOT, f.directory, "reports", "rendered-artifacts.json");
   /*
@@ -157,7 +212,7 @@ for (const f of master.families) {
         c.sha256 = actual;
       }
       if (JSON.stringify(existing) !== before) {
-        fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
+        if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(existing, null, 2)}\n`);
         refreshed++;
       } else skipped++;
     } catch { skipped++; }
@@ -267,14 +322,17 @@ for (const f of master.families) {
       })
     }
   };
-  fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
-  console.log(`wrote ${f.directory}/product-wiring.json (${componentGroups.length} component(s) across ${docs.length} canonical rendering(s))`);
+  if (!checkOnly) fs.writeFileSync(wiringPath, `${JSON.stringify(wiring, null, 2)}\n`);
+  console.log(`${checkOnly ? "would write" : "wrote"} ${f.directory}/product-wiring.json (${componentGroups.length} component(s) across ${docs.length} canonical rendering(s))`);
   written++;
 }
-console.log(`${written} wiring record(s) written, ${refreshed} record(s) refreshed, ${skipped} unchanged`);
+console.log(checkOnly
+  ? `${written} wiring record(s) need creation, ${refreshed} record(s) need refresh, ${skipped} unchanged`
+  : `${written} wiring record(s) written, ${refreshed} record(s) refreshed, ${skipped} unchanged`);
 if (bespokeBindingsPreserved) console.log(`  ${bespokeBindingsPreserved} bespoke installed binding(s) preserved`);
 if (digestsRepinned.length) {
   console.log(`  ${digestsRepinned.length} component digest(s) re-pinned to the bytes on disk:`);
   for (const d of digestsRepinned) console.log(`    ${d.family} ${d.file.split("/").pop()} ${d.was.slice(0, 12)} -> ${d.now.slice(0, 12)}`);
 }
 for (const m of digestFileMissing) console.log(`  MISSING component file, digest left as declared: ${m.family} ${m.file}`);
+if (checkOnly && (written > 0 || refreshed > 0)) process.exitCode = 1;
