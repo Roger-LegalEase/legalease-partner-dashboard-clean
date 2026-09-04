@@ -2727,9 +2727,14 @@ if (git(["merge-base", "--is-ancestor", MINIMUM_CAPTAIN_SHA, "HEAD"]) === null) 
 }
 if (assignments.length !== PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES) problems.push(`${assignments.length} lanes, expected ${PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES}`);
 for (const e of ELASTICITY) {
-  const have = assignments.filter((a) => e.creates.includes(a.assignmentId)).length;
-  if (e.triggered && have !== e.creates.length) problems.push(`${e.id} elasticity is triggered at ${e.measured} and only ${have} of ${e.creates.length} extra lane(s) exist`);
-  if (!e.triggered && have !== 0) problems.push(`${e.id} elasticity is not triggered and ${have} extra lane(s) exist anyway`);
+  const have = e.id === "build"
+    ? assignments.filter((a) => a.lane === "packet-build" && /^PF\d+$/.test(a.assignmentId)
+      && Number(a.assignmentId.slice(2)) > e.lanesWithout).length
+    : assignments.filter((a) => e.creates.includes(a.assignmentId)).length;
+  const expected = e.id === "build"
+    ? PF_LANES - e.lanesWithout
+    : e.triggered ? e.creates.length : 0;
+  if (have !== expected) problems.push(`${e.id} capacity requires ${expected} extra lane(s) at ${e.measured}, but ${have} exist`);
 }
 if (problems.length) {
   console.error(`packet factory 24h: ${problems.length} problem(s)`);
