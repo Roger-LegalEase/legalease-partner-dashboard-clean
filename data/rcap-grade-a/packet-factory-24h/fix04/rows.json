@@ -226,16 +226,76 @@
         }
       ],
       "routeArtifactsAfter": [
-        { "fixture": "canonical", "route": "nd-seal-felony-conviction", "sha256": "19a1fbaa7206325a2068c306f5947d621d66d36b53202ff50552f45e6979a569", "byteLength": 21027, "pageCount": 8 },
-        { "fixture": "boundary", "route": "nd-seal-felony-conviction", "sha256": "1fc0972d9ab03c919e4e3c983e32032057014003a9f9fd230368f6a2b8a9dff3", "byteLength": 21449, "pageCount": 8 },
-        { "fixture": "canonical", "route": "nd-seal-misdemeanor-conviction", "sha256": "da6e2c94b86c1c30b14b2f59a8e9b6b38dfa583d90d41f249634893c14960398", "byteLength": 19811, "pageCount": 7 },
-        { "fixture": "boundary", "route": "nd-seal-misdemeanor-conviction", "sha256": "042684e2e03d4addbef7e5548b6256aec038b48e0a5de54fe89980f7594c3e4d", "byteLength": 20208, "pageCount": 7 },
-        { "fixture": "canonical", "route": "nd-seal-pardoned-conviction", "sha256": "ab862d6e6955bce3f284cfe338e4663119e92d47afe376538005cc7b9fe9b7bf", "byteLength": 20160, "pageCount": 7 },
-        { "fixture": "boundary", "route": "nd-seal-pardoned-conviction", "sha256": "4bfd8f0bf00c2b216351b67bd4e8f3075b6fa448160f2513f78d862d2a6b9f5c", "byteLength": 20549, "pageCount": 7 },
-        { "fixture": "canonical", "route": "nd-dui-record-seal", "sha256": "dfeb6e8755cdf3a35449785c80523f561013b818e39a5f6d06c920d0fee13340", "byteLength": 14031, "pageCount": 6 },
-        { "fixture": "boundary", "route": "nd-dui-record-seal", "sha256": "4464231add58ffe79e4e2b5599fc1b9ad491f698f16f226c42b4befa0ff49b60", "byteLength": 14271, "pageCount": 6 },
-        { "fixture": "canonical", "route": "nd-marijuana-first-offense-seal", "sha256": "d78e8ae11908dd8de3b2484d410a5cc2ee4bba8feea73d2dc57a07af016a2c80", "byteLength": 15562, "pageCount": 7 },
-        { "fixture": "boundary", "route": "nd-marijuana-first-offense-seal", "sha256": "5c74c1bce83c97550b7ea6221f393ecc7faadc2d4c2dba512388848b9465404e", "byteLength": 15787, "pageCount": 7 }
+        {
+          "fixture": "canonical",
+          "route": "nd-seal-felony-conviction",
+          "sha256": "19a1fbaa7206325a2068c306f5947d621d66d36b53202ff50552f45e6979a569",
+          "byteLength": 21027,
+          "pageCount": 8
+        },
+        {
+          "fixture": "boundary",
+          "route": "nd-seal-felony-conviction",
+          "sha256": "1fc0972d9ab03c919e4e3c983e32032057014003a9f9fd230368f6a2b8a9dff3",
+          "byteLength": 21449,
+          "pageCount": 8
+        },
+        {
+          "fixture": "canonical",
+          "route": "nd-seal-misdemeanor-conviction",
+          "sha256": "da6e2c94b86c1c30b14b2f59a8e9b6b38dfa583d90d41f249634893c14960398",
+          "byteLength": 19811,
+          "pageCount": 7
+        },
+        {
+          "fixture": "boundary",
+          "route": "nd-seal-misdemeanor-conviction",
+          "sha256": "042684e2e03d4addbef7e5548b6256aec038b48e0a5de54fe89980f7594c3e4d",
+          "byteLength": 20208,
+          "pageCount": 7
+        },
+        {
+          "fixture": "canonical",
+          "route": "nd-seal-pardoned-conviction",
+          "sha256": "ab862d6e6955bce3f284cfe338e4663119e92d47afe376538005cc7b9fe9b7bf",
+          "byteLength": 20160,
+          "pageCount": 7
+        },
+        {
+          "fixture": "boundary",
+          "route": "nd-seal-pardoned-conviction",
+          "sha256": "4bfd8f0bf00c2b216351b67bd4e8f3075b6fa448160f2513f78d862d2a6b9f5c",
+          "byteLength": 20549,
+          "pageCount": 7
+        },
+        {
+          "fixture": "canonical",
+          "route": "nd-dui-record-seal",
+          "sha256": "dfeb6e8755cdf3a35449785c80523f561013b818e39a5f6d06c920d0fee13340",
+          "byteLength": 14031,
+          "pageCount": 6
+        },
+        {
+          "fixture": "boundary",
+          "route": "nd-dui-record-seal",
+          "sha256": "4464231add58ffe79e4e2b5599fc1b9ad491f698f16f226c42b4befa0ff49b60",
+          "byteLength": 14271,
+          "pageCount": 6
+        },
+        {
+          "fixture": "canonical",
+          "route": "nd-marijuana-first-offense-seal",
+          "sha256": "d78e8ae11908dd8de3b2484d410a5cc2ee4bba8feea73d2dc57a07af016a2c80",
+          "byteLength": 15562,
+          "pageCount": 7
+        },
+        {
+          "fixture": "boundary",
+          "route": "nd-marijuana-first-offense-seal",
+          "sha256": "5c74c1bce83c97550b7ea6221f393ecc7faadc2d4c2dba512388848b9465404e",
+          "byteLength": 15787,
+          "pageCount": 7
+        }
       ],
       "deterministicEvidence": {
         "cleanBuilds": 2,
@@ -251,10 +311,28 @@
         "rasterStateEachRun": "BUILT_RASTER_PENDING"
       },
       "paginationEvidence": {
-        "pardonedPrimaryCanonicalPacketPages": [16, 17, 18],
-        "pardonedPrimaryBoundaryPacketPages": [16, 17, 18],
-        "canonicalFinalPage": { "lines": 31, "words": 179, "characters": 2070, "routeBaselineY": 160 },
-        "boundaryFinalPage": { "lines": 32, "words": 187, "characters": 2191, "routeBaselineY": 146 },
+        "pardonedPrimaryCanonicalPacketPages": [
+          16,
+          17,
+          18
+        ],
+        "pardonedPrimaryBoundaryPacketPages": [
+          16,
+          17,
+          18
+        ],
+        "canonicalFinalPage": {
+          "lines": 31,
+          "words": 179,
+          "characters": 2070,
+          "routeBaselineY": 160
+        },
+        "boundaryFinalPage": {
+          "lines": 32,
+          "words": 187,
+          "characters": 2191,
+          "routeBaselineY": 146
+        },
         "blankPages": 0,
         "footerOnlyPages": 0,
         "oneLinePages": 0
@@ -306,6 +384,141 @@
       "productionTouched": false,
       "sourceResearchOrAcquisition": 0,
       "workerCreation": 0
+    },
+    {
+      "itemId": "ar-nonconviction-seal-set",
+      "status": "COMPLETED",
+      "claim": "CLAIM_OK FIX04 ar-nonconviction-seal-set (repair, grant set 5104bc3b81ccc216)",
+      "obligationRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "standingVerdict": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "bebc0489688b69040a72bb0ca42251370d7cb573"
+      },
+      "defect": "source-receipt.json pinned data/record-clearing/legal-design-packet-set-manifests.json by full-file SHA-256. Unrelated states keep editing that shared file, so the pin was stale while the Arkansas subset never moved.",
+      "whatWasChanged": "Deterministic rebuild with --no-raster. One file changed, two lines: the full-file pin went from bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66 / 3679241 to 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419.",
+      "subsetStabilityProof": "Across all eight committed revisions of the manifest — including 563147bf (the value the vf01 verdict said the receipt expected), 713ed7ab (what it measured as current), bd6ceaa69 (what the receipt pinned) and 6076f734 (current) — packetSets[21], the ar-nonconviction-seal-set entry, is byte-identical at a9199900b40d65dc16ee4bb0a304e7d75ea05ed5a304af87d44a763c5d42b715 / 4072 bytes. That is this lane's own canonicalisation; it is not the verifier's 9a328504 digest, which this lane cannot reproduce and does not claim to.",
+      "fixturesMoved": false,
+      "fixtureNote": "Both fixture PDFs are byte-identical. The family's raster receipt is untouched.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersAreNotTheProof": "SOURCE_IDENTITY is not an obligation a completeness counter can see; the nine counters were already zero and stayed zero. The pin comparison and the subset-stability trace above are the proof.",
+      "verifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set -> PASS_COMPLETE, 13/78 written",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "commit": "bd214cd019305a3b8f064a3930fe6d5a3d75f2c0"
+    },
+    {
+      "itemId": "ar-pardon-seal-set",
+      "status": "COMPLETED",
+      "claim": "CLAIM_OK FIX04 ar-pardon-seal-set (repair, grant set 5104bc3b81ccc216)",
+      "obligationRepaired": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "standingVerdict": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf"
+      },
+      "defect": "The build rendered the two official ACIC PDFs and stopped, so the packet set's own committed obligations never reached the participant: the required process_guidance component was not delivered, and the prefiling documents and cross-checks, the timed prosecutor service, and the track's self-help stops appeared nowhere in participant-instructions.md, which was a raw dump of measured source blanks.",
+      "whatWasChanged": "The builder now reads three committed records at build time and carries them through verbatim. (1) ar-pardon-seal-process-guidance-1 is delivered at components/ar-pardon-seal-process-guidance-1/process-guidance.md, copied byte for byte from the composed-route text; source and destination both sha256 61475b312ee46dad3641c36b111d28d6cd64ac7cf9fece80ce4f420caddea06b. (2) reports/component-set.json accounts for all three declared components against the manifest, and the build now fails rather than ship a packet short a required one. (3) participant-instructions.md gained four sections quoted from their records: the manifest's ten requiredBeforeFiling sentences, its serve_party action, the certificate of service read from the pinned petition bytes, and the track registry's four selfHelpStopConditions. (4) A rebuild used to silently drop the hand-added `binding` block in product-wiring.json; it is now carried forward verbatim except packetComponents, which named two of three components and was part of the measured defect.",
+      "nothingInvented": "The manifest's three silences are printed as the record writes them rather than resolved into a value: \"The source review does not state a notarization requirement\", \"...does not state a filing fee for this petition\", \"...does not address a fee waiver\". No fee, waiver, service recipient, filing destination or eligibility rule was supplied that a bound record does not hold.",
+      "fixturesMoved": false,
+      "fixtureNote": "All four fixture PDFs are byte-identical. The canonical petition is still 3b1576d92c2008ba2548522fd16e8025b3e4cbff1f0f40343577ab29477af9ea, the hash the existing RASTER_PASS acceptance receipt binds, so no re-raster is owed.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersAreNotTheProof": "requiredComponentsMissing counts documents named in the field map that no rendered artifact carries; it does not read the packet-set manifest, so a missing process_guidance component is invisible to it. None of these four obligations is one a completeness counter can see. The proof is reports/component-set.json reading 3 of 3 against the manifest at sha256 6076f734…, and the verbatim provenance of each instruction section.",
+      "verifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-pardon-seal-set -> PASS_COMPLETE, 6/68 written",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "commit": "a643b7b84c675ac0c7dca1666c4e3b98f2d2774d"
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "status": "COMPLETED",
+      "claim": "CLAIM_OK FIX04 composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief (repair, grant set 5104bc3b81ccc216)",
+      "obligationRepaired": [
+        "SOURCE_IDENTITY"
+      ],
+      "standingVerdict": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61"
+      },
+      "defect": "The vf01 verdict measured a stale full-file pin on data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json: receipt 09368333… / 2599752 against bytes 9816a479… / 2607149.",
+      "whatWasChanged": "Nothing. The defect is not reproducible at this base: the receipt already pins 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149, which is exactly the current bytes, and the other two pins (route-splits.json, IL-illinois.json) also match. A deterministic rebuild with --no-raster produced byte-identical output — zero diff — which is itself the evidence that the artifacts on disk are what this builder makes from these sources.",
+      "subsetStabilityProof": "Across all committed revisions of route-obligation-candidate.json, including 09368333 and 9816a479, routes[54] — this route's entry — is byte-identical at 7d58776bc3ec61b180b7d7e8c089b0ea16c868e587b96cb6dec8cfb05e7b2f73 / 2807 bytes. That is this lane's own canonicalisation, not the verifier's cc640b55 digest.",
+      "fixturesMoved": false,
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "whyCountersAreNotTheProof": "SOURCE_IDENTITY is invisible to the completeness counters. The proof is the pin-versus-bytes comparison and the zero-diff deterministic rebuild.",
+      "verifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief -> PASS_COMPLETE, 6/15 written",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "commit": null,
+      "commitNote": "No commit: this family needed no change. It is reported so the standing FAIL verdict is answered on the record rather than left open."
     }
   ],
   "currentDispatchAppend": {
@@ -320,5 +533,69 @@
     "claimsReleased": 0,
     "commercialRoutesOpened": 0,
     "productionTouched": false
+  },
+  "fixARepairCohortContinuation": {
+    "worker": "FIX-A repair cohort (FIX04 + FIX05)",
+    "baseSha": "d6f430105dfc942be321b64243a77b666992547a",
+    "note": "FIX-A repair cohort continuation. Only the eight families the claim ledger still grants live to FIX04 and FIX05 were worked; the six further families each brief names are already released in the ledger and were not read. Neither brief's never-write list contradicts its own owned-paths list — none of the four never-write overlay globs (nj-ordinance-set, ny-160-59-petition-set, pa-490-nonconviction-set, nj-indictable-conviction-set) matches any owned path — so no path was withheld for that reason.",
+    "environment": "Repository worktree, not Codex Cloud. node_modules symlinked from the shared checkout; private/ symlinked from the shared checkout and removed afterwards. The Master Library custody is mounted. The custody nationwide_recovery_pool_2026_09_02 (private/source-imports/Nationwide_Recovery_Pool_2026-09-02) is not present anywhere on this host — a filesystem-wide search for it and for its files found nothing — so any family whose sources it holds cannot be rebuilt here. Both such builds exit non-zero having written zero bytes. Chromium is available here, but every build was run --no-raster so no repair silently added a visual measurement this lane is not entitled to make.",
+    "claimHandling": "All five live FIX04 repair grants were asserted before any family content was read. Claims are released by this cohort at the end of its work; none was reopened, transferred or withdrawn.",
+    "familiesRepaired": [
+      "ar-nonconviction-seal-set",
+      "ar-pardon-seal-set"
+    ],
+    "familiesConfirmedAlreadyRepairedAtBase": [
+      "al-felony-nonconviction-90-set",
+      "il-seal-edu-set",
+      "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
+    ],
+    "familiesStopped": [],
+    "fixturesMovedOn": [],
+    "nineCountersZeroOn": "All five, before and after — which is exactly why the counters are not offered as evidence here. Every obligation in this cohort's FIX04 set is one a completeness counter cannot see, and each row names the measurement that is its actual proof.",
+    "rasterRuleApplied": "Every build was run --no-raster. No FIX04 fixture byte moved, so every existing raster receipt in this set stays valid and this lane added no visual measurement.",
+    "commits": [
+      "bd214cd019305a3b8f064a3930fe6d5a3d75f2c0",
+      "a643b7b84c675ac0c7dca1666c4e3b98f2d2774d"
+    ],
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "selfVerified": false,
+    "grantsNothing": "This lane repairs and issues no PASS. Re-verification belongs to a lane that neither built nor repaired these families.",
+    "reMeasurementOfFamiliesAlreadyRepairedAtBase": [
+      {
+        "itemId": "al-felony-nonconviction-90-set",
+        "standingVerdict": {
+          "lane": "vf03",
+          "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+          "failed": [
+            "KNOWN_PREFILLS",
+            "REQUIRED_BEFORE_FILING",
+            "SELF_HELP_STOP"
+          ]
+        },
+        "finding": "Already repaired at this base by commit f133e556e; re-measured rather than re-derived. Placeholder-direction writes 0 of 31 (vf03 measured 7). Required-before-filing labels containing 'undefined' or 'TextN': 0 of 57 (vf03 measured 33 of 63). The stop text now reads '...licensing or firearm consequences may be involved...'. The instructions state the certified-record, 90-day, signature, notarization, filing-fee and fee-waiver steps. The builder's --check invariants pass. Fixtures on disk match reports/rendered-artifacts.json byte for byte, so the artifacts carry what the field map describes. No change made; nothing to commit.",
+        "rebuildNotPossibleHere": "CR-65 lives in custody nationwide_recovery_pool_2026_09_02, absent from this host. Environment fact, not a packet defect.",
+        "countersBeforeAndAfter": "0/0/0/0/0/0/0/0/0 — the vf03 assignment itself says the nine zero counters do not detect these defects."
+      },
+      {
+        "itemId": "il-seal-edu-set",
+        "standingVerdict": {
+          "lane": "vf03",
+          "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+          "failed": [
+            "KNOWN_PREFILLS",
+            "REPEATING_ROWS",
+            "REQUIRED_BEFORE_FILING",
+            "ROUTE_IDENTITY",
+            "ROUTE_OPTIONS",
+            "SELF_HELP_STOP"
+          ]
+        },
+        "finding": "Already repaired at this base by commit f133e556e; re-measured rather than re-derived. Of 40 writes: 0 put a case number in a charge cell, 0 land on the inactive page-2 expungement table, 0 land on unused page-4 rows beyond row 1, 0 carry ellipsized text. Selections are '12 - Seal Records' and the item-22 education route only; item 15 and both three-year options stay unselected. The stop section carries unrecognized case/identity theft, federal or out-of-state records, motion to vacate/modify/reconsider, petition denial and transcript ambiguity. The builder's --self-test passes. No change made; nothing to commit.",
+        "incidentalFindingNotRepaired": "The builder's self-test writes /^\\\\d+ - Case Number$/i inside a regex literal, so \\\\d matches a literal backslash and the 'Circuit Clerk case-number captions must remain blank' assertion can never fire. Measured independently with a correct pattern: 0 such captions are written, so the condition holds — but the assertion meant to hold it is inert. Left as found because it is outside this repair's measured blast radius; reported so a lane that owns the builder can fix it.",
+        "rebuildNotPossibleHere": "The EXP-AD Case List PDF lives in custody nationwide_recovery_pool_2026_09_02, absent from this host.",
+        "countersBeforeAndAfter": "0/0/0/0/0/0/0/0/0 — same reason."
+      }
+    ]
   }
 }
