@@ -98,13 +98,14 @@
     "workerBranch": "codex/pf06-full-2927",
     "shiftBaseSha": "2927edb21a04c95a33ca9d4565cadfad270679f1",
     "familiesAssigned": 5,
-    "rowsReturned": 1,
+    "rowsReturned": 2,
     "familiesCompleted": [
       "tx_nd_probation_misdemeanor-set"
     ],
-    "familiesStopped": [],
+    "familiesStopped": [
+      "al-trafficking-set"
+    ],
     "familiesRemaining": [
-      "al-trafficking-set",
       "mi_setaside_trafficking-set",
       "nc_145_5_felony-set",
       "ne-seal-pardoned-set"
@@ -249,6 +250,28 @@
         "Three blanks the shared binder would have filled wrong were refused: the applicant's name as the date of acquittal, the county on the charges line, and the surname in the middle-initial box.",
         "The date of acquittal or dismissal is refused on its own merits as well: the platform holds a generic disposition date and does not establish it is a date of acquittal or dismissal, which on a § 67-3004(10) application is the fact the request turns on."
       ]
+    },
+    {
+      "itemId": "al-trafficking-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "overlayDirectoryTouched": false,
+      "claim": "CLAIM_OK PF06 al-trafficking-set (packet-build, grant set ac6e4573c4c98738)",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable; family_sources_bind 2/2 exact",
+      "blockingInput": {
+        "dispatchAndMasterQueue": "custom_pleading",
+        "committedLegalTrackAndIntake": "official_pdf_fill on official CR-65",
+        "whyItStops": "The committed authorities disagree about the required output strategy and primary filing identity. Selecting either would override a governed input rather than deterministically implement it."
+      },
+      "evidence": [
+        "docs/rcap/grade-a/packet-factory-24h/PF06.md family table",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json al-trafficking-set implementationStrategy",
+        "data/record-clearing/legal-design-track-registry.json trackId al-trafficking mechanism/outputStrategy/packetSet",
+        "data/record-clearing/legal-design-intake/AL.memo.json trackId al-trafficking controllingAuthority/components"
+      ],
+      "claimHeld": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     },
     {
       "itemId": "tx_nd_probation_misdemeanor-set",
