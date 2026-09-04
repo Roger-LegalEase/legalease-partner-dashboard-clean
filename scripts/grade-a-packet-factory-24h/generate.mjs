@@ -1684,6 +1684,11 @@ for (const f of IN.scoreboard.familiesDetail) {
     && rasterPassByFamily.get(familyId) === true
     && !legalBlocked
     && fs.existsSync(path.join(ROOT, `${directory}/product-wiring.json`))) state = "COMPLETE_PACKET_PROVEN";
+  /* A complete read cannot answer an open legal input. Keep the evidence, but
+   * send the family to its genuine legal gate instead of parking it in the
+   * otherwise-proven vocabulary. */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && legalBlocked) state = "LEGAL_BLOCKED";
   /*
    * A family the visual gate declined to enrol is held at BUILT_RASTER_PENDING
    * with the queue's own reason, not advanced to VERIFIED_PASS. Its independent
@@ -1814,8 +1819,10 @@ for (const f of IN.scoreboard.familiesDetail) {
     && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
   else if (verdict?.verdict === "PASS" && !comp
     && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
-  else if (verdict?.verdict === "PASS" && comp && nineZero) state = "VERIFIED_PASS";
-  else if (verdict?.verdict === "PASS" && !comp) state = "VERIFIED_PASS";
+  /* A builder or non-independent PASS is useful build evidence, never an
+   * independent verdict. It still owes the independent read. */
+  else if (verdict?.verdict === "PASS" && comp && nineZero) state = "VERIFY_PENDING";
+  else if (verdict?.verdict === "PASS" && !comp) state = "VERIFY_PENDING";
   else if (comp && nineZero) state = "VERIFY_PENDING";
   /*
    * A legally blocked family is not source-blocked.
