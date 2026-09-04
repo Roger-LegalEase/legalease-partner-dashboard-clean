@@ -153,6 +153,7 @@ export type PacketRouteResolution = {
     officialFormIds: string[];
     packetFamilyId: string | null;
     retiredLegacyRouteMigrated: boolean;
+    exactTrackSelectionRequired: boolean;
   };
 };
 
@@ -719,7 +720,7 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   // against its generated seven-input row and its registered packet family.
   // A missing, malformed or mismatched migration therefore falls back to the
   // retired renderer, never to a sibling or jurisdiction-wide factory grant.
-  const retiredLegacyRouteMigration = factoryV2RouteMigrationFor(jurisdiction, pathwayId);
+  const retiredLegacyRouteMigration = factoryV2RouteMigrationFor(jurisdiction, pathwayId, input.trackId);
   if (LEGACY_VERIFIED.has(jurisdiction) && !retiredLegacyRouteMigration) {
     return {
       routeKind: "legacy_retired",
@@ -769,7 +770,7 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   // live elsewhere and are recorded per route in the registry; a later change
   // that wants to sell one of these routes has to satisfy them explicitly rather
   // than inherit permission from the fact that the factory can build it.
-  const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId);
+  const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId);
   if (factoryRoute) {
     return {
       routeKind: "factory_v2",
@@ -786,7 +787,8 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
         requiredInputIds: factoryRoute.requiredInputIds,
         officialFormIds: factoryRoute.officialFormIds,
         packetFamilyId: factoryRoute.packetFamilyId,
-        retiredLegacyRouteMigrated: factoryRoute.retiredLegacyRouteMigration !== null
+        retiredLegacyRouteMigrated: factoryRoute.retiredLegacyRouteMigration !== null,
+        exactTrackSelectionRequired: factoryRoute.exactTrackSelectionRequired
       }
     };
   }
