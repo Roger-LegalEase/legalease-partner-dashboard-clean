@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "rcap-route-productization-return/v1",
+  "worker": "CODEX-CS2-PROD-ID-SET-ASIDE",
+  "captain": "claude/legalease-sprint-captain-utucnw",
+  "role": "exact route/specification productization only",
+  "worktree": "/workspaces/cs2-fix02-tn",
+  "base": "57d60a73fa0dcb105bcc49390f94bf3fd3ecbd55",
+  "branch": "codex/cs2-productize-id-set-aside-57d6",
+  "tip": "951591b3aff9cff655b8d991864840629b50617d",
+  "tipMeaning": "Implementation commit pushed before this return-only artifact was committed; the final return-only commit is reported in the handoff because a commit cannot contain its own object id.",
+  "push": {
+    "state": "PUSHED",
+    "remote": "origin",
+    "branch": "codex/cs2-productize-id-set-aside-57d6",
+    "implementationTip": "951591b3aff9cff655b8d991864840629b50617d",
+    "forceUsed": false
+  },
+  "claim": {
+    "result": "CLAIM_OK CODEX-CS2-PROD-ID-SET-ASIDE id_set_aside_dismissal-set obligation:track-only:ID:id_set_aside_dismissal",
+    "family": "id_set_aside_dismissal-set",
+    "route": "obligation:track-only:ID:id_set_aside_dismissal",
+    "exclusiveBeforeFamilyRead": true,
+    "conflictingLiveClaimFound": false,
+    "conflictingPhysicalWorkerFound": false
+  },
+  "productization": {
+    "jurisdiction": "ID",
+    "track": "id_set_aside_dismissal",
+    "obligationRoute": "obligation:track-only:ID:id_set_aside_dismissal",
+    "runtimeRoute": "ID:id_set_aside_dismissal",
+    "family": "id_set_aside_dismissal-set",
+    "strategy": "custom_pleading",
+    "specification": "data/record-clearing/packet-specifications/ID-set-aside-dismissal.v1.json",
+    "specificationSha256": "afd4ccc16e47278ed9f3dbdcd6490545be34f9439a6f8a052e9ec0c373881d17",
+    "scope": "route_track_family_only",
+    "exactTrackSelectionRequired": true,
+    "sourceBinaryCount": 0,
+    "officialBinaryInvented": false,
+    "authorityReferenceShippedAsSourceComponent": false,
+    "components": [
+      "id_set_aside_dismissal-primary-filing-1",
+      "id_set_aside_dismissal-filing-instructions-2"
+    ]
+  },
+  "artifactEvidence": {
+    "familyStateAtBase": "COMPLETE_PACKET_PROVEN",
+    "canonical": {
+      "path": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+      "byteLength": 10134,
+      "pageCount": 4
+    },
+    "boundary": {
+      "path": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+      "byteLength": 10351,
+      "pageCount": 4
+    },
+    "packetBytesChanged": 0
+  },
+  "rasterEvidence": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33605354695",
+    "jobId": "100168605472",
+    "artifactId": 9837134404,
+    "coversTheWholeFamily": true,
+    "boundToCanonicalSha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+    "boundToBoundarySha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f"
+  },
+  "independentVerdictEvidence": {
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "lane": "VF04",
+    "wave": "packet-factory-24h/VF04/integrated-FIX02-independent-reread",
+    "verifiedAtBase": "cf492847858f0dccd3266a15b00a23499f462935",
+    "currentAtAssignedBase": "57d60a73fa0dcb105bcc49390f94bf3fd3ecbd55",
+    "record": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+    "repairReverified": "FIX02",
+    "selfVerification": false,
+    "staleFailingVerdictsRevived": 0
+  },
+  "stillMissingGates": {
+    "currentOwnerLegalApproval": {
+      "established": false,
+      "evidence": "FIRST_ROUTE_COHORT.json neither selects nor contains an allRows entry for id_set_aside_dismissal-set at the assigned base."
+    },
+    "postApprovalChangeAudit": {
+      "established": false,
+      "evidence": "POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json has no id_set_aside_dismissal-set row."
+    },
+    "fulfillmentAuthority": {
+      "established": false,
+      "evidence": "The fulfillment authority registry has no ID:id_set_aside_dismissal record."
+    },
+    "consumerCheckout": {
+      "admitted": false,
+      "firstMissingGate": "fulfillment_no_record"
+    },
+    "sponsoredEntitlement": {
+      "admitted": false,
+      "firstMissingGate": "fulfillment_no_record"
+    },
+    "packetCreditAdmission": {
+      "admitted": false,
+      "firstMissingGate": "fulfillment_no_record"
+    },
+    "canaryEvidence": {
+      "established": false,
+      "canariesCreated": 0
+    }
+  },
+  "tests": {
+    "pdfRehashLengthAndPageCount": "PASS_CANONICAL_AND_BOUNDARY_EXACT",
+    "packetByteDiffAgainstBase": "PASS_ZERO_BYTES_CHANGED",
+    "specificationDigest": "PASS afd4ccc16e47278ed9f3dbdcd6490545be34f9439a6f8a052e9ec0c373881d17",
+    "jsonSyntax": "PASS",
+    "javascriptSyntax": "PASS",
+    "focusedTypeScriptSyntax": "PASS_FACTORY_SPEC_RESOLVER",
+    "firstRouteProductization": "PASS_7_ROUTES_FOCUSED_ROUTE_SPEC_RESOLVER_RENDER_AND_MONEY_GATES",
+    "firstRouteProductizationMutations": {
+      "result": "PASS",
+      "idahoMutationsCaught": [
+        "wrong packet family substitution",
+        "sibling track substitution",
+        "trackless substitution",
+        "aggregate route substitution",
+        "wildcard route substitution",
+        "delivered component substitution"
+      ],
+      "clientSelectedFamilySubstitution": "PASS_REFUSED"
+    },
+    "renderJobContract": "PASS_FIXTURE_SQL_TYPESCRIPT_AGREE",
+    "moneyGateDeliveryBinding": "PASS_759_ASSERTIONS_51_JURISDICTIONS",
+    "commercialAdmissionPoints": {
+      "consumer_checkout": "REFUSED fulfillment_no_record",
+      "sponsored_entitlement": "REFUSED fulfillment_no_record",
+      "packet_credit_admission": "REFUSED fulfillment_no_record"
+    },
+    "gitDiffCheck": "PASS",
+    "writablePathAudit": "PASS_EXACT_SIX_IMPLEMENTATION_PATHS_BEFORE_RETURN"
+  },
+  "knownAssignedBaseCheckLimitations": [
+    {
+      "check": "npm run typecheck",
+      "result": "UNAVAILABLE_IN_SPARSE_ENVIRONMENT",
+      "detail": "The shared sparse node_modules link lacks the Next and Node type packages and npm cannot resolve tsc; focused TypeScript transpilation and execution passed without new module diagnostics. No dependencies were installed."
+    },
+    {
+      "check": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "result": "PRE_EXISTING_SOURCE_SHAPE_FAILURE_AT_BASE",
+      "detail": "The verifier slices on the obsolete literal factoryV2RouteFor(jurisdiction, pathwayId), while the assigned base already requires the exact-track third argument. The task-specific first-route verifier passes."
+    },
+    {
+      "check": "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "result": "PRE_EXISTING_STALE_AT_BASE",
+      "detail": "At 57d60a73, the manifest SHA-256 is 2a9f24db0abd9f52e1947d800057b43b6156673ebc86463bb724dfeeabb56f58 while the generated registry already records bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66. The separately owned generated registry was not edited."
+    }
+  ],
+  "changedPaths": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/packet-specifications/ID-set-aside-dismissal.v1.json",
+    "src/lib/rcap/documents/factory-v2-registry.ts",
+    "src/lib/rcap/documents/packet-route-resolver.ts",
+    "src/lib/rcap/grade-a/packet-specification.ts",
+    "scripts/verify-rcap-first-route-cohort-productization.mjs",
+    "data/rcap-grade-a/codex-cloud/cs2-productize-id-set-aside-57d6/RETURN.json"
+  ],
+  "packetBytesChanged": 0,
+  "fulfillmentFilesChanged": 0,
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "canaries": 0,
+  "ProductionTouched": "NO"
+}
