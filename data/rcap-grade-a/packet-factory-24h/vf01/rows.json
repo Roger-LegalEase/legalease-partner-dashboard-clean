@@ -26,10 +26,10 @@
     "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
   },
   "summary": {
-    "families": 47,
-    "rows": 58,
-    "PASS_COMPLETE_INDEPENDENT": 32,
-    "FAIL_REPAIR_REQUIRED": 22,
+    "families": 49,
+    "rows": 61,
+    "PASS_COMPLETE_INDEPENDENT": 33,
+    "FAIL_REPAIR_REQUIRED": 24,
     "BLOCKED_SOURCE": 1,
     "BLOCKED_LEGAL_INPUT": 0,
     "PRODUCT_PATH_PENDING": 1,
@@ -11364,6 +11364,160 @@
       "routesOpened": 0,
       "productionTouched": false,
       "grantsNothing": "FAIL_REPAIR_REQUIRED records a bounded packet-evidence defect. It repairs nothing, approves no output, opens no route, creates no fulfillment authority, releases no claim and touches no Production system."
+    },
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "lane": "VF01",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+      "composedFamily": true,
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "reader": "VF01 independent-verification cohort, independent of every build and repair lane for this family",
+      "measuredBy": [
+        "SHA-256 recomputed here from the bytes on disk for both fixtures and for all three committed source records",
+        "PDF text read with poppler pdftotext -layout, page by page, from the delivered bytes",
+        "pixels rastered here with poppler pdftoppm at 150 dpi, 166 pages across both fixtures: per-page ink fraction, ink bounding box, 1/8-inch physical edge band, and the densest 32x32 window as the overlap probe",
+        "the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container, and each one re-derived independently from the field map, the blanks report and the extracted page text"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "All 16 route keys agree exactly across the five records that declare them — MASTER_QUEUE row, source-receipt.json, production-field-map.json, product-wiring.json and its binding block. All 16 are present verbatim in the committed route-obligation census, all 8 tracks they resolve to are present in the committed track registry, and all 16 are printed in the canonical bytes (whitespace-insensitive match; nine of them wrap across a line and are only found when the wrap is normalised).",
+          "detail": "16/16 route keys agree across 5 records, are carried by the committed census, and are printed in the packet."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "evidence": "This family binds no document binary: it is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its receipt pins three committed repository records by full-file SHA-256. All three pins are stale against the bytes on disk at this base. legal-design-track-registry.json pins 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 / 16555956 bytes and recomputes to 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; legal-design-specifications.json pins cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 / 16829383 and recomputes to f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; route-obligation-candidate.json pins 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 and recomputes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. The drift is national, not Oklahoman: commit 0be1fee769162cf337ad79daaa3d5a94d88b4f5e landed after this family's last build (52590631e) and rewrote CO, DE, MA and MT form identities in the same files. Measured against that: all 148 anchor statements the builder relies on (116 + 16 + 16) are still present verbatim in the current bytes, and all eight Oklahoma track objects are byte-identical between the registry at the build commit and the registry now. So the legal content still binds and the identity does not — exact family objects remaining equal cannot satisfy an exact-SHA obligation.",
+          "detail": "All three receipt full-file pins differ from current committed bytes; 148/148 anchors and all 8 OK track objects unchanged."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "The committed specifications name 2 components per track — primary_filing and proposed_order — for all 8 tracks, i.e. 16 required components; every one is rendered and present. The family additionally composes 37 disclosure components (free-route screen, records checklist, fee disclosure, hearing instructions, effect disclosure) for a declared set of 53; the field map, the source receipt and the rendered page manifest agree on all 53, with 0 missing from the render and 0 extra in it, and the field map carries one map per component (53).",
+          "detail": "16/16 specification-named components present; 53/53 declared components rendered; no missing, no extra."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "85 declared write values were each re-located by value in the extracted text of the pages the page manifest assigns to that write's own component — 85 of 85 found on their own pages, 0 not found, 0 declared with no value. The builder's own finalizer count (85) and its zero count of non-whitespace glyphs outside measured write boxes agree with this reading, but the match was made here from the delivered bytes.",
+          "detail": "85/85 declared values found on the component pages they belong to."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "113 required-before-filing items are declared in production-field-map.json and the same 113 in blanks-left-for-the-participant.json. Each was checked against participant-instructions.md by its own disclosure label and by its field identity: 113 of 113 named, 0 not named. The instructions file is 73544 bytes and was read here.",
+          "detail": "113/113 required-before-filing items named in participant-instructions.md."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "16 route keys are declared and 16 route selections are recorded, one per key, each naming the statute and the instrument set it elects; 0 route keys are left without a selection. The 53 component maps carry 0 selection controls and the family declares no component conditions, so there is no unelected election anywhere in the packet.",
+          "detail": "16/16 route selections recorded; 0 selection controls left unselected."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "No repeating row group exists in this family: the 63 distinct leaf field names across all 53 component maps carry no row index of any form (no _1/_2 sequence, no row token, no bracketed index), so no row can carry a written cell beside a blank required cell. Counted on the leaf name rather than the full field id, because these documentIds embed the statutory numbers 18_19 and 991c and a naive index match reports 199 false groups.",
+          "detail": "0 repeating row groups; the 199 'row-like' hits are the statutory numerals in the document ids, not row indices."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "56 blanks are classified protected (court, prosecutor, clerk or agency owned, plus the petitioner's own signature and signature date): case_number and order_case_number, the proposed order decision line, signing line and date line, and the petition signature and signature date across the 53 components. None appears in the 85-value write set. Every protected printed label was located in the extracted text of its own component's pages and read to the end of its line: 0 carry anything but the dot leader. Read directly, the proposed order pages carry 'ORDERS that ....', 'DATED ......' and an empty signature rule under the statement that every decision on the page is the court's, and each petition's signature block carries 'DATE ...... SIGNATURE OF PETITIONER ......' unfilled. These are composed pages with no official preprinted source, so there is no source ink to subtract; the dot leader is the packet's own rule and is not a write.",
+          "detail": "56 protected blanks; 0 in the write set; 0 protected label followed by anything but its dot leader."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "Both fixtures were rehashed here from the bytes. canonical.pdf = 78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1, 207273 bytes, 83 pages; boundary.pdf = 18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18, 209833 bytes, 83 pages. Each equals what rendered-artifacts.json declares (hash, byte length and page count), what RASTER_QUEUE.json pins for both documents, what the family's own product-wiring proposedRepresentation component names, and what the admitted acceptance receipt was bound to. Page counts were read with pdfinfo, not taken from the record. No artifact identity record in this family contradicts another.",
+          "detail": "2/2 fixtures rehash to every record that names them: rendered-artifacts, raster queue, product wiring and acceptance receipt."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "83 manifest entries, 83 pages in the bytes, and 83 text pages. Every one of the 53 components occupies a contiguous block, the block order is exactly the declared component set order, and the first page of each block carries that component's own heading in its own track's words (CHECK THE FREE ROUTE FIRST / PETITION / PROPOSED ORDER / RECORDS CHECKLIST / WHAT THIS COSTS / THE HEARING AND THE NOTICE / WHAT AN ORDER DOES). Boundary carries the same 83-page manifest.",
+          "detail": "83/83 pages in manifest order; 53 contiguous component blocks in the declared order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "Measured in pixels here, not read from the receipt: both fixtures rastered with poppler pdftoppm at 150 dpi, 83 + 83 = 166 pages at 1275x1650. No page falls below the blank threshold — the lowest ink fraction on any page is 0.00455, against the 3.2e-4 near-empty page 39 that FIX19 measured on the superseded 80-page canonical (833444e3...), which these 83-page bytes no longer reproduce. 0 pages carry ink inside the 1/8-inch physical edge band; the smallest clearance from any ink to any paper edge is 134 px (0.89 inch). The densest 32x32 window anywhere in either fixture is 0.277 filled against a 0.5 collision threshold, so no page carries text written over text. The central acceptance receipt agrees independently: RASTER_PASS bound to these exact two hashes, 166 pages measured, 0 problems.",
+          "detail": "166 pages rastered here: 0 blank, 0 edge-band ink, min clearance 134 px, max 32x32 window fill 0.277."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "Each of the 8 tracks states the destination the registry records, verbatim. Seven tracks name 'Oklahoma district court for the county where the arrest information is located' with the registry's venue sentence beside it; ok_991c_deferred names 'The Oklahoma district court that entered the deferred sentence'. All 8 destinations appear both in the packet PDF and in participant-instructions.md; the 991c venue sentence appears in the instructions, which is where that four-component track carries it.",
+          "detail": "8/8 registry destinations stated verbatim in the packet and in the instructions."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "The registry's fee text and waiver text are quoted verbatim for all 8 tracks. Seven tracks carry them on their own WHAT THIS COSTS page — the OSBI statement that a court-record expungement is free and an arrest-record expungement carries a $150 processing fee, the refusal of personal checks, and the express non-statement that the district court filing fee is not established and no waiver position is recorded, followed by the specific instruction to ask the district court clerk in the filing county and to ask about a waiver route in the same call. ok_991c_deferred has no fee component in the committed specification; its recorded fee text and its 'Not established' waiver both appear in participant-instructions.md.",
+          "detail": "8/8 recorded fee and waiver statements present, including the express non-statements."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "Seven tracks state the registry's notice rule and service rule verbatim on their hearing page — the court sets a hearing and gives 30 days' notice to the prosecuting agency, the arresting agency, the OSBI and any other agency holding relevant records, and service is by the court's notice with the proposed order required to identify every agency it applies to. For ok_991c_deferred the registry records notice and service as 'Not established for this motion' and 'Not established'; both non-statements are carried in participant-instructions.md rather than asserted as a rule.",
+          "detail": "8/8 tracks: recorded notice and service stated, non-statements carried as non-statements."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "evidence": "The registry records 7 stop conditions for each of the seven Title 22 tracks and 3 for ok_991c_deferred (52 in total). Every one is stated verbatim in participant-instructions.md; each track additionally states at least one on the packet page where it bites — the SB 2030 free-route stop on the free-route screen, and prosecutor objection or a contested hearing on the hearing page. The packet also states the boundary of its own knowledge: no committed record resolves the amended SB 2030 text, so the free-route screen asks the question rather than answering it.",
+          "detail": "52/52 recorded stop conditions stated in the instructions; each track states its operative stop on the page where it applies."
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/completeness-counters.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/record-clearing/legal-design-specifications.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "scripts/build-census-v1-rcap-ok-custom-pleading.mjs"
+      ],
+      "focusedTest": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-ok-custom-pleading'",
+        "result": "PASS_COMPLETE, 85/254 written, all nine counters zero"
+      },
+      "priorVerdictSuperseded": {
+        "lane": "vf37",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+        "obligation": "CLIPPING_AND_OVERLAP",
+        "whyItNoLongerHolds": "vf37 carried FIX19's raster failure on canonical 833444e3... (80 pages), whose page 39 was near-empty with an orphaned footer fragment. Those bytes are superseded; the current 83-page canonical 78151b13... was rastered here page by page and carries no near-empty page. The clipping defect is repaired; the source pin defect recorded above is new since that base."
+      },
+      "whatThisRowDoesNotDo": "A verdict approves no output and opens no commercial route. This row is a reading of bytes, not an authorization."
     }
   ],
   "supersededLaneMembership": {
@@ -11956,5 +12110,15 @@
       "ar-pardon-seal-set",
       "hi_dag_danc_expungement-set"
     ]
+  },
+  "vf01OklahomaAppendD6f43010": {
+    "what": "one row appended by the VF01 independent-verification cohort at base d6f430105dfc942be321b64243a77b666992547a",
+    "family": "rcap-ok-custom-pleading",
+    "claim": "CLAIM_OK VF01 rcap-ok-custom-pleading (independent-verification, grant set 5104bc3b81ccc216)",
+    "priorRowsPreserved": true,
+    "overlayDirectoriesModified": 0,
+    "packetsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
   }
 }

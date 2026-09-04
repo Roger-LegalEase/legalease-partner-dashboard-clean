@@ -1,127 +1,177 @@
 {
- "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
- "lane": "VF08",
- "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
- "repairAssignments": [
-  {
-   "itemId": "ut_pet_limitations-set",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
-   "decisiveDefect": "participant-instructions.md is a list of blanks and nothing else. It never names the court or the bureau the route files with, never states a waiver route for either fee, and never states who must be served or how; and it declares one blank a participant obligation that the source form reserves to the bureau.",
-   "failedProofObligations": [
-    {
-     "obligation": "requiredBeforeFiling",
-     "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing."
-    },
-    {
-     "obligation": "filingDestination",
-     "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court."
-    },
-    {
-     "obligation": "feeAndWaiver",
-     "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route."
-    },
-    {
-     "obligation": "service",
-     "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method."
-    }
-   ],
-   "repairScope": "Two separable repairs. (1) A packet-instruction repair lane rewrites participant-instructions.md to name the filing destinations the route names — the Utah Bureau of Criminal Identification for the certificate of eligibility and the district court for the petition — and to state the service recipient and method and the waiver route, from sourced facts only. The court filing fee is already stated on the cover sheet the packet fills and needs no invention; the BCI fee, both waiver routes and the service rule are not established in this repository and must reach the packet through a source lane, not through a verifier's or a builder's inference. (2) A field-map repair lane re-dispositions UT-BCI-EXP-APPLICATION blankId p2-y37.35-x188.34 from REQUIRED_BEFORE_FILING to a protected agency-only disposition, matching the field census's own government_identifier category and the form's printed BUREAU USE ONLY region. Do not repair either in a verification lane.",
-   "notForThisLaneToInfer": [
-    "the BCI application fee",
-    "any fee-waiver route",
-    "the service recipient and method"
-   ],
-   "whatThisDoesNotChange": "Eleven of the fifteen obligations pass on measurement made in this lane, including every source digest recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. The packet's fill is sound; its participant-facing instructions and two blank dispositions are not."
-  },
-  {
-   "itemId": "in_arrest_no_charges-set",
-   "verdict": "FAIL_REPAIR_REQUIRED",
-   "verifiedAtBase": "43e11ccd3a64c5048eb673b369cc365aa0786f94",
-   "assignedBy": "FABLE-VA13",
-   "lane": "VF08",
-   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
-   "packetHashesReviewed": {
-    "packet-canonical-filled.pdf": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
-    "packet-boundary-filled.pdf": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23"
-   },
-   "decisiveDefect": "The delivered petition is missing the three sets of insert pages the bound source demands by name on its own pages 4, 10 and 11, and the packet tells the participant in bold that LegalEase does not hold them. The Master Library this build mounts DOES hold them, in the same 02_PACKET_FORMS directory as the bundle already bound: IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf, sha256 65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707, 2,904,076 bytes, 4 pages, form CCA-XP-0120-7003 — pages 1-2 FACTS PERTAINING TO EXPUNGEMENT MATTER, page 3 FINDINGS AS TO EXPUNGEMENT MATTER, page 4 EXHIBIT A. Nothing needs acquiring; this is a binding repair, not a source-acquisition blocker.",
-   "failedProofObligations": [
-    {
-     "obligation": "COMPONENT_SET",
-     "finding": "Three required insert page sets are absent from a packet the family's own report says is unfilable without them, and the participant is told the platform does not hold a document it does hold. I read the 'Take out this page and insert your ...' instructions from the canonical fixture's own bytes at packet pages 4, 10 and 11, and from the source binary at the same pages. The family's reports/missing-companion-forms.json places the Facts insert on page 5; it is on page 4. Pages 10 and 11 are correctly recorded."
-    },
-    {
-     "obligation": "SELF_HELP_STOP",
-     "finding": "legal-design-track-registry.json records thirteen selfHelpStopConditions for trackId in_arrest_no_charges. participant-instructions.md states two of them — the court setting a hearing, and pending charges or pretrial diversion. The eleven absent include the prosecutor filing a notice in opposition and a victim submitting a statement in opposition, which are the two events that most often precede the hearing the packet does tell the participant to stop for; registration as a sex or violent offender; a commercial driver's licence and 49 C.F.R. 384.226; and immigration, firearm, licensing or CDL consequences. Conditions 1, 2, 8, 11 and 12 are in scope for a non-conviction arrest expungement on any reading, and none of the five is present."
-    }
-   ],
-   "repairScope": [
-    "Bind CCA-SECTION1-INSERTS to this family and render its Facts, Findings and Exhibit pages into the packet in place of the three instruction pages the bundle tells the participant to remove.",
-    "Rewrite the participant-instructions.md passage that says the platform does not hold the insert forms. The www.indianalegalhelp.org pointer may stay as the participant's own route to a fresh copy; the statement of custody may not stay as it is.",
-    "Correct reports/missing-companion-forms.json — or retire it — and correct 'page 5' to page 4.",
-    "Score the Facts insert's repeating charge grid (rows A-D under 'the following charges were filed') once the pages are in the packet; no repeating-row obligation is measurable against the current bytes.",
-    "Add the missing self-help stop conditions from the registry track, at minimum prosecutor opposition, victim opposition, registration status, CDL and immigration."
-   ],
-   "notForThisLaneToInfer": [
-    "Whether the insert forms' 2020 revision is still current, which is a source-freshness question for a source lane.",
-    "Which of the thirteen registry stop conditions are conviction-track conditions carried on this track by inheritance; the registry attaches all thirteen to in_arrest_no_charges and a repair lane should ask counsel rather than prune them itself."
-   ],
-  "whatThisDoesNotChange": "This assignment authorizes no route promotion, no price, no checkout and no fulfillment record. It names a defect and the evidence for it. FABLE-VA13 modified no packet PDF, fixture, overlay, field map, build script, queue, route or production surface."
- },
- {
-  "itemId": "il-exp-precompletion-set",
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF08",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill",
-  "decisiveDefect": "The precompletion-expungement packet writes the same case into expungement and sealing sections, writes the case number into twenty charge fields, emits partial repeating rows, and omits the route's semantic prerequisites and half its stop conditions.",
-  "failedProofObligations": ["ROUTE_IDENTITY", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "SELF_HELP_STOP"],
-  "perObligation": {
-   "ROUTE_IDENTITY": {"measuredDetail": "The Request and proposed Order contain both expungement and sealing entries for an expungement-only precompletion route.", "whatRepairMustDo": "Use only the expungement sections for this family and bind the route to the correct item 6 program/completion branch."},
-   "KNOWN_PREFILLS": {"measuredDetail": "Twenty fields asking for charges contain 2021-CF-004217; the Case List charge is the clipped direction 'Charge exactly as shown o…'.", "whatRepairMustDo": "Collect a real charge value separately from case number; if unknown, refuse it and disclose the participant action instead of printing a direction as a fact."},
-   "REQUIRED_BEFORE_FILING": {"measuredDetail": "The packet omits the ISP transcript and certified-disposition comparison/correction workflows, per-case election, hearing-date rule, wet signature, and clear fee/waiver action.", "whatRepairMustDo": "State all ten exact registry prerequisites as usable participant actions; a field-label inventory is not a substitute."},
-   "ROUTE_OPTIONS": {"measuredDetail": "The packet mixes expungement and sealing tables and does not surface the item 6 program-type/completion choice.", "whatRepairMustDo": "Select only route-determined controls and clearly preserve every participant-owned item 6 election."},
-   "REPEATING_ROWS": {"measuredDetail": "Rows 2-10 in both remedy tables contain charge-column writes while agency, arrest date and outcome companions remain blank.", "whatRepairMustDo": "Leave every unused row wholly empty and populate only one complete route-appropriate row group from held facts."},
-   "SELF_HELP_STOP": {"measuredDetail": "Five of eight registry stops are absent: transcript ambiguity, unrecognized case/identity theft, federal or out-of-state records, motion to vacate/modify/reconsider, and denial.", "whatRepairMustDo": "Carry all eight exact il-exp-precompletion stop conditions without borrowing from a sibling route."}
-  },
-  "acceptance": ["Rebuild and flatten the exact four-component packet, obtain a new hash-bound whole-family raster receipt, and require a new independent fifteen-obligation review."],
-  "repairMustNotDo": ["do not edit official source PDFs", "do not convert the precompletion route into a multi-remedy packet", "do not treat zero machine counters as semantic proof", "this verification opens no commercial route and grants no approval"]
- }
- ],
- "fableVtaAssignments": {
-  "worker": "VT-A",
-  "generatedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-  "whyASeparateBlock": "appended without touching the assignments this file already carries; those were written by other lanes at other bases and are preserved verbatim",
-  "assignmentCount": 1,
-  "assignments": [
-   {
-    "itemId": "wa_vac_cannabis-set",
-    "lane": "VF08",
-    "verifier": "VT-A",
-    "verdict": "FAIL_REPAIR_REQUIRED",
-    "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-    "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
-    "decisiveDefect": "Both rendered fixtures of the cannabis vacatur packet state, under a printed caption that reads 'I was convicted of the following cannabis offense(s):', three offences that are not cannabis offences -- 'Theft in the Third Degree', 'Malicious Mischief in the Third Degree' and 'Criminal Trespass in the Second Degree'. That block is inside the declaration the participant signs under penalty of perjury under the laws of the State of Washington, and the same three values are carried onto CrRLJ 09.0870 paragraph 3, so the proposed order asks a judge to vacate theft, malicious mischief and criminal trespass as cannabis convictions.",
-    "failedProofObligations": [
-     "KNOWN_PREFILLS"
-    ],
-    "perObligation": {
-     "KNOWN_PREFILLS": {
-      "measuredDetail": "Every mapped write is present in the bytes and carries ink; the failure is that three of the values contradict the printed caption that governs them. On CrRLJ 09.0800 page 1 the anchors p1-y269.45-x236.69, p1-y250.85-x236.69 and p1-y232.25-x236.69 are mapped to matter.charges[0..2].charge and sit under the printed line naming cannabis offences. The canonical and the boundary fixture both write the three non-cannabis values. production-field-map.json declares no cannabis constraint on that fact -- the word 'cannabis' appears once in the whole map, in the familyId -- so nothing in the map prevents the same contradiction at runtime for a real participant whose record carries a non-cannabis count. This is route-specific rather than a factory-wide fixture convention: ar-act531-set, a controlled-substance route, writes the route-appropriate 'Possession of a controlled substance' into its own offence blank, and the sibling Washington families write these same three generic offences under CrRLJ 09.0100's generic caption 'the following offense/s', which they do not contradict. Only this family's caption names the offence class, and only this family's values contradict it.",
-      "whatRepairMustDo": "Two things, and the second is the one that matters. First, change the fixture persona's charges to cannabis offences so the review fixtures and the proposed order stop asserting a falsehood about the route's own subject matter, as ar-act531-set already does for its route. Second, make the map say what the caption says: constrain matter.charges[].charge on CrRLJ 09.0800 and CrRLJ 09.0870 to counts that qualify as misdemeanour cannabis convictions under RCW 9.96.060, and refuse rather than write any count that does not, so a real participant with a mixed record cannot be handed a perjury declaration that misdescribes their own convictions. Re-render both fixtures, rehash them, and re-run the completeness audit."
-     }
+  "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+  "repairAssignments": [
+    {
+      "itemId": "ut_pet_limitations-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+      "decisiveDefect": "participant-instructions.md is a list of blanks and nothing else. It never names the court or the bureau the route files with, never states a waiver route for either fee, and never states who must be served or how; and it declares one blank a participant obligation that the source form reserves to the bureau.",
+      "failedProofObligations": [
+        {
+          "obligation": "requiredBeforeFiling",
+          "finding": "Of the 13 blanks the map declares REQUIRED_BEFORE_FILING, every one is named in participant-instructions.md except UT-BCI-EXP-APPLICATION p2 \"SID#R&F\" (blankId p2-y37.35-x188.34). No instruction line asks the participant to write a SID number or an R&F number. It is not merely unnamed: reading the source bytes at that position shows the blank sits inside the form's printed \"BUREAU USE ONLY\" box (heading read at page 2 y=51, x=26.93), and the family's own field census marks the same blank protectCategory \"government_identifier\". A blank the bureau completes cannot be an item the participant must supply before filing."
+        },
+        {
+          "obligation": "filingDestination",
+          "finding": "participant-instructions.md never tells the participant where to file. It lists \"Judicial district and court street address for the filing venue\" as a blank the participant must supply, which is the opposite of naming the destination, and it never mentions the Utah Bureau of Criminal Identification, which issues the certificate of eligibility the route names, or the district court that receives the petition. The packet's own caption does carry route-determined evidence of a destination — the \"In the [ ] District [ ] Justice Court of Utah\" election is marked District and the county is written — but a marked caption box is not the instructions naming a court."
+        },
+        {
+          "obligation": "feeAndWaiver",
+          "finding": "The court filing fee is stated: the packet fills and selects the district-court cover sheet row \"$150 [ ] Expungement Petition - Criminal (E)\" on 1044XX page 2, proved by an X read from the output bytes at x355.98 y359.1 inside that row's bracket. No waiver route is stated anywhere in the packet or the instructions — no fee-waiver motion is included, named or referenced. The BCI certificate step carries its own fee, and the instructions name it only as a blank ('BCI payment or fee-waiver election and any payment details') without stating an amount or a waiver route."
+        },
+        {
+          "obligation": "service",
+          "finding": "The instructions never state who must be served or how. The only service line, \"Service method, address, date, and certification only after service occurs\", hands the participant the method and the recipient as blanks to fill in, and the closing sentence records that service certifications are protected. Neither names a recipient or a method."
+        }
+      ],
+      "repairScope": "Two separable repairs. (1) A packet-instruction repair lane rewrites participant-instructions.md to name the filing destinations the route names — the Utah Bureau of Criminal Identification for the certificate of eligibility and the district court for the petition — and to state the service recipient and method and the waiver route, from sourced facts only. The court filing fee is already stated on the cover sheet the packet fills and needs no invention; the BCI fee, both waiver routes and the service rule are not established in this repository and must reach the packet through a source lane, not through a verifier's or a builder's inference. (2) A field-map repair lane re-dispositions UT-BCI-EXP-APPLICATION blankId p2-y37.35-x188.34 from REQUIRED_BEFORE_FILING to a protected agency-only disposition, matching the field census's own government_identifier category and the form's printed BUREAU USE ONLY region. Do not repair either in a verification lane.",
+      "notForThisLaneToInfer": [
+        "the BCI application fee",
+        "any fee-waiver route",
+        "the service recipient and method"
+      ],
+      "whatThisDoesNotChange": "Eleven of the fifteen obligations pass on measurement made in this lane, including every source digest recomputed from the Master Library bytes and both artifact hashes recomputed from the PDF bytes. The packet's fill is sound; its participant-facing instructions and two blank dispositions are not."
     },
-    "whatIsNotBroken": "The other fourteen obligations pass as measured. Both sources rehash exactly from the Master Library; the family correctly uses the cannabis-specific CrRLJ 09.0800/09.0870 pair rather than the general vacatur forms; ROUTE_OPTIONS is correctly zero because the form carries no ground control and choosing this form is itself the election; and the instructions state the filing court, the fee position with a named authority, the service rule from CrRLJ 09.0300, and explicit stop conditions.",
-    "repairMustNotDo": [
-     "do not edit an artifact merely so a receipt or a manifest matches it",
-     "do not weaken or delete the declaration this verification rests on",
-     "do not open a route, set a price or change checkout",
-     "this verification lane may not perform the repair",
-     "do not fix this by deleting the offence anchors; the form asks for the offences and the participant needs them written"
-    ],
-    "reVerificationRequired": true
-   }
-  ]
- }
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "43e11ccd3a64c5048eb673b369cc365aa0786f94",
+      "assignedBy": "FABLE-VA13",
+      "lane": "VF08",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+      "packetHashesReviewed": {
+        "packet-canonical-filled.pdf": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+        "packet-boundary-filled.pdf": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23"
+      },
+      "decisiveDefect": "The delivered petition is missing the three sets of insert pages the bound source demands by name on its own pages 4, 10 and 11, and the packet tells the participant in bold that LegalEase does not hold them. The Master Library this build mounts DOES hold them, in the same 02_PACKET_FORMS directory as the bundle already bound: IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf, sha256 65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707, 2,904,076 bytes, 4 pages, form CCA-XP-0120-7003 — pages 1-2 FACTS PERTAINING TO EXPUNGEMENT MATTER, page 3 FINDINGS AS TO EXPUNGEMENT MATTER, page 4 EXHIBIT A. Nothing needs acquiring; this is a binding repair, not a source-acquisition blocker.",
+      "failedProofObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Three required insert page sets are absent from a packet the family's own report says is unfilable without them, and the participant is told the platform does not hold a document it does hold. I read the 'Take out this page and insert your ...' instructions from the canonical fixture's own bytes at packet pages 4, 10 and 11, and from the source binary at the same pages. The family's reports/missing-companion-forms.json places the Facts insert on page 5; it is on page 4. Pages 10 and 11 are correctly recorded."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "legal-design-track-registry.json records thirteen selfHelpStopConditions for trackId in_arrest_no_charges. participant-instructions.md states two of them — the court setting a hearing, and pending charges or pretrial diversion. The eleven absent include the prosecutor filing a notice in opposition and a victim submitting a statement in opposition, which are the two events that most often precede the hearing the packet does tell the participant to stop for; registration as a sex or violent offender; a commercial driver's licence and 49 C.F.R. 384.226; and immigration, firearm, licensing or CDL consequences. Conditions 1, 2, 8, 11 and 12 are in scope for a non-conviction arrest expungement on any reading, and none of the five is present."
+        }
+      ],
+      "repairScope": [
+        "Bind CCA-SECTION1-INSERTS to this family and render its Facts, Findings and Exhibit pages into the packet in place of the three instruction pages the bundle tells the participant to remove.",
+        "Rewrite the participant-instructions.md passage that says the platform does not hold the insert forms. The www.indianalegalhelp.org pointer may stay as the participant's own route to a fresh copy; the statement of custody may not stay as it is.",
+        "Correct reports/missing-companion-forms.json — or retire it — and correct 'page 5' to page 4.",
+        "Score the Facts insert's repeating charge grid (rows A-D under 'the following charges were filed') once the pages are in the packet; no repeating-row obligation is measurable against the current bytes.",
+        "Add the missing self-help stop conditions from the registry track, at minimum prosecutor opposition, victim opposition, registration status, CDL and immigration."
+      ],
+      "notForThisLaneToInfer": [
+        "Whether the insert forms' 2020 revision is still current, which is a source-freshness question for a source lane.",
+        "Which of the thirteen registry stop conditions are conviction-track conditions carried on this track by inheritance; the registry attaches all thirteen to in_arrest_no_charges and a repair lane should ask counsel rather than prune them itself."
+      ],
+      "whatThisDoesNotChange": "This assignment authorizes no route promotion, no price, no checkout and no fulfillment record. It names a defect and the evidence for it. FABLE-VA13 modified no packet PDF, fixture, overlay, field map, build script, queue, route or production surface."
+    },
+    {
+      "itemId": "il-exp-precompletion-set",
+      "lane": "VF08",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill",
+      "decisiveDefect": "The precompletion-expungement packet writes the same case into expungement and sealing sections, writes the case number into twenty charge fields, emits partial repeating rows, and omits the route's semantic prerequisites and half its stop conditions.",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "The Request and proposed Order contain both expungement and sealing entries for an expungement-only precompletion route.",
+          "whatRepairMustDo": "Use only the expungement sections for this family and bind the route to the correct item 6 program/completion branch."
+        },
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "Twenty fields asking for charges contain 2021-CF-004217; the Case List charge is the clipped direction 'Charge exactly as shown o…'.",
+          "whatRepairMustDo": "Collect a real charge value separately from case number; if unknown, refuse it and disclose the participant action instead of printing a direction as a fact."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "The packet omits the ISP transcript and certified-disposition comparison/correction workflows, per-case election, hearing-date rule, wet signature, and clear fee/waiver action.",
+          "whatRepairMustDo": "State all ten exact registry prerequisites as usable participant actions; a field-label inventory is not a substitute."
+        },
+        "ROUTE_OPTIONS": {
+          "measuredDetail": "The packet mixes expungement and sealing tables and does not surface the item 6 program-type/completion choice.",
+          "whatRepairMustDo": "Select only route-determined controls and clearly preserve every participant-owned item 6 election."
+        },
+        "REPEATING_ROWS": {
+          "measuredDetail": "Rows 2-10 in both remedy tables contain charge-column writes while agency, arrest date and outcome companions remain blank.",
+          "whatRepairMustDo": "Leave every unused row wholly empty and populate only one complete route-appropriate row group from held facts."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "Five of eight registry stops are absent: transcript ambiguity, unrecognized case/identity theft, federal or out-of-state records, motion to vacate/modify/reconsider, and denial.",
+          "whatRepairMustDo": "Carry all eight exact il-exp-precompletion stop conditions without borrowing from a sibling route."
+        }
+      },
+      "acceptance": [
+        "Rebuild and flatten the exact four-component packet, obtain a new hash-bound whole-family raster receipt, and require a new independent fifteen-obligation review."
+      ],
+      "repairMustNotDo": [
+        "do not edit official source PDFs",
+        "do not convert the precompletion route into a multi-remedy packet",
+        "do not treat zero machine counters as semantic proof",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "lane": "VF08",
+      "raisedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedProofObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "decisiveDefect": "source-receipt.json pins all three committed source records by a full-file SHA-256 that no longer matches the bytes on disk. Pinned 0a92a1a2... (track registry), cc0c7959... (specifications) and 09368333... (route-obligation census); the bytes now hash to 232466b6..., f66ce335... and 9816a479... The registry at this family's last build commit 6a8b3ec57 still rehashes to the pinned value, so the pins went stale when commit 0be1fee769162cf337ad79daaa3d5a94d88b4f5e landed national CO/DE/MA/MT form-identity edits afterwards.",
+      "whatIsNotWrong": "The legal content still binds: all 53 anchor statements the builder relies on are present verbatim in the current bytes, and both Washington track objects are byte-identical between the registry at the build commit and the registry now. No packet page states anything the current records do not. The ARTIFACTS contradiction vf07 raised is repaired and does not reproduce.",
+      "repairScope": "receipt refresh only — re-run scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs so source-receipt.json repins the three committed records at current bytes, then requeue for raster if any fixture byte moves and return for independent re-verification.",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**",
+        "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs"
+      ],
+      "everyOtherObligationMeasuredAndPassing": true,
+      "doNotRepairHere": "VF08 verifies and never repairs. This is an assignment, not an edit."
+    }
+  ],
+  "fableVtaAssignments": {
+    "worker": "VT-A",
+    "generatedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+    "whyASeparateBlock": "appended without touching the assignments this file already carries; those were written by other lanes at other bases and are preserved verbatim",
+    "assignmentCount": 1,
+    "assignments": [
+      {
+        "itemId": "wa_vac_cannabis-set",
+        "lane": "VF08",
+        "verifier": "VT-A",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill",
+        "decisiveDefect": "Both rendered fixtures of the cannabis vacatur packet state, under a printed caption that reads 'I was convicted of the following cannabis offense(s):', three offences that are not cannabis offences -- 'Theft in the Third Degree', 'Malicious Mischief in the Third Degree' and 'Criminal Trespass in the Second Degree'. That block is inside the declaration the participant signs under penalty of perjury under the laws of the State of Washington, and the same three values are carried onto CrRLJ 09.0870 paragraph 3, so the proposed order asks a judge to vacate theft, malicious mischief and criminal trespass as cannabis convictions.",
+        "failedProofObligations": [
+          "KNOWN_PREFILLS"
+        ],
+        "perObligation": {
+          "KNOWN_PREFILLS": {
+            "measuredDetail": "Every mapped write is present in the bytes and carries ink; the failure is that three of the values contradict the printed caption that governs them. On CrRLJ 09.0800 page 1 the anchors p1-y269.45-x236.69, p1-y250.85-x236.69 and p1-y232.25-x236.69 are mapped to matter.charges[0..2].charge and sit under the printed line naming cannabis offences. The canonical and the boundary fixture both write the three non-cannabis values. production-field-map.json declares no cannabis constraint on that fact -- the word 'cannabis' appears once in the whole map, in the familyId -- so nothing in the map prevents the same contradiction at runtime for a real participant whose record carries a non-cannabis count. This is route-specific rather than a factory-wide fixture convention: ar-act531-set, a controlled-substance route, writes the route-appropriate 'Possession of a controlled substance' into its own offence blank, and the sibling Washington families write these same three generic offences under CrRLJ 09.0100's generic caption 'the following offense/s', which they do not contradict. Only this family's caption names the offence class, and only this family's values contradict it.",
+            "whatRepairMustDo": "Two things, and the second is the one that matters. First, change the fixture persona's charges to cannabis offences so the review fixtures and the proposed order stop asserting a falsehood about the route's own subject matter, as ar-act531-set already does for its route. Second, make the map say what the caption says: constrain matter.charges[].charge on CrRLJ 09.0800 and CrRLJ 09.0870 to counts that qualify as misdemeanour cannabis convictions under RCW 9.96.060, and refuse rather than write any count that does not, so a real participant with a mixed record cannot be handed a perjury declaration that misdescribes their own convictions. Re-render both fixtures, rehash them, and re-run the completeness audit."
+          }
+        },
+        "whatIsNotBroken": "The other fourteen obligations pass as measured. Both sources rehash exactly from the Master Library; the family correctly uses the cannabis-specific CrRLJ 09.0800/09.0870 pair rather than the general vacatur forms; ROUTE_OPTIONS is correctly zero because the form carries no ground control and choosing this form is itself the election; and the instructions state the filing court, the fee position with a named authority, the service rule from CrRLJ 09.0300, and explicit stop conditions.",
+        "repairMustNotDo": [
+          "do not edit an artifact merely so a receipt or a manifest matches it",
+          "do not weaken or delete the declaration this verification rests on",
+          "do not open a route, set a price or change checkout",
+          "this verification lane may not perform the repair",
+          "do not fix this by deleting the offence anchors; the form asks for the offences and the participant needs them written"
+        ],
+        "reVerificationRequired": true
+      }
+    ]
+  }
 }
