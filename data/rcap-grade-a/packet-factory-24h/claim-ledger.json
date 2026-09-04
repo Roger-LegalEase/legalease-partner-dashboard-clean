@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "03908b5ac3bddd3f4cb32c7a1d1ac4a57aac274f",
+  "generatedAtCommit": "3356dccab1e1d3c8d595d0178d77d3c3b20b3774",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6122,21 +6122,6 @@
         "rcap-ga-guidance-implementation"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-ga-guidance-implementation",
-      "familyId": "rcap-ga-guidance-implementation",
-      "itemId": null,
-      "familyIds": [
-        "rcap-ga-guidance-implementation"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
@@ -6241,21 +6226,6 @@
         "rcap-ms-custom-pleading"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-ms-custom-pleading",
-      "familyId": "rcap-ms-custom-pleading",
-      "itemId": null,
-      "familyIds": [
-        "rcap-ms-custom-pleading"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
@@ -6272,10 +6242,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX14",
+      "lane": "FIX07",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-03T02:09:16.543Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -12603,7 +12572,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "eb9d1854a5bd39a1e0b32bf0cce547716b4c14bb39e89b08e467c9d336aa96bc",
+  "claimsDigest": "4565eb69e8670ad2368abca6dee5d05f46c68fd886e689f9a4dcd7c9613d6412",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -29805,6 +29774,16 @@
       "previouslyReleasedAt": "2026-09-04T13:15:05.702Z",
       "reissuedAt": "2026-09-04T14:46:03.020Z",
       "reason": "new current independent failure requires focused repair"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ms-custom-pleading",
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "dispatchNames": "FIX07",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-04T14:48:02Z",
+      "reason": "the current dispatch names FIX07 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -35913,6 +35892,22 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-04T14:43:29Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ms-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-04T14:48:02Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ga-guidance-implementation",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-04T14:49:18Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

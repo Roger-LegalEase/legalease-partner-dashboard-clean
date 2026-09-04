@@ -1640,6 +1640,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
   else if (ownerCorrection && !ownerCorrectionAwaitsReread && !executionReclassification) state = "LEGAL_BLOCKED";
+  else if (independentReturn?.verdict === "PRODUCT_PATH_PENDING") state = "PRODUCT_PATH_PENDING";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
@@ -2430,7 +2431,7 @@ splitFamilies.sort((a, b) => a.familyId.localeCompare(b.familyId));
  * Assignments
  * ---------------------------------------------------------------- */
 const FACT = "data/rcap-grade-a/packet-factory-24h";
-const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT"];
+const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT", "PRODUCT_PATH_PENDING"];
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git remote add", "git clone"];
 
 /*

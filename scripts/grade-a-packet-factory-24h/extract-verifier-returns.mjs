@@ -44,7 +44,7 @@ const OUT = "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json";
 const LEGAL_HOLD_RECLASSIFICATION = "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json";
 const CHECK = process.argv.includes("--check");
 
-const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "PASS", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT", "BLOCKED_BEFORE_CLAIM", "STOPPED", "COMPLETED"];
+const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "PASS", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT", "PRODUCT_PATH_PENDING", "BLOCKED_BEFORE_CLAIM", "STOPPED", "COMPLETED"];
 /*
  * A LANE THAT COULD NOT LOOK IS NOT A VERDICT ABOUT THE PACKET.
  *
@@ -100,7 +100,7 @@ const PROOF_OBLIGATIONS = [
 ];
 const obligationFailed = (raw) => {
   const r = canonicalResult(raw);
-  if (r === "PASS" || r === true || UNMEASURED.has(r)) return false;
+  if (r === "PASS" || r === true || r === "PRODUCT_PATH_PENDING" || UNMEASURED.has(r)) return false;
   if (r === "FAIL" || r === false) return true;
   throw new Error(`unreadable obligation result ${JSON.stringify(r)}; the vocabulary is "PASS"/"FAIL"/"NOT_MEASURABLE_HERE"/"BLOCKED_LEGAL_INPUT" or a boolean and nothing else`);
 };
@@ -252,6 +252,9 @@ for (const { base, name: d } of sweep) {
       failedObligations, failedObligationNames: failedObligations.map((x) => x.obligation).sort(),
       ...(obligationsReadFromElsewhere ? { obligationsReadFromElsewhere: "this row's proofObligations named none; the failing obligations below were read from a named-obligation block elsewhere in the same row" } : {}),
       unmeasuredObligations,
+      ...(verdict === "PRODUCT_PATH_PENDING" ? {
+        exactRouteDeliveryDefect: r.exactRouteDeliveryDefect ?? null,
+      } : {}),
       ...(verdict === "BLOCKED_LEGAL_INPUT" && blockedLegalObligations.length ? {
         blockedLegalObligations,
         blockedLegalObligationNames: blockedLegalObligations.map((x) => x.obligation).sort(),
