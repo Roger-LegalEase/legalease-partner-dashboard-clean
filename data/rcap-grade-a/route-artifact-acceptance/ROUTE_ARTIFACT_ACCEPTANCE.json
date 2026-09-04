@@ -30,14 +30,14 @@
     }
   ],
   "counts": {
-    "routeArtifacts": 26,
+    "routeArtifacts": 28,
     "inFirstCohort": 6,
     "deterministicRebuildReproduces": 22,
-    "routeCompletenessPass": 26,
+    "routeCompletenessPass": 28,
     "routeCompletenessWithdrawn": 4,
-    "rasterPass": 26,
+    "rasterPass": 28,
     "rasterStillPending": 0,
-    "independentVerificationPending": 26,
+    "independentVerificationPending": 28,
     "kansasRowsWithdrawn": 4
   },
   "packetContentChanged": false,
@@ -47,7 +47,7 @@
   "captainQueuesWritten": [],
   "whatTheCaptainWouldHaveToIngest": {
     "file": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
-    "change": "16 route rows carrying their own pinned hashes; an exact one-route family alias may cite an existing central family receipt only when the route artifact is those same bytes",
+    "change": "15 route rows carrying their own pinned hashes; an exact one-route family alias may cite an existing central family receipt only when the route artifact is those same bytes",
     "notWrittenByThisLane": "MASTER_QUEUE.json and RASTER_QUEUE.json are the Captain's; the evidence is prepared here and the queues are left alone"
   },
   "rows": [
@@ -3554,6 +3554,248 @@
         ]
       },
       "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "routeKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+      "route": "regime-1-expungement-available-now",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+      "byteLength": 14666,
+      "pageCount": 5,
+      "unitOfDelivery": "single_route_family_assembly",
+      "customerRouteId": "VA:regime-1-expungement-available-now",
+      "familyAssemblyIsRouteArtifact": true,
+      "equivalenceBasis": {
+        "masterQueue": "one COMPLETE_PACKET_PROVEN family routeKey",
+        "customerRegistry": "one customer route naming exactly this one known packet family",
+        "componentRoutes": "every rendered component is assigned to that one routeKey",
+        "bytes": "the route artifact is the family assembly itself; no copy or rewritten PDF exists"
+      },
+      "inFirstCohort": false,
+      "deterministicRebuild": {
+        "result": "NOT_MEASURED",
+        "evidence": null
+      },
+      "routeScopedCompleteness": {
+        "result": "ROUTE_PASS_COMPLETE",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "allNineZero": true,
+        "componentsDeclaredForThisRoute": [
+          "primary_filing",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "componentsCarriedByThisArtifact": [
+          "primary_filing",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "foreignComponentsCarried": [],
+        "valuesReadBackFromTheseBytes": "7/7",
+        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
+        "measuredAgainst": "the route's own components, taken from the family's componentRoutes — not the family's component set"
+      },
+      "rasterAcceptance": {
+        "state": "RASTER_PASS",
+        "boundToSha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+        "boundToTheseBytes": true,
+        "pagesMeasured": 5,
+        "problems": [
+          "the source receipt reports undefined problem(s)"
+        ],
+        "workflowRunId": "33574304514",
+        "jobId": "100075268196",
+        "receiptArtifact": {
+          "id": "9826171095",
+          "name": "rcap-raster-va_exp_absolute_pardon-set-33574304514",
+          "zipSha256": "sha256:2827037b7474370332e832a45bfd405f893532522330f5198cd463fc77751f73",
+          "expiresAt": "2026-09-16T00:17:01Z"
+        },
+        "evidence": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "equivalenceBasis": "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes",
+        "doesNotBorrowNeighbouringBytes": true
+      },
+      "independentVerification": {
+        "pending": true,
+        "whyThisLaneMayNotClose": "The family and route bytes are identical, but this lane only proved that scope equivalence. It did not independently re-read the route under the fifteen obligations, so the existing family verdict is cited as upstream evidence and not silently promoted into a new route verdict.",
+        "verdictVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "measureTheseFifteenRouteScoped": [
+          "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, or an exact one-route family equivalence, against the family's own componentRoutes",
+          "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes — source-receipt.json",
+          "COMPONENT SET: every component the ROUTE names is present in THIS artifact, and no component of another route is",
+          "KNOWN PREFILLS: every known required fact is written and readable from this artifact's own bytes, on the page it belongs to",
+          "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+          "ROUTE OPTIONS: every route-determined election is selected",
+          "REPEATING ROWS: no row carries written cells beside required cells left blank",
+          "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+          "ARTIFACTS: the route artifact's canonical and boundary bytes hash to what reports/rendered-artifacts.json names",
+          "PAGE ORDER: the rendered page order matches the route artifact's own pageManifest",
+          "CLIPPING AND OVERLAP: no ink outside a measured write box",
+          "FILING DESTINATION: the instructions name the court or agency the route names",
+          "FEE AND WAIVER: the fee and any waiver route are stated",
+          "SERVICE: who must be served, and how",
+          "SELF-HELP STOP: the packet states where self-help ends"
+        ],
+        "readThese": [
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json — the canonical family artifact and component set used by the exact one-route equivalence",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json — componentRoutes, and the maps entries for this route's components only",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/actual-writes.json — the canonical fixture's actualWrites, filtered to this route's documents",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/participant-instructions.md — the required-before-filing disclosures and this route's which-pages-are-yours table",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/source-receipt.json",
+          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
+          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
+          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
+          "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json — the existing receipt binds the same family-assembly bytes that are this one route's artifact",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
+        ],
+        "recomputeRatherThanRead": [
+          "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
+          "the page count, from a parser rather than a byte scan",
+          "the nine counters, over this route's field-map rows, computed rather than read from ROUTE_ARTIFACT_COMPLETENESS.json",
+          "the two from-scratch rebuilds, rather than reading ROUTE_ARTIFACT_DETERMINISM.json's classification"
+        ]
+      },
+      "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "routeKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+      "route": "regime-1-expungement-available-now",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+      "byteLength": 14860,
+      "pageCount": 5,
+      "unitOfDelivery": "single_route_family_assembly",
+      "customerRouteId": "VA:regime-1-expungement-available-now",
+      "familyAssemblyIsRouteArtifact": true,
+      "equivalenceBasis": {
+        "masterQueue": "one COMPLETE_PACKET_PROVEN family routeKey",
+        "customerRegistry": "one customer route naming exactly this one known packet family",
+        "componentRoutes": "every rendered component is assigned to that one routeKey",
+        "bytes": "the route artifact is the family assembly itself; no copy or rewritten PDF exists"
+      },
+      "inFirstCohort": false,
+      "deterministicRebuild": {
+        "result": "NOT_MEASURED",
+        "evidence": null
+      },
+      "routeScopedCompleteness": {
+        "result": "ROUTE_PASS_COMPLETE",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "allNineZero": true,
+        "componentsDeclaredForThisRoute": [
+          "primary_filing",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "componentsCarriedByThisArtifact": [
+          "primary_filing",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "foreignComponentsCarried": [],
+        "valuesReadBackFromTheseBytes": "7/7",
+        "evidence": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
+        "measuredAgainst": "the route's own components, taken from the family's componentRoutes — not the family's component set"
+      },
+      "rasterAcceptance": {
+        "state": "RASTER_PASS",
+        "boundToSha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+        "boundToTheseBytes": true,
+        "pagesMeasured": 5,
+        "problems": [
+          "the source receipt reports undefined problem(s)"
+        ],
+        "workflowRunId": "33574304514",
+        "jobId": "100075268196",
+        "receiptArtifact": {
+          "id": "9826171095",
+          "name": "rcap-raster-va_exp_absolute_pardon-set-33574304514",
+          "zipSha256": "sha256:2827037b7474370332e832a45bfd405f893532522330f5198cd463fc77751f73",
+          "expiresAt": "2026-09-16T00:17:01Z"
+        },
+        "evidence": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "equivalenceBasis": "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes",
+        "doesNotBorrowNeighbouringBytes": true
+      },
+      "independentVerification": {
+        "pending": true,
+        "whyThisLaneMayNotClose": "The family and route bytes are identical, but this lane only proved that scope equivalence. It did not independently re-read the route under the fifteen obligations, so the existing family verdict is cited as upstream evidence and not silently promoted into a new route verdict.",
+        "verdictVocabulary": [
+          "PASS_COMPLETE_INDEPENDENT",
+          "FAIL_REPAIR_REQUIRED",
+          "BLOCKED_SOURCE",
+          "BLOCKED_LEGAL_INPUT"
+        ],
+        "measureTheseFifteenRouteScoped": [
+          "ROUTE IDENTITY: the artifact is built for the route the record names — routeKey on the routeArtifacts row, or an exact one-route family equivalence, against the family's own componentRoutes",
+          "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes — source-receipt.json",
+          "COMPONENT SET: every component the ROUTE names is present in THIS artifact, and no component of another route is",
+          "KNOWN PREFILLS: every known required fact is written and readable from this artifact's own bytes, on the page it belongs to",
+          "REQUIRED_BEFORE_FILING: every declared item is named in participant-instructions.md, checked against the file",
+          "ROUTE OPTIONS: every route-determined election is selected",
+          "REPEATING ROWS: no row carries written cells beside required cells left blank",
+          "PROTECTED FIELDS: no signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink",
+          "ARTIFACTS: the route artifact's canonical and boundary bytes hash to what reports/rendered-artifacts.json names",
+          "PAGE ORDER: the rendered page order matches the route artifact's own pageManifest",
+          "CLIPPING AND OVERLAP: no ink outside a measured write box",
+          "FILING DESTINATION: the instructions name the court or agency the route names",
+          "FEE AND WAIVER: the fee and any waiver route are stated",
+          "SERVICE: who must be served, and how",
+          "SELF-HELP STOP: the packet states where self-help ends"
+        ],
+        "readThese": [
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json — the boundary family artifact and component set used by the exact one-route equivalence",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json — componentRoutes, and the maps entries for this route's components only",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/actual-writes.json — the boundary fixture's actualWrites, filtered to this route's documents",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/participant-instructions.md — the required-before-filing disclosures and this route's which-pages-are-yours table",
+          "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/source-receipt.json",
+          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_DETERMINISM.json",
+          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json",
+          "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
+          "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json — the existing receipt binds the same family-assembly bytes that are this one route's artifact",
+          "data/rcap-grade-a/route-artifact-acceptance/CENTRAL_RASTER_RUN.json — the GitHub-hosted run, its job for this route, and the receipt artifact to download",
+          "data/rcap-grade-a/route-artifact-acceptance/RASTER_ENVIRONMENT.json — the canary and negative controls the local run depended on"
+        ],
+        "recomputeRatherThanRead": [
+          "SHA-256 of the artifact on disk, against the routeArtifacts row and against the raster receipt's pin — three numbers that must be one number",
+          "the page count, from a parser rather than a byte scan",
+          "the nine counters, over this route's field-map rows, computed rather than read from ROUTE_ARTIFACT_COMPLETENESS.json",
+          "the two from-scratch rebuilds, rather than reading ROUTE_ARTIFACT_DETERMINISM.json's classification"
+        ]
+      },
+      "grantsNothing": "Acceptance evidence only. This opens no commercial route, promotes no build status, and creates no fulfillment authority."
     }
   ],
   "withdrawnRows": [
@@ -3736,10 +3978,10 @@
   ],
   "focusedRegeneration": {
     "families": [
-      "rcap-tn-custom-pleading"
+      "va_exp_absolute_pardon-set"
     ],
     "routes": [],
-    "rowsReplaced": 22,
-    "untouchedRowsPreserved": 4
+    "rowsReplaced": 2,
+    "untouchedRowsPreserved": 26
   }
 }

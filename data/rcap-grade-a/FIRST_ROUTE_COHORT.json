@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "32a6a01dea86b2109a5d3a35b6e332c9049ffb50",
+  "atCommit": "d9cfd3558ea55446b9641824538914e8574206fd",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -80,18 +80,18 @@
     }
   ],
   "counts": {
-    "completePacketProven": 109,
+    "completePacketProven": 111,
     "familiesInsideExistingApprovalScope": 110,
     "augustApprovalScope": 57,
     "septemberExactDigestApprovalScope": 53,
-    "septemberApprovalsWithCurrentDigests": 49,
-    "familiesInsideTheOwnerApproval": 106,
+    "septemberApprovalsWithCurrentDigests": 48,
+    "familiesInsideTheOwnerApproval": 105,
     "provenAndApproved": 44,
     "inCohort": 6,
     "cohortRoutes": 7,
-    "provenButOutsideAnyExistingApproval": 65
+    "provenButOutsideAnyExistingApproval": 67
   },
-  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 106 families currently retain approval coverage after applying the September digest condition, while 109 are packet-proven; 44 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 105 families currently retain approval coverage after applying the September digest condition, while 111 are packet-proven; 44 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [
     {
       "familyId": "dc_innocence_expungement-set",
@@ -589,6 +589,12 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "ct-cleanslate-petition-set",
       "jurisdiction": "CT",
       "routeCount": 1,
@@ -620,6 +626,12 @@
     },
     {
       "familyId": "id_clean_slate_shield-set",
+      "jurisdiction": "ID",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "id_felony_reduction-set",
       "jurisdiction": "ID",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
@@ -1727,6 +1739,36 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf03",
         "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "routeKeys": [
+        "obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "3db073aff6788fbf5ef8ac12f1bab4d3fa650eb0"
       },
       "legalApproval": null
     },
@@ -3028,6 +3070,36 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf04",
         "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "id_felony_reduction-set",
+      "jurisdiction": "ID",
+      "routeKeys": [
+        "obligation:track-only:ID:id_felony_reduction"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "3db073aff6788fbf5ef8ac12f1bab4d3fa650eb0"
       },
       "legalApproval": null
     },
