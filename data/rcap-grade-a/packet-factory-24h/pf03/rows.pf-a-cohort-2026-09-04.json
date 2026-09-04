@@ -1,0 +1,367 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "PF03",
+  "generatedBy": "the PF-A packet-build cohort, in one worktree, running lanes PF01, PF02 and PF03",
+  "environment": {
+    "container": "a local git worktree, not Codex Cloud: origin is present, the checkout is complete and the return is a set of commits on the worktree branch",
+    "masterLibraryMounted": true,
+    "custodiesTheCommittedIndexDeclares": [
+      "master_library",
+      "human_source_returns",
+      "d_source_packs",
+      "nationwide_recovery_pool_2026_09_02"
+    ],
+    "custodiesMountedHere": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "whyThatMatters": "Two of the four custodies the corpus index names are absent from this container, and every family this cohort stopped for source reasons names its missing binary in one of them. Where the same digest is recorded in the mounted Master Library as well, the build binds it there and says so; where it is not, the family stops."
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <id> --require-rasterizer",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/16 passed at the time of the first run",
+    "checksThatFailedAndWhy": [
+      "family_sources_bind — the check resolves a family's sources through the path the queue names, and those paths are in the unmounted custodies. Each built family re-establishes the same fact by binding the digest the assignment pins to the mounted Master Library copy and re-hashing the file on disk; each source receipt records the path actually read.",
+      "corpus_matches_committed_index — one sampled entry of 24, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', is recorded under custody master_library with a recovery-pool-shaped path that does not exist in the mounted library. That is an index-labelling defect on the dispatch base, not corpus corruption here, and it is the same defect that hides two North Carolina sources.",
+      "worktree_clean and private_is_git_ignored failed on the first run only, because private/ had been mounted as a symlink and git's 'private/' rule matches directories. Remounting private/ as a real directory of symlinked children cleared both."
+    ]
+  },
+  "whatThisReturnIsNot": "A verdict. This lane built these packets and does not verify its own work; independent verification belongs to a lane that did not build them. A built family is not approved, not sellable, and opens no commercial route.",
+  "rasterState": "Every rendered page of every built family was rastered locally through scripts/raster/pdf-page-raster.mjs against a Chromium the preflight resolved and executed. That is build-time raster evidence; it is not a RASTER_PASS, which the central acceptance workflow issues.",
+  "familiesAssigned": 5,
+  "rowsReturned": 5,
+  "familiesCompleted": [
+    "co_motion_seal_conviction-set"
+  ],
+  "familiesStopped": [
+    "ar-act346-set",
+    "ky_protective_order_record_expungement-set",
+    "ma-seal-court-set",
+    "nm_identity_theft-set"
+  ],
+  "blockedSource": [
+    "ar-act346-set",
+    "ky_protective_order_record_expungement-set",
+    "ma-seal-court-set"
+  ],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ar-act346-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "AR",
+      "routeKeys": [
+        "obligation:unit:AR:ar-act346:ar-act346-stage-1",
+        "obligation:unit:AR:ar-act346:ar-act346-stage-2"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "The ACIC order binds from the Master Library, but the petition — ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS — is not in the committed corpus index at all: the assignment records its location as a Google Drive object id, which is an unfetched acquisition rather than a held binary. An order rendered without the petition it grants would be the wrong half of the packet, so nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 2,
+      "sourcesThatBind": 1,
+      "sourcesThatDoNotBind": [
+        "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+          "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+          "pathTheAssignmentNames": "google-drive:1cVTkd6IS4iCaKzbwnmbdmmnMHFVzwCq_",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "not in the committed corpus index"
+          ],
+          "aCustodyMountedHere": false,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        },
+        {
+          "sourceId": "official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+          "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+          "pathTheAssignmentNames": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "counters": null,
+      "allNineCountersZero": null
+    },
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "status": "COMPLETED",
+      "jurisdiction": "CO",
+      "routeKeys": [
+        "obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "documentsRendered": [
+        {
+          "documentId": "JDF-612",
+          "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+          "instrumentKind": "primary_filing",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf"
+        },
+        {
+          "documentId": "JDF-615",
+          "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+          "instrumentKind": "proposed_order",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf"
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "cea9d35a0711ee76b65b8391fb4120793cb673741fc8e074e165a24307550534",
+          "byteLength": 356307,
+          "pageCount": 8
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "1f8232b813de3adfc8c58c2ca367ea8b169e7305cf80f5bc686a0c95a612e556",
+          "byteLength": 356600,
+          "pageCount": 8
+        }
+      ],
+      "rasterPages": 16,
+      "everyPageRastered": true,
+      "requiredBeforeFilingCount": 26,
+      "instrumentKindsThisRouteNames": [
+        "primary_filing",
+        "proposed_order",
+        "required_filing"
+      ],
+      "whereEachInstrumentKindLands": [
+        {
+          "instrumentKind": "primary_filing",
+          "deliveredBy": "JDF-612",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "proposed_order",
+          "deliveredBy": "JDF-615",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "required_filing",
+          "deliveredBy": "participant-instructions.md",
+          "as": "the section headed \"## What you must do before you file\""
+        }
+      ],
+      "determinism": {
+        "method": "two full builds from unchanged inputs, then a recursive byte comparison of the whole overlay directory including both fixture PDFs and every raster PNG",
+        "byteIdentical": true,
+        "differences": 0
+      },
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:JDF-612",
+          "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:JDF-615",
+          "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "selfVerified": false,
+      "independentVerification": "OWED — this lane built these packets and issues no verdict on them"
+    },
+    {
+      "itemId": "ky_protective_order_record_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "KY",
+      "routeKeys": [
+        "obligation:track-only:KY:ky_protective_order_record_expungement"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "The family's only source, AOC-275.18, does not bind by exact SHA-256. The bytes are not held anywhere under private/ in this container: every file under that tree was hashed (501 files) and none matches this digest. The committed corpus index records the digest only in a custody this container does not mount. Nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 1,
+      "sourcesThatBind": 0,
+      "sourcesThatDoNotBind": [
+        "official-form:AOC-275.18"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:AOC-275.18",
+          "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+          "pathTheAssignmentNames": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": false,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        }
+      ],
+      "counters": null,
+      "allNineCountersZero": null
+    },
+    {
+      "itemId": "ma-seal-court-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MA",
+      "routeKeys": [
+        "obligation:track-pathway:MA:ma-seal-court:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-seal-court-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "The family's only source, TC0057, does not bind by exact SHA-256. The bytes are not held anywhere under private/ in this container: every file under that tree was hashed (501 files) and none matches this digest. The committed corpus index records the digest only in a custody this container does not mount. Nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 1,
+      "sourcesThatBind": 0,
+      "sourcesThatDoNotBind": [
+        "official-form:TC0057"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:TC0057",
+          "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+          "pathTheAssignmentNames": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": false,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        }
+      ],
+      "counters": null,
+      "allNineCountersZero": null
+    },
+    {
+      "itemId": "nm_identity_theft-set",
+      "status": "STOPPED",
+      "stopClass": "STOPPED_STRATEGY_MISMATCH",
+      "jurisdiction": "NM",
+      "routeKeys": [
+        "obligation:track-only:NM:nm_identity_theft"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "Every source binds: all four digests the assignment pins are held in the mounted Master Library and were re-hashed on disk. The family stops on the BUILDER, not the source. Three of its four documents carry no AcroForm at all — NM 4-951 (the petition, 3 pages), NM 4-960.1 (the notice of hearing, 3 pages) and the local identity-theft order (4 pages) are flat PDFs with 0 fields, which the committed corpus index records as structuralClassObserved 'flat_pdf'. This lane's host fills AcroForm widgets and measures its writes at widget rectangles; a flat document needs the measured-overlay strategy, which is a different builder and not one this lane could write honestly inside this window. Nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 4,
+      "sourcesThatBind": 4,
+      "sourcesThatDoNotBind": [],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
+          "sha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:4-222",
+          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:4-951",
+          "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:4-960.1",
+          "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "correctsAnEarlierReturn": {
+        "theEarlierReturnSaid": "STOPPED — BLOCKED_SOURCE three exact official-form identities did not bind",
+        "inFile": "data/rcap-grade-a/packet-factory-24h/pf02/rows.json",
+        "whatThisReturnFound": "All four digests bind here, from the mounted Master Library, and each was re-hashed on disk. This family still stops, but for a different reason and one that belongs to the builder rather than the source: three of its four documents carry no AcroForm at all."
+      },
+      "counters": null,
+      "allNineCountersZero": null
+    }
+  ],
+  "relationToTheReturnAlreadyInThisDirectory": {
+    "file": "data/rcap-grade-a/packet-factory-24h/pf03/rows.json",
+    "left": "untouched",
+    "itsAssignmentId": "PF03",
+    "itsBase": "09b741ad00be0d630bd73a72f66640294abab397",
+    "itsFamilies": 2,
+    "familiesBothReturnsCover": [],
+    "whereTheyDisagree": "This cohort's grants came from the live claim ledger, not from that return. Where both cover a family and the results differ, the difference is the container: the earlier return was written where the family's sources did not resolve, and every disagreement below is evidenced in this return's sourceBinding block, digest by digest."
+  }
+}
