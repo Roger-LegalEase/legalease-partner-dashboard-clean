@@ -540,6 +540,56 @@ function pa6308VehicleFor(facts) {
   return vehicle;
 }
 
+const PA_6308_SERVICE_CERTIFICATE = Object.freeze({
+  documentId: "pa_6308_underage-certificate-of-service-3",
+  documentRole: "certificate_of_service",
+  key: "certificate-of-service",
+  renderText(facts, vehicle) {
+    return [
+      "CERTIFICATE OF SERVICE",
+      "",
+      `Pennsylvania ${vehicle.vehicleId === "rule_490" ? "Rule 490" : "Rule 790"} expungement filing`,
+      `Petitioner: ${facts["participant.full_legal_name"]}`,
+      `Docket number: ${facts["matter.case_number"]}`,
+      "",
+      "DO NOT SIGN OR DATE THIS CERTIFICATE UNTIL SERVICE HAS ACTUALLY OCCURRED.",
+      "",
+      "I certify that, concurrently with filing the attached verified petition and proposed order,",
+      "I served a copy on the attorney for the Commonwealth.",
+      "",
+      `Name and office of the attorney for the Commonwealth served: ${".".repeat(44)}`,
+      `${".".repeat(84)}`,
+      `Service address: ${".".repeat(67)}`,
+      `${".".repeat(84)}`,
+      `Service method accepted by the filing court: ${".".repeat(48)}`,
+      "(The governed record establishes the recipient and timing, but not a locally accepted method.)",
+      `Date service actually occurred: ${".".repeat(52)}`,
+      "",
+      `Signature of petitioner after service: ${".".repeat(51)}`,
+      `Date signed: ${".".repeat(70)}`,
+      `Printed name: ${facts["participant.full_legal_name"]}`,
+      "",
+      "This certificate records service performed by the participant. LegalEase does not serve anyone",
+      "and does not prefill the recipient's office, address, service method, service date, or signature.",
+    ].join("\n");
+  },
+  fields: Object.freeze([
+    Object.freeze({ field: "Printed name", decision: "candidate_write", factId: "participant.full_legal_name" }),
+    Object.freeze({ field: "Docket number", decision: "candidate_write", factId: "matter.case_number" }),
+    ...["Attorney for the Commonwealth name and office", "Service address", "Service method",
+      "Date service actually occurred", "Signature after service", "Date signed"].map((field) => Object.freeze({
+      field,
+      decision: "refuse",
+      factId: null,
+      refusalClass: "unmailed_or_unperformed_service",
+      requiredBeforeFiling: false,
+      completesAfterService: true,
+      reason: "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs.",
+      widgets: [],
+    })),
+  ]),
+});
+
 const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
   DefAddrCity: "participant.city", DefAddrSt: "participant.state", DefAddrZip: "participant.zip",
@@ -558,6 +608,7 @@ function njFamily(routeKey, selectionNames, allow, note, familyAdditions = {}, d
 Object.assign(FAMILY, {
   "pa_6308_underage-set": {
     jurisdiction: "PA",
+    implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
     routeKeys: ["obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"],
     routeVehicle: {
       factId: "matter.court_level",
@@ -571,16 +622,15 @@ Object.assign(FAMILY, {
       cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_790" }),
       cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, routeVehicle: "rule_790" }),
     ],
-    unbuiltComponents: [{
-      documentId: "pa_6308_underage-certificate-of-service-3",
-      documentRole: "certificate_of_service",
-      generatedParticipantArtifact: false,
-      why: "The committed packet set requires a custom service certificate, but no governed locally accepted service method or generated component is bound here. It remains an explicit repair remainder rather than guessed content.",
-    }],
+    supplementalDocuments: [PA_6308_SERVICE_CERTIFICATE],
+    service: [
+      "The attorney for the Commonwealth is served concurrently with filing. The included certificate records that required recipient and timing.",
+      "The governed record does not establish a locally accepted service method. The certificate leaves the method, recipient office and address, service date, and signature blank; complete them only after following the filing court's accepted local procedure and after service actually occurs.",
+    ],
     notes: [
       "Rule 490 is selected only when the court record establishes a magisterial-district-judge case; Rule 790 is selected only when it establishes a court-of-common-pleas case.",
       "If the court level is absent or outside those two recorded values, generation stops before any participant artifact is selected.",
-      "The required custom certificate-of-service component remains a separately disclosed build remainder; this mapping does not invent one.",
+      "The required custom certificate of service states only the governed recipient and timing. It leaves every local-method and performed-service fact blank.",
     ],
   },
   "nj_arrest_no_conviction-set": njFamily(
@@ -1385,6 +1435,24 @@ async function selfTest(familyId) {
   assert.equal(classifyRefusal("Print_Form", "Print this form"), "not_a_filing_fact");
   assert.equal(classifyRefusal("Judge", "Judge"), "court_prosecutor_clerk_or_agency_owned");
   assert.equal(classifyRefusal("Reasons_to_Grant_Application", "Reasons"), "participant_sworn_narrative_or_legal_election");
+  const pa6308ServiceDocument = FAMILY["pa_6308_underage-set"].supplementalDocuments?.[0];
+  assert.equal(FAMILY["pa_6308_underage-set"].implementationStrategy,
+    "official_pdf_fill_with_custom_service_certificate",
+    "PA 6308 source evidence must describe the hybrid packet vehicle truthfully");
+  assert.equal(pa6308ServiceDocument?.documentId, "pa_6308_underage-certificate-of-service-3",
+    "PA 6308 must generate the packet set's required certificate of service");
+  const pa6308ServiceText = pa6308ServiceDocument.renderText(
+    factsForJurisdiction("PA"),
+    PA_6308_ROUTE_VEHICLES.magisterial_district_judge,
+  );
+  assert.match(pa6308ServiceText, /attorney for the Commonwealth/i,
+    "PA 6308 certificate must name the governed recipient");
+  assert.match(pa6308ServiceText, /concurrently with filing/i,
+    "PA 6308 certificate must state the governed timing");
+  assert.match(pa6308ServiceText, /service method accepted by the filing court[^\n]*\.{8,}/i,
+    "PA 6308 certificate must leave the unproved local service method blank");
+  assert.doesNotMatch(pa6308ServiceText, /certified mail|first[- ]class mail|personal service|hand delivery|electronic service/i,
+    "PA 6308 certificate must not invent a local service method");
   const configuredDocumentIds = new Set(Object.values(FAMILY)
     .flatMap((config) => config.documents.map((doc) => doc.documentId)));
   assert.equal(Object.keys(SHARED_EXACT_FACT_ALLOWLIST).length, 12);
@@ -2523,7 +2591,7 @@ function sourceReceipt(familyId, config, rows) {
   return {
     schemaVersion: "rcap-family-source-receipt/v1",
     familyId, worklistGroupId: familyId, jurisdiction: config.jurisdiction,
-    routeKeys: config.routeKeys, implementationStrategy: "official_pdf_fill",
+    routeKeys: config.routeKeys, implementationStrategy: config.implementationStrategy ?? "official_pdf_fill",
     custodyClass: "SOURCE_ALREADY_HELD", acquisitionCommissioned: false,
     sourceArchive: "Expungement_AI_RCAP_Master_Library_Edition_1",
     corpusRootProvidedBy: CORPUS_ENV,
@@ -2538,6 +2606,20 @@ function sourceReceipt(familyId, config, rows) {
       structuralClassObserved: sourceRow.indexEntry.structuralClassObserved,
       generatedParticipantArtifact: doc.render !== false,
     })),
+    ...((config.supplementalDocuments ?? []).length ? {
+      composedComponents: config.supplementalDocuments.map((doc) => ({
+        documentId: doc.documentId,
+        documentRole: doc.documentRole,
+        generatedParticipantArtifact: true,
+        authority: "the committed legal-design track registry and legal-design specification",
+        sourceBinary: null,
+        serviceFactsUsed: {
+          recipient: "attorney for the Commonwealth",
+          timing: "concurrently with filing",
+          method: "not established; participant completion blank",
+        },
+      })),
+    } : {}),
     whatThisReceiptDoesNotEstablish: [
       "that an unknown-revision source remains current",
       "that local court practice or route branching has been resolved",
@@ -2939,6 +3021,127 @@ async function buildOfficial(familyId, config) {
     }
   }
 
+  for (const doc of config.supplementalDocuments ?? []) {
+    fieldMaps.push({
+      documentId: doc.documentId,
+      documentRole: doc.documentRole,
+      generatedParticipantArtifact: true,
+      fields: doc.fields,
+    });
+    for (const [fixture, facts] of [["canonical", factsForJurisdiction(config.jurisdiction)],
+      ["boundary", factsForJurisdiction(config.jurisdiction, true)]]) {
+      const selectedVehicle = config.routeVehicle?.selector(facts) ?? null;
+      const text = doc.renderText(facts, selectedVehicle);
+      const bytes = await renderPleadingPdf(text, `${config.jurisdiction} ${doc.documentId} ${fixture}`);
+      const file = `${out}/fixtures/${doc.key}-${fixture}.pdf`;
+      writeBytes(file, bytes);
+      const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+      const extractedText = pdf.getPages()
+        .flatMap((page) => groupIntoLines(extractTextItems(page)).map((line) => line.text))
+        .join("\n");
+      assert.ok(extractedText.includes(facts["participant.full_legal_name"]),
+        `${doc.documentId}/${fixture}: participant name is not extractable`);
+      assert.ok(extractedText.includes(facts["matter.case_number"]),
+        `${doc.documentId}/${fixture}: docket number is not extractable`);
+      assert.match(extractedText, /attorney for the Commonwealth/i,
+        `${doc.documentId}/${fixture}: governed service recipient is absent`);
+      assert.match(extractedText, /concurrently with filing/i,
+        `${doc.documentId}/${fixture}: governed service timing is absent`);
+      assert.doesNotMatch(extractedText,
+        /certified mail|first[- ]class mail|personal service|hand delivery|electronic service/i,
+        `${doc.documentId}/${fixture}: local service method was invented`);
+      const written = doc.fields.filter((field) => field.decision === "candidate_write").map((field) => ({
+        field: field.field,
+        factId: field.factId,
+        kind: "composed_static_text",
+        value: facts[field.factId],
+      }));
+      const refused = doc.fields.filter((field) => field.decision === "refuse").map((field) => ({
+        field: field.field,
+        reason: field.reason,
+        category: field.refusalClass,
+      }));
+      const report = {
+        written,
+        refused,
+        selections: [],
+        fieldFinalizer: {
+          choiceNeutralization: {
+            performedBeforeFlatten: false,
+            fields: [],
+            rule: "not applicable to a newly composed certificate with no interactive controls",
+          },
+        },
+      };
+      const proof = {
+        artifactSha256: sha256(bytes),
+        artifactByteLength: bytes.length,
+        appearanceCount: 0,
+        writtenProof: written.map((row) => ({
+          field: row.field,
+          factId: row.factId,
+          expectedValue: row.value,
+          drawnText: [row.value],
+          exactValueObserved: extractedText.includes(row.value),
+          derivedFrom: "decoded text operators in the saved composed certificate PDF",
+        })),
+        missingWrittenInk: [],
+        wrongWrittenValues: [],
+        protectedInk: [],
+        protectedVectorInk: [],
+        protectedSourceOwnedAppearances: [],
+        selectionProof: [],
+      };
+      assert.ok(proof.writtenProof.every((row) => row.exactValueObserved),
+        `${doc.documentId}/${fixture}: a declared write is absent from decoded PDF bytes`);
+      artifactReports.push({
+        documentId: doc.documentId,
+        documentKey: doc.key,
+        fixture,
+        file,
+        sha256: sha256(bytes),
+        byteLength: bytes.length,
+        pageCount: pdf.getPageCount(),
+        report,
+        proof,
+        heldButNotPrinted: [],
+        supplemental: true,
+      });
+
+      const rasterDir = `${out}/raster/${doc.key}-${fixture}`;
+      const rasterRows = await rasterizePdf({ file: abs(file), outDir: abs(rasterDir), prefix: "page" });
+      assert.equal(rasterRows.length, pdf.getPageCount(), `${doc.documentId}/${fixture}: not every page rastered`);
+      assert.equal(rasterRows.filter((row) => row.looksBlank).length, 0, `${doc.documentId}/${fixture}: blank raster page`);
+      const contactFile = `${out}/reports/contact-sheets/${doc.key}-${fixture}.png`;
+      const contactSheetRaw = await writeContactSheet(rasterRows, abs(contactFile));
+      rasterReports.push({
+        documentId: doc.documentId,
+        fixture,
+        sourcePdf: file,
+        directory: rasterDir,
+        engine: "bundled_poppler_pdftoppm",
+        dpi: RASTER_DPI,
+        contactSheet: { ...contactSheetRaw, file: contactFile },
+        pages: rasterRows.map((row) => ({
+          page: row.page,
+          file: path.posix.join(rasterDir, path.basename(row.file)),
+          sha256: sha256(fs.readFileSync(row.file)),
+          byteLength: fs.statSync(row.file).size,
+          widthPx: row.widthPx,
+          heightPx: row.heightPx,
+          attempts: row.attempts,
+          looksBlank: row.looksBlank,
+          croppedToPage: row.croppedToPage,
+          engine: row.engine,
+          dpi: row.dpi,
+        })),
+      });
+      console.log(`\n=== ${familyId}: ${doc.documentId} ===`);
+      console.log(`  ${fixture}: composed service certificate; wrote ${written.length}; refused ${refused.length}`);
+      console.log(`  raster: ${rasterRows.length}/${pdf.getPageCount()} pages`);
+    }
+  }
+
   writeJson(`${out}/source-receipt.json`, sourceReceipt(familyId, config, rows));
   writeJson(`${out}/field-census.census-v1.json`, {
     schemaVersion: "rcap-first-hand-field-census/v1", familyId,
@@ -3017,7 +3220,7 @@ async function buildOfficial(familyId, config) {
       schemaVersion: "rcap-packet-component-specification/v1",
       familyId,
       routeKeys: config.routeKeys,
-      status: "ROUTE_VEHICLE_MAPPED_OFFICIAL_ARTIFACTS_BUILT_COMPONENT_REMAINDER_DISCLOSED",
+      status: "ROUTE_VEHICLE_MAPPED_REQUIRED_COMPONENTS_BUILT",
       courtStatusMetadata: {
         factId: config.routeVehicle.factId,
         requiredRecordSource: "court docket or clerk-certified disposition",
@@ -3028,9 +3231,12 @@ async function buildOfficial(familyId, config) {
       },
       serviceCertificate: {
         componentId: "pa_6308_underage-certificate-of-service-3",
-        status: "REQUIRED_NOT_GENERATED",
+        status: "GENERATED_WITH_LOCAL_METHOD_AND_PERFORMED_SERVICE_FACTS_BLANK",
         recipient: "attorney for the Commonwealth",
         timing: "concurrently with filing",
+        generatedArtifacts: artifactReports
+          .filter((artifact) => artifact.documentId === "pa_6308_underage-certificate-of-service-3")
+          .map((artifact) => ({ fixture: artifact.fixture, file: artifact.file, sha256: artifact.sha256 })),
         noGuessRule: "Do not invent a locally accepted service method or service facts. The participant completes the certificate only after service actually occurs.",
       },
       sourceBindings: [
@@ -3096,7 +3302,9 @@ async function checkOfficial(familyId, config) {
     assert.throws(() => config.routeVehicle.selector({}), /requires an established court level/);
     assert.throws(() => config.routeVehicle.selector({ [config.routeVehicle.factId]: "unknown" }),
       /requires an established court level/);
-    assert.equal(componentSpec.serviceCertificate.status, "REQUIRED_NOT_GENERATED");
+    assert.equal(componentSpec.serviceCertificate.status,
+      "GENERATED_WITH_LOCAL_METHOD_AND_PERFORMED_SERVICE_FACTS_BLANK");
+    assert.equal(componentSpec.serviceCertificate.generatedArtifacts.length, 2);
     assertFailClosedEvidence(routeMap, `${familyId}/route-vehicle-map`);
     assertFailClosedEvidence(componentSpec, `${familyId}/packet-component-specification`);
   }
@@ -3112,14 +3320,28 @@ async function checkOfficial(familyId, config) {
   assert.equal(receipt.worklistGroupId, familyId);
   assert.equal(receipt.jurisdiction, config.jurisdiction);
   assert.deepEqual(receipt.routeKeys, config.routeKeys);
-  assert.equal(receipt.implementationStrategy, "official_pdf_fill");
+  assert.equal(receipt.implementationStrategy, config.implementationStrategy ?? "official_pdf_fill");
   assert.equal(receipt.custodyClass, "SOURCE_ALREADY_HELD");
   assert.equal(receipt.acquisitionCommissioned, false);
   assert.equal(receipt.sourceArchive, "Expungement_AI_RCAP_Master_Library_Edition_1");
   assert.equal(receipt.corpusRootProvidedBy, CORPUS_ENV);
   assert.equal(receipt.documents.length, config.documents.length);
   assert.equal(census.documents.length, config.documents.length);
-  assert.equal(map.documents.length, config.documents.length);
+  assert.equal(map.documents.length, config.documents.length + (config.supplementalDocuments ?? []).length);
+  if ((config.supplementalDocuments ?? []).length) {
+    assert.deepEqual(receipt.composedComponents, config.supplementalDocuments.map((doc) => ({
+      documentId: doc.documentId,
+      documentRole: doc.documentRole,
+      generatedParticipantArtifact: true,
+      authority: "the committed legal-design track registry and legal-design specification",
+      sourceBinary: null,
+      serviceFactsUsed: {
+        recipient: "attorney for the Commonwealth",
+        timing: "concurrently with filing",
+        method: "not established; participant completion blank",
+      },
+    })));
+  }
   assert.equal(map.commercialAuthority, false);
   assert.equal(map.runtimeSelectable, false);
   for (const [index, doc] of config.documents.entries()) {
@@ -3147,6 +3369,14 @@ async function checkOfficial(familyId, config) {
     assertFailClosedEvidence(record, `${familyId}/${name}`);
   }
   for (const documentMap of map.documents) {
+    const supplemental = (config.supplementalDocuments ?? [])
+      .find((document) => document.documentId === documentMap.documentId);
+    if (supplemental) {
+      assert.equal(documentMap.documentRole, supplemental.documentRole);
+      assert.equal(documentMap.generatedParticipantArtifact, true);
+      assert.deepEqual(documentMap.fields, supplemental.fields);
+      continue;
+    }
     const documentCensus = census.documents.find((row) => row.documentId === documentMap.documentId);
     assert.ok(documentCensus, `${documentMap.documentId}: census absent`);
     assert.equal(documentMap.fields.length, documentCensus.fields.length, `${documentMap.documentId}: incomplete field dispositions`);
@@ -3206,6 +3436,38 @@ async function checkOfficial(familyId, config) {
   }
   assert.equal(writes.artifacts.length, rendered.pdfs.length);
   for (const artifact of writes.artifacts) {
+    const supplemental = (config.supplementalDocuments ?? [])
+      .find((candidate) => candidate.documentId === artifact.documentId);
+    if (supplemental) {
+      const fixtureFacts = factsForJurisdiction(config.jurisdiction, artifact.fixture === "boundary");
+      const selectedVehicle = config.routeVehicle?.selector(fixtureFacts) ?? null;
+      const recomputedText = supplemental.renderText(fixtureFacts, selectedVehicle);
+      const recomputedBytes = await renderPleadingPdf(recomputedText,
+        `${config.jurisdiction} ${supplemental.documentId} ${artifact.fixture}`);
+      assert.equal(sha256(recomputedBytes), artifact.sha256,
+        `${artifact.file}: deterministic composed certificate does not match stored artifact`);
+      assert.equal(recomputedBytes.length, artifact.byteLength,
+        `${artifact.file}: deterministic composed certificate byte-length drift`);
+      const reopened = await PDFDocument.load(fs.readFileSync(abs(artifact.file)), {
+        ignoreEncryption: true, updateMetadata: false,
+      });
+      const extractedText = reopened.getPages()
+        .flatMap((page) => groupIntoLines(extractTextItems(page)).map((line) => line.text))
+        .join("\n");
+      assert.ok(extractedText.includes(fixtureFacts["participant.full_legal_name"]));
+      assert.ok(extractedText.includes(fixtureFacts["matter.case_number"]));
+      assert.match(extractedText, /attorney for the Commonwealth/i);
+      assert.match(extractedText, /concurrently with filing/i);
+      assert.doesNotMatch(extractedText,
+        /certified mail|first[- ]class mail|personal service|hand delivery|electronic service/i);
+      assert.deepEqual(artifact.proof.protectedInk, []);
+      assert.deepEqual(artifact.proof.protectedVectorInk, []);
+      assert.deepEqual(artifact.proof.missingWrittenInk, []);
+      assert.deepEqual(artifact.proof.wrongWrittenValues, []);
+      assert.ok(artifact.proof.writtenProof.every((row) => row.exactValueObserved));
+      assert.equal(artifact.proof.artifactSha256, artifact.sha256);
+      continue;
+    }
     const doc = config.documents.find((candidate) => candidate.documentId === artifact.documentId);
     const documentCensus = census.documents.find((candidate) => candidate.documentId === artifact.documentId);
     const documentMap = map.documents.find((candidate) => candidate.documentId === artifact.documentId);

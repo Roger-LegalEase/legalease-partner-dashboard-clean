@@ -9,7 +9,13 @@ These files are deterministic review fixtures made from exact held official sour
 - Review every page, choose only legally applicable elections, and complete every required signature and date yourself.
 - Complete service certificates only after service actually occurs.
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
-- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.
+- Confirm current revision, filing destination, local procedures, fees, attachments, and proposed-order requirements before filing. Who must be served is answered in its own section below.
+
+## Who must be served
+
+The attorney for the Commonwealth is served concurrently with filing. The included certificate records that required recipient and timing.
+
+The governed record does not establish a locally accepted service method. The certificate leaves the method, recipient office and address, service date, and signature blank; complete them only after following the filing court's accepted local procedure and after service actually occurs.
 
 ## Values this platform holds but did not print
 
@@ -93,4 +99,4 @@ The platform does not hold the facts below. Supply and verify each applicable it
 - applicable dispositions (attach additional sheets if needed) (source field: `Text15`)
 - Rule 490 is selected only when the court record establishes a magisterial-district-judge case; Rule 790 is selected only when it establishes a court-of-common-pleas case.
 - If the court level is absent or outside those two recorded values, generation stops before any participant artifact is selected.
-- The required custom certificate-of-service component remains a separately disclosed build remainder; this mapping does not invent one.
+- The required custom certificate of service states only the governed recipient and timing. It leaves every local-method and performed-service fact blank.

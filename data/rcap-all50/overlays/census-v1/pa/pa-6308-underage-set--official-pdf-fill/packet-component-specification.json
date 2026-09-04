@@ -4,7 +4,7 @@
   "routeKeys": [
     "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
   ],
-  "status": "ROUTE_VEHICLE_MAPPED_OFFICIAL_ARTIFACTS_BUILT_COMPONENT_REMAINDER_DISCLOSED",
+  "status": "ROUTE_VEHICLE_MAPPED_REQUIRED_COMPONENTS_BUILT",
   "courtStatusMetadata": {
     "factId": "matter.court_level",
     "requiredRecordSource": "court docket or clerk-certified disposition",
@@ -28,9 +28,21 @@
   },
   "serviceCertificate": {
     "componentId": "pa_6308_underage-certificate-of-service-3",
-    "status": "REQUIRED_NOT_GENERATED",
+    "status": "GENERATED_WITH_LOCAL_METHOD_AND_PERFORMED_SERVICE_FACTS_BLANK",
     "recipient": "attorney for the Commonwealth",
     "timing": "concurrently with filing",
+    "generatedArtifacts": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+        "sha256": "79101f2b3d1f284852d4ae743caf7ba43302ee7553d50c127c643a920bb59c77"
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+        "sha256": "75e574fc6cd4a47a9d70620fbe3b9189da9c031142057dbfb55871c3710ce198"
+      }
+    ],
     "noGuessRule": "Do not invent a locally accepted service method or service facts. The participant completes the certificate only after service actually occurs."
   },
   "sourceBindings": [
