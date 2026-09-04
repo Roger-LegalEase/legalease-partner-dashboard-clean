@@ -224,8 +224,8 @@
   "reconciliation42": {
     "schemaVersion": "rcap-source-reconciliation-42/v1",
     "recordedOn": "2026-09-04",
-    "rule": "These dispositions consume already-committed acquisition, custody, supersession, parent/component, non-document, and route-strategy evidence. They do not claim any of the separate 28 manual-acquisition families have been acquired.",
-    "manualAcquisitionCohortUntouchedCount": 28,
+    "rule": "These dispositions consume already-committed acquisition, custody, supersession, parent/component, non-document, route-strategy, and the owner-authorized 2026-09-04 targeted source-acquisition evidence. Source acquisition establishes identity and custody only; packet, legal, visual, and product gates remain independent.",
+    "manualAcquisitionCohortUntouchedCount": 0,
     "laterSourceBlockersKeptSeparate": [
       "co_motion_seal_conviction-set",
       "ga-jail-k2-set",
@@ -239,7 +239,17 @@
       "data/rcap-grade-a/packet-factory-24h/disc02/CODEX_CS2_SRC3_ACQUISITION.json",
       "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json",
       "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json",
-      "data/rcap-grade-a/packet-factory-24h/src05/SOURCE_MATERIALIZATION_RETURN.json"
+      "data/rcap-grade-a/packet-factory-24h/src05/SOURCE_MATERIALIZATION_RETURN.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/final-source-resolution.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/owner-production-authorization.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/artifact-custody.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/DE-FORM-281-date-provenance.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/MO-CR301-owner-supplied-source-completion.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/acquisition-summary.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/family-source-bindings.csv",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/acquisition-summary.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/family-source-bindings.csv",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/supplement-disposition-summary.json"
     ],
     "sharedExactBindings": [
       {
@@ -276,6 +286,237 @@
         "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
         "tier": "exact_content_hash",
         "evidence": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      {
+        "sourceId": "official-form:SDSC-CRM-307",
+        "path": "LegalEase California/source-acquisition-2026-09-04/crm307.pdf",
+        "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:JDF-683",
+        "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "sha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:JDF-684",
+        "path": "LegalEase Colorado/JDF 684 Order Denying Petition to Seal Criminal Conviction Municipal Records.pdf",
+        "sha256": "36fc6a2acbfcd7ce032b5a2d43645517aa53541f25c7c5395dd782395d67f874",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:JDF-686",
+        "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+        "sha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:FORM-281",
+        "path": "LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+        "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/DE-FORM-281-date-provenance.json"
+      },
+      {
+        "sourceId": "official-form:FORM-281E",
+        "path": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+        "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CIV_EXP_02_A",
+        "path": "LegalEase Delaware/download.aspx.pdf",
+        "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CIV_EXP_02_B",
+        "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf",
+        "sha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CIV_EXP_04_A",
+        "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+        "sha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CIV_EXP_08_A",
+        "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+        "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+        "path": "LegalEase Georgia/Request to Restrict Record Application and Instructions form.pdf",
+        "sha256": "5fe841de263070f192ddfb0e322e41b2c2a97e8d07e7e643e98fdf780aefa1ab",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:AOC-497",
+        "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+        "sha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:AOC-497.2",
+        "path": "LegalEase Kentucky/497.2.pdf",
+        "sha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:AOC-275.18",
+        "path": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+        "sha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:Petition for Expungement, G.L. c. 276, § 100K",
+        "path": "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+        "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:Petition to Seal (Office of the Commissioner of Probation)",
+        "path": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+        "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:TC0057",
+        "path": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+        "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CR-218",
+        "path": "LegalEase Maine/MJB-Form-cr-218.pdf",
+        "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CR-307",
+        "path": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+        "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CR-308",
+        "path": "LegalEase Maine/source-acquisition-2026-09-04/MJB-Form-cr-308.pdf",
+        "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:FI-05",
+        "path": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+        "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:CR301",
+        "path": "LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf",
+        "sha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/MO-CR301-owner-supplied-source-completion.json"
+      },
+      {
+        "sourceId": "official-form:MT-FORM-A",
+        "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+        "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:MT-FORM-B",
+        "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+        "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
+        "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+        "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+        "path": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+        "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "path": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:SFN-14859",
+        "path": "LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf",
+        "sha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+        "path": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+        "sha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+        "path": "LegalEase Texas/source-acquisition-2026-09-04/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+        "sha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/supplement-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:SCA-C906",
+        "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+        "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
+      },
+      {
+        "sourceId": "official-form:SCA-C907",
+        "path": "LegalEase West Virginia/SCA-C907.pdf",
+        "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/source-ledger.yaml"
       }
     ],
     "families": [
@@ -653,6 +894,221 @@
         },
         "exactNextAction": "Acquire or restore JU 10.0300 and JU 10.0315 into current governed custody; JU 10.0320 is already hash-bound.",
         "exactResidual": "The current governed corpus holds JU 10.0320 only. Historical inventory records hashes for JU 10.0300 and JU 10.0315, but their bytes are absent from every current indexed custody, so they cannot be bound as ready."
+      },
+      {
+        "familyId": "ca-diversion-seal-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "SDSC CRM-307 is a San Diego County Superior Court form and must not be used or advertised statewide.",
+        "exactNextAction": "Build the San Diego County-scoped packet from the exact owner-custodied CRM-307 source."
+      },
+      {
+        "familyId": "co_municipal_conviction_seal-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "sourceReplacements": {
+          "official-form:JDF-684": ["official-form:JDF-686"]
+        },
+        "relationshipNote": "JDF 683 is the participant petition; JDF 686 is the granting/sealing-order component. JDF 684 remains the distinct denial-order document and is not the proposed granting order.",
+        "exactNextAction": "Build from JDF 683 and the corrected JDF 686 proposed granting-order component."
+      },
+      {
+        "familyId": "de_discretionary_family_court-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "Form 281 is the parent initiating petition. Form 281E is only its continuation/charge-extension sheet.",
+        "exactNextAction": "Build Form 281 with Form 281E only where charge continuation is required."
+      },
+      {
+        "familyId": "de_discretionary_superior_court-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from exact CIV EXP 02A, 02B, and 04A sources."
+      },
+      {
+        "familyId": "de_mandatory_expungement-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "implementationStrategyOverride": "participant_agency_application",
+        "satisfiedWithoutStandaloneBinary": ["official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION"],
+        "authorityBindings": [
+          {
+            "sourceId": "official-authority:DE-SBI-MANDATORY-EXPUNGEMENT-PROCESS",
+            "title": "Delaware State Bureau of Identification expungement process",
+            "issuingAuthority": "Delaware State Police, State Bureau of Identification",
+            "officialUrl": "https://dsp.delaware.gov/expungements/"
+          }
+        ],
+        "requireBoundAuthority": true,
+        "relationshipNote": "The repository label was descriptive, not an issuer form identity. Current official materials expose no public application binary; SBI determines eligibility and supplies a letter with further instructions.",
+        "exactNextAction": "Build the SBI contact and eligibility-letter process treatment; do not invent or substitute an application PDF."
+      },
+      {
+        "familyId": "de_pardon_expungement-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from exact CIV EXP 02A and 08A sources."
+      },
+      {
+        "familyId": "ga-nonconv-pre2013-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "The GCIC request is limited to arrests occurring before July 1, 2013; it does not represent the later prosecutor-controlled process.",
+        "exactNextAction": "Build only the pre-July 1, 2013 route from the exact GCIC source."
+      },
+      {
+        "familyId": "ky_nonconviction_expungement-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from exact AOC-497 and AOC-497.2 sources."
+      },
+      {
+        "familyId": "ky_protective_order_record_expungement-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the exact owner-custodied AOC-275.18 source."
+      },
+      {
+        "familyId": "ma-expunge-k-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the exact Petition for Expungement under G.L. c. 276, § 100K."
+      },
+      {
+        "familyId": "ma-seal-admin-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "Administrative sealing and the decriminalized-conduct election share one Petition to Seal parent PDF.",
+        "exactNextAction": "Build from the shared Petition to Seal parent PDF."
+      },
+      {
+        "familyId": "ma-seal-court-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the exact current TC0057 petition."
+      },
+      {
+        "familyId": "ma-seal-decrim-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "sourceReplacements": {
+          "official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4": ["official-form:Petition to Seal (Office of the Commissioner of Probation)"]
+        },
+        "relationshipNote": "Part A, box 4 is the decriminalized-conduct election inside the shared Petition to Seal parent; it is not another source obligation.",
+        "exactNextAction": "Build the box 4 route election within the shared Petition to Seal parent PDF."
+      },
+      {
+        "familyId": "me-seal-gen-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the exact current CR-218 source."
+      },
+      {
+        "familyId": "me-seal-survivor-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "CR-307 and CR-308 are distinct documents with independently verified hashes; the CR-307 expected hash must not be applied to CR-308.",
+        "exactNextAction": "Build from exact CR-307 and CR-308 sources."
+      },
+      {
+        "familyId": "mo-575-120-identity-theft-correction-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "One exact FI-05 binary serves the legitimate Missouri dependent families; provenance remains the official St. Louis County Courts endpoint with historical hash identity.",
+        "exactNextAction": "Build using the shared exact FI-05 source."
+      },
+      {
+        "familyId": "mo-610-122-arrest-expungement-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms."
+      },
+      {
+        "familyId": "mo-610-140-arrest-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms."
+      },
+      {
+        "familyId": "mo-610-140-conviction-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms."
+      },
+      {
+        "familyId": "mo-610-145-mistaken-identity-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "sourceIdentity": {
+          "officialTitle": "Petition for Expungement – Mistaken Identity",
+          "formNumber": "CR301",
+          "revision": "OSCA (07-17)",
+          "issuingAuthority": "Missouri Courts / Office of State Courts Administrator",
+          "pageCount": 1,
+          "byteLength": 952015,
+          "sha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8"
+        },
+        "exactNextAction": "Build from exact CR301 and FI-05 sources; do not substitute another Missouri form."
+      },
+      {
+        "familyId": "mo-art-xiv-marijuana-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build using the shared exact FI-05 source and already-bound route forms."
+      },
+      {
+        "familyId": "mt_mmrta_completed-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "sourceReplacements": {
+          "official-form:MT-OCA-MMRTA": ["official-form:MT-MMRTA-PROPOSED-ORDER", "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE"]
+        },
+        "relationshipNote": "Form B, Proposed Order, Certificate of Service, and the CRISS request are distinct documents. The order and certificate retain separate identities and hashes.",
+        "exactNextAction": "Build the completed-record packet from Form B and all three separately identified supporting components."
+      },
+      {
+        "familyId": "mt_mmrta_serving-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "sourceReplacements": {
+          "official-form:MT-OCA-MMRTA": ["official-form:MT-MMRTA-PROPOSED-ORDER", "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE"]
+        },
+        "relationshipNote": "Form A, Proposed Order, Certificate of Service, and the CRISS request are distinct documents. The order and certificate retain separate identities and hashes.",
+        "exactNextAction": "Build the serving-record packet from Form A and all three separately identified supporting components."
+      },
+      {
+        "familyId": "nd-regular-pardon-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "SFN 14859 is the regular Pardon Advisory Board application, not the summary-marijuana pardon form.",
+        "exactNextAction": "Build the regular-pardon packet from exact SFN 14859."
+      },
+      {
+        "familyId": "rcap-mo-custom-pleading",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build using the shared exact FI-05 source and the settled custom-pleading authority."
+      },
+      {
+        "familyId": "tx_nd_dwi_conviction-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "The § 411.0736 model petition, model order, and inability-to-afford statement are three distinct required components.",
+        "exactNextAction": "Build from the three separately bound Texas components."
+      },
+      {
+        "familyId": "wv_acc_treatment_job_readiness-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "SCA-C906 and SCA-C907 retain their corrected, distinct form-to-hash assignments.",
+        "exactNextAction": "Build from exact SCA-C906 and SCA-C907 sources."
+      },
+      {
+        "familyId": "wv_conv_nonviolent_felony-set",
+        "group": "D",
+        "disposition": "SOURCE_READY",
+        "relationshipNote": "The current SCA-C907 identity binds SHA-256 2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222.",
+        "exactNextAction": "Build from the exact current SCA-C907 source."
       }
     ]
   },

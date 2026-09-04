@@ -74,7 +74,7 @@ function walk(dir, out = []) {
      * file exists to prevent. `assetFormat` says which it is, and a consumer
      * that needs page counts or AcroForm fields must check that first.
      */
-    else if (/\.(pdf|docx)$/i.test(entry.name)) out.push(full);
+    else if (/\.(pdf|docx|doc)$/i.test(entry.name)) out.push(full);
   }
   return out;
 }
