@@ -22,8 +22,9 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../.
 // from an empty corpus manufactures a defect rather than finding one.
 //
 // So the run first decides, explicitly, which of three states it is in.
+const EXPLICIT_CORPUS_ROOT = process.env.OFFICIAL_FORMS_SOURCE_DIR || null;
 export const CONFIGURED_CORPUS_ROOTS = [
-  process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+  EXPLICIT_CORPUS_ROOT,
   path.join(rootDir, "private/source-imports"),
   path.join(rootDir, "private/Nationwide Record Clearing")
 ].filter(Boolean);
@@ -81,6 +82,10 @@ function locateExpectedSource(relativePath) {
  * source names one of them in its resolvedPath and exists in that one only.
  */
 function declaredRootFor(relativePath) {
+  // An explicit test/CI mount claims to provide the reviewed corpus as a
+  // whole. If it exists but is incomplete, that is a partial mount and must
+  // fail closed rather than being mistaken for an unrelated mounted package.
+  if (EXPLICIT_CORPUS_ROOT) return EXPLICIT_CORPUS_ROOT;
   const normalized = relativePath.replaceAll("\\", "/");
   for (const root of CONFIGURED_CORPUS_ROOTS) {
     const suffix = path.relative(rootDir, root).replaceAll("\\", "/");
