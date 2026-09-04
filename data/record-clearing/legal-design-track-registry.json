@@ -84308,6 +84308,35 @@
         "name": "Boston Municipal Court division identified by the Standing Order",
         "detail": "A consolidated petition supplements rather than replaces the statewide form. The judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
       },
+      "formIdentityInvestigation": {
+        "status": "STOPPED_AMBIGUOUS",
+        "reviewedOn": "2026-09-04",
+        "controllingProcedure": {
+          "title": "Boston Municipal Court Amended Standing Order 1-09: Sealing three or more eligible criminal records",
+          "effectiveDate": "2024-05-10",
+          "url": "https://www.mass.gov/districtmunicipal-court-rules/boston-municipal-court-amended-standing-order-1-09-sealing-three-or-more-eligible-criminal-records",
+          "statement": "The Standing Order authorizes one petition for three or more eligible records from two or more BMC divisions and says a petition form is available on the BMC Mass.gov website."
+        },
+        "officialCandidatesReviewed": [
+          {
+            "formId": "TC0057",
+            "title": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal",
+            "revision": "2024-03",
+            "url": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+            "relationship": "NOT_ESTABLISHED_AS_CONSOLIDATED_BMC_PETITION",
+            "why": "The form expressly directs the filer to use a separate form for each case and carries one docket-number caption, which conflicts with treating it as the single multi-case petition without further issuer direction."
+          },
+          {
+            "formId": "TC0059",
+            "title": "General Motion",
+            "url": "https://www.mass.gov/how-to/request-to-seal-your-criminal-record",
+            "relationship": "NOT_IDENTIFIED_BY_ISSUER_AS_BMC_MULTI_RECORD_PETITION",
+            "why": "The current self-help page lists the general motion but does not identify it as the petition form referenced by Standing Order 1-09."
+          }
+        ],
+        "hardStop": "Do not assign TC0057, TC0059, or the existing custom pleading as the controlling single petition until the issuing court identifies the petition form referenced by the current Standing Order or confirms that no dedicated form is published.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
       "packetSet": {
         "packetSetId": "ma-bmc-multi-set",
         "version": "1.0.0",
@@ -84521,7 +84550,7 @@
       "buildBlockers": [],
       "releaseBlockers": [
         {
-          "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+          "question": "The current Boston Municipal Court Standing Order effective May 10, 2024 says a petition form is available for the single multi-record filing. The current official self-help page exposes TC0057, which expressly requires a separate form for each case, and TC0059, which the issuer does not identify as the Standing Order petition. The controlling single-petition form remains ambiguous; do not assign either candidate or approve the custom pleading without issuer confirmation.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
@@ -84544,7 +84573,7 @@
       ],
       "unresolvedQuestions": [
         {
-          "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+          "question": "The current Boston Municipal Court Standing Order effective May 10, 2024 says a petition form is available for the single multi-record filing. The current official self-help page exposes TC0057, which expressly requires a separate form for each case, and TC0059, which the issuer does not identify as the Standing Order petition. The controlling single-petition form remains ambiguous; do not assign either candidate or approve the custom pleading without issuer confirmation.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
@@ -84649,7 +84678,7 @@
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (correct_form): Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents."
+          "statement": "Form-identity ambiguity blocks release (correct_form): the current Standing Order says a single-petition form is available, but current official materials do not establish whether TC0057, TC0059, or a separate unpublished BMC form is that instrument."
         },
         {
           "kind": "source_gate",
