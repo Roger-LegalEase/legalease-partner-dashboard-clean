@@ -577,6 +577,30 @@
       "countersAfterReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access.",
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "rcap-wi-custom-pleading",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+      "rowStopReason": "BLOCKED_BEFORE_CLAIM",
+      "claim": {
+        "assertion": "ALREADY_RELEASED: rcap-wi-custom-pleading at 2026-09-04T04:13:09.028Z",
+        "assertExitCode": 9,
+        "assertedBeforeArtifactRead": true,
+        "releasedBeforeThisLane": true
+      },
+      "obligationRepaired": [],
+      "obligationStopped": [
+        "COMPONENT_SET",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "whyStopped": "The authoritative FIX02 prompt names this family, but the exact claim is already released. Claim-before-read semantics require a full row stop. This lane did not materialize, inspect, or change any Wisconsin artifact or builder.",
+      "countersAfter": null,
+      "countersAfterReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "whatCouldNotBeEstablished": [
