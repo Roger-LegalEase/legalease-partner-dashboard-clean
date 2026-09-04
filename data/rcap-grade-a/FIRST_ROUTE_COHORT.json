@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "ed6d2662839318dd84dc28428916217b9eb3c4ed",
+  "atCommit": "e925cd978e25f70e72ba60050b108047b3790cd8",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -80,18 +80,18 @@
     }
   ],
   "counts": {
-    "completePacketProven": 108,
+    "completePacketProven": 109,
     "familiesInsideExistingApprovalScope": 110,
     "augustApprovalScope": 57,
     "septemberExactDigestApprovalScope": 53,
-    "septemberApprovalsWithCurrentDigests": 46,
-    "familiesInsideTheOwnerApproval": 103,
-    "provenAndApproved": 41,
-    "inCohort": 3,
-    "cohortRoutes": 4,
+    "septemberApprovalsWithCurrentDigests": 45,
+    "familiesInsideTheOwnerApproval": 102,
+    "provenAndApproved": 42,
+    "inCohort": 4,
+    "cohortRoutes": 5,
     "provenButOutsideAnyExistingApproval": 67
   },
-  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 103 families currently retain approval coverage after applying the September digest condition, while 108 are packet-proven; 41 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 109 are packet-proven; 42 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [
     {
       "familyId": "dc_innocence_expungement-set",
@@ -129,6 +129,53 @@
             "file": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/boundary.pdf",
             "sha256": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
             "sha256Now": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "jurisdiction": "IL",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "31cf727c0cb7b31719b206900973c973e9273161"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "sha256Now": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "sha256Now": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
             "current": true
           }
         ],
@@ -238,17 +285,19 @@
   ],
   "cohortRouteIds": [
     "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
+    "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
     "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
     "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
     "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
   ],
   "routeReachability": {
     "whatThisSeparates": "A route key names work this factory did. A runtime route id is what screening and the Briefcase resolve. Only a route with both can be sold once a visual review returns; a track-only route cannot be addressed at all, however complete its packet.",
-    "routeKeysInTheCohort": 4,
-    "addressableByTheRuntime": 4,
+    "routeKeysInTheCohort": 5,
+    "addressableByTheRuntime": 5,
     "notAddressableByTheRuntime": 0,
     "addressable": [
       "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
+      "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
       "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
       "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
@@ -258,6 +307,12 @@
         "routeKey": "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
         "runtimePathwayId": "dc_actual_innocence_expungement_16_803",
         "runtimeRouteId": "DC:dc_actual_innocence_expungement_16_803",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+        "runtimePathwayId": "felony-prostitution-relief",
+        "runtimeRouteId": "IL:felony-prostitution-relief",
         "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
       },
       {
@@ -2997,6 +3052,64 @@
         "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
       },
       "legalApproval": null
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "jurisdiction": "IL",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [],
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "31cf727c0cb7b31719b206900973c973e9273161"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "sha256Now": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "sha256Now": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ky_criminal_record_segregation-set",

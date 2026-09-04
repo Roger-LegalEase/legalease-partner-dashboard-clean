@@ -14,9 +14,9 @@
   "inputs": {
     "data/rcap-ledger/sellable-pathway-closure.json": "92dc0ae26c187c247690de921a2d9d144845cc5dddf354e2f3baa0653f86de1a",
     "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
-    "data/record-clearing/legal-design-packet-set-manifests.json": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
+    "data/record-clearing/legal-design-packet-set-manifests.json": "bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66",
     "data/rcap-ledger/public-witness-answer-sets.json": "120fd18ca819f5332a030913df9f9015e6ebf2ae7cd09c48f377f21097380862",
-    "data/record-clearing/factory-v2-route-registry.json": "441641b421f2418203819a72c042aab1159b5fc54c7a969dc6990280a436947b",
+    "data/record-clearing/factory-v2-route-registry.json": "3ac67d697139f812e6663010c7b6797ece4ee9d7bf6942ae81d8ca7d4bc7c815",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
     "data/rcap-ledger/session-a-evidence-packet.json": "ed01b5fe9ada9ffa052401ede5aebcedab75d43d9b4f62a9d5a3c28a0d5b8342"
@@ -51,8 +51,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 164,
-    "factoryV2Resolved": 164,
+    "factoryV2Selected": 167,
+    "factoryV2Resolved": 167,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -88,15 +88,15 @@
       }
     ],
     "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 164,
-    "deterministicallyRendered": 39,
+    "deterministicallyRenderedComposedText": 167,
+    "deterministicallyRendered": 42,
     "officialFormsNamedButNotHeldInThisRepository": 125,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 167,
     "technicalApprovalCurrent": 192,
-    "deterministicArtifactProven": 223,
+    "deterministicArtifactProven": 220,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 234,
     "rendererSelected": 68,
@@ -3114,10 +3114,12 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "legacy_retired",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
-        "packetSetIds": [],
-        "reason": "DC's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "packetSetIds": [
+          "dc_innocence_expungement-set"
+        ],
+        "reason": "DC dc_actual_innocence_expungement_16_803 builds through the shared packet factory from packet set dc_innocence_expungement-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -3130,7 +3132,15 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": null,
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "3bb27d4950a2db21dcc97e4dcc25581c5378f451ea19028fa32b1ebd295f33a9",
+        "characters": 2651,
+        "sections": 10,
+        "warnings": 0,
+        "errors": []
+      },
       "dtcResult": {
         "deliverable": false
       },
@@ -3145,14 +3155,13 @@
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
-        "deterministicArtifactProven": false,
+        "deterministicArtifactProven": true,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "paymentAllowed",
         "ownerApprovedLegalDesign",
-        "technicalApprovalCurrent",
-        "deterministicArtifactProven"
+        "technicalApprovalCurrent"
       ],
       "operationallySellable": false,
       "allOperationalGatesMet": false
@@ -12327,10 +12336,12 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "legacy_retired",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
-        "packetSetIds": [],
-        "reason": "MS's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "packetSetIds": [
+          "ms-misd-addl-set"
+        ],
+        "reason": "MS additional-justice-court-misdemeanor-relief-9-11-15-3 builds through the shared packet factory from packet set ms-misd-addl-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -12343,7 +12354,15 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": null,
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "fa2397879ad0887c9d8dce561c7d18e41815cab870da231c500c5361e6cd05f2",
+        "characters": 3350,
+        "sections": 12,
+        "warnings": 0,
+        "errors": []
+      },
       "dtcResult": {
         "deliverable": false
       },
@@ -12358,14 +12377,13 @@
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
-        "deterministicArtifactProven": false,
+        "deterministicArtifactProven": true,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "paymentAllowed",
         "ownerApprovedLegalDesign",
-        "technicalApprovalCurrent",
-        "deterministicArtifactProven"
+        "technicalApprovalCurrent"
       ],
       "operationallySellable": false,
       "allOperationalGatesMet": false
@@ -12415,10 +12433,12 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "legacy_retired",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
-        "packetSetIds": [],
-        "reason": "MS's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "packetSetIds": [
+          "ms-misd-addl-set"
+        ],
+        "reason": "MS additional-municipal-court-misdemeanor-relief-21-23-7-6 builds through the shared packet factory from packet set ms-misd-addl-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -12431,7 +12451,15 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": null,
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "95cf3762293800ee741151daf0c1372cd9ce0a7ad7b489cda897e62610494dfe",
+        "characters": 3356,
+        "sections": 12,
+        "warnings": 0,
+        "errors": []
+      },
       "dtcResult": {
         "deliverable": false
       },
@@ -12446,14 +12474,13 @@
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
-        "deterministicArtifactProven": false,
+        "deterministicArtifactProven": true,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "paymentAllowed",
         "ownerApprovedLegalDesign",
-        "technicalApprovalCurrent",
-        "deterministicArtifactProven"
+        "technicalApprovalCurrent"
       ],
       "operationallySellable": false,
       "allOperationalGatesMet": false

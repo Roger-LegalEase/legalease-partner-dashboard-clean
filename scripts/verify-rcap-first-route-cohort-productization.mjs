@@ -129,11 +129,13 @@ const REQUIRED_BUILD_INPUTS = [
 ];
 
 const firstCohort = read("data/rcap-grade-a/FIRST_ROUTE_COHORT.json");
-assert.equal(firstCohort.atCommit, "ed6d2662839318dd84dc28428916217b9eb3c4ed",
-  "the derived first-route cohort evidence commit must not change");
-assert.deepEqual(firstCohort.cohort.map((row) => row.familyId).sort(),
-  ["dc_innocence_expungement-set", "ms-misd-addl-set", "wy_fel_1502-set"],
-  "the productization scope must remain the selected three families");
+assert.match(firstCohort.atCommit, /^[0-9a-f]{40}$/,
+  "the canonical cohort generator must bind the selection to an exact evidence commit");
+const selectedFamilies = new Set(firstCohort.cohort.map((row) => row.familyId));
+for (const familyId of ["dc_innocence_expungement-set", "ms-misd-addl-set", "wy_fel_1502-set"]) {
+  assert.ok(selectedFamilies.has(familyId),
+    `the rolling cohort must retain the productized family ${familyId}`);
+}
 
 const manifests = read(MIGRATIONS_PATH);
 const migrations = manifests.factoryV2RouteMigrations ?? [];

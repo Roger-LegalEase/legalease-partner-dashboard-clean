@@ -21,10 +21,10 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | EXACT TRACK + PACKET SET | 222 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
 | OWNER-APPROVED LEGAL | 95 |
-| FACTORY_V2 RESOLVED | 164 |
+| FACTORY_V2 RESOLVED | 167 |
 | PAYMENT ALLOWED | 28 |
-| DETERMINISTICALLY RENDERED (complete packet) | 39 |
-| — composed text proven deterministic | 164 |
+| DETERMINISTICALLY RENDERED (complete packet) | 42 |
+| — composed text proven deterministic | 167 |
 | — official forms named but not held here | 125 |
 | OPERATIONALLY SELLABLE | 0 |
 
@@ -56,7 +56,7 @@ Per-state counts are carried in `availability.byState` of the JSON ledger.
 | Unmet gate | Routes |
 |---|---:|
 | `paymentAllowed` | 234 |
-| `deterministicArtifactProven` | 223 |
+| `deterministicArtifactProven` | 220 |
 | `technicalApprovalCurrent` | 192 |
 | `ownerApprovedLegalDesign` | 167 |
 | `rendererSelected` | 68 |
