@@ -50,21 +50,7 @@ const SPEC = {
         "Exact remedy, offense class, disposition, completion, and operational availability",
         "Excluded offenses and clean-record rules apply",
         "Petition under § 19c",
-        "Trafficking nexus evidence",
-        "Exact route?",
-        "Arrest/charge limitations?",
-        "Prosecutor declination?",
-        "Reversal/dismissal?",
-        "DNA innocence?",
-        "Pardon?",
-        "Deferred order and dismissal?",
-        "Full-record versus court-record relief?",
-        "Reclassification date?",
-        "Fine amount/payment?",
-        "Trafficking nexus?",
-        "Juvenile completion?",
-        "VPO hearing/vacatur/death?",
-        "Portal/automatic status?"
+        "Trafficking nexus evidence"
       ]
     },
     {
@@ -124,67 +110,35 @@ const SPEC = {
         "",
         "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
         "",
-        "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself, never from memory.",
+        "Each item below identifies this section 19c matter. Fill the court-record items from the existing court file, and fill the requested-relief and evidence-identification items only with legal aid or an attorney. Do not write a survivor narrative on this petition.",
         "",
-        "[C1 - exact route] Exact route?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C2 - arrest/charge limitations] Arrest/charge limitations?",
+        "[C1 - existing court and county] The Oklahoma court and county where the prostitution-related case was filed.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C3 - prosecutor declination] Prosecutor declination?",
+        "[C2 - existing case number] The case number of that prostitution-related case.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C4 - reversal/dismissal] Reversal/dismissal?",
+        "[C3 - prostitution-related offense] The exact prostitution-related offense or charge, including the count and statute if the court record states them.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C5 - dna innocence] DNA innocence?",
+        "[C4 - disposition and date] The disposition of that offense or charge, and the date the court entered it.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C6 - pardon] Pardon?",
+        "[C5 - relief requested under section 19c] The exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises the petitioner to request for the identified record.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C7 - deferred order and dismissal] Deferred order and dismissal?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C8 - full-record versus court-record relief] Full-record versus court-record relief?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C9 - reclassification date] Reclassification date?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C10 - fine amount/payment] Fine amount/payment?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C11 - trafficking nexus] Trafficking nexus?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C12 - juvenile completion] Juvenile completion?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C13 - vpo hearing/vacatur/death] VPO hearing/vacatur/death?",
-        "{{DOTS}}",
-        "{{DOTS}}",
-        "",
-        "[C14 - portal/automatic status] Portal/automatic status?",
+        "[C6 - trafficking nexus evidence] Identify the trafficking-nexus evidence legal aid or an attorney selected by its document or evidence type, title or date, and issuer or holder. Do not write an account of the trafficking or attach a survivor narrative here.",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "D. THE REQUEST",
         "",
-        "The petitioner asks the Court for the relief 22 O.S. § 19c provides on the facts stated above.",
+        "The petitioner asks the Court for the section 19c relief identified in item C5 for the prostitution-related record identified above, based on the trafficking-nexus evidence identified in item C6 and submitted as counsel advises.",
         "",
         "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
         "",
@@ -225,101 +179,45 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
-          "id": "fact_q1",
-          "label": "Item C1 - exact route",
-          "supply": "Exact route — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_existing_court_and_county",
+          "label": "Item C1 - existing court and county",
+          "supply": "the Oklahoma court and county where the prostitution-related case was filed - copy both from the existing docket or a court order in that case, or ask that court's clerk",
+          "why": "the section 19c filing must identify the existing prostitution-related matter, and this fact lives in a court record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q2",
-          "label": "Item C2 - arrest/charge limitations",
-          "supply": "Arrest/charge limitations — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_existing_case_number",
+          "label": "Item C2 - existing case number",
+          "supply": "the case number of the prostitution-related case - copy it from the existing docket or a court order in that case",
+          "why": "the section 19c filing must identify the existing prostitution-related matter, and this fact lives in a court record the platform has never seen"
         },
         {
           "kind": "rbf",
-          "id": "fact_q3",
-          "label": "Item C3 - prosecutor declination",
-          "supply": "Prosecutor declination — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_prostitution_related_offense",
+          "label": "Item C3 - prostitution-related offense",
+          "supply": "the exact prostitution-related offense or charge, including the count and statute if stated - copy it from the charging document, docket or disposition order",
+          "why": "the bound compiled pathway limits this route to prostitution-related records, and the platform has never seen the participant's court file"
         },
         {
           "kind": "rbf",
-          "id": "fact_q4",
-          "label": "Item C4 - reversal/dismissal",
-          "supply": "Reversal/dismissal — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_disposition_and_date",
+          "label": "Item C4 - disposition and date",
+          "supply": "the disposition of that offense or charge and the date the court entered it - copy both from the docket or disposition order",
+          "why": "the filing must identify the record for which relief is requested, and the platform has never seen the participant's court file"
         },
         {
           "kind": "rbf",
-          "id": "fact_q5",
-          "label": "Item C5 - dna innocence",
-          "supply": "DNA innocence — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_relief_requested",
+          "label": "Item C5 - relief requested under section 19c",
+          "supply": "the exact relief under 22 O.S. Sec. 19c that legal aid or an attorney advises you to request for the identified record - do not guess, because the bound compiled pathway leaves the form of process open between motion and petition",
+          "why": "the court filing must state the relief requested, while the bound compiled pathway does not resolve the exact remedy or form of process for the participant's facts"
         },
         {
           "kind": "rbf",
-          "id": "fact_q6",
-          "label": "Item C6 - pardon",
-          "supply": "Pardon — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q7",
-          "label": "Item C7 - deferred order and dismissal",
-          "supply": "Deferred order and dismissal — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q8",
-          "label": "Item C8 - full-record versus court-record relief",
-          "supply": "Full-record versus court-record relief — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q9",
-          "label": "Item C9 - reclassification date",
-          "supply": "Reclassification date — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q10",
-          "label": "Item C10 - fine amount/payment",
-          "supply": "Fine amount/payment — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q11",
-          "label": "Item C11 - trafficking nexus",
-          "supply": "Trafficking nexus — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q12",
-          "label": "Item C12 - juvenile completion",
-          "supply": "Juvenile completion — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q13",
-          "label": "Item C13 - vpo hearing/vacatur/death",
-          "supply": "VPO hearing/vacatur/death — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_q14",
-          "label": "Item C14 - portal/automatic status",
-          "supply": "Portal/automatic status — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "fact_trafficking_nexus_evidence",
+          "label": "Item C6 - trafficking nexus evidence",
+          "supply": "identify only the trafficking-nexus evidence legal aid or an attorney selected: its document or evidence type, title or date, and issuer or holder - do not write an account of the trafficking or attach a survivor narrative here",
+          "why": "the bound route records trafficking nexus evidence as this packet's route-specific supporting component, while the compiled pathway directs the sensitive facts and proof to legal aid or an attorney"
         },
         {
           "kind": "court",
@@ -364,8 +262,10 @@ const SPEC = {
         "WHAT YOU DO",
         "",
         "- Read the stop conditions before anything else.",
-        "- If you go on, obtain the trafficking nexus evidence the committed contract names as a component of this packet.",
-        "- Fill only the labelled items. Nothing on any page asks for an account of what happened to you.",
+        "- Take this draft to legal aid or an attorney before completing it. The bound compiled pathway directs every trafficking-survivor matter there because the petition needs sensitive facts and supporting proof.",
+        "- If counsel advises you to go on, copy the existing court, county, case number, prostitution-related offense and disposition from the court file. Do not answer those items from memory.",
+        "- Complete the requested-relief and trafficking-nexus-evidence items only as counsel advises. Identify the evidence without writing an account of what happened to you on this petition.",
+        "- Obtain the trafficking nexus evidence the committed contract names as a component of this packet, and submit it only as counsel advises.",
         "",
         "WHAT YOU DO NOT DO",
         "",
@@ -386,7 +286,7 @@ const SPEC = {
         "- **this is the first thing the committed record says about this route:** Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization. That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof.",
         "- the facts that establish the connection are yours to tell and yours alone. No page in this packet asks for an account of what was done to you, and nothing here should be written out for anyone who has not been engaged to act for you;",
         "- your own safety is in question, now or once a filing becomes a public court record;",
-        "- there are other counts on the same case, or other cases — every committed contract in this group records other counts as a fact the route must collect;",
+        "- there are other counts on the same case, or other cases — the bound compiled pathway does not explain how section 19c applies to them;",
         "- any immigration question is involved.",
         ""
       ],
@@ -442,13 +342,14 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP",
-      "**Stop and get help if:** **this is the first thing the committed record says about this route:** Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization. That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof. **Stop and get help if:** the facts that establish the connection are yours to tell and yours alone. No page in this packet asks for an account of what was done to you, and nothing here should be written out for anyone who has not been engaged to act for you; **Stop and get help if:** your own safety is in question, now or once a filing becomes a public court record; **Stop and get help if:** there are other counts on the same case, or other cases — every committed contract in this group records other counts as a fact the route must collect; **Stop and get help if:** any immigration question is involved."
+      "**Stop and get help if:** **this is the first thing the committed record says about this route:** Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization. That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof. **Stop and get help if:** the facts that establish the connection are yours to tell and yours alone. No page in this packet asks for an account of what was done to you, and nothing here should be written out for anyone who has not been engaged to act for you; **Stop and get help if:** your own safety is in question, now or once a filing becomes a public court record; **Stop and get help if:** there are other counts on the same case, or other cases — the bound compiled pathway does not explain how section 19c applies to them; **Stop and get help if:** any immigration question is involved."
     ]
   ],
   "instructionsIntro": [
     "This packet is composed from committed repository records, not from an official form: no committed record names an official Oklahoma participant form for this route.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory."
+    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Copy the existing-case items below from the court file. Complete the requested-relief and trafficking-nexus-evidence items only with legal aid or an attorney, and identify evidence without writing a survivor narrative on this petition."
   ],
+  "requiredItemsIntro": "Each item is printed on the petition as a labelled dotted blank. Copy items C1-C4 from the existing court file. Complete items C5-C6 only as legal aid or an attorney advises; identify the trafficking-nexus evidence without writing a survivor narrative on the petition.",
   "instrumentChoice": null,
   "recordSays": [
     [
@@ -472,8 +373,10 @@ const SPEC = {
   ],
   "steps": [
     "**Read the filing instructions page.** It says what this route is, who runs it, what the record establishes about cost and notice, and when to stop.",
-    "**Fill every labelled item on the petition** from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
-    "**Obtain every document the filing instructions page lists**, and file them with the petition.",
+    "**Take this draft to legal aid or an attorney before completing it.** The bound compiled pathway directs this route there because the petition needs sensitive facts and supporting proof.",
+    "**Copy the existing-case items from the court file.** Do not guess the court, county, case number, offense, disposition or date.",
+    "**Complete the requested-relief and evidence-identification items only as counsel advises.** Identify the trafficking-nexus evidence without writing a survivor narrative on this petition.",
+    "**Obtain the trafficking nexus evidence**, and submit it with the petition only as counsel advises.",
     "**Sign and date the petition personally.** The platform never signs for you and never dates a signing line.",
     "**File it with the office of the court clerk of the Oklahoma district court for the county in which the case was filed**, and ask that office what it charges and how it accepts filings before you go."
   ],
@@ -486,7 +389,7 @@ const SPEC = {
     "**this is the first thing the committed record says about this route:** Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization. That should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof.",
     "the facts that establish the connection are yours to tell and yours alone. No page in this packet asks for an account of what was done to you, and nothing here should be written out for anyone who has not been engaged to act for you;",
     "your own safety is in question, now or once a filing becomes a public court record;",
-    "there are other counts on the same case, or other cases — every committed contract in this group records other counts as a fact the route must collect;",
+    "there are other counts on the same case, or other cases — the bound compiled pathway does not explain how section 19c applies to them;",
     "any immigration question is involved."
   ],
   "whatThisIsNot": "This is a composed petition on one Oklahoma route. It is not an official Oklahoma form — no committed record names one for this route — it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.",
@@ -494,6 +397,14 @@ const SPEC = {
     "that any Oklahoma record resulted from human trafficking"
   ],
   "buildFindings": [
+    {
+      "finding": "An earlier build printed the route contract's requiredFacts array on the face of the petition as this route's fact set - fourteen items running 'Exact route?', 'Arrest/charge limitations?', 'Prosecutor declination?', 'Reversal/dismissal?', 'DNA innocence?', 'Pardon?', 'Deferred order and dismissal?', 'Full-record versus court-record relief?', 'Reclassification date?', 'Fine amount/payment?', 'Trafficking nexus?', 'Juvenile completion?', 'VPO hearing/vacatur/death?' and 'Portal/automatic status?'. All eleven Oklahoma routes carry that identical array under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP, so it is an analyst checklist for choosing among sibling routes rather than this section 19c petition's fact set.",
+      "consequence": "The petition no longer reads that shared array. Section C now identifies the existing court, county and case number, the prostitution-related offense and disposition, the relief counsel advises under section 19c, and the trafficking-nexus evidence counsel selects without asking for a survivor narrative. The fourteen strings are removed from this builder's route-contract anchors because the family no longer consumes them."
+    },
+    {
+      "finding": "Correcting the route contract's requiredFacts array itself is not part of this one-family repair. That array is shared by eleven Oklahoma routes under one ruleId.",
+      "consequence": "The shared record remains unchanged. This packet stops reading it as participant filing facts; changing the source array requires separately assigned authority over every affected route."
+    },
     {
       "finding": "The compiled Oklahoma pathway records that this route 'should be routed to legal aid or an attorney because the petition needs sensitive facts and supporting proof.'",
       "consequence": "That is the committed record's own SELF_HELP_STOP answer, quoted first on the packet and first in the stop conditions, and no page asks the participant to write those sensitive facts out."
@@ -904,7 +815,7 @@ function participantInstructions(maps, rbf) {
   }
 
   out.push("## The items you must supply", "");
-  out.push("Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
+  out.push(SPEC.requiredItemsIntro ?? "Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
   for (const [doc, items] of byDoc) {
     out.push(`### ${doc} — ${COMPONENT[doc]?.title ?? doc}`, "");
     out.push("| The blank on the document | What to write |", "| --- | --- |");
