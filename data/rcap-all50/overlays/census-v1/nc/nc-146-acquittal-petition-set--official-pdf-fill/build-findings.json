@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nc_146_acquittal_petition-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "PROTECTED MIS-WRITE REFUSED BY NAME. AOC-CR-288's identifier strip prints Date Of Birth, Full Social Security No. and Age At Time Of Offense in one run, and captureWidgetContext reads it one blank out of step: the field named SNN — the FULL SOCIAL SECURITY NUMBER blank — is captured with the caption \"Date Of Birth\", the field named DOB is captured with the run \"Date Of BirthFull Social Security No.Age At T i m e   O f   O ú e n s e\", and the field named Age is captured with \"Full Social Security No\". Run against the shared semantics with no refusal supplied, the finalizer WRITES participant.date_of_birth into SNN.",
+      "consequence": "SNN is declared unwritable by role, so nothing is written there. A date of birth printed in the box a clerk reads as a Social Security number is a false statement on the face of a petition, and it is the exact defect the protectedWrites counter exists for. Reported for the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs; this lane may not change a shared host that 137 builders sit on."
+    },
+    {
+      "finding": "THE SAME CAPTURE DEFECT, without the mis-write, on six neighbouring blanks. ZipCode is captured as \"Race\", DLNo and DLState as \"Drivers License No.StateRaceSex\", Race as \"State\", Sex as \"Age\", and Age as \"Full Social Security No\". Each is refused rather than mis-written, which is safe, but each is refused for the wrong reason.",
+      "consequence": "All are declared required-before-filing with the TRUE reason stated to the participant — the capture is out of step on this row — rather than presented as facts the platform lacks. The platform does hold the ZIP code in its fact set; it is written nowhere in this packet, so no blank hides a fact the packet demonstrably holds."
+    },
+    {
+      "finding": "THE OFFENCE TABLE. Side One's table is six columns by eleven rows. Of row one, only File No.(s) could be reached at all, and only by re-using the caption's single case number, which is not what a per-charge file number column asks for.",
+      "consequence": "The entire table is left to the participant. Row one's six columns are declared required-before-filing and disclosed with the record each is copied from; rows two through eleven are the form's own continuation rows and are classified as optional participant content. No cell is written, so no row carries written cells beside blank required ones."
+    },
+    {
+      "finding": "MailAddr, the second line of the petitioner's address block, binds participant.street_address exactly as StreetAddr does.",
+      "consequence": "Refused by role. The platform holds one street address and writes it once; filling both would print the same street address twice on the face of the petition."
+    },
+    {
+      "finding": "FEE_AND_WAIVER, tested against A1-A4. The committed packet-set manifest is a held source under A2 and answers this route's fee question with a figure of none: \"none for a true acquittal\", and \"none needed, because no filing fee applies to a true acquittal\" for the waiver.",
+      "consequence": "The packet states both, states separately that G.S. 15A-150 expunction costs are not taxed against the petitioner, and carries no indigency affidavit — because carrying one would imply a cost the held record says does not exist. It also names the office to ask if the clerk seeks money anyway."
+    },
+    {
+      "finding": "SERVICE is a does-not-apply on this route: the manifest records \"none required by the AOC form.\" AOC-CR-288 carries no certificate of service.",
+      "consequence": "The packet states it, and states what the clerk does with the granted order instead, so a participant is not left believing they must deliver it."
+    },
+    {
+      "finding": "The packet-set manifest carries two components this build does NOT render as documents: a participant_instructions component with outputStrategy process_guidance, and a district_attorney_alternative_filing component naming AOC-CR-296, conditional on the district attorney petitioning instead.",
+      "consequence": "participant-instructions.md is the first; the second is covered in prose and named as a form this packet does not contain, because a document mapped and not rendered is a missing companion form. AOC-CR-296 is not bound by this family and no source for it is held."
+    },
+    {
+      "finding": "SOURCE RESOLUTION. Both of this family's documents appear TWICE in the committed corpus index at the same SHA-256 — once under the master_library custody and once under d_source_packs — and this container mounts only the first.",
+      "consequence": "This build resolves an index entry by preferring one whose bytes are present AND hash to the pinned digest, rather than taking the first entry that carries the hash. The binding is still exact SHA-256 and the receipt records which custody supplied the bytes."
+    }
+  ]
+}
