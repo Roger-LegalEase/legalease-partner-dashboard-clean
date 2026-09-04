@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "worker": "CODEX-CS1-FIX07-NYTRANS",
+  "lane": "FIX07",
+  "branch": "codex/cs1-fix07-nytrans-e925",
+  "baseSha": "e925cd978e25f70e72ba60050b108047b3790cd8",
+  "vf02FailureBaseSha": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+  "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+  "status": "COMPLETED",
+  "buildReturn": "BUILT_RASTER_PENDING",
+  "repairPresentAtAssignedBase": true,
+  "repairPresentAtAssignedBaseNote": "Ancestor 8f48a49056da92792b560bfdafd7d493c6e493aa already carried the exact VF02 repair into the assigned base. This worker reproduced both clean builds and recorded the scoped evidence; no redundant family or builder diff was introduced.",
+  "obligationsRepaired": [
+    "SOURCE_IDENTITY",
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "sourceIdentity": {
+    "legalDecisionSha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+    "routeObligationCensusSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+    "routeObligationCensusByteLength": 2607149,
+    "nyRouteNodeUnchanged": true,
+    "documentsAcquiredOrSubstituted": 0
+  },
+  "artifactsBefore": {
+    "canonical": {
+      "sha256": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5",
+      "byteLength": 12750,
+      "pageCount": 4
+    },
+    "boundary": {
+      "sha256": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+      "byteLength": 12918,
+      "pageCount": 4
+    }
+  },
+  "artifactsAfter": {
+    "canonical": {
+      "sha256": "33b7a79fa4e548efce7fa838619cb75512cf83dce3345e291baa28277d84566f",
+      "byteLength": 12695,
+      "pageCount": 4
+    },
+    "boundary": {
+      "sha256": "852ac343783cda7d51a7f4c7850d5402d2663806c6a308138b51caf8737e3991",
+      "byteLength": 12854,
+      "pageCount": 4
+    }
+  },
+  "deterministic": true,
+  "cleanBuilds": 2,
+  "allVisibleWritesInspected": true,
+  "allPagesInspected": true,
+  "literalDoubleAsteriskTokensAfter": 0,
+  "clippingOrOverlapObserved": false,
+  "completeness": {
+    "verdict": "PASS_COMPLETE",
+    "written": 6,
+    "terminalFields": 12,
+    "allNineCountersZero": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    }
+  },
+  "tests": [
+    "builder --no-raster twice from absent fixture artifacts",
+    "packet completeness verifier: PASS_COMPLETE; nine counters zero",
+    "pdftotext visible-write and Markdown-delimiter inspection",
+    "144-DPI inspection of every canonical and boundary page"
+  ],
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/fix07/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix07-nytrans-e925/RETURN.json"
+  ],
+  "repairedArtifactPaths": [
+    "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading",
+    "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs"
+  ],
+  "commit": "reported after commit because a commit cannot contain its own SHA-1",
+  "pushed": "reported after push",
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "productionTouched": false
+}

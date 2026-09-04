@@ -570,6 +570,123 @@
       "selfVerificationPerformed": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "routeKeys": [
+        "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request"
+      ],
+      "status": "COMPLETED",
+      "buildReturn": "BUILT_RASTER_PENDING",
+      "worker": "CODEX-CS1-FIX07-NYTRANS",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "baseSha": "e925cd978e25f70e72ba60050b108047b3790cd8",
+      "vf02FailureBaseSha": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "branch": "codex/cs1-fix07-nytrans-e925",
+      "repairPresentAtAssignedBase": true,
+      "repairPresentAtAssignedBaseNote": "The assigned base already contains the exact family repair introduced by ancestor 8f48a49056da92792b560bfdafd7d493c6e493aa. This worker independently rebuilt twice from absent fixture artifacts, refreshed the receipt from the authoritative bytes, inspected every page and visible write, and recorded the scoped handoff without inventing a duplicate implementation change.",
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "sourceIdentity": {
+        "legalDecision": {
+          "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+          "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+          "byteLength": 184365,
+          "preservedExact": true
+        },
+        "routeObligationCensus": {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "staleSha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "currentByteLength": 2607149,
+          "nyRouteNodeUnchangedFromVf02Base": true,
+          "nyRouteNodeCanonicalJsonSha256": "92521219d3e7331d72af3fedd90f690960ef3a66267e4e3381f482a1d9321aa2"
+        },
+        "documentsAcquiredOrSubstituted": 0
+      },
+      "visibleCopyRepair": {
+        "literalMarkdownDelimiterPairsBeforePerFixture": 5,
+        "literalDoubleAsteriskTokensAfterCanonical": 0,
+        "literalDoubleAsteriskTokensAfterBoundary": 0,
+        "substanceChanged": false,
+        "actualVisibleWritesInspected": {
+          "canonical": 6,
+          "boundary": 6,
+          "allObserved": true
+        },
+        "pagesInspected": {
+          "canonical": 4,
+          "boundary": 4,
+          "allPages": true,
+          "clippingOrOverlapObserved": false
+        }
+      },
+      "artifactsBefore": [
+        {
+          "fixture": "canonical",
+          "sha256": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5",
+          "byteLength": 12750,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+          "byteLength": 12918,
+          "pageCount": 4
+        }
+      ],
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "sha256": "33b7a79fa4e548efce7fa838619cb75512cf83dce3345e291baa28277d84566f",
+          "byteLength": 12695,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "852ac343783cda7d51a7f4c7850d5402d2663806c6a308138b51caf8737e3991",
+          "byteLength": 12854,
+          "pageCount": 4
+        }
+      ],
+      "determinism": {
+        "cleanBuilds": 2,
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "builderResultsIdentical": true
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs --no-raster (twice from absent fixture artifacts) => deterministic COMPLETED / BUILT_RASTER_PENDING",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request' => PASS_COMPLETE 6/12 written; all nine counters zero",
+        "pdftotext extraction of both fixtures => zero literal ** tokens and all 12 expected visible write appearances",
+        "144-DPI raster inspection of all eight pages => no clipping or overlap"
+      ],
+      "paths": [
+        "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading",
+        "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs",
+        "data/rcap-grade-a/packet-factory-24h/fix07/rows.json",
+        "data/rcap-grade-a/codex-cloud/cs1-fix07-nytrans-e925/RETURN.json"
+      ],
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
