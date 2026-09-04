@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "rcap-codex-cloud-productization-return/v1",
+  "workerId": "CODEX-CS2-PROD-CT-CLEANSLATE",
+  "createdAt": "2026-09-04T18:17:20Z",
+  "exactBase": "b714a8b5a9b03ab366cb6e8e566747847e192ab8",
+  "branch": "codex/cs2-productize-ct-cleanslate-b714",
+  "commit": "28de64109c687de7e80caecfb8395145e817c90c",
+  "tip": "28de64109c687de7e80caecfb8395145e817c90c",
+  "tipScope": "bounded implementation tip before the separate RETURN receipt commit",
+  "pushed": "YES",
+  "status": "TECHNICAL_PRODUCTIZATION_COMPLETE_LEGAL_APPROVAL_REQUIRED",
+  "claim": {
+    "assertion": "CLAIM_OK CODEX-CS2-PROD-CT-CLEANSLATE ct-cleanslate-petition-set",
+    "result": "CLAIM_OK",
+    "unreleasedFamilyClaims": 0,
+    "competingActiveAssignments": 0,
+    "competingProcesses": 0,
+    "competingClaims": 0
+  },
+  "family": "ct-cleanslate-petition-set",
+  "route": {
+    "obligationRouteKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+    "runtimeRouteId": "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+    "registryTrackId": "ct-cleanslate-petition",
+    "packetFamilyId": "ct-cleanslate-petition-set",
+    "deliveryStrategy": "official_pdf_fill",
+    "siblingTrackAdmitted": false,
+    "stateAggregateAdmitted": false,
+    "tracklessRouteAdmitted": false,
+    "clientSuppliedFamilyAdmitted": false
+  },
+  "packetSpecification": {
+    "path": "data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json",
+    "specificationSha256": "764cdaaabf0e3438aa4e7c7840106b53e4c2cbced6c6102c10011001b7f8ce50",
+    "legalSectionsBound": false,
+    "legalSectionsBoundBy": null,
+    "legalApproval": null,
+    "postApprovalChangeAudit": null,
+    "createsCommercialAuthority": false,
+    "opensRoute": false
+  },
+  "source": {
+    "form": "JD-CR-202",
+    "role": "primary_filing",
+    "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c"
+  },
+  "artifacts": {
+    "canonical": {
+      "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+      "byteLength": 248957,
+      "pageCount": 2,
+      "unchanged": true
+    },
+    "boundary": {
+      "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+      "byteLength": 248978,
+      "pageCount": 2,
+      "unchanged": true
+    },
+    "bytesReusedUnderCommittedOneRouteOneComponentEquivalence": true,
+    "packetBytesChanged": false,
+    "unchanged": true
+  },
+  "evidenceConsumed": {
+    "nationalState": "COMPLETE_PACKET_PROVEN",
+    "firstRouteCohort": {
+      "packetProven": true,
+      "routeToFamilyBindingExact": true,
+      "sourceIdentityComplete": true,
+      "noHoldApplies": true,
+      "coveredByAnExistingOwnerApproval": false,
+      "noSubstantiveLegalChangeSinceThatApproval": false,
+      "legalApproval": null,
+      "inCohort": false
+    },
+    "independentVerdict": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifierId": "vf12",
+      "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22"
+    },
+    "rasterReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33495068504",
+      "jobId": "99815920101",
+      "artifactId": "9795506420",
+      "artifactZipSha256": "cf0d01d26f61b5735c1485ac5c0426fead27e4d7c8a4a0f143200afa8f29e775",
+      "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+      "documentsDigest": "c0d736866be1ad62079e9ae19e955e7d15e3e60199b6ae67951120475dc44c51",
+      "coversWholeFamily": true
+    }
+  },
+  "commercialAdmission": {
+    "consumer_checkout": "fulfillment_no_record",
+    "sponsored_entitlement": "fulfillment_no_record",
+    "packet_credit_admission": "fulfillment_no_record",
+    "fulfillmentRecordCreated": false
+  },
+  "focusedTests": [
+    {
+      "command": "node scripts/verify-rcap-first-route-cohort-productization.mjs",
+      "result": "PASS",
+      "detail": "6 routes; exact CT route/specification/manifest/factory/resolver/render-job/commercial crosswalk passed"
+    },
+    {
+      "command": "node scripts/verify-rcap-first-route-cohort-productization.mjs --mutations",
+      "result": "PASS",
+      "detail": "11 fail-closed mutations caught, including CT wrong-family, sibling-track and aggregate-route substitutions"
+    },
+    {
+      "command": "node scripts/verify-rcap-render-job-requires-ratification.mjs",
+      "result": "PASS",
+      "detail": "404 checks over 201 registry routes"
+    },
+    {
+      "command": "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs",
+      "result": "PASS",
+      "detail": "73 checks; 0 commercially eligible routes"
+    },
+    {
+      "command": "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs --mutations",
+      "result": "PASS",
+      "detail": "26 deliberate authority breakages caught; 73 base checks passed"
+    },
+    {
+      "command": "jq empty; node --check; targeted ESLint; specification stable-content digest; sha256sum; stat; pdfinfo; git diff --check",
+      "result": "PASS",
+      "detail": "JSON and syntax valid; changed code has 0 lint errors; specification digest current; both PDFs match exact hashes, byte lengths and two-page counts; packet bytes unchanged"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "result": "PASS",
+      "detail": "12 of 12 factory fail-closed mutations caught"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "result": "BASELINE_VERIFIER_ASSERTION_MISMATCH",
+      "detail": "The base verifier searches for the obsolete two-argument source text factoryV2RouteFor(jurisdiction, pathwayId), while the assigned base already calls factoryV2RouteFor(jurisdiction, pathwayId, input.trackId); its B-kind, B-sellable and B-credit source-slice assertions therefore fail before inspecting the actual shared branch. The focused executable verifier passes the route behavior."
+    },
+    {
+      "command": "node scripts/verify-route-resolution.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Baseline sparse path src/lib/expungement-ai/frontend/profiles/all51.json is absent; the verifier stopped there after its preceding route-resolution checks passed."
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-path.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Baseline sparse path src/app/api/rcap/documents/[packetId]/pdf/[pdfType]/route.ts is absent; the exact CT buildRenderJobSpec path and negative controls pass in the focused verifier."
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Baseline sparse path src/components/rcap/documents/DocumentPacketRenderer.tsx is absent; all three CT admission points return fulfillment_no_record in the focused verifier."
+    },
+    {
+      "command": "node scripts/verify-rcap-census-v1-money-credit-gate.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Baseline sparse path src/lib/expungement-ai/payment-adapter.ts is absent."
+    },
+    {
+      "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "result": "SOURCE_LIGHT_PARTIAL",
+      "detail": "45 of 52 checks passed; seven call-site census checks report zero because their baseline application paths are absent from this sparse checkout. Runtime authority and refusal checks passed."
+    },
+    {
+      "command": "node scripts/verify-rcap-render-job-contract.mjs",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Baseline sparse path supabase/phase-50-rcap-packet-delivery-hardening.sql is absent."
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-jobs.mjs",
+      "result": "ENVIRONMENT_UNAVAILABLE",
+      "detail": "psql, initdb and pg_ctl are not installed in this Codespace."
+    },
+    {
+      "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Baseline sparse path data/rcap-ledger/paid-pathway-legal-join.json is absent."
+    },
+    {
+      "command": "npx tsc --noEmit --pretty false",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "TypeScript reports only absent baseline sparse modules under partners, expungement-ai, Supabase and two unmaterialized rcap-ledger inputs; it reports no error in a changed path. Changed TypeScript also transpiles and executes in the passing focused verifier."
+    }
+  ],
+  "exactNextGate": {
+    "gate": "CURRENT_CT_OWNER_LEGAL_APPROVAL_AND_POST_APPROVAL_CHANGE_AUDIT",
+    "detail": "Obtain current CT owner legal approval for this exact route/family and complete a post-approval change audit; only then may a separate worker generate fulfillment authority.",
+    "afterThat": "separate fulfillment-authority generation",
+    "currentAdmissionDenial": "fulfillment_no_record"
+  },
+  "changedPaths": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json",
+    "src/lib/rcap/documents/factory-v2-registry.ts",
+    "src/lib/rcap/documents/packet-route-resolver.ts",
+    "src/lib/rcap/grade-a/packet-specification.ts",
+    "scripts/verify-rcap-first-route-cohort-productization.mjs",
+    "data/rcap-grade-a/codex-cloud/cs2-productize-ct-cleanslate-b714/RETURN.json"
+  ],
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "canaries": 0,
+  "ProductionTouched": "NO"
+}
