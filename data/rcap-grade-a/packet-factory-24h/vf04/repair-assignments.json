@@ -511,6 +511,76 @@
    "evidencePins": "canonical sha256 1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143; boundary sha256 3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485; documentsDigest 112883542ca6dcdcf0400b592df0c275b1c90419b451d0d04ceb86908ec6e7d2; RASTER_PASS run 33791677725/job 100770327082/artifact 9907964839/ZIP sha256:8c670575251d4f486aee97c54ce38181aa22f0e4979a597c32ce7bb38ec5b319; 2 documents/38 pages/0 machine problems.",
    "notRepairedHere": "This lane verifies and does not repair. No family artifact, generator, manifest, shared queue, ledger, route, price, deployment or Production surface was modified.",
    "doNotDoInRepair": "Do not use the green field-level completeness counters or the zero-problem raster as evidence that these route semantics pass. Do not invent a case number, import venue from a filed-case sibling, make the participant serve when the court transmits, open a route, set a price or promote build status."
+  },
+  {
+   "wave": "packet-factory-24h/VF04/full-current-lane (Codex VF04, 2026-09-04)",
+   "itemId": "al-misd-conviction-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
+   "raisedBy": "Codex VF04 (independent; built, repaired and rendered none of these packet bytes)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill",
+   "decisiveDefect": "The C-10-CRIMINAL fee-waiver component writes participant facts into the wrong legal fields and its instructions expose internal field names instead of the form's printed captions. The packet also leaves the route-determined state-versus-municipality court branch unselected.",
+   "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS"],
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "finding": "participant.full_legal_name is written into 'Spouse's Full Name (if married)'; participant.phone is written into 'Employer's Telephone Number'; court type 'Circuit' is written where the form asks for the county or municipality; and Montgomery is written on the MUNICIPALITY OF line for a circuit-court filing. CR-65 also prints generic directions ('The charge shown on the certified case record', 'Agency shown on the certified arrest record') into fields whose labels require actual case facts.",
+     "repair": "Correct the field-to-fact map. Never infer spouse or employer facts from the participant's own name or phone. Put the actual county in the county/municipality caption field, not the court type; do not use generic instructions as a substitute for charge or agency facts. Any unavailable fact must be an explicit REQUIRED_BEFORE_FILING blank with a usable caption."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "finding": "The participant instructions contain 33 'Complete undefined...' rows, 12 raw 'Complete TextN...' rows and two numeric-only labels for C-10-CRIMINAL. Those labels do not identify the printed blank a participant must complete.",
+     "repair": "Give every required blank its actual printed caption, page and contextual section. Fail the build if effectiveLabel is undefined, a bare TextN/number, or merely an internal AcroForm name. Regenerate the instructions and re-run the complete field-to-instruction coverage check."
+    },
+    "ROUTE_OPTIONS": {
+     "finding": "The included C-10-CRIMINAL has both STATE OF ALABAMA and MUNICIPALITY OF checkboxes blank even though the route and its populated caption say this filing is in circuit court. The municipality line is nevertheless populated with Montgomery.",
+     "repair": "Select the correct state-court branch for the circuit-court route and make the caption fields agree with that selection. Do not select a municipality branch unless the route record establishes it."
+    }
+   },
+   "singleRepairAssignment": "Repair the semantic mappings, printed-label inventory and route-determined court selection together, rebuild canonical and boundary fixtures, recompute all source/artifact receipts and counters, obtain a fresh exact-hash raster if any packet byte moves, and require a new independent 15-obligation read.",
+   "evidencePins": "Sources: CR-65 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39; C-10-CRIMINAL 527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8. Artifacts: canonical cb5ce94c56297469ffc63931234fd48f81e37aa2415f2fe93039792125d2dc3c; boundary e6b6d470a9c3b65491db99d85f9ceca919d63653196bde0370831a67be75076c.",
+   "otherObligations": "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP passed at the stated base.",
+   "notBlocked": "Not BLOCKED_SOURCE: both sources are present and independently hash-exact. Not BLOCKED_LEGAL_INPUT: these are deterministic field mapping and instruction defects.",
+   "notRepairedHere": "This lane wrote no packet, overlay, generator, route, launch or Production file.",
+   "doNotDoInRepair": "Do not clear this by changing receipts or deleting required blanks. Do not invent spouse, employer, charge, arrest-agency or court facts. Do not open a commercial route or promote the family."
+  },
+  {
+   "wave": "packet-factory-24h/VF04/full-current-lane (Codex VF04, 2026-09-04)",
+   "itemId": "il-seal-nonconv-set",
+   "lane": "VF04",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
+   "raisedBy": "Codex VF04 (independent; built, repaired and rendered none of these packet bytes)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill",
+   "decisiveDefect": "A seal-only packet leaves the page-1 No/skip-expungement option blank, fills the expungement section anyway, writes the case number into charge fields across 18 otherwise-empty rows, exposes 65 internal arrestN labels to the participant, and produces PDFs with dangling cross-reference entries.",
+   "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "ARTIFACTS"],
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "finding": "matter.case_number is written into every 'List all charges for each case number' cell in request pages 2 and 4, not the charge fact. The separate Case List receives the literal truncated placeholder 'Charge exactly as shown o…' rather than a charge.",
+     "repair": "Bind each field to the correct semantic fact. One case record belongs in one complete row. Write the actual charge in charge cells or leave the entire row blank and disclose the fact as required before filing; never copy a case number or a placeholder into a charge field."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "finding": "participant-instructions.md contains 65 rows named only arrest1 through arrest70. Those internal widget names are not printed on the Case List and do not tell the participant which arrest/case-number, agency, charge, arrest-date or outcome cell to complete.",
+     "repair": "Replace every internal arrestN label with the printed table column, logical row number, document and page. Add a generation-time refusal for internal widget names used as participant-facing labels."
+    },
+    "ROUTE_OPTIONS": {
+     "finding": "Question 1 on request page 1 leaves both Yes and No blank. The selected route is sealing only, so No must be marked to skip the expungement section. Page 4's seal option is marked Yes, but the packet contradicts it by populating the expungement table.",
+     "repair": "Mark the page-1 No branch for the seal-only route, preserve the page-4 seal selection, and leave every expungement-only field blank."
+    },
+    "REPEATING_ROWS": {
+     "finding": "Request page 2 rows 2-10 and request page 4 rows 2-10 each contain a generated case number in the Charge column while the arrest/case-number, agency, date and outcome cells remain blank: 18 incomplete logical rows in each delivered fixture.",
+     "repair": "Only populate complete record rows. Remove generated ink from unused rows, then add a row-level test that fails whenever any required cell in a used row is blank."
+    },
+    "ARTIFACTS": {
+     "finding": "Both hashes match their records, but Poppler reports invalid XRef entries during fresh rendering and MuPDF reports hundreds of missing referenced objects during a full text walk. The files display only because both readers recover around dangling references.",
+     "repair": "Rebuild/flatten the PDFs with a valid cross-reference graph, validate every page in two independent PDF readers without repair diagnostics, then issue new artifact hashes and any required raster binding. Do not merely repin the current structurally defective bytes."
+    }
+   },
+   "singleRepairAssignment": "Repair the seal-only branch and semantic row mapping as one coherent request, replace participant-facing internal labels, emit structurally valid canonical and boundary PDFs, rerun all counters plus an explicit row-completeness test, rehash every artifact, obtain a fresh exact-hash raster, and require a new independent 15-obligation read.",
+   "evidencePins": "Sources exact: EXP-AD Request 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853; Case List b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c; Order 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305; FW-CIV b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5. Current artifacts: canonical 97c7841e99268ff82ee95d3e3e298688d8021b09cd77789aa0242ccd4937b155; boundary 638633e6b2f5627b21c0eb9e926b03a70ae0a507d4a68c0394435b045da90050.",
+   "otherObligations": "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, PROTECTED_FIELDS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE and SELF_HELP_STOP passed at the stated base.",
+   "notBlocked": "Not BLOCKED_SOURCE: all four official source binaries are independently hash-exact. Not BLOCKED_LEGAL_INPUT: every defect is directly observable in the delivered bytes and settled route selection.",
+   "notRepairedHere": "This lane wrote no packet, overlay, generator, route, launch or Production file.",
+   "doNotDoInRepair": "Do not treat green focused counters as clearing the 18 visible partial rows. Do not delete required instructions, repin broken PDFs, change the route, open a commercial path or promote the family."
   }
  ],
   "supersededLaneMembership": {
