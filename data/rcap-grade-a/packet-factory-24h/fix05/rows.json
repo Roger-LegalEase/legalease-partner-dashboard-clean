@@ -276,6 +276,194 @@
         "rule-490-petition-boundary.pdf": "b87902a113f72bf01ef1b99ff81b3460d6db0ba8767b6dc4d5065106fee74cd5",
         "rule-490-petition-canonical.pdf": "d059b9d1b0167c9f9a3dd73f79b5e1eae7fe8e68d69b204e433ae333f4d8d67d"
       }
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 il-exp-qualprob-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "Focused metadata assertion fails: 20 EXP-AD Request charge fields bind matter.case_number rather than matter.charge. The current map also writes later single-column rows and both active and inactive route tables; the selected verifier separately measured ellipsized values and incomplete service directions.",
+      "stoppedBecause": "The family entry point is a two-line wrapper around scripts/build-census-v1-il-exp-pardon-set.mjs. The misordered generic case-number matcher, route-table population, fitting policy, and shared service prose all live in that shared host, which is outside FIX05's writable paths. A family-local regeneration would reproduce the defects; copying the shared builder into this wrapper would create a divergent second implementation rather than the narrow repair dispatched.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "24ae04d570ecd6e796f30b580b68d22e8870e1ea2a321204c266fc55941e6fe3",
+        "boundaryPdf": "21731bad31dd1cb7340d13bbdfae9d5ec3d3b914948ad25b16d1240fbf93f62e"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 71/424 written; all nine counters zero. The dispatched semantic and visual defects remain outside those counters.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 il-seal-3yr-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "Focused metadata assertion fails with 21 wrong selections or bindings: the no-wait section 15 control is selected and 20 charge fields bind matter.case_number. Current artifacts also retain the verifier's incomplete rows, clerk-owned case numbers, missing prefiling guidance, and ellipsized held values.",
+      "stoppedBecause": "The family entry point only delegates to scripts/build-census-v1-il-exp-pardon-set.mjs. Route selection, known-value mapping, row activation, protected-caption handling, fitting, and guidance are implemented only in that unowned shared host. The wrapper exposes no family-scoped repair options, so the exact repair cannot be implemented without crossing the shared-host boundary or duplicating the builder.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "556e7ebc519b9ae29933c499a8547792dca8c60ab4b021579ff7a0cf36b25cc6",
+        "boundaryPdf": "3f618088014c16fa63f2c8936c723db1eea174b8b414b8add7d8289b2bd49efe"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 71/424 written; all nine counters zero. The verifier identified these as counter blind spots.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_dismissed_without_prejudice-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 ut_pet_dismissed_without_prejudice-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "PAGE_ORDER"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "Both page manifests deliver 1000EX, 1020EX, 1044XX, 1146XX, 1148XX, 1149XX, 1169XX, BCI application, then BCI release. The committed order begins with BCI application and release, followed by 1044XX, 1000EX, and 1020EX.",
+      "stoppedBecause": "The existing manifest-order mechanism is gated by a per-family config in the shared Utah host, outside FIX05's writable paths. In addition, FIX05.md lists this exact overlay as owned and also lists the matching ut-pet-dismissed-without-prejudice-set wildcard under Never write here. The repair therefore stops fail-closed rather than writing an expressly prohibited output.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "c29dec5d606bdb248e7f00f07a76eb0d846b5fa1896bac7b711e08283fe93952",
+        "boundaryPdf": "682f7b6d42bcc670d936e14d637ed9dfff3854f56a3c6f9e1684f2d43f86cdf7"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 39/442 written; all nine counters zero. PAGE_ORDER is not represented by those counters.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_no_charges-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "CLAIM_OK FIX05 ut_pet_no_charges-set (repair, grant set c698ab30eb416ad2)",
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "The current field map writes a fictional matter.case_number into 1000EX and 1020EX. Instructions omit the 30-day threshold, direct filing to the county where a nonexistent case was heard, and direct the participant to mail or email the prosecutor rather than state the controlling court-transmission rule.",
+      "stoppedBecause": "The wrapper only calls runUtahCompletenessRepair from scripts/build-census-v1-ut_pet_acquittal-set.mjs. The exact per-route write policy and participant guidance are private config and functions in that unowned shared host; the exported API accepts no repair override. Correcting the wrapper alone cannot change the generated semantics without duplicating the shared builder.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143",
+        "boundaryPdf": "3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 38/444 written; all nine counters zero. The four dispatched route semantics remain counter blind spots.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "ALREADY_RELEASED: in_arrest_no_charges-set at 2026-09-03T23:53:16.081Z",
+      "stoppedBecause": "BLOCKED_BEFORE_CLAIM. The required FIX05 assertion returned nonzero, so this lane read no family artifact and made no family change.",
+      "obligationsRepaired": [],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNotMeasuredBecause": "Claim refusal forbids artifact inspection.",
+      "claimReleased": false,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "status": "STOPPED",
+      "dispatchBase": "1dcd8829369f0c07cd75d472671ae0669f841bc1",
+      "claim": "ALREADY_RELEASED: ut_pet_acquittal-set at 2026-09-04T04:13:09.101Z",
+      "stoppedBecause": "BLOCKED_BEFORE_CLAIM. The required FIX05 assertion returned nonzero, so this lane read no family artifact and made no family change.",
+      "obligationsRepaired": [],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNotMeasuredBecause": "Claim refusal forbids artifact inspection.",
+      "claimReleased": false,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
