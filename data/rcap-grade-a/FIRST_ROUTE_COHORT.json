@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "40ac16a2f27e2886f528fe85a5ce82d5f6c66c71",
+  "atCommit": "836ef0bcffd7976ec1eaf50a8a472c6ff9ee9ebf",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -44,7 +44,7 @@
     }
   ],
   "counts": {
-    "completePacketProven": 105,
+    "completePacketProven": 109,
     "familiesInsideExistingApprovalScope": 110,
     "augustApprovalScope": 57,
     "septemberExactDigestApprovalScope": 53,
@@ -53,9 +53,9 @@
     "provenAndApproved": 44,
     "inCohort": 0,
     "cohortRoutes": 0,
-    "provenButOutsideAnyExistingApproval": 61
+    "provenButOutsideAnyExistingApproval": 65
   },
-  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 106 families currently retain approval coverage after applying the September digest condition, while 105 are packet-proven; 44 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 106 families currently retain approval coverage after applying the September digest condition, while 109 are packet-proven; 44 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [],
   "cohortRouteIds": [],
   "routeReachability": {
@@ -178,8 +178,32 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -1175,6 +1199,96 @@
       }
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:runtime-only:MS:nonadjudication-under-99-15-26"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1"
+      },
+      "legalApproval": null
+    },
+    {
       "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "jurisdiction": "MS",
       "routeKeys": [
@@ -1202,6 +1316,36 @@
         "verdict": "BLOCKED_BEFORE_CLAIM",
         "verifierId": "vf06",
         "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "routeKeys": [
+        "obligation:runtime-only:OK:juvenile-record-expungement"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1"
       },
       "legalApproval": null
     },
