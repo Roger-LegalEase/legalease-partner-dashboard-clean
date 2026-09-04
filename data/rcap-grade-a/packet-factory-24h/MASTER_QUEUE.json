@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "4bcb03efb389a64dee306c88696b04ff2215230c",
+  "minimumCaptainSha": "c7e566b65def5de22a3e61d237014c5105006922",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -72,14 +72,14 @@
     "sourceReady": 85,
     "sourceBlocked": 43,
     "legalBlocked": 5,
-    "verifyPending": 0,
-    "repairRequired": 54,
+    "verifyPending": 1,
+    "repairRequired": 53,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 85,
     "COMPLETE_PACKET_PROVEN": 123,
-    "FAIL_REPAIR_REQUIRED": 54,
+    "FAIL_REPAIR_REQUIRED": 53,
     "OUT_OF_SCOPE": 5,
     "PRODUCT_PATH_PENDING": 17,
     "SOURCE_BLOCKED": 43,
@@ -87,6 +87,7 @@
     "LEGAL_BLOCKED": 5,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -1460,7 +1461,6 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [
-        "al-felony-nonconviction-90-set",
         "al-misd-conviction-set",
         "al-misd-dwop-set",
         "al-pardoned-felony-set"
@@ -1777,7 +1777,7 @@
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
+      "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/**",
@@ -2691,7 +2691,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -3239,7 +3238,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -3614,7 +3612,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -4028,7 +4025,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -4165,7 +4161,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -4433,8 +4428,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -4450,8 +4443,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -4463,7 +4456,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
       "ownedPaths": [
@@ -4818,7 +4811,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -11878,7 +11870,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -11972,7 +11963,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12082,7 +12072,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12214,7 +12203,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12324,7 +12312,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12453,7 +12440,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14187,7 +14173,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14551,7 +14536,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14673,7 +14657,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14803,7 +14786,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -15894,7 +15876,6 @@
       "importedBy": [
         "il-exp-precompletion-set",
         "il-exp-qualprob-set",
-        "il-seal-edu-set",
         "il-seal-nonconv-set"
       ],
       "exclusiveScript": false
@@ -16610,7 +16591,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -17335,7 +17315,7 @@
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-edu-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-il-exp-pardon-set.mjs",
+      "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**",
@@ -17863,7 +17843,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18034,7 +18013,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18205,7 +18183,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18377,7 +18354,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
@@ -18744,7 +18721,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18946,7 +18922,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -19148,7 +19123,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -19347,7 +19321,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -19495,7 +19468,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -19643,7 +19615,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -23643,7 +23614,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -23774,7 +23744,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -24001,7 +23970,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -24017,8 +23985,8 @@
       "executionOwner": null,
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -24030,7 +23998,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
       "ownedPaths": [
@@ -27841,7 +27809,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -31726,7 +31693,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -32458,7 +32424,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no fixtures directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -39954,7 +39919,6 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",

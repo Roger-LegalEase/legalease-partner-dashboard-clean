@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 214,
+  "scriptsScanned": 216,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -10,21 +10,10 @@
       "imports": [],
       "transitiveImports": [],
       "importedBy": [
-        "build-census-v1-al-felony-nonconviction-90-set.mjs",
         "build-census-v1-al-misd-conviction-set.mjs",
         "build-census-v1-al-misd-dwop-set.mjs",
         "build-census-v1-al-pardoned-felony-set.mjs"
       ]
-    },
-    {
-      "script": "build-census-v1-al-felony-nonconviction-90-set.mjs",
-      "imports": [
-        "build-census-v1-al-diversion-set.mjs"
-      ],
-      "transitiveImports": [
-        "build-census-v1-al-diversion-set.mjs"
-      ],
-      "importedBy": []
     },
     {
       "script": "build-census-v1-al-misd-conviction-set.mjs",
@@ -315,7 +304,6 @@
       "importedBy": [
         "build-census-v1-il-exp-precompletion-set.mjs",
         "build-census-v1-il-exp-qualprob-set.mjs",
-        "build-census-v1-il-seal-edu-set.mjs",
         "build-census-v1-il-seal-nonconv-set.mjs"
       ]
     },
@@ -331,16 +319,6 @@
     },
     {
       "script": "build-census-v1-il-exp-qualprob-set.mjs",
-      "imports": [
-        "build-census-v1-il-exp-pardon-set.mjs"
-      ],
-      "transitiveImports": [
-        "build-census-v1-il-exp-pardon-set.mjs"
-      ],
-      "importedBy": []
-    },
-    {
-      "script": "build-census-v1-il-seal-edu-set.mjs",
       "imports": [
         "build-census-v1-il-exp-pardon-set.mjs"
       ],
@@ -834,7 +812,6 @@
     {
       "script": "build-census-v1-al-diversion-set.mjs",
       "importers": [
-        "al-felony-nonconviction-90-set",
         "al-misd-conviction-set",
         "al-misd-dwop-set",
         "al-pardoned-felony-set"
@@ -885,7 +862,6 @@
       "importers": [
         "il-exp-precompletion-set",
         "il-exp-qualprob-set",
-        "il-seal-edu-set",
         "il-seal-nonconv-set"
       ],
       "owner": "UNOWNED_IN_THIS_WAVE"

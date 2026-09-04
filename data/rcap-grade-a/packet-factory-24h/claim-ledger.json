@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "4bcb03efb389a64dee306c88696b04ff2215230c",
+  "generatedAtCommit": "c7e566b65def5de22a3e61d237014c5105006922",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -974,10 +974,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF06",
+      "lane": "PF02",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T11:54:46.863Z"
     },
     {
       "subjectType": "packet-family",
@@ -3849,6 +3849,21 @@
         "in_infraction_nondisclosure-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_infraction_nondisclosure-set",
+      "familyId": "in_infraction_nondisclosure-set",
+      "itemId": null,
+      "familyIds": [
+        "in_infraction_nondisclosure-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF03",
       "laneKind": "packet-build",
@@ -3867,8 +3882,8 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T11:46:18.573Z"
     },
     {
       "subjectType": "packet-family",
@@ -12645,7 +12660,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "63a15be7ddeed1164219eefb88cc0e47ac773c73c84f4dcdba4440be2a9316e2",
+  "claimsDigest": "654dba97bdac5557a7baa950ad5726a0e665822d2e58e3b150fbaea8b144bcfd",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -24349,6 +24364,30 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-04T07:16:44.683Z"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "in_infraction_nondisclosure-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-04T11:46:18.573Z"
+    },
+    {
+      "lane": "PF06",
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-04T11:48:19.546Z"
+    },
+    {
+      "lane": "PF02",
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-04T11:54:46.863Z"
     }
   ],
   "reissues": [
@@ -29185,6 +29224,16 @@
       "familyState": "SOURCE_BLOCKED",
       "reissuedAt": "2026-09-04T10:51:41Z",
       "reason": "the current dispatch names SRC04 for this subject, its family is SOURCE_BLOCKED and owes held-inventory-reconciliation, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "operation": "packet-build",
+      "lane": "PF02",
+      "dispatchNames": "PF02",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-04T11:49:15Z",
+      "reason": "the current dispatch names PF02 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
