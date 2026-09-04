@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e3f485042a40fc7fa6bc4ca99466aa515573fa1f` (or the newer dispatch base)
+**Minimum required ancestor:** `d231caa33cce4dce0212ba41f67369bf911a2327` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-felony-nonconviction-90-set \
   --codex-cloud \
-  --minimum-captain-sha e3f485042a40fc7fa6bc4ca99466aa515573fa1f
+  --minimum-captain-sha d231caa33cce4dce0212ba41f67369bf911a2327
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -65,7 +65,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `nj_arrest_no_conviction-set`
 - `rcap-tx-custom-pleading`
 - `ut_pet_dismissed_with_prejudice-set`
-- `wv_conv_single_misdemeanor-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -85,13 +85,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
 - `scripts/build-census-v1-ar-pardon-seal-set.mjs`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
 - `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
 - `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
 
 ## Never write here
 

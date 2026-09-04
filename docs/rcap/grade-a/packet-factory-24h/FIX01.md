@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e3f485042a40fc7fa6bc4ca99466aa515573fa1f` (or the newer dispatch base)
+**Minimum required ancestor:** `d231caa33cce4dce0212ba41f67369bf911a2327` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission \
   --codex-cloud \
-  --minimum-captain-sha e3f485042a40fc7fa6bc4ca99466aa515573fa1f
+  --minimum-captain-sha d231caa33cce4dce0212ba41f67369bf911a2327
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -62,7 +62,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `il-seal-3yr-set`
 - `rcap-nd-custom-pleading`
 - `tx_exp_acquittal-set`
-- `vt_seal_nonconviction-set`
+- `vt_exp_decriminalized-set`
 
 ## What you receive
 
@@ -79,12 +79,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
 - `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
 - `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
-- `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 
 ## Never write here
 

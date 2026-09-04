@@ -33,11 +33,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 55,
-    "rows": 575,
+    "returnDirectories": 56,
+    "rows": 576,
     "independentVerdicts": 195,
-    "failRepairRequired": 47,
-    "passIndependent": 143
+    "failRepairRequired": 48,
+    "passIndependent": 142
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -80,6 +80,7 @@
     "ut_pet_acquittal-set",
     "ut_pet_dismissed_with_prejudice-set",
     "ut_pet_dismissed_without_prejudice-set",
+    "ut_pet_limitations-set",
     "ut_pet_no_charges-set",
     "va_seal_petition_misdemeanor-set",
     "vt_exp_decriminalized-set",
@@ -13504,6 +13505,34 @@
     },
     {
       "familyId": "ut_pet_limitations-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "current-byte-independent-verification-ut-pet-limitations",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+      "failedObligations": [
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The rendered page manifest does not match the controlling packet-set component order. The packet-set manifest orders BCI application (1), optional third-party release (2), cover sheet (3), petition (4), order (5), acceptance (6), consent (7), victim statement (8), reply (9), then guidance (10). Both rendered PDFs instead place petition and order on pages 1-5, cover sheet on 6-7, forms 6-9 on 8-16, and the BCI components last on 17-19.",
+          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSetId ut_pet_limitations-set versus reports/rendered-artifacts.json pageManifest"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The packet does not state where self-help ends. The route's current committed track has eight stop conditions, including a hard stop for non-US citizens and a stop when a prosecutor or victim objects or the court schedules a hearing. None is presented as a stop; the instructions instead say that if a hearing is scheduled the participant should attend it, directing continued self-help at the exact event the route record says ends it.",
+          "evidence": "data/record-clearing/legal-design-track-registry.json track ut_pet_limitations selfHelpStopConditions versus participant-instructions.md sections 'Who must receive a copy, and how' and 'What this packet is not'"
+        }
+      ],
+      "failedObligationNames": [
+        "PAGE_ORDER",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ut-pet-limitations/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
       "verdict": "PASS",
       "lane": "s2-continuation-verify-02",
       "isIndependentVerification": true,
@@ -13546,7 +13575,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ut_pet_limitations-set",
