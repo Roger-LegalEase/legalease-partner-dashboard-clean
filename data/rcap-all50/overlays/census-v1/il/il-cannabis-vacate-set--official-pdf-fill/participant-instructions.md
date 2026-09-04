@@ -1,0 +1,286 @@
+# Illinois cannabis motion packet - il-cannabis-vacate-set
+
+## Route selected
+
+Motion to vacate and expunge eligible Illinois cannabis convictions. The misdemeanor/Class 4 classification and every case fact remain participant-supplied unless established by the certified record.
+
+## Required before filing
+
+Obtain a certified disposition for every cannabis conviction. Compare the case number, arresting agency, arrest date, offense class, conviction date, and proof that every sentence or condition was completed. Complete every applicable item listed below from those records. Do not sign or date until the packet is complete.
+
+- Complete Case Number2 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number3 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number4 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number5 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number6 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number7 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number8 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number9 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number10 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number11 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number12 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number13 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number14 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number15 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number16 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number17 on CXP Additional Cannabis Convictions page 1
+- Complete Case Number18 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number1 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Arresting Agency1 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Date of Arrest1 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number2 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Arresting Agency2 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Date of Arrest2 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number3 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Arresting Agency3 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Date of Arrest3 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number4 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Arresting Agency4 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Date of Arrest4 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number5 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Arresting Agency5 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Date of Arrest5 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number6 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Arresting Agency6 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Date of Arrest6 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number7 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Arresting Agency7 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Date of Arrest7 on CXP Additional Cannabis Convictions page 1
+- Complete 4 - Case Number8 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency8 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest8 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number9 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency9 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest9 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number10 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency10 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest10 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number11 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency11 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest11 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number12 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency12 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest12 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number13 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency13 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest13 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number14 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency14 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest14 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number15 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency15 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest15 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number16 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency16 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest16 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number17 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency17 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest17 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Case Number18 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Arresting Agency18 on CXP Additional Cannabis Convictions page 2
+- Complete 4 - Date of Arrest18 on CXP Additional Cannabis Convictions page 2
+- Complete Name on CXP Additional Cannabis Convictions page 2
+- Complete Case Number2 on CXP Additional Notice of Court Date page 1
+- Complete Case Number3 on CXP Additional Notice of Court Date page 1
+- Complete Case Number4 on CXP Additional Notice of Court Date page 1
+- Complete Case Number5 on CXP Additional Notice of Court Date page 1
+- Complete Case Number6 on CXP Additional Notice of Court Date page 1
+- Complete Case Number7 on CXP Additional Notice of Court Date page 1
+- Complete Case Number8 on CXP Additional Notice of Court Date page 1
+- Complete Case Number9 on CXP Additional Notice of Court Date page 1
+- Complete Case Number10 on CXP Additional Notice of Court Date page 1
+- Complete Case Number11 on CXP Additional Notice of Court Date page 1
+- Complete Case Number12 on CXP Additional Notice of Court Date page 1
+- Complete Case Number13 on CXP Additional Notice of Court Date page 1
+- Complete Case Number14 on CXP Additional Notice of Court Date page 1
+- Complete Case Number15 on CXP Additional Notice of Court Date page 1
+- Complete Case Number16 on CXP Additional Notice of Court Date page 1
+- Complete Case Number17 on CXP Additional Notice of Court Date page 1
+- Complete Case Number18 on CXP Additional Notice of Court Date page 1
+- Complete Case Number19 on CXP Additional Notice of Court Date page 1
+- Complete Case Number20 on CXP Additional Notice of Court Date page 1
+- Complete Case Number21 on CXP Additional Notice of Court Date page 1
+- Complete Case Number22 on CXP Additional Notice of Court Date page 1
+- Complete Case Number23 on CXP Additional Notice of Court Date page 1
+- Complete Case Number25 on CXP Additional Notice of Court Date page 1
+- Complete Case Number26 on CXP Additional Notice of Court Date page 1
+- Complete Case Number27 on CXP Additional Notice of Court Date page 1
+- Complete Case Number28 on CXP Additional Notice of Court Date page 1
+- Complete Case Number29 on CXP Additional Notice of Court Date page 1
+- Complete Case Number30 on CXP Additional Notice of Court Date page 1
+- Complete Case Number31 on CXP Additional Notice of Court Date page 1
+- Complete Case Number32 on CXP Additional Notice of Court Date page 1
+- Complete Case Number33 on CXP Additional Notice of Court Date page 1
+- Complete Case Number24 on CXP Additional Notice of Court Date page 1
+- Complete Case Number34 on CXP Additional Notice of Court Date page 1
+- Complete Case Number35 on CXP Additional Notice of Court Date page 1
+- Complete Case Number36 on CXP Additional Notice of Court Date page 1
+- Complete Case Number37 on CXP Additional Notice of Court Date page 1
+- Complete Case Number38 on CXP Additional Notice of Court Date page 1
+- Complete Case Number39 on CXP Additional Notice of Court Date page 1
+- Complete Case Number40 on CXP Additional Notice of Court Date page 1
+- Complete Case Number41 on CXP Additional Notice of Court Date page 1
+- Complete Case Number42 on CXP Additional Notice of Court Date page 1
+- Complete Case Number43 on CXP Additional Notice of Court Date page 1
+- Complete Case Number44 on CXP Additional Notice of Court Date page 1
+- Complete Case Number45 on CXP Additional Notice of Court Date page 1
+- Complete Case Number2 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number3 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number4 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number5 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number6 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number7 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number8 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number9 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number10 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number11 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number12 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number13 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number14 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number15 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number16 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number17 on CXP Motion to Vacate and Expunge page 1
+- Complete Case Number18 on CXP Motion to Vacate and Expunge page 1
+- Complete 4 - Case Number2 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency2 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest2 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number3 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency3 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest3 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number4 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency4 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest4 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number5 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency5 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest5 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number6 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency6 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest6 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number7 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency7 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest7 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number8 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency8 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest8 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number9 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency9 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest9 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number10 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency10 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest10 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number11 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency11 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest11 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number12 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency12 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest12 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number13 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency13 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest13 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number14 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency14 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest14 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number15 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency15 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest15 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number16 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency16 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest16 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number17 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency17 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest17 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Case Number18 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Arresting Agency18 on CXP Motion to Vacate and Expunge page 2
+- Complete 4 - Date of Arrest18 on CXP Motion to Vacate and Expunge page 2
+- Complete 5b - Age on CXP Motion to Vacate and Expunge page 3
+- Complete 5c - Years on CXP Motion to Vacate and Expunge page 3
+- Complete 5c - Months on CXP Motion to Vacate and Expunge page 3
+- Complete 5a - Age on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation1 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation2 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation3 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation4 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation5 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation6 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation7 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation8 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation9 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation10 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation11 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation12 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation13 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation14 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation15 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation16 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation17 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation18 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation19 on CXP Motion to Vacate and Expunge page 3
+- Complete 6 - Explanation20 on CXP Motion to Vacate and Expunge page 3
+- Complete Case Number2 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number3 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number4 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number5 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number6 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number7 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number8 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number9 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number10 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number11 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number12 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number13 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number14 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number15 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number17 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number18 on CXP Notice of Court Date for Motion page 1
+- Complete Case Number16 on CXP Notice of Court Date for Motion page 1
+- Complete 1b - Address on CXP Notice of Court Date for Motion page 1
+- Complete 1 - City, State, Zip on CXP Notice of Court Date for Motion page 1
+- Select 2 - County
+- Select 3 - County
+- Complete Prepared by on CXP Notice of Court Date for Motion page 2
+- Complete Prepared by - Phone Number on CXP Notice of Court Date for Motion page 2
+- Complete Case Number2 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number3 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number4 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number5 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number6 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number7 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number8 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number9 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number10 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number11 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number12 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number13 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number14 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number15 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number16 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number17 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number18 on CXP Order Granting or Denying Motion page 1
+- Complete Case Number1z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number2z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number3z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number4z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number5z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number6z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number7z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number8z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number9z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number10z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number11z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number12z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number13z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number14z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number15z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number16z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number17z on CXP Order Granting or Denying Motion page 1
+- Complete Case Number18z on CXP Order Granting or Denying Motion page 1
+
+The Additional Cannabis Convictions form is a continuation: use it only when the primary motion has no remaining row. Obtain the hearing date, time, courtroom, and State's Attorney address from the circuit clerk before completing the Notice of Court Date.
+
+## Filing and notice
+
+File the motion, any necessary continuation, the Notice of Court Date, and the proposed order with the circuit clerk in the county of the conviction. Confirm current local filing, fee, waiver, notice, copy, and hearing requirements with that clerk. Court, clerk, hearing, service, signature, and order fields remain blank for the responsible person to complete.
+
+## Stop and get help
+
+Stop if the record is not an Illinois cannabis conviction covered by the printed misdemeanor/Class 4 route, if a sentence or condition may be incomplete, if any case fact conflicts across records, if the State's Attorney objects, if the court sets a contested hearing, or if immigration, licensing, housing, firearm, or other collateral consequences matter.
