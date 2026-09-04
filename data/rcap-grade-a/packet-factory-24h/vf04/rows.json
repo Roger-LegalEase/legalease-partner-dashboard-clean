@@ -7748,6 +7748,224 @@
       "selfVerificationPerformed": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "wave": "packet-factory-24h/VF04/integrated-FIX02-independent-reread (CODEX-CS2-VF-ID-KS, 2026-09-04)",
+      "itemId": "id_set_aside_dismissal-set",
+      "lane": "VF04",
+      "worker": "CODEX-CS2-VF-ID-KS (independent; built and repaired neither family and performed neither FIX02 nor FIX05)",
+      "verifiedAtBase": "cf492847858f0dccd3266a15b00a23499f462935",
+      "verifiedAt": "2026-09-04T18:18:10Z",
+      "branch": "codex/cs2-vf-id-ks-cf49",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:ID:id_set_aside_dismissal"
+      ],
+      "claim": {
+        "assertedBeforeFamilyContentRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 id_set_aside_dismissal-set --reason \"independent current-byte read after integrated FIX02 source-receipt repair\"",
+        "result": "CLAIM_OK VF04 id_set_aside_dismissal-set (independent-verification, grant set 8789460e2ea049a9)",
+        "singleLiveGrantConfirmed": true,
+        "releasedByThisLane": false
+      },
+      "repairReverified": {
+        "repairLane": "FIX02",
+        "priorFailedObligation": "SOURCE_IDENTITY",
+        "result": "PASS",
+        "detail": "The repaired receipt pins all three mutable committed records to their exact current SHA-256 and byte lengths. The exact Idaho track and census route retain their canonical object hashes, and neither packet PDF changed."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierResult": "PASS_COMPLETE, 6/14 written"
+      },
+      "sourceIdentityEvidence": {
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "sourceBinaryCommitted": false,
+        "familySourcesBind": "PASS",
+        "environmentCommandResult": "10/13 passed, 3 failed, 4 not applicable; the only failures are the known unrelated global Master Library mount/completeness/corpus checks",
+        "committedRecordPins": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinnedSha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+            "pinnedByteLength": 16586150,
+            "currentSha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+            "currentByteLength": 16586150,
+            "result": "EXACT"
+          },
+          {
+            "path": "data/record-clearing/legal-design-specifications.json",
+            "pinnedSha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+            "pinnedByteLength": 16829391,
+            "currentSha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+            "currentByteLength": 16829391,
+            "result": "EXACT"
+          },
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "pinnedSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "pinnedByteLength": 2607149,
+            "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "currentByteLength": 2607149,
+            "result": "EXACT"
+          }
+        ],
+        "exactGovernedObjects": [
+          {
+            "object": "id_set_aside_dismissal track",
+            "canonicalSha256": "9893678692962219dfb85c6b84b163cf8c1bce180ef53aa119fa60ab5e3666a5",
+            "result": "EXACT"
+          },
+          {
+            "object": "id_set_aside_dismissal custom-pleading specification",
+            "canonicalSha256": "0d039e9701657f721b2c112deeb0d8bcb6ea7df3248224e270fde3f47f6bd982",
+            "result": "EXACT"
+          },
+          {
+            "object": "obligation:track-only:ID:id_set_aside_dismissal census route",
+            "canonicalSha256": "7ab262fefce2e5bad15d67bf887fbc12de314bf051c40685d40c01b5ecbc6fc1",
+            "result": "EXACT"
+          }
+        ],
+        "objectHashMethod": "jq -cS exact-object selection piped to sha256sum"
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+          "byteLength": 10134,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+          "byteLength": 10351,
+          "pageCount": 4
+        }
+      ],
+      "rasterEvidence": {
+        "receiptReadFrom": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33605354695",
+        "jobId": "100168605472",
+        "renderedCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+        "artifactId": 9837134404,
+        "artifactZipSha256": "sha256:ea9f994e269a9b80052f820285f713d7513b49dc0c3acdcd092e9f35592fa398",
+        "boundToCanonicalSha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+        "boundToBoundarySha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+        "documentsMeasured": 2,
+        "pagesMeasured": 8,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true,
+        "pinsEqualRecomputedBytes": true,
+        "governedEvidenceInspected": "Both exact receipt-bound PDFs and every page were rendered and read in this lane, including every boundary page.",
+        "freshLocalInspection": {
+          "pagesInspected": 8,
+          "blankOrFooterOnlyPages": 0,
+          "popplerWordBoxCrossings": 0,
+          "measuredTextOverlapPairs": 0,
+          "canonicalWords": 866,
+          "boundaryWords": 871,
+          "visualProblems": 0
+        }
+      },
+      "legalInputDisposition": "SETTLED for this packet-level verification. The current-byte reread preserves the recorded local-practice and release limitations and creates no runtime, commercial, or Production authority.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The exact track-only route, I.C. § 19-2604(1) mechanism, set-aside/dismissal relief and sentencing-court destination agree across receipt, field map, wiring, track, census and all rendered pages."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All three repaired committed-record SHA-256 and byte-length pins equal current bytes. This zero-binary custom pleading passes family_sources_bind; no official binary source is invented."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures contain the declared primary filing on pages 1-2 and filing instructions on pages 3-4 under the exact component IDs."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 6/6 declared writes are visible in each exact PDF, including the complete long boundary name, address, telephone and email values."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All five registry generation questions C1-C5 are printed as labelled blanks and disclosed 5/5 in participant-instructions.md, alongside personal signing and clerk-confirmation steps."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The one § 19-2604(1) set-aside route is fixed and remains distinct from felony reduction; neither mapped document contains an unmade or preselected route election."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Neither component contains a repeating-row structure or row key; no partial logical row exists."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The court-assigned case number, participant signature and signature date remain blank in both fixtures; refusedFieldsWithInk is empty."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Canonical 7773edfb... / 10134 bytes / 4 pages and boundary 69627731... / 10351 bytes / 4 pages match the byte-derived artifact report and exact raster pins."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both manifests and PDFs place primary-filing pages 1-2 before filing-instruction pages 3-4 without gaps, interleaving, or orphan overflow."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every exact canonical and boundary page was directly inspected. Poppler found 0 MediaBox crossings across 866 and 871 words, the line/run detector found 0 overlaps, no page is blank or footer-only, and the governed receipt reports 0 raster problems."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet states the sentencing court, identifies it as the court that imposed or withheld sentence, preserves the county-practice limitation, and directs the participant to that clerk for the accepted filing vehicle."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet accurately states that the bound record supplies neither a filing-fee amount nor a fee-waiver procedure and names the sentencing-court clerk for both, without inventing a rule."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet quotes the committed record's unresolved service and notice state and directs the participant to the sentencing-court clerk for recipient and method instead of guessing."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All five registry stop conditions are present: existing/contemplated § 19-2604 dismissal, sex-offender registration, civil/firearm-rights issues, federal/tribal/out-of-state records, and immigration/licensing/peace-officer/firearm consequences."
+        }
+      },
+      "failedProofObligations": [],
+      "centralStateEdits": 0,
+      "packetEdits": 0,
+      "sourceEdits": 0,
+      "legalEdits": 0,
+      "claimsReleased": 0,
+      "selfRepairPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ],
   "supersededLaneMembership": {
