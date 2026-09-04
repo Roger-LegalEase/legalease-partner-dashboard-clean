@@ -8692,6 +8692,744 @@
       ],
       "repairedNothing": true,
       "grantsNothing": "This failure records measurements only; it approves no output and opens no commercial route."
+    },
+    {
+      "itemId": "az_wrongful_arrest_clearance-set",
+      "lane": "VF02",
+      "worker": "CODEX-CS1-VF02-NATIONAL",
+      "wave": "National independent verification after source-authority regeneration",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verifiedAt": "2026-09-04T14:35:43Z",
+      "verifier": "CODEX-CS1-VF02-NATIONAL (built, repaired and rastered none)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+      "jurisdiction": "AZ",
+      "implementationStrategy": "custom_pleading",
+      "routeKey": "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 az_wrongful_arrest_clearance-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 az_wrongful_arrest_clearance-set (independent-verification, grant set 044eeb7859e153f3)",
+        "releasedByThisLane": false
+      },
+      "independence": "Claim asserted before family content; current bytes and records rehashed; all eight pages locally rendered and inspected; prior verdicts not used as proof.",
+      "preflight": {
+        "result": "10/13; only three private Master Library mount checks failed in this sparse worktree",
+        "effect": "Zero-document-source family; family_sources_bind passed and committed records were read from file or exact HEAD blobs."
+      },
+      "obligationsScored": 15,
+      "unmeasuredObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "focusedVerifier": "PASS_COMPLETE 6/12 written; detector counters all 0; fresh page inspection supplies visualDefects.",
+      "artifactMeasurements": {
+        "canonical": {
+          "sha256": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+          "byteLength": 9194,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+          "byteLength": 9418,
+          "pageCount": 4
+        }
+      },
+      "rasterRule": {
+        "currentQueueState": "RASTER_PASS",
+        "centralReceipt": "run 33605354695, job 100168605661, artifact 9836928881 binds exact hashes, 8 pages, 0 reported problems, whole-family coverage",
+        "freshLocalEvidence": "All eight local page renders are legible with no clipping, overlap, off-page text or raw formatting tokens."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All records and pages identify the Arizona A.R.S. § 13-4051 wrongful-arrest-or-charge clearance route."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: 0/3 receipt pins match current whole-record bytes. The receipt pins baee411.../16586143, cc0c795.../16829383 and 0936833.../2599752. Current authority hashes are: track registry 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; specifications f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; census 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Relevant AZ nodes are unchanged from 8f4b8ba0d, but exact current-source binding is stale."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page fixtures contain the declared primary component followed by participant instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All six held participant values are visible; signature/date and court-owned fields remain blank."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The arrest/charge identifiers, why the arrest or charge was wrongful, and affected records are named."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No route-determined election is silently selected or omitted."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No repeating row or partial row appears."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Signature/date and court- or agency-owned fields remain blank."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed canonical ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee / 9194 bytes and boundary 9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9 / 9418 bytes; both match rendered-artifacts and the exact-hash receipt at four pages each."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page manifests are sequential and preserve component order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All eight local page renders are legible with no clipping, overlap, off-page text or raw formatting tokens."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Arizona Superior Court is named."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No held route record establishes fee or waiver; the packet names the Superior Court clerk and invents no amount."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No held rule establishes recipient or method; the packet names the Superior Court clerk."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Disputed wrongfulness, contested evidence/hearing and high-risk consequences are fenced from self-help."
+        }
+      },
+      "repairAssignmentAdded": true,
+      "repairedNothing": true,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "Measurement only; approves no output, releases no claim and opens no route."
+    },
+    {
+      "itemId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "lane": "VF02",
+      "worker": "CODEX-CS1-VF02-NATIONAL",
+      "wave": "National independent verification after source-authority regeneration",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verifiedAt": "2026-09-04T14:35:43Z",
+      "verifier": "CODEX-CS1-VF02-NATIONAL (built, repaired and rastered none)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading",
+      "jurisdiction": "NY",
+      "implementationStrategy": "custom_pleading",
+      "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request (independent-verification, grant set 044eeb7859e153f3)",
+        "releasedByThisLane": false
+      },
+      "independence": "Claim asserted before family content; current bytes and records rehashed; all eight pages locally rendered and inspected; prior verdicts not used as proof.",
+      "preflight": {
+        "result": "10/13; only three private Master Library mount checks failed in this sparse worktree",
+        "effect": "Zero-document-source family; family_sources_bind passed and committed records were read from file or exact HEAD blobs."
+      },
+      "obligationsScored": 15,
+      "unmeasuredObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 1,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "focusedVerifier": "PASS_COMPLETE 6/12 written; detector counters all 0; fresh page inspection supplies visualDefects.",
+      "artifactMeasurements": {
+        "canonical": {
+          "sha256": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5a",
+          "byteLength": 12750,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+          "byteLength": 12918,
+          "pageCount": 4
+        }
+      },
+      "rasterRule": {
+        "currentQueueState": "RASTER_PASS",
+        "centralReceipt": "run 33605354695, job 100168605612, artifact 9836959455 binds exact hashes, 8 pages, 0 reported problems, whole-family coverage",
+        "freshLocalEvidence": "FAIL: each PDF visibly prints five lines with literal Markdown ** delimiters, including **automatic partial sealing** and three **Do not …** bullets. Central 0-problem status is not visual proof."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is a sentencing-court correction request after automatic CPL § 160.55 sealing did not appear, not an initial petition."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: 1/2 receipt pins match. The legal-decision record is exact at 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef / 184365 bytes; the receipt census pin is stale. Current authority hashes are: track registry 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; specifications f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; census 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. The NY census node is unchanged."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page fixtures contain the declared primary component followed by participant instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All six held participant values are visible; signature/date and court-owned fields remain blank."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The certificate of disposition, official DCJS history, issuing offices and all four case-specific blanks are named."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No route-determined election is silently selected or omitted."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No repeating row or partial row appears."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Signature/date and court- or agency-owned fields remain blank."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed canonical 9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5a / 12750 bytes and boundary f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2 / 12918 bytes; both match rendered-artifacts and the exact-hash receipt at four pages each."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page manifests are sequential and preserve component order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: each PDF visibly prints five lines with literal Markdown ** delimiters, including **automatic partial sealing** and three **Do not …** bullets. Central 0-problem status is not visual proof."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "It says no ordinary filing occurs and names the sentencing court for correction."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No filing fee arises; separate certificate/history costs are identified as unpriced, with clerk and DCJS named."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nothing is served; clerk notification and DCJS transmission replace service."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nonsealing order, pre-1991 branch, DWAI, courthouse-file and immigration stops are stated."
+        }
+      },
+      "repairAssignmentAdded": true,
+      "repairedNothing": true,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "Measurement only; approves no output, releases no claim and opens no route."
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "lane": "VF02",
+      "worker": "CODEX-CS1-VF02-NATIONAL",
+      "wave": "National independent verification after source-authority regeneration",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verifiedAt": "2026-09-04T14:35:43Z",
+      "verifier": "CODEX-CS1-VF02-NATIONAL (built, repaired and rastered none)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading",
+      "jurisdiction": "DE",
+      "implementationStrategy": "custom_pleading",
+      "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction (independent-verification, grant set 044eeb7859e153f3)",
+        "releasedByThisLane": false
+      },
+      "independence": "Claim asserted before family content; current bytes and records rehashed; all eight pages locally rendered and inspected; prior verdicts not used as proof.",
+      "preflight": {
+        "result": "10/13; only three private Master Library mount checks failed in this sparse worktree",
+        "effect": "Zero-document-source family; family_sources_bind passed and committed records were read from file or exact HEAD blobs."
+      },
+      "obligationsScored": 15,
+      "unmeasuredObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 2,
+        "allZero": false,
+        "measuredHere": true
+      },
+      "focusedVerifier": "PASS_COMPLETE 6/12 written; detector counters all 0; fresh page inspection supplies visualDefects.",
+      "artifactMeasurements": {
+        "canonical": {
+          "sha256": "4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a",
+          "byteLength": 11721,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34",
+          "byteLength": 11873,
+          "pageCount": 4
+        }
+      },
+      "rasterRule": {
+        "currentQueueState": "RASTER_PASS",
+        "centralReceipt": "run 33605354695, job 100168605475, artifact 9836933619 binds exact hashes, 8 pages, 0 reported problems, whole-family coverage",
+        "freshLocalEvidence": "FAIL: both PDFs expose literal ** around “Do not file a court petition…” and twice print an abruptly terminated quote ending “to request mandatory expungement; if”."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is an SBI request/guidance for § 1017A automatic failure, not a § 1018 petition."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: 2/3 pins match: single-routes 6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588 / 67533 and DE profile 6e86afdbe8cb283c261dc043f86bf2234b37b7ed10df760e7fd24c299566b801 / 140777 are exact; the census pin is stale. Current authority hashes are: track registry 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; specifications f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; census 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. The DE census node is unchanged."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page fixtures contain the declared primary component followed by participant instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All six held participant values are visible; signature/date and court-owned fields remain blank."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Checking the record, contacting SBI at 302-739-5884, optional adjudication evidence and all four participant items are named."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No route-determined election is silently selected or omitted."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No repeating row or partial row appears."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Signature/date and court- or agency-owned fields remain blank."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed canonical 4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a / 11721 bytes and boundary 6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34 / 11873 bytes; both match rendered-artifacts and the exact-hash receipt at four pages each."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page manifests are sequential and preserve component order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: both PDFs expose literal ** around “Do not file a court petition…” and twice print an abruptly terminated quote ending “to request mandatory expungement; if”."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "There is no court filing; SBI and 302-739-5884 are named."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: the fee section relies on an unfinished quote ending “…mandatory expungement; if”. Elsewhere SBI and the eligibility letter are named, but an incomplete conditional is not a Grade-A participant-facing fee basis."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nothing is served because this is an agency request with no opposing party."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Disputed eligibility, no effective response, a required petition, wrong branch and immigration stops are stated."
+        }
+      },
+      "repairAssignmentAdded": true,
+      "repairedNothing": true,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "Measurement only; approves no output, releases no claim and opens no route."
+    },
+    {
+      "itemId": "ct-decriminalized-set",
+      "lane": "VF02",
+      "worker": "CODEX-CS1-VF02-NATIONAL",
+      "wave": "National independent verification after source-authority regeneration",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verifiedAt": "2026-09-04T14:35:43Z",
+      "verifier": "CODEX-CS1-VF02-NATIONAL (built, repaired and rastered none)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading",
+      "jurisdiction": "CT",
+      "implementationStrategy": "custom_pleading",
+      "routeKey": "obligation:track-only:CT:ct-decriminalized",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 ct-decriminalized-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 ct-decriminalized-set (independent-verification, grant set 044eeb7859e153f3)",
+        "releasedByThisLane": false
+      },
+      "independence": "Claim asserted before family content; current bytes and records rehashed; all eight pages locally rendered and inspected; prior verdicts not used as proof.",
+      "preflight": {
+        "result": "10/13; only three private Master Library mount checks failed in this sparse worktree",
+        "effect": "Zero-document-source family; family_sources_bind passed and committed records were read from file or exact HEAD blobs."
+      },
+      "obligationsScored": 15,
+      "unmeasuredObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "focusedVerifier": "PASS_COMPLETE 6/13 written; detector counters all 0; fresh page inspection supplies visualDefects.",
+      "artifactMeasurements": {
+        "canonical": {
+          "sha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+          "byteLength": 10500,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+          "byteLength": 10688,
+          "pageCount": 4
+        }
+      },
+      "rasterRule": {
+        "currentQueueState": "RASTER_PASS",
+        "centralReceipt": "run 33605354695, job 100168605569, artifact 9836931409 binds exact hashes, 8 pages, 0 reported problems, whole-family coverage",
+        "freshLocalEvidence": "All eight pages are legible with no clipping, overlap, off-page text or raw formatting tokens."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All records and pages identify C.G.S. § 54-142d physical destruction with the Menditto/Dudley boundary."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: 0/3 receipt pins match current whole records; the old pins are baee411.../16586143, cc0c795.../16829383 and 0936833.../2599752. Current authority hashes are: track registry 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; specifications f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; census 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Relevant CT nodes are unchanged."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page fixtures contain the declared primary component followed by participant instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All six held participant values are visible; signature/date and court-owned fields remain blank."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The conviction, decriminalization and supporting-record items are named."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No route-determined election is silently selected or omitted."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No repeating row or partial row appears."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Signature/date and court- or agency-owned fields remain blank."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed canonical 089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955 / 10500 bytes and boundary 7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73 / 10688 bytes; both match rendered-artifacts and the exact-hash receipt at four pages each."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page manifests are sequential and preserve component order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All eight pages are legible with no clipping, overlap, off-page text or raw formatting tokens."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The conviction/records Superior Court or older-court records center is named."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The unresolved § 54-142a(k) versus § 54-142d issue and reachable clerk/records center are stated."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The unresolved service/notice record and reachable clerk/records center are stated."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All four route stops and the disputed-facts/contested-hearing boundary are stated."
+        }
+      },
+      "repairAssignmentAdded": true,
+      "repairedNothing": true,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "Measurement only; approves no output, releases no claim and opens no route."
+    },
+    {
+      "itemId": "dc_yra_set_aside-set",
+      "lane": "VF02",
+      "worker": "CODEX-CS1-VF02-NATIONAL",
+      "wave": "National independent verification after source-authority regeneration",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verifiedAt": "2026-09-04T14:35:43Z",
+      "verifier": "CODEX-CS1-VF02-NATIONAL (built, repaired and rastered none)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading",
+      "jurisdiction": "DC",
+      "implementationStrategy": "custom_pleading",
+      "routeKey": "obligation:track-only:DC:dc_yra_set_aside",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 dc_yra_set_aside-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 dc_yra_set_aside-set (independent-verification, grant set 044eeb7859e153f3)",
+        "releasedByThisLane": false
+      },
+      "independence": "Claim asserted before family content; current bytes and records rehashed; all eight pages locally rendered and inspected; prior verdicts not used as proof.",
+      "preflight": {
+        "result": "10/13; only three private Master Library mount checks failed in this sparse worktree",
+        "effect": "Zero-document-source family; family_sources_bind passed and committed records were read from file or exact HEAD blobs."
+      },
+      "obligationsScored": 15,
+      "unmeasuredObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "focusedVerifier": "PASS_COMPLETE 6/13 written; detector counters all 0; fresh page inspection supplies visualDefects.",
+      "artifactMeasurements": {
+        "canonical": {
+          "sha256": "d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca",
+          "byteLength": 10964,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63",
+          "byteLength": 11147,
+          "pageCount": 4
+        }
+      },
+      "rasterRule": {
+        "currentQueueState": "RASTER_PASS",
+        "centralReceipt": "run 33844904078, job 100935414107, artifact 9926357197 binds exact hashes, 8 pages, 0 reported problems, whole-family coverage",
+        "freshLocalEvidence": "All eight repaired pages are clean; the notarization non-statement is present and no clipping, overlap, off-page text or raw markup appears."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is the participant-filed § 24-906(e-1) YRA motion, distinct from automatic set-aside and sealing."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "FAIL: 0/3 receipt pins match current whole records; the old pins are baee411.../16586143, cc0c795.../16829383 and 0936833.../2599752. Current authority hashes are: track registry 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; specifications f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; census 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Relevant DC nodes are unchanged."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page fixtures contain the declared primary component followed by participant instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All six held participant values are visible; signature/date and court-owned fields remain blank."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All four required statements now appear, including the repaired notarization non-statement."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No route-determined election is silently selected or omitted."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "No repeating row or partial row appears."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Signature/date and court- or agency-owned fields remain blank."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed canonical d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca / 10964 bytes and boundary 1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63 / 11147 bytes; both match rendered-artifacts and the exact-hash receipt at four pages each."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both four-page manifests are sequential and preserve component order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All eight repaired pages are clean; the notarization non-statement is present and no clipping, overlap, off-page text or raw markup appears."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "DC Superior Court Criminal Division is named while the unresolved filing vehicle is preserved."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The record’s fee/waiver non-statements and Criminal Division clerk are named."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The unresolved service/notice record and clerk are named; no rule is invented."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All opposition/hearing/foreign-record/high-risk collateral stops are stated."
+        }
+      },
+      "repairAssignmentAdded": true,
+      "repairedNothing": true,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "Measurement only; approves no output, releases no claim and opens no route."
     }
   ],
   "vt1Read": {
