@@ -661,11 +661,10 @@
     "minimumCaptainSha": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
     "status": "IN_PROGRESS",
     "familiesAssigned": 8,
-    "rowsReturned": 5,
-    "familiesCompleted": 3,
+    "rowsReturned": 6,
+    "familiesCompleted": 4,
     "familiesStopped": 2,
     "remaining": [
-      "ia-7251-set",
       "mn_petition_609a02_subd3-set",
       "mt_deferred_dismissal-set"
     ],
@@ -791,6 +790,38 @@
           "visualDefects": 0
         },
         "allNineCountersZero": true,
+        "rasterState": "BUILT_RASTER_PENDING",
+        "selfVerified": false
+      },
+      {
+        "itemId": "ia-7251-set",
+        "status": "COMPLETED",
+        "result": "BUILT_RASTER_PENDING",
+        "directory": "data/rcap-all50/overlays/census-v1/ia/ia-7251-set--official-pdf-fill",
+        "buildScript": "scripts/build-census-v1-ia-7251-set.mjs",
+        "rowGate": "PASS 14/14; 2/2 source identities exact on one two-page official form",
+        "sources": [
+          {"sourceId": "official-form:Rule 2.86 Form 5", "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef"},
+          {"sourceId": "official-form:Certification of Service by Mailing or Delivery", "sha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef", "embeddedIn": "Rule 2.86 Form 5 page 2"}
+        ],
+        "artifacts": [
+          {"fixture": "canonical", "sha256": "00092fc77a11cfb8be6f6d4a49d85d8cb17c3263bb765a4c3a43df4d599e1097", "byteLength": 302354, "pageCount": 2},
+          {"fixture": "boundary", "sha256": "197519714a8e299244e2641b8c5fe2dab4a4ce67ec54da5ba13db842d1063bfe", "byteLength": 302439, "pageCount": 2}
+        ],
+        "focusedCheck": "PASS_COMPLETE 14/25 written",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "allNineCountersZero": true,
+        "deterministic": true,
         "rasterState": "BUILT_RASTER_PENDING",
         "selfVerified": false
       }
