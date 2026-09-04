@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a7ddb798f4f7aa088d50ef57c153873868c558f4",
+  "generatedAtCommit": "2927edb21a04c95a33ca9d4565cadfad270679f1",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1082,21 +1082,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-03T21:45:37.357Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ca-17b-reduction-set",
-      "familyId": "ca-17b-reduction-set",
-      "itemId": null,
-      "familyIds": [
-        "ca-17b-reduction-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF03",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12780,7 +12765,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "666a78394456c5990373bba14839de9cb6ee9dafbd82ae26aaa2693ab9b887db",
+  "claimsDigest": "4a2c0807a3b7be7247beab749fbf37236b43268d7d0485939f6c30f237b9500d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33689,6 +33674,14 @@
       "operation": "packet-build",
       "lane": "PF02",
       "withdrawnAt": "2026-09-04T06:31:19Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-04T07:05:44Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
