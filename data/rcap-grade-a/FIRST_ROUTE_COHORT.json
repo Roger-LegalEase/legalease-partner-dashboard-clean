@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "e925cd978e25f70e72ba60050b108047b3790cd8",
+  "atCommit": "f46cec6f9a5e1ddc1e81334f927f44b7da9e858e",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -80,7 +80,7 @@
     }
   ],
   "counts": {
-    "completePacketProven": 109,
+    "completePacketProven": 110,
     "familiesInsideExistingApprovalScope": 110,
     "augustApprovalScope": 57,
     "septemberExactDigestApprovalScope": 53,
@@ -89,9 +89,9 @@
     "provenAndApproved": 42,
     "inCohort": 4,
     "cohortRoutes": 5,
-    "provenButOutsideAnyExistingApproval": 67
+    "provenButOutsideAnyExistingApproval": 68
   },
-  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 109 are packet-proven; 42 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 110 are packet-proven; 42 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [
     {
       "familyId": "dc_innocence_expungement-set",
@@ -602,6 +602,12 @@
       "familyId": "ny_160_59_petition-set",
       "jurisdiction": "NY",
       "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "jurisdiction": "NY",
+      "routeCount": 2,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
@@ -4290,6 +4296,37 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf10",
         "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "jurisdiction": "NY",
+      "routeKeys": [
+        "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-automatic-expungement",
+        "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request"
+      ],
+      "routeCount": 2,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "e925cd978e25f70e72ba60050b108047b3790cd8"
       },
       "legalApproval": null
     },
