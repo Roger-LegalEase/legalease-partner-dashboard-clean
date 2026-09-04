@@ -128,11 +128,13 @@
     },
     {
       "itemId": "rcap-tn-custom-pleading",
-      "status": "COMPLETED",
+      "status": "BUILT_RASTER_PENDING",
+      "worker": "CODEX-CS2-WORKER-A",
       "lane": "FIX08",
-      "laneKind": "repair",
-      "captainBase": "52590631e7c96343bf70142cfb5934a02d55b02f",
-      "claimGrantSet": "6b656bc50752563b",
+      "laneKind": "rapid-repair",
+      "captainBase": "3faaa1b8364505b1a511021f4c18c1eb1e992489",
+      "branch": "codex/cs2-worker-a-tn-fix08",
+      "claimGrantSet": "218cb72dfda45e4f",
       "claimAsserted": true,
       "obligationsRepaired": [
         "CLIPPING_AND_OVERLAP",
@@ -140,17 +142,40 @@
         "PAGE_ORDER",
         "REQUIRED_BEFORE_FILING"
       ],
-      "repair": "The builder now reads the exact ordered route packet sets and generation requirements from the already-bound Tennessee registry. All 38 prescribed components are delivered in registry order; all 77 route-specific questions for the five prosecutor-preparation routes are participant-supplied fields and are disclosed in the instructions. Footer keep-together logic removes the dangling footer-only overflow page.",
+      "repair": "The exact Captain base already contained the FIX08 component, question and footer repair. Two fresh no-raster builds revalidated those bytes and refreshed source-receipt.json to bind the current Captain registry hash and byte length. All 38 prescribed components remain in registry order; all 77 route-specific questions for the five prosecutor-preparation routes remain participant-supplied fields; all 312 generated fixture pages were swept with no blank, footer-only or two-word page.",
       "proof": {
         "orderedComponents": "38/38 across all 11 route artifacts",
         "generationQuestions": "77/77 appear as participantMustSupply fields and in participant-instructions.md",
         "canonicalPages": 78,
         "boundaryPages": 78,
+        "pdfsSwept": 24,
+        "pagesSwept": 312,
         "footerOnlyOrTwoWordPages": 0,
-        "deterministicSecondBuild": true
+        "deterministicSecondBuild": true,
+        "pdfManifestSha256": "851f8f06854966186087a1d878438c3c817eb9558a9e94e6973614593c5d8682"
       },
-      "canonicalPdfSha256": "939fc692608c2fbc2c875d9657b036f43a429cd1b5c69d3b42e140df5c518c67",
-      "boundaryPdfSha256": "a8f1f6bbb6676f0d746a71aed087092da903b13b577610e217d22c885d5c303e",
+      "familyArtifacts": {
+        "canonical": {
+          "oldSha256": "939fc692608c2fbc2c875d9657b036f43a429cd1b5c69d3b42e140df5c518c67",
+          "oldByteLength": 222083,
+          "newSha256": "939fc692608c2fbc2c875d9657b036f43a429cd1b5c69d3b42e140df5c518c67",
+          "newByteLength": 222083
+        },
+        "boundary": {
+          "oldSha256": "a8f1f6bbb6676f0d746a71aed087092da903b13b577610e217d22c885d5c303e",
+          "oldByteLength": 225367,
+          "newSha256": "a8f1f6bbb6676f0d746a71aed087092da903b13b577610e217d22c885d5c303e",
+          "newByteLength": 225367
+        },
+        "bytesChanged": false
+      },
+      "receiptRefresh": {
+        "record": "data/record-clearing/legal-design-track-registry.json",
+        "oldSha256": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6",
+        "oldByteLength": 16555956,
+        "newSha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4",
+        "newByteLength": 16586143
+      },
       "rasterState": "BUILT_RASTER_PENDING",
       "countersAfter": {
         "knownRequiredFieldsMissing": 0,
@@ -163,8 +188,17 @@
         "protectedWrites": 0,
         "visualDefects": 0
       },
-      "focusedCheck": "PASS_COMPLETE; 109/339 written; all nine counters zero.",
+      "focusedChecks": {
+        "packetCompleteness": "PASS_COMPLETE; 109/339 written; all nine counters zero",
+        "routeArtifactCompleteness": "22/22 ROUTE_PASS_COMPLETE",
+        "gitDiffCheck": "PASS",
+        "environment": "11/14 passed; the three global Master Library mount/completeness checks fail on the supplied 21-file corpus, while family_sources_bind passes because this is a zero-document-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT family"
+      },
       "independentVerification": "PENDING",
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "centralStateEdits": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
     },
