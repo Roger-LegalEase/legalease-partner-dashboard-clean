@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-packet-component-set/v1",
+  "familyId": "ar-pardon-seal-set",
+  "packetSetId": "ar-pardon-seal-set",
+  "question": "Does the delivered packet carry every component the committed packet-set manifest declares required? A packet that renders its official forms and drops a required process_guidance component is short a component, not merely short an explanation.",
+  "manifestPath": "data/record-clearing/legal-design-packet-set-manifests.json",
+  "manifestSha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+  "componentsDeclaredRequired": 3,
+  "componentsDelivered": 3,
+  "components": [
+    {
+      "componentId": "ar-pardon-seal-process-guidance-1",
+      "role": "process_guidance",
+      "requirement": "required",
+      "order": 1,
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "deliveredAs": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/components/ar-pardon-seal-process-guidance-1/process-guidance.md",
+      "deliveredSha256": "61475b312ee46dad3641c36b111d28d6cd64ac7cf9fece80ce4f420caddea06b",
+      "copiedVerbatimFrom": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-process-guidance-1/process-guidance.md"
+    },
+    {
+      "componentId": "ar-pardon-seal-primary-filing-2",
+      "role": "primary_filing",
+      "requirement": "required",
+      "order": 2,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+      "deliveredAs": "AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL",
+      "deliveredSha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+      "copiedVerbatimFrom": null
+    },
+    {
+      "componentId": "ar-pardon-seal-proposed-order-3",
+      "role": "proposed_order",
+      "requirement": "required",
+      "order": 3,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+      "deliveredAs": "AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL",
+      "deliveredSha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+      "copiedVerbatimFrom": null
+    }
+  ]
+}

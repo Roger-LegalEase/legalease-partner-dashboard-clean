@@ -134,6 +134,29 @@ const CORPUS_ROOT = "private/source-imports/Expungement_AI_RCAP_Master_Library_E
 const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
 const ROUTE_KEY = "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2";
 
+// ---- FIX04 repair: the three records the packet's own obligations come from ---
+//
+// VF01 measured four failures on this family — COMPONENT_SET,
+// REQUIRED_BEFORE_FILING, SERVICE and SELF_HELP_STOP — and every one of them was
+// the same defect wearing four faces: the build rendered the two official PDFs
+// and stopped, so the packet-set's OWN committed obligations never reached the
+// participant. They are read here, at build time, and carried through verbatim.
+//
+// Verbatim is the whole discipline. Where a record says the source review does
+// not state a fee, a waiver or a notarization requirement, that sentence is what
+// the participant is told. This build does not supply a value the record does
+// not hold, and it does not soften, shorten or explain one it does.
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const PACKET_SET_ID = "ar-pardon-seal-set";
+const TRACK_ID = "ar-pardon-seal";
+// The process_guidance component's own committed text. It is copied byte for
+// byte; this build authors no guidance of its own and paraphrases none of it.
+const PROCESS_GUIDANCE_SOURCE =
+  "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/"
+  + "ar-pardon-seal-process-guidance-1/process-guidance.md";
+const PROCESS_GUIDANCE_COMPONENT_ID = "ar-pardon-seal-process-guidance-1";
+
 // Steps 1-3 only: bind the sources, census the blanks, write the census record,
 // stop. This exists because the map has to be written against measured blank ids
 // and a blank id is its measurement — there is no field name on a flat form to
@@ -165,6 +188,18 @@ const writeJson = (rel, value) => {
   fs.writeFileSync(path.join(rootDir, rel), `${JSON.stringify(value, null, 2)}\n`);
 };
 const round = (n) => Number(Number(n).toFixed(2));
+
+// FIX04: the packet set is read once and reused, so the wiring record and the
+// participant instructions cannot disagree about which components exist.
+let packetSetCache = null;
+const readPacketSet = () => {
+  if (packetSetCache) return packetSetCache;
+  const entry = (readJson(PACKET_SET_MANIFESTS).packetSets ?? [])
+    .find((candidate) => candidate.packetSetId === PACKET_SET_ID);
+  if (!entry) fail(`packet set absent from the committed manifest: ${PACKET_SET_ID}`);
+  packetSetCache = entry;
+  return entry;
+};
 
 // ---- the two documents, pinned by hash ---------------------------------------
 //
@@ -1873,6 +1908,25 @@ function writeRecords({ documents, rasters, allFindings }) {
   });
 
   // ---- step 5 record: the wiring, which creates no authority -------------------
+  //
+  // FIX04: a later wiring lane appended a `binding` block to this file by hand —
+  // the acceptance receipt, the last independent verdict, the maintenance
+  // relationship. A rebuild used to drop it silently, which is how a rebuild
+  // destroys someone else's record. It is carried forward verbatim instead, with
+  // the single exception of `packetComponents`: that list named only the two
+  // official forms, and naming two of three required components is exactly the
+  // COMPONENT_SET defect this repair answers. It is set from the manifest.
+  const priorWiringPath = path.join(rootDir, `${OUT}/product-wiring.json`);
+  const priorWiring = fs.existsSync(priorWiringPath)
+    ? JSON.parse(fs.readFileSync(priorWiringPath, "utf8"))
+    : {};
+  const carriedBinding = priorWiring.binding
+    ? {
+        ...priorWiring.binding,
+        packetComponents: (readPacketSet().components ?? [])
+          .map((component) => `component:${component.componentId}`)
+      }
+    : undefined;
   writeJson(`${OUT}/product-wiring.json`, {
     schemaVersion: "rcap-packet-family-product-wiring/v1",
     familyId: FAMILY_ID,
@@ -1890,6 +1944,10 @@ function writeRecords({ documents, rasters, allFindings }) {
     fieldCensus: `${OUT}/field-census.census-v1.json`,
     sourceReceipt: `${OUT}/source-receipt.json`,
     localFilingVariation: `${OUT}/local-filing-variation.json`,
+    // FIX04: the packet set has three required components, not two. The
+    // process_guidance component is delivered as a file, so the wiring names
+    // where the whole set is accounted for rather than listing only the PDFs.
+    componentSet: `${OUT}/reports/component-set.json`,
 
     // What this wiring is NOT. Every one of these stays false, and none of them
     // is this family's to set.
@@ -1922,7 +1980,8 @@ function writeRecords({ documents, rasters, allFindings }) {
     sharedManifestsTouched: false,
     otherFamiliesTouched: false,
     legacyGeneratorsTouched: false,
-    liveRcapRoutesTouched: false
+    liveRcapRoutesTouched: false,
+    ...(carriedBinding ? { binding: carriedBinding } : {})
   });
 
   // ---- the proofs --------------------------------------------------------------
@@ -2016,10 +2075,98 @@ function writeRecords({ documents, rasters, allFindings }) {
     rasters
   });
 
+  // ---- FIX04 repair: the packet-set's own obligations, carried verbatim ------
+  //
+  // Read the two committed records and the one committed component text, bind
+  // each by SHA-256, and fail loudly rather than emit a packet that silently
+  // drops an obligation the manifest declares.
+  const packetSet = readPacketSet();
+  const track = (readJson(TRACK_REGISTRY).tracks ?? []).find((entry) => entry.trackId === TRACK_ID);
+  if (!track) fail(`track absent from the committed registry: ${TRACK_ID}`);
+  const stopConditions = track.selfHelpStopConditions ?? [];
+  if (stopConditions.length === 0) fail(`the track declares no selfHelpStopConditions: ${TRACK_ID}`);
+
+  const guidanceBytes = fs.readFileSync(path.join(rootDir, PROCESS_GUIDANCE_SOURCE));
+  const guidanceComponent = (packetSet.components ?? [])
+    .find((component) => component.componentId === PROCESS_GUIDANCE_COMPONENT_ID);
+  if (!guidanceComponent) fail(`the manifest declares no component ${PROCESS_GUIDANCE_COMPONENT_ID}`);
+  const guidanceOut = `${OUT}/components/${PROCESS_GUIDANCE_COMPONENT_ID}/process-guidance.md`;
+  fs.mkdirSync(path.dirname(path.join(rootDir, guidanceOut)), { recursive: true });
+  fs.writeFileSync(path.join(rootDir, guidanceOut), guidanceBytes);
+
+  // Every component the manifest marks required must now be present in the
+  // delivered packet, each bound to the artifact that carries it.
+  // The manifest names its two official components by role — primary_filing and
+  // proposed_order — which is exactly how this build already distinguishes its
+  // two documents. Matching on role rather than on officialFormId avoids
+  // asserting an identity between two differently-spelled form ids that no
+  // record states.
+  const roleToDocumentRole = { primary_filing: "PETITION", proposed_order: "PROPOSED_ORDER" };
+  const documentForComponent = (component) => documents
+    .find(({ doc }) => doc.documentRole === roleToDocumentRole[component.role])?.doc ?? null;
+  const deliveredComponents = (packetSet.components ?? []).map((component) => {
+    const isGuidance = component.componentId === PROCESS_GUIDANCE_COMPONENT_ID;
+    const doc = isGuidance ? null : documentForComponent(component);
+    return {
+      componentId: component.componentId,
+      role: component.role,
+      requirement: component.requirement,
+      order: component.order,
+      outputStrategy: component.outputStrategy,
+      officialFormId: component.officialFormId,
+      deliveredAs: isGuidance ? guidanceOut : (doc?.documentId ?? null),
+      deliveredSha256: isGuidance ? sha256(guidanceBytes) : (doc?.sha256 ?? null),
+      copiedVerbatimFrom: isGuidance ? PROCESS_GUIDANCE_SOURCE : null
+    };
+  });
+  const undelivered = deliveredComponents
+    .filter((component) => component.requirement === "required" && component.deliveredAs === null);
+  if (undelivered.length > 0) {
+    fail("a required component of this packet set is not delivered",
+      undelivered.map((component) => component.componentId).join(", "));
+  }
+  writeJson(`${OUT}/reports/component-set.json`, {
+    schemaVersion: "rcap-packet-component-set/v1",
+    familyId: FAMILY_ID,
+    packetSetId: PACKET_SET_ID,
+    question:
+      "Does the delivered packet carry every component the committed packet-set manifest declares required? "
+      + "A packet that renders its official forms and drops a required process_guidance component is short a "
+      + "component, not merely short an explanation.",
+    manifestPath: PACKET_SET_MANIFESTS,
+    manifestSha256: sha256(fs.readFileSync(path.join(rootDir, PACKET_SET_MANIFESTS))),
+    componentsDeclaredRequired: deliveredComponents.filter((c) => c.requirement === "required").length,
+    componentsDelivered: deliveredComponents.filter((c) => c.deliveredAs !== null).length,
+    components: deliveredComponents
+  });
+
+  // The manifest's own required-before-filing sentences, and its own service
+  // sentence, quoted rather than restated. `requiredBeforeFiling` on the
+  // manifest already carries the fingerprint card, the ACIC criminal history,
+  // the conviction-details cross-check, the pardon documentation and the
+  // pardon/date cross-check; nothing is added to that list here.
+  const manifestPrerequisites = (packetSet.requiredBeforeFiling ?? []);
+  if (manifestPrerequisites.length === 0) fail("the manifest declares no requiredBeforeFiling entries");
+  const serviceActions = (packetSet.participantActionRequired ?? [])
+    .filter((action) => action.kind === "serve_party");
+  if (serviceActions.length === 0) fail("the manifest declares no serve_party action");
+  const serviceFromTheForm = readJson(`${OUT}/local-filing-variation.json`).service;
+
   fs.writeFileSync(path.join(rootDir, `${OUT}/participant-instructions.md`),
     `# Participant instructions\n\nPacket family: \`${FAMILY_ID}\`\n\n`
     + `These are review artifacts, not papers approved for filing or commercial delivery. Before any filing, `
     + `obtain and verify every item below and in \`reports/blanks-left-for-the-participant.json\`.\n\n`
+    + `## Before this packet applies to you\n\n`
+    + `A pardon must already have been granted. \`${guidanceOut}\` is the packet's own `
+    + `process-guidance component and explains that step; it does not apply for a pardon and this packet does `
+    + `not establish that one exists.\n\n`
+    + `## Documents and cross-checks required before filing\n\n`
+    + `${manifestPrerequisites.map((line) => `- ${line}`).join("\n")}\n\n`
+    + `## Service\n\n`
+    + `${serviceActions.map((action) => `- ${action.description}`).join("\n")}\n`
+    + `- ${serviceFromTheForm.statement} (${serviceFromTheForm.source})\n\n`
+    + `## Stop and get a lawyer if\n\n`
+    + `${stopConditions.map((line) => `- ${line}`).join("\n")}\n\n`
     + `## Exact items required before filing\n\n${requiredInstructionLines.join("\n")}\n\nDo not pre-sign, `
     + `pre-date, or pre-certify service. Court, judge, clerk, notary, and service-event blanks remain for the `
     + `person or event named by the official form. The petition follows a granted pardon; this packet does not `

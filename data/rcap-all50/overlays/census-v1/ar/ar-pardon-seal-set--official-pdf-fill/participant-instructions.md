@@ -4,6 +4,35 @@ Packet family: `ar-pardon-seal-set`
 
 These are review artifacts, not papers approved for filing or commercial delivery. Before any filing, obtain and verify every item below and in `reports/blanks-left-for-the-participant.json`.
 
+## Before this packet applies to you
+
+A pardon must already have been granted. `data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/components/ar-pardon-seal-process-guidance-1/process-guidance.md` is the packet's own process-guidance component and explains that step; it does not apply for a pardon and this packet does not establish that one exists.
+
+## Documents and cross-checks required before filing
+
+- Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.
+- Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.
+- Check your answer to "What was the conviction — which court, county, offence and statute section?" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.
+- Obtain Pardon documentation. Attach the pardon documentation to the petition. LegalEase does not review it.
+- Check your answer to "Has a pardon been granted, and on what date?" against Pardon documentation, and correct the packet if they disagree.
+- Signature and date — ACIC petition, signature block.
+- The petitioner signs their own petition.
+- The source review does not state a notarization requirement.
+- The source review does not state a filing fee for this petition.
+- The source review does not address a fee waiver.
+
+## Service
+
+- Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.
+- A copy of the petition must be provided to the Prosecuting Attorney for the county in which the petition has been filed, and to the arresting agency, by placing a copy in the United States mail postage prepaid or by hand delivering a copy to said office. (the petition's Certificate of Service, page 4, read from the pinned bytes)
+
+## Stop and get a lawyer if
+
+- The prosecuting attorney objects within the 30-day window.
+- The court sets a contested hearing.
+- Immigration, licensing or firearm consequences are in play.
+- The participant has not yet obtained a pardon.
+
 ## Exact items required before filing
 
 - DIVISION (source blank: `p1-y681.70-x234.41`)
