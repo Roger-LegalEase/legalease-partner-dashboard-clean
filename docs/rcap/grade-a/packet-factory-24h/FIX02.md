@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `407a76441f92488fbc9732b6d5ac82f76501e41f` (or the newer dispatch base)
+**Minimum required ancestor:** `ebee87d603a7373cdb5832e5f31c5f5ffbb91bc9` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request' \
   --codex-cloud \
-  --minimum-captain-sha 407a76441f92488fbc9732b6d5ac82f76501e41f
+  --minimum-captain-sha ebee87d603a7373cdb5832e5f31c5f5ffbb91bc9
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 8 exact families before reading or writing family content:
+- Assert only these 7 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'fl-trafficking-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'id_set_aside_dismissal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-seal-2yr-set'`
@@ -64,10 +63,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 8 families
+## The 7 families
 
 - `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`
-- `fl-trafficking-set`
 - `id_set_aside_dismissal-set`
 - `al-diversion-set`
 - `il-seal-2yr-set`
@@ -87,7 +85,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
@@ -95,7 +92,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs`
-- `scripts/build-census-v1-fl-trafficking-set.mjs`
 - `scripts/build-census-v1-id_set_aside_dismissal-set.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
 - `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`

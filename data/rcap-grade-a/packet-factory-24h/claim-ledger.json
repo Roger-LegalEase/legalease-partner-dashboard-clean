@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "407a76441f92488fbc9732b6d5ac82f76501e41f",
+  "generatedAtCommit": "ebee87d603a7373cdb5832e5f31c5f5ffbb91bc9",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -198,8 +198,7 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3010,10 +3009,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3909,10 +3907,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T02:01:18.798Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -12869,7 +12866,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "23ddb95eaa09a891164807042c00433c6cc462b09d700ef199064d24cb0da2ed",
+  "claimsDigest": "5da3a28a9c4bbe0a57e81c166079110fc06203b775891dcdf938840cd1452ca0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25357,6 +25354,22 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-04T16:47:35.529Z"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-04T16:50:34.377Z"
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "fl-trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-04T16:50:34.487Z"
     }
   ],
   "reissues": [
@@ -30713,6 +30726,36 @@
       "previouslyReleasedAt": "2026-09-04T05:38:19.703Z",
       "reissuedAt": "2026-09-04T16:35:16.874Z",
       "reason": "Current FAIL_REPAIR_REQUIRED self-help-stop obligation remains unrepaired; reissue exact FIX03 ownership for the isolated Washington repair after the stale FIX01 launch was refused."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-prostitution-j-vacate-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-04T16:50:50Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "dispatchNames": "FIX02",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-04T16:50:50Z",
+      "reason": "the current dispatch names FIX02 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-trafficking-set",
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "dispatchNames": "FIX03",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-04T16:50:50Z",
+      "reason": "the current dispatch names FIX03 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
