@@ -5,6 +5,7 @@ import path from "node:path";
 
 import {
   packetSpecificationFor,
+  packetSpecificationForTrack,
   specificationLegalSectionsBound
 } from "@/lib/rcap/grade-a/packet-specification";
 
@@ -50,8 +51,10 @@ export type FactoryV2Route = {
   officialFormIds: string[];
   /** The exact family resolved from the server-owned packet specification. */
   packetFamilyId: string | null;
-  /** Present only for one exact route migrated out of a retired legacy jurisdiction. */
+  /** Present only for an exact route migrated out of a retired legacy jurisdiction. */
   retiredLegacyRouteMigration: FactoryV2RouteMigration | null;
+  /** True when the generated runtime row carries sibling tracks and the caller must name the exact migrated track. */
+  exactTrackSelectionRequired: boolean;
 };
 
 const REGISTRY_PATH = "data/record-clearing/factory-v2-route-registry.json";
@@ -105,6 +108,12 @@ type RawRouteMigration = {
   opensRoute?: unknown;
 };
 
+type RawPacketSet = {
+  jurisdiction?: unknown;
+  trackId?: unknown;
+  packetSetId?: unknown;
+};
+
 let cache: Map<string, FactoryV2Route> | null = null;
 
 const stringList = (value: unknown): string[] =>
@@ -125,8 +134,11 @@ function loadRouteMigrations(): ReadonlyMap<string, FactoryV2RouteMigration> {
   try {
     const parsed = JSON.parse(fs.readFileSync(path.join(process.cwd(), ROUTE_MIGRATIONS_PATH), "utf8")) as {
       factoryV2RouteMigrations?: unknown;
+      packetSets?: unknown;
     };
-    if (!Array.isArray(parsed.factoryV2RouteMigrations)) return migrations;
+    if (!Array.isArray(parsed.factoryV2RouteMigrations) || !Array.isArray(parsed.packetSets)) return migrations;
+
+    const packetSets = parsed.packetSets as RawPacketSet[];
 
     for (const candidate of parsed.factoryV2RouteMigrations) {
       const row = candidate as RawRouteMigration;
@@ -136,6 +148,8 @@ function loadRouteMigrations(): ReadonlyMap<string, FactoryV2RouteMigration> {
       const packetFamilyId = typeof row.packetFamilyId === "string" ? row.packetFamilyId.trim() : "";
       const ownerDecisionRecordId = typeof row.ownerDecisionRecordId === "string" ? row.ownerDecisionRecordId.trim() : "";
       const registryTrackIds = stringList(row.registryTrackIds);
+      const matchingPacketSets = packetSets.filter((packetSet) => packetSet.packetSetId === packetFamilyId);
+      const packetSet = matchingPacketSets.length === 1 ? matchingPacketSets[0] : null;
       const valid = Boolean(
         jurisdiction
         && pathwayId
@@ -146,6 +160,11 @@ function loadRouteMigrations(): ReadonlyMap<string, FactoryV2RouteMigration> {
         && row.registryTrackIds.length === registryTrackIds.length
         && registryTrackIds.length > 0
         && new Set(registryTrackIds).size === registryTrackIds.length
+        && packetSet
+        && typeof packetSet.jurisdiction === "string"
+        && packetSet.jurisdiction.trim().toUpperCase() === jurisdiction
+        && typeof packetSet.trackId === "string"
+        && registryTrackIds.includes(packetSet.trackId.trim())
         && row.migrationKind === "retired_legacy_route_to_factory_v2"
         && row.scope === "route_only"
         && row.createsCommercialAuthority === false
@@ -189,12 +208,17 @@ function admissible(route: RawRoute, migration: FactoryV2RouteMigration | null):
   if (stringList(route.requiredInputIds).length === 0) return false;
   if (migration) {
     const routeId = `${String(route.jurisdiction).trim().toUpperCase()}:${String(route.pathwayId).trim()}`;
-    const specification = packetSpecificationFor(routeId);
+    const specification = migration.registryTrackIds.length === 1
+      ? packetSpecificationForTrack(routeId, migration.registryTrackIds[0])
+      : undefined;
     const specificationRouteKeys = specification?.routeKeys ?? (specification ? [specification.routeKey] : []);
+    const rawPacketSetIds = stringList(route.packetSetIds);
+    const rawRegistryTrackIds = stringList(route.registryTrackIds);
     if (migration.routeId !== routeId) return false;
-    if (!exactStringList(route.packetSetIds, [migration.packetFamilyId])) return false;
-    if (!exactStringList(route.registryTrackIds, migration.registryTrackIds)) return false;
+    if (!migration.registryTrackIds.every((trackId) => rawRegistryTrackIds.includes(trackId))) return false;
+    if (!rawPacketSetIds.includes(migration.packetFamilyId)) return false;
     if (specification?.packetFamily !== migration.packetFamilyId) return false;
+    if (!exactStringList(migration.registryTrackIds, [specification.trackId])) return false;
     if (!specificationRouteKeys.includes(routeId)) return false;
     if (!specificationLegalSectionsBound(specification)) return false;
     if (!("legalSectionsBoundBy" in specification)
@@ -219,17 +243,24 @@ function loadAll(): Map<string, FactoryV2Route> {
         const migration = migrations.get(routeId) ?? null;
         if (!admissible(route, migration)) continue;
         const specification = packetSpecificationFor(routeId);
+        const rawRegistryTrackIds = stringList(route.registryTrackIds);
+        const rawPacketSetIds = stringList(route.packetSetIds);
+        const registryTrackIds = migration?.registryTrackIds ?? rawRegistryTrackIds;
+        const packetSetIds = migration ? [migration.packetFamilyId] : rawPacketSetIds;
         admitted.set(`${jurisdiction}:${pathwayId}`, {
           pathwayKey: `${jurisdiction}:${pathwayId}`,
           jurisdiction,
           pathwayId,
-          registryTrackIds: stringList(route.registryTrackIds),
-          packetSetIds: stringList(route.packetSetIds),
+          registryTrackIds,
+          packetSetIds,
           profileVersion: String(route.profileVersion).trim(),
           requiredInputIds: stringList(route.requiredInputIds),
           officialFormIds: stringList(route.officialFormIds),
           packetFamilyId: specification?.packetFamily ?? null,
-          retiredLegacyRouteMigration: migration
+          retiredLegacyRouteMigration: migration,
+          exactTrackSelectionRequired: migration !== null
+            && (!exactStringList(rawRegistryTrackIds, registryTrackIds)
+              || !exactStringList(rawPacketSetIds, packetSetIds))
         });
       }
     }
@@ -243,11 +274,20 @@ function loadAll(): Map<string, FactoryV2Route> {
 }
 
 /** The factory_v2 route for this jurisdiction and pathway, when one is admitted. */
-export function factoryV2RouteFor(jurisdiction: string, pathwayId: string): FactoryV2Route | null {
+export function factoryV2RouteFor(
+  jurisdiction: string,
+  pathwayId: string,
+  trackId?: string | null
+): FactoryV2Route | null {
   const code = String(jurisdiction ?? "").trim().toUpperCase();
   const id = String(pathwayId ?? "").trim();
   if (!code || !id) return null;
-  return loadAll().get(`${code}:${id}`) ?? null;
+  const route = loadAll().get(`${code}:${id}`) ?? null;
+  if (!route?.retiredLegacyRouteMigration) return route;
+  const selectedTrackId = String(trackId ?? "").trim();
+  if (selectedTrackId && !route.registryTrackIds.includes(selectedTrackId)) return null;
+  if (route.exactTrackSelectionRequired && !selectedTrackId) return null;
+  return route;
 }
 
 /**
@@ -257,9 +297,10 @@ export function factoryV2RouteFor(jurisdiction: string, pathwayId: string): Fact
  */
 export function factoryV2RouteMigrationFor(
   jurisdiction: string,
-  pathwayId: string
+  pathwayId: string,
+  trackId?: string | null
 ): FactoryV2RouteMigration | null {
-  return factoryV2RouteFor(jurisdiction, pathwayId)?.retiredLegacyRouteMigration ?? null;
+  return factoryV2RouteFor(jurisdiction, pathwayId, trackId)?.retiredLegacyRouteMigration ?? null;
 }
 
 /** Test seam: forget the loaded registry so a fixture can be read fresh. */

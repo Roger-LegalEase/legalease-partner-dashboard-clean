@@ -264,6 +264,21 @@ export function packetSpecificationFor(routeKey: string): RegisteredSpecificatio
 }
 
 /**
+ * The route-and-track crosswalk used when more than one legal-design track
+ * shares a runtime pathway. A route match alone is insufficient in that case:
+ * the packet specification must also name the exact server-owned track.
+ */
+export function packetSpecificationForTrack(
+  routeKey: string,
+  trackId: string
+): RegisteredSpecification | undefined {
+  const specification = SPECIFICATIONS.get(routeKey);
+  const normalizedTrackId = String(trackId ?? "").trim();
+  if (!specification || !normalizedTrackId || specification.trackId !== normalizedTrackId) return undefined;
+  return specification;
+}
+
+/**
  * The composable subset. A specification with unbound legal sections resolves
  * for identity -- family, version, content hash -- and is deliberately not
  * returned here, so no caller can compose from it by forgetting to check.
