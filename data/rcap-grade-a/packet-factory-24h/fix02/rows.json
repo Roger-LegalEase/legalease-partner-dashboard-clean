@@ -779,6 +779,80 @@
       "selfVerificationPerformed": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ct-decriminalized-set",
+      "routeKey": "obligation:track-only:CT:ct-decriminalized",
+      "status": "COMPLETED",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "laneKind": "repair",
+      "worker": "CODEX-CS2-FIX02-CT-NOTARIZATION",
+      "baseSha": "82f9e4323e402f71a8beeee553e5f2006246e6a9",
+      "workerBranch": "codex/cs2-fix02-ct-notarization-82f",
+      "claim": {
+        "assertion": "CLAIM_OK FIX02 ct-decriminalized-set (repair, grant set ff7cb57cff11d215)",
+        "assertedBeforeFamilyContentRead": true,
+        "releasedByThisLane": false
+      },
+      "selectedIndependentVerdict": {
+        "lane": "vf02",
+        "commit": "4f73e89995c3ecfc01bf4e4b5fc39a14d339ecdb"
+      },
+      "obligationRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "decisiveDefectAsNamed": "The controlling registry declares the required notarization non-statement, \"The source review does not state a notarization requirement.\" It was absent from participant-instructions.md and both rendered fixtures; case-insensitive notar search found zero hits.",
+      "whatWasDone": "The exact controlling non-statement was added immediately before the participant's signing step and under a SIGNING AND NOTARIZATION heading in the generated filing-instructions component. The sentence neither says notarization is required nor says it is prohibited. Its existing registry declaration is now an exact build-time anchor. Extracted before/after PDF text confirms every prior participant-visible line is unchanged.",
+      "artifactsBefore": [
+        {
+          "fixture": "canonical",
+          "sha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+          "byteLength": 10500,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+          "byteLength": 10688,
+          "pageCount": 4
+        }
+      ],
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "sha256": "9b6667f6ecbe38c2657b100a663727c227b6ce8f4e3244544041239b764218b2",
+          "byteLength": 10647,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "b5134f47d6b55ea57179437561767b8c38c65e8be8d10281224549c2df442d83",
+          "byteLength": 10835,
+          "pageCount": 4
+        }
+      ],
+      "determinism": "Two consecutive --no-raster builds produced identical canonical and boundary SHA-256 values, byte lengths and page counts.",
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-decriminalized-set — PASS_COMPLETE 6/13 written; all nine counters zero",
+        "Exact contiguous-string assertion over participant-instructions.md plus pdftotext extracted from canonical.pdf and boundary.pdf — EXACT_NOTARIZATION_NONSTATEMENT_OK; one occurrence in each"
+      ],
+      "rasterNote": "Both exact PDF hashes changed. A different worker must perform calibrated central raster review against these exact hashes; this repair records no local or visual acceptance.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "whatCouldNotBeEstablished": [
