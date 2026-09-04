@@ -844,6 +844,58 @@
       "rasterBinding": {"state": "RASTER_PASS", "historicalOnlyPendingReverification": true, "workflowRunId": "33844904078", "jobId": "100935414107", "artifactId": "9926357197", "pagesMeasured": 8, "problemsFound": 0, "coversTheWholeFamily": true},
       "countersAfter": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
       "centralStateEdits": 0, "claimsReleased": 0, "selfVerificationPerformed": 0, "routesOpened": 0, "productionTouched": false
+    },
+    {
+      "itemId": "id_felony_reduction-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "baseSha": "e10890c114ef6f46907efa9fa660493700ecead1",
+      "workerBranch": "codex/cs1-fix01-id-source-pin-e108",
+      "claim": {
+        "assertion": "CLAIM_OK FIX01 id_felony_reduction-set (repair, grant set 4b05f33f82fade3b)",
+        "assertedBeforeFamilyContentRead": true,
+        "releasedByThisLane": false
+      },
+      "currentFailedObligation": "SOURCE_IDENTITY",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "obligationRepaired": ["SOURCE_IDENTITY"],
+      "failReadFrom": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json, the nonsuperseded vf04 FAIL_REPAIR_REQUIRED row verified at 46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "decisiveDefectAsNamed": "The receipt pinned stale full-file versions of legal-design-track-registry.json, legal-design-specifications.json and route-obligation-candidate.json even though the exact id_felony_reduction track, specification and census-route objects were unchanged.",
+      "whatWasDone": "Recomputed every current source-record hash and byte length and all three exact family-object hashes before writing, then refreshed only the three stale whole-file pins in source-receipt.json. No source, packet content, artifact, authority, route or central record changed.",
+      "sourceIdentityRepair": {
+        "exactBeforePins": [
+          {"path": "data/record-clearing/legal-design-track-registry.json", "sha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4", "byteLength": 16586143},
+          {"path": "data/record-clearing/legal-design-specifications.json", "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5", "byteLength": 16829383},
+          {"path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "byteLength": 2599752}
+        ],
+        "exactAfterPins": [
+          {"path": "data/record-clearing/legal-design-track-registry.json", "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee", "byteLength": 16586150},
+          {"path": "data/record-clearing/legal-design-specifications.json", "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e", "byteLength": 16829391},
+          {"path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1", "byteLength": 2607149}
+        ],
+        "currentRecordsRecomputedBeforeWrite": true,
+        "exactObjectContinuity": [
+          {"object": "id_felony_reduction track", "canonicalSha256BeforeAndAfter": "46ec53fa1b56f5071ea32d9d87f5ddf9385c6d13c8f8d6ed5914548ef7d02993", "unchanged": true},
+          {"object": "id_felony_reduction specification", "canonicalSha256BeforeAndAfter": "b80235914db182d864d273ddc107e639de3fe0c2a137ff2e4ec6a24b2633ef15", "unchanged": true},
+          {"object": "id_felony_reduction census route", "canonicalSha256BeforeAndAfter": "586378678089932f75f5a72cda54394d976e8525cf6af4b783bc9a83d927d209", "unchanged": true}
+        ]
+      },
+      "packetBytesUnchanged": true,
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1", "byteLength": 8807, "rehashPasses": 2},
+        {"fixture": "boundary", "sha256": "8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48", "byteLength": 9029, "rehashPasses": 2}
+      ],
+      "determinism": "Two consecutive post-repair rehash passes reproduced the exact canonical and boundary SHA-256 values and byte lengths; packet bytes are unchanged.",
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_felony_reduction-set — PASS_COMPLETE 6/13 written; all nine counters zero"
+      ],
+      "countersAfter": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ],
   "currentRepairWave": {
