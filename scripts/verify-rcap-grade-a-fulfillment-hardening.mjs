@@ -709,11 +709,12 @@ check("no synthetic record reaches the shipped registry", () => {
     ? "a synthetic hardening record was committed" : null;
 });
 
-check("the shipped registry admits only the four exact evidence-complete first-cohort records", () => {
+check("the shipped registry admits only the five exact evidence-complete productized records", () => {
   const shipped = JSON.parse(readSource("data/rcap-grade-a/fulfillment-authority-registry.json"));
   const observations = JSON.parse(readSource("data/rcap-grade-a/fulfillment-observation-snapshot.json"));
   const expectedAdmitted = new Set([
     "DC:dc_actual_innocence_expungement_16_803",
+    "IL:felony-prostitution-relief",
     "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
     "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
     "WY:felony-conviction-expungement-w-s-7-13-1502"

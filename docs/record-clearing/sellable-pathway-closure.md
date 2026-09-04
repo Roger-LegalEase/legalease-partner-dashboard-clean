@@ -36,15 +36,15 @@ intendedSellablePathways
 | `publiclyReachableSellablePathways` | 78 | **184** |
 | `authoritativePacketReadyPathways` | 79 | **183** |
 | `packetSpecCompletePathways` | 255 | **7** |
-| `technicallyApprovedPacketPathways` | 113 | **149** |
+| `technicallyApprovedPacketPathways` | 108 | **154** |
 | `legallyApprovedPacketPathways` | 79 | **183** |
-| `successfullyRenderedPathways` | 198 | **64** |
+| `successfullyRenderedPathways` | 192 | **70** |
 
 **The invariant does not hold.** 6 of the six downstream stages fall short of the 262-pathway denominator (publiclyReachableSellablePathways, authoritativePacketReadyPathways, packetSpecCompletePathways, technicallyApprovedPacketPathways, legallyApprovedPacketPathways, successfullyRenderedPathways). Every shortfall below is an open blocker on an open paid pathway, not a completed treatment.
 
 ## Do not charge for guidance
 
-**14 route(s) are payment-eligible in the evaluator and cannot deliver an artifact.** No participant is charged for them: `assertPacketRouteCanDeliver` in src/lib/expungement-ai/payment-adapter.ts shows them no price and refuses them at Checkout, and `npm run rcap:verify-money-gate-delivery` proves it over all 51 jurisdictions. What remains open is the disagreement itself — the evaluator still classifies these routes as sellable while nothing can produce their packet, so each one is an intended paid pathway with `renderer_unavailable` against it rather than a route that is finished.
+**15 route(s) are payment-eligible in the evaluator and cannot deliver an artifact.** No participant is charged for them: `assertPacketRouteCanDeliver` in src/lib/expungement-ai/payment-adapter.ts shows them no price and refuses them at Checkout, and `npm run rcap:verify-money-gate-delivery` proves it over all 51 jurisdictions. What remains open is the disagreement itself — the evaluator still classifies these routes as sellable while nothing can produce their packet, so each one is an intended paid pathway with `renderer_unavailable` against it rather than a route that is finished.
 
 | Pathway | Route kind | Why no artifact (and why no charge) |
 |---|---|---|
@@ -52,6 +52,7 @@ intendedSellablePathways
 | `CA:tool-3-petition-based-felony-sealing` | `guidance_only` | resolver refused: routeKind=guidance_only |
 | `CA:tool-4-arrest-record-sealing` | `guidance_only` | resolver refused: routeKind=guidance_only |
 | `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704` | `guidance_only` | resolver refused: routeKind=guidance_only |
+| `CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202` | `guidance_only` | resolver refused: routeKind=guidance_only |
 | `ID:withheld-judgment-idaho-code-19-2604-review-branch` | `guidance_only` | resolver refused: routeKind=guidance_only |
 | `MD:police-record-expungement-when-no-charge-was-filed-under-10-103` | `guidance_only` | resolver refused: routeKind=guidance_only |
 | `MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | `packet_correction_required` | resolver refused: routeKind=packet_correction_required |
@@ -83,7 +84,7 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | Blocker | Pathways |
 |---|---|
 | `legal_review_pending` | 183 |
-| `renderer_unavailable` | 64 |
+| `renderer_unavailable` | 70 |
 | `route_metadata` | 47 |
 | `gate_build` | 36 |
 | `not_paid_product` | 35 |
@@ -94,7 +95,7 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | `packet_spec_incomplete` | 7 |
 | `legal_action_required` | 2 |
 
-**64 of 262** intended-sellable pathways are closed with no open blocker.
+**63 of 262** intended-sellable pathways are closed with no open blocker.
 
 ## Closure map
 
@@ -103,34 +104,33 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 
 | Open blockers | Pathways | Jurisdictions |
 |---|---|---|
-| **none — closed** | 64 | AK, AR, AZ, CA, CT, DC, DE, FL, GA, HI, IA, IL +27 |
+| **none — closed** | 63 | AK, AR, AZ, CA, DC, DE, FL, GA, HI, IA, IL, IN +26 |
 | `gate_build + legal_review_pending` | 33 | FL, GA, IA, KS, MD, MI, NC, ND, NH, NJ, OH, OK +8 |
-| `legal_review_pending + route_metadata` | 31 | AL, AZ, GA, ID, KS, MA, MN, MS, NC, NH, NV, OK +5 |
+| `legal_review_pending + route_metadata` | 30 | AL, AZ, GA, ID, KS, MN, MS, NC, NH, NV, OK, SC +4 |
 | `legal_review_pending + not_paid_product` | 21 | AK, AL, AR, DC, FL, ID, IL, KY, LA, MA, MD, ME +1 |
-| `legal_reconfirmation + legal_review_pending` | 21 | GA, IN, KY, LA, MA, MO, NE, NJ, OH, OR, RI, SC +3 |
-| `legal_review_pending + renderer_unavailable + route_metadata` | 16 | AK, DE, GA, LA, ME, NE, NV, OH, SC, SD, TX, UT +1 |
-| `renderer_unavailable` | 15 | AR, CA, CO, ID, MD, MS, ND, NH, NM, NY, OR, TN +2 |
+| `legal_reconfirmation + legal_review_pending` | 18 | GA, IN, KY, LA, MA, MO, OH, RI, SC, TN, WA, WV |
+| `legal_review_pending + renderer_unavailable + route_metadata` | 17 | AK, DE, GA, LA, MA, ME, NE, NV, OH, SC, SD, TX +2 |
+| `renderer_unavailable` | 16 | AR, CA, CO, CT, ID, MD, MS, ND, NH, NM, NY, OR +3 |
 | `legal_review_pending + wait_anchor_fix` | 14 | MI, NH, NM, NV, OH, OK, RI, SC, TX, VT, WA |
+| `legal_reconfirmation + legal_review_pending + renderer_unavailable` | 11 | NE, NH, NJ, NV, OK, OR, RI, SD, WA, WI |
 | `intake_fix + legal_review_pending + renderer_unavailable` | 10 | ID, NV, OH, OK, RI, SD, WI, WV |
-| `legal_reconfirmation + legal_review_pending + renderer_unavailable` | 8 | NH, NV, OK, RI, SD, WA, WI |
 | `intake_fix + legal_review_pending` | 7 | FL, KS, LA, MI, NE, WA |
 | `legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 4 | AK, MN, MS |
 | `filing_determination_missing + legal_review_pending + not_paid_product` | 4 | DE, LA, NE, OK |
+| `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 3 | AK, CT, WI |
 | `gate_build + legal_review_pending + renderer_unavailable` | 3 | CO, SD, WV |
 | `legal_review_pending + renderer_unavailable + wait_anchor_fix` | 3 | CO, VT, WV |
-| `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 2 | AK, WI |
 | `filing_determination_missing + legal_action_required + legal_review_pending` | 2 | HI |
 | `legal_review_pending + not_paid_product + renderer_unavailable` | 2 | KY, MD |
-| `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete` | 1 | CT |
 | `filing_determination_missing + legal_review_pending + not_paid_product + renderer_unavailable` | 1 | ME |
 
-The largest single lever is the renderer. **15** pathway(s) across **14**
-jurisdictions (AR, CA, CO, ID, MD, MS, ND, NH, NM, NY, OR, TN, TX, WI) carry no blocker other than `renderer_unavailable`:
+The largest single lever is the renderer. **16** pathway(s) across **15**
+jurisdictions (AR, CA, CO, CT, ID, MD, MS, ND, NH, NM, NY, OR, TN, TX, WI) carry no blocker other than `renderer_unavailable`:
 they are payment-eligible, counsel-ratified and packet-spec complete, and the only
 thing between them and a delivered packet is a certified renderer for their
 jurisdiction. Nothing about them needs a legal decision or a classification change.
 
-Going the other way, **134** pathway(s) in AK, AL, AR, AZ, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, NC, ND, NE, NH, NJ, NM, NV, OH, OK, OR, RI, SC, TN, TX, UT, VT, WA, WI, WV already produce a packet
+Going the other way, **129** pathway(s) in AK, AL, AR, AZ, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, NC, ND, NE, NH, NJ, NM, NV, OH, OK, OR, RI, SC, TN, TX, UT, VT, WA, WI, WV already produce a packet
 while carrying an open blocker. Every one of them carries `legal_review_pending`:
 these routes render and sell today on a compiled profile that records no counsel
 ratification for them.

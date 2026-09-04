@@ -54,6 +54,9 @@ const FACTORY_REGISTRY_PATH = "data/record-clearing/factory-v2-route-registry.js
 const FULFILLMENT_REGISTRY_PATH = "data/rcap-grade-a/fulfillment-authority-registry.json";
 const OWNER_DECISION_PATH = "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json";
 const POST_APPROVAL_AUDIT_PATH = "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json";
+const RELEASE_READINESS_PATH = "data/rcap-codex/release-readiness.json";
+const LAUNCH_GRAPH_PATH = "data/rcap-ledger/launch-graph.json";
+const HOSTED_ACCEPTANCE_PATH = "data/rcap-all50/hosted-acceptance-journeys.json";
 
 const readBytes = (relative) => {
   const materialized = path.join(ROOT, relative);
@@ -93,6 +96,9 @@ const {
 const {
   admitCommercial
 } = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
+const {
+  resolveConsumerDeliveryRouteState
+} = await import("../src/lib/rcap/render/consumer-delivery-control.ts");
 
 const ROUTES = [
   {
@@ -260,6 +266,7 @@ const ROUTES = [
 
 const FULFILLMENT_EVIDENCE_GAP_ROUTES = new Set([
   "DC:dc_actual_innocence_expungement_16_803",
+  "IL:felony-prostitution-relief",
   "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
   "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
   "WY:felony-conviction-expungement-w-s-7-13-1502"
@@ -703,7 +710,7 @@ assert.equal(factoryV2RouteFor(illinois.jurisdiction, illinois.pathwayId), null,
   "the aggregate Illinois runtime row was admitted without the exact server-owned track");
 assert.equal(factoryV2RouteFor(illinois.jurisdiction, illinois.pathwayId, "il-prostitution-j-auto"), null,
   "the automatic sibling track inherited the vacatur packet family");
-for (const trackId of [undefined, "il-prostitution-j-auto"]) {
+for (const trackId of [undefined, "*", "il-prostitution-j-auto"]) {
   const resolution = resolvePacketRoute({
     state: illinois.jurisdiction,
     pathway: illinois.pathwayId,
@@ -725,7 +732,7 @@ const ilRender = buildRenderJobSpec({ ...ilRenderInput, trackId: illinois.inputT
 assert.ok(ilRender.spec, "the exact Illinois vacatur route did not reach the shared render-job path");
 assert.equal(ilRender.route.routeKind, "factory_v2");
 assert.equal(ilRender.spec.routeId, illinois.routeId);
-for (const trackId of [undefined, "il-prostitution-j-auto"]) {
+for (const trackId of [undefined, "*", "il-prostitution-j-auto"]) {
   const siblingRender = buildRenderJobSpec({ ...ilRenderInput, trackId });
   assert.equal(siblingRender.spec, null,
     `Illinois ${trackId ?? "trackless"}: a sibling render job inherited the vacatur packet`);
@@ -776,12 +783,40 @@ const ilCommercialIdentity = commercialRouteIdentity({
 });
 assert.equal(ilCommercialIdentity.packetFamilyId, illinois.familyId,
   "the money gate did not derive the Illinois packet family from the server-owned specification");
+const ilFulfillmentRecord = fulfillment.records.find((record) => record.routeId === illinois.routeId);
+assert.ok(ilFulfillmentRecord, "the exact Illinois Grade-A fulfillment record is absent");
+assert.equal(ilFulfillmentRecord.schemaVersion, "rcap-grade-a-fulfillment-authority/v2");
+assert.equal(ilFulfillmentRecord.packetFamilyId, illinois.familyId);
 for (const admissionPoint of ["consumer_checkout", "sponsored_entitlement", "packet_credit_admission"]) {
   const decision = admitCommercial(admissionPoint, ilCommercialIdentity, null);
   assert.equal(decision.admitted, false, `${admissionPoint}: Illinois productization opened commercial authority`);
-  assert.equal(decision.denialCode, "fulfillment_no_record",
-    `${admissionPoint}: the exact next gate must remain a Grade-A fulfillment record`);
+  assert.equal(decision.denialCode, "participant_context_denied",
+    `${admissionPoint}: a fulfillment record bypassed the independently required participant context`);
 }
+
+// The v2 record proves fulfillment only. These pre-existing deployment and
+// launch gates remain independent and dark, so generating the record cannot be
+// mistaken for a hosted consumer or sponsored canary, a deployment pin, or a
+// route-open operation.
+const releaseReadiness = read(RELEASE_READINESS_PATH).deploymentReadiness;
+assert.equal(resolveConsumerDeliveryRouteState(), "disabled",
+  "the consumer-delivery route state unexpectedly became live during productization verification");
+assert.equal(releaseReadiness.finalApplicationShaRequired, true);
+assert.equal(releaseReadiness.applicationTarget, null,
+  "the fulfillment record fabricated a hosted application deployment pin");
+assert.equal(releaseReadiness.immutableDigestRequired, true);
+assert.equal(releaseReadiness.workerTarget, null,
+  "the fulfillment record fabricated a hosted worker deployment pin");
+assert.equal(readBytes(HOSTED_ACCEPTANCE_PATH).includes(Buffer.from(illinois.routeId)), false,
+  "the fulfillment record fabricated an exact-route hosted acceptance/canary receipt");
+const ilLaunchRow = read(LAUNCH_GRAPH_PATH).rows.find((row) => row.pathwayKey === illinois.routeId);
+assert.ok(ilLaunchRow, "the current launch graph lacks the Illinois pathway row");
+assert.equal(ilLaunchRow.paymentResult?.allowedAtTheEvaluator, false);
+assert.equal(ilLaunchRow.paymentResult?.sellableAtTheResolver, false);
+assert.equal(ilLaunchRow.paymentResult?.creditConsumable, false);
+assert.equal(ilLaunchRow.fulfillmentAuthorityAdmitted, false);
+assert.equal(ilLaunchRow.operationallySellable, false);
+assert.equal(ilLaunchRow.allOperationalGatesMet, false);
 
 const ctCommercialIdentity = commercialRouteIdentity({
   jurisdiction: connecticut.jurisdiction,

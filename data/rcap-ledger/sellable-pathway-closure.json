@@ -46,9 +46,9 @@
       "publiclyReachableSellablePathways": 78,
       "authoritativePacketReadyPathways": 79,
       "packetSpecCompletePathways": 255,
-      "technicallyApprovedPacketPathways": 113,
+      "technicallyApprovedPacketPathways": 108,
       "legallyApprovedPacketPathways": 79,
-      "successfullyRenderedPathways": 198
+      "successfullyRenderedPathways": 192
     },
     "holds": false,
     "breaks": [
@@ -453,8 +453,8 @@
       {
         "stage": "technicallyApprovedPacketPathways",
         "expected": 262,
-        "actual": 113,
-        "shortfall": 149,
+        "actual": 108,
+        "shortfall": 154,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -470,6 +470,8 @@
           "CO:juvenile-expungement-19-1-306",
           "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
           "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+          "CT:absolute-pardon-resulting-in-erasure",
+          "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
           "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
           "FL:court-ordered-sealing-943-059",
           "FL:human-trafficking-victim-expunction-943-0583",
@@ -514,12 +516,14 @@
           "ND:dui-record-sealing-under-the-separate-dui-statute",
           "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
           "NE:juvenile-petition-backstop",
+          "NE:law-enforcement-error-expungement",
           "NE:trafficking-survivor-set-aside-and-seal",
           "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
           "NH:annulment-of-a-vacated-conviction",
           "NH:conviction-annulment-under-rsa-651-5",
           "NH:dwi-dui-annulment",
           "NH:marijuana-possession-annulment-under-rsa-651-5-b",
+          "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
           "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
           "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
           "NM:conviction",
@@ -550,6 +554,7 @@
           "OK:other-eligible-misdemeanor-conviction-expungement",
           "OK:up-to-two-felony-deferred-dismissal-expungement",
           "OK:victim-protective-order-record-relief",
+          "OR:marijuana-specific-set-aside-redesignation",
           "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
           "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
           "RI:path-a-first-offender-conviction-expungement",
@@ -801,8 +806,8 @@
       {
         "stage": "successfullyRenderedPathways",
         "expected": 262,
-        "actual": 198,
-        "shortfall": 64,
+        "actual": 192,
+        "shortfall": 70,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -813,6 +818,8 @@
           "CO:juvenile-expungement-19-1-306",
           "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
           "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+          "CT:absolute-pardon-resulting-in-erasure",
+          "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
           "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
           "GA:retroactive-first-offender-treatment-under-42-8-66",
           "ID:human-trafficking-survivor-vacatur-and-expungement",
@@ -820,6 +827,7 @@
           "ID:withheld-judgment-idaho-code-19-2604-review-branch",
           "KY:felony-conviction-431073",
           "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+          "MA:marijuana-only-expungement",
           "MD:juvenile-expungement",
           "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
           "ME:juvenile-sealing",
@@ -830,8 +838,10 @@
           "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
           "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
           "NE:juvenile-petition-backstop",
+          "NE:law-enforcement-error-expungement",
           "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
           "NH:annulment-of-a-vacated-conviction",
+          "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
           "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
           "NV:controlled-substance-possession-sealing-under-nrs-453-3365",
           "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
@@ -842,6 +852,7 @@
           "OH:juvenile-sealing-and-expungement",
           "OK:human-trafficking-survivor-relief",
           "OK:juvenile-record-expungement",
+          "OR:marijuana-specific-set-aside-redesignation",
           "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
           "RI:path-e-filed-complaint-relief-under-12-10-12",
           "RI:path-h-commercial-sexual-activity-related-expungement",
@@ -893,6 +904,11 @@
       },
       {
         "pathwayKey": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "routeKind": "guidance_only",
+        "renderReason": "resolver refused: routeKind=guidance_only"
+      },
+      {
+        "pathwayKey": "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
         "routeKind": "guidance_only",
         "renderReason": "resolver refused: routeKind=guidance_only"
       },
@@ -2445,8 +2461,6 @@
       "CA:prop-64-completed-sentence-application-11361-8",
       "CA:prop-64-currently-serving-petition-11361-8",
       "CA:tool-1-dismissal-set-aside",
-      "CT:absolute-pardon-resulting-in-erasure",
-      "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
       "DC:dc_actual_innocence_expungement_16_803",
       "DC:dc_motion_seal_felony_conviction_8yr_16_806",
       "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
@@ -2520,12 +2534,10 @@
       "ND:deferred-imposition-dismissal-and-sealing",
       "ND:first-offense-possession-sealing",
       "ND:marijuana-specific-summary-pardon-or-sealing-relief",
-      "NE:law-enforcement-error-expungement",
       "NE:pardon-then-seal",
       "NE:set-aside-incarceration-one-year-or-less",
       "NE:set-aside-probation-fine-community-service",
       "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
-      "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
       "NM:no-conviction-released-without-conviction",
       "NV:general-conviction-record-sealing-under-nrs-179-245",
       "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
@@ -2533,7 +2545,6 @@
       "OH:marijuana-hashish-possession-expungement-under-2953-321",
       "OK:acquittal-dismissal-or-other-no-conviction-expungement",
       "OK:pardon-based-expungement",
-      "OR:marijuana-specific-set-aside-redesignation",
       "PA:path-a-non-conviction-expungement",
       "RI:path-d-non-conviction-sealing-expungement",
       "SC:juvenile-expungement",
@@ -2646,8 +2657,6 @@
       "CA:prop-64-completed-sentence-application-11361-8",
       "CA:prop-64-currently-serving-petition-11361-8",
       "CA:tool-1-dismissal-set-aside",
-      "CT:absolute-pardon-resulting-in-erasure",
-      "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
       "DC:dc_actual_innocence_expungement_16_803",
       "DC:dc_motion_seal_felony_conviction_8yr_16_806",
       "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
@@ -2706,7 +2715,6 @@
       "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
       "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
       "MA:juvenile-record-sealing-under-100b",
-      "MA:marijuana-only-expungement",
       "MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
       "MA:time-based-expungement-under-100f-100j",
       "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
@@ -2748,7 +2756,6 @@
       "ND:dui-record-sealing-under-the-separate-dui-statute",
       "ND:first-offense-possession-sealing",
       "ND:marijuana-specific-summary-pardon-or-sealing-relief",
-      "NE:law-enforcement-error-expungement",
       "NE:pardon-then-seal",
       "NE:set-aside-incarceration-one-year-or-less",
       "NE:set-aside-probation-fine-community-service",
@@ -2757,7 +2764,6 @@
       "NH:dwi-dui-annulment",
       "NH:marijuana-possession-annulment-under-rsa-651-5-b",
       "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
-      "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
       "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
       "NM:conviction",
       "NM:no-conviction-released-without-conviction",
@@ -2785,7 +2791,6 @@
       "OK:pardon-based-expungement",
       "OK:up-to-two-felony-deferred-dismissal-expungement",
       "OK:victim-protective-order-record-relief",
-      "OR:marijuana-specific-set-aside-redesignation",
       "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
       "PA:path-a-non-conviction-expungement",
       "RI:path-a-first-offender-conviction-expungement",
@@ -4633,11 +4638,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "CT absolute-pardon-resulting-in-erasure builds through the shared packet factory from packet set ct-absolute-pardon-set, ct-pardon-erasure-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "CT has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "lawrence": null,
       "stages": {
@@ -4645,14 +4650,14 @@
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
         "packetSpecComplete": false,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2938
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -4674,6 +4679,11 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {
@@ -4878,11 +4888,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "CT petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202 builds through the shared packet factory from packet set ct-cleanslate-petition-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "CT has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "lawrence": {
         "status": "ratified_deployable",
@@ -4897,16 +4907,22 @@
         "publiclyReachableSellable": true,
         "authoritativePacketReady": true,
         "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": true,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2968
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
-      "openBlockers": [],
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
+        }
+      ],
       "routeMetadata": {
         "productRouteType": "court_petition",
         "userFiled": true,
@@ -4941,11 +4957,11 @@
         }
       },
       "route": {
-        "routeKind": "legacy_retired",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "DC's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "reason": "DC dc_actual_innocence_expungement_16_803 builds through the shared packet factory from packet set dc_innocence_expungement-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "lawrence": {
         "status": "ratified_deployable",
@@ -10367,11 +10383,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "MA marijuana-only-expungement builds through the shared packet factory from packet set ma-expunge-mj-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "MA:marijuana-only-expungement is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": {
         "status": "hold_guidance",
@@ -10388,12 +10404,12 @@
         "packetSpecComplete": true,
         "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2933
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -10405,6 +10421,11 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {
@@ -12749,11 +12770,11 @@
         }
       },
       "route": {
-        "routeKind": "legacy_retired",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "MS's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "reason": "MS additional-justice-court-misdemeanor-relief-9-11-15-3 builds through the shared packet factory from packet set ms-misd-addl-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "lawrence": null,
       "stages": {
@@ -12875,11 +12896,11 @@
         }
       },
       "route": {
-        "routeKind": "legacy_retired",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "MS's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "reason": "MS additional-municipal-court-misdemeanor-relief-21-23-7-6 builds through the shared packet factory from packet set ms-misd-addl-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "lawrence": null,
       "stages": {
@@ -15289,11 +15310,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "NE law-enforcement-error-expungement builds through the shared packet factory from packet set ne-expunge-le-error-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "NE:law-enforcement-error-expungement is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": {
         "status": "hold_guidance",
@@ -15308,14 +15329,14 @@
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
         "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2967
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -15327,6 +15348,11 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {
@@ -16110,11 +16136,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "NJ clean-slate-petition-under-n-j-s-a-2c-52-5-3 builds through the shared packet factory from packet set nj_clean_slate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3 is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": {
         "status": "hold_guidance",
@@ -16129,14 +16155,14 @@
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
         "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2947
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -16148,6 +16174,11 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {
@@ -17038,11 +17069,11 @@
         }
       },
       "route": {
-        "routeKind": "guidance_only",
+        "routeKind": "handoff",
         "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "NV has a compiled profile but no certified packet renderer, so it serves guidance."
+        "reason": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 is a single_stage referral: the approved outcome is a hand-off to counsel or the prosecutor, not a self-filed packet, so checkout, credit and render stay closed."
       },
       "lawrence": null,
       "stages": {
@@ -17056,7 +17087,7 @@
       },
       "render": {
         "rendered": false,
-        "reason": "resolver refused: routeKind=guidance_only",
+        "reason": "resolver refused: routeKind=handoff",
         "bytes": 0
       },
       "openBlockers": [
@@ -17073,7 +17104,7 @@
         {
           "id": "renderer_unavailable",
           "severity": "blocking",
-          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=handoff)."
         }
       ],
       "routeMetadata": {
@@ -19118,11 +19149,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "OR marijuana-specific-set-aside-redesignation builds through the shared packet factory from packet set or_conviction_setaside-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "OR:marijuana-specific-set-aside-redesignation is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": {
         "status": "hold_guidance",
@@ -19137,14 +19168,14 @@
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
         "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2947
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -19156,6 +19187,11 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {
@@ -19984,11 +20020,11 @@
         }
       },
       "route": {
-        "routeKind": "legacy_retired",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "PA's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "reason": "PA:path-k-human-trafficking-vacatur-expungement is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": {
         "status": "approved_release_behavior",
@@ -20003,7 +20039,7 @@
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
         "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
         "successfullyRendered": false
       },
@@ -21394,11 +21430,11 @@
         }
       },
       "route": {
-        "routeKind": "guidance_only",
+        "routeKind": "handoff",
         "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "SD has a compiled profile but no certified packet renderer, so it serves guidance."
+        "reason": "SD:juvenile-trafficking-expungement is a single_stage referral: the approved outcome is a hand-off to counsel or the prosecutor, not a self-filed packet, so checkout, credit and render stay closed."
       },
       "lawrence": null,
       "stages": {
@@ -21412,7 +21448,7 @@
       },
       "render": {
         "rendered": false,
-        "reason": "resolver refused: routeKind=guidance_only",
+        "reason": "resolver refused: routeKind=handoff",
         "bytes": 0
       },
       "openBlockers": [
@@ -21429,7 +21465,7 @@
         {
           "id": "renderer_unavailable",
           "severity": "blocking",
-          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=handoff)."
         }
       ],
       "routeMetadata": {
