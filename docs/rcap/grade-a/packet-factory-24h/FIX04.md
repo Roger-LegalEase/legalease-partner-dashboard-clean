@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `ecd2bde7980de4c5c33c4db956acec6a37102588` (or the newer dispatch base)
+**Minimum required ancestor:** `208f78babd0ed4e3938df7b99c53c78e464e8be1` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-felony-nonconviction-90-set \
   --codex-cloud \
-  --minimum-captain-sha ecd2bde7980de4c5c33c4db956acec6a37102588
+  --minimum-captain-sha 208f78babd0ed4e3938df7b99c53c78e464e8be1
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -63,8 +63,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `il-seal-edu-set`
 - `az_marijuana_expungement_arrest_no_charges-set`
 - `nj_arrest_no_conviction-set`
-- `rcap-wi-custom-pleading`
-- `ut_pet_no_charges-set`
+- `rcap-wa-custom-pleading-clean-tracks`
+- `ut_pet_dismissed_without_prejudice-set`
 
 ## What you receive
 
@@ -82,13 +82,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
 - `scripts/build-census-v1-ar-pardon-seal-set.mjs`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
-- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
-- `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
+- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
+- `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
 
 ## Never write here
 

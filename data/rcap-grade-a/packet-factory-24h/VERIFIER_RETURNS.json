@@ -34,7 +34,7 @@
   ],
   "counts": {
     "returnDirectories": 59,
-    "rows": 586,
+    "rows": 587,
     "independentVerdicts": 202,
     "failRepairRequired": 52,
     "passIndependent": 145
@@ -11071,6 +11071,34 @@
     },
     {
       "familyId": "rcap-tn-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "440d949ddeaab7a54d4ab57abaca075bd029a326",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "At immutable packet commit ddec2dd658ba9f0884cd0376c113164e174c9588 the three full-file committed-record pins in source-receipt.json were exact. At verification base 440d949ddeaab7a54d4ab57abaca075bd029a326, authoritative regeneration changed all three full files without refreshing the receipt: track registry declares baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4 at 16,586,143 bytes but is now 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee at 16,586,150; specifications declares cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16,829,383 but is now f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e at 16,829,391; route census declares 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 but is now 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 at 2,607,149. The Tennessee subsets are deep-identical across ddec and 440d: registry subset 71bba17eeeadef58150fa26be570630d363631e2229395b13ee088cf5757f213, specification subset 0a0c3e0e3837de852625ab58231093fbafb90ac8551aaef9411ced5cb6fb1ed0, and census subset 435555b3b61e97b640bac01b10384b84920f4c0cfddb59cace4fd789c703813a. This is an exact receipt-binding defect, not a missing-source block.",
+          "evidence": "source-receipt.json; SHA-256 and byte length recomputed from each record at ddec and at 440d; canonicalized Tennessee subsets compared across the two commits"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The 156 actual governed page PNGs were inspected, not merely their RASTER_PASS labels. No content is cropped or overlapping, but six pages are unacceptable near-empty pagination orphans: canonical and boundary page 7 of tn_pretrial_diversion (ink fraction 0.004089980689245395), tn_nonconviction_petition (0.0048029931669637555) and tn_judicial_diversion (0.005489639037433155). Each carries only the final one-item fragment of THE PAGES IN THIS SET plus the route line on an otherwise empty sheet. The old two-word footer-only page is gone, but its visual root class remains. The raster workflow's nonblank/crop checks correctly report those pages nonblank and uncropped; they do not prove useful pagination.",
+          "evidence": "original-resolution page-007 PNGs under /tmp/tn-raster-33879628067 for both personas of the three routes; matching receipt measurements; extracted page text"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tn-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading",
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -11165,7 +11193,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tn-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-tn-custom-pleading",

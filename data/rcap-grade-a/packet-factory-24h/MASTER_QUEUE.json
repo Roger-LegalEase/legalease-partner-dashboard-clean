@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+  "minimumCaptainSha": "208f78babd0ed4e3938df7b99c53c78e464e8be1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -72,16 +72,16 @@
     "sourceReady": 110,
     "sourceBlocked": 16,
     "legalBlocked": 5,
-    "verifyPending": 24,
-    "repairRequired": 51,
+    "verifyPending": 23,
+    "repairRequired": 52,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 110,
     "COMPLETE_PACKET_PROVEN": 104,
-    "FAIL_REPAIR_REQUIRED": 51,
+    "FAIL_REPAIR_REQUIRED": 52,
     "OUT_OF_SCOPE": 5,
-    "VERIFY_PENDING": 24,
+    "VERIFY_PENDING": 23,
     "PRODUCT_PATH_PENDING": 17,
     "SOURCE_BLOCKED": 16,
     "VERIFIED_PASS": 2,
@@ -35616,9 +35616,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf09",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "440d949ddeaab7a54d4ab57abaca075bd029a326",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": [
         "the current failed obligations have not been repaired"
@@ -35653,35 +35653,23 @@
       "failingCounters": [],
       "failedObligationNames": [
         "CLIPPING_AND_OVERLAP",
-        "COMPONENT_SET",
-        "PAGE_ORDER",
-        "REQUIRED_BEFORE_FILING"
+        "SOURCE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "COMPONENT_SET",
-          "finding": "The authoritative legal-design track registry prescribes 38 ordered packetSet components across the eleven routes. The delivered family declares and renders 29. Only 18 prescribed component IDs are present; 20 prescribed components are absent, replaced by eleven generic filing-instructions components that the route contracts do not name. Examples include the missing tn_nonconviction_petition-no-cost-statement-2, tn_nonconviction_petition-no-court-history-routing-4, tn_redaction-scope-disclosure-3, and the separate certification-and-fee components prescribed for both diversion routes. Internal agreement among production-field-map.json, rendered-artifacts.json and the generator does not satisfy the authoritative route component contract.",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "All 135 blanks the builder declares are disclosed, but five participant eligibility records do not collect the route-specific generation requirements in the exact bound registry. For tn_illegal_voting, tn_post_pardon, tn_recovery_court, tn_eligible_conviction and tn_two_offense, each request and each so-called eligibility record repeats the same five generic blanks: recipient address, court or office, case number, disposition date and an open-ended ask. The five registry records together declare 77 route-specific required questions, and none appears as a participantMustSupply question in those maps. Material omissions include the exact § 2-19-107 identification and fifteen-year facts; pardon date, Board of Parole vote and seven-category exclusion facts; recovery-court completion, DUI count/date and ten-year interval; exact eligible-code mapping, sentence completion and prior expunction; and two-offence count, mix, single-episode and once-per-lifetime facts. The zero requiredFactsNotCollected counter is therefore a builder-declaration false negative.",
-          "evidence": null
-        },
-        {
-          "obligation": "PAGE_ORDER",
-          "finding": "The generator's 62-page assembly and its own page manifests are sequential, but zero of the eleven route component sequences equals the authoritative packetSet order. The registry orders 38 specifically named components; the rendered manifests order 29 and substitute a generic filing-instructions component for each route's prescribed guidance components. Page-order proof cannot be obtained by comparing a generator only with the manifest it generated while ignoring the route contract it claims to implement.",
-          "evidence": null
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "At immutable packet commit ddec2dd658ba9f0884cd0376c113164e174c9588 the three full-file committed-record pins in source-receipt.json were exact. At verification base 440d949ddeaab7a54d4ab57abaca075bd029a326, authoritative regeneration changed all three full files without refreshing the receipt: track registry declares baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4 at 16,586,143 bytes but is now 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee at 16,586,150; specifications declares cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16,829,383 but is now f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e at 16,829,391; route census declares 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 but is now 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 at 2,607,149. The Tennessee subsets are deep-identical across ddec and 440d: registry subset 71bba17eeeadef58150fa26be570630d363631e2229395b13ee088cf5757f213, specification subset 0a0c3e0e3837de852625ab58231093fbafb90ac8551aaef9411ced5cb6fb1ed0, and census subset 435555b3b61e97b640bac01b10384b84920f4c0cfddb59cace4fd789c703813a. This is an exact receipt-binding defect, not a missing-source block.",
+          "evidence": "source-receipt.json; SHA-256 and byte length recomputed from each record at ddec and at 440d; canonicalized Tennessee subsets compared across the two commits"
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Fresh local Poppler rasters of all 124 pages were visually inspected. Page 34 of both assembled fixtures, which is page 6 of the tn_pretrial_diversion route packet and source page 3 of tn_pretrial_diversion-filing-instructions-2, contains only the two-word route footer and otherwise blank space. Pdfplumber independently confirms this is the sole low-content page: canonical 18,274 words and boundary 18,394 words, each with page 34 at two words, zero words outside the page box and zero overlapping word pairs. This dangling footer-only overflow page is a visual-quality failure even though the central raster and visualDefects counter report zero problems.",
-          "evidence": null
+          "finding": "The 156 actual governed page PNGs were inspected, not merely their RASTER_PASS labels. No content is cropped or overlapping, but six pages are unacceptable near-empty pagination orphans: canonical and boundary page 7 of tn_pretrial_diversion (ink fraction 0.004089980689245395), tn_nonconviction_petition (0.0048029931669637555) and tn_judicial_diversion (0.005489639037433155). Each carries only the final one-item fragment of THE PAGES IN THIS SET plus the route line on an otherwise empty sheet. The old two-word footer-only page is gone, but its visual root class remains. The raster workflow's nonblank/crop checks correctly report those pages nonblank and uncropped; they do not prove useful pagination.",
+          "evidence": "original-resolution page-007 PNGs under /tmp/tn-raster-33879628067 for both personas of the three routes; matching receipt measurements; extracted page text"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-tn-custom-pleading.mjs",

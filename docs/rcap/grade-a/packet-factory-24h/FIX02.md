@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `ecd2bde7980de4c5c33c4db956acec6a37102588` (or the newer dispatch base)
+**Minimum required ancestor:** `208f78babd0ed4e3938df7b99c53c78e464e8be1` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-diversion-set \
   --codex-cloud \
-  --minimum-captain-sha ecd2bde7980de4c5c33c4db956acec6a37102588
+  --minimum-captain-sha 208f78babd0ed4e3938df7b99c53c78e464e8be1
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -60,9 +60,9 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `al-diversion-set`
 - `in_arrest_no_charges-set`
-- `rcap-tx-custom-pleading`
-- `ut_pet_dismissed_with_prejudice-set`
-- `wv_conv_single_misdemeanor-set`
+- `rcap-tn-custom-pleading`
+- `ut_pet_acquittal-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -77,13 +77,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
-- `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
+- `scripts/build-census-v1-rcap-tn-custom-pleading.mjs`
 
 ## Never write here
 
