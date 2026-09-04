@@ -362,6 +362,87 @@
       "selfVerified": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "pa_pardon_expungement-set",
+      "status": "STOPPED",
+      "workerId": "CODEX-CS2-WORKER-A",
+      "baseSha": "c737e63afca9dc196ef8605224230e6c8256a209",
+      "branch": "codex/cs2-worker-a-fix17-continuation",
+      "routeKeys": [
+        "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+        "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+      ],
+      "obligationsAssigned": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsRepaired": [],
+      "obligationsStopped": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "repairedByThisLane": false,
+      "stopClass": "BLOCKED_SOURCE_NOT_PRESENT_IN_SHARED_CORPUS",
+      "whyStopped": "Both exact Pennsylvania Rule 790 form sources are absent from both protected Codespace 2 shared corpora. The family builder therefore cannot produce deterministic current canonical and boundary bytes. The old FIX17 generated PDFs and raster evidence are stale and were not transplanted.",
+      "sourceRoot": "/workspaces/cs2src05/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "otherProtectedCorpusChecked": "/workspaces/cs2vf32/private/source-imports/rcap-d-source-packs-2026-08-12",
+      "missingSources": [
+        {
+          "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+          "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+          "byteLength": 87647,
+          "masterLibraryPresent": false,
+          "dPackPresent": false
+        },
+        {
+          "sourceId": "official-form:PA-RCRIM-P-790-ORDER",
+          "pathInArchive": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+          "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+          "byteLength": 151853,
+          "masterLibraryPresent": false,
+          "dPackPresent": false
+        }
+      ],
+      "currentArtifactHashes": {
+        "canonical": {
+          "sha256": "fc67ec72e845dd92f3c1c9529de86e725fe811c52f810f0e46abb11b2647c2b5",
+          "byteLength": 318883
+        },
+        "boundary": {
+          "sha256": "ecfe22d00d9ac729853cd03edbaf7556a91e2d025a27cd231c33e4600039ee75",
+          "byteLength": 319039
+        }
+      },
+      "currentBytesUnchanged": true,
+      "deterministicBuild": false,
+      "deterministicBuildReason": "No build started because both exact source identity paths are absent from the shared read-only corpus.",
+      "focusedChecks": {
+        "claimAssertion": "PASS (FIX07)",
+        "sourceIdentityAndHash": "FAIL: both exact binaries absent from both protected shared corpora",
+        "builderNoRaster": "NOT_RUN because source presence gate failed",
+        "packetCompletenessOnExistingBytes": "PASS_COMPLETE, all nine structural counters zero; this does not resolve the independent-verdict obligations"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterAreUnchanged": true,
+      "independentVerificationPerformed": false,
+      "claimReleased": false,
+      "centralStateEdits": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ]
 }

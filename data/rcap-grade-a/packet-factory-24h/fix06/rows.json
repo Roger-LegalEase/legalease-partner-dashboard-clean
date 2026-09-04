@@ -319,6 +319,86 @@
       "countersAfterReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access.",
       "claimReleased": false,
       "claimNote": "The claim had already been released before this run; this lane did not release it again."
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "status": "STOPPED",
+      "workerId": "CODEX-CS2-WORKER-A",
+      "baseSha": "c737e63afca9dc196ef8605224230e6c8256a209",
+      "branch": "codex/cs2-worker-a-fix17-continuation",
+      "routeKeys": [
+        "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321"
+      ],
+      "obligationsAssigned": [
+        "COMPONENT_SET",
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsRepaired": [],
+      "obligationsStopped": [
+        "COMPONENT_SET",
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "repairedByThisLane": false,
+      "stopClass": "BLOCKED_SOURCE_NOT_PRESENT_IN_SHARED_CORPUS",
+      "whyStopped": "The exact OH BCI source is absent from both protected Codespace 2 shared corpora. The family builder fails closed before rendering because its source resolver requires the exact Master Library identity path. The preserved FIX17 WIP commit contains an exact-hash companion copy, which this lane verified, but the assignment forbids changing the shared read-only corpus or shared build host and requires deterministic current bytes; no repair completion is asserted.",
+      "sourceRoot": "/workspaces/cs2src05/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "otherProtectedCorpusChecked": "/workspaces/cs2vf32/private/source-imports/rcap-d-source-packs-2026-08-12",
+      "missingSources": [
+        {
+          "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+          "pathInArchive": "STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+          "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+          "byteLength": 235789,
+          "masterLibraryPresent": false,
+          "dPackPresent": false,
+          "preservedWipCompanionVerified": true,
+          "preservedWipCommit": "38cbab66dfd14aabf002204f1347560abccda376"
+        }
+      ],
+      "currentArtifactHashes": {
+        "canonical": {
+          "sha256": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+          "byteLength": 8279
+        },
+        "boundary": {
+          "sha256": "330138cf065ddac35a13d93d49ad1f2636479f71c02e63f4a60a5f9ac7b846a8",
+          "byteLength": 8999
+        }
+      },
+      "currentBytesUnchanged": true,
+      "deterministicBuild": false,
+      "deterministicBuildReason": "No build completed because the exact source identity path is absent from the shared read-only corpus.",
+      "focusedChecks": {
+        "claimAssertion": "PASS (FIX06)",
+        "sourceIdentityAndHash": "WIP companion PASS; shared-corpus presence FAIL",
+        "builderNoRaster": "FAIL_CLOSED before render at exact missing source path",
+        "packetCompletenessOnExistingBytes": "PASS_COMPLETE, all nine structural counters zero; this does not resolve the independent-verdict obligations"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterAreUnchanged": true,
+      "independentVerificationPerformed": false,
+      "claimReleased": false,
+      "centralStateEdits": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
