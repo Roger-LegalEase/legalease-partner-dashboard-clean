@@ -242,6 +242,88 @@
       "countersAfter": null,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "worker": "CODEX-CS1-FIX08-WY-SOURCE-PIN",
+      "lane": "FIX08",
+      "laneKind": "repair",
+      "captainBase": "e10890c114ef6f46907efa9fa660493700ecead1",
+      "branch": "codex/cs1-fix08-wy-source-pin-e108",
+      "claimGrantSet": "4b05f33f82fade3b",
+      "claimAsserted": true,
+      "currentFailedObligation": "SOURCE_IDENTITY",
+      "obligationsRepaired": ["SOURCE_IDENTITY"],
+      "repair": "Re-pinned only the source receipt's whole-file route-obligation census hash and byte length after recomputing all three committed-record identities and confirming that the exact WY census route object is unchanged. No packet, authority, route, field-map, component, participant instruction, claim-release or central-state byte changed.",
+      "sourcePinRepair": {
+        "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "before": {
+          "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "byteLength": 2599752
+        },
+        "after": {
+          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "byteLength": 2607149
+        },
+        "exactWyRouteObject": {
+          "canonicalSha256Before": "da4a28897b226a2fd1fc53b2b907620aa5e9ec450af2f4cd64e2ce99d2b06e6b",
+          "canonicalSha256After": "da4a28897b226a2fd1fc53b2b907620aa5e9ec450af2f4cd64e2ce99d2b06e6b",
+          "canonicalByteLengthBefore": 3403,
+          "canonicalByteLengthAfter": 3403,
+          "unchanged": true
+        }
+      },
+      "unchangedExactPins": [
+        {
+          "record": "src/lib/legal-authority/routes/single-routes.json",
+          "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+          "byteLength": 67533
+        },
+        {
+          "record": "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+          "sha256": "335463128603a3c980661a61f8740db103898a8aafe02d7b7220dcbaab4c6dea",
+          "byteLength": 120012
+        }
+      ],
+      "familyArtifacts": {
+        "canonical": {
+          "oldSha256": "6d6e3190303b0aec3a12c009f2e1f3fea579e70a9739c7916536f9119a6b9ecf",
+          "oldByteLength": 12283,
+          "newSha256": "6d6e3190303b0aec3a12c009f2e1f3fea579e70a9739c7916536f9119a6b9ecf",
+          "newByteLength": 12283
+        },
+        "boundary": {
+          "oldSha256": "61dc959c94e8669b1b7844c1adca0353e66719a822cd97a3af26b8a612538241",
+          "oldByteLength": 12478,
+          "newSha256": "61dc959c94e8669b1b7844c1adca0353e66719a822cd97a3af26b8a612538241",
+          "newByteLength": 12478
+        },
+        "bytesChanged": false,
+        "rehashPasses": 2
+      },
+      "packetBytesUnchanged": true,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE; 6/17 written; all nine counters zero.",
+      "independentVerification": "PENDING",
+      "claimReleased": false,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "centralStateEdits": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "currentDispatchAppend": {
