@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b7bd823e1bf0cc659fd5655e63c6141ea10d062c",
+  "generatedAtCommit": "0d222face60a447dda7f9db3b243299e69650b0e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1531,8 +1531,8 @@
       "operation": "packet-build",
       "lane": "PF17",
       "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-04T16:10:33.705Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6888,8 +6888,8 @@
       "operation": "rapid-repair",
       "lane": "FIX06",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T04:13:09.028Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6931,7 +6931,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T15:16:48.718Z"
@@ -6991,7 +6991,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:38:19.500Z"
@@ -7036,7 +7036,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:38:19.571Z"
@@ -7081,7 +7081,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-03T23:53:21.163Z"
@@ -7140,7 +7140,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T00:04:00.265Z"
@@ -7333,7 +7333,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T04:13:09.101Z"
@@ -7408,7 +7408,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:38:19.637Z"
@@ -7438,7 +7438,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:32:02.399Z"
@@ -7482,7 +7482,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:32:02.463Z"
@@ -7722,7 +7722,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-03T23:53:24.042Z"
@@ -7767,7 +7767,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:38:51.577Z"
@@ -7902,7 +7902,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:42:22.354Z"
@@ -8367,7 +8367,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:38:54.994Z"
@@ -8412,7 +8412,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:46:20.467Z"
@@ -12874,7 +12874,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "817f3f183ab788a31e1f9033db70fc3374f80287cc0c760b569f7290389b7a8f",
+  "claimsDigest": "3450ab26583e2f2cc6a158ac3db12625d0fef127151e3a2694e994ce4c7d0e07",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -31234,6 +31234,26 @@
       "previouslyReleasedAt": "2026-09-04T05:38:19.430Z",
       "reissuedAt": "2026-09-04T18:54:22.144Z",
       "reason": "current selected independent verdict still fails only CLIPPING_AND_OVERLAP; exact current repaired bytes and matching RASTER_PASS must be recorded before independent reread"
+    },
+    {
+      "lane": "PF17",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:nc_146_dismissal_petition",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "previouslyReleasedAt": "2026-09-04T16:10:33.705Z",
+      "reissuedAt": "2026-09-04T19:09:01.757Z",
+      "reason": "Current Captain still records SOURCE_READY with exact held NC sources; the earlier PF17 grant was released without a completed packet build, no worker now owns it, and the reusable CS2 builder is being relaunched from the current Captain."
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wi-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-04T04:13:09.028Z",
+      "reissuedAt": "2026-09-04T19:09:01.902Z",
+      "reason": "Current Captain still records the exact COMPONENT_SET, REQUIRED_BEFORE_FILING, and FILING_DESTINATION failures; the earlier repair grant was released without a current completion and no worker now owns it."
     }
   ],
   "transfers": [
