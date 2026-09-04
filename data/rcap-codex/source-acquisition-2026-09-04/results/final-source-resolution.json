@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "rcap-targeted-source-final-resolution/v1",
+  "schemaVersion": "rcap-targeted-source-final-resolution/v2",
   "batchId": "source-acquisition-28-families-2026-09-04",
-  "recordedAt": "2026-09-04T12:33:43Z",
-  "status": "all_source_obligations_resolved_for_authoritative_integration",
+  "recordedAt": "2026-09-04T13:01:25Z",
+  "status": "all_source_obligations_resolved_and_production_integration_authorized",
   "accounting": {
     "ownerAssignedFamilies": 28,
     "familiesWithEveryRequiredDownloadableSourceVerified": 27,
@@ -29,7 +29,7 @@
   "missouriCR301": {
     "sourceId": "MO-CR301",
     "familyId": "mo-610-145-mistaken-identity-set",
-    "status": "owner_supplied_binary_verified",
+    "status": "owner_supplied_binary_verified_and_team_accessible",
     "printedTitle": "Petition for Expungement – Mistaken Identity",
     "printedFormNumber": "CR301",
     "printedRevision": "OSCA (07-17)",
@@ -38,21 +38,46 @@
     "sha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8",
     "historicalHashMatch": true,
     "historicalByteLengthMatch": true,
-    "ownerOnlyDriveFileId": "1kcIjR2gMH-jj-rMHJe9zqS37vi6957xL",
+    "driveFileId": "1kcIjR2gMH-jj-rMHJe9zqS37vi6957xL",
+    "driveAccess": "legalease.com domain reader; not discoverable in domain search",
     "officialDirectBinaryUrl": "https://www.courts.mo.gov/file.jsp?id=116396",
-    "transportCaveat": "The owner supplied the verified PDF after the interactive-browser acquisition stop. This session did not independently observe a successful OSCA HTTP response; the official endpoint still returned HTTP 403 through the available automated path.",
+    "transportCaveat": "The owner supplied the verified PDF after the interactive-browser acquisition stop. This session did not independently observe a successful OSCA HTTP response; the official endpoint still returned HTTP 403 through the available automated path. This is provenance only, not a production hold.",
     "sourceBinaryHoldCleared": true
+  },
+  "teamAccess": {
+    "provider": "Google Drive",
+    "domain": "legalease.com",
+    "permission": "reader",
+    "discoverableInDomainSearch": false,
+    "primaryArchiveDriveFileId": "1xWvjkwl3ev-vx8b56PubDwJyHqulV9Nu",
+    "supplementArchiveDriveFileId": "1iLYGgg-vZUMGB5F5iR94e1EAVeibmOOt",
+    "cr301DriveFileId": "1kcIjR2gMH-jj-rMHJe9zqS37vi6957xL",
+    "codespaceMayUseGitHubArtifacts": true
+  },
+  "ownerProductionAuthorization": {
+    "authorizedBy": "Roger Roman",
+    "all28FamiliesAuthorizedForTerminalization": true,
+    "all28FamiliesAuthorizedForProductionReadinessWork": true,
+    "blankOfficialBinariesMayBeCommittedToRepositoryOrGitLfs": true,
+    "authoritativeRecordsAndRuntimeMayBeChanged": true,
+    "fieldMapsRenderersPacketsAndTestsMayBeBuiltOrRepaired": true,
+    "obsoleteAcquisitionAndCustodyHoldsMayBeRetired": true,
+    "requiresAdditionalOwnerApproval": false,
+    "controllingRecord": "data/rcap-codex/source-acquisition-2026-09-04/results/owner-production-authorization.json"
   },
   "controllingOverlays": [
     "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/DE-FORM-281-date-provenance.json",
     "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/MO-CR301-owner-supplied-source-completion.json",
-    "data/rcap-codex/source-acquisition-2026-09-04/results/artifact-custody.json"
+    "data/rcap-codex/source-acquisition-2026-09-04/results/artifact-custody.json",
+    "data/rcap-codex/source-acquisition-2026-09-04/results/owner-production-authorization.json"
   ],
   "integrationPosture": {
     "authoritativeMutationMayProceedForAll28Families": true,
+    "completeProductPathWorkMayProceedForAll28Families": true,
     "automaticClaimThatAll28UseDownloadableForms": false,
-    "remainingWork": "Authoritative source-record, family-binding, currentness, identity, generated-ledger, and readiness integration remains for the captain.",
-    "remainingSourceAcquisitionBlocker": null
+    "remainingWork": "Integrate authoritative source records and family bindings, place required blank source bytes in runtime-accessible repository locations, build or repair field maps and renderers, compose participant outputs, perform raster review, run targeted verifiers, and clear every real remaining legal, technical, or release gate.",
+    "remainingSourceAcquisitionBlocker": null,
+    "defaultRule": "Proceed and fix issues in the lane rather than returning ordinary implementation work as a new queue item."
   },
-  "immutableEvidenceRule": "Primary and supplement acquisition-time receipts remain unchanged. This final resolution and its correction overlays control later authoritative integration where acquisition-time records were superseded by owner-provided evidence or clarified provenance."
+  "evidenceRule": "Acquisition-time receipts remain historical evidence. Later correction, completion, custody, final-resolution, and owner-authorization records control current source availability and execution authority."
 }
