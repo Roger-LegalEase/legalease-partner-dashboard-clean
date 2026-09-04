@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF05",
   "worker": "VF-SRC-A",
-  "assignmentCount": 12,
+  "assignmentCount": 13,
   "assignments": [
     {
       "itemId": "ar-misdemeanor-dwi-seal-set",
@@ -638,6 +638,52 @@
   },
   "acceptance": ["Rebuild both fixtures, rehash all outputs, obtain a new whole-family raster receipt, and have a new independent reader rescore all fifteen obligations and nine counters."],
   "repairMustNotDo": ["do not edit official source PDFs", "do not preserve wrong writes merely to keep current artifact hashes", "this verification opens no commercial route and grants no approval"]
+ },
+ {
+  "wave": "CODEX-CS1-VF05-CT-WV/706dbbd/2026-09-04",
+  "itemId": "rcap-wv-custom-pleading",
+  "lane": "VF05",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "verifiedBy": "CODEX-CS1-VF05-CT-WV",
+  "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+  "exactRoute": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
+  "decisiveDefect": "The required sworn-affidavit component is only a title-changed duplicate of the petition with no oath/jurat/notary block; held DOB remains blank in two required C2 fields; source-declared manual completion fields are absent; and one singular certificate block cannot evidence service on both required offices and falsely mentions a nonexistent proposed order. The current 11-page hashes also have no governed raster receipt.",
+  "failedProofObligations": ["COMPONENT_SET","KNOWN_PREFILLS","REQUIRED_BEFORE_FILING","CLIPPING_AND_OVERLAP","SERVICE"],
+  "perObligation": {
+   "COMPONENT_SET": {
+    "measuredDetail": "The registry requires component wv_drug_conditional_discharge-supporting-affidavit-2 with role supporting_affidavit and calls it a sworn affidavit. Current pages 4-6 repeat the application body and end in an ordinary petitioner signature/date line; whole-PDF text has zero hits for jurat, notary, sworn or subscribed.",
+    "whatRepairMustDo": "Replace the title-only duplicate with a genuinely sworn supporting affidavit grounded only in the current committed legal-design record, including the applicant oath/declaration and an unfilled jurat/notary completion block. Preserve all official-owned execution fields as protected. Reconcile the component manifest, map and instructions to the resulting exact component."
+   },
+   "KNOWN_PREFILLS": {
+    "measuredDetail": "participant.date_of_birth is written as 1991-04-17 in the identity block of both the canonical application and affidavit, but each required C2 DOB response is blank; the field map calls both REQUIRED_BEFORE_FILING and falsely says the platform holds no value.",
+    "whatRepairMustDo": "Map the held participant DOB to the semantically identical required C2 date-of-birth field in both components and verify it is visible in both fixtures. If any profile fact is deliberately not the route fact, model and disclose that distinction explicitly rather than declaring the held value absent."
+   },
+   "REQUIRED_BEFORE_FILING": {
+    "measuredDetail": "The exact registry requires affidavit signature/date/jurat, notarization, case number and judicial-division line, both prosecutor and probation-office addresses, and a hearing date on the application notice line. The current map, PDFs and participant checklist omit the jurat/notary and hearing fields, do not instruct the judicial division, and provide only one recipient address block.",
+    "whatRepairMustDo": "Add every source-declared manual completion item to the correct document and participant instructions: protected affidavit signature/date plus jurat/notary block, protected court-set hearing-date notice line, judicial-division/caption completion, and separately labelled current addresses and service facts for both required offices. Keep each owner and timing instruction accurate."
+   },
+   "CLIPPING_AND_OVERLAP": {
+    "measuredDetail": "The exact current pair b7ada7da2dde97c38d45f15e691b0a2bbb1f2d8b9e52b47a3d17edebb829e8e4 / 4a1df2802934d5dc8c9579132e3f26417740c3823fc70a9fb2a25bc7768302ca is RASTER_PENDING. Workflow 33791677725 binds a superseded 12-page pair. Local exact-hash review found 22/22 pages nonblank and no visual/bbox geometry defect, but is not governed evidence.",
+    "whatRepairMustDo": "After the content repairs and deterministic rebuild, update exact artifact pins and obtain a fresh governed whole-family RASTER_PASS bound to both new hashes, covering every canonical and boundary page as nonblank and defect-free. A local verifier artifact is not acceptance."
+   },
+   "SERVICE": {
+    "measuredDetail": "The filing instructions require service on two distinct recipients—the county prosecuting attorney and the supervising probation office—but page 7 exposes only one singular recipient/address/method block. Its certification also says the signer served a proposed order, while no proposed order is in the packet and the instructions identify only application, affidavit and certificate for filing.",
+    "whatRepairMustDo": "Provide separately completable service records for both required offices, with address and method for each, and make the certification name only the components actually served. Remove the proposed-order representation unless the controlling source requires and the rebuilt component set actually includes that order."
+   }
+  },
+  "acceptance": [
+   "Rebuild canonical and boundary deterministically and rerun the focused completeness verifier; all nine counters must still be zero after the semantic omissions are modeled rather than hidden.",
+   "Have a new independent verifier remeasure all fifteen obligations from the rebuilt bytes and the exact committed legal records.",
+   "Obtain a current governed exact-hash whole-family raster receipt for every rebuilt page."
+  ],
+  "repairMustNotDo": [
+   "do not modify official or committed source/legal records to make the packet agree",
+   "do not treat the missing current raster receipt as proof of a visual defect; the local pages were clean, and the missing item is governed acceptance after rebuild",
+   "do not restore or rely on the superseded 12-page raster receipt",
+   "do not edit artifact receipts to match changed bytes",
+   "this assignment opens no route, grants no fulfillment authority and touches no Production system"
+  ]
  }
  ],
   "supersededLaneMembership": {
