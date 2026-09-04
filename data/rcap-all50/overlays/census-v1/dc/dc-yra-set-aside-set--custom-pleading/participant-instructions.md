@@ -6,6 +6,8 @@ This packet is composed from committed repository records, not from an official 
 
 The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory.
 
+The source review does not state a notarization requirement for this motion. Ask the clerk's office of Superior Court of the District of Columbia, Criminal Division whether it requires notarization before you sign or file.
+
 ## What is in this packet
 
 | Component | What it is |

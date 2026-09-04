@@ -248,6 +248,10 @@ const SPEC = {
         "",
         "No committed record this packet binds states a filing fee for this route — the record says: \"The source review does not state a filing fee for this motion.\". The office that answers it is the clerk's office of Superior Court of the District of Columbia, Criminal Division (the venue the registry records for this route: District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.). No committed record states a fee-waiver procedure for this route — the record says: \"The source review does not address a fee waiver.\". Ask the clerk's office of Superior Court of the District of Columbia, Criminal Division (the venue the registry records for this route: District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.) for its own fee-waiver application.",
         "",
+        "BEFORE YOU SIGN",
+        "",
+        "The source review does not state a notarization requirement for this motion. Ask the clerk's office of Superior Court of the District of Columbia, Criminal Division whether it requires notarization before you sign or file.",
+        "",
         "WHO MUST BE SERVED",
         "",
         "No committed record this packet binds states a service requirement for this route — the record says: \"Unresolved. Service and response mechanics are among the items counsel must confirm.\". The office that answers who must be served, and how, is the clerk's office of Superior Court of the District of Columbia, Criminal Division (the venue the registry records for this route: District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.). Notice: the record says \"Unresolved. Service and response mechanics are among the items counsel must confirm.\", so the clerk's office of Superior Court of the District of Columbia, Criminal Division (the venue the registry records for this route: District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed.) is the office that answers it.",
@@ -326,7 +330,8 @@ const SPEC = {
   ],
   "instructionsIntro": [
     "This packet is composed from committed repository records, not from an official form: no committed record names an official statewide participant form for this route.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory."
+    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the record itself, so each one is a labelled dotted blank listed below, and you fill it from the record, never from memory.",
+    "The source review does not state a notarization requirement for this motion. Ask the clerk's office of Superior Court of the District of Columbia, Criminal Division whether it requires notarization before you sign or file."
   ],
   "instrumentChoice": null,
   "documentsToObtain": [],

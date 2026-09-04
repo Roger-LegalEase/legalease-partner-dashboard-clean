@@ -4920,7 +4920,15 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  const rows = sanitizePdfText(fullText).split("\n").flatMap((raw) => wrap(raw));
+  const footerKeepStart = Math.max(0, rows.length - 4);
+  for (const [index, row] of rows.entries()) {
+    if (index === footerKeepStart && y - (rows.length - index) * lineHeight < margin) {
+      page = pdf.addPage([width, height]);
+      y = height - margin;
+    }
+    draw(row);
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
