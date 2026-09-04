@@ -492,12 +492,13 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
       assert.ok(value.length > 0, `${map.formNumber}/${w.field}: no fixture value for ${w.factId}`);
       // The petition title and the order title print the name in upper case;
       // accept the value where either casing is readable from the bytes.
-      const found = componentText.includes(value) || componentText.toUpperCase().includes(value.toUpperCase());
+      const renderedValue = componentText.includes(value) ? value : value.toUpperCase();
+      const found = componentText.includes(renderedValue);
       assert.ok(found, `${fixtureName} ${map.formNumber}/${w.field}: the value bound to ${w.factId} is not readable from the output bytes`);
-      glyphs += value.replace(/\s+/g, "").length;
+      glyphs += renderedValue.replace(/\s+/g, "").length;
       actualWrites.push({
         field: w.field, document: map.formNumber, factId: w.factId,
-        expected: value, foundInOutputBytes: true,
+        expected: renderedValue, foundInOutputBytes: true,
         proof: "value read back from the extracted text of the component's own pages in the saved packet bytes"
       });
     }
@@ -836,6 +837,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     boundReferenceForm: null,
     boundReferenceRole: "none — no binary source is bound; the build is grounded on the committed legal-design record and packet-set manifest alone",
     componentSet: COMPONENTS,
+    componentRoutes: Object.fromEntries(COMPONENTS.map((componentId) => [componentId, ROUTE.routeKey])),
     componentConditions: COMPONENT_CONDITIONS,
     dispositionVocabulary: [SIGNATURE, COURT_OWNED],
     routeSelectionsMade: [],
