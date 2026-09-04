@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "FROZEN-REGISTRY-INDEPENDENT-VERIFICATION-WV-CUSTOM-PLEADING",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-LEGAL-PURGE-W1",
+  "baseSha": "2753847a4d6b718a4a60e031619244d68c143883",
+  "claimsReissued": 0,
+  "claimHandling": "This file persists the already-completed post-repin reread; no released claim was reissued.",
+  "independence": "The worker did not build or repair the packet or raster artifacts. It proved the relevant frozen-registry track unchanged, re-pinned only the source receipt, then reread the exact unchanged packet bytes.",
+  "verdictSummary": {"PASS_COMPLETE_INDEPENDENT": 1, "PASS": 0, "FAIL_REPAIR_REQUIRED": 0, "BLOCKED_SOURCE": 0, "BLOCKED_LEGAL_INPUT": 0, "BLOCKED_BEFORE_CLAIM": 0, "STOPPED": 0},
+  "rows": [
+    {
+      "itemId": "rcap-wv-custom-pleading",
+      "lane": "FROZEN-REGISTRY-INDEPENDENT-VERIFICATION-WV-CUSTOM-PLEADING",
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+      "sourceBinding": {"registrySha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4", "registryByteLength": 16586143, "relevantTrack": "wv_drug_conditional_discharge", "relevantTrackSemantics": "IDENTICAL_TO_PRE_REGISTRY_REWRITE", "allCommittedRecordsRehashed": true},
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06", "byteLength": 32974, "pageCount": 12},
+        {"fixture": "boundary", "sha256": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194", "byteLength": 33536, "pageCount": 12}
+      ],
+      "rasterEvidence": {"verdict": "RASTER_PASS", "workflowRunId": "33791677725", "jobId": "100770327039", "artifactId": 9907871616, "boundToCanonicalSha256": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06", "coversTheWholeFamily": true},
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The exact West Virginia first-offense drug conditional-discharge route appears in the packet; normalized extraction preserves its wrapped internal token."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Every committed source rehashes to its receipt; the frozen registry pin is exact."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "All five required route components are present in both manifests."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All 16 declared writes are present in both fixtures."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All 31 required-before-filing items are disclosed."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The conditional-discharge route and its eligibility distinctions are explicit."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "No incomplete repeating row was found."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "No refused, signature, service-date, court- or prosecutor-owned field carries ink."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDFs match exact hashes, lengths and 12-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both 12-entry manifests are contiguous and preserve the five-component sequence."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Whole-family raster evidence remains bound to unchanged bytes and records 24 clean pages."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The clerk of the court that entered the conditional discharge is stated."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The track's recorded fee and waiver uncertainty is preserved without invention."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The prosecuting-attorney recipient and governed service method are stated."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "All track stopping conditions are stated."}
+      },
+      "failedProofObligations": [],
+      "evidenceRead": ["source receipt and all committed source bytes", "field map, writes, blanks and completeness reports", "both exact 12-page PDF artifacts", "instructions, rendered-artifacts report and product wiring"]
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
