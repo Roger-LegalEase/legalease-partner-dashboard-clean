@@ -3736,6 +3736,47 @@ const OH_CLEAN_TRACK_ROUTE_RULES = {
   },
 };
 
+/*
+ * THE SAME THREE ANSWERS FOR Sec. 2953.321, WHICH THE REPOSITORY ALSO HOLDS.
+ *
+ * FIX06, oh_marijuana_expungement-set, obligations FEE_AND_WAIVER and SERVICE.
+ * The packet told the participant that no held source states a filing fee, a
+ * waiver procedure, or who is served. That was false of this repository twice
+ * over: the compiled Ohio profile carries an exact Sec. 2953.321 pathway
+ * (pathways[2]) whose own rule clauses state the destination, the $50-unless-
+ * indigent fee and the 45-to-90-day hearing with prosecutor objection, and the
+ * committed legal-design track registry states the same three answers for track
+ * oh_marijuana_expungement in its rules.fees, rules.feeWaiver, rules.notice and
+ * rules.service. Delegating an answer the repository holds is not caution; it
+ * is the participant paying for a phone call the packet could have saved.
+ *
+ * Kept in its OWN table rather than added to OH_CLEAN_TRACK_ROUTE_RULES above,
+ * for two reasons that are both about blast radius. Membership of that table is
+ * ALSO the switch that fixtureForOhioTrack reads to rewrite a track's charge,
+ * disposition and eligibility strings, and rewriting them here would move this
+ * family's pleading bytes and void its raster receipt for a defect no verifier
+ * measured on it. And Sec. 2953.321 is a different section from Sec. 2953.32:
+ * the sections are never read across, so this row is keyed to its own.
+ *
+ * Nothing is added beyond what those two records state. Neither record fixes a
+ * local court fee for this section and neither states a participant service
+ * act, so this row states neither.
+ */
+const OH_SECTION_2953_321_ROUTE_RULES = {
+  oh_marijuana_expungement: {
+    section: "Ohio Rev. Code Sec. 2953.321",
+    destinationCourt: "the sentencing court",
+    destination: "Apply to the sentencing court. The application identifies the applicant and the offence, includes evidence that the offence falls within Sec. 2953.321, and requests expungement.",
+    fee: "Fifty dollars unless indigent. Indigency excuses the fee under Sec. 2953.321(G), which also directs thirty dollars of the fee to the state treasury, half of that credited to the Attorney General Reimbursement Fund, and twenty dollars to the county general revenue fund. No held source fixes an additional local court fee for this section; ask the clerk of the sentencing court whether that court charges one and how it takes an indigency affidavit.",
+    service: "The court notifies the prosecutor of the hearing and the prosecutor may object by filing an objection with the court before the date set for the hearing. The hearing is held 45 to 90 days after filing. Sec. 2953.321 sets no sixty-day notice period and no thirty-day objection deadline; those figures come from Sec. 2953.32 and do not govern this route. No held source states a separate participant service act for this section.",
+  },
+};
+
+/* Every route rule this packet may state, by track. The clean-track table is
+ * unchanged, so fixtureForOhioTrack and the per-track local-form step behave
+ * exactly as they did. */
+const OH_ROUTE_RULES_FOR_INSTRUCTIONS = { ...OH_CLEAN_TRACK_ROUTE_RULES, ...OH_SECTION_2953_321_ROUTE_RULES };
+
 function fixtureForOhioTrack(trackId, baseFixture) {
   const fixture = JSON.parse(JSON.stringify(baseFixture));
   /*
@@ -4070,6 +4111,44 @@ function composedFieldMapDocuments(familyId, sourceCensus) {
  * states, for the packet as a whole, every blank the participant must fill and
  * every document they must bring.
  */
+/*
+ * FIX06, oh_marijuana_expungement-set, obligation SELF_HELP_STOP.
+ *
+ * The packet ended on a generic "if any of that is unclear, stop and ask a
+ * lawyer". This route's own committed record holds nine concrete boundaries,
+ * and a participant cannot recognise their own case in a generic sentence. They
+ * are transcribed below and then CHECKED against the committed bytes, so the
+ * build fails closed rather than drifting quietly if the record changes. They
+ * are stated word for word: not shortened, not broadened, not merged, and no
+ * sibling Ohio track's conditions are read across.
+ */
+const OH_MARIJUANA_SELF_HELP_STOPS = [
+  "Any question about the exact ORC 2925.11 division, or about the substance or quantity.",
+  "Any hashish matter near the fifteen-gram line.",
+  "Mixed cases with non-marijuana charges, which trigger ORC 2953.61.",
+  "Any disposition on or after March 20, 2026, which is outside the section.",
+  "Any incident that produced more than one charge with different dispositions, which triggers ORC 2953.61.",
+  "Pending criminal proceedings or open warrants.",
+  "Prosecutor objection, and any victim objection where applicable.",
+  "Choosing between sealing and expungement, which is a legal judgment with different waits and different exclusions.",
+  "Immigration exposure.",
+];
+
+function ohMarijuanaSelfHelpStopsSection() {
+  const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+  const track = (registry.tracks ?? []).find((row) => row.trackId === "oh_marijuana_expungement");
+  assert.ok(track, "oh_marijuana_expungement: no committed track registry entry to read stop conditions from");
+  assert.deepEqual(track.selfHelpStopConditions, OH_MARIJUANA_SELF_HELP_STOPS,
+    "oh_marijuana_expungement: the committed selfHelpStopConditions no longer match the conditions this packet states");
+  return `## Where self-help ends\n\n`
+    + `This packet does not decide whether you are eligible, and no lawyer has reviewed your case in preparing it. `
+    + `**Stop and take your case to an Ohio lawyer or an Ohio legal-aid office, rather than filing, if any of the following is true.** `
+    + `Each one is carried word for word from this route's own committed track record — \`data/record-clearing/legal-design-track-registry.json\`, `
+    + `track \`oh_marijuana_expungement\`, \`selfHelpStopConditions\` — and each is a point at which this packet stops being enough:\n\n`
+    + OH_MARIJUANA_SELF_HELP_STOPS.map((stop) => `- ${stop}`).join("\n")
+    + `\n\nThe last of these is not a formality. Ohio expungement has no federal immigration effect, and the record may still be reachable in an immigration proceeding.\n\n`;
+}
+
 function composedParticipantInstructions(familyId) {
   const tracks = tracksForComposedFamily(familyId);
   // One entry per statutory section this packet actually pleads. Section-keyed
@@ -4077,8 +4156,8 @@ function composedParticipantInstructions(familyId) {
   // per route, and two tracks pleading Sec. 2953.32 share one row because it is
   // the same section, not because they are siblings.
   const routeRules = [...new Map(tracks
-    .filter((trackId) => OH_CLEAN_TRACK_ROUTE_RULES[trackId])
-    .map((trackId) => [OH_CLEAN_TRACK_ROUTE_RULES[trackId].section, OH_CLEAN_TRACK_ROUTE_RULES[trackId]]))
+    .filter((trackId) => OH_ROUTE_RULES_FOR_INSTRUCTIONS[trackId])
+    .map((trackId) => [OH_ROUTE_RULES_FOR_INSTRUCTIONS[trackId].section, OH_ROUTE_RULES_FOR_INSTRUCTIONS[trackId]]))
     .entries()];
   return `# Ohio custom-pleading packet — participant instructions\n\n`
     + `This packet contains ${tracks.length === 1 ? "one statutory-content draft" : `${tracks.length} statutory-content drafts`} and one unchanged official Ohio BCI request held as post-order companion evidence. The drafts are review artifacts. They are not statewide Ohio court forms and they are not filing-ready.\n\n`
@@ -4096,9 +4175,29 @@ function composedParticipantInstructions(familyId) {
     + `\n\n## What you must obtain\n\n`
     + `- The certified disposition for the case, from the court that handled it.\n`
     + `- Your Ohio BCI criminal-history record.\n`
+    /*
+     * FIX06, oh_marijuana_expungement-set, obligation REQUIRED_BEFORE_FILING.
+     * The two lines above named the two documents but not what the participant
+     * has to DO with them, and the held packet manifest is specific about both.
+     * Each item below is the packetSet.participantActionRequired entry from
+     * data/record-clearing/legal-design-track-registry.json, track
+     * oh_marijuana_expungement, in that record's own terms: where the document
+     * comes from, which answer it settles, and the money task. Nothing is added
+     * to what that record states, and the post-order and hearing acts stay where
+     * they are rather than being promoted into a pre-filing list.
+     */
+    + (tracks.includes("oh_marijuana_expungement")
+      ? `- The certified **charging document** — the complaint, indictment or information — as well as the disposition, from the clerk of the sentencing court. Sec. 2953.321 requires evidence that the offence falls within it, and the substance, the quantity and the Ohio Rev. Code Sec. 2925.11 division are what that evidence has to show.\n`
+      : "")
     + (routeRules.length > 0
       ? `- The current local application, caption and filing instructions from the court the filing rule below sends you to.\n\n`
       : `- The current local application, caption and filing instructions from the Ohio court that handled the case.\n\n`)
+    + (tracks.includes("oh_marijuana_expungement")
+      ? `## What you must do with them before you file\n\n`
+        + `- **Compare every Ohio case against the BCI record.** Check your answer to "What other Ohio cases do you have, in any court?" against the BCI criminal-history record and correct the packet if they disagree. The BCI record is not a statutory attachment, but it is the only practical way to assemble the full docket that Ohio Rev. Code Sec. 2953.61 makes decisive.\n`
+        + `- **Compare the quantity against the charging document.** Check your answer to "How much was involved, according to the charge or the court record?" against the certified disposition and charging document, and correct the packet if they disagree.\n`
+        + `- **Have the fifty dollar filing fee, or your indigency showing, ready for the clerk at filing.** The amount and the waiver limb are stated under "What this costs" below.\n\n`
+      : "")
     + `## Where this is filed\n\n`
     + (routeRules.length > 0
       ? `The compiled Ohio profile this repository holds, \`src/lib/rcap-engine/compiled/profiles/OH-ohio.json\`, states the filing rule for each route in this packet, and this packet states it rather than sending you to ask for it:\n\n`
@@ -4107,13 +4206,28 @@ function composedParticipantInstructions(familyId) {
       : `In the Ohio court that handled the case. No held source in this packet names a statewide Ohio filing office or a statewide application, so the sentencing court's own clerk is the office that tells you the caption, the form and the filing counter to use.\n\n`)
     + `## What this costs\n\n`
     + (routeRules.length > 0
-      ? `The same compiled Ohio profile carries a fee table keyed by statutory section, and this packet states the row for each route it carries:\n\n`
+      /* Attribution follows the record each row was actually read from. The
+       * Sec. 2953.321 row's fee-distribution detail is the committed track
+       * registry's, not the compiled profile's, and saying otherwise would
+       * misdescribe where the participant can go to check it. */
+      ? (tracks.includes("oh_marijuana_expungement")
+        ? `The compiled Ohio profile and the committed legal-design track registry (\`data/record-clearing/legal-design-track-registry.json\`, track \`oh_marijuana_expungement\`) both state this route's fee, and this packet states it rather than sending you to ask for it:\n\n`
+        : `The same compiled Ohio profile carries a fee table keyed by statutory section, and this packet states the row for each route it carries:\n\n`)
         + routeRules.map(([, rule]) => `- **${rule.section}.** ${rule.fee}\n`).join("")
-        + `\nThe waiver limb is indigency: where the applicant is indigent, the $50 application fee is not charged. The additional local court fee is permitted up to $50 and is not fixed by the statute, so ask the clerk of the filing court what that court charges and how it takes an indigency affidavit.\n\n`
+        /* The permitted-additional-local-fee rule is a Sec. 2953.32 / Sec. 2953.35
+         * statement and is emitted only where the packet actually carries such a
+         * row. Sec. 2953.321 states its own waiver limb in its own row, and no
+         * held source extends the up-to-$50 local fee to that section, so a
+         * marijuana-only packet must not be told it. */
+        + (routeRules.some(([, rule]) => OH_SECTION_2953_321_ROUTE_RULES.oh_marijuana_expungement.section !== rule.section)
+          ? `\nThe waiver limb is indigency: where the applicant is indigent, the $50 application fee is not charged. The additional local court fee is permitted up to $50 and is not fixed by the statute, so ask the clerk of the filing court what that court charges and how it takes an indigency affidavit.\n\n`
+          : `\n`)
       : `No held source in this packet states a filing fee, states that filing is free, or states a fee-waiver procedure. Ask the clerk of the Ohio court that handled the case what the current filing fee is and whether a waiver (an affidavit of indigency) is available, before you file. This packet does not state an amount because it holds no source for one.\n\n`)
     + `## Who is served\n\n`
     + (routeRules.length > 0
-      ? `You serve nobody. On this scheme the court notifies the prosecutor and sets the hearing, and the compiled Ohio profile states the mechanism for each route in this packet:\n\n`
+      ? (tracks.includes("oh_marijuana_expungement")
+        ? `You serve nobody. On this scheme the court notifies the prosecutor and sets the hearing, and the compiled Ohio profile and the committed track registry both state the mechanism for this route:\n\n`
+        : `You serve nobody. On this scheme the court notifies the prosecutor and sets the hearing, and the compiled Ohio profile states the mechanism for each route in this packet:\n\n`)
         + routeRules.map(([, rule]) => `- **${rule.section}.** ${rule.service}\n`).join("")
         + `\nThese drafts generate no certificate of service and you must not complete one. There is no service step for you to perform, so do not go looking for one.\n\n`
       : `No held source in this packet states who must be served or how. Ask the same clerk. These drafts generate no certificate of service, and you must not complete one before service has actually happened.\n\n`)
@@ -4121,6 +4235,7 @@ function composedParticipantInstructions(familyId) {
     + `- You sign and date the application. The signature and date rules are left blank on purpose.\n`
     + `- Do not complete judge, clerk, prosecutor, agency, hearing, or order fields.\n`
     + `- The official Ohio BCI request is a post-order transmission aid, not your primary court filing. It is included unchanged and is not prefilled; it is not sent before a signed order exists.\n\n`
+    + (tracks.includes("oh_marijuana_expungement") ? ohMarijuanaSelfHelpStopsSection() : "")
     + `## What this packet is not\n\n`
     + `This packet is not legal advice, is not a lawyer, and does not decide whether you are eligible. It does not guarantee any court outcome. Eligibility under the cited Ohio statutes, the same-act limitation in Ohio Rev. Code § 2953.61, waiting periods and every statutory exclusion all require review against the primary authority and your own record before you file. If any of that is unclear, stop and ask a lawyer or an Ohio legal-aid office.\n\n`
     + `Tracks in this packet: ${tracks.map((trackId) => `\`${trackId}\``).join(", ")}. Commercial and runtime authority remain false.\n`;
