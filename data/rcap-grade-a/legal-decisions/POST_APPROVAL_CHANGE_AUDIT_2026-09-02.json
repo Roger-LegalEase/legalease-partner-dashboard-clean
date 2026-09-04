@@ -3,7 +3,7 @@
   "producedBy": "Captain, from a read-only audit lane's diff reading, with every decisive claim re-measured independently before it was recorded here",
   "producedOn": "2026-09-02",
   "lastExpandedOn": "2026-09-04",
-  "lastExpansionReviewBase": "dc08bccf8b1d57160d11377fbaccf5ef502d1caa",
+  "lastExpansionReviewBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
   "question": "For each first-cohort candidate, does any change made after the decision owner's completed-output approval fall in the class that requires a NEW decision, or is it all in the class the existing approval already covers?",
   "controllingRecord": {
     "recordId": "auth-2026-08-19-owner-legal-approval-completed-output",
@@ -15,7 +15,7 @@
   },
   "howTheTestWorks": "The decision record carries its own two lists. correctionsNotRequiringANewLegalDecision covers renderer wiring, field mapping, PDF flattening, active-content removal, text fitting, caption correction, a source hash refresh for the same form and revision, visual fixes, storage integration, route-to-family wiring, packet-builder wiring and deterministic fixture corrections. requiresANewDecisionOwnerDecision covers changing the remedy, eligibility logic, a mandatory filing, venue, the required recipient or service party, replacing a mandatory official form with a custom pleading, and adding substantive legal language not already present in the approved design. A change is read against those lists and nothing else.",
   "whyAnUnchangedPacketProofIsNotEnough": "For the original three candidates, packetProofSha256 and legalDesignMemoSha256 are unchanged since the approval, and that is necessary rather than sufficient. Those packet proofs attest implementation outputs under src/lib/rcap/packets/jurisdictions/ and scripts/verify-rcap-*-custom-pleading.mjs, and none of those paths exists in this checkout — the shipping artifacts come from the census-v1 generator instead. The proofs are unchanged because nothing touched them, not because they describe what now ships. So coverage was decided by reading the rendered output against the unchanged legal design memo, not by trusting the proof hash.",
-  "method": "For the original three candidates, each legal design memo was flattened into a string corpus, every memo fragment of thirty characters or more was removed from the normalised text of the rendered canonical fixture and the participant instructions, and the residue of sixty characters or more was read by hand. For the 2026-09-04 Georgia expansion, the exact post-approval path history, approved memo and manifest, later route contract, instructions, field map, build findings and both four-page fixture PDFs were read in full; hashes and page counts were re-measured and every PDF page was visually inspected. COVERED is recorded only when that evidence places every post-approval delta on the owner's existing-approval list.",
+  "method": "For the original three candidates, each legal design memo was flattened into a string corpus, every memo fragment of thirty characters or more was removed from the normalised text of the rendered canonical fixture and the participant instructions, and the residue of sixty characters or more was read by hand. For the 2026-09-04 Georgia expansion, the exact post-approval path history, approved memo and manifest, later route contract, instructions, field map, build findings and both four-page fixture PDFs were read in full; hashes and page counts were re-measured and every PDF page was visually inspected. For the six-family 2026-09-04 expansion at 072f97bf1c92b1f6de0ccca565734da1cc285456, the selected September approval and its two controlling lists, every family-path and builder commit after approval, both fixture texts and their canonical-to-boundary diffs, current source receipts, exact legal-design and packet-set objects, exact obligation-census and compiled-pathway objects, applicable route-contract objects, participant instructions, component manifests, fee, waiver, service, notice, hearing and stop language, current independent verdicts and current raster pins were read; every stated hash and page count was independently recomputed from the committed bytes. COVERED is recorded only when that evidence places every post-approval delta on the owner's existing-approval list.",
   "families": [
     {
       "familyId": "rcap-ga-guidance-implementation",
@@ -125,6 +125,584 @@
       ],
       "mayEnterTheFirstCohort": false,
       "consequence": "This is not only a cohort-scope question. A mandatory-exclusive official form that the approved design requires and the packet omits is a packet defect, so the family is sent for an independent re-read on COMPONENT_SET, FILING_DESTINATION and ROUTE_IDENTITY rather than left proven."
+    },
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 1,
+      "reviewedAtCaptainBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "whichListItIsOn": "byte-identical approved shipping artifacts; later queue enrichment is storage-integration and route-to-family bookkeeping only",
+      "approvedScope": {
+        "decisionOwner": "Roger Roman",
+        "effectiveDate": "2026-09-02",
+        "ownerRecordEnteredByCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+        "recordedApplicationBase": "47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5",
+        "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review."
+      },
+      "postApprovalPathAndByteCensus": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase": "10830c30196530a483ab00278b2145136f6feeb7",
+        "familyTreeObjectNow": "10830c30196530a483ab00278b2145136f6feeb7",
+        "substantiveFamilyPathCommitsAfterApproval": [],
+        "builder": {
+          "path": "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+          "gitBlobAtApprovalAndNow": "cb294bf56f8da2f2b280e28f81bf690d407d1a44",
+          "commitsAfterApproval": []
+        },
+        "unchangedExactObjects": {
+          "legalDesignTrackJsonStringifySha256": "c93f72b3dde50e2d4577cfe90a8531cbb9f06d802a84501c24eb0e87fb04b4b7",
+          "packetSetJsonStringifySha256": "6ab0349384ad43ade8486df718c9ec0a1ab9dc9b1ab3dd33f56a0cd389f04117",
+          "obligationCensusRowJsonStringifySha256": "d6b0bb439666fa7b103ff6e266d47389a7d8cc975f4b48d00eed70b2d230f73a",
+          "compiledPathwayJsonStringifySha256": "9a6d32609680035849eac54737c353ef0c60d128c0f4e0a683170d10c7c12013"
+        },
+        "bookkeepingOnlyChanges": "MASTER_QUEUE added empty source-authority/reconciliation fields and selected the already-current vf04 verdict; RASTER_QUEUE moved its packetCommitSha from 47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5 to bd91243bdff34ecf2b376b49af416f8810f31cdf, added parsed page-count evidence and reassigned the raster lane. No family byte, route field, source identity or legal text changed."
+      },
+      "currentShippingArtifact": {
+        "sourceReceiptSha256": "c7f62eabe293a7f28d4ffb66d775af5a23f8fdbec165c9ee0d5195c83f7c012d",
+        "participantInstructionsSha256": "04b017e6dbd02d68e4957aeccf7e18973bef623c845344a5d2c3ce7515f96700",
+        "productionFieldMapSha256": "ef46a1cb9618f854581fb812a06bd6bdfb9cf97e0b9b283825273b299cec6ea3",
+        "renderedArtifactsReportSha256": "1ba0a7d56a50f42117bb7bbf98760599559962e78cb2b9ae8e42b1b6ec778a82",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256ApprovedAndNow": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+            "pageCountNow": 5
+          },
+          {
+            "fixture": "boundary",
+            "sha256ApprovedAndNow": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+            "pageCountNow": 5
+          }
+        ]
+      },
+      "currentSourceIdentity": {
+        "allSourcesExact": true,
+        "custodyClass": "SOURCE_ALREADY_HELD",
+        "identity": "DC-HOW-TO-SEAL-OR-EXPUNGE-YOUR-CRIMINAL-RECOR, Rev. 2024-04-10, SHA-256 310381f170d1875ef7a40e9e71c8653c1ea5c847628a6c718ea9016c0e312712, 47,232 bytes, bound reference only and not rendered; the motion itself is composed from D.C. Code § 16-803 because no official form exists"
+      },
+      "currentIndependentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+        "verifierRowJsonStringifySha256ApprovedAndNow": "f2bccfbdf8b9c6e96bd1afe4127115c0a899042edd442811d1db4d7ea4d64314"
+      },
+      "currentRasterPins": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33549186956",
+        "jobId": "99994821093",
+        "canonicalSha256": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+        "boundarySha256": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+        "coversTheWholeFamily": true
+      },
+      "substantiveSurfaceRead": {
+        "routeIdentity": "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803; runtime DC:dc_actual_innocence_expungement_16_803",
+        "components": [
+          "primary_filing",
+          "prosecutor_service",
+          "filing_instructions"
+        ],
+        "destination": "Superior Court of the District of Columbia, Criminal Division; one motion per case; serve the prosecuting office after the clerk or Seal Team identifies whether it is the U.S. Attorney or D.C. Attorney General",
+        "feeAndWaiver": "The participant copy publishes no fee or waiver answer and tells the participant to ask the Criminal Division clerk because the pinned face states neither.",
+        "serviceNoticeAndHearing": "The participant serves the prosecutor; no response is expected unless ordered; initial review may deny or dismiss, otherwise the court decides whether a hearing or prosecutor response is required.",
+        "selfHelpStops": [
+          "prosecutor opposition or ordered response",
+          "a hearing with witnesses or proffer",
+          "disputed actual-innocence evidence",
+          "federal, military, tribal or out-of-jurisdiction records",
+          "a prior motion inside the one-year repeat window",
+          "immigration, firearm, licensing, security-clearance, childcare, healthcare or law-enforcement-employment consequences"
+        ],
+        "participantLanguage": "The participant copies record facts, writes the innocence statement and supplies supporting authorities and evidence; the platform does not judge sufficiency, signs nothing, carries the § 16-803(e) no-presumption warning and names the approved help organizations."
+      },
+      "decisiveEvidence": "The exact family tree, builder, approved digest pair, legal-design track, packet-set object, obligation row and compiled runtime pathway are unchanged. The canonical-to-boundary text diff changes only the synthetic participant identity and resulting reflow already separately pinned by the owner. No post-approval change falls on requiresANewDecisionOwnerDecision.",
+      "whyTheFamilyApprovalDoesNotOpenTheRoute": "This condition-seven reading creates no fulfilment record, price, payment or sponsorship eligibility, runtime authority or production authority.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 1,
+      "reviewedAtCaptainBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "whichListItIsOn": "byte-identical approved shipping artifacts; later queue enrichment is storage-integration and route-to-family bookkeeping only",
+      "approvedScope": {
+        "decisionOwner": "Roger Roman",
+        "effectiveDate": "2026-09-02",
+        "ownerRecordEnteredByCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+        "recordedApplicationBase": "47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5",
+        "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review."
+      },
+      "postApprovalPathAndByteCensus": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase": "210fee5eff317696ace62cf0c3e3dc501c7c3799",
+        "familyTreeObjectNow": "210fee5eff317696ace62cf0c3e3dc501c7c3799",
+        "substantiveFamilyPathCommitsAfterApproval": [],
+        "builder": {
+          "path": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+          "gitBlobAtApprovalAndNow": "56ec673ab9528f5f1f0541ee05b61d24a7af6916",
+          "commitsAfterApproval": []
+        },
+        "unchangedExactObjects": {
+          "legalDesignTrackJsonStringifySha256": "db5792cab945ae58c0b2e2a160aa7040f0695f7f2eca5750e88a849a6f209492",
+          "packetSetJsonStringifySha256": "a97154b9d65ff6f34d7efbfc4b1b0b0e5a7b453fb292c27bfad477af2aeb8c4f",
+          "obligationCensusRowJsonStringifySha256": "eb35652239ec883af1a41b003c9c8103959f36b06276b39b8842fc861575fbbb",
+          "compiledPathwayJsonStringifySha256": "df2667f7eacb53cd472277cf60c3d3afbef8721dad6d939687af144f21e7b6c9",
+          "routeContractJsonStringifySha256": "cb38e46a9ed33dc529c6da3b9ea6505f184a00011beb12bc2ea04a6398ffbea5"
+        },
+        "bookkeepingOnlyChanges": "MASTER_QUEUE added empty source-authority/reconciliation fields and selected the already-current vf03 verdict; RASTER_QUEUE moved its packetCommitSha to bd91243bdff34ecf2b376b49af416f8810f31cdf and added parsed page-count evidence. The containing route-splits and legal-design registry files changed elsewhere, but the exact IL contract and track objects did not."
+      },
+      "currentShippingArtifact": {
+        "sourceReceiptSha256": "e55fd8fa329a0502c936b7783e47195bc5a8462c9ee83fca6902651627fd6f77",
+        "participantInstructionsSha256": "2c3efc1f85cd569ae29cdcc0f097813dbdf1a255dfeaeeeae93177877746c390",
+        "productionFieldMapSha256": "3bd0e0ace479d243b4d966327baff4890047fa1c46a05cb4ad0f2bbba72d47ac",
+        "renderedArtifactsReportSha256": "36859296af8b233deff75bc554ec89c06f88eb0b656ed6e0ae7b7c90b9c2a7b9",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256ApprovedAndNow": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "pageCountNow": 3
+          },
+          {
+            "fixture": "boundary",
+            "sha256ApprovedAndNow": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "pageCountNow": 3
+          }
+        ]
+      },
+      "currentSourceIdentity": {
+        "allSourcesExact": true,
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "identity": "No source binary and no statewide form; grounded on IL.memo.json track il-prostitution-j-vacate, packet set il-prostitution-j-vacate-set, 20 ILCS 2630/5.2, Public Act 104-0459 and the ISP Access and Review fee schedule; a published local form controls where one exists."
+      },
+      "currentIndependentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+        "verifierRowJsonStringifySha256ApprovedAndNow": "2c7577a0119b481f81c0278d394af510d6d60dc5b58db6fb454380bba371aba0"
+      },
+      "currentRasterPins": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33574304514",
+        "jobId": "100075268121",
+        "canonicalSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+        "boundarySha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+        "coversTheWholeFamily": true
+      },
+      "substantiveSurfaceRead": {
+        "routeIdentity": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief; runtime and contract IL:felony-prostitution-relief",
+        "components": [
+          "primary_filing",
+          "proposed_order"
+        ],
+        "destination": "Circuit court of the underlying conviction, its Chief Judge or a designated judge of that circuit; confirm local filing method and any controlling local form with the clerk.",
+        "feeAndWaiver": "No statewide filing figure is published; confirm any county fee with the clerk, and use the Supreme Court Rule 298 waiver application where a fee applies.",
+        "serviceNoticeAndHearing": "The State's Attorney has 60 days to object with evidence; whether the clerk or movant serves is unresolved and is delegated to the circuit clerk; an objection or contested/evidentiary hearing ends self-help.",
+        "selfHelpStops": [
+          "attorney review by default",
+          "State's Attorney objection",
+          "contested or evidentiary hearing",
+          "trafficking facts, which require the stronger § 5.2(h) route",
+          "record does not clearly show a Class 4 felony prostitution conviction"
+        ],
+        "participantLanguage": "The participant copies the conviction and completion facts from records and authors the adverse-consequences narrative; the packet asserts no classification or outcome, adds no verification, and directs every stop to the OSAD Expungement Unit."
+      },
+      "decisiveEvidence": "The family tree, builder, owner-pinned PDFs, exact IL track, packet-set, census, compiled-pathway and IL:felony-prostitution-relief contract objects are unchanged. The boundary PDF differs only in synthetic participant identity and resulting reflow already included in the owner's boundary pin. No substantive post-approval delta exists.",
+      "whyTheFamilyApprovalDoesNotOpenTheRoute": "The exact-digest family adoption does not create the route-level fulfilment, payment, sponsorship or production authority it expressly withholds.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "ms-misd-addl-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 2,
+      "reviewedAtCaptainBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "whichListItIsOn": "byte-identical approved shipping artifacts; later queue enrichment is storage-integration and route-to-family bookkeeping only",
+      "approvedScope": {
+        "decisionOwner": "Roger Roman",
+        "effectiveDate": "2026-09-02",
+        "ownerRecordEnteredByCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+        "recordedApplicationBase": "47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5",
+        "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review."
+      },
+      "postApprovalPathAndByteCensus": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase": "74d6b15f5830fee5a9d7fac3f9a912ff6406380f",
+        "familyTreeObjectNow": "74d6b15f5830fee5a9d7fac3f9a912ff6406380f",
+        "substantiveFamilyPathCommitsAfterApproval": [],
+        "builder": {
+          "path": "scripts/build-census-v1-ms-misd-addl-set.mjs",
+          "gitBlobAtApprovalAndNow": "62a05fe48ed63a1e2b453aadd545c6c294692a5e",
+          "commitsAfterApproval": []
+        },
+        "unchangedExactObjects": {
+          "legalDesignTrackJsonStringifySha256": "d6a9b940aaa7c3c787e729bf5e3d7740cb576b922d082ab6492c04e0aeea5608",
+          "packetSetJsonStringifySha256": "c03fe817c9b13144711f433721963aa65f63fef5d8b9b3ba5a0bc90721b304c7",
+          "justiceCensusRowJsonStringifySha256": "3903a17c662634f42b3d885c24f19ce5486b9a4032aeb1a8dfbd9020d25de38a",
+          "municipalCensusRowJsonStringifySha256": "c182745d476dd3d384b4fa459956ba8d99b81c549be3c70473cecfbc8d0586d5",
+          "justiceCompiledPathwayJsonStringifySha256": "5d35fb27d874a08a80803f582bb35ebd02e99cb2c51f43b40200ba52bedd2c08",
+          "municipalCompiledPathwayJsonStringifySha256": "26a3c2b9fbf85791551009d85ae61b7f811ae58301c9958441aba4229b32dfe4",
+          "justiceRouteContractJsonStringifySha256": "db2e9980258d72f6e32ed1e407d794019147af6b1aef2c9b2f64334162c1268a",
+          "municipalRouteContractJsonStringifySha256": "3cf28dab4b16a4d266434ba4667ab47538a3ffb58472b503abcd74cc8efde3a6"
+        },
+        "bookkeepingOnlyChanges": "MASTER_QUEUE added empty source-authority/reconciliation fields and selected the unchanged vf01 verdict; RASTER_QUEUE moved its packetCommitSha to bd91243bdff34ecf2b376b49af416f8810f31cdf, added parsed page-count evidence and reassigned the raster lane. No petition, branch, route contract, recipient or packet byte changed."
+      },
+      "currentShippingArtifact": {
+        "sourceReceiptSha256": "35584ad899351db759ac5695a1e9a6f5ae524286e5a84ccec964d7a26f8645c9",
+        "participantInstructionsSha256": "6901cfff60bc24573156b081260500544c265c439c7ba7ef864e7a086192b483",
+        "productionFieldMapSha256": "826f3ca14f6054056647ae5df8791159c9a5fdc4fc9f288fb6b65f3786394098",
+        "renderedArtifactsReportSha256": "8ce92cf28cf88966060c86e9717b4391527e0397911c1b1a57046c5309ae45ff",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256ApprovedAndNow": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+            "pageCountNow": 8
+          },
+          {
+            "fixture": "boundary",
+            "sha256ApprovedAndNow": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+            "pageCountNow": 8
+          }
+        ]
+      },
+      "currentSourceIdentity": {
+        "allSourcesExact": true,
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "identity": "No source binary and no official form; grounded on MS.memo.json track ms-misd-addl, packet set ms-misd-addl-set, the two complete parallel provisions §§ 9-11-15(3) and 21-23-7(6), and § 99-19-72 read to confirm its fee does not reach these routes."
+      },
+      "currentIndependentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "cd48fc14e",
+        "verifierRowJsonStringifySha256ApprovedAndNow": "89da20f7f45e96c0460160df03bb0311a22f98273bbd3177d1b6594c6bef3e50"
+      },
+      "currentRasterPins": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33608483853",
+        "jobId": "100178592342",
+        "canonicalSha256": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+        "boundarySha256": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+        "coversTheWholeFamily": true
+      },
+      "substantiveSurfaceRead": {
+        "routeIdentities": [
+          "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3; runtime and contract MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+          "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6; runtime and contract MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+        ],
+        "components": [
+          "primary filing",
+          "proposed order",
+          "certificate of service",
+          "records attachment",
+          "instructions"
+        ],
+        "destination": "One petition to the clerk of each justice or municipal court of conviction; the selected section follows from the court, and each court reaches only its own misdemeanors.",
+        "feeAndWaiver": "No amount is published; § 99-19-72 does not reach either route, and any local fee and waiver procedure are delegated to that court's clerk.",
+        "serviceNoticeAndHearing": "Prior notice by mail or hand delivery to the municipal prosecuting attorney or justice-court equivalent, evidenced by a certificate; an open-court three-element showing and hearing always occur.",
+        "selfHelpStops": [
+          "whenever the track is in play because the hearing is discretionary advocacy",
+          "convictions in more than one justice or municipal court",
+          "any conviction anywhere within two years",
+          "an expectation that the Title 63 driving record will be cleared",
+          "participant is not a United States citizen"
+        ],
+        "participantLanguage": "The participant gets the criminal-history record and certified judgments, selects no branch by preference, supplies the court facts and serves the prosecutor; the platform does not generate the open-court advocacy and states that law-enforcement confidential records and the driving record remain outside the order."
+      },
+      "decisiveEvidence": "The full family tree and builder have no post-approval commit, both owner-pinned PDFs remain exact, and the shared design plus both obligation, runtime-pathway and contract rows are unchanged. The only canonical-to-boundary differences are synthetic participant identity and resulting text reflow already pinned by the approval.",
+      "whyTheFamilyApprovalDoesNotOpenTheRoutes": "This audit adds no exact route-level Grade-A fulfilment record and grants neither route commercial authority.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 1,
+      "reviewedAtCaptainBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "whichListItIsOn": "byte-identical approved shipping artifacts; later queue enrichment is storage-integration and route-to-family bookkeeping only",
+      "approvedScope": {
+        "decisionOwner": "Roger Roman",
+        "effectiveDate": "2026-09-02",
+        "ownerRecordEnteredByCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+        "recordedApplicationBase": "47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5",
+        "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review."
+      },
+      "postApprovalPathAndByteCensus": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase": "04a64fac0998cbd89be4771985432c8b4383ed26",
+        "familyTreeObjectNow": "04a64fac0998cbd89be4771985432c8b4383ed26",
+        "substantiveFamilyPathCommitsAfterApproval": [],
+        "builder": {
+          "path": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
+          "gitBlobAtApprovalAndNow": "6a7d17a22a0d67c025df0139a395344c8931f509",
+          "commitsAfterApproval": []
+        },
+        "unchangedExactObjects": {
+          "legalDesignTrackJsonStringifySha256": "1b0735cddeeb7368877309874c9a9eb6cfb8e40e528a905339870a5d74806d4f",
+          "packetSetJsonStringifySha256": "997451ab2ce53755383bbb10e965c6064a86764c9943859550ea1beac1141d30",
+          "obligationCensusRowJsonStringifySha256": "03710e2f6e53af4f9aee63e456f007128e25f8d93f1b741e67fa885e0ac4d055",
+          "compiledPathwayJsonStringifySha256": "40680962ab4bf90691e7fc6b8811e96e056a2fabfc100200c234cd108af97362"
+        },
+        "bookkeepingOnlyChanges": "MASTER_QUEUE added empty source-authority/reconciliation fields and selected the unchanged vf10 verdict; RASTER_QUEUE moved its packetCommitSha to bd91243bdff34ecf2b376b49af416f8810f31cdf and added parsed page-count evidence. The exact two-branch route and every packet byte remained fixed."
+      },
+      "currentShippingArtifact": {
+        "sourceReceiptSha256": "49ef8a6ab1f062c6d1c98bae9697af56272202706432e805b6cad1d5747fa7f8",
+        "participantInstructionsSha256": "17ecd024176dc4c07f0102e9a87ed70729d4ed86c50edf0eb3a1f6b628a31bbc",
+        "productionFieldMapSha256": "18800c4b09be6f7d6fb11a2b65b7273eb123aad8b3e6b8b382f0478faab53090",
+        "renderedArtifactsReportSha256": "80fbbfb232f149d988bb72982fadede286c4a15fe95684a2550ed3f619b04faa",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256ApprovedAndNow": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+            "pageCountNow": 10
+          },
+          {
+            "fixture": "boundary",
+            "sha256ApprovedAndNow": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+            "pageCountNow": 10
+          }
+        ]
+      },
+      "currentSourceIdentity": {
+        "allSourcesExact": true,
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "identity": "No source binary or official subsection-2 form exists; grounded on NV.memo.json track nv_seal_probation_family and the eight-component packet-set manifest after full reading of NRS 176A.245, 176A.265 and 176A.295."
+      },
+      "currentIndependentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf10",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+        "verifierRowJsonStringifySha256ApprovedAndNow": "bdf334f489d9bcb14740c3fea142b0fa36e218f049ffef36e001c2743ba70d0e"
+      },
+      "currentRasterPins": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33574304514",
+        "jobId": "100075268130",
+        "canonicalSha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+        "boundarySha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+        "coversTheWholeFamily": true
+      },
+      "substantiveSurfaceRead": {
+        "routeIdentity": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing; runtime NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+        "components": [
+          "detection_and_routing",
+          "branch_screen",
+          "discharge_type_screen",
+          "primary_filing conditional on subsection 2",
+          "proposed_order conditional on subsection 2",
+          "declaration_and_verification conditional on subsection 2",
+          "filing_and_service_instructions conditional on subsection 2",
+          "referral_instructions"
+        ],
+        "destination": "The justice, municipal or district court that handled the case; subsection 1 is automatic and the participant files nothing, while subsection 2 is a petition in that court after seven years.",
+        "feeAndWaiver": "The three sections prescribe neither a fee nor a waiver; the participant asks the clerk whether a local fee exists, and the NRS 179.245(9) waiver is expressly not imported.",
+        "serviceNoticeAndHearing": "No participant notice duty is stated; service on the Division or prosecutor is unresolved and delegated to the clerk; the court seals without hearing unless the Division petitions for good cause and requests one.",
+        "selfHelpStops": [
+          "barred NRS 200.508 or 200.5099 charge",
+          "Division objection and requested hearing",
+          "disputed completion",
+          "programme not completed",
+          "seven years not elapsed or start date unclear",
+          "dishonourable discharge",
+          "offence category or pending-charge issue",
+          "multi-court or multi-county records",
+          "federal, tribal, military or out-of-state records",
+          "firearm-rights or immigration goal"
+        ],
+        "participantLanguage": "The packet makes the automatic-versus-petition branch explicit, requires participant record facts and a complete agency list, promises neither expungement nor firearm/immigration effect, and sends a contested Division petition to counsel."
+      },
+      "decisiveEvidence": "The owner approved both exact fixture digests and neither they nor any other family, builder, legal-design, packet-set, census or runtime-pathway object moved. Canonical-to-boundary differences are limited to the approved synthetic identity and its reflow. No change altered the two-branch remedy or added legal language.",
+      "whyTheFamilyApprovalDoesNotOpenTheRoute": "The family approval and this audit create no route-level fulfilment record or commercial authority.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 1,
+      "reviewedAtCaptainBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "whichListItIsOn": "byte-identical approved shipping artifacts; later queue enrichment is storage-integration and route-to-family bookkeeping only",
+      "approvedScope": {
+        "decisionOwner": "Roger Roman",
+        "effectiveDate": "2026-09-02",
+        "ownerRecordEnteredByCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+        "recordedApplicationBase": "47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5",
+        "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review."
+      },
+      "postApprovalPathAndByteCensus": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase": "e58a87fe298b04dc056798b6f8d1b17fd572ce4b",
+        "familyTreeObjectNow": "e58a87fe298b04dc056798b6f8d1b17fd572ce4b",
+        "substantiveFamilyPathCommitsAfterApproval": [],
+        "builder": {
+          "path": "scripts/build-census-v1-va_exp_absolute_pardon-set.mjs",
+          "gitBlobAtApprovalAndNow": "3507178cd8688fd0ff20410226a10b8259c2b07d",
+          "commitsAfterApproval": []
+        },
+        "unchangedExactObjects": {
+          "legalDesignTrackJsonStringifySha256": "97082229343d335180d8a42855ce614a38b4863a89d4da18e455dc7b0dac3989",
+          "packetSetJsonStringifySha256": "b844eb441837188d84ac17397e4ab6afa65d9b494720566400eb0b66ea7cbcd5",
+          "obligationCensusRowJsonStringifySha256": "a28fe109ca5fbaeada695bd30082b045e8325196ffd771fc0cfaa875c45388b3",
+          "compiledPathwayJsonStringifySha256": "3119831d0f32a7afb7ce5a90278693fc03cc79df99eaf5c1484cb0b078a4bd5c"
+        },
+        "bookkeepingOnlyChanges": "MASTER_QUEUE added empty source-authority/reconciliation fields and selected the unchanged vf12 verdict; RASTER_QUEUE moved its packetCommitSha to bd91243bdff34ecf2b376b49af416f8810f31cdf, added parsed page-count evidence and reassigned the raster lane. The transmittal remedy, no-petition treatment and bytes did not change."
+      },
+      "currentShippingArtifact": {
+        "sourceReceiptSha256": "f314526ee8745c4c69c25c3747a4bcb8187ecec160c204d10ae039f3a393a076",
+        "participantInstructionsSha256": "c688fa0a8351ac8b553e84e8317a4344a4541e7b7045ae5bba003fd4aeff1a9a",
+        "productionFieldMapSha256": "cef52f5c9e615a0e8fb27f86c594e84113962c77b0d0d33342f0b2c5b6f73f38",
+        "renderedArtifactsReportSha256": "3867c61c68e6c83025ae9d13cbb52a9abc0101dc1eda7132338e546fdfcdb000",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256ApprovedAndNow": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+            "pageCountNow": 5
+          },
+          {
+            "fixture": "boundary",
+            "sha256ApprovedAndNow": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+            "pageCountNow": 5
+          }
+        ]
+      },
+      "currentSourceIdentity": {
+        "allSourcesExact": true,
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "identity": "No source binary or prescribed subsection-I petition; grounded on VA.memo.json track va_exp_absolute_pardon and its packet-set manifest. CC-1473 is confined to subsection (A), so this remains a composed transmittal and request under § 19.2-392.2(I), with §§ 19.2-392.2(K), (L) and 2.2-402."
+      },
+      "currentIndependentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf12",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+        "verifierRowJsonStringifySha256ApprovedAndNow": "26919e405abc12796fe92152de7bcad2500ae841e2f312e06866af5a2b39c1c2"
+      },
+      "currentRasterPins": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33574304514",
+        "jobId": "100075268196",
+        "canonicalSha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+        "boundarySha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+        "coversTheWholeFamily": true
+      },
+      "substantiveSurfaceRead": {
+        "routeIdentity": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now; runtime VA:regime-1-expungement-available-now",
+        "components": [
+          "primary_filing transmittal and request",
+          "records_checklist",
+          "filing_instructions"
+        ],
+        "destination": "Clerk of the circuit court of the locality of conviction, with the certified absolute pardon; the court's receipt of that pardon, not a petition, triggers the mandatory order.",
+        "feeAndWaiver": "No fee is stated in subsection (I), and no waiver is represented.",
+        "serviceNoticeAndHearing": "Subsection (I) prescribes no service or notice; the Commonwealth's 21-day petition window in subsection (D) is expressly not imported.",
+        "selfHelpStops": [
+          "pardon is not absolute or does not say the person did not commit the crime",
+          "circuit court declines to enter the order after receipt",
+          "participant is still seeking the separate pardon",
+          "any immigration question"
+        ],
+        "participantLanguage": "The participant confirms the pardon document's exact words, copies court and pardon facts, signs the request and attaches the certified pardon; the packet does not obtain or classify the pardon and does not represent CC-1473 as the vehicle."
+      },
+      "decisiveEvidence": "The family tree, builder, owner-pinned PDFs and every exact design, packet-set, census and compiled runtime object are identical to the approval baseline. Boundary differences are only the owner's separately pinned synthetic identity and reflow. There is no later remedy, filing, venue, recipient or substantive-language change.",
+      "whyTheFamilyApprovalDoesNotOpenTheRoute": "The adoption remains family-level and this audit creates no route fulfilment or commercial authority.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "wy_fel_1502-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 1,
+      "reviewedAtCaptainBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "whichListItIsOn": "byte-identical approved shipping artifacts; later queue enrichment is storage-integration and route-to-family bookkeeping only",
+      "approvedScope": {
+        "decisionOwner": "Roger Roman",
+        "effectiveDate": "2026-09-02",
+        "ownerRecordEnteredByCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+        "recordedApplicationBase": "47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5",
+        "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review."
+      },
+      "postApprovalPathAndByteCensus": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase": "cea415254ee298ebaf11d22829cd8230eb89f2da",
+        "familyTreeObjectNow": "cea415254ee298ebaf11d22829cd8230eb89f2da",
+        "substantiveFamilyPathCommitsAfterApproval": [],
+        "builder": {
+          "path": "scripts/build-census-v1-wy_fel_1502-set.mjs",
+          "gitBlobAtApprovalAndNow": "74554223333cc930f3238d1d28fc105ff34e52b3",
+          "commitsAfterApproval": []
+        },
+        "unchangedExactObjects": {
+          "legalDesignTrackJsonStringifySha256": "36900e5e779ed4914e9d4bb2031973fa9ac3f2e9290c3ecc52c8541be8607733",
+          "packetSetJsonStringifySha256": "1a020a3588c647d07d613b0a697bbcdd46af788d8d0e0fcad8eb10d603729795",
+          "obligationCensusRowJsonStringifySha256": "83c143e376c4def926182e3d5206e7efff3754449071e728125dbb4590cf1eac",
+          "compiledPathwayJsonStringifySha256": "893f24365336b3a6ca5265f06b238bc3489d2cc613bdd6102f59dfd147c19c42"
+        },
+        "bookkeepingOnlyChanges": "MASTER_QUEUE added empty source-authority/reconciliation fields and selected the unchanged vf09 verdict; RASTER_QUEUE moved its packetCommitSha to bd91243bdff34ecf2b376b49af416f8810f31cdf and added parsed page-count evidence. No Wyoming family byte or exact route/design object changed."
+      },
+      "currentShippingArtifact": {
+        "sourceReceiptSha256": "92c6d28709785008e9a5a20333523f034910068dd9d01e4eb525a7ef1fee194b",
+        "participantInstructionsSha256": "c6294b42fcb82670223e2812992b0e4f899fad818c4469c75e66b76f65ca8976",
+        "productionFieldMapSha256": "244a3aa2ece054596574ff99dff2c124d58d7a701c3af6311feb42126746e3cf",
+        "renderedArtifactsReportSha256": "3697fe56e7c614e15d6f44fb12fee41383c4ed04196c346354d400eb20b1bed3",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256ApprovedAndNow": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+            "pageCountNow": 8
+          },
+          {
+            "fixture": "boundary",
+            "sha256ApprovedAndNow": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+            "pageCountNow": 8
+          }
+        ]
+      },
+      "currentSourceIdentity": {
+        "allSourcesExact": true,
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "identity": "No source binary and no statewide form; grounded on WY.memo.json track wy_fel_1502, the packet-set manifest, the compiled filing/fee rules and the Wyoming eligibility/effect reconciliation, with official Title 7, 2011 SF0088, 2014 HB0006, the Judicial Branch expungement page and 2026 HB0044 identities recorded."
+      },
+      "currentIndependentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf09",
+        "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+        "verifierRowJsonStringifySha256ApprovedAndNow": "a98c5d64a6b324b6bbd3941bc0815570bc7677dbb9d9cc3e9b7601938858462f"
+      },
+      "currentRasterPins": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33608483853",
+        "jobId": "100178595166",
+        "canonicalSha256": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+        "boundarySha256": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+        "coversTheWholeFamily": true
+      },
+      "substantiveSurfaceRead": {
+        "routeIdentity": "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502; runtime WY:felony-conviction-expungement-w-s-7-13-1502",
+        "components": [
+          "verified petition",
+          "proposed order",
+          "verification",
+          "certificate of service",
+          "filing instructions"
+        ],
+        "destination": "Clerk of the Wyoming convicting court; confirm only local filing mechanics because no statewide petition or proposed-order form exists.",
+        "feeAndWaiver": "$300 per petition; no waiver is represented.",
+        "serviceNoticeAndHearing": "Serve both the prosecuting attorney and DCI and file proof; the prosecutor has 90 days to object, notifies identifiable victims, and no order may issue before that window closes; objection or contested hearing ends self-help.",
+        "selfHelpStops": [
+          "possible excluded felony",
+          "another felony plea or conviction anywhere",
+          "firearm use",
+          "sex-offender-registration offense",
+          "prior § 7-13-1502 expungement",
+          "completed felony deferral rather than conviction",
+          "prosecutor objection, contested hearing or likely victim objection",
+          "trafficking or coercion facts",
+          "immigration consequences",
+          "federal, tribal or out-of-state records"
+        ],
+        "participantLanguage": "The participant supplies and verifies the eligibility allegations from the record; the packet does not encode or decide the exclusion list or substantial-danger finding, states the one-lifetime limit, carries only § 7-13-1502(m)'s restoration language and refuses any answer-as-if-the-conviction-never-occurred promise."
+      },
+      "decisiveEvidence": "The approved family tree and builder never changed; both exact PDF pins, the design track, packet-set, census row and compiled pathway remain identical. The canonical-to-boundary diff is limited to the separately approved synthetic identity and reflow. Later Wyoming commits addressed other families and source rows, not wy_fel_1502-set.",
+      "whyTheFamilyApprovalDoesNotOpenTheRoute": "The family-level approval and this audit do not resolve the route's manual review or local filing gates and create no commercial authority.",
+      "mayEnterTheFirstCohort": true
     }
   ],
   "grantsNothing": "This audit decides which families a pre-existing approval already covers. It creates no approval, opens no route, sets no price, and changes no family state by itself."
