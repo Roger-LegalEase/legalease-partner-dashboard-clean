@@ -417,6 +417,111 @@
       "countersMeasurementBasis": "Current MASTER_QUEUE control-plane row only; no artifact was read after claim refusal.",
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "2927edb21a04c95a33ca9d4565cadfad270679f1",
+      "rowStopReason": "DISPATCH_FAILURE_NOT_REPRODUCIBLE",
+      "claim": {
+        "assertion": "CLAIM_OK FIX03 al-felony-dwop-set (repair, grant set 666a78394456c599)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "obligationsAssigned": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsRepaired": [],
+      "whyStopped": "The exact six dispatched failures do not reproduce at the authoritative base. The family-owned regression reports repair invariants PASS and the focused completeness check reports PASS_COMPLETE with all nine counters zero. Commit 1dcd88293, already present in the base, repaired the same Alabama semantics and regenerated these exact artifacts; this lane did not rewrite already-correct bytes or claim a second repair.",
+      "focusedEvidence": [
+        "node scripts/build-census-v1-al-felony-dwop-set.mjs --check => al-felony-dwop-set: repair invariants PASS",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-dwop-set => PASS_COMPLETE 32/216 written"
+      ],
+      "artifactsUnchanged": [
+        "canonical d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543 905868 bytes",
+        "boundary e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e 906110 bytes",
+        "participant-instructions 36a1989c3a67c9deba21a9ef66ed5e001f3b8880809490992df6896e624afc54 4753 bytes"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "selfVerified": false,
+      "needsIndependentRead": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "baseSha": "2927edb21a04c95a33ca9d4565cadfad270679f1",
+      "claim": {
+        "assertion": "CLAIM_OK FIX03 il-seal-3yr-set (repair, grant set b1040b2fd29bdab0)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "obligationsAssigned": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepaired": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "whatWasDone": "Replaced the generic shared-host wrapper with a family-owned three-year sealing builder. It selects only the sealing branch, leaves the mutually exclusive three-year disposition options to the participant, fills one complete active sealing row, keeps the inactive expungement table and unused repeating rows blank, protects every Circuit Clerk case-number caption, preserves complete held values without ellipsis, and supplies the missing transcript, record-comparison, per-case election, three-year-option, and later hearing-date guidance.",
+      "tddEvidence": "The pre-repair focused assertion failed first with 20 case numbers written into charge cells. The family-owned --self-test now rejects that mapping, inactive or partial rows, clerk case-number writes, ellipsis, the wrong section 15/two-year branches, missing participant-owned three-year choices, and each required guidance phrase.",
+      "focusedEvidence": [
+        "node scripts/build-census-v1-il-seal-3yr-set.mjs --self-test => il-seal-3yr-set self-test passed",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-3yr-set => PASS_COMPLETE 39/424 written",
+        "Two consecutive builds produced byte-identical canonical and boundary hashes",
+        "Bundled pypdf extracted each complete boundary name, agency, charge, and outcome from the finalized bytes"
+      ],
+      "artifacts": [
+        "canonical 2d81bc640de80d14353af9eb19506287c5666fd289659ab07053ddae5561727b 1734323 bytes 13 pages",
+        "boundary 8ff2e2249f0fe8336bd6c5288e68f214206b51dfe75a14abacbb6c6bd35d832f 1734888 bytes 13 pages",
+        "participant-instructions 7dcc23008743cc4a3a58917d0de751edd51cba4c63244b40f2fba6503250f76d 9383 bytes"
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "The calibrated Chromium helper found no usable Chromium in this environment, so no replacement raster verdict is claimed. Central raster acceptance remains owed against the exact artifact hashes.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "selfVerified": false,
+      "needsIndependentRead": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "reportedNotRepaired": [
