@@ -41,6 +41,7 @@ const RETURNS = "data/rcap-grade-a/codex-cloud";
  */
 const FACTORY_RETURNS = "data/rcap-grade-a/packet-factory-24h";
 const OUT = "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json";
+const LEGAL_HOLD_RECLASSIFICATION = "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json";
 const CHECK = process.argv.includes("--check");
 
 const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "PASS", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT", "BLOCKED_BEFORE_CLAIM", "STOPPED", "COMPLETED"];
@@ -334,6 +335,54 @@ for (const r of rows.filter((x) => x.isIndependentVerification && x.verdict && !
   const prior = current.get(r.familyId);
   if (!prior || supersedes(r, prior)) current.set(r.familyId, r);
 }
+
+/*
+ * AN ENVIRONMENT-SCOPED SOURCE REFUSAL IS HISTORY ONCE THE OWNER HAS
+ * IDENTIFIED THE SUBSTANTIVE READ THAT CONTROLS THE HOLD RECLASSIFICATION.
+ *
+ * ca-prop64-set has a later BLOCKED_SOURCE row only because that verifier's
+ * isolated checkout did not mount the private corpus. The refusal remains in
+ * this extraction, word for word, but the owner-confirmed reclassification
+ * identifies the exact VF12 row that answers the former legal hold. This is
+ * deliberately data-driven and self-expiring: the next substantive verifier
+ * whose declared base is this decision's Captain SHA or a descendant resumes
+ * ordinary ancestry ordering.
+ */
+let chronologySelections = [];
+try {
+  const decision = JSON.parse(fs.readFileSync(path.join(ROOT, LEGAL_HOLD_RECLASSIFICATION), "utf8"));
+  chronologySelections = (decision.families ?? []).filter((r) => r.disposition === "SELECT_SUBSTANTIVE_VERDICT");
+  for (const selection of chronologySelections) {
+    const target = rows.find((r) => r.familyId === selection.familyId
+      && r.lane === selection.selectedVerdict?.lane
+      && r.verdict === selection.selectedVerdict?.verdict
+      && r.verifiedAtBase === selection.selectedVerdict?.verifiedAtBase);
+    if (!target) {
+      problems.push(`${selection.familyId}: the owner-confirmed substantive verdict ${selection.selectedVerdict?.lane}/${selection.selectedVerdict?.verifiedAtBase} does not exist`);
+      continue;
+    }
+    const laterSubstantive = rows.find((r) => r.familyId === selection.familyId
+      && r !== target
+      && r.isIndependentVerification
+      && r.verdict
+      && !NON_READING.has(r.verdict)
+      && r.verdict !== "BLOCKED_SOURCE"
+      && (r.verifiedAtBase === decision.recordedAtCaptainSha
+        || isAncestorOf(decision.recordedAtCaptainSha, r.verifiedAtBase)));
+    if (laterSubstantive) continue;
+    target.chronologySelection = {
+      disposition: selection.disposition,
+      decisionRecord: LEGAL_HOLD_RECLASSIFICATION,
+      recordedAtCaptainSha: decision.recordedAtCaptainSha,
+      historicalVerdictPreserved: selection.historicalVerdictPreserved,
+      selectionExpiresWhen: selection.selectionExpiresWhen
+    };
+    current.set(selection.familyId, target);
+  }
+} catch (e) {
+  if (fs.existsSync(path.join(ROOT, LEGAL_HOLD_RECLASSIFICATION)))
+    problems.push(`legal-hold reclassification is unreadable: ${e.message}`);
+}
 for (const r of rows) r.superseded = r.isIndependentVerification && !!r.verdict
   && !NON_READING.has(r.verdict) && current.get(r.familyId) !== r;
 
@@ -348,7 +397,12 @@ const doc = {
   verdictVocabulary: VERDICTS,
   obligationResultVocabulary: ['"PASS"', '"FAIL"', "true", "false"],
   obligationVocabularyNote: "The P2V rows record thirteen obligations as strings and two as booleans. Both are read; a third spelling refuses, because reading only the strings turned two passing obligations into failures and doubled the defect count.",
-  supersessionRule: "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
+  supersessionRule: "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. An exact owner-confirmed substantive selection in LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json preserves environment-scoped BLOCKED_SOURCE history without letting that environment refusal remain a legal hold; it expires on the next substantive read at or after the record's Captain SHA. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
+  chronologySelections: chronologySelections.map((r) => ({
+    familyId: r.familyId,
+    selectedVerdict: r.selectedVerdict,
+    decisionRecord: LEGAL_HOLD_RECLASSIFICATION
+  })),
   counts: {
     returnDirectories: dirs.length,
     rows: rows.length,

@@ -605,6 +605,23 @@ try {
   for (const r of d.corrections ?? []) if (r.live !== false && r.familyId) ownerCorrectionsRequired.set(r.familyId, r);
 } catch { /* no owner corrections recorded */ }
 
+/*
+ * OWNER-CONFIRMED HOLD RECLASSIFICATION, WITHOUT ERASING THE HOLD'S HISTORY.
+ *
+ * A named correction is legal work only until the owner answers what must be
+ * changed. Once the exact repair is present, the remaining obligation is an
+ * independent reread, not another legal decision. Separately, an isolated
+ * verifier's missing private corpus is a source-environment fact and cannot
+ * keep an already answered wave-2 legal question open. The record names the
+ * exact two families and exact evidence; absent or unreadable means no relief.
+ */
+const legalHoldReclassifications = new Map();
+const LEGAL_HOLD_RECLASSIFICATION = "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json";
+try {
+  const d = JSON.parse(fs.readFileSync(path.join(ROOT, LEGAL_HOLD_RECLASSIFICATION), "utf8"));
+  for (const r of d.families ?? []) if (r.familyId && r.disposition) legalHoldReclassifications.set(r.familyId, r);
+} catch { /* no owner-confirmed hold reclassification recorded */ }
+
 const laneReturnLegalHolds = new Map();
 try {
   const stale = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/STALE_LANE_RETURNS.json`), "utf8"));
@@ -1319,12 +1336,25 @@ for (const f of IN.scoreboard.familiesDetail) {
         narrowingLiftsNothing: "The family stays LEGAL_BLOCKED and payment stays closed. A measurement removed a factual premise; it decided no legal question."
       }
     : laneHold;
-  const wave2Legal = wave2LegalBlockSuperseded(familyId);
+  const holdReclassification = legalHoldReclassifications.get(familyId) ?? null;
+  const wave2LegalMeasured = wave2LegalBlockSuperseded(familyId);
+  const wave2Legal = holdReclassification?.disposition === "SELECT_SUBSTANTIVE_VERDICT"
+    && wave2LegalMeasured?.superseded !== true
+    ? {
+        ...wave2LegalMeasured,
+        superseded: true,
+        reason: "the owner-confirmed hold reclassification selects the exact substantive verdict and routes changed bytes to independent reread; the historical source refusal remains preserved",
+        supersededBy: holdReclassification.selectedVerdict,
+        decisionRecord: LEGAL_HOLD_RECLASSIFICATION
+      }
+    : wave2LegalMeasured;
   const ownerCorrection = ownerCorrectionsRequired.get(familyId) ?? null;
+  const ownerCorrectionAwaitsReread = Boolean(ownerCorrection)
+    && holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED";
   const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey))
     || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)
     || Boolean(laneHold)
-    || Boolean(ownerCorrection);
+    || (Boolean(ownerCorrection) && !ownerCorrectionAwaitsReread);
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
   const routeMappingOpen = notAFamily;
@@ -1357,7 +1387,7 @@ for (const f of IN.scoreboard.familiesDetail) {
    * these nine families sat at VERIFIED_PASS, which L4 and F30 read as proven —
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
-  else if (ownerCorrection) state = "LEGAL_BLOCKED";
+  else if (ownerCorrection && !ownerCorrectionAwaitsReread) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
@@ -1620,7 +1650,7 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
-    legalInputBasis: ownerCorrection ? "OWNER_CORRECTION_REQUIRED"
+    legalInputBasis: (ownerCorrection && !ownerCorrectionAwaitsReread) ? "OWNER_CORRECTION_REQUIRED"
       : laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
         : (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true) ? "LEGAL_APPROVAL_VERDICT" : null,
@@ -1629,6 +1659,9 @@ for (const f of IN.scoreboard.familiesDetail) {
      * reason one lifted. */
     wave2LegalBlock: wave2Legal,
     ownerCorrectionRequired: ownerCorrection,
+    legalHoldReclassification: holdReclassification
+      ? { ...holdReclassification, decisionRecord: LEGAL_HOLD_RECLASSIFICATION }
+      : null,
     laneReturnLegalHold: laneHoldNarrowed,
     routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
     artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
@@ -3416,9 +3449,18 @@ for (const asg of assignments) {
       .filter((r) => r.subjectId === id && r.operation === asg.lane && r.reissuedAt)
       .sort((x, y) => String(x.reissuedAt).localeCompare(String(y.reissuedAt)))
       .pop();
+    const holdReclassification = legalHoldReclassifications.get(id) ?? null;
+    const reclassificationAlreadyReissued = (priorLedger.reissues ?? []).some((r) =>
+      r.subjectId === id
+      && r.operation === asg.lane
+      && r.decisionRecord === LEGAL_HOLD_RECLASSIFICATION);
     if (priorReissue) {
       const releasedAfter = claims.some((c) => c.releasedAt && String(c.releasedAt) > String(priorReissue.reissuedAt));
-      if (releasedAfter) continue;
+      /* A later owner-confirmed hold reclassification is a new work cycle,
+       * not the just-completed cycle this guard protects. Re-open it once,
+       * name the decision record, and then restore the ordinary anti-loop
+       * rule on every later regeneration. */
+      if (releasedAfter && (!holdReclassification || reclassificationAlreadyReissued)) continue;
     }
     /*
      * ONLY the claim the current dispatch's own lane holds.
@@ -3441,7 +3483,9 @@ for (const asg of assignments) {
       lane: target.lane, dispatchNames: asg.assignmentId,
       familyState: stateOfFamily.get(id),
       reissuedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
-      reason: `the current dispatch names ${asg.assignmentId} for this family, the family is ${stateOfFamily.get(id)} and owes ${asg.lane}, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.`
+      reason: `the current dispatch names ${asg.assignmentId} for this family, the family is ${stateOfFamily.get(id)} and owes ${asg.lane}, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.`,
+      ...(holdReclassification ? { decisionRecord: LEGAL_HOLD_RECLASSIFICATION,
+        reclassificationDisposition: holdReclassification.disposition } : {})
     });
   }
 }
