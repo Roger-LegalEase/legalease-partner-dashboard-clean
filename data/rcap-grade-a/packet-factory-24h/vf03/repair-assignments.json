@@ -1,8 +1,8 @@
 {
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
- "worker": "VF-SRC-A + Codex VF03 fbd22ae2",
- "assignmentCount": 14,
+ "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL",
+ "assignmentCount": 19,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -453,6 +453,66 @@
    "do not reuse or relabel the superseded raster receipt",
    "this verification opens no commercial route and grants no approval"
   ]
+ },
+ {
+  "itemId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The route-obligation census record pinned by source-receipt.json no longer rehashes: 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 bytes is stale; current is 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149 bytes. The exact route entry did not change.",
+  "failedProofObligations": ["SOURCE_IDENTITY"],
+  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The other two committed records remain exact. The old and current route-specific census objects are byte-for-byte equivalent at digest bb9ac36e00bb9c691523aedabd231cacafe6a56314e88fde74f6767030062086; only the whole-file receipt pin drifted.", "whatRepairMustDo": "Re-read the exact current route object, then update only this family's source-receipt.json route-obligation-census record to SHA-256 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 and byte length 2607149. Deterministically rebuild canonical and boundary twice. If both remain 112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d / 13798 and 9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d / 14002, retain the exact current raster receipt; if either byte changes, reraster. Require a different independent verifier."}},
+  "repairMustNotDo": ["do not edit the national census", "do not change packet content merely to make a receipt match", "do not release or verify your own repair", "this assignment opens no route and grants no production authority"]
+ },
+ {
+  "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "source-receipt.json pins the prior whole-census digest/length instead of current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+  "failedProofObligations": ["SOURCE_IDENTITY"],
+  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The other two committed records rehash exactly and the route entry is unchanged at digest 7366a757ae8d7837e7ade8ea05ffe0749f56c7f2e671c05c8dabb262a2bb99db.", "whatRepairMustDo": "Re-read the exact current route object and update only this source receipt's census record from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve current canonical b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2 / 13425 and boundary c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90 / 13627 when deterministic output is unchanged; reraster only changed bytes and send to a different verifier."}},
+  "repairMustNotDo": ["do not edit the national census", "do not alter route meaning", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
+ },
+ {
+  "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "source-receipt.json pins the prior whole-census digest/length rather than current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+  "failedProofObligations": ["SOURCE_IDENTITY"],
+  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The other two committed records are exact; the route entry is unchanged at digest 04fb4d7adea1525b00f32e4ecbb4bce8d999182291dcb45559bffaf4d5527678.", "whatRepairMustDo": "Re-read this route object and re-pin only the census record in the family source receipt from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve current canonical 606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac / 12066 and boundary ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e / 12273 when unchanged; reraster only changed bytes and use a different verifier."}},
+  "repairMustNotDo": ["do not edit the national census", "do not import the twelve-month branch", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
+ },
+ {
+  "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The source receipt's whole-census pin is stale; current census is 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+  "failedProofObligations": ["SOURCE_IDENTITY"],
+  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The route contract and compiled profile remain exact. The relevant census entry is unchanged at digest 52aa7e980428b3fee5ed7a5bdb4a30492ff09b1e3a7118c98402e0bacf2c8e59.", "whatRepairMustDo": "Re-read the exact § 19c route object and update only the family receipt's census pin from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice without weakening the legal-aid stop. Preserve canonical e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101 / 13001 and boundary 8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17 / 13181 if unchanged; reraster only changed bytes and use another verifier."}},
+  "repairMustNotDo": ["do not edit the national census", "do not weaken the legal-aid or safety stops", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
+ },
+ {
+  "itemId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The source receipt still names the old whole-census digest/length instead of current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+  "failedProofObligations": ["SOURCE_IDENTITY"],
+  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The route contract and compiled profile are exact. The current and prior juvenile route entries are identical at digest db225b0ade88cb2debb373dddaa8f81ad6d1cdd4ac15b5ce49cc85ff375d8d1f.", "whatRepairMustDo": "Re-read the juvenile route object and update only the census record in source-receipt.json from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve canonical b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179 / 13424 and boundary 7ec9bdeb42a3fb3657aed1d6d1e8eeb01a2ee98935d08f7541174b1a31008359 / 13607 if unchanged; reraster only changed bytes and assign another verifier."}},
+  "repairMustNotDo": ["do not edit the national census", "do not alter the juvenile-route scope", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
  }
  ],
  "supersededLaneMembership": {
@@ -505,7 +565,8 @@
  "assignmentCountByWave": {
   "VF-SRC-A": 0,
   "FABLE-VA3": 2,
-  "note": "VF-SRC-A left assignments empty and assignmentCount 0; both entries below were written by FABLE-VA3 and each carries wave: \"FABLE-VA3\". Nothing was removed. The superseded block below is preserved byte-for-byte."
+  "CODEX-CS1-VF03-NATIONAL": 5,
+  "note": "Prior assignments remain preserved. CODEX-CS1-VF03-NATIONAL added five focused SOURCE_IDENTITY re-pin assignments at base 588f9e74af2fa65a8dcd17e07258302b3588af61."
  },
  "fableVa3Read": {
   "wave": "FABLE-VA3",
