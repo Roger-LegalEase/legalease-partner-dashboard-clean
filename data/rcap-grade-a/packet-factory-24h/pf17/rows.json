@@ -229,6 +229,11 @@
       "itemId": "rcap-mo-custom-pleading",
       "status": "STOPPED",
       "stopClass": "BLOCKED_SOURCE",
+      "sourceStatus": "SOURCE_BYTES_ABSENT_FROM_APPROVED_MOUNTS",
+      "routeKeys": [
+        "obligation:service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:state_311_325_conviction",
+        "obligation:track-pathway:MO:mo-610-130-first-intoxication:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+      ],
       "directory": "data/rcap-all50/overlays/census-v1/mo/rcap-mo-custom-pleading--custom-pleading",
       "counters": {
         "knownRequiredFieldsMissing": null,
@@ -244,27 +249,106 @@
       "blockedSources": [
         {
           "sourceId": "official-form:FI-05",
+          "indexedPath": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
           "expectedSha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+          "expectedByteLength": 298649,
           "presentInMountedCustody": false
         },
         {
           "sourceId": "official-form:GN10",
+          "indexedPath": "D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
           "expectedSha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+          "expectedByteLength": 39193,
           "presentInMountedCustody": false
         }
+      ],
+      "exactStops": [
+        "SOURCE_MISSING rcap-mo-custom-pleading official-form:FI-05 LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf sha256=53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e bytes=298649",
+        "SOURCE_MISSING rcap-mo-custom-pleading official-form:GN10 D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx sha256=13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e bytes=39193"
+      ],
+      "approvedMountsSearched": [
+        "private/source-imports/rcap-d-source-packs-2026-08-12",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
       ],
       "artifacts": [],
       "determinism": { "buildRuns": 0, "notApplicableBecauseStoppedBeforeBuild": true },
       "focusedCompleteness": { "result": "REFUSED_NOT_AUDITABLE_STOPPED_ROW", "exitCode": 2 },
       "overlayTouched": false
+    },
+    {
+      "itemId": "composed-treatment:nc_146_dismissal_petition",
+      "status": "COMPLETED",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "routeKeys": [
+        "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading",
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:AOC-CR-287",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "byteLength": 257828,
+          "exact": true
+        },
+        {
+          "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "byteLength": 217744,
+          "exact": true
+        },
+        {
+          "sourceId": "official-form:AOC-CV-226",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "byteLength": 269426,
+          "exact": true
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/fixtures/canonical.pdf",
+          "build1": { "sha256": "1612fc48065673423f3fdbc2686d382664b07ef0f39d15ab8b0fa7801e0119b0", "byteLength": 280951 },
+          "build2": { "sha256": "1612fc48065673423f3fdbc2686d382664b07ef0f39d15ab8b0fa7801e0119b0", "byteLength": 280951 },
+          "pageCount": 5
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/fixtures/boundary.pdf",
+          "build1": { "sha256": "26bd69a00a5f2a81447971e2ea2be1b009c5557ee8859e10a6466eb8ebb636c8", "byteLength": 281203 },
+          "build2": { "sha256": "26bd69a00a5f2a81447971e2ea2be1b009c5557ee8859e10a6466eb8ebb636c8", "byteLength": 281203 },
+          "pageCount": 5
+        }
+      ],
+      "determinism": { "buildRuns": 2, "canonicalAndBoundaryByteIdentical": true, "allGeneratedHashesAndLengthsMatch": true },
+      "focusedCompleteness": { "result": "PASS_COMPLETE", "exitCode": 0 },
+      "focusedPdfStructure": { "result": "PASS", "tool": "pdftotext", "canonicalExitCode": 0, "boundaryExitCode": 0 },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "summary": {
-    "familiesAssigned": 7,
-    "rowsReturned": 7,
-    "familiesCompleted": 6,
+    "familiesAssigned": 8,
+    "rowsReturned": 8,
+    "familiesCompleted": 7,
     "familiesStopped": 1,
-    "nineCountersZeroOn": 6,
+    "nineCountersZeroOn": 7,
     "blockedSource": 1,
     "blockedLegalInput": 0,
     "stoppedFamilyOverlayDirectoriesTouched": 0,

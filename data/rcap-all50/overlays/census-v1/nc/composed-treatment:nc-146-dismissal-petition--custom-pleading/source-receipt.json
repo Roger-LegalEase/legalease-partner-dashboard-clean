@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "composed-treatment:nc_146_dismissal_petition",
+  "worklistGroupId": "composed-treatment:nc_146_dismissal_petition",
+  "jurisdiction": "NC",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "bindingMethod": "family-specific D1 paths, exact SHA-256 and byte length checked before output",
+  "routeKeys": [
+    "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
+  ],
+  "statutoryAuthority": [
+    "N.C. Gen. Stat. Sec. 15A-146(b1)"
+  ],
+  "allSourcesExact": true,
+  "sources": [
+    {
+      "sourceId": "official-form:AOC-CR-287",
+      "relativePath": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+      "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "byteLength": 257828,
+      "role": "exact bound reference for the parent dismissal packet; its face limits it to G.S. 15A-146(a)/(a1), so it is not substituted for this separate (b1) application",
+      "renderedInArtifact": false,
+      "formIdentity": "AOC-CR-287",
+      "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+      "relativePath": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+      "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "byteLength": 217744,
+      "role": "exact bound instructions for AOC-CR-287; subsection (a)/(a1) instructions are not presented as instructions for the separate (b1) application",
+      "renderedInArtifact": false,
+      "formIdentity": "AOC-CR-287-INSTRUCTIONS",
+      "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+      "sha256Exact": true
+    },
+    {
+      "sourceId": "official-form:AOC-CV-226",
+      "relativePath": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+      "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "byteLength": 269426,
+      "role": "queue-required conditional fee-waiver companion, included only with an instruction to ask the clerk whether a fee applies and whether this form is accepted",
+      "renderedInArtifact": true,
+      "formIdentity": "AOC-CV-226",
+      "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+      "sha256Exact": true
+    }
+  ],
+  "queueBinding": {
+    "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "sha256": "9407888f002639de5c72730d473527ca61e057057a4630c50813786e923fd64a",
+    "byteLength": 2003521,
+    "state": "SOURCE_READY",
+    "routeKeys": [
+      "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
+    ],
+    "packetComponents": [
+      "component:nc_146_dismissal_petition-fee-waiver-3",
+      "component:nc_146_dismissal_petition-instructions-2",
+      "component:nc_146_dismissal_petition-primary-filing-1"
+    ]
+  },
+  "composedComponentsAuthoredByThisBuild": [
+    "component:nc_146_dismissal_petition-primary-filing-1",
+    "component:nc_146_dismissal_petition-instructions-2"
+  ],
+  "exactOfficialComponentIncluded": "component:nc_146_dismissal_petition-fee-waiver-3",
+  "formIdentityBoundary": "AOC-CR-287 and AOC-CR-287-INSTRUCTIONS are subsection (a)/(a1) sources and are not substituted for the separate subsection (b1) application.",
+  "acquisitionCommissioned": false,
+  "sourceBinaryCommitted": false,
+  "generationAllowed": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that the participant is eligible for DNA expunction",
+    "that a filing fee applies or that AOC-CV-226 is accepted for this application",
+    "a filing destination or service method not recorded by the exact route evidence"
+  ]
+}
