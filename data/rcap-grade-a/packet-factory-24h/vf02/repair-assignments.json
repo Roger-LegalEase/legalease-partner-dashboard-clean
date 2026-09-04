@@ -3,7 +3,7 @@
   "lane": "VF02",
   "worker": "VF-SRC-A",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "assignmentCount": 14,
+  "assignmentCount": 17,
   "assignments": [
     {
       "itemId": "oh_marijuana_expungement-set",
@@ -435,6 +435,119 @@
         "do not open a route, set a price, change checkout or have VF02 verify its own repair"
       ],
       "reVerificationOwed": "After repair, a lane that neither built nor repaired the new bytes must rerun all fifteen obligations and bind a fresh exact-hash raster receipt to both fixtures.",
+      "grantsNothing": "This assignment grants nothing and promotes no family."
+    },
+    {
+      "repairAssignmentId": "VF02-2026-09-04-AL-DWOP-FIELD-OWNERSHIP-GUIDANCE",
+      "itemId": "al-felony-dwop-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
+      "raisedBy": "VF02",
+      "raisedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "decisiveDefect": "The packet writes participant facts into spouse, employer, prior-expungement and attorney/court-caption fields that ask for different or role-owned facts; the boundary name clips on CR-65 page 6; required record-check instructions and two authoritative stop conditions are absent.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "whatIsWrong": "C-10 page 1 uses the participant's name for Spouse's Full Name, participant phone for Employer's Telephone Number, and Circuit in the COURT OF county/municipality blank. CR-65 page 6 writes the current criminal case number into the prior-expungement county blank with neither prior-expungement election selected.",
+          "howToRepair": "Restrict each write to a semantically identical printed label and held fact. Leave spouse, employer and prior-expungement facts blank unless separately held; write the county/municipality caption correctly."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "whatIsWrong": "The participant is not told to compare the dismissal-without-prejudice answer to the certified local record, and many required fields are exposed only as undefined_/Text technical names.",
+          "howToRepair": "Carry every authoritative participant action in plain printed-label language, including the certified-record comparison and both-clock check."
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "whatIsWrong": "The C-10 state/municipality caption election is left blank while Montgomery is written as a municipality for this state circuit-court case.",
+          "howToRepair": "Select and populate only the caption branch established by the route; leave the inapplicable municipality branch empty."
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "whatIsWrong": "CR-65 page 6 Telephone Number_2 is inside the attorney block but contains the participant's phone.",
+          "howToRepair": "Classify the field as attorney-owned and remove the write from both fixtures."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "whatIsWrong": "The boundary Printed Name of Petitioner on CR-65 page 6 ends at Montgomery-Wash instead of the complete Montgomery-Washington.",
+          "howToRepair": "Fit the complete value within the printed line without ellipsis or truncation, then inspect both fixtures freshly."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "whatIsWrong": "The packet omits stops for uncertainty about the minor-traffic-violation carve-out and for licensing or firearm consequences.",
+          "howToRepair": "Carry every current authoritative selfHelpStopCondition into participant-facing guidance without broadening it."
+        }
+      ],
+      "repairMustNotDo": [
+        "do not change source identities or component order",
+        "do not populate any spouse, employer, attorney, prior-expungement, signature, notary or judge fact that is not independently held",
+        "do not treat the nine zero counters as proof that the printed label/role matches the write"
+      ],
+      "reVerificationOwed": "A lane that neither built nor repaired the new bytes must rerun all fifteen obligations and inspect fresh canonical and boundary rasters.",
+      "grantsNothing": "This assignment grants nothing and promotes no family."
+    },
+    {
+      "repairAssignmentId": "VF02-2026-09-04-IL-SUPERVISION-ROW-MAPPING-OWNERSHIP",
+      "itemId": "il-exp-supervision-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill",
+      "raisedBy": "VF02",
+      "raisedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "decisiveDefect": "The shared Illinois mapping writes a case number into twenty Charge cells and partially populates eighteen later rows, misuses four Case List number slots for non-number facts, fills four clerk-only case-number captions, truncates known boundary values, and omits controlling prefiling actions.",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "repairDirections": [
+        "Write matter.charge, not matter.case_number, only into the first complete Request table row on pages 2 and 4; leave unused rows wholly empty.",
+        "On the Case List write only arrest/case numbers, one per blank; do not place agency, charge, date or outcome in later number slots.",
+        "Remove writes from every caption marked for the Circuit Clerk, including the waiver's Clerk fills in field.",
+        "Add the ISP transcript, transcript/disposition comparison, per-case expunge/seal election and post-objection hearing-date actions to participant guidance.",
+        "Fit every complete known value without ellipsis and obtain fresh raster review."
+      ],
+      "sharedHostWarning": "il-exp-supervision-set and il-seal-3yr-set exhibit the same Illinois field-mapping defect. Repair the narrow shared mechanism once, with family-specific route selection preserved.",
+      "reVerificationOwed": "A lane that neither built nor repaired the new bytes must rerun all fifteen obligations and inspect fresh canonical and boundary rasters.",
+      "grantsNothing": "This assignment grants nothing and promotes no family."
+    },
+    {
+      "repairAssignmentId": "VF02-2026-09-04-IL-SEAL-3YR-ROUTE-ROW-MAPPING-OWNERSHIP",
+      "itemId": "il-seal-3yr-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "raisedBy": "VF02",
+      "raisedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "decisiveDefect": "In addition to the shared Illinois row, ownership, guidance and truncation failures, this three-year sealing family selects section 15's no-wait Second Chance Probation/First Time Weapon branch, so its visible legal selection contradicts its route identity.",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "repairDirections": [
+        "Remove the section 15 no-wait selection. Preserve the participant-owned choice among the applicable three-year printed subbranches unless the exact record establishes one.",
+        "Write matter.charge, not matter.case_number, only into the first complete Request table row on pages 2 and 4; leave unused rows wholly empty.",
+        "On the Case List write only arrest/case numbers, one per blank; remove agency, charge, date and outcome from number slots.",
+        "Remove every write from a caption reserved for the Circuit Clerk.",
+        "Restore all authoritative prefiling actions and fit every complete known value without ellipsis."
+      ],
+      "sharedHostWarning": "The row/ownership/truncation portion is shared with il-exp-supervision-set; the section 15 route-selection correction must remain scoped to il-seal-3yr-set.",
+      "reVerificationOwed": "A lane that neither built nor repaired the new bytes must rerun all fifteen obligations and inspect fresh canonical and boundary rasters.",
       "grantsNothing": "This assignment grants nothing and promotes no family."
     }
   ],
