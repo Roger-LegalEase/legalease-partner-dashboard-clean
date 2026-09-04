@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "rcap-packet-build-worker-return/v1",
+  "workerId": "CODEX-CS2-PF17-MO-NC",
+  "lane": "PF17",
+  "exactBase": "d2b05c4e198e22f1029d2025ba02f1dd330194d9",
+  "branch": "codex/cs2-pf17-mo-nc-a440",
+  "implementationCommit": "349bdad42fda7bfbbf0fe9df7bd907406043f5be",
+  "commit": "349bdad42fda7bfbbf0fe9df7bd907406043f5be",
+  "tip": "reported after this return receipt is committed because a commit cannot contain its own SHA-1",
+  "pushed": "NO",
+  "pushCommand": "git push origin codex/cs2-pf17-mo-nc-a440",
+  "pushResult": "fatal: could not read Username for 'https://github.com': No such device or address",
+  "thinBundleTransferTip": "reported in the final worker output after this return receipt is committed",
+  "claim": {
+    "assertedBeforeFamilyContent": true,
+    "commands": [
+      "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 'rcap-mo-custom-pleading'",
+      "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF17 'composed-treatment:nc_146_dismissal_petition'"
+    ],
+    "results": [
+      "CLAIM_OK PF17 rcap-mo-custom-pleading (packet-build, grant set 1943fe2092d2bce9)",
+      "CLAIM_OK PF17 composed-treatment:nc_146_dismissal_petition (packet-build, grant set 1943fe2092d2bce9)",
+      "CLAIM_OK CODEX-CS2-PF17-MO-NC PF17 rcap-mo-custom-pleading composed-treatment:nc_146_dismissal_petition"
+    ],
+    "released": false
+  },
+  "families": [
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "status": "STOPPED_SOURCE_MISSING",
+      "routes": [
+        "obligation:service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:state_311_325_conviction",
+        "obligation:track-pathway:MO:mo-610-130-first-intoxication:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+      ],
+      "perFamilyStop": [
+        "SOURCE_MISSING rcap-mo-custom-pleading official-form:FI-05 LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf sha256=53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e bytes=298649",
+        "SOURCE_MISSING rcap-mo-custom-pleading official-form:GN10 D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx sha256=13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e bytes=39193"
+      ],
+      "approvedMountsSearched": [
+        "private/source-imports/rcap-d-source-packs-2026-08-12",
+        "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+      ],
+      "overlayTouched": false,
+      "builderCreated": false,
+      "buildRuns": 0,
+      "canonical": null,
+      "boundary": null,
+      "deterministic": null
+    },
+    {
+      "familyId": "composed-treatment:nc_146_dismissal_petition",
+      "status": "BUILT_RASTER_PENDING",
+      "routes": [
+        "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading",
+      "builder": "scripts/build-census-v1-composed-treatment:nc_146_dismissal_petition.mjs",
+      "componentSet": [
+        "component:nc_146_dismissal_petition-primary-filing-1",
+        "component:nc_146_dismissal_petition-instructions-2",
+        "component:nc_146_dismissal_petition-fee-waiver-3"
+      ],
+      "canonical": {
+        "build1": {
+          "sha256": "1612fc48065673423f3fdbc2686d382664b07ef0f39d15ab8b0fa7801e0119b0",
+          "byteLength": 280951,
+          "pageCount": 5
+        },
+        "build2": {
+          "sha256": "1612fc48065673423f3fdbc2686d382664b07ef0f39d15ab8b0fa7801e0119b0",
+          "byteLength": 280951,
+          "pageCount": 5
+        }
+      },
+      "boundary": {
+        "build1": {
+          "sha256": "26bd69a00a5f2a81447971e2ea2be1b009c5557ee8859e10a6466eb8ebb636c8",
+          "byteLength": 281203,
+          "pageCount": 5
+        },
+        "build2": {
+          "sha256": "26bd69a00a5f2a81447971e2ea2be1b009c5557ee8859e10a6466eb8ebb636c8",
+          "byteLength": 281203,
+          "pageCount": 5
+        }
+      },
+      "deterministic": {
+        "cleanInputState": true,
+        "completeBuildRuns": 2,
+        "canonicalByteIdentical": true,
+        "boundaryByteIdentical": true,
+        "hashesAndByteLengthsMatch": true
+      },
+      "completeness": {
+        "result": "PASS_COMPLETE",
+        "written": 16,
+        "terminalFields": 99,
+        "allNineCountersZero": true,
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "perFamilyStop": null
+    }
+  ],
+  "sourceHashesChecked": [
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "sourceId": "official-form:FI-05",
+      "indexedPath": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+      "expectedSha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+      "expectedByteLength": 298649,
+      "present": false,
+      "matched": false
+    },
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "sourceId": "official-form:GN10",
+      "indexedPath": "D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+      "expectedSha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+      "expectedByteLength": 39193,
+      "present": false,
+      "matched": false
+    },
+    {
+      "familyId": "composed-treatment:nc_146_dismissal_petition",
+      "sourceId": "official-form:AOC-CR-287",
+      "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+      "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "byteLength": 257828,
+      "present": true,
+      "matched": true
+    },
+    {
+      "familyId": "composed-treatment:nc_146_dismissal_petition",
+      "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+      "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+      "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "byteLength": 217744,
+      "present": true,
+      "matched": true
+    },
+    {
+      "familyId": "composed-treatment:nc_146_dismissal_petition",
+      "sourceId": "official-form:AOC-CV-226",
+      "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+      "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "byteLength": 269426,
+      "present": true,
+      "matched": true
+    }
+  ],
+  "focusedCommands": [
+    {
+      "command": "node --check 'scripts/build-census-v1-composed-treatment:nc_146_dismissal_petition.mjs'",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "node 'scripts/build-census-v1-composed-treatment:nc_146_dismissal_petition.mjs' --check",
+      "exitCode": 0,
+      "result": "CHECK_ONLY; 3 sources bound; 3 components; 16 writes; 83 classified blanks; overlay untouched"
+    },
+    {
+      "command": "node 'scripts/build-census-v1-composed-treatment:nc_146_dismissal_petition.mjs' --no-raster",
+      "runs": 2,
+      "exitCodes": [
+        0,
+        0
+      ],
+      "result": "COMPLETED both runs; canonical and boundary byte-identical"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-mo-custom-pleading'",
+      "exitCode": 2,
+      "result": "REFUSED: family matches no auditable family because exact sources were absent and no overlay was touched"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:nc_146_dismissal_petition'",
+      "exitCode": 0,
+      "result": "PASS_COMPLETE; 16/99 written; all nine counters zero"
+    },
+    {
+      "command": "node scripts/verify-packet-build-environment.mjs --family 'rcap-mo-custom-pleading'",
+      "exitCode": 1,
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+      "failures": [
+        "global Master Library has 14/499 files and 14/329 PDFs",
+        "committed-index sample has 19 absent and 0 mismatched",
+        "official-form:FI-05 does not resolve to exactly one committed index entry"
+      ]
+    },
+    {
+      "command": "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:nc_146_dismissal_petition'",
+      "exitCode": 1,
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+      "failures": [
+        "global Master Library has 14/499 files and 14/329 PDFs",
+        "committed-index sample has 19 absent and 0 mismatched",
+        "two of six duplicated source aliases do not bind in the generic environment resolver; the family-specific D1 paths and all three supplied source hashes bind exactly"
+      ]
+    },
+    {
+      "command": "pdftotext -layout and pdftotext -bbox on canonical.pdf and boundary.pdf",
+      "exitCode": 0,
+      "result": "PASS; both five-page PDFs parse without warnings; required route/service text present; AOC-CR-287 official filing face absent; 3026 extracted word boxes within page bounds"
+    },
+    {
+      "command": "jq empty generated JSON and PF17 rows; git diff --check",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "git push origin codex/cs2-pf17-mo-nc-a440",
+      "exitCode": 128,
+      "result": "fatal: could not read Username for 'https://github.com': No such device or address"
+    }
+  ],
+  "typecheck": {
+    "applicable": false,
+    "reason": "The only implementation file is an ESM JavaScript builder; node --check and direct family execution are the focused checks."
+  },
+  "changedPaths": [
+    "scripts/build-census-v1-composed-treatment:nc_146_dismissal_petition.mjs",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/pf17/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs2-pf17-mo-nc-a440/RETURN.json"
+  ],
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "productionTouched": "NO",
+  "ProductionTouched": "NO"
+}
