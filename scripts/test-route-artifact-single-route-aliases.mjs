@@ -15,14 +15,6 @@ const run = (...args) => spawnSync(process.execPath, [VERIFIER, ...args], {
   maxBuffer: 16 * 1024 * 1024
 });
 
-for (const family of ["va_exp_absolute_pardon-set"]) {
-  const result = run("--family", family);
-  assert.equal(result.status, 0, `${family} must pass route-scoped completeness:\n${result.stdout}\n${result.stderr}`);
-  assert.match(result.stdout, new RegExp(`ok\\s+${family} .* canonical .* ROUTE_PASS_COMPLETE`));
-  assert.match(result.stdout, new RegExp(`ok\\s+${family} .* boundary .* ROUTE_PASS_COMPLETE`));
-  assert.match(result.stdout, /2 route artifact\(s\) measured this run · 2 total · 2 ROUTE_PASS_COMPLETE/);
-}
-
 const missing = run("--family", "not-a-real-family");
 assert.notEqual(missing.status, 0, "an explicit family filter that measures nothing must not vacuously pass");
 assert.match(`${missing.stdout}\n${missing.stderr}`, /REFUSED: no route artifacts matched the explicit filter/);
@@ -58,7 +50,7 @@ const read = (relative) => JSON.parse(fs.readFileSync(path.join(ROOT, relative),
 const master = read("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
 const routeRegistry = read("data/record-clearing/factory-v2-route-registry.json");
 const aliasFamilies = [];
-for (const family of master.families.filter((row) => row.state === "COMPLETE_PACKET_PROVEN")) {
+for (const family of master.families) {
   const renderedPath = path.join(ROOT, family.directory, "reports/rendered-artifacts.json");
   const fieldMapPath = path.join(ROOT, family.directory, "production-field-map.json");
   if (!fs.existsSync(renderedPath) || !fs.existsSync(fieldMapPath)) continue;
@@ -71,30 +63,39 @@ for (const family of master.families.filter((row) => row.state === "COMPLETE_PAC
   });
   if (aliases.length > 0) aliasFamilies.push(family.familyId);
 }
-assert.deepEqual(aliasFamilies.sort(), ["va_exp_absolute_pardon-set"],
-  "the exact qualifying family set must remain the current proven one-route family; widening requires new component-route evidence and a reviewed test change");
+assert.deepEqual(aliasFamilies.sort(), [],
+  "no current family may qualify while every exact one-route candidate remains below COMPLETE_PACKET_PROVEN");
+
+const candidates = ["va_exp_absolute_pardon-set", "nv_seal_probation_family-set"];
+for (const familyId of candidates) {
+  const family = master.families.find((row) => row.familyId === familyId);
+  assert.ok(family, `${familyId} must remain in the master queue`);
+  assert.equal(family.state, "VERIFY_PENDING", `${familyId} must not be promoted by route-alias evidence`);
+  assert.equal(family.completenessStatus, "PASS_COMPLETE", `${familyId} must retain its family completeness measurement`);
+
+  const rendered = read(`${family.directory}/reports/rendered-artifacts.json`);
+  const fieldMap = read(`${family.directory}/production-field-map.json`);
+  assert.equal(singleRouteFamilyArtifacts({ familyId, rendered, fieldMap, master, routeRegistry }).length, 0,
+    `${familyId} must remain gated while independent review is pending`);
+
+  const proofOnlyMaster = {
+    ...master,
+    families: master.families.map((row) => row.familyId === familyId
+      ? { ...row, state: "COMPLETE_PACKET_PROVEN" }
+      : row)
+  };
+  assert.equal(singleRouteFamilyArtifacts({ familyId, rendered, fieldMap, master: proofOnlyMaster, routeRegistry }).length, 2,
+    `${familyId} must have exact one-route, one-family, all-component structural evidence without treating that evidence as a lifecycle promotion`);
+}
 
 const completeness = read("data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_COMPLETENESS.json");
 const rasterQueue = read("data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json");
 const acceptance = read("data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_ACCEPTANCE.json");
-for (const familyId of ["va_exp_absolute_pardon-set"]) {
-  const completeRows = completeness.results.filter((row) => row.familyId === familyId);
-  assert.equal(completeRows.length, 2);
-  assert.ok(completeRows.every((row) => row.result === "ROUTE_PASS_COMPLETE" && row.familyAssemblyIsRouteArtifact));
+assert.equal(completeness.results.filter((row) => row.familyId === "nv_seal_probation_family-set").length, 0,
+  "Nevada must not acquire route-completeness rows before the lifecycle gate is met");
+assert.equal(rasterQueue.rows.filter((row) => row.packetFamilyId === "nv_seal_probation_family-set").length, 0,
+  "Nevada must not inherit its older family raster before it qualifies as the route artifact");
+assert.equal(acceptance.rows.filter((row) => row.familyId === "nv_seal_probation_family-set").length, 0,
+  "Nevada must not acquire route-acceptance rows while independent review is pending");
 
-  const queueRows = rasterQueue.rows.filter((row) => row.packetFamilyId === familyId);
-  assert.equal(queueRows.length, 1);
-  assert.equal(queueRows[0].currentRasterState, "RASTER_PASS");
-  assert.equal(queueRows[0].preexistingRasterAcceptance?.verdict, "RASTER_PASS");
-
-  const acceptanceRows = acceptance.rows.filter((row) => row.familyId === familyId);
-  assert.equal(acceptanceRows.length, 2);
-  assert.ok(acceptanceRows.every((row) => row.rasterAcceptance.state === "RASTER_PASS"));
-  assert.ok(acceptanceRows.every((row) => row.deterministicRebuild.result === "NOT_MEASURED"));
-  assert.ok(acceptanceRows.every((row) => row.independentVerification.pending === true));
-}
-assert.ok(completeness.focusedRegeneration.untouchedRowsPreserved >= 0);
-assert.ok(rasterQueue.focusedRegeneration.untouchedRowsPreserved >= 0);
-assert.ok(acceptance.focusedRegeneration.untouchedRowsPreserved >= 0);
-
-console.log("Single-route family artifact aliases are measured route-scoped and explicit empty filters fail closed.");
+console.log("Single-route family artifact aliases remain fail-closed while Virginia and Nevada await independent lifecycle promotion.");
