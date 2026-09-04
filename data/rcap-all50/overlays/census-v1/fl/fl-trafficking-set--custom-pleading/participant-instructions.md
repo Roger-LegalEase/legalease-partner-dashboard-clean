@@ -9,6 +9,8 @@ This packet is built only for `obligation:track-pathway:FL:fl-trafficking:human-
 | `FL-RULE-3.989-PETITION` | Petition to Expunge; Human Trafficking Victim, composed with the current Rule 3.9895(a) caption |
 | `FL-RULE-3.9895-SWORN-STATEMENT` | Sworn Statement in Support of Petition; Human Trafficking Victim, Rule 3.9895(b) |
 | `FL-RULE-3.989-ORDER` | Unexecuted proposed Order to Expunge; Human Trafficking Victim, composed with the current Rule 3.9895(c) caption |
+| `fl-trafficking-certificate-of-service-4` | Blank certificate for recording actual service or copy-delivery facts only after delivery, if the filing clerk requires that step |
+| `fl-trafficking-instructions-5` | Participant and filing instructions bound into the assembled packet as process guidance |
 
 ## Trauma-informed completion rule
 
@@ -17,6 +19,7 @@ You do not need to give graphic details. Use only enough truthful information to
 ## Required before filing
 
 Fill every applicable dotted line from your court and arrest records. For multiple eligible cases, use one fully completed record block per case; never leave a partly completed block that could be read as complete.
+The certificate rows in the table are different: do not predict them or fill them before petition filing. Supply them only after any clerk-directed service or copy delivery actually occurs and before submitting that completed certificate.
 
 | Document | Blank on the document | What you must supply |
 | --- | --- | --- |
@@ -45,6 +48,15 @@ Fill every applicable dotted line from your court and arrest records. For multip
 | FL-RULE-3.989-ORDER | County of arrest | the same county used on the petition |
 | FL-RULE-3.989-ORDER | Case number | the same exact case number used on the petition |
 | FL-RULE-3.989-ORDER | Court division | the same division used on the petition, if one is assigned |
+| fl-trafficking-certificate-of-service-4 | Court name | the same full court name used on the petition |
+| fl-trafficking-certificate-of-service-4 | Judicial circuit | the same Florida judicial circuit used on the petition |
+| fl-trafficking-certificate-of-service-4 | County of arrest | the same county used on the petition |
+| fl-trafficking-certificate-of-service-4 | Case number | the same exact case number used on the petition |
+| fl-trafficking-certificate-of-service-4 | Court division | the same division used on the petition, if one is assigned |
+| fl-trafficking-certificate-of-service-4 | Actual date of service or delivery | the true date on which service or copy delivery was completed, entered only after it happened |
+| fl-trafficking-certificate-of-service-4 | Actual recipient names and roles | every person or office actually served or given a copy, using the clerk-confirmed requirement |
+| fl-trafficking-certificate-of-service-4 | Actual service or delivery addresses | the address used for each actual recipient |
+| fl-trafficking-certificate-of-service-4 | Actual method of service or delivery | the method actually used after following the filing clerk's current instructions |
 
 Also check from the record that no requested offense is excluded by section 943.0583. If the offense classification is uncertain, stop and obtain legal help rather than guessing.
 
@@ -55,6 +67,7 @@ Official documentation tending to show victim status can affect the proof path. 
 - Sign and date the petition only after every required fact is complete and accurate.
 - Sign the sworn statement only before a notary public or other person authorized to administer an oath. The notary completes the oath date, signature, identification, printed name, and commission fields.
 - Do not fill any findings, scope of relief, order date, judge signature, judge printed name, clerk certification, or clerk distribution field on the proposed order.
+- The committed review does not state a statewide service recipient, destination, method, or timing rule. Ask the filing clerk what copies or local service steps are required. Use the certificate only if directed, enter only facts from delivery that actually occurred, and do not complete, sign, or date it before delivery.
 
 ## Stop and get help
 

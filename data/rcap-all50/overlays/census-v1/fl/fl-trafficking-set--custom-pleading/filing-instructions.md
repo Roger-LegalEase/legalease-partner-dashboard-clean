@@ -6,7 +6,7 @@
 4. Leave the proposed order's findings, relief description, dates, judge fields, and clerk fields blank.
 5. File in any court in the Florida circuit where the arrest occurred that has jurisdiction over the class of the offense or offenses requested for expunction.
 6. The committed pathway record states that the clerk may not charge filing, service, or copy fees for this section 943.0583 petition and treats multiple eligible cases as a single petition. Confirm the clerk's current intake procedure and any local cover-sheet or copy requirement before filing; this packet does not create a local-circuit form.
-7. The committed legal-design record does not establish a separate statewide service instruction for this petition. Ask the filing clerk what copies or local service steps are required, and do not sign any certificate for an event that has not happened.
+7. The committed legal-design record does not establish a separate statewide service recipient, destination, method, or timing rule for this petition. Ask the filing clerk what copies or local service steps are required. Use the included certificate only if the clerk directs service or copy delivery; after delivery, enter the actual date, recipients, addresses, and method, then sign and date the certificate. Never complete, sign, or date it before delivery.
 8. Keep a complete stamped copy. If relief is granted, obtain a certified copy of the entered order and follow up on record-system implementation.
 
 A filing location or local procedure question is answered by the clerk of the court in the circuit of arrest. A disputed legal or evidentiary issue requires counsel.

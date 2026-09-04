@@ -3,9 +3,10 @@
  * Deterministic census-v1 builder for Florida human-trafficking-victim
  * expunction under section 943.0583, Florida Statutes.
  *
- * This is a zero-source-binary composition. The three assigned instruments are
- * authored from the committed codified-text/legal-design records. Nothing is
- * acquired, copied from private/, promoted, released, or made runtime-selectable.
+ * This is a zero-source-binary composition. The three assigned rule instruments
+ * and the two required manifest components are authored from the committed
+ * codified-text/legal-design records. Nothing is acquired, copied from private/,
+ * promoted, released, or made runtime-selectable.
  *
  *   node scripts/build-census-v1-fl-trafficking-set.mjs [--check] [--no-raster]
  */
@@ -35,22 +36,43 @@ const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 const FAMILY_ID = "fl-trafficking-set";
 const OUT = "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading";
 const BUILD_SCRIPT = "scripts/build-census-v1-fl-trafficking-set.mjs";
+const AUTHORITATIVE_MANIFEST = "data/record-clearing/legal-design-packet-set-manifests.json";
 const STRATEGY = "CUSTOM_PLEADING_FROM_CODIFIED_TEXT";
 const ROUTE_KEY = "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583";
+const SERVICE_COMPONENT = "fl-trafficking-certificate-of-service-4";
+const INSTRUCTIONS_COMPONENT = "fl-trafficking-instructions-5";
 const COMPONENTS = [
   "FL-RULE-3.989-PETITION",
   "FL-RULE-3.9895-SWORN-STATEMENT",
-  "FL-RULE-3.989-ORDER"
+  "FL-RULE-3.989-ORDER",
+  SERVICE_COMPONENT,
+  INSTRUCTIONS_COMPONENT
 ];
 const TITLES = {
   "FL-RULE-3.989-PETITION": "Petition to Expunge; Human Trafficking Victim",
   "FL-RULE-3.9895-SWORN-STATEMENT": "Sworn Statement in Support of Petition; Human Trafficking Victim",
-  "FL-RULE-3.989-ORDER": "Order to Expunge; Human Trafficking Victim"
+  "FL-RULE-3.989-ORDER": "Order to Expunge; Human Trafficking Victim",
+  [SERVICE_COMPONENT]: "Certificate of Service",
+  [INSTRUCTIONS_COMPONENT]: "Florida Human-Trafficking-Victim Expunction Instructions"
 };
 const SUBDIVISIONS = {
   "FL-RULE-3.989-PETITION": "Fla. R. Crim. P. 3.9895(a)",
   "FL-RULE-3.9895-SWORN-STATEMENT": "Fla. R. Crim. P. 3.9895(b)",
   "FL-RULE-3.989-ORDER": "Fla. R. Crim. P. 3.9895(c)"
+};
+const COMPONENT_ROLES = {
+  "FL-RULE-3.989-PETITION": "primary_filing",
+  "FL-RULE-3.9895-SWORN-STATEMENT": "affidavit",
+  "FL-RULE-3.989-ORDER": "proposed_order",
+  [SERVICE_COMPONENT]: "certificate_of_service",
+  [INSTRUCTIONS_COMPONENT]: "instructions"
+};
+const OUTPUT_STRATEGIES = {
+  "FL-RULE-3.989-PETITION": "official_pdf_fill",
+  "FL-RULE-3.9895-SWORN-STATEMENT": "official_pdf_fill",
+  "FL-RULE-3.989-ORDER": "official_pdf_fill",
+  [SERVICE_COMPONENT]: "custom_pleading",
+  [INSTRUCTIONS_COMPONENT]: "process_guidance"
 };
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
@@ -77,7 +99,7 @@ const GROUNDING_RECORDS = [
   {
     record: "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
     selector: "FL-RULE-3989 / fl-trafficking-set",
-    use: "authorizes composition of the three assigned rule instruments and records that no separate official component remains"
+    use: "authorizes composition of the three assigned rule instruments and records that no separate official-form component remains"
   },
   {
     record: "data/record-clearing/legal-design-intake/FL.memo.json",
@@ -205,7 +227,7 @@ function componentMap(component) {
     c("notary_printed_name", "Notary public printed commissioned name", "the notary or other authorized officer supplies this information");
     c("notary_identification", "Notary personally-known or identification determination", "the notary or other authorized officer completes the identification determination");
     c("notary_commission", "Notary commission expiration", "the notary or other authorized officer supplies the commission information");
-  } else {
+  } else if (component === "FL-RULE-3.989-ORDER") {
     w("petitioner_name", "Petitioner full legal name", "participant.full_legal_name");
     r("court_name", "Court name", "the same full court name used on the petition", "the fixture carries no participant case record");
     r("judicial_circuit", "Judicial circuit", "the same Florida judicial circuit used on the petition", "the fixture carries no participant case record");
@@ -219,13 +241,29 @@ function componentMap(component) {
     c("judge_name", "Judge printed name", "the court supplies the judge's printed name");
     c("clerk_certification", "Clerk certification", "the clerk completes any certification after entry");
     c("clerk_distribution_date", "Clerk distribution date", "the clerk records distribution after entry");
+  } else if (component === SERVICE_COMPONENT) {
+    w("petitioner_name", "Petitioner full legal name", "participant.full_legal_name");
+    r("court_name", "Court name", "the same full court name used on the petition", "the fixture carries no participant case record");
+    r("judicial_circuit", "Judicial circuit", "the same Florida judicial circuit used on the petition", "the fixture carries no participant case record");
+    r("county", "County of arrest", "the same county used on the petition", "the fixture carries no participant case record");
+    r("case_number", "Case number", "the same exact case number used on the petition", "the fixture carries no participant case record");
+    r("division", "Court division", "the same division used on the petition, if one is assigned", "the fixture carries no participant case record");
+    r("delivery_date", "Actual date of service or delivery", "the true date on which service or copy delivery was completed, entered only after it happened", "the committed review does not supply a future event");
+    r("recipients", "Actual recipient names and roles", "every person or office actually served or given a copy, using the clerk-confirmed requirement", "the committed review does not establish a statewide recipient");
+    r("delivery_addresses", "Actual service or delivery addresses", "the address used for each actual recipient", "the committed review does not establish a statewide destination");
+    r("delivery_method", "Actual method of service or delivery", "the method actually used after following the filing clerk's current instructions", "the committed review does not establish a statewide method");
+    p("server_signature", "Signature certifying completed service or delivery", "the participant signs only after the described service or delivery actually happened");
+    p("certificate_signature_date", "Date certificate signed after service or delivery", "the participant supplies the true signing date only after the described service or delivery actually happened");
+  } else if (component === INSTRUCTIONS_COMPONENT) {
+    w("participant_name", "Participant full legal name printed on the instructions", "participant.full_legal_name");
+  } else {
+    assert.fail(`unsupported component: ${component}`);
   }
 
   return {
     formNumber: component,
     documentId: component,
-    documentRole: component === "FL-RULE-3.989-PETITION" ? "primary_filing"
-      : component === "FL-RULE-3.9895-SWORN-STATEMENT" ? "sworn_statement" : "proposed_order",
+    documentRole: COMPONENT_ROLES[component],
     structuralClass: "composed_document",
     composedFrom: GROUNDING_RECORDS.map((x) => `${x.record} (${x.selector})`).join("; "),
     documentPolicy: {
@@ -261,12 +299,30 @@ function identityLines(lines, facts) {
   lines.push(`Petitioner email: ${facts["participant.email"]}`, "");
 }
 
-function composedBody(component, facts) {
+function markdownToPlainText(markdown) {
+  return String(markdown).split("\n")
+    .filter((line) => !/^\|(?:\s*:?-+:?\s*\|)+$/.test(line.trim()))
+    .map((line) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+        return trimmed.slice(1, -1).split("|")
+          .map((cell) => cell.trim().replaceAll("**", "").replaceAll("`", ""))
+          .join(" | ");
+      }
+      return line.replace(/^#{1,6}\s+/, "").replace(/^-\s+/, "- ")
+        .replaceAll("**", "").replaceAll("`", "");
+    })
+    .join("\n");
+}
+
+function composedBody(component, facts, instructionText = null) {
   const lines = [];
   lines.push(TITLES[component].toUpperCase());
-  lines.push(`${SUBDIVISIONS[component]} - composed codified-text instrument`);
+  if (SUBDIVISIONS[component]) lines.push(`${SUBDIVISIONS[component]} - composed codified-text instrument`);
+  else if (component === SERVICE_COMPONENT) lines.push("Custom component required by the authoritative fl-trafficking-set manifest");
+  else lines.push("Process-guidance component required by the authoritative fl-trafficking-set manifest");
   lines.push(`Assigned component identity: ${component}`, "");
-  caption(lines);
+  if (component !== INSTRUCTIONS_COMPONENT) caption(lines);
 
   if (component === "FL-RULE-3.989-PETITION") {
     lines.push("PETITION TO EXPUNGE; HUMAN TRAFFICKING VICTIM", "");
@@ -318,7 +374,7 @@ function composedBody(component, facts) {
     lines.push(`Personally known or identification produced: ${DOTS(28)}`);
     lines.push(`Type of identification produced: ${DOTS(34)}`);
     lines.push(`Notary commission expiration: ${DOTS(37)}`);
-  } else {
+  } else if (component === "FL-RULE-3.989-ORDER") {
     lines.push("PROPOSED ORDER TO EXPUNGE; HUMAN TRAFFICKING VICTIM", "");
     lines.push("UNEXECUTED PROPOSED ORDER. No finding below has been made and no relief has been granted unless and until the judge signs and the clerk enters this order.", "");
     lines.push(`This cause came before the Court on the petition of ${facts["participant.full_legal_name"]} for human-trafficking-victim expunction under section 943.0583, Florida Statutes.`, "");
@@ -336,10 +392,37 @@ function composedBody(component, facts) {
     lines.push(`Clerk certification: ${DOTS(44)}`);
     lines.push(`Clerk distribution date: ${DOTS(40)}`, "");
     lines.push("The filing participant leaves every finding, the records ordered expunged, the date of the order, judicial signature, judicial printed name, clerk certification, and clerk distribution date blank.");
+  } else if (component === SERVICE_COMPONENT) {
+    lines.push("CERTIFICATE OF SERVICE", "");
+    lines.push(`Petitioner full legal name: ${facts["participant.full_legal_name"]}`, "");
+    lines.push("SERVICE-LAW LIMIT. The committed review does not state a statewide service recipient, destination, method, or timing rule for this petition. Ask the filing clerk what copies or local service steps are required. Use this certificate only if the clerk directs service or copy delivery.", "");
+    lines.push("DO NOT COMPLETE, SIGN, OR DATE THIS CERTIFICATE BEFORE DELIVERY. After any required service or copy delivery actually occurs, record only the true post-delivery facts below.", "");
+    lines.push(`Actual date of service or delivery: ${DOTS(34)}`);
+    lines.push("Actual recipient names and roles:");
+    lines.push(DOTS(), DOTS());
+    lines.push("Actual service or delivery addresses:");
+    lines.push(DOTS(), DOTS());
+    lines.push(`Actual method of service or delivery: ${DOTS(30)}`, "");
+    lines.push("I certify only that the service or copy delivery described above actually occurred. This blank certificate does not establish that service was required or that any unnamed person was served.", "");
+    lines.push(`Signature certifying completed service or delivery: ${DOTS(23)}`);
+    lines.push(`Date certificate signed after service or delivery: ${DOTS(25)}`);
+  } else if (component === INSTRUCTIONS_COMPONENT) {
+    assert.ok(instructionText, "the required instructions component must be bound to the generated participant and filing instructions");
+    lines.push(`Prepared for: ${facts["participant.full_legal_name"]}`, "");
+    lines.push(markdownToPlainText(instructionText.participantInstructions), "");
+    lines.push(markdownToPlainText(instructionText.filingInstructions));
+  } else {
+    assert.fail(`unsupported component: ${component}`);
   }
 
   lines.push("", `Route: ${ROUTE_KEY}`);
-  return lines.join("\n");
+  const text = lines.join("\n");
+  // The optional blank spacer lines made the jurat spill onto a near-empty
+  // second sworn-statement page. Removing only those spacers keeps the oath,
+  // signature/date block, and complete jurat together without changing a word.
+  return component === "FL-RULE-3.9895-SWORN-STATEMENT"
+    ? text.replace(/\n{2,}/g, "\n")
+    : text;
 }
 
 function sanitizePdfText(text) {
@@ -356,7 +439,7 @@ function sanitizePdfText(text) {
     .replaceAll("…", "...");
 }
 
-async function renderDocument(text, title) {
+async function renderDocument(text, title, { keepRawLinesTogether = false } = {}) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
@@ -409,7 +492,14 @@ async function renderDocument(text, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font: body, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  for (const raw of sanitizePdfText(text).split("\n")) for (const row of wrap(raw)) draw(row);
+  for (const raw of sanitizePdfText(text).split("\n")) {
+    const rows = wrap(raw);
+    if (keepRawLinesTogether && raw && y - (lineHeight * (rows.length - 1)) < margin) {
+      page = pdf.addPage([width, height]);
+      y = height - margin;
+    }
+    for (const row of rows) draw(row);
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
@@ -562,6 +652,8 @@ function buildParticipantInstructions(requiredBeforeFiling) {
     "| `FL-RULE-3.989-PETITION` | Petition to Expunge; Human Trafficking Victim, composed with the current Rule 3.9895(a) caption |",
     "| `FL-RULE-3.9895-SWORN-STATEMENT` | Sworn Statement in Support of Petition; Human Trafficking Victim, Rule 3.9895(b) |",
     "| `FL-RULE-3.989-ORDER` | Unexecuted proposed Order to Expunge; Human Trafficking Victim, composed with the current Rule 3.9895(c) caption |",
+    "| `fl-trafficking-certificate-of-service-4` | Blank certificate for recording actual service or copy-delivery facts only after delivery, if the filing clerk requires that step |",
+    "| `fl-trafficking-instructions-5` | Participant and filing instructions bound into the assembled packet as process guidance |",
     "",
     "## Trauma-informed completion rule",
     "",
@@ -570,6 +662,7 @@ function buildParticipantInstructions(requiredBeforeFiling) {
     "## Required before filing",
     "",
     "Fill every applicable dotted line from your court and arrest records. For multiple eligible cases, use one fully completed record block per case; never leave a partly completed block that could be read as complete.",
+    "The certificate rows in the table are different: do not predict them or fill them before petition filing. Supply them only after any clerk-directed service or copy delivery actually occurs and before submitting that completed certificate.",
     "",
     "| Document | Blank on the document | What you must supply |",
     "| --- | --- | --- |"
@@ -586,6 +679,7 @@ function buildParticipantInstructions(requiredBeforeFiling) {
     "- Sign and date the petition only after every required fact is complete and accurate.",
     "- Sign the sworn statement only before a notary public or other person authorized to administer an oath. The notary completes the oath date, signature, identification, printed name, and commission fields.",
     "- Do not fill any findings, scope of relief, order date, judge signature, judge printed name, clerk certification, or clerk distribution field on the proposed order.",
+    "- The committed review does not state a statewide service recipient, destination, method, or timing rule. Ask the filing clerk what copies or local service steps are required. Use the certificate only if directed, enter only facts from delivery that actually occurred, and do not complete, sign, or date it before delivery.",
     "",
     "## Stop and get help",
     "",
@@ -607,7 +701,7 @@ function buildFilingInstructions() {
     "4. Leave the proposed order's findings, relief description, dates, judge fields, and clerk fields blank.",
     "5. File in any court in the Florida circuit where the arrest occurred that has jurisdiction over the class of the offense or offenses requested for expunction.",
     "6. The committed pathway record states that the clerk may not charge filing, service, or copy fees for this section 943.0583 petition and treats multiple eligible cases as a single petition. Confirm the clerk's current intake procedure and any local cover-sheet or copy requirement before filing; this packet does not create a local-circuit form.",
-    "7. The committed legal-design record does not establish a separate statewide service instruction for this petition. Ask the filing clerk what copies or local service steps are required, and do not sign any certificate for an event that has not happened.",
+    "7. The committed legal-design record does not establish a separate statewide service recipient, destination, method, or timing rule for this petition. Ask the filing clerk what copies or local service steps are required. Use the included certificate only if the clerk directs service or copy delivery; after delivery, enter the actual date, recipients, addresses, and method, then sign and date the certificate. Never complete, sign, or date it before delivery.",
     "8. Keep a complete stamped copy. If relief is granted, obtain a certified copy of the entered order and follow up on record-system implementation.",
     "",
     "A filing location or local procedure question is answered by the clerk of the court in the circuit of arrest. A disputed legal or evidentiary issue requires counsel.",
@@ -623,10 +717,29 @@ function writeJson(relative, value) {
   fs.writeFileSync(target, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function readAuthoritativeComponentIds() {
+  const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, AUTHORITATIVE_MANIFEST), "utf8"));
+  const packetSet = manifest.packetSets.find((candidate) => candidate.packetSetId === FAMILY_ID);
+  assert.ok(packetSet, `authoritative packet set missing: ${FAMILY_ID}`);
+  return packetSet.components
+    .slice()
+    .sort((a, b) => a.order - b.order)
+    .map((component) => component.officialFormId ?? component.componentId);
+}
+
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+  const authoritativeComponents = readAuthoritativeComponentIds();
+  assert.deepEqual(
+    COMPONENTS,
+    authoritativeComponents,
+    "the local packet must match the authoritative fl-trafficking-set component identities and order"
+  );
   const maps = COMPONENTS.map(componentMap);
+  const rbf = requiredItems(maps);
+  const participantInstructions = buildParticipantInstructions(rbf);
+  const filingInstructions = buildFilingInstructions();
   if (checkOnly) {
     return {
       familyId: FAMILY_ID,
@@ -656,10 +769,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     packet.setProducer("RCAP census-v1 artifact renderer");
     const pageManifest = [];
     for (const component of COMPONENTS) {
-      const body = composedBody(component, facts);
+      const body = composedBody(component, facts, { participantInstructions, filingInstructions });
       assert.ok(body.includes(facts["participant.full_legal_name"]), `${component} must include the participant name`);
       assert.ok(body.includes(ROUTE_KEY), `${component} must print the exact route key`);
-      const componentBytes = await renderDocument(body, TITLES[component]);
+      const componentBytes = await renderDocument(body, TITLES[component], {
+        keepRawLinesTogether: component === INSTRUCTIONS_COMPONENT
+      });
       const componentDocument = await PDFDocument.load(componentBytes, { ignoreEncryption: true, updateMetadata: false });
       const copied = await packet.copyPages(componentDocument, componentDocument.getPageIndices());
       for (const [index, page] of copied.entries()) {
@@ -699,6 +814,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
       components: COMPONENTS
     });
 
+    assert.deepEqual(
+      [...new Set(pageManifest.map((page) => page.component))],
+      authoritativeComponents,
+      `${fixture}: page manifest must contain every authoritative component exactly in order`
+    );
+
     if (!skipRaster) {
       const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
       const rasterDir = `${OUT}/raster/${fixture}`;
@@ -728,12 +849,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
     }
   }
 
-  const rbf = requiredItems(maps);
-  const participantInstructions = buildParticipantInstructions(rbf);
-  const filingInstructions = buildFilingInstructions();
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), participantInstructions);
   fs.writeFileSync(path.join(ROOT, OUT, "filing-instructions.md"), filingInstructions);
   const counted = countCompleteness(maps, proofs, participantInstructions);
+  for (const component of authoritativeComponents) {
+    const missingFrom = artifacts
+      .filter((artifact) => !artifact.pageManifest.some((page) => page.component === component))
+      .map((artifact) => artifact.fixture);
+    if (missingFrom.length === 0) continue;
+    counted.counters.requiredComponentsMissing += missingFrom.length;
+    counted.findings.push({
+      counter: "requiredComponentsMissing",
+      component,
+      fixtures: missingFrom,
+      why: "an authoritative required component appears on no page in the named fixture"
+    });
+  }
   const allNineZero = PASS_COUNTERS.every((counter) => counted.counters[counter] === 0);
 
   writeJson(`${OUT}/packet-set-manifest.json`, {
@@ -747,7 +878,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     components: COMPONENTS.map((component, index) => ({
       componentId: component,
       title: TITLES[component],
-      codifiedSubdivision: SUBDIVISIONS[component],
+      codifiedSubdivision: SUBDIVISIONS[component] ?? null,
+      role: COMPONENT_ROLES[component],
+      outputStrategy: OUTPUT_STRATEGIES[component],
       order: index + 1,
       required: true
     })),
@@ -907,6 +1040,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
         treatment: "The exact assigned component IDs remain unchanged for queue identity, and each composed page prints its current human-trafficking caption and Rule 3.9895 subdivision. No registry or central source identity was edited."
       },
       {
+        finding: "The authoritative fl-trafficking-set manifest requires five components, including a certificate of service and process instructions after the three codified rule instruments.",
+        treatment: "The builder asserts that exact authoritative identity and order, renders all five components, binds the participant and filing guidance into the instructions component, and leaves all service-event facts blank for completion only after any clerk-directed delivery actually occurs."
+      },
+      {
         finding: "No source binary exists or is required for these court-promulgated rule-text instruments.",
         treatment: "The family binds zero binaries, records acquisitionCommissioned false, and composes only within its owned overlay directory."
       },
@@ -932,11 +1069,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
     counselQuestionsRaised: [
       "Confirm the assigned Rule 3.989 petition/order catalog IDs are correctly rendered with the current Rule 3.9895(a) and (c) human-trafficking captions pending a central identity correction.",
       "Confirm the proof-path instructions accurately describe the effect of official documentation and the burden when none is attached.",
-      "Confirm the no-fee and single-petition instructions and whether any statewide or local service step must be added.",
+      "Confirm the no-fee and single-petition instructions and the certificate's clerk-confirmed treatment given the committed record's silence about a statewide service recipient, destination, method, or timing rule.",
       "Confirm that the excluded-offense check and the listed self-help handoffs are sufficiently prominent."
     ],
     mattersForTheReviewersAttention: [
       "The proposed order is visibly marked unexecuted and every court-owned field is protected.",
+      "The five required component identities appear in authoritative order; the certificate supplies no recipient, method, destination, date, signature, or other future service fact.",
       "Every required-before-filing label appears verbatim in participant-instructions.md.",
       "The build makes no source-authority, live, generation, or commercial-release claim."
     ]
