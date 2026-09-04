@@ -61,7 +61,7 @@ const SPEC = {
       "mustContain": [
         "\"id\": \"juvenile-expungement-under-10-del-c-1017-1019-1017a\"",
         "None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.",
-        "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if"
+        "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees."
       ]
     },
     {
@@ -99,7 +99,7 @@ const SPEC = {
         "",
         "The compiled Delaware profile records how this route works: \"None (automatic, § 4373A) Mandatory-eligible cases are expunged by the SBI monthly with no filing.\"",
         "",
-        "It records what to do when it has not happened: \"SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if\"",
+        "It records what to do when it has not happened: \"SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees.\"",
         "",
         "The committed route contract records the same boundary: \"§ 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect.\"",
         "",
@@ -236,7 +236,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "Nothing in this route is a court filing, so no filing fee arises from it. What the compiled record does state about money is this: \"SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if\" — so the SBI is the office that tells you whether any fee applies, and 302-739-5884 is the number the record gives for reaching it.",
+        "Nothing in this route is a court filing, so no filing fee arises from it. What the compiled record does state about money is this: \"SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees.\" The record states no amount, so the SBI is the office that tells you whether any fee applies, and 302-739-5884 is the number the record gives for reaching it.",
         "",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
@@ -322,7 +322,7 @@ const SPEC = {
     ],
     [
       "The compiled Delaware profile",
-      "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if"
+      "SBI mandatory-expungement request Contact the SBI (302-739-5884) to request mandatory expungement; if eligible, SBI sends a letter with instructions and any fees."
     ],
     [
       "The committed route contract",
@@ -457,7 +457,7 @@ function resolveRecords() {
 
 /* ---- deterministic composed-page rendering ---------------------------------- */
 function sanitizePdfText(text) {
-  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+  return text.replaceAll("**", "").replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
     .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
     .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
