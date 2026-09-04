@@ -75,5 +75,14 @@ const FAMILY = makeAgencyGuidanceFamily({
   ]
 });
 
+// This guide's ordinary spacer lines pushed one required-fact triplet across a
+// page boundary: the label, dotted response, and check authority did not travel
+// together.  Compact only this family's discretionary blank lines.  Every
+// substantive line remains byte-for-byte the same before the shared renderer
+// wraps it, and both fixtures fit on one page.
+const standardComposedBody = FAMILY.composedBody;
+FAMILY.composedBody = (componentId, facts) => standardComposedBody(componentId, facts)
+  .replace(/\n{2,}/g, "\n");
+
 export { FAMILY };
 runIfMain(FAMILY, import.meta.url);
