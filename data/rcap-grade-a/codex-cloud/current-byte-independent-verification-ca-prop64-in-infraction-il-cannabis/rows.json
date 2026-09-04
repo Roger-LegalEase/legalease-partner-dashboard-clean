@@ -140,8 +140,8 @@
       "sourceBinding": {
         "receiptSourceCount": 6,
         "receiptAllSourcesExact": true,
-        "independentCurrentByteRehash": "BLOCKED_ENVIRONMENT",
-        "blocker": "The only located held Illinois source path is cloud-backed and timed out on read; with disk critically constrained, no duplicate source corpus was staged. Exact receipt digests remain pinned but were not independently recomputed in this reread."
+        "independentCurrentByteRehash": "NOT_MEASURABLE_HERE",
+        "blocker": "The only located held Illinois source path is cloud-backed and timed out on read; with disk critically constrained, no duplicate source corpus was staged. Exact receipt digests remain pinned, but SOURCE_IDENTITY was not independently measured in this reread."
       },
       "artifacts": [
         {"fixture": "canonical", "sha256": "193f946a37e357f34e4453c30efaa00913026e972b7f02c1da2c620ac86544de", "byteLength": 1904312, "pageCount": 11, "rehashMatch": true},
@@ -151,7 +151,7 @@
       "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true},
       "proofObligations": {
         "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The packet and instructions identify only the eligible Illinois misdemeanor/Class 4 cannabis conviction vacatur-and-expungement route."},
-        "SOURCE_IDENTITY": {"measured": true, "result": "FAIL", "finding": "The receipt pins six exact official-form sources, but the current held files could not be independently read and rehashed in this environment; source identity is therefore not independently established."},
+        "SOURCE_IDENTITY": {"measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "The receipt pins six exact official-form sources, but the current held files could not be independently read and rehashed in this environment; no substantive SOURCE_IDENTITY verdict is made here."},
         "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "All six declared components are included: motion, cannabis continuation, official instructions, notice, notice continuation, and proposed order."},
         "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "Focused completeness reports 62/422 writes and zero missing required facts; every claimed write is present in finalized bytes."},
         "REQUIRED_BEFORE_FILING": {"measured": true, "result": "FAIL", "finding": "The controlling manifest requires the Illinois State Police Access and Review transcript, a case-number compare-and-correct step, and the ISP $60 order-processing disclosure. Current instructions substitute a generic certified disposition and omit those exact actions and cost."},
@@ -166,9 +166,9 @@
         "SERVICE": {"measured": true, "result": "FAIL", "finding": "The controlling manifest states clerk service under section 5.2(i)(3), while current instructions merely tell the participant to confirm notice recipients with the clerk and do not surface that service model."},
         "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Nonmatching route, incomplete sentence, conflicting records, State's Attorney opposition, contested hearing, and collateral consequences all trigger explicit stops."}
       },
-      "failedProofObligations": ["SOURCE_IDENTITY", "REQUIRED_BEFORE_FILING", "PAGE_ORDER", "FEE_AND_WAIVER", "SERVICE"],
-      "failedObligationNames": ["SOURCE_IDENTITY", "REQUIRED_BEFORE_FILING", "PAGE_ORDER", "FEE_AND_WAIVER", "SERVICE"],
-      "unmeasuredObligations": []
+      "failedProofObligations": ["REQUIRED_BEFORE_FILING", "PAGE_ORDER", "FEE_AND_WAIVER", "SERVICE"],
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING", "PAGE_ORDER", "FEE_AND_WAIVER", "SERVICE"],
+      "unmeasuredObligations": ["SOURCE_IDENTITY"]
     }
   ],
   "packetOrRasterBytesModified": 0,
