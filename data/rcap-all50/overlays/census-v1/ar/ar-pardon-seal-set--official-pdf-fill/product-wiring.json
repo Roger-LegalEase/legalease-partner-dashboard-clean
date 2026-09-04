@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-packet-family-product-wiring/v1",
+  "familyId": "ar-pardon-seal-set",
+  "worklistGroupId": "ar-pardon-seal-set",
+  "routeKeys": [
+    "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+  ],
+  "packetSetId": "ar-pardon-seal-set",
+  "implementationStrategy": "official_pdf_fill",
+  "renderStrategy": "flat_overlay_draw",
+  "documents": [
+    {
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL",
+      "documentRole": "PETITION",
+      "officialTitle": "Petition to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "revision": "REV-2022-03-08",
+      "sha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+      "ownership": "participant_completed",
+      "order": 1
+    },
+    {
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL",
+      "documentRole": "PROPOSED_ORDER",
+      "officialTitle": "Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "revision": "REV-2022-03-07",
+      "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+      "ownership": "court_issued_order",
+      "order": 2
+    }
+  ],
+  "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/production-field-map.json",
+  "fieldCensus": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/field-census.census-v1.json",
+  "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/source-receipt.json",
+  "localFilingVariation": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/local-filing-variation.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRouteOpened": false,
+  "fulfilmentRecordCreated": false,
+  "outputApprovalGranted": false,
+  "packetFamilyId": null,
+  "packetFamilyIdNote": "Left null. A packet-family identity is a route identity, and route identities are not this family's to mint. The committed route record still carries packetFamilyId null and unit-packet-identity-status 'not recorded'.",
+  "routeAvailabilityUnchanged": {
+    "committedState": "unit:ar-pardon-seal-stage-2:available=true",
+    "thisBuildChangesIt": false,
+    "why": "Availability was already true in the committed record before this build and is untouched by it. It is not an output approval and this build does not treat it as one."
+  },
+  "whatWouldOpenTheRoute": [
+    "output-level legal approval for this exact packet family and route scope",
+    "counsel's answer to the two questions this build records rather than resolves: the order's A.C.A. § 14-90-1411 citation, and whether the charged and convicted offence blanks may ever be filled from a single held charge fact",
+    "human independent visual review of the rendered pages",
+    "a Grade-A fulfilment record keyed to the exact route and packet family — which is the ONLY thing that creates commercial authority, and which this build does not and cannot create"
+  ],
+  "paymentOrSponsorshipTouched": false,
+  "productionConfigurationTouched": false,
+  "sharedManifestsTouched": false,
+  "otherFamiliesTouched": false,
+  "legacyGeneratorsTouched": false,
+  "liveRcapRoutesTouched": false
+}
