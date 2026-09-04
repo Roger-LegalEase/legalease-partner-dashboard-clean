@@ -336,11 +336,11 @@ const declaredFixture = (dir, root, fixture, pdfs) => {
 };
 
 const pickFixture = (dir, root, fixture, pdfs) => {
-  const declared = declaredFixture(dir, root, fixture, pdfs);
-  if (declared) return { name: declared, basis: `declared by the builder as the ${fixture} artifact in reports/rendered-artifacts.json`, why: null };
-
   const exact = `${fixture}.pdf`;
   if (pdfs.includes(exact)) return { name: exact, basis: "the assembled packet, matched by exact name", why: null };
+
+  const declared = declaredFixture(dir, root, fixture, pdfs);
+  if (declared) return { name: declared, basis: `declared by the builder as the ${fixture} artifact in reports/rendered-artifacts.json`, why: null };
 
   const matches = pdfs.filter((x) => x.includes(fixture));
   if (matches.length === 1) return { name: matches[0], basis: "the only PDF in the directory carrying this fixture name", why: null };
@@ -470,6 +470,13 @@ for (const f of master.families) {
   const pdfsHere = found.pdfs;
   const coverage = coverageOf(pdfsHere, "canonical", documents.filter((x) => x.role === "canonical").map((x) => x.name));
   const primaryCanonical = documents.find((d) => d.role === "canonical" && d.name === canonical);
+  if (!primaryCanonical) {
+    notEligible.push({
+      familyId: f.familyId,
+      why: [`the selected canonical fixture ${canonical} is not present in the declared canonical document set`],
+    });
+    continue;
+  }
   rows.push({
     familyId: f.familyId,
     packetCommitSha: packetCommit,

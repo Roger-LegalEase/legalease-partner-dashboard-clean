@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `56de5d045e170c7b2db04894ce3b18935c3e05d6` (or the newer dispatch base)
+**Minimum required ancestor:** `7fdbcb4acf9d49b42a7b3b309f81923c8267fabd` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request' \
+  --family 'id_set_aside_dismissal-set' \
   --codex-cloud \
-  --minimum-captain-sha 56de5d045e170c7b2db04894ce3b18935c3e05d6
+  --minimum-captain-sha 7fdbcb4acf9d49b42a7b3b309f81923c8267fabd
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,14 +38,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 7 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request'`
+- Assert only these 6 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'id_set_aside_dismissal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-seal-2yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-nv-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_exp_acquittal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'vt_seal_nonconviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-ok-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_nd_conviction_no_supervision-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'wv_conv_multiple_misdemeanors-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,15 +62,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 6 families
 
-- `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`
 - `id_set_aside_dismissal-set`
 - `al-diversion-set`
 - `il-seal-2yr-set`
-- `rcap-nv-custom-pleading`
-- `tx_exp_acquittal-set`
-- `vt_seal_nonconviction-set`
+- `rcap-ok-custom-pleading`
+- `tx_nd_conviction_no_supervision-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -84,19 +82,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
-- `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs`
+- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-id_set_aside_dismissal-set.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
-- `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
-- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
-- `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
+- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
 
 ## Never write here
 

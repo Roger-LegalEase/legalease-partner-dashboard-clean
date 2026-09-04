@@ -689,6 +689,92 @@
       "centralStateEdits": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "wa_vac_felony-set",
+      "routeKey": "obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640",
+      "status": "COMPLETED",
+      "buildReturn": "BUILT_RASTER_PENDING",
+      "worker": "CODEX-CS1-FIX03-WA-SELF-HELP",
+      "lane": "FIX03",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "baseSha": "37cb6349cc6218eb1efc8abdecbba472bc409dbe",
+      "branch": "codex/cs1-fix03-wa-self-help-37cb",
+      "selectedIndependentVerdict": {
+        "lane": "vf04",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "obligationsRepaired": [
+        "SELF_HELP_STOP"
+      ],
+      "repair": {
+        "trackId": "wa_vac_felony",
+        "registryField": "selfHelpStopConditions",
+        "expectedStops": 12,
+        "participantInstructionsStops": 12,
+        "canonicalPdftotextStops": 12,
+        "boundaryPdftotextStops": 12,
+        "ordinaryPossibleHearingTurnedIntoStop": false,
+        "note": "The family-owned builder regenerates and asserts the exact registry stop list, binds SELF_HELP_STOP in the family output, and carries the same participant guidance in both delivered packet PDFs."
+      },
+      "sourcePins": [
+        {
+          "formNumber": "CR-08.0900",
+          "sha256": "ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+          "byteLength": 133614,
+          "receiptAndCorpusIndexExact": true,
+          "mountedByteRehash": false
+        },
+        {
+          "formNumber": "CR-08.0920",
+          "sha256": "e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db",
+          "byteLength": 160031,
+          "receiptAndCorpusIndexExact": true,
+          "mountedByteRehash": false
+        }
+      ],
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "sha256": "585a7acff41609d13baeea797fd6477fc78bd6acb5c5888a05e640cb3f618c56",
+          "byteLength": 292450,
+          "pageCount": 7
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "bcc6e5e71d3afbae64f4f5dd41e32c20bc7f8f14e38c5bba59c26a49d801bce8",
+          "byteLength": 292743,
+          "pageCount": 7
+        }
+      ],
+      "determinism": {
+        "builds": 2,
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-wa_vac_felony-set.mjs --no-raster (two final consecutive runs; identical output)",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_felony-set => PASS_COMPLETE, 49/82 written, all nine counters zero",
+        "pdftotext exact normalized registry-stop assertions => participant-instructions 12/12, canonical 12/12, boundary 12/12"
+      ],
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ],
   "reportedNotRepaired": [

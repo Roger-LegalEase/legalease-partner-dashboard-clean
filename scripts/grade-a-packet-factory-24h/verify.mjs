@@ -712,6 +712,16 @@ function run() {
         verificationDispatchExists: hasVerificationDispatch(familyId)
       });
     };
+    const isAwaitingPostRepairRaster = (familyId, family, substantive) => {
+      const evidence = postVerdictRepairEvidence(familyId, family, substantive);
+      return family.state === "BUILT_RASTER_PENDING"
+        && Boolean(evidence.completion)
+        && evidence.artifactsChanged
+        && family.allNineCountersZero === true
+        && repairedFamilies.has(familyId)
+        && !liveRepairFamilies.has(familyId)
+        && !rasterPassed.has(familyId);
+    };
     /* This rule is global, not conditional on claim-gate history.  F31's
      * original loop intentionally visits only families that also carry a
      * BLOCKED_BEFORE_CLAIM row; using it as the sole enforcement point left
@@ -744,7 +754,8 @@ function run() {
       }
       if (substantive.verdict === "FAIL_REPAIR_REQUIRED"
         && fam.state !== "FAIL_REPAIR_REQUIRED"
-        && !isExecutablePostRepairReread(familyId, fam, substantive)) {
+        && !isExecutablePostRepairReread(familyId, fam, substantive)
+        && !isAwaitingPostRepairRaster(familyId, fam, substantive)) {
         claimRefusalProblems.push(`${familyId} has a current repair-required verdict but the queue calls it ${fam.state}`);
       } else if (substantive.verdict === "BLOCKED_SOURCE"
         && fam.state !== projectedSourceBlockState(fam, substantive)) {

@@ -1770,6 +1770,12 @@ for (const f of IN.scoreboard.familiesDetail) {
     && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
     && comp && nineZero
     && repairCompletionAnswersVerdict(independentReturn)
+    && familyMovedSinceVerdict(independentReturn, directory, buildScript)
+    && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
+  else if (independentFail
+    && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
+    && comp && nineZero
+    && repairCompletionAnswersVerdict(independentReturn)
     && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
