@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "191e10af5d1ef6869059d66bc8109dadf5b746c3",
+  "generatedAtCommit": "e3f485042a40fc7fa6bc4ca99466aa515573fa1f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4384,21 +4384,6 @@
         "ms-fel-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-fel-set",
-      "familyId": "ms-fel-set",
-      "itemId": null,
-      "familyIds": [
-        "ms-fel-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -6091,21 +6076,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:38:19.500Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "sc_17_22_950_summary-set",
-      "familyId": "sc_17_22_950_summary-set",
-      "itemId": null,
-      "familyIds": [
-        "sc_17_22_950_summary-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12795,7 +12765,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "3e971b0f3c3b9259496140553938fb8a76230535e36efd137bf6a1447b81c6ad",
+  "claimsDigest": "eb62756a86507affd0806a2ec3b6ce528de57101a3cce2b00311f9a6fa9a8120",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33866,6 +33836,22 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "withdrawnAt": "2026-09-04T08:50:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-fel-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T08:53:22Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "sc_17_22_950_summary-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-04T08:53:22Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
