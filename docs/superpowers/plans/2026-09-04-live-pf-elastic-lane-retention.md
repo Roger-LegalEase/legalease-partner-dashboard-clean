@@ -146,6 +146,11 @@ const PF_LANES = effectivePacketLaneCount(laneCount("build"), livePacketLane);
 
 Delete the later duplicate `livePacketLane` construction block. Keep the existing `pinnedFamilies`, bucket creation, and exact-lane placement unchanged.
 
+Update the generator's elasticity invariant so build capacity expects
+`PF_LANES - PF_LANES_BASE` extra lanes. This preserves the original eight-lane
+expectation when the queue threshold is active and permits only the exact
+additional lanes required by live grants when it is not.
+
 - [ ] **Step 4: Run the focused regression and syntax check**
 
 Run: `node scripts/grade-a-packet-factory-24h/test-live-pf-lane-retention.mjs && node --check scripts/grade-a-packet-factory-24h/generate.mjs`
@@ -187,7 +192,7 @@ node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs
 node scripts/grade-a-packet-factory-24h/test-independent-pass-raster-state.mjs
 node scripts/grade-a-packet-factory-24h/test-resolved-verifier-source-holds.mjs
 node scripts/grade-a-packet-factory-24h/test-stale-verification-claims.mjs
-node scripts/grade-a-route-artifact-scope/test-route-family-alias-regression.mjs
+node scripts/test-route-artifact-single-route-aliases.mjs
 ```
 
 Expected: every command exits 0; factory is 34/34, source conveyor is 23/23, lane contracts are 9/9, and the claim ledger reports OK.
