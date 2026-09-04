@@ -2,8 +2,8 @@
   "schemaVersion": "rcap-source-conveyor/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
   "question": "What actually stands between 47 buildable families and 346?",
-  "answer": "Source identity. 14 active obligations across 16 families; 4 have a recorded official URL and 10 need discovery first.",
-  "captainHead": "0be1fee769162cf337ad79daaa3d5a94d88b4f5e",
+  "answer": "Source identity. 14 active obligations across 11 families; 4 have a recorded official URL and 10 need discovery first.",
+  "captainHead": "425a04b69d534940c142a3bc84f4ff5e217bf217",
   "preservedFactoryLanes": {
     "rule": "The base thirty-two factory lanes are preserved. Nothing here rewrites PF01-PF16, FIX01-FIX04 or VF01-VF08, and SRC01-SRC04 keep their identifiers and take the reconciliation operation; live-grant-retained or elastic lanes may exist above that baseline.",
     "packetBuild": [
@@ -50,11 +50,7 @@
       "VF05",
       "VF06",
       "VF07",
-      "VF08",
-      "VF09",
-      "VF10",
-      "VF11",
-      "VF12"
+      "VF08"
     ],
     "heldInventoryReconciliation": [
       "SRC01",
@@ -900,12 +896,28 @@
   },
   "reconciliationScope": {
     "completedNonAcquisitionFamilyCount": 70,
-    "laterSourceBlockersKeptSeparate": [
-      "co_motion_seal_conviction-set",
-      "ga-jail-k2-set",
-      "ma-bmc-multi-set",
-      "vt_seal_under_25-set",
-      "wa_blake_vacatur_and_lfo_refund-set"
+    "laterSourceBlockersKeptSeparate": [],
+    "laterSourceBlockersSinceResolved": [
+      {
+        "familyId": "co_motion_seal_conviction-set",
+        "nowInState": "SOURCE_READY"
+      },
+      {
+        "familyId": "ga-jail-k2-set",
+        "nowInState": "BUILT_RASTER_PENDING"
+      },
+      {
+        "familyId": "ma-bmc-multi-set",
+        "nowInState": "LEGAL_BLOCKED"
+      },
+      {
+        "familyId": "vt_seal_under_25-set",
+        "nowInState": "BUILT_RASTER_PENDING"
+      },
+      {
+        "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+        "nowInState": "SOURCE_READY"
+      }
     ],
     "manualAcquisitionCohortUntouchedCount": 0
   },

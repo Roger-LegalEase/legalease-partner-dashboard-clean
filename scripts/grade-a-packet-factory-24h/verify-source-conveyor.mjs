@@ -428,13 +428,23 @@ function run() {
   if (perLaneCountSum !== releasedIds.size) closureProblems.push(`the per-lane counts sum to ${perLaneCountSum} and name ${releasedIds.size} distinct families, so a family is counted twice`);
   if (unaccounted.length) closureProblems.push(`${unaccounted.length} source-blocked famil(ies) are neither released nor recorded as split: ${unaccounted.slice(0, 3).join(", ")}`);
   if (doubleClaimed.length) closureProblems.push(`${doubleClaimed.length} famil(ies) are both released and deferred: ${doubleClaimed.slice(0, 3).join(", ")}`);
-  if (preservedSeparate.size !== 5 || [...preservedSeparate].some((f) => !sourceBlocked.has(f))) {
-    closureProblems.push(`${preservedSeparate.size} later blockers are declared separate, and ${[...preservedSeparate].filter((f) => !sourceBlocked.has(f)).length} are not currently SOURCE_BLOCKED`);
+  /*
+   * The count used to be pinned at five, which was true on the day it was
+   * written and became false the moment any of those five was resolved. All
+   * five have since moved on, so pinning the number asserted that work must not
+   * finish. What the carve-out actually has to satisfy is that everything in it
+   * is still blocked -- a resolved family is not being kept separate from
+   * anything -- and the size is then free to fall to zero, which is what a
+   * finished carve-out looks like.
+   */
+  const separateButNotBlocked = [...preservedSeparate].filter((f) => !sourceBlocked.has(f));
+  if (separateButNotBlocked.length) {
+    closureProblems.push(`${separateButNotBlocked.length} later blocker(s) are declared separate but are not currently SOURCE_BLOCKED: ${separateButNotBlocked.slice(0, 3).join(", ")}`);
   }
   const separatelyDoubleCounted = [...preservedSeparate].filter((f) => releasedIds.has(f) || advancedIds.has(f));
   if (separatelyDoubleCounted.length) closureProblems.push(`${separatelyDoubleCounted.length} later blocker(s) are both separate and counted in this reconciliation`);
   if (sourceBlocked.size === 0) closureProblems.push("no source-blocked family, so this accounting has no subject");
-  check("C23", "every source-blocked family is released, split across lanes, or one of the five later blockers kept separate",
+  check("C23", "every source-blocked family is released, split across lanes, or a later blocker still kept separate",
     closureProblems.length === 0,
     `${sourceBlocked.size} blocked = ${releasedIds.size} released + ${advancedIds.size} split + ${preservedSeparate.size} later/separate; ${closureProblems.length} problem(s): ${closureProblems.slice(0, 2).join(" | ")}`);
 

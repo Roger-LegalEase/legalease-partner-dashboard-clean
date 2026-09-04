@@ -825,7 +825,21 @@ const conveyor = {
   },
   reconciliationScope: {
     completedNonAcquisitionFamilyCount: sourceReconciliation42.families?.length ?? 0,
-    laterSourceBlockersKeptSeparate: sourceReconciliation42.laterSourceBlockersKeptSeparate ?? [],
+    /*
+     * A carve-out only means something while the family it carves out is still
+     * blocked. All five of the original later blockers have since moved on --
+     * two to SOURCE_READY, two to BUILT_RASTER_PENDING, one to LEGAL_BLOCKED --
+     * and carrying them forward made C23 assert that five families were being
+     * kept separate from a reconciliation none of them is in any more. So the
+     * list is filtered against the live queue rather than hand-maintained: a
+     * resolved blocker is not a blocker kept separate, and the check stays
+     * honest without anyone remembering to prune it.
+     */
+    laterSourceBlockersKeptSeparate: (sourceReconciliation42.laterSourceBlockersKeptSeparate ?? [])
+      .filter((familyId) => familyById.get(familyId)?.state === "SOURCE_BLOCKED"),
+    laterSourceBlockersSinceResolved: (sourceReconciliation42.laterSourceBlockersKeptSeparate ?? [])
+      .filter((familyId) => familyById.get(familyId)?.state !== "SOURCE_BLOCKED")
+      .map((familyId) => ({ familyId, nowInState: familyById.get(familyId)?.state ?? null })),
     manualAcquisitionCohortUntouchedCount: sourceReconciliation42.manualAcquisitionCohortUntouchedCount ?? null
   },
   batchWorkflow: BATCH_WORKFLOW,

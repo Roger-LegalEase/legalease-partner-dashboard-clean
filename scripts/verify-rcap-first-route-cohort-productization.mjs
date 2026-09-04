@@ -814,7 +814,17 @@ assert.ok(ilLaunchRow, "the current launch graph lacks the Illinois pathway row"
 assert.equal(ilLaunchRow.paymentResult?.allowedAtTheEvaluator, false);
 assert.equal(ilLaunchRow.paymentResult?.sellableAtTheResolver, false);
 assert.equal(ilLaunchRow.paymentResult?.creditConsumable, false);
-assert.equal(ilLaunchRow.fulfillmentAuthorityAdmitted, false);
+/*
+ * Illinois now HAS an exact v2 fulfillment-authority record, so this asserts
+ * admission rather than its absence. Asserting false here was asserting that
+ * the record had not been written yet, which stopped being a safety property
+ * the moment the route was deliberately productized -- and it is not the
+ * property this block exists to defend. That property is the two lines below
+ * and the five above: the record admits fulfillment and opens nothing. A route
+ * is sellable only after the whole chain, and the record alone is one link.
+ */
+assert.equal(ilLaunchRow.fulfillmentAuthorityAdmitted, true,
+  "the Illinois launch row lost its fulfillment-authority admission");
 assert.equal(ilLaunchRow.operationallySellable, false);
 assert.equal(ilLaunchRow.allOperationalGatesMet, false);
 
