@@ -464,7 +464,8 @@ function run() {
     && conveyor.lanes.every((l) => fs.existsSync(path.join(ROOT, l.promptFile))),
     `${conveyor.totals.sourceLanes} lanes: ${conveyor.totals.disc} DISC, ${conveyor.totals.src} SRC, ${conveyor.totals.acq} ACQ, ${conveyor.totals.promo} PROMO`);
 
-  // And the thirty-two packet lanes are still there.
+  // And the base thirty-two factory lanes are still there; elastic or
+  // live-grant-retained lanes may exist above this required subset.
   const pf = active.assignments.filter((x) => x.lane === "packet-build").map((x) => x.assignmentId);
   const fix = active.assignments.filter((x) => x.lane === "rapid-repair").map((x) => x.assignmentId);
   const vf = active.assignments.filter((x) => x.lane === "independent-verification").map((x) => x.assignmentId);
@@ -476,7 +477,7 @@ function run() {
   ];
   const have = new Set([...pf, ...fix, ...vf, ...conveyor.lanes.map((l) => l.assignmentId)]);
   const missing = expected.filter((id) => !have.has(id));
-  check("C15", "the thirty-two current factory lanes are preserved",
+  check("C15", "the base thirty-two factory lanes are preserved",
     missing.length === 0,
     `${expected.length} expected, ${missing.length} missing: ${missing.slice(0, 5).join(", ")}`);
 

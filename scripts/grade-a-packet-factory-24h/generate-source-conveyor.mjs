@@ -799,7 +799,7 @@ const conveyor = {
   answer: `Source identity. ${totalObligations} obligations across ${countIn("SOURCE_BLOCKED")} families, and ${totalObligations - obligationsWithRecordedUrl} of them do not yet have an official URL to fetch.`,
   captainHead: ciState.captainHead,
   preservedFactoryLanes: {
-    rule: "The thirty-two packet lanes are preserved. Nothing here rewrites PF01-PF16, FIX01-FIX04 or VF01-VF08, and SRC01-SRC04 keep their identifiers and take the reconciliation operation.",
+    rule: "The base thirty-two factory lanes are preserved. Nothing here rewrites PF01-PF16, FIX01-FIX04 or VF01-VF08, and SRC01-SRC04 keep their identifiers and take the reconciliation operation; live-grant-retained or elastic lanes may exist above that baseline.",
     packetBuild: active.assignments.filter((x) => x.lane === "packet-build").map((x) => x.assignmentId),
     rapidRepair: active.assignments.filter((x) => x.lane === "rapid-repair").map((x) => x.assignmentId),
     independentVerification: active.assignments.filter((x) => x.lane === "independent-verification").map((x) => x.assignmentId),

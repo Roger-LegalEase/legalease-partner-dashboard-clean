@@ -51,4 +51,15 @@ assert.doesNotMatch(generatorSource, /finding: `Thirty-two lanes/);
 assert.doesNotMatch(generatorSource, /whyNotFewerBuilders: "The roster is kept at sixteen/);
 assert.match(generatorSource, /PF_LANES \+ VF_LANES \+ FIX_LANES/);
 
+const sourceConveyorSource = fs.readFileSync(
+  path.join(path.dirname(fileURLToPath(import.meta.url)), "generate-source-conveyor.mjs"),
+  "utf8"
+);
+const sourceConveyorVerifier = fs.readFileSync(
+  path.join(path.dirname(fileURLToPath(import.meta.url)), "verify-source-conveyor.mjs"),
+  "utf8"
+);
+assert.doesNotMatch(sourceConveyorSource, /The thirty-two packet lanes are preserved/);
+assert.doesNotMatch(sourceConveyorVerifier, /the thirty-two current factory lanes are preserved/);
+
 console.log("OK live PF lane-retention regression");
