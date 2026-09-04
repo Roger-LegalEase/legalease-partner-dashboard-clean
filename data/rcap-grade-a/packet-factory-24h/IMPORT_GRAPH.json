@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 210,
+  "scriptsScanned": 212,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -315,7 +315,6 @@
       "importedBy": [
         "build-census-v1-il-exp-precompletion-set.mjs",
         "build-census-v1-il-exp-qualprob-set.mjs",
-        "build-census-v1-il-exp-supervision-set.mjs",
         "build-census-v1-il-seal-2yr-set.mjs",
         "build-census-v1-il-seal-3yr-set.mjs",
         "build-census-v1-il-seal-edu-set.mjs",
@@ -334,16 +333,6 @@
     },
     {
       "script": "build-census-v1-il-exp-qualprob-set.mjs",
-      "imports": [
-        "build-census-v1-il-exp-pardon-set.mjs"
-      ],
-      "transitiveImports": [
-        "build-census-v1-il-exp-pardon-set.mjs"
-      ],
-      "importedBy": []
-    },
-    {
-      "script": "build-census-v1-il-exp-supervision-set.mjs",
       "imports": [
         "build-census-v1-il-exp-pardon-set.mjs"
       ],
@@ -918,7 +907,6 @@
       "importers": [
         "il-exp-precompletion-set",
         "il-exp-qualprob-set",
-        "il-exp-supervision-set",
         "il-seal-2yr-set",
         "il-seal-3yr-set",
         "il-seal-edu-set",
