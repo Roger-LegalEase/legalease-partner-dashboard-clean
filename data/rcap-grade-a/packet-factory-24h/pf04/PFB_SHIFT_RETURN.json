@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-shift-return/v1",
+  "whatThisFileIs": "One packet-build shift's return for lane PF04. It is DELIBERATELY NOT rows.json: this lane directory already carries rows.json from the FABLE-PD shift at base 472444b86139bccc35dac4ee17cc01148f1064d6, whose eight rows describe a different set of families. Overwriting that would silently delete a completed return, so this shift's rows are recorded beside it under their own name and the Captain decides how to integrate them.",
+  "assignmentId": "PF04",
+  "workerId": "PFB-PACKET-BUILD-COHORT",
+  "lane": "packet-build",
+  "cohort": "PF04 / PF05 / PF06, one worker",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "d6f430105dfc942be321b64243a77b666992547a",
+  "workerBranch": "worktree-agent-a0f336fc7747058d8",
+  "pushed": false,
+  "environment": {
+    "container": "Claude Code isolated git worktree, not Codex Cloud",
+    "mountedSourceCustodies": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "unmountedSourceCustodies": [
+      "d_source_packs (private/source-imports/rcap-d-source-packs-2026-08-12)",
+      "nationwide_recovery_pool_2026_09_02 (private/source-imports/Nationwide_Recovery_Pool_2026-09-02)",
+      "the operational Nationwide tree (private/Nationwide Record Clearing)",
+      "the governed google-drive custody named by two acquisition returns"
+    ],
+    "rasterizer": "no browser resolvable in this container; every built family is BUILT_RASTER_PENDING and the render belongs to .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes hashed here",
+    "laneGate": {
+      "command": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable",
+      "theOneFailingCheck": "corpus_matches_committed_index \u2014 1 absent, 0 mismatched of 24 sampled",
+      "whatIsActuallyAbsent": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf. Fourteen entries of the committed index carry master_library custody with legacy 'LegalEase <State>/' paths that the mounted Edition 1 library, which files everything under STATES/<XX>/, does not contain. This is a property of the committed index at the dispatched base commit and of the pinned library edition, not of this container: it reproduces for any worker mounting Edition 1.",
+      "whyTheLaneStillRan": "The failing check is index/library drift on fourteen rows for AL, CA and MO legacy paths. It touches no family of this cohort, and every family's own row gate was run separately and is recorded per row below. Reported for the Captain; this lane changed neither the index nor the library."
+    }
+  },
+  "familiesAssigned": 5,
+  "rows": [
+    {
+      "itemId": "mt_deferred_dismissal-set",
+      "status": "STOPPED",
+      "stopClass": "OFFICIAL_SOURCE_IS_NOT_A_PDF_FOR_THE_DECLARED_STRATEGY",
+      "sourceBinding": "BINDS. official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX resolves to sha256 4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7 at STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx and hashes byte-exact.",
+      "blocker": "The committed corpus index records this binary as assetFormat 'docx' with structuralClassObserved 'not_a_pdf_docx', pageCount null and no AcroForm. The committed packet-set manifest names it as a REQUIRED primary_filing component with outputStrategy official_pdf_fill. A .docx cannot be measured, overlaid, or copied into a PDF packet by the official-form finalizer, and rendering the other four components while silently dropping this one would ship a packet whose own manifest names a required document it does not contain.",
+      "whatWouldUnblockIt": "A decision that names the treatment: either an official PDF edition of the Montana DOJ CRISS Expungement/Removal Request Form is acquired and bound, or the manifest component is re-declared as process_guidance so the CRISS submission is described rather than delivered. Both are decisions this lane does not own.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "ar-veterans-court-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "official-form:ACIC-ORDER-VETERANS-COURT is pinned at sha256 dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5 to the governed remote custody path 'google-drive:1fd3o7fV3S0BUug-aPRPd4NmPbe0_LDvX' (evidence data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json). No local bytes in this container hash to that digest. Its companion, official-form:ACIC-PETITION-VETERANS-COURT, binds byte-exact in the Master Library.",
+      "note": "The family's MASTER_QUEUE custodyClass is SOURCE_IDENTITY_UNRESOLVED with commissionAcquisition true, and the source-custody reconciliation still records the order as unresolved. The preflight's family_sources_bind reports 1/1 for this family because it filters custody rows to those already resolved, so a passing row gate here is not evidence that both named official forms are held.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "ky_nonconviction_expungement-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "official-form:AOC-497.2 is pinned at sha256 080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4 to 'LegalEase Kentucky/497.2.pdf', one of the fourteen legacy master_library paths the mounted Edition 1 library does not carry. No file in the mounted corpus hashes to that digest. AOC-497 binds byte-exact.",
+      "note": "Same root cause as the lane gate's corpus_matches_committed_index failure.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "mn_petition_609a02_subd3-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "Four of five sources \u2014 official-form:EXP101, EXP102, EXP104 and EXP105 \u2014 are pinned to paths under 'private/Nationwide Record Clearing/LegalEase Minnesota/', the OPERATIONAL Nationwide tree, which no release carries and which this container does not mount. Their digests match nothing on disk. official-form:FEE102 binds byte-exact in the Master Library.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "wv_conv_nonviolent_felony-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "official-form:SCA-C907 is pinned at sha256 2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222 to 'LegalEase West Virginia/SCA-C907.pdf'. The committed corpus index carries ZERO entries with formNumber SCA-C907, and the mounted library's WV packet-forms directory holds only SCA-C903, SCA-C906 and SCA-C912. The felony petition is absent from the corpus entirely, not merely from this container.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    }
+  ],
+  "rowsReturned": 5,
+  "familiesCompleted": 0,
+  "familiesStopped": 5,
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "fixturePdfsOfOtherFamiliesChanged": 0,
+  "claimsHeld": "The claim on mt_deferred_dismissal-set remains asserted to PF04, because the family stopped rather than completed and the Captain releases a stopped family centrally after reading the stop. No claim was asserted on the four BLOCKED_SOURCE families beyond the read-only source binding test, which reads no family artifact.",
+  "claimsHeldAtEndOfShift": [
+    "mt_deferred_dismissal-set"
+  ]
+}

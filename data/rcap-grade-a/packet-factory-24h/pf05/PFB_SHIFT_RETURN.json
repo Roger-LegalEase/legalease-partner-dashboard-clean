@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-shift-return/v1",
+  "whatThisFileIs": "One packet-build shift's return for lane PF05. It is DELIBERATELY NOT rows.json: this lane directory already carries rows.json from an earlier shift describing two different families, and overwriting it would silently delete a completed return.",
+  "assignmentId": "PF05",
+  "workerId": "PFB-PACKET-BUILD-COHORT",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "d6f430105dfc942be321b64243a77b666992547a",
+  "workerBranch": "worktree-agent-a0f336fc7747058d8",
+  "pushed": false,
+  "familiesAssigned": 6,
+  "rows": [
+    {
+      "itemId": "nc_146_acquittal_petition-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
+      "implementationStrategy": "official_pdf_fill",
+      "documentsBound": [
+        {
+          "sourceId": "official-form:AOC-CR-288",
+          "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "custody": "master_library"
+        },
+        {
+          "sourceId": "official-form:AOC-CR-288-INSTRUCTIONS",
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+          "custody": "master_library"
+        }
+      ],
+      "committedRecordsBound": 2,
+      "anchorStatementsVerified": 10,
+      "terminalFields": 128,
+      "written": 6,
+      "requiredBeforeFilingDisclosed": 20,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f3859799a675bf55b98239d0f2c9128ce0a003d4dc1fb9b7c787897549741151",
+          "byteLength": 487245,
+          "pageCount": 3
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e13fb2da03898b7e54f04263112160cb827afb9eafe92fa595e4c4965e300b09",
+          "byteLength": 487337,
+          "pageCount": 3
+        }
+      ],
+      "determinism": "BYTE_IDENTICAL_ON_REBUILD_FROM_UNCHANGED_INPUTS",
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_acquittal_petition-set \u2192 PASS_COMPLETE, 6/128 written, all nine counters zero",
+      "headlineFinding": "A PROTECTED MIS-WRITE REFUSED BY NAME. AOC-CR-288's identifier strip prints Date Of Birth, Full Social Security No. and Age At Time Of Offense in one run and the shared caption capture reads it one blank out of step, so the field named SNN \u2014 the FULL SOCIAL SECURITY NUMBER blank \u2014 is captured with the caption 'Date Of Birth' and the shared semantics bind participant.date_of_birth to it and WRITE IT THERE. SNN is declared unwritable by role. Reported for the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs.",
+      "commit": "db32b0c1f",
+      "claimReleased": true
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "status": "NOT_REACHED_THIS_SHIFT",
+      "sourceBinding": "ALL SEVEN BIND. Every source is pinned to a d_source_packs path this container does not mount, and every one of the seven digests is matched byte-exact by a file in the mounted Master Library. The family is buildable here.",
+      "whyNotReached": "Seven official documents and ten manifest components \u2014 the largest family in this cohort \u2014 and the shift ended before it was started. Nothing of its overlay directory was created or touched.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null,
+      "claimReleased": true,
+      "claimNote": "Released. The family was never started and its overlay directory does not exist, so there is nothing for the Captain to integrate before another lane may take it; holding a claim a finished worker will not use is a silent blocker."
+    },
+    {
+      "itemId": "tx_nd_veterans_court-set",
+      "status": "NOT_REACHED_THIS_SHIFT",
+      "sourceBinding": "ALL THREE BIND. The two OCA model documents are pinned to d_source_packs paths and match byte-exact in the Master Library; the Statement of Inability to Afford Payment of Court Costs binds in the human_source_returns custody, which IS mounted here. Note that lane PF04's earlier FABLE-PD return recorded this family STOPPED BLOCKED_SOURCE on that Statement; in this container it binds.",
+      "whyNotReached": "Started and measured but not built. Nothing of its overlay directory was created or touched.",
+      "overlayDirectoryTouched": false,
+      "measuredFindingsForWhoeverBuildsIt": [
+        "OCA model PETITION (sha 7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d), 14 fields over 6 pages. The shared semantics write 6 correctly: Name1 and Name2 (petitioner), Address, Telephone Number, County, and Cause No \u2014 which is item (7), the CRIMINAL cause number, and NOT the caption's Cause No. (1), for which the form carries no field at all. Two controls need classification: Dropdown6 at item (9), options 'is' / 'is not', for whether evidence of program completion is attached; and radio Group7 at item (10), Choice1 / Choice2, for whether the required filing fees or a Statement of Inability is included. Both are the participant's, not the route's.",
+        "OCA model ORDER (sha 2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f), 15 fields over 3 pages. It is the PROPOSED order: Judge Presiding is already refused as court-owned, and the four Check Box fields and three date fields are the court's.",
+        "STATEMENT OF INABILITY (sha bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d), 132 fields over 12 bilingual pages. RUN AGAINST THE SHARED SEMANTICS WITH NO REFUSALS SUPPLIED IT PRODUCES AT LEAST EIGHT MIS-WRITES, and any lane that builds this family must declare them unwritable: the participant's own name is written into ALL FIVE household-member rows ('Name NombreRow1' through 'Name NombreRow5', whose neighbouring columns are Age and Relationship to me); participant.zip is written into 'Mailing  Direcci\u00f3n Postal'; participant.state is written into 'County state', which is the 'signed in ___ County, State of ___' line of the unsworn declaration; and participant.date_of_birth is written into 'Month / Mes', which is the MONTH OF THE DECLARATION DATE and not a birth month. Each of the last three is a false statement on a document signed under penalty of perjury, and the household rows put one person's name in five places that ask for other people."
+      ],
+      "counters": null,
+      "commit": null,
+      "claimReleased": true,
+      "claimNote": "Released. The family was never started and its overlay directory does not exist, so there is nothing for the Captain to integrate before another lane may take it; holding a claim a finished worker will not use is a silent blocker."
+    },
+    {
+      "itemId": "tx_nd_veterans_reemployment-set",
+      "status": "NOT_REACHED_THIS_SHIFT",
+      "sourceBinding": "ALL THREE BIND, by the same route as tx_nd_veterans_court-set: the two OCA model documents for Section 411.0729 match byte-exact in the Master Library, and the same Statement of Inability binary is shared with the veterans-court family.",
+      "whyNotReached": "Not started. Nothing of its overlay directory was created or touched.",
+      "overlayDirectoryTouched": false,
+      "note": "This family and tx_nd_veterans_court-set share the Statement of Inability binary exactly, so the eight mis-writes recorded on that document under tx_nd_veterans_court-set apply here identically.",
+      "counters": null,
+      "commit": null,
+      "claimReleased": true,
+      "claimNote": "Released. The family was never started and its overlay directory does not exist, so there is nothing for the Captain to integrate before another lane may take it; holding a claim a finished worker will not use is a silent blocker."
+    },
+    {
+      "itemId": "nc_auto_146_a4_agency_followup-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "Its single source, official-form:AOC-G-260, is pinned at sha256 cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817 to 'LegalEase North Carolina/AOC-G-260_Rev-5-24.pdf', one of the fourteen legacy master_library paths the mounted Edition 1 library does not carry. No file in the mounted corpus hashes to that digest.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    },
+    {
+      "itemId": "ut_pet_cannabis-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "blocker": "official-form:1023EX, the Order on a cannabis-possession expungement, is pinned at sha256 24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a to 'LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf' and matches nothing in the mounted corpus. The family's other four sources \u2014 1003EX, 1044XX, 1146XX and 1148XX \u2014 all bind byte-exact.",
+      "note": "Four of five held and the missing one is the proposed ORDER, which is the document the court signs. A petition packet shipped without it would be missing the instrument the relief is granted on.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "commit": null
+    }
+  ],
+  "rowsReturned": 6,
+  "familiesCompleted": 1,
+  "familiesStopped": 2,
+  "familiesNotReached": 3,
+  "overlayDirectoriesTouchedByAStoppedOrUnreachedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "fixturePdfsOfOtherFamiliesChanged": 0,
+  "claimsHeldAtEndOfShift": []
+}
