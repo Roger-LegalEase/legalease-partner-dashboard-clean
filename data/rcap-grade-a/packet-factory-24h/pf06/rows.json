@@ -93,6 +93,27 @@
       "whoShouldOwnIt": "whoever owns the corpus releases"
     }
   ],
+  "currentRun": {
+    "workerId": "CODEX-PF06-2927",
+    "workerBranch": "codex/pf06-full-2927",
+    "shiftBaseSha": "2927edb21a04c95a33ca9d4565cadfad270679f1",
+    "familiesAssigned": 5,
+    "rowsReturned": 1,
+    "familiesCompleted": [
+      "tx_nd_probation_misdemeanor-set"
+    ],
+    "familiesStopped": [],
+    "familiesRemaining": [
+      "al-trafficking-set",
+      "mi_setaside_trafficking-set",
+      "nc_145_5_felony-set",
+      "ne-seal-pardoned-set"
+    ],
+    "rasterState": "BUILT_RASTER_PENDING",
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
   "rows": [
     {
       "itemId": "id_isp_expungement-set",
@@ -231,20 +252,55 @@
     },
     {
       "itemId": "tx_nd_probation_misdemeanor-set",
-      "status": "STOPPED",
-      "verdict": "BLOCKED_SOURCE",
-      "overlayDirectoryTouched": false,
-      "claim": "CLAIM_OK PF06 tx_nd_probation_misdemeanor-set",
-      "rowGateResult": "FAIL family_sources_bind — 1 of 3 source(s) do not bind",
-      "sourceThatDidNotBind": {
-        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-        "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
-        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
-        "custody": "human_source_returns"
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
+      "claim": "CLAIM_OK PF06 tx_nd_probation_misdemeanor-set (packet-build, grant set 666a78394456c599)",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable; family_sources_bind 3/3 exact",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
       },
-      "why": "The same custody as the other three Texas families.",
-      "claimHeld": true,
-      "whyTheClaimIsHeld": "The source may be mounted in another environment; the family is not finished here."
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "c2811db63f9e2d180e2dccc4745855f59cc5550fb63bd3147d8ca981f5df28b8",
+          "byteLength": 1221605,
+          "pageCount": 24
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "4df5090c138ae6359b6066ca70e1c4ecfdcfda52fb26d281b005a3c54eea4f96",
+          "byteLength": 1221970,
+          "pageCount": 24
+        }
+      ],
+      "determinism": {
+        "proved": true,
+        "rebuildsCompared": 2,
+        "result": "canonical and boundary SHA-256 values remained identical"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claimHeld": false,
+      "priorAttempt": {
+        "status": "STOPPED",
+        "verdict": "BLOCKED_SOURCE",
+        "why": "The prior PF06 attempt did not mount the human-source-return Statement of Inability; the current exact source custody does bind."
+      },
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
