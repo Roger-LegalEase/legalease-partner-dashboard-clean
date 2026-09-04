@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-03T22:46:20.464Z",
-  "captainHead": "775b43fb2f999951d7f0e17ae5f517af18e9193e",
+  "generatedAt": "2026-09-04T04:15:37.466Z",
+  "captainHead": "3b39c14632153bb7e4c33abb0632f7522f06a495",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-03T23:06:20.464Z",
-    "nextSourceReleaseDeadline": "2026-09-03T23:16:20.464Z",
+    "nextIntegrationDeadline": "2026-09-04T04:35:37.466Z",
+    "nextSourceReleaseDeadline": "2026-09-04T04:45:37.466Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 0,
+        "measured": 14,
         "threshold": 20,
         "triggered": false
       },
@@ -62,9 +62,9 @@
           "PF23",
           "PF24"
         ],
-        "measured": 83,
+        "measured": 69,
         "threshold": 80,
-        "triggered": true
+        "triggered": false
       }
     ],
     "builderExpansionRule": "Assign a released family to an existing builder where ownership permits. Create PF17+ only when SOURCE_READY exceeds the capacity of the existing sixteen."
@@ -78,19 +78,19 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 83,
+    "sourceReady": 69,
     "sourceBlocked": 70,
     "legalBlocked": 26,
-    "verifyPending": 0,
+    "verifyPending": 14,
     "repairRequired": 36,
     "byState": {
-      "SOURCE_READY": 83,
-      "COMPLETE_PACKET_PROVEN": 107,
+      "SOURCE_READY": 69,
+      "COMPLETE_PACKET_PROVEN": 113,
       "FAIL_REPAIR_REQUIRED": 36,
       "OUT_OF_SCOPE": 5,
+      "VERIFY_PENDING": 14,
       "SOURCE_BLOCKED": 70,
       "LEGAL_BLOCKED": 26,
-      "BUILT_RASTER_PENDING": 6,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
       "VERIFIED_PASS": 1,

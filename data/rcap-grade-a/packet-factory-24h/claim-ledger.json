@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1fa8edf10a895009aa0de6934148b362a532b0dc",
+  "generatedAtCommit": "3b39c14632153bb7e4c33abb0632f7522f06a495",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3146,11 +3146,41 @@
         "il-seal-2yr-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-2yr-set",
+      "familyId": "il-seal-2yr-set",
+      "itemId": null,
+      "familyIds": [
+        "il-seal-2yr-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-03T23:46:06.863Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-3yr-set",
+      "familyId": "il-seal-3yr-set",
+      "itemId": null,
+      "familyIds": [
+        "il-seal-3yr-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3176,11 +3206,41 @@
         "il-seal-edu-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "familyId": "il-seal-edu-set",
+      "itemId": null,
+      "familyIds": [
+        "il-seal-edu-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-03T23:46:07.108Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-nonconv-set",
+      "familyId": "il-seal-nonconv-set",
+      "itemId": null,
+      "familyIds": [
+        "il-seal-nonconv-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12464,7 +12524,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "499717fd78a9bad51aec3cc7fced8553392180282c4910f814c47d786820e0c7",
+  "claimsDigest": "48d63cc9dc94c9a4376b6f97865623bf8c3dfa43e8aec0b7db3b6c8f0e872591",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
