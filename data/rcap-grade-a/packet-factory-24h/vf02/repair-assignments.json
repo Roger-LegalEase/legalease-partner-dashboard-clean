@@ -3,7 +3,7 @@
   "lane": "VF02",
   "worker": "VF-SRC-A",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "assignmentCount": 25,
+  "assignmentCount": 26,
   "assignments": [
     {
       "itemId": "oh_marijuana_expungement-set",
@@ -874,6 +874,55 @@
       "deterministicRequirement": "Build canonical and boundary twice and require identical SHA-256 and byte lengths across runs. Because participant-facing PDF bytes must change, obtain a new raster receipt bound to the repaired hashes.",
       "reVerificationOwed": "A different independent lane that neither built nor repaired the return must rerun all fifteen obligations against the repaired exact hashes.",
       "grantsNothing": "This assignment releases no claim and opens no route."
+    },
+    {
+      "repairAssignmentId": "VF02-NV-759-NV-PROPOSED-ORDER-FOOTER-OVERFLOW",
+      "itemId": "nv_seal_probation_family-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "jurisdiction": "NV",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading",
+      "raisedBy": "CODEX-CS2-VF02-NV",
+      "raisedAtBase": "759046bd918b13a6050a6d671813a016aa41e33a",
+      "routeKey": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+      "runtimeRouteId": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+      "currentPacketHashes": {
+        "canonical": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+        "boundary": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca"
+      },
+      "failedProofObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "decisiveDefect": "Both current ten-page PDFs render proposed_order page 7 as an otherwise blank continuation containing only internal route-footer text. Canonical page 6 strands 'Route:' at its bottom and page 7 contains only the wrapped 109-character obligation key; boundary page 7 contains only 'Route:' and that key. The current exact-hash whole-family RASTER_PASS did not detect this pagination overflow.",
+      "perObligation": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "whatIsWrong": "The proposed order has substantive content only on packet page 6, but its internal route footer spills to packet page 7 in both fixtures. Page 7 has no filing content and is not a meaningful continuation. Independent raster inspection found the defect on both current artifacts even though bbox measurement found zero clipped/off-page words and zero word overlaps.",
+          "exactEvidence": {
+            "component": "proposed_order",
+            "canonicalPage": 7,
+            "canonicalOnlyText": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+            "boundaryPage": 7,
+            "boundaryOnlyText": "Route: obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing"
+          },
+          "howToRepair": "Adjust proposed-order pagination so the complete route footer remains with meaningful page-6 content and no continuation page contains only route metadata. Do not clip or truncate the key, reduce substantive text below legibility, delete required filing content, or move a different isolated fragment onto page 7."
+        }
+      ],
+      "repairMustPreserve": [
+        "the exact route/runtime identity and all eight component identities and conditional semantics",
+        "automatic subsection-1 guidance as non-filing guidance and subsection-2 petition papers as conditional, qualifying-charge and seven-year limited",
+        "all 12 known writes per fixture and all 11 required-before-filing disclosures",
+        "all four blank repeating agency/officer rows and all six protected signature/date/order fields",
+        "the handling-court destination, non-invented local fee/waiver and service/notice posture, and all self-help stops"
+      ],
+      "mayNotBeRepairedBy": [
+        "CODEX-CS2-VF02-NV",
+        "VF02"
+      ],
+      "deterministicRequirement": "Build canonical and boundary twice and require identical SHA-256 and byte lengths across runs. Because both participant-facing PDF bytes must change, obtain a new whole-family raster receipt bound to the repaired exact hashes.",
+      "reVerificationOwed": "A different independent lane that neither built nor repaired the return must inspect every repaired page and rerun all fifteen obligations against the new exact hashes.",
+      "machineRasterBlindSpot": "A governed RASTER_PASS with workflow success and zero machine-reported problems does not cure a route-footer-only page; human full-page inspection remains required.",
+      "grantsNothing": "This assignment authorizes only the exact packet repair. It releases no claim, opens no route, sets no price and grants no approval."
     }
   ],
   "va6Assignments": {
