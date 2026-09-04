@@ -2,6 +2,8 @@
   "schemaVersion": "rcap-post-approval-change-audit/v1",
   "producedBy": "Captain, from a read-only audit lane's diff reading, with every decisive claim re-measured independently before it was recorded here",
   "producedOn": "2026-09-02",
+  "lastExpandedOn": "2026-09-04",
+  "lastExpansionReviewBase": "dc08bccf8b1d57160d11377fbaccf5ef502d1caa",
   "question": "For each first-cohort candidate, does any change made after the decision owner's completed-output approval fall in the class that requires a NEW decision, or is it all in the class the existing approval already covers?",
   "controllingRecord": {
     "recordId": "auth-2026-08-19-owner-legal-approval-completed-output",
@@ -12,9 +14,72 @@
     "requiresSignature": false
   },
   "howTheTestWorks": "The decision record carries its own two lists. correctionsNotRequiringANewLegalDecision covers renderer wiring, field mapping, PDF flattening, active-content removal, text fitting, caption correction, a source hash refresh for the same form and revision, visual fixes, storage integration, route-to-family wiring, packet-builder wiring and deterministic fixture corrections. requiresANewDecisionOwnerDecision covers changing the remedy, eligibility logic, a mandatory filing, venue, the required recipient or service party, replacing a mandatory official form with a custom pleading, and adding substantive legal language not already present in the approved design. A change is read against those lists and nothing else.",
-  "whyAnUnchangedPacketProofIsNotEnough": "All three families' packetProofSha256 and legalDesignMemoSha256 are unchanged since the approval, and that is necessary rather than sufficient. The three packet proofs attest implementation outputs under src/lib/rcap/packets/jurisdictions/ and scripts/verify-rcap-*-custom-pleading.mjs, and none of those paths exists in this checkout — the shipping artifacts come from the census-v1 generator instead. The proofs are unchanged because nothing touched them, not because they describe what now ships. So coverage was decided by reading the rendered output against the unchanged legal design memo, not by trusting the proof hash.",
-  "method": "Each family's legal design memo was flattened into a string corpus, every memo fragment of thirty characters or more was removed from the normalised text of the rendered canonical fixture and the participant instructions, and the residue of sixty characters or more was read by hand. A residue of nothing but captions and scaffolding means the packet asserts only what the approved design already contains.",
+  "whyAnUnchangedPacketProofIsNotEnough": "For the original three candidates, packetProofSha256 and legalDesignMemoSha256 are unchanged since the approval, and that is necessary rather than sufficient. Those packet proofs attest implementation outputs under src/lib/rcap/packets/jurisdictions/ and scripts/verify-rcap-*-custom-pleading.mjs, and none of those paths exists in this checkout — the shipping artifacts come from the census-v1 generator instead. The proofs are unchanged because nothing touched them, not because they describe what now ships. So coverage was decided by reading the rendered output against the unchanged legal design memo, not by trusting the proof hash.",
+  "method": "For the original three candidates, each legal design memo was flattened into a string corpus, every memo fragment of thirty characters or more was removed from the normalised text of the rendered canonical fixture and the participant instructions, and the residue of sixty characters or more was read by hand. For the 2026-09-04 Georgia expansion, the exact post-approval path history, approved memo and manifest, later route contract, instructions, field map, build findings and both four-page fixture PDFs were read in full; hashes and page counts were re-measured and every PDF page was visually inspected. COVERED is recorded only when that evidence places every post-approval delta on the owner's existing-approval list.",
   "families": [
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "verdict": "NEEDS_NEW_DECISION_OWNER_DECISION",
+      "routesServed": 1,
+      "reviewedAtCaptainBase": "dc08bccf8b1d57160d11377fbaccf5ef502d1caa",
+      "whichListItIsOn": "changing the remedy offered, and adding substantive legal language not already present in the approved design",
+      "approvedScope": {
+        "legalDesignMemoSha256Recorded": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+        "legalDesignMemoSha256Recomputed": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+        "packetProofSha256Recorded": "407b05a4ac9555d5f544d3c6ef19fcb61bba306629870fadd906f9a2e1079621",
+        "packetProofSha256Recomputed": "407b05a4ac9555d5f544d3c6ef19fcb61bba306629870fadd906f9a2e1079621",
+        "trackDecision": "ga-rfo is process_guidance; a distinct post-consent petition stage remains conditional on later counsel approval, no petition is generated, and direct self-help delivery remains disabled"
+      },
+      "postApprovalPathAndByteCensus": [
+        {
+          "commit": "7520cfe50d06d9cb79a684c9ee0abcfbafb29bcc",
+          "change": "first census-v1 composition and render of the family: the two four-page fixture files, field map, reports, instructions, receipt, status, findings and approval request were created",
+          "classification": "The family assembly contains only the approved participant factual record and process guidance. It repeatedly says that it is not a petition, that nothing is filed, and that LegalEase does not obtain prosecutorial consent. The canonical and boundary PDFs still have their creation hashes ecfb488b8adf6cdadbbe1489d4a7fb9a982a18d7e9bebe90b0c019b80a756914 and 6866fd683dad67e2a3b4be8db3773e424411850487748f2692ecaf9253d12e24; neither PDF has changed in any later commit."
+        },
+        {
+          "commit": "8333d8840e875188b7a929fa4a52792791cdb7c2",
+          "change": "participant-instructions.md changed one heading from 'Documents you must obtain before filing' to 'Documents you must obtain before anyone can act — nothing here is filed, by you or by the platform'; the family builder gained the family-scoped heading input",
+          "whichListItIsOn": "packet-builder wiring and caption correction; the change removes a contradiction, adds no remedy, eligibility rule, filing, venue or recipient, and moved no PDF byte"
+        },
+        {
+          "commits": [
+            "5deb0a43f41bfc4b3247c9c9fc52503912d1858e",
+            "a28b80d984018afd5a533bb68104efe795a96295"
+          ],
+          "change": "source-receipt.json re-pinned the route-obligation census after changes outside Georgia",
+          "whichListItIsOn": "source hash refresh for the same committed record and revision; the GA route anchors, family bytes and all legal text were unchanged"
+        },
+        {
+          "commits": [
+            "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00",
+            "e87273d3ec8ac469797246882cda197d7fe237a5",
+            "86e1bb335ce307045e6c277b701f40afe895f310"
+          ],
+          "change": "product-wiring.json recorded the raster receipt, then the blocked and current family-level independent-verification result",
+          "whichListItIsOn": "storage integration and route-to-family bookkeeping only; generationAllowed, paymentEligible and sponsorshipEligible remained false and no fulfilment authority was created"
+        },
+        {
+          "commit": "2db38a3bf37c2faf38adeba609ff4e78ee7f4ab5",
+          "change": "the existing family assembly was classified as a one-route artifact without copying or rewriting either PDF",
+          "whichListItIsOn": "route-to-family wiring; the acceptance record explicitly leaves route-specific independent verification pending and grants no authority"
+        },
+        {
+          "commit": "9d250ed1005f3a07e553920e329326b0ba7359f7",
+          "change": "the post-approval runtime route contract introduced a participant_packet outcome, a distinct Georgia § 42-8-66 petition family, petition components and a commercially eligible posture after verified written prosecutorial consent",
+          "whichListItIsOn": "changing the remedy offered; the same contract says the approved guidance family does not become the petition family and may not close either petition output gate"
+        }
+      ],
+      "decisiveEvidence": "The approved ga-rfo memo says outputStrategy process_guidance and states that no petition is generated pending later counsel approval of a distinct post-consent stage. The later route contract says outcomeMode participant_packet and names a separate petition family and components. The current guidance assembly does not pretend to be that petition, but it imports one additional substantive stop from the later contract — 'A contested evidentiary hearing leaves self-help' — which is not among the approved ga-rfo track's four selfHelpStopConditions. That addition is useful and plausibly correct; condition seven asks whether it is already approved, and the owner's own list says substantive legal language not already present in the approved design requires a new decision.",
+      "measuredIndependently": [
+        "the canonical and boundary PDFs were hashed from disk, parsed as four pages each, text-read in full and visually inspected on every page",
+        "the ga-rfo object in GA.memo.json, the derived process-guidance specification, participant-instructions.md, production-field-map.json, build-findings.json and the complete post-approval history of every changed family path were read against the owner's two lists",
+        "the legal-design memo and packet-proof hashes recompute exactly to the values in the approval manifest",
+        "the route-artifact acceptance record still says independentVerification.pending true; no route verdict was inferred from this condition-seven audit"
+      ],
+      "whyTheFamilyApprovalDoesNotOpenTheRoute": "The present family remains guidance-only and its completed-output approval does not extend to the separate petition family the runtime route requires. This audit creates no route verdict, no fulfilment record and no commercial authority.",
+      "mayEnterTheFirstCohort": false,
+      "consequence": "Keep GA:retroactive-first-offender-treatment-under-42-8-66 closed. A decision owner must approve the post-approval legal delta, and a different lane must still perform the pending route-specific fifteen-obligation verification before any exact fulfilment record could be considered."
+    },
     {
       "familyId": "rcap-ks-custom-pleading",
       "verdict": "COVERED_BY_EXISTING_APPROVAL",
