@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF01",
  "worker": "VF-SRC-A",
- "assignmentCount": 9,
+ "assignmentCount": 12,
  "assignments": [
   {
    "itemId": "ak-courtview-set",
@@ -234,6 +234,134 @@
     "do not weaken the no-court-file-sealing warning or the existing self-help stops",
     "this repair assignment opens no commercial route and grants no output approval"
    ]
+  },
+  {
+   "itemId": "al-diversion-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedBy": "VF01",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill",
+   "decisiveDefect": "The packet maps participant facts into spouse, employer, prior-expungement and attorney fields; substitutes generic prose for requested case facts; exposes 47 before-filing blanks through opaque technical labels; and gives no legally resolved service method.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "PROTECTED_FIELDS",
+    "SERVICE"
+   ],
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "measuredDetail": "The packet writes facts into the wrong legal fields: the participant full name is placed in C-10-CRIMINAL “Spouse’s Full Name (if married)”; the participant phone is placed in “Employer’s Telephone Number” and in CR-65’s attorney telephone line; the current case number is placed on CR-65 page 6 where the form asks for the county of a previous expungement. CR-65 page 5 also substitutes generic instructions (“The charge shown on the certified case record”, “Agency shown on the certified arrest record”, and “See the selected statutory route...”) for the requested held case facts.",
+     "whatRepairMustDo": "Correct each semantic field binding: never use participant identity for spouse/employer/attorney facts, never use the current case number for prior-expungement county, and never present generic record-reading directions as if they were exact held charge/agency/ground facts. Unheld facts must be left blank and surfaced precisely before filing."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "All 63 declared items appear literally, but 47 are unusable technical labels rather than named participant facts, including Text1/Text2 and C-10 fields “undefined” through “undefined_32”. A participant cannot determine what those blanks require from participant-instructions.md.",
+     "whatRepairMustDo": "Replace each technical TextN/undefined identifier with a human-meaningful fact label grounded in the visible form prompt and page; every before-filing bullet must tell the participant what information to supply."
+    },
+    "PROTECTED_FIELDS": {
+     "measuredDetail": "CR-65 page 6 visibly carries the participant phone 334-555-0142 on the attorney telephone line even though no representation fact is held. That is attorney-only ink prohibited by this obligation. Signature, notary and court-decision fields otherwise remain blank.",
+     "whatRepairMustDo": "Remove participant phone ink from the CR-65 attorney telephone field and keep every attorney-only field blank unless an exact representation fact is held and the field is legitimately participant-owned."
+    },
+    "SERVICE": {
+     "measuredDetail": "participant-instructions.md names the district attorney, law-enforcement agency and court clerk and says to use separate page-7 certificates, but it never tells the participant which legally valid service method to use; it merely says to record the method after service. The form offers Personal, Sheriff or Other without resolving the required “how”.",
+     "whatRepairMustDo": "State which permitted page-7 service method applies to each required recipient, grounded in committed authority; if current records do not resolve it, fail closed and name the exact clerk/legal question rather than telling the participant merely to record a method."
+    }
+   },
+   "acceptanceProof": [
+    "Rebuild canonical and boundary fixtures deterministically and rerun focused completeness.",
+    "An independent verifier rehashes source and artifact bytes and rescans all fifteen obligations on the repaired output."
+   ],
+   "repairMustNotDo": [
+    "do not edit an artifact merely so a receipt or report matches it",
+    "do not weaken a proof obligation or reclassify participant/legal facts as known merely to zero a counter",
+    "this repair opens no commercial route and grants no output approval"
+   ]
+  },
+  {
+   "itemId": "il-exp-qualprob-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedBy": "VF01",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+   "decisiveDefect": "The official Request writes the case number into twenty charge cells across both route tables, leaving eighteen partial rows per fixture and contaminating the inactive route section; the Case List and boundary table also visibly ellipsize held agency/charge/outcome values. Participant instructions additionally omit who the clerk serves and by what method.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REPEATING_ROWS",
+    "CLIPPING_AND_OVERLAP",
+    "SERVICE"
+   ],
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "measuredDetail": "Every “List all charges for each case number” field on Request pages 2 and 4 is populated with the case number, not a charge. The active qualified-probation expungement row also says outcome “Dismissed”, and the inactive sealing table is populated. The Case List’s held charge is emitted as the literal ellipsized placeholder “Charge exactly as shown o…”.",
+     "whatRepairMustDo": "Bind charge fields to an actual held charge fact, write only complete rows in the route-active table, leave the inactive table wholly unwritten, and surface any unavailable charge as required before filing rather than inserting the case number or an ellipsized placeholder."
+    },
+    "REPEATING_ROWS": {
+     "measuredDetail": "On Request page 2 rows 2-10 contain a written charge-column case number beside blank arrest/case number, agency, date and outcome cells. The same defect appears in the inactive sealing table on page 4. This is 18 visibly partial rows per fixture.",
+     "whatRepairMustDo": "Populate one complete route-active record row only when all required row facts are held. Leave every unused row and every inactive-route table wholly blank; never repeat one fact down a single column."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measuredDetail": "The canonical Case List visibly cuts the held charge to “Charge exactly as shown o…”. The boundary Case List visibly ellipsizes the long arresting-agency, charge and outcome values, and boundary Request page 2 ellipsizes the long agency and outcome. These are current rendered-byte defects despite visualDefects=0 in the focused report.",
+     "whatRepairMustDo": "Fit complete held values within their measured boxes without semantic truncation or ellipsis, or leave them unwritten and explicitly surface the exact required-before-filing action. Rebuild both fixtures and obtain a current whole-family raster receipt for the new exact hashes."
+    },
+    "SERVICE": {
+     "measuredDetail": "participant-instructions.md says only that the circuit clerk performs statutory service after filing. It names neither the recipients nor the service method, so it does not answer who must be served and how.",
+     "whatRepairMustDo": "State the statutory service recipients and method/timing performed by the circuit clerk, grounded in existing committed authority; if the current route record does not resolve them, fail closed and name the exact unresolved legal input."
+    }
+   },
+   "acceptanceProof": [
+    "Rebuild canonical and boundary fixtures deterministically and rerun focused completeness.",
+    "An independent verifier rehashes source and artifact bytes and rescans all fifteen obligations on the repaired output.",
+    "A fresh whole-family raster receipt binds the rebuilt canonical and boundary hashes, and no held value is clipped or ellipsized."
+   ],
+   "repairMustNotDo": [
+    "do not edit an artifact merely so a receipt or report matches it",
+    "do not weaken a proof obligation or reclassify participant/legal facts as known merely to zero a counter",
+    "this repair opens no commercial route and grants no output approval"
+   ]
+  },
+  {
+   "itemId": "il-seal-2yr-set",
+   "lane": "VF01",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedBy": "VF01",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+   "decisiveDefect": "The official Request writes the case number into twenty charge cells across both route tables, leaving eighteen partial rows per fixture and contaminating the inactive route section; the Case List and boundary table also visibly ellipsize held agency/charge/outcome values. Participant instructions additionally omit who the clerk serves and by what method.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REPEATING_ROWS",
+    "CLIPPING_AND_OVERLAP",
+    "SERVICE"
+   ],
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "measuredDetail": "Every “List all charges for each case number” field on Request pages 2 and 4 is populated with the case number, not a charge. The inactive expungement table is populated even though the route selects sealing, and the Case List’s held charge is emitted as the literal ellipsized placeholder “Charge exactly as shown o…”.",
+     "whatRepairMustDo": "Bind charge fields to an actual held charge fact, write only complete rows in the route-active table, leave the inactive table wholly unwritten, and surface any unavailable charge as required before filing rather than inserting the case number or an ellipsized placeholder."
+    },
+    "REPEATING_ROWS": {
+     "measuredDetail": "On inactive Request page 2 rows 2-10 contain a written charge-column case number beside blank arrest/case number, agency, date and outcome cells. Active sealing page 4 repeats the same defect in rows 2-10. This is 18 visibly partial rows per fixture.",
+     "whatRepairMustDo": "Populate one complete route-active record row only when all required row facts are held. Leave every unused row and every inactive-route table wholly blank; never repeat one fact down a single column."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measuredDetail": "The canonical Case List visibly cuts the held charge to “Charge exactly as shown o…”. The boundary Case List visibly ellipsizes the long arresting-agency, charge and outcome values, and boundary Request page 2 ellipsizes the long agency and outcome. These are current rendered-byte defects despite visualDefects=0 in the focused report.",
+     "whatRepairMustDo": "Fit complete held values within their measured boxes without semantic truncation or ellipsis, or leave them unwritten and explicitly surface the exact required-before-filing action. Rebuild both fixtures and obtain a current whole-family raster receipt for the new exact hashes."
+    },
+    "SERVICE": {
+     "measuredDetail": "participant-instructions.md says only that the circuit clerk performs statutory service after filing. It names neither the recipients nor the service method, so it does not answer who must be served and how.",
+     "whatRepairMustDo": "State the statutory service recipients and method/timing performed by the circuit clerk, grounded in existing committed authority; if the current route record does not resolve them, fail closed and name the exact unresolved legal input."
+    }
+   },
+   "acceptanceProof": [
+    "Rebuild canonical and boundary fixtures deterministically and rerun focused completeness.",
+    "An independent verifier rehashes source and artifact bytes and rescans all fifteen obligations on the repaired output.",
+    "A fresh whole-family raster receipt binds the rebuilt canonical and boundary hashes, and no held value is clipped or ellipsized."
+   ],
+   "repairMustNotDo": [
+    "do not edit an artifact merely so a receipt or report matches it",
+    "do not weaken a proof obligation or reclassify participant/legal facts as known merely to zero a counter",
+    "this repair opens no commercial route and grants no output approval"
+   ]
   }
  ],
  "supersededLaneMembership": {
@@ -359,5 +487,16 @@
     }
    }
   ]
+ },
+ "vf01Fbd22ae2Assignments": {
+  "worker": "VF01 independent verifier",
+  "authoritativeBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+  "added": [
+   "al-diversion-set",
+   "il-exp-qualprob-set",
+   "il-seal-2yr-set"
+  ],
+  "count": 3,
+  "priorAssignmentsPreserved": true
  }
 }
