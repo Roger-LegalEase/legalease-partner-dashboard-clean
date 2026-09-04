@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-focused-repair-return/v1",
+  "worker": "CODEX-CS1-FIX04-AR-SOURCEPIN",
+  "returnedAt": "2026-09-04T19:17:45Z",
+  "base": "307e0931fcfd579a3d2a8812727be195b72da61d",
+  "branch": "codex/cs1-fix04-ar-sourcepin-307e",
+  "commit": "f487735bf77ccad566f7c8985b5a4a1c366e8d91",
+  "pushed": "YES",
+  "family": "ar-nonconviction-seal-set",
+  "route": "obligation:track-only:AR:ar-nonconviction-seal",
+  "lane": "FIX04",
+  "productionTouched": "NO",
+  "status": "COMPLETED",
+  "obligationRepaired": "SOURCE_IDENTITY",
+  "preflight": {
+    "worktree": "/workspaces/cs1-vf01-national",
+    "branchAtStart": "codex/cs1-fix04-ar-sourcepin-307e",
+    "headAtStart": "307e0931fcfd579a3d2a8812727be195b72da61d",
+    "mergeBaseToExactCaptainBase": "307e0931fcfd579a3d2a8812727be195b72da61d",
+    "cleanAtStart": true,
+    "claim": "CLAIM_OK FIX04 ar-nonconviction-seal-set (repair, grant set 5104bc3b81ccc216)",
+    "claimAssertedBeforeFamilyContentRead": true
+  },
+  "sourceReceiptRepair": {
+    "receiptPath": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/source-receipt.json",
+    "committedRecordPath": "data/record-clearing/legal-design-packet-set-manifests.json",
+    "before": {
+      "sha256": "bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66",
+      "byteLength": 3679241
+    },
+    "after": {
+      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "byteLength": 3683419
+    },
+    "exactArkansasPacketSetNodeSha256": "ae22de06a6075b7f20fa29606fd47d93e6fbfebadbcd82909a86f69d95fd79c5",
+    "nodeDigestMethod": "jq -S -c exact packetSets node, including the command's trailing newline",
+    "nodeIdentityConfirmedUnchanged": true,
+    "authorityChanged": false,
+    "sourcesAcquired": 0,
+    "builderChanged": false
+  },
+  "artifacts": {
+    "canonical": {
+      "sha256": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5",
+      "byteLength": 819258,
+      "pageCount": 7
+    },
+    "boundary": {
+      "sha256": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871",
+      "byteLength": 819462,
+      "pageCount": 7
+    },
+    "packetPdfChanges": 0
+  },
+  "deterministicResult": {
+    "assertionPasses": 2,
+    "receiptBindingUnchangedBetweenPasses": true,
+    "exactNodeDigestUnchangedBetweenPasses": true,
+    "artifactHashesUnchangedBetweenPasses": true,
+    "artifactByteLengthsUnchangedBetweenPasses": true,
+    "artifactPageCountsUnchangedBetweenPasses": true,
+    "builderFocusedChecks": 2,
+    "builderFocusedCheckOutputIdentical": true,
+    "builderFocusedCheckOutputSha256": "937ba9275ffe038a10a32aadf44374d35ad2ebaa8ba0db86ef02077ce9dc5233",
+    "builderFocusedCheckResult": "EXPECTED_BLOCKED_SOURCE_PRIVATE_ACIC_BINARIES_NOT_MOUNTED",
+    "builderFocusedCheckTouchedPaths": 0,
+    "noRasterRebuildAttempted": false,
+    "noRasterRebuildReason": "The owning builder correctly refused before writes because the two exact private ACIC binaries are not mounted; rebuilding without those pinned sources is unsafe. The assignment-authorized family-local receipt fallback was used."
+  },
+  "rasterEvidence": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33608483853",
+    "remainsValid": true,
+    "basis": "Both packet PDFs remain at the exact hash, byteLength, and 7-page identity bound by the raster pass."
+  },
+  "tests": [
+    "exact worktree/branch/HEAD/clean/merge-base assertions => PASS",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 ar-nonconviction-seal-set => CLAIM_OK",
+    "independent before-edit receipt/aggregate/node measurement => stale receipt pin confirmed; current aggregate and exact node match assignment",
+    "two fresh exact source-receipt/aggregate/node and artifact hash/length/page assertions => PASS",
+    "two executions of node scripts/build-census-v1-ar-nonconviction-seal-set.mjs --check --no-raster => byte-identical expected BLOCKED_SOURCE because private ACIC binaries are not mounted; no paths touched",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set => PASS_COMPLETE 13/78 written; all nine counters zero",
+    "JSON validation => PASS",
+    "git diff --check => PASS"
+  ],
+  "changedPaths": [
+    "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/fix04/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix04-ar-sourcepin-307e/RETURN.json"
+  ],
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "productionTouchedCount": 0,
+  "commitSemantics": "commit names the pushed repair commit; this RETURN.json is finalized by an immediately following pushed handoff commit"
+}
