@@ -8,10 +8,11 @@ const sha256 = (p) => crypto.createHash("sha256").update(fs.readFileSync(p)).dig
 const reclassification = read("data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json");
 const indiana = reclassification.families.find((row) => row.familyId === "in_infraction_nondisclosure-set");
 const california = reclassification.families.find((row) => row.familyId === "ca-prop64-set");
+const colorado = reclassification.families.find((row) => row.familyId === "co_decriminalized_conduct_seal-set");
 
 assert.deepEqual(
   reclassification.families.map((row) => row.familyId).sort(),
-  ["ca-prop64-set", "in_infraction_nondisclosure-set"]
+  ["ca-prop64-set", "co_decriminalized_conduct_seal-set", "in_infraction_nondisclosure-set"]
 );
 assert.equal(reclassification.commercialRoutesOpened, 0);
 assert.equal(reclassification.productionTouched, false);
@@ -47,6 +48,20 @@ assert.notDeepEqual(
   california.currentByteBinding.currentPrimaryHashes
 );
 
+assert.equal(colorado.disposition, "OWNER_CONFIRMED_ROUTE_MAPPING_COMPLETE");
+assert.equal(colorado.nextState, "SOURCE_READY");
+assert.equal(colorado.mappingEvidence.trackId, "co_decriminalized_conduct_seal");
+assert.equal(colorado.mappingEvidence.primaryFormId, "JDF-2371");
+assert.equal(colorado.mappingEvidence.status, "MAPPED");
+assert.equal(colorado.legacyBlocksReclassified.length, 2);
+assert.ok(colorado.legacyBlocksReclassified.every((row) => row.executionTreatment.includes("hard-stop")));
+assert.equal(colorado.laneReturnQuestionsDisposed.length, 2);
+assert.ok(colorado.laneReturnQuestionsDisposed.some((row) => row.laneQuestion.startsWith("JDF-2371:")));
+assert.ok(colorado.laneReturnQuestionsDisposed.some((row) => row.laneQuestion.startsWith("JDF-2374:")));
+assert.ok(colorado.laneReturnQuestionsDisposed.find((row) => row.laneQuestion.startsWith("JDF-2374:")).disposition.includes("remains protected and blank"));
+assert.ok(colorado.preservedReleaseLimits.some((limit) => limit.includes("commercial-permission")));
+assert.ok(colorado.preservedReleaseLimits.some((limit) => limit.includes("No checkout")));
+
 const currentPrimaryPaths = [
   "fixtures/hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf",
   "fixtures/hs-11361-8-completed-sentence-application-boundary/cr-400-filled.pdf",
@@ -58,4 +73,4 @@ assert.deepEqual(
   california.currentByteBinding.currentPrimaryHashes
 );
 
-console.log("LEGAL_PURGE_WORKER_2_EVIDENCE_OK: 2 exact reread records; history and current hashes bind; 0 PASS promotions");
+console.log("LEGAL_PURGE_WORKER_2_EVIDENCE_OK: 2 exact reread records plus 1 owner-confirmed fail-closed Colorado mapping; 0 PASS promotions");

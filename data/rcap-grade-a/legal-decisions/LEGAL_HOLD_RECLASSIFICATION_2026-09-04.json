@@ -92,6 +92,48 @@
       },
       "nextState": "VERIFY_PENDING",
       "whyNotPass": "The selected substantive verdict does not bind the current artifacts, so the family requires a new independent read and cannot be promoted to PASS."
+    },
+    {
+      "familyId": "co_decriminalized_conduct_seal-set",
+      "disposition": "OWNER_CONFIRMED_ROUTE_MAPPING_COMPLETE",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT_AND_OWNER_DIRECTED_MAPPING_PENDING",
+      "ownerConfirmation": "Roger Roman confirmed on 2026-09-04 that the two duplicate legacy C.R.S. § 24-72-711 eligibility blockers are reclassified into fail-closed execution using the committed JDF-2371 mapping.",
+      "mappingEvidence": {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "trackId": "co_decriminalized_conduct_seal",
+        "mappingCommit": "c1a8630cd159b7b82d49ed1197b38d9c2d0b4b18",
+        "primaryFormId": "JDF-2371",
+        "proposedOrderFormId": "JDF-2374",
+        "status": "MAPPED"
+      },
+      "legacyBlocksReclassified": [
+        {
+          "legacyBlock": "The list of qualifying offense categories under § 24-72-711 must be confirmed before the product selects an eligibility basis.",
+          "executionTreatment": "The product may build only when screening and the exact conviction record establish that the convicted conduct is no longer prohibited. Missing, inconsistent, or unresolved facts hard-stop for human review; the product must not infer the election."
+        },
+        {
+          "legacyBlock": "The same eligibility issue was separately recorded as an open question blocking the build.",
+          "executionTreatment": "The duplicate is superseded by the same fail-closed rule: route-determined and record-determined selections are applied only from established facts, participant assertions stay blank, and unresolved legal elections hard-stop."
+        }
+      ],
+      "laneReturnQuestionsDisposed": [
+        {
+          "laneQuestion": "JDF-2371: approved route-determined basis and eligibility-election selections for decriminalized conduct",
+          "disposition": "The committed official-form election mapping supplies the exact JDF-2371 selection rules and hard stop."
+        },
+        {
+          "laneQuestion": "JDF-2374: approved field-by-field classification of judicial findings, service, and later-completion fields",
+          "disposition": "This is form-face field ownership, not a legal decision. JDF-2374 expressly says 'The Court Completes the Rest of this Form' immediately before sections 1 through 4. The builder may prefill only the established court, case-caption, case-number, and defendant-identity fields above that instruction; every judicial finding, notice/service finding, later-completion fact, other order, signature, judicial-role election, and order date at or below it remains protected and blank. Any field whose ownership cannot be established from the form face hard-stops the build."
+        }
+      ],
+      "preservedReleaseLimits": [
+        "This decision authorizes build execution only and is not output-level approval of produced packet bytes.",
+        "The existing commercial-permission release issue remains preserved and unresolved.",
+        "No checkout, sponsorship, fulfillment authority, route opening, or Production change is authorized."
+      ],
+      "nextState": "SOURCE_READY",
+      "nextExecutableAction": "Build the JDF-2371 and JDF-2374 official-form packet from the committed mapping, retain every fail-closed election guard, then raster changed bytes and obtain an independent fifteen-obligation verdict before any output-level approval request.",
+      "whyNotPass": "No packet artifacts, current raster receipt, or independent verdict exist for this family."
     }
   ],
   "commercialRoutesOpened": 0,
