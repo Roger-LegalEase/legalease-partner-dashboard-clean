@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "85f12221a7c711296411a0a4fa416711c9121d5c",
+  "generatedAtCommit": "363dab173b6955b165de457e110fe28a4db4f361",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6075,10 +6075,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T19:35:58.137Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6092,8 +6092,8 @@
       "operation": "rapid-repair",
       "lane": "FIX07",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T17:19:13.355Z"
     },
     {
       "subjectType": "packet-family",
@@ -12855,7 +12855,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c203fb62d03da737c69db4652bd54fc41f187d831ef24cba19145e534aaec370",
+  "claimsDigest": "0b0fab5c776408df504f5ce6914de5bf4712271b37933601e399ea78f5e70791",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25423,6 +25423,14 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-04T17:16:18.041Z"
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "ny_mrta_marijuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-04T17:19:13.355Z"
     }
   ],
   "reissues": [
@@ -34307,6 +34315,17 @@
       "previouslyReleasedAt": "2026-09-04T15:41:40.717Z",
       "transferredAt": "2026-09-04T16:17:16.301Z",
       "reason": "FIX08 produced deterministic changed bytes and the current generated dispatch assigns the independent reread to VF01; transfer the released prior cycle to that exact current lane, gated on exact-hash raster acceptance."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ny_mrta_marijuana-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-02T19:35:58.137Z",
+      "transferredAt": "2026-09-04T17:20:06.601Z",
+      "reason": "current protected-field metadata repair completed with unchanged raster-bound bytes; assign fresh independent reread to current generated VF01 lane"
     }
   ],
   "withdrawals": [

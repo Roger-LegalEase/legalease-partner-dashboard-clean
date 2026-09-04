@@ -501,6 +501,75 @@
       "selfVerificationPerformed": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ny_mrta_marijuana-set",
+      "routeKeys": [
+        "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-automatic-expungement",
+        "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request"
+      ],
+      "status": "COMPLETED",
+      "buildReturn": "VERIFY_PENDING",
+      "worker": "CODEX-CS2-FIX07-NY-MRTA-PROTECTED",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "baseSha": "7fdbcb4acf9d49b42a7b3b309f81923c8267fabd",
+      "branch": "codex/cs2-fix07-ny-mrta-protected-7fdb",
+      "obligationsRepaired": [
+        "PROTECTED_FIELDS"
+      ],
+      "repair": "All six court-use controls are now classified as court, prosecutor, clerk, or agency owned, are refused by the builder, and remain blank in both current packet artifacts.",
+      "protectedClassification": {
+        "controls": 6,
+        "classifiedProtected": 6,
+        "blankInCanonical": 6,
+        "blankInBoundary": 6
+      },
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "sha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+          "byteLength": 247978,
+          "pageCount": 1,
+          "hashUnchanged": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+          "byteLength": 247265,
+          "pageCount": 1,
+          "hashUnchanged": true
+        }
+      ],
+      "determinism": {
+        "metadataRepairRuns": 2,
+        "fieldMapByteIdentical": true,
+        "protectedReportByteIdentical": true,
+        "packetHashesUnchanged": true
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-ny_mrta_marijuana-set.mjs --repair-field-map-only (two identical runs)",
+        "node scripts/build-census-v1-ny_mrta_marijuana-set.mjs --check-protected-controls => 6/6 protected and blank in 2/2 artifacts",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set => PASS_COMPLETE, all nine counters zero"
+      ],
+      "sourceAcquisitionPerformed": false,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
