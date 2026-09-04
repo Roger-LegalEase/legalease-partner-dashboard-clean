@@ -586,9 +586,42 @@ const SPEC = {
       ]
     },
     {
-      "id": "ms-drug-cd-filing-instructions-4",
+      "id": "ms-drug-cd-attachment-4",
       "routeKey": "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
-      "role": "filing_instructions",
+      "role": "attachment",
+      "title": "Records Checklist - First-time drug possession cases",
+      "description": "the route-specific records checklist identifying the records to gather and confirm with the filing clerk (First-time drug possession cases)",
+      "condition": null,
+      "body": [
+        "This records checklist is for {{participant.full_legal_name}}.",
+        "",
+        "RECORDS CHECKLIST",
+        "",
+        "Gather these records before filing. Ask the clerk which records must be attached to the petition and whether the clerk requires certified copies. This checklist does not replace any record and is not proof that a missing record exists.",
+        "",
+        "- Certified copy of the conditional discharge order. Ask the clerk for a certified copy of the order deferring proceedings and placing you on probation without an adjudication of guilt.",
+        "",
+        "- Certified copy of the order of discharge and dismissal. Ask the clerk for a certified copy of the order discharging you and dismissing the proceedings.",
+        "",
+        "- Proof of successful completion of probation. Obtain the documentation showing you completed probation and every condition.",
+        "",
+        "- Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+        "",
+        "Keep the originals. File or serve copies only as the clerk directs. If the discharge or dismissal documentation is missing, stop and get help instead of filing."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this records checklist is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ms-drug-cd-instructions-5",
+      "routeKey": "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+      "role": "instructions",
       "title": "Filing Instructions - First-time drug possession cases",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (First-time drug possession cases)",
       "condition": null,
@@ -634,7 +667,9 @@ const SPEC = {
         "",
         "- ms-drug-cd-primary-filing-1: the composed petition, on this route's own statutory ground (First-time drug possession cases)",
         "- ms-drug-cd-proposed-order-2: the proposed order the court may sign; every decision line is the court's and is left blank (First-time drug possession cases)",
-        "- ms-drug-cd-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (First-time drug possession cases)"
+        "- ms-drug-cd-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (First-time drug possession cases)",
+        "- ms-drug-cd-attachment-4: the route-specific records checklist identifying the records to gather and confirm with the filing clerk (First-time drug possession cases)",
+        "- ms-drug-cd-instructions-5: what this set is, where it goes, what it costs, who must be served, and when to stop (First-time drug possession cases)"
       ],
       "writes": [
         {
@@ -1116,9 +1151,42 @@ const SPEC = {
       ]
     },
     {
-      "id": "ms-dui-filing-instructions-4",
+      "id": "ms-dui-attachment-4",
       "routeKey": "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
-      "role": "filing_instructions",
+      "role": "attachment",
+      "title": "Records Checklist - Clearing a first DUI",
+      "description": "the route-specific records checklist identifying the records to gather and confirm with the circuit clerk (Clearing a first DUI)",
+      "condition": null,
+      "body": [
+        "This records checklist is for {{participant.full_legal_name}}.",
+        "",
+        "RECORDS CHECKLIST",
+        "",
+        "Gather these records before filing. Ask the circuit clerk which records must be attached to the petition and whether the clerk requires certified copies. This checklist does not replace any record and is not proof that a missing record exists.",
+        "",
+        "- Certified copy of the DUI judgment of conviction. Ask the clerk of the court that entered the DUI conviction for a certified copy of the judgment.",
+        "",
+        "- Blood or breath test result, or documentation that no test was refused. Obtain the test result. The statute conditions relief on not having refused the test and, where results are available, on a concentration below .16, so this document is central rather than optional.",
+        "",
+        "- Certified driving record. Obtain your certified driving record. It establishes whether any other DUI appears and whether you held a commercial licence.",
+        "",
+        "- Account balance sheet from the clerk showing a zero balance. Ask the clerk for an account balance sheet showing that all fines, costs and restitution are paid in full. Mississippi courts commonly require a zero balance in practice even where the subsection does not say so, and on the felony track payment of all criminal fines and costs of court is a statutory condition.",
+        "",
+        "Keep the originals. File or serve copies only as the circuit clerk directs. Every DUI packet requires attorney review before filing and a post-generation handoff."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this records checklist is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ms-dui-instructions-5",
+      "routeKey": "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+      "role": "instructions",
       "title": "Filing Instructions - Clearing a first DUI",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Clearing a first DUI)",
       "condition": null,
@@ -1166,7 +1234,9 @@ const SPEC = {
         "",
         "- ms-dui-primary-filing-1: the composed petition, on this route's own statutory ground (Clearing a first DUI)",
         "- ms-dui-proposed-order-2: the proposed order the court may sign; every decision line is the court's and is left blank (Clearing a first DUI)",
-        "- ms-dui-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (Clearing a first DUI)"
+        "- ms-dui-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (Clearing a first DUI)",
+        "- ms-dui-attachment-4: the route-specific records checklist identifying the records to gather and confirm with the circuit clerk (Clearing a first DUI)",
+        "- ms-dui-instructions-5: what this set is, where it goes, what it costs, who must be served, and when to stop (Clearing a first DUI)"
       ],
       "writes": [
         {
@@ -1615,9 +1685,38 @@ const SPEC = {
       ]
     },
     {
-      "id": "ms-mip-filing-instructions-4",
+      "id": "ms-mip-attachment-4",
       "routeKey": "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement",
-      "role": "filing_instructions",
+      "role": "attachment",
+      "title": "Records Checklist - Underage drinking charges",
+      "description": "the route-specific records checklist identifying the records to gather and confirm with the filing clerk (Underage drinking charges)",
+      "condition": null,
+      "body": [
+        "This records checklist is for {{participant.full_legal_name}}.",
+        "",
+        "RECORDS CHECKLIST",
+        "",
+        "Gather these records before filing. Ask the clerk which records must be attached to the petition and whether the clerk requires certified copies. This checklist does not replace any record and is not proof that a missing record exists.",
+        "",
+        "- Certified copy of the disposition or judgment. Ask the clerk for a certified copy of the order showing how the case ended.",
+        "",
+        "- Account balance sheet showing a zero balance. Ask the clerk for confirmation that any fine and costs are paid in full.",
+        "",
+        "Keep the originals. File or serve copies only as the clerk directs. Before filing, confirm the current waiting period, the correct court and any fee with the clerk."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person this records checklist is prepared for",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ms-mip-instructions-5",
+      "routeKey": "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement",
+      "role": "instructions",
       "title": "Filing Instructions - Underage drinking charges",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Underage drinking charges)",
       "condition": null,
@@ -1665,7 +1764,9 @@ const SPEC = {
         "",
         "- ms-mip-primary-filing-1: the composed petition, on this route's own statutory ground (Underage drinking charges)",
         "- ms-mip-proposed-order-2: the proposed order the court may sign; every decision line is the court's and is left blank (Underage drinking charges)",
-        "- ms-mip-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (Underage drinking charges)"
+        "- ms-mip-certificate-of-service-3: the page on which the participant records that the papers were actually delivered, signed only after delivery (Underage drinking charges)",
+        "- ms-mip-attachment-4: the route-specific records checklist identifying the records to gather and confirm with the filing clerk (Underage drinking charges)",
+        "- ms-mip-instructions-5: what this set is, where it goes, what it costs, who must be served, and when to stop (Underage drinking charges)"
       ],
       "writes": [
         {
@@ -1986,6 +2087,47 @@ const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)
 const DOTS = (n = 84) => ".".repeat(n);
 const COMPONENT_IDS = SPEC.components.map((c) => c.id);
 const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
+const REQUIRED_COMPONENTS_PER_ROUTE = [
+  { suffix: "primary-filing-1", role: "primary_filing" },
+  { suffix: "proposed-order-2", role: "proposed_order" },
+  { suffix: "certificate-of-service-3", role: "certificate_of_service" },
+  { suffix: "attachment-4", role: "attachment" },
+  { suffix: "instructions-5", role: "instructions" }
+];
+
+const routeSlug = (routeKey) => String(routeKey).split(":")[3];
+const componentIdsForRoute = (routeKey) => SPEC.components
+  .filter((c) => c.routeKey === routeKey)
+  .map((c) => c.id);
+
+function assertComponentContract() {
+  const expectedFamilyOrder = [];
+  for (const route of SPEC.routes) {
+    const slug = routeSlug(route.routeKey);
+    const expected = REQUIRED_COMPONENTS_PER_ROUTE.map(({ suffix }) => `${slug}-${suffix}`);
+    const actual = componentIdsForRoute(route.routeKey);
+    assert.deepEqual(actual, expected, `${route.routeKey}: component ids or order differ from the five-component contract`);
+    for (const [{ role }, id] of REQUIRED_COMPONENTS_PER_ROUTE.map((entry, i) => [entry, expected[i]])) {
+      assert.equal(COMPONENT[id]?.role, role, `${id}: component role differs from the five-component contract`);
+    }
+    expectedFamilyOrder.push(...expected);
+  }
+  assert.deepEqual(COMPONENT_IDS, expectedFamilyOrder,
+    "the family component manifest must group all five components for each route in declared route order");
+  assert.equal(new Set(COMPONENT_IDS).size, COMPONENT_IDS.length, "component ids must be unique");
+}
+
+function assertManifestOrder(pageManifest, expectedComponentIds, scope) {
+  const observed = [];
+  for (const row of pageManifest) {
+    if (observed.at(-1) !== row.component) observed.push(row.component);
+  }
+  assert.deepEqual(observed, expectedComponentIds, `${scope}: page manifest component order differs from the declared order`);
+  for (const componentId of expectedComponentIds) {
+    assert.ok(pageManifest.some((row) => row.component === componentId),
+      `${scope}: page manifest omits ${componentId}`);
+  }
+}
 
 /* ---- committed-record binding ------------------------------------------------ *
  * This family binds no Master Library binary: its authority is a set of
@@ -2034,12 +2176,14 @@ async function renderComposedPdf(fullText, title) {
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const fontSize = 11, lineHeight = title.startsWith("Filing Instructions") ? 13.5 : 14;
+  const width = 612, height = 792, margin = 72;
+  const contentBottom = 52;
   const maxWidth = width - 2 * margin;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
   const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
+    if (y < contentBottom) { page = pdf.addPage([width, height]); y = height - margin; }
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
@@ -2064,8 +2208,33 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  const sourceLines = sanitizePdfText(fullText).split("\n");
+  const routeFooter = sourceLines.at(-1)?.startsWith("Route: ") ? sourceLines.pop() : null;
+  if (routeFooter && sourceLines.at(-1) === "") sourceLines.pop();
+  for (const raw of sourceLines) for (const row of wrap(raw)) draw(row);
+  if (routeFooter) {
+    const nominalFooterSize = 8;
+    const footerWidth = font.widthOfTextAtSize(routeFooter, nominalFooterSize);
+    const footerSize = footerWidth <= maxWidth ? nominalFooterSize : nominalFooterSize * maxWidth / footerWidth;
+    assert.ok(footerSize >= 6, `${title}: route footer cannot fit legibly inside the page width`);
+    for (const renderedPage of pdf.getPages()) {
+      renderedPage.drawText(routeFooter, { x: margin, y: 34, size: footerSize, font, color: rgb(0, 0, 0) });
+    }
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+}
+
+async function assertEveryPageSubstantive(bytes, componentId, fixtureName) {
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const footer = `Route: ${COMPONENT[componentId].routeKey}`;
+  for (const [pageIndex, page] of doc.getPages().entries()) {
+    const lines = groupIntoLines(extractTextItems(page)).map((line) => line.text.trim()).filter(Boolean);
+    assert.equal(lines.filter((line) => line === footer).length, 1,
+      `${fixtureName}/${componentId} page ${pageIndex + 1}: exact route footer must appear once`);
+    const substantive = lines.filter((line) => line !== footer);
+    assert.ok(substantive.length >= 2,
+      `${fixtureName}/${componentId} page ${pageIndex + 1}: footer-only or near-empty overflow page`);
+  }
 }
 
 /* ---- the composed page, rendered from this family's declared lines ----------- *
@@ -2379,6 +2548,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
 
+  assertComponentContract();
+
   const { resolved, failures } = resolveRecords();
   if (failures.length > 0) {
     return {
@@ -2422,6 +2593,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       assert.ok(body.includes(facts["participant.full_legal_name"]),
         `${componentId}: the composed page must carry the participant's name`);
       const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+      await assertEveryPageSubstantive(composedBytes, componentId, fixtureName);
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
         packet.addPage(p);
@@ -2429,6 +2601,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       }
       documents.push(componentId);
     }
+    assertManifestOrder(pageManifest, COMPONENT_IDS, `${fixtureName}/family-assembly`);
 
     const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
     const file = `${OUT}/fixtures/${fixtureName}.pdf`;
@@ -2481,6 +2654,58 @@ export async function runFamily(argv = process.argv.slice(2)) {
           sha256: crypto.createHash("sha256").update(fs.readFileSync(png)).digest("hex")
         });
       }
+    }
+  }
+
+  /* The family assembly above is build/review evidence. A participant receives
+   * only the five components for the selected statutory route, in the exact
+   * order asserted by assertComponentContract. */
+  const routeArtifacts = [];
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = SPEC.fixtures[fixtureName];
+    for (const route of SPEC.routes) {
+      const routeComponentIds = componentIdsForRoute(route.routeKey);
+      const slug = routeSlug(route.routeKey);
+      const packet = await PDFDocument.create();
+      stampDeterministic(packet);
+      packet.setTitle(`${SPEC.legalName} — ${slug} — ${fixtureName} fixture`);
+      const pageManifest = [];
+
+      for (const componentId of routeComponentIds) {
+        const body = composedBody(componentId, facts);
+        assert.ok(body.includes(facts["participant.full_legal_name"]),
+          `${componentId}: the composed page must carry the participant's name`);
+        const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+        await assertEveryPageSubstantive(composedBytes, componentId, `${fixtureName}/${slug}`);
+        const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
+        for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
+          packet.addPage(p);
+          pageManifest.push({
+            packetPage: packet.getPageCount(), component: componentId, documentId: componentId,
+            sourcePage: i + 1, sourceSha256: null
+          });
+        }
+      }
+      assertManifestOrder(pageManifest, routeComponentIds, `${fixtureName}/${slug}`);
+
+      const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
+      const dir = `${OUT}/fixtures/routes/${slug}`;
+      fs.mkdirSync(path.join(ROOT, dir), { recursive: true });
+      const file = `${dir}/${fixtureName}.pdf`;
+      fs.writeFileSync(path.join(ROOT, file), packetBytes);
+
+      const routeMaps = maps.filter((m) => routeComponentIds.includes(m.formNumber));
+      const routeProof = await byteProof(packetBytes, pageManifest, routeMaps, facts, `${fixtureName}/${slug}`);
+      routeArtifacts.push({
+        routeKey: route.routeKey, route: slug, fixture: fixtureName, file,
+        sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
+        byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+        documents: routeComponentIds, components: routeComponentIds,
+        role: "route_packet_of_composed_pleadings",
+        deliveryRole: "participant_deliverable_for_this_route_only",
+        valuesReadBackFromTheseBytes: routeProof.actualWrites.length,
+        rasterPending: true, independentVerificationPending: true
+      });
     }
   }
 
@@ -2543,6 +2768,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
     boundReferenceSource: null,
     pdfs: pdfsDeclared,
+    familyAssemblyIsAParticipantDeliverable: false,
+    familyAssemblyRole: "build and review evidence only — it concatenates every route's components and is not a participant deliverable",
+    routeArtifacts,
+    routeArtifactRoutes: SPEC.routes.map((r) => r.routeKey),
+    routeArtifactRasterPending: true,
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
@@ -2595,7 +2825,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-family-build-status/v1", familyId: SPEC.familyId,
     buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: SPEC.buildScript,
     rasterEngine: skipRaster ? "not rendered in this run" : "chromium_calibrated", popplerUsed: false,
-    renderedArtifacts: artifacts.length, rasterPages: rasterPages.length,
+    renderedArtifacts: artifacts.length + routeArtifacts.length, rasterPages: rasterPages.length,
     rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
     independentVerificationStatus: "PENDING", selfVerified: false,
     generationAllowed: false, runtimeSelectable: false,
@@ -2635,6 +2865,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
     writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
     requiredBeforeFiling: rbf.length,
     artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
+    routeArtifactHashes: routeArtifacts.map((a) => ({
+      fixture: a.fixture, route: a.route, routeKey: a.routeKey,
+      packetSha256: a.sha256, byteLength: a.byteLength, pages: a.pageCount
+    })),
     rasterPages: rasterPages.length,
     rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
     nineCountersZero: allZero,

@@ -7,15 +7,18 @@
     "ms-drug-cd-primary-filing-1",
     "ms-drug-cd-proposed-order-2",
     "ms-drug-cd-certificate-of-service-3",
-    "ms-drug-cd-filing-instructions-4",
+    "ms-drug-cd-attachment-4",
+    "ms-drug-cd-instructions-5",
     "ms-dui-primary-filing-1",
     "ms-dui-proposed-order-2",
     "ms-dui-certificate-of-service-3",
-    "ms-dui-filing-instructions-4",
+    "ms-dui-attachment-4",
+    "ms-dui-instructions-5",
     "ms-mip-primary-filing-1",
     "ms-mip-proposed-order-2",
     "ms-mip-certificate-of-service-3",
-    "ms-mip-filing-instructions-4"
+    "ms-mip-attachment-4",
+    "ms-mip-instructions-5"
   ],
   "componentConditions": {},
   "boundReferenceSource": null,
@@ -25,27 +28,31 @@
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_composed_pleadings",
       "fixture": "canonical",
-      "sha256": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0",
-      "byteLength": 69082,
-      "pageCount": 26
+      "sha256": "fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c",
+      "byteLength": 74867,
+      "pageCount": 25
     },
     {
       "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf",
       "documentId": "assembled_packet",
       "role": "assembled_packet_of_composed_pleadings",
       "fixture": "boundary",
-      "sha256": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f",
-      "byteLength": 70320,
-      "pageCount": 26
+      "sha256": "28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4",
+      "byteLength": 76118,
+      "pageCount": 25
     }
   ],
-  "artifacts": [
+  "familyAssemblyIsAParticipantDeliverable": false,
+  "familyAssemblyRole": "build and review evidence only — it concatenates every route's components and is not a participant deliverable",
+  "routeArtifacts": [
     {
+      "routeKey": "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+      "route": "ms-drug-cd",
       "fixture": "canonical",
-      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-      "sha256": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0",
-      "byteLength": 69082,
-      "pageCount": 26,
+      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-drug-cd/canonical.pdf",
+      "sha256": "3f2e709d8ed8d9672f61d563b9bf3590fd422b13317b48e112c450b0973452b5",
+      "byteLength": 25392,
+      "pageCount": 8,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -70,36 +77,572 @@
         },
         {
           "packetPage": 4,
-          "component": "ms-drug-cd-primary-filing-1",
-          "documentId": "ms-drug-cd-primary-filing-1",
-          "sourcePage": 4,
-          "sourceSha256": null
-        },
-        {
-          "packetPage": 5,
           "component": "ms-drug-cd-proposed-order-2",
           "documentId": "ms-drug-cd-proposed-order-2",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 6,
+          "packetPage": 5,
           "component": "ms-drug-cd-certificate-of-service-3",
           "documentId": "ms-drug-cd-certificate-of-service-3",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
+          "packetPage": 6,
+          "component": "ms-drug-cd-attachment-4",
+          "documentId": "ms-drug-cd-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
           "packetPage": 7,
-          "component": "ms-drug-cd-filing-instructions-4",
-          "documentId": "ms-drug-cd-filing-instructions-4",
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 8,
-          "component": "ms-drug-cd-filing-instructions-4",
-          "documentId": "ms-drug-cd-filing-instructions-4",
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "ms-drug-cd-primary-filing-1",
+        "ms-drug-cd-proposed-order-2",
+        "ms-drug-cd-certificate-of-service-3",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5"
+      ],
+      "components": [
+        "ms-drug-cd-primary-filing-1",
+        "ms-drug-cd-proposed-order-2",
+        "ms-drug-cd-certificate-of-service-3",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5"
+      ],
+      "role": "route_packet_of_composed_pleadings",
+      "deliveryRole": "participant_deliverable_for_this_route_only",
+      "valuesReadBackFromTheseBytes": 12,
+      "rasterPending": true,
+      "independentVerificationPending": true
+    },
+    {
+      "routeKey": "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+      "route": "ms-dui",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-dui/canonical.pdf",
+      "sha256": "5eab947a132e604a5b2a944a0b9d2dbbbcdde468dc9f1a465db439d4a482c5f8",
+      "byteLength": 27044,
+      "pageCount": 9,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 3,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 4,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "ms-dui-proposed-order-2",
+          "documentId": "ms-dui-proposed-order-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "ms-dui-certificate-of-service-3",
+          "documentId": "ms-dui-certificate-of-service-3",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "ms-dui-attachment-4",
+          "documentId": "ms-dui-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 9,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "ms-dui-primary-filing-1",
+        "ms-dui-proposed-order-2",
+        "ms-dui-certificate-of-service-3",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5"
+      ],
+      "components": [
+        "ms-dui-primary-filing-1",
+        "ms-dui-proposed-order-2",
+        "ms-dui-certificate-of-service-3",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5"
+      ],
+      "role": "route_packet_of_composed_pleadings",
+      "deliveryRole": "participant_deliverable_for_this_route_only",
+      "valuesReadBackFromTheseBytes": 12,
+      "rasterPending": true,
+      "independentVerificationPending": true
+    },
+    {
+      "routeKey": "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement",
+      "route": "ms-mip",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-mip/canonical.pdf",
+      "sha256": "8da7e5704eb3023ee9b4e8b9b43c03302d91f19db5457f1142065fc04bcbf06b",
+      "byteLength": 25377,
+      "pageCount": 8,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "ms-mip-primary-filing-1",
+          "documentId": "ms-mip-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "ms-mip-primary-filing-1",
+          "documentId": "ms-mip-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "ms-mip-primary-filing-1",
+          "documentId": "ms-mip-primary-filing-1",
+          "sourcePage": 3,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "ms-mip-proposed-order-2",
+          "documentId": "ms-mip-proposed-order-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "ms-mip-certificate-of-service-3",
+          "documentId": "ms-mip-certificate-of-service-3",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "ms-mip-attachment-4",
+          "documentId": "ms-mip-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "ms-mip-primary-filing-1",
+        "ms-mip-proposed-order-2",
+        "ms-mip-certificate-of-service-3",
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
+      ],
+      "components": [
+        "ms-mip-primary-filing-1",
+        "ms-mip-proposed-order-2",
+        "ms-mip-certificate-of-service-3",
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
+      ],
+      "role": "route_packet_of_composed_pleadings",
+      "deliveryRole": "participant_deliverable_for_this_route_only",
+      "valuesReadBackFromTheseBytes": 12,
+      "rasterPending": true,
+      "independentVerificationPending": true
+    },
+    {
+      "routeKey": "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+      "route": "ms-drug-cd",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-drug-cd/boundary.pdf",
+      "sha256": "970aedd2300d8dc2755b9316be6f467bb7c960c13290d9fc215831dc35edb73d",
+      "byteLength": 25797,
+      "pageCount": 8,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "ms-drug-cd-primary-filing-1",
+          "documentId": "ms-drug-cd-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "ms-drug-cd-primary-filing-1",
+          "documentId": "ms-drug-cd-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "ms-drug-cd-primary-filing-1",
+          "documentId": "ms-drug-cd-primary-filing-1",
+          "sourcePage": 3,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "ms-drug-cd-proposed-order-2",
+          "documentId": "ms-drug-cd-proposed-order-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "ms-drug-cd-certificate-of-service-3",
+          "documentId": "ms-drug-cd-certificate-of-service-3",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "ms-drug-cd-attachment-4",
+          "documentId": "ms-drug-cd-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "ms-drug-cd-primary-filing-1",
+        "ms-drug-cd-proposed-order-2",
+        "ms-drug-cd-certificate-of-service-3",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5"
+      ],
+      "components": [
+        "ms-drug-cd-primary-filing-1",
+        "ms-drug-cd-proposed-order-2",
+        "ms-drug-cd-certificate-of-service-3",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5"
+      ],
+      "role": "route_packet_of_composed_pleadings",
+      "deliveryRole": "participant_deliverable_for_this_route_only",
+      "valuesReadBackFromTheseBytes": 12,
+      "rasterPending": true,
+      "independentVerificationPending": true
+    },
+    {
+      "routeKey": "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+      "route": "ms-dui",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-dui/boundary.pdf",
+      "sha256": "bbf895cb28323c099e91101582202c4cbea08f060709be9acb0b9308b75bf9fa",
+      "byteLength": 27471,
+      "pageCount": 9,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 3,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "ms-dui-primary-filing-1",
+          "documentId": "ms-dui-primary-filing-1",
+          "sourcePage": 4,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "ms-dui-proposed-order-2",
+          "documentId": "ms-dui-proposed-order-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "ms-dui-certificate-of-service-3",
+          "documentId": "ms-dui-certificate-of-service-3",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "ms-dui-attachment-4",
+          "documentId": "ms-dui-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 9,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "ms-dui-primary-filing-1",
+        "ms-dui-proposed-order-2",
+        "ms-dui-certificate-of-service-3",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5"
+      ],
+      "components": [
+        "ms-dui-primary-filing-1",
+        "ms-dui-proposed-order-2",
+        "ms-dui-certificate-of-service-3",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5"
+      ],
+      "role": "route_packet_of_composed_pleadings",
+      "deliveryRole": "participant_deliverable_for_this_route_only",
+      "valuesReadBackFromTheseBytes": 12,
+      "rasterPending": true,
+      "independentVerificationPending": true
+    },
+    {
+      "routeKey": "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement",
+      "route": "ms-mip",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-mip/boundary.pdf",
+      "sha256": "98323cdd14ccbfdff699081a2aaa91ef2f237e05e75c6e51d6ad24a78f2fdc47",
+      "byteLength": 25786,
+      "pageCount": 8,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "ms-mip-primary-filing-1",
+          "documentId": "ms-mip-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "ms-mip-primary-filing-1",
+          "documentId": "ms-mip-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "ms-mip-primary-filing-1",
+          "documentId": "ms-mip-primary-filing-1",
+          "sourcePage": 3,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "ms-mip-proposed-order-2",
+          "documentId": "ms-mip-proposed-order-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "ms-mip-certificate-of-service-3",
+          "documentId": "ms-mip-certificate-of-service-3",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "ms-mip-attachment-4",
+          "documentId": "ms-mip-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
+          "sourcePage": 2,
+          "sourceSha256": null
+        }
+      ],
+      "documents": [
+        "ms-mip-primary-filing-1",
+        "ms-mip-proposed-order-2",
+        "ms-mip-certificate-of-service-3",
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
+      ],
+      "components": [
+        "ms-mip-primary-filing-1",
+        "ms-mip-proposed-order-2",
+        "ms-mip-certificate-of-service-3",
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
+      ],
+      "role": "route_packet_of_composed_pleadings",
+      "deliveryRole": "participant_deliverable_for_this_route_only",
+      "valuesReadBackFromTheseBytes": 12,
+      "rasterPending": true,
+      "independentVerificationPending": true
+    }
+  ],
+  "routeArtifactRoutes": [
+    "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+    "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+    "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement"
+  ],
+  "routeArtifactRasterPending": true,
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c",
+      "byteLength": 74867,
+      "pageCount": 25,
+      "pageManifest": [
+        {
+          "packetPage": 1,
+          "component": "ms-drug-cd-primary-filing-1",
+          "documentId": "ms-drug-cd-primary-filing-1",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 2,
+          "component": "ms-drug-cd-primary-filing-1",
+          "documentId": "ms-drug-cd-primary-filing-1",
+          "sourcePage": 2,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 3,
+          "component": "ms-drug-cd-primary-filing-1",
+          "documentId": "ms-drug-cd-primary-filing-1",
+          "sourcePage": 3,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 4,
+          "component": "ms-drug-cd-proposed-order-2",
+          "documentId": "ms-drug-cd-proposed-order-2",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 5,
+          "component": "ms-drug-cd-certificate-of-service-3",
+          "documentId": "ms-drug-cd-certificate-of-service-3",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 6,
+          "component": "ms-drug-cd-attachment-4",
+          "documentId": "ms-drug-cd-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 7,
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
+          "packetPage": 8,
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
           "sourcePage": 2,
           "sourceSha256": null
         },
@@ -147,23 +690,23 @@
         },
         {
           "packetPage": 15,
-          "component": "ms-dui-filing-instructions-4",
-          "documentId": "ms-dui-filing-instructions-4",
+          "component": "ms-dui-attachment-4",
+          "documentId": "ms-dui-attachment-4",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 16,
-          "component": "ms-dui-filing-instructions-4",
-          "documentId": "ms-dui-filing-instructions-4",
-          "sourcePage": 2,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 17,
-          "component": "ms-dui-filing-instructions-4",
-          "documentId": "ms-dui-filing-instructions-4",
-          "sourcePage": 3,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 2,
           "sourceSha256": null
         },
         {
@@ -189,44 +732,37 @@
         },
         {
           "packetPage": 21,
-          "component": "ms-mip-primary-filing-1",
-          "documentId": "ms-mip-primary-filing-1",
-          "sourcePage": 4,
-          "sourceSha256": null
-        },
-        {
-          "packetPage": 22,
           "component": "ms-mip-proposed-order-2",
           "documentId": "ms-mip-proposed-order-2",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 23,
+          "packetPage": 22,
           "component": "ms-mip-certificate-of-service-3",
           "documentId": "ms-mip-certificate-of-service-3",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
+          "packetPage": 23,
+          "component": "ms-mip-attachment-4",
+          "documentId": "ms-mip-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
           "packetPage": 24,
-          "component": "ms-mip-filing-instructions-4",
-          "documentId": "ms-mip-filing-instructions-4",
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 25,
-          "component": "ms-mip-filing-instructions-4",
-          "documentId": "ms-mip-filing-instructions-4",
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
           "sourcePage": 2,
-          "sourceSha256": null
-        },
-        {
-          "packetPage": 26,
-          "component": "ms-mip-filing-instructions-4",
-          "documentId": "ms-mip-filing-instructions-4",
-          "sourcePage": 3,
           "sourceSha256": null
         }
       ],
@@ -234,37 +770,43 @@
         "ms-drug-cd-primary-filing-1",
         "ms-drug-cd-proposed-order-2",
         "ms-drug-cd-certificate-of-service-3",
-        "ms-drug-cd-filing-instructions-4",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5",
         "ms-dui-primary-filing-1",
         "ms-dui-proposed-order-2",
         "ms-dui-certificate-of-service-3",
-        "ms-dui-filing-instructions-4",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5",
         "ms-mip-primary-filing-1",
         "ms-mip-proposed-order-2",
         "ms-mip-certificate-of-service-3",
-        "ms-mip-filing-instructions-4"
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
       ],
       "components": [
         "ms-drug-cd-primary-filing-1",
         "ms-drug-cd-proposed-order-2",
         "ms-drug-cd-certificate-of-service-3",
-        "ms-drug-cd-filing-instructions-4",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5",
         "ms-dui-primary-filing-1",
         "ms-dui-proposed-order-2",
         "ms-dui-certificate-of-service-3",
-        "ms-dui-filing-instructions-4",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5",
         "ms-mip-primary-filing-1",
         "ms-mip-proposed-order-2",
         "ms-mip-certificate-of-service-3",
-        "ms-mip-filing-instructions-4"
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
       ]
     },
     {
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf",
-      "sha256": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f",
-      "byteLength": 70320,
-      "pageCount": 26,
+      "sha256": "28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4",
+      "byteLength": 76118,
+      "pageCount": 25,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -289,36 +831,36 @@
         },
         {
           "packetPage": 4,
-          "component": "ms-drug-cd-primary-filing-1",
-          "documentId": "ms-drug-cd-primary-filing-1",
-          "sourcePage": 4,
-          "sourceSha256": null
-        },
-        {
-          "packetPage": 5,
           "component": "ms-drug-cd-proposed-order-2",
           "documentId": "ms-drug-cd-proposed-order-2",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 6,
+          "packetPage": 5,
           "component": "ms-drug-cd-certificate-of-service-3",
           "documentId": "ms-drug-cd-certificate-of-service-3",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
+          "packetPage": 6,
+          "component": "ms-drug-cd-attachment-4",
+          "documentId": "ms-drug-cd-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
           "packetPage": 7,
-          "component": "ms-drug-cd-filing-instructions-4",
-          "documentId": "ms-drug-cd-filing-instructions-4",
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 8,
-          "component": "ms-drug-cd-filing-instructions-4",
-          "documentId": "ms-drug-cd-filing-instructions-4",
+          "component": "ms-drug-cd-instructions-5",
+          "documentId": "ms-drug-cd-instructions-5",
           "sourcePage": 2,
           "sourceSha256": null
         },
@@ -366,23 +908,23 @@
         },
         {
           "packetPage": 15,
-          "component": "ms-dui-filing-instructions-4",
-          "documentId": "ms-dui-filing-instructions-4",
+          "component": "ms-dui-attachment-4",
+          "documentId": "ms-dui-attachment-4",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 16,
-          "component": "ms-dui-filing-instructions-4",
-          "documentId": "ms-dui-filing-instructions-4",
-          "sourcePage": 2,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 17,
-          "component": "ms-dui-filing-instructions-4",
-          "documentId": "ms-dui-filing-instructions-4",
-          "sourcePage": 3,
+          "component": "ms-dui-instructions-5",
+          "documentId": "ms-dui-instructions-5",
+          "sourcePage": 2,
           "sourceSha256": null
         },
         {
@@ -408,44 +950,37 @@
         },
         {
           "packetPage": 21,
-          "component": "ms-mip-primary-filing-1",
-          "documentId": "ms-mip-primary-filing-1",
-          "sourcePage": 4,
-          "sourceSha256": null
-        },
-        {
-          "packetPage": 22,
           "component": "ms-mip-proposed-order-2",
           "documentId": "ms-mip-proposed-order-2",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
-          "packetPage": 23,
+          "packetPage": 22,
           "component": "ms-mip-certificate-of-service-3",
           "documentId": "ms-mip-certificate-of-service-3",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
+          "packetPage": 23,
+          "component": "ms-mip-attachment-4",
+          "documentId": "ms-mip-attachment-4",
+          "sourcePage": 1,
+          "sourceSha256": null
+        },
+        {
           "packetPage": 24,
-          "component": "ms-mip-filing-instructions-4",
-          "documentId": "ms-mip-filing-instructions-4",
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
           "sourcePage": 1,
           "sourceSha256": null
         },
         {
           "packetPage": 25,
-          "component": "ms-mip-filing-instructions-4",
-          "documentId": "ms-mip-filing-instructions-4",
+          "component": "ms-mip-instructions-5",
+          "documentId": "ms-mip-instructions-5",
           "sourcePage": 2,
-          "sourceSha256": null
-        },
-        {
-          "packetPage": 26,
-          "component": "ms-mip-filing-instructions-4",
-          "documentId": "ms-mip-filing-instructions-4",
-          "sourcePage": 3,
           "sourceSha256": null
         }
       ],
@@ -453,29 +988,35 @@
         "ms-drug-cd-primary-filing-1",
         "ms-drug-cd-proposed-order-2",
         "ms-drug-cd-certificate-of-service-3",
-        "ms-drug-cd-filing-instructions-4",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5",
         "ms-dui-primary-filing-1",
         "ms-dui-proposed-order-2",
         "ms-dui-certificate-of-service-3",
-        "ms-dui-filing-instructions-4",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5",
         "ms-mip-primary-filing-1",
         "ms-mip-proposed-order-2",
         "ms-mip-certificate-of-service-3",
-        "ms-mip-filing-instructions-4"
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
       ],
       "components": [
         "ms-drug-cd-primary-filing-1",
         "ms-drug-cd-proposed-order-2",
         "ms-drug-cd-certificate-of-service-3",
-        "ms-drug-cd-filing-instructions-4",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5",
         "ms-dui-primary-filing-1",
         "ms-dui-proposed-order-2",
         "ms-dui-certificate-of-service-3",
-        "ms-dui-filing-instructions-4",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5",
         "ms-mip-primary-filing-1",
         "ms-mip-proposed-order-2",
         "ms-mip-certificate-of-service-3",
-        "ms-mip-filing-instructions-4"
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
       ]
     }
   ],
@@ -486,15 +1027,18 @@
         "ms-drug-cd-primary-filing-1",
         "ms-drug-cd-proposed-order-2",
         "ms-drug-cd-certificate-of-service-3",
-        "ms-drug-cd-filing-instructions-4",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5",
         "ms-dui-primary-filing-1",
         "ms-dui-proposed-order-2",
         "ms-dui-certificate-of-service-3",
-        "ms-dui-filing-instructions-4",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5",
         "ms-mip-primary-filing-1",
         "ms-mip-proposed-order-2",
         "ms-mip-certificate-of-service-3",
-        "ms-mip-filing-instructions-4"
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
       ]
     },
     {
@@ -503,15 +1047,18 @@
         "ms-drug-cd-primary-filing-1",
         "ms-drug-cd-proposed-order-2",
         "ms-drug-cd-certificate-of-service-3",
-        "ms-drug-cd-filing-instructions-4",
+        "ms-drug-cd-attachment-4",
+        "ms-drug-cd-instructions-5",
         "ms-dui-primary-filing-1",
         "ms-dui-proposed-order-2",
         "ms-dui-certificate-of-service-3",
-        "ms-dui-filing-instructions-4",
+        "ms-dui-attachment-4",
+        "ms-dui-instructions-5",
         "ms-mip-primary-filing-1",
         "ms-mip-proposed-order-2",
         "ms-mip-certificate-of-service-3",
-        "ms-mip-filing-instructions-4"
+        "ms-mip-attachment-4",
+        "ms-mip-instructions-5"
       ]
     }
   ],
