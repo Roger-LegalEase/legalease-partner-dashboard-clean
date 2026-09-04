@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "co_motion_seal_conviction-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "JDF 612 and JDF 615 interleave their glyph runs, and JDF 612 additionally carries runs at a shifted encoding; extracted text is scrambled at the character level.",
+      "consequence": "No printed-caption check can be run on either form. The captions rest on Colorado's own authored field names and the printed section headings; the scrambled extraction is recorded per field in reports/caption-evidence.json, and placement is left to the visual reviewer, who can read the paper."
+    },
+    {
+      "finding": "C.R.S. § 24-72-706 reaches a conviction by two branches, and section 8 of JDF 612 asks which one applies.",
+      "consequence": "The branch is a participant election rather than a route-determined selection: it turns on the offence's own class and on whether this district attorney consents, and a packet that ticked one would be swearing to a legal characterisation of a conviction the build has not seen. The route the packet WAS built for is stated in the field map, the source receipt and the participant instructions."
+    },
+    {
+      "finding": "Section 3 of JDF 615 is the court's own findings — every box there begins \"The Court finds\".",
+      "consequence": "All five are left blank under the court-owned refusal class. A proposed order that pre-ticked the finding the judge is being asked to make would be drafting the ruling rather than requesting it."
+    },
+    {
+      "finding": "Section 7 of JDF 612 asks what the conviction was, when sentence was imposed and when supervision ended, and the platform holds none of the three.",
+      "consequence": "Each is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, with the clerk of the convicting court as the place to get it. None is estimated: a sentencing date guessed onto a sworn motion is worse than a blank one."
+    },
+    {
+      "finding": "Both forms ask for the agencies holding records, and the completeness contract refuses to let a court or clerk refusal class excuse an agency fact.",
+      "consequence": "Every agency name, file number and address is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, rather than being bundled into a protected class."
+    },
+    {
+      "finding": "JDF 612 ships with the Colorado Bureau of Investigation box already ticked, because the form marks that agency required. The finished artifact therefore draws a tick at a rectangle this map refuses.",
+      "consequence": "The census reads each control's value from the pinned source, and the byte proof records ink at a control the source already carried as a documentAuthoredAppearance rather than as ink on a refused field. Reading it the other way would report a protected write this build never made. Nothing is softened: a control the source leaves empty that carries ink in the output is still a blocking finding."
+    },
+    {
+      "finding": "The MASTER_QUEUE row for this family names its two sources at paths in the nationwide recovery pool (LegalEase Colorado/forms/JDF-612__…, JDF-615__…), a custody this container does not mount.",
+      "consequence": "The build binds both forms from the Master Library instead, by exact form number and exact SHA-256 — 8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e for JDF 612 and 106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647 for JDF 615 — which are the same digests the queue pins. The committed corpus index records both digests in the Master Library custody as well as in the recovery pool, so this is one binary held in two custodies, not a substituted source. The absent custody is stated rather than worked around, and the source receipt records the path actually read."
+    },
+    {
+      "finding": "JDF 612 ships TWENTY-THREE of its text widgets with the annotation Hidden flag set — 6A.1, 6C.1, 6E.1, 6E.2, 6E.3, 6F.1, 6F.2, 6F.3, 6G.1, 6G.2, 6H.1, 6H.2, 7A.1, 7B.1, 7C.1, 8B.2, 9B.1, 9B.2, 9B.3, 9B.4, CoS_Mail, CoS_Other and Sig_Bar. Colorado reveals each one with the form's own JavaScript when the checkbox or radio group that governs it is ticked.",
+      "consequence": "A value written into a hidden widget is invisible ink: the finalizer reports the write, the flattened bytes carry no appearance, and the paper is blank. This build measured that directly — a case-number write into 6A.1 was reported by the finalizer and read back as no ink at the widget's own rectangle — so the census now reads the annotation flags from the pinned binary and the build ASSERTS that no write lands on a hidden widget. 6A.1 is carried to the participant instead, with the reason stated: the packet holds the case number and prints it in the caption of the same page, and the participant copies it across once the box is revealed. Claiming it as a write would have been the worst available outcome."
+    },
+    {
+      "severity": "advisory",
+      "finding": "A boundary value that does not fit its line at the minimum readable font is refused by the shared finalizer rather than clipped.",
+      "consequence": "Recorded in reports/actual-writes.json under unfittable. That is the boundary fixture doing its job; the canonical fixture writes the value."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}
