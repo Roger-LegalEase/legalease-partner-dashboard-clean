@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c7e566b65def5de22a3e61d237014c5105006922` (or the newer dispatch base)
+**Minimum required ancestor:** `5b94262e23fb7abdfe6a6a7c656a901ed8a60e92` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission \
   --codex-cloud \
-  --minimum-captain-sha c7e566b65def5de22a3e61d237014c5105006922
+  --minimum-captain-sha 5b94262e23fb7abdfe6a6a7c656a901ed8a60e92
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -60,9 +60,9 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`
 - `il-seal-3yr-set`
-- `rcap-nd-custom-pleading`
-- `tx_exp_acquittal-set`
-- `vt_seal_nonconviction-set`
+- `rcap-ok-custom-pleading`
+- `ut_pet_acquittal-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -77,14 +77,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
-- `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
-- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
-- `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
+- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
 
 ## Never write here
 

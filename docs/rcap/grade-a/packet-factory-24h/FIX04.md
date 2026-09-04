@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c7e566b65def5de22a3e61d237014c5105006922` (or the newer dispatch base)
+**Minimum required ancestor:** `5b94262e23fb7abdfe6a6a7c656a901ed8a60e92` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-felony-nonconviction-90-set \
   --codex-cloud \
-  --minimum-captain-sha c7e566b65def5de22a3e61d237014c5105006922
+  --minimum-captain-sha 5b94262e23fb7abdfe6a6a7c656a901ed8a60e92
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,16 +56,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 8 families
+## The 7 families
 
 - `al-felony-nonconviction-90-set`
 - `ar-pardon-seal-set`
 - `il-seal-edu-set`
 - `az_marijuana_expungement_arrest_no_charges-set`
 - `nj_arrest_no_conviction-set`
-- `rcap-tx-custom-pleading`
-- `ut_pet_dismissed_with_prejudice-set`
-- `wv_conv_single_misdemeanor-set`
+- `rcap-wi-custom-pleading`
+- `ut_pet_no_charges-set`
 
 ## What you receive
 
@@ -83,15 +82,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
 - `scripts/build-census-v1-ar-pardon-seal-set.mjs`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
-- `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
+- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
+- `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
 
 ## Never write here
 

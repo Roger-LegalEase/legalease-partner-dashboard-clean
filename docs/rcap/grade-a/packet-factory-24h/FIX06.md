@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c7e566b65def5de22a3e61d237014c5105006922` (or the newer dispatch base)
+**Minimum required ancestor:** `5b94262e23fb7abdfe6a6a7c656a901ed8a60e92` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-misd-dwop-set \
   --codex-cloud \
-  --minimum-captain-sha c7e566b65def5de22a3e61d237014c5105006922
+  --minimum-captain-sha 5b94262e23fb7abdfe6a6a7c656a901ed8a60e92
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,16 +56,17 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 8 families
+## The 9 families
 
 - `al-misd-dwop-set`
 - `il-exp-pardon-set`
+- `oh_marijuana_expungement-set`
 - `tx_nd_probation_misdemeanor-set`
 - `ut_pet_limitations-set`
 - `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`
-- `oh_marijuana_expungement-set`
-- `rcap-wi-custom-pleading`
-- `ut_pet_no_charges-set`
+- `rcap-ks-custom-pleading`
+- `sd_arrest_expungement-set`
+- `vt_exp_decriminalized-set`
 
 ## What you receive
 
@@ -80,19 +81,21 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
 - `data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-misd-dwop-set.mjs`
+- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
 - `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`
 - `scripts/build-census-v1-ut_pet_limitations-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs`
-- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
-- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
-- `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
+- `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
+- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 
 ## Never write here
 
