@@ -69347,6 +69347,47 @@
         "name": "Office of the Circuit Court Clerk",
         "detail": "Filed with the circuit court clerk in the county where the original charge was filed. One petition per criminal case. Where a circuit case has an underlying district case, the Clerks' Manual directs that only one fee is collected."
       },
+      "officialFormElectionMapping": {
+        "status": "MAPPED",
+        "primaryFormId": "AOC-496.2",
+        "recordFactsRequired": [
+          "exact conviction or disposition",
+          "offense classification shown by the court record",
+          "sentence-completion date",
+          "probation-completion date, when applicable",
+          "whether the conviction was expressly voided under KRS 218A.275(8) or KRS 218A.276(8)"
+        ],
+        "section6Selections": [
+          {
+            "selection": "Five years have passed after the later of sentence completion or successful probation completion",
+            "condition": "Select only when the exact record establishes a misdemeanor, violation, or qualifying traffic-infraction conviction under the ordinary KRS 431.078 route and establishes the later completion date plus five years."
+          },
+          {
+            "selection": "First controlled-substances conviction voided under KRS 218A.275(8)",
+            "condition": "Select only when the exact disposition record expressly establishes that statutory voiding."
+          },
+          {
+            "selection": "Marijuana, synthetic-drug, or salvia conviction voided under KRS 218A.276(8)",
+            "condition": "Select only when the exact disposition record expressly establishes that statutory voiding."
+          }
+        ],
+        "courtOwnedFields": {
+          "formId": "AOC-496",
+          "instruction": "Leave judicial findings and the court's grant or denial selections blank; do not prefill them as participant assertions."
+        },
+        "hardStop": "If the conviction, disposition, offense classification, completion dates, or statutory voiding basis do not establish one exact election, require human review and do not select a ground based on similar wording.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 10"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:AOC-496.2",
+          "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+        },
+        {
+          "sourceId": "official-form:AOC-496",
+          "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd"
+        }
+      ],
       "packetSet": {
         "packetSetId": "ky_misdemeanor_expungement-set",
         "version": "1.0.0",
