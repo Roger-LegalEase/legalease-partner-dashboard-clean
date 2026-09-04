@@ -9,5 +9,59 @@
   "generationAllowed": false,
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "binding": {
+    "family": "ar-drug-court-set",
+    "jurisdiction": "AR",
+    "routeKeys": [
+      "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-1",
+      "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-2"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ACIC pre- or post-adjudication petition and order (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ar-drug-court-primary-filing-2",
+      "component:ar-drug-court-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
+        "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
+        "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
+        "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
+        "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ar-drug-court-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

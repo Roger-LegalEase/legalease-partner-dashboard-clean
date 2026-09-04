@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d91c14a8d67a58b66b06237909db3c14ca4e92fa",
+  "minimumCaptainSha": "d13b617f787201ea89b193461f45b677a088d04b",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "291b0b8f59d7d3e5fb65f31dda92f147df99941c248024c3b32cf86d9053152d",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "a0ef92c4f65bf6e5c3987e2c093ddf10b7a3279eba83279fa1cc34494cedcf6b",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -72,14 +72,14 @@
     "sourceReady": 100,
     "sourceBlocked": 11,
     "legalBlocked": 7,
-    "verifyPending": 2,
-    "repairRequired": 48,
+    "verifyPending": 0,
+    "repairRequired": 50,
     "sumsToDenominator": true
   },
   "byState": {
     "BUILT_RASTER_PENDING": 28,
     "COMPLETE_PACKET_PROVEN": 113,
-    "FAIL_REPAIR_REQUIRED": 48,
+    "FAIL_REPAIR_REQUIRED": 50,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 100,
@@ -87,7 +87,6 @@
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -35295,11 +35294,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf37",
-        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf37/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35329,18 +35330,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "SOURCE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FIX19 measured 160 pages but returned RASTER_FAIL: canonical page 39 is near-empty and contains only an orphaned '-expungement' footer fragment; independent Poppler rasterization reproduces the defect.",
-          "evidence": "data/rcap-grade-a/codex-cloud/fix19-ok-raster-return.json"
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "This family binds no document binary: it is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its receipt pins three committed repository records by full-file SHA-256. All three pins are stale against the bytes on disk at this base. legal-design-track-registry.json pins 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 / 16555956 bytes and recomputes to 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; legal-design-specifications.json pins cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 / 16829383 and recomputes to f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; route-obligation-candidate.json pins 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 and recomputes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. The drift is national, not Oklahoman: commit 0be1fee769162cf337ad79daaa3d5a94d88b4f5e landed after this family's last build (52590631e) and rewrote CO, DE, MA and MT form identities in the same files. Measured against that: all 148 anchor statements the builder relies on (116 + 16 + 16) are still present verbatim in the current bytes, and all eight Oklahoma track objects are byte-identical between the registry at the build commit and the registry now. So the legal content still binds and the identity does not — exact family objects remaining equal cannot satisfy an exact-SHA obligation."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
@@ -35918,11 +35919,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "lane": "vf08",
+        "verifiedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35952,31 +35955,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "ARTIFACTS"
+        "SOURCE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "ARTIFACTS",
-          "finding": "The current PDFs match rendered-artifacts.json and RASTER_QUEUE.json, but family-local product-wiring.json still identifies the superseded packet. proposedRepresentation.components[0].sha256 is 8536db61... while the current canonical is e94f1370..., and binding.acceptanceReceipt points to the old canonical 8536db61... / boundary ce3a0a84... receipt. Thus the family contains contradictory artifact identity records and its declared product binding does not describe the repaired bytes.",
-          "evidence": {
-            "canonical": {
-              "sha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
-              "byteLength": 46140,
-              "pageCount": 17
-            },
-            "boundary": {
-              "sha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
-              "byteLength": 46647,
-              "pageCount": 17
-            },
-            "staleProductWiringCanonical": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
-            "staleAcceptanceBoundary": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d"
-          }
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "This family binds no document binary: it is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its receipt pins three committed repository records by full-file SHA-256. All three pins are stale against the bytes on disk at this base. legal-design-track-registry.json pins 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 / 16555956 bytes and recomputes to 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; legal-design-specifications.json pins cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 / 16829383 and recomputes to f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; route-obligation-candidate.json pins 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 and recomputes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. The drift is national, not Washingtonian: the registry at this family's last build commit (6a8b3ec57) rehashes here to exactly the pinned 0a92a1a2..., and commit 0be1fee769162cf337ad79daaa3d5a94d88b4f5e then rewrote CO, DE, MA and MT form identities in the same files. Measured against that: all 53 anchor statements the builder relies on (48 + 3 + 2) are still present verbatim in the current bytes, and both Washington track objects are byte-identical between the registry at the build commit and the registry now. The legal content still binds and the identity does not — exact family objects remaining equal cannot satisfy an exact-SHA obligation."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",

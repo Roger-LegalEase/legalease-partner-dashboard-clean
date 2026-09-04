@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "fl-administrative-set",
+  "routeKey": "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest",
+  "routeKeys": [
+    "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "fl-administrative-set",
+    "jurisdiction": "FL",
+    "routeKeys": [
+      "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest"
+    ],
+    "deliveryType": "participant_agency_application",
+    "instrumentKinds": [
+      "FDLE Administrative Expunction Application under § 943.0581"
+    ],
+    "packetComponents": [
+      "component:fl-administrative-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-fl-administrative-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "fl-administrative-set",
+    "outputStrategy": "participant_agency_application",
+    "components": [
+      {
+        "componentId": "fl-administrative-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+        "requirement": "required"
+      }
+    ]
+  }
+}

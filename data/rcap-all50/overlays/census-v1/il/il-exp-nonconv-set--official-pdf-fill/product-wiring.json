@@ -51,19 +51,19 @@
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [
       {
-        "sourceId": "official-form:FW-CIV-APPLICATION",
-        "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
-        "tier": "exact_form_number"
-      },
-      {
         "sourceId": "official-form:EXP-AD Additional Cases Expungement",
         "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
-        "tier": "exact_identity_confirmed_from_document_text"
+        "tier": "exact_content_hash"
       },
       {
         "sourceId": "official-form:EXP-AD Case List",
         "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
-        "tier": "exact_identity_confirmed_from_document_text"
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:FW-CIV-APPLICATION",
+        "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+        "tier": "exact_form_number"
       },
       {
         "sourceId": "official-form:EXP-AD Order Granting",
@@ -84,7 +84,11 @@
       "boundToCanonicalSha256": "be547c0bcdbc98cbcc2b2b9f5675220d478c01085474ca960ce2cda58d7cc5ba",
       "coversTheWholeFamily": true
     },
-    "lastIndependentVerification": null,
+    "lastIndependentVerification": {
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "current-byte-independent-verification-il-tx-batch-018",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
+    },
     "paymentEligible": false,
     "sponsorshipEligible": false,
     "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",

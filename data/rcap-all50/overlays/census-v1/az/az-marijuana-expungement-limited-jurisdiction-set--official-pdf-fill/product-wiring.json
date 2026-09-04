@@ -7,5 +7,43 @@
   "generationAllowed": false,
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "binding": {
+    "family": "az_marijuana_expungement_limited_jurisdiction-set",
+    "jurisdiction": "AZ",
+    "routeKeys": [
+      "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "continuation",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:az_marijuana_expungement_limited_jurisdiction-continuation-2",
+      "component:az_marijuana_expungement_limited_jurisdiction-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:AOC-CREM2F-071221",
+        "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

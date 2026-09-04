@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 84,
-    "rows": 639,
+    "returnDirectories": 85,
+    "rows": 641,
     "independentVerdicts": 206,
     "failRepairRequired": 62,
     "passIndependent": 134
@@ -11866,6 +11866,28 @@
     {
       "familyId": "rcap-ok-custom-pleading",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "This family binds no document binary: it is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its receipt pins three committed repository records by full-file SHA-256. All three pins are stale against the bytes on disk at this base. legal-design-track-registry.json pins 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 / 16555956 bytes and recomputes to 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; legal-design-specifications.json pins cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 / 16829383 and recomputes to f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; route-obligation-candidate.json pins 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 and recomputes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. The drift is national, not Oklahoman: commit 0be1fee769162cf337ad79daaa3d5a94d88b4f5e landed after this family's last build (52590631e) and rewrote CO, DE, MA and MT form identities in the same files. Measured against that: all 148 anchor statements the builder relies on (116 + 16 + 16) are still present verbatim in the current bytes, and all eight Oklahoma track objects are byte-identical between the registry at the build commit and the registry now. So the legal content still binds and the identity does not — exact family objects remaining equal cannot satisfy an exact-SHA obligation."
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "cd48fc14e",
@@ -11999,7 +12021,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf37/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-sc-custom-pleading",
@@ -12523,6 +12545,28 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "This family binds no document binary: it is CUSTOM_PLEADING_FROM_CODIFIED_TEXT and its receipt pins three committed repository records by full-file SHA-256. All three pins are stale against the bytes on disk at this base. legal-design-track-registry.json pins 0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6 / 16555956 bytes and recomputes to 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16586150 bytes; legal-design-specifications.json pins cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 / 16829383 and recomputes to f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16829391; route-obligation-candidate.json pins 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 and recomputes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. The drift is national, not Washingtonian: the registry at this family's last build commit (6a8b3ec57) rehashes here to exactly the pinned 0a92a1a2..., and commit 0be1fee769162cf337ad79daaa3d5a94d88b4f5e then rewrote CO, DE, MA and MT form identities in the same files. Measured against that: all 53 anchor statements the builder relies on (48 + 3 + 2) are still present verbatim in the current bytes, and both Washington track objects are byte-identical between the registry at the build commit and the registry now. The legal content still binds and the identity does not — exact family objects remaining equal cannot satisfy an exact-SHA obligation."
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks",
       "superseded": false
     },

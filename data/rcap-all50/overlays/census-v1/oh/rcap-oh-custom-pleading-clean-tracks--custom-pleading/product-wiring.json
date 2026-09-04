@@ -23,18 +23,12 @@
     "family": "rcap-oh-custom-pleading-clean-tracks",
     "jurisdiction": "OH",
     "routeKeys": [
-      "obligation:track-only:OH:oh_2953_32_sealing",
-      "obligation:track-pathway:OH:oh_2953_32_expungement:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
-      "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
-      "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35"
+      "obligation:track-only:OH:oh_2953_32_sealing"
     ],
     "deliveryType": "custom_pleading",
     "instrumentKinds": [],
     "packetComponents": [
-      "component:oh_2953_32_expungement-bci-transmission-5",
-      "component:oh_2953_32_sealing-bci-transmission-5",
-      "component:oh_2953_33_nonconviction-bci-transmission-5",
-      "component:oh_2953_35_firearm-bci-transmission-5"
+      "component:oh_2953_32_sealing-bci-transmission-5"
     ],
     "fieldMap": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/production-field-map.json",
     "instructions": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/participant-instructions.md",
@@ -47,7 +41,14 @@
         "tier": "exact_form_number"
       }
     ],
-    "acceptanceReceipt": null,
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33850403312",
+      "jobId": "100953975759",
+      "artifactId": "9928647531",
+      "boundToCanonicalSha256": "fbf1c284b7bf9e76d782279de376e0a5eef8cbe619887033f27fe628ff1065cb",
+      "coversTheWholeFamily": true
+    },
     "lastIndependentVerification": {
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf32",

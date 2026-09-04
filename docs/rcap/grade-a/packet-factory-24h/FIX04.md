@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d91c14a8d67a58b66b06237909db3c14ca4e92fa` (or the newer dispatch base)
+**Minimum required ancestor:** `d13b617f787201ea89b193461f45b677a088d04b` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-felony-nonconviction-90-set' \
   --codex-cloud \
-  --minimum-captain-sha d91c14a8d67a58b66b06237909db3c14ca4e92fa
+  --minimum-captain-sha d13b617f787201ea89b193461f45b677a088d04b
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -42,9 +42,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'al-felony-nonconviction-90-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ar-nonconviction-seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ar-pardon-seal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'az_marijuana_expungement_arrest_no_charges-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'il-seal-edu-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'az_marijuana_expungement_arrest_no_charges-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-nv-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ut_pet_dismissed_with_prejudice-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
@@ -69,9 +69,9 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `al-felony-nonconviction-90-set`
 - `ar-nonconviction-seal-set`
 - `ar-pardon-seal-set`
+- `az_marijuana_expungement_arrest_no_charges-set`
 - `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`
 - `il-seal-edu-set`
-- `az_marijuana_expungement_arrest_no_charges-set`
 - `rcap-nv-custom-pleading`
 - `ut_pet_dismissed_with_prejudice-set`
 
@@ -89,9 +89,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`

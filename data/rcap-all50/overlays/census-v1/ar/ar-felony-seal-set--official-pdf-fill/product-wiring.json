@@ -12,5 +12,48 @@
   "generationAllowed": false,
   "runtimeSelectable": false,
   "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "productionTouched": false,
+  "binding": {
+    "family": "ar-felony-seal-set",
+    "jurisdiction": "AR",
+    "routeKeys": [
+      "obligation:track-pathway:AR:ar-felony-seal:situation-c-felony-convictions"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ar-felony-seal-primary-filing-1",
+      "component:ar-felony-seal-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+        "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+        "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ar-felony-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
 }

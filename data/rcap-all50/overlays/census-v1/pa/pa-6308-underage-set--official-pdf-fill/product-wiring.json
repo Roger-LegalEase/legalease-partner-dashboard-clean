@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "pa_6308_underage-set",
+  "routeKey": "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement",
+  "routeKeys": [
+    "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "pa_6308_underage-set",
+    "jurisdiction": "PA",
+    "routeKeys": [
+      "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Pennsylvania § 9122 Underage-Drinking Expungement Petition"
+    ],
+    "packetComponents": [
+      "component:pa_6308_underage-primary-filing-1",
+      "component:pa_6308_underage-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:PA-RCRIM-P-490-ORDER",
+        "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:PA-RCRIM-P-490-PETITION",
+        "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-pa_6308_underage-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "pa_6308_underage-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "pa_6308_underage-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "PA-RCRIM-P-490-PETITION",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-petition-canonical.pdf",
+        "sha256": "1048b6276acfea471f1aee7839c4a638124c5ac10627c1e335ef7cecbf2074e0",
+        "requirement": "required"
+      },
+      {
+        "componentId": "pa_6308_underage-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "PA-RCRIM-P-490-ORDER",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/rule-490-order-canonical.pdf",
+        "sha256": "a7b5f3714155b59e9a0ede4925823fedf0efaa43e1d70783d1b5b2190c07a6dd",
+        "requirement": "required"
+      },
+      {
+        "componentId": "pa_6308_underage-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "pa_6308_underage-certificate-of-service-3",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+        "sha256": "79101f2b3d1f284852d4ae743caf7ba43302ee7553d50c127c643a920bb59c77",
+        "requirement": "required"
+      }
+    ]
+  }
+}
