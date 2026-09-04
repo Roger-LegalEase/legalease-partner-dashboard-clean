@@ -1,8 +1,8 @@
 {
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
- "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL",
- "assignmentCount": 19,
+ "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT",
+ "assignmentCount": 20,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -513,6 +513,31 @@
   "failedProofObligations": ["SOURCE_IDENTITY"],
   "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The route contract and compiled profile are exact. The current and prior juvenile route entries are identical at digest db225b0ade88cb2debb373dddaa8f81ad6d1cdd4ac15b5ce49cc85ff375d8d1f.", "whatRepairMustDo": "Re-read the juvenile route object and update only the census record in source-receipt.json from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve canonical b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179 / 13424 and boundary 7ec9bdeb42a3fb3657aed1d6d1e8eeb01a2ee98935d08f7541174b1a31008359 / 13607 if unchanged; reraster only changed bytes and assign another verifier."}},
   "repairMustNotDo": ["do not edit the national census", "do not alter the juvenile-route scope", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
+ },
+ {
+  "wave": "packet-factory-24h/VF03/current-source-reread (2026-09-04)",
+  "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-CURRENT",
+  "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The § 19c petition prints the shared eleven-route Oklahoma analyst checklist as fourteen participant facts. Only C11 ('Trafficking nexus?') is specific to this route; the remaining questions belong to sibling routes or to route selection. The filing does not collect basic § 19c matter facts such as the existing court/county and case number, the prostitution-related offense and disposition, and a usable identification of the trafficking-nexus evidence. requiredFactsNotCollected=0 is a false comfort because the verifier compares the output against the same contaminated declaration.",
+  "failedProofObligations": ["REQUIRED_BEFORE_FILING"],
+  "perObligation": {
+   "REQUIRED_BEFORE_FILING": {
+    "measuredDetail": "Current src/lib/legal-authority/routes/route-splits.json rehashes exactly at c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df. Under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP, all eleven Oklahoma routes carry the same requiredFacts array at digest 94779ab948a79c4c735bd59ff19bd0e875a9adcd39036b24ea6e156ce53e31bd. The delivered canonical and boundary PDFs at e9b1fc14... and 8b91a6ab... print all fourteen questions on the petition: exact route, arrest/charge limitations, prosecutor declination, reversal/dismissal, DNA innocence, pardon, deferred order and dismissal, full-record versus court-record relief, reclassification date, fine amount/payment, trafficking nexus, juvenile completion, VPO hearing/vacatur/death, and portal/automatic status. The compiled § 19c pathway instead describes prostitution-related records committed as a result of trafficking and says the supporting proof is sensitive and should be handled through legal aid or counsel. The packet's own participantMustSupply text merely repeats each vague label plus 'copied from the record itself', so it does not turn the checklist into actionable filing facts.",
+    "whatRepairMustDo": "Apply the already-established juvenile repair pattern to this exact family: stop treating the shared eleven-route requiredFacts array as a participant fact set. Replace C1-C14 with § 19c matter-identification facts supported by the bound compiled pathway, including the existing court/county and case number, the prostitution-related offense and disposition, the relief requested, and a safe identification of the trafficking-nexus evidence without soliciting a survivor narrative in the self-help packet. Update production-field-map.json, blanks-left-for-the-participant.json, participant-instructions.md, completeness evidence and the generator together; rebuild deterministically. Any changed canonical or boundary byte invalidates run 33605354695 and must receive a fresh central RASTER_PASS before a different independent verifier reads it. Preserve the current legal-aid, sensitive-facts and personal-safety stops. Do not modify the shared eleven-route source record in this one-family repair unless separately assigned authority over all affected routes."
+   }
+  },
+  "repairMustNotDo": [
+   "do not delete or weaken the legal-aid, sensitive-narrative, safety or immigration stops",
+   "do not put a survivor's narrative on a self-help filing page",
+   "do not change the shared eleven-route route contract without a separately authorized cross-route repair",
+   "do not retain the current raster receipt after any fixture byte changes",
+   "do not self-verify or release the claim",
+   "this assignment opens no route and grants no production authority"
+  ]
  }
  ],
  "supersededLaneMembership": {
@@ -566,7 +591,8 @@
   "VF-SRC-A": 0,
   "FABLE-VA3": 2,
   "CODEX-CS1-VF03-NATIONAL": 5,
-  "note": "Prior assignments remain preserved. CODEX-CS1-VF03-NATIONAL added five focused SOURCE_IDENTITY re-pin assignments at base 588f9e74af2fa65a8dcd17e07258302b3588af61."
+  "CODEX-CS1-VF03-CURRENT": 1,
+  "note": "Prior assignments remain preserved. The five source-receipt re-pin assignments from 588f9e74 are now independently cleared by current rows; CODEX-CS1-VF03-CURRENT adds one REQUIRED_BEFORE_FILING assignment for the § 19c fact-set contamination at e10890c114ef6f46907efa9fa660493700ecead1."
  },
  "fableVa3Read": {
   "wave": "FABLE-VA3",
