@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-04T05:05:20.104Z",
-  "captainHead": "adc6eb67e436eb7af6e46e239b1afa6fedf38767",
+  "generatedAt": "2026-09-04T05:08:43.092Z",
+  "captainHead": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-04T05:25:20.104Z",
-    "nextSourceReleaseDeadline": "2026-09-04T05:35:20.104Z",
+    "nextIntegrationDeadline": "2026-09-04T05:28:43.092Z",
+    "nextSourceReleaseDeadline": "2026-09-04T05:38:43.092Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 10,
+        "measured": 9,
         "threshold": 20,
         "triggered": false
       },
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 40,
+        "measured": 41,
         "threshold": 20,
         "triggered": true
       },
@@ -81,14 +81,14 @@
     "sourceReady": 69,
     "sourceBlocked": 70,
     "legalBlocked": 26,
-    "verifyPending": 10,
-    "repairRequired": 40,
+    "verifyPending": 9,
+    "repairRequired": 41,
     "byState": {
       "SOURCE_READY": 69,
       "COMPLETE_PACKET_PROVEN": 113,
-      "VERIFY_PENDING": 10,
+      "FAIL_REPAIR_REQUIRED": 41,
       "OUT_OF_SCOPE": 5,
-      "FAIL_REPAIR_REQUIRED": 40,
+      "VERIFY_PENDING": 9,
       "SOURCE_BLOCKED": 70,
       "LEGAL_BLOCKED": 26,
       "HANDOFF_READY": 2,

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `adc6eb67e436eb7af6e46e239b1afa6fedf38767` (or the newer dispatch base)
+**Minimum required ancestor:** `9c7e70ff0aae28c8a627c5a070b6b07202d9a780` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family il-seal-edu-set \
   --codex-cloud \
-  --minimum-captain-sha adc6eb67e436eb7af6e46e239b1afa6fedf38767
+  --minimum-captain-sha 9c7e70ff0aae28c8a627c5a070b6b07202d9a780
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -61,7 +61,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `il-seal-edu-set`
 - `rcap-nd-custom-pleading`
 - `vt_seal_nonconviction-set`
-- `rcap-nv-custom-pleading`
+- `nj_arrest_no_conviction-set`
 
 ## What you receive
 
@@ -77,11 +77,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
 - `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
 - `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
-- `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
 
 ## Never write here
 

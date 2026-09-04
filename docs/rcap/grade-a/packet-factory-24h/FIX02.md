@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `adc6eb67e436eb7af6e46e239b1afa6fedf38767` (or the newer dispatch base)
+**Minimum required ancestor:** `9c7e70ff0aae28c8a627c5a070b6b07202d9a780` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-felony-nonconviction-90-set \
   --codex-cloud \
-  --minimum-captain-sha adc6eb67e436eb7af6e46e239b1afa6fedf38767
+  --minimum-captain-sha 9c7e70ff0aae28c8a627c5a070b6b07202d9a780
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -60,8 +60,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `al-felony-nonconviction-90-set`
 - `pa_pardon_expungement-set`
-- `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
-- `tx_exp_acquittal-set`
+- `az_marijuana_expungement_arrest_no_charges-set`
+- `rcap-wi-custom-pleading`
 
 ## What you receive
 
@@ -76,12 +76,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
 - `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
 - `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs`
-- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
+- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
 
 ## Never write here
 

@@ -22,7 +22,7 @@
   "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 47,
-    "rows": 553,
+    "rows": 555,
     "independentVerdicts": 187,
     "failRepairRequired": 41,
     "passIndependent": 140
@@ -173,6 +173,34 @@
         }
       ],
       "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ARTIFACTS",
         "ROUTE_IDENTITY"
       ],
       "unmeasuredObligations": [],
@@ -1236,6 +1264,46 @@
     {
       "familyId": "az_marijuana_expungement_arrest_no_charges-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf17",
       "isIndependentVerification": true,
       "verifiedAtBase": null,
@@ -1312,7 +1380,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf33/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_arrest_no_charges-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_marijuana_expungement_superior_court-set",
