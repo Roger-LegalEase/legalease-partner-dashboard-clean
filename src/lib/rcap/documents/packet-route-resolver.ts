@@ -12,8 +12,7 @@ import path from "node:path";
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
 import { legalRouteContract, routeCheckoutIsClosed } from "@/lib/legal-authority/index";
 import {
-  factoryV2RouteFor,
-  factoryV2RouteMigrationFor
+  factoryV2RouteFor
 } from "@/lib/rcap/documents/factory-v2-registry";
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 import {
@@ -156,7 +155,8 @@ export type PacketRouteResolution = {
     exactRouteProductized: boolean;
     exactTrackSelectionRequired: boolean;
     obligationRouteKey?: string;
-    legalApprovalEstablished?: false;
+    legalApprovalEstablished?: boolean;
+    legalApprovalRecordId?: string;
     postApprovalChangeAuditEstablished?: false;
     nextGate?: string;
   };
@@ -721,12 +721,15 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   }
 
   // ADR-0004 remains a jurisdiction-wide retirement fence. One route may pass
-  // it only when the factory registry validates an exact route migration
-  // against its generated seven-input row and its registered packet family.
-  // A missing, malformed or mismatched migration therefore falls back to the
-  // retired renderer, never to a sibling or jurisdiction-wide factory grant.
-  const retiredLegacyRouteMigration = factoryV2RouteMigrationFor(jurisdiction, pathwayId, input.trackId);
-  if (LEGACY_VERIFIED.has(jurisdiction) && !retiredLegacyRouteMigration) {
+  // it only when the factory registry validates either an exact migration
+  // against its generated seven-input row or an exact track-only productization
+  // against its packet-set manifest and registered specification. A missing,
+  // malformed or mismatched crosswalk therefore falls back to the retired
+  // renderer, never to a sibling or jurisdiction-wide factory grant.
+  const exactFactoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId);
+  const retiredLegacyRouteMigration = exactFactoryRoute?.retiredLegacyRouteMigration ?? null;
+  const retiredLegacyExactProductization = exactFactoryRoute?.exactRouteProductization ?? null;
+  if (LEGACY_VERIFIED.has(jurisdiction) && !retiredLegacyRouteMigration && !retiredLegacyExactProductization) {
     return {
       routeKind: "legacy_retired",
       jurisdiction,
@@ -775,7 +778,7 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   // live elsewhere and are recorded per route in the registry; a later change
   // that wants to sell one of these routes has to satisfy them explicitly rather
   // than inherit permission from the fact that the factory can build it.
-  const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId);
+  const factoryRoute = exactFactoryRoute;
   if (factoryRoute) {
     const exactProductization = factoryRoute.exactRouteProductization;
     return {
@@ -786,7 +789,9 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
       sellable: false,
       creditConsumable: false,
       reason: exactProductization
-        ? `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Current owner legal approval and a post-approval change audit are not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
+        ? exactProductization.legalApproval
+          ? `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Owner legal approval ${exactProductization.legalApproval.legalDecisionRecordId} is preserved, but a post-approval substantive-change audit is not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
+          : `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Current owner legal approval and a post-approval change audit are not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
         : `${jurisdiction} ${pathwayId} builds through the shared packet factory from packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here.`,
       factoryV2: {
         packetSetIds: factoryRoute.packetSetIds,
@@ -800,7 +805,10 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
         exactTrackSelectionRequired: factoryRoute.exactTrackSelectionRequired,
         ...(exactProductization
           ? {
-              legalApprovalEstablished: false as const,
+              legalApprovalEstablished: exactProductization.legalApproval !== null,
+              ...(exactProductization.legalApproval
+                ? { legalApprovalRecordId: exactProductization.legalApproval.legalDecisionRecordId }
+                : {}),
               postApprovalChangeAuditEstablished: false as const,
               obligationRouteKey: exactProductization.obligationRouteKey,
               nextGate: exactProductization.nextGate

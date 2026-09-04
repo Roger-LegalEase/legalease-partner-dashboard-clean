@@ -110,6 +110,43 @@ const ROUTES = [
     }
   },
   {
+    jurisdiction: "DC",
+    pathwayId: "dc_correct_misattributed_arrest",
+    obligationRouteKey: "obligation:track-only:DC:dc_correct_misattributed_arrest",
+    familyId: "dc_correct_misattributed_arrest-set",
+    trackIds: ["dc_correct_misattributed_arrest"],
+    inputTrackId: "dc_correct_misattributed_arrest",
+    specificationPath: "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+    overlayRoot: "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading",
+    migrated: false,
+    ownerApproved: true,
+    postApprovalAudited: false,
+    exactProductized: true,
+    generatedRegistryRow: false,
+    exactTrackSelectionRequired: true,
+    nextGate: "post-approval substantive-legal-change audit for OWN-ADOPT-2026-09-02-BATCH-53, then separate fulfillment-authority generation",
+    requiredInputIds: [
+      "participant_full_legal_name",
+      "date_of_birth",
+      "contact_information",
+      "underlying_case_number",
+      "misidentification_facts",
+      "no_fingerprints_taken",
+      "no_other_identification",
+      "prosecuting_office_name_address"
+    ],
+    components: ["primary_filing", "prosecutor_service", "filing_instructions"],
+    manifestComponents: [
+      ["dc_correct_misattributed_arrest-primary-filing-1", "primary_filing", "custom_pleading", null, 1],
+      ["dc_correct_misattributed_arrest-prosecutor-service-2", "prosecutor_service", "process_guidance", null, 2],
+      ["dc_correct_misattributed_arrest-filing-instructions-3", "filing_instructions", "process_guidance", null, 3]
+    ],
+    artifacts: {
+      canonical: ["d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f", 13617, 5],
+      boundary: ["4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225", 13868, 5]
+    }
+  },
+  {
     jurisdiction: "IL",
     pathwayId: "felony-prostitution-relief",
     familyId: "il-prostitution-j-vacate-set",
@@ -213,6 +250,9 @@ const ROUTES = [
     rawTrackIds,
     rawPacketSetIds,
     ownerApproved: route.ownerApproved ?? true,
+    postApprovalAudited: route.postApprovalAudited ?? (route.ownerApproved ?? true),
+    exactProductized: route.exactProductized ?? route.ownerApproved === false,
+    generatedRegistryRow: route.generatedRegistryRow ?? true,
     exactTrackSelectionRequired: route.exactTrackSelectionRequired
       ?? (rawTrackIds.length !== route.trackIds.length || rawPacketSetIds.length !== 1)
   };
@@ -253,6 +293,30 @@ assert.equal(ctCohortEvidence.checks.coveredByAnExistingOwnerApproval, false);
 assert.equal(ctCohortEvidence.checks.noSubstantiveLegalChangeSinceThatApproval, false);
 assert.equal(ctCohortEvidence.legalApproval, null);
 assert.equal(ctCohortEvidence.inCohort, false);
+assert.equal(selectedFamilies.has("dc_correct_misattributed_arrest-set"), false,
+  "DC misattributed-arrest must not enter the cohort without its post-approval audit");
+const dcMisattributedCohortEvidence = firstCohort.allRows.find((row) =>
+  row.familyId === "dc_correct_misattributed_arrest-set");
+assert.ok(dcMisattributedCohortEvidence,
+  "DC misattributed-arrest productization requires its exact current cohort evidence row");
+assert.equal(dcMisattributedCohortEvidence.checks.packetProven, true);
+assert.equal(dcMisattributedCohortEvidence.checks.verdictCurrentAndDeclaresItsBase, true);
+assert.equal(dcMisattributedCohortEvidence.checks.rasterReceiptStillBindsTheBytes, true);
+assert.equal(dcMisattributedCohortEvidence.checks.routeToFamilyBindingExact, true);
+assert.equal(dcMisattributedCohortEvidence.checks.sourceIdentityComplete, true);
+assert.equal(dcMisattributedCohortEvidence.checks.coveredByAnExistingOwnerApproval, true);
+assert.equal(dcMisattributedCohortEvidence.checks.noSubstantiveLegalChangeSinceThatApproval, false);
+assert.equal(dcMisattributedCohortEvidence.checks.noHoldApplies, true);
+assert.deepEqual(dcMisattributedCohortEvidence.unmetConditions,
+  ["noSubstantiveLegalChangeSinceThatApproval"]);
+assert.equal(dcMisattributedCohortEvidence.independentVerification.verdict, "PASS_COMPLETE_INDEPENDENT");
+assert.equal(dcMisattributedCohortEvidence.independentVerification.verifierId, "vf03");
+assert.equal(dcMisattributedCohortEvidence.independentVerification.verifiedAtBase,
+  "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595");
+assert.equal(dcMisattributedCohortEvidence.legalApproval.legalDecisionRecordId,
+  "OWN-ADOPT-2026-09-02-BATCH-53");
+assert.equal(dcMisattributedCohortEvidence.legalApproval.approvalCurrent, true);
+assert.equal(dcMisattributedCohortEvidence.inCohort, false);
 
 const manifests = read(MIGRATIONS_PATH);
 const migrations = manifests.factoryV2RouteMigrations ?? [];
@@ -280,6 +344,50 @@ assert.deepEqual(ctPacketSet[0].factoryV2RouteProductization, {
   opensRoute: false,
   nextGate: "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation"
 });
+const dcMisattributedPacketSets = manifests.packetSets.filter((row) =>
+  row.packetSetId === "dc_correct_misattributed_arrest-set");
+assert.equal(dcMisattributedPacketSets.length, 1,
+  "the DC misattributed-arrest family must have one exact packet-set row");
+const dcMisattributedPacketSet = dcMisattributedPacketSets[0];
+const {
+  legalApproval: dcMisattributedLegalApproval,
+  ...dcMisattributedCrosswalk
+} = dcMisattributedPacketSet.factoryV2RouteProductization;
+assert.deepEqual(dcMisattributedCrosswalk, {
+  obligationRouteKey: "obligation:track-only:DC:dc_correct_misattributed_arrest",
+  runtimeRouteId: "DC:dc_correct_misattributed_arrest",
+  jurisdiction: "DC",
+  pathwayId: "dc_correct_misattributed_arrest",
+  registryTrackIds: ["dc_correct_misattributed_arrest"],
+  packetFamilyId: "dc_correct_misattributed_arrest-set",
+  scope: "route_track_family_only",
+  postApprovalChangeAudit: null,
+  createsCommercialAuthority: false,
+  opensRoute: false,
+  nextGate: "post-approval substantive-legal-change audit for OWN-ADOPT-2026-09-02-BATCH-53, then separate fulfillment-authority generation"
+});
+assert.equal(dcMisattributedLegalApproval.legalApprovalResult, "ADOPT");
+assert.equal(dcMisattributedLegalApproval.legalDecisionRecordId, "OWN-ADOPT-2026-09-02-BATCH-53");
+assert.equal(dcMisattributedLegalApproval.legalDecisionOwner, "Roger Roman");
+assert.equal(dcMisattributedLegalApproval.legalDecisionEffectiveDate, "2026-09-02");
+assert.equal(dcMisattributedLegalApproval.approvalCurrent, true);
+assert.deepEqual(dcMisattributedLegalApproval.shippingArtifactDigestPins.map((pin) => [pin.fixture, pin.sha256]), [
+  ["canonical", "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f"],
+  ["boundary", "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225"]
+]);
+assert.deepEqual(dcMisattributedPacketSet.components.map((component) => [
+  component.componentId,
+  component.role,
+  component.outputStrategy,
+  component.officialFormId,
+  component.order
+]), [
+  ["dc_correct_misattributed_arrest-primary-filing-1", "primary_filing", "custom_pleading", null, 1],
+  ["dc_correct_misattributed_arrest-prosecutor-service-2", "prosecutor_service", "process_guidance", null, 2],
+  ["dc_correct_misattributed_arrest-filing-instructions-3", "filing_instructions", "process_guidance", null, 3]
+]);
+assert.ok(dcMisattributedPacketSet.components.every((component) => component.officialSourceUrl === null),
+  "the DC reference source must not be represented as a shipped official-form component");
 
 const generatorSource = fs.readFileSync(path.join(ROOT, "scripts/generate-rcap-factory-v2-registry.mjs"), "utf8");
 assert.match(generatorSource, /const PACKET_SETS = "data\/record-clearing\/legal-design-packet-set-manifests\.json"/,
@@ -301,15 +409,20 @@ const fulfillmentRecordsAlreadyAtBase = new Set([
 assert.equal(ownerDecision.recordId, "OWN-ADOPT-2026-09-02-BATCH-53");
 for (const route of ROUTES) {
   const raw = rawRegistry.routes.find((row) => row.pathwayKey === route.routeId);
-  assert.ok(raw, `${route.routeId}: generated factory-v2 row missing`);
-  assert.ok(REQUIRED_BUILD_INPUTS.every((name) => raw.buildInputs?.[name] === true),
-    `${route.routeId}: all seven generated build inputs must remain true`);
-  assert.deepEqual(raw.unmetBuildInputs, [], `${route.routeId}: generated build inputs unexpectedly unmet`);
-  assert.deepEqual(raw.packetSetIds, route.rawPacketSetIds);
-  assert.deepEqual(raw.registryTrackIds, route.rawTrackIds);
-  assert.equal(raw.factoryV2Resolves, !route.migrated,
-    `${route.routeId}: only retired-legacy ownership may distinguish the raw generated admission`);
-  assert.equal(raw.legacyGeneratorOwnsThisJurisdiction, route.migrated);
+  if (route.generatedRegistryRow) {
+    assert.ok(raw, `${route.routeId}: generated factory-v2 row missing`);
+    assert.ok(REQUIRED_BUILD_INPUTS.every((name) => raw.buildInputs?.[name] === true),
+      `${route.routeId}: all seven generated build inputs must remain true`);
+    assert.deepEqual(raw.unmetBuildInputs, [], `${route.routeId}: generated build inputs unexpectedly unmet`);
+    assert.deepEqual(raw.packetSetIds, route.rawPacketSetIds);
+    assert.deepEqual(raw.registryTrackIds, route.rawTrackIds);
+    assert.equal(raw.factoryV2Resolves, !route.migrated,
+      `${route.routeId}: only retired-legacy ownership may distinguish the raw generated admission`);
+    assert.equal(raw.legacyGeneratorOwnsThisJurisdiction, route.migrated);
+  } else {
+    assert.equal(raw, undefined,
+      `${route.routeId}: the exact track-only route must not pretend it has a generated pathway row`);
+  }
 
   const spec = packetSpecificationFor(route.routeId);
   assert.ok(spec, `${route.routeId}: route-scoped packet specification missing`);
@@ -317,19 +430,24 @@ for (const route of ROUTES) {
   assert.ok((spec.routeKeys ?? [spec.routeKey]).includes(route.routeId));
   assert.equal(packetSpecificationForTrack(route.routeId, route.trackIds[0]), spec,
     `${route.routeId}: exact track did not resolve its server-owned specification`);
-  if (route.ownerApproved) {
+  if (route.postApprovalAudited) {
     assert.equal(spec.legalSectionsBoundBy?.ownerDecisionRecordId, ownerDecision.recordId);
     assert.equal(spec.legalSectionsBoundBy?.postApprovalAuditVerdict, "COVERED_BY_EXISTING_APPROVAL");
     assert.equal(specificationLegalSectionsBound(spec), true);
   } else {
     assert.equal(spec.obligationRouteKey, route.obligationRouteKey);
     assert.equal(spec.legalSectionsBoundBy, undefined,
-      `${route.routeId}: another jurisdiction's approval was borrowed`);
-    assert.equal(spec.legalApproval, null);
+      `${route.routeId}: an absent post-approval audit was represented as a bound legal section`);
+    if (route.ownerApproved) {
+      assert.equal(spec.legalApproval?.legalDecisionRecordId, ownerDecision.recordId);
+      assert.equal(spec.legalApproval?.approvalCurrent, true);
+    } else {
+      assert.equal(spec.legalApproval, null);
+    }
     assert.equal(spec.postApprovalChangeAudit, null);
     assert.equal(specificationLegalSectionsBound(spec), false);
-    assert.equal(spec.nextGate,
-      "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation");
+    assert.equal(spec.nextGate, route.nextGate
+      ?? "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation");
   }
   assert.equal(resolvePacketFamilyId(route.routeId), route.familyId,
     `${route.routeId}: server-owned family crosswalk mismatch`);
@@ -353,7 +471,7 @@ for (const route of ROUTES) {
     assert.deepEqual(ctPacketSet[0].components.map((component) => [component.role, component.outputStrategy, component.officialFormId]),
       [["primary_filing", "official_pdf_fill", "JD-CR-202"]]);
   }
-  const specificationArtifacts = route.ownerApproved ? spec.approvedArtifacts : spec.artifactEvidence;
+  const specificationArtifacts = route.postApprovalAudited ? spec.approvedArtifacts : spec.artifactEvidence;
   assert.deepEqual(specificationArtifacts?.map((artifact) => artifact.fixture).sort(), ["boundary", "canonical"]);
   let adoptedArtifacts = null;
   if (route.ownerApproved) {
@@ -363,10 +481,15 @@ for (const route of ROUTES) {
     adoptedArtifacts = adoptionQualification.digestConditionRecordedPerFamily[route.familyId];
     assert.ok(adoptedArtifacts, `${route.routeId}: owner decision has no exact artifact pins`);
     const currentAudit = postApprovalAudit.families.find((row) => row.familyId === route.familyId);
-    assert.equal(currentAudit?.verdict, "COVERED_BY_EXISTING_APPROVAL");
-    assert.equal(currentAudit?.reviewedAgainstApprovalRecordId, ownerDecision.recordId);
-    assert.equal(currentAudit?.currentIndependentVerification?.verdict, "PASS_COMPLETE_INDEPENDENT");
-    assert.equal(currentAudit?.mayEnterTheFirstCohort, true);
+    if (route.postApprovalAudited) {
+      assert.equal(currentAudit?.verdict, "COVERED_BY_EXISTING_APPROVAL");
+      assert.equal(currentAudit?.reviewedAgainstApprovalRecordId, ownerDecision.recordId);
+      assert.equal(currentAudit?.currentIndependentVerification?.verdict, "PASS_COMPLETE_INDEPENDENT");
+      assert.equal(currentAudit?.mayEnterTheFirstCohort, true);
+    } else {
+      assert.equal(currentAudit, undefined,
+        `${route.routeId}: a post-approval audit was fabricated for this family`);
+    }
   } else {
     assert.equal(ownerDecision.adoption.qualifications.some((qualification) =>
       qualification.families.includes(route.familyId)), false,
@@ -382,7 +505,8 @@ for (const route of ROUTES) {
     assert.ok(artifact && reportArtifact, `${route.routeId}/${fixture}: artifact binding missing`);
     if (route.ownerApproved) {
       assert.ok(adoptedArtifact, `${route.routeId}/${fixture}: owner decision artifact binding missing`);
-    } else {
+    }
+    if (!route.postApprovalAudited) {
       assert.equal(artifact.authority, "technical_evidence_only");
     }
     assert.deepEqual(artifact.components, route.components);
@@ -406,8 +530,9 @@ for (const route of ROUTES) {
   assert.equal(factory.packetFamilyId, route.familyId);
   assert.deepEqual(factory.packetSetIds, [route.familyId]);
   assert.deepEqual(factory.registryTrackIds, route.trackIds);
+  if (route.requiredInputIds) assert.deepEqual(factory.requiredInputIds, route.requiredInputIds);
   assert.equal(factory.exactTrackSelectionRequired, route.exactTrackSelectionRequired);
-  assert.equal(factory.exactRouteProductization !== null, !route.ownerApproved);
+  assert.equal(factory.exactRouteProductization !== null, route.exactProductized);
   assert.equal(factoryV2RouteMigrationFor(route.jurisdiction, route.pathwayId, route.inputTrackId)?.routeId ?? null,
     route.migrated ? route.routeId : null);
 
@@ -419,14 +544,16 @@ for (const route of ROUTES) {
   assert.equal(resolution.routeKind, "factory_v2", `${route.routeId}: exact route did not select factory-v2`);
   assert.equal(resolution.factoryV2?.packetFamilyId, route.familyId);
   assert.equal(resolution.factoryV2?.retiredLegacyRouteMigrated, route.migrated);
-  assert.equal(resolution.factoryV2?.exactRouteProductized, !route.ownerApproved);
+  assert.equal(resolution.factoryV2?.exactRouteProductized, route.exactProductized);
   assert.equal(resolution.factoryV2?.exactTrackSelectionRequired, factory.exactTrackSelectionRequired);
-  if (!route.ownerApproved) {
-    assert.equal(resolution.factoryV2?.legalApprovalEstablished, false);
+  if (route.exactProductized) {
+    assert.equal(resolution.factoryV2?.legalApprovalEstablished, route.ownerApproved);
+    assert.equal(resolution.factoryV2?.legalApprovalRecordId,
+      route.ownerApproved ? ownerDecision.recordId : undefined);
     assert.equal(resolution.factoryV2?.postApprovalChangeAuditEstablished, false);
     assert.equal(resolution.factoryV2?.obligationRouteKey, route.obligationRouteKey);
-    assert.equal(resolution.factoryV2?.nextGate,
-      "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation");
+    assert.equal(resolution.factoryV2?.nextGate, route.nextGate
+      ?? "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation");
   }
   assert.equal(resolution.sellable, false, `${route.routeId}: productization must not open checkout`);
   assert.equal(resolution.creditConsumable, false, `${route.routeId}: productization must not open sponsored credit`);
@@ -487,6 +614,53 @@ for (const pathwayId of ["", "*", "absolute-pardon-resulting-in-erasure"]) {
   const resolution = resolvePacketRoute({ state: "CT", pathway: pathwayId, trackId: "ct-absolute-pardon" });
   assert.notEqual(resolution.routeKind, "factory_v2",
     `CT:${pathwayId || "<aggregate>"}: sibling or aggregate route was productized`);
+  assert.equal(resolution.sellable, false);
+  assert.equal(resolution.creditConsumable, false);
+}
+
+const dcMisattributed = ROUTES.find((route) => route.familyId === "dc_correct_misattributed_arrest-set");
+assert.ok(dcMisattributed, "the DC misattributed-arrest route fixture is missing");
+assert.equal(packetSpecificationForTrack(dcMisattributed.routeId, "dc_innocence_expungement"), undefined,
+  "a sibling DC track inherited the misattributed-arrest specification");
+const dcMisattributedSpec = packetSpecificationFor(dcMisattributed.routeId);
+const dcReference = dcMisattributedSpec.sourceIdentities.find((source) =>
+  source.sourceId === "DC-HOW-TO-SEAL-OR-EXPUNGE-YOUR-CRIMINAL-RECOR");
+assert.ok(dcReference, "the DC filing-channel reference source is not bound");
+assert.equal(dcReference.sha256, "310381f170d1875ef7a40e9e71c8653c1ea5c847628a6c718ea9016c0e312712");
+assert.equal(dcReference.byteLength, 47232);
+assert.equal(dcReference.instrumentKind, "bound_reference_instrument");
+assert.equal(dcReference.shippedAsPacketComponent, false,
+  "the DC filing-channel reference was converted into a shipped component");
+assert.ok(dcMisattributedSpec.documents.every((document) => document.officialFormId === null),
+  "the DC authority/reference source must never become a shipped official form");
+const dcMisattributedRendered = read(`${dcMisattributed.overlayRoot}/reports/rendered-artifacts.json`);
+assert.deepEqual(dcMisattributedRendered.componentSet, dcMisattributed.components);
+for (const artifact of dcMisattributedRendered.artifacts) {
+  assert.equal(artifact.routeKey, dcMisattributed.obligationRouteKey);
+  assert.deepEqual(artifact.documents, dcMisattributed.components);
+  assert.deepEqual(artifact.components, dcMisattributed.components);
+  assert.ok(artifact.pageManifest.every((page) => page.sourceSha256 === null),
+    "the DC filing-channel reference bytes were represented as packet pages");
+}
+for (const trackId of [undefined, "", "dc_innocence_expungement", "dc_seal_nonconviction"]) {
+  assert.equal(factoryV2RouteFor(dcMisattributed.jurisdiction, dcMisattributed.pathwayId, trackId), null,
+    `DC misattributed-arrest ${trackId || "trackless"}: exact route admitted without its server-owned track`);
+  const resolution = resolvePacketRoute({
+    state: dcMisattributed.jurisdiction,
+    pathway: dcMisattributed.pathwayId,
+    trackId
+  });
+  assert.notEqual(resolution.routeKind, "factory_v2",
+    `DC misattributed-arrest ${trackId || "trackless"}: exact packet family was admitted by inference`);
+  assert.equal(resolution.sellable, false);
+  assert.equal(resolution.creditConsumable, false);
+}
+for (const pathwayId of ["", "*", "dc_motion_seal_nonconviction_16_806"]) {
+  assert.equal(factoryV2RouteFor("DC", pathwayId, dcMisattributed.inputTrackId), null,
+    `DC:${pathwayId || "<aggregate>"}: aggregate or sibling route gained misattributed-arrest factory authority`);
+  const resolution = resolvePacketRoute({ state: "DC", pathway: pathwayId, trackId: dcMisattributed.inputTrackId });
+  assert.notEqual(resolution.routeKind, "factory_v2",
+    `DC:${pathwayId || "<aggregate>"}: aggregate or sibling route was productized`);
   assert.equal(resolution.sellable, false);
   assert.equal(resolution.creditConsumable, false);
 }
@@ -563,6 +737,27 @@ for (const trackId of [undefined, "ct-absolute-pardon"]) {
   assert.notEqual(siblingRender.route.routeKind, "factory_v2");
 }
 
+const dcMisattributedRenderInput = {
+  packetId: "dc-misattributed-productization-verifier",
+  state: dcMisattributed.jurisdiction,
+  pathway: dcMisattributed.pathwayId,
+  packetFields: {}
+};
+const dcMisattributedRender = buildRenderJobSpec({
+  ...dcMisattributedRenderInput,
+  trackId: dcMisattributed.inputTrackId
+});
+assert.ok(dcMisattributedRender.spec,
+  "the exact DC misattributed-arrest route did not reach the shared render-job path");
+assert.equal(dcMisattributedRender.route.routeKind, "factory_v2");
+assert.equal(dcMisattributedRender.spec.routeId, dcMisattributed.routeId);
+for (const trackId of [undefined, "dc_innocence_expungement", "dc_seal_nonconviction"]) {
+  const siblingRender = buildRenderJobSpec({ ...dcMisattributedRenderInput, trackId });
+  assert.equal(siblingRender.spec, null,
+    `DC misattributed-arrest ${trackId ?? "trackless"}: a render job inherited the exact family`);
+  assert.notEqual(siblingRender.route.routeKind, "factory_v2");
+}
+
 const ilCommercialIdentity = commercialRouteIdentity({
   jurisdiction: illinois.jurisdiction,
   pathwayId: illinois.pathwayId
@@ -587,6 +782,20 @@ for (const admissionPoint of ["consumer_checkout", "sponsored_entitlement", "pac
   assert.equal(decision.admitted, false, `${admissionPoint}: Connecticut productization opened commercial authority`);
   assert.equal(decision.denialCode, "fulfillment_no_record",
     `${admissionPoint}: Connecticut must remain refused until separate fulfillment authority exists`);
+}
+
+const dcMisattributedCommercialIdentity = commercialRouteIdentity({
+  jurisdiction: dcMisattributed.jurisdiction,
+  pathwayId: dcMisattributed.pathwayId
+});
+assert.equal(dcMisattributedCommercialIdentity.packetFamilyId, dcMisattributed.familyId,
+  "the money gate did not derive the DC misattributed-arrest family from the server-owned specification");
+for (const admissionPoint of ["consumer_checkout", "sponsored_entitlement", "packet_credit_admission"]) {
+  const decision = admitCommercial(admissionPoint, dcMisattributedCommercialIdentity, null);
+  assert.equal(decision.admitted, false,
+    `${admissionPoint}: DC misattributed-arrest productization opened commercial authority`);
+  assert.equal(decision.denialCode, "fulfillment_no_record",
+    `${admissionPoint}: missing audit and fulfillment authority must remain an exact no-record refusal`);
 }
 
 if (MUTATIONS) {
@@ -652,6 +861,32 @@ if (MUTATIONS) {
     const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "ct-cleanslate-petition-set");
     packetSet.factoryV2RouteProductization.runtimeRouteId = "CT:*";
   }, "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202");
+  checkMutation("DC misattributed-arrest wrong packet family substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "dc_correct_misattributed_arrest-set");
+    packetSet.factoryV2RouteProductization.packetFamilyId = "dc_innocence_expungement-set";
+  }, "DC:dc_correct_misattributed_arrest");
+  checkMutation("DC misattributed-arrest sibling track substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "dc_correct_misattributed_arrest-set");
+    packetSet.factoryV2RouteProductization.registryTrackIds = ["dc_innocence_expungement"];
+  }, "DC:dc_correct_misattributed_arrest");
+  checkMutation("DC misattributed-arrest aggregate route substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "dc_correct_misattributed_arrest-set");
+    packetSet.factoryV2RouteProductization.runtimeRouteId = "DC:*";
+  }, "DC:dc_correct_misattributed_arrest");
+  checkMutation("DC misattributed-arrest trackless substitution", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "dc_correct_misattributed_arrest-set");
+    packetSet.factoryV2RouteProductization.registryTrackIds = [];
+  }, "DC:dc_correct_misattributed_arrest");
+  checkMutation("DC misattributed-arrest fabricated post-approval audit", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "dc_correct_misattributed_arrest-set");
+    packetSet.factoryV2RouteProductization.postApprovalChangeAudit = {
+      verdict: "COVERED_BY_EXISTING_APPROVAL"
+    };
+  }, "DC:dc_correct_misattributed_arrest");
+  checkMutation("DC misattributed-arrest wrong owner approval", (doc) => {
+    const packetSet = doc.packetSets.find((candidate) => candidate.packetSetId === "dc_correct_misattributed_arrest-set");
+    packetSet.factoryV2RouteProductization.legalApproval.legalDecisionRecordId = "UNAPPROVED";
+  }, "DC:dc_correct_misattributed_arrest");
 
   assert.equal(sha256(fs.readFileSync(path.join(ROOT, MIGRATIONS_PATH), "utf8")), originalSha,
     "mutation checks did not restore the authoritative migration input byte-for-byte");

@@ -10,6 +10,7 @@ import dcActualInnocenceExpungement from "@/../data/record-clearing/packet-speci
 import mississippiAdditionalMisdemeanorRelief from "@/../data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json";
 import wyomingFelonyConvictionExpungement from "@/../data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json";
 import connecticutCleanSlatePetition from "@/../data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json";
+import dcCorrectMisattributedArrest from "@/../data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -58,6 +59,7 @@ export type PacketSpecificationDocument = {
   title: string;
   order: number;
   outputStrategy: "custom_pleading" | "process_guidance";
+  officialFormId?: string | null;
   presentation?: "guidance" | "pleading";
   requirement: "required" | "conditional";
   conditionDescription?: string;
@@ -87,6 +89,22 @@ export type UnboundLegalSection = {
   bound: false;
   boundBy: null;
   decisionRequired: string;
+};
+
+export type PacketSpecificationLegalApprovalEvidence = {
+  legalApprovalResult: "ADOPT";
+  legalDecisionRecordId: string;
+  legalDecisionOwner: string;
+  legalDecisionEffectiveDate: string;
+  requiresSignature: false;
+  approvalSource: string;
+  approvalCurrent: true;
+  ownerQualification: string;
+  shippingArtifactDigestPins: Array<{
+    fixture: "canonical" | "boundary";
+    file: string;
+    sha256: string;
+  }>;
 };
 
 export type PacketSpecification = {
@@ -212,21 +230,40 @@ export type DerivedPacketSpecification = {
   trackId: string;
   packetSetId: string;
   packetSetVersion: string;
+  profileId: string;
+  profileVersion: string;
   specificationSha256: string;
   legalSectionsBound: boolean;
   unboundLegalSections: string[];
   legalSections: Record<string, UnboundLegalSection | { bound: true }>;
-  legalApproval?: null;
+  legalApproval?: PacketSpecificationLegalApprovalEvidence | null;
   postApprovalChangeAudit?: null;
   nextGate?: string;
-  sourceIdentities: Array<{ sourceId: string; sha256: string; fieldMap: { overlayProfileSha256: string } }>;
+  sourceIdentities: Array<{
+    sourceId: string;
+    kind?: string;
+    verification?: "present_in_repository" | "asserted_by_ingestion";
+    location?: string;
+    sha256: string;
+    byteLength?: number;
+    instrumentKind?: string;
+    shippedAsPacketComponent?: false;
+    note?: string;
+    fieldMap?: { overlayProfileSha256: string };
+  }>;
+  requiredFacts?: PacketSpecificationFact[];
+  finalVerificationRequirements?: string[];
   documents: Array<{
     documentId: string;
     role: string;
+    title?: string;
     order: number;
     outputStrategy?: "official_pdf_fill" | "custom_pleading" | "process_guidance";
+    presentation?: "guidance" | "pleading";
+    requirement?: "required" | "conditional";
     officialFormId?: string | null;
     manifestComponentId?: string;
+    sections?: PacketSpecificationSection[];
   }>;
   /** Exact rendered bytes used as technical evidence; the name deliberately grants no approval. */
   artifactEvidence?: Array<{
@@ -260,7 +297,8 @@ const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<str
   ["MS:additional-justice-court-misdemeanor-relief-9-11-15-3", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
   ["MS:additional-municipal-court-misdemeanor-relief-21-23-7-6", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
   [(wyomingFelonyConvictionExpungement as unknown as PacketSpecification).routeKey, wyomingFelonyConvictionExpungement as unknown as PacketSpecification],
-  [(connecticutCleanSlatePetition as unknown as DerivedPacketSpecification).routeKey, connecticutCleanSlatePetition as unknown as DerivedPacketSpecification]
+  [(connecticutCleanSlatePetition as unknown as DerivedPacketSpecification).routeKey, connecticutCleanSlatePetition as unknown as DerivedPacketSpecification],
+  [(dcCorrectMisattributedArrest as unknown as DerivedPacketSpecification).routeKey, dcCorrectMisattributedArrest as unknown as DerivedPacketSpecification]
 ]);
 
 /**
