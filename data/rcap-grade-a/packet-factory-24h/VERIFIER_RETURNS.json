@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 59,
-    "rows": 611,
-    "independentVerdicts": 202,
+    "rows": 615,
+    "independentVerdicts": 203,
     "failRepairRequired": 70,
-    "passIndependent": 126
+    "passIndependent": 125
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -2158,6 +2158,48 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-4a-set",
       "superseded": true
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "failedObligations": [
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "CR-180 page 1 row 1 visibly contains route-written yes/no cells while Code1, Section1 and TypeOff1 beside them are blank. The instructions themselves say to leave an unused row entirely empty. This is a semantic incomplete-row false negative despite incompleteRows=0.",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The current track names FW-001 as the general California waiver route, but the instructions say waiver is not established and never name FW-001.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The current track requires 15 days' notice to and service on the prosecuting attorney plus CR-106; the instructions instead say who/how are not established and defer both to the clerk.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The instructions give the wobbler/reducibility stop but omit the registry's prosecutor-opposition, contested-hearing and non-U.S.-citizen stops.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-17b-reduction-set",
+      "superseded": false
     },
     {
       "familyId": "ca-851-91-set",
@@ -4932,6 +4974,20 @@
     {
       "familyId": "ga-jail-k2-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-jail-k2-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-jail-k2-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf10",
       "isIndependentVerification": true,
       "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
@@ -4941,7 +4997,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-jail-k2-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ga-misd-j4-set",
@@ -6315,6 +6371,39 @@
     },
     {
       "familyId": "ma-bmc-multi-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "ROUTE_IDENTITY"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "The route key and BMC multi-record purpose agree, but the current governing registry refuses to identify the custom pleading as the controlling single petition.",
+          "evidence": null
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The custom petition and instructions are physically present, but whether they are the correct controlling component set cannot be decided until the one form-identity question is answered.",
+          "evidence": null
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET",
+        "ROUTE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ma-bmc-multi-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -6325,7 +6414,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ma-expunge-mj-set",
@@ -16222,6 +16311,20 @@
     {
       "familyId": "vt_seal_under_25-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_under_25-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_under_25-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf11",
       "isIndependentVerification": true,
       "verifiedAtBase": null,
@@ -16231,7 +16334,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_under_25-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wa_crop_certificate_of_restoration-set",

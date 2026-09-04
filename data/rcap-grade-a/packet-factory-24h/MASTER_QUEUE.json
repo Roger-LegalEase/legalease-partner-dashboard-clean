@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "a80a69a57efb4e5e6263164a55ba464a804d1e8e",
+  "minimumCaptainSha": "74d8bb641b97446527c83d2740cea734e76316dd",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -71,22 +71,23 @@
     "remaining": 346,
     "sourceReady": 105,
     "sourceBlocked": 11,
-    "legalBlocked": 6,
-    "verifyPending": 29,
-    "repairRequired": 56,
+    "legalBlocked": 7,
+    "verifyPending": 25,
+    "repairRequired": 57,
     "sumsToDenominator": true
   },
   "byState": {
-    "VERIFY_PENDING": 29,
+    "VERIFY_PENDING": 25,
     "COMPLETE_PACKET_PROVEN": 104,
-    "FAIL_REPAIR_REQUIRED": 56,
+    "FAIL_REPAIR_REQUIRED": 57,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 105,
     "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 11,
-    "LEGAL_BLOCKED": 6,
+    "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -159,7 +160,7 @@
     "familiesPerBuilder": 4.4,
     "targetPerBuilder": "15 to 25",
     "finding": "44 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 105 do, so a full roster of 24 builders averages 4.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 14 source obligations across 17 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 14 source obligations across 18 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -6229,9 +6230,23 @@
         "directAttachment": true
       },
       "sourceReconciliation": null,
-      "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "verifierSourceHold": {
+        "lane": "vf05",
+        "verdict": "BLOCKED_SOURCE",
+        "blockedObligations": [
+          "SOURCE_IDENTITY"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
+      "selectedIndependentVerdict": {
+        "verdict": "BLOCKED_SOURCE",
+        "lane": "vf05",
+        "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -6264,7 +6279,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-17b-reduction-set.mjs",
@@ -13551,17 +13566,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf10",
-        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json"
+        "lane": "vf05",
+        "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -13597,7 +13609,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-jail-k2-set.mjs",
@@ -22129,24 +22141,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf09",
-        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf05",
+        "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "ma-bmc-multi-set",
+        "foundBy": [
+          "vf05 (current independent verification)"
+        ],
+        "why": "ROUTE_IDENTITY: The route key and BMC multi-record purpose agree, but the current governing registry refuses to identify the custom pleading as the controlling single petition. | COMPONENT_SET: The custom petition and instructions are physically present, but whether they are the correct controlling component set cannot be decided until the one form-identity question is answered.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
       "executionReclassification": {
         "familyId": "ma-bmc-multi-set",
         "stateOverride": null,
@@ -22176,7 +22194,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
@@ -43328,17 +43346,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf11",
-        "verifiedAtBase": null,
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
+        "lane": "vf05",
+        "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -43374,7 +43389,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_under_25-set.mjs",

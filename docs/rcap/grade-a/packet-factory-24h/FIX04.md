@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a80a69a57efb4e5e6263164a55ba464a804d1e8e` (or the newer dispatch base)
+**Minimum required ancestor:** `74d8bb641b97446527c83d2740cea734e76316dd` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-felony-nonconviction-90-set' \
   --codex-cloud \
-  --minimum-captain-sha a80a69a57efb4e5e6263164a55ba464a804d1e8e
+  --minimum-captain-sha 74d8bb641b97446527c83d2740cea734e76316dd
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,9 +43,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ar-pardon-seal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'il-seal-edu-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'az_marijuana_expungement_arrest_no_charges-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'nj_arrest_no_conviction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-wi-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ut_pet_no_charges-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'in_section1_petition-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-wa-custom-pleading-clean-tracks'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ut_pet_dismissed_without_prejudice-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -69,9 +69,9 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ar-pardon-seal-set`
 - `il-seal-edu-set`
 - `az_marijuana_expungement_arrest_no_charges-set`
-- `nj_arrest_no_conviction-set`
-- `rcap-wi-custom-pleading`
-- `ut_pet_no_charges-set`
+- `in_section1_petition-set`
+- `rcap-wa-custom-pleading-clean-tracks`
+- `ut_pet_dismissed_without_prejudice-set`
 
 ## What you receive
 
@@ -88,14 +88,15 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
 - `scripts/build-census-v1-ar-pardon-seal-set.mjs`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
-- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
-- `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
+- `scripts/build-census-v1-in_section1_petition-set.mjs`
+- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
+- `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
 
 ## Never write here
 
