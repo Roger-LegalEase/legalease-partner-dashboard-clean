@@ -1,55 +1,94 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
   "assignmentId": "PF09",
-  "workerId": "CODEX-CS2-PF09-FL-TRAFFICKING",
+  "workerId": "CODEX-CS2-PF09-NC-IN",
   "lane": "packet-build",
   "engine": "Codex Codespaces worker",
-  "shiftBaseSha": "e10890c114ef6f46907efa9fa660493700ecead1",
-  "branch": "codex/cs2-pf09-fl-trafficking-e108",
-  "familiesAssigned": 1,
-  "rowsReturned": 1,
-  "preflight": {
-    "command": "node scripts/verify-packet-build-environment.mjs --family fl-trafficking-set",
-    "mode": "normal Codespaces mode",
-    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
-    "familySourcesBind": "PASS: fl-trafficking-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT)",
-    "globalFailures": [
-      "master_library_mounted: absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-      "master_library_complete: the corpus root cannot be walked because it is absent",
-      "corpus_matches_committed_index: the corpus root cannot be walked; nothing to compare"
-    ],
-    "treatment": "No source acquisition was authorized or performed. The family-specific zero-source gate passed, so this build used only committed codified-text/legal-design records and wrote only its owned paths."
-  },
-  "selfVerification": "none. The required completeness command was run as a builder diagnostic; no independent verification, raster acceptance, legal approval, source-authority approval, or release verdict is claimed.",
-  "rasterRule": "No page raster was produced. The exact canonical and boundary hashes are returned for central raster review, and the family remains BUILT_RASTER_PENDING.",
+  "shiftBaseSha": "3db073aff6788fbf5ef8ac12f1bab4d3fa650eb0",
+  "branch": "codex/cs2-pf09-nc-in-3db",
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": 1,
+  "familiesStopped": 1,
+  "selfVerification": "none. The focused completeness command was used only as a builder diagnostic. No independent verification, raster acceptance, legal approval, source-authority approval, or release verdict is claimed.",
+  "rasterRule": "No page raster was produced. Exact canonical and boundary hashes are returned for central raster review; the successful family remains BUILT_RASTER_PENDING.",
   "rows": [
     {
-      "itemId": "fl-trafficking-set",
+      "itemId": "composed-treatment:nc_146_dismissal_petition",
       "status": "COMPLETED",
+      "sourceState": "SOURCE_READY",
       "rasterState": "BUILT_RASTER_PENDING",
-      "familyKind": "packet_family",
-      "jurisdiction": "FL",
+      "familyKind": "composed_treatment_source_ready_component_packet",
+      "jurisdiction": "NC",
       "routeKeys": [
-        "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583"
+        "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1"
       ],
-      "implementationStrategy": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading",
-      "buildScript": "scripts/build-census-v1-fl-trafficking-set.mjs",
+      "implementationStrategy": "custom_pleading",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading",
+      "buildScript": "scripts/build-census-v1-composed-treatment:nc_146_dismissal_petition.mjs",
       "componentSet": [
-        "FL-RULE-3.989-PETITION",
-        "FL-RULE-3.9895-SWORN-STATEMENT",
-        "FL-RULE-3.989-ORDER"
+        "nc_146_dismissal_petition-primary-filing-1",
+        "nc_146_dismissal_petition-instructions-2",
+        "nc_146_dismissal_petition-fee-waiver-3"
       ],
-      "sourcesBound": [],
-      "sourceBinariesRequired": 0,
+      "componentPageManifest": [
+        {
+          "componentId": "nc_146_dismissal_petition-primary-filing-1",
+          "documentId": "AOC-CR-287",
+          "packetPages": [1, 2],
+          "sourcePages": [1, 2]
+        },
+        {
+          "componentId": "nc_146_dismissal_petition-instructions-2",
+          "documentId": "AOC-CR-287-INSTRUCTIONS",
+          "packetPages": [3],
+          "sourcePages": [1]
+        },
+        {
+          "componentId": "nc_146_dismissal_petition-fee-waiver-3",
+          "documentId": "AOC-CV-226",
+          "packetPages": [4, 5],
+          "sourcePages": [1, 2],
+          "conditional": true
+        }
+      ],
+      "sourcesBound": [
+        {
+          "documentId": "AOC-CR-287",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "byteLength": 257828,
+          "pageCount": 2,
+          "exact": true
+        },
+        {
+          "documentId": "AOC-CR-287-INSTRUCTIONS",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "byteLength": 217744,
+          "pageCount": 1,
+          "exact": true
+        },
+        {
+          "documentId": "AOC-CV-226",
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "byteLength": 269426,
+          "pageCount": 2,
+          "exact": true
+        }
+      ],
+      "sourceBinariesRequired": 3,
+      "sourceBinariesBound": 3,
       "sourceAcquisitionPerformed": false,
       "fieldMapArithmetic": {
-        "terminalFields": 49,
-        "written": 9,
-        "blank": 40,
-        "requiredBeforeFiling": 25,
-        "protectedOrCourtOwned": 15,
-        "checks": "9 written + 40 blank = 49 terminal fields; all 40 blanks carry an allowed closed-vocabulary disposition"
+        "terminalFields": 197,
+        "written": 14,
+        "blank": 183,
+        "declaredRequiredBeforeFiling": 62,
+        "acceptedRequiredBeforeFiling": 61,
+        "protectedFields": 29,
+        "checks": "14 written + 183 classified blank = 197 terminal fields; every blank has a closed-vocabulary disposition and every required-before-filing item is disclosed"
       },
       "counters": {
         "knownRequiredFieldsMissing": 0,
@@ -65,87 +104,43 @@
       "allNineCountersZero": true,
       "participantFacingObligations": {
         "FILING_DESTINATION": {
-          "answer": "File in any court in the Florida circuit where the arrest occurred that has jurisdiction over the class of the offense or offenses requested for expunction.",
-          "disclosedIn": "filing-instructions.md"
+          "answer": "AOC-CR-287 goes to the clerk of superior court in the county where the charge was brought. The held source set does not establish the exact destination for the separate G.S. 15A-146(b1) DNA application, so the packet requires confirmation rather than inference.",
+          "disclosedIn": "participant-instructions.md and filing-instructions.md"
         },
         "FEE_AND_WAIVER": {
-          "answer": "The committed pathway record states that the clerk may not charge filing, service, or copy fees for a section 943.0583 petition. The instructions still direct the participant to confirm the clerk's current intake procedure and local copy requirements.",
-          "disclosedIn": "filing-instructions.md"
+          "answer": "For AOC-CR-287, no fee for a true dismissal; $175 after deferred prosecution or conditional discharge; AOC-CV-226 is the conditional indigency waiver. The held record states no fee for the separate DNA application.",
+          "disclosedIn": "participant-instructions.md and filing-instructions.md"
         },
-        "SERVICE": {
-          "answer": "The committed legal-design record does not establish a separate statewide service instruction for this petition; the participant is directed to ask the filing clerk about any local copy or service step.",
-          "disclosedIn": "filing-instructions.md"
+        "SERVICE_AND_NOTICE": {
+          "answer": "The assigned G.S. 15A-146(b1) DNA application must be served on the district attorney not less than 20 days before the hearing. The exact service method is not established by the held record and must be confirmed.",
+          "disclosedIn": "participant-instructions.md and filing-instructions.md"
+        },
+        "POST_FILING": {
+          "answer": "The separate DNA branch proceeds to a hearing after timely service; AOC-CR-287 instead leaves findings, order, clerk certification, and distribution to the court and clerk.",
+          "disclosedIn": "participant-instructions.md and filing-instructions.md"
         },
         "SELF_HELP_STOP": {
-          "answer": "Stop for disputed victim status, prosecutor opposition, a contested or evidentiary hearing, individualized advocacy, uncertainty whether an offense is excluded, or any immigration issue.",
-          "disclosedIn": "participant-instructions.md"
+          "answer": "Stop before treating AOC-CR-287 as a dedicated DNA application, before guessing destination or service method, for disputed eligibility or opposition, or for any immigration issue.",
+          "disclosedIn": "participant-instructions.md and filing-instructions.md"
         }
       },
-      "builderObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "The exact route key appears in the field map, packet-set manifest, both instruction files, and every composed component."
-        },
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "The source receipt records zero binaries, CUSTOM_PLEADING_FROM_CODIFIED_TEXT, acquisitionCommissioned false, and allSourcesExact true vacuously."
-        },
-        {
-          "obligation": "COMPONENT_SET",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "Both fixtures render FL-RULE-3.989-PETITION, FL-RULE-3.9895-SWORN-STATEMENT, and FL-RULE-3.989-ORDER in the declared page order."
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "Nine declared writes are read back from the final PDF bytes on their own component pages."
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "Twenty-five case, venue, and proof facts are declared REQUIRED_BEFORE_FILING and disclosed verbatim in participant-instructions.md."
-        },
-        {
-          "obligation": "ROUTE_OPTIONS",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "EXPUNCTION under section 943.0583 is printed and recorded as route-determined; sealing and ordinary Florida routes are not offered as participant choices."
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "The record block is wholly required-before-filing and the instructions require a complete duplicated block for every additional case; no partially written row is represented as complete."
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "Participant signature/date, sworn/notary fields, judicial findings, order scope/date, judge fields, and clerk fields are refused and carry no declared write."
-        },
-        {
-          "obligation": "ARTIFACTS",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "Canonical and boundary five-page PDFs were built twice with identical hashes and lengths."
-        },
-        {
-          "obligation": "PARTICIPANT_AND_FILING_INSTRUCTIONS",
-          "state": "BUILT_RASTER_PENDING",
-          "evidence": "participant-instructions.md and filing-instructions.md cover completion, venue, fee, proof, local-procedure checks, protected fields, and self-help stops."
-        }
-      ],
+      "routeComponentIdentityFinding": {
+        "finding": "The exact assigned route key names the separate G.S. 15A-146(b1) DNA application, while the pinned primary component AOC-CR-287 names subsections (a) and (a1) on its face.",
+        "treatment": "Preserved and disclosed for independent counsel review. No source was substituted or invented; no route authority is claimed."
+      },
       "artifactsForRasterBatch": [
         {
           "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/fixtures/canonical.pdf",
-          "sha256": "dca3cd333f061c7b80176b5a815fd6266e8882ea51e6aa8e7e8e8ec7f6084570",
-          "byteLength": 13255,
+          "file": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "6fc1e8d6a60ccd3e6ffa0893413ed6e28fdfe235fe32c890f19e5a0e9e8321e9",
+          "byteLength": 766984,
           "pageCount": 5
         },
         {
           "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/fixtures/boundary.pdf",
-          "sha256": "0ca00f36b857d97471e0ed2b5372c5501c796729aa9315a30e002b3801012e6a",
-          "byteLength": 13527,
+          "file": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "ddbbb2e1d5532968a57a04a5d831aec3be5dd3b0cff60c6876eec52686efaab6",
+          "byteLength": 767140,
           "pageCount": 5
         }
       ],
@@ -155,13 +150,83 @@
         "canonicalByteLengthEqual": true,
         "boundaryHashEqual": true,
         "boundaryByteLengthEqual": true,
-        "method": "deterministic PDF dates and metadata; before/after SHA-256 and byte-length equality asserted in the build worktree"
+        "method": "complete build repeated with before/after SHA-256 and byte-length equality asserted"
       },
-      "requiredCompletenessCommand": {
-        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
-        "result": "PASS_COMPLETE",
-        "countersZero": true,
-        "builderDiagnosticOnly": true
+      "tests": [
+        {
+          "command": "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:nc_146_dismissal_petition'",
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/13 passed, 4 failed, 4 not applicable; three failures are the absent global Master Library and the central family resolver reports 2 of 6 duplicate source identities unbound",
+          "sourceGateTreatment": "The assignment explicitly requires only the existing D source-pack symlink; all three pinned D-pack binaries independently matched exact hashes and were the only binaries the builder read."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:nc_146_dismissal_petition'",
+          "result": "PASS_COMPLETE: 14/197 written; all nine counters zero",
+          "builderDiagnosticOnly": true
+        }
+      ],
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "claimReleased": false,
+      "centralGeneratedStateEdited": false,
+      "legalOrSourceAuthorityEdited": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "in_conviction_misd-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "sourceState": "SOURCE_REFUSED_MISSING_FROM_AUTHORIZED_D_PACK",
+      "rasterState": "NOT_BUILT",
+      "familyKind": "packet_family",
+      "jurisdiction": "IN",
+      "routeKeys": [
+        "obligation:track-pathway:IN:in_conviction_misd:conviction-expungement-with-sealed-confidential-access"
+      ],
+      "implementationStrategy": "not_started_after_source_refusal",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "buildScript": "scripts/build-census-v1-in_conviction_misd-set.mjs",
+      "buildScriptCreated": false,
+      "requiredComponentSet": [
+        "in_conviction_misd-primary-filing-1",
+        "in_conviction_misd-proposed-order-2",
+        "in_conviction_misd-attachments-3",
+        "in_conviction_misd-attachments-4",
+        "in_conviction_misd-attachments-5",
+        "in_conviction_misd-attachments-6"
+      ],
+      "requiredSources": [
+        {
+          "documentIdentity": "CCA-XP-0220-7008",
+          "sha256": "2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0",
+          "presentInAuthorizedDSourcePack": false
+        },
+        {
+          "documentIdentity": "CCA Section 1 petition/order bundle shared by CCA-GF-0120-3016, Form ACR, and Confidential Information Form",
+          "sha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+          "presentInAuthorizedDSourcePack": false
+        }
+      ],
+      "exactBlocker": "The existing read-only D source-pack symlink contains 119 files under D1, has no STATES/IN directory, and contains neither required SHA-256. The task forbids source discovery, download, substitution, and custody changes, so the family failed closed before any builder or artifact was created.",
+      "tests": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 in_conviction_misd-set",
+          "result": "CLAIM_OK"
+        },
+        {
+          "command": "node scripts/verify-packet-build-environment.mjs --family 'in_conviction_misd-set'",
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/13 passed, 4 failed, 4 not applicable; family_sources_bind reports 4 of 4 source identities unbound"
+        },
+        {
+          "command": "focused completeness verifier",
+          "result": "NOT_RUN: source refusal left no auditable family; running an empty audit would prove nothing"
+        }
+      ],
+      "artifactsForRasterBatch": [],
+      "determinism": {
+        "builtTwice": false,
+        "reason": "No authorized source bytes, so no build was permitted."
       },
       "selfVerified": false,
       "packetsSelfVerified": 0,
@@ -171,11 +236,5 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false
     }
-  ],
-  "supersededAtReusedPath": {
-    "previousWorkerId": "FABLE-PB",
-    "previousShiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
-    "previousCurrentRow": "ms-diversion-set",
-    "preservation": "preserved in Git history; excluded from this exact one-family PF09 return"
-  }
+  ]
 }

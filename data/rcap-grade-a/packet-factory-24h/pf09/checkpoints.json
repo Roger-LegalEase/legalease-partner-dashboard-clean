@@ -1,38 +1,53 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
   "assignmentId": "PF09",
-  "workerId": "CODEX-CS2-PF09-FL-TRAFFICKING",
-  "shiftBaseSha": "e10890c114ef6f46907efa9fa660493700ecead1",
-  "branch": "codex/cs2-pf09-fl-trafficking-e108",
-  "checkpointRule": "This task carries one exact family, so it returns one completion checkpoint.",
+  "workerId": "CODEX-CS2-PF09-NC-IN",
+  "shiftBaseSha": "3db073aff6788fbf5ef8ac12f1bab4d3fa650eb0",
+  "branch": "codex/cs2-pf09-nc-in-3db",
+  "checkpointRule": "Each assigned family is independent. A source refusal stops only that family and does not suppress a successful noncolliding row.",
   "checkpoints": [
     {
       "checkpoint": 1,
-      "familiesCompleted": [
-        "fl-trafficking-set"
-      ],
-      "familiesStopped": [],
-      "familiesRemaining": [],
+      "family": "composed-treatment:nc_146_dismissal_petition",
+      "outcome": "COMPLETED",
+      "sourceState": "SOURCE_READY",
       "rasterState": "BUILT_RASTER_PENDING",
       "allNineCountersZero": true,
-      "canonicalSha256": "dca3cd333f061c7b80176b5a815fd6266e8882ea51e6aa8e7e8e8ec7f6084570",
-      "canonicalByteLength": 13255,
-      "boundarySha256": "0ca00f36b857d97471e0ed2b5372c5501c796729aa9315a30e002b3801012e6a",
-      "boundaryByteLength": 13527,
+      "canonicalSha256": "6fc1e8d6a60ccd3e6ffa0893413ed6e28fdfe235fe32c890f19e5a0e9e8321e9",
+      "canonicalByteLength": 766984,
+      "canonicalPages": 5,
+      "boundarySha256": "ddbbb2e1d5532968a57a04a5d831aec3be5dd3b0cff60c6876eec52686efaab6",
+      "boundaryByteLength": 767140,
+      "boundaryPages": 5,
       "deterministicSecondBuild": true,
-      "note": "Exactly three assigned rule-text components were composed. No source binary was required or acquired; signatures, oath dates, notary fields, judicial findings, judge fields, and clerk fields remain protected."
+      "focusedCompleteness": "PASS_COMPLETE",
+      "note": "All three exact D-pack hashes bound. The route/component identity mismatch is disclosed for independent review and grants no route or production authority."
+    },
+    {
+      "checkpoint": 2,
+      "family": "in_conviction_misd-set",
+      "outcome": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "sourceState": "SOURCE_REFUSED_MISSING_FROM_AUTHORIZED_D_PACK",
+      "rasterState": "NOT_BUILT",
+      "allNineCountersZero": null,
+      "deterministicSecondBuild": false,
+      "exactBlocker": "The authorized D source-pack has no Indiana directory and contains neither 2c4aaf4a68b06f192e5f0c4b9bbfe0dd4c04b4b1f5e0fbab879bb450223e78f0 nor b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5. No discovery, download, substitution, or custody change was permitted."
     }
   ],
   "laneComplete": true,
-  "familiesAssigned": 1,
-  "rowsReturned": 1,
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": [
+    "composed-treatment:nc_146_dismissal_petition"
+  ],
+  "familiesStopped": [
+    "in_conviction_misd-set"
+  ],
+  "familiesRemaining": [],
   "packetsSelfVerified": 0,
   "claimReleases": 0,
+  "centralGeneratedStateEdits": 0,
   "commercialRoutesOpened": 0,
-  "productionTouched": false,
-  "supersededAtReusedPath": {
-    "previousWorkerId": "FABLE-PB",
-    "previousShiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
-    "preservation": "preserved in Git history; excluded from this exact one-family checkpoint"
-  }
+  "productionTouched": false
 }

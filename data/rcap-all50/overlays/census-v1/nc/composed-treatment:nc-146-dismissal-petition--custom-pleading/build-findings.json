@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "composed-treatment:nc_146_dismissal_petition",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "ROUTE/COMPONENT IDENTITY. The assignment's exact route key names the separate G.S. 15A-146(b1) DNA-expunction application, while every pinned primary-form byte is AOC-CR-287, whose own title names dismissed-charge relief under subsections (a) and (a1). The committed route candidate likewise records that no stable approved DNA form or exact filing destination is recorded.",
+      "consequence": "This SOURCE_READY build binds and renders exactly the three commanded components, preserves the exact route key as metadata, prints the 20-day district-attorney service rule, and expressly refuses to represent AOC-CR-287 as a dedicated DNA application. It creates no route, filing authority, fulfillment authority, or production authority; independent counsel review must resolve the mismatch."
+    },
+    {
+      "finding": "SOURCE CUSTODY. Normal Codespaces preflight requires the separate global Master Library and also sees two shorthand heldAs paths that do not bind from the repository root. This assignment instead commands the existing read-only D-source-pack symlink and three exact SHA-256 identities.",
+      "consequence": "The builder accepts only committed `d_source_packs` entries under that symlink and re-hashes all three bytes before rendering. All three match the assignment exactly; no source discovery, acquisition, substitution, or custody change occurs."
+    },
+    {
+      "finding": "SHARED-SEMANTICS GAP, and the reason Side One's offence table ships empty. The table's fifth column is Date Of Dismissal. FACT_DESCRIPTORS carries matter.disposition_date matching /disposition\\s*date/ and carries nothing matching \"date of dismissal\", so DateOfDismissal1 returns no_allowlisted_fact_matches -- and an explicit mapping cannot reach it, because decideBinding consults explicitMappings only after a descriptor has already matched.",
+      "consequence": "The other four columns are refused by role rather than written. Writing them would leave a row carrying written cells beside a required cell left blank, which is the incompleteRows defect exactly. The whole row is the participant's, all five columns are declared required-before-filing and disclosed, and the instructions tell the participant why the table is empty. CLOSING THE GAP IS NOT THIS LANE'S TO DO: it needs a descriptor in scripts/rcap-official-forms/rcap-field-semantics.mjs, a shared host carrying 137 builders, and a change there could move other families' bytes."
+    },
+    {
+      "finding": "CAPTION-CAPTURE DEFECT on Side One's crowded identifier row. PetitionerZip is refused as protected_category/race because the capture returns the neighbouring \"Race\" caption; DateOfBirth is refused as protected_category/government_identifier because the capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\". Both refusals are safe -- they withhold rather than mis-write -- but both are for the wrong reason, and the platform holds both facts and writes them on AOC-CV-226.",
+      "consequence": "Both are declared required-before-filing with the true reason stated to the participant rather than presented as facts the platform lacks. Reported for the lane that owns the caption capture."
+    },
+    {
+      "finding": "TWO DUPLICATE-WRITE mis-bindings refused by role. PetitionerAddr2 on the petition binds participant.street_address exactly as line one does. On AOC-CV-226 the whole \"Full Permanent Mailing Address Of Applicant (if different than above)\" block binds the participant's address, because the form's printed ligature comes through as \"di(uerent\" and the shared if-different refusal therefore does not fire -- so the address would be written into the block that exists for a DIFFERENT one while the Street Number And Street Name line above it stayed empty.",
+      "consequence": "Both refused by role with the reason stated. On AOC-CV-226 that leaves the street line to the participant: it binds nothing either, since no descriptor matches \"Street Number And Street Name\"."
+    },
+    {
+      "finding": "FEE_AND_WAIVER, tested against A1-A4. The committed packet-set manifest is a held source under A2 and answers this route's fee question with a condition rather than a figure: none for a true dismissal, $175 where the dismissal followed a deferred prosecution agreement or a conditional discharge. The form itself carries the switch, in a box with a NOTE TO CLERK beside it.",
+      "consequence": "The packet states both limbs, points at the box on the form that turns the fee off, explains that AOC-CV-226 is in the packet for the case where the fee applies and cannot be paid, and separately states that G.S. 15A-150 expunction costs are not taxed against the petitioner. Per A4 nothing in the packet says it does not state an amount, because it does state one."
+    },
+    {
+      "finding": "SERVICE differs between the exact assigned branch and the held primary form: the manifest records \"none required by the AOC form for dismissals\", and separately that the assigned DNA expunction application under G.S. 15A-146(b1) must be served on the district attorney not less than 20 days before the hearing.",
+      "consequence": "Both are stated. The packet applies the 20-day district-attorney rule to the assigned branch and warns that AOC-CR-287's no-service rule must not be carried over to that separate matter."
+    },
+    {
+      "finding": "The packet-set manifest carries two components this build does NOT render as documents: a participant_instructions component with outputStrategy process_guidance, and a district_attorney_alternative_filing component naming AOC-CR-295, conditional on the district attorney petitioning instead. MASTER_QUEUE's packetComponents for this family lists neither.",
+      "consequence": "participant-instructions.md is the first; the second is covered in prose and named as a form this packet does not contain, because a document mapped and not rendered is a missing companion form. AOC-CR-295 is not bound by this family and no source for it is held."
+    }
+  ]
+}
