@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `c477ea4d9e9976a8a986b5e450e2b8ba8a925fa1` (or the newer dispatch base)
+**Minimum required ancestor:** `b7bd823e1bf0cc659fd5655e63c6141ea10d062c` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-misd-conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha c477ea4d9e9976a8a986b5e450e2b8ba8a925fa1
+  --minimum-captain-sha b7bd823e1bf0cc659fd5655e63c6141ea10d062c
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,10 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 7 exact families before reading or writing family content:
+- Assert only these 6 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'al-misd-conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'il-seal-nonconv-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'rcap-ok-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'tx_nd_dwi_deferred-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ca-17b-reduction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'rcap-tx-custom-pleading'`
@@ -63,11 +62,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 6 families
 
 - `al-misd-conviction-set`
 - `il-seal-nonconv-set`
-- `rcap-ok-custom-pleading`
 - `tx_nd_dwi_deferred-set`
 - `ca-17b-reduction-set`
 - `rcap-tx-custom-pleading`
@@ -86,14 +84,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix05/**`
 - `data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-misd-conviction-set.mjs`
 - `scripts/build-census-v1-il-seal-nonconv-set.mjs`
-- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
 - `scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs`
 - `scripts/build-census-v1-ca-17b-reduction-set.mjs`
 - `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`

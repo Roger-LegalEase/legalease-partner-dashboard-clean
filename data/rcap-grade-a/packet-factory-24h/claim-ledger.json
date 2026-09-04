@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c477ea4d9e9976a8a986b5e450e2b8ba8a925fa1",
+  "generatedAtCommit": "b7bd823e1bf0cc659fd5655e63c6141ea10d062c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6662,10 +6662,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF37",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-03T06:25:31.685Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6694,8 +6694,8 @@
       "operation": "rapid-repair",
       "lane": "FIX05",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T19:05:25.069Z"
     },
     {
       "subjectType": "packet-family",
@@ -12874,7 +12874,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "be4ab999eed0658f98cf2448a75b3a8b707ff4f629b94895e9ed6ed3dea172ef",
+  "claimsDigest": "817f3f183ab788a31e1f9033db70fc3374f80287cc0c760b569f7290389b7a8f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25690,6 +25690,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-04T19:02:07.993Z"
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-04T19:05:25.069Z"
     }
   ],
   "reissues": [
@@ -34726,6 +34734,17 @@
       "previouslyReleasedAt": "2026-09-04T05:55:12.861Z",
       "transferredAt": "2026-09-04T19:02:46.414Z",
       "reason": "Current FIX07 ARTIFACTS repair completed at 82ff81de with unchanged exact bytes and current raster; VF08's active worker neither built nor repaired nor previously reviewed WA and will consume this required post-repair reread after Kansas."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF37",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-03T06:25:31.685Z",
+      "transferredAt": "2026-09-04T19:05:25.181Z",
+      "reason": "Current FIX05 clipping repair completed at ea93d7d62 with unchanged current 83-page exact bytes and RASTER_PASS; active VF01 worker neither built nor repaired nor previously reviewed Oklahoma and will consume the required reread after Arkansas."
     }
   ],
   "withdrawals": [
@@ -37671,6 +37690,14 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "withdrawnAt": "2026-09-04T17:46:23Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T19:05:38Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
