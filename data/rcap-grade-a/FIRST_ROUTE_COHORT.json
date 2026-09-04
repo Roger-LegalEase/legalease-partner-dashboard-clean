@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "633fce63367dda1caa5b2ee05dfebc539436c77c",
+  "atCommit": "de2d5eb7db74b388fd775bf9f384c9e220cf2d8e",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -80,18 +80,18 @@
     }
   ],
   "counts": {
-    "completePacketProven": 110,
+    "completePacketProven": 111,
     "familiesInsideExistingApprovalScope": 110,
     "augustApprovalScope": 57,
     "septemberExactDigestApprovalScope": 53,
     "septemberApprovalsWithCurrentDigests": 45,
     "familiesInsideTheOwnerApproval": 102,
-    "provenAndApproved": 42,
+    "provenAndApproved": 43,
     "inCohort": 4,
     "cohortRoutes": 5,
     "provenButOutsideAnyExistingApproval": 68
   },
-  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 110 are packet-proven; 42 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 111 are packet-proven; 43 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [
     {
       "familyId": "dc_innocence_expungement-set",
@@ -3028,6 +3028,66 @@
         "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
       },
       "legalApproval": null
+    },
+    {
+      "familyId": "id_set_aside_dismissal-set",
+      "jurisdiction": "ID",
+      "routeKeys": [
+        "obligation:track-only:ID:id_set_aside_dismissal"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "cf492847858f0dccd3266a15b00a23499f462935"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+            "sha256Now": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+            "sha256Now": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "il-exp-supervision-set",
