@@ -4920,11 +4920,6 @@
       "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
       "failedObligations": [
         {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "The receipt pins six exact official-form sources, but the current held files could not be independently read and rehashed in this environment; source identity is therefore not independently established.",
-          "evidence": null
-        },
-        {
           "obligation": "REQUIRED_BEFORE_FILING",
           "finding": "The controlling manifest requires the Illinois State Police Access and Review transcript, a case-number compare-and-correct step, and the ISP $60 order-processing disclosure. Current instructions substitute a generic certified disposition and omit those exact actions and cost.",
           "evidence": null
@@ -4949,10 +4944,11 @@
         "FEE_AND_WAIVER",
         "PAGE_ORDER",
         "REQUIRED_BEFORE_FILING",
-        "SERVICE",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [
         "SOURCE_IDENTITY"
       ],
-      "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
