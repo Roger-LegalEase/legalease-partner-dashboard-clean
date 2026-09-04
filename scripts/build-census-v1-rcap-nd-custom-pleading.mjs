@@ -2834,6 +2834,18 @@ const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)
 const DOTS = (n = 84) => ".".repeat(n);
 const COMPONENT_IDS = SPEC.components.map((c) => c.id);
 const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
+const PARDONED_PRIMARY = "nd-seal-pardoned-conviction-primary-filing-1";
+const PARDONED_ROUTE = "obligation:track-only:ND:nd-seal-pardoned-conviction";
+
+/* Only the pardoned-conviction petition needs the denser profile. At the
+ * boundary fixture's longest identity values, the standard 14.5-point leading
+ * leaves its route identity on a page by itself. Fourteen-point leading keeps
+ * the complete identity block, the intentionally blank spacer and the route
+ * footer on substantive source page 3, without changing any participant text
+ * or the geometry of any sibling route. */
+const COMPONENT_LAYOUT = {
+  [PARDONED_PRIMARY]: { lineHeight: 14 }
+};
 
 /* ---- committed-record binding ------------------------------------------------ *
  * This family binds no Master Library binary: its authority is a set of
@@ -2875,14 +2887,14 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
 }
 
-async function renderComposedPdf(fullText, title) {
+async function renderComposedPdf(fullText, title, layout = {}) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const fontSize = 11, lineHeight = layout.lineHeight ?? 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
@@ -2916,6 +2928,14 @@ async function renderComposedPdf(fullText, title) {
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
+async function renderComponentPdf(componentId, facts) {
+  return renderComposedPdf(
+    composedBody(componentId, facts),
+    COMPONENT[componentId].title,
+    COMPONENT_LAYOUT[componentId]
+  );
+}
+
 /* ---- the composed page, rendered from this family's declared lines ----------- *
  * A body line is plain text with three substitutions: {{factId}} writes a fact
  * the platform holds, {{DOTS}} prints a full-width dotted blank, and
@@ -2934,11 +2954,7 @@ function composedBody(componentId, facts) {
       return String(value);
     }));
   }
-  // This component reaches the bottom margin at boundary fixture lengths. Do
-  // not spend its final line on whitespace and orphan the route footer; retain
-  // the established spacing for every other component.
-  if (componentId === "nd-seal-pardoned-conviction-primary-filing-1") lines.push(`Route: ${c.routeKey}`);
-  else lines.push("", `Route: ${c.routeKey}`);
+  lines.push("", `Route: ${c.routeKey}`);
   return lines.join("\n");
 }
 
@@ -3035,23 +3051,61 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   return { actualWrites, glyphs, pagesRead: pages.length };
 }
 
-async function assertFix07RouteFooterPagination() {
-  const componentId = "nd-seal-pardoned-conviction-primary-filing-1";
-  const route = `Route: ${COMPONENT[componentId].routeKey}`;
-  const bytes = await renderComposedPdf(
-    composedBody(componentId, SPEC.fixtures.boundary),
-    COMPONENT[componentId].title
-  );
-  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
-  const pageTexts = doc.getPages().map((page) =>
-    groupIntoLines(extractTextItems(page)).map((line) => line.text).join(" ").replace(/\s+/g, " ").trim()
-  );
-  assert.ok(pageTexts.some((text) => text.includes(route)), "the repaired component must retain its route footer");
-  assert.ok(
-    pageTexts.every((text) => text !== route),
-    "the boundary component must not create a page containing only its route footer"
-  );
-  return { componentId, pages: pageTexts.length, routeOnlyPages: pageTexts.filter((text) => text === route).length };
+async function assertFix04Pagination() {
+  assert.equal(COMPONENT[PARDONED_PRIMARY].routeKey, PARDONED_ROUTE,
+    "the focused layout profile must remain bound to the pardoned-conviction route");
+
+  const inspected = [];
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = SPEC.fixtures[fixtureName];
+    for (const componentId of COMPONENT_IDS) {
+      const bytes = await renderComponentPdf(componentId, facts);
+      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+      const route = `Route: ${COMPONENT[componentId].routeKey}`;
+      const pages = doc.getPages().map((page, pageIndex) => {
+        const { width, height } = page.getSize();
+        const items = extractTextItems(page);
+        const lines = groupIntoLines(items).map((line) => line.text.trim()).filter(Boolean);
+        const text = lines.join(" ").replace(/\s+/g, " ").trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        assert.ok(text.length > 0, `${fixtureName}/${componentId}/${pageIndex + 1}: blank component page`);
+        assert.ok(lines.length > 1, `${fixtureName}/${componentId}/${pageIndex + 1}: one-line orphan page`);
+        assert.notEqual(text, route, `${fixtureName}/${componentId}/${pageIndex + 1}: footer-only page`);
+        for (const item of items) {
+          /* This extractor marks StandardFonts.TimesRoman metrics inexact, so
+           * its estimated width is not an honest clipping measurement. Text
+           * origins and baselines are exact; bbox-layout supplies the separate
+           * word-bound measurement used by the repair evidence. */
+          assert.ok(item.x >= 0 && item.x <= width && item.y >= 0 && item.y + item.size <= height,
+            `${fixtureName}/${componentId}/${pageIndex + 1}: text origin or baseline lies outside the page`);
+        }
+        return { page: pageIndex + 1, lines: lines.length, words, characters: text.length, text };
+      });
+      assert.ok(pages.some((page) => page.text.includes(route)),
+        `${fixtureName}/${componentId}: route footer missing`);
+      inspected.push({ fixture: fixtureName, componentId, pages: pages.length,
+        minimumLinesOnAnyPage: Math.min(...pages.map((page) => page.lines)) });
+
+      if (componentId === PARDONED_PRIMARY) {
+        assert.equal(pages.length, 3, `${fixtureName}/${componentId}: must remain a substantive three-page petition`);
+        const last = pages.at(-1);
+        assert.ok(last.text.includes(route), `${fixtureName}/${componentId}: route footer must remain on source page 3`);
+        assert.ok(last.words > 2 && last.characters > route.length,
+          `${fixtureName}/${componentId}: source page 3 must contain participant substance as well as the footer`);
+      }
+    }
+  }
+
+  return {
+    fixtures: 2,
+    componentsPerFixture: COMPONENT_IDS.length,
+    componentPagesInspected: inspected.reduce((sum, item) => sum + item.pages, 0),
+    blankPages: 0,
+    footerOnlyPages: 0,
+    oneLineOrphans: 0,
+    textRunOriginsOutsidePage: 0,
+    pardonedPrimary: inspected.filter((item) => item.componentId === PARDONED_PRIMARY)
+  };
 }
 
 /* ---- the builder's own count of the nine counters ----------------------------- */
@@ -3249,7 +3303,7 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
-  const assertFix07 = argv.includes("--assert-fix07");
+  const selfTest = argv.includes("--self-test") || argv.includes("--assert-fix04") || argv.includes("--assert-fix07");
 
   const { resolved, failures } = resolveRecords();
   if (failures.length > 0) {
@@ -3260,11 +3314,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     };
   }
 
-  if (assertFix07) {
+  if (selfTest) {
     return {
       familyId: SPEC.familyId,
-      status: "FIX07_ASSERTIONS_PASSED",
-      routeFooterPagination: await assertFix07RouteFooterPagination()
+      status: "SELF_TEST_PASSED",
+      pagination: await assertFix04Pagination()
     };
   }
 
@@ -3301,7 +3355,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const body = composedBody(componentId, facts);
       assert.ok(body.includes(facts["participant.full_legal_name"]),
         `${componentId}: the composed page must carry the participant's name`);
-      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+      const composedBytes = await renderComponentPdf(componentId, facts);
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
         packet.addPage(p);
@@ -3330,7 +3384,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     artifacts.push({
       fixture: fixtureName, file, sha256,
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
-      documents, components: COMPONENT_IDS
+      documents, components: COMPONENT_IDS,
+      role: "family_assembly_of_every_route",
+      deliveryRole: "build_and_review_evidence_only_not_a_participant_deliverable"
     });
     pdfsDeclared.push({
       file, documentId: "assembled_packet", role: "assembled_packet_of_composed_pleadings",
@@ -3361,6 +3417,65 @@ export async function runFamily(argv = process.argv.slice(2)) {
           sha256: crypto.createHash("sha256").update(fs.readFileSync(png)).digest("hex")
         });
       }
+    }
+  }
+
+  /* A participant receives only the components for their selected statutory
+   * route. The two family assemblies above remain useful review evidence, but
+   * each route artifact below is assembled independently from the same rendered
+   * component pages and carries no page from a sibling route. */
+  const routeSlug = (routeKey) => String(routeKey).split(":")[3];
+  for (const c of SPEC.components) {
+    assert.ok(SPEC.routes.some((route) => route.routeKey === c.routeKey),
+      `${c.id}: carries route ${c.routeKey}, which this family does not declare`);
+  }
+
+  const routeArtifacts = [];
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = SPEC.fixtures[fixtureName];
+    for (const route of SPEC.routes) {
+      const routeComponentIds = SPEC.components
+        .filter((component) => component.routeKey === route.routeKey)
+        .map((component) => component.id);
+      assert.ok(routeComponentIds.length > 0, `${route.routeKey}: declared route has no component`);
+
+      const slug = routeSlug(route.routeKey);
+      const packet = await PDFDocument.create();
+      stampDeterministic(packet);
+      packet.setTitle(`${SPEC.legalName} — ${slug} — ${fixtureName} fixture`);
+      const pageManifest = [];
+
+      for (const componentId of routeComponentIds) {
+        const composedBytes = await renderComponentPdf(componentId, facts);
+        const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
+        for (const [i, page] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
+          packet.addPage(page);
+          pageManifest.push({
+            packetPage: packet.getPageCount(), component: componentId,
+            documentId: componentId, sourcePage: i + 1, sourceSha256: null
+          });
+        }
+      }
+
+      const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
+      const dir = `${OUT}/fixtures/routes/${slug}`;
+      fs.mkdirSync(path.join(ROOT, dir), { recursive: true });
+      const file = `${dir}/${fixtureName}.pdf`;
+      fs.writeFileSync(path.join(ROOT, file), packetBytes);
+      const routeMaps = maps.filter((map) => routeComponentIds.includes(map.formNumber));
+      const proof = await byteProof(packetBytes, pageManifest, routeMaps, facts, `${fixtureName}/${slug}`);
+
+      routeArtifacts.push({
+        routeKey: route.routeKey, route: slug, fixture: fixtureName, file,
+        sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
+        byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+        documents: routeComponentIds, components: routeComponentIds,
+        role: "route_packet_of_composed_pleadings",
+        deliveryRole: "participant_deliverable_for_this_route_only",
+        valuesReadBackFromTheseBytes: proof.actualWrites.length,
+        rasterPending: true,
+        independentVerificationPending: true
+      });
     }
   }
 
@@ -3423,6 +3538,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
     boundReferenceSource: null,
     pdfs: pdfsDeclared,
+    familyAssemblyIsAParticipantDeliverable: false,
+    familyAssemblyRole: "build and review evidence only — it concatenates every route's components and is not a participant deliverable",
+    routeArtifacts,
+    routeArtifactRoutes: SPEC.routes.map((route) => route.routeKey),
+    routeArtifactRasterPending: true,
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
@@ -3515,6 +3635,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
     writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
     requiredBeforeFiling: rbf.length,
     artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
+    routeArtifactHashes: routeArtifacts.map((a) => ({
+      fixture: a.fixture, route: a.route, routeKey: a.routeKey,
+      packetSha256: a.sha256, byteLength: a.byteLength, pages: a.pageCount
+    })),
     rasterPages: rasterPages.length,
     rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
     nineCountersZero: allZero,
