@@ -75,8 +75,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - applicant name | What is your full legal name, and any other name the case was filed under? |
-| Item C2 - date of birth | What is your date of birth? |
+| Item C1 - any other name the case was filed under | any other name the case was filed under, or write none if there is no other name |
 | Item C3 - conviction identity | What were you convicted of, and which exact RCW or municipal ordinance was it under? |
 | Item C4 - sentencing court | Which court sentenced you — district, municipal or superior — and in which county or city? |
 | Item C5 - cause number | What is the cause number? |
@@ -88,13 +87,19 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C11 - offense before1984 | Was the offence committed before 1 July 1984? |
 | Item C12 - maximum punishment period | What was the maximum sentence the law allowed for this offence, and has that much time passed since sentencing? |
 | Item C13 - plea or verdict | Did the case end in a guilty plea, or in a verdict after a not guilty plea? |
+| Cause number from the existing sentencing case | the cause number copied from the existing sentencing-court docket |
+
+### wa_vac_post_probation_9_95_240-proposed-order-2 — Proposed Order - Clear an older Washington conviction after you finished probation
+
+| The blank on the document | What to write |
+| --- | --- |
+| Cause number from the existing sentencing case in the proposed-order caption | the same cause number copied from the existing sentencing-court docket and written on the motion |
 
 ### wa_del_nonconviction-primary-filing-1 — Request to the Washington State Patrol - Ask the Washington State Patrol to delete a record of a case that did not end in conviction
 
 | The blank on the document | What to write |
 | --- | --- |
-| Item C1 - applicant name | What is your full legal name, and any other name the case may have been under? |
-| Item C2 - date of birth | What is your date of birth? |
+| Item C1 - any other name the case may have been under | any other name the case may have been under, or write none if there is no other name |
 | Item C3 - arrest details | On what date were you arrested or cited, by which agency, and for what? |
 | Item C4 - disposition detail | How did the case end, and on what date — dismissed, acquitted, or no charges ever filed? |
 | Item C5 - deferred prosecution | Was the case resolved through a deferred prosecution or a diversion programme? |
@@ -115,7 +120,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 - **Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.
 - **Every line of a proposed order that decides anything**, including the court's own signing and date lines. The order is the court's to make.
-- **Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists.
+- **The court's own caption styling.** Copy the existing cause number from the sentencing-court docket onto both vacation-route captions; ask that clerk how it styles the court-name line if you are unsure. The Washington State Patrol deletion request is not a court filing and has no case-number blank.
 
 ## When to stop and get help instead of filing
 

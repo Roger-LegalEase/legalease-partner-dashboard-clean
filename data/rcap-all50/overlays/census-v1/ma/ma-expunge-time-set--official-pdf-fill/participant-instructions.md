@@ -4,7 +4,7 @@ This packet is prepared for **Petition to Expunge under G.L. c. 276, §§ 100F, 
 
 **You send this to one office, and then you wait.** The Commissioner of Probation certifies eligibility under §§ 100I and 100J, and only then does the matter reach a judge with the district attorney on notice. Your part is the one petition.
 
-The platform filled in the three facts it holds about you in the shape this form asks for them: your printed name, your date of birth and your phone number. Everything else on the form is a blank listed below.
+The platform filled in your date of birth and phone number. It holds your full legal name as one string, but this form asks separately for Last Name, First Name and Middle Name. The packet does not guess that split: write each name part in its own printed blank as listed below.
 
 **Your address is not filled in, and that is deliberate.** This form splits it across four blanks — Mailing Address, City, State and Zip. The platform holds your address as a single line, and guessing where the street ends and the city begins would invent structure it does not have. You copy the four parts from the address you already have.
 
@@ -16,7 +16,7 @@ The platform filled in the three facts it holds about you in the shape this form
 
 | Component | What it is |
 | --- | --- |
-| `ma-expunge-time-primary-filing-1` | the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your name, date of birth and phone written in and every other blank left for you |
+| `ma-expunge-time-primary-filing-1` | the Massachusetts Probation Service Petition to Expunge itself, Rev. 10/11/2018, with your date of birth and phone written in and every other blank, including the separately labelled name parts, left for you |
 | `ma-expunge-time-process-guidance-2` | what happens after you send it, what is known about cost, and where self-help stops |
 
 ## Documents you must obtain first
@@ -42,6 +42,7 @@ Each is a blank on the petition, beside the caption named below. Fill every one 
 | Street address on the Mailing Address line | the street part of your mailing address - this form splits the address across four blanks, and the street goes here |
 | Mother's maiden name the form requests | your mother's maiden name |
 | Occupation of the petitioner | your occupation |
+| Printed name of the petitioner - last, first and middle | your last name in the Last Name blank, first name in the First Name blank, and middle name in the Middle Name blank |
 | Social Security number the form requests | your Social Security number, which you write yourself on the paper you send |
 | Spouse's name the form requests | your spouse's name, or leave it blank if it does not apply |
 
@@ -59,7 +60,7 @@ These are not facts the platform could have looked up and did not. They are deci
 
 1. **Get your own CORI from DCJIS** before you fill anything in. It is how you check the docket number, which section box applies, and whether your record holds not more than two convictions or two non-conviction records.
 2. **Mark one of the three boxes** — § 100F, § 100G or § 100H — from what your record shows.
-3. **Fill in every remaining blank**: alias or maiden name, the four parts of your address, occupation, Social Security number, father's name, mother's maiden name, spouse's name, and race, ethnicity and gender if you choose to state them.
+3. **Fill in every remaining blank**: your last, first and middle names in their separately labelled blanks; alias or maiden name; the four parts of your address; occupation; Social Security number; father's name; mother's maiden name; spouse's name; and race, ethnicity and gender if you choose to state them.
 4. **Read the fourteen statements above the signature line.** Signing means every one of them is true of the offence you are asking to expunge — including that you were under 21 when it was committed, that you have no additional offences other than minor motor vehicle violations anywhere, and that you are not currently the subject of an active criminal investigation.
 5. **Sign and date it**, under penalties of perjury.
 6. **Mail it to the Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108.** That address is printed on the form itself, twice.
@@ -73,6 +74,7 @@ These are not facts the platform could have looked up and did not. They are deci
 - **Race, ethnicity and gender.** Deliberately blank: the platform does not collect race or ethnicity and does not hold a gender.
 - **Your Social Security number.** The platform does not hold it and would not print it.
 - **The whole address — street, city, state and zip.** The platform holds it as one line and this form wants four parts. It does not guess where one ends and the next begins, and the long-address fixture confirmed a one-line address does not physically fit the street blank.
+- **Your last, first and middle names.** The platform holds one full legal-name string and does not guess how to divide it among three separately captioned blanks.
 - **Alias or maiden name, occupation, father's name, mother's maiden name and spouse's name.** The platform holds none of them.
 
 ## When to stop and get help instead
@@ -90,7 +92,7 @@ Where self-help stops, the office that answers is the **Office of the Commission
 
 ## What this packet is not
 
-This is the official Massachusetts Probation Service Petition to Expunge with the three facts the platform writes into it, and a page explaining what happens next. It is not legal advice, it is not sent for you, and it does not decide whether you are eligible — the Commissioner of Probation certifies that under §§ 100I and 100J.
+This is the official Massachusetts Probation Service Petition to Expunge with the date of birth and phone number the platform writes into it, and a page explaining what happens next. It is not legal advice, it is not sent for you, and it does not decide whether you are eligible — the Commissioner of Probation certifies that under §§ 100I and 100J.
 
 **Expungement here means permanent destruction, and that cuts both ways.** An order requires the clerk of the court where the record was created to destroy or permanently erase the trial court records, and requires criminal justice agencies to erase the record from publicly available police logs and to answer inquiries by saying that no record exists. The form warns that once the record is destroyed you cannot get a copy from the court — so if you want copies of anything you filed, or of the petition itself, **make them before the court orders expungement**.
 

@@ -143,7 +143,7 @@ const SPEC = {
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
         "",
-        "Case number, if the court assigns one at filing:",
+        "Cause number from the existing sentencing case:",
         "{{DOTS}}",
         "",
         "DISMISSAL AFTER PROBATION AND VACATION OF A PRE-1984 CONVICTION, RCW 9.95.240",
@@ -163,12 +163,11 @@ const SPEC = {
         "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself.",
         "",
         "[C1 - applicant name] What is your full legal name, and any other name the case was filed under?",
-        "{{DOTS}}",
-        "{{DOTS}}",
+        "Known current legal name: {{participant.full_legal_name}}",
+        "Add any other name the case was filed under: {{DOTS}}",
         "",
         "[C2 - date of birth] What is your date of birth?",
-        "{{DOTS}}",
-        "{{DOTS}}",
+        "{{participant.date_of_birth}}",
         "",
         "[C3 - conviction identity] What were you convicted of, and which exact RCW or municipal ordinance was it under?",
         "{{DOTS}}",
@@ -239,6 +238,16 @@ const SPEC = {
           "factId": "participant.date_of_birth"
         },
         {
+          "id": "fact_applicantName",
+          "label": "Known current legal name in Item C1",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "id": "fact_dateOfBirth",
+          "label": "Known date of birth in Item C2",
+          "factId": "participant.date_of_birth"
+        },
+        {
           "id": "mailing_address",
           "label": "Mailing address in the contact block at the foot of this document",
           "factId": "participant.street_address"
@@ -257,17 +266,10 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
-          "id": "fact_applicantName",
-          "label": "Item C1 - applicant name",
-          "supply": "What is your full legal name, and any other name the case was filed under?",
-          "why": "the committed track registry records this as a required generation input for wa_vac_post_probation_9_95_240, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_dateOfBirth",
-          "label": "Item C2 - date of birth",
-          "supply": "What is your date of birth?",
-          "why": "the committed track registry records this as a required generation input for wa_vac_post_probation_9_95_240, and the platform holds no value for it"
+          "id": "fact_otherName",
+          "label": "Item C1 - any other name the case was filed under",
+          "supply": "any other name the case was filed under, or write none if there is no other name",
+          "why": "the platform holds the current legal name but has not seen the case record and cannot know whether it used another name"
         },
         {
           "kind": "rbf",
@@ -347,10 +349,11 @@ const SPEC = {
           "why": "the committed track registry records this as a required generation input for wa_vac_post_probation_9_95_240, and the platform holds no value for it"
         },
         {
-          "kind": "court",
+          "kind": "rbf",
           "id": "case_number",
-          "label": "Case number of this filing, if the court assigns one at filing",
-          "why": "if a number is assigned, the court assigns it at filing"
+          "label": "Cause number from the existing sentencing case",
+          "supply": "the cause number copied from the existing sentencing-court docket",
+          "why": "this motion is filed in the existing sentencing case and the committed track requires its cause number"
         },
         {
           "kind": "protected",
@@ -380,7 +383,7 @@ const SPEC = {
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
         "",
-        "Case number, if one was assigned:",
+        "Cause number from the existing sentencing case:",
         "{{DOTS}}",
         "",
         "PROPOSED ORDER",
@@ -405,10 +408,11 @@ const SPEC = {
       ],
       "blanks": [
         {
-          "kind": "court",
+          "kind": "rbf",
           "id": "order_case_number",
-          "label": "Case number in the caption of the proposed order, if the court assigns one at filing",
-          "why": "the proposed order is filed with the petition, before any number exists"
+          "label": "Cause number from the existing sentencing case in the proposed-order caption",
+          "supply": "the same cause number copied from the existing sentencing-court docket and written on the motion",
+          "why": "the proposed order travels with the motion in the existing sentencing case"
         },
         {
           "kind": "court",
@@ -462,7 +466,7 @@ const SPEC = {
         "",
         "- Signature - Motion, signature block. The applicant signs their own motion.",
         "- Judge's signature and date - Proposed order. Prepared unsigned and undated for the judge.",
-        "- Cause number and caption styling - Motion, caption. Left blank where the participant is unsure how the clerk of that court styles a pre-1984 caption; no pattern form fixes it.",
+        "- Cause number - Motion and proposed-order captions. Copy the existing cause number from the sentencing-court docket. Ask that clerk only about the court's caption styling; no pattern form fixes it.",
         "- Signing: The applicant signs as a declaration under penalty of perjury.",
         "- Notarisation: none — the pattern forms use a declaration under penalty of perjury.",
         "",
@@ -580,12 +584,11 @@ const SPEC = {
         "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself.",
         "",
         "[C1 - applicant name] What is your full legal name, and any other name the case may have been under?",
-        "{{DOTS}}",
-        "{{DOTS}}",
+        "Known current legal name: {{participant.full_legal_name}}",
+        "Add any other name the case may have been under: {{DOTS}}",
         "",
         "[C2 - date of birth] What is your date of birth?",
-        "{{DOTS}}",
-        "{{DOTS}}",
+        "{{participant.date_of_birth}}",
         "",
         "[C3 - arrest details] On what date were you arrested or cited, by which agency, and for what?",
         "{{DOTS}}",
@@ -636,6 +639,16 @@ const SPEC = {
           "factId": "participant.date_of_birth"
         },
         {
+          "id": "fact_applicantName",
+          "label": "Known current legal name in Item C1",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "id": "fact_dateOfBirth",
+          "label": "Known date of birth in Item C2",
+          "factId": "participant.date_of_birth"
+        },
+        {
           "id": "mailing_address",
           "label": "Mailing address in the contact block at the foot of this document",
           "factId": "participant.street_address"
@@ -654,17 +667,10 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
-          "id": "fact_applicantName",
-          "label": "Item C1 - applicant name",
-          "supply": "What is your full legal name, and any other name the case may have been under?",
-          "why": "the committed track registry records this as a required generation input for wa_del_nonconviction, and the platform holds no value for it"
-        },
-        {
-          "kind": "rbf",
-          "id": "fact_dateOfBirth",
-          "label": "Item C2 - date of birth",
-          "supply": "What is your date of birth?",
-          "why": "the committed track registry records this as a required generation input for wa_del_nonconviction, and the platform holds no value for it"
+          "id": "fact_otherName",
+          "label": "Item C1 - any other name the case may have been under",
+          "supply": "any other name the case may have been under, or write none if there is no other name",
+          "why": "the platform holds the current legal name but has not seen the case record and cannot know whether it used another name"
         },
         {
           "kind": "rbf",
@@ -1017,7 +1023,7 @@ const SPEC = {
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
     "**Every line of a proposed order that decides anything**, including the court's own signing and date lines. The order is the court's to make.",
-    "**Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists."
+    "**The court's own caption styling.** Copy the existing cause number from the sentencing-court docket onto both vacation-route captions; ask that clerk how it styles the court-name line if you are unsure. The Washington State Patrol deletion request is not a court filing and has no case-number blank."
   ],
   "recordSays": [
     [
@@ -1537,6 +1543,29 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+
+  for (const componentId of [
+    "wa_vac_post_probation_9_95_240-primary-filing-1",
+    "wa_del_nonconviction-primary-filing-1"
+  ]) {
+    const component = COMPONENT[componentId];
+    assert.ok(component.writes.some((write) => write.id === "fact_applicantName" && write.factId === "participant.full_legal_name"),
+      `${componentId}: C1 must use the held participant name`);
+    assert.ok(component.writes.some((write) => write.id === "fact_dateOfBirth" && write.factId === "participant.date_of_birth"),
+      `${componentId}: C2 must use the held date of birth`);
+    assert.ok(!component.blanks.some((blank) => ["fact_applicantName", "fact_dateOfBirth"].includes(blank.id)),
+      `${componentId}: held C1/C2 facts cannot remain required-before-filing blanks`);
+    assert.ok(component.blanks.some((blank) => blank.id === "fact_otherName" && blank.kind === "rbf"),
+      `${componentId}: C1 must retain the separately unknown other-name input`);
+  }
+  const vacation = COMPONENT["wa_vac_post_probation_9_95_240-primary-filing-1"];
+  const order = COMPONENT["wa_vac_post_probation_9_95_240-proposed-order-2"];
+  assert.ok(vacation.blanks.some((blank) => blank.id === "case_number" && blank.kind === "rbf"),
+    "the existing sentencing-case cause number must be participant-supplied before filing");
+  assert.ok(order.blanks.some((blank) => blank.id === "order_case_number" && blank.kind === "rbf"),
+    "the proposed order must carry the same existing cause number before filing");
+  assert.ok(!SPEC.deliberatelyBlank.some((line) => line.includes("Every case number")),
+    "guidance must not call an existing sentencing-case cause number court-assigned at filing");
 
   const { resolved, failures } = resolveRecords();
   if (failures.length > 0) {

@@ -27,6 +27,14 @@
     "ledgerStatus": "no live FIX02 grant at 0880e69cc"
   },
   "preservedPriorReturn": "data/rcap-grade-a/packet-factory-24h/fix02/rows.previous-batch-fable-fa.json holds the earlier FIX02 batch (worker FABLE-FA, families ut_pet_limitations-set, ca-1203-42-set, wa_vac_treaty_fishing-set) that occupied this path. It carries no trace in VERIFIER_RETURNS.json, so it reads as un-integrated and was moved aside rather than overwritten. Captain should integrate it from there if it was never picked up.",
+  "currentReturn": {
+    "workerBranch": "codex/national-repair-fix02",
+    "baseSha": "1fa8edf10a895009aa0de6934148b362a532b0dc",
+    "dispatchMinimumAncestor": "afcd697920953dbefd7f7df96f88e38991a2be3c",
+    "rowRange": "rows 4 through 8",
+    "preflight": "14/14 for AK, WV, MA and WA; TX stopped at 13/14 because one of three sources did not bind",
+    "scope": "The five-family FIX02 dispatch at Captain base 1fa8edf10. Earlier rows and their historical metadata are preserved unchanged above and below this object."
+  },
   "rows": [
     {
       "itemId": "nd-nonconviction-close-petition-set",
@@ -144,6 +152,124 @@
       "countersMoved": false,
       "countersMovedNote": "verify-packet-completeness.mjs does not score ROUTE_IDENTITY, SELF_HELP_STOP or the auditability of a KNOWN_PREFILLS refusal. All nine counters were already zero on all three families before this pass and are zero after, so on these obligations the counters are HELD, not MOVED. A held counter is the evidence that a text-and-record repair broke nothing; it is not the evidence that the obligation was discharged. That evidence is named per row.",
       "completenessVerdict": "PASS_COMPLETE, 27/167 written, before and after"
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification is still required.",
+      "obligationRepaired": "ARTIFACTS",
+      "repairedByThisLane": false,
+      "whatWasFound": "The dispatched stale proposal digest is already repaired at this Captain base. product-wiring.json proposedRepresentation.components[0].sha256, binding.acceptanceReceipt.boundToCanonicalSha256, reports/rendered-artifacts.json and the canonical bytes all agree on 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad. No AK byte was changed.",
+      "artifacts": [
+        "canonical 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad 18562 bytes 8 pages",
+        "boundary d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7 18875 bytes 8 pages"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification is still required.",
+      "obligationRepaired": "REQUIRED_BEFORE_FILING",
+      "repairedByThisLane": true,
+      "whatWasDone": "Replaced the unclassified all-purpose court caption with the route-recorded Circuit Court class and one explicit county blank. The county of conviction or juvenile adjudication is now inventoried, disclosed, and required before filing, with the court record named as its source.",
+      "proof": "The builder regression requires the exact Circuit Court heading and court_caption_county RBF row. The rebuilt packet reports 8 required-before-filing items instead of 7; participant-instructions.md and both field-map variants carry the county item. Deterministic check and focused completeness pass.",
+      "artifacts": [
+        "canonical 58487688e22fdb3d5d1566899add22a2489253462a91f7c056cfc67ea748f282 12104 bytes 4 pages",
+        "boundary d041ae07adbeccc2c54a8f46a73df01e10f5769295a792ea4420190c52a9d9e6 12292 bytes 4 pages"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "itemId": "ma-expunge-time-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent visual verification is still required.",
+      "obligationRepaired": "KNOWN_PREFILLS and CLIPPING_AND_OVERLAP",
+      "repairedByThisLane": true,
+      "whatWasDone": "Stopped writing one unsplit full-name string across the separately labelled Last/First/Middle blanks and now tells the participant to supply those three parts without guessing their structure. Raised the date-of-birth baseline from y=529 to y=534 and telephone baseline from y=466 to y=471, above the measured printed rules at approximately y=531 and y=468.",
+      "proof": "Builder regressions require name refusal/disclosure and both above-rule geometries. Output-byte extraction reads only DOB at x=474,y=534 and phone at x=436,y=471 on both official-form fixtures; the full name no longer appears in the name-rule write region. Deterministic check binds source SHA 5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1 with no caption drift; focused completeness passes.",
+      "artifacts": [
+        "canonical 45e2589a73f35fd2cda9eff1de20a75807d6f66404d7d0ad3c26a052174f3985 26392 bytes 4 pages",
+        "boundary a995e56b6f78cbda7932996029c708e57c39a2251db833dc91eb648534797964 26415 bytes 4 pages"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification is still required.",
+      "obligationRepaired": "REQUIRED_BEFORE_FILING",
+      "repairedByThisLane": true,
+      "whatWasDone": "Both primary filings now write the held current legal name and date of birth into C1/C2, while retaining a separate required-before-filing line for any other case name. The vacation motion and proposed order now identify their caption number as the existing sentencing-case cause number, require the participant to copy the same docket value onto both, and no longer call it court-assigned at filing.",
+      "proof": "Builder regressions require four exact held-fact writes, both residual other-name inputs, both cause-number RBF rows, and absence of the false generic case-number instruction. Byte proof records all four new C1/C2 writes in canonical and boundary artifacts. The required-before-filing inventory remains complete at 21 after replacing four contradictory rows with two residual other-name rows and two correct cause-number rows. Deterministic check and focused completeness pass.",
+      "artifacts": [
+        "canonical e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0 46140 bytes 17 pages",
+        "boundary bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756 46647 bytes 17 pages"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "obligationRepaired": "",
+      "obligationStopped": [],
+      "whyStopped": "The row preflight returns PACKET_BUILD_ENVIRONMENT_NOT_READY at 13/14 because one of three declared sources does not bind. Independently, the authoritative FIX02 dispatch names no failed obligation and supplies no finding. The claim succeeded, but the lane contract stops before artifact read on failed preflight and forbids re-deriving an unnamed repair target; no TX family artifact or builder was read or changed.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
     }
   ],
   "whatCouldNotBeEstablished": [

@@ -94,8 +94,8 @@ const SPEC = {
       "description": "the composed petition, on this route's own statutory ground",
       "condition": null,
       "body": [
-        "IN THE ............................................................ COURT",
-        "(the West Virginia circuit court in the county of conviction or juvenile adjudication)",
+        "IN THE CIRCUIT COURT OF ................................ COUNTY, WEST VIRGINIA",
+        "(enter the county of conviction or juvenile adjudication from the court record)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -193,6 +193,13 @@ const SPEC = {
         }
       ],
       "blanks": [
+        {
+          "kind": "rbf",
+          "id": "court_caption_county",
+          "label": "County in the Circuit Court caption",
+          "supply": "the county of conviction or juvenile adjudication, copied from the court record",
+          "why": "the committed profile fixes the court class as Circuit Court but the participant's record supplies which county"
+        },
         {
           "kind": "rbf",
           "id": "fact_q1",
@@ -868,6 +875,12 @@ function participantInstructions(maps, rbf) {
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
+
+  const primary = COMPONENT["wv-61-14-9-vacatur-primary-filing-1"];
+  assert.ok(primary.body[0].startsWith("IN THE CIRCUIT COURT OF "),
+    "the filing must identify the recorded circuit-court class rather than leave the court type blank");
+  assert.ok(primary.blanks.some((blank) => blank.id === "court_caption_county" && blank.kind === "rbf"),
+    "the authored caption blank must be inventoried as required before filing");
 
   const { resolved, failures } = resolveRecords();
   if (failures.length > 0) {
