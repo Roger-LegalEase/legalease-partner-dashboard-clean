@@ -6,6 +6,9 @@ import mississippiNonConviction from "@/../data/record-clearing/packet-specifica
 import virginiaAbsolutePardon from "@/../data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json";
 import nevadaProbationSpecialtyCourt from "@/../data/record-clearing/packet-specifications/NV-probation-specialty-court-dismissal-set-aside-sealing.v1.json";
 import illinoisFelonyProstitutionRelief from "@/../data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json";
+import dcActualInnocenceExpungement from "@/../data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json";
+import mississippiAdditionalMisdemeanorRelief from "@/../data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json";
+import wyomingFelonyConvictionExpungement from "@/../data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -89,6 +92,13 @@ export type PacketSpecification = {
   schemaVersion: number;
   specificationId: string;
   specificationVersion: string;
+  /**
+   * Every runtime route that delivers this exact family. Most specifications
+   * have one route and omit this in favour of `routeKey`; a shared family must
+   * enumerate its aliases here so registration remains an explicit server-side
+   * crosswalk rather than a jurisdiction or label inference.
+   */
+  routeKeys?: string[];
   routeKey: string;
   jurisdiction: string;
   pathwayId: string;
@@ -101,6 +111,22 @@ export type PacketSpecification = {
   profileId: string;
   profileVersion: string;
   specificationNote: string;
+  legalSectionsBoundBy?: {
+    ownerDecisionRecordId: string;
+    postApprovalAuditVerdict: string;
+    scope: string;
+  };
+  /** Hash of the specification with this field omitted. New artifact-bound specifications carry it. */
+  specificationSha256?: string;
+  /** Exact already-approved shipping artifacts this specification describes. */
+  approvedArtifacts?: Array<{
+    fixture: "canonical" | "boundary";
+    file: string;
+    sha256: string;
+    byteLength: number;
+    pageCount: number;
+    components: string[];
+  }>;
   statutoryAuthority: {
     primary: string;
     sourceUrl: string;
@@ -174,6 +200,7 @@ export type DerivedPacketSpecification = {
   schemaVersion: number;
   specificationId: string;
   specificationVersion: string;
+  routeKeys?: string[];
   routeKey: string;
   jurisdiction: string;
   pathwayId: string;
@@ -206,7 +233,11 @@ const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<str
   [(mississippiNonConviction as unknown as PacketSpecification).routeKey, mississippiNonConviction as unknown as PacketSpecification],
   [(virginiaAbsolutePardon as unknown as PacketSpecification).routeKey, virginiaAbsolutePardon as unknown as PacketSpecification],
   [(nevadaProbationSpecialtyCourt as unknown as PacketSpecification).routeKey, nevadaProbationSpecialtyCourt as unknown as PacketSpecification],
-  [(illinoisFelonyProstitutionRelief as unknown as PacketSpecification).routeKey, illinoisFelonyProstitutionRelief as unknown as PacketSpecification]
+  [(illinoisFelonyProstitutionRelief as unknown as PacketSpecification).routeKey, illinoisFelonyProstitutionRelief as unknown as PacketSpecification],
+  [(dcActualInnocenceExpungement as unknown as PacketSpecification).routeKey, dcActualInnocenceExpungement as unknown as PacketSpecification],
+  ["MS:additional-justice-court-misdemeanor-relief-9-11-15-3", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
+  ["MS:additional-municipal-court-misdemeanor-relief-21-23-7-6", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
+  [(wyomingFelonyConvictionExpungement as unknown as PacketSpecification).routeKey, wyomingFelonyConvictionExpungement as unknown as PacketSpecification]
 ]);
 
 /**

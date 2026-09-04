@@ -3,6 +3,11 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 
+import {
+  packetSpecificationFor,
+  specificationLegalSectionsBound
+} from "@/lib/rcap/grade-a/packet-specification";
+
 /**
  * The runtime side of the factory_v2 route registry.
  *
@@ -22,9 +27,10 @@ import path from "node:path";
  *
  *   * a missing, unreadable or malformed registry admits nothing, so the route
  *     falls through to whatever it resolved to before factory_v2 existed;
- *   * a route entry is honoured only when the generator marked it resolving AND
- *     its own build inputs all read true, so a hand-edited `factoryV2Resolves`
- *     with an unmet input underneath admits nothing.
+ *   * a route entry is honoured only when the generator marked it resolving and
+ *     its own build inputs all read true, except for an exact retired-legacy
+ *     migration whose generated row says every build input is present and whose
+ *     server-owned route, track, family and specification all agree;
  *
  * What this registry never decides: whether a route may be sold, whether payment
  * may be taken, whether a credit may be consumed, whether the legal design is
@@ -42,9 +48,15 @@ export type FactoryV2Route = {
   profileVersion: string;
   requiredInputIds: string[];
   officialFormIds: string[];
+  /** The exact family resolved from the server-owned packet specification. */
+  packetFamilyId: string | null;
+  /** Present only for one exact route migrated out of a retired legacy jurisdiction. */
+  retiredLegacyRouteMigration: FactoryV2RouteMigration | null;
 };
 
 const REGISTRY_PATH = "data/record-clearing/factory-v2-route-registry.json";
+const ROUTE_MIGRATIONS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
+const COHORT_OWNER_DECISION = "OWN-ADOPT-2026-09-02-BATCH-53";
 
 const REQUIRED_BUILD_INPUTS = [
   "authoritativeProfile",
@@ -71,17 +83,101 @@ type RawRoute = {
   legacyGeneratorOwnsThisJurisdiction?: unknown;
 };
 
+export type FactoryV2RouteMigration = {
+  routeId: string;
+  jurisdiction: string;
+  pathwayId: string;
+  registryTrackIds: string[];
+  packetFamilyId: string;
+  ownerDecisionRecordId: string;
+};
+
+type RawRouteMigration = {
+  routeId?: unknown;
+  jurisdiction?: unknown;
+  pathwayId?: unknown;
+  registryTrackIds?: unknown;
+  packetFamilyId?: unknown;
+  migrationKind?: unknown;
+  scope?: unknown;
+  ownerDecisionRecordId?: unknown;
+  createsCommercialAuthority?: unknown;
+  opensRoute?: unknown;
+};
+
 let cache: Map<string, FactoryV2Route> | null = null;
 
 const stringList = (value: unknown): string[] =>
   Array.isArray(value) ? value.filter((item): item is string => typeof item === "string" && item.trim() !== "") : [];
 
-function admissible(route: RawRoute): boolean {
-  if (route.factoryV2Resolves !== true) return false;
-  // A legacy generator keeps its own route. Admitting one here would re-point a
-  // live, proven jurisdiction at a different builder, which is not what
-  // factory_v2 is for.
-  if (route.legacyGeneratorOwnsThisJurisdiction === true) return false;
+function exactStringList(actual: unknown, expected: readonly string[]): boolean {
+  if (!Array.isArray(actual) || actual.length !== expected.length) return false;
+  return actual.every((value, index) => typeof value === "string" && value === expected[index]);
+}
+
+/**
+ * The route-by-route migration crosswalk lives on the packet-set manifest input
+ * already consumed and digest-pinned by the factory-v2 generator. It grants no
+ * commercial state. A malformed or duplicated row migrates nothing.
+ */
+function loadRouteMigrations(): ReadonlyMap<string, FactoryV2RouteMigration> {
+  const migrations = new Map<string, FactoryV2RouteMigration>();
+  try {
+    const parsed = JSON.parse(fs.readFileSync(path.join(process.cwd(), ROUTE_MIGRATIONS_PATH), "utf8")) as {
+      factoryV2RouteMigrations?: unknown;
+    };
+    if (!Array.isArray(parsed.factoryV2RouteMigrations)) return migrations;
+
+    for (const candidate of parsed.factoryV2RouteMigrations) {
+      const row = candidate as RawRouteMigration;
+      const jurisdiction = typeof row.jurisdiction === "string" ? row.jurisdiction.trim().toUpperCase() : "";
+      const pathwayId = typeof row.pathwayId === "string" ? row.pathwayId.trim() : "";
+      const routeId = typeof row.routeId === "string" ? row.routeId.trim() : "";
+      const packetFamilyId = typeof row.packetFamilyId === "string" ? row.packetFamilyId.trim() : "";
+      const ownerDecisionRecordId = typeof row.ownerDecisionRecordId === "string" ? row.ownerDecisionRecordId.trim() : "";
+      const registryTrackIds = stringList(row.registryTrackIds);
+      const valid = Boolean(
+        jurisdiction
+        && pathwayId
+        && routeId === `${jurisdiction}:${pathwayId}`
+        && packetFamilyId
+        && ownerDecisionRecordId === COHORT_OWNER_DECISION
+        && Array.isArray(row.registryTrackIds)
+        && row.registryTrackIds.length === registryTrackIds.length
+        && registryTrackIds.length > 0
+        && new Set(registryTrackIds).size === registryTrackIds.length
+        && row.migrationKind === "retired_legacy_route_to_factory_v2"
+        && row.scope === "route_only"
+        && row.createsCommercialAuthority === false
+        && row.opensRoute === false
+        && !migrations.has(routeId)
+      );
+      if (!valid) {
+        migrations.clear();
+        return migrations;
+      }
+      migrations.set(routeId, {
+        routeId,
+        jurisdiction,
+        pathwayId,
+        registryTrackIds,
+        packetFamilyId,
+        ownerDecisionRecordId
+      });
+    }
+  } catch {
+    migrations.clear();
+  }
+  return migrations;
+}
+
+function admissible(route: RawRoute, migration: FactoryV2RouteMigration | null): boolean {
+  const generatedAdmission = route.factoryV2Resolves === true
+    && route.legacyGeneratorOwnsThisJurisdiction !== true;
+  const exactLegacyMigration = route.factoryV2Resolves === false
+    && route.legacyGeneratorOwnsThisJurisdiction === true
+    && migration !== null;
+  if (!generatedAdmission && !exactLegacyMigration) return false;
   const inputs = route.buildInputs;
   if (!inputs || typeof inputs !== "object") return false;
   if (!REQUIRED_BUILD_INPUTS.every((name) => inputs[name] === true)) return false;
@@ -91,20 +187,38 @@ function admissible(route: RawRoute): boolean {
   if (typeof route.profileVersion !== "string" || route.profileVersion.trim() === "") return false;
   if (stringList(route.packetSetIds).length === 0) return false;
   if (stringList(route.requiredInputIds).length === 0) return false;
+  if (migration) {
+    const routeId = `${String(route.jurisdiction).trim().toUpperCase()}:${String(route.pathwayId).trim()}`;
+    const specification = packetSpecificationFor(routeId);
+    const specificationRouteKeys = specification?.routeKeys ?? (specification ? [specification.routeKey] : []);
+    if (migration.routeId !== routeId) return false;
+    if (!exactStringList(route.packetSetIds, [migration.packetFamilyId])) return false;
+    if (!exactStringList(route.registryTrackIds, migration.registryTrackIds)) return false;
+    if (specification?.packetFamily !== migration.packetFamilyId) return false;
+    if (!specificationRouteKeys.includes(routeId)) return false;
+    if (!specificationLegalSectionsBound(specification)) return false;
+    if (!("legalSectionsBoundBy" in specification)
+      || specification.legalSectionsBoundBy?.ownerDecisionRecordId !== migration.ownerDecisionRecordId
+      || specification.legalSectionsBoundBy.postApprovalAuditVerdict !== "COVERED_BY_EXISTING_APPROVAL") return false;
+  }
   return true;
 }
 
 function loadAll(): Map<string, FactoryV2Route> {
   if (cache) return cache;
   const admitted = new Map<string, FactoryV2Route>();
+  const migrations = loadRouteMigrations();
   const file = path.join(process.cwd(), REGISTRY_PATH);
   try {
     if (fs.existsSync(file)) {
       const parsed = JSON.parse(fs.readFileSync(file, "utf8")) as { routes?: RawRoute[] };
       for (const route of parsed.routes ?? []) {
-        if (!admissible(route)) continue;
         const jurisdiction = String(route.jurisdiction).trim().toUpperCase();
         const pathwayId = String(route.pathwayId).trim();
+        const routeId = `${jurisdiction}:${pathwayId}`;
+        const migration = migrations.get(routeId) ?? null;
+        if (!admissible(route, migration)) continue;
+        const specification = packetSpecificationFor(routeId);
         admitted.set(`${jurisdiction}:${pathwayId}`, {
           pathwayKey: `${jurisdiction}:${pathwayId}`,
           jurisdiction,
@@ -113,7 +227,9 @@ function loadAll(): Map<string, FactoryV2Route> {
           packetSetIds: stringList(route.packetSetIds),
           profileVersion: String(route.profileVersion).trim(),
           requiredInputIds: stringList(route.requiredInputIds),
-          officialFormIds: stringList(route.officialFormIds)
+          officialFormIds: stringList(route.officialFormIds),
+          packetFamilyId: specification?.packetFamily ?? null,
+          retiredLegacyRouteMigration: migration
         });
       }
     }
@@ -132,6 +248,18 @@ export function factoryV2RouteFor(jurisdiction: string, pathwayId: string): Fact
   const id = String(pathwayId ?? "").trim();
   if (!code || !id) return null;
   return loadAll().get(`${code}:${id}`) ?? null;
+}
+
+/**
+ * The exact validated migration, but only when the generated registry row is
+ * also admissible. The resolver uses this to let one route pass the retired
+ * jurisdiction fence without weakening that fence for any sibling.
+ */
+export function factoryV2RouteMigrationFor(
+  jurisdiction: string,
+  pathwayId: string
+): FactoryV2RouteMigration | null {
+  return factoryV2RouteFor(jurisdiction, pathwayId)?.retiredLegacyRouteMigration ?? null;
 }
 
 /** Test seam: forget the loaded registry so a fixture can be read fresh. */
