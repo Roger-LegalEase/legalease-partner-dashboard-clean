@@ -12,12 +12,12 @@
     "tx_nd_dwi_deferred-set"
   ],
   "summary": {
-    "familiesClaimed": 1,
-    "PASS_COMPLETE_INDEPENDENT": 0,
+    "familiesClaimed": 2,
+    "PASS_COMPLETE_INDEPENDENT": 1,
     "FAIL_REPAIR_REQUIRED": 1,
     "BLOCKED_SOURCE": 0,
     "BLOCKED_LEGAL_INPUT": 0,
-    "familiesRemaining": 4
+    "familiesRemaining": 3
   },
   "overlayDirectoriesModified": 0,
   "commercialRoutesOpened": 0,
@@ -65,6 +65,47 @@
         "SERVICE",
         "SELF_HELP_STOP"
       ],
+      "overlayDirectoriesModified": false,
+      "commercialRoutesOpened": false,
+      "productionTouched": false
+    },
+    {
+      "itemId": "hi_dag_danc_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/hi/hi-dag-danc-expungement-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_dag_danc_expungement-set: PASS_COMPLETE, 6/20 written"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "result": "PASS", "detail": "The official HCJDC-159B packet and instructions bind the deferred-acceptance expungement route obligation:track-pathway:HI:hi_dag_danc_expungement:deferred-acceptance-one-year, including the one-year-after-discharge-and-dismissal timing rule." },
+        "SOURCE_IDENTITY": { "result": "PASS", "detail": "The mounted nationwide-recovery-pool source EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf was independently rehashed from 181711 bytes to 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a, exactly matching the receipt." },
+        "COMPONENT_SET": { "result": "PASS", "detail": "The required primary-filing component hi_dag_danc_expungement-primary-filing-2 is rendered, and participant-facing process guidance supplies the route and timing guidance named by the track." },
+        "KNOWN_PREFILLS": { "result": "PASS", "detail": "The focused verifier independently measured knownRequiredFieldsMissing=0 and confirmed all six declared writes in the final PDF." },
+        "REQUIRED_BEFORE_FILING": { "result": "PASS", "detail": "participant-instructions.md names the certified court disposition, photo identification, applicable money order, self-addressed stamped envelope, and the disposition-to-application case-detail cross-check required by the route." },
+        "ROUTE_OPTIONS": { "result": "PASS", "detail": "The route's first-time/non-first-time fee selection is stated, and requiredOptionsMissing=0." },
+        "REPEATING_ROWS": { "result": "PASS", "detail": "incompleteRows=0; no partly completed repeating row was found." },
+        "PROTECTED_FIELDS": { "result": "PASS", "detail": "protectedWrites=0; signature, date, agency and other protected blanks remain unwritten." },
+        "ARTIFACTS": { "result": "PASS", "detail": "Both fixture PDFs were independently rehashed: canonical 4e65c4e11d7962a8c8132a6ad85f714638ea9750d497a63e4da916ce801aff96 (197022 bytes) and boundary bb4149d07409828754d0477a12cdef68c283ff271b85645137f09c73c6e8118b (197088 bytes), exactly matching the artifact records." },
+        "PAGE_ORDER": { "result": "PASS", "detail": "Canonical and boundary each preserve the single-page HCJDC-159B source order and declared page count." },
+        "CLIPPING_AND_OVERLAP": { "result": "PASS", "detail": "The admitted RASTER_PASS covers both documents and both pages with 0 problems. A fresh local Poppler rerender of both exact PDFs was visually inspected; all canonical and boundary values fit their boxes without clipping, overlap or unintended marks." },
+        "FILING_DESTINATION": { "result": "PASS", "detail": "filing-instructions.md names Hawaii Criminal Justice Data Center, Attn: Expungement, 465 South King Street, Room 102, Honolulu, HI 96813, matching the route destination." },
+        "FEE_AND_WAIVER": { "result": "PASS", "detail": "The instructions state the $35 first-time and $50 non-first-time fees, money-order method, and truthfully state that this packet does not establish a fee-waiver route." },
+        "SERVICE": { "result": "PASS", "detail": "The packet states that no other party must be served for this administrative HCJDC application route." },
+        "SELF_HELP_STOP": { "result": "PASS", "detail": "The instructions stop self-help when the deferred plea was not discharged and dismissed, the matter is federal/military/from another jurisdiction, or immigration advice is needed, matching the track conditions." }
+      },
+      "failedProofObligations": [],
       "overlayDirectoriesModified": false,
       "commercialRoutesOpened": false,
       "productionTouched": false
