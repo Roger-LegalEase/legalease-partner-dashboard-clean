@@ -25,6 +25,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(rootDir);
 
+import { blanksOf } from "./rcap-census-blanks.mjs";
+
 const SEMANTICS = "scripts/rcap-official-forms/rcap-field-semantics.mjs";
 const BASE_SHA = "6f7f139d71d968598806a7bf951a1d91db6c5d1f";
 const RECORD = "data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json";
@@ -144,10 +146,6 @@ const CENSUSES = censusFiles();
 const readJson = (rel) => {
   try { return JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8")); } catch { return null; }
 };
-const blanksOf = (census) => (Array.isArray(census?.documents)
-  ? census.documents.flatMap((doc) => (doc.fields ?? []).map((field) => ({
-      field, documentId: doc.documentId ?? null, captionOnly: doc.captionOnly === true })))
-  : (census?.fields ?? []).map((field) => ({ field, documentId: null, captionOnly: false })));
 
 function project(mod) {
   const rows = new Map();
@@ -220,8 +218,32 @@ for (const [category, pattern] of baseModule.PROTECT_RULES) {
 }
 check("no protect rule is weakened", weakened.length === 0, weakened.join("; "));
 
-const protectMoved = movedKeys.filter((k) => before.get(k).protectCategory !== after.get(k).protectCategory);
-check("no field's protect category changes", protectMoved.length === 0, protectMoved.slice(0, 6).join("; "));
+/*
+ * PROTECTION MAY BE GAINED. IT MAY NOT BE LOST.
+ *
+ * This read "no field's protect category changes" and forbade movement in both
+ * directions, which made it assert that the protect rules must never improve --
+ * and improving them is the whole repair when a form spells an identifier in a
+ * way the rule did not anticipate. NC AOC-CR-287 and AOC-CR-296 name the box
+ * `SNN`, WV SCA-C906 `PetSocSecno`, IN CCA-XP-0220-7009 `AliasNamesDOBsSSNs`;
+ * before the rule reached them the shared semantics bound a date of birth into
+ * two of those Social Security blanks and a full legal name into the third.
+ * A check that fails when that is fixed is not defending the participant.
+ *
+ * The dangerous direction is already covered three ways -- no category removed,
+ * no rule weakened, nothing protected today becomes writable -- so what is left
+ * for this one is the direction those do not see: a field that HAD a category
+ * and now has none, or has a DIFFERENT one, since a reclassification can hide a
+ * loss inside a change. Gaining protection where there was none is allowed, and
+ * it is not unexamined: every moved field must still appear in the committed
+ * record with a stated defect, which the check above holds at zero unexplained.
+ */
+const protectLost = movedKeys.filter((k) => {
+  const was = before.get(k).protectCategory;
+  const now = after.get(k).protectCategory;
+  return was !== now && was !== null;
+});
+check("no field loses or changes an existing protect category", protectLost.length === 0, protectLost.slice(0, 6).join("; "));
 
 const nowWritable = movedKeys.filter((k) => before.get(k).bindingWritable === false && after.get(k).bindingWritable === true);
 check("no refused field becomes writable", nowWritable.length === 0, nowWritable.slice(0, 6).join("; "));

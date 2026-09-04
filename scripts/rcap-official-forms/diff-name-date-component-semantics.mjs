@@ -65,15 +65,9 @@ function censusFiles() {
 }
 const CENSUSES = censusFiles();
 
-/** One census's blanks, flattened. A v1 census nests them under documents[]. */
-function blanksOf(census) {
-  if (Array.isArray(census?.documents)) {
-    return census.documents.flatMap((doc) => (doc.fields ?? []).map((field) => ({
-      field, documentId: doc.documentId ?? null, captionOnly: doc.captionOnly === true
-    })));
-  }
-  return (census?.fields ?? []).map((field) => ({ field, documentId: null, captionOnly: false }));
-}
+/* The blanks reader is shared with the verifier: see rcap-census-blanks.mjs
+ * for why these two files must not each carry their own copy. */
+import { blanksOf } from "./rcap-census-blanks.mjs";
 
 /**
  * Every censused blank through one version of the semantics.
@@ -182,6 +176,66 @@ function classify(before, after) {
         + "matching on the trailing substring 'last name' and, being ordered ahead of full_legal_name, winning "
         + "most-specific-first. The three part descriptors now refuse a caption that names every part, so the whole "
         + "name is the only match left."
+    };
+  }
+  /*
+   * Defect B reaches further than its first classifier could see. That one
+   * requires the caption to have DECIDED the binding -- participant.last_name
+   * in, full_legal_name out -- but on South Dakota's arrest-expungement form the
+   * blanks are named "Physical Address - defendant" and the field name already
+   * decides them. Only the label's descriptor list moves, from
+   * [first_name, full_legal_name] to [full_legal_name]. Same defect, same fix,
+   * nothing on paper: the caption "Last/Business Name First Name Middle Suffix"
+   * names every part and no longer offers a part. Left unclassified it read as
+   * six unexplained rows, which is a stop, and the stop would have been wrong.
+   *
+   * Note which string is tested. The classifier above asks whether the FIELD
+   * NAME names every part, which is right when the caption decided the binding
+   * because the caption was then the subject. Here the field name is
+   * "Physical Address - defendant" and names no part at all; the caption is the
+   * thing that names every part, so the caption is what has to be asked.
+   */
+  if ((asksEveryNamePart || nowModule.captionAsksForEveryNamePart(before.effectiveLabel ?? ""))
+      && before.bindingWritable === after.bindingWritable
+      && before.bindingFactId === after.bindingFactId
+      && (before.byLabelDescriptors ?? []).includes("participant.first_name")
+      && !(after.byLabelDescriptors ?? []).includes("participant.first_name")) {
+    return {
+      defect: "B",
+      class: "caption_naming_every_part_no_longer_offers_a_part",
+      why:
+        "The blank's own name decided its binding, so the caption never reached it and nothing on paper changes. "
+        + "The caption names first, middle and last at once, and the part descriptors no longer answer it, so the "
+        + "label channel now offers the assembled name alone. This is the same defect as the class above, seen where "
+        + "the caption was not the deciding channel."
+    };
+  }
+
+  /*
+   * Defect C: an identifier blank whose spelling the protect rule did not
+   * cover. Forms do not agree on how to write this. NC AOC-CR-287 and
+   * AOC-CR-296 name the box `SNN`, a transposition on the form itself; WV
+   * SCA-C906 names it `PetSocSecno`; IN CCA-XP-0220-7009 collects aliases,
+   * dates of birth and numbers in one box named `AliasNamesDOBsSSNs`, where the
+   * plural puts a letter after the `n` and the word-boundary anchor stops
+   * matching. None of the three reached `government_identifier`, and the rows
+   * below say what that cost: two West Virginia families and one North Carolina
+   * form bound participant.date_of_birth into a Social Security blank, and
+   * Indiana bound participant.full_legal_name into an alias/DOB/SSN box. The
+   * committed field maps refuse all four today, which is why no packet byte
+   * moves -- but a refusal that lives only in a family's map is one map away
+   * from not existing, and the rule is where it belongs.
+   */
+  if (after.bindingWritable === false && after.bindingReason === "protected_category"
+      && before.bindingReason !== "protected_category") {
+    return {
+      defect: "C",
+      class: "identifier_blank_now_reaches_the_protect_rule",
+      why:
+        "An identifier blank the government_identifier rule did not spell. It is now protected, so the shared "
+        + "semantics refuse it rather than relying on each family's map to refuse it separately. Every family "
+        + "holding one of these blanks already refuses it in its committed map, so no packet byte moves; what "
+        + "changes is that the refusal no longer depends on the map."
     };
   }
   return null;

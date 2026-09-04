@@ -5,11 +5,11 @@
   "semanticsModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
   "totalFieldsScannedBefore": 5286,
   "totalFieldsScannedAfter": 5286,
-  "familiesScanned": 157,
+  "familiesScanned": 156,
   "fieldsWhoseFirstDescriptorChanged": 34,
   "fieldsWhoseDescriptorSetChanged": 47,
-  "fieldsWhoseBindingDecisionChanged": 64,
-  "fieldsWhoseProtectCategoryChanged": 0,
+  "fieldsWhoseBindingDecisionChanged": 65,
+  "fieldsWhoseProtectCategoryChanged": 2,
   "fieldsWhoseArtifactBytesChanged": 0,
   "fieldsWhoseArtifactBytesChangedNote": "No artifact is re-rendered by this change. The only generator that renders these families is corpus-wide, and every affected family is retired from the operational inventory and source-gated. See the live-impact record.",
   "fieldsUnexpectedlyChanged": 0,
@@ -125,7 +125,9 @@
     "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f|First Middle and Last name",
     "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en|Company",
     "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en|following agencies",
-    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|FindsAllDismissedCkBox"
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|FindsAllDismissedCkBox",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en|SNN",
+    "data/rcap-all50/overlays/production/north-carolina/cr287-1|SNN"
   ],
   "changed": [
     {
@@ -2270,6 +2272,45 @@
         "to": []
       },
       "protectCategoryChanged": null,
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en|SNN",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "fieldName": "SNN",
+      "effectiveLabel": "Date Of Birth",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "government_identifier"
+      },
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "participant.date_of_birth",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "protected_category"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/cr287-1|SNN",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/cr287-1",
+      "fieldName": "SNN",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "government_identifier"
+      },
       "bindingDecisionChanged": null
     }
   ]

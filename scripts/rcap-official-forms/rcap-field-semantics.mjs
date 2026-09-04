@@ -54,7 +54,25 @@ export const PROTECT_RULES = [
   // Nothing bound it before this, so protecting it can only refuse writes that
   // were already impossible -- but "nothing happens to match it" is not the same
   // guarantee as "it is refused".
-  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|\bfpn\b|finger\s*print\s*(number|no|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
+  //
+  // That last sentence is why the spelling list keeps growing, and four
+  // spellings were still outside it. Forms do not agree on how to write this.
+  // NC AOC-CR-288 and AOC-CR-287 name the box `SNN` -- a transposition, on the
+  // form itself, of the one abbreviation the rule did match. WV SCA-C906 names
+  // it `PetSocSecno`, which is the abbreviation of the abbreviation and reaches
+  // neither `ssn` nor `social security`. IN CCA-XP-0220-7009 collects aliases,
+  // dates of birth and numbers in one box named `AliasNamesDOBsSSNs`, where the
+  // plural puts a letter after the `n` and the word-boundary anchor stops
+  // matching. Each of the four is an identifier blank on an official form that
+  // identifier protection was silently not covering.
+  //
+  // The widening is deny-only and its blast radius was measured before it
+  // landed: across 10,084 distinct field names in 520 committed field maps,
+  // exactly these four names change category and nothing else does, and none of
+  // the four carries a written value in any family, so no packet byte moves.
+  // The families holding them were each held by another writer at the time, so
+  // the rebuild that records the refusal belongs to that writer and not here.
+  ["government_identifier", /\bssn\b|ssns|\bsnn\b|soc\s*sec|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|\bfpn\b|finger\s*print\s*(number|no|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
   // `cert date` was the hole. The rule matched the printed heading and the
