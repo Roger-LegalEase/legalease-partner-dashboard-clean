@@ -507,9 +507,9 @@ const SPEC = {
       ]
     },
     {
-      "id": "ks-12-4516-municipal-filing-instructions-3",
+      "id": "ks-12-4516-municipal-process-guidance-3",
       "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
-      "role": "filing_instructions",
+      "role": "process_guidance",
       "title": "Filing Instructions - Expunging a city ordinance conviction or diversion",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging a city ordinance conviction or diversion)",
       "condition": null,
@@ -858,9 +858,9 @@ const SPEC = {
       ]
     },
     {
-      "id": "ks-12-4516a-municipal-arrest-filing-instructions-3",
+      "id": "ks-12-4516a-municipal-arrest-process-guidance-3",
       "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
-      "role": "filing_instructions",
+      "role": "process_guidance",
       "title": "Filing Instructions - Expunging an arrest on a city ordinance charge",
       "description": "what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging an arrest on a city ordinance charge)",
       "condition": null,
@@ -1264,7 +1264,15 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  const sourceLines = sanitizePdfText(fullText).split("\n");
+  const routeFooter = sourceLines.at(-1)?.startsWith("Route: ") ? sourceLines.pop() : null;
+  if (routeFooter && sourceLines.at(-1) === "") sourceLines.pop();
+  for (const raw of sourceLines) for (const row of wrap(raw)) draw(row);
+  if (routeFooter) {
+    for (const renderedPage of pdf.getPages()) {
+      renderedPage.drawText(routeFooter, { x: margin, y: 40, size: 9, font, color: rgb(0, 0, 0) });
+    }
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
@@ -1291,6 +1299,34 @@ function composedBody(componentId, facts) {
   assert.ok(label, `${componentId}: carries route ${c.routeKey}, for which no label is declared`);
   lines.push("", `Route: ${label}`);
   return lines.join("\n");
+}
+
+async function runFocusedRepairSelfTest() {
+  const requiredGuidanceIds = [
+    "ks-12-4516-municipal-process-guidance-3",
+    "ks-12-4516a-municipal-arrest-process-guidance-3"
+  ];
+  for (const componentId of requiredGuidanceIds) {
+    assert.equal(COMPONENT[componentId]?.role, "process_guidance",
+      `${componentId}: the authoritative component must exist with role process_guidance`);
+  }
+
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = SPEC.fixtures[fixtureName];
+    for (const componentId of COMPONENT_IDS) {
+      const routeLine = `Route: ${ROUTE_LABEL[COMPONENT[componentId].routeKey]}`;
+      const bytes = await renderComposedPdf(composedBody(componentId, facts), COMPONENT[componentId].title);
+      const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+      for (const [pageIndex, page] of pdf.getPages().entries()) {
+        const lines = groupIntoLines(extractTextItems(page)).map((line) => line.text.trim()).filter(Boolean);
+        assert.ok(lines.includes(routeLine),
+          `${fixtureName}/${componentId} page ${pageIndex + 1}: route footer is missing`);
+        assert.ok(lines.some((line) => line !== routeLine),
+          `${fixtureName}/${componentId} page ${pageIndex + 1}: route footer is orphaned`);
+      }
+    }
+  }
+  return { familyId: SPEC.familyId, status: "SELF_TEST_PASS", assertions: 4 };
 }
 
 /* ---- field-map helpers, in the maps-with-canonical-and-boundary shape -------- */
@@ -1579,6 +1615,7 @@ function participantInstructions(maps, rbf) {
 
 /* ---- the entry point ------------------------------------------------------------ */
 export async function runFamily(argv = process.argv.slice(2)) {
+  if (argv.includes("--self-test")) return runFocusedRepairSelfTest();
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
   const routeArtifactsOnly = argv.includes("--route-artifacts-only");

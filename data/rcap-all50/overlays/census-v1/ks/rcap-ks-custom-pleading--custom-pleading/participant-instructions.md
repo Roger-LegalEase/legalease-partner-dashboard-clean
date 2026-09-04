@@ -23,10 +23,10 @@ Every page states its own route in its footer. If two routes could fit your reco
 | --- | --- |
 | `ks-12-4516-municipal-primary-filing-1` | the composed petition, on this route's own statutory ground (Expunging a city ordinance conviction or diversion) |
 | `ks-12-4516-municipal-proposed-order-2` | the proposed order the court may sign; every decision line is the court's and is left blank (Expunging a city ordinance conviction or diversion) |
-| `ks-12-4516-municipal-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging a city ordinance conviction or diversion) |
+| `ks-12-4516-municipal-process-guidance-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging a city ordinance conviction or diversion) |
 | `ks-12-4516a-municipal-arrest-primary-filing-1` | the composed petition, on this route's own statutory ground (Expunging an arrest on a city ordinance charge) |
 | `ks-12-4516a-municipal-arrest-proposed-order-2` | the proposed order the court may sign; every decision line is the court's and is left blank (Expunging an arrest on a city ordinance charge) |
-| `ks-12-4516a-municipal-arrest-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging an arrest on a city ordinance charge) |
+| `ks-12-4516a-municipal-arrest-process-guidance-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Expunging an arrest on a city ordinance charge) |
 
 ## Where this is filed, what it costs, and who must be served
 
