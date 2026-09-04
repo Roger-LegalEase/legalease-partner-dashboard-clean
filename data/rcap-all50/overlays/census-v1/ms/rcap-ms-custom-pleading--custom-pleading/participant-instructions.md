@@ -25,15 +25,18 @@ Every page states its own route in its footer. If two routes could fit your reco
 | `ms-drug-cd-primary-filing-1` | the composed petition, on this route's own statutory ground (First-time drug possession cases) |
 | `ms-drug-cd-proposed-order-2` | the proposed order the court may sign; every decision line is the court's and is left blank (First-time drug possession cases) |
 | `ms-drug-cd-certificate-of-service-3` | the page on which the participant records that the papers were actually delivered, signed only after delivery (First-time drug possession cases) |
-| `ms-drug-cd-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (First-time drug possession cases) |
+| `ms-drug-cd-attachment-4` | the route-specific records checklist identifying the records to gather and confirm with the filing clerk (First-time drug possession cases) |
+| `ms-drug-cd-instructions-5` | what this set is, where it goes, what it costs, who must be served, and when to stop (First-time drug possession cases) |
 | `ms-dui-primary-filing-1` | the composed petition, on this route's own statutory ground (Clearing a first DUI) |
 | `ms-dui-proposed-order-2` | the proposed order the court may sign; every decision line is the court's and is left blank (Clearing a first DUI) |
 | `ms-dui-certificate-of-service-3` | the page on which the participant records that the papers were actually delivered, signed only after delivery (Clearing a first DUI) |
-| `ms-dui-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clearing a first DUI) |
+| `ms-dui-attachment-4` | the route-specific records checklist identifying the records to gather and confirm with the circuit clerk (Clearing a first DUI) |
+| `ms-dui-instructions-5` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clearing a first DUI) |
 | `ms-mip-primary-filing-1` | the composed petition, on this route's own statutory ground (Underage drinking charges) |
 | `ms-mip-proposed-order-2` | the proposed order the court may sign; every decision line is the court's and is left blank (Underage drinking charges) |
 | `ms-mip-certificate-of-service-3` | the page on which the participant records that the papers were actually delivered, signed only after delivery (Underage drinking charges) |
-| `ms-mip-filing-instructions-4` | what this set is, where it goes, what it costs, who must be served, and when to stop (Underage drinking charges) |
+| `ms-mip-attachment-4` | the route-specific records checklist identifying the records to gather and confirm with the filing clerk (Underage drinking charges) |
+| `ms-mip-instructions-5` | what this set is, where it goes, what it costs, who must be served, and when to stop (Underage drinking charges) |
 
 ## Where this is filed, what it costs, and who must be served
 
