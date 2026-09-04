@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3b39c14632153bb7e4c33abb0632f7522f06a495",
+  "minimumCaptainSha": "b135485b2c6575e790ee8508024647f2b9a71feb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -163,9 +163,9 @@
     "sourceReadyFamilies": 69,
     "familiesPerBuilder": 4.1,
     "targetPerBuilder": "15 to 25",
-    "finding": "Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 69 do, so a full roster of 17 builders averages 4.1 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 102 families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.",
-    "whyNotFewerBuilders": "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
+    "finding": "33 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 69 do, so a full roster of 17 builders averages 4.1 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 129 source obligations across 102 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whyNotFewerBuilders": "The roster is kept at 17: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
   "families": [
