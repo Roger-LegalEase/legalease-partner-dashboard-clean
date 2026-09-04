@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "co_decriminalized_conduct_seal-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "JDF 2371 and JDF 2374 interleave their glyph runs in places, so a printed-caption check cannot be run on every field.",
+      "consequence": "No printed-caption check can be run on either form. The captions rest on Colorado's own authored field names and the printed section headings; the scrambled extraction is recorded per field in reports/caption-evidence.json, and placement is left to the visual reviewer, who can read the paper."
+    },
+    {
+      "finding": "Section 5 of JDF 2371 — the eligibility statement this route is named for — carries no fillable widget at all.",
+      "consequence": "There is nothing for the build to tick and nothing it could tick on the participant's behalf: the ground is printed text the participant adopts by signing. The route the packet WAS built for is stated in the field map, the source receipt and the participant instructions instead."
+    },
+    {
+      "finding": "Section 3 of JDF 2374 is the court's own findings, down to the finding that forty-two days passed with no objection from the district attorney.",
+      "consequence": "All five are left blank under the court-owned refusal class. A proposed order that pre-ticked the finding the judge is being asked to make would be drafting the ruling rather than requesting it."
+    },
+    {
+      "finding": "Section 4 of JDF 2371 asks what the conviction was and section 3 asks for the arrest number and date of arrest, and the platform holds none of them.",
+      "consequence": "Each is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, with the clerk of the convicting court or the arresting agency as the place to get it. None is estimated: an arrest date guessed onto a sworn motion is worse than a blank one."
+    },
+    {
+      "finding": "Both forms ask for the agencies holding records, and the completeness contract refuses to let a court or clerk refusal class excuse an agency fact.",
+      "consequence": "Every agency name, file number and address is declared REQUIRED_BEFORE_FILING and named to the participant in participant-instructions.md, rather than being bundled into a protected class."
+    },
+    {
+      "finding": "A Colorado form may ship a required box already ticked — the Colorado Bureau of Investigation box is the one this pair marks required. Where it does, the finished artifact draws a tick at a rectangle this map refuses.",
+      "consequence": "The census reads each control's value from the pinned source, and the byte proof records ink at a control the source already carried as a documentAuthoredAppearance rather than as ink on a refused field. Reading it the other way would report a protected write this build never made. Nothing is softened: a control the source leaves empty that carries ink in the output is still a blocking finding."
+    },
+    {
+      "finding": "The MASTER_QUEUE row for this family names its two sources at paths in the nationwide recovery pool (LegalEase Colorado/forms/JDF-2371__…, JDF-2374__…), a custody this container does not mount.",
+      "consequence": "The build binds both forms from the Master Library instead, by exact form number and exact SHA-256 — 642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6 for JDF 2371 and 36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72 for JDF 2374 — which are the same digests the queue pins. The committed corpus index records both digests in the Master Library custody as well as in the recovery pool, so this is one binary held in two custodies, not a substituted source. The absent custody is stated rather than worked around, and the source receipt records the path actually read."
+    },
+    {
+      "finding": "JDF 2371's Case Number field carries TWO widgets: one in the caption block and one on the section 3 line that names the court record to be sealed. The section 8 \"Print Your Name\" line, by contrast, carries no widget at all.",
+      "consequence": "The case number is written once and appears in both places, which is the form's own wiring rather than a double write. The printed-name line cannot be filled by any AcroForm write, so the participant instructions tell the participant to write it by hand rather than leaving them to discover it."
+    },
+    {
+      "severity": "advisory",
+      "finding": "A boundary value that does not fit its line at the minimum readable font is refused by the shared finalizer rather than clipped.",
+      "consequence": "Recorded in reports/actual-writes.json under unfittable. That is the boundary fixture doing its job; the canonical fixture writes the value."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}
