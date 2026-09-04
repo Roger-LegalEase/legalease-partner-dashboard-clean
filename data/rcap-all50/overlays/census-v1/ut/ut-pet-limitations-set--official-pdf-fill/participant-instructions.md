@@ -39,7 +39,7 @@ Ask the Bureau of Criminal Identification what a certificate will cost on your c
 
 **The prosecutor must receive a copy of what you file, by mail or by email.** BCI's Expungement Applicant Instructions state the step plainly: after filing with the court, "Mail or email the prosecutor copies of what you file." This packet includes form 1146XX, *Acceptance of Service – Expungement (Prosecutor)*, for the prosecutor to acknowledge receipt.
 
-The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it. The Utah State Courts Self-Help Center answers questions about this on **888-583-0009**.
+The prosecutor or a victim in your case may object, and the court may schedule a hearing. **The committed track registry records both of those as the point where this packet's self-help ends** — get a lawyer or a legal-aid office rather than arguing it yourself. A hearing date does not wait while you look, so start looking the day you learn of one. The Utah State Courts Self-Help Center answers procedural questions on **888-583-0009**, and it is not a substitute for a lawyer at a contested hearing.
 
 Fill in the service method, the address you used and the date **only after service has actually happened**. A certificate of service dated before service is a false statement, so this packet leaves it blank.
 
@@ -64,6 +64,21 @@ This review fixture deliberately leaves the following facts or acts blank. Suppl
 - **A complete list of every criminal case you have ever had, in any state, including cases that were already expunged.** Assemble it before you apply to BCI. BCI assesses eligibility against your total criminal history in all states, previously expunged cases included, so **an incomplete list produces a denial rather than a certificate.** Court clerks in each jurisdiction and the state criminal-history repositories are where the missing pieces come from.
 
 Signatures, signature dates, service certifications, court-only fields, agency-only fields, prosecutor-only fields, victim fields, and optional third-party authorizations remain protected.
+
+## When to stop and get a lawyer
+
+The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:
+
+- The participant is not a US citizen. The Utah Courts self-help page itself tells non-citizens to consult an immigration lawyer before expunging, because the FBI may retain records of an expunged case. This is a hard stop, not a caveat.
+- The prosecutor or a victim objects, or the court schedules a hearing.
+- BCI offers a special certificate instead of a certificate of eligibility, because the court rather than BCI then decides eligibility.
+- The public-interest showing has to be argued rather than simply stated.
+- Any conviction-counting question near the 77-40a-303(4) or (5) limits, including out-of-state and previously expunged convictions.
+- An active protective order or stalking injunction.
+- The participant is asking to expunge appellate records.
+- The participant asks LegalEase to calculate whether the limitations period has run. That calculation is not performed in product; the BCI certificate is the answer.
+
+LegalEase does not calculate whether the limitations period has run; the BCI certificate is the answer.
 
 ## What this packet is not
 

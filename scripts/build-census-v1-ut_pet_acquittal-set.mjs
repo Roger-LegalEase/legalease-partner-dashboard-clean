@@ -287,6 +287,10 @@ const CONFIGS = Object.freeze({
     statesBciApplicationFee: true, statesManifestPreFilingItems: true,
     certificateIssuanceFeeNotEstablished: "a charge ended by the limitations period",
     declarationNameBoxClearsPrePrintedI: true,
+    deliversInManifestComponentOrder: true,
+    statesRegistryStopConditions: "ut_pet_limitations",
+    registryStopConditionsClosing:
+      "LegalEase does not calculate whether the limitations period has run; the BCI certificate is the answer.",
     /*
      * OWNER CORRECTION Q4, 2026-09-02. Set on THIS FAMILY ONLY, for the reason
      * the deliversInManifestComponentOrder note gives on ut_pet_no_charges-set:
