@@ -1367,13 +1367,47 @@ for (const root of [OUT_DIR, "data/rcap-grade-a/codex-cloud"]) {
  * whether the assigned build actually completed. */
 const stoppedPacketBuildByFamily = new Map();
 const completedPacketBuildFamilies = new Set();
+/*
+ * A LANE RETURN IS NOT ALWAYS CALLED rows.json.
+ *
+ * This read `${lane}/rows.json` and nothing else, which was true while one
+ * cohort ran per lane. Two cohorts have since found another lane's completed
+ * return already sitting under that name and correctly refused to overwrite it,
+ * writing theirs alongside as rows.pf-a-cohort-2026-09-04.json and
+ * PFB_SHIFT_RETURN.json. Both were right to refuse -- overwriting would have
+ * destroyed a finished return -- and both became invisible here.
+ *
+ * The cost was specific. Two New Hampshire families and one Michigan family
+ * were built to PASS_COMPLETE with nine zero counters, and the state machine
+ * held all three at SOURCE_READY, because an OLDER stopped return in
+ * rows.json was the only record it could see and a stopped build outranks a
+ * completeness read. The newer return saying the build finished was on disk
+ * the whole time, under a different name.
+ *
+ * So the lane's returns are found by SHAPE rather than by filename: any JSON in
+ * the lane directory whose `rows` is a non-empty array of objects that each
+ * name a family and a status. That admits every return a lane writes and
+ * excludes checkpoints, gate stops and collision notes, none of which carry a
+ * rows array at all. The COMPLETED-clears-STOPPED pass below runs over the
+ * union, so a later completed build answers an earlier stop whichever file
+ * each arrived in.
+ */
+const laneReturnFiles = [];
 for (const entry of fs.readdirSync(path.join(ROOT, OUT_DIR), { withFileTypes: true })) {
   if (!entry.isDirectory() || !/^pf\d+$/i.test(entry.name)) continue;
-  const evidencePath = `${OUT_DIR}/${entry.name}/rows.json`;
-  if (!fs.existsSync(path.join(ROOT, evidencePath))) continue;
-  let doc;
-  try { doc = JSON.parse(fs.readFileSync(path.join(ROOT, evidencePath), "utf8")); }
-  catch { continue; }
+  for (const file of fs.readdirSync(path.join(ROOT, OUT_DIR, entry.name))) {
+    if (!file.endsWith(".json")) continue;
+    const evidencePath = `${OUT_DIR}/${entry.name}/${file}`;
+    let doc;
+    try { doc = JSON.parse(fs.readFileSync(path.join(ROOT, evidencePath), "utf8")); }
+    catch { continue; }
+    const rows = doc?.rows;
+    if (!Array.isArray(rows) || rows.length === 0) continue;
+    if (!rows.every((r) => (r?.itemId ?? r?.familyId) && r?.status)) continue;
+    laneReturnFiles.push({ evidencePath, doc });
+  }
+}
+for (const { evidencePath, doc } of laneReturnFiles) {
   for (const row of doc.rows ?? []) {
     const familyId = row.itemId ?? row.familyId;
     if (!familyId) continue;
