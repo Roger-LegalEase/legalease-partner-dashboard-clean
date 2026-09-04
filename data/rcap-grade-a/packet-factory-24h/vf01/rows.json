@@ -9240,6 +9240,275 @@
       "overlayDirectoriesModified": false,
       "commercialRoutesOpened": false,
       "productionTouched": false
+    },
+    {
+      "itemId": "rcap-tn-custom-pleading",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "worker": "CODEX-CS1-TN-IV-01",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "laneDisposition": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "440d949ddeaab7a54d4ab57abaca075bd029a326",
+      "packetCommitSha": "ddec2dd658ba9f0884cd0376c113164e174c9588",
+      "branch": "codex/tn-independent-33879628067",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading",
+      "claim": {
+        "assertion": "CLAIM_OK VF01 rcap-tn-custom-pleading (independent-verification, grant set aa3f28d9b13e2700)",
+        "assertedBeforeFamilyContentRead": true,
+        "releasedByThisLane": false
+      },
+      "independence": "CODEX-CS1-TN-IV-01 did not build or repair this family, was not CODEX-CS2-WORKER-A, and performed neither PF nor FIX08 work. No prior verdict was accepted as evidence.",
+      "routeKeys": [
+        "obligation:track-only:TN:tn_arrest_no_court_record",
+        "obligation:track-only:TN:tn_illegal_voting",
+        "obligation:track-only:TN:tn_mistaken_identity",
+        "obligation:track-only:TN:tn_nonconviction_petition",
+        "obligation:track-only:TN:tn_post_pardon",
+        "obligation:track-only:TN:tn_pretrial_diversion",
+        "obligation:track-only:TN:tn_recovery_court",
+        "obligation:track-only:TN:tn_redaction",
+        "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
+      ],
+      "rasterEvidence": {
+        "workflowRunId": "33879628067",
+        "packetCommitSha": "ddec2dd658ba9f0884cd0376c113164e174c9588",
+        "receiptsRead": 11,
+        "receiptVerdicts": "11/11 RASTER_PASS",
+        "documents": 22,
+        "pagesMeasured": 156,
+        "receiptMeasurementsWithExactLocalPng": 156,
+        "missingOrByteLengthMismatchedPngs": 0,
+        "measurementPngManifestSha256": "58051ca9950577b43470e234c224b59b154dcc8769dd34d0bdbdf41c5f4f52ec",
+        "receiptManifestSha256": "6ee9a4f3b041c7c485cfc21cd3bb602ab04126bb7e349ed31a49041ae9954e16",
+        "actualPngRoot": "/tmp/tn-raster-33879628067",
+        "workflowSuccessWasNotTreatedAsVisualApproval": true
+      },
+      "routeArtifacts": [
+        {
+          "route": "tn_arrest_no_court_record",
+          "canonical": { "sha256": "a39253e6711ba4eb4a0e24d2978363348647abc15a542eb20f0f6eabefce8d4c", "byteLength": 21739, "pages": 8 },
+          "boundary": { "sha256": "2b3d922d691a7caac6b8539c78ce5180da7ed58fc459cd78e41651fb9b717c52", "byteLength": 21969, "pages": 8 },
+          "receiptDocumentsDigest": "b8462afed2b9e0728f582a4ebc8f42a6f0e8abd597a8fec02bf519ab9e0f567c"
+        },
+        {
+          "route": "tn_eligible_conviction",
+          "canonical": { "sha256": "25f6299fd0140aba7b8f1a0a7b0d93d452c5a106f7acb66e05601694109c0f29", "byteLength": 25620, "pages": 8 },
+          "boundary": { "sha256": "ee5ecbb54d1712834b72b15949defed5f17deaeb44df6fa2cbf52301aa6e00de", "byteLength": 25946, "pages": 8 },
+          "receiptDocumentsDigest": "3b6d597ae216cd3354549379050aad7151980989b80daa2c1f68987790cef610"
+        },
+        {
+          "route": "tn_illegal_voting",
+          "canonical": { "sha256": "6b03194f786adc0f2f72ed141324e31621c01f7bc9fb4adb4b22cd5b576c12d6", "byteLength": 17460, "pages": 6 },
+          "boundary": { "sha256": "18bd785402d8ebb2f623119ea7d06096398e2cd667ed0b3894e77e7de6c8d1e4", "byteLength": 17762, "pages": 6 },
+          "receiptDocumentsDigest": "036c594b808bdae5c6d3dab8cd9210dc3636e500507993a37a2c28672437faf4"
+        },
+        {
+          "route": "tn_judicial_diversion",
+          "canonical": { "sha256": "013d8caddb1cf2dd0fc336ab44ba9e586ec686fcf1e763cf0c3e46c88556f9f0", "byteLength": 20195, "pages": 7 },
+          "boundary": { "sha256": "efbdf4a10387f72af616481da7982a5099b2a5064d33167e899f2fd65404d16f", "byteLength": 20407, "pages": 7 },
+          "receiptDocumentsDigest": "d7ffbf1adac2dfebf149e5a64637417eb9b90032307d445b3d08796548df8cfb"
+        },
+        {
+          "route": "tn_mistaken_identity",
+          "canonical": { "sha256": "fc2973420ca4e40504735fab9d1d0496a4a3aba2d5c93ffc0f3bc7c66ad06596", "byteLength": 17136, "pages": 6 },
+          "boundary": { "sha256": "c60464f2e0b76b079c660c7c3311fa9d32028272330b907ea69bcb1239232be2", "byteLength": 17467, "pages": 6 },
+          "receiptDocumentsDigest": "4c72c9d97ea0c31b435faf7f1ca8b483f155f9797a073a466e2dff79a7a0747e"
+        },
+        {
+          "route": "tn_nonconviction_petition",
+          "canonical": { "sha256": "7f69c01f9039dbf4f110b593a1a28296966e4ca43805cf4bec7bfc4711f6c378", "byteLength": 24031, "pages": 8 },
+          "boundary": { "sha256": "42f53c0407c186f6beed1050c0117639cc7808d38545d88eb4c2248869e00dc2", "byteLength": 24267, "pages": 8 },
+          "receiptDocumentsDigest": "bf8a05a0fdf52df8808483683f816509ac1248795a90d629f44d95a5d0569a8e"
+        },
+        {
+          "route": "tn_post_pardon",
+          "canonical": { "sha256": "c60ad4f7feed211dd46eeb5fdaf7e3fafd81ad3b4f004544345adaf579e2c49b", "byteLength": 18957, "pages": 6 },
+          "boundary": { "sha256": "b92f0953c07d5c5e3475d1672c040dbbadcc9bc1d6c80b371e9a5f691024d869", "byteLength": 19282, "pages": 6 },
+          "receiptDocumentsDigest": "6e98a317c3068c5ae7487faa15b437da874e2a94f48a2e2346b3658c8f18ac48"
+        },
+        {
+          "route": "tn_pretrial_diversion",
+          "canonical": { "sha256": "66381863eddf88563e60c0b61e5d715c904585e18812495e2da0efa5cee986c6", "byteLength": 19791, "pages": 7 },
+          "boundary": { "sha256": "12e3051e6dd0334b01bd6c54f6cc5e2c4e2c3d0b995ca8f5dba5d61a4dcc2cc5", "byteLength": 20057, "pages": 7 },
+          "receiptDocumentsDigest": "d75a7965c0f5017d421ad3d74753eba5211990c4e8e3c2bf82ddb23459189be3"
+        },
+        {
+          "route": "tn_recovery_court",
+          "canonical": { "sha256": "1ad8e4eeacb7e56fc725afdc34035c336f0b4c9354bf900212914f02063e4972", "byteLength": 20141, "pages": 6 },
+          "boundary": { "sha256": "97397f36f5a4996e4f6ac005403b5fc9451b5c72c6126d61b2f78443265aa264", "byteLength": 20438, "pages": 6 },
+          "receiptDocumentsDigest": "00f5a9c48a98358b64c15a2d88bfde11819b91beba4e932f22a13a3bbefc3157"
+        },
+        {
+          "route": "tn_redaction",
+          "canonical": { "sha256": "aee4f6657c1a7d600c3b3181bf5e84ce1c5bed91bd3b04280ba9001758c1165f", "byteLength": 22074, "pages": 8 },
+          "boundary": { "sha256": "0ba9466bde33956b342f861ea1149c43916ea401cf3c78adb4b745250af8c247", "byteLength": 22438, "pages": 8 },
+          "receiptDocumentsDigest": "bc2bed467d6288c06aef2973eb25c92f33dde69d76d1c96623e0e50ec89b8430"
+        },
+        {
+          "route": "tn_two_offense",
+          "canonical": { "sha256": "ae4c0792b19a72f294682f12c800a9fb87a92e1223617701cb341b28b3aaab5e", "byteLength": 26598, "pages": 8 },
+          "boundary": { "sha256": "05b3332096564ba0a499390437b513d9b9c0ac5d2ad2f83e1093183e8cce52fe", "byteLength": 26928, "pages": 8 },
+          "receiptDocumentsDigest": "32241a6d4e6d8377d74c1f743673af13ddb0e363a157b65244840f2964b5eb28"
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "focusedVerifier": "PASS_COMPLETE 109/339 written",
+        "routeArtifactVerifier": "22/22 ROUTE_PASS_COMPLETE",
+        "blindSpotsFound": [
+          "visualDefects does not detect a sparse near-empty continuation page whose only body content is one item in the component list",
+          "the completeness counters do not validate the current whole-file source-receipt hashes after unrelated authoritative-record regeneration"
+        ]
+      },
+      "priorFailureReconciliation": {
+        "priorVerdict": "VF09 FAIL_REPAIR_REQUIRED at 88d688b8b6910f0c501cab0d72633554220d822b",
+        "COMPONENT_SET": "FIXED: all 38/38 unique components prescribed by the eleven current track packetSet contracts appear in the exact registry order in the field map and in both route-artifact manifests.",
+        "REQUIRED_BEFORE_FILING": "FIXED: all 77/77 route-specific generation questions for tn_illegal_voting, tn_post_pardon, tn_recovery_court, tn_eligible_conviction and tn_two_offense are participantMustSupply canonical refusals with requiredBeforeFiling true; the current PDFs visibly print them.",
+        "PAGE_ORDER": "FIXED: registry packetSet order, production-field-map route order and canonical/boundary page-manifest order agree on every one of the 22 route artifacts; page numbers are contiguous and equal the byte-derived page counts.",
+        "CLIPPING_AND_OVERLAP": "PARTIALLY FIXED: the former two-word footer-only page no longer exists. The current bytes still produce six sparse pagination-orphan pages, canonical and boundary page 7 for tn_pretrial_diversion, tn_nonconviction_petition and tn_judicial_diversion, each carrying only one component-list item and the route line on an otherwise empty page. The FIX08 statement of zero blank/footer-only/two-word pages is literally true but does not measure this remaining sparse-page defect."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The same eleven exact route keys appear in source-receipt.json, production-field-map.json, product-wiring.json and rendered-artifacts.json. Every canonical and boundary subpacket is stored under its own track ID and carries the matching route identity in its visible footer; no route artifact contains another route's component sequence.",
+          "evidence": "the four family records, the eleven route directories, all 156 governed PNG measurements and extracted PDF text"
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "At immutable packet commit ddec2dd658ba9f0884cd0376c113164e174c9588 the three full-file committed-record pins in source-receipt.json were exact. At verification base 440d949ddeaab7a54d4ab57abaca075bd029a326, authoritative regeneration changed all three full files without refreshing the receipt: track registry declares baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4 at 16,586,143 bytes but is now 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee at 16,586,150; specifications declares cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16,829,383 but is now f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e at 16,829,391; route census declares 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 but is now 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 at 2,607,149. The Tennessee subsets are deep-identical across ddec and 440d: registry subset 71bba17eeeadef58150fa26be570630d363631e2229395b13ee088cf5757f213, specification subset 0a0c3e0e3837de852625ab58231093fbafb90ac8551aaef9411ced5cb6fb1ed0, and census subset 435555b3b61e97b640bac01b10384b84920f4c0cfddb59cace4fd789c703813a. This is an exact receipt-binding defect, not a missing-source block.",
+          "evidence": "source-receipt.json; SHA-256 and byte length recomputed from each record at ddec and at 440d; canonicalized Tennessee subsets compared across the two commits"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 38/38 unique components prescribed across the eleven current track packetSet contracts are present. For every route, the authoritative registry list equals production-field-map.json componentRoutes and equals the unique component order in both canonical and boundary page manifests; there are no missing or foreign components.",
+          "evidence": "legal-design-track-registry.json Tennessee packetSet components; production-field-map.json componentRoutes; 22 route page manifests"
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The focused family verifier reports 109/339 written with knownRequiredFieldsMissing 0 and invisibleWrites 0. The canonical and long-boundary participant values are visibly present in the intended component pages of every route artifact, with no invented case fact or protected actor value.",
+          "evidence": "reports/actual-writes.json; reports/completeness-counters.json; extracted text and governed PNGs for all 22 route artifacts"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All required participant blanks are classified and disclosed, and requiredFactsNotCollected is 0. The exact prior gap is closed: the five formerly generic eligibility routes now carry 77/77 registry generation questions as required-before-filing participantMustSupply fields: illegal voting 14/14, post-pardon 10/10, recovery court 14/14, eligible conviction 18/18 and two-offense 21/21. Their numbered questions are visible in both fixture personas.",
+          "evidence": "registry generationRequirements; production-field-map.json canonicalRefusals; participant-instructions.md; canonical and boundary route PDFs"
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The family supplies eleven separately keyed route artifacts rather than asking a participant to select a route on a shared pleading. Each artifact identifies only its own statutory ground, and participant instructions state when each set applies and stop when the record does not establish a fit. requiredOptionsMissing is 0.",
+          "evidence": "route artifact tree; production-field-map.json route selection record; participant-instructions.md"
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The redaction route's count-by-count schedule is the only repeating structure; every required cell remains an empty labelled participant field in both personas and no row is partly completed. incompleteRows is 0.",
+          "evidence": "tn_redaction canonical and boundary PDFs; production-field-map.json; focused completeness verifier"
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 43 protected signature/date and court, clerk, prosecutor or agency-owned fields remain blank in both personas. No signature, judicial decision, clerk certification or prosecutor-owned instrument is pre-completed. protectedWrites is 0.",
+          "evidence": "reports/blanks-left-for-the-participant.json; reports/actual-writes.json; visual and extracted-text inspection of all 22 route artifacts"
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 22 current route PDFs independently rehash to rendered-artifacts.json, to their run-33879628067 exact-hash receipts and to the immutable Git objects at ddec2dd658ba9f0884cd0376c113164e174c9588, with zero hash, byte-length or page-count mismatch. The eleven receipts bind exactly 22 documents and 156 pages; every referenced PNG exists at its receipt byte length.",
+          "evidence": "routeArtifacts array in this row; reports/rendered-artifacts.json; eleven installed raster receipts; /tmp/tn-raster-33879628067; git show at ddec"
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 22 manifests have contiguous page numbers equal to the byte-derived page count, and for every route the registry packetSet sequence equals both the field-map component sequence and the order of first occurrence in the canonical and boundary manifests. The prior component-order defect is fixed. Sparse tail pagination is scored separately as visual quality, not as a reordered component.",
+          "evidence": "registry packetSet components; production-field-map.json componentRoutes; reports/rendered-artifacts.json page manifests; pdfinfo page counts"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The 156 actual governed page PNGs were inspected, not merely their RASTER_PASS labels. No content is cropped or overlapping, but six pages are unacceptable near-empty pagination orphans: canonical and boundary page 7 of tn_pretrial_diversion (ink fraction 0.004089980689245395), tn_nonconviction_petition (0.0048029931669637555) and tn_judicial_diversion (0.005489639037433155). Each carries only the final one-item fragment of THE PAGES IN THIS SET plus the route line on an otherwise empty sheet. The old two-word footer-only page is gone, but its visual root class remains. The raster workflow's nonblank/crop checks correctly report those pages nonblank and uncropped; they do not prove useful pagination.",
+          "evidence": "original-resolution page-007 PNGs under /tmp/tn-raster-33879628067 for both personas of the three routes; matching receipt measurements; extracted page text"
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every one of the eleven canonical and boundary route artifacts contains a visible WHERE IT GOES section naming the current registry court, clerk, district-attorney or agency destination and the route-specific venue limitation. Captions leave participant-specific court identity blank rather than guessing it.",
+          "evidence": "section-presence and text comparison across all 22 PDFs; legal-design-track-registry.json destination and venue"
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every route artifact contains WHAT IT COSTS, AND WHETHER A WAIVER EXISTS and preserves the current route-specific distinction between no-cost routes, clerk-fee routes, unestablished amounts and unestablished waiver authority; no amount or waiver is invented.",
+          "evidence": "section-presence and text comparison across all 22 PDFs; registry rules.fees and rules.feeWaiver"
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every route artifact contains WHO MUST BE SERVED and states who performs service or notice. Court routes distinguish clerk service from participant service, and district-attorney preparation routes name their two-step handoff without creating a participant service task the authority does not state.",
+          "evidence": "section-presence and text comparison across all 22 PDFs; registry notice and service rules"
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every route artifact contains WHEN TO STOP AND GET HELP INSTEAD OF FILING. The stops preserve route-specific contested facts, exclusions, other-jurisdiction and immigration boundaries, and actor-owned decisions; the packet does not claim to decide eligibility or promise relief.",
+          "evidence": "section-presence and visual read across all 22 PDFs; participant-instructions.md; registry selfHelpStopConditions"
+        }
+      },
+      "failedProofObligations": [
+        "SOURCE_IDENTITY",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "exactRepairRequired": [
+        "Refresh source-receipt.json so its three full-file committed-record SHA-256 and byte lengths bind the current authoritative files at the repair base, after confirming the Tennessee subsets remain unchanged; this is not source acquisition and must not become BLOCKED_SOURCE.",
+        "Prevent THE PAGES IN THIS SET from orphaning a single final component bullet onto an otherwise empty page for tn_pretrial_diversion, tn_nonconviction_petition and tn_judicial_diversion; rebuild both personas deterministically and reraster every changed route-artifact hash.",
+        "Have a verifier other than CODEX-CS1-TN-IV-01 and the repairer reread current bytes and exact-hash rasters."
+      ],
+      "whatThisFailureDoesNotOpen": "This verdict records two measured repair obligations. It releases no claim, edits no packet, opens no route, grants no fulfillment authority and touches no Production system.",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/record-clearing/legal-design-track-registry.json",
+        "data/record-clearing/legal-design-specifications.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-tn-custom-pleading__route__*.verdict.json",
+        "/tmp/tn-raster-33879628067"
+      ],
+      "changedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      ],
+      "packetBytesChanged": 0,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "overlayDirectoriesModified": false,
+      "commercialRoutesOpened": false,
+      "productionTouched": false
     }
   ],
   "supersededLaneMembership": {
