@@ -5,7 +5,7 @@ This packet is two Colorado Judicial Department forms, filed together:
 - **JDF 2371**, _Motion to Seal Conviction Records (Conduct No Longer Prohibited)_ — what you file.
 - **JDF 2374**, _Order to Seal Conviction Records (Conduct No Longer Prohibited)_ — the order you give the court to sign.
 
-Both are prepared for **motion to seal conviction records for conduct that is no longer prohibited** under C.R.S. § 24-72-711, as stated in section 1 of the form; Colorado Judicial Department forms JDF 2371 and JDF 2374.
+Both are prepared for one route — **Motion to seal conviction records for conduct that is no longer prohibited** — under C.R.S. § 24-72-711, as stated in section 1 of the form; Colorado Judicial Department forms JDF 2371 and JDF 2374.
 
 The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
 
@@ -27,7 +27,7 @@ JDF 2371 prints the CBI's address for you — ATTN Identification-Seals, 690 Kip
 4. **Print your name in section 8 of JDF 2371.** That line carries no fillable box on this form, so write it by hand.
 5. **Serve a copy on the prosecuting attorney**, then complete the certificate of service in section 7 of JDF 2371 — the date, the method, and who you sent it to. Do it after you have served, not before.
 6. **Sign JDF 2371 yourself, and date it when you sign.** Neither is filled in for you.
-7. **Leave JDF 2374 sections 3, 4 and 5 alone**, apart from what is already written for you. Section 3 is the court's findings, section 4 is the court's orders and the last block is the judge's or magistrate's signature.
+7. **Leave the court's own parts of JDF 2374 alone.** Section 3 is the court's findings, the other-orders box in section 4 is the court's, and the last block is the judge's or magistrate's signature and date. Your name, birth date, address and the case number are already written for you. The three lines in section 4 that name the law enforcement agency, its file number and the arrest number ARE yours, and they are listed in the table below.
 
 ## JDF-2371 — Motion to Seal Conviction Records (Conduct No Longer Prohibited): the items you must supply
 

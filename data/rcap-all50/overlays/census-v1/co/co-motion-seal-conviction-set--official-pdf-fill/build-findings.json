@@ -36,6 +36,10 @@
       "consequence": "A value written into a hidden widget is invisible ink: the finalizer reports the write, the flattened bytes carry no appearance, and the paper is blank. This build measured that directly — a case-number write into 6A.1 was reported by the finalizer and read back as no ink at the widget's own rectangle — so the census now reads the annotation flags from the pinned binary and the build ASSERTS that no write lands on a hidden widget. 6A.1 is carried to the participant instead, with the reason stated: the packet holds the case number and prints it in the caption of the same page, and the participant copies it across once the box is revealed. Claiming it as a write would have been the worst available outcome."
     },
     {
+      "finding": "JDF 612 asks for the participant's address on ONE line — its caption reads \"Mailing Address: (with city/state/zip)\" — and JDF 615 asks for the same address in four boxes: street, city, state and zip. The packet holds one street fact and writes it in both places, so the order shows the town and the zip twice: once inside the mailing-address line and once in the boxes beside it.",
+      "consequence": "Deliberate, and recorded here so a reviewer does not read it as a stray write. The alternative was to hold a street-only fact, which would leave JDF 612's line short of the city, state and zip its own caption asks for; the shared semantic registry has no fact for a composed address line, and this build does not invent one. Neither statement on the paper is untrue. The sibling family co_decriminalized_conduct_seal-set does NOT have this shape: both of its forms give the street its own line, so the street fact there is the street alone."
+    },
+    {
       "severity": "advisory",
       "finding": "A boundary value that does not fit its line at the minimum readable font is refused by the shared finalizer rather than clipped.",
       "consequence": "Recorded in reports/actual-writes.json under unfittable. That is the boundary fixture doing its job; the canonical fixture writes the value."

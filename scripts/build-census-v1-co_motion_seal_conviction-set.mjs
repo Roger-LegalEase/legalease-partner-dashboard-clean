@@ -98,7 +98,7 @@ const ROUTE = Object.freeze({
   jurisdiction: "CO",
   routeKey: "obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706",
   routeSelectionId: "co-motion-seal-conviction-set-jdf-612-jdf-615",
-  publicLabel: "Motion to seal conviction records, petition-based sealing under C.R.S. § 24-72-706",
+  publicLabel: "Motion to seal conviction records, the petition-based route for a Colorado conviction",
   authority: "C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612 and JDF 615",
   documents: [
     { formNumber: "JDF-612", title: "Motion to Seal Conviction Records (County/District Court)", instrumentKind: "primary_filing" },
@@ -459,7 +459,28 @@ async function renderDocument(source, census, fixtureName) {
 }
 
 /* ---- byte proof ------------------------------------------------------------ */
-async function byteProof(source, census, artifactBytes, report, fixtureName) {
+/*
+ * WHAT THE PINNED SOURCE ITSELF DRAWS, BEFORE THIS BUILD TOUCHES IT.
+ *
+ * A form can bake a hint into a widget's own appearance stream rather than into
+ * its value, and flattening materialises it. Read from the finished artifact
+ * alone that looks exactly like ink on a field the map refused -- a blocking
+ * finding, and the wrong one. So each source is flattened once, unwritten, and
+ * its own ink recorded per widget. This is stronger than reading the field's
+ * value, which catches only the defaults a form stores in /V. Nothing is
+ * softened: ink at a widget the source leaves empty, or ink that differs from
+ * the source's own, is still a blocking finding.
+ */
+async function sourceInkOf(source) {
+  const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
+  try { doc.getForm().flatten(); } catch { /* a form that will not flatten leaves no source ink to compare against */ }
+  const bytes = await doc.save({ useObjectStreams: false, updateMetadata: false });
+  const tmp = path.join(ROOT, `.co-612-source-ink-${source.formNumber}.pdf`);
+  fs.writeFileSync(tmp, bytes);
+  try { return await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
+}
+
+async function byteProof(source, census, artifactBytes, report, fixtureName, sourceInk = []) {
   const tmp = path.join(ROOT, `.co-612-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
   let widgets = [];
@@ -493,6 +514,17 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
           field: r.key, page: wdg.page, rect: wdg.rect, drawnText: text,
           sourceValue: r.sourceValue,
           note: "the pinned source already carries this value; flattening materialises the form's own default"
+        });
+        continue;
+      }
+      // The same ink at the same rectangle in the FLATTENED SOURCE is the form's
+      // own appearance, not a write this build made.
+      const inSource = drawnAt(sourceInk, { page: wdg.page, rect: wdg.rect }).map((d) => d.text).filter(Boolean);
+      if (inSource.join("").trim() === ink) {
+        documentAuthoredAppearances.push({
+          field: r.key, page: wdg.page, rect: wdg.rect, drawnText: text,
+          sourceAppearanceText: inSource,
+          note: "the pinned source's own widget appearance draws exactly this text; flattening materialises the form's own hint, and this build wrote nothing here"
         });
         continue;
       }
@@ -712,7 +744,7 @@ function participantInstructions(maps, rbf) {
     "This packet is two Colorado Judicial Department forms, filed together:", "",
     "- **JDF 612**, _Motion to Seal Conviction Records (County/District Court)_ — what you file.",
     "- **JDF 615**, _Order to Seal Conviction Records_ — the order you give the court to sign.", "",
-    `Both are prepared for **${ROUTE.publicLabel.toLowerCase()}** under ${ROUTE.authority}.`, ""
+    `Both are prepared for one route — **${ROUTE.publicLabel}** — under ${ROUTE.authority}.`, ""
   );
   out.push(
     "The platform filled in what it holds about you and your case: your name, your date of birth, your address, your "
@@ -745,7 +777,7 @@ function participantInstructions(maps, rbf) {
   out.push("3. **Get the offence, sentencing and supervision facts from the court record.** Section 7 of JDF 612 asks what you were convicted of, when you were sentenced, and when supervision ended. The clerk of the convicting court holds all three; do not estimate them.");
   out.push("4. **Serve a copy on the prosecuting attorney**, then complete the certificate of service on JDF 612 — the date, the method, and who you sent it to. Do it after you have served, not before.");
   out.push("5. **Sign JDF 612 yourself, and date it when you sign.** Neither is filled in for you.");
-  out.push("6. **Leave JDF 615 sections 3, 4 and 5 alone**, apart from the case number already written for you. Section 3 is the court's findings, section 4 is the court's orders and section 5 is the judge's or magistrate's signature.");
+  out.push("6. **Leave the court's own parts of JDF 615 alone.** Section 3 is the court's findings — every box there begins \"The Court finds\" — the other-orders box in section 4 is the court's, and section 5 is the judge's or magistrate's signature and date. The case number in the caption is already written for you. The two lines in section 4 that name the law enforcement agency's own file number and the arrest number ARE yours, and they are listed in the table below.");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -836,6 +868,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "raster"), { recursive: true });
 
+  const sourceInkByForm = new Map();
+  for (const { source } of censuses) sourceInkByForm.set(source.formNumber, await sourceInkOf(source));
+
   const artifacts = [];
   const writeProofs = [];
   const rasterPages = [];
@@ -847,7 +882,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const pageManifest = [];
     for (const { source, census } of censuses) {
       const { bytes, report } = await renderDocument(source, census, fixtureName);
-      const proof = await byteProof(source, census, bytes, report, fixtureName);
+      const proof = await byteProof(source, census, bytes, report, fixtureName, sourceInkByForm.get(source.formNumber) ?? []);
       writeProofs.push({
         fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
         proofMethod: "flattened widget appearances read back at every measured /Rect of the finalized bytes",
@@ -1030,7 +1065,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
     whatToLookAt: [
       "JDF 612 sections A, B, C and D, and JDF 615 sections A, B, C and 2: confirm the county, case number, defendant "
         + "name, birth date, address, phone and e-mail each sit under the heading they belong to. The text stream is "
-        + "scrambled, so this is the check.",
+        + "scrambled, so this is the check. On JDF 615 the town and the zip appear twice — inside the mailing-address "
+        + "line and again in the boxes beside it — because JDF 612's own caption asks for the whole address on one "
+        + "line and one fact serves both forms. That is deliberate; see build-findings.json.",
       "JDF 612 section 6: the agency boxes unticked apart from the Colorado Bureau of Investigation box the form itself "
         + "ships ticked, and every line in the section blank — including the court case number line. Colorado hides "
         + "those twenty-three widgets until the box governing each is ticked, so a blank line here is the form working "
@@ -1151,6 +1188,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "hidden widget. 6A.1 is carried to the participant instead, with the reason stated: the packet holds the "
           + "case number and prints it in the caption of the same page, and the participant copies it across once the "
           + "box is revealed. Claiming it as a write would have been the worst available outcome."
+      },
+      {
+        finding:
+          "JDF 612 asks for the participant's address on ONE line — its caption reads \"Mailing Address: (with "
+          + "city/state/zip)\" — and JDF 615 asks for the same address in four boxes: street, city, state and zip. The "
+          + "packet holds one street fact and writes it in both places, so the order shows the town and the zip twice: "
+          + "once inside the mailing-address line and once in the boxes beside it.",
+        consequence:
+          "Deliberate, and recorded here so a reviewer does not read it as a stray write. The alternative was to hold a "
+          + "street-only fact, which would leave JDF 612's line short of the city, state and zip its own caption asks "
+          + "for; the shared semantic registry has no fact for a composed address line, and this build does not invent "
+          + "one. Neither statement on the paper is untrue. The sibling family co_decriminalized_conduct_seal-set does "
+          + "NOT have this shape: both of its forms give the street its own line, so the street fact there is the "
+          + "street alone."
       },
       {
         severity: "advisory",

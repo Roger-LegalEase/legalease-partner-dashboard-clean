@@ -1,11 +1,11 @@
-# Filing instructions — Motion to seal conviction records, petition-based sealing under C.R.S. § 24-72-706
+# Filing instructions — Motion to seal conviction records, the petition-based route for a Colorado conviction
 
 This packet is two Colorado Judicial Department forms, filed together:
 
 - **JDF 612**, _Motion to Seal Conviction Records (County/District Court)_ — what you file.
 - **JDF 615**, _Order to Seal Conviction Records_ — the order you give the court to sign.
 
-Both are prepared for **motion to seal conviction records, petition-based sealing under c.r.s. § 24-72-706** under C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612 and JDF 615.
+Both are prepared for one route — **Motion to seal conviction records, the petition-based route for a Colorado conviction** — under C.R.S. § 24-72-706; Colorado Judicial Department forms JDF 612 and JDF 615.
 
 The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
 
@@ -26,7 +26,7 @@ JDF 612 prints the CBI's address for you — ATTN Identification-Seals, 690 Kipl
 3. **Get the offence, sentencing and supervision facts from the court record.** Section 7 of JDF 612 asks what you were convicted of, when you were sentenced, and when supervision ended. The clerk of the convicting court holds all three; do not estimate them.
 4. **Serve a copy on the prosecuting attorney**, then complete the certificate of service on JDF 612 — the date, the method, and who you sent it to. Do it after you have served, not before.
 5. **Sign JDF 612 yourself, and date it when you sign.** Neither is filled in for you.
-6. **Leave JDF 615 sections 3, 4 and 5 alone**, apart from the case number already written for you. Section 3 is the court's findings, section 4 is the court's orders and section 5 is the judge's or magistrate's signature.
+6. **Leave the court's own parts of JDF 615 alone.** Section 3 is the court's findings — every box there begins "The Court finds" — the other-orders box in section 4 is the court's, and section 5 is the judge's or magistrate's signature and date. The case number in the caption is already written for you. The two lines in section 4 that name the law enforcement agency's own file number and the arrest number ARE yours, and they are listed in the table below.
 
 ## JDF-612 — Motion to Seal Conviction Records (County/District Court): the items you must supply
 
