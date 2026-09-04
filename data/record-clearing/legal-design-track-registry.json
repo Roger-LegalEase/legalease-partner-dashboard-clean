@@ -20865,7 +20865,7 @@
         "convictions for conduct that is no longer prohibited, within § 24-72-711"
       ],
       "exclusions": [
-        "The list of qualifying offense categories has not been confirmed."
+        "Screening and the exact conviction record must establish that the convicted conduct is no longer prohibited; otherwise this track stops for human review."
       ],
       "waitingPeriods": [],
       "outputStrategy": "official_pdf_fill",
@@ -20880,6 +20880,49 @@
         "name": "The court where the conviction records are located, in the existing criminal case",
         "detail": "Court-controlled with a district attorney response opportunity."
       },
+      "officialFormElectionMapping": {
+        "status": "MAPPED",
+        "primaryFormId": "JDF-2371",
+        "routeDeterminedSelections": [
+          {
+            "formLocation": "Section 1 and Section 5",
+            "selection": "C.R.S. § 24-72-711 motion for a conviction whose conduct is no longer prohibited",
+            "condition": "Screening and the exact conviction record establish that the conduct of conviction is no longer prohibited."
+          }
+        ],
+        "recordDeterminedSelections": [
+          {
+            "formLocation": "Section 4 offense class",
+            "sourceFact": "offense class shown by the exact conviction record"
+          },
+          {
+            "formLocation": "Section 4 drug-offense question",
+            "sourceFact": "whether the exact conviction record establishes a drug offense committed before October 1, 2013"
+          },
+          {
+            "formLocation": "Section 4 psilocybin or psilocyn question",
+            "sourceFact": "the exact conviction statute is one enumerated by the form and the screening facts establish that the conduct is no longer unlawful under C.R.S. § 18-18-434"
+          }
+        ],
+        "leaveBlankUnlessEstablished": [
+          "participant assertions",
+          "drug-offense election",
+          "psilocybin or psilocyn election",
+          "any unresolved legal election"
+        ],
+        "hardStop": "If the screening facts and exact conviction record do not establish the C.R.S. § 24-72-711 basis, require human review and do not select an eligibility election.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 9"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:JDF-2371",
+          "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6"
+        },
+        {
+          "sourceId": "official-form:JDF-2374",
+          "sha256": "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72"
+        }
+      ],
       "packetSet": {
         "packetSetId": "co_decriminalized_conduct_seal-set",
         "version": "1.0.0",
