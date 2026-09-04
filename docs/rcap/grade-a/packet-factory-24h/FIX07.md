@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `1a961ea72a9e2485a19652552c4f04821da7a885` (or the newer dispatch base)
+**Minimum required ancestor:** `56de5d045e170c7b2db04894ce3b18935c3e05d6` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-pardoned-felony-set' \
   --codex-cloud \
-  --minimum-captain-sha 1a961ea72a9e2485a19652552c4f04821da7a885
+  --minimum-captain-sha 56de5d045e170c7b2db04894ce3b18935c3e05d6
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 10 exact families before reading or writing family content:
+- Assert only these 11 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'al-pardoned-felony-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nc_146_dismissal_petition-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nv_seal_probation_family-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'pa_pardon_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'rcap-ms-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route'`
@@ -66,12 +67,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 10 families
+## The 11 families
 
 - `al-pardoned-felony-set`
 - `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`
 - `il-exp-precompletion-set`
 - `nc_146_dismissal_petition-set`
+- `nv_seal_probation_family-set`
 - `pa_pardon_expungement-set`
 - `rcap-ms-custom-pleading`
 - `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`
@@ -94,6 +96,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/**`
@@ -104,6 +107,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-nc_146_dismissal_petition-set.mjs`
+- `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
 - `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
 - `scripts/build-census-v1-rcap-ms-custom-pleading.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs`

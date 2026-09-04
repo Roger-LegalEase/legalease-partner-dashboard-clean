@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1a961ea72a9e2485a19652552c4f04821da7a885",
+  "generatedAtCommit": "56de5d045e170c7b2db04894ce3b18935c3e05d6",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6044,7 +6044,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-04T16:55:02.696Z"
     },
     {
       "subjectType": "packet-family",
@@ -6060,6 +6061,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:09:19.793Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "familyId": "nv_seal_probation_family-set",
+      "itemId": null,
+      "familyIds": [
+        "nv_seal_probation_family-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12866,7 +12882,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "8ca2fef8ab7aea988d9f82f7a2730df0c7a836d8c6bfbb83e53b02a82a04ffa1",
+  "claimsDigest": "df8edfe26a72f17eac55e4407be880b197624122fc63375ba16f2cb42dac7ddd",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25378,6 +25394,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-04T16:53:41.836Z"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-04T16:55:02.696Z"
     }
   ],
   "reissues": [

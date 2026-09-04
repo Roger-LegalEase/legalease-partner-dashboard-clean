@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 59,
-    "rows": 630,
+    "rows": 631,
     "independentVerdicts": 206,
-    "failRepairRequired": 65,
-    "passIndependent": 131
+    "failRepairRequired": 66,
+    "passIndependent": 130
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -78,6 +78,7 @@
     "in_section1_petition-set",
     "nc_146_dismissal_petition-set",
     "nj_arrest_no_conviction-set",
+    "nv_seal_probation_family-set",
     "ny_mrta_marijuana-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
@@ -7970,6 +7971,36 @@
     },
     {
       "familyId": "nv_seal_probation_family-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "759046bd918b13a6050a6d671813a016aa41e33a",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 20 exact pages were freshly rastered and inspected. In canonical, page 6 ends with the isolated label 'Route:' and page 7 contains only the 109-character obligation key wrapped across two lines. In boundary, both 'Route:' and that wrapped key occupy otherwise blank page 7. Thus proposed_order is artificially two pages and its second page is internal route metadata only. Bbox geometry still reports 0 out-of-page words and 0 overlap pairs; this is a participant-facing pagination overflow that the governed RASTER_PASS and automated visualDefects=0 missed.",
+          "evidence": {
+            "component": "proposed_order",
+            "canonicalPage": 7,
+            "canonicalOnlyText": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+            "boundaryPage": 7,
+            "boundaryOnlyText": "Route: obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+            "routeKeyCharacters": 109,
+            "affectedArtifacts": 2
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf10",
       "isIndependentVerification": true,
@@ -7980,7 +8011,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ny_160_59_petition-set",

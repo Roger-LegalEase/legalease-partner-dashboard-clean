@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1a961ea72a9e2485a19652552c4f04821da7a885",
+  "minimumCaptainSha": "56de5d045e170c7b2db04894ce3b18935c3e05d6",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -72,14 +72,14 @@
     "sourceReady": 101,
     "sourceBlocked": 11,
     "legalBlocked": 7,
-    "verifyPending": 17,
-    "repairRequired": 63,
+    "verifyPending": 16,
+    "repairRequired": 64,
     "sumsToDenominator": true
   },
   "byState": {
-    "VERIFY_PENDING": 17,
+    "VERIFY_PENDING": 16,
     "COMPLETE_PACKET_PROVEN": 108,
-    "FAIL_REPAIR_REQUIRED": 63,
+    "FAIL_REPAIR_REQUIRED": 64,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 101,
@@ -31987,18 +31987,17 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf10",
-        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "759046bd918b13a6050a6d671813a016aa41e33a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -32024,11 +32023,27 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All 20 exact pages were freshly rastered and inspected. In canonical, page 6 ends with the isolated label 'Route:' and page 7 contains only the 109-character obligation key wrapped across two lines. In boundary, both 'Route:' and that wrapped key occupy otherwise blank page 7. Thus proposed_order is artificially two pages and its second page is internal route metadata only. Bbox geometry still reports 0 out-of-page words and 0 overlap pairs; this is a participant-facing pagination overflow that the governed RASTER_PASS and automated visualDefects=0 missed.",
+          "evidence": {
+            "component": "proposed_order",
+            "canonicalPage": 7,
+            "canonicalOnlyText": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+            "boundaryPage": 7,
+            "boundaryOnlyText": "Route: obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+            "routeKeyCharacters": 109,
+            "affectedArtifacts": 2
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
