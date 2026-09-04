@@ -472,6 +472,59 @@
       "countersMeasuredByThisLane": true,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "il-seal-2yr-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "baseSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+      "claim": {
+        "assertion": "CLAIM_OK FIX02 il-seal-2yr-set (repair, grant set 64895f264b221fc2)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "obligationRepaired": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE"
+      ],
+      "whatWasDone": "The family-owned builder now writes one complete record only in the active sealing table, leaves the inactive expungement table and every unused row wholly blank, binds the charge cell to the held charge rather than the case number, writes only the case number into the Case List's first one-dimensional slot, and preserves complete held values without ellipsis. Participant guidance now carries the committed service model: the participant serves nobody; the circuit clerk serves under 20 ILCS 2630/5.2(d)(4) after filing on the State's Attorney or prosecutor, Illinois State Police, arresting agency, and local-government chief legal officer, with the objection window running 60 days after service.",
+      "scopeControl": "Only the explicitly owned il-seal-2yr-set wrapper and family overlay were changed; the shared Illinois host and sibling families were not edited.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "de86008285eef38acaa78433628ec100d787dee69ee3a8faf5dcc19eff3acfa6",
+          "byteLength": 1734439,
+          "pageCount": 13
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "b1a8aae419d5f40ae35a3e55fb51d968f38bab35cade43c553055d6ec199b58c",
+          "byteLength": 1735004,
+          "pageCount": 13
+        }
+      ],
+      "determinism": "Two consecutive post-repair builds produced the same canonical and boundary SHA-256 values.",
+      "focusedTests": [
+        "node scripts/build-census-v1-il-seal-2yr-set.mjs --self-test — PASS",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set — PASS_COMPLETE 41/424 written"
+      ],
+      "factoryState": "BUILT_RASTER_PENDING",
+      "rasterNote": "The new exact hashes require the calibrated central Chromium raster receipt. This repair claims no visual acceptance.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "whatCouldNotBeEstablished": [
