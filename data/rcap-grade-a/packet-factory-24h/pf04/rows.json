@@ -661,11 +661,10 @@
     "minimumCaptainSha": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
     "status": "IN_PROGRESS",
     "familiesAssigned": 8,
-    "rowsReturned": 4,
-    "familiesCompleted": 2,
+    "rowsReturned": 5,
+    "familiesCompleted": 3,
     "familiesStopped": 2,
     "remaining": [
-      "hi_dag_danc_expungement-set",
       "ia-7251-set",
       "mn_petition_609a02_subd3-set",
       "mt_deferred_dismissal-set"
@@ -766,6 +765,33 @@
         "overlayFilesChanged": 0,
         "artifacts": [],
         "counters": null,
+        "selfVerified": false
+      },
+      {
+        "itemId": "hi_dag_danc_expungement-set",
+        "status": "COMPLETED",
+        "result": "BUILT_RASTER_PENDING",
+        "directory": "data/rcap-all50/overlays/census-v1/hi/hi-dag-danc-expungement-set--official-pdf-fill",
+        "buildScript": "scripts/build-census-v1-hi_dag_danc_expungement-set.mjs",
+        "rowGate": "PASS 14/14; 1/1 source exact",
+        "artifacts": [
+          {"fixture": "canonical", "sha256": "4e65c4e11d7962a8c8132a6ad85f714638ea9750d497a63e4da916ce801aff96", "byteLength": 197022, "pageCount": 1},
+          {"fixture": "boundary", "sha256": "bb4149d07409828754d0477a12cdef68c283ff271b85645137f09c73c6e8118b", "byteLength": 197088, "pageCount": 1}
+        ],
+        "focusedCheck": "PASS_COMPLETE 6/20 written",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "allNineCountersZero": true,
+        "rasterState": "BUILT_RASTER_PENDING",
         "selfVerified": false
       }
     ]
