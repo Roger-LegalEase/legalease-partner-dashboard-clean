@@ -125,6 +125,98 @@
       "rasterNote": "BUILT_RASTER_PENDING would assert that every nonvisual obligation was finished and only the render is outstanding. That is not true here, so it is not claimed.",
       "claimReleased": false,
       "claimNote": "The FIX08 claim on this family is left asserted. The family is not repaired, and Captain routes the reassignment."
+    },
+    {
+      "itemId": "rcap-tn-custom-pleading",
+      "status": "COMPLETED",
+      "lane": "FIX08",
+      "laneKind": "repair",
+      "captainBase": "52590631e7c96343bf70142cfb5934a02d55b02f",
+      "claimGrantSet": "6b656bc50752563b",
+      "claimAsserted": true,
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "PAGE_ORDER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repair": "The builder now reads the exact ordered route packet sets and generation requirements from the already-bound Tennessee registry. All 38 prescribed components are delivered in registry order; all 77 route-specific questions for the five prosecutor-preparation routes are participant-supplied fields and are disclosed in the instructions. Footer keep-together logic removes the dangling footer-only overflow page.",
+      "proof": {
+        "orderedComponents": "38/38 across all 11 route artifacts",
+        "generationQuestions": "77/77 appear as participantMustSupply fields and in participant-instructions.md",
+        "canonicalPages": 78,
+        "boundaryPages": 78,
+        "footerOnlyOrTwoWordPages": 0,
+        "deterministicSecondBuild": true
+      },
+      "canonicalPdfSha256": "939fc692608c2fbc2c875d9657b036f43a429cd1b5c69d3b42e140df5c518c67",
+      "boundaryPdfSha256": "a8f1f6bbb6676f0d746a71aed087092da903b13b577610e217d22c885d5c303e",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE; 109/339 written; all nine counters zero.",
+      "independentVerification": "PENDING",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "status": "STOPPED",
+      "lane": "FIX08",
+      "laneKind": "repair",
+      "captainBase": "52590631e7c96343bf70142cfb5934a02d55b02f",
+      "claimGrantSet": "6b656bc50752563b",
+      "claimAsserted": true,
+      "obligationsAssigned": ["COMPONENT_SET", "REQUIRED_BEFORE_FILING"],
+      "stoppedBecause": "The current dispatch supplies no finding for either assigned obligation, the focused completeness check is PASS_COMPLETE with every counter zero, and FIX08 explicitly lists every wv-conv-single-misdemeanor-set path under Never write. Repairing without a reproducible defect would require re-deriving the family and crossing the lane's explicit write boundary.",
+      "familyBytesChanged": false,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE; 21/166 written; all nine counters zero.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-nv-custom-pleading",
+      "status": "STOPPED",
+      "lane": "FIX08",
+      "laneKind": "repair",
+      "captainBase": "52590631e7c96343bf70142cfb5934a02d55b02f",
+      "claimAsserted": false,
+      "verdict": "BLOCKED_BEFORE_CLAIM",
+      "refusal": "ALREADY_RELEASED: rcap-nv-custom-pleading at 2026-09-04T04:13:08.956Z",
+      "whatThisLaneDid": "Stopped before evidence. No Nevada family artifact was read or written.",
+      "countersAfter": null,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
-  ]
+  ],
+  "currentDispatchAppend": {
+    "captainBase": "52590631e7c96343bf70142cfb5934a02d55b02f",
+    "familiesRepaired": 1,
+    "familiesStopped": 2,
+    "nineCountersZeroOn": ["rcap-tn-custom-pleading"],
+    "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+    "selfVerified": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
 }

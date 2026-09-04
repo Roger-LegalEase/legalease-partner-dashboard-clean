@@ -4517,6 +4517,147 @@ import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIO
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
+
+/*
+ * FIX08: align the family with the exact route contracts it already binds.
+ *
+ * The original family declared one generic filing-instructions component per
+ * route.  The registry instead declares an ordered, role-specific component
+ * set.  It also declares the generation questions for the five prosecutor-
+ * preparation routes, while the old eligibility records repeated five generic
+ * blanks.  Read those two contracts from the already-bound registry so a later
+ * registry change cannot leave a second hand-maintained component/question list
+ * silently stale in this builder.
+ */
+function registryText(value) {
+  if (value == null) return null;
+  if (typeof value === "string") return value;
+  for (const key of ["description", "instruction", "question", "statement", "name"]) {
+    if (typeof value[key] === "string") return value[key];
+  }
+  return JSON.stringify(value);
+}
+
+function specializedGuidanceBody(track, component, participantLine) {
+  const role = String(component.role ?? "process guidance").replaceAll("_", " ");
+  const lines = [participantLine, "", "WHAT THIS COMPONENT COVERS", "", `This is the ${role} component prescribed by the committed route contract.`, ""];
+  const add = (heading, values) => {
+    const clean = values.map(registryText).filter(Boolean);
+    if (!clean.length) return;
+    lines.push(heading, "", ...clean.map((text) => `- ${text}`), "");
+  };
+  if (/fee|cost|certification/.test(component.role)) {
+    add("FEE, SIGNING, AND CERTIFICATION DIRECTIONS", (track.participantFilingRequirements ?? [])
+      .filter((item) => /fee|waiver|cost|sign|notar|certif/i.test(`${item.kind ?? ""} ${registryText(item) ?? ""}`)));
+  }
+  if (/scope|alternative|routing/.test(component.role)) {
+    add("ROUTE AND SCOPE DIRECTIONS", [...(track.scopeRestrictions ?? []), ...(track.selfHelpStopConditions ?? [])]);
+  }
+  if (/clerk_search/.test(component.role)) {
+    add("CLERK SEARCH AND CERTIFICATION DIRECTIONS", [track.destination, track.venue, ...(track.packetInstructions ?? [])]);
+  }
+  if (lines.length === 6) add("ROUTE DIRECTIONS", track.packetInstructions ?? []);
+  return lines;
+}
+
+function applyExactTennesseeRouteContracts() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, "data/record-clearing/legal-design-track-registry.json"), "utf8"));
+  const trackById = new Map((registry.tracks ?? []).map((track) => [track.trackId, track]));
+  const routeTrackId = (routeKey) => String(routeKey).split(":")[3];
+  const oldById = new Map(SPEC.components.map((component) => [component.id, component]));
+  const oldByRoute = new Map();
+  for (const component of SPEC.components) {
+    oldByRoute.set(component.routeKey, [...(oldByRoute.get(component.routeKey) ?? []), component]);
+  }
+
+  const repaired = [];
+  for (const route of SPEC.routes) {
+    const trackId = routeTrackId(route.routeKey);
+    const track = trackById.get(trackId);
+    assert.ok(track?.packetSet?.components?.length, `${trackId}: registry packetSet is absent`);
+    const former = oldByRoute.get(route.routeKey) ?? [];
+    const genericGuidance = former.find((component) => component.role === "filing_instructions");
+    assert.ok(genericGuidance, `${trackId}: existing bound guidance component is absent`);
+    const participantLine = genericGuidance.body.find((line) => String(line).includes("{{participant.full_legal_name}}"))
+      ?? "This page is for {{participant.full_legal_name}}.";
+
+    for (const prescribed of [...track.packetSet.components].sort((a, b) => a.order - b.order)) {
+      const existing = oldById.get(prescribed.componentId);
+      if (existing) {
+        repaired.push({ ...existing, role: prescribed.role });
+        continue;
+      }
+      assert.equal(prescribed.outputStrategy, "process_guidance",
+        `${prescribed.componentId}: a missing non-guidance component cannot be synthesized by this repair`);
+      const carriesFullGuidance = /filing_and|process_and_expectation/.test(prescribed.role);
+      repaired.push({
+        ...genericGuidance,
+        id: prescribed.componentId,
+        role: prescribed.role,
+        title: `${String(prescribed.role).replaceAll("_", " ")} - ${track.publicName ?? track.legalName}`,
+        description: `${String(prescribed.role).replaceAll("_", " ")} prescribed by the committed ${trackId} packet contract`,
+        body: carriesFullGuidance
+          ? genericGuidance.body
+          : specializedGuidanceBody(track, prescribed, participantLine),
+      });
+    }
+  }
+  SPEC.components = repaired;
+
+  const questionTracks = new Set([
+    "tn_illegal_voting", "tn_post_pardon", "tn_recovery_court",
+    "tn_eligible_conviction", "tn_two_offense",
+  ]);
+  for (const component of SPEC.components) {
+    const trackId = routeTrackId(component.routeKey);
+    if (!questionTracks.has(trackId) || !/eligibility_record/.test(component.role)) continue;
+    const track = trackById.get(trackId);
+    const questions = track.generationRequirements ?? [];
+    assert.ok(questions.length > 0, `${trackId}: registry generationRequirements are absent`);
+    const protectedBlanks = (component.blanks ?? []).filter((blank) => blank.kind === "protected");
+    component.body = [
+      `FOR: {{participant.full_legal_name}}`,
+      "MAILING ADDRESS: {{participant.street_address}}",
+      "TELEPHONE: {{participant.phone}}",
+      "EMAIL: {{participant.email}}",
+      "DATE OF BIRTH: {{participant.date_of_birth}}",
+      "",
+      "ELIGIBILITY RECORD",
+      "",
+      "Complete every applicable item from your own records. These are the exact generation questions in the committed route contract.",
+      "",
+      ...questions.flatMap((requirement, index) => [
+        `Item ${index + 1}. ${requirement.question}`,
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "",
+      ]),
+      "DATE {{DOTS:30}}   SIGNATURE {{DOTS:44}}",
+      "",
+      "(The person named above signs and dates this record personally.)",
+    ];
+    component.blanks = [
+      ...questions.map((requirement, index) => ({
+        kind: "rbf",
+        id: `generation_${requirement.key}`,
+        label: `Item ${index + 1} - ${requirement.question}`,
+        supply: requirement.question,
+        why: `the committed track registry declares this ${requirement.requirement} generation input for ${trackId}`,
+      })),
+      ...protectedBlanks,
+    ];
+  }
+
+  const expectedCount = [...questionTracks].reduce((count, trackId) =>
+    count + (trackById.get(trackId)?.generationRequirements?.length ?? 0), 0);
+  const suppliedCount = SPEC.components.reduce((count, component) => count
+    + (component.blanks ?? []).filter((blank) => blank.id.startsWith("generation_")).length, 0);
+  assert.equal(SPEC.components.length, 38, "Tennessee packet contract must declare all 38 components");
+  assert.equal(expectedCount, 77, "the five route contracts must still declare exactly 77 generation inputs");
+  assert.equal(suppliedCount, expectedCount, "every route generation input must become a participant-supplied field");
+}
+
+applyExactTennesseeRouteContracts();
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
@@ -4606,7 +4747,15 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  const rows = sanitizePdfText(fullText).split("\n").flatMap((raw) => wrap(raw));
+  const footerKeepStart = Math.max(0, rows.length - 4);
+  for (const [index, row] of rows.entries()) {
+    if (index === footerKeepStart && y - (rows.length - index) * lineHeight < margin) {
+      page = pdf.addPage([width, height]);
+      y = height - margin;
+    }
+    draw(row);
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
