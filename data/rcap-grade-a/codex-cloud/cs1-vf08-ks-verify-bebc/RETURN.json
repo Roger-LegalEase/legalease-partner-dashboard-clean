@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "rcap-codex-independent-packet-verification-return/v1",
+  "workerId": "CODEX-CS1-VF08-KS",
+  "role": "independent post-repair verifier",
+  "result": "PASS_COMPLETE_INDEPENDENT",
+  "base": "bebc0489688b69040a72bb0ca42251370d7cb573",
+  "branch": "codex/cs1-vf08-ks-verify-bebc",
+  "commit": "reported in the final handoff because a commit cannot contain its own object ID",
+  "pushed": "YES",
+  "familyId": "rcap-ks-custom-pleading",
+  "routes": [
+    "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+  ],
+  "identityPreflight": {
+    "branch": "codex/cs1-vf08-ks-verify-bebc",
+    "headBeforeVerification": "bebc0489688b69040a72bb0ca42251370d7cb573",
+    "mergeBaseWithAssignedCaptainBase": "bebc0489688b69040a72bb0ca42251370d7cb573",
+    "cleanBeforeVerification": true
+  },
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 rcap-ks-custom-pleading",
+    "result": "CLAIM_OK VF08 rcap-ks-custom-pleading (independent-verification, grant set 241df4e3322b710f)",
+    "succeededBeforeFamilyRead": true,
+    "released": false
+  },
+  "independence": {
+    "builtCurrentBytes": false,
+    "repairedCurrentBytes": false,
+    "editedPacketOrBuilderContent": false,
+    "selfVerification": 0
+  },
+  "artifacts": {
+    "familyAssembly": [
+      {
+        "fixture": "canonical",
+        "sha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+        "byteLength": 37304,
+        "pageCount": 13
+      },
+      {
+        "fixture": "boundary",
+        "sha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+        "byteLength": 37721,
+        "pageCount": 13
+      }
+    ],
+    "routeArtifacts": [
+      {
+        "route": "ks-12-4516-municipal",
+        "fixture": "canonical",
+        "sha256": "730a38f42504c51908dece94129255324a81da9ade651ef88d81a42ffb11878a",
+        "byteLength": 20092,
+        "pageCount": 7
+      },
+      {
+        "route": "ks-12-4516-municipal",
+        "fixture": "boundary",
+        "sha256": "776a364d13db3750d3c0f007ebb7229c06a1101c9b54b3e4c0618c13e04e84a0",
+        "byteLength": 20304,
+        "pageCount": 7
+      },
+      {
+        "route": "ks-12-4516a-municipal-arrest",
+        "fixture": "canonical",
+        "sha256": "e766906dd1d493ad28389596a09250ab096ea42fbc0bdf601cfb8f940c075124",
+        "byteLength": 18481,
+        "pageCount": 6
+      },
+      {
+        "route": "ks-12-4516a-municipal-arrest",
+        "fixture": "boundary",
+        "sha256": "61a928d7c56d411cf4042a7ad1f53f42124a31dc1370bffdfb6b5d0d55aecff6",
+        "byteLength": 18681,
+        "pageCount": 6
+      }
+    ]
+  },
+  "sourceRecordsRehashed": [
+    {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+      "byteLength": 16586150,
+      "matchesReceipt": true
+    },
+    {
+      "path": "data/record-clearing/legal-design-specifications.json",
+      "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+      "byteLength": 16829391,
+      "matchesReceipt": true
+    },
+    {
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+      "byteLength": 2607149,
+      "matchesReceipt": true
+    }
+  ],
+  "repairReread": {
+    "componentSet": {
+      "result": "PASS",
+      "requiredProcessGuidanceIds": [
+        "ks-12-4516-municipal-process-guidance-3",
+        "ks-12-4516a-municipal-arrest-process-guidance-3"
+      ],
+      "undeclaredFilingInstructionSubstitutesAbsent": true,
+      "authoritativeAndRenderedComponentSetsMatch": true
+    },
+    "clippingAndOverlap": {
+      "result": "PASS",
+      "familyAssemblyPagesRead": 26,
+      "routeArtifactPagesRead": 26,
+      "totalPagesRead": 52,
+      "wordsMeasured": 13812,
+      "textLinesOutsideMediaBox": 0,
+      "measuredTextOverlapPairs": 0,
+      "blankOrFooterOnlyPages": 0,
+      "edgeInkWithinFivePixels": 0,
+      "priorFooterOnlyOrphanPagesAbsent": true,
+      "routeTextMatchesFamilySlices": 4,
+      "routeRasterMatchesFamilySlices": 4
+    }
+  },
+  "actualVisibleWrites": {
+    "canonical": {
+      "declared": 14,
+      "visibleOnCorrectComponentPage": 14
+    },
+    "boundary": {
+      "declared": 14,
+      "visibleOnCorrectComponentPage": 14
+    },
+    "protectedFieldsPerFixture": 14,
+    "protectedWrites": 0
+  },
+  "requiredBeforeFiling": {
+    "declared": 28,
+    "namedInParticipantInstructions": 28,
+    "printedInRouteArtifacts": 28
+  },
+  "acceptedRasterReceipt": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33844904078",
+    "jobId": "100935414098",
+    "artifactId": "9926564215",
+    "canonicalSha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+    "boundarySha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+    "documentsMeasured": 2,
+    "pagesMeasured": 26,
+    "problemsFound": 0,
+    "coversTheWholeFamily": true
+  },
+  "rejectedReceipt": {
+    "workflowRunId": "33791677725",
+    "reason": "superseded non-current bytes and 25-page document set"
+  },
+  "obligations": {
+    "measured": 15,
+    "passed": 15,
+    "failed": 0,
+    "unmeasured": 0
+  },
+  "tests": {
+    "focusedCompleteness": {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-ks-custom-pleading'",
+      "result": "PASS_COMPLETE 14/56 written",
+      "nineCountersZero": true
+    },
+    "artifactRehashAndPageCount": "PASS 6/6",
+    "sourceRehash": "PASS 3/3",
+    "componentIdentity": "PASS 6/6 exact; old substitutes absent",
+    "visibleWriteReadback": "PASS 28/28",
+    "requiredBeforeFilingReadback": "PASS 28/28",
+    "textGeometry": "PASS 52 pages; 0 off-page lines; 0 overlaps; 0 footer-only pages",
+    "freshRasterInspection": "PASS 52 pages; 0 edge-ink problems; route pages pixel-equal to family slices",
+    "currentReceiptBinding": "PASS run 33844904078; run 33791677725 rejected",
+    "legacyCodexCloudEnvironmentDiagnostic": {
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY 11/14",
+      "reason": "This Codespace does not carry the Codex-Cloud-only corpus mount or home environment file. The family-specific source binding check passed and identified this family as a zero-source codified-text composition; no corpus setup was run because the current assignment permits writes only to the two return paths."
+    }
+  },
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-vf08-ks-verify-bebc/RETURN.json"
+  ],
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "PASS_COMPLETE_INDEPENDENT proves only the current packet bytes against the fifteen measured obligations. It opens no commercial route and grants no production or fulfillment authority."
+}
