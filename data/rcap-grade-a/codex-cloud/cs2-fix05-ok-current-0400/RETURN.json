@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "worker": "CODEX-CS2-FIX05-OK-CURRENT",
+  "captain": "claude/legalease-sprint-captain-utucnw",
+  "lane": "FIX05",
+  "laneKind": "rapid-repair",
+  "base": "0400a0c52075b8e7f692a80ae2f630ea0d1a9956",
+  "mergeBase": "0400a0c52075b8e7f692a80ae2f630ea0d1a9956",
+  "branch": "codex/cs2-fix05-ok-current-0400",
+  "tip": "reported after commit because a commit cannot contain its own object id",
+  "push": "reported after the committed return is pushed",
+  "status": "COMPLETED",
+  "claim": "CLAIM_OK FIX05 rcap-ok-custom-pleading (repair, grant set fe53f0c79b36424a)",
+  "claimAssertedBeforeFamilyContentRead": true,
+  "family": "rcap-ok-custom-pleading",
+  "routeKeys": [
+    "obligation:track-only:OK:ok_identity_theft",
+    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
+    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
+    "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+    "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
+    "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement",
+    "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+    "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+    "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"
+  ],
+  "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "repairDisposition": "The current exact-hash RASTER_PASS supersedes the stale vf37/FIX19 CLIPPING_AND_OVERLAP disposition only. This is repair evidence, not independent verification, and the family was not terminalized.",
+  "oldStaleVerdict": {
+    "worker": "CODEX-CS2-FIX19",
+    "lane": "vf37",
+    "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "failedObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ],
+    "canonical": {
+      "sha256": "833444e3e39b2232b4e8c10cdd37cf948f2dd148a31edcc64aa86516fb953f60",
+      "byteLength": 205937,
+      "pageCount": 80
+    },
+    "boundary": {
+      "sha256": "5cdd5a6ae9461f42cda28c64fc93e5d4c5d2fc9df9415c8033be29f396bb2bcb",
+      "byteLength": 208554,
+      "pageCount": 80
+    },
+    "pagesMeasured": 160,
+    "problemsFound": 1,
+    "page39Finding": "canonical page 39 near-empty with an orphaned -expungement fragment"
+  },
+  "currentArtifacts": {
+    "canonical": {
+      "sha256": "78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1",
+      "byteLength": 207273,
+      "pageCount": 83
+    },
+    "boundary": {
+      "sha256": "18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18",
+      "byteLength": 209833,
+      "pageCount": 83
+    }
+  },
+  "currentRasterPass": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33844119998",
+    "jobId": "100933577740",
+    "artifactId": "9927020246",
+    "documentsMeasured": 2,
+    "pagesMeasured": 166,
+    "problemsFound": 0,
+    "coversTheWholeFamily": true,
+    "boundToCanonicalSha256": "78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1",
+    "boundToBoundarySha256": "18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18"
+  },
+  "staleVerdictCannotBindCurrentBytes": {
+    "canonicalHashDiffers": true,
+    "boundaryHashDiffers": true,
+    "oldPagesPerFixture": 80,
+    "currentPagesPerFixture": 83,
+    "oldPagesMeasured": 160,
+    "currentPagesMeasured": 166
+  },
+  "deterministicTwoBuildResult": {
+    "builder": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs --no-raster",
+    "completeBuilds": 2,
+    "familyFilesCompared": 13,
+    "identicalCanonicalAndBoundaryBytes": true,
+    "identicalHashes": true,
+    "identicalLengths": true,
+    "identicalPageCounts": true,
+    "identicalReports": true,
+    "identicalFamilyTree": true,
+    "exactStatedCurrentArtifactsReproduced": true,
+    "result": "DETERMINISTIC",
+    "baselinePreservation": "Three family-local source-receipt custody pins refreshed deterministically during both builds and were restored to the assigned HEAD; final family diff is zero."
+  },
+  "focusedTests": [
+    {
+      "command": "node --check scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/build-census-v1-rcap-ok-custom-pleading.mjs --check --no-raster",
+      "result": "CHECK_ONLY; 3 records; 148 anchors; 54 components; 85 writes; 169 blanks"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
+      "result": "PASS_COMPLETE 85/254; all nine counters zero"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family rcap-ok-custom-pleading",
+      "result": "PASS; one unchanged wiring record"
+    },
+    {
+      "command": "read-only exact current raster receipt binding assertion",
+      "result": "EXACT_CURRENT_RASTER_BINDING_PASS"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-ok-custom-pleading",
+      "result": "NOT_APPLICABLE; refused because no separate route artifacts exist"
+    }
+  ],
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/fix05/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs2-fix05-ok-current-0400/RETURN.json"
+  ],
+  "packetBytesChanged": 0,
+  "builderChanged": 0,
+  "familyDirectoryFinalDiff": 0,
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "claimReleased": false,
+  "selfVerification": 0,
+  "familyTerminalized": 0,
+  "routesOpened": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": "NO",
+  "generatedAt": "2026-09-04T19:01:35Z"
+}
