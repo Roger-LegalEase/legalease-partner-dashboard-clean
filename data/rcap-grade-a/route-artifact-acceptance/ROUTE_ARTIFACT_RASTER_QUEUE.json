@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-route-artifact-raster-queue/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-route-artifact-raster-queue.mjs",
-  "packetCommitSha": "97adcecd54959464782b412ad3d16b613b0e3087",
+  "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
   "whyThisExists": "Route-scoped artifacts carry rasterPending: true and the family raster receipt binds to different bytes. This enrols each route artifact in central raster acceptance on its own hashes.",
   "thisIsNotTheCaptainsQueue": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json and MASTER_QUEUE.json are the Captain's and are not written by this lane. This manifest is lane-local and is read by rcap-raster-batch.mjs through --manifest.",
   "consumedBy": "node scripts/rcap-raster-batch.mjs --manifest <this file> --family <familyId> --out <dir>",
@@ -15,10 +15,10 @@
   ],
   "cohortOnly": false,
   "counts": {
-    "rows": 14,
+    "rows": 15,
     "inFirstCohort": 5,
-    "documents": 28,
-    "pages": 190,
+    "documents": 30,
+    "pages": 196,
     "notEligible": 0
   },
   "rows": [
@@ -32,7 +32,7 @@
       "familyAssemblyIsRouteArtifact": false,
       "equivalenceBasis": null,
       "inFirstCohort": true,
-      "packetCommitSha": "97adcecd54959464782b412ad3d16b613b0e3087",
+      "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
       "canonicalPdfSha256": "730a38f42504c51908dece94129255324a81da9ade651ef88d81a42ffb11878a",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
@@ -87,7 +87,7 @@
       "familyAssemblyIsRouteArtifact": false,
       "equivalenceBasis": null,
       "inFirstCohort": true,
-      "packetCommitSha": "97adcecd54959464782b412ad3d16b613b0e3087",
+      "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
       "canonicalPdfSha256": "e766906dd1d493ad28389596a09250ab096ea42fbc0bdf601cfb8f940c075124",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
@@ -207,7 +207,7 @@
       "familyAssemblyIsRouteArtifact": false,
       "equivalenceBasis": null,
       "inFirstCohort": true,
-      "packetCommitSha": "97adcecd54959464782b412ad3d16b613b0e3087",
+      "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/canonical.pdf",
       "canonicalPdfSha256": "d1af7657170b2f6b84c43bee07addc135e60d08f7fc18fd170e661d59e2e2766",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/boundary.pdf",
@@ -327,7 +327,7 @@
       "familyAssemblyIsRouteArtifact": true,
       "equivalenceBasis": "the family has one route and every rendered component is assigned to it",
       "inFirstCohort": false,
-      "packetCommitSha": "97adcecd54959464782b412ad3d16b613b0e3087",
+      "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/fixtures/canonical.pdf",
       "canonicalPdfSha256": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill/fixtures/boundary.pdf",
@@ -371,6 +371,80 @@
       "currentRasterState": "RASTER_PENDING",
       "preexistingRasterAcceptance": null,
       "doesNotInheritTheFamilyReceipt": "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set::route::felony-prostitution-relief",
+      "packetFamilyId": "il-prostitution-j-vacate-set",
+      "routeKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+      "route": "felony-prostitution-relief",
+      "customerRouteId": "IL:felony-prostitution-relief",
+      "unitOfDelivery": "route_artifact",
+      "familyAssemblyIsRouteArtifact": true,
+      "equivalenceBasis": {
+        "masterQueue": "one COMPLETE_PACKET_PROVEN family routeKey",
+        "customerRegistry": "one customer route naming exactly this one known packet family",
+        "componentRoutes": "every rendered component is assigned to that one routeKey",
+        "bytes": "the route artifact is the family assembly itself; no copy or rewritten PDF exists"
+      },
+      "inFirstCohort": false,
+      "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+      "expectedPages": 3,
+      "fixtureSelection": {
+        "canonical": "the canonical family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes",
+        "boundary": "the boundary family assembly; the committed one-route/component equivalence makes it this route's artifact without copying the bytes"
+      },
+      "documents": [
+        {
+          "role": "boundary",
+          "name": "felony-prostitution-relief--boundary.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+          "pageCount": 3
+        },
+        {
+          "role": "canonical",
+          "name": "felony-prostitution-relief--canonical.pdf",
+          "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+          "pageCount": 3
+        }
+      ],
+      "documentsDigest": "f86e6e9076a2162987666e0464ace70145faed88241716bcff7433451df26441",
+      "coverage": {
+        "documents": [
+          "felony-prostitution-relief--boundary.pdf",
+          "felony-prostitution-relief--canonical.pdf"
+        ],
+        "rastered": [
+          "felony-prostitution-relief--boundary.pdf",
+          "felony-prostitution-relief--canonical.pdf"
+        ],
+        "notRastered": [],
+        "complete": true,
+        "basis": "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
+      },
+      "requestedScale": 2.5,
+      "currentRasterState": "RASTER_PASS",
+      "preexistingRasterAcceptance": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33574304514",
+        "jobId": "100075268121",
+        "boundToCanonicalSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+        "boundToBoundarySha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+        "receiptArtifact": {
+          "id": "9826156184",
+          "name": "rcap-raster-il-prostitution-j-vacate-set-33574304514",
+          "zipSha256": "sha256:d5cdac57c5fc78b781b6169081c34c7779240c4ee1a6eb6351df203f6926e48d",
+          "expiresAt": "2026-09-16T00:16:25Z"
+        },
+        "source": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "whyItApplies": "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes"
+      },
+      "doesNotInheritTheFamilyReceipt": null
     },
     {
       "familyId": "rcap-tn-custom-pleading::route::tn_arrest_no_court_record",
@@ -577,7 +651,7 @@
       "familyAssemblyIsRouteArtifact": false,
       "equivalenceBasis": null,
       "inFirstCohort": false,
-      "packetCommitSha": "97adcecd54959464782b412ad3d16b613b0e3087",
+      "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/canonical.pdf",
       "canonicalPdfSha256": "e8aa38aead120aeb96e9c7c24dbaa5fbd93759ca11b2ffa39fc92fbc1baddf69",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/boundary.pdf",
@@ -697,7 +771,7 @@
       "familyAssemblyIsRouteArtifact": false,
       "equivalenceBasis": null,
       "inFirstCohort": false,
-      "packetCommitSha": "97adcecd54959464782b412ad3d16b613b0e3087",
+      "packetCommitSha": "85f12221a7c711296411a0a4fa416711c9121d5c",
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/canonical.pdf",
       "canonicalPdfSha256": "45a63f705198e5ccbcefd9df8a96f4f2843c4c9144195b4909c84ffc1086f0a3",
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/boundary.pdf",
