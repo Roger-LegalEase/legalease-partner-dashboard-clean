@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "worker": "CODEX-CS1-FIX07-MS-COMPONENTS",
+  "lane": "FIX07",
+  "laneKind": "repair",
+  "base": "b714a8b5a9b03ab366cb6e8e566747847e192ab8",
+  "vf04FailureBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "branch": "codex/cs1-fix07-ms-b714",
+  "commit": "c5f36c229abb25b09e3020ca1b974a3b1761e830",
+  "pushed": "YES",
+  "claim": "CLAIM_OK FIX07 rcap-ms-custom-pleading (repair, grant set 0689f13d0bd12b19)",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "result": "BUILT_RASTER_PENDING",
+  "families": [
+    "rcap-ms-custom-pleading"
+  ],
+  "routes": [
+    "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+    "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+    "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement"
+  ],
+  "obligationsRepaired": [
+    "COMPONENT_SET",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "componentOrder": {
+    "ms-drug-cd": [
+      "ms-drug-cd-primary-filing-1",
+      "ms-drug-cd-proposed-order-2",
+      "ms-drug-cd-certificate-of-service-3",
+      "ms-drug-cd-attachment-4",
+      "ms-drug-cd-instructions-5"
+    ],
+    "ms-dui": [
+      "ms-dui-primary-filing-1",
+      "ms-dui-proposed-order-2",
+      "ms-dui-certificate-of-service-3",
+      "ms-dui-attachment-4",
+      "ms-dui-instructions-5"
+    ],
+    "ms-mip": [
+      "ms-mip-primary-filing-1",
+      "ms-mip-proposed-order-2",
+      "ms-mip-certificate-of-service-3",
+      "ms-mip-attachment-4",
+      "ms-mip-instructions-5"
+    ]
+  },
+  "artifactsBefore": [
+    {
+      "scope": "family",
+      "fixture": "canonical",
+      "sha256": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0",
+      "byteLength": 69082,
+      "pageCount": 26
+    },
+    {
+      "scope": "family",
+      "fixture": "boundary",
+      "sha256": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f",
+      "byteLength": 70320,
+      "pageCount": 26
+    }
+  ],
+  "artifactsAfter": [
+    {
+      "scope": "family",
+      "fixture": "canonical",
+      "sha256": "fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c",
+      "byteLength": 74867,
+      "pageCount": 25
+    },
+    {
+      "scope": "family",
+      "fixture": "boundary",
+      "sha256": "28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4",
+      "byteLength": 76118,
+      "pageCount": 25
+    },
+    {
+      "scope": "ms-drug-cd",
+      "fixture": "canonical",
+      "sha256": "3f2e709d8ed8d9672f61d563b9bf3590fd422b13317b48e112c450b0973452b5",
+      "byteLength": 25392,
+      "pageCount": 8
+    },
+    {
+      "scope": "ms-drug-cd",
+      "fixture": "boundary",
+      "sha256": "970aedd2300d8dc2755b9316be6f467bb7c960c13290d9fc215831dc35edb73d",
+      "byteLength": 25797,
+      "pageCount": 8
+    },
+    {
+      "scope": "ms-dui",
+      "fixture": "canonical",
+      "sha256": "5eab947a132e604a5b2a944a0b9d2dbbbcdde468dc9f1a465db439d4a482c5f8",
+      "byteLength": 27044,
+      "pageCount": 9
+    },
+    {
+      "scope": "ms-dui",
+      "fixture": "boundary",
+      "sha256": "bbf895cb28323c099e91101582202c4cbea08f060709be9acb0b9308b75bf9fa",
+      "byteLength": 27471,
+      "pageCount": 9
+    },
+    {
+      "scope": "ms-mip",
+      "fixture": "canonical",
+      "sha256": "8da7e5704eb3023ee9b4e8b9b43c03302d91f19db5457f1142065fc04bcbf06b",
+      "byteLength": 25377,
+      "pageCount": 8
+    },
+    {
+      "scope": "ms-mip",
+      "fixture": "boundary",
+      "sha256": "98323cdd14ccbfdff699081a2aaa91ef2f237e05e75c6e51d6ad24a78f2fdc47",
+      "byteLength": 25786,
+      "pageCount": 8
+    }
+  ],
+  "hashes": {
+    "canonical": "fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c",
+    "boundary": "28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4",
+    "msDrugCdCanonical": "3f2e709d8ed8d9672f61d563b9bf3590fd422b13317b48e112c450b0973452b5",
+    "msDrugCdBoundary": "970aedd2300d8dc2755b9316be6f467bb7c960c13290d9fc215831dc35edb73d",
+    "msDuiCanonical": "5eab947a132e604a5b2a944a0b9d2dbbbcdde468dc9f1a465db439d4a482c5f8",
+    "msDuiBoundary": "bbf895cb28323c099e91101582202c4cbea08f060709be9acb0b9308b75bf9fa",
+    "msMipCanonical": "8da7e5704eb3023ee9b4e8b9b43c03302d91f19db5457f1142065fc04bcbf06b",
+    "msMipBoundary": "98323cdd14ccbfdff699081a2aaa91ef2f237e05e75c6e51d6ad24a78f2fdc47"
+  },
+  "lengths": {
+    "canonical": 74867,
+    "boundary": 76118,
+    "msDrugCdCanonical": 25392,
+    "msDrugCdBoundary": 25797,
+    "msDuiCanonical": 27044,
+    "msDuiBoundary": 27471,
+    "msMipCanonical": 25377,
+    "msMipBoundary": 25786
+  },
+  "pages": {
+    "canonical": 25,
+    "boundary": 25,
+    "msDrugCdCanonical": 8,
+    "msDrugCdBoundary": 8,
+    "msDuiCanonical": 9,
+    "msDuiBoundary": 9,
+    "msMipCanonical": 8,
+    "msMipBoundary": 8
+  },
+  "determinism": {
+    "cleanArtifactState": true,
+    "completeBuilderRuns": 2,
+    "hashesIdentical": true,
+    "byteLengthsIdentical": true,
+    "pageCountsIdentical": true,
+    "completeComponentManifestsIdentical": true,
+    "renderedArtifactsReportsIdentical": true,
+    "builderReturnsIdentical": true,
+    "renderedArtifactsReportSha256": "be59a31849f145ca6300a75805711c1b0477f27f61fc9ab39f093835d61fb7e7"
+  },
+  "visibleInspection": {
+    "artifactsInspected": 8,
+    "pagesInspected": 100,
+    "visibleWritesInspected": 144,
+    "rasterDpi": 144,
+    "allPagesInspected": true,
+    "allVisibleWritesObserved": true,
+    "minimumSubstantiveLinesOnAnyPage": 6,
+    "footerOnlyOrNearEmptyPages": 0,
+    "clippingFindings": 0,
+    "overlapFindings": 0,
+    "retiredFilingInstructions4IdsVisible": 0
+  },
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "tests": [
+    "node --check scripts/build-census-v1-rcap-ms-custom-pleading.mjs => PASS",
+    "node scripts/build-census-v1-rcap-ms-custom-pleading.mjs --check --no-raster => CHECK_ONLY; 3 records; 74 anchors; 15 components",
+    "two complete node scripts/build-census-v1-rcap-ms-custom-pleading.mjs --no-raster runs from clean artifact state => deterministic COMPLETED / BUILT_RASTER_PENDING",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ms-custom-pleading => PASS_COMPLETE 36/125 written; all nine counters zero",
+    "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-ms-custom-pleading => 6/6 ROUTE_PASS_COMPLETE; exact five-component sets; 12/12 values read back per artifact",
+    "Poppler bbox/text audit of all 100 pages and 144 expected visible-write appearances => zero clipping, overlap, footer-only/near-empty pages, or retired substitute ids",
+    "144-DPI inspection of every page in all eight artifacts => no clipping, overlap, or orphaned content",
+    "git diff --check => PASS"
+  ],
+  "changedPaths": [
+    "scripts/build-census-v1-rcap-ms-custom-pleading.mjs",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-drug-cd/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-drug-cd/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-dui/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-dui/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-mip/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/routes/ms-mip/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/fix07/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix07-ms-b714/RETURN.json"
+  ],
+  "sourceAcquisitionPerformed": false,
+  "binarySources": 0,
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "Production": "NO"
+}
