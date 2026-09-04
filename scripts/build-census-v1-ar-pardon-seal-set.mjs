@@ -115,6 +115,7 @@ import { extractTextItems, groupIntoLines, normalizeHarvestedText }
 import { rulesOfPage } from "./rcap-official-forms/rcap-pdf-rule-lines.mjs";
 import { finalizeFlatOverlay } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { rasterizePdf } from "./rcap-official-forms/rcap-pdf-rasterize.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
 import {
   CHARGE_VALUE_WORDS, captionDescribesChargeValue, descriptorsMatching, protectCategoryOf,
@@ -1078,6 +1079,7 @@ async function addedInkOf(sourceBytes, outBytes) {
  */
 async function helveticaRuler() {
   const scratch = await PDFDocument.create();
+  stampDeterministic(scratch);
   const font = await scratch.embedFont(StandardFonts.Helvetica);
   return (text, size) => round(font.widthOfTextAtSize(String(text), size));
 }

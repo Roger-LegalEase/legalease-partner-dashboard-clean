@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d` (or the newer dispatch base)
+**Minimum required ancestor:** `4bcb03efb389a64dee306c88696b04ff2215230c` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC03 \
-  --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' \
+  --source-obligation 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' \
   --codex-cloud \
-  --minimum-captain-sha a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d
+  --minimum-captain-sha 4bcb03efb389a64dee306c88696b04ff2215230c
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -50,21 +50,21 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 **These states are NOT a fetch. Acting on them as one is the defect this registry exists to stop.**
 
-- `BUNDLE_COMPONENT` — 3 — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.
-- `EMBEDDED_SECTION` — 3 — the document is a section inside another form. There is no separate binary to request from anyone.
+- `BUNDLE_COMPONENT` — 0 — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.
+- `EMBEDDED_SECTION` — 0 — the document is a section inside another form. There is no separate binary to request from anyone.
 - `STALE_OR_VARIANT_ID` — 0 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
 - `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 1 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
-- `FAMILY_IDENTITY_AMBIGUOUS` — 7 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
-- `CURRENTNESS_UNVERIFIED` — 22 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
+- `FAMILY_IDENTITY_AMBIGUOUS` — 5 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
+- `CURRENTNESS_UNVERIFIED` — 16 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
 - `STATUTORY_CUSTOM_PLEADING` — 0 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
-- `LICENSE_PERMISSION_REVIEW` — 2 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
+- `LICENSE_PERMISSION_REVIEW` — 0 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
 
 **These are:**
 
-- `STANDALONE_ARTIFACT` — 2 — public, ordinary acquisition.
+- `STANDALONE_ARTIFACT` — 1 — public, ordinary acquisition.
 - `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
 - `MISSING_SOURCE_BINARY` — 1 — expected and absent; acquire once an exact address is settled.
-- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 81 — no publisher, address or locator is recorded. Settle identity before fetching.
+- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 34 — no publisher, address or locator is recorded. Settle identity before fetching.
 
 **The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.**
 
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**16 obligations · 11 families this lane WOULD release if every one of them resolves · hosts: CO, DE, ME, MO, RI**
+**16 obligations · 12 families this lane WOULD release if every one of them resolves · hosts: CO, DE, MA, ME, WA, WV**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -103,6 +103,9 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
+| `census-pending-family:ME:juvenile-sealing::official-form:JV-043` | `official-form:JV-043` | ME | `held-inventory-reconciliation` | `census-pending-family:ME:juvenile-sealing` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0300` | `official-form:JU 10.0300` | WA | `held-inventory-reconciliation` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::official-form:JU 10.0315` | `official-form:JU 10.0315` | WA | `held-inventory-reconciliation` | `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `co_municipal_conviction_seal-set::official-form:JDF-684` | `official-form:JDF-684` | CO | `held-inventory-reconciliation` | `co_municipal_conviction_seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `de_discretionary_family_court-set::official-form:FORM-281` | `official-form:FORM-281` | DE | `held-inventory-reconciliation` | `de_discretionary_family_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `de_discretionary_superior_court-set::official-form:CIV_EXP_02_A` | `official-form:CIV_EXP_02_A` | DE | `held-inventory-reconciliation` | `de_discretionary_superior_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
@@ -110,15 +113,12 @@ the private corpus and the committed inventory, read only — nothing is fetched
 | `de_discretionary_superior_court-set::official-form:CIV_EXP_04_A` | `official-form:CIV_EXP_04_A` | DE | `held-inventory-reconciliation` | `de_discretionary_superior_court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `de_pardon_expungement-set::official-form:CIV_EXP_02_A` | `official-form:CIV_EXP_02_A` | DE | `held-inventory-reconciliation` | `de_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `de_pardon_expungement-set::official-form:CIV_EXP_08_A` | `official-form:CIV_EXP_08_A` | DE | `held-inventory-reconciliation` | `de_pardon_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `me-seal-gen-set::official-form:CR-218` | `official-form:CR-218` | ME | `held-inventory-reconciliation` | `me-seal-gen-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `me-seal-survivor-set::official-form:CR-308` | `official-form:CR-308` | ME | `held-inventory-reconciliation` | `me-seal-survivor-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-575-120-identity-theft-correction-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-575-120-identity-theft-correction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-122-arrest-expungement-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-122-arrest-expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-140-arrest-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-140-arrest-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-140-conviction-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-140-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-610-145-mistaken-identity-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-610-145-mistaken-identity-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `mo-art-xiv-marijuana-set::official-form:FI-05` | `official-form:FI-05` | MO | `held-inventory-reconciliation` | `mo-art-xiv-marijuana-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ri_decriminalized-set::official-form:DC-33-AFFIDAVIT` | `official-form:DC-33-AFFIDAVIT` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ma-expunge-k-set::official-form:Petition for Expungement, G.L. c. 276, § 100K` | `official-form:Petition for Expungement, G.L. c. 276, § 100K` | MA | `held-inventory-reconciliation` | `ma-expunge-k-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ma-seal-admin-set::official-form:Petition to Seal (Office of the Commissioner of Probation)` | `official-form:Petition to Seal (Office of the Commissioner of Probation)` | MA | `held-inventory-reconciliation` | `ma-seal-admin-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ma-seal-court-set::official-form:TC0057` | `official-form:TC0057` | MA | `held-inventory-reconciliation` | `ma-seal-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ma-seal-decrim-set::official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | `official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4` | MA | `held-inventory-reconciliation` | `ma-seal-decrim-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `wv_acc_treatment_job_readiness-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_acc_treatment_job_readiness-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `wv_conv_nonviolent_felony-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_conv_nonviolent_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
 Deterministically assert exactly the 16 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -138,7 +138,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'co_municipal_conviction_seal-set::official-form:JDF-684' --codex-cloud --minimum-captain-sha a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' --codex-cloud --minimum-captain-sha 4bcb03efb389a64dee306c88696b04ff2215230c
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -147,7 +147,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 
 ### Families this lane would release
 
-`co_municipal_conviction_seal-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mo-575-120-identity-theft-correction-set`, `mo-610-122-arrest-expungement-set`, `mo-610-140-arrest-set`, `mo-610-140-conviction-set`, `mo-art-xiv-marijuana-set`
+`census-pending-family:ME:juvenile-sealing`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `co_municipal_conviction_seal-set`, `de_discretionary_family_court-set`, `de_discretionary_superior_court-set`, `de_pardon_expungement-set`, `ma-expunge-k-set`, `ma-seal-admin-set`, `ma-seal-court-set`, `ma-seal-decrim-set`, `wv_acc_treatment_job_readiness-set`, `wv_conv_nonviolent_felony-set`
 
 
 ### Settle these first
@@ -156,13 +156,16 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| FI-05 | MO | 7 |
-| DC-33 | RI | 4 |
 | CIV_EXP_02_A | DE | 2 |
+| SCA-C907 | WV | 2 |
+| JV-043 | ME | 1 |
+| JU 10.0300 | WA | 1 |
 | JDF-683 | CO | 1 |
 | FORM-281 | DE | 1 |
-| CR-218 | ME | 1 |
-| CR-307 | ME | 1 |
+| Petition for Expungement, G.L. c. 276, § 100K | MA | 1 |
+| Petition to Seal (Office of the Commissioner of Probation) | MA | 1 |
+| TC0057 | MA | 1 |
+| Petition to Seal (Office of the Commissioner of Probation), Part A box 4 | MA | 1 |
 
 > On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 

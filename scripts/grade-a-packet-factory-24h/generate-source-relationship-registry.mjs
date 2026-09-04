@@ -38,6 +38,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const CHECK = process.argv.includes("--check");
 const DIR = "data/rcap-grade-a/packet-factory-24h";
 const VERIFICATION = "data/rcap-grade-a/source-verification/TOP20_EXTERNAL_VERIFICATION.json";
+const CAPTAIN_DETERMINATIONS = "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json";
 const OUT_REGISTRY = `${DIR}/SOURCE_RELATIONSHIP_REGISTRY.json`;
 const OUT_JSON = `${DIR}/ROGER_SOURCE_UNBLOCK_LIST.json`;
 const OUT_MD = "docs/rcap/grade-a/packet-factory-24h/ROGER_SOURCE_UNBLOCK_LIST.md";
@@ -98,6 +99,8 @@ const verification = read(VERIFICATION) ?? fail(`${VERIFICATION} is not readable
 const artifacts = (read("data/record-clearing/source-artifact-registry.json", { artifacts: [] }).artifacts) ?? [];
 
 const checkpoint = read(`${DIR}/CHECKPOINT.json`, {});
+const captainDeterminations = read(CAPTAIN_DETERMINATIONS) ?? fail(`${CAPTAIN_DETERMINATIONS} is not readable`);
+const reconciliation42 = captainDeterminations.reconciliation42 ?? fail(`${CAPTAIN_DETERMINATIONS} carries no reconciliation42 record`);
 
 /* A bare statutory citation is not a form and nobody can download one. A title
  * that carries its authority -- "Petition for Expungement, G.L. c. 276, § 100K"
@@ -318,6 +321,16 @@ const registry = [...records.values()].map((rec) => {
 
 registry.sort((a, b) => b.uniqueFamilyCount - a.uniqueFamilyCount || a.jurisdiction.localeCompare(b.jurisdiction) || a.canonicalArtifactId.localeCompare(b.canonicalArtifactId));
 
+const registryIdentityKeys = new Set(registry.map((r) => `${r.jurisdiction}::${norm(r.canonicalArtifactId)}`));
+const externallyVerifiedDischarged = (verification.rows ?? [])
+  .filter((r) => !registryIdentityKeys.has(`${r.state}::${norm(r.queue_identity)}`))
+  .map((r) => ({
+    jurisdiction: r.state,
+    canonicalArtifactId: r.queue_identity,
+    disposition: r.disposition,
+    reason: "no current SOURCE_BLOCKED family names this canonical identity after regeneration"
+  }));
+
 /* ---- fail-closed invariants --------------------------------------------- */
 const URL_JUNK = /private\/source-imports|[0-9a-f]{64}|,/;
 const violations = [];
@@ -377,7 +390,28 @@ const registryDoc = {
     file: VERIFICATION, verifiedOn: verification.verified_on,
     rowsVerified: (verification.rows ?? []).length,
     scopeLimit: verification.provenance?.scopeLimit,
-    note: "These dispositions come from a reviewer with access to live publisher sources. This session cannot reach a publisher's website, so they are evidence consumed here, not conclusions derived here."
+    note: "These dispositions come from a reviewer with access to live publisher sources. This session cannot reach a publisher's website, so they are evidence consumed here, not conclusions derived here.",
+    dischargedBecauseNoCurrentSourceBlock: externallyVerifiedDischarged
+  },
+  reconciliation42: {
+    input: CAPTAIN_DETERMINATIONS,
+    familiesExamined: (reconciliation42.families ?? []).length,
+    byDisposition: Object.fromEntries(["SOURCE_READY", "PRODUCT_PATH_PENDING", "SOURCE_BLOCKED"]
+      .map((state) => [state, (reconciliation42.families ?? []).filter((r) => r.disposition === state).length])),
+    byGroup: Object.fromEntries(["A", "B", "C"]
+      .map((group) => [group, (reconciliation42.families ?? []).filter((r) => r.group === group).length])),
+    remainingSourceBlockedFamilyIds: (reconciliation42.families ?? [])
+      .filter((r) => r.disposition === "SOURCE_BLOCKED").map((r) => r.familyId).sort(),
+    laterSourceBlockersKeptSeparate: reconciliation42.laterSourceBlockersKeptSeparate,
+    manualAcquisitionCohortUntouchedCount: reconciliation42.manualAcquisitionCohortUntouchedCount,
+    families: (reconciliation42.families ?? []).map((r) => ({
+      familyId: r.familyId,
+      group: r.group,
+      decidedDisposition: r.disposition,
+      projectedState: master.families.find((f) => f.familyId === r.familyId)?.state ?? null,
+      exactNextAction: r.exactNextAction,
+      exactResidual: r.exactResidual ?? null
+    }))
   },
   counts: {
     uniqueCanonicalArtifacts: uniqueArtifacts,

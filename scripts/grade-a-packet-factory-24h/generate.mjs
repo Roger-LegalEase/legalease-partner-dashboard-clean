@@ -289,6 +289,7 @@ const INPUTS = {
   s2: `${LC}/S2_SHARED_HOST_ASSIGNMENT.json`,
   wave2Repairs: `${LC}/WAVE_2_REPAIR_ASSIGNMENTS.json`,
   corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
+  sourceDeterminations: "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
   ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
   legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
@@ -715,6 +716,98 @@ const indexByForm = new Map();
 for (const e of IN.corpusIndex.entries ?? []) {
   indexByForm.set(e.formNumber, [...(indexByForm.get(e.formNumber) ?? []), e]);
 }
+const indexBySha = new Map();
+for (const e of IN.corpusIndex.entries ?? []) {
+  if (!e.sha256) continue;
+  indexBySha.set(e.sha256, [...(indexBySha.get(e.sha256) ?? []), e]);
+}
+
+/*
+ * THE 42-FAMILY SOURCE RECONCILIATION IS AN INPUT, NOT A QUEUE PATCH.
+ *
+ * The acquisition workers returned exact hashes and governed custody, and the
+ * Captain settled the parent/component, supersession, phantom-document and
+ * custom-pleading relationships. The previous generator read neither record,
+ * so every regeneration discarded the completed work and recreated the same
+ * generic source blocks. Consume both here, where source readiness is decided.
+ */
+const sourceReconciliationDoc = IN.sourceDeterminations?.reconciliation42 ?? null;
+const sourceReconciliationByFamily = new Map((sourceReconciliationDoc?.families ?? [])
+  .map((r) => [r.familyId, r]));
+const sharedExactBindingBySourceId = new Map((sourceReconciliationDoc?.sharedExactBindings ?? [])
+  .map((r) => [r.sourceId, r]));
+const acquisitionEvidenceByItem = new Map();
+const ACCEPTED_ACQUISITION_RESULTS = new Set([
+  "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+  "OFFICIAL_SOURCE_ALREADY_HELD",
+  "PASS"
+]);
+const itemIdParts = (itemId) => {
+  const marker = "::official-form:";
+  const at = String(itemId ?? "").indexOf(marker);
+  return at < 0 ? null : {
+    familyId: String(itemId).slice(0, at),
+    sourceId: `official-form:${String(itemId).slice(at + marker.length)}`
+  };
+};
+const evidencePathFor = (node, receipt) => {
+  if (receipt?.fileId) return `google-drive:${receipt.fileId}`;
+  if (receipt?.artifactId) return `github-actions-artifact:${receipt.artifactId}`;
+  return node.heldCorpusPath
+    ?? node.exactIgnoredLocalPath
+    ?? (node.readbackResult?.status === "PASS" ? node.persistentStagingPath : null)
+    ?? null;
+};
+const registerAcquisitionEvidence = (itemId, node, inheritedResult, evidencePath) => {
+  const parts = itemIdParts(itemId);
+  if (!parts) return;
+  const receipt = node.privateArtifactReceipt ?? node.privateReceipt ?? null;
+  const result = node.result ?? node.status ?? inheritedResult ?? null;
+  const sha256 = node.sha256 ?? node.observedSha256 ?? node.expectedSha256 ?? receipt?.sha256 ?? null;
+  const heldPath = evidencePathFor(node, receipt);
+  if (!ACCEPTED_ACQUISITION_RESULTS.has(result) || !sha256 || !heldPath) return;
+  const candidate = {
+    sourceId: parts.sourceId,
+    path: heldPath,
+    sha256,
+    tier: "exact_content_hash",
+    resolvedBy: "committed_acquisition_return_and_governed_custody",
+    evidencePath
+  };
+  const existing = acquisitionEvidenceByItem.get(itemId);
+  /* Prefer a local governed path, then an owner-only Drive receipt, then a
+   * time-limited hosted artifact. All three retain the exact hash. */
+  const rank = (x) => x?.path?.startsWith("github-actions-artifact:") ? 1
+    : x?.path?.startsWith("google-drive:") ? 2 : 3;
+  if (!existing || rank(candidate) > rank(existing)) acquisitionEvidenceByItem.set(itemId, candidate);
+};
+const walkAcquisitionEvidence = (node, evidencePath, inherited = {}) => {
+  if (!node || typeof node !== "object") return;
+  const inheritedResult = node.result ?? node.status ?? inherited.result ?? null;
+  const families = [...new Set([
+    ...(node.familyIds ?? []),
+    ...(node.dependentFamilies ?? []),
+    ...(inherited.families ?? [])
+  ])];
+  const itemIds = new Set();
+  if (typeof node.itemId === "string") itemIds.add(node.itemId);
+  for (const key of ["itemIds", "coversItemIds", "claimItems"]) {
+    for (const id of node[key] ?? []) if (typeof id === "string") itemIds.add(id);
+  }
+  const obligation = typeof node.sourceObligationId === "string" ? node.sourceObligationId : null;
+  if (obligation?.includes("::official-form:")) itemIds.add(obligation);
+  else if (obligation?.startsWith("official-form:")) {
+    for (const familyId of families) itemIds.add(`${familyId}::${obligation}`);
+  }
+  for (const itemId of itemIds) registerAcquisitionEvidence(itemId, node, inheritedResult, evidencePath);
+  for (const value of Object.values(node)) {
+    if (value && typeof value === "object") walkAcquisitionEvidence(value, evidencePath, { result: inheritedResult, families });
+  }
+};
+for (const evidencePath of sourceReconciliationDoc?.acquisitionEvidencePaths ?? []) {
+  const doc = readIf(evidencePath);
+  if (doc) walkAcquisitionEvidence(doc, evidencePath);
+}
 
 /**
  * Can a builder actually open every byte this family needs?
@@ -743,16 +836,62 @@ for (const e of IN.corpusIndex.entries ?? []) {
  * an official PDF it will never fill. Its named forms bind opportunistically
  * as references, and readiness turns on the route being settled.
  */
-function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, implementationStrategy) {
+function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, implementationStrategy, reconciliation) {
   const reasons = [];
   const bound = [];
   const boundIds = new Set();
+  const customPleading = implementationStrategy === "custom_pleading"
+    || implementationStrategy === "participant_agency_application";
 
-  const named = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? [])
+  /* A codified-text pleading does not need a PDF, but it still needs a source.
+   * Group C is the bounded source-strategy cohort that explicitly requires the
+   * controlling statutes, rules, or official instructions to be bound before
+   * release. Keep those authorities distinct from binary custody: an exact
+   * official section URL is not a pretend local PDF and carries no invented
+   * file hash. */
+  const declaredAuthorities = reconciliation?.authorityBindings ?? [];
+  const boundAuthorities = declaredAuthorities.filter((a) =>
+    typeof a?.sourceId === "string" && a.sourceId.startsWith("official-authority:")
+    && typeof a?.title === "string" && a.title.trim()
+    && typeof a?.issuingAuthority === "string" && a.issuingAuthority.trim()
+    && /^https:\/\//.test(String(a?.officialUrl ?? "")));
+  if (reconciliation?.requireBoundAuthority === true) {
+    if (declaredAuthorities.length === 0) {
+      reasons.push("CUSTOM_PLEADING_AUTHORITY_UNBOUND — no controlling statute, rule, or official instruction is named");
+    } else if (boundAuthorities.length !== declaredAuthorities.length) {
+      reasons.push(`CUSTOM_PLEADING_AUTHORITY_INEXACT — ${declaredAuthorities.length - boundAuthorities.length} authority binding(s) lack an exact identity, issuer, or official HTTPS URL`);
+    }
+  }
+
+  const namedFromRoute = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? [])
     .filter((x) => typeof x === "string" && x.startsWith("official-form:"))))];
+  const satisfiedWithoutStandaloneBinary = new Set(reconciliation?.satisfiedWithoutStandaloneBinary ?? []);
+  const replacements = new Map(Object.entries(reconciliation?.sourceReplacements ?? {}));
+  const retiredSourceIds = new Set([...satisfiedWithoutStandaloneBinary, ...replacements.keys()]);
+  const named = [...new Set([
+    ...namedFromRoute.flatMap((id) => replacements.has(id) ? replacements.get(id) : [id])
+      .filter((id) => !satisfiedWithoutStandaloneBinary.has(id)),
+    ...(reconciliation?.additionalRequiredSourceIds ?? [])
+  ])];
 
   // 1. Direct: the obvious association, straight off the governed index.
   for (const id of named) {
+    const acquired = acquisitionEvidenceByItem.get(`${familyId}::${id}`);
+    if (acquired) {
+      bound.push(acquired);
+      boundIds.add(id);
+      continue;
+    }
+    const shared = sharedExactBindingBySourceId.get(id);
+    if (shared) {
+      const indexed = indexBySha.get(shared.sha256) ?? [];
+      const exact = indexed.find((e) => e.path === shared.path) ?? indexed[0] ?? null;
+      if (exact) {
+        bound.push({ sourceId: id, path: exact.path, sha256: exact.sha256, tier: shared.tier ?? "exact_content_hash", resolvedBy: "captain_shared_exact_binding" });
+        boundIds.add(id);
+        continue;
+      }
+    }
     const formNumber = id.slice("official-form:".length);
     let matches = indexByForm.get(formNumber) ?? [];
     let tier = "exact_form_number";
@@ -838,6 +977,7 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
 
   // 2. Custody entries supplement what the direct join could not bind.
   for (const d of custody?.documentSources ?? []) {
+    if (retiredSourceIds.has(d.sourceId)) continue;
     if (boundIds.has(d.sourceId)) continue;
     if (!d.resolved || !EXACT_TIERS.has(d.tier) || !d.heldAs?.path || !d.heldAs?.sha256) continue;
     const entry = indexByPath.get(d.heldAs.path);
@@ -846,10 +986,29 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
     boundIds.add(d.sourceId);
   }
 
+  // 2b. A component relationship can bind several source obligations to one
+  // parent binary, or one generic obligation to several fact-selected current
+  // binaries. The Captain record names every hash; the corpus must hold it.
+  for (const relationship of reconciliation?.relationshipBindings ?? []) {
+    const candidates = indexBySha.get(relationship.sha256) ?? [];
+    if (candidates.length === 0) continue;
+    const exact = candidates.slice().sort((a, b) => a.path.localeCompare(b.path))[0];
+    bound.push({
+      sourceId: relationship.sourceId,
+      componentSourceId: relationship.componentSourceId,
+      path: exact.path,
+      sha256: exact.sha256,
+      tier: "exact_content_hash",
+      resolvedBy: "captain_parent_component_or_conditional_relationship"
+    });
+    boundIds.add(relationship.sourceId);
+  }
+
   // 3. Reasons are per-document and specific.
   const composed = composeFromAuthority.get(familyId) ?? null;
   const composedForms = new Set((composed?.forms ?? []).map((f) => String(f)));
   const satisfiedByAuthority = [];
+  const satisfiedByRelationship = [...satisfiedWithoutStandaloneBinary];
   for (const id of named) {
     if (boundIds.has(id)) continue;
     const formNumber = id.slice("official-form:".length);
@@ -867,16 +1026,16 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
    * application from the agency's own published process. Neither is blocked
    * on an official form it will never fill; named missing components still
    * block both honestly. */
-  const customPleading = implementationStrategy === "custom_pleading"
-    || implementationStrategy === "participant_agency_application";
   if (!customPleading && named.length === 0 && bound.length === 0) {
     reasons.push("the family names no document-shaped source, so nothing binds");
   }
   /* A custom pleading drafts from codified text, so it needs no PDF to fill —
    * but a named required component it lacks (Alabama's CR-65) is a genuine
    * missing document, and that reason still blocks. */
+  const customAuthorityReady = customPleading
+    && (reconciliation?.requireBoundAuthority !== true || boundAuthorities.length > 0);
   const ready = reasons.length === 0
-    && (customPleading || bound.length > 0 || satisfiedByAuthority.length > 0);
+    && (customAuthorityReady || bound.length > 0 || satisfiedByAuthority.length > 0);
   return {
     ready,
     reasons,
@@ -887,8 +1046,18 @@ function sourceReadiness(familyId, worklistGroupId, custody, routes, holds, impl
           whatThatMeans: "These instruments are generated faithfully from codified text by owner determination. No agency-issued fillable PDF exists to acquire, so no held corpus entry is owed for them. Every other gate — mapping, completeness, visual acceptance and independent verification — still applies unchanged."
         }
       : {}),
+    ...(satisfiedByRelationship.length
+      ? {
+          satisfiedByRelationship,
+          whatThatMeansForSourceIdentity: "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary."
+        }
+      : {}),
     boundSources: bound,
+    boundAuthorities,
+    boundAuthorityCount: boundAuthorities.length,
+    supersededSourceIds: [...replacements.keys()],
     namedOfficialForms: named.length,
+    effectiveOfficialSourceIds: named,
     boundCount: bound.length,
     custodyClass: custody?.custodyClass ?? "NO_ACQUISITION_TASK_NAMED",
     directAttachment: true
@@ -1277,7 +1446,8 @@ for (const f of IN.scoreboard.familiesDetail) {
   const independentReturn = independentReturnByFamily.get(familyId) ?? null;
   const independentFail = independentReturn?.verdict === "FAIL_REPAIR_REQUIRED";
 
-  const strategy = f.implementationStrategy;
+  const sourceReconciliation = sourceReconciliationByFamily.get(familyId) ?? null;
+  const strategy = sourceReconciliation?.implementationStrategyOverride ?? f.implementationStrategy;
   const dirGuess = `${OVERLAYS}/${(f.jurisdictions[0] ?? "xx").toLowerCase()}/${slugOf(familyId)}--${suffixOf(strategy)}`;
   const directory = comp?.directory
     ?? overlayDirs.find((d) => path.basename(d).startsWith(`${slugOf(familyId)}--`))
@@ -1286,13 +1456,21 @@ for (const f of IN.scoreboard.familiesDetail) {
   const buildScriptExists = fs.existsSync(path.join(ROOT, buildScript));
   const artifactPresent = fs.existsSync(path.join(ROOT, `${directory}/reports/rendered-artifacts.json`));
 
-  const forms = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("official-form:")).map((s) => s.slice(14))))].sort();
+  const originalSourceIds = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("official-form:"))))];
+  const removedSourceIds = new Set(sourceReconciliation?.satisfiedWithoutStandaloneBinary ?? []);
+  const replacementSourceIds = new Map(Object.entries(sourceReconciliation?.sourceReplacements ?? {}));
+  const effectiveSourceIds = [...new Set([
+    ...originalSourceIds.flatMap((id) => replacementSourceIds.has(id) ? replacementSourceIds.get(id) : [id])
+      .filter((id) => !removedSourceIds.has(id)),
+    ...(sourceReconciliation?.additionalRequiredSourceIds ?? [])
+  ])];
+  const forms = effectiveSourceIds.map((s) => s.slice(14)).sort();
   const components = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? []).filter((s) => s.startsWith("component:"))))].sort();
   const instrumentKinds = [...new Set(routes.flatMap((r) => String(r.participantFacingInstrument ?? "").split(/;\s*/).map((s) => s.split(":")[0].trim()).filter(Boolean)))].sort();
 
   const docs = custody?.documentSources ?? [];
   const inexact = docs.filter((d) => !d.resolved || !EXACT_TIERS.has(d.tier));
-  const readiness = sourceReadiness(familyId, f.worklistGroupId, custody, routes, f.holds, strategy);
+  const readiness = sourceReadiness(familyId, f.worklistGroupId, custody, routes, f.holds, strategy, sourceReconciliation);
   /* A route not bound to any packet family cannot be built whatever it holds;
    * the block carries its reason so no family is blocked silently. */
   if (routes.length === 0) {
@@ -1319,8 +1497,19 @@ for (const f of IN.scoreboard.familiesDetail) {
     : !((f.holds ?? []).some((h) => h.kind === "missing_source"))
       ? (inexact.length > 0 ? "SOURCE_IDENTITY_NOT_EXACT" : `SOURCE_NAMED_BUT_NOT_HELD: ${readiness.reasons[0]}`)
       : (custody?.custodyClass ?? "SOURCE_IDENTITY_UNRESOLVED");
-  const sourceIds = docs.map((d) => d.sourceId);
-  const sourceHashes = docs.filter((d) => d.heldAs?.sha256).map((d) => ({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier }));
+  const sourceIds = [...new Set([
+    ...effectiveSourceIds,
+    ...(readiness.satisfiedByRelationship ?? []),
+    ...(readiness.satisfiedByAuthority ?? []),
+    ...(readiness.boundAuthorities ?? []).map((a) => a.sourceId)
+  ])];
+  const sourceHashes = readiness.boundSources.map((d) => ({
+    sourceId: d.sourceId,
+    ...(d.componentSourceId ? { componentSourceId: d.componentSourceId } : {}),
+    path: d.path,
+    sha256: d.sha256,
+    tier: d.tier
+  }));
 
   /* A current independent BLOCKED_LEGAL_INPUT return is itself the freshest
    * legal stop. It must not wait to become a stale-lane return before the
@@ -1616,6 +1805,12 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentReturn?.verdict === "BLOCKED_BEFORE_CLAIM") state = "VERIFY_PENDING";
   else state = "SOURCE_READY";
 
+  /* A product/permission decision is downstream of completed source identity
+   * and upstream of build. It must not be mislabeled as another acquisition,
+   * and it must not override a later build, repair or verification result. */
+  if (sourceReconciliation?.disposition === "PRODUCT_PATH_PENDING"
+    && ["SOURCE_BLOCKED", "SOURCE_READY"].includes(state)) state = "PRODUCT_PATH_PENDING";
+
   families.push({
     familyId,
     worklistGroupId: f.worklistGroupId,
@@ -1632,6 +1827,18 @@ for (const f of IN.scoreboard.familiesDetail) {
     sourceStatus,
     sourceBound,
     sourceReadiness: readiness,
+    sourceReconciliation: sourceReconciliation
+      ? {
+          group: sourceReconciliation.group,
+          disposition: sourceReconciliation.disposition,
+          exactNextAction: sourceReconciliation.exactNextAction,
+          exactResidual: sourceReconciliation.exactResidual ?? null,
+          permissionHold: sourceReconciliation.permissionHold ?? null,
+          productQuestion: sourceReconciliation.productQuestion ?? null,
+          sourceReplacements: sourceReconciliation.sourceReplacements ?? null,
+          determinationInput: INPUTS.sourceDeterminations
+        }
+      : null,
     verifierSourceHold,
     selectedIndependentVerdict: independentReturn
       ? {
@@ -1991,14 +2198,34 @@ for (const f of blockedBySource) {
   const custody = custodyByGroup.get(f.worklistGroupId);
   const docs = custody?.documentSources ?? [];
   let emitted = 0;
-  for (const d of docs) {
-    if (d.resolved && EXACT_TIERS.has(d.tier)) continue;
+  const boundSourceIds = new Set((f.sourceReadiness?.boundSources ?? []).map((d) => d.sourceId));
+  const effectiveUnboundIds = (f.sourceReadiness?.effectiveOfficialSourceIds ?? [])
+    .filter((sourceId) => !boundSourceIds.has(sourceId));
+  /* The readiness classifier has already applied supersessions, parent /
+   * component decisions, and new exact identities. Dispatch that current
+   * obligation set first. Falling back to the historical custody rows here
+   * used to send Arizona's released 2024 Form 31 claims back to workers while
+   * its actual R-26-0001 residual had no owner at all. */
+  for (const sourceId of effectiveUnboundIds) {
+    const fromReadiness = (f.sourceReadiness?.reasons ?? [])
+      .find((reason) => reason.startsWith(`${sourceId}:`)) ?? null;
     emitted += 1;
     sourceRows.push({
-      familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId: d.sourceId,
-      absence: d.absence ?? (d.resolved ? "inexact_tier" : "unresolved"),
-      tier: d.tier ?? null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT"
+      familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId,
+      absence: "named_form_number_not_in_corpus", tier: null,
+      legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT", fromReadiness
     });
+  }
+  if (emitted === 0 && (f.sourceReadiness?.effectiveOfficialSourceIds ?? []).length === 0) {
+    for (const d of docs) {
+      if (d.resolved && EXACT_TIERS.has(d.tier)) continue;
+      emitted += 1;
+      sourceRows.push({
+        familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId: d.sourceId,
+        absence: d.absence ?? (d.resolved ? "inexact_tier" : "unresolved"),
+        tier: d.tier ?? null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT"
+      });
+    }
   }
   if (emitted === 0) {
     /* A family blocked with no unresolved document source is blocked on a source
@@ -3446,6 +3673,9 @@ const OPERATION_THE_STATE_OWES = {
 };
 const reissuedNow = [];
 const stateOfFamily = new Map(families.map((r) => [r.familyId, r.state]));
+const sourceFamilyOfItem = new Map(assignments
+  .filter((a) => a.itemKind === "sourceObligation")
+  .flatMap((a) => (a.itemDetails ?? []).map((item) => [item.itemId, item.familyIds?.[0] ?? null])));
 /*
  * A subject an external worker holds is not ours to re-open.
  *
@@ -3469,10 +3699,15 @@ for (const c of survivingClaims) {
 for (const asg of assignments) {
   for (const id of asg.items ?? []) {
     if (typeof id !== "string") continue;
-    const owed = OPERATION_THE_STATE_OWES[stateOfFamily.get(id) ?? ""];
-    if (!owed || owed !== asg.lane) continue;
-    if (heldExternally.has(`${id}::${asg.lane}`)) continue;
-    const claims = everReleasedFor.get(`${id}::${asg.lane}`) ?? [];
+    const familyId = sourceFamilyOfItem.get(id) ?? id;
+    const familyState = stateOfFamily.get(familyId) ?? "";
+    const owed = asg.itemKind === "sourceObligation"
+      ? (["SOURCE_BLOCKED", "LEGAL_BLOCKED"].includes(familyState) ? asg.operation : null)
+      : OPERATION_THE_STATE_OWES[familyState];
+    const dispatchedOperation = asg.itemKind === "sourceObligation" ? asg.operation : asg.lane;
+    if (!owed || owed !== dispatchedOperation) continue;
+    if (heldExternally.has(`${id}::${dispatchedOperation}`)) continue;
+    const claims = everReleasedFor.get(`${id}::${dispatchedOperation}`) ?? [];
     if (claims.length === 0 || !claims.every((c) => c.released === true)) continue;
     /*
      * REISSUE ONCE, NOT ON A LOOP.
@@ -3490,13 +3725,13 @@ for (const asg of assignments) {
      * exists to step past.
      */
     const priorReissue = (priorLedger.reissues ?? [])
-      .filter((r) => r.subjectId === id && r.operation === asg.lane && r.reissuedAt)
+      .filter((r) => r.subjectId === id && r.operation === dispatchedOperation && r.reissuedAt)
       .sort((x, y) => String(x.reissuedAt).localeCompare(String(y.reissuedAt)))
       .pop();
     const holdReclassification = legalHoldReclassifications.get(id) ?? null;
     const reclassificationAlreadyReissued = (priorLedger.reissues ?? []).some((r) =>
       r.subjectId === id
-      && r.operation === asg.lane
+      && r.operation === dispatchedOperation
       && r.decisionRecord === LEGAL_HOLD_RECLASSIFICATION);
     if (priorReissue) {
       const releasedAfter = claims.some((c) => c.releasedAt && String(c.releasedAt) > String(priorReissue.reissuedAt));
@@ -3523,11 +3758,11 @@ for (const asg of assignments) {
     delete target.releasedAt;
     delete target.releaseReason;
     reissuedNow.push({
-      subjectType: target.subjectType, subjectId: id, operation: asg.lane,
+      subjectType: target.subjectType, subjectId: id, operation: dispatchedOperation,
       lane: target.lane, dispatchNames: asg.assignmentId,
-      familyState: stateOfFamily.get(id),
+      familyState,
       reissuedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
-      reason: `the current dispatch names ${asg.assignmentId} for this family, the family is ${stateOfFamily.get(id)} and owes ${asg.lane}, and every prior claim for this family and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.`,
+      reason: `the current dispatch names ${asg.assignmentId} for this subject, its family is ${familyState} and owes ${owed}, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.`,
       ...(holdReclassification ? { decisionRecord: LEGAL_HOLD_RECLASSIFICATION,
         reclassificationDisposition: holdReclassification.disposition } : {})
     });

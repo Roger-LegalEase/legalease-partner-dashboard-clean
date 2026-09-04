@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d` (or the newer dispatch base)
+**Minimum required ancestor:** `4bcb03efb389a64dee306c88696b04ff2215230c` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,9 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC04 \
-  --source-obligation 'ks-21-6614-conviction-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022' \
+  --source-obligation 'az_set_aside-set::official-form:R-26-0001 adopted Form 31(a)' \
   --codex-cloud \
-  --minimum-captain-sha a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d
+  --minimum-captain-sha 4bcb03efb389a64dee306c88696b04ff2215230c
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -50,21 +50,21 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 **These states are NOT a fetch. Acting on them as one is the defect this registry exists to stop.**
 
-- `BUNDLE_COMPONENT` — 3 — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.
-- `EMBEDDED_SECTION` — 3 — the document is a section inside another form. There is no separate binary to request from anyone.
+- `BUNDLE_COMPONENT` — 0 — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.
+- `EMBEDDED_SECTION` — 0 — the document is a section inside another form. There is no separate binary to request from anyone.
 - `STALE_OR_VARIANT_ID` — 0 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
 - `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 1 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
-- `FAMILY_IDENTITY_AMBIGUOUS` — 7 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
-- `CURRENTNESS_UNVERIFIED` — 22 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
+- `FAMILY_IDENTITY_AMBIGUOUS` — 5 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
+- `CURRENTNESS_UNVERIFIED` — 16 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
 - `STATUTORY_CUSTOM_PLEADING` — 0 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
-- `LICENSE_PERMISSION_REVIEW` — 2 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
+- `LICENSE_PERMISSION_REVIEW` — 0 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
 
 **These are:**
 
-- `STANDALONE_ARTIFACT` — 2 — public, ordinary acquisition.
+- `STANDALONE_ARTIFACT` — 1 — public, ordinary acquisition.
 - `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
 - `MISSING_SOURCE_BINARY` — 1 — expected and absent; acquire once an exact address is settled.
-- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 81 — no publisher, address or locator is recorded. Settle identity before fetching.
+- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 34 — no publisher, address or locator is recorded. Settle identity before fetching.
 
 **The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.**
 
@@ -78,7 +78,7 @@ Reconcile a named form number or pinned content hash against the private corpus 
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**9 obligations · 5 families this lane WOULD release if every one of them resolves · hosts: KS, KY, ND, WV**
+**9 obligations · 8 families this lane WOULD release if every one of them resolves · hosts: AZ, CA, GA, KY, ND, UT**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -103,15 +103,15 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ks-21-6614-conviction-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-conviction-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ks-21-6614-diversion-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-diversion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ks-21-6614-prostitution-coercion-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-prostitution-coercion-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ks-21-6614-specialty-court-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | `official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022` | KS | `held-inventory-reconciliation` | `ks-21-6614-specialty-court-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `az_set_aside-set::official-form:R-26-0001 adopted Form 31(a)` | `official-form:R-26-0001 adopted Form 31(a)` | AZ | `held-inventory-reconciliation` | `az_set_aside-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `az_set_aside-set::official-form:R-26-0001 adopted Form 31(b)` | `official-form:R-26-0001 adopted Form 31(b)` | AZ | `held-inventory-reconciliation` | `az_set_aside-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ca-diversion-seal-set::official-form:SDSC-CRM-307` | `official-form:SDSC-CRM-307` | CA | `held-inventory-reconciliation` | `ca-diversion-seal-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::official-form:1231XX` | `official-form:1231XX` | UT | `held-inventory-reconciliation` | `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `census-pending-family:UT:path-m-juvenile-expungement::official-form:1174XX` | `official-form:1174XX` | UT | `held-inventory-reconciliation` | `census-pending-family:UT:path-m-juvenile-expungement` | named held-corpus identity or pinned SHA-256 | `PROMO` |
+| `ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013` | `official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013` | GA | `held-inventory-reconciliation` | `ga-nonconv-pre2013-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ky_nonconviction_expungement-set::official-form:AOC-497.2` | `official-form:AOC-497.2` | KY | `held-inventory-reconciliation` | `ky_nonconviction_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `ky_protective_order_record_expungement-set::official-form:AOC-275.18` | `official-form:AOC-275.18` | KY | `held-inventory-reconciliation` | `ky_protective_order_record_expungement-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 | `nd-regular-pardon-set::official-form:SFN-14859` | `official-form:SFN-14859` | ND | `held-inventory-reconciliation` | `nd-regular-pardon-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `wv_acc_treatment_job_readiness-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_acc_treatment_job_readiness-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `wv_conv_nonviolent_felony-set::official-form:SCA-C907` | `official-form:SCA-C907` | WV | `held-inventory-reconciliation` | `wv_conv_nonviolent_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
 
 Deterministically assert exactly the 9 committed itemIds (failures are recorded per row and do not terminate the loop):
 
@@ -131,7 +131,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'ks-21-6614-conviction-set::official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022' --codex-cloud --minimum-captain-sha a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-obligation 'az_set_aside-set::official-form:R-26-0001 adopted Form 31(a)' --codex-cloud --minimum-captain-sha 4bcb03efb389a64dee306c88696b04ff2215230c
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -140,7 +140,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 ### Families this lane would release
 
-`ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `nd-regular-pardon-set`, `wv_acc_treatment_job_readiness-set`, `wv_conv_nonviolent_felony-set`
+`az_set_aside-set`, `ca-diversion-seal-set`, `census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement`, `census-pending-family:UT:path-m-juvenile-expungement`, `ga-nonconv-pre2013-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `nd-regular-pardon-set`
 
 
 ### Settle these first
@@ -149,8 +149,11 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC04 --source-
 
 | Document | Jurisdiction | Families waiting |
 | --- | --- | --- |
-| KS-CRIMINAL-COVER-SHEET-10-14-2025 | KS | 5 |
-| SCA-C907 | WV | 2 |
+| R-26-0001 adopted Form 31(a) | AZ | 1 |
+| SDSC-CRM-307 | CA | 1 |
+| 1231XX | UT | 1 |
+| 1174XX | UT | 1 |
+| GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013 | GA | 1 |
 | AOC-497 | KY | 1 |
 | AOC-275.18 | KY | 1 |
 | SFN-14859 | ND | 1 |

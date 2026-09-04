@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-04T06:18:14.846Z",
-  "captainHead": "501b39d8adead0d5577f1508fddfcefbf16d89d7",
+  "generatedAt": "2026-09-04T10:58:07.348Z",
+  "captainHead": "4bcb03efb389a64dee306c88696b04ff2215230c",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-04T06:38:14.846Z",
-    "nextSourceReleaseDeadline": "2026-09-04T06:48:14.846Z",
+    "nextIntegrationDeadline": "2026-09-04T11:18:07.348Z",
+    "nextSourceReleaseDeadline": "2026-09-04T11:28:07.348Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 9,
+        "measured": 0,
         "threshold": 20,
         "triggered": false
       },
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 41,
+        "measured": 54,
         "threshold": 20,
         "triggered": true
       },
@@ -62,9 +62,9 @@
           "PF23",
           "PF24"
         ],
-        "measured": 69,
+        "measured": 85,
         "threshold": 80,
-        "triggered": false
+        "triggered": true
       }
     ],
     "builderExpansionRule": "Assign a released family to an existing builder where ownership permits. Create PF17+ only when SOURCE_READY exceeds the capacity of the existing sixteen."
@@ -78,22 +78,22 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 69,
-    "sourceBlocked": 70,
-    "legalBlocked": 26,
-    "verifyPending": 9,
-    "repairRequired": 41,
+    "sourceReady": 85,
+    "sourceBlocked": 43,
+    "legalBlocked": 5,
+    "verifyPending": 0,
+    "repairRequired": 54,
     "byState": {
-      "SOURCE_READY": 69,
-      "COMPLETE_PACKET_PROVEN": 113,
-      "FAIL_REPAIR_REQUIRED": 41,
+      "SOURCE_READY": 85,
+      "COMPLETE_PACKET_PROVEN": 123,
+      "FAIL_REPAIR_REQUIRED": 54,
       "OUT_OF_SCOPE": 5,
-      "VERIFY_PENDING": 9,
-      "SOURCE_BLOCKED": 70,
-      "LEGAL_BLOCKED": 26,
+      "PRODUCT_PATH_PENDING": 17,
+      "SOURCE_BLOCKED": 43,
+      "VERIFIED_PASS": 2,
+      "LEGAL_BLOCKED": 5,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
-      "VERIFIED_PASS": 1,
       "WRONG_DELIVERY_TYPE": 1
     }
   },

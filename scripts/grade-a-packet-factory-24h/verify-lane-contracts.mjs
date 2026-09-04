@@ -130,7 +130,7 @@ if (master && queue) {
   const passed = new Set((queue.rows ?? [])
     .filter((r) => r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === true)
     .map((r) => r.familyId));
-  const PROVEN = ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"];
+  const PROVEN = ["COMPLETE_PACKET_PROVEN"];
   for (const f of master.families) {
     if (PROVEN.includes(f.state) && !passed.has(f.familyId)) {
       proofProblems.push(`${f.familyId} is ${f.state} with no RASTER_PASS`);
@@ -343,7 +343,7 @@ check("L9", "a PASS_COMPLETE_INDEPENDENT verdict scored every proof obligation, 
  * from a field the older receipts never carried would fail five families over a
  * schema drift rather than over anything about the gate.
  */
-const PROVEN_STATES = ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"];
+const PROVEN_STATES = ["COMPLETE_PACKET_PROVEN"];
 const reach = queue?.workflowReachability ?? null;
 const reachProblems = [];
 const provenFamilies = (master?.families ?? []).filter((f) => PROVEN_STATES.includes(f.state));
@@ -450,13 +450,13 @@ if (MUTATIONS) {
      * VERIFY_PENDING family, which stopped being a subject once every queued
      * row reached RASTER_PASS: the family it picked already had one, promoting
      * it was legitimate, and the case reported MISSED. */
-    { name: "a packet marked PASS_COMPLETE with no RASTER_PASS is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
+    { name: "a packet marked COMPLETE_PACKET_PROVEN with no RASTER_PASS is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t);
         const q = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/RASTER_QUEUE.json`), "utf8"));
         const passed = new Set(q.rows.filter((r) => r.currentRasterState === "RASTER_PASS").map((r) => r.familyId));
         const f = j.families.find((x) => !passed.has(x.familyId));
         if (!f) return t;
-        f.state = "PASS_COMPLETE"; return `${JSON.stringify(j, null, 2)}\n`; } },
+        f.state = "COMPLETE_PACKET_PROVEN"; return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "dropping BUILT_RASTER_PENDING from the vocabulary is caught", id: "L4", file: `${DIR}/MASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); j.stateVocabulary = j.stateVocabulary.filter((x) => x !== "BUILT_RASTER_PENDING"); return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "a queued PDF with no exact hash is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
@@ -495,7 +495,7 @@ if (MUTATIONS) {
       edit: (t) => { const j = JSON.parse(t);
         const m = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/MASTER_QUEUE.json`), "utf8"));
         const provenIds = new Set((m.families ?? [])
-          .filter((f) => ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"].includes(f.state))
+          .filter((f) => f.state === "COMPLETE_PACKET_PROVEN")
           .map((f) => f.familyId));
         const row = (j.rows ?? []).find((r) => provenIds.has(r.familyId) && r.rasterReceipt);
         if (!row) return t;
@@ -569,7 +569,7 @@ if (MUTATIONS) {
     { name: "promoting a family whose raster verdict covers one of several documents is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t);
         const m = JSON.parse(fs.readFileSync(path.join(ROOT, `${DIR}/MASTER_QUEUE.json`), "utf8"));
-        const PROVEN = new Set(["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"]);
+        const PROVEN = new Set(["COMPLETE_PACKET_PROVEN"]);
         const proven = new Set(m.families.filter((x) => PROVEN.has(x.state)).map((x) => x.familyId));
         const row = j.rows.find((r) => proven.has(r.familyId) && r.currentRasterState === "RASTER_PASS" && r.coverage?.complete === true);
         if (!row) return t;

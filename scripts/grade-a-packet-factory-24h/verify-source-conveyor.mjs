@@ -421,16 +421,22 @@ function run() {
     perLaneCountSum += l.familiesUnblockedCount ?? 0;
   }
   const sourceBlocked = new Set(master.families.filter((f) => f.state === "SOURCE_BLOCKED").map((f) => f.familyId));
-  const unaccounted = [...sourceBlocked].filter((f) => !releasedIds.has(f) && !advancedIds.has(f));
+  const preservedSeparate = new Set(conveyor.reconciliationScope?.laterSourceBlockersKeptSeparate ?? []);
+  const unaccounted = [...sourceBlocked].filter((f) => !releasedIds.has(f) && !advancedIds.has(f) && !preservedSeparate.has(f));
   const doubleClaimed = [...releasedIds].filter((f) => advancedIds.has(f));
   const closureProblems = [];
   if (perLaneCountSum !== releasedIds.size) closureProblems.push(`the per-lane counts sum to ${perLaneCountSum} and name ${releasedIds.size} distinct families, so a family is counted twice`);
   if (unaccounted.length) closureProblems.push(`${unaccounted.length} source-blocked famil(ies) are neither released nor recorded as split: ${unaccounted.slice(0, 3).join(", ")}`);
   if (doubleClaimed.length) closureProblems.push(`${doubleClaimed.length} famil(ies) are both released and deferred: ${doubleClaimed.slice(0, 3).join(", ")}`);
+  if (preservedSeparate.size !== 5 || [...preservedSeparate].some((f) => !sourceBlocked.has(f))) {
+    closureProblems.push(`${preservedSeparate.size} later blockers are declared separate, and ${[...preservedSeparate].filter((f) => !sourceBlocked.has(f)).length} are not currently SOURCE_BLOCKED`);
+  }
+  const separatelyDoubleCounted = [...preservedSeparate].filter((f) => releasedIds.has(f) || advancedIds.has(f));
+  if (separatelyDoubleCounted.length) closureProblems.push(`${separatelyDoubleCounted.length} later blocker(s) are both separate and counted in this reconciliation`);
   if (sourceBlocked.size === 0) closureProblems.push("no source-blocked family, so this accounting has no subject");
-  check("C23", "every source-blocked family is either released by a lane or recorded as split across lanes",
+  check("C23", "every source-blocked family is released, split across lanes, or one of the five later blockers kept separate",
     closureProblems.length === 0,
-    `${sourceBlocked.size} blocked = ${releasedIds.size} released + ${advancedIds.size} split; ${closureProblems.length} problem(s): ${closureProblems.slice(0, 2).join(" | ")}`);
+    `${sourceBlocked.size} blocked = ${releasedIds.size} released + ${advancedIds.size} split + ${preservedSeparate.size} later/separate; ${closureProblems.length} problem(s): ${closureProblems.slice(0, 2).join(" | ")}`);
 
   check("C19", "capacity the queue triggers is materialized, with launch gates and paths",
     elasticProblems.length === 0,

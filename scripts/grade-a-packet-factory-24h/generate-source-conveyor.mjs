@@ -45,6 +45,7 @@ const ACTIVE = `${DIR}/ACTIVE_ASSIGNMENTS.json`;
 const CONVEYOR = `${DIR}/SOURCE_CONVEYOR_ASSIGNMENTS.json`;
 const MANIFEST = `${DIR}/SOURCE_ACQUISITION_MANIFEST.json`;
 const CI_STATE = `${DIR}/CONTINUOUS_INTEGRATION_STATE.json`;
+const CAPTAIN_DETERMINATIONS = "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json";
 const ACQUIRE_SCRIPT = "scripts/rcap-acquire-official-source.mjs";
 const BATCH_WORKFLOW = ".github/workflows/rcap-official-source-acquisition-batch.yml";
 const RECEIPT_SOURCES = [
@@ -161,6 +162,7 @@ const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, enco
 const master = read(MASTER);
 const active = read(ACTIVE);
 const familyById = new Map(master.families.map((f) => [f.familyId, f]));
+const sourceReconciliation42 = read(CAPTAIN_DETERMINATIONS).reconciliation42;
 
 /* The host allowlist has one authority: the acquisition script. Read it from
  * there rather than restating it, so a second list cannot drift from the first. */
@@ -613,7 +615,11 @@ manifestEntries.sort((a, b) => a.sourceId.localeCompare(b.sourceId));
 
 /* An obligation with no recorded URL is DISC work, not a manifest hole. */
 const totalObligations = conveyorLanes.reduce((n, l) => n + l.obligations, 0);
-const obligationsWithRecordedUrl = new Set(manifestEntries.flatMap((e) => e.obligationKeys)).size;
+const currentObligationKeys = new Set(active.assignments
+  .filter((a) => a.itemKind === "sourceObligation")
+  .flatMap((a) => a.items ?? []));
+const obligationsWithRecordedUrl = new Set(manifestEntries.flatMap((e) => e.obligationKeys)
+  .filter((itemId) => currentObligationKeys.has(itemId))).size;
 
 const manifest = {
   schemaVersion: "rcap-source-acquisition-manifest/v1",
@@ -796,7 +802,7 @@ const conveyor = {
   schemaVersion: "rcap-source-conveyor/v1",
   generatedBy: "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
   question: "What actually stands between 47 buildable families and 346?",
-  answer: `Source identity. ${totalObligations} obligations across ${countIn("SOURCE_BLOCKED")} families, and ${totalObligations - obligationsWithRecordedUrl} of them do not yet have an official URL to fetch.`,
+  answer: `Source identity. ${totalObligations} active obligations across ${countIn("SOURCE_BLOCKED")} families; ${obligationsWithRecordedUrl} have a recorded official URL and ${totalObligations - obligationsWithRecordedUrl} need discovery first.`,
   captainHead: ciState.captainHead,
   preservedFactoryLanes: {
     rule: "The base thirty-two factory lanes are preserved. Nothing here rewrites PF01-PF16, FIX01-FIX04 or VF01-VF08, and SRC01-SRC04 keep their identifiers and take the reconciliation operation; live-grant-retained or elastic lanes may exist above that baseline.",
@@ -816,6 +822,11 @@ const conveyor = {
     obligations: totalObligations,
     familiesReleased: conveyorLanes.reduce((n, l) => n + l.familiesReleasedByThisLane, 0),
     manifestEntries: manifestEntries.length
+  },
+  reconciliationScope: {
+    completedNonAcquisitionFamilyCount: sourceReconciliation42.families?.length ?? 0,
+    laterSourceBlockersKeptSeparate: sourceReconciliation42.laterSourceBlockersKeptSeparate ?? [],
+    manualAcquisitionCohortUntouchedCount: sourceReconciliation42.manualAcquisitionCohortUntouchedCount ?? null
   },
   batchWorkflow: BATCH_WORKFLOW,
   manifest: MANIFEST,
@@ -853,5 +864,5 @@ console.log(`Wrote ${MANIFEST}`);
 console.log(`Wrote ${CI_STATE}`);
 console.log("");
 console.log(`  16 source lanes: 6 DISC · 4 SRC · 3 ACQ · 3 PROMO`);
-console.log(`  ${totalObligations} obligations · ${manifestEntries.length} ready to acquire · ${manifest.counts.obligationsNeedingDiscoveryFirst} need discovery first · ${manifestRefused.length} URL(s) refused`);
+console.log(`  ${totalObligations} active obligations · ${obligationsWithRecordedUrl} with a recorded URL · ${manifest.counts.obligationsNeedingDiscoveryFirst} need discovery first · ${manifestEntries.length} historical manifest entries · ${manifestRefused.length} URL(s) refused`);
 console.log(`  next integration ${ciState.cadence.nextIntegrationDeadline} · next source release ${ciState.cadence.nextSourceReleaseDeadline}`);

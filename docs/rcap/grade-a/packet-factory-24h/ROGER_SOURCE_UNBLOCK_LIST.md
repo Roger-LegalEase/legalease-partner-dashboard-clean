@@ -2,7 +2,7 @@
 
 **RESIDUAL HUMAN-ACTION ITEMS: 0**
 
-**UNIQUE CANONICAL ARTIFACTS: 123**  ·  **UNIQUE FAMILIES: 68**
+**UNIQUE CANONICAL ARTIFACTS: 59**  ·  **UNIQUE FAMILIES: 40**
 
 ## What changed, and why the old list was withdrawn
 
@@ -23,18 +23,15 @@ _Nothing currently requires a person._
 
 | State | Records | Owner |
 |---|---:|---|
-| `STANDALONE_ARTIFACT` | 2 | ACQ obtains the public bytes; PROMO verifies receipt, hash and custody |
-| `BUNDLE_COMPONENT` | 3 | DISC records the component locator and alias; ACQ acquires the bundle ONCE |
-| `EMBEDDED_SECTION` | 3 | DISC maps the embedded section in each applicable form; ACQ acquires the containing document ONCE |
+| `STANDALONE_ARTIFACT` | 1 | ACQ obtains the public bytes; PROMO verifies receipt, hash and custody |
 | `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` | 1 | DISC and Captain settle statewide versus local scope and the alias relationship before any inquiry |
 | `MISSING_SOURCE_BINARY` | 1 | ACQ, once DISC has settled an exact official address |
-| `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 81 | DISC settles source identity and the route or family relationship |
-| `CURRENTNESS_UNVERIFIED` | 22 | DISC compares the held edition against the publisher's own forms index |
-| `FAMILY_IDENTITY_AMBIGUOUS` | 7 | DISC settles which document the route actually requires |
+| `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 34 | DISC settles source identity and the route or family relationship |
+| `CURRENTNESS_UNVERIFIED` | 16 | DISC compares the held edition against the publisher's own forms index |
+| `FAMILY_IDENTITY_AMBIGUOUS` | 5 | DISC settles which document the route actually requires |
 | `UNSUPPORTED_RELATIONSHIP` | 1 | DISC and legal decide which families the artifact genuinely serves |
-| `LICENSE_PERMISSION_REVIEW` | 2 | counsel and business decide reuse; ACQ may evaluate the bytes |
 
-7 SOURCE_BLOCKED famil(ies) name no official form at all — DISC discovery, not an errand.
+3 SOURCE_BLOCKED famil(ies) name no official form at all — DISC discovery, not an errand.
 
 ## Scope limit, stated rather than implied
 

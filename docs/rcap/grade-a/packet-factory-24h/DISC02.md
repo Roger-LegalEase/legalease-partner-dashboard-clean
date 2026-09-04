@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d` (or the newer dispatch base)
+**Minimum required ancestor:** `4bcb03efb389a64dee306c88696b04ff2215230c` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,8 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC02 \
-  --source-obligation 'de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION' \
   --codex-cloud \
-  --minimum-captain-sha a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d
+  --minimum-captain-sha 4bcb03efb389a64dee306c88696b04ff2215230c
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +39,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC02 <itemId>`
-- The committed assignment contains exactly 14 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 0 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release DISC02 <itemId>`.
 
@@ -50,21 +49,21 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 
 **These states are NOT a fetch. Acting on them as one is the defect this registry exists to stop.**
 
-- `BUNDLE_COMPONENT` — 3 — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.
-- `EMBEDDED_SECTION` — 3 — the document is a section inside another form. There is no separate binary to request from anyone.
+- `BUNDLE_COMPONENT` — 0 — the document is a page inside a public bundle whose address is already recorded. Record the component locator and alias. Acquire the BUNDLE once, never the page.
+- `EMBEDDED_SECTION` — 0 — the document is a section inside another form. There is no separate binary to request from anyone.
 - `STALE_OR_VARIANT_ID` — 0 — the identity is missing its current suffix or its filing-mode variant. Normalize the identity first; the form is public.
 - `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` — 1 — statewide versus local scope is unsettled. Settle the scope before any inquiry.
-- `FAMILY_IDENTITY_AMBIGUOUS` — 7 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
-- `CURRENTNESS_UNVERIFIED` — 22 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
+- `FAMILY_IDENTITY_AMBIGUOUS` — 5 — several held artifacts match this identity. Which one the route requires is the question; do not pick one.
+- `CURRENTNESS_UNVERIFIED` — 16 — the corpus already HOLDS matching bytes. The open question is whether the publisher still issues that edition. This is not a missing source and it is not an acquisition.
 - `STATUTORY_CUSTOM_PLEADING` — 0 — a statutory citation. There is no document at the other end; a packet-build lane drafts against the statute.
-- `LICENSE_PERMISSION_REVIEW` — 2 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
+- `LICENSE_PERMISSION_REVIEW` — 0 — the form is public and its publisher restricts commercial reuse. Counsel and business decide, not a clerk.
 
 **These are:**
 
-- `STANDALONE_ARTIFACT` — 2 — public, ordinary acquisition.
+- `STANDALONE_ARTIFACT` — 1 — public, ordinary acquisition.
 - `PUBLIC_DOWNLOAD` — 0 — public, ordinary acquisition.
 - `MISSING_SOURCE_BINARY` — 1 — expected and absent; acquire once an exact address is settled.
-- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 81 — no publisher, address or locator is recorded. Settle identity before fetching.
+- `MISSING_CANONICAL_RELATIONSHIP_METADATA` — 34 — no publisher, address or locator is recorded. Settle identity before fetching.
 
 **The previous human queue told a person to contact a clerk 101 times. Zero of the top twenty justified it. If the registry records an official source page, the answer is already known.**
 
@@ -72,13 +71,13 @@ A publisher's commercial-reuse restriction is a counsel and business decision. R
 
 ## Mission
 
-Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number.
+Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number. No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.
 
 ## What bounds this lane
 
 the issuing court or agency that publishes the document
 
-**14 obligations · 6 families this lane WOULD release if every one of them resolves · hosts: DE, FL, IA, IN**
+**0 obligations · 0 families this lane WOULD release if every one of them resolves · hosts: —**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -105,65 +104,12 @@ the issuing court or agency that publishes the document
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | `official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION` | DE | `exact-source-identity` | `de_mandatory_expungement-set` | unresolved exact identity or URL | `ACQ` |
-| `fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-10yr-bridge-set` | unresolved exact identity or URL | `ACQ` |
-| `fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | `official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-early-juvenile-set` | unresolved exact identity or URL | `ACQ` |
-| `fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-expunction-set` | unresolved exact identity or URL | `ACQ` |
-| `fl-juvenile-diversion-set::official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION` | `official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION` | FL | `exact-source-identity` | `fl-juvenile-diversion-set` | unresolved exact identity or URL | `ACQ` |
-| `fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | `official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION` | FL | `exact-source-identity` | `fl-sealing-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-12346-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-12346-set` | unresolved exact identity or URL | `ACQ` |
-| `ia-901c2-set::official-form:Certification of Service by Mailing or Delivery` | `official-form:Certification of Service by Mailing or Delivery` | IA | `exact-source-identity` | `ia-901c2-set` | unresolved exact identity or URL | `ACQ` |
-| `in_conviction_d6-set::official-form:CCA conviction expungement order` | `official-form:CCA conviction expungement order` | IN | `exact-source-identity` | `in_conviction_d6-set` | unresolved exact identity or URL | `ACQ` |
-| `in_conviction_d6-set::official-form:CCA conviction expungement petition` | `official-form:CCA conviction expungement petition` | IN | `exact-source-identity` | `in_conviction_d6-set` | unresolved exact identity or URL | `ACQ` |
-| `in_conviction_felony-set::official-form:CCA conviction expungement order` | `official-form:CCA conviction expungement order` | IN | `exact-source-identity` | `in_conviction_felony-set` | unresolved exact identity or URL | `ACQ` |
-| `in_conviction_felony-set::official-form:CCA conviction expungement petition` | `official-form:CCA conviction expungement petition` | IN | `exact-source-identity` | `in_conviction_felony-set` | unresolved exact identity or URL | `ACQ` |
-| `in_conviction_misd-set::official-form:CCA conviction expungement order` | `official-form:CCA conviction expungement order` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
-| `in_conviction_misd-set::official-form:CCA conviction expungement petition` | `official-form:CCA conviction expungement petition` | IN | `exact-source-identity` | `in_conviction_misd-set` | unresolved exact identity or URL | `ACQ` |
-
-Deterministically assert exactly the 14 committed itemIds (failures are recorded per row and do not terminate the loop):
-
-```sh
-node - <<'NODE'
-const {spawnSync}=require('node:child_process');
-const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='DISC02');
-if (!a || a.items.length !== 14) throw new Error('DISC02 committed item count changed');
-for (const itemId of a.items) {
-  const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','DISC02',itemId],{stdio:'inherit'});
-  if (r.status !== 0) console.error('ROW_STOP', itemId);
-}
-NODE
-```
-
-
-Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
-
-```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id DISC02 --source-obligation 'de_mandatory_expungement-set::official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION' --codex-cloud --minimum-captain-sha a5e7fc5dddf9ce8bcdec2d4a24dbfb30df80316d
-
-# A failed row is recorded STOPPED; continue with unrelated rows.
-```
-
+| _No current obligations_ | — | — | `exact-source-identity` | — | Lane remains queued; do not invent an input. | — |
 **Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`de_mandatory_expungement-set`, `fl-early-juvenile-set`, `fl-juvenile-diversion-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`
 
-
-### Settle these first
-
-**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
-
-| Document | Jurisdiction | Families waiting |
-| --- | --- | --- |
-| FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION | FL | 3 |
-| Certification of Service by Mailing or Delivery | IA | 3 |
-| CCA conviction expungement order | IN | 3 |
-| DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION | DE | 1 |
-| FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION | FL | 1 |
-| FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION | FL | 1 |
-
-> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 
 ## Owned paths — write only here
 

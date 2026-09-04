@@ -79,7 +79,7 @@
       "whatThisDoesNotEstablish": "It fixes an identity to acquire. It approves no output and opens no route."
     },
     {
-      "id": "DET-AZ-SEALING-SUFFIX-CONFLICT-NOT-DECIDED-HERE",
+      "id": "DET-AZ-SEALING-PRINTED-IDENTITY-IS-050625",
       "jurisdiction": "AZ",
       "families": [
         "az_record_sealing_conviction-set"
@@ -87,35 +87,38 @@
       "obligations": [
         "AOCCRSL1F"
       ],
-      "determination": "OPEN. The linked parent filename carries suffix 050825 and the adoption appendix prints 050625. The determination requires reading the printed identity on the served binary, which is not held here and could not be fetched from this container. Recorded as open rather than guessed; a filename is not an identity and neither suffix may be adopted until the document says which it is.",
-      "whatThisDoesNotEstablish": "Nothing is bound and nothing is unblocked by this row."
+      "determination": "The official Arizona Supreme Court Administrative Order 2025-07 appendix prints AOCCRSL1F-050625 and AOCCRSL2F-050625. The held files whose names end 050825 carry those exact current bytes but are misnamed; bind the two binaries by content hash under their printed 050625 identities and treat the continuation as part of the petition.",
+      "evidence": "https://www.azcourts.gov/Portals/0/22/admindir/pdfs/2025/2025-07.pdf",
+      "whatThisDoesNotEstablish": "It corrects the source identities and binds held bytes. It approves no packet and opens no route."
     },
     {
-      "id": "DET-RI-DC-33-IS-A-MOTION-NOT-AN-ORDER",
+      "id": "DET-RI-DC-33-ORDER-SOURCE-UNRESOLVED",
       "jurisdiction": "RI",
       "families": [
         "ri_decriminalized-set",
-        "ri_deferred_sentence-set",
         "ri_first_offender_misdemeanor-set",
         "ri_multiple_misdemeanors-set"
       ],
       "obligations": [
         "official-form:DC-33-ORDER"
       ],
-      "determination": "Remove the phantom order obligation. The Rhode Island District Court publishes no DC-33 order; the order is clerk-supplied and the packet composes a proposed order from authority. The DC-33 motion-and-affidavit packet remains a real, separate obligation and is unaffected.",
-      "whatThisDoesNotEstablish": "It removes a source obligation that names no published document. It approves no output, opens no route, and does not release the separate motion packet, whose bytes are still held outside this repository pending the owner's one authorization."
+      "determination": "DC-33 is the District Court motion-and-affidavit packet, and its official instructions require the participant to bring an Order for Expungement or Sealing of Record to the hearing. Neither DC-33 nor the statewide Forms library supplies an identified order template, and the record contains no Judiciary or clerk confirmation that a self-composed order is accepted. Keep the order source unresolved rather than retiring it as a phantom.",
+      "evidence": "https://www.courts.ri.gov/Courts/districtcourt/Documents/Motion%20to%20Expunge%20or%20Seal%20and%20Affidavit.pdf",
+      "whatThisDoesNotEstablish": "It does not prove that no order template exists, that the clerk supplies the pre-hearing order, or that the product may compose one. The affected families remain SOURCE_BLOCKED on the exact order vehicle."
     },
     {
-      "id": "DET-RI-Superior-55-IS-A-MOTION-NOT-AN-ORDER",
+      "id": "DET-RI-SUPERIOR-55-ORDER-SOURCE-UNRESOLVED",
       "jurisdiction": "RI",
       "families": [
+        "ri_deferred_sentence-set",
         "ri_first_offender_felony-set"
       ],
       "obligations": [
         "official-form:Superior-55-ORDER"
       ],
-      "determination": "Remove the phantom order obligation. The Rhode Island Superior Court publishes no Superior-55 order; the order is clerk-supplied and the packet composes a proposed order from authority. The Superior-55 motion-and-affidavit packet remains a real, separate obligation and is unaffected.",
-      "whatThisDoesNotEstablish": "It removes a source obligation that names no published document. It approves no output, opens no route, and does not release the separate motion packet, whose bytes are still held outside this repository pending the owner's one authorization."
+      "determination": "Superior-55 is the Superior Court motion-and-affidavit packet. Part Three is the current deferred-sentence branch, so ri_deferred_sentence-set must use Superior-55 rather than DC-33. Its official instructions require the participant to bring an Order for Expungement or Sealing of Record to the hearing, but neither the form nor the statewide Forms library supplies an identified order template, and the record contains no Judiciary or clerk confirmation that a self-composed order is accepted. Keep the order source unresolved rather than retiring it as a phantom.",
+      "evidence": "https://www.courts.ri.gov/Courts/districtcourt/Documents/Motion%20and%20Affidavit%20to%20Expunge%20or%20Seal%20Record%20-%20Felony.pdf",
+      "whatThisDoesNotEstablish": "It does not prove that no order template exists, that the clerk supplies the pre-hearing order, or that the product may compose one. The affected families remain SOURCE_BLOCKED on the exact order vehicle."
     },
     {
       "id": "DET-IN-CCA-CANDIDATES-ARE-NOT-OFFICIAL-in_conviction_d6-set",
@@ -218,8 +221,443 @@
       "whatThisDoesNotEstablish": "It sets the treatment and copies no rule text into a packet. It approves no output and opens no route. The family's separate EXACT_EXTERNAL_SOURCE_HOLD entry is untouched."
     }
   ],
+  "reconciliation42": {
+    "schemaVersion": "rcap-source-reconciliation-42/v1",
+    "recordedOn": "2026-09-04",
+    "rule": "These dispositions consume already-committed acquisition, custody, supersession, parent/component, non-document, and route-strategy evidence. They do not claim any of the separate 28 manual-acquisition families have been acquired.",
+    "manualAcquisitionCohortUntouchedCount": 28,
+    "laterSourceBlockersKeptSeparate": [
+      "co_motion_seal_conviction-set",
+      "ga-jail-k2-set",
+      "ma-bmc-multi-set",
+      "vt_seal_under_25-set",
+      "wa_blake_vacatur_and_lfo_refund-set"
+    ],
+    "acquisitionEvidencePaths": [
+      "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json",
+      "data/rcap-grade-a/packet-factory-24h/disc01/CODEX_CS2_SRC1_ACQUISITION.json",
+      "data/rcap-grade-a/packet-factory-24h/disc02/CODEX_CS2_SRC3_ACQUISITION.json",
+      "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json",
+      "data/rcap-grade-a/packet-factory-24h/disc04/CODEX_CS2_SRC4_ACQUISITION.json",
+      "data/rcap-grade-a/packet-factory-24h/src05/SOURCE_MATERIALIZATION_RETURN.json"
+    ],
+    "sharedExactBindings": [
+      {
+        "sourceId": "official-form:KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+        "path": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+        "sha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      {
+        "sourceId": "official-form:AOCCRSL1F-050625",
+        "path": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+        "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+        "tier": "exact_identity_confirmed_from_document_text",
+        "evidence": "Arizona Supreme Court Administrative Order 2025-07 appendix prints AOCCRSL1F-050625; the stored filename is incorrect."
+      },
+      {
+        "sourceId": "official-form:AOCCRSL2F-050625",
+        "path": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+        "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+        "tier": "exact_identity_confirmed_from_document_text",
+        "evidence": "Arizona Supreme Court Administrative Order 2025-07 appendix prints AOCCRSL2F-050625; the stored filename is incorrect."
+      },
+      {
+        "sourceId": "official-form:JU 10.0320",
+        "path": "LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf",
+        "sha256": "bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-all50/local-source-corpus-index.json"
+      },
+      {
+        "sourceId": "official-form:Superior-55",
+        "path": "STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+        "sha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+        "tier": "exact_content_hash",
+        "evidence": "data/rcap-all50/local-source-corpus-index.json"
+      }
+    ],
+    "families": [
+      {
+        "familyId": "ks-21-6614-conviction-set",
+        "group": "A",
+        "disposition": "PRODUCT_PATH_PENDING",
+        "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+        "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction"
+      },
+      {
+        "familyId": "ks-21-6614-diversion-set",
+        "group": "A",
+        "disposition": "PRODUCT_PATH_PENDING",
+        "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+        "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction"
+      },
+      {
+        "familyId": "ks-21-6614-prostitution-coercion-set",
+        "group": "A",
+        "disposition": "PRODUCT_PATH_PENDING",
+        "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+        "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction"
+      },
+      {
+        "familyId": "ks-21-6614-specialty-court-set",
+        "group": "A",
+        "disposition": "PRODUCT_PATH_PENDING",
+        "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+        "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction"
+      },
+      {
+        "familyId": "ks-22-2410-arrest-set",
+        "group": "A",
+        "disposition": "PRODUCT_PATH_PENDING",
+        "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+        "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction"
+      },
+      {
+        "familyId": "ks-22-4908-registration-relief-set",
+        "group": "A",
+        "disposition": "PRODUCT_PATH_PENDING",
+        "exactNextAction": "Resolve Kansas Judicial Council commercial reuse and republication treatment; all exact current source bytes are held.",
+        "permissionHold": "Kansas Judicial Council noncommercial-use and republication restriction"
+      },
+      {
+        "familyId": "ia-12346-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "satisfiedWithoutStandaloneBinary": [
+          "official-form:Certification of Service by Mailing or Delivery"
+        ],
+        "exactNextAction": "Build from the owner-custodied August 2024 Form 3; render its embedded certification section."
+      },
+      {
+        "familyId": "ia-901c2-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "satisfiedWithoutStandaloneBinary": [
+          "official-form:Certification of Service by Mailing or Delivery"
+        ],
+        "exactNextAction": "Build from the owner-custodied August 2024 Form 1; render its embedded certification section."
+      },
+      {
+        "familyId": "ia-901c3-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "satisfiedWithoutStandaloneBinary": [
+          "official-form:Certification of Service by Mailing or Delivery",
+          "official-form:Rule 2.86 Form 2 attached sheet"
+        ],
+        "exactNextAction": "Build from the owner-custodied Form 2; compose its embedded certification and optional continuation sheet."
+      },
+      {
+        "familyId": "ia-dci77-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build DCI-76 and DCI-77 as page components of the one owner-custodied combined official PDF."
+      },
+      {
+        "familyId": "fl-10yr-bridge-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build with the expunction rendering of FDLE40-021 and the Rule 3.989 composed pleadings."
+      },
+      {
+        "familyId": "fl-administrative-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "satisfiedWithoutStandaloneBinary": [
+          "official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION"
+        ],
+        "exactNextAction": "Build the written application and endorsement treatment required by Rule 11C-7.008; no uniform FDLE form exists."
+      },
+      {
+        "familyId": "fl-early-juvenile-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the owner-custodied current FDLE early-juvenile application rendering."
+      },
+      {
+        "familyId": "fl-expunction-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build with the expunction rendering of FDLE40-021 and the Rule 3.989 composed pleadings."
+      },
+      {
+        "familyId": "fl-juvenile-diversion-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the owner-custodied current FDLE juvenile-diversion application rendering."
+      },
+      {
+        "familyId": "fl-sealing-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build with the sealing rendering of FDLE40-021 and the Rule 3.989 composed pleadings."
+      },
+      {
+        "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build with exact CR-106, CR-430, CR-430-INFO, CR-431, and CR-432 sources."
+      },
+      {
+        "familyId": "il-prb-cert-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build the four owner-custodied PRB application/acknowledgment instruments; keep EXP-AD Request only on the downstream court-petition stage where the route census uses it.",
+        "relationshipNote": "EXP-AD Request is not a PRB certificate component; it remains a stage-specific court-petition source for the same multi-stage family."
+      },
+      {
+        "familyId": "nd-prohibit-remote-public-access-set",
+        "group": "A",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the four owner-custodied North Dakota judiciary self-help instruments while preserving their nonmandatory disclaimer."
+      },
+      {
+        "familyId": "ar-act346-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the newly custodied Act 346 petition and the already-bound order."
+      },
+      {
+        "familyId": "ar-drug-court-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "satisfiedWithoutStandaloneBinary": [
+          "official-form:ACIC-ORDER-DRUG-COURT",
+          "official-form:ACIC-PETITION-DRUG-COURT"
+        ],
+        "relationshipBindings": [
+          {
+            "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
+            "componentSourceId": "official-form:ACIC-PETITION-DRUG-COURT-PRE",
+            "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42"
+          },
+          {
+            "sourceId": "official-form:ACIC-PETITION-DRUG-COURT",
+            "componentSourceId": "official-form:ACIC-PETITION-DRUG-COURT-POST",
+            "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39"
+          },
+          {
+            "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
+            "componentSourceId": "official-form:ACIC-ORDER-DRUG-COURT-PRE",
+            "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e"
+          },
+          {
+            "sourceId": "official-form:ACIC-ORDER-DRUG-COURT",
+            "componentSourceId": "official-form:ACIC-ORDER-DRUG-COURT-POST",
+            "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2"
+          }
+        ],
+        "exactNextAction": "Bind the pre/post petition-order pair selected by adjudication posture, then build."
+      },
+      {
+        "familyId": "ar-misdemeanor-seal-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the newly custodied petition and already-bound uniform order."
+      },
+      {
+        "familyId": "ar-veterans-court-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Build from the already-bound petition and newly custodied veterans-court order."
+      },
+      {
+        "familyId": "az_certificate_second_chance-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "sourceReplacements": {
+          "official-form:AOCCRSA3F-010122": ["official-form:AOCCRSA3F-103023"],
+          "official-form:AOCCRSA4F-010122": ["official-form:AOCCRSA4F-103023"]
+        },
+        "exactNextAction": "Build from the held 10/30/2023 successor editions."
+      },
+      {
+        "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "satisfiedWithoutStandaloneBinary": ["official-form:AOC-CREM2F-071221-CONT"],
+        "exactNextAction": "Build the continuation region within held parent AOC-CREM2F-071221."
+      },
+      {
+        "familyId": "az_record_sealing_conviction-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "satisfiedWithoutStandaloneBinary": ["official-form:AOCCRSL1F-050825-CONT"],
+        "sourceReplacements": {
+          "official-form:AOCCRSL1F-050825": ["official-form:AOCCRSL1F-050625"],
+          "official-form:AOCCRSL2F-050825": ["official-form:AOCCRSL2F-050625"]
+        },
+        "exactNextAction": "Build from the hash-bound 050625 petition and order identities; render the continuation inside the petition."
+      },
+      {
+        "familyId": "az_set_aside-set",
+        "group": "B",
+        "disposition": "SOURCE_BLOCKED",
+        "satisfiedWithoutStandaloneBinary": ["official-form:AOCCR41FORM31A-082224-CONT"],
+        "sourceReplacements": {
+          "official-form:AOCCR41FORM31A-082224": ["official-form:R-26-0001 adopted Form 31(a)"],
+          "official-form:AOCCR41FORM31B-082224": ["official-form:R-26-0001 adopted Form 31(b)"]
+        },
+        "exactNextAction": "Place the R-26-0001-amended Form 31(a) and Form 31(b) specifications or exact current standalone binaries into governed custody.",
+        "exactResidual": "R-26-0001 is acquired, but its amended Form 31(a)/(b) payload is not yet in governed source custody."
+      },
+      {
+        "familyId": "ri_decriminalized-set",
+        "group": "B",
+        "disposition": "SOURCE_BLOCKED",
+        "satisfiedWithoutStandaloneBinary": ["official-form:DC-33-AFFIDAVIT"],
+        "exactNextAction": "Obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted participant-supplied order vehicle; preserve the court-specific motion selector.",
+        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; DC-33 alone also cannot serve non-District-Court cases."
+      },
+      {
+        "familyId": "ri_deferred_sentence-set",
+        "group": "B",
+        "disposition": "SOURCE_BLOCKED",
+        "sourceReplacements": {
+          "official-form:DC-33": ["official-form:Superior-55"],
+          "official-form:DC-33-ORDER": ["official-form:Superior-55-ORDER"]
+        },
+        "exactNextAction": "Bind the held Superior-55 Part Three motion and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
+        "exactResidual": "The route's DC-33 mapping is superseded by Superior-55 Part Three, whose instructions require an order that is not held or composition-authorized."
+      },
+      {
+        "familyId": "ri_first_offender_felony-set",
+        "group": "B",
+        "disposition": "SOURCE_BLOCKED",
+        "exactNextAction": "Keep Superior-55 Part Two bound and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
+        "exactResidual": "Superior-55 requires the filer to bring an order, but no exact order template or authority to compose one is held."
+      },
+      {
+        "familyId": "ri_first_offender_misdemeanor-set",
+        "group": "B",
+        "disposition": "SOURCE_BLOCKED",
+        "exactNextAction": "Keep DC-33 Part Three A bound for District Court and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
+        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; other trial courts require court-specific motion treatment."
+      },
+      {
+        "familyId": "ri_multiple_misdemeanors-set",
+        "group": "B",
+        "disposition": "SOURCE_BLOCKED",
+        "exactNextAction": "Keep DC-33 Part Three B bound for District Court and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
+        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; current form wording also requires reconciliation against the fewer-than-six statutory limit."
+      },
+      {
+        "familyId": "in_conviction_d6-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "implementationStrategyOverride": "custom_pleading",
+        "satisfiedWithoutStandaloneBinary": ["official-form:CCA conviction expungement petition", "official-form:CCA conviction expungement order"],
+        "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms."
+      },
+      {
+        "familyId": "in_conviction_felony-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "implementationStrategyOverride": "custom_pleading",
+        "satisfiedWithoutStandaloneBinary": ["official-form:CCA conviction expungement petition", "official-form:CCA conviction expungement order"],
+        "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms."
+      },
+      {
+        "familyId": "in_conviction_misd-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "implementationStrategyOverride": "custom_pleading",
+        "satisfiedWithoutStandaloneBinary": ["official-form:CCA conviction expungement petition", "official-form:CCA conviction expungement order"],
+        "exactNextAction": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms."
+      },
+      {
+        "familyId": "mi_setaside_application-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "relationshipBindings": [
+          {"sourceId": "official-form:MC 227", "componentSourceId": "official-form:MC 227", "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"},
+          {"sourceId": "official-form:MC 227 page 3 Proof of Service", "componentSourceId": "official-form:MC 227", "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"}
+        ],
+        "exactNextAction": "Build from held MC 227; render page 3 proof of service as a parent-form component."
+      },
+      {
+        "familyId": "mi_setaside_first_owi-set",
+        "group": "B",
+        "disposition": "SOURCE_READY",
+        "relationshipBindings": [
+          {"sourceId": "official-form:MC 227 item 2.c", "componentSourceId": "official-form:MC 227", "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"},
+          {"sourceId": "official-form:MC 227 page 3 Proof of Service", "componentSourceId": "official-form:MC 227", "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7"}
+        ],
+        "exactNextAction": "Build item 2.c and page 3 proof of service as components of held MC 227."
+      },
+      {
+        "familyId": "ut_pet_remove_link-set",
+        "group": "B",
+        "disposition": "PRODUCT_PATH_PENDING",
+        "satisfiedWithoutStandaloneBinary": ["official-form:1110GE or 1111GE"],
+        "exactNextAction": "Bind held 1501CR, 1501CR-C, and 1502CR; add the route-fact decision that selects hearing form 1110GE or no-hearing form 1111GE.",
+        "productQuestion": "Which route/case fact selects 1110GE versus 1111GE?"
+      },
+      {
+        "familyId": "census-pending-family:ME:juvenile-sealing",
+        "group": "C",
+        "disposition": "SOURCE_BLOCKED",
+        "additionalRequiredSourceIds": ["official-form:JV-043"],
+        "exactNextAction": "Acquire the current Maine Judicial Branch JV-043 Petition to Seal Juvenile Case Records binary into governed custody.",
+        "exactResidual": "The compiled route profile names JV-043, but its current official binary is not held."
+      },
+      {
+        "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+        "group": "C",
+        "disposition": "SOURCE_BLOCKED",
+        "additionalRequiredSourceIds": ["official-form:1231XX"],
+        "sourceIdentity": {
+          "officialTitle": "Petition for Relief Under the Post-Conviction Remedies Act",
+          "formNumber": "1231XX",
+          "issuingAuthority": "Utah State Courts",
+          "officialLandingPage": "https://www.utcourts.gov/en/forms/forms/court-forms/form-detail.detail.html?formNumber=1231XX",
+          "officialBinary": "https://legacy.utcourts.gov/resources/forms/criminal/04_PCRA_Petition.pdf",
+          "revision": "Revised June 13, 2022",
+          "requiredPacketRole": "primary_filing_with_authority_grounded_attachment",
+          "controllingAuthority": "Utah Code 78B-9-104(1)(h), 78B-9-108(2), and 77-40a-402"
+        },
+        "exactNextAction": "Acquire Form 1231XX into governed custody and correct the route from Title 77 Chapter 40a-only custom pleading to the official PCRA petition plus an authority-grounded attachment.",
+        "exactResidual": "The current official PCRA petition is identified, but its binary is not held and the route authority/strategy still names the wrong legal vehicle."
+      },
+      {
+        "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+        "group": "C",
+        "disposition": "SOURCE_BLOCKED",
+        "additionalRequiredSourceIds": ["official-form:1174XX"],
+        "sourceIdentity": {
+          "officialTitle": "Petition to Expunge Juvenile Court Records",
+          "formNumber": "1174XX",
+          "issuingAuthority": "Utah State Courts",
+          "officialLandingPage": "https://www.utcourts.gov/en/forms/forms/court-forms.html?case-type=EX",
+          "officialBinary": "https://legacy.utcourts.gov/howto/expunge/docs/11_Petition_to_Expunge_Records_Juvenile.pdf",
+          "revision": "Revised August 14, 2023",
+          "requiredPacketRole": "primary_filing"
+        },
+        "exactNextAction": "Acquire the exact current Utah State Courts Petition to Expunge Juvenile Court Records binary into governed custody.",
+        "exactResidual": "The official Utah juvenile expungement petition is identified, but its current binary is not held in governed custody."
+      },
+      {
+        "familyId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+        "group": "C",
+        "disposition": "SOURCE_BLOCKED",
+        "additionalRequiredSourceIds": ["official-form:JU 10.0300", "official-form:JU 10.0315", "official-form:JU 10.0320"],
+        "sourceIdentity": {
+          "officialTitle": "Motion and Declaration to Seal Records of Juvenile Offender; Notice of Respondent's Motion to Seal Records of Juvenile Offender; Order Re: Sealing Records of Juvenile Offender",
+          "formNumber": "JU 10.0300; JU 10.0315; JU 10.0320",
+          "issuingAuthority": "Washington State Administrative Office of the Courts",
+          "officialLandingPage": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=45",
+          "revision": "07/2015; 09/2012; 01/2022",
+          "requiredPacketRole": "primary_filing; notice; proposed_order"
+        },
+        "exactNextAction": "Acquire or restore JU 10.0300 and JU 10.0315 into current governed custody; JU 10.0320 is already hash-bound.",
+        "exactResidual": "The current governed corpus holds JU 10.0320 only. Historical inventory records hashes for JU 10.0300 and JU 10.0315, but their bytes are absent from every current indexed custody, so they cannot be bound as ready."
+      }
+    ]
+  },
   "whatThisDoesNotEstablish": [
-    "that any family is now buildable",
+    "that any family is buildable unless the canonical generator independently validates every required source binding and other current gate",
     "that any held file is the current official edition beyond the two Arizona forms whose bytes were recomputed here",
     "that any route may be built, promoted or sold"
   ]

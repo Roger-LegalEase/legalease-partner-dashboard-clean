@@ -279,13 +279,24 @@ function run() {
   const assignedToPF = new Set(pf.flatMap((x) => x.items));
   const unassignedSourceReady = master.families.filter((f) => f.state === "SOURCE_READY" && !f.activeOwner && !assignedToPF.has(f.familyId));
   const emptyPF = pf.filter((x) => x.items.length === 0);
+  const assignedSourceItems = new Set(src.flatMap((x) => x.items));
+  const missingExactSourceAssignments = master.families
+    .filter((f) => ["SOURCE_BLOCKED", "LEGAL_BLOCKED"].includes(f.state))
+    .flatMap((f) => {
+      const bound = new Set((f.sourceReadiness?.boundSources ?? []).map((s) => s.sourceId));
+      return (f.sourceReadiness?.effectiveOfficialSourceIds ?? [])
+        .filter((sourceId) => !bound.has(sourceId))
+        .map((sourceId) => `${f.familyId}::${sourceId}`);
+    })
+    .filter((itemId) => !assignedSourceItems.has(itemId));
   const unassignedSourceObligations = master.totals.sourceObligationsAssigned - src.reduce((n, x) => n + x.itemCount, 0);
   check("F11", "no lane is idle while work of its kind remains unassigned",
     unassignedSourceReady.length === 0
     && !(emptyPF.length > 0 && unassignedSourceReady.length > 0)
+    && missingExactSourceAssignments.length === 0
     && unassignedSourceObligations === 0
     && checkpoint.codex.queuedTasks === a.length,
-    `${unassignedSourceReady.length} source-ready unassigned, ${emptyPF.length} empty builder(s), ${unassignedSourceObligations} source obligation(s) unassigned`);
+    `${unassignedSourceReady.length} source-ready unassigned, ${emptyPF.length} empty builder(s), ${missingExactSourceAssignments.length} exact source obligation(s) undispatched [${missingExactSourceAssignments.slice(0, 2).join(", ")}], ${unassignedSourceObligations} source obligation(s) unassigned`);
 
   // 13. SOURCE_READY means held bytes, not a named identity.
   const falselyReady = master.families.filter((f) => {
@@ -293,9 +304,9 @@ function run() {
     const r = f.sourceReadiness;
     if (!r) return true;
     if (!r.ready || r.reasons.length > 0) return true;
-    /* A custom pleading drafts from codified text: zero bound sources is its
-     * legitimate ready state (the simplification directive), and its named
-     * missing components still block through reasons above. */
+    /* A custom pleading drafts from codified text rather than a PDF. Group C's
+     * governed source-strategy decisions additionally require the controlling
+     * official authority to be bound by exact identity and URL. */
     /*
      * So does an instrument the owner determined is COMPOSED FROM AUTHORITY.
      * Louisiana's statutory forms and Florida's Rule 3.989 instruments are
@@ -311,6 +322,9 @@ function run() {
      * ready. Every other gate on these families is untouched.
      */
     if (r.boundCount === 0 && (r.satisfiedByAuthority ?? []).length > 0) return false;
+    if (f.sourceReconciliation?.group === "C" && f.implementationStrategy === "custom_pleading"
+      && (r.boundAuthorities ?? []).length === 0) return true;
+    if ((r.boundAuthorities ?? []).some((a) => !a.sourceId || !a.title || !a.issuingAuthority || !/^https:\/\//.test(a.officialUrl ?? ""))) return true;
     if (r.boundCount === 0) return f.implementationStrategy !== "custom_pleading" && f.implementationStrategy !== "participant_agency_application";
     return r.boundSources.some((b) => !b.path || !b.sha256 || !b.tier);
   }).map((f) => f.familyId);
@@ -319,9 +333,13 @@ function run() {
     && !f.verifierSourceHold?.evidencePath
     && !(f.executionReclassification?.stateOverride === "SOURCE_BLOCKED"
       && f.executionOwner && f.nextExecutableAction)).map((f) => f.familyId);
+  const supersededStillBound = master.families.filter((f) => {
+    const superseded = new Set(Object.keys(f.sourceReconciliation?.sourceReplacements ?? {}));
+    return (f.sourceReadiness?.boundSources ?? []).some((source) => superseded.has(source.sourceId));
+  }).map((f) => f.familyId);
   check("F13", "SOURCE_READY means every required source is held, indexed and hash-matched",
-    falselyReady.length === 0 && blockedWithNoReason.length === 0,
-    `${falselyReady.length} falsely ready [${falselyReady.slice(0, 3).join(", ")}]; ${blockedWithNoReason.length} blocked with no stated reason`);
+    falselyReady.length === 0 && blockedWithNoReason.length === 0 && supersededStillBound.length === 0,
+    `${falselyReady.length} falsely ready [${falselyReady.slice(0, 3).join(", ")}]; ${blockedWithNoReason.length} blocked with no stated reason; ${supersededStillBound.length} famil(ies) still bind superseded source identities [${supersededStillBound.slice(0, 3).join(", ")}]`);
 
   // 14. The row-stop contract is in every builder prompt, and it is executable.
   const pfPrompts = pf.map((x) => ({ id: x.assignmentId, file: path.join(ROOT, PROMPTS, `${x.assignmentId}.md`) }))
@@ -1378,10 +1396,39 @@ if (MUTATIONS) {
     { on: "active", id: "F5", name: "a placeholder in an assignment is caught", mutate: (j) => { firstPF(j).mission = "TBD"; return j; } },
     { on: "master", id: "F6", name: "a source-blocked family sent to a builder is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY" && !x.activeOwner); f.state = "SOURCE_BLOCKED"; return j; } },
     { on: "master", id: "F7", name: "a legally blocked family sent to a builder is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY" && !x.activeOwner); f.legalInputStatus = "OPEN_LEGAL_INPUT"; return j; } },
-    { on: "master", id: "F8", name: "an incomplete family recorded as complete is caught", mutate: (j) => { const f = j.families.find((x) => x.counters && Object.values(x.counters).some((v) => v > 0)); f.state = "VERIFIED_PASS"; return j; } },
+    { on: "master+active", id: "F11", name: "an exact effective source obligation omitted from source dispatch is caught", mutate: ({ master, active }) => {
+        const family = master.families.find((f) => f.state === "SOURCE_BLOCKED" && f.sourceReadiness);
+        if (!family) throw new Error("F11 mutation requires one source-blocked family");
+        family.sourceReadiness.effectiveOfficialSourceIds = [
+          ...(family.sourceReadiness.effectiveOfficialSourceIds ?? []),
+          "official-form:F11-UNDISPATCHED-EXACT-SOURCE"
+        ];
+        return { master, active };
+      } },
+    { on: "master", id: "F8", name: "an incomplete family recorded as complete is caught", mutate: (j) => {
+        const f = j.families.find((x) => x.counters);
+        if (!f) throw new Error("F8 mutation requires one family with completeness counters");
+        f.counters.knownRequiredFieldsMissing = 1;
+        f.allNineCountersZero = false;
+        f.state = "VERIFIED_PASS";
+        return j;
+      } },
     { on: "active", id: "F9", name: "a verifier verifying what a builder in this wave builds is caught", mutate: (j) => { const b = firstPF(j); j.assignments.find((x) => x.lane === "independent-verification").items.push(b.items[0]); return j; } },
     { on: "active", id: "F11", name: "a source-ready family left unassigned is caught", mutate: (j) => { firstPF(j).items.pop(); return j; } },
     { on: "checkpoint", id: "F11", name: "a queue count that disagrees with the lanes is caught", mutate: (j) => { j.codex.queuedTasks = 7; return j; } },
+    { on: "master", id: "F13", name: "a Group C custom pleading without exact controlling authority is caught", mutate: (j) => {
+        const f = j.families.find((x) => x.sourceReconciliation?.group === "C");
+        if (!f) throw new Error("F13 mutation requires one Group C family");
+        f.state = "SOURCE_READY";
+        f.implementationStrategy = "custom_pleading";
+        f.sourceReadiness.ready = true;
+        f.sourceReadiness.reasons = [];
+        f.sourceReadiness.boundSources = [];
+        f.sourceReadiness.boundCount = 0;
+        f.sourceReadiness.boundAuthorities = [];
+        f.sourceReadiness.boundAuthorityCount = 0;
+        return j;
+      } },
     { on: "master", id: "F12", name: "a denominator that does not close is caught", mutate: (j) => { j.denominator.sumsToDenominator = false; return j; } },
     { on: "collisions", id: "F2", name: "a collision record reporting a collision it did not fail on is caught", mutate: (j) => { j.counts.pathCollisions = 1; return j; } },
     { on: "prompt", id: "F10", name: "a prompt instructing a Git network command is caught", mutateText: (t) => `${t}\n\nRun git push origin work when you are finished.\n` },

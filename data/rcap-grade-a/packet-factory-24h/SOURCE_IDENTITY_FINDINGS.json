@@ -1,8 +1,8 @@
 {
   "schemaVersion": "rcap-source-identity-findings/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-identity-findings.mjs",
-  "question": "The conveyor has 449 obligations and 198 documents with no known address. Which of them can be acquired at all?",
-  "answer": "Not all of them. Louisiana's four highest-leverage 'forms' are statutory articles with no published PDF, and Kansas's may already be held behind a lookup that cannot match. Both were queued as acquisition work.",
+  "question": "Which source blockers are real acquisitions, and which are already-held bytes, parent/components, superseded identities, non-documents, or settled pleading strategies?",
+  "answer": "The 42-family non-acquisition cohort is reconciled to 25 SOURCE_READY, 7 PRODUCT_PATH_PENDING, and 10 exact SOURCE_BLOCKED residuals. Kansas is source-complete and permission-bound, not acquisition-bound.",
   "method": "Two read-only discovery passes over committed evidence only, with every claim re-checked here against the files it cites. A finding whose evidence has moved fails this generator rather than being restated.",
   "everyClaimVerifiedAtGenerationTime": true,
   "findings": [
@@ -24,14 +24,14 @@
       "id": "SIF-2",
       "jurisdiction": "KS",
       "severity": "medium",
-      "claim": "Kansas documents may already be held. The registry reports them unaccounted because the corpus index truncates formNumber at about 46 characters while the registry keys carry a date suffix, so the two never match.",
+      "claim": "All six assigned Kansas families have exact, hash-bound current source bytes. Their remaining restriction is commercial reuse and republication treatment, not acquisition.",
       "evidence": [
-        "data/rcap-all50/local-source-corpus-index.json: 2 KS entr(ies) carry a formNumber at or past the truncation length, e.g. \"KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM\", \"KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE\"",
-        "The registry's expected ids use a NAME-MM-YYYY convention that a truncated name cannot produce."
+        "data/rcap-all50/local-source-corpus-index.json: 4 KS entr(ies) carry a formNumber at or past the truncation length, e.g. \"KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM\", \"KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE\"",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json: six Kansas rows are PRODUCT_PATH_PENDING after the committed acquisition return is joined by exact SHA-256."
       ],
-      "whatItChanges": "This is a reconciliation defect, not a discovery gap. Sending a DISC lane to find documents the corpus may already hold spends the scarcest capacity in the factory on a lookup bug.",
-      "reclassifyTo": "RECONCILE_BEFORE_DISPATCH",
-      "doNotDo": "Do not acquire a Kansas document before reconciling the corpus index against the registry by SHA-256 rather than by formNumber string.",
+      "whatItChanges": "The six families leave SOURCE_BLOCKED. They stay fail-closed at PRODUCT_PATH_PENDING until the Kansas Judicial Council permission/product treatment is resolved.",
+      "reclassifyTo": "SOURCE_COMPLETE_PERMISSION_TREATMENT_PENDING",
+      "doNotDo": "Do not send another source-acquisition lane after these documents, and do not commercially distribute them while permission remains unresolved.",
       "verified": true
     },
     {
@@ -60,6 +60,20 @@
       "reclassifyTo": "DISCOVERY_LIMITED_TO_COMMITTED_EVIDENCE",
       "doNotDo": "Do not report a DISC lane as having exhausted discovery when the primary inventory was never mounted.",
       "verified": true
+    },
+    {
+      "id": "SIF-5",
+      "jurisdiction": "AR/AZ/CA/FL/IA/IL/IN/KS/ME/MI/ND/RI/UT/WA",
+      "severity": "high",
+      "claim": "The 42-family non-acquisition cohort is fully reconciled: 25 SOURCE_READY, 7 PRODUCT_PATH_PENDING, and 10 exact SOURCE_BLOCKED residuals.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json: 42 unique governed family determinations in groups A=19, B=19, C=4.",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json: generated family states match every governed disposition. Exact source residuals: az_set_aside-set: R-26-0001 is acquired, but its amended Form 31(a)/(b) payload is not yet in governed source custody. | ri_decriminalized-set: DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; DC-33 alone also cannot serve non-District-Court cases. | ri_deferred_sentence-set: The route's DC-33 mapping is superseded by Superior-55 Part Three, whose instructions require an order that is not held or composition-authorized. | ri_first_offender_felony-set: Superior-55 requires the filer to bring an order, but no exact order template or authority to compose one is held. | ri_first_offender_misdemeanor-set: DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; other trial courts require court-specific motion treatment. | ri_multiple_misdemeanors-set: DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; current form wording also requires reconciliation against the fewer-than-six statutory limit. | census-pending-family:ME:juvenile-sealing: The compiled route profile names JV-043, but its current official binary is not held. | census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement: The current official PCRA petition is identified, but its binary is not held and the route authority/strategy still names the wrong legal vehicle. | census-pending-family:UT:path-m-juvenile-expungement: The official Utah juvenile expungement petition is identified, but its current binary is not held in governed custody. | census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260: The current governed corpus holds JU 10.0320 only. Historical inventory records hashes for JU 10.0300 and JU 10.0315, but their bytes are absent from every current indexed custody, so they cannot be bound as ready."
+      ],
+      "whatItChanges": "32 generic source blocks are removed without touching the separate 28-family acquisition cohort or the five later source blockers. Newly source-ready families enter the existing packet-build lanes.",
+      "reclassifyTo": "25_SOURCE_READY_7_PRODUCT_PATH_PENDING_10_SOURCE_BLOCKED",
+      "doNotDo": "Do not regenerate these families from stale acquisition-return statuses or collapse parent/component, phantom-document, nonofficial-template, permission, or product-routing findings back into SOURCE_BLOCKED.",
+      "verified": true
     }
   ],
   "affected": {
@@ -84,7 +98,7 @@
   },
   "whatThisDoesNotEstablish": [
     "that any Louisiana instrument has been drafted",
-    "that any Kansas document is in fact held — only that the lookup cannot currently tell",
+    "that Kansas commercial reuse or republication is approved",
     "that any URL here has been fetched, or that any byte has been promoted"
   ],
   "commercialRoutesOpened": 0,
