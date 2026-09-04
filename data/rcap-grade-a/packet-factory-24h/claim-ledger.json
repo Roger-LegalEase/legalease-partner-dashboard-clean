@@ -8048,8 +8048,8 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T05:38:19.703Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12838,7 +12838,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fca87fd0db06e793c8d80a696151fdde6da08ea3ab1e7e7ce7340def89b4fe4e",
+  "claimsDigest": "583585e604944a5511382e2bebb857c020b79a0638bd5dba4a6a4f6228764b59",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30648,6 +30648,16 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-04T16:19:55Z",
       "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-04T05:38:19.703Z",
+      "reissuedAt": "2026-09-04T16:35:16.874Z",
+      "reason": "Current FAIL_REPAIR_REQUIRED self-help-stop obligation remains unrepaired; reissue exact FIX03 ownership for the isolated Washington repair after the stale FIX01 launch was refused."
     }
   ],
   "transfers": [
