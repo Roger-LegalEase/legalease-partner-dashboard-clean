@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `7fdbcb4acf9d49b42a7b3b309f81923c8267fabd` (or the newer dispatch base)
+**Minimum required ancestor:** `a120d8bd5507132597f316536f5d2b4a2c301b15` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-pardoned-felony-set' \
   --codex-cloud \
-  --minimum-captain-sha 7fdbcb4acf9d49b42a7b3b309f81923c8267fabd
+  --minimum-captain-sha a120d8bd5507132597f316536f5d2b4a2c301b15
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,12 +38,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 12 exact families before reading or writing family content:
+- Assert only these 11 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'al-pardoned-felony-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nc_146_dismissal_petition-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nv_seal_probation_family-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ny_mrta_marijuana-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'pa_pardon_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'rcap-ms-custom-pleading'`
@@ -68,13 +67,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 12 families
+## The 11 families
 
 - `al-pardoned-felony-set`
 - `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`
 - `il-exp-precompletion-set`
 - `nc_146_dismissal_petition-set`
-- `nv_seal_probation_family-set`
 - `ny_mrta_marijuana-set`
 - `pa_pardon_expungement-set`
 - `rcap-ms-custom-pleading`
@@ -98,7 +96,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/**`
@@ -110,7 +107,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-nc_146_dismissal_petition-set.mjs`
-- `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
 - `scripts/build-census-v1-ny_mrta_marijuana-set.mjs`
 - `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
 - `scripts/build-census-v1-rcap-ms-custom-pleading.mjs`

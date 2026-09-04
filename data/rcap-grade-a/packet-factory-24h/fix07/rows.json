@@ -443,6 +443,64 @@
       "centralStateEdits": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "nv_seal_probation_family-set",
+      "routeKey": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+      "status": "COMPLETED",
+      "buildReturn": "BUILT_RASTER_PENDING",
+      "worker": "CODEX-CS1-FIX07-NV-PAGINATION",
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "baseSha": "31cf727c0cb7b31719b206900973c973e9273161",
+      "branch": "codex/cs1-fix07-nv-pagination-31cf",
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "repair": "Removed only the participant-irrelevant internal route footer from the proposed_order component. The route-only continuation page is gone; no legal theory, component, filing destination, fee, service statement, or substantive instruction changed.",
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "sha256": "8fe5e209783ff5f70a18f8a37045f25126b020b23373aeba98956347440cd041",
+          "byteLength": 25822,
+          "pageCount": 9
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "40f2540537bc5d72b3a91cda1746f91065e16884ea1d611ae0f75fce16d19055",
+          "byteLength": 26313,
+          "pageCount": 9
+        }
+      ],
+      "determinism": {
+        "builds": 2,
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "pageManifestsIdentical": true
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-nv_seal_probation_family-set.mjs --no-raster (two final consecutive deterministic builds)",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set => PASS_COMPLETE, all nine counters zero",
+        "pdftotext extraction => substantive proposed_order on page 6, declaration_and_verification on page 7, zero route-only pages"
+      ],
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
