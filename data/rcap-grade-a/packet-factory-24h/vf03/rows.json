@@ -2,14 +2,12 @@
  "schemaVersion": "rcap-independent-verification-rows/v1",
  "lane": "VF03",
  "laneKind": "independent-verification",
- "worker": "VF-SRC-A + FABLE-VT1",
+ "worker": "VF-SRC-A + FABLE-VT1 + Codex VF03 fbd22ae2",
  "laneMembership": [
-  "ak-tf805-set",
-  "ar-misdemeanor-dwi-seal-set",
-  "ga-seal-m-set",
-  "ms-nonconv-set"
+  "al-felony-nonconviction-90-set",
+  "il-seal-edu-set"
  ],
- "verdictCeiling": "BUILT_RASTER_PENDING — no family returns PASS_COMPLETE_INDEPENDENT",
+ "verdictCeiling": "RASTER_QUEUE requires a hash-bound central RASTER_PASS before PASS_COMPLETE_INDEPENDENT; both current rows remain RASTER_PENDING and independently fail substantive obligations",
  "measuredBy": "the fifteen proof obligations measured in this container; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here rather than read from the builder's report",
  "overlayDirectoriesModified": 0,
  "packetsModified": 0,
@@ -25,10 +23,10 @@
   "nothingIsWithdrawn": "The earlier reading stands on its own evidence and is preserved verbatim under supersededLaneMembership. It is kept because those verdicts are real work, not because this lane still owns those families."
  },
  "summary": {
-  "families": 37,
+  "families": 39,
   "PASS_COMPLETE_INDEPENDENT": 17,
   "PASS": 0,
-  "FAIL_REPAIR_REQUIRED": 17,
+  "FAIL_REPAIR_REQUIRED": 19,
   "BLOCKED_SOURCE": 1,
   "BLOCKED_LEGAL_INPUT": 2,
   "STOPPED": 1,
@@ -8767,6 +8765,287 @@
    "commercialRoutesOpened": 0,
    "productionTouched": false,
    "grantsNothing": "This independent pass proves only packet completeness at the named base and exact hashes. It approves no output, promotes no family, opens no route, sets no price, and grants no production authority."
+  },
+  {
+   "itemId": "al-felony-nonconviction-90-set",
+   "lane": "VF03",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
+   "claimedBeforeEvidenceRead": true,
+   "claimResult": "CLAIM_OK VF03 al-felony-nonconviction-90-set (independent-verification, grant set 48d63cc9dc94c9a4)",
+   "buildStatus": "state_built",
+   "rasterState": "RASTER_PENDING",
+   "rasterNextOwner": "RAS02",
+   "centralRasterReceipt": null,
+   "rasterRuleApplied": "RASTER_QUEUE says no PASS_COMPLETE_INDEPENDENT without a hash-bound central RASTER_PASS. Local rendering was used only to measure the obligation and grants no promotion authority.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "semanticFalseNegativesFound": true
+   },
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "SELF_HELP_STOP"
+   ],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The family, route record, source receipt, production map, and two fixtures consistently identify the Alabama felony nonconviction-within-90-days path. The exact qualifying disposition remains a participant fact rather than a builder election."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both exact held source files were independently hashed from current bytes and match source-receipt.json.",
+     "rehashes": [
+      {"documentId":"CR-65","sha256":"c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39","byteLength":468056,"custody":"Nationwide recovery pool","path":"LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf"},
+      {"documentId":"C-10-CRIMINAL","sha256":"527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8","byteLength":711433,"custody":"Master Library","path":"STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf"}
+     ]
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures contain the three manifest components: CR-65 primary filing, CR-65 certificate-of-service pages, and C-10-CRIMINAL fee-waiver affidavit/order."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Seven declared writes are directions masquerading as known facts. Three charge fields print 'The charge shown on the certified case record'; two grounds fields print 'See the selected statutory route and attached certified records'; and two arresting-agency fields print 'Agency shown on the certified arrest record'. These strings are visibly written into the official form, while the instructions do not tell the participant to replace them with facts. The mechanical counter remains zero and therefore misses this defect."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The production map records 63 required refusals, but 33 labels copied into participant-instructions.md literally contain 'undefined' (from 'Complete undefined' through numbered variants). That does not meaningfully name the fields. The instructions also fail to state the registry's required signature, notarization, filing-fee, and waiver actions as clear participant steps."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No route-determined election is written. The precise nonconviction disposition and related form choices are participant-specific; 53 choice fields are correctly refused rather than guessed."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The written rows contain no partial companion cells, and actual-writes.json reports no incomplete-row condition in either fixture."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Neither fixture writes signature, signature-date, service-certification, court-only, prosecutor-only, or order fields; the protected-write counter is zero."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both exact fixture PDFs were independently hashed from current bytes and match every record naming them; both are flattened with no AcroForm widgets.",
+     "rehashes": [
+      {"fixture":"canonical","sha256":"b05730fdf3132f9448b477a6993b5b23083a2ab886572de054d35f44658e99a6","byteLength":907848,"pages":11},
+      {"fixture":"boundary","sha256":"07affbe7d31c42453283a956f7f468cd54fa3bde12896193f225de1477459652","byteLength":908306,"pages":11}
+     ]
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both 11-page fixtures follow the manifest without interleaving: CR-65 pages 1-8, then C-10-CRIMINAL pages 1-3."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All 22 locally rendered pages were inspected and actual-writes.json reports zero non-whitespace glyphs outside measured boxes and no refused field with ink. No clipping or overlap was found. This local measurement does not replace the pending central raster receipt."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions identify the criminal division of the Alabama circuit court in the county where the charge was filed, matching the route record."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions state the $500 filing fee and identify C-10-CRIMINAL as the hardship/waiver path, with no invented promise of waiver approval."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions name the district attorney, law-enforcement recipient, and clerk handling, and state the filing/service sequence rather than leaving recipient or timing unstated."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The committed registry has four stops. The packet covers prosecutor or victim objection, contested hearing, disposition/fact mismatch, and immigration consequences, but it omits the same registry condition's licensing and firearm consequences."
+    }
+   },
+   "freshVerification": {
+    "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+    "focusedCompleteness": "PASS_COMPLETE; 36/216 written; all nine counters zero",
+    "sourcesRehashed": "2/2 exact",
+    "artifactsRehashed": "2/2 exact",
+    "pagesLocallyInspected": 22,
+    "centralRaster": "RASTER_PENDING; next owner RAS02; no central receipt"
+   },
+   "evidenceRead": [
+    "The source receipt, production field map, participant instructions, filing instructions, approval request, actual-writes report, rendered-artifacts report, build summary, and both fixtures under data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
+    "The exact two held source PDFs named and hash-bound by source-receipt.json",
+    "data/record-clearing/legal-design-track-registry.json for the exact Alabama track",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json and RASTER_QUEUE.json",
+    "Fresh focused completeness verifier output"
+   ],
+   "artifactBytesMovedByThisLane": 0,
+   "overlayDirectoriesModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "This verdict is an independent defect record. It approves no output, promotes no family, opens no route, sets no price, and grants no production authority."
+  },
+  {
+   "itemId": "il-seal-edu-set",
+   "lane": "VF03",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+   "claimedBeforeEvidenceRead": true,
+   "claimResult": "CLAIM_OK VF03 il-seal-edu-set (independent-verification, grant set 48d63cc9dc94c9a4)",
+   "buildStatus": "state_built",
+   "rasterState": "RASTER_PENDING",
+   "rasterNextOwner": "RAS04",
+   "centralRasterReceipt": null,
+   "rasterRuleApplied": "RASTER_QUEUE says no PASS_COMPLETE_INDEPENDENT without a hash-bound central RASTER_PASS. Local rendering was used only to measure the obligation and grants no promotion authority.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "semanticFalseNegativesFound": true
+   },
+   "failedProofObligations": [
+    "ROUTE_IDENTITY",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "SELF_HELP_STOP"
+   ],
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "This family is the education-based sealing route, but both outputs populate the expungement and sealing case tables. The request also visibly selects item 15 (Second Chance Probation / First Time Weapon Offense Program) alongside item 22 (educational-credential waiver), mixing a different eligibility route into the education route."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All four exact held source files were independently hashed from current bytes and match source-receipt.json.",
+     "rehashes": [
+      {"documentId":"EXP-AD Request","sha256":"44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853","byteLength":1015247,"custody":"Master Library","path":"STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf"},
+      {"documentId":"EXP-AD Case List","sha256":"b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c","byteLength":744328,"custody":"Nationwide recovery pool","path":"LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf"},
+      {"documentId":"EXP-AD Order Granting","sha256":"52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305","byteLength":823679,"custody":"Master Library","path":"STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf"},
+      {"documentId":"FW-CIV-APPLICATION","sha256":"b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5","byteLength":1051549,"custody":"Master Library","path":"STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf"}
+     ]
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures contain all four named components: EXP-AD Request, EXP-AD Case List, EXP-AD Order Granting, and FW-CIV-APPLICATION."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Twenty request-form fields labeled for all charges are populated with the case number 2021-CF-004217 instead of a charge. The separate case-list charge field prints the truncated direction 'Charge exactly as shown o…' rather than an actual charge. These are visible non-facts that the zero mechanical counter does not catch."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Although 250 refused field labels are dumped into the instructions, the exact registry's semantic prerequisites are not stated as usable actions. The packet omits obtaining the ISP Access and Review transcript, verifying outcomes against that transcript or certified dispositions, making the expunge-versus-seal election per case, supplying the hearing date, completing a wet signature, and stating the fee/waiver action clearly. A generic attachment sentence does not cure those omissions."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The route should select the education-based sealing choice only. The output instead selects both item 22 and item 15, and it writes the same case into both expungement and sealing sections of the request and proposed order. Those are incompatible route elections rather than participant-preserved options."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "Rows 2-10 in both the expungement and sealing tables carry a case number or charge-cell write while companion agency, arrest-date, and outcome cells remain blank. The zero incompleteRows counter is therefore a semantic false negative."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "No signature, signature date, certificate-of-mailing, court-only, or order-decision field carries participant fixture ink; the protected-write counter is zero."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both exact fixture PDFs were independently hashed from current bytes and match every record naming them; both are flattened with no AcroForm widgets. Poppler reports inherited source XRef warnings but renders all pages successfully and no hash mismatch exists.",
+     "rehashes": [
+      {"fixture":"canonical","sha256":"e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0","byteLength":1735090,"pages":13},
+      {"fixture":"boundary","sha256":"686de38584efa750545d03543757b872cc052e7c95eac14a91084e4353015b26","byteLength":1735719,"pages":13}
+     ]
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both 13-page fixtures follow the manifest: EXP-AD Request pages 1-6, EXP-AD Case List page 1, EXP-AD Order Granting pages 1-2, then FW-CIV-APPLICATION pages 1-4."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "All 26 locally rendered pages were inspected and actual-writes.json reports zero non-whitespace glyphs outside measured boxes and no refused field with ink. No clipping or overlap was found, including at the recorded 6-point minimum. This local measurement does not replace the pending central raster receipt."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions identify the circuit clerk in the county where the case was filed, matching the route record."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions avoid inventing a statewide amount, direct the participant to confirm the county fee, and include the official civil fee-waiver application."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "The instructions identify the circuit clerk as the filing channel and name the State's Attorney and arresting agencies as recipients, with clerk-distribution timing and method stated."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "The exact registry carries eight stop conditions. The packet states broad stops for objection, contested hearing, printed-eligibility mismatch, and immigration consequences, but omits unrecognized cases or identity theft, federal or out-of-state records, a motion to vacate/modify/reconsider, and denial of the petition; transcript ambiguity is at most only loosely covered."
+    }
+   },
+   "freshVerification": {
+    "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+    "focusedCompleteness": "PASS_COMPLETE; 72/424 written; all nine counters zero",
+    "sourcesRehashed": "4/4 exact",
+    "artifactsRehashed": "2/2 exact",
+    "pagesLocallyInspected": 26,
+    "centralRaster": "RASTER_PENDING; next owner RAS04; no central receipt"
+   },
+   "evidenceRead": [
+    "The source receipt, production field map, participant instructions, filing instructions, approval request, actual-writes report, rendered-artifacts report, build summary, and both fixtures under data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+    "The exact four held source PDFs named and hash-bound by source-receipt.json",
+    "data/record-clearing/legal-design-track-registry.json for the exact Illinois education-sealing track",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json and RASTER_QUEUE.json",
+    "Fresh focused completeness verifier output"
+   ],
+   "artifactBytesMovedByThisLane": 0,
+   "overlayDirectoriesModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "This verdict is an independent defect record. It approves no output, promotes no family, opens no route, sets no price, and grants no production authority."
   }
  ],
  "supersededLaneMembership": {
