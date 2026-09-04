@@ -1,0 +1,92 @@
+name: RCAP Targeted Source Acquisition — Missing-Source Supplement
+
+on:
+  push:
+    branches:
+      - "claude/source-acquisition-28-20260904"
+    paths:
+      - "data/rcap-codex/source-acquisition-2026-09-04/supplement-run-request.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rcap-targeted-source-acquisition-supplement
+  cancel-in-progress: true
+
+jobs:
+  supplement:
+    name: Acquire missed direct binaries and write exception receipts
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out acquisition branch
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install inspection and browser tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils file unzip antiword unrtf
+          npm install --prefix /tmp/rcap-tools --no-save --package-lock=false playwright@1.55.0
+          /tmp/rcap-tools/node_modules/.bin/playwright install --with-deps chromium
+          PLAYWRIGHT_MODULE="$(node -p "require.resolve('playwright', { paths: ['/tmp/rcap-tools'] })")"
+          echo "RCAP_PLAYWRIGHT_MODULE=$PLAYWRIGHT_MODULE" >> "$GITHUB_ENV"
+
+      - name: Acquire direct issuer binaries missed by landing-page discovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/rcap-acquire-targeted-sources.mjs \
+            --manifest data/rcap-codex/source-acquisition-2026-09-04/supplement-manifest.json \
+            --out acquired-source-supplement \
+            --timeout-ms 60000
+
+      - name: Write Missouri host-block and Delaware no-public-binary receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/rcap-write-source-exception-receipts.mjs \
+            --out acquired-source-supplement
+
+      - name: Verify supplement outcomes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const p = 'acquired-source-supplement/supplement-disposition-summary.json';
+          const d = JSON.parse(fs.readFileSync(p, 'utf8'));
+          const required = [
+            'CA-SDSC-CRM-307',
+            'TX-OCA-411.0736-MODEL-PETITION',
+            'TX-OCA-411.0736-MODEL-ORDER',
+          ];
+          const missing = required.filter((id) => d.bySourceId[id]?.status !== 'acquired');
+          if (missing.length) throw new Error(`Required direct sources not acquired: ${missing.join(', ')}`);
+          if (d.bySourceId['MO-CR301']?.status !== 'issuer_binary_blocked_http_403') {
+            throw new Error('MO CR301 issuer-host block receipt is missing.');
+          }
+          if (d.bySourceId['DE-SBI-MANDATORY']?.status !== 'no_public_binary_exposed') {
+            throw new Error('Delaware SBI no-public-binary receipt is missing.');
+          }
+          console.log(JSON.stringify(d.counts, null, 2));
+          NODE
+          cat acquired-source-supplement/SUPPLEMENT-README.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload source supplement
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-targeted-source-supplement-28-${{ github.run_id }}
+          path: acquired-source-supplement/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0

@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "rcap-targeted-source-acquisition-manifest/v1",
+  "batchId": "source-acquisition-28-families-2026-09-04",
+  "requestedAt": "2026-09-04T00:00:00-04:00",
+  "purpose": "Acquire and currentness-check the original issuer bytes for the 28 substantive acquisition/currentness families supplied by the owner. Deduplicate shared documents, preserve local scope, and record exact source receipts.",
+  "familyCount": 28,
+  "familyIds": [
+    "mo-575-120-identity-theft-correction-set",
+    "mo-610-122-arrest-expungement-set",
+    "mo-610-140-arrest-set",
+    "mo-610-140-conviction-set",
+    "mo-art-xiv-marijuana-set",
+    "rcap-mo-custom-pleading",
+    "mo-610-145-mistaken-identity-set",
+    "de_discretionary_family_court-set",
+    "de_discretionary_superior_court-set",
+    "de_mandatory_expungement-set",
+    "de_pardon_expungement-set",
+    "ma-expunge-k-set",
+    "ma-seal-admin-set",
+    "ma-seal-court-set",
+    "ma-seal-decrim-set",
+    "ky_nonconviction_expungement-set",
+    "ky_protective_order_record_expungement-set",
+    "me-seal-gen-set",
+    "me-seal-survivor-set",
+    "wv_acc_treatment_job_readiness-set",
+    "wv_conv_nonviolent_felony-set",
+    "ca-diversion-seal-set",
+    "co_municipal_conviction_seal-set",
+    "ga-nonconv-pre2013-set",
+    "mt_mmrta_completed-set",
+    "mt_mmrta_serving-set",
+    "nd-regular-pardon-set",
+    "tx_nd_dwi_conviction-set"
+  ],
+  "distinctSourceCount": 34,
+  "requiredDistinctSourceCount": 33,
+  "custodyInstruction": "Workflow artifact only until identity/currentness review; then copy the artifact unchanged into owner-only Drive custody. Do not commit acquired binaries to the public repository.",
+  "rules": [
+    "Save issuer-original binary bytes; never print a webpage to PDF.",
+    "One acquisition per distinct document; bind the same hash to every covered family.",
+    "Never silently substitute another form number or a post-2013 process for the Georgia pre-2013 request.",
+    "Reject redirects outside the source's approved official host suffixes.",
+    "A local court mirror may clear an issuer source only when its hash exactly matches a pinned issuer copy.",
+    "Currentness, supersession, and route use remain review decisions even after bytes are acquired."
+  ],
+  "sources": [
+    {
+      "sourceId": "MO-FI-05",
+      "jurisdiction": "MO",
+      "familyIds": [
+        "mo-575-120-identity-theft-correction-set",
+        "mo-610-122-arrest-expungement-set",
+        "mo-610-140-arrest-set",
+        "mo-610-140-conviction-set",
+        "mo-art-xiv-marijuana-set",
+        "rcap-mo-custom-pleading"
+      ],
+      "repositorySourceLabels": [
+        "FI-05"
+      ],
+      "issuingAuthority": "Missouri Courts / Office of State Courts Administrator",
+      "officialLandingPages": [
+        "https://www.courts.mo.gov/page.jsp?id=191585",
+        "https://www.courts.mo.gov/page.jsp"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.courts.mo.gov/file.jsp?id=34052",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.courts.mo.gov/page.jsp?id=191585"
+        },
+        {
+          "url": "https://stlcountycourts.com/forms/associate-civil/confidential-case-filing-information-sheet/",
+          "kind": "official_local_court_mirror",
+          "acceptOnlyIfExpectedHashMatches": true
+        }
+      ],
+      "expectedPrintedTitle": "Confidential Case Filing Information Sheet – Non-Domestic Relations",
+      "expectedPrintedFormNumber": "FI-05",
+      "expectedRevisionOrEffectiveDate": "SJRC (04-23); attached Case Types List SJRC (07-23)",
+      "expectedSha256": [
+        "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e"
+      ],
+      "scope": "Missouri statewide court form",
+      "relationship": "Shared confidential filing-information component; one acquired file binds to six families.",
+      "notes": [
+        "Do not re-download per family. The local-court mirror is acceptable only if its bytes match the pinned OSCA hash."
+      ],
+      "allowedHostSuffixes": [
+        ".courts.mo.gov",
+        "stlcountycourts.com"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "MO-CR301",
+      "jurisdiction": "MO",
+      "familyIds": [
+        "mo-610-145-mistaken-identity-set"
+      ],
+      "repositorySourceLabels": [
+        "CR301"
+      ],
+      "issuingAuthority": "Missouri Courts / Office of State Courts Administrator",
+      "officialLandingPages": [
+        "https://www.courts.mo.gov/page.jsp?id=191585",
+        "https://www.16thcircuit.org/miscellaneous-forms"
+      ],
+      "candidates": [
+        {
+          "url": "https://www.courts.mo.gov/file.jsp?id=116396",
+          "kind": "direct_binary",
+          "methodPreference": "browser_first",
+          "preflightUrl": "https://www.16thcircuit.org/miscellaneous-forms"
+        }
+      ],
+      "expectedPrintedTitle": "Petition for Expungement – Mistaken Identity",
+      "expectedPrintedFormNumber": "CR301",
+      "expectedRevisionOrEffectiveDate": null,
+      "expectedSha256": [
+        "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8"
+      ],
+      "scope": "Missouri statewide court form",
+      "relationship": "Standalone petition.",
+      "notes": [
+        "Do not substitute CR310, CR311, CR360, or another criminal form."
+      ],
+      "allowedHostSuffixes": [
+        ".courts.mo.gov",
+        ".16thcircuit.org"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-FORM-281",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_discretionary_family_court-set"
+      ],
+      "repositorySourceLabels": [
+        "FORM-281"
+      ],
+      "issuingAuthority": "Delaware Family Court / Delaware Courts",
+      "officialLandingPages": [
+        "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records"
+      ],
+      "candidates": [
+        {
+          "url": "https://courts.delaware.gov/forms/download.aspx?id=386",
+          "kind": "direct_binary"
+        }
+      ],
+      "expectedPrintedTitle": "Petition For Expungement of Adult Record",
+      "expectedPrintedFormNumber": "281",
+      "expectedRevisionOrEffectiveDate": "11/26/2025",
+      "expectedSha256": [],
+      "scope": "Delaware statewide Family Court",
+      "relationship": "Standalone parent petition.",
+      "notes": [],
+      "allowedHostSuffixes": [
+        ".delaware.gov"
+      ],
+      "requiredForUserBatch": true,
+      "reconciliationOnly": false
+    },
+    {
+      "sourceId": "DE-FORM-281E",
+      "jurisdiction": "DE",
+      "familyIds": [
+        "de_discretionary_family_court-set"
+      ],
+      "repositorySourceLabels": [
+        "FORM-281E"
+      ],
+      "issuingAuthority": "Delaware Family Court / Delaware Courts",
+      "officialLandingPages": [
