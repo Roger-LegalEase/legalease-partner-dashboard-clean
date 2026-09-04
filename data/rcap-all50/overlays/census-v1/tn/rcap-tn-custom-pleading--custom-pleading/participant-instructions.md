@@ -31,34 +31,43 @@ Every page states its own route in its footer. If two routes could fit your reco
 | Component | What it is |
 | --- | --- |
 | `tn_arrest_no_court_record-petition-1` | the composed petition, on this route's own statutory ground (Clear an arrest that never reached a courtroom) |
-| `tn_arrest_no_court_record-filing-instructions-2` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an arrest that never reached a courtroom) |
+| `tn_arrest_no_court_record-clerk-search-and-certification-instructi-2` | clerk search and certification instructions prescribed by the committed tn_arrest_no_court_record packet contract |
+| `tn_arrest_no_court_record-fee-disclosure-3` | fee disclosure prescribed by the committed tn_arrest_no_court_record packet contract |
+| `tn_arrest_no_court_record-filing-and-after-order-instructions-4` | filing and after order instructions prescribed by the committed tn_arrest_no_court_record packet contract |
 | `tn_illegal_voting-participant-request-to-district-attorney-1` | the written request to the prosecutor's office the record names as the preparer (Clear a conviction for illegal registration or voting) |
 | `tn_illegal_voting-participant-eligibility-record-2` | the participant's own record of the facts the prosecutor's office will need (Clear a conviction for illegal registration or voting) |
-| `tn_illegal_voting-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear a conviction for illegal registration or voting) |
+| `tn_illegal_voting-filing-and-handoff-instructions-3` | filing and handoff instructions prescribed by the committed tn_illegal_voting packet contract |
 | `tn_mistaken_identity-petition-1` | the composed petition, on this route's own statutory ground (Clear an arrest that was not yours) |
 | `tn_mistaken_identity-expedited-request-2` | the written request asking for the matter to be taken up quickly (Clear an arrest that was not yours) |
-| `tn_mistaken_identity-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an arrest that was not yours) |
+| `tn_mistaken_identity-filing-and-after-order-instructions-3` | filing and after order instructions prescribed by the committed tn_mistaken_identity packet contract |
 | `tn_nonconviction_petition-petition-1` | the composed petition, on this route's own statutory ground (Clear a charge that did not end in a conviction) |
-| `tn_nonconviction_petition-filing-instructions-2` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear a charge that did not end in a conviction) |
+| `tn_nonconviction_petition-no-cost-statement-2` | no cost statement prescribed by the committed tn_nonconviction_petition packet contract |
+| `tn_nonconviction_petition-filing-and-after-order-instructions-3` | filing and after order instructions prescribed by the committed tn_nonconviction_petition packet contract |
+| `tn_nonconviction_petition-no-court-history-routing-4` | no court history routing prescribed by the committed tn_nonconviction_petition packet contract |
 | `tn_post_pardon-participant-request-to-district-attorney-1` | the written request to the prosecutor's office the record names as the preparer (Clear a conviction you have been pardoned for) |
 | `tn_post_pardon-participant-eligibility-record-2` | the participant's own record of the facts the prosecutor's office will need (Clear a conviction you have been pardoned for) |
-| `tn_post_pardon-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear a conviction you have been pardoned for) |
+| `tn_post_pardon-filing-and-handoff-instructions-3` | filing and handoff instructions prescribed by the committed tn_post_pardon packet contract |
 | `tn_pretrial_diversion-petition-1` | the composed petition, on this route's own statutory ground (Clear a case after completing pretrial diversion) |
-| `tn_pretrial_diversion-filing-instructions-2` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear a case after completing pretrial diversion) |
+| `tn_pretrial_diversion-certification-and-fee-instructions-2` | certification and fee instructions prescribed by the committed tn_pretrial_diversion packet contract |
+| `tn_pretrial_diversion-filing-and-after-order-instructions-3` | filing and after order instructions prescribed by the committed tn_pretrial_diversion packet contract |
 | `tn_recovery_court-participant-request-to-district-attorney-1` | the written request to the prosecutor's office the record names as the preparer (Clear an eligible offence after finishing recovery court, where an old DUI is in the way) |
 | `tn_recovery_court-participant-eligibility-record-2` | the participant's own record of the facts the prosecutor's office will need (Clear an eligible offence after finishing recovery court, where an old DUI is in the way) |
-| `tn_recovery_court-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear an eligible offence after finishing recovery court, where an old DUI is in the way) |
+| `tn_recovery_court-filing-and-handoff-instructions-3` | filing and handoff instructions prescribed by the committed tn_recovery_court packet contract |
 | `tn_redaction-motion-for-partial-removal-1` | the composed motion asking for removal of part of the record only (Clear the dismissed counts in a case where other counts stuck) |
 | `tn_redaction-count-by-count-schedule-2` | the charge-by-charge schedule the motion refers to (Clear the dismissed counts in a case where other counts stuck) |
-| `tn_redaction-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear the dismissed counts in a case where other counts stuck) |
+| `tn_redaction-scope-disclosure-3` | scope disclosure prescribed by the committed tn_redaction packet contract |
+| `tn_redaction-filing-and-after-order-instructions-4` | filing and after order instructions prescribed by the committed tn_redaction packet contract |
 | `tn_eligible_conviction-request-to-district-attorney-1` | the written request to the prosecutor's office the record names as the preparer (Expunge an eligible conviction) |
 | `tn_eligible_conviction-eligibility-record-2` | the participant's own record of the facts the prosecutor's office will need (Expunge an eligible conviction) |
-| `tn_eligible_conviction-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Expunge an eligible conviction) |
+| `tn_eligible_conviction-process-and-expectation-instructions-3` | process and expectation instructions prescribed by the committed tn_eligible_conviction packet contract |
+| `tn_eligible_conviction-alternative-route-screening-4` | alternative route screening prescribed by the committed tn_eligible_conviction packet contract |
 | `tn_judicial_diversion-petition-1` | the composed petition, on this route's own statutory ground (Clear a case after completing judicial diversion) |
-| `tn_judicial_diversion-filing-instructions-2` | what this set is, where it goes, what it costs, who must be served, and when to stop (Clear a case after completing judicial diversion) |
+| `tn_judicial_diversion-certification-and-fee-instructions-2` | certification and fee instructions prescribed by the committed tn_judicial_diversion packet contract |
+| `tn_judicial_diversion-filing-and-after-order-instructions-3` | filing and after order instructions prescribed by the committed tn_judicial_diversion packet contract |
 | `tn_two_offense-request-to-district-attorney-1` | the written request to the prosecutor's office the record names as the preparer (Expunge up to two offences, once in your life) |
 | `tn_two_offense-eligibility-record-2` | the participant's own record of the facts the prosecutor's office will need (Expunge up to two offences, once in your life) |
-| `tn_two_offense-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Expunge up to two offences, once in your life) |
+| `tn_two_offense-process-and-expectation-instructions-3` | process and expectation instructions prescribed by the committed tn_two_offense packet contract |
+| `tn_two_offense-alternative-route-screening-4` | alternative route screening prescribed by the committed tn_two_offense packet contract |
 
 ## Where this is filed, what it costs, and who must be served
 
@@ -196,11 +205,20 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| The exact office and postal address of the recipient of this request | the exact office and postal address you are sending this to, confirmed with that office |
-| Court or office that handled the matter | the court or office that handled your matter, exactly as the record names it |
-| Case or docket number of the matter this request concerns | the case or docket number, copied from the record |
-| Date of the disposition of the matter this request concerns | the date of the disposition, copied from the record |
-| What the person making this request is asking the office to do | what you are asking that office to do, in your own words |
+| Item 1 - Which court convicted you, in which county, and which judicial district is that? The request goes to that district's district attorney general. | Which court convicted you, in which county, and which judicial district is that? The request goes to that district's district attorney general. |
+| Item 2 - What is the docket or case number? | What is the docket or case number? |
+| Item 3 - What is the exact T.C.A. section you were convicted under? This route reaches only § 2-19-107, illegal registration or voting. | What is the exact T.C.A. section you were convicted under? This route reaches only § 2-19-107, illegal registration or voting. |
+| Item 4 - Does the judgment name T.C.A. § 2-19-107 specifically, rather than another elections or fraud provision? | Does the judgment name T.C.A. § 2-19-107 specifically, rather than another elections or fraud provision? |
+| Item 5 - On what date was the offence committed? | On what date was the offence committed? |
+| Item 6 - On what date were you convicted? | On what date were you convicted? |
+| Item 7 - On what date did you complete the entire sentence? The fifteen-year clock runs from then, and it is measured on the day the petition is filed. | On what date did you complete the entire sentence? The fifteen-year clock runs from then, and it is measured on the day the petition is filed. |
+| Item 8 - Is every fine, restitution amount, court cost and other assessment paid in full? Anything outstanding means the sentence is not complete. | Is every fine, restitution amount, court cost and other assessment paid in full? Anything outstanding means the sentence is not complete. |
+| Item 9 - Have you completed any term of imprisonment or probation and met every condition of supervised or unsupervised release? | Have you completed any term of imprisonment or probation and met every condition of supervised or unsupervised release? |
+| Item 10 - List every other conviction you have anywhere, including federal and out-of-state convictions. | List every other conviction you have anywhere, including federal and out-of-state convictions. |
+| Item 11 - Did this offence happen before any conviction you have for an offence that cannot be expunged? | Did this offence happen before any conviction you have for an offence that cannot be expunged? |
+| Item 12 - Have you ever been granted an expunction before under T.C.A. § 40-32-107(a), (b), (c) or (e)? | Have you ever been granted an expunction before under T.C.A. § 40-32-107(a), (b), (c) or (e)? |
+| Item 13 - What is the state control number on your TBI criminal history? | What is the state control number on your TBI criminal history? |
+| Item 14 - Are you doing this to get your voting rights back? That is a separate remedy and this route does not deliver it. | Are you doing this to get your voting rights back? That is a separate remedy and this route does not deliver it. |
 
 ### tn_mistaken_identity-petition-1 — Petition - Clear an arrest that was not yours
 
@@ -258,11 +276,16 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| The exact office and postal address of the recipient of this request | the exact office and postal address you are sending this to, confirmed with that office |
-| Court or office that handled the matter | the court or office that handled your matter, exactly as the record names it |
-| Case or docket number of the matter this request concerns | the case or docket number, copied from the record |
-| Date of the disposition of the matter this request concerns | the date of the disposition, copied from the record |
-| What the person making this request is asking the office to do | what you are asking that office to do, in your own words |
+| Item 1 - Which court convicted you, in which county, and which judicial district is that? | Which court convicted you, in which county, and which judicial district is that? |
+| Item 2 - What is the docket or case number? | What is the docket or case number? |
+| Item 3 - What is the exact T.C.A. section you were convicted under? It is tested against a closed list of seven excluded felonies. | What is the exact T.C.A. section you were convicted under? It is tested against a closed list of seven excluded felonies. |
+| Item 4 - Have you received a pardon from the Governor, and on what date? | Have you received a pardon from the Governor, and on what date? |
+| Item 5 - Did the board of parole return a positive vote to receive a pardon, and on what date? | Did the board of parole return a positive vote to receive a pardon, and on what date? |
+| Item 6 - Was the conviction for an attempt, conspiracy, facilitation or solicitation to commit an offence? The exclusion list reaches those forms expressly. | Was the conviction for an attempt, conspiracy, facilitation or solicitation to commit an offence? The exclusion list reaches those forms expressly. |
+| Item 7 - Was the offence a sexual offence requiring registration as a sexual offender or violent sexual offender, or any sexual offence involving a minor? | Was the offence a sexual offence requiring registration as a sexual offender or violent sexual offender, or any sexual offence involving a minor? |
+| Item 8 - In your own words, is there anything you want the court to know about whether the offence was violent? After the 2026 amendment this is something the court weighs rather than a bar, and it is your account to give. | In your own words, is there anything you want the court to know about whether the offence was violent? After the 2026 amendment this is something the court weighs rather than a bar, and it is your account to give. |
+| Item 9 - Have you ever been granted an expunction before under T.C.A. § 40-32-107(a), (b), (c) or (e)? Subsection (d) states no bar of its own, so this is recorded rather than applied against you. | Have you ever been granted an expunction before under T.C.A. § 40-32-107(a), (b), (c) or (e)? Subsection (d) states no bar of its own, so this is recorded rather than applied against you. |
+| Item 10 - What is the state control number on your TBI criminal history? | What is the state control number on your TBI criminal history? |
 
 ### tn_pretrial_diversion-petition-1 — Petition - Clear a case after completing pretrial diversion
 
@@ -295,11 +318,20 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| The exact office and postal address of the recipient of this request | the exact office and postal address you are sending this to, confirmed with that office |
-| Court or office that handled the matter | the court or office that handled your matter, exactly as the record names it |
-| Case or docket number of the matter this request concerns | the case or docket number, copied from the record |
-| Date of the disposition of the matter this request concerns | the date of the disposition, copied from the record |
-| What the person making this request is asking the office to do | what you are asking that office to do, in your own words |
+| Item 1 - Which court convicted you of the offence you want cleared, in which county, and which judicial district is that? | Which court convicted you of the offence you want cleared, in which county, and which judicial district is that? |
+| Item 2 - What is the docket or case number for that offence? | What is the docket or case number for that offence? |
+| Item 3 - What is the exact T.C.A. section of the offence you want cleared? It has to be on the § 40-32-107(a)(1) eligible lists in its own right. | What is the exact T.C.A. section of the offence you want cleared? It has to be on the § 40-32-107(a)(1) eligible lists in its own right. |
+| Item 4 - Does the offence you want cleared involve a motor vehicle together with alcohol or a controlled substance? If it does, this route is closed for it. | Does the offence you want cleared involve a motor vehicle together with alcohol or a controlled substance? If it does, this route is closed for it. |
+| Item 5 - How many convictions do you have under T.C.A. § 55-10-401 for driving under the influence? More than one closes this route. | How many convictions do you have under T.C.A. § 55-10-401 for driving under the influence? More than one closes this route. |
+| Item 6 - What is the date of that DUI conviction? The ten-year interval runs from it. | What is the date of that DUI conviction? The ten-year interval runs from it. |
+| Item 7 - On what date was the offence you want cleared committed? It must be at least ten years after the DUI conviction. | On what date was the offence you want cleared committed? It must be at least ten years after the DUI conviction. |
+| Item 8 - Did you successfully complete a certified recovery court programme, and on what date? | Did you successfully complete a certified recovery court programme, and on what date? |
+| Item 9 - On what date did you complete the entire sentence for the offence you want cleared? | On what date did you complete the entire sentence for the offence you want cleared? |
+| Item 10 - Is every fine, restitution amount, court cost and other assessment for that offence paid in full? | Is every fine, restitution amount, court cost and other assessment for that offence paid in full? |
+| Item 11 - Have you completed any term of imprisonment or probation for that offence and met every condition of supervised or unsupervised release? | Have you completed any term of imprisonment or probation for that offence and met every condition of supervised or unsupervised release? |
+| Item 12 - Have you ever been granted an expunction before under T.C.A. § 40-32-107(a), (b), (c) or (e)? | Have you ever been granted an expunction before under T.C.A. § 40-32-107(a), (b), (c) or (e)? |
+| Item 13 - What is the state control number on your TBI criminal history? | What is the state control number on your TBI criminal history? |
+| Item 14 - Are you hoping to clear the DUI itself? This route cannot do that, and it is important you know before anything is prepared. | Are you hoping to clear the DUI itself? This route cannot do that, and it is important you know before anything is prepared. |
 
 ### tn_redaction-motion-for-partial-removal-1 — Motion for Partial Removal - Clear the dismissed counts in a case where other counts stuck
 
@@ -351,11 +383,24 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| The exact office and postal address of the recipient of this request | the exact office and postal address you are sending this to, confirmed with that office |
-| Court or office that handled the matter | the court or office that handled your matter, exactly as the record names it |
-| Case or docket number of the matter this request concerns | the case or docket number, copied from the record |
-| Date of the disposition of the matter this request concerns | the date of the disposition, copied from the record |
-| What the person making this request is asking the office to do | what you are asking that office to do, in your own words |
+| Item 1 - Which court handled the case, and in which county? A separate filing is needed in each county where you have a case. | Which court handled the case, and in which county? A separate filing is needed in each county where you have a case. |
+| Item 2 - What is the docket or case number? | What is the docket or case number? |
+| Item 3 - What was the charge, and exactly how did the case end? | What was the charge, and exactly how did the case end? |
+| Item 4 - On what date did the case end? | On what date did the case end? |
+| Item 5 - What is the state control number on your TBI criminal history? The expunction order cannot be completed without it. | What is the state control number on your TBI criminal history? The expunction order cannot be completed without it. |
+| Item 6 - List every other conviction you have anywhere, including federal and out-of-state. | List every other conviction you have anywhere, including federal and out-of-state. |
+| Item 7 - Are you asking about this because of immigration, federal employment or a security clearance? Tennessee expunction does not reach federal records. | Are you asking about this because of immigration, federal employment or a security clearance? Tennessee expunction does not reach federal records. |
+| Item 8 - What is the exact T.C.A. section you were convicted under? The offence name and class are not enough — Tennessee's eligible lists are section by section. | What is the exact T.C.A. section you were convicted under? The offence name and class are not enough — Tennessee's eligible lists are section by section. |
+| Item 9 - On what date was the offence committed? This matters independently of the conviction date, because a 2026 change applies only to offences committed on or after 1 July 2026. | On what date was the offence committed? This matters independently of the conviction date, because a 2026 change applies only to offences committed on or after 1 July 2026. |
+| Item 10 - Did the conviction occur on or after 1 November 1989? | Did the conviction occur on or after 1 November 1989? |
+| Item 11 - On what date did you finish the entire sentence — including any imprisonment or probation, all release conditions, and every fine, restitution amount, court cost and other assessment? | On what date did you finish the entire sentence — including any imprisonment or probation, all release conditions, and every fine, restitution amount, court cost and other assessment? |
+| Item 12 - Is every fine, restitution amount, court cost and other assessment paid in full? Anything outstanding means the sentence is not complete and the clock has not started. | Is every fine, restitution amount, court cost and other assessment paid in full? Anything outstanding means the sentence is not complete and the clock has not started. |
+| Item 13 - Have you ever had a conviction expunged in Tennessee before under T.C.A. § 40-32-107(a), (b), (c) or (e)? This route is available once in a lifetime and a previous grant under (a), (b) or (c) closes it. A grant under (e) is recorded because the statute is asymmetric on the point, and no bar is applied against you that the subsection does not state. | Have you ever had a conviction expunged in Tennessee before under T.C.A. § 40-32-107(a), (b), (c) or (e)? This route is available once in a lifetime and a previous grant under (a), (b) or (c) closes it. A grant under (e) is recorded because the statute is asymmetric on the point, and no bar is applied against you that the subsection does not state. |
+| Item 14 - Did you hold a commercial driver licence at the time, and did the offence involve a controlled substance or a commercial motor vehicle? | Did you hold a commercial driver licence at the time, and did the offence involve a controlled substance or a commercial motor vehicle? |
+| Item 15 - Did your sentence require a period free from dependency on or abuse of alcohol or a controlled substance? If so, have you met at least one year of it? | Did your sentence require a period free from dependency on or abuse of alcohol or a controlled substance? If so, have you met at least one year of it? |
+| Item 16 - Was the conviction for burglary under T.C.A. § 39-13-1002? If so, the date of the offence decides whether the wait is five years or ten. | Was the conviction for burglary under T.C.A. § 39-13-1002? If so, the date of the offence decides whether the wait is five years or ten. |
+| Item 17 - Have you received a pardon from the Governor for this conviction? If you have, a different route may reach it even where this one cannot. | Have you received a pardon from the Governor for this conviction? If you have, a different route may reach it even where this one cannot. |
+| Item 18 - If a DUI conviction is what is standing in the way: have you successfully completed a certified recovery court programme, and did the offence you want cleared happen at least ten years after that DUI conviction? | If a DUI conviction is what is standing in the way: have you successfully completed a certified recovery court programme, and did the offence you want cleared happen at least ten years after that DUI conviction? |
 
 ### tn_judicial_diversion-petition-1 — Petition - Clear a case after completing judicial diversion
 
@@ -388,11 +433,27 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
-| The exact office and postal address of the recipient of this request | the exact office and postal address you are sending this to, confirmed with that office |
-| Court or office that handled the matter | the court or office that handled your matter, exactly as the record names it |
-| Case or docket number of the matter this request concerns | the case or docket number, copied from the record |
-| Date of the disposition of the matter this request concerns | the date of the disposition, copied from the record |
-| What the person making this request is asking the office to do | what you are asking that office to do, in your own words |
+| Item 1 - Which court handled the case, and in which county? A separate filing is needed in each county where you have a case. | Which court handled the case, and in which county? A separate filing is needed in each county where you have a case. |
+| Item 2 - What is the docket or case number? | What is the docket or case number? |
+| Item 3 - What was the charge, and exactly how did the case end? | What was the charge, and exactly how did the case end? |
+| Item 4 - On what date did the case end? | On what date did the case end? |
+| Item 5 - What is the state control number on your TBI criminal history? The expunction order cannot be completed without it. | What is the state control number on your TBI criminal history? The expunction order cannot be completed without it. |
+| Item 6 - List every other conviction you have anywhere, including federal and out-of-state. | List every other conviction you have anywhere, including federal and out-of-state. |
+| Item 7 - Are you asking about this because of immigration, federal employment or a security clearance? Tennessee expunction does not reach federal records. | Are you asking about this because of immigration, federal employment or a security clearance? Tennessee expunction does not reach federal records. |
+| Item 8 - What is the exact T.C.A. section you were convicted under? The offence name and class are not enough — Tennessee's eligible lists are section by section. | What is the exact T.C.A. section you were convicted under? The offence name and class are not enough — Tennessee's eligible lists are section by section. |
+| Item 9 - On what date was the offence committed? This matters independently of the conviction date, because a 2026 change applies only to offences committed on or after 1 July 2026. | On what date was the offence committed? This matters independently of the conviction date, because a 2026 change applies only to offences committed on or after 1 July 2026. |
+| Item 10 - Did the conviction occur on or after 1 November 1989? | Did the conviction occur on or after 1 November 1989? |
+| Item 11 - On what date did you finish the entire sentence — including any imprisonment or probation, all release conditions, and every fine, restitution amount, court cost and other assessment? | On what date did you finish the entire sentence — including any imprisonment or probation, all release conditions, and every fine, restitution amount, court cost and other assessment? |
+| Item 12 - Is every fine, restitution amount, court cost and other assessment paid in full? Anything outstanding means the sentence is not complete and the clock has not started. | Is every fine, restitution amount, court cost and other assessment paid in full? Anything outstanding means the sentence is not complete and the clock has not started. |
+| Item 13 - Have you ever had a conviction expunged in Tennessee before under T.C.A. § 40-32-107(a), (b), (c) or (e)? This route is available once in a lifetime and a previous grant under (a), (b) or (c) closes it. A grant under (e) is recorded because the statute is asymmetric on the point, and no bar is applied against you that the subsection does not state. | Have you ever had a conviction expunged in Tennessee before under T.C.A. § 40-32-107(a), (b), (c) or (e)? This route is available once in a lifetime and a previous grant under (a), (b) or (c) closes it. A grant under (e) is recorded because the statute is asymmetric on the point, and no bar is applied against you that the subsection does not state. |
+| Item 14 - Did you hold a commercial driver licence at the time, and did the offence involve a controlled substance or a commercial motor vehicle? | Did you hold a commercial driver licence at the time, and did the offence involve a controlled substance or a commercial motor vehicle? |
+| Item 15 - Did your sentence require a period free from dependency on or abuse of alcohol or a controlled substance? If so, have you met at least one year of it? | Did your sentence require a period free from dependency on or abuse of alcohol or a controlled substance? If so, have you met at least one year of it? |
+| Item 16 - How many offences are you asking to clear? The limit is two. | How many offences are you asking to clear? The limit is two. |
+| Item 17 - Are the two offences both misdemeanours, or one felony and one misdemeanour? Two felonies cannot be done on this route. | Are the two offences both misdemeanours, or one felony and one misdemeanour? Two felonies cannot be done on this route. |
+| Item 18 - Did the offences happen at the same time and place as part of one continuous incident with a single intent? If so they may count as one, leaving your second slot open. | Did the offences happen at the same time and place as part of one continuous incident with a single intent? If so they may count as one, leaving your second slot open. |
+| Item 19 - This pathway can be used once in your life. Do you have any other conviction that might become eligible later? Using it now closes the door on that. | This pathway can be used once in your life. Do you have any other conviction that might become eligible later? Using it now closes the door on that. |
+| Item 20 - Have you received a pardon from the Governor for this conviction? If you have, a different route may reach it even where this one cannot. | Have you received a pardon from the Governor for this conviction? If you have, a different route may reach it even where this one cannot. |
+| Item 21 - If a DUI conviction is what is standing in the way: have you successfully completed a certified recovery court programme, and did the offence you want cleared happen at least ten years after that DUI conviction? | If a DUI conviction is what is standing in the way: have you successfully completed a certified recovery court programme, and did the offence you want cleared happen at least ten years after that DUI conviction? |
 
 ## What you do, in order
 
