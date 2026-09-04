@@ -306,7 +306,9 @@ function composedBody(componentId, facts) {
     L.push("- your goal is firearm rights, which sealing does not restore;");
     L.push("- any pending charge, any offence-category question, or any immigration question.");
   }
-  L.push("", `Route: ${ROUTE.routeKey}`);
+  // The internal route key overflowed onto a participant-facing, otherwise
+  // blank continuation page for the proposed order. It is not pleading text.
+  if (componentId !== "proposed_order") L.push("", `Route: ${ROUTE.routeKey}`);
   return L.join("\n");
 }
 
