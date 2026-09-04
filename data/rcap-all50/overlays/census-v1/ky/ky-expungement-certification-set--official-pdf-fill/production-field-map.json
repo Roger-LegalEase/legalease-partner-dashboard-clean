@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "rcap-production-field-map/v2",
+  "familyId": "ky_expungement_certification-set",
+  "implementationStrategy": "official_pdf_fill",
+  "routeKeys": [
+    "obligation:track-only:KY:ky_expungement_certification"
+  ],
+  "routeSummary": "Request the statewide Kentucky expungement certification from the Administrative Office of the Courts Records Unit by mail or through the official AOC record-request portal.",
+  "writes": [
+    {
+      "fieldId": "AOC-RU-009:Text Field 3",
+      "fieldName": "Text Field 3",
+      "effectiveLabel": "First Name",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.first_name"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 4",
+      "fieldName": "Text Field 4",
+      "effectiveLabel": "Middle Name",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.middle_name"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 5",
+      "fieldName": "Text Field 5",
+      "effectiveLabel": "Last Name",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.last_name"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 6",
+      "fieldName": "Text Field 6",
+      "effectiveLabel": "Maiden Name(s) and/or Alias",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.other_names"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 7",
+      "fieldName": "Text Field 7",
+      "effectiveLabel": "Date of Birth",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.date_of_birth"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 8",
+      "fieldName": "Text Field 8",
+      "effectiveLabel": "Street Address / P.O. Box",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.street_address"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 9",
+      "fieldName": "Text Field 9",
+      "effectiveLabel": "City, State, ZIP Code",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.city_state_zip"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 12",
+      "fieldName": "Text Field 12",
+      "effectiveLabel": "Requestor/Contact Person",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 13",
+      "fieldName": "Text Field 13",
+      "effectiveLabel": "Requestor Address",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.street_address"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 14",
+      "fieldName": "Text Field 14",
+      "effectiveLabel": "Requestor City, State, ZIP",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.city_state_zip"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 15",
+      "fieldName": "Text Field 15",
+      "effectiveLabel": "Telephone Number",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.phone"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 16",
+      "fieldName": "Text Field 16",
+      "effectiveLabel": "E-mail Address",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "factId": "participant.email"
+    }
+  ],
+  "refusals": [
+    {
+      "fieldId": "AOC-RU-009:Text Field 1",
+      "fieldName": "Text Field 1",
+      "effectiveLabel": "Social Security Number",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "reason": "The platform does not hold this sensitive identity fact; supply it before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 2",
+      "fieldName": "Text Field 2",
+      "effectiveLabel": "Driver's License Number (DLN)",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "reason": "The platform does not hold this sensitive identity fact; supply it before filing",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 10",
+      "fieldName": "Text Field 10",
+      "effectiveLabel": "Date request is signed or mailed",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "reason": "Date completed by the participant when signing or mailing; never prefilled",
+      "refusalClass": "signature_or_date_participant_completion",
+      "role": "protected"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 17",
+      "fieldName": "Text Field 17",
+      "effectiveLabel": "Additional Information (optional)",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "reason": "optional participant-authored content the form itself marks optional; supply only if applicable",
+      "role": "participant"
+    },
+    {
+      "fieldId": "AOC-RU-009:Text Field 11",
+      "fieldName": "Text Field 11",
+      "effectiveLabel": "Company (if applicable)",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "reason": "optional participant-authored content the form itself marks optional; supply only if applicable",
+      "role": "participant"
+    },
+    {
+      "fieldId": "AOC-RU-009:Clear Form 2",
+      "fieldName": "Clear Form 2",
+      "effectiveLabel": "Clear Form 2 viewer UI control",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "reason": "viewer UI control; never a filing fact",
+      "role": "viewer"
+    },
+    {
+      "fieldId": "AOC-RU-009:Print Form 2",
+      "fieldName": "Print Form 2",
+      "effectiveLabel": "Print Form 2 viewer UI control",
+      "documentId": "AOC-RU-009",
+      "page": 1,
+      "reason": "viewer UI control; never a filing fact",
+      "role": "viewer"
+    }
+  ]
+}
