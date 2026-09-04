@@ -182,6 +182,7 @@
     {
       "itemId": "rcap-ks-custom-pleading",
       "status": "COMPLETED",
+      "repairedByThisLane": true,
       "obligationRepaired": [
         "COMPONENT_SET",
         "CLIPPING_AND_OVERLAP"
@@ -479,6 +480,7 @@
       "status": "COMPLETED",
       "buildReturn": "BUILT_RASTER_PENDING",
       "worker": "CODEX-CS1-FIX06-GA-RFO",
+      "repairedByThisLane": true,
       "lane": "FIX06",
       "laneKind": "repair",
       "baseSha": "bcf5991a43a1c2ad05c71be63107620aaca85855",
@@ -590,6 +592,17 @@
           "visualDefects": 0
         },
         "allNineCountersZero": true
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
       },
       "focusedTests": [
         "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route' => CLAIM_OK",
