@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nh_petition_vacated-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "NHJB-2317 prints City/Town at the box New Hampshire named \"Mailing Address.2\", directly under the box named \"Mailing Address.1\" that prints Address.",
+      "consequence": "The shared binder resolves a field's fact from its NAME before its printed line, because a name is more reliable than a harvested caption, and it therefore refuses a city write into a field whose own name says mailing address. The build does not force it: the city is carried to the participant with the fact id declared, so the completeness contract decides for itself whether the packet holds that fact elsewhere. The rule lives in scripts/rcap-official-forms/, which this lane does not write."
+    },
+    {
+      "finding": "NHJB-2956 asks for LAST (MAIDEN/ALIAS) FIRST MI in four boxes and names all four name.1 to name.4.",
+      "consequence": "Every one of those names resolves to the participant's FULL legal name in the shared binder, so a write of one name part into one box is refused as a mapping conflict — correctly, because the alternative is the whole name printed in the box the State Police read as a surname. All four are carried to the participant with their fact ids declared."
+    },
+    {
+      "finding": "NHJB-2311's only court control is a dropdown of SUPERIOR courts, and a pre-2019 annulment petition is usually filed in a circuit court district division — which NHJB-2317's own dropdown lists in full.",
+      "consequence": "The fee-waiver form cannot name the court the petition is filed in. Nothing is invented around it: the election is left to the participant and participant-instructions.md tells them to write the court name by hand where the list cannot express it, rather than picking a superior court they are not in."
+    },
+    {
+      "finding": "NHJB-2311's signature widget ships with the printed hint \"Enter /s/ before name\" baked into its own appearance stream rather than into its value, and flattening materialises it.",
+      "consequence": "Read from the finished artifact alone this looks exactly like ink on a field the map refused, which is a blocking finding and would be the wrong one. The build therefore flattens each pinned source once, unwritten, and compares: ink that matches the source's own appearance is recorded as a documentAuthoredAppearance. Nothing is softened — ink at a widget the source leaves empty, or ink that differs from the source's own, is still a blocking finding."
+    },
+    {
+      "finding": "New Hampshire names every box of the filer block on NHJB-2311 and NHJB-2328 sig.1 through sig.11, including the name, address, city, state, zip, telephone and e-mail lines.",
+      "consequence": "The shared protect rules refuse a write into any field whose name says sig, and that is the right rule: the block is completed by the filer at the moment of signing. The whole block is classified protected and the participant is told, in participant-instructions.md, that it is theirs to complete."
+    },
+    {
+      "finding": "The assignment pins NHJB-2317-DSe for this route, and that form prints its own sub-heading: \"Offenses Resolved Prior to 01/01/2019\".",
+      "consequence": "The packet is built from the form the assignment pins, and the sub-heading is stated to the participant in participant-instructions.md with the clerk named as the place to ask if the matter was resolved later. Which annulment form a vacated matter belongs on is a legal question and this lane answers none: it is recorded here for counsel review rather than resolved in a builder."
+    },
+    {
+      "finding": "NHJB-2328 ships three computed total fields — 12.total, money.total and monthly.total — carrying the value 0, so the flattened packet prints \"Total $ 0.00\" beneath columns of otherwise empty lines.",
+      "consequence": "That is the form's own default and not a write: the census reads the value from the pinned source and the byte proof records the ink as a document-authored appearance. It is stated to the participant in participant-instructions.md, because a frozen 0.00 above a hand-written column would tell the court something the participant did not mean to say, and it is stated to the visual reviewer, who would otherwise read a printed total as a defect."
+    },
+    {
+      "finding": "NHJB-2317 says PLEASE COMPLETE A SEPARATE FORM FOR EACH OFFENSE, and its charge block is one row of six facts, every one of them read off the court record.",
+      "consequence": "Each is declared REQUIRED_BEFORE_FILING and named to the participant, with the clerk of the court that handled the matter as the place to get it. None is estimated: a sentence-completion date guessed onto a petition sworn under penalties of law is worse than a blank one."
+    },
+    {
+      "finding": "The certification on page 2 of NHJB-2317 carries ten sworn boxes, several of which are legal characterisations of the applicant's own record — the RSA 651:5, III time requirements, whether the matter is a violent crime or a felony crime of obstruction of justice, whether an extended term under RSA 651:6 was imposed, whether an enhanced penalty applies to a second conviction.",
+      "consequence": "All ten are left to the participant as sworn elections. A packet that ticked one would be swearing to a characterisation of a record it has not seen."
+    },
+    {
+      "finding": "Section II of NHJB-2956 is the third-party release block, and the control New Hampshire put on its \"NAME OF PERSON/ENTITY TO RECEIVE RECORD\" line is a dropdown of family and probate courts.",
+      "consequence": "This packet requests the participant's own record for their own annulment, so Section II is refused as not applicable on this route and is never populated with participant data. The dropdown is recorded here for the reviewer rather than worked around."
+    },
+    {
+      "finding": "The MASTER_QUEUE row for this family gives its four sources paths in the D source packs and the nationwide recovery pool, custodies this container does not mount.",
+      "consequence": "The build binds all four from the Master Library instead, starting from the digest the assignment pins, and re-hashes each file on disk before a byte is read. The committed corpus index records the same four digests in the Master Library, so this is the same binary held in more than one custody, not a substituted source. The absent custodies are stated rather than worked around and the source receipt records the path actually read."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}
