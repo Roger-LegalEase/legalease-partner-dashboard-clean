@@ -1,4 +1,4 @@
-# What you must do before you file — following up on a Wisconsin expungement the sentencing court already ordered, where the certificate of discharge that triggers it has not reached the court
+# What you must do before you send this request — following up on a Wisconsin expungement the sentencing court already ordered, where the certificate of discharge that triggers it has not reached the court
 
 This packet is prepared for **Wisconsin Certificate-of-Discharge Follow-Up for an Ordered Expungement**.
 
@@ -11,10 +11,10 @@ The platform filled in what it holds about you: your name, your date of birth, y
 | Component | What it is |
 | --- | --- |
 | `wi_exp_certificate_of_discharge_followup-primary-filing-1` | the composed request letter to the supervising or detaining authority, on this route's own statutory ground (Ask for the certificate that completes your expungement) |
-| `wi_exp_certificate_of_discharge_followup-status-request-2` | the written status request to the supervising or detaining authority (Ask for the certificate that completes your expungement) |
+| `wi_exp_certificate_of_discharge_followup-status-request-2` | the written status request to the supervising or detaining authority (Ask for the certificate that completes your expungement) **Only use this component when:** Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued. |
 | `wi_exp_certificate_of_discharge_followup-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Ask for the certificate that completes your expungement) |
 
-## Where this is filed, what it costs, and who must be served
+## Where this request goes, what it costs, and whether service is required
 
 | Question | What the repository establishes, or the authority that answers it |
 | --- | --- |
@@ -29,7 +29,7 @@ Each of these is carried here in the words of the committed record it comes from
 
 - **The committed track registry** — Confirm with the clerk of circuit court that no certificate of discharge was received before sending the request, and re-check Wisconsin Circuit Court Access afterwards to see whether the record left public access.
 
-## Documents you must obtain before filing
+## Documents that may help before you send the request
 
 | Document | Where you get it |
 | --- | --- |
@@ -44,6 +44,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| The current office and postal address of the supervising or detaining authority | the current name and postal address of the supervising or detaining authority you are sending this request to, confirmed with that office |
 | Item C1 - case number and county | What is the case number, and which Wisconsin county was the case in? |
 | Item C2 - supervision identifier | What is your Department of Corrections or offender identification number, if you have one? (Asked where the sentence included probation or confinement, because it is how the supervising authority locates the file.) |
 | Item C3 - supervising authority | Which agency supervised your probation, or which facility held you? |
@@ -65,19 +66,19 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 ## What you do, in order
 
-1. **Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.
-2. **Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.
-3. **Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.
-4. **Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**
-5. **File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.
-6. **Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make.
+1. **Read the instructions page.** This is not a court filing. It names the supervising or detaining authority this goes to, states that there is no filing fee or service requirement, and tells you when to stop.
+2. **Choose the request that matches what you want.** Use the primary letter to ask the authority to issue and forward the certificate. Use the conditional status request only when you want to know whether the certificate has already issued.
+3. **Fill every labelled dotted blank on the request you choose**, from the record itself. Confirm the current name and mailing address of the supervising or detaining authority; do not guess a date, case number or office name.
+4. **Sign and date the request you choose, personally.** The platform never signs for you and never dates a signing line.
+5. **Send the request you choose to the supervising or detaining authority** by ordinary mail or that authority's stated correspondence channel. Keep a copy and a record of the date sent.
+6. **Re-check with the clerk of circuit court afterwards** to learn whether the certificate reached the court and the record left public access.
 
 ## Things the platform deliberately left blank
 
 - **Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.
-- **Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists.
+- **The current recipient address and the case details on the request you use.** These are facts of your own matter that you copy from the office and case records before sending; no court assigns them at filing.
 
-## When to stop and get help instead of filing
+## When to stop and get help before sending
 
 - The judge did not order expungement at sentencing. There is no certificate owed and the request would be pointless.
 - Any dispute about whether completion was successful, particularly a revocation or a subsequent conviction, because those are the two facts that destroy the expungement entirely.

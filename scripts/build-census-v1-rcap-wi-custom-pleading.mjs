@@ -17,9 +17,10 @@
  * Corrections in most probation cases, or the detaining authority where the
  * sentence included confinement.
  *
- * So one page in this packet goes to a court and one does not, and the packet
- * says which is which. Building both as court filings would send a
- * participant to a clerk with a document that office cannot act on.
+ * Both request pages go to the supervising or detaining authority, never to a
+ * court. They are alternatives: the primary letter asks the authority to issue
+ * and forward the certificate, while the conditional status page is used only
+ * when the participant wants to know whether that has already happened.
  *
  * A built family is a built family. It is not verified, not approved, not
  * sellable, and this builder issues no verdict on its own packets.
@@ -64,6 +65,7 @@ const SPEC = {
         "Did the judge order at your sentencing that the record would be expunged once you completed your sentence?",
         "Have you asked the clerk of court whether they received a certificate of discharge, and what did they say?",
         "Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done?",
+        "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued.",
         "none",
         "none. Ordinary mail or the authority's stated correspondence channel is sufficient; there is no service requirement.",
         "Not a court filing. Send the written request to the supervising or detaining authority. Confirm with the clerk of circui"
@@ -75,7 +77,8 @@ const SPEC = {
       "role": "the committed custom-pleading specifications: the component set this packet must contain, and the participant actions the record requires before filing",
       "mustContain": [
         "\"componentId\": \"wi_exp_certificate_of_discharge_followup-primary-filing-1\"",
-        "\"componentId\": \"wi_exp_certificate_of_discharge_followup-status-request-2\""
+        "\"componentId\": \"wi_exp_certificate_of_discharge_followup-status-request-2\"",
+        "The current mailing address of the supervising authority — Request letter, addressee block."
       ]
     },
     {
@@ -200,6 +203,13 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
+          "id": "addressee_detail",
+          "label": "The current office and postal address of the supervising or detaining authority",
+          "supply": "the current name and postal address of the supervising or detaining authority you are sending this request to, confirmed with that office",
+          "why": "the committed specification requires the current mailing address of the supervising authority before sending, and which office holds the participant's matter is a fact of that matter"
+        },
+        {
+          "kind": "rbf",
           "id": "fact_caseNumberAndCounty",
           "label": "Item C1 - case number and county",
           "supply": "What is the case number, and which Wisconsin county was the case in?",
@@ -255,12 +265,6 @@ const SPEC = {
           "why": "the committed track registry records this as a required generation input for wi_exp_certificate_of_discharge_followup, and the platform holds no value for it"
         },
         {
-          "kind": "court",
-          "id": "case_number",
-          "label": "Case number of this filing, if the court assigns one at filing",
-          "why": "if a number is assigned, the court assigns it at filing"
-        },
-        {
           "kind": "protected",
           "id": "petition_signature",
           "label": "Signature of the person named in the caption, on the petition",
@@ -280,7 +284,7 @@ const SPEC = {
       "title": "Status Request - Ask for the certificate that completes your expungement",
       "role": "status_request",
       "description": "the written status request to the supervising or detaining authority (Ask for the certificate that completes your expungement)",
-      "condition": null,
+      "condition": "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued.",
       "body": [
         "TO: The detaining or probationary authority that supervised the participant, with the clerk of circuit court as the certificate's destination",
         "{{DOTS}}",
@@ -440,7 +444,7 @@ const SPEC = {
         "THE PAGES IN THIS SET",
         "",
         "- wi_exp_certificate_of_discharge_followup-primary-filing-1: the composed request letter to the supervising or detaining authority, on this route's own statutory ground (Ask for the certificate that completes your expungement)",
-        "- wi_exp_certificate_of_discharge_followup-status-request-2: the written status request to the supervising or detaining authority (Ask for the certificate that completes your expungement)"
+        "- wi_exp_certificate_of_discharge_followup-status-request-2: the written status request to the supervising or detaining authority. Use it only where the participant wants to know whether the certificate has issued, rather than to ask that it be issued."
       ],
       "writes": [
         {
@@ -512,17 +516,18 @@ const SPEC = {
       "The Department of Corrections or the detaining authority"
     ]
   ],
+  "documentsHeading": "Documents that may help before you send the request",
   "steps": [
-    "**Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.",
-    "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
-    "**Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.",
-    "**Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**",
-    "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.",
-    "**Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make."
+    "**Read the instructions page.** This is not a court filing. It names the supervising or detaining authority this goes to, states that there is no filing fee or service requirement, and tells you when to stop.",
+    "**Choose the request that matches what you want.** Use the primary letter to ask the authority to issue and forward the certificate. Use the conditional status request only when you want to know whether the certificate has already issued.",
+    "**Fill every labelled dotted blank on the request you choose**, from the record itself. Confirm the current name and mailing address of the supervising or detaining authority; do not guess a date, case number or office name.",
+    "**Sign and date the request you choose, personally.** The platform never signs for you and never dates a signing line.",
+    "**Send the request you choose to the supervising or detaining authority** by ordinary mail or that authority's stated correspondence channel. Keep a copy and a record of the date sent.",
+    "**Re-check with the clerk of circuit court afterwards** to learn whether the certificate reached the court and the record left public access."
   ],
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
-    "**Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists."
+    "**The current recipient address and the case details on the request you use.** These are facts of your own matter that you copy from the office and case records before sending; no court assigns them at filing."
   ],
   "recordSays": [
     [
@@ -918,7 +923,7 @@ function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
   const out = [];
-  out.push(`# What you must do before you file — ${SPEC.routeName}`, "");
+  out.push(`# What you must do before you send this request — ${SPEC.routeName}`, "");
   out.push(`This packet is prepared for **${SPEC.legalName}**.`, "");
   for (const p of SPEC.instructionsIntro) out.push(p, "");
 
@@ -933,10 +938,13 @@ function participantInstructions(maps, rbf) {
 
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
-  for (const c of SPEC.components) out.push(`| \`${c.id}\` | ${c.description} |`);
+  for (const c of SPEC.components) {
+    const condition = c.condition ? ` **Only use this component when:** ${c.condition}` : "";
+    out.push(`| \`${c.id}\` | ${c.description}${condition} |`);
+  }
   out.push("");
 
-  out.push("## Where this is filed, what it costs, and who must be served", "");
+  out.push("## Where this request goes, what it costs, and whether service is required", "");
   out.push("| Question | What the repository establishes, or the authority that answers it |", "| --- | --- |");
   for (const [q, answer] of SPEC.obligationTable) out.push(`| ${q} | ${answer} |`);
   out.push("");
@@ -984,7 +992,7 @@ function participantInstructions(maps, rbf) {
     out.push("");
   }
 
-  out.push("## When to stop and get help instead of filing", "");
+  out.push("## When to stop and get help before sending", "");
   for (const s of SPEC.stopConditions) out.push(`- ${s}`);
   out.push("");
 
@@ -1010,6 +1018,26 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   if (checkOnly) {
     const maps = COMPONENT_IDS.map((c) => composedMap(c));
+    const primaryId = "wi_exp_certificate_of_discharge_followup-primary-filing-1";
+    const statusId = "wi_exp_certificate_of_discharge_followup-status-request-2";
+    const primary = COMPONENT[primaryId];
+    const status = COMPONENT[statusId];
+    const instructions = participantInstructions(maps, requiredBeforeFilingItems(maps));
+    assert.equal(status.condition,
+      "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued.",
+      "the status request must preserve the registry's only-if condition");
+    assert.ok(primary.blanks.some((b) => b.kind === "rbf" && b.id === "addressee_detail"),
+      "the primary request must inventory the supervising authority mailing-address blank");
+    assert.ok(!primary.blanks.some((b) => b.id === "case_number"),
+      "the non-court primary request must not invent a court-assigned case number");
+    assert.match(instructions, /Only use this component when:.*wants only to know whether the certificate has issued/i,
+      "the component table must disclose the status request's only-if condition");
+    assert.doesNotMatch(instructions, /File the pages for your route/i,
+      "instructions must not tell the participant to file an administrative request");
+    assert.doesNotMatch(instructions, /Every case number in every caption/i,
+      "instructions must not describe a nonexistent court caption or court-assigned number");
+    assert.match(instructions, /send the request you choose to the supervising or detaining authority/i,
+      "instructions must direct the selected request to the registry's administrative destination");
     return {
       familyId: SPEC.familyId, status: "CHECK_ONLY",
       recordsBound: resolved.length,
