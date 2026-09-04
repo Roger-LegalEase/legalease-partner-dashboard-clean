@@ -30,7 +30,7 @@ is a legal question, and none of which this file answers.
 | `rcap-il-guidance-implementation` | IL | 4 | 2 | — | — | approved_by_decision_owner |
 | `rcap-in-custom-pleading` | IN | 3 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-in-guidance-implementation` | IN | 1 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
-| `rcap-ks-custom-pleading` | KS | 2 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
+| `rcap-ks-custom-pleading` | KS | 2 | 2 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-ky-guidance-implementation` | KY | 2 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-la-guidance-implementation` | LA | 3 | 1 | complete | formal_visual_review_pending | approved_by_decision_owner |
 | `rcap-ma-guidance-implementation` | MA | 1 | 0 | complete | formal_visual_review_pending | approved_by_decision_owner |
@@ -81,4 +81,4 @@ What the 2026-08-08 standing adoption never reached, and what the owner's decisi
 - Jurisdictions outside EXT-ADOPT-01's exact scope: AL (approved), AZ (approved), IA (approved), ID (approved), OR (approved), WY (approved)
 - Families with superseded technical evidence: `rcap-in-custom-pleading` (approved), `rcap-ms-custom-pleading` (approved), `rcap-nd-custom-pleading` (approved)
 - Named legal actions: `HI:deferred-acceptance-one-year` (approved), `HI:deferred-prostitution-three-year` (approved)
-- Intended-paid pathways with no packet-family bridge in this repository: 192 — a data gap, not a legal one, and no owner decision can close it.
+- Intended-paid pathways with no packet-family bridge in this repository: 191 — a data gap, not a legal one, and no owner decision can close it.

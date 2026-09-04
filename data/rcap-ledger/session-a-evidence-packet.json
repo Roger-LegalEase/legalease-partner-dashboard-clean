@@ -7,7 +7,7 @@
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
     "ref": null,
-    "sha256": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75"
+    "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05"
   },
   "doesNotMaintainASeparateDenominator": "The denominator here is Session A's graph, consumed as-is: every pathway key, registry track list and disposition comes from data/rcap-ledger/paid-pathway-legal-join.json and none is recomputed. data/rcap-ledger/sellable-pathway-closure.json remains only as the denominator input Session A already integrated; it is not a rival canonical record and nothing in this packet re-derives it.",
   "createsApproval": false,
@@ -17,19 +17,19 @@
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75"
+      "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05"
     },
     "packetFamilyBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d"
+      "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572"
     },
     "trackSourceRelationships": {
       "path": "data/record-clearing/legal-design-track-source-relationships.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "2a6ea2862b24b2dbb6cafebb8ad6ff0abd0ee5ddaf441c388d4debfa28a856be"
+      "sha256": "c24c9cf4edc2336f2560497324737cc361aef5dcdae0bda60cec77488d4bf591"
     },
     "extAdopt01": {
       "path": "data/record-clearing/template-families/EXT-ADOPT-01-standing-external-counsel-adoption.json",
@@ -67,15 +67,16 @@
   "totals": {
     "pathways": 262,
     "sessionADispositions": {
-      "family_bridge_missing_no_family": 152,
+      "family_bridge_missing_no_family": 151,
       "approved_by_decision_owner": 70,
-      "family_bridge_missing_no_track": 40
+      "family_bridge_missing_no_track": 40,
+      "owner_approval_pending": 1
     },
     "registryClassifications": {
       "exact_track_and_packet_set": 222,
       "registry_gap_no_track": 40
     },
-    "bridgeImportResolved": 152,
+    "bridgeImportResolved": 151,
     "pathwaysWithCompletedOutputEvidence": 70,
     "ownerApprovedLegal": 227,
     "ownerApprovalBases": {
@@ -95,17 +96,17 @@
     "sessionABridge": {
       "trackToFamilySource": "data/rcap-codex/d-track-terminalization/track-family-map.json",
       "trackToFamilyScope": "D",
-      "tracksWithAFamilyBridge": 259,
+      "tracksWithAFamilyBridge": 260,
       "adoptedFamilyProofsRead": 57,
       "note": "The only track-to-family bridge in this repository covers lane D. A pathway whose tracks are outside it cannot be joined to a counsel record here, and is reported as bridge-missing rather than as covered or as a new review."
     },
     "importedBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+      "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
       "trackCount": 497,
       "scope": "every registry track"
     },
-    "effect": "Session A's join reported 152 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 152 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
+    "effect": "Session A's join reported 151 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 151 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
     "stillUnbridgeable": 40
   },
   "ownerLegalDecision": {
@@ -31252,7 +31253,7 @@
                 "role": "certificate_of_service",
                 "requirement": "required",
                 "outputStrategy": "official_pdf_fill",
-                "officialFormId": "MT-OCA-MMRTA",
+                "officialFormId": "MT-MMRTA-CERTIFICATE-OF-SERVICE",
                 "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta"
               },
               {
@@ -31260,7 +31261,7 @@
                 "role": "proposed_order",
                 "requirement": "required",
                 "outputStrategy": "official_pdf_fill",
-                "officialFormId": "MT-OCA-MMRTA",
+                "officialFormId": "MT-MMRTA-PROPOSED-ORDER",
                 "officialSourceUrl": "https://courts.mt.gov/Forms/mmrta"
               },
               {
@@ -60334,12 +60335,14 @@
       "pathwayId": "regime-1-expungement-available-now",
       "pathwayLabel": "Regime 1 — Expungement (§ 19.2-392.2), available now",
       "sessionAGraph": {
-        "disposition": "family_bridge_missing_no_family",
-        "statement": "Tracks va_exp_absolute_pardon map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "disposition": "owner_approval_pending",
+        "statement": "The pathway resolves to packet family va_exp_absolute_pardon-set, and 1 of them is not named by any owner legal decision.",
         "registryTrackIds": [
           "va_exp_absolute_pardon"
         ],
-        "packetFamilies": [],
+        "packetFamilies": [
+          "va_exp_absolute_pardon-set"
+        ],
         "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
@@ -60478,11 +60481,10 @@
         "statement": "Tracks va_exp_absolute_pardon map to this pathway and each carries an exact packet set (va_exp_absolute_pardon-set)."
       },
       "bridgeImportEffect": {
-        "changed": true,
-        "sessionADisposition": "family_bridge_missing_no_family",
-        "sessionAReason": "Tracks va_exp_absolute_pardon map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
-        "afterImport": "packet_set_bridge_present",
-        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
+        "changed": false,
+        "sessionADisposition": "owner_approval_pending",
+        "sessionAReason": "The pathway resolves to packet family va_exp_absolute_pardon-set, and 1 of them is not named by any owner legal decision.",
+        "afterImport": "owner_approval_pending"
       },
       "adoptionJoin": {
         "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",

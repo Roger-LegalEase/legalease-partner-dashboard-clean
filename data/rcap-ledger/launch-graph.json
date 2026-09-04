@@ -12,14 +12,14 @@
     "enforcement": "Every consumed ledger is required to describe exactly this pathway set. A ledger that adds or drops a pathway fails this generator rather than being reconciled quietly, so there is no second denominator to disagree with."
   },
   "inputs": {
-    "data/rcap-ledger/sellable-pathway-closure.json": "2c0ebc42e12a21bb444519c8f9b0e4260c95034175364aac3e0b0cb6d88f5e6e",
-    "data/rcap-ledger/paid-pathway-legal-join.json": "9d81244cdf97b7f71e502f981966d6c61ac8a660ce346c6c61b83486ce896a75",
-    "data/record-clearing/legal-design-packet-set-manifests.json": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+    "data/rcap-ledger/sellable-pathway-closure.json": "92dc0ae26c187c247690de921a2d9d144845cc5dddf354e2f3baa0653f86de1a",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
+    "data/record-clearing/legal-design-packet-set-manifests.json": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
     "data/rcap-ledger/public-witness-answer-sets.json": "120fd18ca819f5332a030913df9f9015e6ebf2ae7cd09c48f377f21097380862",
-    "data/record-clearing/factory-v2-route-registry.json": "a5f05b50b453edd2f6714a0a52300737ed4665cc10de5bbebd0012925fcf79f5",
+    "data/record-clearing/factory-v2-route-registry.json": "441641b421f2418203819a72c042aab1159b5fc54c7a969dc6990280a436947b",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
-    "data/rcap-ledger/session-a-evidence-packet.json": "23b6ae3da2d499a1f4c0b574eff8e10b5e2ab2011ff5036e7455aada4b16e233"
+    "data/rcap-ledger/session-a-evidence-packet.json": "ed01b5fe9ada9ffa052401ede5aebcedab75d43d9b4f62a9d5a3c28a0d5b8342"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -51,8 +51,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 168,
-    "factoryV2Resolved": 168,
+    "factoryV2Selected": 164,
+    "factoryV2Resolved": 164,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -61,6 +61,22 @@
       {
         "pathwayKey": "KY:felony-conviction-431073",
         "suppressedBy": "exact_supported_deferral"
+      },
+      {
+        "pathwayKey": "MA:marijuana-only-expungement",
+        "suppressedBy": "guidance_only"
+      },
+      {
+        "pathwayKey": "NE:law-enforcement-error-expungement",
+        "suppressedBy": "guidance_only"
+      },
+      {
+        "pathwayKey": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+        "suppressedBy": "guidance_only"
+      },
+      {
+        "pathwayKey": "OR:marijuana-specific-set-aside-redesignation",
+        "suppressedBy": "guidance_only"
       },
       {
         "pathwayKey": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
@@ -72,18 +88,18 @@
       }
     ],
     "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 168,
-    "deterministicallyRendered": 40,
-    "officialFormsNamedButNotHeldInThisRepository": 128,
+    "deterministicallyRenderedComposedText": 164,
+    "deterministicallyRendered": 39,
+    "officialFormsNamedButNotHeldInThisRepository": 125,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 167,
     "technicalApprovalCurrent": 192,
-    "deterministicArtifactProven": 222,
+    "deterministicArtifactProven": 223,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 234,
-    "rendererSelected": 64,
+    "rendererSelected": 68,
     "packetSpecificationComplete": 40
   },
   "availability": {
@@ -102,10 +118,10 @@
       "PACKET_READY": 0,
       "CUSTOM_PLEADING_READY": 0,
       "GUIDANCE_READY": 0,
-      "HANDOFF_READY": 3,
+      "HANDOFF_READY": 5,
       "MAINTENANCE_HOLD": 19,
-      "LEGAL_HOLD": 1,
-      "UNFINISHED": 239
+      "LEGAL_HOLD": 8,
+      "UNFINISHED": 230
     },
     "byState": {
       "AK": {
@@ -258,8 +274,8 @@
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
-        "LEGAL_HOLD": 0,
-        "UNFINISHED": 5
+        "LEGAL_HOLD": 3,
+        "UNFINISHED": 2
       },
       "KY": {
         "PACKET_READY": 0,
@@ -285,8 +301,8 @@
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
-        "LEGAL_HOLD": 0,
-        "UNFINISHED": 6
+        "LEGAL_HOLD": 1,
+        "UNFINISHED": 5
       },
       "MD": {
         "PACKET_READY": 0,
@@ -375,8 +391,8 @@
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 4,
-        "LEGAL_HOLD": 0,
-        "UNFINISHED": 2
+        "LEGAL_HOLD": 1,
+        "UNFINISHED": 1
       },
       "NH": {
         "PACKET_READY": 0,
@@ -393,8 +409,8 @@
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
-        "LEGAL_HOLD": 0,
-        "UNFINISHED": 3
+        "LEGAL_HOLD": 1,
+        "UNFINISHED": 2
       },
       "NM": {
         "PACKET_READY": 0,
@@ -409,10 +425,10 @@
         "PACKET_READY": 0,
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
-        "HANDOFF_READY": 0,
+        "HANDOFF_READY": 1,
         "MAINTENANCE_HOLD": 0,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 7
+        "UNFINISHED": 6
       },
       "NY": {
         "PACKET_READY": 0,
@@ -447,8 +463,8 @@
         "GUIDANCE_READY": 0,
         "HANDOFF_READY": 0,
         "MAINTENANCE_HOLD": 0,
-        "LEGAL_HOLD": 1,
-        "UNFINISHED": 2
+        "LEGAL_HOLD": 2,
+        "UNFINISHED": 1
       },
       "PA": {
         "PACKET_READY": 0,
@@ -481,10 +497,10 @@
         "PACKET_READY": 0,
         "CUSTOM_PLEADING_READY": 0,
         "GUIDANCE_READY": 0,
-        "HANDOFF_READY": 0,
+        "HANDOFF_READY": 1,
         "MAINTENANCE_HOLD": 0,
         "LEGAL_HOLD": 0,
-        "UNFINISHED": 6
+        "UNFINISHED": 5
       },
       "TN": {
         "PACKET_READY": 0,
@@ -7360,7 +7376,7 @@
       "jurisdiction": "KS",
       "pathwayId": "conviction-or-diversion-216614",
       "pathwayLabel": "Conviction or diversion expungement under K.S.A. 21-6614",
-      "availability": "UNFINISHED",
+      "availability": "LEGAL_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -7663,7 +7679,7 @@
       "jurisdiction": "KS",
       "pathwayId": "prostitution-coercion",
       "pathwayLabel": "Prostitution offense committed under coercion",
-      "availability": "UNFINISHED",
+      "availability": "LEGAL_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -7768,7 +7784,7 @@
       "jurisdiction": "KS",
       "pathwayId": "specialty-court-accelerated",
       "pathwayLabel": "Specialty-court completion route",
-      "availability": "UNFINISHED",
+      "availability": "LEGAL_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -9649,7 +9665,7 @@
       "jurisdiction": "MA",
       "pathwayId": "marijuana-only-expungement",
       "pathwayLabel": "Marijuana-only expungement",
-      "availability": "UNFINISHED",
+      "availability": "LEGAL_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -9691,12 +9707,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "ma-expunge-mj-set"
-        ],
-        "reason": "MA marijuana-only-expungement builds through the shared packet factory from packet set ma-expunge-mj-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "MA:marijuana-only-expungement is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -9709,15 +9723,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "525243135040c5c16172bf3daecc4593e743e827ab3e3d43a10ba26345cc9d18",
-        "characters": 2545,
-        "sections": 10,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -9731,7 +9737,7 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
+        "rendererSelected": false,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
@@ -9739,6 +9745,7 @@
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
+        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "operationallySellable": false,
@@ -13743,7 +13750,8 @@
         "officialFormIdsNamed": [
           "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
           "MT-FORM-B",
-          "MT-OCA-MMRTA"
+          "MT-MMRTA-CERTIFICATE-OF-SERVICE",
+          "MT-MMRTA-PROPOSED-ORDER"
         ],
         "officialFormIdsHeldInThisRepository": [],
         "allNamedSourcesHeld": false
@@ -13778,8 +13786,8 @@
       "artifactResult": {
         "rendered": true,
         "deterministic": true,
-        "sha256": "38df5e1914206558b8823a70152f77274280c9778a9768c2a0cd6598ff303f5b",
-        "characters": 3406,
+        "sha256": "7b4a1913a634eae6fbf00798b540747688722562b439201be5c9054e760728a1",
+        "characters": 3461,
         "sections": 12,
         "warnings": 0,
         "errors": []
@@ -14894,7 +14902,7 @@
       "jurisdiction": "NE",
       "pathwayId": "law-enforcement-error-expungement",
       "pathwayLabel": "True expungement for arrest caused by law-enforcement error under § 29-3523(6)",
-      "availability": "UNFINISHED",
+      "availability": "LEGAL_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -14934,12 +14942,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "ne-expunge-le-error-set"
-        ],
-        "reason": "NE law-enforcement-error-expungement builds through the shared packet factory from packet set ne-expunge-le-error-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "NE:law-enforcement-error-expungement is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -14952,15 +14958,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "cd8a5173ff5c8dba9dedef8802504d0275a4e2fec103ace330decd154152f720",
-        "characters": 2741,
-        "sections": 11,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -14974,14 +14972,16 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
-        "deterministicArtifactProven": true,
+        "rendererSelected": false,
+        "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "paymentAllowed",
         "ownerApprovedLegalDesign",
-        "technicalApprovalCurrent"
+        "technicalApprovalCurrent",
+        "rendererSelected",
+        "deterministicArtifactProven"
       ],
       "operationallySellable": false,
       "allOperationalGatesMet": false
@@ -16045,7 +16045,7 @@
       "jurisdiction": "NJ",
       "pathwayId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
       "pathwayLabel": "Clean Slate petition under N.J.S.A. 2C:52-5.3",
-      "availability": "UNFINISHED",
+      "availability": "LEGAL_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -16087,12 +16087,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "nj_clean_slate-set"
-        ],
-        "reason": "NJ clean-slate-petition-under-n-j-s-a-2c-52-5-3 builds through the shared packet factory from packet set nj_clean_slate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3 is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -16105,15 +16103,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "262386ef5a14df6c7fdacfba0b0ca26bfda462fd572f23ca6b5b4a6e4708b104",
-        "characters": 3309,
-        "sections": 12,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -16127,7 +16117,7 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
+        "rendererSelected": false,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
@@ -16135,6 +16125,7 @@
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
+        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "operationallySellable": false,
@@ -17137,7 +17128,7 @@
       "jurisdiction": "NV",
       "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "pathwayLabel": "Trafficking-victim vacatur and sealing under NRS 179.247",
-      "availability": "UNFINISHED",
+      "availability": "HANDOFF_READY",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -17191,10 +17182,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "guidance_only",
+        "routeKind": "handoff",
         "rendererKind": "none",
         "packetSetIds": [],
-        "reason": "NV has a compiled profile but no certified packet renderer, so it serves guidance."
+        "reason": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 is a single_stage referral: the approved outcome is a hand-off to counsel or the prosecutor, not a self-filed packet, so checkout, credit and render stay closed."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -19830,7 +19821,7 @@
       "jurisdiction": "OR",
       "pathwayId": "marijuana-specific-set-aside-redesignation",
       "pathwayLabel": "Marijuana-specific set-aside / redesignation",
-      "availability": "UNFINISHED",
+      "availability": "LEGAL_HOLD",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -19873,12 +19864,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "or_conviction_setaside-set"
-        ],
-        "reason": "OR marijuana-specific-set-aside-redesignation builds through the shared packet factory from packet set or_conviction_setaside-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "OR:marijuana-specific-set-aside-redesignation is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -19891,15 +19880,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "0be9610b4374d4516d7830f3346ccd36c90ba10a8c9add9d29a5f09b99f85d76",
-        "characters": 3345,
-        "sections": 12,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -19913,13 +19894,14 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": true,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
+        "rendererSelected": false,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "paymentAllowed",
         "technicalApprovalCurrent",
+        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "operationallySellable": false,
@@ -21762,7 +21744,7 @@
       "jurisdiction": "SD",
       "pathwayId": "juvenile-trafficking-expungement",
       "pathwayLabel": "Juvenile-trafficking expungement",
-      "availability": "UNFINISHED",
+      "availability": "HANDOFF_READY",
       "compiledPathway": {
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
@@ -21817,10 +21799,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "guidance_only",
+        "routeKind": "handoff",
         "rendererKind": "none",
         "packetSetIds": [],
-        "reason": "SD has a compiled profile but no certified packet renderer, so it serves guidance."
+        "reason": "SD:juvenile-trafficking-expungement is a single_stage referral: the approved outcome is a hand-off to counsel or the prosecutor, not a self-filed packet, so checkout, credit and render stay closed."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -24005,7 +23987,9 @@
       ],
       "registryGap": false,
       "pathwayLevelPacketRecord": null,
-      "packetFamilies": [],
+      "packetFamilies": [
+        "va_exp_absolute_pardon-set"
+      ],
       "packetSets": [
         {
           "packetSetId": "va_exp_absolute_pardon-set",

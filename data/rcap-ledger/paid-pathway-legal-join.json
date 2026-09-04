@@ -121,15 +121,16 @@
   "bridge": {
     "trackToFamilySource": "data/rcap-codex/d-track-terminalization/track-family-map.json",
     "trackToFamilyScope": "D",
-    "tracksWithAFamilyBridge": 259,
+    "tracksWithAFamilyBridge": 260,
     "adoptedFamilyProofsRead": 57,
     "note": "The only track-to-family bridge in this repository covers lane D. A pathway whose tracks are outside it cannot be joined to a counsel record here, and is reported as bridge-missing rather than as covered or as a new review."
   },
   "intendedPaidPathways": 262,
   "counts": {
-    "family_bridge_missing_no_family": 152,
+    "family_bridge_missing_no_family": 151,
     "approved_by_decision_owner": 70,
-    "family_bridge_missing_no_track": 40
+    "family_bridge_missing_no_track": 40,
+    "owner_approval_pending": 1
   },
   "pathways": [
     {
@@ -7605,7 +7606,9 @@
       "registryTrackIds": [
         "va_exp_absolute_pardon"
       ],
-      "packetFamilies": [],
+      "packetFamilies": [
+        "va_exp_absolute_pardon-set"
+      ],
       "adoptionRecordId": null,
       "adoptionRecordSha256": null,
       "adoptedOn": null,
@@ -7614,15 +7617,15 @@
       "ownerLegalDecisionRecordId": null,
       "ownerApprovedFamilies": [],
       "legalStatus": "owner_approval_pending",
-      "legalStatement": "No packet family is reachable from this pathway, so no owner decision reaches it either.",
+      "legalStatement": "The pathway resolves to packet family va_exp_absolute_pardon-set, and 1 of them is not named by any owner legal decision.",
       "namedLegalActionRequired": false,
-      "familyBridgePresent": false,
+      "familyBridgePresent": true,
       "onlyPathwayProjectionMissing": false,
       "familyGates": [],
       "lawrenceRatification": "ratified_deployable",
       "ledgerSaysLegalReviewPending": false,
-      "disposition": "family_bridge_missing_no_family",
-      "statement": "Tracks va_exp_absolute_pardon map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either."
+      "disposition": "owner_approval_pending",
+      "statement": "The pathway resolves to packet family va_exp_absolute_pardon-set, and 1 of them is not named by any owner legal decision."
     },
     {
       "pathwayKey": "VT:adult-conviction-expungement-narrow-statutory-route",

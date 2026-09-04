@@ -9,9 +9,9 @@ denominator, changes runtime, or issues an approval.
 
 | Input | Source | sha256 |
 |---|---|---|
-| `sessionAPathwayFamilyGraph` | working_tree | `9d81244cdf97b7f7…` |
-| `packetFamilyBridge` | working_tree | `563147bf8431e5d3…` |
-| `trackSourceRelationships` | working_tree | `2a6ea2862b24b2db…` |
+| `sessionAPathwayFamilyGraph` | working_tree | `99425ad54d2658ce…` |
+| `packetFamilyBridge` | working_tree | `713ed7abbd38a0fa…` |
+| `trackSourceRelationships` | working_tree | `c24c9cf4edc2336f…` |
 | `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
 | `publicWitnessAnswerSets` | working_tree | `120fd18ca819f533…` |
 | `problematicPdfRegister` | working_tree | `e0ca5c8c7a95fb13…` |
@@ -27,11 +27,12 @@ registry tracks with every component's role, requirement, output strategy and of
 
 | Session A disposition | Pathways | After importing the bridge |
 |---|---|---|
-| `family_bridge_missing_no_family` | 152 | **152** now carry an exact packet set |
+| `family_bridge_missing_no_family` | 151 | **151** now carry an exact packet set |
 | `approved_by_decision_owner` | 70 | unchanged |
 | `family_bridge_missing_no_track` | 40 | unchanged |
+| `owner_approval_pending` | 1 | unchanged |
 
-**152** pathways move from "no track-to-family bridge" to a named packet set.
+**151** pathways move from "no track-to-family bridge" to a named packet set.
 This changes the **reason**, never the coverage answer. A bridged pathway is one whose
 family can now be named — not one an adoption has been shown to cover.
 
