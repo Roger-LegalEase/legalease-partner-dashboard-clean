@@ -1,110 +1,26 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
-  "workerId": "FABLE-PA",
-  "workerBranch": "fable/pa",
-  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PA brief over assignments PF02, PF03, PF05 and PF06",
-  "lane": "packet-build",
-  "captainBranch": "claude/legalease-sprint-captain-utucnw",
-  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
-  "minimumCaptainSha": "f34e391ecded9aafec9c51fc3d2af0862439cba0",
-  "laneGate": {
-    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha f34e391ecded9aafec9c51fc3d2af0862439cba0 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
-    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
-    "note": "Ran once for the whole lane and again per family with --family. The Master Library was recovered by scripts/rcap-corpus/bootstrap-private-corpus.sh, archive SHA-256 a26e3ca7... verified before extraction. The D1/D2/D3 source packs failed on their first download (curl exit 23 on D3) and were installed on a retry, each archive digest verified against the release's own recorded value; no family in this lane binds a D-pack byte. No browser resolves in this container, so the three rasterizer checks are not applicable and every family is BUILT_RASTER_PENDING."
-  },
-  "rasterState": "BUILT_RASTER_PENDING",
-  "rasterNote": "No browser resolves here. Every canonical and boundary SHA-256 in these rows pins the exact bytes the central raster batch must render (.github/workflows/rcap-packet-raster-acceptance-batch.yml). visualDefects stays 0 because nothing has looked, not because there is nothing to see.",
-  "focusedCheck": {
-    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
-    "result": "PASS_COMPLETE for every family this lane built; nine counters zero in each",
-    "note": "The audit's own matrix file was written during the run and restored, because data/rcap-grade-a/packet-completeness/ is not this lane's owned path."
-  },
+  "assignmentId": "PF05",
+  "captainBaseSha": "48ba2863426d513cd8194516105f3e2675dfce48",
+  "minimumCaptainSha": "99ceffef59878c74a86830f22c1d673320cf1e7c",
+  "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+  "familiesAssigned": 8,
+  "rowsReturned": 1,
+  "familiesCompleted": 1,
+  "familiesStopped": 0,
+  "familiesRemaining": 7,
   "packetsSelfVerified": 0,
-  "neverSelfVerified": "This lane is the builder. Its verdict vocabulary is BUILT_RASTER_PENDING; it awards no PASS_COMPLETE_INDEPENDENT and no family here is verified.",
   "commercialRoutesOpened": 0,
   "productionTouched": false,
-  "grantsNothing": "A built family is a built family. It is not verified, not approved and not sellable.",
-  "assignmentId": "PF05",
-  "familiesAssigned": 3,
-  "rowsReturned": 3,
-  "familiesCompleted": [
-    "id_clean_slate_shield-set",
-    "nd-nonconviction-close-petition-set"
-  ],
-  "familiesStopped": [
-    "tx_nd_veterans_reemployment-set"
-  ],
-  "blockedSource": [
-    "tx_nd_veterans_reemployment-set"
-  ],
-  "blockedLegalInput": [],
-  "blockedBeforeClaim": [],
-  "overlayDirectoriesTouchedByAStoppedFamily": 0,
-  "everyFamilyGetsExactlyOneRow": "3 assigned, 3 rows, none missing and none twice",
-  "laneFindings": [
-    {
-      "title": "pdf-lib THROWS on a /MaxLen overflow and the shared finalizer does not catch it",
-      "where": "scripts/rcap-official-forms/rcap-text-fitting.mjs applyFitToTextField, calling PDFTextField.setText",
-      "what": "A text widget may declare /MaxLen. A value longer than it raises ExceededMaxLengthError, which nothing catches, so the build DIES rather than reporting a value that did not fit.",
-      "foundOn": "id_clean_slate_shield-set: five of the Idaho shielding petition's thirteen widgets declare /MaxLen (35, 35, 35, 16 and 30) and the corpus's standard boundary participant exceeds all five. The build wrote the canonical fixture and then crashed on the boundary one.",
-      "whatThisLaneDid": "Did NOT repair it — rcap-text-fitting.mjs is outside this lane's owned paths and every family shares it. Instead each build script in this lane asks the same question with the same binder BEFORE calling the finalizer, and refuses an over-length value by role, per fixture. Backporting the guard to the two Arkansas families left all eight of their fixture PDFs byte-identical.",
-      "whoShouldOwnIt": "a repair lane with rcap-official-forms in scope",
-      "severity": "A family with a /MaxLen widget and a long fixture value cannot be built at all until either the finalizer catches this or each builder guards it."
-    },
-    {
-      "title": "rowIndexOf reads any trailing digit as a charge-row index, including a page suffix",
-      "where": "scripts/rcap-official-forms/rcap-field-semantics.mjs rowIndexOf, /^(.*?)(\\d{1,2})$/",
-      "what": "A field named for its page or its position — Court Case Number_2, OFFENSE 3, CauseNumber1 — is read as row 1, 2 or 0 of a repeating charge table. Where the caller supplies that many charges the blank does not stay empty: it receives a DIFFERENT charge's value.",
-      "foundOn": [
-        "ar-act531-set: OFFENSE 3 is paragraph 2's 'convicted of the offense(s) of' line, and the boundary fixture drew 'Driving while license suspended' onto the conviction line of a petition about a controlled-substance offence.",
-        "the Alabama C-94A: the page 2 and page 3 Court Case Number headers would carry a different charge's case number.",
-        "the Indiana CCA bundle: CauseNumber1 wrote this matter's cause number into the Appearance's RELATED CASES table, so the filing would state that the case is related to itself."
-      ],
-      "whatThisLaneDid": "Refused every affected field by role and recorded why. On the Alabama family the two page headers are declared required-before-filing for a fact the platform HOLDS, and that declaration is listed in declaredRequiredBeforeFilingWithHeldFact on the field map so it is weighed rather than discovered.",
-      "whoShouldOwnIt": "a repair lane with rcap-official-forms in scope"
-    },
-    {
-      "title": "Widget names are shifted by one on four of this lane's forms, and the shift is not always harmless",
-      "what": "On the AR Act 531 pair, the AR CS-possession pair, the Idaho shielding petition and the Alabama C-94A, caption widgets are named after text that is not beside them. Three of the four produce a WRONG WRITE rather than an empty blank: Idaho would print the participant's state as a judicial district, Alabama would print the petitioner's own city, ZIP and telephone as the licensing board's service address, and Arkansas would leave the county unreachable.",
-      "whatThisLaneDid": "Introduced a narrow printed-label correction mechanism: it replaces the harvested caption of ONE named widget with the printed text read at that widget's own measured position, and records the correction, the value it replaced and the measured evidence on the field-map row. Used only for identity, contact and venue facts, never to reach an offence, charge or statute blank.",
-      "aCautionForWhoeverReusesIt": "A correction can itself cause a wrong write. On the Indiana bundle a correction reading \"Petitioner's fax number\" made the binder match its full-name descriptor on the word Petitioner and draw the participant's name into the fax box. The name-placement allowlist caught it and failed the build; the word came out of the label. Any lane adopting this mechanism should keep that guard on."
-    },
-    {
-      "title": "The Indiana CCA Section 1 bundle is missing three sets of pages, and says so on its own face",
-      "what": "Pages 5, 10 and 11 of the bound binary are placeholders reading 'Take out this page and insert your non-conviction Facts / Findings / Exhibit pages (from the Non Conviction Insert Forms)'. No bound source supplies them and nothing in this repository holds them.",
-      "affects": [
-        "in_arrest_no_charges-set",
-        "in_section1_petition-set"
-      ],
-      "consequence": "Both families return nine zero counters and neither is a filing. COMPONENT_SET is an open finding against both.",
-      "whatWouldCloseIt": "A source lane acquiring the Coalition for Court Access Non Conviction Insert Forms.",
-      "whoShouldOwnIt": "a source-acquisition lane"
-    },
-    {
-      "title": "One human-source-return custody blocks four Texas families at once",
-      "what": "All four Texas families in this lane bind official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond at private/human-source-returns/TX/, sha256 bd17a3fe43d6..., which the committed corpus index describes as 'Held outside the Master Library and not carried by any release'.",
-      "affects": [
-        "tx_nd_automatic_misdemeanor_deferred-set",
-        "tx_nd_deferred_other-set",
-        "tx_nd_veterans_reemployment-set",
-        "tx_nd_probation_misdemeanor-set"
-      ],
-      "whatThisLaneTried": "Mounted the Master Library and, after a failed first attempt, all three D source packs; neither custody carries it. Fetching it from the URL its own receipt records was refused by this container's egress proxy with a 403 CONNECT.",
-      "whatWouldCloseIt": "Carrying that one file in a release, or mounting the human-source-returns custody in the build container. One file unblocks four families.",
-      "whoShouldOwnIt": "whoever owns the corpus releases"
-    }
-  ],
   "rows": [
     {
-      "itemId": "id_clean_slate_shield-set",
+      "itemId": "il-exp-nonconv-set",
       "status": "COMPLETED",
       "verdict": "BUILT_RASTER_PENDING",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill",
       "routeKeys": [
-        "obligation:track-pathway:ID:id_clean_slate_shield:clean-slate-shielding-under-idaho-code-67-3004-11"
+        "obligation:track-pathway:IL:il-exp-nonconv:adult-non-conviction-expungement"
       ],
-      "buildStatus": "state_built",
-      "reviewStatus": "qa_review_pending",
       "counters": {
         "knownRequiredFieldsMissing": 0,
         "requiredFactsNotCollected": 0,
@@ -118,283 +34,33 @@
       },
       "nineCountersZero": true,
       "completenessResult": "PASS_COMPLETE",
-      "totals": {
-        "terminalFields": 13,
-        "written": 8,
-        "blank": 5,
-        "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 1,
-          "PARTICIPANT_ELECTION_GENUINE": 2,
-          "PROTECTED_FIELD": 2
-        },
-        "fieldMapArithmetic": "8 written + 5 classified blanks = 13 terminal fields"
-      },
-      "writesByDocument": [
-        {
-          "documentId": "ISC-PETITION-TO-SHIELD-67-3004-11",
-          "written": 8,
-          "terminalFields": 13,
-          "refused": 5
-        }
-      ],
-      "sources": [
-        {
-          "documentId": "ISC-PETITION-TO-SHIELD-67-3004-11",
-          "sha256": "91130b9036728677e0b6919222e00f8eae0a9114222a5b9d0ed8b3376140dede",
-          "byteLength": 149898,
-          "revision": "REV-2024-01-01",
-          "pathInArchive": "STATES/ID/02_PACKET_FORMS/ID__FORM__PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE__petition-to-shield-records-from-public-disclosure-i-c-67-3004-11__REV-2001-01__EN.pdf"
-        }
-      ],
       "allSourcesExact": true,
+      "sources": [
+        { "sourceId": "official-form:EXP-AD Request", "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853" },
+        { "sourceId": "official-form:EXP-AD Case List", "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c" },
+        { "sourceId": "official-form:EXP-AD Additional Cases Expungement", "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00" },
+        { "sourceId": "official-form:EXP-AD Order Granting", "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305" },
+        { "sourceId": "official-form:FW-CIV-APPLICATION", "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5" }
+      ],
       "artifacts": [
         {
-          "document": "ISC-PETITION-TO-SHIELD-67-3004-11",
           "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
-          "sha256": "fd888d5f7773d9a2c645dc38fc594d2c95f43e263ba9f35ca81b17ad8f24aa80",
-          "byteLength": 148249,
-          "fieldsWritten": 8,
-          "fieldsRefused": 5
-        },
-        {
-          "document": "ISC-PETITION-TO-SHIELD-67-3004-11",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/id/id-clean-slate-shield-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
-          "sha256": "ccfdf3fb1bf9e0ba3cd5b0e31bc44b7dd2ddd71da9b7984fb17e8d0ffa8afedf",
-          "byteLength": 148155,
-          "fieldsWritten": 3,
-          "fieldsRefused": 10
-        }
-      ],
-      "inkReadBackFromOutputBytes": [
-        {
-          "fixture": "canonical",
-          "documentId": "ISC-PETITION-TO-SHIELD-67-3004-11",
-          "reported": 8,
-          "appearances": 13,
-          "outsideBoxes": 0,
-          "refusedWithInk": 0
+          "file": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "be547c0bcdbc98cbcc2b2b9f5675220d478c01085474ca960ce2cda58d7cc5ba",
+          "byteLength": 2103859,
+          "pageCount": 14
         },
         {
           "fixture": "boundary",
-          "documentId": "ISC-PETITION-TO-SHIELD-67-3004-11",
-          "reported": 3,
-          "appearances": 13,
-          "outsideBoxes": 0,
-          "refusedWithInk": 0
+          "file": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "eb99fb60f6d8825d6d9e363e852b78c49039b2f40cc3fa61adb427af14c44ba5",
+          "byteLength": 2104631,
+          "pageCount": 14
         }
       ],
-      "determinism": {
-        "proved": true,
-        "how": "Built twice in this worktree and the fixture SHA-256s compared; identical. Nothing in this lane creates a PDF with PDFDocument.create(), so no wall-clock /CreationDate is stamped: every fixture is the pinned source loaded with updateMetadata:false and saved, and the source's own dates carry through.",
-        "rebuildsCompared": 2
-      },
-      "obligationsScored": {
-        "FILING_DESTINATION": {
-          "stated": true,
-          "answer": "The county court where the underlying criminal case was filed; the proceeding occurs in that criminal case, § 67-3004(11)(e). Paper filing or iCourt e-filing.",
-          "heldBy": [
-            "the committed packet-set manifest (filingDestination, filingMethod)",
-            "src/lib/rcap-engine/compiled/profiles/ID-idaho.json, which carries the Idaho Supreme Court's Clean Slate instructions verbatim"
-          ]
-        },
-        "FEE_AND_WAIVER": {
-          "stated": true,
-          "answer": "No filing fee, so no waiver.",
-          "heldBy": [
-            "the committed manifest's own destination detail: 'No filing fee.'",
-            "the compiled Idaho profile: 'with no filing fee' and 'There is no filing fee to file your Petition.'"
-          ],
-          "a3Basis": "Both statements are keyed to § 67-3004(11) shielding, which is this route.",
-          "authorityNamedForTheResidue": "the clerk of the county court, if that court's counter asks for anything"
-        },
-        "SERVICE": {
-          "stated": true,
-          "answer": "The participant serves nobody. The court notifies the prosecuting attorney of the hearing date.",
-          "heldBy": [
-            "the committed manifest (serviceRecipients)",
-            "the compiled Idaho profile's instructions: 'the court will set a hearing date and notify you and the prosecuting attorney'"
-          ]
-        },
-        "SELF_HELP_STOP": {
-          "stated": true,
-          "answer": "Actual opposition or contested testimony; and the once-in-a-lifetime bar, on which the Supreme Court's own instructions advise seeking legal advice about timing and offence eligibility.",
-          "heldBy": [
-            "the committed manifest (contestedHearingOrOppositionHandoff)",
-            "the petition's own paragraph 6",
-            "the compiled Idaho profile's instructions"
-          ]
-        },
-        "whereNothingWasFound": [
-          "notarizationRequirements, filingDeadline, serviceMethod, serviceTiming and postFilingInstructions are not_recorded and the form prints none. None is stated."
-        ]
-      },
-      "laneNotes": [
-        "The caption widget named 'THE STATE OF IDAHO IN AND FOR THE COUNTY OF' is the JUDICIAL DISTRICT blank, and the shared binder matched the word STATE in that name: the canonical fixture would have read 'IN THE DISTRICT COURT OF THE XX JUDICIAL DISTRICT OF'.",
-        "One blank is filled only partly and says so: the form's single 'City, State and Zip Code' rule carries the city alone, because the shared binder selects its city descriptor from the field name before city_state_zip and an explicit mapping cannot override a descriptor the name already selected. Declared as partialFills; the participant is told to add the state and ZIP."
-      ]
-    },
-    {
-      "itemId": "nd-nonconviction-close-petition-set",
-      "status": "COMPLETED",
-      "verdict": "BUILT_RASTER_PENDING",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill",
-      "routeKeys": [
-        "obligation:service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:pre_effective_date_petition"
-      ],
-      "buildStatus": "state_built",
-      "reviewStatus": "qa_review_pending",
-      "counters": {
-        "knownRequiredFieldsMissing": 0,
-        "requiredFactsNotCollected": 0,
-        "unclassifiedBlanks": 0,
-        "incompleteRows": 0,
-        "requiredOptionsMissing": 0,
-        "requiredComponentsMissing": 0,
-        "invisibleWrites": 0,
-        "protectedWrites": 0,
-        "visualDefects": 0
-      },
-      "nineCountersZero": true,
-      "completenessResult": "PASS_COMPLETE",
-      "totals": {
-        "terminalFields": 20,
-        "written": 9,
-        "blank": 11,
-        "blanksByDisposition": {
-          "PARTICIPANT_ELECTION_GENUINE": 5,
-          "PROTECTED_FIELD": 5,
-          "OPTIONAL_PARTICIPANT_CONTENT": 1
-        },
-        "fieldMapArithmetic": "9 written + 11 classified blanks = 20 terminal fields"
-      },
-      "writesByDocument": [
-        {
-          "documentId": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
-          "written": 9,
-          "terminalFields": 20,
-          "refused": 11
-        }
-      ],
-      "sources": [
-        {
-          "documentId": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
-          "sha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
-          "byteLength": 1319263,
-          "revision": "REV-2025-08-01",
-          "pathInArchive": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
-          "boundSourceIds": [
-            "official-form:ND-INSTRUCTIONS-CLOSE-NONCONVICTION",
-            "official-form:ND-PETITION-CLOSE-NONCONVICTION",
-            "official-form:ND-ORDER-CLOSE-NONCONVICTION"
-          ]
-        }
-      ],
-      "allSourcesExact": true,
-      "artifacts": [
-        {
-          "document": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf",
-          "sha256": "2211ad2f8597d79a79151bc5850b222a664ba1ab935abb2d916c43612dddea58",
-          "byteLength": 180315,
-          "fieldsWritten": 9,
-          "fieldsRefused": 11
-        },
-        {
-          "document": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/nd/nd-nonconviction-close-petition-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf",
-          "sha256": "7f178d4a93edc84c72ea8123715f51da16b7bc1c91d709f575451101052ae747",
-          "byteLength": 180211,
-          "fieldsWritten": 6,
-          "fieldsRefused": 14
-        }
-      ],
-      "inkReadBackFromOutputBytes": [
-        {
-          "fixture": "canonical",
-          "documentId": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
-          "reported": 9,
-          "appearances": 24,
-          "outsideBoxes": 0,
-          "refusedWithInk": 0
-        },
-        {
-          "fixture": "boundary",
-          "documentId": "ND-PETITION-AND-ORDER-CLOSE-NONCONVICTION",
-          "reported": 6,
-          "appearances": 24,
-          "outsideBoxes": 0,
-          "refusedWithInk": 0
-        }
-      ],
-      "determinism": {
-        "proved": true,
-        "how": "Built twice in this worktree and the fixture SHA-256s compared; identical. Nothing in this lane creates a PDF with PDFDocument.create(), so no wall-clock /CreationDate is stamped: every fixture is the pinned source loaded with updateMetadata:false and saved, and the source's own dates carry through.",
-        "rebuildsCompared": 2
-      },
-      "obligationsScored": {
-        "FILING_DESTINATION": {
-          "stated": true,
-          "answer": "The Clerk of Court of the North Dakota district or municipal court where the criminal case is filed, in the existing criminal case.",
-          "heldBy": [
-            "the committed packet-set manifest (filingDestination)",
-            "page 2 of the bound binary's own printed instructions, which also give ndcourts.gov/court-locations"
-          ]
-        },
-        "FEE_AND_WAIVER": {
-          "stated": true,
-          "answer": "No filing fee, so nothing to waive.",
-          "heldBy": [
-            "the committed manifest: 'none.' and '§ 12-60.1-05(4) and the official instructions both state there is no filing fee'",
-            "page 2 of the printed instructions: 'There's no filing fee.'"
-          ],
-          "authorityNamedForTheResidue": "the Clerk of Court, if the counter asks for anything"
-        },
-        "SERVICE": {
-          "stated": true,
-          "answer": "None required by the statute, BUT the individual judge may require the prosecutor to be served. Both halves are stated, because both are held and they are different answers.",
-          "heldBy": [
-            "the committed manifest (serviceRecipients/Method/Timing = 'None required by the statute'; destination detail = 'The individual judge may require the petition to be served on the prosecutor')",
-            "page 2 of the printed instructions"
-          ],
-          "authorityNamedForTheResidue": "the Clerk of Court where the petition is filed, for whether the judge in this case requires it and how"
-        },
-        "SELF_HELP_STOP": {
-          "stated": true,
-          "answer": "The instructions' own opening: the ND Legal Self Help Center cannot assist in criminal matters and has no forms, procedures or expertise in this area; questions go to the Clerk of Court where the criminal case is filed. Plus the form's five eligibility conditions, twice stated as 'you can't use this form'.",
-          "heldBy": [
-            "page 1 of the bound binary's printed instructions"
-          ]
-        },
-        "whereNothingWasFound": [
-          "No held record and no printed line states a deadline for filing the petition or what to do if the court does not act. Neither is stated; the Clerk of Court is named for both."
-        ]
-      },
-      "laneNotes": [
-        "One binary, three documents: instructions on pages 1-2, petition on 3-4, proposed order on 5-6, with three source ids bound to the same path and SHA-256.",
-        "The proposed order's two checkboxes are the PARTICIPANT's, which is unusual and is what the printed instructions direct; its caption carries no widgets at all and the instructions say to copy it by hand.",
-        "The shared binder wrote participant.state into the COUNTRY blank of the perjury declaration's place-of-signing line."
-      ]
-    },
-    {
-      "itemId": "tx_nd_veterans_reemployment-set",
-      "status": "STOPPED",
-      "verdict": "BLOCKED_SOURCE",
-      "overlayDirectoryTouched": false,
-      "claim": "CLAIM_OK PF05 tx_nd_veterans_reemployment-set",
-      "rowGateResult": "FAIL family_sources_bind — 1 of 3 source(s) do not bind",
-      "sourceThatDidNotBind": {
-        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-        "path": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
-        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
-        "custody": "human_source_returns"
-      },
-      "why": "The same custody as the other three Texas families: held outside the Master Library, carried by no release, and not mounted in this container.",
-      "claimHeld": true,
-      "whyTheClaimIsHeld": "The source may be mounted in another environment; the family is not finished here."
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
