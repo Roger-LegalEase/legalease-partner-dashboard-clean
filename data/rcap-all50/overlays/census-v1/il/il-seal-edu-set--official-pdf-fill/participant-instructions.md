@@ -2,138 +2,12 @@
 
 ## Route selected
 
-Education-based sealing after completion of the last sentence and every printed eligibility condition.
+Education-based sealing after completion of the last sentence and every printed eligibility condition in item 22.
 
 ## Required before filing
 
-Complete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.
+Obtain the ISP statewide transcript and certified dispositions for every arrest or case. Compare the transcript against every certified disposition and resolve every mismatch before filing. For each case, make the expunge-or-seal election shown on the Request. Confirm completion of the last sentence and every education-route condition printed in item 22, and attach the educational credential or other education evidence the printed route requires. Complete every applicable case, outcome, financial, and participant item listed below. Add the hearing date only when the clerk or court supplies it. Complete the participant's wet signature only after the packet is complete.
 
-- Complete Arresting Agency - 2 on EXP-AD Request page 2
-- Complete Date of Arrest - 2 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 2 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 3 on EXP-AD Request page 2
-- Complete Arresting Agency - 3 on EXP-AD Request page 2
-- Complete Date of Arrest - 3 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 3 on EXP-AD Request page 2
-- Complete Arresting Agency - 4 on EXP-AD Request page 2
-- Complete Date of Arrest - 4 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 4 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 5 on EXP-AD Request page 2
-- Complete Arresting Agency - 5 on EXP-AD Request page 2
-- Complete Date of Arrest - 5 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 5 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 6 on EXP-AD Request page 2
-- Complete Arresting Agency - 6 on EXP-AD Request page 2
-- Complete Date of Arrest - 6 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 6 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 7 on EXP-AD Request page 2
-- Complete Arresting Agency - 7 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 8 on EXP-AD Request page 2
-- Complete Date of Arrest - 7 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 7 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 8 on EXP-AD Request page 2
-- Complete Arresting Agency - 8 on EXP-AD Request page 2
-- Complete Date of Arrest - 8 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 9 on EXP-AD Request page 2
-- Complete Arresting Agency - 9 on EXP-AD Request page 2
-- Complete Date of Arrest - 9 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 9 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 10 on EXP-AD Request page 2
-- Complete Arresting Agency - 10 on EXP-AD Request page 2
-- Complete Date of Arrest - 10 on EXP-AD Request page 2
-- Complete Outcome - For example RV S or P - 10 on EXP-AD Request page 2
-- Complete Arrest or Case Number - 2 on EXP-AD Request page 2
-- Complete 4 - Arrest or Case Number - 2 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 2 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 2 on EXP-AD Request page 4
-- Complete 4 - Outcome - 2 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 3 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 3 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 3 on EXP-AD Request page 4
-- Complete 4 - Outcome - 3 on EXP-AD Request page 4
-- Complete Arrest or Case Number - 4 on EXP-AD Request page 2
-- Complete 4 - Arrest or Case Number - 4 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 4 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 4 on EXP-AD Request page 4
-- Complete 4 - Outcome - 4 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 5 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 5 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 5 on EXP-AD Request page 4
-- Complete 4 - Outcome - 5 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 6 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 6 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 6 on EXP-AD Request page 4
-- Complete 4 - Outcome - 6 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 7 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 7 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 7 on EXP-AD Request page 4
-- Complete 4 - Outcome - 7 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 8 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 8 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 8 on EXP-AD Request page 4
-- Complete 4 - Outcome - 8 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 9 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 9 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 9 on EXP-AD Request page 4
-- Complete 4 - Outcome - 9 on EXP-AD Request page 4
-- Complete 4 - Arrest or Case Number - 10 on EXP-AD Request page 4
-- Complete 4 - Arresting Agency - 10 on EXP-AD Request page 4
-- Complete 4 - Date of Arrest - 10 on EXP-AD Request page 4
-- Complete 4 - Outcome - 10 on EXP-AD Request page 4
-- Complete arrest7 on EXP-AD Case List page 1
-- Complete arrest8 on EXP-AD Case List page 1
-- Complete arrest9 on EXP-AD Case List page 1
-- Complete arrest10 on EXP-AD Case List page 1
-- Complete arrest11 on EXP-AD Case List page 1
-- Complete arrest12 on EXP-AD Case List page 1
-- Complete arrest13 on EXP-AD Case List page 1
-- Complete arrest14 on EXP-AD Case List page 1
-- Complete arrest6 on EXP-AD Case List page 1
-- Complete arrest15 on EXP-AD Case List page 1
-- Complete arrest16 on EXP-AD Case List page 1
-- Complete arrest17 on EXP-AD Case List page 1
-- Complete arrest18 on EXP-AD Case List page 1
-- Complete arrest19 on EXP-AD Case List page 1
-- Complete arrest20 on EXP-AD Case List page 1
-- Complete arrest22 on EXP-AD Case List page 1
-- Complete arrest23 on EXP-AD Case List page 1
-- Complete arrest24 on EXP-AD Case List page 1
-- Complete arrest25 on EXP-AD Case List page 1
-- Complete arrest26 on EXP-AD Case List page 1
-- Complete arrest27 on EXP-AD Case List page 1
-- Complete arrest28 on EXP-AD Case List page 1
-- Complete arrest21 on EXP-AD Case List page 1
-- Complete arrest29 on EXP-AD Case List page 1
-- Complete arrest30 on EXP-AD Case List page 1
-- Complete arrest31 on EXP-AD Case List page 1
-- Complete arrest32 on EXP-AD Case List page 1
-- Complete arrest33 on EXP-AD Case List page 1
-- Complete arrest34 on EXP-AD Case List page 1
-- Complete arrest35 on EXP-AD Case List page 1
-- Complete arrest36 on EXP-AD Case List page 1
-- Complete arrest37 on EXP-AD Case List page 1
-- Complete arrest38 on EXP-AD Case List page 1
-- Complete arrest39 on EXP-AD Case List page 1
-- Complete arrest40 on EXP-AD Case List page 1
-- Complete arrest41 on EXP-AD Case List page 1
-- Complete arrest42 on EXP-AD Case List page 1
-- Complete arrest43 on EXP-AD Case List page 1
-- Complete arrest44 on EXP-AD Case List page 1
-- Complete arrest45 on EXP-AD Case List page 1
-- Complete arrest46 on EXP-AD Case List page 1
-- Complete arrest47 on EXP-AD Case List page 1
-- Complete arrest48 on EXP-AD Case List page 1
-- Complete arrest50 on EXP-AD Case List page 1
-- Complete arrest51 on EXP-AD Case List page 1
-- Complete arrest52 on EXP-AD Case List page 1
-- Complete arrest53 on EXP-AD Case List page 1
-- Complete arrest54 on EXP-AD Case List page 1
-- Complete arrest55 on EXP-AD Case List page 1
-- Complete arrest56 on EXP-AD Case List page 1
-- Complete arrest49 on EXP-AD Case List page 1
-- Complete arrest57 on EXP-AD Case List page 1
-- Complete arrest58 on EXP-AD Case List page 1
-- Complete arrest59 on EXP-AD Case List page 1
 - Complete arrest60 on EXP-AD Case List page 1
 - Complete arrest61 on EXP-AD Case List page 1
 - Complete arrest62 on EXP-AD Case List page 1
@@ -259,12 +133,12 @@ Complete every applicable case, outcome, financial, and participant item listed 
 - Complete 105 - Amount from Other on FW-CIV-APPLICATION page 3
 - Complete 107-110 - Hardship on FW-CIV-APPLICATION page 3
 
-Attach certified dispositions and the pardon, eligibility certificate, educational proof, or other route-specific evidence identified above.
+Attach certified dispositions and the educational credential evidence identified above.
 
 ## Filing and notice
 
-File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields.
+File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields. Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.
 
 ## Stop and get help
 
-Stop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.
+Stop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects; the court sets a contested hearing; the transcript or certified disposition is ambiguous; a case is unrecognized or may involve identity theft; federal or out-of-state records are involved; a motion to vacate, modify, or reconsider is needed; the petition is denied; the printed education-route facts do not match; or immigration consequences may be involved.
