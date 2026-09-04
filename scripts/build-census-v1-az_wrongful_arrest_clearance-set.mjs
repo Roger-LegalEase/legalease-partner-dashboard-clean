@@ -235,6 +235,7 @@ const SPEC = {
         "WHO MUST BE SERVED",
         "",
         "No committed record this packet binds states a service requirement for this route — the record says: \"The source review does not state a service requirement for this petition.\". The office that answers who must be served, and how, is the clerk's office of Superior court (the venue the registry records for this route: Statewide Arizona law; petition in superior court.). Notice as recorded: A hearing is contemplated by the statute.",
+        "The source review does not state a notarization requirement.",
         "",
         "WHAT THE RECORD SAYS YOU MUST KNOW",
         "",
@@ -301,6 +302,10 @@ const SPEC = {
     [
       "SERVICE",
       "No committed record this packet binds states a service requirement for this route — the record says: \"The source review does not state a service requirement for this petition.\". The office that answers who must be served, and how, is the clerk's office of Superior court (the venue the registry records for this route: Statewide Arizona law; petition in superior court.). Notice as recorded: A hearing is contemplated by the statute."
+    ],
+    [
+      "NOTARIZATION",
+      "The source review does not state a notarization requirement."
     ],
     [
       "SELF_HELP_STOP",
