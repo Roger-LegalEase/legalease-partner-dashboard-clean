@@ -40,6 +40,58 @@
       },
       "nextState": "VERIFY_PENDING",
       "whyNotPass": "The required component is built and both deterministic fixtures pass the focused completeness audit, but no independent verifier has read the post-repair bytes."
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "disposition": "SELECT_SUBSTANTIVE_VERDICT",
+      "priorLegalBasis": "LEGAL_APPROVAL_VERDICT",
+      "selectedVerdict": {
+        "lane": "vf12",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
+      },
+      "historicalVerdictPreserved": {
+        "lane": "vf02",
+        "verdict": "BLOCKED_SOURCE",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+        "whyHistorical": "The return records a verifier environment where the private master corpus was absent; that environment-scoped refusal remains history and is not a legal ruling."
+      },
+      "selectionExpiresWhen": "A later independent substantive verdict declares a verifiedAtBase equal to or descending from recordedAtCaptainSha.",
+      "currentByteBinding": {
+        "bindsSelectedVerdict": false,
+        "changedSinceSelectedBase": [
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-completed-sentence-application-boundary/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-currently-serving-petition-boundary/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-currently-serving-petition-canonical/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-completed-sentence-application-boundary/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-completed-sentence-application-canonical/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-currently-serving-petition-boundary/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-currently-serving-petition-canonical/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/reports/packet-evidence.json",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+        ],
+        "selectedBasePrimaryHashes": [
+          "9f120298e9ec87351fe178f82beee6a761a465bbb69d4a8868b9ef71ff1a50a8",
+          "119190647522175931022cac1e410969ab02c29a6e7f9b3e8c340fa028525bf1",
+          "d7fd0b0447710a70e73c7f12c08a3fe3794b8a2e0bb2365d16cc48ee9a94ffe7",
+          "fae11b94385db157c4bcbc7f33e8a436cee145d86a5d7448ac3840b8d09c69fb"
+        ],
+        "currentPrimaryHashes": [
+          "87f93a9b4273a1af89de31a7576ae0e4aae86e42361bfacfae042574695885d4",
+          "53b07cf75b2fee362fcfa07a9f080d86dc04ae4adb705fe4039078508884ac4a",
+          "7369e11b1d4ffd7caf7d2a0b9ed981f738c109b94194652fafe0df6ad120cc84",
+          "ac3f310b0bdfe8244965e31f1953a90df70e39e264ac9cdc81f384b9906b2290"
+        ]
+      },
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The selected substantive verdict does not bind the current artifacts, so the family requires a new independent read and cannot be promoted to PASS."
     }
   ],
   "commercialRoutesOpened": 0,
