@@ -332,6 +332,78 @@
         "SELF_HELP_STOP"
       ],
       "scopeLimit": "Repair only the family and its own builder under a proper repair grant. This verification lane edits neither. The assignment opens no route, changes no price and touches no deployment or Production."
+    },
+    {
+      "repairAssignmentId": "VF07-IL-EXP-PARDON-20260904-001",
+      "itemId": "il-exp-pardon-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "raisedBy": "VF07 independent verification",
+      "raisedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill",
+      "decisiveDefect": "The pardon route is not selected on its own statewide Request; the known charge is misbound or truncated; eighteen unused repeating rows and the inactive sealing table receive case-number ink; and the generic instructions replace the route's recorded filing destination and invent unsupported clerk service.",
+      "failedProofObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The fixture holds matter.charge. On Request page 2 its row-1 charge cell receives matter.case_number because the generic /case number/ matcher runs before the charge-specific matcher. On the Case List the correct fact is shortened with an ellipsis, so the complete known value is not delivered in either intended location.",
+          "repairInstruction": "Give charge fields precedence over the generic case-number matcher and use a measured fit/wrap treatment that preserves the complete charge in every fixture."
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Request page 4 checkbox 13(b) expressly covers a Governor's pardon allowing expungement and is visibly blank. The family config selects no option and incorrectly says the form has no separate pardon checkbox.",
+          "repairInstruction": "Select the existing pardon-authorizes-expungement control for this route and make the route summary agree with the form. Do not redraw or replace the court's control."
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Request page 2 rows 2-10 and page 4 sealing rows 2-10 each receive a case number in their charge cell while the required cells beside it remain blank. The page-4 sealing row 1 is also fully populated on this expungement route.",
+          "repairInstruction": "Limit the complete known matter to row 1 of the active expungement table. Leave every unused row and the inactive sealing table empty unless a complete corresponding matter exists."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Fresh inspection of all pages shows the Case List charge truncated with an ellipsis in canonical and boundary fixtures.",
+          "repairInstruction": "Preserve the full charge with measured fitting or a supported continuation mechanism, then inspect every page of both regenerated fixtures."
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The controlling route record distinguishes the pardon route's destination as the Chief Judge of the circuit of conviction, a designated judge, or the presiding trial judge in qualifying counties. The delivered instructions say only to file generically with the circuit clerk in every county of arrest or charge.",
+          "repairInstruction": "State the committed pardon-specific venue/destination without deleting the useful filing-method details."
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The committed route record does not establish service recipients, method or timing, but the packet asserts that the clerk performs statutory service and gives the participant no recipients, method, or checkable authority for the unresolved rule.",
+          "repairInstruction": "Do not invent a service rule. Either bind a committed controlling record that establishes who/how, or carry the exact non-statement and name the circuit clerk for the court of filing as the authority the participant must ask before filing."
+        }
+      ],
+      "repairValidationRequired": [
+        "Rebuild both fixtures deterministically and rerun the focused completeness verifier.",
+        "Rehash all four official sources and both current fixture artifacts.",
+        "Inspect all 26 regenerated pages, including the pardon control, both request tables and the complete charge value.",
+        "Obtain a new hash-bound RASTER_PASS if either fixture byte changes, then perform a new independent fifteen-obligation read."
+      ],
+      "obligationsThatPassAndMustSurviveRepair": ["ROUTE_IDENTITY","SOURCE_IDENTITY","COMPONENT_SET","REQUIRED_BEFORE_FILING","PROTECTED_FIELDS","ARTIFACTS","PAGE_ORDER","FEE_AND_WAIVER","SELF_HELP_STOP"],
+      "scopeLimit": "Repair the exact family and its own builder under a repair grant. This verification lane edits neither and opens no commercial route."
+    },
+    {
+      "repairAssignmentId": "VF07-WA-CLEAN-TRACKS-20260904-001",
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "raisedBy": "VF07 independent verification",
+      "raisedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "decisiveDefect": "The repaired PDFs and rendered-artifacts record agree, but product-wiring.json still names the superseded canonical digest and superseded raster acceptance hashes, so the family-local product binding does not describe the packet it ships.",
+      "failedProofObligations": [
+        {
+          "obligation": "ARTIFACTS",
+          "finding": "Current canonical e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0 and boundary bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756 match rendered-artifacts.json and RASTER_QUEUE.json. product-wiring.json instead leaves proposedRepresentation.components[0].sha256 at 8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db and binding.acceptanceReceipt at the superseded 8536db61... / ce3a0a84... pair.",
+          "repairInstruction": "Refresh the family-local product-wiring proposal and binding from the current rendered-artifacts record. Do not attach the superseded raster receipt to the repaired bytes; keep acceptance pending until the current hash pair receives its own complete RASTER_PASS."
+        }
+      ],
+      "repairValidationRequired": [
+        "Rehash product-wiring.json's declared fixture identity against the actual canonical and boundary bytes.",
+        "Confirm all eight current component ids remain present and ordered in both seventeen-page fixtures.",
+        "Admit only a fresh complete-coverage raster receipt bound to e94f1370... and bca669c0..., then perform a new independent fifteen-obligation read."
+      ],
+      "obligationsThatPassAndMustSurviveRepair": ["ROUTE_IDENTITY","SOURCE_IDENTITY","COMPONENT_SET","KNOWN_PREFILLS","REQUIRED_BEFORE_FILING","ROUTE_OPTIONS","REPEATING_ROWS","PROTECTED_FIELDS","PAGE_ORDER","CLIPPING_AND_OVERLAP","FILING_DESTINATION","FEE_AND_WAIVER","SERVICE","SELF_HELP_STOP"],
+      "scopeLimit": "Refresh artifact identity under a repair grant without changing packet content unless a separately measured defect requires it. This lane opens no route and approves no output."
     }
   ],
   "fableVcAppend": {

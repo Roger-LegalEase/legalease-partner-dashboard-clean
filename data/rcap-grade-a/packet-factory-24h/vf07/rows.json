@@ -7058,6 +7058,280 @@
       "commercialRoutesOpened": 0,
       "productionTouched": false,
       "grantsNothing": "This failure is a completeness verdict and repair assignment only. It approves no output, promotes no route and opens no commercial route."
+    },
+    {
+      "itemId": "il-exp-pardon-set",
+      "assignmentId": "VF07",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill",
+      "claimAssertion": {
+        "assertedBeforeArtifactRead": true,
+        "result": "CLAIM_OK VF07 il-exp-pardon-set (independent-verification, grant set 5b17fa37d9409bc0)"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 2,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 18,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 2,
+        "allZero": false,
+        "measuredHere": true,
+        "independentOverride": "The focused verifier reports all mechanical counters zero, but direct inspection of the artifact bytes and field map finds two missing/incorrect charge prefills, eighteen half-filled repeating rows, the unselected pardon election, and the truncated charge value in both fixtures."
+      },
+      "rasterState": {
+        "state": "RASTER_PASS_WITH_INDEPENDENT_FAILURE",
+        "workflowRunId": "33836771479",
+        "jobId": "100911322067",
+        "renderedCommitSha": "fbd22ae2ce6688d5af34818a2fa8dc8bce84e0d24",
+        "documentsMeasured": 2,
+        "pagesMeasured": 26,
+        "machineProblemsFound": 0,
+        "receiptHashesMatchCurrentBytes": true,
+        "finding": "The central receipt is current and complete, but fresh independent every-page inspection found defects its zero-problem result did not identify."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The family, receipt, field map, queue and participant instructions all bind the single route obligation:track-only:IL:il-exp-pardon and the Request-to-Expunge mode. The missing route election is scored separately under ROUTE_OPTIONS."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All four official source PDFs were independently rehashed from governed custody. Their SHA-256 values and byte lengths match source-receipt.json exactly.",
+          "evidence": [
+            {"documentId":"EXP-AD Request","sha256":"44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853","byteLength":1015247,"match":true},
+            {"documentId":"EXP-AD Case List","sha256":"b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c","byteLength":744328,"match":true},
+            {"documentId":"EXP-AD Order Granting","sha256":"52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305","byteLength":823679,"match":true},
+            {"documentId":"FW-CIV-APPLICATION","sha256":"b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5","byteLength":1051549,"match":true}
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixtures contain the four route-declared components in full: six-page Request, one-page Case List, two-page proposed Order, and four-page Rule 298 fee-waiver application."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The fixture holds matter.charge, but Request page 2 writes the case number into the row-1 charge cell because the generic case-number matcher wins before the charge matcher. The Case List's matter.charge value is separately shortened with an ellipsis, so neither of the two intended charge placements contains the complete known charge value."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 250 fields the field map itself declares REQUIRED_BEFORE_FILING are named in participant-instructions.md, and the route section directs the participant to attach and confirm a pardon expressly authorizing expungement. The declaration is overbroad, but no declared item is omitted from the instructions."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The official Request page 4 provides checkbox 13(b), 'I received a pardon from the Governor ... allowing expungement.' Fresh inspection shows it blank. The builder config incorrectly says the statewide Request has no separate pardon checkbox and selects none, even though this route is determined by that exact fact."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Request page 2 rows 2-10 and the inactive sealing table on page 4 rows 2-10 each carry a case number in the charge column while the arrest/case number, agency, arrest date and outcome cells beside it are blank: eighteen incomplete rows. Page 4 row 1 is also fully populated even though the route is expungement, not sealing."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Fresh inspection and the byte-derived write list find no ink in signatures, signature dates, judge/clerk decision fields, or other protected fields. The two self-represented controls and printed-name/contact prefills are participant-owned."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Canonical and boundary PDFs rehash exactly to rendered-artifacts.json and the current hash-bound raster receipt.",
+          "evidence": {
+            "canonical":{"sha256":"8e7db8e17eab613b11ae25dfe08c526bf34d82d17673e58e7447a4903beaf697","byteLength":1734982,"pageCount":13},
+            "boundary":{"sha256":"48dfd074c86cf4c590f8291d8ea52c184ed21a9af169d72e3da180a634102677","byteLength":1735612,"pageCount":13}
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both thirteen-page fixtures follow the declared component order: Request pages 1-6, Case List page 7, proposed Order pages 8-9, and fee-waiver application pages 10-13."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "Fresh every-page raster inspection found the Case List charge value visibly truncated to an ellipsis in both fixtures ('Charge exactly as shown o...' canonical and 'Complete charge exactly a...' boundary). No off-page ink or geometric overlap was seen elsewhere."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The route record expressly distinguishes pardon venue as the Chief Judge of the circuit of conviction, a designated judge, or the presiding trial judge in qualifying counties. The packet instead gives only the generic instruction to file with the circuit clerk in every county of arrest or charge and never states the pardon-specific destination."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions state that clerk fees vary by county, distinguish ISP's no petition fee and $60 order-processing fee, and include/name the Rule 298 FW-CIV-APPLICATION waiver path."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The controlling route record leaves service recipients, method and timing unrecorded. The packet nevertheless asserts that the circuit clerk performs statutory service, without naming recipients or method and without directing the participant to a checkable authority for the unresolved rule."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet tells the participant to stop for an objection by the State's Attorney, ISP, arresting agency or chief legal officer, a contested hearing, mismatched eligibility facts, or immigration consequences, while the route section separately requires confirmation that the pardon expressly authorizes expungement."
+        }
+      },
+      "failedProofObligations": ["KNOWN_PREFILLS","ROUTE_OPTIONS","REPEATING_ROWS","CLIPPING_AND_OVERLAP","FILING_DESTINATION","SERVICE"],
+      "unmeasuredObligations": [],
+      "evidenceRead": {
+        "focusedVerifier": "PASS_COMPLETE 70/424 written; all nine shipped mechanical counters zero",
+        "independentSourceRehash": "4/4 exact official source hashes and byte lengths match",
+        "independentArtifactRehash": "2/2 fixture hashes, byte lengths and page counts match",
+        "independentVisualReview": "All 13 pages of canonical.pdf and all 13 pages of boundary.pdf freshly rendered and inspected",
+        "allFifteenMeasured": true
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This failure is a completeness verdict and repair assignment only. It approves no output, promotes no route and opens no commercial route."
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "assignmentId": "VF07",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "claimAssertion": {
+        "assertedBeforeArtifactRead": true,
+        "result": "CLAIM_OK VF07 rcap-wa-custom-pleading-clean-tracks (independent-verification, grant set 5b17fa37d9409bc0)"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "note": "The independent failure is an artifact-identity mismatch, which is not one of the nine mechanical counters."
+      },
+      "rasterState": {
+        "state": "RASTER_PENDING",
+        "nextOwner": "RAS02",
+        "currentCanonicalSha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+        "currentBoundarySha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+        "supersededReceiptCanonicalSha256": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+        "supersededReceiptBoundarySha256": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d",
+        "finding": "No current central visual receipt exists. This is a promotion ceiling, not itself the repair defect; all 34 current pages were independently rendered and inspected here."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The two Washington routes are named consistently across the receipt, map, census and pages, and the delivered instructions clearly separate the sentencing-court vacation route from the WSP non-conviction deletion route."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All three committed authority records were independently rehashed and match source-receipt.json exactly.",
+          "evidence": [
+            {"path":"data/record-clearing/legal-design-track-registry.json","sha256":"0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6","byteLength":16555956,"match":true},
+            {"path":"data/record-clearing/legal-design-specifications.json","sha256":"cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5","byteLength":16829383,"match":true},
+            {"path":"data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json","sha256":"0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f","byteLength":2599752,"match":true}
+          ]
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All eight route-declared components are present in both seventeen-page PDFs: four vacation components followed by four deletion components."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All twenty declared writes per fixture were independently found in the current PDFs, including applicant name and date of birth in both repaired C1/C2 question blocks and every long boundary value."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All twenty-one declared participant-supplied items are named in the instructions with their route and page context. The repaired captions correctly identify the cause number as the existing sentencing case rather than a future-assigned number."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No checkbox election belongs inside these composed instruments. The participant's record selects the route, and the instructions provide an explicit which-pages-are-yours table rather than blending the two routes."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Neither composed track declares or renders a repeating-row structure, and no partial row was found."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Signatures, signature dates, judicial findings and the court-assigned cause number remain blank in both fixtures. The existing-case caption and participant identity facts are not protected fields."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The current PDFs match rendered-artifacts.json and RASTER_QUEUE.json, but family-local product-wiring.json still identifies the superseded packet. proposedRepresentation.components[0].sha256 is 8536db61... while the current canonical is e94f1370..., and binding.acceptanceReceipt points to the old canonical 8536db61... / boundary ce3a0a84... receipt. Thus the family contains contradictory artifact identity records and its declared product binding does not describe the repaired bytes.",
+          "evidence": {
+            "canonical":{"sha256":"e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0","byteLength":46140,"pageCount":17},
+            "boundary":{"sha256":"bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756","byteLength":46647,"pageCount":17},
+            "staleProductWiringCanonical":"8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+            "staleAcceptanceBoundary":"ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d"
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both page manifests are contiguous 1-17 and match the inspected bytes: vacation petition 1-3, order 4, checklist 5-6, instructions 7-9; deletion request 10-12, checklist 13-14, expectation guidance 15-16, accuracy guidance 17."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 17 pages of both current fixtures were freshly rendered and inspected. Every long boundary fact is complete and readable, with no overlap, off-page ink or orphan page. A wrapped final route-key character remains visible and does not collide with adjacent content."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The vacation instructions name the sentencing court and existing criminal case; the deletion instructions name the Washington State Patrol and expressly state that it is not a court route."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Vacation accurately says the filing fee and waiver are not established and names the sentencing-court clerk as the checkable authority. Deletion states no request fee, separates current record-product costs, and identifies the free in-person review option."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Vacation names the prosecutor's office, tells the participant to serve it and file proof, and distinguishes clerk transmission after entry. Deletion accurately states that no participant service or notice is required because WSP is the deciding agency."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions carry route-specific stops for contested eligibility, prosecutor opposition, hearing, immigration, missing non-conviction predicates, identity mismatch and agency-record accuracy disputes, with the deletion accuracy-remedy component providing the handoff."
+        }
+      },
+      "failedProofObligations": ["ARTIFACTS"],
+      "unmeasuredObligations": [],
+      "evidenceRead": {
+        "focusedVerifier": "PASS_COMPLETE 20/48 written; all nine mechanical counters zero",
+        "independentSourceRehash": "3/3 committed records match exact SHA-256 and byte length",
+        "independentArtifactRehash": "2/2 fixture hashes, byte lengths and page counts match current rendered-artifacts and queue records",
+        "independentVisualReview": "All 17 pages of canonical.pdf and all 17 pages of boundary.pdf freshly rendered and inspected",
+        "currentRasterRule": "RASTER_PENDING cannot promote a passing independent read; the stale product-wiring identity independently requires repair",
+        "allFifteenMeasured": true
+      },
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This failure is a completeness verdict and repair assignment only. It approves no output, promotes no route and opens no commercial route."
     }
   ],
   "obligationSet": [
