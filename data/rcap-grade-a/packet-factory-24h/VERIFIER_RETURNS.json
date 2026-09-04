@@ -35,13 +35,14 @@
   ],
   "counts": {
     "returnDirectories": 59,
-    "rows": 625,
-    "independentVerdicts": 203,
-    "failRepairRequired": 63,
+    "rows": 629,
+    "independentVerdicts": 206,
+    "failRepairRequired": 65,
     "passIndependent": 132
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
     "al-diversion-set",
     "al-felony-dwop-set",
     "al-felony-nonconviction-90-set",
@@ -61,6 +62,7 @@
     "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "ct-decriminalized-set",
+    "fl-trafficking-set",
     "id_set_aside_dismissal-set",
     "il-cannabis-vacate-set",
     "il-exp-nonconv-set",
@@ -307,6 +309,51 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf32/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
       "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The governed current-hash renderer measured all four pages nonblank, cropped to 2040x2640 and free of machine problems; independent Poppler geometry found 0 of 752 words outside the page boxes and 0 word-box overlaps. Human inspection nevertheless found an avoidable split in both fixtures. Boundary page 1 ends with only the label 'Date the three-year destruction bar expires:'; its dotted response line and 'Check with: the case record and the clerk' begin page 2. Canonical leaves the dotted line on page 1 but orphans that same check instruction at the top of sparse page 2. This is two visual defects and machine RASTER_PASS does not cure them.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "superseded": false
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "verdict": "PRODUCT_PATH_PENDING",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The exact current hashes have no governed raster receipt: RASTER_QUEUE records RASTER_PENDING and nextOwner RAS02. Local calibrated rastering and visual/bbox inspection found all 4 pages nonblank with 0 geometry problems, but the required governed exact-hash evidence is absent and local evidence cannot replace it.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "exactRouteDeliveryDefect": "The current route-obligation record requires currentOutputStrategy participant_agency_application and a participant-signed absolute-pardon application submitted through the Board of Pardons and Paroles portal, but the only delivered component is agency_preparation_guide. The PDF expressly says it is not an official form, not a court filing and not a substitute for the Board's application; the route record still has packetFamilyId null, packetSetId null, existingArtifactIds [], and missingImplementationWork requiring the participant-facing agency-application workflow and an exact route output artifact.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "superseded": false
     },
     {
       "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
@@ -5011,6 +5058,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_yra_set_aside-set",
       "superseded": true
+    },
+    {
+      "familyId": "fl-trafficking-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The source receipt expressly grounds packet roles in legal-design-packet-set-manifests.json. That authoritative fl-trafficking-set entry has five required component identities in order, including fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5. MASTER_QUEUE, the local packet-set-manifest, the field map and both PDFs declare only the petition, sworn statement and proposed order. The two instruction files contain useful process guidance but are not bound as the required instruction component, and no certificate-of-service component exists. requiredComponentsMissing=0 is therefore a declaration-relative false pass; the independent count is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The governed current-hash renderer measured all ten pages nonblank, cropped to 2040x2640 and free of machine problems; independent Poppler geometry found 0 of 1801 words outside the page boxes and 0 word-box overlaps. Human inspection nevertheless found an avoidable sparse continuation in both fixtures: page 3 ends after the petitioner's sworn signature/date lines with ample remaining space, while page 4 carries only the six-line notary jurat block and route footer, at ink fractions 0.0060459373 canonical and 0.0072142380 boundary. This is two visual defects that machine RASTER_PASS does not detect.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
+      "superseded": false
     },
     {
       "familyId": "ga-deaddocket-j3-set",
@@ -12481,7 +12556,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-wv-custom-pleading",
@@ -12526,6 +12601,52 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The five component IDs occur in the declared order, but pages 4-6 do not substantively deliver the required supporting_affidavit: except for the heading they repeat the application, contain no sworn declaration, oath, jurat, notary block, or notarial signature/seal field, and end only with the petitioner's ordinary signature/date line. A label-only duplicate is not the registry's required sworn affidavit.",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Each fixture visibly writes the held participant.date_of_birth in the petitioner block of both the application and purported affidavit, yet leaves each document's required C2 date-of-birth answer blank and production-field-map falsely says the platform holds no value. The exact known fact is therefore not written on the two required C2 fields where it belongs; knownRequiredFieldsMissing=0 is a declaration blind spot.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The current registry requires affidavit signature/date/jurat and notarization, a judicial-division line, separate prosecuting-attorney and probation-office addresses, and a hearing date on the application notice line. The PDFs and participant instructions contain no oath/jurat/notary block, no hearing-date notice line, no judicial-division instruction, and only one singular service-recipient/address block; these source-declared completion items are absent from the field map and from the participant checklist.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "No governed raster receipt binds the exact current hashes. The queue is RASTER_PENDING; its only RASTER_PASS binds the superseded 12-page pair. Local calibrated raster/visual/bbox review found all 22 current pages nonblank with 0 geometry problems, but that is supplemental and cannot satisfy the required current governed evidence.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Instructions require service on both the county prosecuting attorney and supervising probation office, but the certificate has only one singular recipient/address/method block. It also certifies delivery of a proposed order although no proposed order exists in the five-component packet and the filing instructions say to file the application, affidavit and certificate. As written it cannot truthfully evidence both required deliveries and may make the signer attest to serving a nonexistent component.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
+      "superseded": false
     },
     {
       "familyId": "rcap-wv-custom-pleading",

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "0c2408592c05a59f053c348b3c5e0b2d21d99b1c",
+  "minimumCaptainSha": "d1e6ad9ac8040b0503f1e66402dcd880a3866b01",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -72,17 +72,17 @@
     "sourceReady": 103,
     "sourceBlocked": 11,
     "legalBlocked": 7,
-    "verifyPending": 19,
-    "repairRequired": 60,
+    "verifyPending": 15,
+    "repairRequired": 63,
     "sumsToDenominator": true
   },
   "byState": {
-    "VERIFY_PENDING": 19,
+    "VERIFY_PENDING": 15,
     "COMPLETE_PACKET_PROVEN": 109,
-    "FAIL_REPAIR_REQUIRED": 60,
+    "FAIL_REPAIR_REQUIRED": 63,
+    "PRODUCT_PATH_PENDING": 19,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 103,
-    "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 11,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
@@ -553,8 +553,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -583,11 +590,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The governed current-hash renderer measured all four pages nonblank, cropped to 2040x2640 and free of machine problems; independent Poppler geometry found 0 of 752 words outside the page boxes and 0 word-box overlaps. Human inspection nevertheless found an avoidable split in both fixtures. Boundary page 1 ends with only the label 'Date the three-year destruction bar expires:'; its dotted response line and 'Check with: the case record and the clerk' begin page 2. Canonical leaves the dotted line on page 1 but orphans that same check instruction at the top of sparse page 2. This is two visual defects and machine RASTER_PASS does not cure them.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs",
@@ -715,7 +730,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PRODUCT_PATH_PENDING",
+        "lane": "vf05",
+        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -749,7 +769,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "PRODUCT_PATH_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure.mjs",
@@ -12998,8 +13018,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -13028,11 +13055,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "The source receipt expressly grounds packet roles in legal-design-packet-set-manifests.json. That authoritative fl-trafficking-set entry has five required component identities in order, including fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5. MASTER_QUEUE, the local packet-set-manifest, the field map and both PDFs declare only the petition, sworn statement and proposed order. The two instruction files contain useful process guidance but are not bound as the required instruction component, and no certificate-of-service component exists. requiredComponentsMissing=0 is therefore a declaration-relative false pass; the independent count is 2.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The governed current-hash renderer measured all ten pages nonblank, cropped to 2040x2640 and free of machine problems; independent Poppler geometry found 0 of 1801 words outside the page boxes and 0 word-box overlaps. Human inspection nevertheless found an avoidable sparse continuation in both fixtures: page 3 ends after the petitioner's sworn signature/date lines with ample remaining space, while page 4 carries only the six-line notary jurat block and route footer, at ink fractions 0.0060459373 canonical and 0.0072142380 boundary. This is two visual defects that machine RASTER_PASS does not detect.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-trafficking-set.mjs",
@@ -36186,11 +36227,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf05",
+        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36221,23 +36264,41 @@
       "failingCounters": [],
       "failedObligationNames": [
         "CLIPPING_AND_OVERLAP",
-        "SOURCE_IDENTITY"
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "Three full-file committed-record pins are stale: track registry receipt baee4117... / 16,586,143 now rehashes to 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16,586,150; specifications cc0c7959... / 16,829,383 now rehashes to f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16,829,391; route census 09368333... / 2,599,752 now rehashes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2,607,149. WV target subsets remain identical at ca54974b..., 49814560... and 107b7859.... This is receipt drift, not source absence.",
+          "obligation": "COMPONENT_SET",
+          "finding": "The five component IDs occur in the declared order, but pages 4-6 do not substantively deliver the required supporting_affidavit: except for the heading they repeat the application, contain no sworn declaration, oath, jurat, notary block, or notarial signature/seal field, and end only with the petitioner's ordinary signature/date line. A label-only duplicate is not the registry's required sworn affidavit.",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Each fixture visibly writes the held participant.date_of_birth in the petitioner block of both the application and purported affidavit, yet leaves each document's required C2 date-of-birth answer blank and production-field-map falsely says the platform holds no value. The exact known fact is therefore not written on the two required C2 fields where it belongs; knownRequiredFieldsMissing=0 is a declaration blind spot.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The current registry requires affidavit signature/date/jurat and notarization, a judicial-division line, separate prosecuting-attorney and probation-office addresses, and a hearing date on the application notice line. The PDFs and participant instructions contain no oath/jurat/notary block, no hearing-date notice line, no judicial-division instruction, and only one singular service-recipient/address block; these source-declared completion items are absent from the field map and from the participant checklist.",
           "evidence": null
         },
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All 24 governed pages were inspected. Canonical and boundary page 9 are an unintended records-checklist overflow carrying only the two-word route label and wrapped route key on an otherwise blank page (ink fraction 0.0027645944741532978 in both). Bbox extraction found no off-page words, but this footer-only pagination page is a visible defect that the admitted RASTER_PASS missed.",
+          "finding": "No governed raster receipt binds the exact current hashes. The queue is RASTER_PENDING; its only RASTER_PASS binds the superseded 12-page pair. Local calibrated raster/visual/bbox review found all 22 current pages nonblank with 0 geometry problems, but that is supplemental and cannot satisfy the required current governed evidence.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Instructions require service on both the county prosecuting attorney and supervising probation office, but the certificate has only one singular recipient/address/method block. It also certifies delivery of a proposed order although no proposed order exists in the five-component packet and the filing instructions say to file the application, affidavit and certificate. As written it cannot truthfully evidence both required deliveries and may make the signer attest to serving a nonexistent component.",
           "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wv-custom-pleading.mjs",

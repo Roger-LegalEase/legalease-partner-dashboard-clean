@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `0c2408592c05a59f053c348b3c5e0b2d21d99b1c` (or the newer dispatch base)
+**Minimum required ancestor:** `d1e6ad9ac8040b0503f1e66402dcd880a3866b01` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition' \
   --codex-cloud \
-  --minimum-captain-sha 0c2408592c05a59f053c348b3c5e0b2d21d99b1c
+  --minimum-captain-sha d1e6ad9ac8040b0503f1e66402dcd880a3866b01
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,8 +43,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'il-seal-2yr-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-nv-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'tx_nd_conviction_no_supervision-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'wa_vac_felony-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'tx_exp_acquittal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'vt_seal_nonconviction-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -68,8 +68,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`
 - `il-seal-2yr-set`
 - `rcap-nv-custom-pleading`
-- `tx_nd_conviction_no_supervision-set`
-- `wa_vac_felony-set`
+- `tx_exp_acquittal-set`
+- `vt_seal_nonconviction-set`
 
 ## What you receive
 
@@ -86,14 +86,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition.mjs`
 - `scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
 - `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
-- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
-- `scripts/build-census-v1-wa_vac_felony-set.mjs`
+- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
+- `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
 
 ## Never write here
 
