@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `8b8bbb395b2f2f55764608744282379574a9cfa0` (or the newer dispatch base)
+**Minimum required ancestor:** `e3e344d8832fe7708f20602fee24b3bbca0e2fd2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief' \
+  --family 'composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction' \
   --codex-cloud \
-  --minimum-captain-sha 8b8bbb395b2f2f55764608744282379574a9cfa0
+  --minimum-captain-sha e3e344d8832fe7708f20602fee24b3bbca0e2fd2
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,7 +38,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 8 exact families before reading or writing family content:
+- Assert only these 9 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-cannabis-vacate-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-nonconv-set'`
@@ -64,8 +65,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 8 families
+## The 9 families
 
+- `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction`
 - `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`
 - `il-cannabis-vacate-set`
 - `il-exp-nonconv-set`
@@ -86,6 +88,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
+- `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/**`
@@ -94,6 +97,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs`
 - `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
 - `scripts/build-census-v1-il-exp-nonconv-set.mjs`
