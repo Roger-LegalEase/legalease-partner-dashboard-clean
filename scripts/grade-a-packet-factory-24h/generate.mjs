@@ -290,7 +290,8 @@ const INPUTS = {
   wave2Repairs: `${LC}/WAVE_2_REPAIR_ASSIGNMENTS.json`,
   corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
-  ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json"
+  ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+  legalHoldReclassification: "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json"
 };
 const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)]));
 
@@ -632,10 +633,9 @@ for (const r of IN.ownerCorrections?.executionReclassifications ?? []) {
  */
 const legalHoldReclassifications = new Map();
 const LEGAL_HOLD_RECLASSIFICATION = "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json";
-try {
-  const d = JSON.parse(fs.readFileSync(path.join(ROOT, LEGAL_HOLD_RECLASSIFICATION), "utf8"));
-  for (const r of d.families ?? []) if (r.familyId && r.disposition) legalHoldReclassifications.set(r.familyId, r);
-} catch { /* no owner-confirmed hold reclassification recorded */ }
+for (const r of IN.legalHoldReclassification?.families ?? []) {
+  if (r.familyId && r.disposition) legalHoldReclassifications.set(r.familyId, r);
+}
 
 const laneReturnLegalHolds = new Map();
 try {
@@ -1367,17 +1367,13 @@ for (const f of IN.scoreboard.familiesDetail) {
   const ownerCorrection = ownerCorrectionsRequired.get(familyId) ?? null;
   const ownerCorrectionAwaitsReread = Boolean(ownerCorrection)
     && holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED";
-  const ownerCorrectionIsBlocking = Boolean(ownerCorrection)
-    && !ownerCorrectionAwaitsReread
-    && !executionReclassification;
-  const executionStateOverride = ownerCorrectionAwaitsReread
-    ? null
-    : (executionReclassification?.stateOverride ?? null);
-  const legalBlocked = executionReclassification ? false : (
+  const holdReclassificationNextState = ["POST_REPAIR_REREAD_REQUIRED", "SELECT_SUBSTANTIVE_VERDICT"]
+    .includes(holdReclassification?.disposition) ? "VERIFY_PENDING" : null;
+  const legalBlocked = (executionReclassification || holdReclassification) ? false : (
     routes.some((r) => openCounselRoutes.has(r.routeKey))
     || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)
     || Boolean(laneHold)
-    || ownerCorrectionIsBlocking
+    || (Boolean(ownerCorrection) && !ownerCorrectionAwaitsReread)
   );
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
@@ -1405,14 +1401,15 @@ for (const f of IN.scoreboard.familiesDetail) {
    * where rcap-sc-custom-pleading correctly still sits. */
   if (terminalTreatment) state = terminalTreatment.terminalTreatment;
   else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
-  else if (executionStateOverride) state = executionStateOverride;
+  else if (holdReclassificationNextState) state = holdReclassificationNextState;
+  else if (executionReclassification?.stateOverride) state = executionReclassification.stateOverride;
   /* An owner withholding outranks a passing verdict for the same reason a
    * delivery-type refusal does: the verdict says the packet is well made, and
    * the withholding says it may not ship as made. Left below the PASS branch
    * these nine families sat at VERIFIED_PASS, which L4 and F30 read as proven —
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
-  else if (ownerCorrectionIsBlocking) state = "LEGAL_BLOCKED";
+  else if (ownerCorrection && !ownerCorrectionAwaitsReread) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
@@ -1675,8 +1672,8 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
-    legalInputBasis: executionReclassification ? null
-      : ownerCorrectionIsBlocking ? "OWNER_CORRECTION_REQUIRED"
+    legalInputBasis: (executionReclassification || holdReclassification) ? null
+      : (ownerCorrection && !ownerCorrectionAwaitsReread) ? "OWNER_CORRECTION_REQUIRED"
       : laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
         : (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true) ? "LEGAL_APPROVAL_VERDICT" : null,

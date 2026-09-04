@@ -19761,6 +19761,54 @@
         "name": "The court where the conviction records are located, in the existing criminal case",
         "detail": "Court-controlled with a district attorney response opportunity."
       },
+      "officialFormSetMapping": {
+        "status": "MAPPED",
+        "issuer": "Colorado Judicial Branch",
+        "courtScope": "county or district court conviction; not municipal court",
+        "components": [
+          {
+            "formId": "JDF-612",
+            "role": "primary_filing",
+            "requirement": "required",
+            "revision": "2025-07-01"
+          },
+          {
+            "formId": "JDF-614",
+            "role": "hearing_notice",
+            "requirement": "conditional",
+            "condition": "The court determines that a hearing is necessary.",
+            "revision": "2024-08-07",
+            "courtOwned": true
+          },
+          {
+            "formId": "JDF-615",
+            "role": "proposed_order",
+            "requirement": "required",
+            "revision": "2025-07-01",
+            "courtOwnedFields": "The court completes the form after the caption and defendant information."
+          }
+        ],
+        "sourceCustodyStatus": "SOURCE_REFRESH_REQUIRED",
+        "sourceCustodyBlocker": "Committed custody has superseded 2024-08-07 JDF-612 and JDF-615 bytes and no JDF-614. Ingest the exact current issuer bytes recorded in sourceBindings before build or release.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:JDF-612",
+          "revision": "2025-07-01",
+          "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b"
+        },
+        {
+          "sourceId": "official-form:JDF-614",
+          "revision": "2024-08-07",
+          "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b"
+        },
+        {
+          "sourceId": "official-form:JDF-615",
+          "revision": "2025-07-01",
+          "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26"
+        }
+      ],
       "packetSet": {
         "packetSetId": "co_motion_seal_conviction-set",
         "version": "1.0.0",
@@ -19772,18 +19820,28 @@
             "conditionDescription": null,
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "JDF-612",
-            "officialSourceUrl": null,
+            "officialSourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
             "order": 1
           },
           {
-            "componentId": "co_motion_seal_conviction-proposed-order-2",
+            "componentId": "co_motion_seal_conviction-hearing-notice-2",
+            "role": "hearing_notice",
+            "requirement": "conditional",
+            "conditionDescription": "Used when the court determines that a hearing is necessary.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "JDF-614",
+            "officialSourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+            "order": 2
+          },
+          {
+            "componentId": "co_motion_seal_conviction-proposed-order-3",
             "role": "proposed_order",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "JDF-615",
-            "officialSourceUrl": null,
-            "order": 2
+            "officialSourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF615.pdf",
+            "order": 3
           }
         ],
         "participantActionRequired": [
@@ -19875,10 +19933,22 @@
       },
       "officialSources": [
         {
-          "title": "JDF 612, Motion to Seal Conviction Records",
-          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
-          "retrievedOn": "2026-07-30",
-          "sha256": null
+          "title": "JDF 612, Motion to Seal Conviction Records, R: July 1, 2025",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
+          "retrievedOn": "2026-09-04",
+          "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b"
+        },
+        {
+          "title": "JDF 614, Order and Notice of Hearing to Seal Conviction Records, R: August 7, 2024",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+          "retrievedOn": "2026-09-04",
+          "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b"
+        },
+        {
+          "title": "JDF 615, Order to Seal Conviction Records, R: July 1, 2025",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF615.pdf",
+          "retrievedOn": "2026-09-04",
+          "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26"
         }
       ],
       "rules": {
@@ -19967,7 +20037,7 @@
       "buildBlockers": [],
       "releaseBlockers": [
         {
-          "question": "JDF 615, Order to Seal Conviction Records, has not been acquired. This is the missing grant order on the highest-value track.",
+          "question": "The official form set is JDF 612, JDF 614, and JDF 615. Current issuer bytes are JDF 612 R: July 1, 2025 at sha256 4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b, JDF 614 R: August 7, 2024 at sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, and JDF 615 R: July 1, 2025 at sha256 184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26. Committed custody contains superseded JDF 612 and JDF 615 bytes and no JDF 614, so exact current bytes must be ingested before build or release.",
           "impact": "release_blocker",
           "affectedElement": "packet_components",
           "provenance": {
@@ -20069,11 +20139,11 @@
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (packet_components): JDF 615, Order to Seal Conviction Records, has not been acquired. This is the missing grant order on the highest-value track."
+          "statement": "Source refresh blocks release (packet_components): the official form set is JDF 612, JDF 614, and JDF 615, but committed custody does not contain all three current issuer revisions and hashes recorded by this track."
         },
         {
           "kind": "source_gate",
-          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+          "statement": "Current official JDF 612, JDF 614, and JDF 615 hashes are recorded, but those exact current bytes are not yet all present in committed source custody."
         }
       ]
     },
@@ -84238,6 +84308,35 @@
         "name": "Boston Municipal Court division identified by the Standing Order",
         "detail": "A consolidated petition supplements rather than replaces the statewide form. The judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
       },
+      "formIdentityInvestigation": {
+        "status": "STOPPED_AMBIGUOUS",
+        "reviewedOn": "2026-09-04",
+        "controllingProcedure": {
+          "title": "Boston Municipal Court Amended Standing Order 1-09: Sealing three or more eligible criminal records",
+          "effectiveDate": "2024-05-10",
+          "url": "https://www.mass.gov/districtmunicipal-court-rules/boston-municipal-court-amended-standing-order-1-09-sealing-three-or-more-eligible-criminal-records",
+          "statement": "The Standing Order authorizes one petition for three or more eligible records from two or more BMC divisions and says a petition form is available on the BMC Mass.gov website."
+        },
+        "officialCandidatesReviewed": [
+          {
+            "formId": "TC0057",
+            "title": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal",
+            "revision": "2024-03",
+            "url": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+            "relationship": "NOT_ESTABLISHED_AS_CONSOLIDATED_BMC_PETITION",
+            "why": "The form expressly directs the filer to use a separate form for each case and carries one docket-number caption, which conflicts with treating it as the single multi-case petition without further issuer direction."
+          },
+          {
+            "formId": "TC0059",
+            "title": "General Motion",
+            "url": "https://www.mass.gov/how-to/request-to-seal-your-criminal-record",
+            "relationship": "NOT_IDENTIFIED_BY_ISSUER_AS_BMC_MULTI_RECORD_PETITION",
+            "why": "The current self-help page lists the general motion but does not identify it as the petition form referenced by Standing Order 1-09."
+          }
+        ],
+        "hardStop": "Do not assign TC0057, TC0059, or the existing custom pleading as the controlling single petition until the issuing court identifies the petition form referenced by the current Standing Order or confirms that no dedicated form is published.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
       "packetSet": {
         "packetSetId": "ma-bmc-multi-set",
         "version": "1.0.0",
@@ -84451,7 +84550,7 @@
       "buildBlockers": [],
       "releaseBlockers": [
         {
-          "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+          "question": "The current Boston Municipal Court Standing Order effective May 10, 2024 says a petition form is available for the single multi-record filing. The current official self-help page exposes TC0057, which expressly requires a separate form for each case, and TC0059, which the issuer does not identify as the Standing Order petition. The controlling single-petition form remains ambiguous; do not assign either candidate or approve the custom pleading without issuer confirmation.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
@@ -84474,7 +84573,7 @@
       ],
       "unresolvedQuestions": [
         {
-          "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+          "question": "The current Boston Municipal Court Standing Order effective May 10, 2024 says a petition form is available for the single multi-record filing. The current official self-help page exposes TC0057, which expressly requires a separate form for each case, and TC0059, which the issuer does not identify as the Standing Order petition. The controlling single-petition form remains ambiguous; do not assign either candidate or approve the custom pleading without issuer confirmation.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
@@ -84579,7 +84678,7 @@
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (correct_form): Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents."
+          "statement": "Form-identity ambiguity blocks release (correct_form): the current Standing Order says a single-petition form is available, but current official materials do not establish whether TC0057, TC0059, or a separate unpublished BMC form is that instrument."
         },
         {
           "kind": "source_gate",
