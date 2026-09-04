@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "C28-INDEPENDENT-VERIFICATION-MS-FEL-SC-SUMMARY",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-LEGAL-PURGE-W1",
+  "baseSha": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+  "claimsReissued": 0,
+  "claimHandling": "These are independent current-byte rereads requested without claim reissue; no claim was asserted, reissued, or released.",
+  "independence": "The worker did not build or repair either family and modified no packet, raster, route, Production, queue, or consolidated-verdict bytes.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 2,
+    "PASS": 0,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0,
+    "STOPPED": 0
+  },
+  "rows": [
+    {
+      "itemId": "ms-fel-set",
+      "lane": "C28-INDEPENDENT-VERIFICATION-MS-FEL-SC-SUMMARY",
+      "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading",
+      "builderBinding": {
+        "path": "scripts/build-census-v1-ms-fel-set.mjs",
+        "sha256": "4c80227cebeec393d73f555ead97559922759107e25baad004bdc2674c62179f",
+        "byteLength": 86190,
+        "checkResult": "PASS"
+      },
+      "sourceBinding": {
+        "sourceCount": 0,
+        "sourcePolicy": "INTENTIONAL_ZERO_SOURCE_CUSTOM_PLEADING",
+        "groundingRecords": [
+          {
+            "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+            "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+            "byteLength": 395826
+          },
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d",
+            "byteLength": 3677637
+          },
+          {
+            "path": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+            "sha256": "debed4950d0303d26a474ef82086802606eea942214f276f5d9a405a2680c518",
+            "byteLength": 19600
+          }
+        ],
+        "allCommittedRecordsRehashed": true
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "1a7f256027a1b0ae765ba1eb60af3fe526262538178e9224c50075220d5f0c6a",
+          "byteLength": 26784,
+          "pageCount": 10
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "343c2fd83679b7a62ff83bca3f04981553b73c259e01c4e48e535331132ade22",
+          "byteLength": 27261,
+          "pageCount": 10
+        }
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "renderedAtCommit": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975726",
+        "artifactId": 9928717219,
+        "artifactName": "rcap-raster-ms-fel-set-33850403312",
+        "artifactZipSha256": "7ec84d8e87e6d0b0c1d75a8c7e45e3909dca2d5e50415d81babf4070e228beda",
+        "artifactByteLength": 6107045,
+        "boundToCanonicalSha256": "1a7f256027a1b0ae765ba1eb60af3fe526262538178e9224c50075220d5f0c6a",
+        "boundToBoundarySha256": "343c2fd83679b7a62ff83bca3f04981553b73c259e01c4e48e535331132ade22",
+        "documentsCovered": 2,
+        "pagesCovered": 20,
+        "problems": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The packet remains the single Mississippi felony expungement route under Section 99-19-71(2), consistently identified in its map, receipt, manifests, and wiring."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The custom-pleading family intentionally binds zero official-form sources; all committed legal-design and owner-correction grounding records were independently rehashed."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Petition, proposed order, certificate of service, attachments, instructions, and hearing notice are all present and contiguous in both fixtures."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All 13 declared participant-known writes are present; the actual-writes reports record no refused ink."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All 36 required-before-filing facts and decisions are disclosed; the focused completeness check reports zero omissions."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "No participant route-election control is owed; record-dependent caption and eligibility choices remain participant inputs or hard stops."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The family declares no repeating-row obligation and the incomplete-row counter is zero."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "All ten protected or refused court-, judge-, prosecutor-, signature-, and service-completion fields remain blank."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both current PDFs match their exact reported SHA-256 values, byte lengths, and ten-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both ten-page manifests preserve the complete six-component sequence without a missing, duplicate, or interleaved page."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Every page of both current PDFs was freshly inspected; all 20 pages are readable without clipping or overlap, consistent with the admitted whole-family RASTER_PASS reporting zero problems."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions direct filing to the circuit clerk in the county of conviction."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The owner-rejected unsupported $150 amount is absent from both participant PDFs and instructions; the packet instead requires confirmation of the current amount and any pauper-affidavit route with the exact circuit clerk."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "Service on the district attorney by United States mail or hand delivery and the ten-day hearing-notice requirement are stated and supported by the certificate."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Attorney review and the stated eligibility, prior-expunction, common-nucleus, unpaid-balance, public-official, noncitizen, objection, and hearing stops remain explicit."}
+      },
+      "failedProofObligations": [],
+      "unmeasuredObligations": [],
+      "ownerCorrectionCheck": "The unsupported $150 fee amount is absent from current participant-facing PDF and instruction bytes; only current-clerk confirmation and the supported pauper route remain.",
+      "evidenceRead": [
+        "exact current canonical and boundary PDF bytes and every rendered page",
+        "source receipt and all committed zero-source grounding records",
+        "production field map, actual writes, blank ledger, completeness counters, rendered-artifact manifests, instructions, and product wiring",
+        "admitted RASTER_PASS receipt from workflow run 33850403312"
+      ]
+    },
+    {
+      "itemId": "sc_17_22_950_summary-set",
+      "lane": "C28-INDEPENDENT-VERIFICATION-MS-FEL-SC-SUMMARY",
+      "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill",
+      "builderBinding": {
+        "path": "scripts/build-census-v1-sc_17_22_950_summary-set.mjs",
+        "sha256": "77ad0d867dc75e25154277d27226c3dfbbe60aa2e0355e99dd398dafcbeedda5",
+        "byteLength": 79051,
+        "checkResult": "PASS"
+      },
+      "sourceBinding": {
+        "custodyPath": "STATES/SC/05_SOURCE_GATED/SC__SOURCE-GATED__SCCA-223E__application-for-expungement__REV-UNKNOWN__EN.pdf",
+        "sourceId": "SCCA-223E",
+        "sha256": "668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8",
+        "byteLength": 106144,
+        "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+        "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+        "memoByteLength": 395522,
+        "allCommittedRecordsRehashed": true
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f373d91a18f015ebc7f3c7a9e7d71c1e47a469e830977555c937f4241cc8c5a1",
+          "byteLength": 107934,
+          "pageCount": 1
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/sc/sc-17-22-950-summary-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "42e3e5e2b24e0f2b8064fef187ab2331c5914710c43899d2abd99c0a7bbfeaf9",
+          "byteLength": 108021,
+          "pageCount": 1
+        }
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "renderedAtCommit": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975743",
+        "artifactId": 9928566658,
+        "artifactName": "rcap-raster-sc_17_22_950_summary-set-33850403312",
+        "artifactZipSha256": "c474922f3b8184f18ccde6e845a3ae3b4736fd50482ac85f29ed805eeb9e7bc8",
+        "artifactByteLength": 1603083,
+        "boundToCanonicalSha256": "f373d91a18f015ebc7f3c7a9e7d71c1e47a469e830977555c937f4241cc8c5a1",
+        "boundToBoundarySha256": "42e3e5e2b24e0f2b8064fef187ab2331c5914710c43899d2abd99c0a7bbfeaf9",
+        "documentsCovered": 2,
+        "pagesCovered": 2,
+        "problems": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The family keeps the fingerprinted automatic-expungement guidance branch distinct from the unfingerprinted SCCA-223E application branch."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The exact governed SCCA-223E PDF rehashes to its committed receipt and source index, and the current SC legal-design memo was independently rehashed."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "The conditional official application form and the required two-branch process guidance are both present."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All five declared known writes appear in their measured blanks in both fixtures; the recorded apostrophe encoding advisory does not truncate or alter the visible boundary name."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All 13 required-before-filing facts and participant decisions are disclosed; the focused completeness check reports zero omissions."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "All five Magistrate/Municipal and Yes/No/Do Not Know participant elections remain visibly unmarked and the branch consequences are explained."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The form declares no repeating-row obligation and the incomplete-row counter is zero."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "Signature and attorney-owned blocks remain blank; no refused field carries generated ink."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both current PDFs match their exact reported SHA-256 values, byte lengths, and one-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Each artifact is the single official application page, with no missing, duplicate, or reordered page."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Every page of both current PDFs was freshly inspected; both pages are readable without clipping or overlap, consistent with the admitted whole-family RASTER_PASS reporting zero problems."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The application branch accurately leaves filing with the summary court while the fingerprinted automatic branch requires no participant filing."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The route is recorded as free with no waiver mechanism, and neither participant artifact invents a fee."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The participant owes no service; the packet distinguishes the court's internal process from participant service."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The preliminary-hearing, pending-charge, diversion, fingerprinted-branch, objection, and statutory-window stops remain explicit without promising an order."}
+      },
+      "failedProofObligations": [],
+      "unmeasuredObligations": [],
+      "ownerCorrectionCheck": "The owner-rejected notice-anchored 31/40-day timing claim is absent from current participant-facing PDF and instruction bytes; only the supported appeal-expiration and thirty-day statutory timing remains.",
+      "recordedDeviations": [
+        "The boundary-name actual-writes readback records byte 0x92 rather than Unicode U+2019 for the apostrophe. The complete name is visibly correct and unclipped in the current PDF; this is an encoding advisory, not a missing or altered visible write."
+      ],
+      "evidenceRead": [
+        "exact current canonical and boundary PDF bytes and every rendered page",
+        "exact governed SCCA-223E source bytes, source receipt, committed source index, and SC legal-design memo",
+        "production field map, actual writes, blank ledger, completeness counters, rendered-artifact manifests, instructions, and product wiring",
+        "admitted RASTER_PASS receipt from workflow run 33850403312"
+      ]
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
