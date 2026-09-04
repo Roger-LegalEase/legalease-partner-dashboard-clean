@@ -631,8 +631,384 @@
       "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF03 wv_nc_diversion_deferred-set",
       "exitCode": 9,
       "whatThisLaneDid": "Nothing. The grant was released before this lane started; no artifact of this family was read and none was written."
+    },
+    {
+      "itemId": "al-pardon-set",
+      "status": "STOPPED",
+      "verdict": "BUILD_IMPLEMENTATION_ABSENT",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "nonZeroCounters": [
+        "requiredComponentsMissing"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+      "sourceBindings": "1/1 exact",
+      "missingBuildScript": "scripts/build-census-v1-al-pardon-set.mjs",
+      "missingComponents": [
+        "primary_filing"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardon-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": [],
+      "why": "The dispatch names a family-specific builder that is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e. The target overlay is empty, and no approved shared host exports the ABPP-3 pardon route. Creating a generic filing would not prove the route-specific field, protected-field, instruction, or component contract.",
+      "whatWouldClearIt": "Implement and review the dispatched ABPP-3 family builder, then run the focused completeness gate and central raster acceptance against its canonical and boundary artifacts."
+    },
+    {
+      "itemId": "composed-treatment:nc_146_dismissal_petition",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable; family_sources_bind: 4 of 6 source relationships do not bind",
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7"
+        },
+        {
+          "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+        },
+        {
+          "sourceId": "source-sha256:a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed"
+        },
+        {
+          "sourceId": "source-sha256:fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7"
+        }
+      ],
+      "sourcesThatBound": [
+        "official-form:AOC-CR-287",
+        "official-form:AOC-CV-226"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/composed-treatment:nc-146-dismissal-petition--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "md_10110_conviction-set",
+      "status": "STOPPED",
+      "verdict": "BUILD_IMPLEMENTATION_ABSENT",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "nonZeroCounters": [
+        "requiredComponentsMissing"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": 2,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+      "sourceBindings": "2/2 exact",
+      "missingBuildScript": "scripts/build-census-v1-md_10110_conviction-set.mjs",
+      "missingComponents": [
+        "fee_waiver",
+        "primary_filing"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": [],
+      "why": "The dispatched family-specific builder is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e and the target overlay is empty. The available Maryland sibling builder is route-specific and exports no reusable host for these forms, so it cannot establish this route's complete filing and waiver contract."
+    },
+    {
+      "itemId": "md_pardon_expungement-set",
+      "status": "STOPPED",
+      "verdict": "BUILD_IMPLEMENTATION_ABSENT",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "nonZeroCounters": [
+        "requiredComponentsMissing"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": 2,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+      "sourceBindings": "2/2 exact",
+      "missingBuildScript": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+      "missingComponents": [
+        "fee_waiver",
+        "primary_filing"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/md/md-pardon-expungement-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": [],
+      "why": "The dispatched family-specific builder is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e and the target overlay is empty. Reusing a different Maryland route would not prove the pardon-specific option, deadline, or instructions."
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable; family_sources_bind: 6 of 7 sources do not bind",
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:4-222",
+          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+        },
+        {
+          "sourceId": "official-form:4-952",
+          "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca"
+        },
+        {
+          "sourceId": "official-form:4-955",
+          "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11"
+        },
+        {
+          "sourceId": "official-form:4-959",
+          "sha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148"
+        },
+        {
+          "sourceId": "official-form:4-960.1",
+          "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c"
+        },
+        {
+          "sourceId": "official-form:4-960.2",
+          "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e"
+        }
+      ],
+      "sourcesThatBound": [
+        "official-form:NM-SAN-JUAN-NONCONVICTION-PACKET"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "rcap-in-custom-pleading",
+      "status": "STOPPED",
+      "verdict": "BUILD_IMPLEMENTATION_ABSENT",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "nonZeroCounters": [
+        "requiredComponentsMissing"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": 6,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+      "sourceBindings": "3/3 exact",
+      "missingBuildScript": "scripts/build-census-v1-rcap-in-custom-pleading.mjs",
+      "missingComponents": [
+        "three route-specific primary filings",
+        "three route-specific proposed orders"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/in/rcap-in-custom-pleading--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "artifacts": [],
+      "why": "The dispatch names a family-specific custom-pleading builder that is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e. The bound fifteen-page CCA Section 1 bundle supplies three attachments but does not supply the conviction, collateral-action, and supplemental-order pleadings and proposed orders this three-route family requires. Delivering its unrelated non-conviction petition would be a wrong-route packet."
+    },
+    {
+      "itemId": "rcap-or-official-pdf-fill",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable; family_sources_bind: 2 of 2 sources do not bind",
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+          "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        },
+        {
+          "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+          "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+        }
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": []
+    },
+    {
+      "itemId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "status": "STOPPED",
+      "verdict": "BUILD_IMPLEMENTATION_ABSENT",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "nonZeroCounters": [
+        "requiredComponentsMissing"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": 2,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+      "sourceBindings": "3/3 exact",
+      "missingBuildScript": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
+      "missingComponents": [
+        "OCA model letter to the court where the order did not issue",
+        "no-filing process guidance"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": [],
+      "why": "All three sources now bind, including the governed human-source-return fee-waiver form, but the dispatched builder is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e. The target requires a Section 411.072 model-letter/no-filing route; substituting a petition builder would state the wrong delivery and filing process."
+    },
+    {
+      "itemId": "tx_nd_deferred_other-set",
+      "status": "STOPPED",
+      "verdict": "BUILD_IMPLEMENTATION_ABSENT",
+      "stopClass": "COMPLETENESS_COUNTER_NOT_ZERO",
+      "nonZeroCounters": [
+        "requiredComponentsMissing"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": 5,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+      "sourceBindings": "3/3 exact",
+      "missingBuildScript": "scripts/build-census-v1-tx_nd_deferred_other-set.mjs",
+      "missingComponents": [
+        "fee_waiver_statement",
+        "filing_and_after_order_instructions",
+        "petition",
+        "proof_of_delivery_to_prosecutor",
+        "proposed_order"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "artifacts": [],
+      "why": "All three sources bind exactly, but the dispatched Section 411.0725 family builder is absent at authoritative base a293c0a93685a1b45be5e55200e8cf2dcc96391e and the target overlay is empty. No approved shared host exports this route, so the five-component contract cannot be measured or completed in this lane without a new reviewed implementation."
     }
   ],
+  "currentReturn": {
+    "workerId": "codex-pf03-a293",
+    "workerBranch": "codex/pf03-full-a293",
+    "shiftBaseSha": "a293c0a93685a1b45be5e55200e8cf2dcc96391e",
+    "familiesAssigned": 9,
+    "rowsReturned": 9,
+    "itemIds": [
+      "al-pardon-set",
+      "composed-treatment:nc_146_dismissal_petition",
+      "md_10110_conviction-set",
+      "md_pardon_expungement-set",
+      "nm_release_without_conviction-set",
+      "rcap-in-custom-pleading",
+      "rcap-or-official-pdf-fill",
+      "tx_nd_automatic_misdemeanor_deferred-set",
+      "tx_nd_deferred_other-set"
+    ],
+    "familiesCompleted": [],
+    "familiesStopped": [
+      "al-pardon-set",
+      "composed-treatment:nc_146_dismissal_petition",
+      "md_10110_conviction-set",
+      "md_pardon_expungement-set",
+      "nm_release_without_conviction-set",
+      "rcap-in-custom-pleading",
+      "rcap-or-official-pdf-fill",
+      "tx_nd_automatic_misdemeanor_deferred-set",
+      "tx_nd_deferred_other-set"
+    ],
+    "blockedSource": [
+      "composed-treatment:nc_146_dismissal_petition",
+      "nm_release_without_conviction-set",
+      "rcap-or-official-pdf-fill"
+    ],
+    "buildImplementationAbsent": [
+      "al-pardon-set",
+      "md_10110_conviction-set",
+      "md_pardon_expungement-set",
+      "rcap-in-custom-pleading",
+      "tx_nd_automatic_misdemeanor_deferred-set",
+      "tx_nd_deferred_other-set"
+    ],
+    "blockedLegalInput": [],
+    "blockedBeforeClaim": [],
+    "allClaimsReleased": true,
+    "overlayDirectoriesTouchedByAStoppedFamily": 0,
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "mississippiDemoTouched": false,
+    "historicalRowsPreserved": true,
+    "grantsNothing": "These are fail-closed builder returns. No family was built, verified, approved, or opened for participant delivery."
+  },
   "twoWorkersReturnedThisLane": {
     "why": "This lane id was executed twice, in two shifts, over two disjoint sets of families. The earlier return is preserved byte-for-byte in the fields it wrote; the later one is added beside it. Neither overwrites the other, and the `rows` array below carries every family either worker was assigned.",
     "returns": [
