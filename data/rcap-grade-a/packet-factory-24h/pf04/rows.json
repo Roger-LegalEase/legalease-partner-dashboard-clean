@@ -661,11 +661,10 @@
     "minimumCaptainSha": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
     "status": "IN_PROGRESS",
     "familiesAssigned": 8,
-    "rowsReturned": 6,
+    "rowsReturned": 7,
     "familiesCompleted": 4,
-    "familiesStopped": 2,
+    "familiesStopped": 3,
     "remaining": [
-      "mn_petition_609a02_subd3-set",
       "mt_deferred_dismissal-set"
     ],
     "packetsSelfVerified": 0,
@@ -823,6 +822,26 @@
         "allNineCountersZero": true,
         "deterministic": true,
         "rasterState": "BUILT_RASTER_PENDING",
+        "selfVerified": false
+      },
+      {
+        "itemId": "mn_petition_609a02_subd3-set",
+        "status": "STOPPED",
+        "result": "BUILDER_STOP_MEASUREMENT_MODE_NOT_BUILT",
+        "rowGate": "PASS 14/14; 5/5 sources exact",
+        "sourcesBind": [
+          {"sourceId": "official-form:EXP101", "sha256": "0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de", "pageCount": 7, "acroFields": 0},
+          {"sourceId": "official-form:EXP102", "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541", "pageCount": 6, "acroFields": 0},
+          {"sourceId": "official-form:EXP104", "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c", "pageCount": 2, "acroFields": 0},
+          {"sourceId": "official-form:EXP105", "sha256": "754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0", "pageCount": 4, "acroFields": 0},
+          {"sourceId": "official-form:FEE102", "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8", "pageCount": 6, "acroFields": 0}
+        ],
+        "basis": "All five official sources bind exactly, but every source is a flat PDF: 25 pages total and zero AcroForm fields. The family requires measured participant fields, a service-address table, proof-of-service dates, proposed-order judicial blanks, and conditional fee-waiver financial rows. No existing family-scoped builder or safe field geometry exists for these bytes; writing against guessed rectangles would create an unreviewed 25-page measurement mode and risk ink on protected/order fields.",
+        "whatWouldUnblockIt": "A measured flat-form map for EXP102, EXP104, EXP105 and FEE102 (EXP101 remains carried instructions), with field-level write boxes, protected/refused regions and row semantics pinned to these exact hashes.",
+        "legalInputStatus": "SETTLED; the stop is only the missing measured flat-form implementation",
+        "overlayFilesChanged": 0,
+        "artifacts": [],
+        "counters": null,
         "selfVerified": false
       }
     ]
