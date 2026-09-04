@@ -21,6 +21,10 @@ const zeroPaddedLowLane = livePacketLaneByFamily([{ ...packetClaim, lane: "PF03"
 assert.equal(zeroPaddedLowLane.get("family-under-test"), "PF03");
 assert.equal(effectivePacketLaneCount(16, zeroPaddedLowLane), 16);
 
+const beyondElasticMaximum = livePacketLaneByFamily([{ ...packetClaim, lane: "PF25" }]);
+assert.equal(beyondElasticMaximum.get("family-under-test"), "PF25");
+assert.equal(effectivePacketLaneCount(16, beyondElasticMaximum), 25);
+
 const released = livePacketLaneByFamily([{ ...packetClaim, released: true }]);
 assert.equal(released.has("family-under-test"), false);
 assert.equal(effectivePacketLaneCount(16, released), 16);

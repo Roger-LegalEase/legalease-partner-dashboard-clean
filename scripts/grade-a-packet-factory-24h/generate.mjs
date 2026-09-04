@@ -10,7 +10,7 @@
  * than derived stops being true the moment the tree moves under it.
  *
  * The honest shape of this dispatch is stated up front, because the arithmetic
- * is the finding: thirty-two lanes are created and queued as instructed, but the
+ * is the finding: packet-factory lanes are created and queued as instructed, but the
  * work that exists for them is not evenly distributed across the four kinds. The
  * builders are limited by how many families have an exactly-identified official
  * source, which is far fewer than the roster would hold. That is what the source
@@ -2785,9 +2785,9 @@ const masterQueue = {
     sourceReadyFamilies: sourceReady.length,
     familiesPerBuilder: PF_LANES > 0 ? Number((sourceReady.length / PF_LANES).toFixed(1)) : 0,
     targetPerBuilder: "15 to 25",
-    finding: `Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: ${sourceReady.length} do, so a full roster of ${PF_LANES} builders averages ${(sourceReady.length / PF_LANES).toFixed(1)} families each rather than 15 to 25.`,
-    whatWouldChangeIt: `The source conveyor. ${sourceRows.length} source obligations across ${sourceBlocked.length + legalBlocked.length} families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.`,
-    whyNotFewerBuilders: "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
+    finding: `${PF_LANES + VF_LANES + FIX_LANES} packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: ${sourceReady.length} do, so a full roster of ${PF_LANES} builders averages ${(sourceReady.length / PF_LANES).toFixed(1)} families each rather than 15 to 25.`,
+    whatWouldChangeIt: `The source conveyor. ${sourceRows.length} source obligations across ${sourceBlocked.length + legalBlocked.length} families stand between this dispatch and a full builder roster, and the ${SOURCE_LANES}-lane source swarm holds every one of them.`,
+    whyNotFewerBuilders: `The roster is kept at ${PF_LANES}: ${laneCount("build")} lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.`,
     noFalsePass: "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
   families,
