@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 225,
+  "scriptsScanned": 226,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -13,7 +13,8 @@
         "build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs",
         "build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs",
         "build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs",
-        "build-census-v1-agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure.mjs"
+        "build-census-v1-agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure.mjs",
+        "build-census-v1-de_mandatory_expungement-set.mjs"
       ]
     },
     {
@@ -241,6 +242,16 @@
         "build-census-v1-dc_seal_conviction-set.mjs",
         "build-census-v1-dc_seal_fugitive-set.mjs"
       ]
+    },
+    {
+      "script": "build-census-v1-de_mandatory_expungement-set.mjs",
+      "imports": [
+        "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs"
+      ],
+      "importedBy": []
     },
     {
       "script": "build-census-v1-ga-deaddocket-j3-set.mjs",
@@ -866,7 +877,8 @@
         "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
         "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
         "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
-        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+        "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+        "de_mandatory_expungement-set"
       ],
       "owner": "UNOWNED_IN_THIS_WAVE"
     },

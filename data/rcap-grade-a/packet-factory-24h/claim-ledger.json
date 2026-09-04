@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c67f72f3550153554a5ede6bc8fdfb3e65e1f092",
+  "generatedAtCommit": "0c2408592c05a59f053c348b3c5e0b2d21d99b1c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2783,11 +2783,26 @@
         "de_mandatory_expungement-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "familyId": "de_mandatory_expungement-set",
+      "itemId": null,
+      "familyIds": [
+        "de_mandatory_expungement-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF21",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T16:19:42.099Z"
     },
     {
       "subjectType": "packet-family",
@@ -5969,10 +5984,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:55:23.663Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -12793,7 +12807,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6d98683e7f9777757364986b309ff0fa1b4b3aefd97851f0e5379db6266a3379",
+  "claimsDigest": "ff7cb57cff11d2159e67e3b018103f14cec2c461d977f5c4f2df0cc57319357f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25209,6 +25223,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-04T16:16:35.880Z"
+    },
+    {
+      "lane": "PF21",
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-04T16:19:42.099Z"
     }
   ],
   "reissues": [
@@ -30545,6 +30567,16 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-04T16:17:32Z",
       "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-04T16:19:55Z",
+      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
