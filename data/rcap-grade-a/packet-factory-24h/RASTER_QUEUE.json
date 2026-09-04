@@ -14847,8 +14847,44 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975759",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "fbf1c284b7bf9e76d782279de376e0a5eef8cbe619887033f27fe628ff1065cb",
+        "boundToBoundarySha256": "43acb3e1195fb1887e7fce984bb60c86dfdd1ba2e5ea563b7ad618435fee1e2e",
+        "documentsCovered": [
+          "tracks/oh_2953_32_expungement/rendered/canonical/canonical.pdf",
+          "tracks/oh_2953_32_sealing/rendered/canonical/canonical.pdf",
+          "tracks/oh_2953_33_nonconviction/rendered/canonical/canonical.pdf",
+          "tracks/oh_2953_35_firearm/rendered/canonical/canonical.pdf",
+          "tracks/oh_2953_32_expungement/rendered/boundary/boundary.pdf",
+          "tracks/oh_2953_32_sealing/rendered/boundary/boundary.pdf",
+          "tracks/oh_2953_33_nonconviction/rendered/boundary/boundary.pdf",
+          "tracks/oh_2953_35_firearm/rendered/boundary/boundary.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 8,
+        "pagesMeasured": 16,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "9928647531",
+          "name": "rcap-raster-rcap-oh-custom-pleading-clean-tracks-33850403312",
+          "zipSha256": "sha256:9f2c47723f1ea5929ea757abf5fe15a214c85e4e8c0ebd9eb88683aaf17831a3",
+          "sizeInBytes": 6690738,
+          "expiresAt": "2026-09-18T08:07:28Z"
+        },
+        "receiptArtifactInspection": "Captain downloaded the artifact, matched its ZIP SHA-256 to the Actions API digest, extracted its exact verdict JSON, and validated run, commit, complete document coverage, page count, document-set digest, and every queued/local PDF hash before admission.",
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33850403312; canary artifact 9928346970 has ZIP SHA-256 sha256:9167f715023ed7055d6321f7774125257f4eeabad80278f835ebe8668e59954a.",
+        "pinVerification": "The workflow guard proved checkout commit b61e502996185ac1e23da4d0ae3f6b5b0a092a16; Captain rehashed every declared PDF from the current worktree and matched every queue and receipt pin.",
+        "admittedBy": "Captain, by fail-closed receipt ingestion that rejects stale bytes, failed jobs, and incomplete coverage"
+      }
     },
     {
       "familyId": "rcap-ok-custom-pleading",
