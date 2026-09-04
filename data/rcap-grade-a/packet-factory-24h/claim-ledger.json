@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "ebee87d603a7373cdb5832e5f31c5f5ffbb91bc9",
+  "generatedAtCommit": "1a961ea72a9e2485a19652552c4f04821da7a885",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -8076,8 +8076,8 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T16:53:41.836Z"
     },
     {
       "subjectType": "packet-family",
@@ -8359,7 +8359,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:38:54.994Z"
@@ -8404,7 +8404,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T05:46:20.467Z"
@@ -12866,7 +12866,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5da3a28a9c4bbe0a57e81c166079110fc06203b775891dcdf938840cd1452ca0",
+  "claimsDigest": "8ca2fef8ab7aea988d9f82f7a2730df0c7a836d8c6bfbb83e53b02a82a04ffa1",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25370,6 +25370,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-04T16:50:34.487Z"
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "wa_vac_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-04T16:53:41.836Z"
     }
   ],
   "reissues": [
