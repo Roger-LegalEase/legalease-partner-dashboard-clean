@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-UT-PET-LIMITATIONS",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-SCOPE-AUDIT",
+  "baseSha": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+  "claimsReissued": 0,
+  "claimHandling": "This was a direct current-byte reread requested by the Captain. No released claim was reissued and no claim-ledger row was changed.",
+  "independence": "The verifier did not build or repair this family. It reread and rehashed the exact packet, build, source and admitted raster evidence already present at the stated Captain base.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "PASS": 0,
+    "FAIL_REPAIR_REQUIRED": 1,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0,
+    "STOPPED": 0
+  },
+  "rows": [
+    {
+      "itemId": "ut_pet_limitations-set",
+      "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-UT-PET-LIMITATIONS",
+      "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+      "currentBytePins": {
+        "sourceReceipt": {"sha256": "7fad61831f576560d2958173120660c215624e618df9817701a2fe865200dfa8", "byteLength": 6092},
+        "productionFieldMap": {"sha256": "d685cb38e08421f7908b8df83b8dbf7d1cc99bbf90d51eb4af06b2182e8372a8", "byteLength": 377852},
+        "actualWrites": {"sha256": "c449f988e9854f0727ffb561e3ee895365c7f091a67fb3221fa4ccee441d75e3", "byteLength": 96564},
+        "participantInstructions": {"sha256": "16adb8ffe2d2c834d8ee53b8d1829c95263246e12df94749c303b24b4aa2e839", "byteLength": 10954},
+        "familyWrapper": {"sha256": "d70215ff24a09e4e092b85783f2732f7c5f9c5e27438415a892f21afa08690b0", "byteLength": 167},
+        "sharedBuildHost": {"sha256": "52a801aa00b577c02f18a3d6389ba014a5da23b572aee94348e81e9a7ebe20c1", "byteLength": 149756},
+        "legalDesignTrackRegistry": {"sha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4", "byteLength": 16586143},
+        "legalDesignPacketSetManifests": {"sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d", "byteLength": 3677637},
+        "ownerCorrectionsRequired": {"sha256": "debed4950d0303d26a474ef82086802606eea942214f276f5d9a405a2680c518", "byteLength": 19600},
+        "rasterQueue": {"sha256": "a251b18c858d259e8b611e202f1ff3182c584c10117283db335aff86e0343573", "byteLength": 1084221}
+      },
+      "sourceBinding": {
+        "documentsRehashed": 9,
+        "additionalAuthoritiesRehashed": 4,
+        "allReceiptAndInstructionSourcesExact": true,
+        "custodyClass": "SOURCE_ALREADY_HELD"
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "dd21a4460eba9fa2ab92a267788fe1b4c2a98301f5607f2163975a9ffd257f57", "byteLength": 3024920, "pageCount": 19},
+        {"fixture": "boundary", "sha256": "7002b83486f9abcaa1a3e423a56e955addd083347e02297da0a7e78deaba40e7", "byteLength": 3025560, "pageCount": 19}
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "jobId": "100953975776",
+        "artifactId": "9928635798",
+        "zipSha256": "sha256:1e39f80f670aa29c1c246ea6b17b58238982d411c3681e8792bb23aca961a250",
+        "boundToCanonicalSha256": "dd21a4460eba9fa2ab92a267788fe1b4c2a98301f5607f2163975a9ffd257f57",
+        "boundToBoundarySha256": "7002b83486f9abcaa1a3e423a56e955addd083347e02297da0a7e78deaba40e7",
+        "documentsMeasured": 2,
+        "pagesMeasured": 38,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "how": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set returned PASS_COMPLETE at 38/444 written; all 38 committed canonical and boundary raster pages were also inspected."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The same two ut_pet_limitations BCI-certificate and court-petition route keys are present in the field map, product binding and current queue row."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All nine packet source PDFs and four additional cited authorities rehash to their exact receipt/build-finding hashes and byte lengths."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "All nine official-form components are present across the nineteen-page artifacts; the tenth manifest component is the separately delivered participant instructions."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All 38 declared writes are byte-proven in each fixture, with no missing, outside-box or refused-field ink; the all-page visual reread found them visible."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "The participant instructions surface the blank-scoped requirements, the BCI certificate sequence and 180-day deadline, paid-in-full evidence/check, complete all-state case history/check, signatures and service-after-the-event safeguards."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "District-court, petitioner, order-branch and criminal-expungement cover-sheet elections are visibly selected; the focused completeness reader reports requiredOptionsMissing 0."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "No written repeating row is paired with a required cell left blank; the independently measured incompleteRows counter is zero."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "Signatures, signing dates, post-service certifications and court, agency, prosecutor, victim and optional third-party fields remain blank; protectedWrites is zero."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs recompute to the exact recorded hashes and lengths; all 38 committed raster PNGs also match their recorded hashes and are nonblank."},
+        "PAGE_ORDER": {"measured": true, "result": "FAIL", "finding": "The rendered page manifest does not match the controlling packet-set component order. The packet-set manifest orders BCI application (1), optional third-party release (2), cover sheet (3), petition (4), order (5), acceptance (6), consent (7), victim statement (8), reply (9), then guidance (10). Both rendered PDFs instead place petition and order on pages 1-5, cover sheet on 6-7, forms 6-9 on 8-16, and the BCI components last on 17-19.", "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSetId ut_pet_limitations-set versus reports/rendered-artifacts.json pageManifest"},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Fresh visual inspection of all 19 canonical and all 19 boundary pages found no clipping or overlap; the admitted whole-family raster receipt independently records 38 pages and zero problems."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions name the two destinations in sequence: BCI for the certificate and the Utah district court for the county where the case was heard, including the 180-day transition deadline."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The unsupported fee assertions are absent. The instructions expressly refuse to publish the court or BCI application amounts as current prices, attribute $150 and $65 only to the exact official forms that visibly print them, direct the participant to the district-court clerk and BCI for current amounts, preserve form 1305GE and BCI indigency-waiver paths, and refuse to infer a certificate-issuance amount for this limitations route."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The instructions name the prosecutor and mail/email methods from the exact held BCI publication, ship the acceptance form, and prohibit completing service facts before service occurs. The build finding preserves the differing coded-track statement as a state-pack fidelity issue rather than silently importing it."},
+        "SELF_HELP_STOP": {"measured": true, "result": "FAIL", "finding": "The packet does not state where self-help ends. The route's current committed track has eight stop conditions, including a hard stop for non-US citizens and a stop when a prosecutor or victim objects or the court schedules a hearing. None is presented as a stop; the instructions instead say that if a hearing is scheduled the participant should attend it, directing continued self-help at the exact event the route record says ends it.", "evidence": "data/record-clearing/legal-design-track-registry.json track ut_pet_limitations selfHelpStopConditions versus participant-instructions.md sections 'Who must receive a copy, and how' and 'What this packet is not'"}
+      },
+      "failedProofObligations": ["PAGE_ORDER", "SELF_HELP_STOP"],
+      "failedObligationNames": ["PAGE_ORDER", "SELF_HELP_STOP"],
+      "unmeasuredObligations": [],
+      "evidenceRead": [
+        "source-receipt.json and the exact bytes of all nine source PDFs it names",
+        "build-findings.json and the exact bytes of the four additional cited authorities",
+        "production-field-map.json, actual-writes.json, participant-instructions.md, product-wiring.json, build-status.json and approval-request.json",
+        "canonical.pdf and boundary.pdf rehashed and all thirty-eight committed page rasters visually inspected",
+        "rendered-artifacts.json and the admitted RASTER_PASS row in RASTER_QUEUE.json",
+        "legal-design-packet-set-manifests.json packetSetId ut_pet_limitations-set and legal-design-track-registry.json track ut_pet_limitations",
+        "scripts/build-census-v1-ut_pet_limitations-set.mjs and its shared build host scripts/build-census-v1-ut_pet_acquittal-set.mjs"
+      ]
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
