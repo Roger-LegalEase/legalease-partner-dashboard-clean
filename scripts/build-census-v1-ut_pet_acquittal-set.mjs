@@ -163,7 +163,41 @@ const CONFIGS = Object.freeze({
       "The last of these is this route's own question. This packet is built for an acquittal, and the record stops "
       + "self-help where the verdict was not guilty by reason of insanity rather than a plain acquittal; if that is what "
       + "your verdict was, that is the point the record marks, and this is not the petition for it until the "
-      + "petition-track position is confirmed."
+      + "petition-track position is confirmed.",
+    /*
+     * FIX-C/FIX03, CLIPPING_AND_OVERLAP. vf02 at base 88d688b8 measured the
+     * collision this host's header note already describes and left unrepaired
+     * on this family: on packet page 18 the p2-manual-declaration-name write
+     * begins at x=50.50 and the BCI Application's pre-printed "I" occupies
+     * x=49.745-52.742, so the participant's name is drawn over the sworn
+     * declaration's first-person subject. Canonical "Jordan" overlaps it by
+     * 7.65 square points, boundary "Alexandrina" by 6.15. The nine counters
+     * read zero and are not wrong: every glyph is inside its own box, and the
+     * box is in the wrong place.
+     *
+     * The header note records that the flag was withheld from this family
+     * because FIX04 held no grant on it. This lane does hold one, and sets it
+     * on THIS FAMILY ONLY. ut_pet_conviction-set and
+     * ut_pet_dismissed_with_prejudice-set carry the identical defect, this lane
+     * holds no live grant on either, and their bytes must not move.
+     */
+    declarationNameBoxClearsPrePrintedI: true,
+    /*
+     * FIX-C/FIX03, PAGE_ORDER. vf02 measured the same inversion FIX04 repaired
+     * on ut_pet_no_charges-set and ut_pet_limitations-set: the assembled packet
+     * ran 1000EX > 1020EX > 1044XX > 1146XX > 1148XX > 1149XX > 1169XX > BCI
+     * application > BCI third-party release, which against this family's
+     * committed packet-set manifest is component order 4, 5, 3, 6, 7, 8, 9, 1,
+     * 2. The two Bureau of Criminal Identification components the manifest
+     * orders FIRST sat on pages 17-19, behind every court document, and this
+     * route's law is a two-stage sequence: BCI decides eligibility and issues
+     * the certificate whose identification number paragraph 1 of the petition
+     * then asks for. A participant handed this packet cannot complete page 1
+     * until they have done the pages at the back.
+     *
+     * Set on THIS FAMILY ONLY, for the same reason the sibling notes give.
+     */
+    deliversInManifestComponentOrder: true
   },
   "ut_pet_conviction-set": {
     slug: "ut-pet-conviction-set", traffic: false, routeKind: "case",
