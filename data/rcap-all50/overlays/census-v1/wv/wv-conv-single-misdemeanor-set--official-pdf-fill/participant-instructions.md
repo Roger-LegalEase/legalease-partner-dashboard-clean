@@ -2,7 +2,7 @@
 
 ## Where you file this
 
-File the verified SCA-C906 petition with the **clerk of the circuit court of the county of conviction** — the circuit court in which the conviction occurred.
+File the verified SCA-C906 petition with the **clerk of the circuit court of the county of conviction** — the circuit court in which the conviction occurred. **There is no residence-county venue on this route.** Subsections (a)(1) and (a)(2) both send the petition to the circuit court in which the conviction occurred, so the county you live in does not decide where this is filed.
 
 Do not file until the verification on page 3 has been sworn to before a notary public or other official, and the certificate of service on page 4 has been completed.
 
@@ -28,6 +28,16 @@ W. Va. Code § 61-11-26(e) requires **you** to serve the petition and supporting
 
 Complete the certificate of service on page 4 — the recipient addresses, the delivery-method election, the date and your signature — **only after service has actually happened**. A certificate dated before service is a false statement, so this packet leaves it blank.
 
+## Records you must obtain before you file, and check the packet against
+
+**These are filing acts, not background reading.** SCA-C906 item n declares that supporting documentation is attached to the petition, and the petition is sworn. Get each of these first, then read the packet's own answers against them and correct anything that does not match. Each is carried word for word from this route's own committed track record — `data/record-clearing/legal-design-track-registry.json`, track `wv_conv_single_misdemeanor`, `participantFilingRequirements`:
+
+- **Certified disposition, judgment order and sentencing order** — from **Circuit or magistrate clerk of the county of conviction**. Ask the clerk of the county of conviction for certified copies of the disposition, the judgment order and the sentencing order. Check the conviction date and the sentence against the answers you gave us.
+- **Written proof that supervision ended** — from **The probation office that supervised you, or the institution of confinement**. Ask the supervising probation office for written confirmation of the date supervision ended, and the institution of confinement for the release date. This is usually the date that decides whether the one-year period has run. **Only if:** Only where a period of supervision was ordered or a sentence of incarceration was served.
+- **Copy of any current restitution, protection, restraining or no-contact order** — from **Clerk of the court that entered the order**. Ask the clerk of the court that entered it for a copy, and attach it to the petition. **Only if:** Only where such an order is currently in force. Section 61-11-26(d)(7) requires a current order to be attached to the petition.
+
+**Attach them to the petition** — the certified records and any current order — because the petition says on its face that they are attached.
+
 ## What you must supply before filing
 
 The packet has filled only facts already held for this matter. Do not file until every item below is completed on the operative SCA-C906 petition from your own records. Do not guess.
@@ -46,7 +56,7 @@ The packet has filled only facts already held for this matter. Do not file until
 - **Grounds for expungement** (`GroundsForExpungement1`, `GroundsForExpungement2`): supply your own truthful filing reasons.
 - **Rehabilitation history** (`RehabilitationSteps1`, `RehabilitationSteps2`, `RehabilitationSteps3`, `RehabilitationSteps4`, `RehabilitationSteps5`): supply your own truthful treatment, work, education, or other rehabilitation history.
 
-The participant signature, signature date, verification/notary completion, and the entire certificate of service remain blank and protected. Complete or sign them only at the event and in the manner the form and filing court require. The included SCA-C900 is an instructions/reference component only; do not complete or file its embedded outdated petition instead of SCA-C906.
+The participant signature, signature date, verification/notary completion, and the entire certificate of service remain blank and protected. Complete or sign them only at the event and in the manner the form and filing court require.
 
 ## Where self-help ends
 

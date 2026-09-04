@@ -265,7 +265,28 @@ const FAMILY_CONFIGS = Object.freeze({
     assignmentOwnedPath: "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
     routeKeys: ["obligation:track-pathway:WV:wv_conv_single_misdemeanor:eligible-conviction-expungement-under-w-va-code-61-11-26"],
     selectionId: "wv-sca-c906-single-misdemeanor",
-    sourceIds: ["official-form:SCA-C906", "source-sha256:89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e"],
+    /*
+     * FIX-C/FIX03, COMPONENT_SET.
+     *
+     * This family used to bind SCA-C900 as well
+     * (source-sha256:89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e),
+     * and the delivered nine-page packet carried all five of its pages: page 5
+     * an obsolete instruction sheet, pages 6 to 9 a SECOND complete petition,
+     * verification and certificate. The committed packet-set manifest for
+     * wv_conv_single_misdemeanor-set declares five components and every one is
+     * SCA-C906 or process guidance; it declares no SCA-C900. The second
+     * petition also contradicted this route -- a petitioner aged 18 to 26 with
+     * no prior or subsequent convictions, the 2009 statute, and a TEN-day reply
+     * window, where controlling decision NATIONAL-2026-08-28-C-WV-02 holds the
+     * reply period is THIRTY days under subsection (g)(3), "not the ten days
+     * the SCA-C900 instruction sheet prints".
+     *
+     * The binding is removed rather than the delivery filtered, so the census,
+     * the source receipt, the field map and the packet all say the same thing.
+     * Changed in THIS FAMILY'S OWN ENTRY only; no other family on this host
+     * reads it and no other family's bytes move.
+     */
+    sourceIds: ["official-form:SCA-C906"],
     chargeCount: 1, chargeLabel: "Single eligible misdemeanor conviction"
   }
 });

@@ -209,7 +209,11 @@ const participantInstructions = (familyId, spec, shipsC900, multiCounty) => `# W
 
 ## Where you file this
 
-File the verified SCA-C906 petition with the **clerk of the circuit court of the county of conviction** — the circuit court in which the conviction${multiCounty ? "s" : ""} occurred.${multiCounty ? " Where the convictions were had in more than one county, the petition identifies and groups the information by circuit court, and the prosecuting attorney of every county of conviction where expungement is sought is served." : ""}
+File the verified SCA-C906 petition with the **clerk of the circuit court of the county of conviction** — the circuit court in which the conviction${multiCounty ? "s" : ""} occurred. **There is no residence-county venue on this route.** Subsections (a)(1) and (a)(2) both send the petition to the circuit court in which the conviction occurred, so the county you live in does not decide where this is filed.${multiCounty ? `
+
+**If your convictions were had in more than one county, this is not one filing.** The controlling committed decision for this route (NATIONAL-2026-08-28-C-WV-02) holds that there is **no single receiving court for a multi-county group**: with the § 61-11-26(d) grouping proviso, the answer is **one petition per circuit court, carrying only that court's own convictions**. Do not put convictions from two circuit courts into one petition and file it in one of them. In each petition, serve the prosecuting attorney of every county of conviction where expungement is sought, as § 61-11-26(e) and S.B. 562 require.
+
+**And if you are not sure which conviction belongs to which circuit court, stop here and ask a lawyer licensed in West Virginia before you file anything.** The same decision says so in terms, and the reason is that this remedy is once per lifetime: choosing wrongly is not a filing you can simply do again.` : ""}
 
 Do not file until the verification on page 3 has been sworn to before a notary public or other official, and the certificate of service on page 4 has been completed.
 
@@ -234,6 +238,14 @@ W. Va. Code § 61-11-26(e) requires **you** to serve the petition and supporting
 **Identified victims are served by the prosecuting attorney, not by you**, under § 61-11-26(f). Do not serve a victim yourself.
 
 Complete the certificate of service on page 4 — the recipient addresses, the delivery-method election, the date and your signature — **only after service has actually happened**. A certificate dated before service is a false statement, so this packet leaves it blank.
+
+## Records you must obtain before you file, and check the packet against
+
+**These are filing acts, not background reading.** SCA-C906 item n declares that supporting documentation is attached to the petition, and the petition is sworn. Get each of these first, then read the packet's own answers against them and correct anything that does not match. Each is carried word for word from this route's own committed track record — \`data/record-clearing/legal-design-track-registry.json\`, track \`${familyId.replace(/-set$/, "")}\`, \`participantFilingRequirements\`:
+
+${recordsToObtain(familyId)}
+
+**Attach them to the petition** — the certified records and any current order — because the petition says on its face that they are attached.
 
 ## What you must supply before filing
 
@@ -284,6 +296,51 @@ Where no such record establishes an answer — the waiver route for the $200 cle
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+
+/*
+ * FIX-C/FIX02+FIX03, REQUIRED_BEFORE_FILING.
+ *
+ * vf05 and vf06 both found the same gap: participant-instructions.md
+ * enumerated the form's blanks and stopped there. The committed track record
+ * also requires the participant to GO AND GET things before filing -- certified
+ * dispositions, judgment and sentencing orders, written proof that supervision
+ * ended, a copy of any current restitution or protective order -- and to CHECK
+ * the answers already in the packet against them. SCA-C906 item n declares
+ * supporting documentation attached, so those are filing acts and not
+ * explanatory colour.
+ *
+ * They are read from the registry rather than retyped into this file, on the
+ * same reasoning the self-help stop conditions are quoted from it: nothing a
+ * participant is told to obtain should pass through an editor's hands.
+ */
+function participantFilingRequirements(familyId) {
+  const trackId = familyId.replace(/-set$/, "");
+  const registry = readJson(TRACK_REGISTRY);
+  const found = [];
+  const walk = (node) => {
+    if (Array.isArray(node)) { node.forEach(walk); return; }
+    if (!node || typeof node !== "object") return;
+    if (node.trackId === trackId && Array.isArray(node.participantFilingRequirements)) {
+      found.push(node.participantFilingRequirements);
+      return;
+    }
+    Object.values(node).forEach(walk);
+  };
+  walk(registry);
+  assert.equal(found.length, 1,
+    `${trackId}: expected exactly one committed participantFilingRequirements list, found ${found.length}`);
+  return found[0];
+}
+
+const recordsToObtain = (familyId) => participantFilingRequirements(familyId).map((item) => {
+  const conditional = item.requirement === "conditional" && item.conditionDescription
+    ? ` **Only if:** ${item.conditionDescription}`
+    : "";
+  return `- **${item.name}** — from **${item.obtainedFrom}**. ${item.howToObtain}${conditional}`;
+}).join("\n");
 const writeJson = (rel, value) => {
   const abs = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(abs), { recursive: true });
@@ -942,10 +999,51 @@ function writeLaneRows() {
   });
 }
 
+/*
+ * FIX-C/FIX03, COMPONENT_SET, wv_conv_single_misdemeanor-set.
+ *
+ * The committed packet-set manifest for that family declares five components
+ * and every one of them is SCA-C906 or process guidance. It declares no
+ * SCA-C900. The delivered nine-page packet appended all five SCA-C900 pages
+ * anyway: page 5 was an obsolete instruction sheet and pages 6 to 9 a SECOND
+ * complete petition, verification and certificate. That second petition did not
+ * merely duplicate, it contradicted the route the packet is built for -- it
+ * recites a petitioner aged 18 to 26 with no prior or subsequent convictions,
+ * cites the 2009 statute, and prints a TEN-day reply window against subsection
+ * (e). The controlling decision NATIONAL-2026-08-28-C-WV-02 holds the reply
+ * period is THIRTY days under subsection (g)(3), "not the ten days the SCA-C900
+ * instruction sheet prints". A warning in the instructions not to file the
+ * embedded petition recorded the conflict; it did not take a second, wrong,
+ * fileable petition out of the participant's hands.
+ *
+ * The binding itself was removed, in that family's own entry in the baseline
+ * host's source configuration, so the census, the receipt, the field map and
+ * the delivered packet now agree. This guard is what keeps them agreeing: the
+ * manifest is authoritative about what a packet contains, and a delivered form
+ * it does not declare now stops the build rather than reaching a participant.
+ */
+function assertComponentSetMatchesManifest(familyId, receipt) {
+  const manifest = readJson(PACKET_SET_MANIFESTS);
+  const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === familyId);
+  assert.ok(set, `${familyId}: no committed packet-set manifest to check the component set against`);
+  const declared = new Set((set.components ?? [])
+    .map((component) => component.officialFormId)
+    .filter(Boolean));
+  for (const document of receipt.documents) {
+    assert.ok(declared.has(document.formNumber),
+      `${document.formNumber}: delivered by ${familyId} and not declared by its committed component set`);
+  }
+  for (const form of declared) {
+    assert.ok(receipt.documents.some((document) => document.formNumber === form),
+      `${form}: declared by ${familyId}'s committed component set and not bound by it`);
+  }
+}
+
 async function repairFamily(familyId) {
   const spec = FAMILY_SPECS[familyId];
   assert.ok(spec, `unknown P3 WV family: ${familyId}`);
   const receipt = readJson(`${spec.directory}/source-receipt.json`);
+  assertComponentSetMatchesManifest(familyId, receipt);
   const census = readJson(`${spec.directory}/field-census.census-v1.json`);
   const corpus = sourceRoot();
   const byFixture = { canonical: [], boundary: [] };

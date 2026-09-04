@@ -2,7 +2,11 @@
 
 ## Where you file this
 
-File the verified SCA-C906 petition with the **clerk of the circuit court of the county of conviction** — the circuit court in which the convictions occurred. Where the convictions were had in more than one county, the petition identifies and groups the information by circuit court, and the prosecuting attorney of every county of conviction where expungement is sought is served.
+File the verified SCA-C906 petition with the **clerk of the circuit court of the county of conviction** — the circuit court in which the convictions occurred. **There is no residence-county venue on this route.** Subsections (a)(1) and (a)(2) both send the petition to the circuit court in which the conviction occurred, so the county you live in does not decide where this is filed.
+
+**If your convictions were had in more than one county, this is not one filing.** The controlling committed decision for this route (NATIONAL-2026-08-28-C-WV-02) holds that there is **no single receiving court for a multi-county group**: with the § 61-11-26(d) grouping proviso, the answer is **one petition per circuit court, carrying only that court's own convictions**. Do not put convictions from two circuit courts into one petition and file it in one of them. In each petition, serve the prosecuting attorney of every county of conviction where expungement is sought, as § 61-11-26(e) and S.B. 562 require.
+
+**And if you are not sure which conviction belongs to which circuit court, stop here and ask a lawyer licensed in West Virginia before you file anything.** The same decision says so in terms, and the reason is that this remedy is once per lifetime: choosing wrongly is not a filing you can simply do again.
 
 Do not file until the verification on page 3 has been sworn to before a notary public or other official, and the certificate of service on page 4 has been completed.
 
@@ -27,6 +31,16 @@ W. Va. Code § 61-11-26(e) requires **you** to serve the petition and supporting
 **Identified victims are served by the prosecuting attorney, not by you**, under § 61-11-26(f). Do not serve a victim yourself.
 
 Complete the certificate of service on page 4 — the recipient addresses, the delivery-method election, the date and your signature — **only after service has actually happened**. A certificate dated before service is a false statement, so this packet leaves it blank.
+
+## Records you must obtain before you file, and check the packet against
+
+**These are filing acts, not background reading.** SCA-C906 item n declares that supporting documentation is attached to the petition, and the petition is sworn. Get each of these first, then read the packet's own answers against them and correct anything that does not match. Each is carried word for word from this route's own committed track record — `data/record-clearing/legal-design-track-registry.json`, track `wv_conv_multiple_misdemeanors`, `participantFilingRequirements`:
+
+- **Certified disposition, judgment order and sentencing order for every conviction in the group** — from **Circuit or magistrate clerk of each county of disposition**. Ask the clerk of each county of disposition for certified copies for every case in the group. Because this petition is once per lifetime, pull records for every conviction you might ever want cleared, not just the urgent one.
+- **Written proof that supervision ended on the most recent conviction** — from **The probation office that supervised you, or the institution of confinement**. Ask the supervising probation office for written confirmation of the date supervision ended on the most recent conviction, and the institution of confinement for the release date. The two-year clock runs from the later of those and the last conviction.
+- **Copy of any current restitution, protection, restraining or no-contact order** — from **Clerk of the court that entered the order**. Ask the clerk of the court that entered it for a copy, and attach it to the petition. **Only if:** Only where such an order is currently in force.
+
+**Attach them to the petition** — the certified records and any current order — because the petition says on its face that they are attached.
 
 ## What you must supply before filing
 
