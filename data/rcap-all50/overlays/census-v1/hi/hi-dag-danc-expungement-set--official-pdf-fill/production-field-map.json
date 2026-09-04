@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "rcap-production-field-map/v2",
+  "familyId": "hi_dag_danc_expungement-set",
+  "implementationStrategy": "official_pdf_fill",
+  "routeKeys": [
+    "obligation:track-pathway:HI:hi_dag_danc_expungement:deferred-acceptance-one-year"
+  ],
+  "routeSelectionNote": "The family fixes the Chapter 853 deferred-plea route; the applicant personally initials the form after checking the disposition and one-year wait.",
+  "writes": [
+    {
+      "fieldId": "HCJDC-159B:current_legal_name",
+      "fieldName": "current_legal_name",
+      "effectiveLabel": "Current legal name",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.full_legal_name",
+      "rect": {
+        "x": 260,
+        "y": 394,
+        "width": 305,
+        "height": 12
+      },
+      "fontSize": 9
+    },
+    {
+      "fieldId": "HCJDC-159B:date_of_birth",
+      "fieldName": "date_of_birth",
+      "effectiveLabel": "Date of birth",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.date_of_birth",
+      "rect": {
+        "x": 390,
+        "y": 354,
+        "width": 105,
+        "height": 12
+      },
+      "fontSize": 9
+    },
+    {
+      "fieldId": "HCJDC-159B:home_address",
+      "fieldName": "home_address",
+      "effectiveLabel": "Home address",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.street_address",
+      "rect": {
+        "x": 120,
+        "y": 325,
+        "width": 445,
+        "height": 12
+      },
+      "fontSize": 9
+    },
+    {
+      "fieldId": "HCJDC-159B:mailing_address",
+      "fieldName": "mailing_address",
+      "effectiveLabel": "Mailing address",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.street_address",
+      "rect": {
+        "x": 130,
+        "y": 306,
+        "width": 435,
+        "height": 12
+      },
+      "fontSize": 9
+    },
+    {
+      "fieldId": "HCJDC-159B:phone",
+      "fieldName": "phone",
+      "effectiveLabel": "Phone",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.phone",
+      "rect": {
+        "x": 92,
+        "y": 286,
+        "width": 210,
+        "height": 12
+      },
+      "fontSize": 9
+    },
+    {
+      "fieldId": "HCJDC-159B:email",
+      "fieldName": "email",
+      "effectiveLabel": "Email",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "factId": "participant.email",
+      "rect": {
+        "x": 420,
+        "y": 286,
+        "width": 160,
+        "height": 12
+      },
+      "fontSize": 9
+    }
+  ],
+  "refusals": [
+    {
+      "fieldId": "HCJDC-159B:other_names",
+      "fieldName": "other_names",
+      "effectiveLabel": "Other names used",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the platform holds no alias history",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "every other name you have used, or NONE"
+    },
+    {
+      "fieldId": "HCJDC-159B:social_security_number",
+      "fieldName": "social_security_number",
+      "effectiveLabel": "Optional Social Security number",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "optional participant-authored identifier; the form marks SSN optional",
+      "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT"
+    },
+    {
+      "fieldId": "HCJDC-159B:sex_m",
+      "fieldName": "sex_m",
+      "effectiveLabel": "Male sex marker",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this personal declaration is not held",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "initial this marker only if it applies"
+    },
+    {
+      "fieldId": "HCJDC-159B:sex_f",
+      "fieldName": "sex_f",
+      "effectiveLabel": "Female sex marker",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this personal declaration is not held",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "initial this marker only if it applies"
+    },
+    {
+      "fieldId": "HCJDC-159B:route_initial",
+      "fieldName": "route_initial",
+      "effectiveLabel": "Initial beside Expungement of Non-Conviction Information",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "an applicant's initials are never generated",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "initial the non-conviction paragraph only after confirming the deferred plea was discharged and dismissed and one year has passed"
+    },
+    {
+      "fieldId": "HCJDC-159B:conviction_route_initial",
+      "fieldName": "conviction_route_initial",
+      "effectiveLabel": "Initial beside Expungement of First-time Drug/Property Offender or DUI under 21",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this family is the deferred-plea non-conviction route, not the conviction-expungement route",
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
+    },
+    {
+      "fieldId": "HCJDC-159B:check_signature",
+      "fieldName": "check_signature",
+      "effectiveLabel": "Checklist: signature of applicant",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies an action only the applicant can complete",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "check only after you have signed"
+    },
+    {
+      "fieldId": "HCJDC-159B:check_photo_id",
+      "fieldName": "check_photo_id",
+      "effectiveLabel": "Checklist: copy of valid government-issued photo ID",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies an attachment only the applicant can supply",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "attach the copy, then check this item"
+    },
+    {
+      "fieldId": "HCJDC-159B:check_mailing_address",
+      "fieldName": "check_mailing_address",
+      "effectiveLabel": "Checklist: mailing address",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies the applicant's review",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "confirm the mailing address is complete, then check this item"
+    },
+    {
+      "fieldId": "HCJDC-159B:check_court_order",
+      "fieldName": "check_court_order",
+      "effectiveLabel": "Checklist: court order granting expungement, if applicable",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "not applicable on this route and never a filing fact here: the form limits this attachment to conviction-expungement applications; this family is the non-conviction deferred-plea route",
+      "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
+    },
+    {
+      "fieldId": "HCJDC-159B:check_payment",
+      "fieldName": "check_payment",
+      "effectiveLabel": "Checklist: money order or cashier's check",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "this mark certifies an attachment only the applicant can supply",
+      "completenessDisposition": "REQUIRED_BEFORE_FILING",
+      "requiredBeforeFiling": true,
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant",
+      "participantMustSupply": "attach the required payment, then check this item"
+    },
+    {
+      "fieldId": "HCJDC-159B:signature",
+      "fieldName": "signature",
+      "effectiveLabel": "Applicant signature",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the applicant signs personally after completing the packet",
+      "refusalClass": "signature_or_date_participant_completion",
+      "role": "protected"
+    },
+    {
+      "fieldId": "HCJDC-159B:signature_date",
+      "fieldName": "signature_date",
+      "effectiveLabel": "Signature date",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "a date written before signing would be false",
+      "refusalClass": "signature_or_date_participant_completion",
+      "role": "protected"
+    },
+    {
+      "fieldId": "HCJDC-159B:hcjdc_use_only",
+      "fieldName": "hcjdc_use_only",
+      "effectiveLabel": "HCJDC use only area",
+      "documentId": "HCJDC-159B",
+      "page": 1,
+      "reason": "the form marks this area LEAVE BLANK; HCJDC USE ONLY",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "role": "protected"
+    }
+  ]
+}
