@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "fl-administrative-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.current_fdle_submission_process",
+      "page": 1,
+      "printedContext": "Current FDLE submission method, destination, attachments, and fee if any",
+      "disclosureLabel": "Current FDLE submission method, destination, attachments, and fee if any",
+      "identity": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION field current_fdle_submission_process",
+      "why": "the committed authority does not establish current submission mechanics or a fee",
+      "participantMustSupply": "the current submission method, destination, required attachments, and any fee confirmed by FDLE"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.endorser_title_and_office",
+      "page": 1,
+      "printedContext": "Endorser title and agency or office",
+      "disclosureLabel": "Endorser title and agency or office",
+      "identity": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION field endorser_title_and_office",
+      "why": "the fixture does not hold the official identity and the applicant must obtain the completed endorsement before submission",
+      "participantMustSupply": "the endorsing official's exact title and agency or office, completed by that official"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.records_attached",
+      "page": 1,
+      "printedContext": "Official records attached in support of the application",
+      "disclosureLabel": "Official records attached in support of the application",
+      "identity": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION field records_attached",
+      "why": "the platform does not know which official records the applicant possesses",
+      "participantMustSupply": "a list of the arrest, disposition, identity, or other official records actually attached"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.why_contrary_to_law_or_mistake",
+      "page": 1,
+      "printedContext": "Applicant's factual statement explaining why the arrest was contrary to law or by mistake",
+      "disclosureLabel": "Applicant's factual statement explaining why the arrest was contrary to law or by mistake",
+      "identity": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION field why_contrary_to_law_or_mistake",
+      "why": "the route requires a participant-specific account and the fixture holds no sworn narrative",
+      "participantMustSupply": "the applicant's own complete factual statement, without legal conclusions invented by the platform"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.applicant_signature",
+      "label": "Applicant signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant signs only after the request and attachments are complete"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.applicant_signature_date",
+      "label": "Date beside applicant signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant enters the true signing date when signing"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.endorser_name",
+      "label": "Endorser printed name",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the arresting-agency head/designee or State Attorney/designee owns this field"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.endorsement_support_selection",
+      "label": "[ ] Endorser supports administrative expunction",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "only the endorsing official makes this determination"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.endorsement_decline_selection",
+      "label": "[ ] Endorser does not support administrative expunction",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "only the endorsing official makes this determination"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.endorsement_statement",
+      "label": "Written endorsement statement",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the endorsing official supplies the endorsement required for an applicant-submitted request"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.endorser_signature",
+      "label": "Endorser signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the arresting-agency head/designee or State Attorney/designee signs"
+    },
+    {
+      "document": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION",
+      "field": "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION.endorser_date",
+      "label": "Date beside endorser signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the endorsing official supplies the true signing date"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/participant-instructions.md"
+}

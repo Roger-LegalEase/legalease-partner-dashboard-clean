@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-pf-return/v1",
+  "assignmentId": "PF20",
+  "workerId": "CODEX-CS2-PF20-CO-FL",
+  "workerBranch": "codex/cs2-pf20-co-fl-82f",
+  "shiftBaseSha": "82f9e4323e402f71a8beeee553e5f2006246e6a9",
+  "claimAssertions": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "result": "CLAIM_OK PF20 co_municipal_conviction_seal-set (packet-build, grant set ff7cb57cff11d215)"
+    },
+    {
+      "itemId": "fl-administrative-set",
+      "result": "CLAIM_OK PF20 fl-administrative-set (packet-build, grant set ff7cb57cff11d215)"
+    },
+    {
+      "itemId": "fl-early-juvenile-set",
+      "result": "CLAIM_OK PF20 fl-early-juvenile-set (packet-build, grant set ff7cb57cff11d215)"
+    }
+  ],
+  "preflight": {
+    "mode": "codespaces",
+    "codexCloudFlagUsed": false,
+    "masterLibrarySourceDir": "/workspaces/cs2src05/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "globalResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "globalFindings": [
+      "origin/codex/cs2-pf20-co-fl-82f had no remote tip before the first commit",
+      "the supplied Master Library root contained 14 files and 14 PDFs, below the immutable 499-file/329-PDF minimum",
+      "19 of 24 sampled committed-index entries were absent from the supplied mounts"
+    ],
+    "familySourceGate": {
+      "co_municipal_conviction_seal-set": "FAIL: 2 of 2 sources did not bind from the supplied mounts",
+      "fl-administrative-set": "PASS: zero-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition",
+      "fl-early-juvenile-set": "preflight resolver reported no mounted resolved document source; the committed acquisition return's exact staging byte was separately located and hash-bound read-only"
+    }
+  },
+  "rows": [
+    {
+      "itemId": "co_municipal_conviction_seal-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "CO",
+      "routeKeys": [
+        "obligation:track-pathway:CO:co_municipal_conviction_seal:municipal-conviction-sealing"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES_NOT_PRESENT_IN_SUPPLIED_MOUNTS",
+      "blockedSources": [
+        {
+          "sourceId": "official-form:JDF-683",
+          "formNumber": "JDF-683",
+          "expectedSha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+          "expectedByteLength": 82760,
+          "expectedPageCount": 3,
+          "presentInSharedRoots": false
+        },
+        {
+          "sourceId": "official-form:JDF-686",
+          "formNumber": "JDF-686",
+          "role": "granting_order",
+          "expectedSha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+          "expectedByteLength": 63657,
+          "expectedPageCount": 2,
+          "presentInSharedRoots": false
+        }
+      ],
+      "substitutionsRefused": [
+        "JDF-684 denial order"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "artifacts": [],
+      "determinism": {
+        "buildRuns": 0,
+        "notApplicableBecauseStoppedBeforeBuild": true
+      },
+      "focusedCompleteness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_municipal_conviction_seal-set",
+        "result": "REFUSED_NOT_AUDITABLE_STOPPED_ROW",
+        "exitCode": 2
+      },
+      "overlayTouched": false
+    },
+    {
+      "itemId": "fl-administrative-set",
+      "status": "COMPLETED",
+      "jurisdiction": "FL",
+      "implementationStrategy": "participant_agency_application",
+      "renderStrategy": "composed_agency_application",
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceDisposition": "No uniform downloadable FDLE form exists. The application and written-endorsement section are composed only from committed authority records.",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-fl-administrative-set.mjs",
+      "componentSet": [
+        "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+      ],
+      "componentCount": 1,
+      "knownWrites": 10,
+      "requiredBeforeSubmissionFacts": 4,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+          "byteLength": 5476,
+          "pageCount": 2,
+          "components": [
+            "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c09404577e4eff32ea6aab244b479c15307bb7ec6917144c68aa78948cafc09e",
+          "byteLength": 5578,
+          "pageCount": 2,
+          "components": [
+            "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+          ]
+        }
+      ],
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedHashesLengthsPageCountsAndComponentManifestsMatch": true
+      },
+      "focusedCompleteness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-administrative-set",
+        "result": "PASS_COMPLETE",
+        "exitCode": 0,
+        "writtenFields": 10,
+        "terminalFields": 22
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "fl-early-juvenile-set",
+      "status": "COMPLETED",
+      "jurisdiction": "FL",
+      "implementationStrategy": "official_pdf_fill",
+      "renderStrategy": "official_pdf_overlay",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBinding": {
+        "sourceId": "official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+        "printedFormNumber": "FDLE40-028",
+        "sha256": "d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+        "byteLength": 22449,
+        "pageCount": 5,
+        "exact": true
+      },
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-early-juvenile:early-juvenile-expunction-943-0515"
+      ],
+      "directory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+      "componentSet": [
+        "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+      ],
+      "componentCount": 1,
+      "knownWrites": 28,
+      "requiredBeforeSubmissionFields": 2,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "ec718a25b1cff95cc2814a08914613e6b1b89211c020004370a16b11aa550fb7",
+          "byteLength": 28231,
+          "pageCount": 5,
+          "components": [
+            "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "3d58ac3dc66a8e6f284c11488a1fe8274569117e4690ddc1d0b9285f201e840f",
+          "byteLength": 28361,
+          "pageCount": 5,
+          "components": [
+            "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+          ]
+        }
+      ],
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedHashesLengthsPageCountsAndComponentManifestsMatch": true
+      },
+      "focusedCompleteness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set",
+        "result": "PASS_COMPLETE",
+        "exitCode": 0,
+        "writtenFields": 28,
+        "terminalFields": 93
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "generationAllowed": false,
+      "runtimeSelectable": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "summary": {
+    "familiesAssigned": 3,
+    "rowsReturned": 3,
+    "familiesCompleted": 2,
+    "familiesStopped": 1,
+    "nineCountersZeroOn": 2,
+    "blockedSource": 1,
+    "blockedLegalInput": 0,
+    "stoppedFamilyOverlayDirectoriesTouched": 0,
+    "packetsSelfVerified": 0,
+    "claimsReleased": 0,
+    "centralEdits": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
+}
