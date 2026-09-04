@@ -13,10 +13,13 @@
   "familiesRepaired": [
     "al-felony-nonconviction-90-set",
     "il-seal-edu-set",
-    "in_infraction_nondisclosure-set"
+    "in_infraction_nondisclosure-set",
+    "rcap-nd-custom-pleading"
   ],
   "familiesStopped": [],
-  "nineCountersZeroOn": [],
+  "nineCountersZeroOn": [
+    "rcap-nd-custom-pleading"
+  ],
   "rasterRuleApplied": "Every changed PDF remains BUILT_RASTER_PENDING. Eight nonvisual counters are zero; visualDefects is unmeasured until central raster acceptance runs against the exact current hashes.",
   "grantsNothing": "This repair return issues no independent verdict, proves no family, releases no claim, opens no commercial route, touches no Production path, and weakens no gate.",
   "rows": [
@@ -160,6 +163,162 @@
         "protectedWrites": 0,
         "visualDefects": null
       }
+    },
+    {
+      "itemId": "rcap-nd-custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:ND:nd-seal-felony-conviction",
+        "obligation:track-only:ND:nd-seal-misdemeanor-conviction",
+        "obligation:track-only:ND:nd-seal-pardoned-conviction",
+        "obligation:track-pathway:ND:nd-dui-record-seal:dui-record-sealing-under-the-separate-dui-statute",
+        "obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing"
+      ],
+      "focusedRouteKey": "obligation:track-only:ND:nd-seal-pardoned-conviction",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "worker": "CODEX-CS1-FIX04-ND-ORPHAN-PAGE",
+      "captainBase": "57d60a73fa0dcb105bcc49390f94bf3fd3ecbd55",
+      "branch": "codex/cs1-fix04-nd-orphan-page-57d6",
+      "claim": "CLAIM_OK FIX04 rcap-nd-custom-pleading (repair, grant set dabc848ab395ac75)",
+      "claimAssertedBeforeFamilyContentRead": true,
+      "claimReleased": false,
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "whatWasDone": "Applied a family-local 14-point leading profile only to nd-seal-pardoned-conviction-primary-filing-1. Its complete identity block, intentional spacer and exact route footer now remain on substantive source page 3 for canonical and long-boundary values. Added an in-memory pagination self-test over every component page and generated exact per-route canonical and boundary artifacts so the five routes can be measured independently without leaking sibling components.",
+      "substancePreserved": "Whitespace-normalized text extracted from both complete family assemblies is byte-for-byte identical before and after the repair. Participant fields, components, destinations, fees, service rules, stop conditions and all five route identities are unchanged. The four sibling routes retain their original component text and 14.5-point layout.",
+      "artifactsBefore": [
+        {
+          "fixture": "canonical",
+          "scope": "family",
+          "sha256": "4425d89d2dec6b10ac70706420c99af7ea6573b6875d7e1d4222b32463cb9e02",
+          "byteLength": 85250,
+          "pageCount": 35
+        },
+        {
+          "fixture": "boundary",
+          "scope": "family",
+          "sha256": "449aedcda75058911af1c04520de2be08d10b35a94e40688891bf54a416c870e",
+          "byteLength": 86942,
+          "pageCount": 35,
+          "dispatchReportedPageCount": 36,
+          "observation": "The exact Captain-base PDF, pdf-lib parse and committed page manifest each reported 35 pages; the dispatch description's 36-page count describes the superseded pre-FIX07 bytes."
+        }
+      ],
+      "routeArtifactsBefore": "ABSENT",
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "scope": "family",
+          "sha256": "c4d5219f88e50fc3b0b0875eaf5b372926f56f2596ccb05e32dcf1de2acd1c2b",
+          "byteLength": 85192,
+          "pageCount": 35
+        },
+        {
+          "fixture": "boundary",
+          "scope": "family",
+          "sha256": "9798e5e4faea029d5529fd911f24a6ae9cd6b7ce5b69ae9b6e1e2f8eb53b376f",
+          "byteLength": 86885,
+          "pageCount": 35
+        }
+      ],
+      "routeArtifactsAfter": [
+        { "fixture": "canonical", "route": "nd-seal-felony-conviction", "sha256": "19a1fbaa7206325a2068c306f5947d621d66d36b53202ff50552f45e6979a569", "byteLength": 21027, "pageCount": 8 },
+        { "fixture": "boundary", "route": "nd-seal-felony-conviction", "sha256": "1fc0972d9ab03c919e4e3c983e32032057014003a9f9fd230368f6a2b8a9dff3", "byteLength": 21449, "pageCount": 8 },
+        { "fixture": "canonical", "route": "nd-seal-misdemeanor-conviction", "sha256": "da6e2c94b86c1c30b14b2f59a8e9b6b38dfa583d90d41f249634893c14960398", "byteLength": 19811, "pageCount": 7 },
+        { "fixture": "boundary", "route": "nd-seal-misdemeanor-conviction", "sha256": "042684e2e03d4addbef7e5548b6256aec038b48e0a5de54fe89980f7594c3e4d", "byteLength": 20208, "pageCount": 7 },
+        { "fixture": "canonical", "route": "nd-seal-pardoned-conviction", "sha256": "ab862d6e6955bce3f284cfe338e4663119e92d47afe376538005cc7b9fe9b7bf", "byteLength": 20160, "pageCount": 7 },
+        { "fixture": "boundary", "route": "nd-seal-pardoned-conviction", "sha256": "4bfd8f0bf00c2b216351b67bd4e8f3075b6fa448160f2513f78d862d2a6b9f5c", "byteLength": 20549, "pageCount": 7 },
+        { "fixture": "canonical", "route": "nd-dui-record-seal", "sha256": "dfeb6e8755cdf3a35449785c80523f561013b818e39a5f6d06c920d0fee13340", "byteLength": 14031, "pageCount": 6 },
+        { "fixture": "boundary", "route": "nd-dui-record-seal", "sha256": "4464231add58ffe79e4e2b5599fc1b9ad491f698f16f226c42b4befa0ff49b60", "byteLength": 14271, "pageCount": 6 },
+        { "fixture": "canonical", "route": "nd-marijuana-first-offense-seal", "sha256": "d78e8ae11908dd8de3b2484d410a5cc2ee4bba8feea73d2dc57a07af016a2c80", "byteLength": 15562, "pageCount": 7 },
+        { "fixture": "boundary", "route": "nd-marijuana-first-offense-seal", "sha256": "5c74c1bce83c97550b7ea6221f393ecc7faadc2d4c2dba512388848b9465404e", "byteLength": 15787, "pageCount": 7 }
+      ],
+      "deterministicEvidence": {
+        "cleanBuilds": 2,
+        "generatedFilesCompared": 23,
+        "pdfArtifactsCompared": 12,
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "familyManifestsIdentical": true,
+        "routeManifestsIdentical": true,
+        "visibleWriteEvidenceIdentical": true,
+        "builderStatusEachRun": "COMPLETED",
+        "rasterStateEachRun": "BUILT_RASTER_PENDING"
+      },
+      "paginationEvidence": {
+        "pardonedPrimaryCanonicalPacketPages": [16, 17, 18],
+        "pardonedPrimaryBoundaryPacketPages": [16, 17, 18],
+        "canonicalFinalPage": { "lines": 31, "words": 179, "characters": 2070, "routeBaselineY": 160 },
+        "boundaryFinalPage": { "lines": 32, "words": 187, "characters": 2191, "routeBaselineY": 146 },
+        "blankPages": 0,
+        "footerOnlyPages": 0,
+        "oneLinePages": 0
+      },
+      "geometryEvidence": {
+        "artifactsMeasured": 12,
+        "pagesMeasured": 140,
+        "wordsMeasured": 29722,
+        "offPageWords": 0,
+        "sameBaselineOverlaps": 0,
+        "familyCanonicalWords": 7412,
+        "familyBoundaryWords": 7449
+      },
+      "inspection": {
+        "uniqueFamilyPagesInspected": 70,
+        "routeArtifactPagesCoveredByIdenticalComponentRenderings": 70,
+        "visibleWritesInspectedFromSavedBytes": 96,
+        "visibleWritesMissing": 0,
+        "allPagesInspected": true,
+        "clippingOrOverlapObserved": false,
+        "blankFooterOnlyOrOneLinePageObserved": false
+      },
+      "focusedTests": [
+        "node --check scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
+        "node scripts/build-census-v1-rcap-nd-custom-pleading.mjs --check => CHECK_ONLY; 3 records / 99 anchors / 19 components / 48 writes / 127 blanks",
+        "node scripts/build-census-v1-rcap-nd-custom-pleading.mjs --self-test => SELF_TEST_PASSED; 70 component pages; zero blank/footer-only/one-line pages",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nd-custom-pleading => PASS_COMPLETE 48/175; all nine counters zero",
+        "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-nd-custom-pleading => 10/10 ROUTE_PASS_COMPLETE",
+        "pdftotext semantic sequence comparison => canonical and boundary participant-visible text unchanged",
+        "pdftotext -bbox-layout over 12 PDFs => 29,722 words; zero off-page words and zero same-baseline overlaps",
+        "110-DPI page inspection => all 70 unique family pages and all 96 saved-byte visible writes inspected"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "rasterNote": "Every family and route PDF has changed or is newly created. No prior raster receipt binds these exact bytes; a separate central raster lane must inspect and bind all 12 exact hashes. This repair remains BUILT_RASTER_PENDING.",
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "sourceResearchOrAcquisition": 0,
+      "workerCreation": 0
     }
-  ]
+  ],
+  "currentDispatchAppend": {
+    "worker": "CODEX-CS1-FIX04-ND-ORPHAN-PAGE",
+    "captainBase": "57d60a73fa0dcb105bcc49390f94bf3fd3ecbd55",
+    "branch": "codex/cs1-fix04-nd-orphan-page-57d6",
+    "familiesRepaired": 1,
+    "family": "rcap-nd-custom-pleading",
+    "nineCountersZero": true,
+    "factoryState": "BUILT_RASTER_PENDING",
+    "selfVerified": false,
+    "claimsReleased": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
 }
