@@ -1,12 +1,43 @@
 {
-  "schemaVersion": "rcap-targeted-source-artifact-custody/v1",
+  "schemaVersion": "rcap-targeted-source-artifact-custody/v2",
   "batchId": "source-acquisition-28-families-2026-09-04",
   "branch": "claude/source-acquisition-28-20260904",
-  "policy": {
-    "repositoryContains": "manifests, receipts, ledgers, extracted text, disposition summaries, completion overlays, and run evidence",
-    "repositoryExcludes": "issuer-original PDF, DOC, and DOCX binaries",
-    "binaryCustodyReason": "The owner assignment required owner-only source custody; this repository is public.",
-    "promotionRule": "Do not move original binaries into the public Git tree without a separate owner decision."
+  "ownerAuthorization": {
+    "recordedAt": "2026-09-04T13:01:25Z",
+    "authorizedBy": "Roger Roman",
+    "scope": "All 28 assigned source families and every source binary, receipt, ledger, field map, renderer, route binding, and readiness artifact needed to make them terminal and production ready.",
+    "captainAccessApproved": true,
+    "legalEaseEngineeringAccessApproved": true,
+    "noFurtherOwnerApprovalRequired": true,
+    "authorizedActions": [
+      "download and inspect the source archives and CR301",
+      "copy source files into the established repository source paths or Git LFS when that is the fastest production-compatible treatment",
+      "update authoritative source records, family bindings, route mappings, field maps, renderers, packets, tests, and generated ledgers",
+      "replace obsolete descriptive labels with verified issuer identities",
+      "retire artificial acquisition and custody holds once the underlying evidence is verified",
+      "merge bounded production-ready changes after the applicable tests pass"
+    ],
+    "supersedesOperationalRestrictions": [
+      "owner-only access to the source files",
+      "the prior blanket rule against placing blank official source forms in the repository",
+      "the need for a separate owner decision before promoting verified source bytes",
+      "stopping the entire batch because one non-material metadata field can be resolved from the issuer file or official catalog",
+      "treating acquisition evidence as a separate bureaucracy after its facts have been integrated into the authoritative source of truth"
+    ],
+    "boundariesThatRemainReal": [
+      "do not expose participant PII, credentials, secrets, or private case materials",
+      "do not misstate a form's issuer, scope, revision, legal effect, or source provenance",
+      "do not violate an actual license or court restriction",
+      "do not broaden county-local forms to statewide use",
+      "do not mark a family production ready while a real legal, rendering, security, or test failure remains"
+    ]
+  },
+  "repositoryPolicy": {
+    "sourceEvidenceMayBeIntegrated": true,
+    "blankOfficialBinariesMayBeCommitted": true,
+    "preferredBinaryTreatment": "Use the repository's established source-file convention; use Git LFS only where size or repository policy requires it.",
+    "archiveTreatment": "The immutable ZIP archives remain durable custody copies. The captain may extract and commit the individual blank source forms needed by runtime and packet generation.",
+    "promotionRule": "Proceed without another owner approval. Preserve hashes and provenance, then use the source where the product actually needs it."
   },
   "primaryRun": {
     "runId": 33866926858,
@@ -40,16 +71,23 @@
     },
     "supersedesFailedRunId": 33867794063
   },
-  "durableOwnerOnlyCustody": {
+  "durableTeamCustody": {
     "provider": "Google Drive",
     "folderId": "1fbmrR7ArOXw9CMvKlWFtZwQKq7XYju5R",
     "folderUrl": "https://drive.google.com/drive/folders/1fbmrR7ArOXw9CMvKlWFtZwQKq7XYju5R",
     "folderName": "2026-09-04 — 28-family acquisition",
     "parentFolderId": "1eB591FvN7QN-z2U1UJ1zluICSQBW53Bb",
-    "visibilityVerification": {
-      "shared": false,
-      "permissionsObserved": "owner only",
-      "verifiedAt": "2026-09-04T12:32:52Z"
+    "accessModel": {
+      "individualFilesSharedToDomain": "legalease.com",
+      "permission": "reader",
+      "discoverableInDomainSearch": false,
+      "owner": "roger@legalease.com",
+      "captainInstruction": "Use authenticated Google Workspace access when available. In Codespace, the same immutable bytes are immediately available through the GitHub Actions artifact commands below."
+    },
+    "codespaceAccess": {
+      "primary": "gh run download 33866926858 -n rcap-targeted-source-acquisition-28-33866926858 -D /tmp/rcap-source-primary",
+      "supplement": "gh run download 33868246348 -n rcap-targeted-source-supplement-28-33868246348 -D /tmp/rcap-source-supplement",
+      "cr301": "Use Drive file 1kcIjR2gMH-jj-rMHJe9zqS37vi6957xL or the verified owner upload already described by the completion overlay."
     },
     "primaryArchive": {
       "driveFileId": "1xWvjkwl3ev-vx8b56PubDwJyHqulV9Nu",
@@ -57,7 +95,8 @@
       "fileName": "rcap-targeted-source-acquisition-28-33866926858.zip",
       "sizeBytes": 16154170,
       "sha256": "7e30f1b2e49c6fa47714b24c18d88cd764e554fe22a6072bd6faf429fef0f813",
-      "shared": false
+      "shared": true,
+      "permissionsObserved": "legalease.com domain reader; owner retains ownership"
     },
     "supplementArchive": {
       "driveFileId": "1iLYGgg-vZUMGB5F5iR94e1EAVeibmOOt",
@@ -65,7 +104,8 @@
       "fileName": "rcap-targeted-source-supplement-28-33868246348.zip",
       "sizeBytes": 794519,
       "sha256": "2390f30919ab7eecda2c384023900f9f45cd983e86fb2b7a468510b354e38b90",
-      "shared": false
+      "shared": true,
+      "permissionsObserved": "legalease.com domain reader; owner retains ownership"
     },
     "ownerSuppliedCR301": {
       "driveFileId": "1kcIjR2gMH-jj-rMHJe9zqS37vi6957xL",
@@ -76,10 +116,10 @@
       "sha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8",
       "pageCount": 1,
       "mimeType": "application/pdf",
-      "shared": false,
-      "permissionsObserved": "owner only",
+      "shared": true,
+      "permissionsObserved": "legalease.com domain reader; owner retains ownership",
       "completionOverlay": "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/MO-CR301-owner-supplied-source-completion.json"
     },
-    "custodyStatement": "The two immutable workflow ZIP archives and the separately owner-supplied CR301 PDF preserve all available issuer-original source binaries in durable owner-only custody. The CR301 file exactly matches the repository-pinned historical issuer hash and byte length."
+    "custodyStatement": "The primary archive, supplement archive, and CR301 are durable custody copies and are readable by LegalEase Workspace users. The captain is authorized to extract and place the blank official forms into the repository paths required for production."
   }
 }
