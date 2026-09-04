@@ -267,6 +267,36 @@ const SOURCES = [
   })
 ];
 
+/*
+ * THE THREE VALUES THE HELD STATEMENT SHIPS WITH, AND WHY THEY DO NOT SHIP ON.
+ *
+ * FIX06, obligations KNOWN_PREFILLS, PROTECTED_FIELDS and
+ * REQUIRED_BEFORE_FILING. The held copy of the Statement of Inability carries
+ * three non-empty AcroForm values of its own:
+ *
+ *   Value / Valor 11   "0"           page 7,  a sworn property/expense total
+ *   Amount Cantidad 15 "0"           page 8,  a sworn property/expense total
+ *   Today              "12/15/2022"  page 11, the date of the sworn declaration
+ *
+ * None of them is a participant fact and this build writes none of them: the
+ * field map already declares all three REQUIRED_BEFORE_FILING and tells the
+ * participant to take the figures from statements and bills, and to date the
+ * declaration when it is actually sworn. But a flatten draws a shipped value
+ * onto the page as ordinary ink, so the artifact delivered a declaration
+ * already dated 12/15/2022 and two sworn totals already asserted as zero, under
+ * instructions that said the participant supplies them. The instructions were
+ * right and the paper was wrong.
+ *
+ * These are cleared rather than overwritten. Nothing is invented in their place
+ * and no other document in this packet is touched: the two OCA model forms and
+ * every composed page render exactly as before.
+ */
+const STATEMENT_SOURCE_CARRIED_VALUES = Object.freeze([
+  "Value / Valor 11",
+  "Amount Cantidad 15",
+  "Today"
+]);
+
 const COMPOSED_FROM =
   "the legal-design intake record (data/record-clearing/legal-design-intake/TX.memo.json, track "
   + "tx_nd_probation_misdemeanor) and the packet-set manifest "
@@ -1250,7 +1280,10 @@ async function renderDocument(source, census, fixtureName) {
     census: censusForFinalizer,
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: source.title
+    title: source.title,
+    // See STATEMENT_SOURCE_CARRIED_VALUES. Named for this one document only;
+    // every other component passes an empty list and is byte-unaffected.
+    clearSourceCarriedTextValues: source.componentId === STATEMENT ? [...STATEMENT_SOURCE_CARRIED_VALUES] : []
   });
   return { bytes, report };
 }
@@ -1480,7 +1513,24 @@ function mapsFrom(censusByForm, reports) {
         printedLabel: r.caption ?? r.effectiveLabel, printedLine: r.caption ?? r.effectiveLabel,
         effectiveLabel: r.effectiveLabel, regionHeading: r.section ?? r.effectiveLabel,
         sectionHeading: r.section ?? null, rect: r.rect, rectBasis: r.rectBasis,
-        document: componentId, formNumber: r.formNumber
+        document: componentId, formNumber: r.formNumber,
+        /*
+         * FIX06, obligation PROTECTED_FIELDS. A value the SOURCE shipped is a
+         * fact about the blank form, and until now the production field map did
+         * not record it at all -- so the three the Statement of Inability
+         * carries were unclassified in the very document that classifies every
+         * field. They are recorded here, on the row that refuses them, with
+         * what became of them: cleared where this build cleared them, and
+         * carried where it did not, so a reader can tell the two apart without
+         * opening the PDF.
+         */
+        ...(r.sourceValue === null || r.sourceValue === undefined ? {} : {
+          sourceValuePresentInBlankForm: r.sourceValue,
+          sourceValueDisposition:
+            (componentId === STATEMENT && STATEMENT_SOURCE_CARRIED_VALUES.includes(r.name))
+              ? "cleared_before_flatten: not a participant fact and not written by this build"
+              : "carried_from_the_source_unchanged"
+        })
       };
       if (r.policy === "write" && written.has(r.name)) {
         canonicalWrites.push({ ...base, factId: r.fact, kind: "acroform_text" });

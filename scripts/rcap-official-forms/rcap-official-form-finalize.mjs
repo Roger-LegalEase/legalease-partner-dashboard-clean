@@ -621,7 +621,36 @@ export async function finalizeOfficialForm({
    * every family can be rebuilt together. A control caption stamped off the
    * edge of the paper is a defect wherever it occurs, not only here.
    */
-  detachNestedControlFields = false
+  detachNestedControlFields = false,
+  /*
+   * TEXT fields whose SHIPPED value must not survive into the artifact.
+   *
+   * The chooser-prompt block further down already handles a choice field that
+   * arrives selected. A text field can arrive filled in the same way, and it is
+   * worse, because a chooser prompt reads as a prompt while a filled text field
+   * reads as an answer the participant gave.
+   *
+   * The Texas Statement of Inability to Afford Payment of Court Costs is the
+   * case this was written for: the held copy ships with "Value / Valor 11" = 0,
+   * "Amount Cantidad 15" = 0 and "Today" = 12/15/2022. Those three ride through
+   * a flatten as ordinary ink, so a packet whose own field map declares all
+   * three REQUIRED_BEFORE_FILING nevertheless delivered a sworn declaration
+   * already dated, over two sworn financial totals already asserted as zero,
+   * while its instructions told the participant to supply exactly those facts.
+   * Neither number nor date is a fact the platform holds about anyone.
+   *
+   * Clearing the value alone is not enough, for the same reason the chooser
+   * block gives: pdf-lib keeps the widget's existing appearance stream and the
+   * old ink renders from that, so the appearance goes too and flatten
+   * regenerates from nothing. A field this run WROTE is never touched.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize and
+   * alignWidgetFontSizeToFit above: the families sharing this finalizer are
+   * rebuilt by different workers at different times, and a repair lane holding
+   * a few families does not get to decide what the others' next rebuild
+   * produces. Every caller that does not pass this list is byte-unaffected.
+   */
+  clearSourceCarriedTextValues = []
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -837,6 +866,34 @@ export async function finalizeOfficialForm({
     handle.acroField.dict.delete(PDFName.of("V"));
     for (const widget of handle.acroField.getWidgets()) widget.dict.delete(PDFName.of("AP"));
     report.promptsSuppressed.push({ field: name, suppressed: selected });
+  }
+
+  // The same problem for text fields the source shipped already filled. See
+  // clearSourceCarriedTextValues above. Empty by default, so a caller that does
+  // not ask for this gets exactly the bytes it got before.
+  report.sourceCarriedValuesCleared = [];
+  const clearRequested = new Set(clearSourceCarriedTextValues ?? []);
+  if (clearRequested.size > 0) {
+    for (const handle of form.getFields()) {
+      const name = handle.getName();
+      if (!clearRequested.has(name) || written.has(name)) continue;
+      if (typeof handle.getText !== "function") continue;
+      let carried = null;
+      try { carried = handle.getText() ?? null; } catch { carried = null; }
+      if (carried === null || String(carried).trim() === "") continue;
+      handle.acroField.dict.delete(PDFName.of("V"));
+      for (const widget of handle.acroField.getWidgets()) widget.dict.delete(PDFName.of("AP"));
+      report.sourceCarriedValuesCleared.push({ field: name, cleared: carried });
+    }
+    const notFound = [...clearRequested]
+      .filter((name) => !report.sourceCarriedValuesCleared.some((row) => row.field === name));
+    if (notFound.length > 0) {
+      // A named field that carried nothing means the source changed under the
+      // caller's reading of it, and silently doing nothing would hide that.
+      throw new Error(
+        `clearSourceCarriedTextValues names ${notFound.length} field(s) this source does not carry a value in: ${notFound.join(", ")}`
+      );
+    }
   }
 
   // The fields this run actually bound. A chooser in this set was answered by
