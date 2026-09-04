@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "befd00110ef4bf3bdd888eaa0701514c7fbe06b6",
+  "generatedAtCommit": "acb37376d920ccfb13dac09de6d97775a70e5602",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1874,8 +1874,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T15:41:40.189Z"
     },
     {
       "subjectType": "packet-family",
@@ -1919,8 +1919,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T15:41:40.355Z"
     },
     {
       "subjectType": "packet-family",
@@ -1964,8 +1964,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T15:41:40.517Z"
     },
     {
       "subjectType": "packet-family",
@@ -2084,8 +2084,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T15:41:40.717Z"
     },
     {
       "subjectType": "packet-family",
@@ -2112,10 +2112,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T15:12:13.818Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -2129,8 +2128,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T15:41:41.111Z"
     },
     {
       "subjectType": "packet-family",
@@ -3010,11 +3009,26 @@
         "fl-trafficking-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-trafficking-set",
+      "familyId": "fl-trafficking-set",
+      "itemId": null,
+      "familyIds": [
+        "fl-trafficking-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF09",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T15:41:40.026Z"
     },
     {
       "subjectType": "packet-family",
@@ -12871,7 +12885,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "22d24105ad116bc196c94a345d3e50a576d632f9009a928b4754dcca80df42d5",
+  "claimsDigest": "1c23cce6264ea05b2cf92d17fd18452e02bfb231b3ad0af50b161ebd12842d8c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25199,6 +25213,54 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-04T15:38:15.242Z"
+    },
+    {
+      "lane": "PF09",
+      "subjectType": "packet-family",
+      "subjectId": "fl-trafficking-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-04T15:41:40.026Z"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-04T15:41:40.189Z"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-04T15:41:40.355Z"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-04T15:41:40.517Z"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-04T15:41:40.717Z"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-04T15:41:41.111Z"
     }
   ],
   "reissues": [
@@ -30445,6 +30507,16 @@
       "previouslyReleasedAt": "2026-09-04T15:13:18.154Z",
       "reissuedAt": "2026-09-04T15:38:37.852Z",
       "reason": "FIX01 source-identity pin repair integrated; independent rereview required on unchanged packet bytes"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "dispatchNames": "FIX08",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-04T15:42:16Z",
+      "reason": "the current dispatch names FIX08 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
