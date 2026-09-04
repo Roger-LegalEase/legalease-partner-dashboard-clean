@@ -22,18 +22,23 @@
   "supersessionRule": "one current verdict per family, ordered by the base each row DECLARES it read at: a read whose verifiedAtBase descends from another read's base is the later one and supersedes it. Where neither base is an ancestor of the other, a row that declares a commit-shaped base outranks one that declares none. Lane precedence (factory vf lanes over codex-cloud directories, then higher lane number) decides only when neither row says when it read. Recency is never inferred from file modification or merge time. Superseded rows remain as history with superseded: true",
   "counts": {
     "returnDirectories": 47,
-    "rows": 545,
-    "independentVerdicts": 179,
-    "failRepairRequired": 33,
+    "rows": 550,
+    "independentVerdicts": 184,
+    "failRepairRequired": 38,
     "passIndependent": 140
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+    "al-diversion-set",
+    "al-felony-nonconviction-90-set",
     "az_marijuana_expungement_arrest_no_charges-set",
     "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "dc_yra_set_aside-set",
+    "il-exp-qualprob-set",
+    "il-seal-2yr-set",
+    "il-seal-edu-set",
     "in_arrest_no_charges-set",
     "in_section1_petition-set",
     "ma-expunge-time-set",
@@ -405,6 +410,80 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf805-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-diversion-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-diversion-set",
+      "superseded": false
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Seven declared writes are directions masquerading as known facts. Three charge fields print 'The charge shown on the certified case record'; two grounds fields print 'See the selected statutory route and attached certified records'; and two arresting-agency fields print 'Agency shown on the certified arrest record'. These strings are visibly written into the official form, while the instructions do not tell the participant to replace them with facts. The mechanical counter remains zero and therefore misses this defect.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The production map records 63 required refusals, but 33 labels copied into participant-instructions.md literally contain 'undefined' (from 'Complete undefined' through numbered variants). That does not meaningfully name the fields. The instructions also fail to state the registry's required signature, notarization, filing-fee, and waiver actions as clear participant steps.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The committed registry has four stops. The packet covers prosecutor or victim objection, contested hearing, disposition/fact mismatch, and immigration consequences, but it omits the same registry condition's licensing and firearm consequences.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set",
       "superseded": false
     },
     {
@@ -4382,6 +4461,46 @@
       "superseded": true
     },
     {
+      "familyId": "il-exp-qualprob-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set",
+      "superseded": false
+    },
+    {
       "familyId": "il-prostitution-j-vacate-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
@@ -4393,6 +4512,98 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prostitution-j-vacate-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-2yr-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-seal-edu-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "This family is the education-based sealing route, but both outputs populate the expungement and sealing case tables. The request also visibly selects item 15 (Second Chance Probation / First Time Weapon Offense Program) alongside item 22 (educational-credential waiver), mixing a different eligibility route into the education route.",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Twenty request-form fields labeled for all charges are populated with the case number 2021-CF-004217 instead of a charge. The separate case-list charge field prints the truncated direction 'Charge exactly as shown o…' rather than an actual charge. These are visible non-facts that the zero mechanical counter does not catch.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Although 250 refused field labels are dumped into the instructions, the exact registry's semantic prerequisites are not stated as usable actions. The packet omits obtaining the ISP Access and Review transcript, verifying outcomes against that transcript or certified dispositions, making the expunge-versus-seal election per case, supplying the hearing date, completing a wet signature, and stating the fee/waiver action clearly. A generic attachment sentence does not cure those omissions.",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The route should select the education-based sealing choice only. The output instead selects both item 22 and item 15, and it writes the same case into both expungement and sealing sections of the request and proposed order. Those are incompatible route elections rather than participant-preserved options.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Rows 2-10 in both the expungement and sealing tables carry a case number or charge-cell write while companion agency, arrest-date, and outcome cells remain blank. The zero incompleteRows counter is therefore a semantic false negative.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The exact registry carries eight stop conditions. The packet states broad stops for objection, contested hearing, printed-eligibility mismatch, and immigration consequences, but omits unrecognized cases or identity theft, federal or out-of-state records, a motion to vacate/modify/reconsider, and denial of the petition; transcript ambiguity is at most only loosely covered.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
       "superseded": false
     },
     {

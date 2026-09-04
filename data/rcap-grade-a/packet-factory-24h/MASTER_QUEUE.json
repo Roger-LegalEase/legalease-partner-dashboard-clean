@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d74ffe8c74f7c794188349d859a0ff3690b3b70e",
+  "minimumCaptainSha": "a794d6325a924b6a02cfc7768791055e1b8bc6a4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -69,18 +69,18 @@
     "sourceReady": 69,
     "sourceBlocked": 70,
     "legalBlocked": 32,
-    "verifyPending": 22,
-    "repairRequired": 26,
+    "verifyPending": 17,
+    "repairRequired": 31,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 69,
     "COMPLETE_PACKET_PROVEN": 113,
-    "VERIFY_PENDING": 22,
+    "VERIFY_PENDING": 17,
     "OUT_OF_SCOPE": 5,
+    "FAIL_REPAIR_REQUIRED": 33,
     "SOURCE_BLOCKED": 70,
     "LEGAL_BLOCKED": 26,
-    "FAIL_REPAIR_REQUIRED": 28,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "VERIFIED_PASS": 1,
@@ -163,7 +163,7 @@
     "sourceReadyFamilies": 69,
     "familiesPerBuilder": 4.1,
     "targetPerBuilder": "15 to 25",
-    "finding": "37 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 69 do, so a full roster of 17 builders averages 4.1 families each rather than 15 to 25.",
+    "finding": "33 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 69 do, so a full roster of 17 builders averages 4.1 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 129 source obligations across 102 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 17: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -1225,7 +1225,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -1251,11 +1256,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-diversion-set.mjs",
@@ -1459,7 +1490,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -1485,11 +1521,31 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Seven declared writes are directions masquerading as known facts. Three charge fields print 'The charge shown on the certified case record'; two grounds fields print 'See the selected statutory route and attached certified records'; and two arresting-agency fields print 'Agency shown on the certified arrest record'. These strings are visibly written into the official form, while the instructions do not tell the participant to replace them with facts. The mechanical counter remains zero and therefore misses this defect.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The production map records 63 required refusals, but 33 labels copied into participant-instructions.md literally contain 'undefined' (from 'Complete undefined' through numbered variants). That does not meaningfully name the fields. The instructions also fail to state the registry's required signature, notarization, filing-fee, and waiver actions as clear participant steps.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The committed registry has four stops. The packet covers prosecutor or victim objection, contested hearing, disposition/fact mismatch, and immigration consequences, but it omits the same registry condition's licensing and firearm consequences.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
@@ -13508,7 +13564,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -13534,11 +13595,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-qualprob-set.mjs",
@@ -13994,7 +14081,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -14020,11 +14112,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-2yr-set.mjs",
@@ -14286,7 +14404,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -14312,11 +14435,49 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "This family is the education-based sealing route, but both outputs populate the expungement and sealing case tables. The request also visibly selects item 15 (Second Chance Probation / First Time Weapon Offense Program) alongside item 22 (educational-credential waiver), mixing a different eligibility route into the education route.",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Twenty request-form fields labeled for all charges are populated with the case number 2021-CF-004217 instead of a charge. The separate case-list charge field prints the truncated direction 'Charge exactly as shown o…' rather than an actual charge. These are visible non-facts that the zero mechanical counter does not catch.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Although 250 refused field labels are dumped into the instructions, the exact registry's semantic prerequisites are not stated as usable actions. The packet omits obtaining the ISP Access and Review transcript, verifying outcomes against that transcript or certified dispositions, making the expunge-versus-seal election per case, supplying the hearing date, completing a wet signature, and stating the fee/waiver action clearly. A generic attachment sentence does not cure those omissions.",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The route should select the education-based sealing choice only. The output instead selects both item 22 and item 15, and it writes the same case into both expungement and sealing sections of the request and proposed order. Those are incompatible route elections rather than participant-preserved options.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Rows 2-10 in both the expungement and sealing tables carry a case number or charge-cell write while companion agency, arrest-date, and outcome cells remain blank. The zero incompleteRows counter is therefore a semantic false negative.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The exact registry carries eight stop conditions. The packet states broad stops for objection, contested hearing, printed-eligibility mismatch, and immigration consequences, but omits unrecognized cases or identity theft, federal or out-of-state records, a motion to vacate/modify/reconsider, and denial of the petition; transcript ambiguity is at most only loosely covered.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-edu-set.mjs",
@@ -38320,9 +38481,9 @@
     }
   ],
   "totals": {
-    "lanes": 53,
+    "lanes": 49,
     "builders": 17,
-    "verifiers": 12,
+    "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
     "familiesAssignedToBuilders": 69,
