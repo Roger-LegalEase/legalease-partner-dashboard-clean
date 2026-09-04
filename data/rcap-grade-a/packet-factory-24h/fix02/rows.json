@@ -601,6 +601,31 @@
       "countersAfterReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access.",
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_no_charges-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+      "rowStopReason": "BLOCKED_BEFORE_CLAIM",
+      "claim": {
+        "assertion": "ALREADY_RELEASED: ut_pet_no_charges-set at 2026-09-04T05:32:02.463Z",
+        "assertExitCode": 9,
+        "assertedBeforeArtifactRead": true,
+        "releasedBeforeThisLane": true
+      },
+      "obligationRepaired": [],
+      "obligationStopped": [
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "whyStopped": "The authoritative FIX02 prompt names this family, but the exact claim is already released. Claim-before-read semantics require a full row stop. This lane did not materialize, inspect, or change any Utah artifact or builder.",
+      "countersAfter": null,
+      "countersAfterReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "whatCouldNotBeEstablished": [
