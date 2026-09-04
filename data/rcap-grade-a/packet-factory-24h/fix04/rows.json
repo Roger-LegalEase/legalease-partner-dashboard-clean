@@ -448,6 +448,55 @@
       "independentVerification": "PENDING",
       "productionTouched": false,
       "commercialRoutesOpened": 0
+    },
+    {
+      "itemId": "il-seal-edu-set",
+      "status": "COMPLETED",
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "captainBase": "bec2375be2c9d6db883a7f69754600d8af0b5b23",
+      "claim": {
+        "assertion": "CLAIM_OK FIX04 il-seal-edu-set (repair, grant set 8a0e9a955136ba9b)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "failedObligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "repair": "The family-owned builder now selects only the sealing and education-based branches, populates one complete active sealing row, leaves the incompatible expungement table and unused rows blank, protects clerk case-number captions, and preserves full known values. Participant guidance now states the ISP transcript/disposition comparison, per-case election, education proof, wet signature, fee/waiver and hearing-date actions, plus the registry's missing identity-theft, federal/out-of-state, underlying-case, denial, and immigration stop conditions.",
+      "tddEvidence": "The pre-repair focused assertion failed with 14 writes in the inactive expungement table. The family --self-test rejects inactive/partial rows, case numbers in charge cells, clerk-number writes, ellipsis, section 15 or another incompatible legal branch, missing education selection, and each dispatched guidance requirement.",
+      "focusedChecks": [
+        "node scripts/build-census-v1-il-seal-edu-set.mjs --self-test => passed",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set => PASS_COMPLETE 40/424 written",
+        "two consecutive builds produced byte-identical canonical and boundary hashes",
+        "bundled pypdf extracted each complete boundary name, agency, charge, and outcome from finalized bytes"
+      ],
+      "artifacts": [
+        "canonical 3863ab5409c5b95420f2dbaf7c4ac0c6d72dce7247ef7858158c4fad309d89e5 1734388 bytes 13 pages",
+        "boundary 9ed754037a2ec668375ef45cdb7b81599fabb37ee99c3fd55c3a38c739eef494 1734953 bytes 13 pages",
+        "participant-instructions 0ba772a153028336ab84f73e6ba36d383c717909ad4c6e57f339312c17b7d18d 9802 bytes"
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "selfVerified": false,
+      "independentVerification": "PENDING",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0
     }
   ],
   "fix04SecondGrantSetAppend": {
