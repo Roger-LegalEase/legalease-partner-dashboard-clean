@@ -9509,6 +9509,214 @@
       "overlayDirectoriesModified": false,
       "commercialRoutesOpened": false,
       "productionTouched": false
+    },
+    {
+      "itemId": "ar-nonconviction-seal-set",
+      "lane": "VF01",
+      "worker": "CODEX-CS1-VF01-NATIONAL",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-nonconviction-seal"
+      ],
+      "claim": {
+        "assertion": "CLAIM_OK VF01 ar-nonconviction-seal-set (independent-verification, grant set 044eeb7859e153f3)",
+        "assertedBeforeFamilyContentRead": true,
+        "releasedByThisLane": false
+      },
+      "independence": "CODEX-CS1-VF01-NATIONAL did not build or repair this family and accepted no prior verdict as proof.",
+      "artifacts": {
+        "canonical": { "sha256": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5", "byteLength": 819258, "pages": 7 },
+        "boundary": { "sha256": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871", "byteLength": 819462, "pages": 7 },
+        "independentlyRehashed": true
+      },
+      "rasterEvidence": {
+        "workflowRunId": "33608483853",
+        "packetCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "receiptVerdict": "RASTER_PASS",
+        "receiptSha256": "8e14e47c65260c221a3c2fbaca0e6511ed4e994764bdd16c63a65b883ec1dfaa",
+        "documentsDigest": "e3016b4d7fdf254850a6fe0af2141547b71214672531bdc8b8b6680b9c0469dd",
+        "governedPngManifestSha256": "904fd7dfbb1b81e91be25b7f91b6e0257bdfa0ade24a11e6940a75e55d8b19ca",
+        "measurementsInspected": 14,
+        "allPngByteLengthsMatchedReceipt": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "focusedVerifier": "PASS_COMPLETE 13/78 written"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "The family, route artifact and current registry consistently bind obligation:track-only:AR:ar-nonconviction-seal; no foreign route component is present." },
+        "SOURCE_IDENTITY": { "measured": true, "result": "FAIL", "finding": "source-receipt.json pins legal-design-packet-set-manifests.json at 563147bf... / 3,677,637 bytes, but the current committed file independently rehashes to 713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572 / 3,677,644 bytes. The exact Arkansas family subset remains deep-identical at 9a3285048eb035ac8480f67ce520bb04453bb5afc51b39d873a30d1e6cc1e5e7. The compiled Arkansas profile remains exact at its receipt pin. This is stale receipt binding, not a missing-source block." },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "Both fixtures contain the required four-page petition followed by the three-page proposed order and carry no component from another route." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All 13 declared writes are visible at the intended participant fields; knownRequiredFieldsMissing=0 and invisibleWrites=0." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "The instructions distinguish the known nolle/dismissal venue from acquittal and never-filed cases, require the participant to obtain the clerk's venue answer for the latter, and identify the records and case facts that must be confirmed before filing." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "Route-determined selections agree with the nonconviction-seal route and requiredOptionsMissing=0." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No partially populated repeating row was found; incompleteRows=0." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "Signature, notary, clerk, judge and other protected blanks remain unwritten; protectedWrites=0." },
+        "ARTIFACTS": { "measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently rehash to 28436bb8... / 819258 bytes and 8737d13a... / 819462 bytes, each seven pages, exactly matching rendered-artifacts and the admitted receipt." },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Both fixtures preserve petition pages 1-4 followed by order pages 1-3. The sparse seventh page is the legitimate third source-order page, not an orphaned footer." },
+        "CLIPPING_AND_OVERLAP": { "measured": true, "result": "PASS", "finding": "All 14 governed pages were visually inspected; bbox extraction found 0 of 1000 canonical words and 0 of 1008 boundary words outside the page boxes, with no clipping, overlap or unintended marks." },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The packet states the known court rule where established and requires a clerk-confirmed venue answer before filing when the route does not establish one." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "The instructions state the Act 1460 zero-fee position and explain the section 16-90-1419 form recital without inventing a contrary charge or waiver." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "The packet names required recipients, the three-day timing rule and the applicable service step." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "The instructions stop filing for unresolved venue and for immigration, licensing or firearm consequences requiring legal advice." }
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY"],
+      "unmeasuredObligations": [],
+      "exactRepairRequired": "Refresh the packet-set-manifest full-file SHA-256 and byte length in source-receipt.json against the current authoritative file after confirming the Arkansas subset remains 9a328504...; do not rebuild unchanged packet bytes or classify this as BLOCKED_SOURCE.",
+      "packetBytesChanged": 0,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "lane": "VF01",
+      "worker": "CODEX-CS1-VF01-NATIONAL",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading",
+      "routeKeys": ["obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition"],
+      "claim": {
+        "assertion": "CLAIM_OK VF01 composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition (independent-verification, grant set 044eeb7859e153f3)",
+        "assertedBeforeFamilyContentRead": true,
+        "releasedByThisLane": false
+      },
+      "independence": "CODEX-CS1-VF01-NATIONAL did not build or repair this family and accepted no prior verdict as proof.",
+      "artifacts": {
+        "canonical": { "sha256": "d6b4097679fc575096728708f3ee31b35a834ec7eb9f40d8105df02bc9f24a82", "byteLength": 11493, "pages": 4 },
+        "boundary": { "sha256": "c67cee6f0abf6f42a76f09c6ab5d57152a5486dcd88d9c7a1590a9565d56dea0", "byteLength": 11676, "pages": 4 },
+        "independentlyRehashed": true
+      },
+      "rasterEvidence": {
+        "workflowRunId": "33605354695",
+        "packetCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+        "receiptVerdict": "RASTER_PASS",
+        "receiptSha256": "ae78ebc8b746a4684995e9c90b36368f3c19318f8e0cc38945456934c1f49566",
+        "documentsDigest": "cc537005e6dbc600c7c1cbbb9805849818fac43395df4f395168008c0523e3fe",
+        "governedPngManifestSha256": "af4611edc892ce903a9336e3d1f6979c88eeaf8df6d832503180bae2a6782398",
+        "measurementsInspected": 8,
+        "allPngByteLengthsMatchedReceipt": true
+      },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "focusedVerifier": "PASS_COMPLETE 6/16 written" },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "Family, product wiring, route contract and visible packet identity consistently bind the section 1018 discretionary juvenile-expungement petition route." },
+        "SOURCE_IDENTITY": { "measured": true, "result": "FAIL", "finding": "source-receipt.json pins route-obligation-candidate.json at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2,599,752 bytes; the current file independently rehashes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2,607,149 bytes. This route's canonical subset is unchanged at de037f8f7baa982ac733e6c95666d5444643a8b67a1605fc36e7c12e0a2d9322 and its route contract and compiled Delaware profile remain exact. This is stale receipt binding, not source absence." },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "Both fixtures contain the declared petition and proposed-order components in the registry sequence and no foreign component." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All six declared writes are present and visible; knownRequiredFieldsMissing=0 and invisibleWrites=0." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "The packet names adjudication, charge, case, disposition and supporting-record facts to confirm before filing and distinguishes the discretionary court petition from the SBI administrative process." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "No unresolved route-determined election is omitted; requiredOptionsMissing=0." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No partially completed repeating row was found; incompleteRows=0." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "Signature, notarization, court-decision and service-event fields remain protected; protectedWrites=0." },
+        "ARTIFACTS": { "measured": true, "result": "PASS", "finding": "Canonical and boundary independently rehash to d6b40976... / 11,493 bytes and c67cee6f... / 11,676 bytes, each four pages, exactly matching the rendered record and receipt." },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Both four-page fixtures preserve the two declared components and contiguous component/page order." },
+        "CLIPPING_AND_OVERLAP": { "measured": true, "result": "FAIL", "finding": "All eight governed pages were inspected and bbox extraction found no glyph outside the page, but current visible copy is malformed: headings and citations repeatedly print '10 DEL. C. Sec. Sec. 1017 / 1018', and page 1 ends the instruction 'discretionary expungement uses the court's' without an object or continuation. This is participant-facing rendered-text failure even though the raster workflow reported zero geometric problems." },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The packet directs filing in Family Court in the county of adjudication, matching the route authority." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "The packet truthfully says the authoritative input does not establish the amount or waiver and instructs the participant to obtain both from the Family Court clerk before filing." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "The packet states that the Attorney General receives the petition and has the recorded 120-day response window, while refusing to invent an unstated participant service method and directing confirmation with the clerk." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "The packet stops for mandatory/SBI-process mismatch, disputed eligibility or facts, opposition, hearing, immigration, licensing and firearm consequences." }
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY", "CLIPPING_AND_OVERLAP"],
+      "unmeasuredObligations": [],
+      "exactRepairRequired": [
+        "Refresh the route-census full-file pin after confirming the Delaware route subset remains de037f8f...; do not classify as BLOCKED_SOURCE.",
+        "Repair the duplicate 'Sec. Sec.' citations and complete the page-1 sentence ending 'uses the court's'; rebuild both fixtures deterministically and reraster changed hashes."
+      ],
+      "packetBytesChanged": 0, "centralStateEdits": 0, "claimsReleased": 0, "selfVerificationPerformed": 0, "routesOpened": 0, "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "lane": "VF01",
+      "worker": "CODEX-CS1-VF01-NATIONAL",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+      "routeKeys": ["obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"],
+      "claim": { "assertion": "CLAIM_OK VF01 composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief (independent-verification, grant set 044eeb7859e153f3)", "assertedBeforeFamilyContentRead": true, "releasedByThisLane": false },
+      "independence": "CODEX-CS1-VF01-NATIONAL did not build or repair this family and accepted no prior verdict as proof.",
+      "artifacts": {
+        "canonical": { "sha256": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426", "byteLength": 10712, "pages": 4 },
+        "boundary": { "sha256": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6", "byteLength": 10890, "pages": 4 },
+        "independentlyRehashed": true
+      },
+      "rasterEvidence": { "workflowRunId": "33605354695", "packetCommitSha": "7edb05f621e6209c3660c66fd60e4f4b283faf1f", "receiptVerdict": "RASTER_PASS", "receiptSha256": "10e7ca9a9ff5605a9ece481a8db91a30b845064d57e7368039acec5efcb2b6e3", "documentsDigest": "82a6a681c5eb5bb9c9084229b15daf85397f6b30afceeceb5bca67044b91abe6", "governedPngManifestSha256": "437d72d1b8a96aa87a7e223240a1f8a9396cf7e26ecdaff7f2126fa28932884d", "measurementsInspected": 8, "allPngByteLengthsMatchedReceipt": true },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "focusedVerifier": "PASS_COMPLETE 6/15 written" },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "Family, route split, product wiring and visible packet identity consistently bind the Illinois criminal-identity-theft mistaken-identity relief route." },
+        "SOURCE_IDENTITY": { "measured": true, "result": "FAIL", "finding": "source-receipt.json pins route-obligation-candidate.json at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2,599,752 bytes; current bytes rehash to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2,607,149 bytes. The exact Illinois route subset remains unchanged at cc640b55f38685ee948288e3d97314c92759ab2fd9323c718e00654f26c3d979, and the route split and compiled Illinois profile remain exact. This is stale receipt binding, not a source block." },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "Both fixtures contain the declared petition and proposed-order components in current registry order, with no foreign component." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All six declared writes are visible in the intended fields; knownRequiredFieldsMissing=0 and invisibleWrites=0." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "The instructions require the identity-theft report, mismatched identifier evidence and the case/arrest facts needed before filing." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "No unresolved route-determined option is missing; requiredOptionsMissing=0." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No partly written repeating row was found; incompleteRows=0." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "Signature, verification, court-order and service-event fields remain blank; protectedWrites=0." },
+        "ARTIFACTS": { "measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently rehash to 25f0c6a1... / 10,712 bytes and c858109e... / 10,890 bytes, each four pages, exactly matching the records and receipt." },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "Both fixtures preserve the two-component, four-page declared order with contiguous pages." },
+        "CLIPPING_AND_OVERLAP": { "measured": true, "result": "PASS", "finding": "All eight governed pages were visually inspected; bbox extraction found 0 of 892 canonical words and 0 of 897 boundary words outside page boxes, and no clipping, overlap, sparse orphan or unintended mark was found." },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The packet directs filing with the chief judge of the circuit where the arrest occurred, matching the route authority." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "The packet does not invent an amount or waiver and requires the participant to obtain both from the circuit office before filing." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "The packet names the recorded notice/service actors and, where the authority does not establish a method, requires the participant to confirm the filing-office procedure before acting." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "The packet states five concrete stops covering identity mismatch, disputed facts, opposition/hearing and collateral-consequence advice." }
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY"],
+      "unmeasuredObligations": [],
+      "exactRepairRequired": "Refresh the route-census full-file pin against current bytes after confirming the Illinois route subset remains cc640b55f...; do not rebuild unchanged packet bytes or classify this as BLOCKED_SOURCE.",
+      "packetBytesChanged": 0, "centralStateEdits": 0, "claimsReleased": 0, "selfVerificationPerformed": 0, "routesOpened": 0, "productionTouched": false
+    },
+    {
+      "itemId": "rcap-wv-custom-pleading",
+      "lane": "VF01",
+      "worker": "CODEX-CS1-VF01-NATIONAL",
+      "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+      "routeKeys": ["obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief"],
+      "claim": { "assertion": "CLAIM_OK VF01 rcap-wv-custom-pleading (independent-verification, grant set 044eeb7859e153f3)", "assertedBeforeFamilyContentRead": true, "releasedByThisLane": false },
+      "independence": "CODEX-CS1-VF01-NATIONAL did not build or repair this family and accepted no prior verdict as proof.",
+      "artifacts": {
+        "canonical": { "sha256": "c3e7ad175ab82426ab7d98f772717600edf936a583e0aa58caddecdd14c77b06", "byteLength": 32974, "pages": 12 },
+        "boundary": { "sha256": "18576a72d6f9822958aead7f5551b2b9c52adf3c968d5ef422d7a612d029f194", "byteLength": 33536, "pages": 12 },
+        "independentlyRehashed": true
+      },
+      "rasterEvidence": { "workflowRunId": "33791677725", "packetCommitSha": "88d688b8b6910f0c501cab0d72633554220d822b", "receiptVerdict": "RASTER_PASS", "receiptSha256": "522258b4985cfa99b4c4ffa2f4f4b24e89220fe4c82e7f55ba236a62bfe886d3", "documentsDigest": "868d97ca522c8032062e56a2a934ff53cdb69a4dc7c8ffcfefc1a61fdc37bcd8", "governedPngManifestSha256": "8fb0d31f92dd76e9a3b8ebec3a8ee5a2505060dd86e8a891bdd736fdf5afec47", "measurementsInspected": 24, "allPngByteLengthsMatchedReceipt": true },
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "focusedVerifier": "PASS_COMPLETE 16/56 written", "blindSpot": "The counter and raster workflow did not classify the records-checklist continuation page containing only the two-word route label and wrapped route key as a visual defect." },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "The family, field map, route artifact and current track consistently bind the first-offense drug-possession conditional-discharge route." },
+        "SOURCE_IDENTITY": { "measured": true, "result": "FAIL", "finding": "Three full-file committed-record pins are stale: track registry receipt baee4117... / 16,586,143 now rehashes to 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee / 16,586,150; specifications cc0c7959... / 16,829,383 now rehashes to f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e / 16,829,391; route census 09368333... / 2,599,752 now rehashes to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2,607,149. WV target subsets remain identical at ca54974b..., 49814560... and 107b7859.... This is receipt drift, not source absence." },
+        "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "The prior missing-component defect is fixed: primary filing, supporting affidavit, certificate of service, records checklist and filing instructions are all present in exact registry order in both fixtures." },
+        "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "All 16 declared writes are visible and intended; knownRequiredFieldsMissing=0 and invisibleWrites=0." },
+        "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "All 31 required participant items are disclosed, including the route-specific records and cross-checks, and the packet does not substitute generic labels for needed facts." },
+        "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "The conditional-discharge route selection is consistent and requiredOptionsMissing=0." },
+        "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "No partly written repeating row was found; incompleteRows=0." },
+        "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "All nine protected signature, notary, court and service-event blanks remain unwritten; protectedWrites=0." },
+        "ARTIFACTS": { "measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently rehash to c3e7ad17... / 32,974 bytes and 18576a72... / 33,536 bytes, each 12 pages, exactly matching records and receipt." },
+        "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "The declared components occur in order on pages 1-3, 4-6, 7, 8-9 and 10-12 with contiguous numbering. The page-9 defect is pagination quality, not a component-order mismatch." },
+        "CLIPPING_AND_OVERLAP": { "measured": true, "result": "FAIL", "finding": "All 24 governed pages were inspected. Canonical and boundary page 9 are an unintended records-checklist overflow carrying only the two-word route label and wrapped route key on an otherwise blank page (ink fraction 0.0027645944741532978 in both). Bbox extraction found no off-page words, but this footer-only pagination page is a visible defect that the admitted RASTER_PASS missed." },
+        "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The packet names the proper circuit-court filing destination and does not broaden the route." },
+        "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "The packet states the current known fee position and waiver route or clerk-confirmation boundary without inventing an amount." },
+        "SERVICE": { "measured": true, "result": "PASS", "finding": "The packet names required recipients, notice/service roles and method boundary consistent with the current track." },
+        "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "The packet contains nine concrete conditions requiring the participant to stop and seek clerk or legal help." }
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY", "CLIPPING_AND_OVERLAP"],
+      "unmeasuredObligations": [],
+      "exactRepairRequired": [
+        "Refresh the three full-file record pins after confirming the WV registry, specification and census subsets remain ca54974b..., 49814560... and 107b7859...; do not classify as BLOCKED_SOURCE.",
+        "Remove the canonical and boundary page-9 footer-only records-checklist overflow by correcting pagination, rebuild deterministically and reraster changed hashes."
+      ],
+      "packetBytesChanged": 0, "centralStateEdits": 0, "claimsReleased": 0, "selfVerificationPerformed": 0, "routesOpened": 0, "productionTouched": false
     }
   ],
   "supersededLaneMembership": {
