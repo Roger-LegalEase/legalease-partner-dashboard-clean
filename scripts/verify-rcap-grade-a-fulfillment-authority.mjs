@@ -41,42 +41,105 @@ const REGISTRY_PATH = "data/rcap-grade-a/fulfillment-authority-registry.json";
 const PROJECTION_PATH = "data/rcap-grade-a/fulfillment-authority-projection.json";
 const SOURCE_REGISTRY_PATH = "data/rcap-grade-a/official-source-registry.json";
 const OBSERVATION_PATH = "data/rcap-grade-a/fulfillment-observation-snapshot.json";
+const VERIFIER_RETURNS_PATH = "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json";
+const PACKET_SET_MANIFESTS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
 const FIRST_COHORT_EVIDENCE_COMMIT = "ff9705a240c004ed7b9d2f022113abe865442d3f";
 const FIRST_COHORT_OWNER_APPROVAL = "OWN-ADOPT-2026-09-02-BATCH-53";
+const CODIFIED_AUTHORITY_CONTRACT = "rcap-codified-authority-bound-inputs/v1";
+const INDEPENDENT_FINAL_VERIFICATION_CONTRACT = "rcap-independent-packet-final-verification/v1";
 const FIRST_COHORT_EXPECTED = [
   {
     assignmentClaim: "obligation:track-pathway:DC:dc_actual_innocence_expungement_16_803",
     routeId: "DC:dc_actual_innocence_expungement_16_803",
     familyId: "dc_innocence_expungement-set",
+    specificationPath: "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
     specificationSha256: "a66e9b44315db4cfcbbb103630e210c3a43ffd4bfac6d2a8049bbe208b38d0c8",
     canonicalSha256: "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
-    boundarySha256: "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d"
+    boundarySha256: "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+    verification: {
+      lane: "vf04",
+      verifiedAtBase: "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+      rowSha256: "f2bccfbdf8b9c6e96bd1afe4127115c0a899042edd442811d1db4d7ea4d64314",
+      evidencePath: "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      evidenceRowSha256: "baaf498dd7676c19cd1b36a798cf006507b2b0de48a2a33555d1ca40705adc59"
+    },
+    trackAuthority: {
+      path: "data/record-clearing/legal-design-intake/DC.memo.json",
+      sha256: "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
+    }
   },
   {
     assignmentClaim: "obligation:track-pathway:MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
     routeId: "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
     familyId: "ms-misd-addl-set",
+    specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
     specificationSha256: "e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064",
     canonicalSha256: "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
-    boundarySha256: "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5"
+    boundarySha256: "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+    verification: {
+      lane: "vf01",
+      verifiedAtBase: "cd48fc14e",
+      rowSha256: "89da20f7f45e96c0460160df03bb0311a22f98273bbd3177d1b6594c6bef3e50",
+      evidencePath: "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      evidenceRowSha256: "52d688aaed44fd2ba9145e06ad3798304999f0da3002c3e3eb6e7ee430186063"
+    },
+    trackAuthority: {
+      path: "data/record-clearing/legal-design-intake/MS.memo.json",
+      sha256: "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+    }
   },
   {
     assignmentClaim: "obligation:track-pathway:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
     routeId: "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
     familyId: "ms-misd-addl-set",
+    specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
     specificationSha256: "e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064",
     canonicalSha256: "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
-    boundarySha256: "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5"
+    boundarySha256: "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+    verification: {
+      lane: "vf01",
+      verifiedAtBase: "cd48fc14e",
+      rowSha256: "89da20f7f45e96c0460160df03bb0311a22f98273bbd3177d1b6594c6bef3e50",
+      evidencePath: "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      evidenceRowSha256: "52d688aaed44fd2ba9145e06ad3798304999f0da3002c3e3eb6e7ee430186063"
+    },
+    trackAuthority: {
+      path: "data/record-clearing/legal-design-intake/MS.memo.json",
+      sha256: "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+    }
   },
   {
     assignmentClaim: "obligation:track-pathway:WY:felony-conviction-expungement-w-s-7-13-1502",
     routeId: "WY:felony-conviction-expungement-w-s-7-13-1502",
     familyId: "wy_fel_1502-set",
+    specificationPath: "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
     specificationSha256: "97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f",
     canonicalSha256: "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
-    boundarySha256: "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800"
+    boundarySha256: "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+    verification: {
+      lane: "vf09",
+      verifiedAtBase: "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+      rowSha256: "a98c5d64a6b324b6bbd3941bc0815570bc7677dbb9d9cc3e9b7601938858462f",
+      evidencePath: "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      evidenceRowSha256: "956c4c7edcf042f5ee7f05d45fd6d011795ae4943e4aace7e4240659dddbdc86"
+    },
+    trackAuthority: {
+      path: "data/record-clearing/legal-design-intake/WY.memo.json",
+      sha256: "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+    }
   }
 ];
+
+const CODIFIED_COMMON_INPUTS = {
+  legal: {
+    path: "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+    sha256: "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3"
+  },
+  packetSet: {
+    path: PACKET_SET_MANIFESTS_PATH,
+    sha256: "716317177e7b176e191b0d4d6c4a8236fa197bd0a8546e4b636befe068b13168"
+  }
+};
 
 const readSource = (rel) => fs.readFileSync(path.join(rootDir, rel), "utf8");
 const readJson = (rel) => JSON.parse(readSource(rel));
@@ -110,11 +173,192 @@ function check(name, fn) {
   }
 }
 
+const clone = (value) => JSON.parse(JSON.stringify(value));
+
+function finalVerificationProblem(record, expected) {
+  const proof = record.finalVerification ?? {};
+  const binding = record.evidenceBindings?.independentVerification ?? {};
+  const inputs = proof.boundInputs ?? {};
+  const expectedVerification = expected.verification;
+
+  if (proof.state !== "bound") return `state is ${proof.state ?? "absent"}`;
+  if (proof.contract !== INDEPENDENT_FINAL_VERIFICATION_CONTRACT) return `contract is ${proof.contract ?? "absent"}`;
+  if (proof.verifierId !== expectedVerification.lane) return `verifier is ${proof.verifierId ?? "absent"}`;
+  if (!proof.verifiedAt) return "verifiedAt is absent";
+  if (proof.verifiedAtBase !== expectedVerification.verifiedAtBase) return `verified base is ${proof.verifiedAtBase ?? "absent"}`;
+  if (proof.evidencePath !== expectedVerification.evidencePath) return `evidence path is ${proof.evidencePath ?? "absent"}`;
+  if (proof.evidenceRowSha256 !== expectedVerification.rowSha256) return `verifier registry row digest is ${proof.evidenceRowSha256 ?? "absent"}`;
+  if (proof.evidenceDetailRowSha256 !== expectedVerification.evidenceRowSha256) return `evidence detail row digest is ${proof.evidenceDetailRowSha256 ?? "absent"}`;
+  if (inputs.contract !== INDEPENDENT_FINAL_VERIFICATION_CONTRACT) return "bound inputs carry a different contract";
+  if (inputs.routeId !== expected.routeId || inputs.familyId !== expected.familyId) return "bound inputs carry a different route or family";
+  if (inputs.packetSpecificationSha256 !== expected.specificationSha256) return "bound inputs carry a different specification digest";
+  if (inputs.canonicalArtifactSha256 !== expected.canonicalSha256) return "bound inputs carry a different canonical digest";
+  if (inputs.boundaryArtifactSha256 !== expected.boundarySha256) return "bound inputs carry a different boundary digest";
+  if (inputs.verifierRegistry?.path !== VERIFIER_RETURNS_PATH
+    || inputs.verifierRegistry?.evidenceRowSha256 !== expectedVerification.rowSha256) {
+    return "bound inputs carry a different verifier registry row";
+  }
+  if (inputs.verifierEvidence?.path !== expectedVerification.evidencePath
+    || inputs.verifierEvidence?.evidenceRowSha256 !== expectedVerification.evidenceRowSha256
+    || inputs.verifierEvidence?.verifiedAtBase !== expectedVerification.verifiedAtBase
+    || inputs.verifierEvidence?.lane !== expectedVerification.lane) {
+    return "bound inputs carry different detailed verifier evidence";
+  }
+  const recomputedBoundInputsSha256 = sha256(stableStringify(inputs));
+  if (proof.boundInputsSha256 !== recomputedBoundInputsSha256) return "bound-input digest does not hash the recorded inputs";
+
+  if (binding.path !== VERIFIER_RETURNS_PATH
+    || binding.rowSha256 !== expectedVerification.rowSha256
+    || binding.verdict !== "PASS_COMPLETE_INDEPENDENT"
+    || binding.lane !== expectedVerification.lane
+    || binding.verifiedAtBase !== expectedVerification.verifiedAtBase
+    || binding.evidencePath !== expectedVerification.evidencePath
+    || binding.evidenceRowSha256 !== expectedVerification.evidenceRowSha256
+    || binding.boundInputsSha256 !== proof.boundInputsSha256) {
+    return "evidence binding does not reproduce the exact independent verification";
+  }
+  if (binding.boundInputs?.packetSpecificationSha256 !== expected.specificationSha256
+    || binding.boundInputs?.canonicalSha256 !== expected.canonicalSha256
+    || binding.boundInputs?.boundarySha256 !== expected.boundarySha256) {
+    return "evidence binding carries different specification or artifact inputs";
+  }
+
+  const verifierReturns = readJson(VERIFIER_RETURNS_PATH);
+  const verifierRows = (verifierReturns.rows ?? [])
+    .filter((row) => row.familyId === expected.familyId && row.superseded === false);
+  if (verifierRows.length !== 1) return `current verifier registry row count is ${verifierRows.length}`;
+  const verifierRow = verifierRows[0];
+  if (verifierRow.verdict !== "PASS_COMPLETE_INDEPENDENT"
+    || verifierRow.isIndependentVerification !== true
+    || verifierRow.failedObligations?.length !== 0
+    || verifierRow.unmeasuredObligations?.length !== 0) {
+    return "current verifier registry row is missing or weaker than PASS_COMPLETE_INDEPENDENT";
+  }
+  if (verifierRow.lane !== expectedVerification.lane
+    || verifierRow.verifiedAtBase !== expectedVerification.verifiedAtBase
+    || !verifierRow.verifiedAtBase
+    || verifierRow.evidencePath !== expectedVerification.evidencePath) {
+    return "current verifier registry row has the wrong lane, base, or evidence path";
+  }
+  if (sha256(JSON.stringify(verifierRow)) !== expectedVerification.rowSha256) return "current verifier registry row digest moved";
+
+  const evidenceDocument = readJson(expectedVerification.evidencePath);
+  const evidenceRows = (evidenceDocument.rows ?? []).filter((row) => row.itemId === expected.familyId);
+  if (evidenceRows.length !== 1) return `detailed verifier row count is ${evidenceRows.length}`;
+  const evidenceRow = evidenceRows[0];
+  if (evidenceRow.verdict !== "PASS_COMPLETE_INDEPENDENT") return "detailed verifier row is weaker than PASS_COMPLETE_INDEPENDENT";
+  if (String(evidenceRow.lane ?? "").toLowerCase() !== expectedVerification.lane
+    || evidenceRow.verifiedAtBase !== expectedVerification.verifiedAtBase) {
+    return "detailed verifier row has the wrong family, lane, or base";
+  }
+  if (sha256(JSON.stringify(evidenceRow)) !== expectedVerification.evidenceRowSha256) return "detailed verifier row digest moved";
+  const evidenceRowText = JSON.stringify(evidenceRow);
+  if (!evidenceRowText.includes(expected.canonicalSha256) || !evidenceRowText.includes(expected.boundarySha256)) {
+    return "detailed verifier row is not bound to the exact canonical and boundary inputs";
+  }
+
+  return null;
+}
+
+function codifiedAuthorityProblem(record, expected, options = {}) {
+  const sources = record.officialSources ?? [];
+  if (sources.length !== 1) return `expected one codified source-authority proof, found ${sources.length}`;
+  const source = sources[0];
+  const binding = record.evidenceBindings?.codifiedAuthority ?? {};
+  const inputs = source.boundInputs ?? {};
+
+  if (source.sourceKind !== "codified_authority") return `source kind is ${source.sourceKind ?? "absent"}`;
+  if (!source.sourceId?.startsWith(`codified-authority:${expected.familyId}:`)) return "codified source id does not bind the exact family";
+  if (source.officialBinaryExpected !== false || source.officialBinarySource !== null) return "codified authority claims an official binary";
+  if (source.contract !== CODIFIED_AUTHORITY_CONTRACT || inputs.contract !== CODIFIED_AUTHORITY_CONTRACT) return "codified authority contract moved";
+  if (source.corpusReleaseId !== "not_applicable:codified_authority"
+    || source.corpusArchiveSha256 !== "not_applicable:codified_authority") {
+    return "codified authority fabricated a corpus release or archive";
+  }
+  if (inputs.routeId !== expected.routeId || inputs.familyId !== expected.familyId) return "codified authority binds a different route or family";
+  if (inputs.implementationStrategy !== "custom_pleading" || inputs.officialBinaryComponentsExpected !== false) {
+    return "codified authority is not limited to a zero-official-binary custom pleading";
+  }
+  const recomputedBoundInputsSha256 = sha256(stableStringify(inputs));
+  if (source.boundInputsSha256 !== recomputedBoundInputsSha256
+    || source.sha256 !== recomputedBoundInputsSha256
+    || source.expectedSha256 !== recomputedBoundInputsSha256
+    || source.installedSha256 !== recomputedBoundInputsSha256) {
+    return "codified-authority digest does not hash the exact recorded inputs";
+  }
+  if (binding.sourceKind !== "codified_authority"
+    || binding.sourceId !== source.sourceId
+    || binding.officialBinaryExpected !== false
+    || binding.officialBinarySource !== null
+    || binding.boundInputsSha256 !== recomputedBoundInputsSha256
+    || stableStringify(binding.boundInputs) !== stableStringify(inputs)) {
+    return "codified-authority evidence binding disagrees with the source-authority proof";
+  }
+
+  const specification = options.specification ?? readJson(expected.specificationPath);
+  if (specification.packetFamily !== expected.familyId || !specification.routeKeys?.includes(expected.routeId)) {
+    return "packet specification does not enumerate the exact route and family";
+  }
+  if ((specification.documents ?? []).some((document) =>
+    document.outputStrategy === "official_pdf_fill"
+      || document.officialFormId
+      || document.officialSourceId
+      || document.sourcePdfPath)) {
+    return "an official-PDF specification attempted to use the zero-document exemption";
+  }
+  if (!(specification.documents ?? []).some((document) => document.outputStrategy === "custom_pleading")) {
+    return "the specification contains no custom pleading";
+  }
+
+  const packetSetDocument = options.packetSetDocument ?? readJson(PACKET_SET_MANIFESTS_PATH);
+  const packetSet = (packetSetDocument.packetSets ?? []).find((entry) => entry.packetSetId === expected.familyId);
+  if (!packetSet) return "packet-set authority is absent";
+  if ((packetSet.components ?? []).some((component) =>
+    component.outputStrategy === "official_pdf_fill" || component.officialFormId)) {
+    return "an official-PDF packet-set component attempted to use the zero-document exemption";
+  }
+
+  const authorityInputs = inputs.authorityInputs ?? [];
+  const roles = authorityInputs.map((input) => input.role).sort();
+  const expectedRoles = ["legal_authority", "packet_set_authority", "packet_specification_authority", "track_authority"];
+  if (stableStringify(roles) !== stableStringify(expectedRoles)) return `codified authority roles are ${roles.join(",") || "absent"}`;
+  const expectedInputs = {
+    track_authority: expected.trackAuthority,
+    legal_authority: CODIFIED_COMMON_INPUTS.legal,
+    packet_set_authority: CODIFIED_COMMON_INPUTS.packetSet,
+    packet_specification_authority: { path: expected.specificationPath, sha256: expected.specificationSha256 }
+  };
+  for (const [role, expectedInput] of Object.entries(expectedInputs)) {
+    const input = authorityInputs.find((entry) => entry.role === role);
+    if (!input || input.path !== expectedInput.path || input.sha256 !== expectedInput.sha256) {
+      return `${role} does not bind its exact admitted path and digest`;
+    }
+    if (sha256(readSource(input.path)) !== input.sha256) return `${role} moved from its bound current digest`;
+  }
+
+  const classification = inputs.classificationEvidence ?? {};
+  if (classification.path !== source.verificationRecord
+    || sha256(readSource(classification.path)) !== classification.sha256) {
+    return "custom-pleading classification evidence moved from its bound digest";
+  }
+  const sourceReceipt = readJson(classification.path);
+  if (sourceReceipt.familyId !== expected.familyId
+    || sourceReceipt.implementationStrategy !== "custom_pleading"
+    || sourceReceipt.sourceBinaryCommitted !== false
+    || sourceReceipt.commercialRoutesOpened !== 0) {
+    return "source receipt does not establish a closed zero-official-binary custom pleading";
+  }
+  const includedReceiptBinaries = (sourceReceipt.documents ?? []).filter((document) =>
+    document.instrumentKind !== "bound_reference_instrument" || !/not included/i.test(document.role ?? ""));
+  if (includedReceiptBinaries.length > 0) return "source receipt includes a binary source in the packet";
+
+  return null;
+}
+
 // ---------------------------------------------------------------------------
 // A synthetic route that holds every proof. It exists only in this process. It
-// is the ONLY fully proven record anywhere in this repository, and it is
-// deliberately not a real jurisdiction — a synthetic proof must never be able
-// to leak into the registry and sell a real packet to a real participant.
+// is deliberately not a real jurisdiction — a synthetic proof must never be
+// able to leak into the registry and sell a real packet to a real participant.
 // ---------------------------------------------------------------------------
 
 const SYNTHETIC_SCOPE = "synthetic acceptance scope";
@@ -148,6 +392,7 @@ function provenRecord(overrides = {}) {
     },
     packetSpecification: { specId: "zz-synthetic-set", sha256: sha256(SYNTHETIC_SPEC), complete: true },
     officialSources: [{
+      sourceKind: "official_binary_source",
       sourceId: "ZZ-FORM-1",
       sha256: SYNTHETIC_SOURCE_DIGEST,
       expectedSha256: SYNTHETIC_SOURCE_DIGEST,
@@ -528,7 +773,7 @@ check("the admission facade takes no caller-supplied authority argument", () => 
 // 5b. The governed source contract, proven positively and byte-safely.
 // ---------------------------------------------------------------------------
 
-check("verified private-corpus content satisfies the source dimension without Git holding the bytes", () => {
+check("verified private-corpus content satisfies the official-binary source dimension without Git holding the bytes", () => {
   // The positive half of the corrected contract. The mutations above prove the
   // failures; this proves the success is reachable at all, which is the thing
   // the old heldInRepository gate made impossible for every route in the
@@ -537,7 +782,9 @@ check("verified private-corpus content satisfies the source dimension without Gi
   const bound = [];
   for (const record of registry.records ?? []) {
     for (const source of record.officialSources ?? []) {
-      if (source.sha256) bound.push({ routeId: record.routeId, source });
+      if (source.sourceKind !== "codified_authority" && source.sha256) {
+        bound.push({ routeId: record.routeId, source });
+      }
     }
   }
   if (bound.length === 0) return "no record binds a corroborated official source, so the source dimension is never satisfied";
@@ -563,7 +810,7 @@ check("verified private-corpus content satisfies the source dimension without Gi
   walk(projection);
   let corroboratedRoutes = 0;
   for (const record of registry.records ?? []) {
-    const sources = record.officialSources ?? [];
+    const sources = (record.officialSources ?? []).filter((source) => source.sourceKind !== "codified_authority");
     if (sources.length === 0 || !sources.every((source) => source.sha256)) continue;
     corroboratedRoutes += 1;
     for (const row of rows.filter((r) => r.routeId === record.routeId)) {
@@ -792,22 +1039,50 @@ check("every first-cohort record binds the exact committed specification, artifa
   return null;
 });
 
-check("every first-cohort record keeps missing proof explicit and commercial authority closed", () => {
+check("every first-cohort record binds current independent verification to exact family and artifact inputs", () => {
+  for (const expected of FIRST_COHORT_EXPECTED) {
+    const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
+    if (!record) return `${expected.routeId} has no record`;
+    const problem = finalVerificationProblem(record, expected);
+    if (problem) return `${expected.routeId}: ${problem}`;
+  }
+  return null;
+});
+
+check("every first-cohort custom pleading uses exact codified authority and no official binary source", () => {
+  for (const expected of FIRST_COHORT_EXPECTED) {
+    const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
+    if (!record) return `${expected.routeId} has no record`;
+    const problem = codifiedAuthorityProblem(record, expected);
+    if (problem) return `${expected.routeId}: ${problem}`;
+  }
+  return null;
+});
+
+check("every first-cohort record closes the two measured evidence gaps without opening a route", () => {
+  const firstCohortReturn = readJson("data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json");
   for (const expected of FIRST_COHORT_EXPECTED) {
     const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
     const row = projection.routes.find((entry) => entry.routeId === expected.routeId);
     if (!record || !row) return `${expected.routeId} is absent from the registry or projection`;
-    if (record.officialSources?.length !== 0) return `${expected.routeId} invented official-source proof`;
-    if (record.finalVerification?.state !== "unbound") return `${expected.routeId} invented a final verification`;
-    if (row.state !== "INCOMPLETE" || row.commercialStatus !== "not_commercially_eligible") {
+    if (record.officialSources?.length !== 1 || record.officialSources[0]?.sourceKind !== "codified_authority") {
+      return `${expected.routeId} does not carry exactly one codified-authority proof`;
+    }
+    if (record.finalVerification?.state !== "bound") return `${expected.routeId} did not bind final verification`;
+    if (row.state !== COMPLETE_PACKET_PROVEN || row.commercialStatus !== "commercially_eligible") {
       return `${expected.routeId} projected ${row.state}/${row.commercialStatus}`;
     }
-    const expectedMissing = [
-      "final_verification: state is unbound",
-      "official_sources: no official source is bound to this route"
-    ];
-    if (stableStringify(row.missingProof) !== stableStringify(expectedMissing)) {
-      return `${expected.routeId} reports unexpected missing proof ${stableStringify(row.missingProof)}`;
+    if ((row.missingProof ?? []).length !== 0 || (row.stalenessReasons ?? []).length !== 0) {
+      return `${expected.routeId} still reports open or stale evidence`;
+    }
+    const productizationRow = (firstCohortReturn.routeResults ?? []).find((entry) => entry.routeId === expected.routeId);
+    if (productizationRow?.availabilityAfterChange !== "UNFINISHED") {
+      return `${expected.routeId} productization return no longer records its original UNFINISHED posture`;
+    }
+    const [jurisdiction, ...pathwayParts] = expected.routeId.split(":");
+    const resolution = resolvePacketRoute({ state: jurisdiction, pathway: pathwayParts.join(":") });
+    if (resolution.availability !== "MAINTENANCE_HOLD" || resolution.sellable !== false) {
+      return `${expected.routeId} resolver posture is ${resolution.availability}/sellable=${resolution.sellable}`;
     }
   }
   return null;
@@ -958,6 +1233,138 @@ if (MUTATIONS) {
     });
   }
 
+  const expectedCohort = FIRST_COHORT_EXPECTED[0];
+  const cohortRecord = registryDocument.records.find((record) => record.routeId === expectedCohort.routeId);
+  if (!cohortRecord) {
+    mutations.push("focused first-cohort mutations: the reference cohort record is absent");
+  }
+  const requireFinalVerificationRefusal = (record) =>
+    finalVerificationProblem(record, expectedCohort) ? null : "mutated final verification was accepted";
+  const requireCodifiedAuthorityRefusal = (record, options) =>
+    codifiedAuthorityProblem(record, expectedCohort, options) ? null : "mutated codified authority was accepted";
+  const rebindFinalMutation = (record) => {
+    const digest = sha256(stableStringify(record.finalVerification.boundInputs));
+    record.finalVerification.boundInputsSha256 = digest;
+    record.evidenceBindings.independentVerification.boundInputsSha256 = digest;
+  };
+  const rebindCodifiedMutation = (record) => {
+    const source = record.officialSources[0];
+    const digest = sha256(stableStringify(source.boundInputs));
+    source.boundInputsSha256 = digest;
+    source.sha256 = digest;
+    source.expectedSha256 = digest;
+    source.installedSha256 = digest;
+    record.evidenceBindings.codifiedAuthority.boundInputs = clone(source.boundInputs);
+    record.evidenceBindings.codifiedAuthority.boundInputsSha256 = digest;
+  };
+
+  mutate("wrong independent-verdict row digest fails closed", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    const wrong = sha256("wrong independent-verdict row");
+    record.finalVerification.evidenceRowSha256 = wrong;
+    record.finalVerification.boundInputs.verifierRegistry.evidenceRowSha256 = wrong;
+    record.evidenceBindings.independentVerification.rowSha256 = wrong;
+    rebindFinalMutation(record);
+    return requireFinalVerificationRefusal(record);
+  });
+
+  for (const artifact of ["canonical", "boundary"]) {
+    mutate(`wrong bound ${artifact} digest fails closed`, () => {
+      if (!cohortRecord) return null;
+      const record = clone(cohortRecord);
+      const wrong = sha256(`wrong ${artifact}`);
+      if (artifact === "canonical") {
+        record.finalVerification.boundInputs.canonicalArtifactSha256 = wrong;
+        record.evidenceBindings.independentVerification.boundInputs.canonicalSha256 = wrong;
+      } else {
+        record.finalVerification.boundInputs.boundaryArtifactSha256 = wrong;
+        record.evidenceBindings.independentVerification.boundInputs.boundarySha256 = wrong;
+      }
+      rebindFinalMutation(record);
+      return requireFinalVerificationRefusal(record);
+    });
+  }
+
+  mutate("missing independent verdict fails closed", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    delete record.evidenceBindings.independentVerification.verdict;
+    return requireFinalVerificationRefusal(record);
+  });
+
+  mutate("weaker independent verdict fails closed", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    record.evidenceBindings.independentVerification.verdict = "PASS";
+    return requireFinalVerificationRefusal(record);
+  });
+
+  mutate("wrong independent-verification family fails closed", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    record.finalVerification.boundInputs.familyId = "some-other-family";
+    rebindFinalMutation(record);
+    return requireFinalVerificationRefusal(record);
+  });
+
+  mutate("wrong independent-verification base fails closed", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    record.finalVerification.verifiedAtBase = "deadbeef";
+    record.finalVerification.boundInputs.verifierEvidence.verifiedAtBase = "deadbeef";
+    record.evidenceBindings.independentVerification.verifiedAtBase = "deadbeef";
+    rebindFinalMutation(record);
+    return requireFinalVerificationRefusal(record);
+  });
+
+  mutate("missing independent-verification base fails closed", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    delete record.finalVerification.verifiedAtBase;
+    delete record.finalVerification.boundInputs.verifierEvidence.verifiedAtBase;
+    delete record.evidenceBindings.independentVerification.verifiedAtBase;
+    rebindFinalMutation(record);
+    return requireFinalVerificationRefusal(record);
+  });
+
+  mutate("custom-pleading codified-authority digest change fails closed", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    record.officialSources[0].boundInputs.authorityInputs[0].sha256 = sha256("mutated track authority");
+    rebindCodifiedMutation(record);
+    return requireCodifiedAuthorityRefusal(record);
+  });
+
+  mutate("observed codified-authority digest change makes the route stale", () => {
+    if (!cohortRecord) return null;
+    const observation = clone(observationDocument.routes[cohortRecord.routeId]);
+    observation.officialSourceSha256ById[cohortRecord.officialSources[0].sourceId] = sha256("mutated current codified authority");
+    const decision = evaluateFulfillmentAuthority(cohortRecord, observation, cohortRecord.routeId);
+    return !decision.authorized && decision.state === "STALE"
+      && decision.stalenessReasons.some((reason) => reason.startsWith("official_sources:"))
+      ? null
+      : `route reached ${decision.state}`;
+  });
+
+  mutate("fabricated official binary source cannot replace codified authority", () => {
+    if (!cohortRecord) return null;
+    const record = clone(cohortRecord);
+    record.officialSources[0].sourceKind = "official_binary_source";
+    record.officialSources[0].sourceId = "FABRICATED-OFFICIAL-FORM";
+    record.officialSources[0].officialBinaryExpected = true;
+    record.officialSources[0].officialBinarySource = { sha256: sha256("fabricated bytes") };
+    return requireCodifiedAuthorityRefusal(record);
+  });
+
+  mutate("official-PDF route cannot use the zero-document exemption", () => {
+    if (!cohortRecord) return null;
+    const specification = clone(readJson(expectedCohort.specificationPath));
+    specification.documents[0].outputStrategy = "official_pdf_fill";
+    specification.documents[0].officialFormId = "FABRICATED-OFFICIAL-FORM";
+    return requireCodifiedAuthorityRefusal(clone(cohortRecord), { specification });
+  });
+
   mutate("a record declaring an unknown schema binds nothing", () => {
     const record = provenRecord({ schemaVersion: "rcap-grade-a-fulfillment-authority/v99" });
     const decision = evaluateFulfillmentAuthority(record, provenObservation(record), record.routeId);
@@ -988,11 +1395,19 @@ if (MUTATIONS) {
 
   mutate("a hand-edited projection does not change what the runtime computes", () => {
     const loaded = buildRegistry(registryDocument);
-    const [routeId, record] = [...loaded.current.entries()][0];
+    const [routeId, record] = [...loaded.current.entries()].find(([candidateRouteId, candidateRecord]) =>
+      evaluateFulfillmentAuthority(
+        candidateRecord,
+        observationDocument.routes?.[candidateRouteId] ?? null,
+        candidateRouteId
+      ).state !== COMPLETE_PACKET_PROVEN
+    ) ?? [];
+    if (!record) return "the registry has no closed route for the negative projection mutation";
     const before = evaluateFulfillmentAuthority(record, observationDocument.routes?.[routeId] ?? null, routeId).state;
     const tamperedProjection = JSON.parse(JSON.stringify(projection));
-    tamperedProjection.routes[0].state = COMPLETE_PACKET_PROVEN;
-    tamperedProjection.routes[0].commercialStatus = "commercially_eligible";
+    const tamperedRow = tamperedProjection.routes.find((row) => row.routeId === routeId);
+    tamperedRow.state = COMPLETE_PACKET_PROVEN;
+    tamperedRow.commercialStatus = "commercially_eligible";
     const after = evaluateFulfillmentAuthority(record, observationDocument.routes?.[routeId] ?? null, routeId).state;
     return before === after && after !== COMPLETE_PACKET_PROVEN ? null : "editing the projection moved the runtime answer";
   });
@@ -1010,7 +1425,7 @@ if (MUTATIONS) {
     for (const failure of mutations) console.error(`  ✗ ${failure}`);
     process.exit(1);
   }
-  console.log(`Mutations: ${PROOF_MUTATIONS.length + 7} deliberate breakages, all caught.`);
+  console.log(`Mutations: ${PROOF_MUTATIONS.length + 19} deliberate breakages, all caught.`);
 }
 
 if (failures.length > 0) {

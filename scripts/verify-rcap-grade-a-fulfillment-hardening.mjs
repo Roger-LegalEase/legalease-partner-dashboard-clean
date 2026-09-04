@@ -709,9 +709,16 @@ check("no synthetic record reaches the shipped registry", () => {
     ? "a synthetic hardening record was committed" : null;
 });
 
-check("the shipped registry admits nothing", () => {
+check("the shipped registry admits only the four exact evidence-complete first-cohort records", () => {
   const shipped = JSON.parse(readSource("data/rcap-grade-a/fulfillment-authority-registry.json"));
   const observations = JSON.parse(readSource("data/rcap-grade-a/fulfillment-observation-snapshot.json"));
+  const expectedAdmitted = new Set([
+    "DC:dc_actual_innocence_expungement_16_803",
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    "WY:felony-conviction-expungement-w-s-7-13-1502"
+  ]);
+  const admittedRoutes = new Set();
   for (const record of shipped.records) {
     for (const point of ALL_POINTS) {
       const decision = admitCommercialAction({
@@ -721,10 +728,17 @@ check("the shipped registry admits nothing", () => {
         observation: observations.routes?.[record.routeId] ?? null,
         context: provenContext(record)
       });
-      if (decision.admitted) return `${record.routeId} was admitted at ${point}`;
+      if (expectedAdmitted.has(record.routeId)) {
+        if (!decision.admitted) return `${record.routeId} was denied at ${point}: ${decision.reason}`;
+        admittedRoutes.add(record.routeId);
+      } else if (decision.admitted) {
+        return `${record.routeId} was unexpectedly admitted at ${point}`;
+      }
     }
   }
-  return null;
+  return stableStringify([...admittedRoutes].sort()) === stableStringify([...expectedAdmitted].sort())
+    ? null
+    : `admitted routes were ${[...admittedRoutes].sort().join(",") || "none"}`;
 });
 
 // ---------------------------------------------------------------------------

@@ -192,6 +192,13 @@ const ROUTES = [
   rawPacketSetIds: route.rawPacketSetIds ?? [route.familyId]
 }));
 
+const FULFILLMENT_EVIDENCE_GAP_ROUTES = new Set([
+  "DC:dc_actual_innocence_expungement_16_803",
+  "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+  "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+  "WY:felony-conviction-expungement-w-s-7-13-1502"
+]);
+
 const REQUIRED_BUILD_INPUTS = [
   "authoritativeProfile",
   "authoritativePathway",
@@ -326,9 +333,21 @@ for (const route of ROUTES) {
   assert.equal(resolution.factoryV2?.exactTrackSelectionRequired, factory.exactTrackSelectionRequired);
   assert.equal(resolution.sellable, false, `${route.routeId}: productization must not open checkout`);
   assert.equal(resolution.creditConsumable, false, `${route.routeId}: productization must not open sponsored credit`);
-  assert.equal(resolution.availability, "UNFINISHED", `${route.routeId}: absent fulfillment authority must remain the next gate`);
-  assert.equal(fulfillment.records.some((record) => record.routeId === route.routeId), false,
-    `${route.routeId}: this lane must not create a fulfillment record`);
+  const fulfillmentRecord = fulfillment.records.find((record) => record.routeId === route.routeId);
+  if (FULFILLMENT_EVIDENCE_GAP_ROUTES.has(route.routeId)) {
+    assert.ok(fulfillmentRecord, `${route.routeId}: fulfillment evidence record missing`);
+    assert.equal(fulfillmentRecord.packetFamilyId, route.familyId);
+    assert.equal(fulfillmentRecord.finalVerification?.state, "bound");
+    assert.ok(fulfillmentRecord.officialSources.some((source) => source.sourceKind === "codified_authority"),
+      `${route.routeId}: custom pleading lacks its codified-authority binding`);
+    assert.equal(resolution.availability, "MAINTENANCE_HOLD",
+      `${route.routeId}: evidence repair must leave route activation under the existing hold`);
+  } else {
+    assert.equal(resolution.availability, "UNFINISHED",
+      `${route.routeId}: absent fulfillment authority must remain the next gate`);
+    assert.equal(fulfillmentRecord, undefined,
+      `${route.routeId}: this lane must not create an unrelated fulfillment record`);
+  }
 }
 
 const siblings = [
