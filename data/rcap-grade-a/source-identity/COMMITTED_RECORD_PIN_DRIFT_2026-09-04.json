@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-grade-a-committed-record-pin-drift/v1",
+  "producedBy": "Claude Code Captain",
+  "producedOn": "2026-09-04",
+  "question": "VF01 and VF08 both returned FAIL_REPAIR_REQUIRED on SOURCE_IDENTITY alone, each because a committed record it pins by whole-file SHA-256 had been rewritten around it. How wide is that class, and which members are a re-pin rather than a rebuild?",
+  "headline": "Thirteen of 227 census receipts carried a stale pin, not the hundred-odd the failure pattern suggested. Ten bind anchors that are byte-identical to the historical blob carrying the old pin, so they were re-pinned. The remaining three are stale because Roger reclassified their routes, and re-pinning them would have bound a packet to a route that no longer describes it.",
+  "method": "Every source-receipt.json under data/rcap-all50/overlays/census-v1 was checked: each committedRecords[] entry was re-hashed from the bytes on disk. For each drifted entry the blob carrying the pinned hash was recovered by walking that path's git history until a revision hashed to the pin, and the entries the receipt actually anchors -- tracks and specifications by trackId, packet sets by packetSetId, routes by routeKey -- were compared object-for-object between that historical blob and the current file. Whole-file identity moving is not the same fact as bound content moving, and only the second is a rebuild.",
+  "counts": {
+    "receiptsScanned": 227,
+    "receiptsWithAStalePin": 13,
+    "receiptsRePinned": 10,
+    "recordsRePinned": 21,
+    "receiptsHeld": 3,
+    "receiptsStaleAfterThisWork": 3
+  },
+  "driftedRecords": [
+    { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "receiptsAffected": 10 },
+    { "path": "data/record-clearing/legal-design-specifications.json", "receiptsAffected": 6 },
+    { "path": "data/record-clearing/legal-design-track-registry.json", "receiptsAffected": 5 },
+    { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "receiptsAffected": 3 }
+  ],
+  "rePinned": {
+    "why": "Every anchor these receipts bind was identical between the historical blob and the bytes on disk. The legal content binds verbatim; only the containing file's identity moved. Each refreshed entry carries an identityRefresh block recording the previous pin, the commit the previous pin was last seen at, and how many anchors were compared.",
+    "allSourcesExactRederived": true,
+    "families": [
+      "ak-mistaken-identity-set",
+      "ar-nonconviction-seal-set",
+      "rcap-ga-guidance-implementation",
+      "nc_146_dismissal_petition-set",
+      "rcap-nv-custom-pleading",
+      "rcap-ok-custom-pleading",
+      "rcap-sc-custom-pleading",
+      "rcap-wa-custom-pleading-clean-tracks",
+      "rcap-wi-custom-pleading",
+      "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement"
+    ],
+    "clearsTheVerifierFailureFor": ["rcap-ok-custom-pleading", "rcap-wa-custom-pleading-clean-tracks"]
+  },
+  "held": {
+    "why": "These three are not a pin problem. Each route was reclassified in route-obligation-candidate.json from A_MUST_FULFILL / custom_pleading to B_LEGITIMATE_EXCLUSION / process_guidance, with processActor, participantCanInitiate, destination and participantFacingInstrument all rewritten to match. That reclassification is Roger's own 2026-09-02 delivery-type decision propagating into the census, and each family already carries the terminal treatment that decision authorises. The receipt honestly records the route as it stood when the packet was built; the family's disposition comes from the owner decision rather than from the receipt, so refreshing the pin would assert a binding to a route description that contradicts the packet it accompanies.",
+    "families": [
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+        "state": "HANDOFF_READY",
+        "authorizedBy": "OWN-DT-2026-09-02-Q2 (referral guidance only)",
+        "reclassifiedTo": "B_LEGITIMATE_EXCLUSION / UNSUITABLE_FOR_SELF_HELP"
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+        "state": "GUIDANCE_READY",
+        "authorizedBy": "OWN-DT-2026-09-02-Q1 (guidance / out-of-scope stands) and the route-ratification registry status approved_release_guidance",
+        "reclassifiedTo": "B_LEGITIMATE_EXCLUSION / COURT_INITIATED"
+      },
+      {
+        "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+        "state": "HANDOFF_READY",
+        "authorizedBy": "OWN-DT-2026-09-02-Q2 (referral guidance only)",
+        "reclassifiedTo": "B_LEGITIMATE_EXCLUSION"
+      }
+    ],
+    "whatWouldChangeThis": "Nothing this operation can do. Each is terminal on an owner decision, and none is in a build lane, a raster queue or a commercial path."
+  },
+  "whatThisDoesNotEstablish": [
+    "that any re-pinned family passes verification -- a refreshed pin removes one named failure and the verdict belongs to an independent lane that neither built nor repaired the family",
+    "that the packets themselves were re-read; the anchors were compared, the artifacts were not",
+    "that any route may be built, promoted or sold"
+  ]
+}
