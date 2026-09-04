@@ -16,6 +16,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { canRereadAfterRepair } from "./post-repair-reread.mjs";
+import { pathsOverlap } from "./path-ownership.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -69,8 +70,6 @@ const CLAIM = "scripts/grade-a-packet-factory-24h/claim.mjs";
 const WASHINGTON = `${DIR}/WASHINGTON_REPAIR.json`;
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
-const rootOf = (p) => p.replace(/\/?\*+$/, "");
-const touches = (a, b) => { const ra = rootOf(a); const rb = rootOf(b); return ra === rb || ra.startsWith(`${rb}/`) || rb.startsWith(`${ra}/`); };
 
 const gitOk = (args) => { try { execFileSync("git", args, { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
 
@@ -167,10 +166,21 @@ function run() {
   for (let i = 0; i < paths.length; i += 1) {
     for (let j = i + 1; j < paths.length; j += 1) {
       if (paths[i].lane === paths[j].lane) continue;
-      if (touches(paths[i].path, paths[j].path)) hits.push(`${paths[i].lane}~${paths[j].lane} at ${paths[i].path}`);
+      if (pathsOverlap(paths[i].path, paths[j].path)) hits.push(`${paths[i].lane}~${paths[j].lane} at ${paths[i].path}`);
     }
   }
   check("F2", "no two lanes own the same path", hits.length === 0 && collisions.counts.pathCollisions === 0, hits.slice(0, 3).join(" | "));
+
+  const ownedAndProhibited = a.flatMap((assignment) =>
+    (assignment.prohibitedPaths ?? []).flatMap((prohibited) =>
+      assignment.ownedPaths
+        .filter((owned) => pathsOverlap(owned, prohibited))
+        .map((owned) => `${assignment.assignmentId} owns ${owned} but prohibits ${prohibited}`)
+    )
+  );
+  check("F36", "no lane owns a path that its own instructions prohibit",
+    ownedAndProhibited.length === 0 && collisions.counts.ownedAndProhibited === 0,
+    ownedAndProhibited.slice(0, 3).join(" | "));
 
   // 3. shared-host collisions: one build script, one writer
   const writers = new Map();
@@ -199,7 +209,7 @@ function run() {
   const activeFamilies = new Set(master.activeOwnership.families);
   const activePaths = master.families.filter((f) => f.activeOwner).flatMap((f) => f.ownedPaths);
   const reDispatched = a.filter((x) => x.itemKind === "packetFamily").flatMap((x) => x.items.filter((f) => activeFamilies.has(f)));
-  const pathClash = paths.filter((p) => activePaths.some((q) => touches(p.path, q)));
+  const pathClash = paths.filter((p) => activePaths.some((q) => pathsOverlap(p.path, q)));
   check("F4", "nothing this wave holds is already held by an active lane",
     reDispatched.length === 0 && pathClash.length === 0,
     `${reDispatched.length} famil(ies), ${pathClash.length} path(s)`);
@@ -1340,6 +1350,14 @@ if (MUTATIONS) {
   const cases = [
     { on: "active", id: "F1", name: "a family claimed by two builders is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].items.push(b[0].items[0]); return j; } },
     { on: "active", id: "F2", name: "two lanes owning one path is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build" && x.items.length); b[1].ownedPaths.push(b[0].ownedPaths[1]); return j; } },
+    { on: "active", id: "F36", name: "an interior-glob prohibition covering the lane's own family is caught", mutate: (j) => {
+        const lane = firstPF(j);
+        const owned = lane.ownedPaths.find((p) => p.startsWith("data/rcap-all50/overlays/census-v1/") && p.endsWith("/**"));
+        if (!owned) throw new Error("F36 mutation requires a packet lane with an owned family directory");
+        const leaf = owned.replace(/\/\*\*$/, "").split("/").at(-1).split("--")[0];
+        lane.prohibitedPaths.push(`data/rcap-all50/overlays/census-v1/**/${leaf}*`);
+        return j;
+      } },
     { on: "active", id: "F3", name: "a shared host with two writers is caught", mutate: (j) => { const b = j.assignments.filter((x) => x.lane === "packet-build"); const s = b.find((x) => x.ownedPaths.some((p) => /build-census-v1/.test(p))).ownedPaths.find((p) => /build-census-v1/.test(p)); b.find((x) => !x.ownedPaths.includes(s)).ownedPaths.push(s); return j; } },
     { on: "master+active", id: "F4", name: "an active family re-dispatched is caught", mutate: ({ master, active }) => {
         const familyId = firstPF(active)?.items?.[0];

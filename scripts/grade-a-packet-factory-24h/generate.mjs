@@ -25,6 +25,7 @@ import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
 import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
+import { pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -903,13 +904,18 @@ for (const a of ACTIVE_LANES) {
   for (const f of a.items) activeFamilies.set(f, a.assignmentId);
   for (const p of a.ownedPaths) activePaths.push({ lane: a.assignmentId, path: p });
 }
-/* Any still-open C11 or completeness continuation, and the wave-2 repair rows,
- * hold paths too. They are read from their own records rather than assumed. */
-for (const r of IN.wave2Repairs.assignments) if (r.ownedPath) activePaths.push({ lane: `WAVE_2_REPAIR:${r.family}`, path: r.ownedPath });
+/* Historical Wave 2 rows remain protective until a modern repair claim proves
+ * who took custody. Once every such claim is released, keeping the historical
+ * glob active would make the next repair own and prohibit the same family. */
+let priorClaimsForOwnership = [];
+try {
+  priorClaimsForOwnership = JSON.parse(
+    fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")
+  ).claims ?? [];
+} catch { /* first generation: every historical hold stays conservative */ }
+activePaths.push(...unresolvedHistoricalRepairPaths(IN.wave2Repairs.assignments, priorClaimsForOwnership));
 
 const rootOf = (p) => p.replace(/\/?\*+$/, "");
-const touches = (a, b) => { const ra = rootOf(a); const rb = rootOf(b); return ra === rb || ra.startsWith(`${rb}/`) || rb.startsWith(`${ra}/`); };
-const pathIsActive = (p) => activePaths.some((x) => touches(p, x.path) || new RegExp(`^${x.path.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*\*/g, ".*").replace(/\*/g, "[^/]*")}$`).test(p));
 
 /*
  * Did this family's own artefacts change between the base a verdict was read
@@ -2676,12 +2682,12 @@ for (const a of assignments.filter((x) => x.itemKind === "sourceObligation")) {
 const wavePaths = assignments.flatMap((a) => a.ownedPaths.map((p) => ({ lane: a.assignmentId, path: p })));
 const collisions = [];
 for (const mine of wavePaths) {
-  for (const other of activePaths) if (touches(mine.path, other.path)) collisions.push({ kind: "ACTIVE_OWNERSHIP", lane: mine.lane, path: mine.path, other: other.lane, otherPath: other.path });
+  for (const other of activePaths) if (pathsOverlap(mine.path, other.path)) collisions.push({ kind: "ACTIVE_OWNERSHIP", lane: mine.lane, path: mine.path, other: other.lane, otherPath: other.path });
 }
 for (let i = 0; i < wavePaths.length; i += 1) {
   for (let j = i + 1; j < wavePaths.length; j += 1) {
     if (wavePaths[i].lane === wavePaths[j].lane) continue;
-    if (touches(wavePaths[i].path, wavePaths[j].path)) collisions.push({ kind: "WITHIN_WAVE", lane: wavePaths[i].lane, path: wavePaths[i].path, other: wavePaths[j].lane, otherPath: wavePaths[j].path });
+    if (pathsOverlap(wavePaths[i].path, wavePaths[j].path)) collisions.push({ kind: "WITHIN_WAVE", lane: wavePaths[i].lane, path: wavePaths[i].path, other: wavePaths[j].lane, otherPath: wavePaths[j].path });
   }
 }
 /* A family may be built by one lane and verified by another; a duplicate is a
@@ -2716,10 +2722,8 @@ const sharedHostCollisions = [...hostWriters.entries()].filter(([, ls]) => ls.le
 
 const ownedAndProhibited = [];
 for (const a of assignments) {
-  const owned = a.ownedPaths.map(rootOf);
   for (const p of a.prohibitedPaths ?? []) {
-    const r = rootOf(p);
-    if (owned.some((o) => o === r || o.startsWith(`${r}/`))) ownedAndProhibited.push({ lane: a.assignmentId, path: p });
+    if (a.ownedPaths.some((owned) => pathsOverlap(owned, p))) ownedAndProhibited.push({ lane: a.assignmentId, path: p });
   }
 }
 const unwritableOutputs = [];
