@@ -24,6 +24,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
+import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -1777,7 +1778,14 @@ const ELASTICITY = [
 const laneCount = (id) => { const e = ELASTICITY.find((x) => x.id === id); return e.triggered ? e.lanesWith : e.lanesWithout; };
 const VF_LANES = laneCount("verification");
 const FIX_LANES = laneCount("repair");
-const PF_LANES = laneCount("build");
+let packetClaimsForPacking = [];
+try {
+  packetClaimsForPacking = JSON.parse(
+    fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")
+  ).claims ?? [];
+} catch { /* no ledger yet */ }
+const livePacketLane = livePacketLaneByFamily(packetClaimsForPacking);
+const PF_LANES = effectivePacketLaneCount(laneCount("build"), livePacketLane);
 
 /* ---------------------------------------------------------------- *
  * Grouping and lane packing
@@ -1819,13 +1827,6 @@ const packGroups = (pool, laneCount) => {
  * whose builder is mid-work must not drift to another lane's dispatch while
  * its grant stays put. Claimed families are placed first, on their claim
  * lanes; only unclaimed families are dealt. */
-const livePacketLane = new Map();
-try {
-  const led = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
-  for (const c of led.claims ?? []) {
-    if (c.subjectType === "packet-family" && c.operation === "packet-build" && c.released !== true && /^PF\d+$/.test(c.lane)) livePacketLane.set(c.subjectId, c.lane);
-  }
-} catch { /* no ledger yet */ }
 const pinnedFamilies = new Set(sourceReady.filter((f) => livePacketLane.has(f.familyId)).map((f) => f.familyId));
 const pfBuckets = packGroups(sourceReady.filter((f) => !pinnedFamilies.has(f.familyId)), PF_LANES);
 for (const f of sourceReady) {
