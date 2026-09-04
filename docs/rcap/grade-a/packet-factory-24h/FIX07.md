@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `191b611636a1a9197b567a987265f8bbb1410337` (or the newer dispatch base)
+**Minimum required ancestor:** `f783b1ca8677342f7ad2ed33d270eb1ba9e96ec2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-pardoned-felony-set' \
   --codex-cloud \
-  --minimum-captain-sha 191b611636a1a9197b567a987265f8bbb1410337
+  --minimum-captain-sha f783b1ca8677342f7ad2ed33d270eb1ba9e96ec2
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 8 exact families before reading or writing family content:
+- Assert only these 7 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'al-pardoned-felony-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ct-decriminalized-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'nc_146_dismissal_petition-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'pa_pardon_expungement-set'`
@@ -64,10 +63,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 8 families
+## The 7 families
 
 - `al-pardoned-felony-set`
-- `ct-decriminalized-set`
 - `il-exp-precompletion-set`
 - `nc_146_dismissal_petition-set`
 - `pa_pardon_expungement-set`
@@ -87,7 +85,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix07/**`
 - `data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
@@ -95,7 +92,6 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-pardoned-felony-set.mjs`
-- `scripts/build-census-v1-ct-decriminalized-set.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-nc_146_dismissal_petition-set.mjs`
 - `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
