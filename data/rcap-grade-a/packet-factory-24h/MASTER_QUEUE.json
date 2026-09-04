@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "93ccc1fec75fe335691db8596ba6debed57095c0",
+  "minimumCaptainSha": "8f48a49056da92792b560bfdafd7d493c6e493aa",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -72,16 +72,16 @@
     "sourceReady": 112,
     "sourceBlocked": 11,
     "legalBlocked": 6,
-    "verifyPending": 18,
-    "repairRequired": 60,
+    "verifyPending": 22,
+    "repairRequired": 56,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 112,
     "COMPLETE_PACKET_PROVEN": 104,
-    "FAIL_REPAIR_REQUIRED": 60,
+    "FAIL_REPAIR_REQUIRED": 56,
     "OUT_OF_SCOPE": 5,
-    "VERIFY_PENDING": 18,
+    "VERIFY_PENDING": 22,
     "PRODUCT_PATH_PENDING": 18,
     "SOURCE_BLOCKED": 11,
     "LEGAL_BLOCKED": 6,
@@ -158,7 +158,7 @@
     "sourceReadyFamilies": 112,
     "familiesPerBuilder": 4.7,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 112 do, so a full roster of 24 builders averages 4.7 families each rather than 15 to 25.",
+    "finding": "44 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 112 do, so a full roster of 24 builders averages 4.7 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 14 source obligations across 17 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -8473,9 +8473,7 @@
         "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -8522,7 +8520,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs",
@@ -8575,9 +8573,7 @@
         "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -8630,7 +8626,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs",
@@ -8683,9 +8679,7 @@
         "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -8732,7 +8726,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition.mjs",
@@ -36164,9 +36158,7 @@
         "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36213,7 +36205,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wv-custom-pleading.mjs",
@@ -46239,9 +46231,9 @@
     }
   ],
   "totals": {
-    "lanes": 56,
+    "lanes": 60,
     "builders": 24,
-    "verifiers": 8,
+    "verifiers": 12,
     "sourceLanes": 16,
     "repairLanes": 8,
     "familiesAssignedToBuilders": 112,
