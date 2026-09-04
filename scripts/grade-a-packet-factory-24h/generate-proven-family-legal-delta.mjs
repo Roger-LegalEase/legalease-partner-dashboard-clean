@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 /**
- * The legal delta of the 109 proven packet families outside the owner approval.
+ * The current legal delta of proven packet families outside the owner approval.
  *
- * 112 families are COMPLETE_PACKET_PROVEN. Three are named in the decision
- * owner's completed-output legal approval (auth-2026-08-19, 57 families). The
- * other 109 are outside that approval's family list -- and the owner's
+ * Some current COMPLETE_PACKET_PROVEN families are named in the decision
+ * owner's completed-output legal approval (auth-2026-08-19). The others are
+ * outside that approval's family list -- and the owner's
  * instruction is that being outside an older family list is NOT itself proof of
  * a substantive legal change. Most of these families implement a legal design
  * that is already settled; they were built by a later generator than the one the
  * approval enumerated.
  *
- * This record classifies each of the 109 into exactly one of four buckets and
+ * This record classifies each current out-of-approval family into exactly one of four buckets and
  * consolidates the questions, so the owner reads a handful of distinct legal
- * questions rather than 109 memos.
+ * questions rather than one memo per family.
  *
  *   A TECHNICAL_ONLY_EXISTING_DESIGN        renders the bound official form; the
  *                                           delta is confined to the approval's
@@ -62,6 +62,7 @@ const exists = (rel) => fs.existsSync(abs(rel));
 const OUT = "data/rcap-grade-a/legal-decisions/PROVEN_FAMILY_LEGAL_DELTA_2026-09-02.json";
 
 const COHORT = "data/rcap-grade-a/FIRST_ROUTE_COHORT.json";
+const MASTER_QUEUE = "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json";
 const CENSUS_ROOT = "data/rcap-all50/overlays/census-v1";
 const INTAKE = "data/record-clearing/legal-design-intake";
 const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
@@ -79,6 +80,49 @@ const nz = (s) => ` ${String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").
 const cohort = read(COHORT);
 const rowsById = new Map(cohort.allRows.map((r) => [r.familyId, r]));
 const families = cohort.provenFamiliesNeedingANewLegalReview.map((r) => r.familyId);
+const queueRowsById = new Map(read(MASTER_QUEUE).families.map((r) => [r.familyId, r]));
+const NINE_COUNTERS = [
+  "knownRequiredFieldsMissing",
+  "requiredFactsNotCollected",
+  "unclassifiedBlanks",
+  "incompleteRows",
+  "requiredOptionsMissing",
+  "requiredComponentsMissing",
+  "invisibleWrites",
+  "protectedWrites",
+  "visualDefects"
+];
+
+const readBlockingBuildFindings = (dir, familyId) => {
+  const findingsPath = `${dir}/build-findings.json`;
+  if (exists(findingsPath)) return read(findingsPath).blocking ?? [];
+
+  // Modern official-form builders emit reports/build-summary.json rather than
+  // the legacy build-findings shape.  The summary identifies the build; the
+  // current generated queue supplies the later independent, terminal proof.
+  const summaryPath = `${dir}/reports/build-summary.json`;
+  if (!exists(summaryPath)) throw new Error(`no build findings or build summary for family ${familyId}`);
+  const summary = read(summaryPath);
+  if (summary.familyId !== familyId) throw new Error(`build summary family mismatch for ${familyId}`);
+
+  const queueRow = queueRowsById.get(familyId);
+  if (!queueRow || queueRow.state !== "COMPLETE_PACKET_PROVEN") {
+    throw new Error(`modern build evidence is not terminal for family ${familyId}`);
+  }
+  if (queueRow.allNineCountersZero !== true || (queueRow.failingCounters ?? []).length !== 0) {
+    throw new Error(`modern build evidence has incomplete counters for family ${familyId}`);
+  }
+  for (const counter of NINE_COUNTERS) {
+    const value = queueRow.counters?.[counter];
+    if (!Number.isFinite(value) || value !== 0) {
+      throw new Error(`modern build evidence counter ${counter} is not zero for family ${familyId}`);
+    }
+  }
+  if (queueRow.selectedIndependentVerdict?.verdict !== "PASS_COMPLETE_INDEPENDENT") {
+    throw new Error(`modern build evidence lacks current independent verification for family ${familyId}`);
+  }
+  return [];
+};
 
 const approval = (() => {
   const q = read(AUTH_QUEUE);
@@ -424,7 +468,7 @@ for (const familyId of families) {
   const rendered = read(renderedPath);
   const sourceReceipt = read(`${dir}/source-receipt.json`);
   const approvalRequest = read(`${dir}/approval-request.json`);
-  const buildFindings = read(`${dir}/build-findings.json`);
+  const blockingBuildFindings = readBlockingBuildFindings(dir, familyId);
   const buildStatus = exists(`${dir}/build-status.json`) ? read(`${dir}/build-status.json`) : null;
   const implementation = fieldMap.implementationStrategy ?? sourceReceipt.implementationStrategy ?? row.deliveryType;
 
@@ -607,7 +651,7 @@ for (const familyId of families) {
       designReleaseBlockerCount: tracks.reduce((n, t) => n + t.designReleaseBlockers.length, 0),
       routeRatificationStatuses: [...new Set(tracks.map((t) => t.routeRatification?.status).filter(Boolean))],
       counselQuestionsRaisedAtBuild: (approvalRequest.counselQuestionsRaised ?? []).length,
-      blockingBuildFindings: (buildFindings.blocking ?? []).length
+      blockingBuildFindings: blockingBuildFindings.length
     }
   });
 }
@@ -648,7 +692,7 @@ const record = {
   opensNoRoute: true,
   editsNoPacket: true,
   purpose:
-    "Classify the 109 COMPLETE_PACKET_PROVEN packet families that sit outside the decision owner's completed-output legal approval, so the owner reads a small number of distinct legal questions rather than 109 per-family memos.",
+    `Classify the ${rows.length} current COMPLETE_PACKET_PROVEN packet families that sit outside the decision owner's completed-output legal approval, so the owner reads a small number of distinct legal questions rather than ${rows.length} per-family memos.`,
   theOwnersInstruction:
     "Being outside the older approval's family list is not proof of a substantive legal change. Most of these families implement a legal design that is already settled and were built by a later generator than the one the approval enumerated.",
   approvalFramework: {
@@ -694,7 +738,7 @@ const record = {
       familiesWithAGap: rows.filter((r) => r.measurements.declaredButUnrendered.length > 0).map((r) => r.familyId),
       componentsDeclaredAcrossTheCohort: rows.reduce((n, r) => n + r.measurements.declaredComponents, 0),
       finding:
-        "No family in this cohort declares a component that reports/rendered-artifacts.json omits. The defect this trap was written for -- a required official_form_reference declared in a field map and rendered nowhere while a custom pleading ships -- appears in rcap-sc-custom-pleading, which is not one of these 109."
+        "No family in this cohort declares a component that reports/rendered-artifacts.json omits. The defect this trap was written for -- a required official_form_reference declared in a field map and rendered nowhere while a custom pleading ships -- appears in rcap-sc-custom-pleading, which is outside this current cohort."
     },
     trapTwo_captionContradictsDestination: {
       familiesChecked: rows.length,
