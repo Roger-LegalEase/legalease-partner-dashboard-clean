@@ -289,7 +289,8 @@ const INPUTS = {
   s2: `${LC}/S2_SHARED_HOST_ASSIGNMENT.json`,
   wave2Repairs: `${LC}/WAVE_2_REPAIR_ASSIGNMENTS.json`,
   corpusIndex: "data/rcap-all50/local-source-corpus-index.json",
-  staleBlock: "data/rcap-grade-a/stale-artifact-block.json"
+  staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
+  ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json"
 };
 const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)]));
 
@@ -600,10 +601,24 @@ try {
  * cannot enter a cohort until the correction is made and re-read.
  */
 const ownerCorrectionsRequired = new Map();
-try {
-  const d = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json"), "utf8"));
-  for (const r of d.corrections ?? []) if (r.live !== false && r.familyId) ownerCorrectionsRequired.set(r.familyId, r);
-} catch { /* no owner corrections recorded */ }
+for (const r of IN.ownerCorrections?.corrections ?? []) {
+  if (r.live !== false && r.familyId) ownerCorrectionsRequired.set(r.familyId, r);
+}
+
+/*
+ * OWNER-DIRECTED EXECUTION RECLASSIFICATION.
+ *
+ * A historical legal stop remains evidence of what a lane encountered. It is
+ * not authority to keep calling the work legal after the owner has classified
+ * the exact remainder as repair, source identity, or route mapping. The owner
+ * record names the execution state, owner, and next action; this generator
+ * preserves the old hold on the family row but stops using it as the current
+ * state. No reclassification grants commercial authority or opens checkout.
+ */
+const ownerExecutionReclassifications = new Map();
+for (const r of IN.ownerCorrections?.executionReclassifications ?? []) {
+  if (r.familyId) ownerExecutionReclassifications.set(r.familyId, r);
+}
 
 /*
  * OWNER-CONFIRMED HOLD RECLASSIFICATION, WITHOUT ERASING THE HOLD'S HISTORY.
@@ -1348,16 +1363,25 @@ for (const f of IN.scoreboard.familiesDetail) {
         decisionRecord: LEGAL_HOLD_RECLASSIFICATION
       }
     : wave2LegalMeasured;
+  const executionReclassification = ownerExecutionReclassifications.get(familyId) ?? null;
   const ownerCorrection = ownerCorrectionsRequired.get(familyId) ?? null;
   const ownerCorrectionAwaitsReread = Boolean(ownerCorrection)
     && holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED";
-  const legalBlocked = routes.some((r) => openCounselRoutes.has(r.routeKey))
+  const ownerCorrectionIsBlocking = Boolean(ownerCorrection)
+    && !ownerCorrectionAwaitsReread
+    && !executionReclassification;
+  const executionStateOverride = ownerCorrectionAwaitsReread
+    ? null
+    : (executionReclassification?.stateOverride ?? null);
+  const legalBlocked = executionReclassification ? false : (
+    routes.some((r) => openCounselRoutes.has(r.routeKey))
     || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)
     || Boolean(laneHold)
-    || (Boolean(ownerCorrection) && !ownerCorrectionAwaitsReread);
+    || ownerCorrectionIsBlocking
+  );
   const guidanceOnly = routes.length > 0 && routes.every((r) => confirmBRoutes.has(r.routeKey));
   const notAFamily = routes.length === 0;
-  const routeMappingOpen = notAFamily;
+  const routeMappingOpen = executionStateOverride === "PRODUCT_PATH_PENDING" || notAFamily;
 
   const nineZero = comp ? Object.values(comp.counters).every((v) => v === 0) : null;
   const completenessStatus = comp ? comp.result : artifactPresent ? "NOT_AUDITED" : "NOT_BUILT";
@@ -1381,13 +1405,14 @@ for (const f of IN.scoreboard.familiesDetail) {
    * where rcap-sc-custom-pleading correctly still sits. */
   if (terminalTreatment) state = terminalTreatment.terminalTreatment;
   else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
+  else if (executionStateOverride) state = executionStateOverride;
   /* An owner withholding outranks a passing verdict for the same reason a
    * delivery-type refusal does: the verdict says the packet is well made, and
    * the withholding says it may not ship as made. Left below the PASS branch
    * these nine families sat at VERIFIED_PASS, which L4 and F30 read as proven —
    * so a family the owner had expressly not approved would have counted among
    * the proven ones. */
-  else if (ownerCorrection && !ownerCorrectionAwaitsReread) state = "LEGAL_BLOCKED";
+  else if (ownerCorrectionIsBlocking) state = "LEGAL_BLOCKED";
   else if (independentReturn?.verdict === "BLOCKED_LEGAL_INPUT") state = "LEGAL_BLOCKED";
   /* A verifier can be unable to measure SOURCE_IDENTITY in its container even
    * after central custody has acquired and hash-bound the exact source. Once
@@ -1650,7 +1675,8 @@ for (const f of IN.scoreboard.familiesDetail) {
       : null,
     /* Where the hold came from, so a reader can tell a counsel-queue route key
      * from a lane that tried to build the family and hit a legal wall. */
-    legalInputBasis: (ownerCorrection && !ownerCorrectionAwaitsReread) ? "OWNER_CORRECTION_REQUIRED"
+    legalInputBasis: executionReclassification ? null
+      : ownerCorrectionIsBlocking ? "OWNER_CORRECTION_REQUIRED"
       : laneHold ? "LANE_RETURN_BLOCKED_LEGAL_INPUT"
       : routes.some((r) => openCounselRoutes.has(r.routeKey)) ? "OPEN_COUNSEL_QUESTION"
         : (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true) ? "LEGAL_APPROVAL_VERDICT" : null,
@@ -1663,7 +1689,12 @@ for (const f of IN.scoreboard.familiesDetail) {
       ? { ...holdReclassification, decisionRecord: LEGAL_HOLD_RECLASSIFICATION }
       : null,
     laneReturnLegalHold: laneHoldNarrowed,
-    routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
+    executionReclassification,
+    executionOwner: executionReclassification?.executionOwner ?? null,
+    nextExecutableAction: executionReclassification?.nextExecutableAction ?? null,
+    routeMappingStatus: routeMappingOpen
+      ? (executionReclassification ? "OWNER_DIRECTED_MAPPING_PENDING" : "UNBOUND_TO_A_PACKET_FAMILY")
+      : "BOUND",
     artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
     completenessStatus,
     allNineCountersZero: nineZero,

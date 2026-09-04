@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const master = JSON.parse(fs.readFileSync(path.join(root, "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), "utf8"));
+
+const genuineLegal = new Set([
+  "composed-treatment:nd-nonconviction-auto-close-verify",
+  "hi_712_1200_deferred_expungement-set",
+  "ky_felony_expungement_after_pardon-set",
+  "ne-trafficking-setaside-and-seal-set",
+  "wa_vac_homicide_victim_prostitution-set"
+]);
+const reclassified = new Set([
+  "ca-prop64-set", "in_infraction_nondisclosure-set", "ms-fel-set",
+  "sc_17_22_950_summary-set", "ut_pet_limitations-set", "ut_pet_traffic-set",
+  "az_record_sealing_arrest_no_charges-set", "az_record_sealing_dismissal_not_guilty-set",
+  "co_decriminalized_conduct_seal-set", "ky_misdemeanor_expungement-set",
+  "ne-setaside-noncustodial-set", "or_contempt_setaside-set", "pa_6308_underage-set",
+  "wa_vac_substance_use_disorder-set", "wi_exp_cr266-set", "wv_nc_acquittal_dismissal-set",
+  "co_motion_seal_conviction-set", "ga-jail-k2-set", "ma-bmc-multi-set",
+  "vt_seal_under_25-set", "wa_blake_vacatur_and_lfo_refund-set",
+  "rcap-oh-custom-pleading-clean-tracks"
+]);
+
+const legal = new Set(master.families.filter((f) => f.state === "LEGAL_BLOCKED").map((f) => f.familyId));
+assert.deepEqual([...legal].sort(), [...genuineLegal].sort(), "only the five genuine counsel matters may remain LEGAL_BLOCKED");
+for (const familyId of reclassified) {
+  const row = master.families.find((f) => f.familyId === familyId);
+  assert.ok(row, `missing family ${familyId}`);
+  assert.notEqual(row.state, "LEGAL_BLOCKED", `${familyId} was not moved to execution`);
+  assert.ok(row.executionOwner || row.activeOwner, `${familyId} has no exact execution owner`);
+  assert.ok(row.nextExecutableAction, `${familyId} has no exact next executable action`);
+}
+console.log("PASS owner moved 22 false legal holds into exact executable ownership");
