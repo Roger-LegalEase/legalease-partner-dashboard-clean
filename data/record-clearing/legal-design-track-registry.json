@@ -156478,6 +156478,26 @@
         "name": "The Ohio court that handled the case",
         "detail": "Filed with the clerk of that court on that court's own application. Ohio publishes no statewide mandatory packet and local practice varies materially, so the participant obtains their court's form and LegalEase supplies the statutory content."
       },
+      "officialFormSetMapping": {
+        "status": "STOPPED_STALE_STANDARD_FORM",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "relationship": "Appendix D Form 96-F1 is titled for nonconviction sealing under former R.C. 2953.52. The controlling statute was amended and renumbered to R.C. 2953.33 effective April 4, 2023, and now permits sealing or, subject to division (C), expungement. The current Appendix D form still cites the superseded section and does not make the current seal-versus-expunge election.",
+        "hardStop": "Do not assign Form 96-F1 to current R.C. 2953.33 or infer an expungement form. Require an updated issuer form or a current destination-court application matching the requested remedy.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-F1",
+          "revision": "2026-08-06",
+          "containerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.33",
+          "revision": "2023-10-03",
+          "sha256": "33649aa5159bf343c74e152972f3f18b2803ca0b500529dd8886db6b0c1165d2"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_33_nonconviction-set",
         "version": "1.0.0",
@@ -157559,8 +157579,8 @@
           "duration": "none. Any time after the forfeiture entry"
         }
       ],
-      "outputStrategy": "custom_pleading",
-      "outputStrategyDeclared": "custom_pleading",
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
       "compositionMode": null,
       "units": [],
       "geographicScope": "statewide",
@@ -157569,8 +157589,31 @@
       "destination": {
         "kind": "court",
         "name": "The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction",
-        "detail": "Filed with the clerk on that court's own application. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
+        "detail": "File statewide standard Form 96-C1 or a substantially similar local form accepted under Sup.R. 11.17. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
       },
+      "officialFormSetMapping": {
+        "status": "MAPPED_SOURCE_INGEST_REQUIRED",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "primaryFormId": "Form 96-C1",
+        "primaryFormTitle": "Application to Seal Record of Conviction Pursuant to R.C. 2953.32",
+        "relationship": "Form 96-C1 is the current statewide standard form matching this exact statute and remedy. Sup.R. 11.17 requires courts to accept the Appendix D forms and permits substantially similar local forms, so a local census is not a prerequisite to the statewide filing component.",
+        "sourceCustodyStatus": "SOURCE_INGEST_REQUIRED",
+        "sourceCustodyBlocker": "The current Rules of Superintendence bundle containing Appendix D Form 96-C1 is hash-bound below but is not present as an exact committed source body.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-C1",
+          "revision": "2026-08-06",
+          "containerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.32",
+          "revision": "2025-09-30",
+          "sha256": "21e6c7fb60eb473551942a6b1ad5ed814cb98d08289ca76bc73697a82556ecb5"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_32_sealing-set",
         "version": "1.0.0",
@@ -157580,9 +157623,9 @@
             "role": "primary_filing",
             "requirement": "required",
             "conditionDescription": null,
-            "outputStrategy": "custom_pleading",
-            "officialFormId": null,
-            "officialSourceUrl": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Form 96-C1",
+            "officialSourceUrl": "https://www.supremecourt.ohio.gov/docs/LegalResources/Rules/superintendence/Superintendence.pdf",
             "order": 1
           },
           {
@@ -158203,6 +158246,26 @@
         "name": "The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction",
         "detail": "Filed with the clerk on that court's own application. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
       },
+      "officialFormSetMapping": {
+        "status": "STOPPED_EXACT_FORM_GAP",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "relationship": "The current Appendix D contains Form 96-C1 for sealing a conviction under R.C. 2953.32, but no statewide standard form was identified for the distinct general conviction-expungement remedy added to current R.C. 2953.32. Form 96-C1 must not be relabeled or used as an expungement application.",
+        "hardStop": "Require a current expungement application from the destination court or explicit Supreme Court of Ohio confirmation of the statewide form before selecting the primary filing.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D",
+          "revision": "2026-08-06",
+          "sha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.32",
+          "revision": "2025-09-30",
+          "sha256": "21e6c7fb60eb473551942a6b1ad5ed814cb98d08289ca76bc73697a82556ecb5"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_32_expungement-set",
         "version": "1.0.0",
@@ -158839,6 +158902,26 @@
         "name": "The Ohio sentencing court",
         "detail": "Filed with the clerk on that court's own application. Ohio publishes no statewide mandatory packet."
       },
+      "officialFormSetMapping": {
+        "status": "STOPPED_STALE_AND_INCOMPLETE_STANDARD_FORM",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "relationship": "Appendix D Form 96-D1 remains titled for expungement of an improperly-handled-firearm-in-a-motor-vehicle conviction under former R.C. 2953.37. The controlling provision was amended and renumbered to R.C. 2953.35 effective April 4, 2023, and now also reaches specified pre-June 13, 2022 R.C. 2923.12(B)(1) and R.C. 2923.16(E)(1) or (2) convictions. Form 96-D1 carries the former citation and does not identify every current statutory branch.",
+        "hardStop": "Do not treat Form 96-D1 as a complete current R.C. 2953.35 application. Require an updated issuer form or a destination-court application that expressly covers the applicant's exact statutory branch.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-D1",
+          "revision": "2026-08-06",
+          "containerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.35",
+          "revision": "2023-04-04",
+          "sha256": "0f321aa7959cb5e6d4d628e51237d7d22716ba9a470a0b80ad22e322ec771b63"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_35_firearm-set",
         "version": "1.0.0",
