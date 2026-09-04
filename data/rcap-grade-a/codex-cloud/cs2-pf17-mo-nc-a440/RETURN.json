@@ -7,10 +7,10 @@
   "implementationCommit": "349bdad42fda7bfbbf0fe9df7bd907406043f5be",
   "commit": "349bdad42fda7bfbbf0fe9df7bd907406043f5be",
   "tip": "reported after this return receipt is committed because a commit cannot contain its own SHA-1",
-  "pushed": "NO",
+  "pushed": "YES",
   "pushCommand": "git push origin codex/cs2-pf17-mo-nc-a440",
-  "pushResult": "fatal: could not read Username for 'https://github.com': No such device or address",
-  "thinBundleTransferTip": "reported in the final worker output after this return receipt is committed",
+  "pushResult": "PASS: origin accepted new branch codex/cs2-pf17-mo-nc-a440",
+  "thinBundleTransferTip": "not required because the assigned branch was pushed successfully; exact final tip is reported in the final worker output",
   "claim": {
     "assertedBeforeFamilyContent": true,
     "commands": [
@@ -221,8 +221,12 @@
     },
     {
       "command": "git push origin codex/cs2-pf17-mo-nc-a440",
-      "exitCode": 128,
-      "result": "fatal: could not read Username for 'https://github.com': No such device or address"
+      "attempts": 2,
+      "exitCodes": [
+        128,
+        0
+      ],
+      "result": "Attempt 1: fatal: could not read Username for 'https://github.com': No such device or address. Attempt 2: PASS; origin accepted new branch codex/cs2-pf17-mo-nc-a440."
     }
   ],
   "typecheck": {
