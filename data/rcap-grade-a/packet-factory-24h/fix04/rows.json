@@ -403,6 +403,51 @@
       "whatThisLaneDid": "Stopped before evidence. No family artifact was read or written.",
       "productionTouched": false,
       "commercialRoutesOpened": 0
+    },
+    {
+      "itemId": "al-felony-nonconviction-90-set",
+      "status": "COMPLETED",
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "captainBase": "bec2375be2c9d6db883a7f69754600d8af0b5b23",
+      "claim": {
+        "assertion": "CLAIM_OK FIX04 al-felony-nonconviction-90-set (repair, grant set 518e4c005a027962)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "failedObligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "repair": "The family-owned builder no longer writes generic charge, ground, arresting-agency, or detention-agency directions as known facts. It gives every required C-10 field a human label, tells the participant to reconcile the certified local and ALEA records and select the exact Section III outcome, and states the 90-day timing, oath/notary, $500 fee, C-10 waiver, and licensing/firearm stop actions explicitly.",
+      "tddEvidence": "The pre-repair focused assertion failed with nine direction strings classified as known case facts. The new --check rejects those writes, opaque undefined/Text labels, missing record/timing/signature/fee/waiver guidance, and missing licensing/firearm consequences.",
+      "focusedChecks": [
+        "node scripts/build-census-v1-al-felony-nonconviction-90-set.mjs --check => repair invariants PASS",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family al-felony-nonconviction-90-set => PASS_COMPLETE 31/216 written",
+        "two consecutive builds produced byte-identical canonical and boundary hashes"
+      ],
+      "artifacts": [
+        "canonical e472186921ffc2c56765b30ed426e4d8ffd163e97100f781c127ada4a7966924 905674 bytes",
+        "boundary ef61fac20c9966ef28d8192315bc0be9aacc5ebd6912ee5c0fda7a192eb89a05 905916 bytes",
+        "participant-instructions 8587e3729384ac6a08bacf0cebf37eeceecc958e1fd471a9c3d9e326d30859ad 5086 bytes"
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "selfVerified": false,
+      "independentVerification": "PENDING",
+      "productionTouched": false,
+      "commercialRoutesOpened": 0
     }
   ],
   "fix04SecondGrantSetAppend": {
