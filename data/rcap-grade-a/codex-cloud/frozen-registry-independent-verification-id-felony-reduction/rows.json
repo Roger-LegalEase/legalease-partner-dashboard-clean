@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "FROZEN-REGISTRY-INDEPENDENT-VERIFICATION-ID-FELONY-REDUCTION",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-LEGAL-PURGE-W1",
+  "baseSha": "2753847a4d6b718a4a60e031619244d68c143883",
+  "claimsReissued": 0,
+  "claimHandling": "This file persists the already-completed post-repin reread; no released claim was reissued.",
+  "independence": "The worker did not build or repair the packet or raster artifacts. It proved the relevant frozen-registry track unchanged, re-pinned only the source receipt, then reread the exact unchanged packet bytes.",
+  "verdictSummary": {"PASS_COMPLETE_INDEPENDENT": 1, "PASS": 0, "FAIL_REPAIR_REQUIRED": 0, "BLOCKED_SOURCE": 0, "BLOCKED_LEGAL_INPUT": 0, "BLOCKED_BEFORE_CLAIM": 0, "STOPPED": 0},
+  "rows": [
+    {
+      "itemId": "id_felony_reduction-set",
+      "lane": "FROZEN-REGISTRY-INDEPENDENT-VERIFICATION-ID-FELONY-REDUCTION",
+      "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading",
+      "sourceBinding": {"registrySha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4", "registryByteLength": 16586143, "relevantTrack": "id_felony_reduction", "relevantTrackSemantics": "IDENTICAL_TO_PRE_REGISTRY_REWRITE", "allCommittedRecordsRehashed": true},
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1", "byteLength": 8807, "pageCount": 4},
+        {"fixture": "boundary", "sha256": "8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48", "byteLength": 9029, "pageCount": 4}
+      ],
+      "rasterEvidence": {"verdict": "RASTER_PASS", "workflowRunId": "33605354695", "jobId": "100168605493", "artifactId": 9837021098, "boundToCanonicalSha256": "d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1", "coversTheWholeFamily": true},
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The exact Idaho felony-reduction route and mechanism are present."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Every committed source rehashes to its receipt; the frozen registry pin is exact."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both required components are present in each manifest."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All six declared writes are present in both fixtures."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All four required-before-filing items are disclosed."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The reduction route remains distinct from Idaho set-aside relief."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "No incomplete repeating row was found."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "No refused or protected field carries ink."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both PDFs match exact hashes, lengths and four-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests are contiguous and preserve component order."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "Whole-family raster evidence remains bound to unchanged bytes with zero defects."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The track's court destination is stated."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "Recorded fee uncertainty is preserved without invention."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The packet truthfully preserves the unsettled service method as a clerk-confirmation hard stop."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "All track stopping conditions are stated."}
+      },
+      "failedProofObligations": [],
+      "evidenceRead": ["source receipt and all committed source bytes", "field map, writes, blanks and completeness reports", "both exact PDF artifacts", "instructions, rendered-artifacts report and product wiring"]
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
