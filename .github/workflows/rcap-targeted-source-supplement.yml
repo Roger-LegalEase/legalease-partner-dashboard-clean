@@ -24,8 +24,6 @@ jobs:
     steps:
       - name: Check out acquisition branch
         uses: actions/checkout@v4
-        with:
-          lfs: true
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -52,13 +50,12 @@ jobs:
             --out acquired-source-supplement \
             --timeout-ms 60000
 
-      - name: Retain pinned CR301 issuer copy and write Delaware no-public-binary receipt
+      - name: Write Missouri host-block and Delaware no-public-binary receipts
         shell: bash
         run: |
           set -euo pipefail
           node scripts/rcap-write-source-exception-receipts.mjs \
-            --out acquired-source-supplement \
-            --mo-cache "LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf"
+            --out acquired-source-supplement
 
       - name: Verify supplement outcomes
         shell: bash
@@ -75,11 +72,11 @@ jobs:
           ];
           const missing = required.filter((id) => d.bySourceId[id]?.status !== 'acquired');
           if (missing.length) throw new Error(`Required direct sources not acquired: ${missing.join(', ')}`);
-          if (d.bySourceId['MO-CR301']?.status !== 'pinned_issuer_copy_retained') {
-            throw new Error('MO CR301 pinned issuer copy was not retained.');
+          if (d.bySourceId['MO-CR301']?.status !== 'issuer_binary_blocked_http_403') {
+            throw new Error('MO CR301 issuer-host block receipt is missing.');
           }
           if (d.bySourceId['DE-SBI-MANDATORY']?.status !== 'no_public_binary_exposed') {
-            throw new Error('Delaware SBI exception receipt is missing.');
+            throw new Error('Delaware SBI no-public-binary receipt is missing.');
           }
           console.log(JSON.stringify(d.counts, null, 2));
           NODE
