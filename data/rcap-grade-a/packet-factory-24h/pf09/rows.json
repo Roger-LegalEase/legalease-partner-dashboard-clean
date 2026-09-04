@@ -1,48 +1,55 @@
 {
   "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
   "assignmentId": "PF09",
-  "workerId": "FABLE-PB",
+  "workerId": "CODEX-CS2-PF09-FL-TRAFFICKING",
   "lane": "packet-build",
-  "engine": "Claude Code Remote worker; commits and pushes to fable/pb, no PR",
-  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "engine": "Codex Codespaces worker",
+  "shiftBaseSha": "e10890c114ef6f46907efa9fa660493700ecead1",
+  "branch": "codex/cs2-pf09-fl-trafficking-e108",
   "familiesAssigned": 1,
+  "rowsReturned": 1,
   "preflight": {
-    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode)",
-    "corpusMounted": "THREE custodies. The Master Library and the D source packs were already resolved in this container and were verified rather than re-downloaded: 51 jurisdictions, 499 files, 329 PDFs, all 498 governance checksums verifying, and the pinned OR/ND sources matching byte-for-byte. The human_source_returns custody, which the bootstrap script does not install, was mounted separately after verifying the Statement of Inability against the committed index digest.",
-    "whyNotBootstrapped": "scripts/rcap-corpus/bootstrap-private-corpus.sh failed on curl exit 23 with the container disk at 99% full. The corpus already present was verified against its own governance checksums and the committed index instead of being re-fetched. No corpus byte was written into this worktree and no corpus byte is committed."
+    "command": "node scripts/verify-packet-build-environment.mjs --family fl-trafficking-set",
+    "mode": "normal Codespaces mode",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "familySourcesBind": "PASS: fl-trafficking-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT)",
+    "globalFailures": [
+      "master_library_mounted: absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "master_library_complete: the corpus root cannot be walked because it is absent",
+      "corpus_matches_committed_index: the corpus root cannot be walked; nothing to compare"
+    ],
+    "treatment": "No source acquisition was authorized or performed. The family-specific zero-source gate passed, so this build used only committed codified-text/legal-design records and wrote only its owned paths."
   },
-  "selfVerification": "none. This lane does not verify its own packets. The counters below are the builder's own count using the repository's own contract functions, and every one of the fifteen obligations is returned BUILT_RASTER_PENDING because a builder verdict is not a verdict.",
-  "rasterRule": "no page raster was produced in this container. Every fixture SHA-256 is reported so the central raster workflow can render the exact bytes. No family here is PASS_COMPLETE and none may become so without a hash-bound RASTER_PASS.",
+  "selfVerification": "none. The required completeness command was run as a builder diagnostic; no independent verification, raster acceptance, legal approval, source-authority approval, or release verdict is claimed.",
+  "rasterRule": "No page raster was produced. The exact canonical and boundary hashes are returned for central raster review, and the family remains BUILT_RASTER_PENDING.",
   "rows": [
     {
-      "itemId": "ms-diversion-set",
+      "itemId": "fl-trafficking-set",
       "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
       "familyKind": "packet_family",
-      "whyThisIsAPacketFamilyAndNotAnAgencyTreatment": "it is a court filing the participant makes; the state publishes no form for it, so every page is composed from codified text and the committed legal-design record. It is not an agency application: a court receives it and a judge decides it",
-      "jurisdiction": "MS",
+      "jurisdiction": "FL",
       "routeKeys": [
-        "obligation:unit:MS:ms-diversion:ms-diversion-intervention-court-verification",
-        "obligation:unit:MS:ms-diversion:ms-diversion-pti-expungement-petition"
+        "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583"
       ],
-      "statutoryAuthority": "Miss. Code Ann. §§ 99-15-123(3) and 9-23-23",
-      "implementationStrategy": "custom_pleading",
-      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-diversion-set--custom-pleading",
-      "buildScript": "scripts/build-census-v1-ms-diversion-set.mjs",
+      "implementationStrategy": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading",
+      "buildScript": "scripts/build-census-v1-fl-trafficking-set.mjs",
       "componentSet": [
-        "ms-diversion-primary-filing-1",
-        "ms-diversion-proposed-order-2",
-        "ms-diversion-certificate-of-service-3",
-        "ms-diversion-attachment-4",
-        "ms-diversion-instructions-5",
-        "ms-diversion-process-guidance-6"
+        "FL-RULE-3.989-PETITION",
+        "FL-RULE-3.9895-SWORN-STATEMENT",
+        "FL-RULE-3.989-ORDER"
       ],
       "sourcesBound": [],
+      "sourceBinariesRequired": 0,
+      "sourceAcquisitionPerformed": false,
       "fieldMapArithmetic": {
-        "terminalFields": 41,
-        "written": 10,
-        "blank": 31,
-        "requiredBeforeFiling": 23,
-        "checks": "10 written + 31 blank = 41 terminal fields; every blank carries an approved disposition from the closed vocabulary and an undeclared blank fails the build"
+        "terminalFields": 49,
+        "written": 9,
+        "blank": 40,
+        "requiredBeforeFiling": 25,
+        "protectedOrCourtOwned": 15,
+        "checks": "9 written + 40 blank = 49 terminal fields; all 40 blanks carry an allowed closed-vocabulary disposition"
       },
       "counters": {
         "knownRequiredFieldsMissing": 0,
@@ -58,249 +65,117 @@
       "allNineCountersZero": true,
       "participantFacingObligations": {
         "FILING_DESTINATION": {
-          "state": "HELD, and different on each branch",
-          "answer": "PRETRIAL INTERVENTION (Sec. 99-15-123(3)): the clerk of the court that made the noncriminal disposition. INTERVENTION COURT (Sec. 9-23-23): NOTHING IS FILED - the relief follows completion by operation of the statute, and the participant obtains a certified copy of whatever order was entered from the clerk of the administering court.",
-          "readIn": [
-            "MS.memo track ms-diversion rules.filing and destination.detail"
-          ]
+          "answer": "File in any court in the Florida circuit where the arrest occurred that has jurisdiction over the class of the offense or offenses requested for expunction.",
+          "disclosedIn": "filing-instructions.md"
         },
         "FEE_AND_WAIVER": {
-          "state": "NOT ESTABLISHED for either section, and the record says why",
-          "answer": "Sec. 99-19-72's fee is levied on petitions under Sec. 99-19-71 and does not reach Sec. 99-15-123 or Sec. 9-23-23 by its terms; neither specifies a fee. The clerk of the administering court is named as the authority. Separately Sec. 9-23-23 requires fines and fees assessed AND NOT WAIVED to have been paid for completion to count, which is a condition of the relief rather than a filing fee.",
-          "readIn": [
-            "MS.memo track ms-diversion rules.fees and rules.feeWaiver",
-            "the compiled MS profile, whose only fee line is keyed to Sec. 99-19-71"
-          ]
+          "answer": "The committed pathway record states that the clerk may not charge filing, service, or copy fees for a section 943.0583 petition. The instructions still direct the participant to confirm the clerk's current intake procedure and local copy requirements.",
+          "disclosedIn": "filing-instructions.md"
         },
         "SERVICE": {
-          "state": "HELD",
-          "answer": "neither section prescribes notice, an objection period or a hearing. On the petition branch the prosecuting authority receives a copy as ordinary practice, by United States mail or hand delivery, evidenced by the certificate of service. NOTHING is served on the verification branch.",
-          "readIn": [
-            "MS.memo track ms-diversion rules.notice and rules.service"
-          ]
+          "answer": "The committed legal-design record does not establish a separate statewide service instruction for this petition; the participant is directed to ask the filing clerk about any local copy or service step.",
+          "disclosedIn": "filing-instructions.md"
         },
         "SELF_HELP_STOP": {
-          "answer": "programme terminated rather than completed, a missing completion order the clerk cannot confirm, uncertainty whether relief already occurred, an implied consent violation which Sec. 9-23-23 bars, and non-citizenship; the clerk of the administering court answers what was entered",
-          "readIn": [
-            "MS.memo track ms-diversion selfHelpStopConditions"
-          ]
+          "answer": "Stop for disputed victim status, prosecutor opposition, a contested or evidentiary hearing, individualized advocacy, uncertainty whether an offense is excluded, or any immigration issue.",
+          "disclosedIn": "participant-instructions.md"
         }
       },
-      "fifteenObligations": [
+      "builderObligations": [
         {
           "obligation": "ROUTE_IDENTITY",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "production-field-map.json carries routeKeys [\"obligation:unit:MS:ms-diversion:ms-diversion-intervention-court-verification\",\"obligation:unit:MS:ms-diversion:ms-diversion-pti-expungement-petition\"] and the statute Miss. Code Ann. §§ 99-15-123(3) and 9-23-23; every composed page prints the route keys on its own last line"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "The exact route key appears in the field map, packet-set manifest, both instruction files, and every composed component."
         },
         {
           "obligation": "SOURCE_IDENTITY",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "zero source binaries bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); allSourcesExact is true vacuously and the source receipt says so in terms"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "The source receipt records zero binaries, CUSTOM_PLEADING_FROM_CODIFIED_TEXT, acquisitionCommissioned false, and allSourcesExact true vacuously."
         },
         {
           "obligation": "COMPONENT_SET",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "componentSet [\"ms-diversion-primary-filing-1\",\"ms-diversion-proposed-order-2\",\"ms-diversion-certificate-of-service-3\",\"ms-diversion-attachment-4\",\"ms-diversion-instructions-5\",\"ms-diversion-process-guidance-6\"]; every component appears in both rendered fixtures and in the page manifest"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Both fixtures render FL-RULE-3.989-PETITION, FL-RULE-3.9895-SWORN-STATEMENT, and FL-RULE-3.989-ORDER in the declared page order."
         },
         {
           "obligation": "KNOWN_PREFILLS",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "10 write(s) declared, each read back from the assembled packet bytes and recorded in reports/actual-writes.json"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Nine declared writes are read back from the final PDF bytes on their own component pages."
         },
         {
           "obligation": "REQUIRED_BEFORE_FILING",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "23 item(s) declared REQUIRED_BEFORE_FILING, every one disclosed in participant-instructions.md and listed in reports/blanks-left-for-the-participant.json"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Twenty-five case, venue, and proof facts are declared REQUIRED_BEFORE_FILING and disclosed verbatim in participant-instructions.md."
         },
         {
           "obligation": "ROUTE_OPTIONS",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "no route election is made by the build; the field map's routeSelectionNote states why for this family"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "EXPUNCTION under section 943.0583 is printed and recorded as route-determined; sealing and ordinary Florida routes are not offered as participant choices."
         },
         {
           "obligation": "REPEATING_ROWS",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "no repeating table carries a written cell, so no row reads as finished when it is not; the builder's incompleteRows counter is 0"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "The record block is wholly required-before-filing and the instructions require a complete duplicated block for every additional case; no partially written row is represented as complete."
         },
         {
           "obligation": "PROTECTED_FIELDS",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "every signature, signature date and court-, clerk- or prosecutor-owned field is refused with a typed refusal class, and the byte proof asserts no refused field carries ink"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Participant signature/date, sworn/notary fields, judicial findings, order scope/date, judge fields, and clerk fields are refused and carry no declared write."
         },
         {
           "obligation": "ARTIFACTS",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "two fixtures rendered, 9 pages each, hashes recorded in reports/rendered-artifacts.json and reported to Captain for the raster batch"
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "Canonical and boundary five-page PDFs were built twice with identical hashes and lengths."
         },
         {
-          "obligation": "PAGE_ORDER",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "the page manifest records every packet page against its component and source page, in the component order the packet-set manifest declares"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "not measurable in this container without a browser; no page raster was produced here, which is exactly what BUILT_RASTER_PENDING records"
-        },
-        {
-          "obligation": "FILING_DESTINATION",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "PRETRIAL INTERVENTION (Sec. 99-15-123(3)): the clerk of the court that made the noncriminal disposition. INTERVENTION COURT (Sec. 9-23-23): NOTHING IS FILED - the relief follows completion by operation of the statute, and the participant obtains a certified copy of whatever order was entered from the clerk of the administering court."
-        },
-        {
-          "obligation": "FEE_AND_WAIVER",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "Sec. 99-19-72's fee is levied on petitions under Sec. 99-19-71 and does not reach Sec. 99-15-123 or Sec. 9-23-23 by its terms; neither specifies a fee. The clerk of the administering court is named as the authority. Separately Sec. 9-23-23 requires fines and fees assessed AND NOT WAIVED to have been paid for completion to count, which is a condition of the relief rather than a filing fee."
-        },
-        {
-          "obligation": "SERVICE",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "neither section prescribes notice, an objection period or a hearing. On the petition branch the prosecuting authority receives a copy as ordinary practice, by United States mail or hand delivery, evidenced by the certificate of service. NOTHING is served on the verification branch."
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "builderState": "BUILT_RASTER_PENDING",
-          "evidence": "programme terminated rather than completed, a missing completion order the clerk cannot confirm, uncertainty whether relief already occurred, an implied consent violation which Sec. 9-23-23 bars, and non-citizenship; the clerk of the administering court answers what was entered"
+          "obligation": "PARTICIPANT_AND_FILING_INSTRUCTIONS",
+          "state": "BUILT_RASTER_PENDING",
+          "evidence": "participant-instructions.md and filing-instructions.md cover completion, venue, fee, proof, local-procedure checks, protected fields, and self-help stops."
         }
       ],
-      "artifactsForTheRasterBatch": [
+      "artifactsForRasterBatch": [
         {
           "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ms/ms-diversion-set--custom-pleading/fixtures/canonical.pdf",
-          "sha256": "4d4923f05553c92b885056e5ba6e97cb631e04df3f55e0c45366351b6e8f7bcb",
-          "pageCount": 9,
-          "byteLength": 24561
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "dca3cd333f061c7b80176b5a815fd6266e8882ea51e6aa8e7e8e8ec7f6084570",
+          "byteLength": 13255,
+          "pageCount": 5
         },
         {
           "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ms/ms-diversion-set--custom-pleading/fixtures/boundary.pdf",
-          "sha256": "7d39bd412a5db6dd80c54c2d3f6dcc06b4927221eb8aa54e753ba05b01cc7938",
-          "pageCount": 9,
-          "byteLength": 24890
-        }
-      ],
-      "inkPerFixture": [
-        {
-          "fixture": "canonical",
-          "valuesReportedByFinalizer": 10,
-          "glyphs": 178,
-          "appearances": 0
-        },
-        {
-          "fixture": "boundary",
-          "valuesReportedByFinalizer": 10,
-          "glyphs": 390,
-          "appearances": 0
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "0ca00f36b857d97471e0ed2b5372c5501c796729aa9315a30e002b3801012e6a",
+          "byteLength": 13527,
+          "pageCount": 5
         }
       ],
       "determinism": {
-        "proof": "built twice in this container; the WHOLE overlay tree hashed byte-for-byte identical, not only the fixtures",
-        "creationDatePinned": "stampDeterministic() from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs is applied to every document this build creates, including the assembled packet, because pdf-lib stamps the wall clock into PDFDocument.create() and save({updateMetadata:false}) does not remove a stamp already there"
+        "builtTwice": true,
+        "canonicalHashEqual": true,
+        "canonicalByteLengthEqual": true,
+        "boundaryHashEqual": true,
+        "boundaryByteLengthEqual": true,
+        "method": "deterministic PDF dates and metadata; before/after SHA-256 and byte-length equality asserted in the build worktree"
       },
-      "rasterState": "BUILT_RASTER_PENDING",
+      "requiredCompletenessCommand": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
+        "result": "PASS_COMPLETE",
+        "countersZero": true,
+        "builderDiagnosticOnly": true
+      },
       "selfVerified": false,
       "packetsSelfVerified": 0,
+      "claimReleased": false,
+      "centralGeneratedStateEdited": false,
+      "legalOrSourceAuthorityEdited": false,
       "commercialRoutesOpened": 0,
       "productionTouched": false
     }
   ],
-  "supersededShiftReturn": {
-    "note": "the return this file held before this shift wrote its own, preserved verbatim",
-    "document": {
-      "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
-      "assignmentId": "PF09",
-      "workerId": "PF-C",
-      "lane": "packet-build",
-      "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
-      "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-      "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
-      "familiesAssigned": 1,
-      "preflight": {
-        "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
-        "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed"
-      },
-      "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
-      "rows": [
-        {
-          "itemId": "me-seal-prost-set",
-          "status": "COMPLETED",
-          "jurisdiction": "ME",
-          "routeKey": "track:ME:me-seal-prost",
-          "statutoryAuthority": "15 M.R.S. § 2261; Maine Judicial Branch form CR-289 (Rev. 10/24)",
-          "implementationStrategy": "official_pdf_fill",
-          "overlayDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
-          "buildScript": "scripts/build-census-v1-me-seal-prost-set.mjs",
-          "sourcesBound": [
-            {
-              "sourceId": "official-form:CR-289",
-              "pathInArchive": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
-              "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
-              "byteLength": 166837
-            }
-          ],
-          "counters": {
-            "knownRequiredFieldsMissing": 0,
-            "requiredFactsNotCollected": 0,
-            "unclassifiedBlanks": 0,
-            "incompleteRows": 0,
-            "requiredOptionsMissing": 0,
-            "requiredComponentsMissing": 0,
-            "invisibleWrites": 0,
-            "protectedWrites": 0,
-            "visualDefects": 0
-          },
-          "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
-          "fields": {
-            "total": 14,
-            "written": 6,
-            "requiredBeforeFiling": 2,
-            "participantElections": 3,
-            "protectedOrAttorney": 3
-          },
-          "componentsRendered": [
-            "primary_filing"
-          ],
-          "artifacts": [
-            {
-              "fixture": "cr289-canonical",
-              "file": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-canonical-filled.pdf",
-              "sha256": "ce2e6bde63ac9524927ace30a128938174ff79db091ec8db26a4ad3d307daaf7",
-              "byteLength": 175252,
-              "pageCount": 1,
-              "rasterPages": 1
-            },
-            {
-              "fixture": "cr289-boundary",
-              "file": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/fixtures/cr289-boundary-filled.pdf",
-              "sha256": "c56d43ba1b2341526fa7b7c17115b77435a1e030f70e2dfc93c76815f9cc2695",
-              "byteLength": 175334,
-              "pageCount": 1,
-              "rasterPages": 1
-            }
-          ],
-          "notableDecisions": [
-            "The source was resolved by state plus form number rather than by assetClass. The corpus files CR-289 under 05_SOURCE_GATED with assetClass SOURCE-GATED, and under a filename naming the ADA notice printed in small type at the foot of the page rather than the motion the page is. The SHA-256 binding is unchanged and the misfiling is raised as a finding rather than worked around silently.",
-            "Three of the form's widgets are named after the wrong thing: the conviction-date box is named after the sentence that follows it, the signature widget is named `undefined`, and the two mailing-address lines are named `1` and `2`. Every caption used here is read off the printed page at the widget's own coordinate rather than from the widget name, and each mismatch is recorded in the field census.",
-            "CR-289's two substantive assertions — the one-year waiting period and the absence of a disqualifying trafficking or prostitution conviction — are printed as numbered paragraphs with no control beside either. Signing the motion asserts them, so the instructions carry both in the form's own words and nothing is ticked."
-          ],
-          "correctionsMadeToThisRow": [
-            "An earlier revision of this builder recorded that CR-289 pre-prints X marks beside paragraphs 2 and 3. It does not. The claim came from the text extraction, where the paragraph numbers come back as \"î X\" and \"ï X\"; the page raster shows plain numbered paragraphs. The builder header, the participant instructions, the route-selection note and the build finding were all corrected, and the correction is recorded here rather than dropped."
-          ],
-          "findingsRaisedForOthers": [
-            "CR-289 is filed in the corpus as SOURCE-GATED under 05_SOURCE_GATED, and its filename names the ADA notice rather than the motion. A resolver that filters on assetClass === \"FORM\" reports BLOCKED_SOURCE for a form that is present and binds exactly. The corpus index is outside this lane's owned paths and was read, never edited.",
-            "The printed text stream carries U+0092 where a reader sees an apostrophe, which any caption check against this form has to allow for.",
-            "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture.",
-            "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
-            "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
-          ],
-          "independentVerificationStatus": "PENDING",
-          "commercialRoutesOpened": 0,
-          "productionTouched": false,
-          "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
-          "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
-        }
-      ],
-      "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
-    }
+  "supersededAtReusedPath": {
+    "previousWorkerId": "FABLE-PB",
+    "previousShiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+    "previousCurrentRow": "ms-diversion-set",
+    "preservation": "preserved in Git history; excluded from this exact one-family PF09 return"
   }
 }
