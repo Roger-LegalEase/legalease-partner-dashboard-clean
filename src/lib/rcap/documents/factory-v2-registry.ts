@@ -6,6 +6,7 @@ import path from "node:path";
 import {
   packetSpecificationFor,
   packetSpecificationForTrack,
+  specificationContentSha256,
   specificationLegalSectionsBound
 } from "@/lib/rcap/grade-a/packet-specification";
 
@@ -53,13 +54,25 @@ export type FactoryV2Route = {
   packetFamilyId: string | null;
   /** Present only for an exact route migrated out of a retired legacy jurisdiction. */
   retiredLegacyRouteMigration: FactoryV2RouteMigration | null;
-  /** True when the generated runtime row carries sibling tracks and the caller must name the exact migrated track. */
+  /** Present only for the exact unapproved CT route/track/family technical crosswalk. */
+  exactRouteProductization: FactoryV2ExactRouteProductization | null;
+  /** True when the caller must name the exact server-owned track. */
   exactTrackSelectionRequired: boolean;
 };
 
 const REGISTRY_PATH = "data/record-clearing/factory-v2-route-registry.json";
 const ROUTE_MIGRATIONS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
 const COHORT_OWNER_DECISION = "OWN-ADOPT-2026-09-02-BATCH-53";
+const CT_CLEANSLATE_PRODUCTIZATION = {
+  obligationRouteKey: "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+  runtimeRouteId: "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+  jurisdiction: "CT",
+  pathwayId: "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+  registryTrackIds: ["ct-cleanslate-petition"],
+  packetFamilyId: "ct-cleanslate-petition-set",
+  scope: "route_track_family_only",
+  nextGate: "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation"
+} as const;
 
 const REQUIRED_BUILD_INPUTS = [
   "authoritativeProfile",
@@ -95,6 +108,21 @@ export type FactoryV2RouteMigration = {
   ownerDecisionRecordId: string;
 };
 
+export type FactoryV2ExactRouteProductization = {
+  obligationRouteKey: string;
+  runtimeRouteId: string;
+  jurisdiction: string;
+  pathwayId: string;
+  registryTrackIds: string[];
+  packetFamilyId: string;
+  scope: "route_track_family_only";
+  legalApproval: null;
+  postApprovalChangeAudit: null;
+  createsCommercialAuthority: false;
+  opensRoute: false;
+  nextGate: string;
+};
+
 type RawRouteMigration = {
   routeId?: unknown;
   jurisdiction?: unknown;
@@ -112,6 +140,22 @@ type RawPacketSet = {
   jurisdiction?: unknown;
   trackId?: unknown;
   packetSetId?: unknown;
+  factoryV2RouteProductization?: unknown;
+};
+
+type RawExactRouteProductization = {
+  obligationRouteKey?: unknown;
+  runtimeRouteId?: unknown;
+  jurisdiction?: unknown;
+  pathwayId?: unknown;
+  registryTrackIds?: unknown;
+  packetFamilyId?: unknown;
+  scope?: unknown;
+  legalApproval?: unknown;
+  postApprovalChangeAudit?: unknown;
+  createsCommercialAuthority?: unknown;
+  opensRoute?: unknown;
+  nextGate?: unknown;
 };
 
 let cache: Map<string, FactoryV2Route> | null = null;
@@ -190,7 +234,67 @@ function loadRouteMigrations(): ReadonlyMap<string, FactoryV2RouteMigration> {
   return migrations;
 }
 
-function admissible(route: RawRoute, migration: FactoryV2RouteMigration | null): boolean {
+/**
+ * The CT lane has technical packet proof but no current owner legal approval.
+ * Its packet-set row therefore carries a distinct exact crosswalk rather than a
+ * legacy migration or an approval record. Every value is matched literally so
+ * a sibling, aggregate, trackless or different-family substitution admits
+ * nothing. The null legal fields and false authority flags are part of the
+ * crosswalk, not commentary.
+ */
+function loadCtCleanSlateProductization(): FactoryV2ExactRouteProductization | null {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(path.join(process.cwd(), ROUTE_MIGRATIONS_PATH), "utf8")) as {
+      packetSets?: unknown;
+    };
+    if (!Array.isArray(parsed.packetSets)) return null;
+    const matches = (parsed.packetSets as RawPacketSet[]).filter((packetSet) =>
+      packetSet.packetSetId === CT_CLEANSLATE_PRODUCTIZATION.packetFamilyId);
+    if (matches.length !== 1) return null;
+    const packetSet = matches[0];
+    const row = packetSet.factoryV2RouteProductization as RawExactRouteProductization | null;
+    if (!row || typeof row !== "object" || Array.isArray(row)) return null;
+    if (
+      packetSet.jurisdiction !== CT_CLEANSLATE_PRODUCTIZATION.jurisdiction
+      || packetSet.trackId !== CT_CLEANSLATE_PRODUCTIZATION.registryTrackIds[0]
+      || row.obligationRouteKey !== CT_CLEANSLATE_PRODUCTIZATION.obligationRouteKey
+      || row.runtimeRouteId !== CT_CLEANSLATE_PRODUCTIZATION.runtimeRouteId
+      || row.jurisdiction !== CT_CLEANSLATE_PRODUCTIZATION.jurisdiction
+      || row.pathwayId !== CT_CLEANSLATE_PRODUCTIZATION.pathwayId
+      || !exactStringList(row.registryTrackIds, CT_CLEANSLATE_PRODUCTIZATION.registryTrackIds)
+      || row.packetFamilyId !== CT_CLEANSLATE_PRODUCTIZATION.packetFamilyId
+      || row.packetFamilyId !== packetSet.packetSetId
+      || row.scope !== CT_CLEANSLATE_PRODUCTIZATION.scope
+      || row.legalApproval !== null
+      || row.postApprovalChangeAudit !== null
+      || row.createsCommercialAuthority !== false
+      || row.opensRoute !== false
+      || row.nextGate !== CT_CLEANSLATE_PRODUCTIZATION.nextGate
+    ) return null;
+    return {
+      obligationRouteKey: CT_CLEANSLATE_PRODUCTIZATION.obligationRouteKey,
+      runtimeRouteId: CT_CLEANSLATE_PRODUCTIZATION.runtimeRouteId,
+      jurisdiction: CT_CLEANSLATE_PRODUCTIZATION.jurisdiction,
+      pathwayId: CT_CLEANSLATE_PRODUCTIZATION.pathwayId,
+      registryTrackIds: [...CT_CLEANSLATE_PRODUCTIZATION.registryTrackIds],
+      packetFamilyId: CT_CLEANSLATE_PRODUCTIZATION.packetFamilyId,
+      scope: CT_CLEANSLATE_PRODUCTIZATION.scope,
+      legalApproval: null,
+      postApprovalChangeAudit: null,
+      createsCommercialAuthority: false,
+      opensRoute: false,
+      nextGate: CT_CLEANSLATE_PRODUCTIZATION.nextGate
+    };
+  } catch {
+    return null;
+  }
+}
+
+function admissible(
+  route: RawRoute,
+  migration: FactoryV2RouteMigration | null,
+  exactProductization: FactoryV2ExactRouteProductization | null
+): boolean {
   const generatedAdmission = route.factoryV2Resolves === true
     && route.legacyGeneratorOwnsThisJurisdiction !== true;
   const exactLegacyMigration = route.factoryV2Resolves === false
@@ -206,8 +310,25 @@ function admissible(route: RawRoute, migration: FactoryV2RouteMigration | null):
   if (typeof route.profileVersion !== "string" || route.profileVersion.trim() === "") return false;
   if (stringList(route.packetSetIds).length === 0) return false;
   if (stringList(route.requiredInputIds).length === 0) return false;
+  const jurisdiction = route.jurisdiction.trim().toUpperCase();
+  const routeId = `${jurisdiction}:${route.pathwayId.trim()}`;
+  // Once CT is route-productized, its generated jurisdiction rows are not an
+  // aggregate grant. Only the exact manifest crosswalk below may pass.
+  if (jurisdiction === CT_CLEANSLATE_PRODUCTIZATION.jurisdiction && !exactProductization) return false;
+  if (exactProductization) {
+    if (migration) return false;
+    if (routeId !== exactProductization.runtimeRouteId) return false;
+    if (route.pathwayId.trim() !== exactProductization.pathwayId) return false;
+    if (!exactStringList(route.registryTrackIds, exactProductization.registryTrackIds)) return false;
+    if (!exactStringList(route.packetSetIds, [exactProductization.packetFamilyId])) return false;
+    const specification = packetSpecificationForTrack(routeId, exactProductization.registryTrackIds[0]);
+    const specificationRouteKeys = specification?.routeKeys ?? (specification ? [specification.routeKey] : []);
+    if (specification?.packetFamily !== exactProductization.packetFamilyId) return false;
+    if (!specificationRouteKeys.includes(routeId)) return false;
+    if (specificationLegalSectionsBound(specification)) return false;
+    if (!/^[0-9a-f]{64}$/.test(specificationContentSha256(specification))) return false;
+  }
   if (migration) {
-    const routeId = `${String(route.jurisdiction).trim().toUpperCase()}:${String(route.pathwayId).trim()}`;
     const specification = migration.registryTrackIds.length === 1
       ? packetSpecificationForTrack(routeId, migration.registryTrackIds[0])
       : undefined;
@@ -232,6 +353,7 @@ function loadAll(): Map<string, FactoryV2Route> {
   if (cache) return cache;
   const admitted = new Map<string, FactoryV2Route>();
   const migrations = loadRouteMigrations();
+  const ctCleanSlateProductization = loadCtCleanSlateProductization();
   const file = path.join(process.cwd(), REGISTRY_PATH);
   try {
     if (fs.existsSync(file)) {
@@ -241,12 +363,21 @@ function loadAll(): Map<string, FactoryV2Route> {
         const pathwayId = String(route.pathwayId).trim();
         const routeId = `${jurisdiction}:${pathwayId}`;
         const migration = migrations.get(routeId) ?? null;
-        if (!admissible(route, migration)) continue;
+        const exactProductization = routeId === CT_CLEANSLATE_PRODUCTIZATION.runtimeRouteId
+          ? ctCleanSlateProductization
+          : null;
+        if (!admissible(route, migration, exactProductization)) continue;
         const specification = packetSpecificationFor(routeId);
         const rawRegistryTrackIds = stringList(route.registryTrackIds);
         const rawPacketSetIds = stringList(route.packetSetIds);
-        const registryTrackIds = migration?.registryTrackIds ?? rawRegistryTrackIds;
-        const packetSetIds = migration ? [migration.packetFamilyId] : rawPacketSetIds;
+        const registryTrackIds = migration?.registryTrackIds
+          ?? exactProductization?.registryTrackIds
+          ?? rawRegistryTrackIds;
+        const packetSetIds = migration
+          ? [migration.packetFamilyId]
+          : exactProductization
+            ? [exactProductization.packetFamilyId]
+            : rawPacketSetIds;
         admitted.set(`${jurisdiction}:${pathwayId}`, {
           pathwayKey: `${jurisdiction}:${pathwayId}`,
           jurisdiction,
@@ -258,9 +389,11 @@ function loadAll(): Map<string, FactoryV2Route> {
           officialFormIds: stringList(route.officialFormIds),
           packetFamilyId: specification?.packetFamily ?? null,
           retiredLegacyRouteMigration: migration,
-          exactTrackSelectionRequired: migration !== null
-            && (!exactStringList(rawRegistryTrackIds, registryTrackIds)
-              || !exactStringList(rawPacketSetIds, packetSetIds))
+          exactRouteProductization: exactProductization,
+          exactTrackSelectionRequired: exactProductization !== null
+            || (migration !== null
+              && (!exactStringList(rawRegistryTrackIds, registryTrackIds)
+                || !exactStringList(rawPacketSetIds, packetSetIds)))
         });
       }
     }
@@ -283,7 +416,8 @@ export function factoryV2RouteFor(
   const id = String(pathwayId ?? "").trim();
   if (!code || !id) return null;
   const route = loadAll().get(`${code}:${id}`) ?? null;
-  if (!route?.retiredLegacyRouteMigration) return route;
+  if (!route) return null;
+  if (!route.retiredLegacyRouteMigration && !route.exactRouteProductization) return route;
   const selectedTrackId = String(trackId ?? "").trim();
   if (selectedTrackId && !route.registryTrackIds.includes(selectedTrackId)) return null;
   if (route.exactTrackSelectionRequired && !selectedTrackId) return null;
