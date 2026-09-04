@@ -276,6 +276,9 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
     "participant.city_state_zip": `${city}, ${location.state} ${zip}`,
     "participant.phone": boundary ? `${location.phone} extension 44821` : location.phone,
     "matter.county": county,
+    ...(jurisdiction === "PA" ? {
+      "matter.court_level": boundary ? "court_of_common_pleas" : "magisterial_district_judge",
+    } : {}),
   };
 }
 
@@ -515,6 +518,28 @@ function readableCaption(label) {
 
 const FAMILY = {};
 
+const PA_6308_ROUTE_VEHICLES = Object.freeze({
+  magisterial_district_judge: Object.freeze({
+    vehicleId: "rule_490",
+    primary: "PA-RCRIM-P-490-PETITION",
+    proposedOrder: "PA-RCRIM-P-490-ORDER",
+  }),
+  court_of_common_pleas: Object.freeze({
+    vehicleId: "rule_790",
+    primary: "PA-RCRIM-P-790-PETITION",
+    proposedOrder: "PA-RCRIM-P-790-ORDER",
+  }),
+});
+
+function pa6308VehicleFor(facts) {
+  const courtLevel = String(facts?.["matter.court_level"] ?? "").trim();
+  const vehicle = PA_6308_ROUTE_VEHICLES[courtLevel];
+  if (!vehicle) {
+    throw new Error(`PA underage-expungement vehicle requires an established court level: ${courtLevel || "matter.court_level is absent"}`);
+  }
+  return vehicle;
+}
+
 const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
   DefAddrCity: "participant.city", DefAddrSt: "participant.state", DefAddrZip: "participant.zip",
@@ -531,6 +556,33 @@ function njFamily(routeKey, selectionNames, allow, note, familyAdditions = {}, d
 }
 
 Object.assign(FAMILY, {
+  "pa_6308_underage-set": {
+    jurisdiction: "PA",
+    routeKeys: ["obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"],
+    routeVehicle: {
+      factId: "matter.court_level",
+      values: PA_6308_ROUTE_VEHICLES,
+      selector: pa6308VehicleFor,
+      missingFactTreatment: "STOP_NO_ARTIFACT",
+    },
+    documents: [
+      cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_490" }),
+      cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW, routeVehicle: "rule_490" }),
+      cloneDoc(PA_790_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, routeVehicle: "rule_790" }),
+      cloneDoc(PA_790_ORDER, { allow: PA_ORDER_ALLOW, routeVehicle: "rule_790" }),
+    ],
+    unbuiltComponents: [{
+      documentId: "pa_6308_underage-certificate-of-service-3",
+      documentRole: "certificate_of_service",
+      generatedParticipantArtifact: false,
+      why: "The committed packet set requires a custom service certificate, but no governed locally accepted service method or generated component is bound here. It remains an explicit repair remainder rather than guessed content.",
+    }],
+    notes: [
+      "Rule 490 is selected only when the court record establishes a magisterial-district-judge case; Rule 790 is selected only when it establishes a court-of-common-pleas case.",
+      "If the court level is absent or outside those two recorded values, generation stops before any participant artifact is selected.",
+      "The required custom certificate-of-service component remains a separately disclosed build remainder; this mapping does not invent one.",
+    ],
+  },
   "nj_arrest_no_conviction-set": njFamily(
     "obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
     ["dismiss"], { origCaseNums: "matter.case_number",
@@ -2713,6 +2765,9 @@ async function buildOfficial(familyId, config) {
   const wiringFile = abs(`${out}/product-wiring.json`);
   const installedWiring = fs.existsSync(wiringFile) ? fs.readFileSync(wiringFile) : null;
   resetOwnedOutput(out);
+  if (familyId === "pa_6308_underage-set") {
+    fs.rmSync(abs(PA_6308_OUT), { recursive: true, force: true });
+  }
   if (installedWiring) fs.writeFileSync(wiringFile, installedWiring);
   const rows = [];
   const fieldMaps = [];
@@ -2732,6 +2787,10 @@ async function buildOfficial(familyId, config) {
 
     for (const [fixture, facts] of [["canonical", factsForJurisdiction(config.jurisdiction)],
       ["boundary", factsForJurisdiction(config.jurisdiction, true)]]) {
+      if (config.routeVehicle) {
+        const selectedVehicle = config.routeVehicle.selector(facts);
+        if (doc.routeVehicle !== selectedVehicle.vehicleId) continue;
+      }
       const unwritableFields = map.filter((row) => row.decision !== "candidate_write")
         .map((row) => ({ field: row.field,
           class: row.refusalClass ?? (row.requiredBeforeFiling === true ? "required_before_filing" : "route_selection_or_role") }));
@@ -2925,12 +2984,65 @@ async function buildOfficial(familyId, config) {
     // A source-only companion is deliberately not rendered; the record says so
     // by name, so its absence from the fixtures reads as the decision it is
     // rather than as a missing component.
-    componentsNotGenerated: config.documents.filter((doc) => doc.render === false).map((doc) => ({
-      documentId: doc.documentId, documentRole: doc.documentRole,
-      generatedParticipantArtifact: false,
-      why: "This companion is held as exact source evidence and is not a generated participant artifact, so no fixture is rendered for it.",
-    })),
+    componentsNotGenerated: [
+      ...config.documents.filter((doc) => doc.render === false).map((doc) => ({
+        documentId: doc.documentId, documentRole: doc.documentRole,
+        generatedParticipantArtifact: false,
+        why: "This companion is held as exact source evidence and is not a generated participant artifact, so no fixture is rendered for it.",
+      })),
+      ...(config.unbuiltComponents ?? []),
+    ],
   });
+  if (config.routeVehicle) {
+    writeJson(`${out}/route-vehicle-map.json`, {
+      schemaVersion: "rcap-route-vehicle-map/v1",
+      familyId,
+      controllingFact: config.routeVehicle.factId,
+      acceptedValues: Object.entries(config.routeVehicle.values).map(([value, vehicle]) => ({
+        value, vehicleId: vehicle.vehicleId, primary: vehicle.primary,
+        proposedOrder: vehicle.proposedOrder,
+      })),
+      missingOrUnknownFactTreatment: config.routeVehicle.missingFactTreatment,
+      mappingAuthority: "committed legal-design generation requirement and owner execution decision",
+      generatedFixtures: artifactReports.map((artifact) => ({
+        fixture: artifact.fixture,
+        documentId: artifact.documentId,
+        courtLevel: factsForJurisdiction(config.jurisdiction, artifact.fixture === "boundary")[config.routeVehicle.factId],
+      })),
+      generationAllowed: false,
+      runtimeSelectable: false,
+      commercialRoutesOpened: 0,
+    });
+    writeJson(`${out}/packet-component-specification.json`, {
+      schemaVersion: "rcap-packet-component-specification/v1",
+      familyId,
+      routeKeys: config.routeKeys,
+      status: "ROUTE_VEHICLE_MAPPED_OFFICIAL_ARTIFACTS_BUILT_COMPONENT_REMAINDER_DISCLOSED",
+      courtStatusMetadata: {
+        factId: config.routeVehicle.factId,
+        requiredRecordSource: "court docket or clerk-certified disposition",
+        selectors: Object.entries(config.routeVehicle.values).map(([value, vehicle]) => ({
+          value, officialVehicle: [vehicle.primary, vehicle.proposedOrder],
+        })),
+        noInferenceRule: "Do not select from the charge label, packet directory name, or user recollection. Stop without producing a participant artifact when the court record does not establish the court level.",
+      },
+      serviceCertificate: {
+        componentId: "pa_6308_underage-certificate-of-service-3",
+        status: "REQUIRED_NOT_GENERATED",
+        recipient: "attorney for the Commonwealth",
+        timing: "concurrently with filing",
+        noGuessRule: "Do not invent a locally accepted service method or service facts. The participant completes the certificate only after service actually occurs.",
+      },
+      sourceBindings: [
+        `${out}/source-receipt.json`,
+        `${out}/route-vehicle-map.json`,
+        "data/record-clearing/legal-design-track-registry.json",
+      ],
+      generationAllowed: false,
+      runtimeSelectable: false,
+      commercialRoutesOpened: 0,
+    });
+  }
   writeJson(`${out}/build-findings.json`, {
     schemaVersion: "rcap-family-build-findings/v1", familyId,
     status: "artifact_evidence_built_review_required",
@@ -2968,6 +3080,26 @@ async function checkOfficial(familyId, config) {
     "reports/actual-writes.json", "reports/rendered-artifacts.json", "build-findings.json",
     "approval-request.json", "participant-instructions.md"];
   for (const file of required) assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
+  if (config.routeVehicle) {
+    for (const file of ["route-vehicle-map.json", "packet-component-specification.json"]) {
+      assert.ok(fs.existsSync(abs(`${out}/${file}`)), `${familyId}: missing ${file}`);
+    }
+    const routeMap = readJson(`${out}/route-vehicle-map.json`);
+    const componentSpec = readJson(`${out}/packet-component-specification.json`);
+    assert.equal(routeMap.familyId, familyId);
+    assert.equal(routeMap.controllingFact, config.routeVehicle.factId);
+    assert.equal(routeMap.missingOrUnknownFactTreatment, "STOP_NO_ARTIFACT");
+    assert.deepEqual(config.routeVehicle.selector({ [config.routeVehicle.factId]: "magisterial_district_judge" }),
+      PA_6308_ROUTE_VEHICLES.magisterial_district_judge);
+    assert.deepEqual(config.routeVehicle.selector({ [config.routeVehicle.factId]: "court_of_common_pleas" }),
+      PA_6308_ROUTE_VEHICLES.court_of_common_pleas);
+    assert.throws(() => config.routeVehicle.selector({}), /requires an established court level/);
+    assert.throws(() => config.routeVehicle.selector({ [config.routeVehicle.factId]: "unknown" }),
+      /requires an established court level/);
+    assert.equal(componentSpec.serviceCertificate.status, "REQUIRED_NOT_GENERATED");
+    assertFailClosedEvidence(routeMap, `${familyId}/route-vehicle-map`);
+    assertFailClosedEvidence(componentSpec, `${familyId}/packet-component-specification`);
+  }
   const receipt = readJson(`${out}/source-receipt.json`);
   const census = readJson(`${out}/field-census.census-v1.json`);
   const map = readJson(`${out}/production-field-map.json`);
