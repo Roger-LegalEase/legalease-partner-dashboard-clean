@@ -19761,6 +19761,54 @@
         "name": "The court where the conviction records are located, in the existing criminal case",
         "detail": "Court-controlled with a district attorney response opportunity."
       },
+      "officialFormSetMapping": {
+        "status": "MAPPED",
+        "issuer": "Colorado Judicial Branch",
+        "courtScope": "county or district court conviction; not municipal court",
+        "components": [
+          {
+            "formId": "JDF-612",
+            "role": "primary_filing",
+            "requirement": "required",
+            "revision": "2025-07-01"
+          },
+          {
+            "formId": "JDF-614",
+            "role": "hearing_notice",
+            "requirement": "conditional",
+            "condition": "The court determines that a hearing is necessary.",
+            "revision": "2024-08-07",
+            "courtOwned": true
+          },
+          {
+            "formId": "JDF-615",
+            "role": "proposed_order",
+            "requirement": "required",
+            "revision": "2025-07-01",
+            "courtOwnedFields": "The court completes the form after the caption and defendant information."
+          }
+        ],
+        "sourceCustodyStatus": "SOURCE_REFRESH_REQUIRED",
+        "sourceCustodyBlocker": "Committed custody has superseded 2024-08-07 JDF-612 and JDF-615 bytes and no JDF-614. Ingest the exact current issuer bytes recorded in sourceBindings before build or release.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:JDF-612",
+          "revision": "2025-07-01",
+          "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b"
+        },
+        {
+          "sourceId": "official-form:JDF-614",
+          "revision": "2024-08-07",
+          "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b"
+        },
+        {
+          "sourceId": "official-form:JDF-615",
+          "revision": "2025-07-01",
+          "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26"
+        }
+      ],
       "packetSet": {
         "packetSetId": "co_motion_seal_conviction-set",
         "version": "1.0.0",
@@ -19772,18 +19820,28 @@
             "conditionDescription": null,
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "JDF-612",
-            "officialSourceUrl": null,
+            "officialSourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
             "order": 1
           },
           {
-            "componentId": "co_motion_seal_conviction-proposed-order-2",
+            "componentId": "co_motion_seal_conviction-hearing-notice-2",
+            "role": "hearing_notice",
+            "requirement": "conditional",
+            "conditionDescription": "Used when the court determines that a hearing is necessary.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "JDF-614",
+            "officialSourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+            "order": 2
+          },
+          {
+            "componentId": "co_motion_seal_conviction-proposed-order-3",
             "role": "proposed_order",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "JDF-615",
-            "officialSourceUrl": null,
-            "order": 2
+            "officialSourceUrl": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF615.pdf",
+            "order": 3
           }
         ],
         "participantActionRequired": [
@@ -19875,10 +19933,22 @@
       },
       "officialSources": [
         {
-          "title": "JDF 612, Motion to Seal Conviction Records",
-          "url": "https://www.coloradojudicial.gov/self-help/seal-my-case",
-          "retrievedOn": "2026-07-30",
-          "sha256": null
+          "title": "JDF 612, Motion to Seal Conviction Records, R: July 1, 2025",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
+          "retrievedOn": "2026-09-04",
+          "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b"
+        },
+        {
+          "title": "JDF 614, Order and Notice of Hearing to Seal Conviction Records, R: August 7, 2024",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+          "retrievedOn": "2026-09-04",
+          "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b"
+        },
+        {
+          "title": "JDF 615, Order to Seal Conviction Records, R: July 1, 2025",
+          "url": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF615.pdf",
+          "retrievedOn": "2026-09-04",
+          "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26"
         }
       ],
       "rules": {
@@ -19967,7 +20037,7 @@
       "buildBlockers": [],
       "releaseBlockers": [
         {
-          "question": "JDF 615, Order to Seal Conviction Records, has not been acquired. This is the missing grant order on the highest-value track.",
+          "question": "The official form set is JDF 612, JDF 614, and JDF 615. Current issuer bytes are JDF 612 R: July 1, 2025 at sha256 4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b, JDF 614 R: August 7, 2024 at sha256 08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b, and JDF 615 R: July 1, 2025 at sha256 184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26. Committed custody contains superseded JDF 612 and JDF 615 bytes and no JDF 614, so exact current bytes must be ingested before build or release.",
           "impact": "release_blocker",
           "affectedElement": "packet_components",
           "provenance": {
@@ -20069,11 +20139,11 @@
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (packet_components): JDF 615, Order to Seal Conviction Records, has not been acquired. This is the missing grant order on the highest-value track."
+          "statement": "Source refresh blocks release (packet_components): the official form set is JDF 612, JDF 614, and JDF 615, but committed custody does not contain all three current issuer revisions and hashes recorded by this track."
         },
         {
           "kind": "source_gate",
-          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+          "statement": "Current official JDF 612, JDF 614, and JDF 615 hashes are recorded, but those exact current bytes are not yet all present in committed source custody."
         }
       ]
     },
@@ -40737,6 +40807,19 @@
         "name": "The county or municipal jail or detention center that holds the booking records",
         "detail": "The written request goes directly to the facility. The facility must restrict access to all such criminal history record information within 30 days of the request. No court is involved."
       },
+      "routeFormMapping": {
+        "status": "MAPPED_WITH_HARD_STOPS",
+        "statewideVehicle": "A participant-signed written request under O.C.G.A. § 35-3-37(k)(2), sent directly to the county or municipal jail or detention center that maintains the already-restricted offense record.",
+        "statewideOfficialFormId": null,
+        "formExclusions": [
+          "Do not use the GBI Request to Restrict Arrest Record form for this post-restriction jail-record request. The current GBI and Judicial Council pages identify that form as the pre-July 1, 2013 arrest-restriction workflow routed through the arresting agency and prosecutor.",
+          "Do not treat Gwinnett County Solicitor General's Request to Restrict Arrest Record as a § 35-3-37(k)(2) jail request. The form itself routes to the Solicitor General and prosecutor for the underlying restriction even though its cover page describes jail records."
+        ],
+        "localFormOverride": "If the destination jail or detention center publishes a specific § 35-3-37(k)(2) form or intake route, that facility-specific route controls over the generated written request.",
+        "timingHardStop": "The statutory text permits a request once the record has been restricted and gives the facility 30 days after receipt to act. Current Gwinnett County guidance separately instructs waiting 30 days after restriction. Until that discrepancy is resolved for the destination facility, do not state a universal earliest-send date.",
+        "destinationHardStop": "Do not generate until the actual jail or detention center maintaining the booking record and its current records-unit delivery address are established.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact route/form identity closure"
+      },
       "packetSet": {
         "packetSetId": "ga-jail-k2-set",
         "version": "1.0.0",
@@ -40857,13 +40940,19 @@
         {
           "title": "Georgia Criminal History Record Restrictions",
           "url": "https://gbi.georgia.gov/services/georgia-criminal-history-record-restrictions",
-          "retrievedOn": "2026-08-02",
+          "retrievedOn": "2026-09-04",
           "sha256": null
         },
         {
           "title": "Record Restrictions/Expungement, Judicial Council of Georgia Administrative Office of the Courts, Access to Justice self-help resources",
           "url": "https://georgiacourts.gov/a2j/self-help-resources/record-restrictions-expungement/",
-          "retrievedOn": "2026-08-02",
+          "retrievedOn": "2026-09-04",
+          "sha256": null
+        },
+        {
+          "title": "Gwinnett County Solicitor General — Record Restrictions Information, including § 35-3-37(k)(2) jail-record guidance",
+          "url": "https://www.gwinnettcounty.com/government/departments/solicitor/record-restrictions-information",
+          "retrievedOn": "2026-09-04",
           "sha256": null
         }
       ],
@@ -84238,6 +84327,35 @@
         "name": "Boston Municipal Court division identified by the Standing Order",
         "detail": "A consolidated petition supplements rather than replaces the statewide form. The judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department."
       },
+      "formIdentityInvestigation": {
+        "status": "STOPPED_AMBIGUOUS",
+        "reviewedOn": "2026-09-04",
+        "controllingProcedure": {
+          "title": "Boston Municipal Court Amended Standing Order 1-09: Sealing three or more eligible criminal records",
+          "effectiveDate": "2024-05-10",
+          "url": "https://www.mass.gov/districtmunicipal-court-rules/boston-municipal-court-amended-standing-order-1-09-sealing-three-or-more-eligible-criminal-records",
+          "statement": "The Standing Order authorizes one petition for three or more eligible records from two or more BMC divisions and says a petition form is available on the BMC Mass.gov website."
+        },
+        "officialCandidatesReviewed": [
+          {
+            "formId": "TC0057",
+            "title": "Petition to Seal Criminal Records for Nolle Prosequi or Dismissal",
+            "revision": "2024-03",
+            "url": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+            "relationship": "NOT_ESTABLISHED_AS_CONSOLIDATED_BMC_PETITION",
+            "why": "The form expressly directs the filer to use a separate form for each case and carries one docket-number caption, which conflicts with treating it as the single multi-case petition without further issuer direction."
+          },
+          {
+            "formId": "TC0059",
+            "title": "General Motion",
+            "url": "https://www.mass.gov/how-to/request-to-seal-your-criminal-record",
+            "relationship": "NOT_IDENTIFIED_BY_ISSUER_AS_BMC_MULTI_RECORD_PETITION",
+            "why": "The current self-help page lists the general motion but does not identify it as the petition form referenced by Standing Order 1-09."
+          }
+        ],
+        "hardStop": "Do not assign TC0057, TC0059, or the existing custom pleading as the controlling single petition until the issuing court identifies the petition form referenced by the current Standing Order or confirms that no dedicated form is published.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
       "packetSet": {
         "packetSetId": "ma-bmc-multi-set",
         "version": "1.0.0",
@@ -84451,7 +84569,7 @@
       "buildBlockers": [],
       "releaseBlockers": [
         {
-          "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+          "question": "The current Boston Municipal Court Standing Order effective May 10, 2024 says a petition form is available for the single multi-record filing. The current official self-help page exposes TC0057, which expressly requires a separate form for each case, and TC0059, which the issuer does not identify as the Standing Order petition. The controlling single-petition form remains ambiguous; do not assign either candidate or approve the custom pleading without issuer confirmation.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
@@ -84474,7 +84592,7 @@
       ],
       "unresolvedQuestions": [
         {
-          "question": "Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents.",
+          "question": "The current Boston Municipal Court Standing Order effective May 10, 2024 says a petition form is available for the single multi-record filing. The current official self-help page exposes TC0057, which expressly requires a separate form for each case, and TC0059, which the issuer does not identify as the Standing Order petition. The controlling single-petition form remains ambiguous; do not assign either candidate or approve the custom pleading without issuer confirmation.",
           "impact": "release_blocker",
           "affectedElement": "correct_form",
           "provenance": {
@@ -84579,7 +84697,7 @@
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (correct_form): Whether the Boston Municipal Court publishes a dedicated form for the consolidated multi-record petition. The Standing Order prescribes contents and procedure but no published form was established, so a controlled custom pleading is used against those required contents."
+          "statement": "Form-identity ambiguity blocks release (correct_form): the current Standing Order says a single-petition form is available, but current official materials do not establish whether TC0057, TC0059, or a separate unpublished BMC form is that instrument."
         },
         {
           "kind": "source_gate",
@@ -156360,6 +156478,26 @@
         "name": "The Ohio court that handled the case",
         "detail": "Filed with the clerk of that court on that court's own application. Ohio publishes no statewide mandatory packet and local practice varies materially, so the participant obtains their court's form and LegalEase supplies the statutory content."
       },
+      "officialFormSetMapping": {
+        "status": "STOPPED_STALE_STANDARD_FORM",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "relationship": "Appendix D Form 96-F1 is titled for nonconviction sealing under former R.C. 2953.52. The controlling statute was amended and renumbered to R.C. 2953.33 effective April 4, 2023, and now permits sealing or, subject to division (C), expungement. The current Appendix D form still cites the superseded section and does not make the current seal-versus-expunge election.",
+        "hardStop": "Do not assign Form 96-F1 to current R.C. 2953.33 or infer an expungement form. Require an updated issuer form or a current destination-court application matching the requested remedy.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-F1",
+          "revision": "2026-08-06",
+          "containerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.33",
+          "revision": "2023-10-03",
+          "sha256": "33649aa5159bf343c74e152972f3f18b2803ca0b500529dd8886db6b0c1165d2"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_33_nonconviction-set",
         "version": "1.0.0",
@@ -157441,8 +157579,8 @@
           "duration": "none. Any time after the forfeiture entry"
         }
       ],
-      "outputStrategy": "custom_pleading",
-      "outputStrategyDeclared": "custom_pleading",
+      "outputStrategy": "official_pdf_fill",
+      "outputStrategyDeclared": "official_pdf_fill",
       "compositionMode": null,
       "units": [],
       "geographicScope": "statewide",
@@ -157451,8 +157589,31 @@
       "destination": {
         "kind": "court",
         "name": "The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction",
-        "detail": "Filed with the clerk on that court's own application. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
+        "detail": "File statewide standard Form 96-C1 or a substantially similar local form accepted under Sup.R. 11.17. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
       },
+      "officialFormSetMapping": {
+        "status": "MAPPED_SOURCE_INGEST_REQUIRED",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "primaryFormId": "Form 96-C1",
+        "primaryFormTitle": "Application to Seal Record of Conviction Pursuant to R.C. 2953.32",
+        "relationship": "Form 96-C1 is the current statewide standard form matching this exact statute and remedy. Sup.R. 11.17 requires courts to accept the Appendix D forms and permits substantially similar local forms, so a local census is not a prerequisite to the statewide filing component.",
+        "sourceCustodyStatus": "SOURCE_INGEST_REQUIRED",
+        "sourceCustodyBlocker": "The current Rules of Superintendence bundle containing Appendix D Form 96-C1 is hash-bound below but is not present as an exact committed source body.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-C1",
+          "revision": "2026-08-06",
+          "containerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.32",
+          "revision": "2025-09-30",
+          "sha256": "21e6c7fb60eb473551942a6b1ad5ed814cb98d08289ca76bc73697a82556ecb5"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_32_sealing-set",
         "version": "1.0.0",
@@ -157462,9 +157623,9 @@
             "role": "primary_filing",
             "requirement": "required",
             "conditionDescription": null,
-            "outputStrategy": "custom_pleading",
-            "officialFormId": null,
-            "officialSourceUrl": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Form 96-C1",
+            "officialSourceUrl": "https://www.supremecourt.ohio.gov/docs/LegalResources/Rules/superintendence/Superintendence.pdf",
             "order": 1
           },
           {
@@ -158085,6 +158246,26 @@
         "name": "The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction",
         "detail": "Filed with the clerk on that court's own application. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
       },
+      "officialFormSetMapping": {
+        "status": "STOPPED_EXACT_FORM_GAP",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "relationship": "The current Appendix D contains Form 96-C1 for sealing a conviction under R.C. 2953.32, but no statewide standard form was identified for the distinct general conviction-expungement remedy added to current R.C. 2953.32. Form 96-C1 must not be relabeled or used as an expungement application.",
+        "hardStop": "Require a current expungement application from the destination court or explicit Supreme Court of Ohio confirmation of the statewide form before selecting the primary filing.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D",
+          "revision": "2026-08-06",
+          "sha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.32",
+          "revision": "2025-09-30",
+          "sha256": "21e6c7fb60eb473551942a6b1ad5ed814cb98d08289ca76bc73697a82556ecb5"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_32_expungement-set",
         "version": "1.0.0",
@@ -158721,6 +158902,26 @@
         "name": "The Ohio sentencing court",
         "detail": "Filed with the clerk on that court's own application. Ohio publishes no statewide mandatory packet."
       },
+      "officialFormSetMapping": {
+        "status": "STOPPED_STALE_AND_INCOMPLETE_STANDARD_FORM",
+        "issuer": "Supreme Court of Ohio",
+        "rule": "Sup.R. 11.17 and Appendix D",
+        "relationship": "Appendix D Form 96-D1 remains titled for expungement of an improperly-handled-firearm-in-a-motor-vehicle conviction under former R.C. 2953.37. The controlling provision was amended and renumbered to R.C. 2953.35 effective April 4, 2023, and now also reaches specified pre-June 13, 2022 R.C. 2923.12(B)(1) and R.C. 2923.16(E)(1) or (2) convictions. Form 96-D1 carries the former citation and does not identify every current statutory branch.",
+        "hardStop": "Do not treat Form 96-D1 as a complete current R.C. 2953.35 application. Require an updated issuer form or a destination-court application that expressly covers the applicant's exact statutory branch.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-rules:OH-SUPR-APPENDIX-D-FORM-96-D1",
+          "revision": "2026-08-06",
+          "containerSha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05"
+        },
+        {
+          "sourceId": "official-statute:OH-RC-2953.35",
+          "revision": "2023-04-04",
+          "sha256": "0f321aa7959cb5e6d4d628e51237d7d22716ba9a470a0b80ad22e322ec771b63"
+        }
+      ],
       "packetSet": {
         "packetSetId": "oh_2953_35_firearm-set",
         "version": "1.0.0",
@@ -226824,6 +227025,26 @@
         "name": "The Vermont Superior Court having jurisdiction over the proceeding sought to be sealed",
         "detail": "The application is filed with the court that had jurisdiction. The court must give notice to all parties of record and hold a hearing before it may order sealing, which distinguishes this route from every chapter 230 petition. Section 5119(k) obliges the court to provide assistance to persons who seek to file an application under the section."
       },
+      "officialFormSetMapping": {
+        "status": "STOPPED_AMBIGUOUS",
+        "issuer": "Vermont Judiciary",
+        "candidateFormId": "200-00130",
+        "candidateFormTitle": "Petition to Seal Criminal History",
+        "candidateRevision": "2025-07",
+        "relationship": "The current Vermont Judiciary expungement page identifies offenses committed before age 25 under 33 V.S.A. § 5119 and publishes Form 200-00130 in the general sealing workflow. Neither the page nor Form 200-00130 expressly states that the generic petition is the prescribed § 5119(g) application, and the form does not state § 5119(g)'s two-year final-discharge, ten-year listed-crime, and rehabilitation findings.",
+        "hardStop": "Do not replace the controlled § 5119(g) application with Form 200-00130 until the Vermont Judiciary confirms that the form controls this distinct statutory route or identifies a dedicated form.",
+        "sourceCustodyStatus": "CANDIDATE_BYTES_CURRENT_AND_HELD",
+        "sourceCustodyEvidence": "Current live Form 200-00130 bytes match the SHA-256 already held in the authoritative source inventory; custody does not resolve the route-fit ambiguity.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity investigation"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:200-00130",
+          "revision": "2025-07",
+          "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "relationshipStatus": "CANDIDATE_NOT_APPROVED_FOR_5119_G"
+        }
+      ],
       "packetSet": {
         "packetSetId": "vt_seal_under_25-set",
         "version": "1.0.0",
@@ -234642,59 +234863,204 @@
         "name": "Clerk of the sentencing court",
         "detail": "File the Blake motion and the matching order in the court that entered the conviction. Where the case included other charges, a partial vacate order is used. The refund of paid legal financial obligations and accrued interest is claimed with the motion."
       },
+      "officialFormSetMapping": {
+        "status": "MAPPED",
+        "issuer": "Washington State Administrative Office of the Courts",
+        "routeSelections": [
+          {
+            "when": "The conviction was entered in superior court.",
+            "motion": "Blake-001"
+          },
+          {
+            "when": "The conviction was entered in district or municipal court.",
+            "motion": "Blake-002"
+          },
+          {
+            "when": "A hearing is requested or scheduled.",
+            "hearingNotice": "Blake-003"
+          },
+          {
+            "when": "The motion and any notice of hearing are served on the prosecutor.",
+            "proofOfService": "Blake-004"
+          },
+          {
+            "when": "Limited-jurisdiction case and every conviction under the cause number is Blake-void.",
+            "order": "Blake-005"
+          },
+          {
+            "when": "Limited-jurisdiction case and non-Blake counts remain.",
+            "order": "Blake-006"
+          },
+          {
+            "when": "Superior-court case and every conviction under the cause number is Blake-void.",
+            "order": "Blake-007"
+          },
+          {
+            "when": "Superior-court case and non-Blake counts remain.",
+            "order": "Blake-008"
+          }
+        ],
+        "hardStop": "If the sentencing-court level or whether non-Blake counts remain is not established by the court record, do not select a motion or order; require human review.",
+        "refundAdministration": "The selected Blake motion and order address paid LFOs. After vacatur and the court's refund-eligibility determination, the participant applies through the Washington Courts Blake Refund Bureau portal or its official mail process. Blake-002 is the limited-jurisdiction motion, not a standalone refund claim.",
+        "sourceCustodyStatus": "SOURCE_REFRESH_REQUIRED",
+        "sourceCustodyBlocker": "Current Blake-001 and Blake-005 hashes match committed custody. Current Blake-002 differs from the committed same-revision bytes, and Blake-003, Blake-004, Blake-006, Blake-007, and Blake-008 are not bound in committed custody. Ingest the exact current bytes in sourceBindings before build.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:Blake-001",
+          "revision": "2026-04",
+          "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f"
+        },
+        {
+          "sourceId": "official-form:Blake-002",
+          "revision": "2026-04",
+          "sha256": "f6495869b4fea94e396971aaaf40cc31c9ccab0e79d759cdaf1cc17ded3217cd"
+        },
+        {
+          "sourceId": "official-form:Blake-003",
+          "revision": "2025-12",
+          "sha256": "69c5ba8fadc6123328c3508f8edf38db840c9b0026c75d614a1d9d0b456260e8"
+        },
+        {
+          "sourceId": "official-form:Blake-004",
+          "revision": "2025-12",
+          "sha256": "4fc9b490f332e76fa59104d4bff1458f3bdab53f3f6e139cdf3b66ab1700d0c7"
+        },
+        {
+          "sourceId": "official-form:Blake-005",
+          "revision": "2025-05",
+          "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635"
+        },
+        {
+          "sourceId": "official-form:Blake-006",
+          "revision": "2025-05",
+          "sha256": "85bfbe2da7687db133432b4382aac07156ef7b7b1c1574f65007b607cae74ade"
+        },
+        {
+          "sourceId": "official-form:Blake-007",
+          "revision": "2025-05",
+          "sha256": "6f6d867b882f74048f92c0a734525c597279af792f1468c2f55c6d3cb74de0bc"
+        },
+        {
+          "sourceId": "official-form:Blake-008",
+          "revision": "2025-05",
+          "sha256": "8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426"
+        }
+      ],
       "packetSet": {
         "packetSetId": "wa_blake_vacatur_and_lfo_refund-set",
         "version": "1.0.0",
         "components": [
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-primary-filing-1",
+            "componentId": "wa_blake_vacatur_and_lfo_refund-superior-motion-1",
             "role": "primary_filing",
-            "requirement": "required",
-            "conditionDescription": null,
+            "requirement": "conditional",
+            "conditionDescription": "Use for a superior-court conviction.",
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "Blake-001",
             "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20001%20SupCt%20Blake%20Motion%20April%202026.pdf",
             "order": 1
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-proposed-order-2",
-            "role": "proposed_order",
-            "requirement": "required",
-            "conditionDescription": null,
+            "componentId": "wa_blake_vacatur_and_lfo_refund-limited-jurisdiction-motion-2",
+            "role": "primary_filing",
+            "requirement": "conditional",
+            "conditionDescription": "Use for a district- or municipal-court conviction.",
             "outputStrategy": "official_pdf_fill",
-            "officialFormId": "Blake-005",
-            "officialSourceUrl": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
+            "officialFormId": "Blake-002",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20002%20DistMuniCt%20Blake%20Motion%20April%202026.pdf",
             "order": 2
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-lfo-refund-claim-3",
-            "role": "lfo_refund_claim",
-            "requirement": "required",
-            "conditionDescription": null,
+            "componentId": "wa_blake_vacatur_and_lfo_refund-notice-of-hearing-3",
+            "role": "hearing_notice",
+            "requirement": "conditional",
+            "conditionDescription": "Use when a hearing is requested or scheduled.",
             "outputStrategy": "official_pdf_fill",
-            "officialFormId": "Blake-002",
-            "officialSourceUrl": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
+            "officialFormId": "Blake-003",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20003%20Blake%20Notice%20of%20Hearing.pdf",
             "order": 3
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-records-checklist-4",
+            "componentId": "wa_blake_vacatur_and_lfo_refund-proof-of-service-4",
+            "role": "proof_of_service",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-004",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20004%20Blake%20Proof%20of%20Service.pdf",
+            "order": 4
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-clj-full-order-5",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in a court of limited jurisdiction and all convictions under the cause number are Blake-void.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-005",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20005%20Order_CLJ%20full%20vacate.pdf",
+            "order": 5
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-clj-partial-order-6",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in a court of limited jurisdiction and non-Blake counts remain.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-006",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20006%20Order_CLJ%20partial%20vacate.pdf",
+            "order": 6
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-superior-full-order-7",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in superior court and all convictions under the cause number are Blake-void.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-007",
+            "officialSourceUrl": "https://www.courts.wa.gov/Forms/documents/Blake%20007%20Order_Superior%20Court%20full%20vacate.pdf",
+            "order": 7
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-superior-partial-order-8",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in superior court and non-Blake counts remain.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-008",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20008%20Order_Superior%20Court%20partial%20vacate.pdf",
+            "order": 8
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-refund-portal-9",
+            "role": "lfo_refund_process",
+            "requirement": "required",
+            "conditionDescription": "Completed after the conviction is vacated and refund eligibility is determined by the court.",
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": "https://refund.courts.wa.gov/",
+            "order": 9
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-records-checklist-10",
             "role": "records_checklist",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "process_guidance",
             "officialFormId": null,
             "officialSourceUrl": null,
-            "order": 4
+            "order": 10
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-filing-instructions-5",
+            "componentId": "wa_blake_vacatur_and_lfo_refund-filing-instructions-11",
             "role": "filing_instructions",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "process_guidance",
             "officialFormId": null,
             "officialSourceUrl": null,
-            "order": 5
+            "order": 11
           }
         ],
         "participantActionRequired": [
@@ -234813,13 +235179,19 @@
         {
           "title": "Washington Courts — Blake 001, superior court motion, April 2026",
           "url": "https://www.courts.wa.gov/forms/documents/Blake%20001%20SupCt%20Blake%20Motion%20April%202026.pdf",
-          "retrievedOn": "2026-08-06",
+          "retrievedOn": "2026-09-04",
+          "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f"
+        },
+        {
+          "title": "Washington Courts — current Blake form set and local-rule warning",
+          "url": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=151",
+          "retrievedOn": "2026-09-04",
           "sha256": null
         },
         {
-          "title": "Washington Courts — Vacating and sealing forms, carrying the local-rule warning",
-          "url": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
-          "retrievedOn": "2026-08-06",
+          "title": "Washington Courts — Blake Refund Bureau",
+          "url": "https://refund.courts.wa.gov/",
+          "retrievedOn": "2026-09-04",
           "sha256": null
         }
       ],
@@ -234967,19 +235339,7 @@
         "Interaction with WA-VAC-04: the same person may qualify for both. Blake is about a void conviction; RCW 9.96.060(6) is about treatment or program participation. Ask both questions."
       ],
       "scopeRestrictions": [],
-      "buildBlockers": [
-        {
-          "question": "The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established.",
-          "impact": "build_blocker",
-          "affectedElement": "packet_components",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
-            "sourceStatement": "What is the current Blake form set and refund administration route? The reference cites an April 2026 superior court Blake motion. **Build blocker** for the Blake track."
-          }
-        }
-      ],
+      "buildBlockers": [],
       "releaseBlockers": [
         {
           "question": "Which counties impose additional local requirements under the Washington Courts local-rule warning, and what the court filing fees for a vacation petition are in district, municipal and superior court. Neither was established at source on this pass. The packet carries a local-check instruction and does not quote a filing fee.",
@@ -235021,18 +235381,7 @@
             "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
             "sourceStatement": "What are the court filing fees for vacation petitions, and do they vary between district, municipal, and superior court? Not established in this pass. **Release blocker** for pricing."
           }
-        },
-        {
-          "question": "The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established.",
-          "impact": "build_blocker",
-          "affectedElement": "packet_components",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
-            "sourceStatement": "What is the current Blake form set and refund administration route? The reference cites an April 2026 superior court Blake motion. **Build blocker** for the Blake track."
-          }
-        }
+    }
       ],
       "guidanceRationales": [],
       "guidanceRereviewCandidate": false,
@@ -235102,9 +235451,7 @@
       "legalStatus": "legal_review_pending",
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
       "implementationQueue": "F_source_problem",
-      "legalDesignBlockers": [
-        "Open question blocks the build (packet_components): The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established."
-      ],
+      "legalDesignBlockers": [],
       "blockers": [
         {
           "kind": "output_review_gate",
@@ -235119,16 +235466,12 @@
           "statement": "Technical proof not started."
         },
         {
-          "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (packet_components): The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established."
-        },
-        {
           "kind": "release_blocker",
           "statement": "Open question blocks release (filing_process): Which counties impose additional local requirements under the Washington Courts local-rule warning, and what the court filing fees for a vacation petition are in district, municipal and superior court. Neither was established at source on this pass. The packet carries a local-check instruction and does not quote a filing fee."
         },
         {
           "kind": "source_gate",
-          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+          "statement": "The current eight-form Blake component set is identified and hash-bound, but exact current Blake-002, Blake-003, Blake-004, Blake-006, Blake-007, and Blake-008 bytes are not yet present in committed source custody."
         }
       ]
     },
