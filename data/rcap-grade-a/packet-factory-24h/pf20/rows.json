@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF20",
+  "workerId": "CODEX-CS1-PF20-FL-ADMIN",
+  "workerBranch": "codex/cs1-pf20-fl-administrative",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "3faaa1b8364505b1a511021f4c18c1eb1e992489",
+  "familiesAssigned": 1,
+  "familiesCompleted": [
+    "fl-administrative-set"
+  ],
+  "familiesStopped": [],
+  "preflight": {
+    "claim": "CLAIM_OK PF20 fl-administrative-set (packet-build, grant set 218cb72dfda45e4f)",
+    "familySourceGate": "PASS: zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT), binding committed legal records rather than document bytes",
+    "genericEnvironmentGate": "11/14 passed; the three generic nationwide-corpus checks reported that no Master Library is mounted in the Captain Codespace",
+    "whyBuildContinued": "This family binds no external source hash and the same preflight returned family_sources_bind OK. No corpus was acquired, copied, bootstrapped, or substituted."
+  },
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "fl-administrative-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "familyKind": "AGENCY_APPLICATION_PACKET",
+      "jurisdiction": "FL",
+      "implementationStrategy": "participant_agency_application",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest"
+      ],
+      "statutoryAuthority": [
+        "section 943.0581, Florida Statutes",
+        "Florida Administrative Code Rule 11C-7.008"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-fl-administrative-set.mjs",
+      "componentSet": [
+        "fl-administrative-primary-filing-1"
+      ],
+      "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceHashes": [],
+      "sourceBinaryAcquired": false,
+      "sourceBinding": {
+        "allSourcesExact": true,
+        "method": "The written application and endorsement section are composed from committed authority records; the Captain determination records that Rule 11C-7.008 prescribes no uniform FDLE form.",
+        "compositionSources": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "sha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4"
+          },
+          {
+            "path": "data/record-clearing/legal-design-specifications.json",
+            "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5"
+          },
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f"
+          },
+          {
+            "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+            "sha256": "99fba0633fb99ff1dc849d1e21e8736021ed37547497e0f042cbe3976f19f5e5"
+          }
+        ]
+      },
+      "fieldCensus": {
+        "terminalFields": 21,
+        "written": 5,
+        "requiredBeforeFiling": 7,
+        "protectedOrAgencyOwned": 9
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "focusedChecks": [
+        {
+          "command": "node scripts/build-census-v1-fl-administrative-set.mjs --check",
+          "result": "CHECK_ONLY: one component, five writes, sixteen classified blanks"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-administrative-set",
+          "result": "PASS_COMPLETE: 5/21 written; all nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family fl-administrative-set",
+          "result": "2 ROUTE_PASS_COMPLETE: canonical and boundary; 1 component each; 5/5 values read back"
+        },
+        {
+          "command": "git diff --check",
+          "result": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b2b9291cfbbdc9fd619625b436b9db7b8e851705868a167807e58637f2f1f975",
+          "byteLength": 7762,
+          "pageCount": 3
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "e62f84756597c5d5e0528989b4141d92337c41105213350dff9d60ceeb4bab73",
+          "byteLength": 7916,
+          "pageCount": 3
+        }
+      ],
+      "determinism": {
+        "builds": 2,
+        "separateProcesses": true,
+        "everyPdfPathHashAndByteLengthIdentical": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
