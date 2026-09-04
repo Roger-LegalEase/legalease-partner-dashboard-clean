@@ -15,7 +15,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { canRereadAfterRepair } from "./post-repair-reread.mjs";
+import {
+  artifactsOnlyBookkeepingRepairsFailure,
+  canRereadAfterRepair
+} from "./post-repair-reread.mjs";
 import { pathsOverlap } from "./path-ownership.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -668,6 +671,24 @@ function run() {
       try { execFileSync("git", ["diff", "--quiet", base, "HEAD", "--", ...paths], { cwd: ROOT, stdio: "ignore" }); return false; }
       catch (error) { return error?.status === 1; }
     };
+    const hashOnDisk = (rel) => {
+      if (!rel || !fs.existsSync(path.join(ROOT, rel))) return null;
+      return crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, rel))).digest("hex");
+    };
+    const nineCounterNames = [
+      "knownRequiredFieldsMissing",
+      "requiredFactsNotCollected",
+      "unclassifiedBlanks",
+      "incompleteRows",
+      "requiredOptionsMissing",
+      "requiredComponentsMissing",
+      "invisibleWrites",
+      "protectedWrites",
+      "visualDefects"
+    ];
+    const hasExactlyNineZeroCounters = (counters) => Boolean(counters)
+      && Object.keys(counters).length === nineCounterNames.length
+      && nineCounterNames.every((name) => Number(counters[name]) === 0);
     const repairRowChangedSince = (base, candidate, familyId) => {
       if (!validBase(base)) return false;
       let before = null;
@@ -698,8 +719,86 @@ function run() {
         artifactsChanged: pathsChangedSince(base, artifactPaths)
       };
     };
+    const artifactsOnlyEvidence = (familyId, family, substantive, completion) => {
+      if ((substantive.failedObligationNames ?? []).length !== 1
+        || substantive.failedObligationNames[0] !== "ARTIFACTS") return null;
+      const wiringRel = `${family.directory}/product-wiring.json`;
+      let wiring = null;
+      try { wiring = read(wiringRel); } catch { /* fail closed below */ }
+      const candidates = [...(rq?.historicalRasterRows ?? []), ...(rq?.rows ?? [])]
+        .filter((row) => row.familyId === familyId);
+      const artifactForPath = (raster, rel) => rel === raster?.canonicalPdfPath
+        ? "canonical"
+        : rel === raster?.boundaryPdfPath ? "boundary" : null;
+      const pin = (artifact, declaredSha256, rel) => ({
+        artifact,
+        declaredSha256: declaredSha256 ?? null,
+        recomputedSha256: hashOnDisk(rel)
+      });
+      const evidenceFor = (raster) => {
+        const currentArtifactHashes = {
+          canonical: hashOnDisk(raster?.canonicalPdfPath),
+          boundary: hashOnDisk(raster?.boundaryPdfPath)
+        };
+        const proposalPins = (wiring?.proposedRepresentation?.components ?? []).map((component) =>
+          pin(artifactForPath(raster, component.file), component.sha256, component.file));
+        const acceptance = wiring?.binding?.acceptanceReceipt ?? null;
+        const acceptancePins = acceptance
+          ? [
+              pin("canonical", acceptance.boundToCanonicalSha256, raster?.canonicalPdfPath),
+              ...(Object.prototype.hasOwnProperty.call(acceptance, "boundToBoundarySha256")
+                ? [pin("boundary", acceptance.boundToBoundarySha256, raster?.boundaryPdfPath)]
+                : [])
+            ]
+          : [];
+        const receipt = raster?.rasterReceipt ?? null;
+        return {
+          changedAfterVerdict: pathsChangedSince(substantive.verifiedAtBase, [wiringRel]),
+          completedRepairNamesExactlyArtifacts: Array.isArray(completion?.row?.obligationsRepaired)
+            && completion.row.obligationsRepaired.length === 1
+            && completion.row.obligationsRepaired[0] === "ARTIFACTS",
+          completedRepairHasExactlyNineZeroCounters: hasExactlyNineZeroCounters(completion?.row?.countersAfter),
+          currentCompletenessHasExactlyNineZeroCounters: hasExactlyNineZeroCounters(family.counters),
+          currentArtifactHashes,
+          productWiring: {
+            present: wiring !== null,
+            familyMatches: wiring?.family === familyId,
+            proposalPins,
+            acceptanceReceipt: {
+              verdict: acceptance?.verdict ?? null,
+              workflowRunId: acceptance?.workflowRunId ?? null,
+              coversTheWholeFamily: acceptance?.coversTheWholeFamily === true,
+              pins: acceptancePins
+            }
+          },
+          rasterReceipt: {
+            currentRasterState: raster?.currentRasterState ?? null,
+            verdict: receipt?.verdict ?? null,
+            workflowRunId: receipt?.workflowRunId ?? null,
+            coverageComplete: raster?.coverage?.complete === true,
+            coversTheWholeFamily: receipt?.coversTheWholeFamily === true,
+            pins: [
+              pin("canonical", receipt?.boundToCanonicalSha256, raster?.canonicalPdfPath),
+              pin("boundary", receipt?.boundToBoundarySha256, raster?.boundaryPdfPath)
+            ]
+          }
+        };
+      };
+      let first = null;
+      for (let i = candidates.length - 1; i >= 0; i--) {
+        const evidence = evidenceFor(candidates[i]);
+        if (!first) first = evidence;
+        if (artifactsOnlyBookkeepingRepairsFailure({
+          failedObligationNames: substantive.failedObligationNames,
+          artifactBookkeeping: evidence
+        })) return evidence;
+      }
+      return first;
+    };
     const isExecutablePostRepairReread = (familyId, family, substantive) => {
       const evidence = postVerdictRepairEvidence(familyId, family, substantive);
+      const artifactBookkeeping = artifactsOnlyEvidence(
+        familyId, family, substantive, evidence.completion);
       return canRereadAfterRepair({
         state: family.state,
         completedRepairMatchesFailure: Boolean(evidence.completion),
@@ -709,7 +808,9 @@ function run() {
         releasedRepairGrantExists: repairedFamilies.has(familyId),
         liveRepairGrantExists: liveRepairFamilies.has(familyId),
         liveVerificationGrantExists: liveVerificationFamilies.has(familyId),
-        verificationDispatchExists: hasVerificationDispatch(familyId)
+        verificationDispatchExists: hasVerificationDispatch(familyId),
+        failedObligationNames: substantive.failedObligationNames,
+        artifactBookkeeping
       });
     };
     const isAwaitingPostRepairRaster = (familyId, family, substantive) => {
