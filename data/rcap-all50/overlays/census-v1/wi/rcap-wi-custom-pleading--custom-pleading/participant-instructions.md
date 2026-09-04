@@ -11,7 +11,7 @@ The platform filled in what it holds about you: your name, your date of birth, y
 | Component | What it is |
 | --- | --- |
 | `wi_exp_certificate_of_discharge_followup-primary-filing-1` | the composed request letter to the supervising or detaining authority, on this route's own statutory ground (Ask for the certificate that completes your expungement) |
-| `wi_exp_certificate_of_discharge_followup-status-request-2` | the written status request to the supervising or detaining authority (Ask for the certificate that completes your expungement) **Only use this component when:** Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued. |
+| `wi_exp_certificate_of_discharge_followup-status-request-2` | the alternative written request asking the supervising or detaining authority only whether the certificate has already issued **Only use this component when:** Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued. |
 | `wi_exp_certificate_of_discharge_followup-filing-instructions-3` | what this set is, where it goes, what it costs, who must be served, and when to stop (Ask for the certificate that completes your expungement) |
 
 ## Where this request goes, what it costs, and whether service is required
@@ -54,7 +54,9 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 | Item C7 - court office confirmation that the certificate was not received | Have you asked the clerk of court whether they received a certificate of discharge, and what did they say? |
 | Item C8 - request type | Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done? |
 
-### wi_exp_certificate_of_discharge_followup-status-request-2 — Status Request - Ask for the certificate that completes your expungement
+### wi_exp_certificate_of_discharge_followup-status-request-2 — Status Request - Ask whether the certificate has already issued
+
+**Only complete this component when:** Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued. Complete and send exactly one request, never both.
 
 | The blank on the document | What to write |
 | --- | --- |
@@ -67,7 +69,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 ## What you do, in order
 
 1. **Read the instructions page.** This is not a court filing. It names the supervising or detaining authority this goes to, states that there is no filing fee or service requirement, and tells you when to stop.
-2. **Choose the request that matches what you want.** Use the primary letter to ask the authority to issue and forward the certificate. Use the conditional status request only when you want to know whether the certificate has already issued.
+2. **Choose exactly one request that matches what you want.** Use the primary letter to ask the authority to issue and forward the certificate. Use the conditional status request only when you want to know whether the certificate has already issued. Do not complete or send both requests.
 3. **Fill every labelled dotted blank on the request you choose**, from the record itself. Confirm the current name and mailing address of the supervising or detaining authority; do not guess a date, case number or office name.
 4. **Sign and date the request you choose, personally.** The platform never signs for you and never dates a signing line.
 5. **Send the request you choose to the supervising or detaining authority** by ordinary mail or that authority's stated correspondence channel. Keep a copy and a record of the date sent.
@@ -92,6 +94,6 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 ## What this packet is not
 
-This is a prepared set of composed pleadings. It is not an official WI form — no committed record names one for this route — and it is not legal advice, it is not filed for you, and it does not decide whether the court will grant what it asks for.
+This is prepared administrative correspondence. It is not an official WI form — no committed record names one for this route — and it is not legal advice or a court filing. It does not decide whether the authority will respond or whether the resulting certificate will reach the clerk of circuit court.
 
 _Route(s): obligation:track-only:WI:wi_exp_certificate_of_discharge_followup_
