@@ -26,6 +26,11 @@ import { makeEmitter } from "../lib/generator-emit.mjs";
 import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
 import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
 import { pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
+import {
+  artifactsOnlyBookkeepingRepairsFailure,
+  canRereadAfterRepair,
+  repairSupersedesFailedVerdict
+} from "./post-repair-reread.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -1163,6 +1168,20 @@ const rootOf = (p) => p.replace(/\/?\*+$/, "");
  * visible elsewhere is safe to stop watching; the PDFs remain the witness.
  */
 const GENERATED_BOOKKEEPING = ["product-wiring.json", "build-status.json", "reports/rendered-artifacts.json"];
+const NINE_COUNTER_NAMES = [
+  "knownRequiredFieldsMissing",
+  "requiredFactsNotCollected",
+  "unclassifiedBlanks",
+  "incompleteRows",
+  "requiredOptionsMissing",
+  "requiredComponentsMissing",
+  "invisibleWrites",
+  "protectedWrites",
+  "visualDefects"
+];
+const hasExactlyNineZeroCounters = (counters) => Boolean(counters)
+  && Object.keys(counters).length === NINE_COUNTER_NAMES.length
+  && NINE_COUNTER_NAMES.every((name) => Number(counters[name]) === 0);
 /*
  * WHEN A VERDICT NAMES NO BASE, THE LEDGER STILL KNOWS WHEN IT ENDED.
  *
@@ -1363,28 +1382,36 @@ for (const entry of fs.readdirSync(path.join(ROOT, OUT_DIR), { withFileTypes: tr
   }
 }
 for (const familyId of completedPacketBuildFamilies) stoppedPacketBuildByFamily.delete(familyId);
-function repairCompletionAnswersVerdict(independentReturn) {
+function repairCompletionAfterVerdict(independentReturn) {
   const familyId = independentReturn?.familyId;
   const base = independentReturn?.verifiedAtBase;
   const failed = independentReturn?.failedObligationNames ?? [];
-  if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || failed.length === 0) return false;
+  if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || failed.length === 0) return null;
   try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
-  catch { return false; }
+  catch { return null; }
   for (const candidate of repairCompletionsByFamily.get(familyId) ?? []) {
     const evidence = JSON.stringify(candidate.row);
     if (!failed.every((name) => evidence.includes(name))) continue;
     if (!candidate.row.countersAfter
       || !Object.values(candidate.row.countersAfter).every((value) => Number(value) === 0)) continue;
-    let prior = null;
+    let priorDocument = null;
     try {
-      const before = JSON.parse(execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
-        { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }));
-      prior = (before.rows ?? []).find((row) => (row.itemId ?? row.familyId) === familyId
-        && (row.laneKind === "repair" || row.laneKind === "shared-host-repair"));
-    } catch { return true; /* the exact repair-return file is new after the verdict */ }
-    if (!prior || JSON.stringify(prior) !== JSON.stringify(candidate.row)) return true;
+      priorDocument = execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
+        { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+    } catch {
+      try {
+        execFileSync("git", ["cat-file", "-e", `${base}:${candidate.evidencePath}`],
+          { cwd: ROOT, stdio: "ignore" });
+      } catch { return candidate; /* the exact repair-return file is new after the verdict */ }
+      continue; /* an unreadable pre-verdict record proves no ordering */
+    }
+    let before = null;
+    try { before = JSON.parse(priorDocument); } catch { continue; }
+    const prior = (before.rows ?? []).find((row) => (row.itemId ?? row.familyId) === familyId
+      && (row.laneKind === "repair" || row.laneKind === "shared-host-repair"));
+    if (!prior || JSON.stringify(prior) !== JSON.stringify(candidate.row)) return candidate;
   }
-  return false;
+  return null;
 }
 
 /*
@@ -1410,9 +1437,15 @@ function repairCompletionAnswersVerdict(independentReturn) {
  */
 const rasterNotEligible = new Map();
 const rasterPassByFamily = new Map();
+const rasterCandidatesByFamily = new Map();
 try {
   const rq = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/RASTER_QUEUE.json`), "utf8"));
   for (const n of rq.notEligible ?? []) if (n.familyId) rasterNotEligible.set(n.familyId, n.why ?? []);
+  for (const r of [...(rq.historicalRasterRows ?? []), ...(rq.rows ?? [])]) {
+    if (!r.familyId) continue;
+    if (!rasterCandidatesByFamily.has(r.familyId)) rasterCandidatesByFamily.set(r.familyId, []);
+    rasterCandidatesByFamily.get(r.familyId).push(r);
+  }
   for (const r of rq.rows ?? []) {
     const rec = r.rasterReceipt;
     /*
@@ -1446,7 +1479,143 @@ try {
   }
 } catch { /* no raster queue yet: nothing can be proven */ }
 
+/*
+ * AN ARTIFACTS FAILURE CAN BE IN THE RECORD ABOUT THE BYTES, NOT THE BYTES.
+ *
+ * familyMovedSinceVerdict deliberately excludes product-wiring.json. That is
+ * the right default: rewriting bookkeeping cannot answer a fee, service,
+ * destination, content, field or visual finding. vf05 exposed the one case in
+ * which the exclusion also made a genuine repair unrepresentable. Its sole
+ * ARTIFACTS finding was a stale proposedRepresentation digest; the packet and
+ * its exact whole-family raster receipt were already correct.
+ *
+ * Collect the exceptional evidence without trusting queue copies of hashes.
+ * Every declared pin below is compared by post-repair-reread.mjs with a digest
+ * recomputed from the path it claims to identify. Historical raster rows are
+ * eligible only here, and only when their receipt remains exact for the bytes
+ * now on disk. A substantive repair still uses rasterPassByFamily and the
+ * ordinary byte-movement rule.
+ */
+function pathChangedAfterVerdict(base, rel) {
+  if (!/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || !rel) return false;
+  try {
+    const result = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", rel], { cwd: ROOT });
+    return result.status === 1;
+  } catch { return false; }
+}
+
+function artifactBookkeepingEvidenceFor(independentReturn, directory, completion, currentCounters) {
+  const familyId = independentReturn?.familyId;
+  const wiringRel = `${directory}/product-wiring.json`;
+  const changedAfterVerdict = pathChangedAfterVerdict(independentReturn?.verifiedAtBase, wiringRel);
+  let wiring = null;
+  try { wiring = JSON.parse(fs.readFileSync(path.join(ROOT, wiringRel), "utf8")); }
+  catch { /* absence and malformed JSON are both a failed proof */ }
+
+  const evidenceForRaster = (raster) => {
+    const canonical = raster?.canonicalPdfPath ? hashOnDisk(raster.canonicalPdfPath) : null;
+    const boundary = raster?.boundaryPdfPath ? hashOnDisk(raster.boundaryPdfPath) : null;
+    const artifactOf = (rel) => rel === raster?.canonicalPdfPath
+      ? "canonical"
+      : rel === raster?.boundaryPdfPath ? "boundary" : null;
+    const pinFor = (artifact, declaredSha256, rel) => ({
+      artifact,
+      declaredSha256: declaredSha256 ?? null,
+      recomputedSha256: rel ? hashOnDisk(rel) : null
+    });
+    const proposalPins = (wiring?.proposedRepresentation?.components ?? []).map((component) =>
+      pinFor(artifactOf(component.file), component.sha256, component.file));
+    const acceptance = wiring?.binding?.acceptanceReceipt ?? null;
+    const acceptancePins = acceptance
+      ? [
+          pinFor("canonical", acceptance.boundToCanonicalSha256, raster?.canonicalPdfPath),
+          ...(Object.prototype.hasOwnProperty.call(acceptance, "boundToBoundarySha256")
+            ? [pinFor("boundary", acceptance.boundToBoundarySha256, raster?.boundaryPdfPath)]
+            : [])
+        ]
+      : [];
+    const receipt = raster?.rasterReceipt ?? null;
+    return {
+      changedAfterVerdict,
+      completedRepairNamesExactlyArtifacts: Array.isArray(completion?.row?.obligationsRepaired)
+        && completion.row.obligationsRepaired.length === 1
+        && completion.row.obligationsRepaired[0] === "ARTIFACTS",
+      completedRepairHasExactlyNineZeroCounters: hasExactlyNineZeroCounters(completion?.row?.countersAfter),
+      currentCompletenessHasExactlyNineZeroCounters: hasExactlyNineZeroCounters(currentCounters),
+      currentArtifactHashes: { canonical, boundary },
+      productWiring: {
+        present: wiring !== null,
+        familyMatches: wiring?.family === familyId,
+        proposalPins,
+        acceptanceReceipt: {
+          verdict: acceptance?.verdict ?? null,
+          workflowRunId: acceptance?.workflowRunId ?? null,
+          coversTheWholeFamily: acceptance?.coversTheWholeFamily === true,
+          pins: acceptancePins
+        }
+      },
+      rasterReceipt: {
+        currentRasterState: raster?.currentRasterState ?? null,
+        verdict: receipt?.verdict ?? null,
+        workflowRunId: receipt?.workflowRunId ?? null,
+        coverageComplete: raster?.coverage?.complete === true,
+        coversTheWholeFamily: receipt?.coversTheWholeFamily === true,
+        pins: [
+          pinFor("canonical", receipt?.boundToCanonicalSha256, raster?.canonicalPdfPath),
+          pinFor("boundary", receipt?.boundToBoundarySha256, raster?.boundaryPdfPath)
+        ]
+      }
+    };
+  };
+
+  let first = null;
+  const candidates = rasterCandidatesByFamily.get(familyId) ?? [];
+  for (let i = candidates.length - 1; i >= 0; i--) {
+    const evidence = evidenceForRaster(candidates[i]);
+    if (!first) first = evidence;
+    if (artifactsOnlyBookkeepingRepairsFailure({
+      failedObligationNames: independentReturn?.failedObligationNames,
+      artifactBookkeeping: evidence
+    })) return evidence;
+  }
+  return first;
+}
+
+const focusedArtifactEvidenceIndex = process.argv.indexOf("--check-artifacts-only-reread-evidence");
+if (focusedArtifactEvidenceIndex >= 0) {
+  const familyId = process.argv[focusedArtifactEvidenceIndex + 1];
+  if (!familyId) {
+    console.error("usage: generate.mjs --check-artifacts-only-reread-evidence <familyId>");
+    process.exit(2);
+  }
+  const committed = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/MASTER_QUEUE.json`), "utf8"));
+  const family = (committed.families ?? []).find((row) => row.familyId === familyId);
+  const substantive = independentReturnByFamily.get(familyId) ?? null;
+  if (!family || !substantive) {
+    console.error(`ARTIFACTS_ONLY_REREAD_EVIDENCE_REFUSED ${familyId}: family or current verdict absent`);
+    process.exit(1);
+  }
+  const completion = repairCompletionAfterVerdict(substantive);
+  const artifactBookkeeping = artifactBookkeepingEvidenceFor(
+    substantive, family.directory, completion, family.counters);
+  const valid = artifactsOnlyBookkeepingRepairsFailure({
+    failedObligationNames: substantive.failedObligationNames,
+    artifactBookkeeping
+  });
+  if (!valid) {
+    console.error(`ARTIFACTS_ONLY_REREAD_EVIDENCE_REFUSED ${familyId}`);
+    console.error(JSON.stringify(artifactBookkeeping, null, 2));
+    process.exit(1);
+  }
+  console.log(`ARTIFACTS_ONLY_REREAD_EVIDENCE_OK ${familyId}`);
+  console.log(`  canonical ${artifactBookkeeping.currentArtifactHashes.canonical}`);
+  console.log(`  boundary ${artifactBookkeeping.currentArtifactHashes.boundary}`);
+  console.log(`  raster run ${artifactBookkeeping.rasterReceipt.workflowRunId}`);
+  process.exit(0);
+}
+
 const families = [];
+const artifactsOnlyRereadTransitions = new Map();
 const seen = new Set();
 /* The census route join keys on packetSetId, which treatment-prefixed rows
  * (agency-application-treatment:*, composed-treatment:*, rcap-* tracks) never
@@ -1611,6 +1780,37 @@ for (const f of IN.scoreboard.familiesDetail) {
 
   const nineZero = comp ? Object.values(comp.counters).every((v) => v === 0) : null;
   const completenessStatus = comp ? comp.result : artifactPresent ? "NOT_AUDITED" : "NOT_BUILT";
+  const failedOnlyOnArtifacts = independentFail
+    && (independentReturn.failedObligationNames ?? []).length === 1
+    && independentReturn.failedObligationNames[0] === "ARTIFACTS";
+  const packetArtifactsMovedAfterVerdict = independentFail
+    ? familyMovedSinceVerdict(independentReturn, directory, buildScript)
+    : false;
+  const repairCompletion = independentFail
+    ? repairCompletionAfterVerdict(independentReturn)
+    : null;
+  const artifactBookkeeping = failedOnlyOnArtifacts
+    ? artifactBookkeepingEvidenceFor(independentReturn, directory, repairCompletion, comp?.counters)
+    : null;
+  const artifactsOnlyBookkeepingRepair = artifactsOnlyBookkeepingRepairsFailure({
+    failedObligationNames: independentReturn?.failedObligationNames,
+    artifactBookkeeping
+  });
+  const completedRepairSupersedesFail = independentFail && repairSupersedesFailedVerdict({
+    completedRepairMatchesFailure: Boolean(repairCompletion),
+    repairEvidenceChangedAfterVerdict: Boolean(repairCompletion),
+    artifactsChangedAfterVerdict: packetArtifactsMovedAfterVerdict,
+    allNineCountersZero: nineZero === true,
+    releasedRepairGrantExists: repairReleasedFamilies.has(familyId),
+    liveRepairGrantExists: repairLiveFamilies.has(familyId),
+    failedObligationNames: independentReturn?.failedObligationNames,
+    artifactBookkeeping
+  });
+  /* A current whole-family receipt moved to raster history only because this
+   * same FAIL was outstanding. It can support the bookkeeping-only exception,
+   * but never a substantive repair; those still use rasterPassByFamily. */
+  const postRepairRasterPassed = rasterPassByFamily.get(familyId) === true
+    || artifactsOnlyBookkeepingRepair;
 
   const activeOwner = activeFamilies.get(familyId) ?? null;
   /* What KIND of lane holds it, read from the lane's own record rather than
@@ -1768,20 +1968,21 @@ for (const f of IN.scoreboard.familiesDetail) {
    * honest next step. If they did not, the verdict describes THIS head, and
    * an older repair does not answer it.
    *
+   * The sole exception is an ARTIFACTS-only finding in generated
+   * product-wiring bookkeeping. That record can be repaired while the packet
+   * correctly remains byte-identical. It advances only through the exact pin,
+   * whole-family raster, nine-counter and grant-order proof assembled above.
+   * A mixed or substantive failure cannot enter that predicate and therefore
+   * still must show packet/build movement here.
+   *
    * Unmeasurable falls to FAIL, because a defect nobody can show was fixed is
    * a defect.
    */
   else if (independentFail
-    && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
-    && comp && nineZero
-    && repairCompletionAnswersVerdict(independentReturn)
-    && familyMovedSinceVerdict(independentReturn, directory, buildScript)
-    && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
+    && completedRepairSupersedesFail
+    && postRepairRasterPassed !== true) state = "BUILT_RASTER_PENDING";
   else if (independentFail
-    && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
-    && comp && nineZero
-    && repairCompletionAnswersVerdict(independentReturn)
-    && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
+    && completedRepairSupersedesFail) state = "VERIFY_PENDING";
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
@@ -1860,6 +2061,23 @@ for (const f of IN.scoreboard.familiesDetail) {
    * and it must not override a later build, repair or verification result. */
   if (sourceReconciliation?.disposition === "PRODUCT_PATH_PENDING"
     && ["SOURCE_BLOCKED", "SOURCE_READY"].includes(state)) state = "PRODUCT_PATH_PENDING";
+
+  if (state === "VERIFY_PENDING"
+    && independentFail
+    && packetArtifactsMovedAfterVerdict === false
+    && artifactsOnlyBookkeepingRepair) {
+    artifactsOnlyRereadTransitions.set(familyId, {
+      state,
+      completedRepairMatchesFailure: Boolean(repairCompletion),
+      repairEvidenceChangedAfterVerdict: Boolean(repairCompletion),
+      artifactsChangedAfterVerdict: false,
+      allNineCountersZero: nineZero === true,
+      releasedRepairGrantExists: repairReleasedFamilies.has(familyId),
+      liveRepairGrantExists: repairLiveFamilies.has(familyId),
+      failedObligationNames: independentReturn.failedObligationNames,
+      artifactBookkeeping
+    });
+  }
 
   families.push({
     familyId,
@@ -3834,6 +4052,40 @@ for (const asg of assignments) {
 
 const mergedClaims = survivingClaims
   .sort((x, y) => x.subjectType.localeCompare(y.subjectType) || x.subjectId.localeCompare(y.subjectId) || x.operation.localeCompare(y.operation) || x.lane.localeCompare(y.lane));
+
+/*
+ * THE EXCEPTION IS COMPLETE ONLY WHEN THE REREAD IS EXECUTABLE.
+ *
+ * State is derived before assignments and claims are dealt. Check the final
+ * proposed generation here, while every emit is still pending, so an
+ * ARTIFACTS bookkeeping repair cannot merely erase FAIL and strand the family
+ * with nobody able to read it. The dispatch and live claim must name the same
+ * verifier lane; reportUnassertableVerificationDispatch applies the broader
+ * invariant immediately below.
+ */
+const artifactsOnlyRereadProblems = [];
+for (const [familyId, evidence] of artifactsOnlyRereadTransitions) {
+  const dispatch = assignments.find((assignment) =>
+    assignment.lane === "independent-verification"
+    && (assignment.items ?? []).includes(familyId));
+  const claim = mergedClaims.find((candidate) =>
+    candidate.subjectType === "packet-family"
+    && candidate.subjectId === familyId
+    && candidate.operation === "independent-verification"
+    && candidate.released !== true
+    && candidate.lane === dispatch?.assignmentId);
+  if (!canRereadAfterRepair({
+    ...evidence,
+    liveVerificationGrantExists: Boolean(claim),
+    verificationDispatchExists: Boolean(dispatch)
+  })) artifactsOnlyRereadProblems.push(familyId);
+}
+if (artifactsOnlyRereadProblems.length > 0) {
+  console.error(`REFUSED_ARTIFACTS_ONLY_REREAD_WITHOUT_EXECUTABLE_DISPATCH ${artifactsOnlyRereadProblems.length}`);
+  for (const familyId of artifactsOnlyRereadProblems) console.error(`  ${familyId}`);
+  console.error("Nothing was written. Release the completed repair before generation and create an assertable independent-verification claim/dispatch in the same generation.");
+  process.exit(1);
+}
 
 /*
  * FAIL CLOSED BEFORE ANY GENERATED FILE IS FLUSHED.
