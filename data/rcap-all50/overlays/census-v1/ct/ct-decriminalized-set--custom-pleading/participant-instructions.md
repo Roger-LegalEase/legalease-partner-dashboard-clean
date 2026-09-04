@@ -45,10 +45,11 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 1. **Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.
 2. **Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.
-3. **Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.
-4. **Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**
-5. **File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.
-6. **Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make.
+3. The source review does not state a notarization requirement.
+4. **Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.
+5. **Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**
+6. **File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.
+7. **Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make.
 
 ## Things the platform deliberately left blank
 

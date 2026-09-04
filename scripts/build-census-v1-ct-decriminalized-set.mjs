@@ -71,6 +71,7 @@ const SPEC = {
         "How many counts are on this docket?",
         "Unresolved. § 54-142a(k) bars a fee on petitions under that section; § 54-142d is a different section and whether the ba",
         "The source review does not state a service requirement.",
+        "The source review does not state a notarization requirement.",
         "File the petition in the Superior Court at the location where the conviction was effected, at the location having custod"
       ]
     },
@@ -261,6 +262,10 @@ const SPEC = {
         "",
         "No committed record this packet binds states a service requirement for this route — the record says: \"The source review does not state a service requirement.\". The office that answers who must be served, and how, is the clerk's office of Superior Court, or the Judicial Department records center for older courts (the venue the registry records for this route: The Superior Court at the location where the conviction was effected, at the location having custody of the records, or with the Judicial Department records center for older courts.). Notice: the record says \"The source review does not state a notice requirement.\", so the clerk's office of Superior Court, or the Judicial Department records center for older courts (the venue the registry records for this route: The Superior Court at the location where the conviction was effected, at the location having custody of the records, or with the Judicial Department records center for older courts.) is the office that answers it.",
         "",
+        "SIGNING AND NOTARIZATION",
+        "",
+        "The source review does not state a notarization requirement.",
+        "",
         "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
         "",
         "- Whether the offense has been decriminalized within the meaning of § 54-142d is contested or unclear.",
@@ -342,6 +347,7 @@ const SPEC = {
   "steps": [
     "**Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.",
     "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
+    "The source review does not state a notarization requirement.",
     "**Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.",
     "**Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**",
     "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.",
