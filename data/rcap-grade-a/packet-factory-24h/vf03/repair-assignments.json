@@ -1,8 +1,8 @@
 {
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
- "worker": "VF-SRC-A",
- "assignmentCount": 11,
+ "worker": "VF-SRC-A + Codex VF03 fbd22ae2",
+ "assignmentCount": 13,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -341,6 +341,91 @@
    "repairMustNotDo": [
     "do not change source identities or rewrite official form content",
     "do not treat the current RASTER_PASS as curing route-order or destination defects",
+    "do not edit artifacts merely so a receipt matches them",
+    "this verification opens no commercial route and grants no approval"
+   ]
+  },
+  {
+   "itemId": "al-felony-nonconviction-90-set",
+   "lane": "VF03",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "Seven visible writes are placeholder directions rather than facts, 33 required-field labels copied into participant instructions literally contain 'undefined', and the registry's licensing/firearm self-help stop is omitted. The focused verifier's nine zero counters do not detect these semantic defects.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "SELF_HELP_STOP"
+   ],
+   "perObligation": {
+    "KNOWN_PREFILLS": {
+     "measuredDetail": "Three charge fields print 'The charge shown on the certified case record'; two grounds fields print 'See the selected statutory route and attached certified records'; and two arresting-agency fields print 'Agency shown on the certified arrest record'. They are visible on CR-65 pages 1 and 5 and are recorded as writes, not refusals.",
+     "whatRepairMustDo": "Do not write instructional placeholders into official fact fields. Collect each actual charge, statutory ground, and arresting agency as a participant fact and write it only when supplied, or leave the field blank with a clear required-before-filing instruction. Regenerate both fixtures and make the production map distinguish facts from instructions."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "Of the 63 recorded required refusals, 33 participant-facing labels contain 'undefined', including 'Complete undefined' and numbered variants. The instructions also do not express the registry's signature, notarization, fee, and waiver actions as clear steps.",
+     "whatRepairMustDo": "Replace every undefined label with the exact human-readable field identity from CR-65/C-10 and state each registry prerequisite as an actionable participant step. Keep every refused fact participant-controlled; do not make the generator guess it."
+    },
+    "SELF_HELP_STOP": {
+     "measuredDetail": "The registry has four exact stops. The packet substantially covers objection/hearing, ambiguous disposition facts, and immigration, but its stop text omits licensing and firearm consequences from the registry's combined immigration/licensing/firearm condition.",
+     "whatRepairMustDo": "Carry the exact track-specific stop for immigration, licensing, or firearm consequences into the where-self-help-ends section. Do not import unrelated Alabama route conditions."
+    }
+   },
+   "rerasterRequiredAfterRepair": "Any fixture-byte change requires new central raster review and a new hash-bound RASTER_PASS receipt before a future PASS_COMPLETE_INDEPENDENT.",
+   "reVerificationRequired": "A new independent reader who neither builds nor repairs the family must rescore all fifteen obligations and all nine counters.",
+   "repairMustNotDo": [
+    "do not edit official source PDFs or alter source identity",
+    "do not write missing participant facts as plausible placeholders",
+    "do not edit artifacts merely so a receipt matches them",
+    "this verification opens no commercial route and grants no approval"
+   ]
+  },
+  {
+   "itemId": "il-seal-edu-set",
+   "lane": "VF03",
+   "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "The education-sealing packet mixes incompatible expungement and item-15 elections into the item-22 route, writes a case number into 20 charge fields, produces partial repeating rows, and omits essential semantic prerequisites and self-help stops. The focused verifier's nine zero counters do not detect these defects.",
+   "failedProofObligations": [
+    "ROUTE_IDENTITY",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "SELF_HELP_STOP"
+   ],
+   "perObligation": {
+    "ROUTE_IDENTITY": {
+     "measuredDetail": "The request selects item 15 (Second Chance Probation / First Time Weapon Offense Program) and item 22 (educational-credential waiver), and it writes the case into both expungement and sealing tables. The proposed order likewise receives content in both dispositions.",
+     "whatRepairMustDo": "Build only the exact education-based sealing route. Remove the item-15 and expungement elections unless an independently held route fact actually calls for them; do not compose multiple routes into this family."
+    },
+    "ROUTE_OPTIONS": {
+     "measuredDetail": "The same visible marks and dual-table writes make mutually different route elections rather than preserving them for the participant.",
+     "whatRepairMustDo": "Select item 22 and sealing-only fields from the exact route record. Leave participant-specific elections unmarked and disclosed rather than selecting a second legal route."
+    },
+    "KNOWN_PREFILLS": {
+     "measuredDetail": "Twenty request fields asking for all charges contain 2021-CF-004217, a case number. The case-list charge field contains the truncated placeholder 'Charge exactly as shown o…'.",
+     "whatRepairMustDo": "Collect and bind the actual charge description separately from the case number. Do not repeat the case number or a direction string into charge fields; refuse the write and tell the participant what must be supplied if the charge is unknown."
+    },
+    "REPEATING_ROWS": {
+     "measuredDetail": "Rows 2-10 of both expungement and sealing tables contain a case-number/charge-cell write while required agency, arrest-date, and outcome companions remain blank.",
+     "whatRepairMustDo": "Emit only complete fact groups. Do not prefill unused repeating rows; keep an unused row wholly empty, and use only the route-appropriate table."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "The 250-field refusal dump does not state the registry's semantic prerequisites: ISP Access and Review transcript, outcome verification, per-case expunge-versus-seal election, hearing date, wet signature, and clear fee/waiver action.",
+     "whatRepairMustDo": "Add an actionable checklist for every exact registry prerequisite, naming the source used to verify case outcome and the participant-controlled per-case election. A raw list of PDF field labels is not a substitute."
+    },
+    "SELF_HELP_STOP": {
+     "measuredDetail": "The registry has eight stops. The packet omits unrecognized case/identity theft, federal or out-of-state records, motion to vacate/modify/reconsider, and petition denial, and does not clearly state transcript ambiguity as its own stop.",
+     "whatRepairMustDo": "Add all exact track-specific stops, including each omitted condition, without borrowing conditions from another Illinois route."
+    }
+   },
+   "rerasterRequiredAfterRepair": "Any fixture-byte change requires new central raster review and a new hash-bound RASTER_PASS receipt before a future PASS_COMPLETE_INDEPENDENT.",
+   "reVerificationRequired": "A new independent reader who neither builds nor repairs the family must rescore all fifteen obligations and all nine counters.",
+   "repairMustNotDo": [
+    "do not edit official source PDFs or alter source identity",
+    "do not convert the education route into a multi-route packet",
     "do not edit artifacts merely so a receipt matches them",
     "this verification opens no commercial route and grants no approval"
    ]
