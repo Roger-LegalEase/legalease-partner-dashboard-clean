@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e5f6436e8819b6472e67a73aa5fd5fa064e9e670` (or the newer dispatch base)
+**Minimum required ancestor:** `a7ddb798f4f7aa088d50ef57c153873868c558f4` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission \
   --codex-cloud \
-  --minimum-captain-sha e5f6436e8819b6472e67a73aa5fd5fa064e9e670
+  --minimum-captain-sha a7ddb798f4f7aa088d50ef57c153873868c558f4
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,12 +56,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 5 families
 
 - `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`
-- `ny_mrta_marijuana-set`
-- `rcap-wa-custom-pleading-clean-tracks`
-- `ut_pet_dismissed_without_prejudice-set`
+- `in_section1_petition-set`
+- `rcap-ok-custom-pleading`
+- `ut_pet_acquittal-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -75,13 +76,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs`
-- `scripts/build-census-v1-ny_mrta_marijuana-set.mjs`
-- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
+- `scripts/build-census-v1-in_section1_petition-set.mjs`
+- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
 
 ## Never write here
 
