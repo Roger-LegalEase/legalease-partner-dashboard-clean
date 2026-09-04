@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "836ef0bcffd7976ec1eaf50a8a472c6ff9ee9ebf",
+  "atCommit": "84cb894c5b1a416cc1d3f4ed4c4cc76b4918bf5a",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -41,6 +41,42 @@
       "verdict": "NEEDS_NEW_DECISION_OWNER_DECISION",
       "reviewedAgainstApprovalRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
       "mayEnterTheFirstCohort": false
+    },
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "ms-misd-addl-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "wy_fel_1502-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "mayEnterTheFirstCohort": true
     }
   ],
   "counts": {
@@ -51,21 +87,329 @@
     "septemberApprovalsWithCurrentDigests": 49,
     "familiesInsideTheOwnerApproval": 106,
     "provenAndApproved": 44,
-    "inCohort": 0,
-    "cohortRoutes": 0,
+    "inCohort": 6,
+    "cohortRoutes": 7,
     "provenButOutsideAnyExistingApproval": 65
   },
   "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 106 families currently retain approval coverage after applying the September digest condition, while 109 are packet-proven; 44 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
-  "cohort": [],
-  "cohortRouteIds": [],
+  "cohort": [
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "jurisdiction": "DC",
+      "routeKeys": [
+        "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+            "sha256Now": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+            "sha256Now": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "jurisdiction": "IL",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "sha256Now": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "sha256Now": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "ms-misd-addl-set",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "routeCount": 2,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "cd48fc14e"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+            "sha256Now": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+            "sha256Now": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "jurisdiction": "NV",
+      "routeKeys": [
+        "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf10",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+            "sha256Now": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+            "sha256Now": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "jurisdiction": "VA",
+      "routeKeys": [
+        "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf12",
+        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+            "sha256Now": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+            "sha256Now": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "wy_fel_1502-set",
+      "jurisdiction": "WY",
+      "routeKeys": [
+        "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf09",
+        "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+            "sha256Now": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+            "sha256Now": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    }
+  ],
+  "cohortRouteIds": [
+    "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
+    "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+    "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+    "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+    "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
+  ],
   "routeReachability": {
     "whatThisSeparates": "A route key names work this factory did. A runtime route id is what screening and the Briefcase resolve. Only a route with both can be sold once a visual review returns; a track-only route cannot be addressed at all, however complete its packet.",
-    "routeKeysInTheCohort": 0,
+    "routeKeysInTheCohort": 7,
     "addressableByTheRuntime": 0,
-    "notAddressableByTheRuntime": 0,
+    "notAddressableByTheRuntime": 7,
     "addressable": [],
-    "notAddressable": [],
-    "recordsDisagreeOn": [],
+    "notAddressable": [
+      "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
+      "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+      "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+      "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+      "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
+    ],
+    "recordsDisagreeOn": [
+      "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
+      "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+      "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+      "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+      "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
+    ],
     "whenTheRecordsDisagree": "The route key's own shape and FIRST_COHORT_RUNTIME_IDENTITY.json are read independently. A route listed here is counted NOT addressable and the disagreement is the finding: one of the two records is stale."
   },
   "provenFamiliesNeedingANewLegalReview": [
@@ -1789,13 +2133,11 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
-      "unmetConditions": [
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
+      "unmetConditions": [],
+      "inCohort": true,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf04",
@@ -2727,13 +3069,11 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
-      "unmetConditions": [
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
+      "unmetConditions": [],
+      "inCohort": true,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf03",
@@ -3428,13 +3768,11 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
-      "unmetConditions": [
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
+      "unmetConditions": [],
+      "inCohort": true,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf01",
@@ -3941,13 +4279,11 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
-      "unmetConditions": [
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
+      "unmetConditions": [],
+      "inCohort": true,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf10",
@@ -4276,13 +4612,11 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
-      "unmetConditions": [
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
+      "unmetConditions": [],
+      "inCohort": true,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf12",
@@ -5092,13 +5426,11 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
         "noHoldApplies": true
       },
-      "unmetConditions": [
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
+      "unmetConditions": [],
+      "inCohort": true,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf09",
