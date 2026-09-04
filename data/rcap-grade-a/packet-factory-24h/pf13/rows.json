@@ -23,10 +23,11 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable, and this lane issues no verdict on its own packets.",
-  "familiesAssigned": 1,
-  "rowsReturned": 1,
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
   "familiesCompleted": [
-    "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record"
+    "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+    "ar-drug-court-set"
   ],
   "familiesStopped": [],
   "blockedSource": [],
@@ -146,6 +147,178 @@
       "rasterRule": "Rendering is the central workflow's, against the exact bytes these hashes pin. This lane rendered no page rasters and claims no visual verdict; visualDefects records that nobody has looked.",
       "selfVerified": false,
       "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable."
+    },
+    {
+      "itemId": "ar-drug-court-set",
+      "status": "COMPLETED",
+      "verdict": "BUILT_RASTER_PENDING",
+      "workerId": "CODEX-CS2-WORKER-B",
+      "workerBranch": "codex/cs2-worker-b-ar-drug-court",
+      "continuationBaseSha": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ar-drug-court-set.mjs",
+      "routeKeys": [
+        "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-1",
+        "obligation:unit:AR:ar-drug-court:ar-drug-court-stage-2"
+      ],
+      "routeSelectionId": "ar-drug-court-pre-or-post-pair",
+      "componentSet": [
+        "ar-drug-court-process-guidance-1",
+        "ar-drug-court-primary-filing-2",
+        "ar-drug-court-proposed-order-3"
+      ],
+      "sources": [
+        {
+          "documentId": "ACIC-PETITION-DRUG-COURT-PRE",
+          "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+          "byteLength": 356744
+        },
+        {
+          "documentId": "ACIC-PETITION-DRUG-COURT-POST",
+          "sha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+          "byteLength": 1026997
+        },
+        {
+          "documentId": "ACIC-ORDER-DRUG-COURT-PRE",
+          "sha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+          "byteLength": 312762
+        },
+        {
+          "documentId": "ACIC-ORDER-DRUG-COURT-POST",
+          "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+          "byteLength": 603002
+        }
+      ],
+      "sourceCustody": "read-only shared rcap-d-source-packs-2026-08-12/D1; no source copied or acquired",
+      "artifacts": [
+        {
+          "packetId": "pre-adjudication-canonical",
+          "posture": "pre-adjudication",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-canonical.pdf",
+          "sha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+          "byteLength": 692600,
+          "pageCount": 9,
+          "documents": [
+            "ar-drug-court-process-guidance-1",
+            "ACIC-PETITION-DRUG-COURT-PRE",
+            "ACIC-ORDER-DRUG-COURT-PRE"
+          ]
+        },
+        {
+          "packetId": "pre-adjudication-boundary",
+          "posture": "pre-adjudication",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-boundary.pdf",
+          "sha256": "cc5470f4faf9a92eafdf529e386f015015517514988ca1c7415a961668028f98",
+          "byteLength": 693129,
+          "pageCount": 9,
+          "documents": [
+            "ar-drug-court-process-guidance-1",
+            "ACIC-PETITION-DRUG-COURT-PRE",
+            "ACIC-ORDER-DRUG-COURT-PRE"
+          ]
+        },
+        {
+          "packetId": "post-adjudication-canonical",
+          "posture": "post-adjudication",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-canonical.pdf",
+          "sha256": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+          "byteLength": 1430391,
+          "pageCount": 9,
+          "documents": [
+            "ar-drug-court-process-guidance-1",
+            "ACIC-PETITION-DRUG-COURT-POST",
+            "ACIC-ORDER-DRUG-COURT-POST"
+          ]
+        },
+        {
+          "packetId": "post-adjudication-boundary",
+          "posture": "post-adjudication",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-boundary.pdf",
+          "sha256": "5ee9b46cac392fd7f6af81179084cf92906ed38d05578656057566d9f0dedd0f",
+          "byteLength": 1430836,
+          "pageCount": 9,
+          "documents": [
+            "ar-drug-court-process-guidance-1",
+            "ACIC-PETITION-DRUG-COURT-POST",
+            "ACIC-ORDER-DRUG-COURT-POST"
+          ]
+        }
+      ],
+      "fieldCensus": {
+        "terminalFields": 190,
+        "written": 22,
+        "classifiedBlanks": 168
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "nineCountersZero": true,
+      "completenessResult": "PASS_COMPLETE",
+      "focusedChecks": [
+        {
+          "command": "node --check scripts/build-census-v1-ar-drug-court-set.mjs",
+          "result": "PASS"
+        },
+        {
+          "command": "node scripts/build-census-v1-ar-drug-court-set.mjs --check",
+          "result": "CHECK_OK"
+        },
+        {
+          "command": "node scripts/build-census-v1-ar-drug-court-set.mjs --self-test",
+          "result": "SELF_TEST_OK"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-drug-court-set",
+          "result": "PASS_COMPLETE; all nine counters zero"
+        },
+        {
+          "command": "git diff --check",
+          "result": "PASS"
+        }
+      ],
+      "determinism": {
+        "proved": true,
+        "rebuildsCompared": 2,
+        "result": "all four assembled packet SHA-256 values and byte lengths identical"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "independentVerificationStatus": "PENDING",
+      "claimReleased": false,
+      "selfVerified": false,
+      "centralStateEdits": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A built family is not independently verified, approved for live, or commercially deliverable."
     }
-  ]
+  ],
+  "currentRun": {
+    "workerId": "CODEX-CS2-WORKER-B",
+    "workerBranch": "codex/cs2-worker-b-ar-drug-court",
+    "continuationBaseSha": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
+    "familiesAssigned": [
+      "ar-drug-court-set"
+    ],
+    "familiesCompleted": [
+      "ar-drug-court-set"
+    ],
+    "familiesStopped": [],
+    "rowsReturned": 1,
+    "rasterState": "BUILT_RASTER_PENDING",
+    "claimsReleased": 0,
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
 }
