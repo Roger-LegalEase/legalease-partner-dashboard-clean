@@ -1,4 +1,4 @@
-const PF_LANE = /^PF([1-9]\d*)$/;
+const PF_LANE = /^PF(0*[1-9]\d*)$/;
 
 export function livePacketLaneByFamily(claims) {
   const lanes = new Map();
