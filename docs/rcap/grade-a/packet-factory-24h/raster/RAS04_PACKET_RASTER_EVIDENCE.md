@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `2927edb21a04c95a33ca9d4565cadfad270679f1`
+**Minimum required ancestor:** `12a80b038e805bfff6cf5910fb4c85f756e0f3e8`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -65,7 +65,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-canonical/cr-180-filled.pdf` — `bfea87d6fca45c64ba6a54aea353e731c7b3bdc75c56736fec7ec9b49014db36`
 - boundary `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-boundary/cr-180-filled.pdf` — `1901cba4ac7afd2b458dad315a2eaf08851a6e69fea555a0e1edfd7ccd356d9c`
 - expected pages 3 · requested scale 2.5
-- built by VF03
+- built by (no builder lane recorded)
 
 ### co_pardoned_conviction_seal-set
 
