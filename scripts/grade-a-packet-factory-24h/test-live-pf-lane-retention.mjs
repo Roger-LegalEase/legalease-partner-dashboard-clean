@@ -14,6 +14,10 @@ const live = livePacketLaneByFamily([packetClaim]);
 assert.equal(live.get("family-under-test"), "PF17");
 assert.equal(effectivePacketLaneCount(16, live), 17);
 
+const zeroPaddedLowLane = livePacketLaneByFamily([{ ...packetClaim, lane: "PF03" }]);
+assert.equal(zeroPaddedLowLane.get("family-under-test"), "PF03");
+assert.equal(effectivePacketLaneCount(16, zeroPaddedLowLane), 16);
+
 const released = livePacketLaneByFamily([{ ...packetClaim, released: true }]);
 assert.equal(released.has("family-under-test"), false);
 assert.equal(effectivePacketLaneCount(16, released), 16);
