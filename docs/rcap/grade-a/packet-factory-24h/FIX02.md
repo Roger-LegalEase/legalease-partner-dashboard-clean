@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `4adec8eba6fc7d51c099f8ef9a7820416e36778d` (or the newer dispatch base)
+**Minimum required ancestor:** `a001c27bf012efe48c7e5f83745c2afa0ccfaf98` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'id_set_aside_dismissal-set' \
   --codex-cloud \
-  --minimum-captain-sha 4adec8eba6fc7d51c099f8ef9a7820416e36778d
+  --minimum-captain-sha a001c27bf012efe48c7e5f83745c2afa0ccfaf98
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,13 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 6 exact families before reading or writing family content:
+- Assert only these 5 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'id_set_aside_dismissal-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-seal-3yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-tx-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ut_pet_acquittal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'wv_conv_single_misdemeanor-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'in_arrest_no_charges-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-wa-custom-pleading-clean-tracks'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ut_pet_dismissed_with_prejudice-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -62,14 +61,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 5 families
 
 - `id_set_aside_dismissal-set`
 - `al-diversion-set`
-- `il-seal-3yr-set`
-- `rcap-tx-custom-pleading`
-- `ut_pet_acquittal-set`
-- `wv_conv_single_misdemeanor-set`
+- `in_arrest_no_charges-set`
+- `rcap-wa-custom-pleading-clean-tracks`
+- `ut_pet_dismissed_with_prejudice-set`
 
 ## What you receive
 
@@ -84,14 +82,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
 - `scripts/build-census-v1-id_set_aside_dismissal-set.mjs`
-- `scripts/build-census-v1-il-seal-3yr-set.mjs`
-- `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
+- `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
+- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
+- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
 
 ## Never write here
 

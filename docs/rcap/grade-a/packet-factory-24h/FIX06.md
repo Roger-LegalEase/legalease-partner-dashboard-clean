@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `4adec8eba6fc7d51c099f8ef9a7820416e36778d` (or the newer dispatch base)
+**Minimum required ancestor:** `a001c27bf012efe48c7e5f83745c2afa0ccfaf98` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-misd-dwop-set' \
   --codex-cloud \
-  --minimum-captain-sha 4adec8eba6fc7d51c099f8ef9a7820416e36778d
+  --minimum-captain-sha a001c27bf012efe48c7e5f83745c2afa0ccfaf98
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,17 +38,18 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 10 exact families before reading or writing family content:
+- Assert only these 11 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'al-misd-dwop-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-exp-pardon-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'oh_marijuana_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'tx_nd_probation_misdemeanor-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ut_pet_limitations-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-ks-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ri_nonconviction_sealing-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'va_seal_petition_misdemeanor-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-nd-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'sd_arrest_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'vt_exp_decriminalized-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -66,18 +67,19 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 10 families
+## The 11 families
 
 - `al-misd-dwop-set`
 - `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
+- `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`
 - `il-exp-pardon-set`
 - `oh_marijuana_expungement-set`
 - `tx_nd_probation_misdemeanor-set`
 - `ut_pet_limitations-set`
-- `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`
-- `rcap-ks-custom-pleading`
-- `ri_nonconviction_sealing-set`
-- `va_seal_petition_misdemeanor-set`
+- `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
+- `rcap-nd-custom-pleading`
+- `sd_arrest_expungement-set`
+- `vt_exp_decriminalized-set`
 
 ## What you receive
 
@@ -92,22 +94,25 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
 - `data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-misd-dwop-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs`
 - `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
 - `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`
 - `scripts/build-census-v1-ut_pet_limitations-set.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs`
-- `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
-- `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`
+- `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
+- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 
 ## Never write here
 
