@@ -1210,7 +1210,7 @@ The committed route record for this packet states the statutory position: "The c
 
 ## What you must do before you file
 
-1. **Get the Non Conviction Insert Forms** — Facts, Findings and Exhibit pages — from **www.indianalegalhelp.org**, and put them in place of the three pages that tell you to. Nothing else in this list matters until this is done.
+1. **Put each insert page in place of the placeholder page that calls for it.** The Facts, Findings and Exhibit pages are the second document in this packet; the bundle's pages 4, 10 and 11 each tell you to take that page out and put the matching insert in its place. Do that first, and fill every blank on all four insert pages by hand — the section headed "The insert pages" below says which block is which, and why nothing on them is filled in for you.
 2. **Copy the caption onto every document**: the county, the court, the cause number and your name.
 3. **Write your Social Security number where the packet asks for it, twice and differently.** The petition's paragraph 2 asks for the **last four digits only**, after the printed "XXX-XX-". The **Confidential Information Form** on page 8 asks for the **whole number** — and that form is the reason Form ACR exists. Its own printed words are "ATTENTION CLERK: FOR SELF REPRESENTED LITIGANTS TREAT THIS FORM AS IF IT IS PRINTED ON GREEN PAPER. IF THIS DOCUMENT IS E-FILED, FILE THIS AS A CONFIDENTIAL DOCUMENT." Put the full number nowhere else.
 4. **Write your driver licence or state identification number** in the petition's paragraph 2.
