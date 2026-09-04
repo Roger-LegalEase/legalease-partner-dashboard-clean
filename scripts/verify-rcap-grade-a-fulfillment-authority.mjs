@@ -41,6 +41,42 @@ const REGISTRY_PATH = "data/rcap-grade-a/fulfillment-authority-registry.json";
 const PROJECTION_PATH = "data/rcap-grade-a/fulfillment-authority-projection.json";
 const SOURCE_REGISTRY_PATH = "data/rcap-grade-a/official-source-registry.json";
 const OBSERVATION_PATH = "data/rcap-grade-a/fulfillment-observation-snapshot.json";
+const FIRST_COHORT_EVIDENCE_COMMIT = "ff9705a240c004ed7b9d2f022113abe865442d3f";
+const FIRST_COHORT_OWNER_APPROVAL = "OWN-ADOPT-2026-09-02-BATCH-53";
+const FIRST_COHORT_EXPECTED = [
+  {
+    assignmentClaim: "obligation:track-pathway:DC:dc_actual_innocence_expungement_16_803",
+    routeId: "DC:dc_actual_innocence_expungement_16_803",
+    familyId: "dc_innocence_expungement-set",
+    specificationSha256: "a66e9b44315db4cfcbbb103630e210c3a43ffd4bfac6d2a8049bbe208b38d0c8",
+    canonicalSha256: "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+    boundarySha256: "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d"
+  },
+  {
+    assignmentClaim: "obligation:track-pathway:MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    routeId: "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    familyId: "ms-misd-addl-set",
+    specificationSha256: "e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064",
+    canonicalSha256: "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+    boundarySha256: "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5"
+  },
+  {
+    assignmentClaim: "obligation:track-pathway:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    routeId: "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    familyId: "ms-misd-addl-set",
+    specificationSha256: "e870e694b9170d5b136bb1a99c53bc56231e3161ad9ea4adf60927a984996064",
+    canonicalSha256: "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+    boundarySha256: "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5"
+  },
+  {
+    assignmentClaim: "obligation:track-pathway:WY:felony-conviction-expungement-w-s-7-13-1502",
+    routeId: "WY:felony-conviction-expungement-w-s-7-13-1502",
+    familyId: "wy_fel_1502-set",
+    specificationSha256: "97572a2e564a1ae4c4ca857a90af2c6536fdd68ae1ac3ed7a2766827e1557d2f",
+    canonicalSha256: "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+    boundarySha256: "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800"
+  }
+];
 
 const readSource = (rel) => fs.readFileSync(path.join(rootDir, rel), "utf8");
 const readJson = (rel) => JSON.parse(readSource(rel));
@@ -676,20 +712,105 @@ check("no route in the shipped registry is commercially eligible without every p
   return null;
 });
 
-check("the candidate lanes and bounded Mississippi clinic route are the only jurisdictions in the registry", () => {
+check("the candidate lanes, bounded clinic route and exact first cohort are the only jurisdictions in the registry", () => {
   const jurisdictions = [...new Set(registryDocument.records.map((record) => record.jurisdiction))].sort();
-  return jurisdictions.join(",") === "MS,ND,OR" ? null : `the registry carries ${jurisdictions.join(",")}`;
+  return jurisdictions.join(",") === "DC,MS,ND,OR,WY" ? null : `the registry carries ${jurisdictions.join(",")}`;
 });
 
-check("Mississippi authority is limited to the one clinic-demo route", () => {
+check("Mississippi authority is limited to the clinic demo and two enumerated first-cohort routes", () => {
   const mississippiRoutes = registryDocument.records
     .filter((record) => record.jurisdiction === "MS")
     .map((record) => record.routeId)
     .sort();
-  const expected = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
-  return mississippiRoutes.length === 1 && mississippiRoutes[0] === expected
+  const expected = [
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+  ].sort();
+  return stableStringify(mississippiRoutes) === stableStringify(expected)
     ? null
     : `unexpected Mississippi authority scope: ${mississippiRoutes.join(",") || "none"}`;
+});
+
+check("the first-cohort authority scope is exactly four route-family records", () => {
+  const actual = registryDocument.records
+    .filter((record) => record.evidenceBindings?.firstCohortReturn?.commit === FIRST_COHORT_EVIDENCE_COMMIT)
+    .map((record) => ({ routeId: record.routeId, familyId: record.packetFamilyId }))
+    .sort((a, b) => a.routeId.localeCompare(b.routeId));
+  const expected = FIRST_COHORT_EXPECTED
+    .map((entry) => ({ routeId: entry.routeId, familyId: entry.familyId }))
+    .sort((a, b) => a.routeId.localeCompare(b.routeId));
+  return stableStringify(actual) === stableStringify(expected)
+    ? null
+    : `expected ${stableStringify(expected)}, got ${stableStringify(actual)}`;
+});
+
+check("every first-cohort record binds the exact committed specification, artifacts and receipts", () => {
+  for (const expected of FIRST_COHORT_EXPECTED) {
+    const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
+    if (!record) return `${expected.routeId} has no record`;
+    if (record.packetFamilyId !== expected.familyId) return `${expected.routeId} binds ${record.packetFamilyId}`;
+    const bound = record.evidenceBindings;
+    if (bound?.assignmentClaim !== expected.assignmentClaim) return `${expected.routeId} binds a different assignment claim`;
+    if (bound?.firstCohortReturn?.commit !== FIRST_COHORT_EVIDENCE_COMMIT) return `${expected.routeId} binds a different first-cohort commit`;
+    if (record.packetSpecification?.sha256 !== expected.specificationSha256
+      || bound?.packetSpecification?.sha256 !== expected.specificationSha256) {
+      return `${expected.routeId} binds a different packet specification`;
+    }
+    if (bound?.approvedArtifacts?.canonical?.sha256 !== expected.canonicalSha256
+      || bound?.approvedArtifacts?.boundary?.sha256 !== expected.boundarySha256) {
+      return `${expected.routeId} binds different canonical or boundary bytes`;
+    }
+    if (bound?.ownerApproval?.recordId !== FIRST_COHORT_OWNER_APPROVAL
+      || record.legalAuthority?.recordId !== FIRST_COHORT_OWNER_APPROVAL) {
+      return `${expected.routeId} binds a different owner approval`;
+    }
+    if (!/No runtime, technical, visual, payment, sponsorship, or production authority is granted\./.test(bound?.ownerApproval?.qualification ?? "")) {
+      return `${expected.routeId} dropped the owner approval's fail-closed qualification`;
+    }
+    if (bound?.rasterReceipt?.verdict !== "RASTER_PASS" || bound?.rasterReceipt?.coversTheWholeFamily !== true) {
+      return `${expected.routeId} has no exact whole-family raster pass`;
+    }
+    if (bound?.rasterReceipt?.canonicalSha256 !== expected.canonicalSha256
+      || bound?.rasterReceipt?.boundarySha256 !== expected.boundarySha256) {
+      return `${expected.routeId} raster receipt binds different bytes`;
+    }
+    if (bound?.independentVerification?.verdict !== "PASS_COMPLETE_INDEPENDENT") {
+      return `${expected.routeId} has no current independent complete verdict`;
+    }
+    if (!bound?.provider?.deliveryProviderEvidenceSha256
+      || stableStringify(bound.provider.deliveryProvider) !== stableStringify(record.provider)
+      || !bound.provider.artifactProducer?.builderSha256) {
+      return `${expected.routeId} has incomplete provider evidence`;
+    }
+    if (!record.fixture?.deterministic || !record.fixture.sha256
+      || record.fixture.sha256 !== bound?.fixture?.witnessFixtureSha256
+      || bound.fixture.expectedPaymentAllowed !== false) {
+      return `${expected.routeId} has incomplete or permissive fixture evidence`;
+    }
+  }
+  return null;
+});
+
+check("every first-cohort record keeps missing proof explicit and commercial authority closed", () => {
+  for (const expected of FIRST_COHORT_EXPECTED) {
+    const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
+    const row = projection.routes.find((entry) => entry.routeId === expected.routeId);
+    if (!record || !row) return `${expected.routeId} is absent from the registry or projection`;
+    if (record.officialSources?.length !== 0) return `${expected.routeId} invented official-source proof`;
+    if (record.finalVerification?.state !== "unbound") return `${expected.routeId} invented a final verification`;
+    if (row.state !== "INCOMPLETE" || row.commercialStatus !== "not_commercially_eligible") {
+      return `${expected.routeId} projected ${row.state}/${row.commercialStatus}`;
+    }
+    const expectedMissing = [
+      "final_verification: state is unbound",
+      "official_sources: no official source is bound to this route"
+    ];
+    if (stableStringify(row.missingProof) !== stableStringify(expectedMissing)) {
+      return `${expected.routeId} reports unexpected missing proof ${stableStringify(row.missingProof)}`;
+    }
+  }
+  return null;
 });
 
 check("no synthetic route ever reaches the shipped registry", () => {

@@ -9,8 +9,9 @@
 //
 //   1. data/rcap-grade-a/fulfillment-authority-registry.json
 //      The canonical controlling registry. Candidate records are written here
-//      ONLY for the lanes that were asked for them — Oregon, North Dakota, and
-//      the bounded Mississippi clinic-demo route —
+//      ONLY for the lanes that were asked for them — Oregon, North Dakota, the
+//      bounded Mississippi clinic-demo route, and the four enumerated
+//      DC/MS/WY first-cohort routes —
 //      and only with the proof those lanes actually produced. Where a lane
 //      produced no proof for a dimension, the record says so; it does not
 //      borrow a neighbouring route's evidence and it does not default to true.
@@ -32,6 +33,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -52,6 +54,13 @@ const MS_CLINIC_SPECIFICATION = "data/record-clearing/packet-specifications/MS-n
 const MS_CLINIC_FIXTURE = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json";
 const MS_CLINIC_ARTIFACTS = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json";
 const MS_CLINIC_RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json";
+const FIRST_COHORT_RETURN = "data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json";
+const FIRST_COHORT_EVIDENCE_COMMIT = "ff9705a240c004ed7b9d2f022113abe865442d3f";
+const OWNER_BATCH_ADOPTION = "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json";
+const OWNER_BATCH_ADOPTION_ID = "OWN-ADOPT-2026-09-02-BATCH-53";
+const POST_APPROVAL_AUDIT = "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json";
+const RASTER_QUEUE = "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json";
+const VERIFIER_RETURNS = "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json";
 // Lane-produced page-by-page visual review evidence. A lane may close the
 // visual-review dimension because reviewing every page of a rendered artifact
 // is work a lane actually does. It may not close output-level legal approval
@@ -66,8 +75,101 @@ const PROJECTION_OUT = "data/rcap-grade-a/fulfillment-authority-projection.json"
 const CANDIDATE_JURISDICTIONS = ["ND", "OR"];
 const MS_CLINIC_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
-const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
+// This is an enumerated scope, not a jurisdiction allow-list. The two
+// Mississippi routes deliberately share one family and one specification, but
+// each receives its own authority record so neither can act as a wildcard for
+// the other.
+const FIRST_COHORT_ROUTES = [
+  {
+    assignmentClaim: "obligation:track-pathway:DC:dc_actual_innocence_expungement_16_803",
+    routeId: "DC:dc_actual_innocence_expungement_16_803",
+    familyId: "dc_innocence_expungement-set",
+    specificationPath: "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
+    builderPath: "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+    providerPaths: [
+      "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+      "scripts/build-census-v1-dc_seal_nonconviction-set.mjs"
+    ],
+    overlayRoot: "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading"
+  },
+  {
+    assignmentClaim: "obligation:track-pathway:MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    routeId: "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    familyId: "ms-misd-addl-set",
+    specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+    builderPath: "scripts/build-census-v1-ms-misd-addl-set.mjs",
+    providerPaths: ["scripts/build-census-v1-ms-misd-addl-set.mjs"],
+    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading"
+  },
+  {
+    assignmentClaim: "obligation:track-pathway:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    routeId: "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    familyId: "ms-misd-addl-set",
+    specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+    builderPath: "scripts/build-census-v1-ms-misd-addl-set.mjs",
+    providerPaths: ["scripts/build-census-v1-ms-misd-addl-set.mjs"],
+    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading"
+  },
+  {
+    assignmentClaim: "obligation:track-pathway:WY:felony-conviction-expungement-w-s-7-13-1502",
+    routeId: "WY:felony-conviction-expungement-w-s-7-13-1502",
+    familyId: "wy_fel_1502-set",
+    specificationPath: "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
+    builderPath: "scripts/build-census-v1-wy_fel_1502-set.mjs",
+    providerPaths: ["scripts/build-census-v1-wy_fel_1502-set.mjs"],
+    overlayRoot: "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading"
+  }
+];
+
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
+const gitBlobSha1 = (value) => crypto.createHash("sha1")
+  .update(`blob ${value.length}\0`)
+  .update(value)
+  .digest("hex");
+
+// Packet-factory evidence is intentionally sparse-checkout friendly. Reading a
+// tracked blob through this worktree's HEAD does not materialize or alter the
+// packet; it lets generation bind the exact committed bytes even when the
+// checkout omits large PDF/raster trees.
+function readEvidenceBytes(rel) {
+  const absolute = path.join(rootDir, rel);
+  if (fs.existsSync(absolute)) return fs.readFileSync(absolute);
+  try {
+    return execFileSync("git", ["-C", rootDir, "show", `HEAD:${rel}`], {
+      encoding: null,
+      maxBuffer: 64 * 1024 * 1024
+    });
+  } catch (error) {
+    throw new Error(`Required committed evidence is unavailable at ${rel}: ${error?.message ?? error}`);
+  }
+}
+
+function readEvidenceJson(rel) {
+  return JSON.parse(readEvidenceBytes(rel).toString("utf8"));
+}
+
+const readJson = (rel) => readEvidenceJson(rel);
+
+function evidenceExists(rel) {
+  if (fs.existsSync(path.join(rootDir, rel))) return true;
+  try {
+    execFileSync("git", ["-C", rootDir, "cat-file", "-e", `HEAD:${rel}`], { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function readGitBlob(commit, rel) {
+  return execFileSync("git", ["-C", rootDir, "show", `${commit}:${rel}`], {
+    encoding: null,
+    maxBuffer: 64 * 1024 * 1024
+  });
+}
+
+function requireEvidence(condition, message) {
+  if (!condition) throw new Error(`First-cohort evidence refusal: ${message}`);
+}
 
 const { stableStringify, fulfillmentRecordSha256 } = await import("../src/lib/rcap/fulfillment/grade-a-registry.ts");
 const {
@@ -106,11 +208,10 @@ for (const root of OVERLAY_ROOTS) scanOverlayArtifacts(root);
 
 const independentReviewByRoute = new Map();
 for (const rel of INDEPENDENT_REVIEWS) {
-  const abs = path.join(rootDir, rel);
-  if (!fs.existsSync(abs)) continue;
+  if (!evidenceExists(rel)) continue;
   const doc = readJson(rel);
   if (!(doc.pageCount > 0) || doc.pagesReviewed !== doc.pageCount) continue;
-  independentReviewByRoute.set(doc.routeKey, { doc, rel, evidenceSha256: sha256(fs.readFileSync(abs, "utf8")) });
+  independentReviewByRoute.set(doc.routeKey, { doc, rel, evidenceSha256: sha256(readEvidenceBytes(rel)) });
   for (const form of doc.forms ?? []) {
     filingArtifactBySourceId.set(form.sourceId, {
       sha256: form.finalizedArtifactSha256,
@@ -131,13 +232,12 @@ const worker = readJson(WORKER_EVIDENCE);
 const sourceRegistry = readJson(SOURCE_REGISTRY);
 const laneVisualReviewByRoute = new Map();
 for (const rel of LANE_VISUAL_REVIEW) {
-  const abs = path.join(rootDir, rel);
-  if (!fs.existsSync(abs)) continue;
+  if (!evidenceExists(rel)) continue;
   const doc = readJson(rel);
   // Evidence is only accepted when it actually reviewed every page it counted.
   const complete = doc.pageCount > 0 && doc.pagesReviewed === doc.pageCount;
   if (!complete) continue;
-  const evidenceSha256 = sha256(fs.readFileSync(abs, "utf8"));
+  const evidenceSha256 = sha256(readEvidenceBytes(rel));
   for (const routeId of doc.routes ?? []) {
     laneVisualReviewByRoute.set(routeId, {
       state: "passed",
@@ -190,6 +290,56 @@ function reviewState(value) {
   return REVIEW_STATE_FROM_COUNSEL[value] ?? "pending";
 }
 
+const firstCohortReturnBytes = readEvidenceBytes(FIRST_COHORT_RETURN);
+const firstCohortCommittedReturnBytes = readGitBlob(FIRST_COHORT_EVIDENCE_COMMIT, FIRST_COHORT_RETURN);
+requireEvidence(
+  sha256(firstCohortReturnBytes) === sha256(firstCohortCommittedReturnBytes),
+  `${FIRST_COHORT_RETURN} is not byte-identical to ${FIRST_COHORT_EVIDENCE_COMMIT}`
+);
+const firstCohortReturn = JSON.parse(firstCohortReturnBytes.toString("utf8"));
+requireEvidence(
+  firstCohortReturn.routeResults?.length === FIRST_COHORT_ROUTES.length,
+  `${FIRST_COHORT_RETURN} does not contain exactly the four assigned route results`
+);
+
+const ownerBatchAdoptionBytes = readEvidenceBytes(OWNER_BATCH_ADOPTION);
+const ownerBatchAdoption = JSON.parse(ownerBatchAdoptionBytes.toString("utf8"));
+requireEvidence(ownerBatchAdoption.recordId === OWNER_BATCH_ADOPTION_ID, `${OWNER_BATCH_ADOPTION_ID} is absent`);
+requireEvidence(ownerBatchAdoption.decisionOwner === "Roger Roman", `${OWNER_BATCH_ADOPTION_ID} has no exact decision owner`);
+requireEvidence(ownerBatchAdoption.decidedOn === "2026-09-02", `${OWNER_BATCH_ADOPTION_ID} has an unexpected decision date`);
+
+const firstCohortFamilies = [...new Set(FIRST_COHORT_ROUTES.map((entry) => entry.familyId))].sort();
+const ownerQualification = ownerBatchAdoption.adoption?.qualifications?.find((entry) =>
+  firstCohortFamilies.every((familyId) => entry.families?.includes(familyId))
+) ?? null;
+requireEvidence(ownerQualification, `${OWNER_BATCH_ADOPTION_ID} does not adopt all three assigned families in one exact qualification`);
+requireEvidence(
+  /No runtime, technical, visual, payment, sponsorship, or production authority is granted\./.test(ownerQualification.ownerNote ?? ""),
+  `${OWNER_BATCH_ADOPTION_ID} no longer carries its fail-closed qualification`
+);
+
+const postApprovalAuditBytes = readEvidenceBytes(POST_APPROVAL_AUDIT);
+const postApprovalAudit = JSON.parse(postApprovalAuditBytes.toString("utf8"));
+const postApprovalAuditByFamily = new Map(
+  (postApprovalAudit.families ?? [])
+    .filter((entry) => firstCohortFamilies.includes(entry.familyId))
+    .map((entry) => [entry.familyId, entry])
+);
+const rasterQueueBytes = readEvidenceBytes(RASTER_QUEUE);
+const rasterQueue = JSON.parse(rasterQueueBytes.toString("utf8"));
+const rasterByFamily = new Map(
+  (rasterQueue.rows ?? [])
+    .filter((entry) => firstCohortFamilies.includes(entry.familyId))
+    .map((entry) => [entry.familyId, entry])
+);
+const verifierReturnsBytes = readEvidenceBytes(VERIFIER_RETURNS);
+const verifierReturns = JSON.parse(verifierReturnsBytes.toString("utf8"));
+const verifierByFamily = new Map(
+  (verifierReturns.rows ?? [])
+    .filter((entry) => firstCohortFamilies.includes(entry.familyId) && entry.superseded === false)
+    .map((entry) => [entry.familyId, entry])
+);
+
 /**
  * One candidate record from one launch-graph row. Every field is either copied
  * from evidence or recorded as absent. Nothing here decides anything: the
@@ -226,6 +376,18 @@ function overlayRendererFor(family) {
       const rel = path.posix.join(root, state.name, family, "reports/rendered-artifacts.json");
       if (fs.existsSync(path.join(rootDir, rel))) return readJson(rel).renderer;
     }
+  }
+  try {
+    const tracked = execFileSync("git", ["-C", rootDir, "ls-tree", "-r", "--name-only", "HEAD", "--", ...OVERLAY_ROOTS], {
+      encoding: "utf8",
+      maxBuffer: 16 * 1024 * 1024
+    }).split("\n");
+    const suffix = `/${family}/reports/rendered-artifacts.json`;
+    const rel = tracked.find((entry) => entry.endsWith(suffix));
+    if (rel) return readJson(rel).renderer ?? "";
+  } catch {
+    // Absence is evidence too. The caller records an empty renderer identity,
+    // which keeps the provider/fileability proof incomplete.
   }
   return "";
 }
@@ -532,10 +694,10 @@ function candidateRecord(row) {
  * remain independent, so sponsored Preview posture stays held.
  */
 function mississippiClinicCandidateRecord() {
-  const specificationBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_SPECIFICATION));
-  const fixtureBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_FIXTURE));
+  const specificationBytes = readEvidenceBytes(MS_CLINIC_SPECIFICATION);
+  const fixtureBytes = readEvidenceBytes(MS_CLINIC_FIXTURE);
   const artifacts = readJson(MS_CLINIC_ARTIFACTS);
-  const rasterReviewBytes = fs.readFileSync(path.join(rootDir, MS_CLINIC_RASTER_REVIEW));
+  const rasterReviewBytes = readEvidenceBytes(MS_CLINIC_RASTER_REVIEW);
   const rasterReview = JSON.parse(rasterReviewBytes);
   const canonical = artifacts.artifacts.find((artifact) => artifact.fixture === "participant_delivery_canonical");
   const boundary = artifacts.artifacts.find((artifact) => artifact.fixture === "participant_delivery_boundary");
@@ -595,8 +757,8 @@ function mississippiClinicCandidateRecord() {
   }
   const approvalScopeSha256 = sha256(stableStringify(participantReview));
 
-  const composerBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/composer.ts"));
-  const rendererBytes = fs.readFileSync(path.join(rootDir, "src/lib/rcap/grade-a/renderer.ts"));
+  const composerBytes = readEvidenceBytes("src/lib/rcap/grade-a/composer.ts");
+  const rendererBytes = readEvidenceBytes("src/lib/rcap/grade-a/renderer.ts");
   const record = {
     schemaVersion: GRADE_A_ADMISSION_SCHEMA_VERSION,
     recordId: "grade-a-ms-non-conviction-expungement-clinic-demo-v1",
@@ -705,12 +867,367 @@ function mississippiClinicCandidateRecord() {
   return record;
 }
 
+/**
+ * Candidate authority for one of the four already-productized first-cohort
+ * routes. The packet factory proves a family; this function deliberately
+ * produces a separate record for each exact runtime route and refuses any
+ * wildcard or neighbouring route.
+ *
+ * The owner adoption is legal/output evidence for the exact pinned bytes only.
+ * Its own qualification says it grants no runtime or commercial authority, and
+ * the raster and independent-verification receipts say the same. Those proofs
+ * are therefore bound here without being promoted into either an official
+ * source proof or a participant final verification. Both remain open gates.
+ */
+function firstCohortCandidateRecord(definition) {
+  const {
+    assignmentClaim, routeId, familyId, specificationPath, builderPath, providerPaths, overlayRoot
+  } = definition;
+  const jurisdiction = routeId.slice(0, routeId.indexOf(":"));
+  const pathwayId = routeId.slice(routeId.indexOf(":") + 1);
+
+  const returnedRoute = firstCohortReturn.routeResults.find((entry) => entry.routeId === routeId) ?? null;
+  requireEvidence(returnedRoute, `${FIRST_COHORT_RETURN} has no result for ${routeId}`);
+  requireEvidence(returnedRoute.familyId === familyId, `${routeId} maps to ${returnedRoute.familyId}, not ${familyId}, in the committed return`);
+  requireEvidence(returnedRoute.availabilityAfterChange === "UNFINISHED", `${routeId} was unexpectedly opened by the productization return`);
+  requireEvidence(returnedRoute.artifacts?.length === 2, `${routeId} does not bind exactly canonical and boundary artifacts`);
+  requireEvidence(resolvePacketFamilyId(routeId) === familyId, `the shipped resolver does not map ${routeId} to ${familyId}`);
+
+  const specificationBytes = readEvidenceBytes(specificationPath);
+  const specification = JSON.parse(specificationBytes.toString("utf8"));
+  requireEvidence(specification.jurisdiction === jurisdiction, `${specificationPath} has the wrong jurisdiction for ${routeId}`);
+  requireEvidence(specification.packetFamily === familyId, `${specificationPath} has the wrong family for ${routeId}`);
+  requireEvidence(specification.routeKeys?.includes(routeId), `${specificationPath} does not enumerate ${routeId}`);
+  requireEvidence(specification.legalSectionsBound === true, `${specificationPath} does not bind its legal sections`);
+  requireEvidence(
+    specification.legalSectionsBoundBy?.ownerDecisionRecordId === OWNER_BATCH_ADOPTION_ID,
+    `${specificationPath} is not bound to ${OWNER_BATCH_ADOPTION_ID}`
+  );
+  requireEvidence(
+    specification.legalSectionsBoundBy?.postApprovalAuditVerdict === "COVERED_BY_EXISTING_APPROVAL",
+    `${specificationPath} does not carry the current post-approval verdict`
+  );
+
+  const approvedByFixture = new Map((specification.approvedArtifacts ?? []).map((entry) => [entry.fixture, entry]));
+  const returnedByFixture = new Map((returnedRoute.artifacts ?? []).map((entry) => [entry.fixture, entry]));
+  const ownerPins = ownerQualification.digestConditionRecordedPerFamily?.[familyId] ?? [];
+  const ownerPinByFixture = new Map(ownerPins.map((entry) => [entry.fixture, entry]));
+  const canonical = approvedByFixture.get("canonical") ?? null;
+  const boundary = approvedByFixture.get("boundary") ?? null;
+  requireEvidence(canonical && boundary && approvedByFixture.size === 2, `${specificationPath} does not hold exactly canonical and boundary approvals`);
+
+  for (const artifact of [canonical, boundary]) {
+    const returned = returnedByFixture.get(artifact.fixture) ?? null;
+    const ownerPin = ownerPinByFixture.get(artifact.fixture) ?? null;
+    requireEvidence(returned?.sha256 === artifact.sha256, `${routeId} ${artifact.fixture} hash differs from ${FIRST_COHORT_RETURN}`);
+    requireEvidence(returned?.byteLength === artifact.byteLength, `${routeId} ${artifact.fixture} byte length differs from ${FIRST_COHORT_RETURN}`);
+    requireEvidence(returned?.pageCount === artifact.pageCount, `${routeId} ${artifact.fixture} page count differs from ${FIRST_COHORT_RETURN}`);
+    requireEvidence(returned?.unchanged === true, `${routeId} ${artifact.fixture} was not returned as unchanged`);
+    requireEvidence(ownerPin?.file === artifact.file, `${OWNER_BATCH_ADOPTION_ID} pins a different ${artifact.fixture} path for ${familyId}`);
+    requireEvidence(ownerPin?.sha256 === artifact.sha256, `${OWNER_BATCH_ADOPTION_ID} pins a different ${artifact.fixture} hash for ${familyId}`);
+    requireEvidence(sha256(readEvidenceBytes(artifact.file)) === artifact.sha256, `${artifact.file} no longer hashes to its approved digest`);
+  }
+
+  const audit = postApprovalAuditByFamily.get(familyId) ?? null;
+  requireEvidence(audit?.verdict === "COVERED_BY_EXISTING_APPROVAL", `${familyId} has no current covered-by-existing-approval audit`);
+  requireEvidence(audit?.reviewedAgainstApprovalRecordId === OWNER_BATCH_ADOPTION_ID, `${familyId} audit cites a different owner decision`);
+  requireEvidence(audit?.mayEnterTheFirstCohort === true, `${familyId} was not admitted to the bounded first cohort`);
+  requireEvidence(audit.currentShippingArtifact?.fixtures?.length === 2, `${familyId} audit does not bind both fixture hashes`);
+
+  const renderedArtifactsPath = `${overlayRoot}/reports/rendered-artifacts.json`;
+  const sourceReceiptPath = `${overlayRoot}/source-receipt.json`;
+  const productionFieldMapPath = `${overlayRoot}/production-field-map.json`;
+  const participantInstructionsPath = `${overlayRoot}/participant-instructions.md`;
+  const renderedArtifactsBytes = readEvidenceBytes(renderedArtifactsPath);
+  const renderedArtifacts = JSON.parse(renderedArtifactsBytes.toString("utf8"));
+  requireEvidence(sha256(renderedArtifactsBytes) === audit.currentShippingArtifact.renderedArtifactsReportSha256, `${familyId} rendered-artifact report drifted after the audit`);
+  requireEvidence(sha256(readEvidenceBytes(sourceReceiptPath)) === audit.currentShippingArtifact.sourceReceiptSha256, `${familyId} source receipt drifted after the audit`);
+  requireEvidence(sha256(readEvidenceBytes(productionFieldMapPath)) === audit.currentShippingArtifact.productionFieldMapSha256, `${familyId} production field map drifted after the audit`);
+  requireEvidence(sha256(readEvidenceBytes(participantInstructionsPath)) === audit.currentShippingArtifact.participantInstructionsSha256, `${familyId} participant instructions drifted after the audit`);
+  requireEvidence(renderedArtifacts.familyId === familyId, `${renderedArtifactsPath} names a different family`);
+  requireEvidence(renderedArtifacts.renderedFresh === true && renderedArtifacts.derivedFromBytes === true && renderedArtifacts.byteDerivedHashes === true, `${renderedArtifactsPath} does not carry fresh byte-derived artifact evidence`);
+  for (const artifact of [canonical, boundary]) {
+    const rendered = renderedArtifacts.artifacts?.find((entry) => entry.fixture === artifact.fixture) ?? null;
+    const audited = audit.currentShippingArtifact.fixtures.find((entry) => entry.fixture === artifact.fixture) ?? null;
+    requireEvidence(rendered?.sha256 === artifact.sha256, `${renderedArtifactsPath} has a different ${artifact.fixture} hash`);
+    requireEvidence(rendered?.byteLength === artifact.byteLength, `${renderedArtifactsPath} has a different ${artifact.fixture} byte length`);
+    requireEvidence(rendered?.pageCount === artifact.pageCount, `${renderedArtifactsPath} has a different ${artifact.fixture} page count`);
+    requireEvidence(audited?.sha256ApprovedAndNow === artifact.sha256, `${familyId} audit has a different ${artifact.fixture} hash`);
+    requireEvidence(audited?.pageCountNow === artifact.pageCount, `${familyId} audit has a different ${artifact.fixture} page count`);
+  }
+
+  const verifier = verifierByFamily.get(familyId) ?? null;
+  requireEvidence(verifier?.verdict === "PASS_COMPLETE_INDEPENDENT", `${familyId} has no current independent complete verdict`);
+  requireEvidence(verifier?.isIndependentVerification === true, `${familyId} current verdict is not independent`);
+  requireEvidence(verifier?.superseded === false, `${familyId} current independent verdict is superseded`);
+  requireEvidence(verifier?.failedObligations?.length === 0 && verifier?.unmeasuredObligations?.length === 0, `${familyId} current independent verdict still has proof gaps`);
+  const verifierRowSha256 = sha256(JSON.stringify(verifier));
+  requireEvidence(verifierRowSha256 === audit.currentIndependentVerification?.verifierRowJsonStringifySha256ApprovedAndNow, `${familyId} current independent verdict row drifted after the audit`);
+
+  const raster = rasterByFamily.get(familyId) ?? null;
+  requireEvidence(raster?.currentRasterState === "RASTER_PASS", `${familyId} has no current raster pass`);
+  requireEvidence(raster?.rasterReceipt?.verdict === "RASTER_PASS" && raster.rasterReceipt.jobConclusion === "success", `${familyId} raster receipt is not a successful pass`);
+  requireEvidence(raster.rasterReceipt.coversTheWholeFamily === true, `${familyId} raster receipt does not cover the whole family`);
+  requireEvidence(raster.rasterReceipt.boundToCanonicalSha256 === canonical.sha256, `${familyId} raster receipt binds a different canonical hash`);
+  requireEvidence(raster.rasterReceipt.boundToBoundarySha256 === boundary.sha256, `${familyId} raster receipt binds a different boundary hash`);
+  requireEvidence(audit.currentRasterPins?.workflowRunId === raster.rasterReceipt.workflowRunId, `${familyId} audit and raster receipt disagree on workflow run`);
+  requireEvidence(audit.currentRasterPins?.jobId === raster.rasterReceipt.jobId, `${familyId} audit and raster receipt disagree on job`);
+  requireEvidence(audit.currentRasterPins?.canonicalSha256 === canonical.sha256, `${familyId} audit has a different raster canonical pin`);
+  requireEvidence(audit.currentRasterPins?.boundarySha256 === boundary.sha256, `${familyId} audit has a different raster boundary pin`);
+
+  const providerByteParts = providerPaths.map((rel) => readEvidenceBytes(rel));
+  const builderBytes = Buffer.concat(providerByteParts);
+  const builderSource = providerByteParts.map((bytes) => bytes.toString("utf8")).join("\n");
+  const builderSha256 = sha256(builderBytes);
+  const auditedBuilder = audit.postApprovalPathAndByteCensus?.builder ?? null;
+  const builderEntryBytes = providerByteParts[providerPaths.indexOf(builderPath)];
+  requireEvidence(auditedBuilder?.path === builderPath, `${familyId} audit names a different builder`);
+  requireEvidence(gitBlobSha1(builderEntryBytes) === auditedBuilder.gitBlobAtApprovalAndNow, `${builderPath} drifted from the owner-audited Git blob`);
+  const deterministic = builderSource.includes("stampDeterministic(pdf)")
+    && renderedArtifacts.renderedFresh === true
+    && renderedArtifacts.derivedFromBytes === true
+    && renderedArtifacts.byteDerivedHashes === true;
+  requireEvidence(deterministic, `${builderPath} does not prove a deterministic byte-derived fixture render`);
+
+  const approvedScope = {
+    recordId: ownerBatchAdoption.recordId,
+    decisionOwner: ownerBatchAdoption.decisionOwner,
+    decidedOn: ownerBatchAdoption.decidedOn,
+    qualification: ownerQualification.ownerNote,
+    familyId,
+    approvedArtifacts: ownerPins,
+    postApprovalAuditVerdict: audit.verdict
+  };
+  const approvedScopeSha256 = sha256(stableStringify(approvedScope));
+  const artifactProducerIdentity = `${builderPath}@sha256:${builderSha256}`;
+  const routeFixture = fixtureByKey.get(routeId) ?? null;
+  requireEvidence(routeFixture?.pathwayKey === routeId, `${WITNESS_FIXTURES} has no exact fixture for ${routeId}`);
+  requireEvidence(routeFixture.expected?.paymentAllowed === false, `${routeId} fixture no longer expects payment to remain closed`);
+  const routeFixtureSha256 = sha256(stableStringify(routeFixture.answers ?? {}));
+  const documentByRole = new Map((specification.documents ?? []).map((entry) => [entry.role, entry]));
+  const dimension = (present, basis, notRequiredBasis = null) => present
+    ? { state: "covered", basis }
+    : notRequiredBasis
+      ? { state: "not_required", basis: notRequiredBasis }
+      : { state: "missing", basis: null };
+  const ownerOmissionBasis = `${OWNER_BATCH_ADOPTION_ID}+${specificationPath}: approved complete specification omits this dimension`;
+
+  const record = {
+    schemaVersion: GRADE_A_ADMISSION_SCHEMA_VERSION,
+    recordId: `grade-a-${jurisdiction.toLowerCase()}-${pathwayId}-v1`,
+    routeId,
+    jurisdiction,
+    pathwayId,
+    packetFamilyId: familyId,
+    serviceDisposition: "paid_packet_intended",
+    version: 1,
+    effectiveFrom: ownerBatchAdoption.decidedOn,
+    supersededBy: null,
+    supersededAt: null,
+    revocation: { revoked: false, reason: null, revokedAt: null, revokedBy: null },
+    legalAuthority: {
+      recordId: OWNER_BATCH_ADOPTION_ID,
+      version: OWNER_BATCH_ADOPTION_ID,
+      status: "approved_by_decision_owner",
+      effectiveDate: ownerBatchAdoption.decidedOn,
+      scopeSha256: approvedScopeSha256
+    },
+    packetSpecification: {
+      specId: `${specification.specificationId}@${specification.specificationVersion}`,
+      sha256: sha256(specificationBytes),
+      complete: specification.legalSectionsBound === true && approvedByFixture.size === 2
+    },
+    // These are custom pleadings. Their source receipts are bound below as
+    // evidence, but none supplies the independently corroborated official-form
+    // corpus proof this field requires. An empty array is the honest result.
+    officialSources: [],
+    // Delivery-provider evidence and proof-artifact producer evidence are
+    // different facts. The record binds the published worker image here; the
+    // filing-format proof below names the census builder that produced the
+    // reviewed PDF and explicitly reconciles the mismatch.
+    provider,
+    fixture: {
+      fixtureId: routeFixture.pathwayKey,
+      sha256: routeFixtureSha256,
+      deterministic
+    },
+    artifactValidation: {
+      state: "validated",
+      artifactSha256: canonical.sha256,
+      validatedAt: ownerBatchAdoption.decidedOn
+    },
+    packetCompleteness: {
+      specificationId: specification.specificationId,
+      specificationVersion: specification.specificationVersion,
+      specificationSha256: sha256(specificationBytes),
+      filingApplication: dimension(documentByRole.has("primary_filing"), `${specificationPath}:documents.primary_filing`),
+      proposedOrder: dimension(documentByRole.has("proposed_order"), `${specificationPath}:documents.proposed_order`, ownerOmissionBasis),
+      attachmentsAndSchedules: dimension((specification.attachments?.length ?? 0) > 0, `${specificationPath}:attachments`, ownerOmissionBasis),
+      serviceAndNotice: dimension(Boolean(specification.serviceAndNotice?.statement), `${specificationPath}:serviceAndNotice`),
+      filingDestination: dimension(Boolean(specification.filingDestination?.statement), `${specificationPath}:filingDestination`),
+      feeAndWaiverInstructions: dimension(Boolean(specification.feeAndWaiver?.statement), `${specificationPath}:feeAndWaiver`),
+      copyRequirements: dimension(Boolean(specification.copyRequirements?.statement), `${specificationPath}:copyRequirements`),
+      postFilingSteps: dimension((specification.postFilingTimeline?.length ?? 0) > 0, `${specificationPath}:postFilingTimeline`),
+      hearingAndObjectionStopConditions: dimension((specification.hearingAndObjectionStops?.length ?? 0) > 0, `${specificationPath}:hearingAndObjectionStops`),
+      customPleadingAuthority: {
+        required: (specification.documents ?? []).some((entry) => entry.outputStrategy === "custom_pleading"),
+        approved: true,
+        authorityId: OWNER_BATCH_ADOPTION_ID
+      },
+      filingFormatArtifact: {
+        format: "pdf",
+        sha256: canonical.sha256,
+        pageCount: canonical.pageCount,
+        producedBy: {
+          renderer: artifactProducerIdentity,
+          matchesRecordProvider: false,
+          reconciliation: "The filing proof was produced by the committed census-v1 family builder. The record provider is the separately digest-pinned delivery worker image; no evidence claims that image produced the reviewed PDF.",
+          deterministicRenderVerified: deterministic
+        }
+      }
+    },
+    visualReview: {
+      state: "passed",
+      pagesReviewed: canonical.pageCount,
+      pageCount: canonical.pageCount,
+      evidenceSha256: sha256(JSON.stringify(raster.rasterReceipt)),
+      reviewedBy: `${raster.rasterReceipt.workflow}#job:${raster.rasterReceipt.jobId}`,
+      reviewedAt: null
+    },
+    outputLegalApproval: {
+      state: "passed",
+      reviewerId: ownerBatchAdoption.decisionOwner,
+      decidedAt: ownerBatchAdoption.decidedOn,
+      scopeSha256: approvedScopeSha256
+    },
+    finalVerification: {
+      contract: "rcap-final-verification-bound-inputs/v1",
+      contractModule: "src/lib/rcap/fulfillment/final-verification-contract.ts",
+      state: "unbound",
+      verifierId: null,
+      boundInputsSha256: null,
+      verifiedAt: null
+    },
+    evidenceBindings: {
+      assignmentClaim,
+      firstCohortReturn: {
+        commit: FIRST_COHORT_EVIDENCE_COMMIT,
+        path: FIRST_COHORT_RETURN,
+        sha256: sha256(firstCohortReturnBytes)
+      },
+      packetSpecification: { path: specificationPath, sha256: sha256(specificationBytes) },
+      approvedArtifacts: {
+        canonical: { path: canonical.file, sha256: canonical.sha256, byteLength: canonical.byteLength, pageCount: canonical.pageCount },
+        boundary: { path: boundary.file, sha256: boundary.sha256, byteLength: boundary.byteLength, pageCount: boundary.pageCount }
+      },
+      ownerApproval: {
+        recordId: OWNER_BATCH_ADOPTION_ID,
+        path: OWNER_BATCH_ADOPTION,
+        fileSha256: sha256(ownerBatchAdoptionBytes),
+        decisionOwner: ownerBatchAdoption.decisionOwner,
+        decidedOn: ownerBatchAdoption.decidedOn,
+        qualification: ownerQualification.ownerNote,
+        scopeSha256: approvedScopeSha256
+      },
+      postApprovalAudit: {
+        path: POST_APPROVAL_AUDIT,
+        fileSha256: sha256(postApprovalAuditBytes),
+        verdict: audit.verdict
+      },
+      rasterReceipt: {
+        path: RASTER_QUEUE,
+        rowSha256: sha256(JSON.stringify(raster)),
+        verdict: raster.rasterReceipt.verdict,
+        workflowRunId: raster.rasterReceipt.workflowRunId,
+        jobId: raster.rasterReceipt.jobId,
+        canonicalSha256: canonical.sha256,
+        boundarySha256: boundary.sha256,
+        coversTheWholeFamily: raster.rasterReceipt.coversTheWholeFamily
+      },
+      independentVerification: {
+        path: VERIFIER_RETURNS,
+        rowSha256: verifierRowSha256,
+        verdict: verifier.verdict,
+        lane: verifier.lane,
+        verifiedAtBase: verifier.verifiedAtBase,
+        evidencePath: verifier.evidencePath,
+        evidenceDocumentSha256: sha256(readEvidenceBytes(verifier.evidencePath))
+      },
+      provider: {
+        deliveryProviderEvidencePath: WORKER_EVIDENCE,
+        deliveryProviderEvidenceSha256: sha256(readEvidenceBytes(WORKER_EVIDENCE)),
+        deliveryProvider: provider,
+        artifactProducer: {
+          builderPath,
+          providerPaths,
+          builderSha256,
+          renderedArtifactsPath,
+          renderedArtifactsSha256: sha256(renderedArtifactsBytes),
+          identity: artifactProducerIdentity
+        }
+      },
+      fixture: {
+        deterministic,
+        witnessFixturePath: WITNESS_FIXTURES,
+        witnessFixtureId: routeFixture.pathwayKey,
+        witnessFixtureSha256: routeFixtureSha256,
+        expectedPaymentAllowed: routeFixture.expected.paymentAllowed,
+        canonicalSha256: canonical.sha256,
+        boundarySha256: boundary.sha256
+      },
+      sourceReceipt: { path: sourceReceiptPath, sha256: audit.currentShippingArtifact.sourceReceiptSha256 },
+      productionFieldMap: { path: productionFieldMapPath, sha256: audit.currentShippingArtifact.productionFieldMapSha256 }
+    },
+    history: []
+  };
+
+  record.history = [{
+    version: 1,
+    changeKind: "created",
+    changedAt: ownerBatchAdoption.decidedOn,
+    changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+    reason: `Bounded first-cohort candidate derived from ${FIRST_COHORT_RETURN} at ${FIRST_COHORT_EVIDENCE_COMMIT}, ${specificationPath}, current raster and independent-verification receipts, ${OWNER_BATCH_ADOPTION_ID}, and committed provider/fixture evidence. Official-source proof and participant final verification remain absent; no commercial authority is created.`,
+    recordSha256: fulfillmentRecordSha256(record),
+    supersedesRecordSha256: null
+  }];
+
+  return record;
+}
+
 const rows = launchGraph.rows
   .filter((row) => CANDIDATE_JURISDICTIONS.includes(row.jurisdiction))
   .sort((a, b) => a.pathwayKey.localeCompare(b.pathwayKey));
 
-const records = [...rows.map(candidateRecord), mississippiClinicCandidateRecord()]
+const records = [
+  ...rows.map(candidateRecord),
+  mississippiClinicCandidateRecord(),
+  ...FIRST_COHORT_ROUTES.map(firstCohortCandidateRecord)
+]
   .sort((a, b) => a.routeId.localeCompare(b.routeId));
+
+const firstCohortEvidencePaths = [...new Set([
+  FIRST_COHORT_RETURN,
+  OWNER_BATCH_ADOPTION,
+  POST_APPROVAL_AUDIT,
+  RASTER_QUEUE,
+  VERIFIER_RETURNS,
+  ...FIRST_COHORT_ROUTES.flatMap((entry) => [
+    entry.specificationPath,
+    entry.builderPath,
+    ...entry.providerPaths,
+    `${entry.overlayRoot}/source-receipt.json`,
+    `${entry.overlayRoot}/participant-instructions.md`,
+    `${entry.overlayRoot}/production-field-map.json`,
+    `${entry.overlayRoot}/reports/rendered-artifacts.json`,
+    `${entry.overlayRoot}/fixtures/canonical.pdf`,
+    `${entry.overlayRoot}/fixtures/boundary.pdf`
+  ])
+])].sort();
+const allCandidateJurisdictions = [...new Set([
+  ...CANDIDATE_JURISDICTIONS,
+  "MS",
+  ...FIRST_COHORT_ROUTES.map((entry) => entry.routeId.slice(0, entry.routeId.indexOf(":")))
+])].sort();
 
 const registry = {
   schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
@@ -719,22 +1236,23 @@ const registry = {
   createsApproval: false,
   changesRuntime: false,
   candidateScope: {
-    jurisdictions: [...CANDIDATE_JURISDICTIONS, "MS"],
-    routes: [MS_CLINIC_ROUTE],
-    rule: "Candidate records exist only for lanes and bounded routes that were asked to provide evidence. The Mississippi participant-delivery hashes have exact-output counsel approval, but the clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. The historical internal-review approval grants no delivery posture. A route absent from this registry fails closed."
+    jurisdictions: allCandidateJurisdictions,
+    routes: [MS_CLINIC_ROUTE, ...FIRST_COHORT_ROUTES.map((entry) => entry.routeId)].sort(),
+    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort route records bind the limited owner adoption, current packet/raster/independent-verification evidence, and committed provider/fixture identities without converting any missing official-source or participant-final-verification proof into approval. The Mississippi clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. A route absent from this registry fails closed."
   },
   evidenceInputs: {
-    [LAUNCH_GRAPH]: sha256(fs.readFileSync(path.join(rootDir, LAUNCH_GRAPH), "utf8")),
-    [LEGAL_JOIN]: sha256(fs.readFileSync(path.join(rootDir, LEGAL_JOIN), "utf8")),
-    [COUNSEL_MANIFEST]: sha256(fs.readFileSync(path.join(rootDir, COUNSEL_MANIFEST), "utf8")),
-    [WITNESS_FIXTURES]: sha256(fs.readFileSync(path.join(rootDir, WITNESS_FIXTURES), "utf8")),
-    [VISUAL_PROOF]: sha256(fs.readFileSync(path.join(rootDir, VISUAL_PROOF), "utf8")),
-    [WORKER_EVIDENCE]: sha256(fs.readFileSync(path.join(rootDir, WORKER_EVIDENCE), "utf8")),
-    [SOURCE_REGISTRY]: sha256(fs.readFileSync(path.join(rootDir, SOURCE_REGISTRY), "utf8")),
-    [MS_CLINIC_SPECIFICATION]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_SPECIFICATION))),
-    [MS_CLINIC_FIXTURE]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_FIXTURE))),
-    [MS_CLINIC_ARTIFACTS]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_ARTIFACTS))),
-    [MS_CLINIC_RASTER_REVIEW]: sha256(fs.readFileSync(path.join(rootDir, MS_CLINIC_RASTER_REVIEW)))
+    [LAUNCH_GRAPH]: sha256(readEvidenceBytes(LAUNCH_GRAPH)),
+    [LEGAL_JOIN]: sha256(readEvidenceBytes(LEGAL_JOIN)),
+    [COUNSEL_MANIFEST]: sha256(readEvidenceBytes(COUNSEL_MANIFEST)),
+    [WITNESS_FIXTURES]: sha256(readEvidenceBytes(WITNESS_FIXTURES)),
+    [VISUAL_PROOF]: sha256(readEvidenceBytes(VISUAL_PROOF)),
+    [WORKER_EVIDENCE]: sha256(readEvidenceBytes(WORKER_EVIDENCE)),
+    [SOURCE_REGISTRY]: sha256(readEvidenceBytes(SOURCE_REGISTRY)),
+    [MS_CLINIC_SPECIFICATION]: sha256(readEvidenceBytes(MS_CLINIC_SPECIFICATION)),
+    [MS_CLINIC_FIXTURE]: sha256(readEvidenceBytes(MS_CLINIC_FIXTURE)),
+    [MS_CLINIC_ARTIFACTS]: sha256(readEvidenceBytes(MS_CLINIC_ARTIFACTS)),
+    [MS_CLINIC_RASTER_REVIEW]: sha256(readEvidenceBytes(MS_CLINIC_RASTER_REVIEW)),
+    ...Object.fromEntries(firstCohortEvidencePaths.map((rel) => [rel, sha256(readEvidenceBytes(rel))]))
   },
   records
 };
@@ -858,7 +1376,7 @@ if (CHECK && projectionResult.changed) {
 }
 
 const verb = CHECK ? "verified" : "written";
-console.log(`Grade-A fulfillment authority ${verb}: ${records.length} candidate record(s) across ${[...CANDIDATE_JURISDICTIONS, "MS"].join(", ")}.`);
+console.log(`Grade-A fulfillment authority ${verb}: ${records.length} candidate record(s) across ${allCandidateJurisdictions.join(", ")}.`);
 console.log(`  ${COMPLETE_PACKET_PROVEN}: ${projection.counters.completePacketProven}`);
 console.log(`  INCOMPLETE: ${projection.counters.incomplete}   STALE: ${projection.counters.stale}`);
 console.log(`  commercially eligible: ${projection.counters.commerciallyEligible}`);
