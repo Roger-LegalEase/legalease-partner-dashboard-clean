@@ -35,10 +35,9 @@
  *
  * A NOTE ON THE OTHER BUILDER. scripts/build-census-v1-mi-setaside-trafficking-set.mjs
  * (hyphenated) also writes this family's overlay directory and predates this
- * lane. PF06 owns the underscored name and this directory, and this build
- * supersedes what that script produced; the two must not both be run. That is
+ * builder. The two must not both be run against the same output. That is
  * flagged in build-findings rather than resolved here, because the other script
- * is not in this lane's owned paths.
+ * is outside this focused family's writable paths.
  *
  * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
  */
@@ -89,6 +88,27 @@ const ROUTE = Object.freeze({
   documents: [
     { formNumber: "MC-227B", title: "Application for Human Trafficking Victim to Set Aside Conviction(s)", instrumentKind: "primary_filing_and_proof_of_service" }
   ]
+});
+
+const SOURCE_PIN = Object.freeze({
+  formNumber: "MC-227B",
+  revision: "REV-2024-07",
+  pathInArchive: "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+  sha256: "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+  byteLength: 370315,
+  pageCount: 4,
+  acroFieldCount: 102
+});
+
+const EXPECTED_ARTIFACTS = Object.freeze({
+  canonical: Object.freeze({
+    sha256: "4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361",
+    byteLength: 378569
+  }),
+  boundary: Object.freeze({
+    sha256: "eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9",
+    byteLength: 378604
+  })
 });
 
 function corpusRoot() {
@@ -284,6 +304,24 @@ function resolveSources() {
   for (const wanted of ROUTE.documents) {
     const entry = all.find((e) => e.state === "MI" && e.formNumber === wanted.formNumber && e.assetClass === "FORM");
     if (!entry) { failures.push({ sourceId: `official-form:${wanted.formNumber}`, why: "no entry for this form number in the committed corpus index" }); continue; }
+    const pinMoved = entry.path !== SOURCE_PIN.pathInArchive
+      || entry.sha256 !== SOURCE_PIN.sha256
+      || entry.byteLength !== SOURCE_PIN.byteLength
+      || entry.pageCount !== SOURCE_PIN.pageCount
+      || entry.acroFieldCount !== SOURCE_PIN.acroFieldCount
+      || entry.revision !== SOURCE_PIN.revision;
+    if (pinMoved) {
+      failures.push({
+        sourceId: `official-form:${wanted.formNumber}`,
+        why: "the committed corpus index no longer matches the PF06 exact-source pin",
+        expected: SOURCE_PIN,
+        actual: {
+          pathInArchive: entry.path, sha256: entry.sha256, byteLength: entry.byteLength,
+          pageCount: entry.pageCount, acroFieldCount: entry.acroFieldCount, revision: entry.revision
+        }
+      });
+      continue;
+    }
     const rel = entry.path;
     const abs = path.resolve(ROOT, root, rel);
     if (!fs.existsSync(abs)) { failures.push({ sourceId: `official-form:${wanted.formNumber}`, pathInArchive: rel, why: `the indexed path does not exist on disk: ${rel}` }); continue; }
@@ -737,6 +775,113 @@ function participantInstructions(maps, rbf) {
   return `${out.join("\n")}\n`;
 }
 
+function readJson(rel) {
+  return JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+}
+
+function selfTest() {
+  assert.equal(FAMILY_ID, "mi_setaside_trafficking-set");
+  assert.equal(ROUTE.routeKey,
+    "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application");
+  assert.equal(ROUTE.documents.length, 1);
+  assert.equal(ROUTE.documents[0].formNumber, SOURCE_PIN.formNumber);
+  assert.equal(ROUTE.documents[0].instrumentKind, "primary_filing_and_proof_of_service");
+
+  const index = readJson(CORPUS_INDEX);
+  const entry = index.entries.find((row) => row.state === "MI"
+    && row.formNumber === SOURCE_PIN.formNumber && row.assetClass === "FORM");
+  assert.ok(entry, "the corpus index must carry the exact MC-227B source");
+  assert.deepEqual({
+    formNumber: entry.formNumber, revision: entry.revision, pathInArchive: entry.path,
+    sha256: entry.sha256, byteLength: entry.byteLength, pageCount: entry.pageCount,
+    acroFieldCount: entry.acroFieldCount
+  }, SOURCE_PIN);
+
+  const spec = FORM_FIELDS[SOURCE_PIN.formNumber];
+  assert.equal(Object.keys(spec).length, SOURCE_PIN.acroFieldCount,
+    "the MC-227B field dictionary must cover every indexed AcroForm field");
+  const allowedPolicies = new Set(["write", "supply", "election", "protect", "attorney"]);
+  assert.ok(Object.values(spec).every((row) => allowedPolicies.has(row.policy)));
+  assert.ok(Object.values(spec).filter((row) => row.policy === "write")
+    .every((row) => Object.values(FIXTURES).every((fixture) => String(fixture[row.fact] ?? "").length > 0)));
+  assert.equal(CONVICTION_ROWS.flatMap((n) => CONVICTION_COLUMNS.map(([prefix]) => `${prefix}${n}`))
+    .filter((name) => spec[name]?.policy === "supply").length, 16,
+  "all sixteen conviction-table cells must stay participant-supplied");
+  for (const field of [
+    "posnoticecheck", "posofficialcheck", "posofficialdate", "posattygencheck",
+    "posattygendate", "posmspdate", "sigdate", "sig"
+  ]) assert.equal(spec[field]?.policy, "protect", `proof-of-service field ${field} must remain protected`);
+
+  const receipt = readJson(`${OUT}/source-receipt.json`);
+  assert.equal(receipt.routeKey, ROUTE.routeKey);
+  assert.equal(receipt.documents.length, 1);
+  assert.deepEqual({
+    formNumber: receipt.documents[0].formNumber,
+    revision: receipt.documents[0].revision,
+    pathInArchive: receipt.documents[0].pathInArchive,
+    sha256: receipt.documents[0].sha256,
+    byteLength: receipt.documents[0].byteLength
+  }, {
+    formNumber: SOURCE_PIN.formNumber,
+    revision: SOURCE_PIN.revision,
+    pathInArchive: SOURCE_PIN.pathInArchive,
+    sha256: SOURCE_PIN.sha256,
+    byteLength: SOURCE_PIN.byteLength
+  });
+
+  const fieldMap = readJson(`${OUT}/production-field-map.json`);
+  assert.deepEqual(fieldMap.routeKeys, [ROUTE.routeKey]);
+  assert.equal(fieldMap.requiredBeforeFiling.length, fieldMap.requiredBeforeFilingCount);
+  assert.equal(fieldMap.generationAllowed, false);
+  assert.equal(fieldMap.runtimeSelectable, false);
+  assert.equal(fieldMap.commercialRoutesOpened, 0);
+
+  const instructionsText = fs.readFileSync(path.join(ROOT, OUT, "participant-instructions.md"), "utf8");
+  for (const phrase of [
+    "File in the district or circuit court where the conviction happened",
+    "$50 payment to the State of Michigan",
+    "Mail the required packet, fingerprint card, and $50 payment to Michigan State Police",
+    "Only after those mailings are true, complete and sign the Proof of Service",
+    "requires a post-generation handoff",
+    ROUTE.routeKey
+  ]) assert.ok(instructionsText.includes(phrase), `participant instructions dropped: ${phrase}`);
+
+  const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
+  assert.equal(rendered.rasterState, "BUILT_RASTER_PENDING");
+  assert.equal(rendered.everyPageRastered, false);
+  assert.equal(rendered.rasterPages.length, 0);
+  assert.equal(rendered.independentVerificationPending, true);
+  for (const artifact of rendered.artifacts) {
+    const expected = EXPECTED_ARTIFACTS[artifact.fixture];
+    assert.ok(expected, `unexpected artifact fixture: ${artifact.fixture}`);
+    const bytes = fs.readFileSync(path.join(ROOT, artifact.file));
+    const digest = crypto.createHash("sha256").update(bytes).digest("hex");
+    assert.equal(digest, expected.sha256, `${artifact.fixture} bytes moved`);
+    assert.equal(bytes.length, expected.byteLength, `${artifact.fixture} length moved`);
+    assert.equal(artifact.sha256, expected.sha256, `${artifact.fixture} report hash moved`);
+    assert.equal(artifact.byteLength, expected.byteLength, `${artifact.fixture} report length moved`);
+    assert.equal(artifact.pageCount, SOURCE_PIN.pageCount);
+  }
+
+  const counters = readJson(`${OUT}/reports/completeness-counters.json`);
+  assert.equal(counters.allNineZero, true);
+  assert.deepEqual(Object.values(counters.counters), Array(9).fill(0));
+  const buildStatus = readJson(`${OUT}/build-status.json`);
+  assert.equal(buildStatus.rasterState, "BUILT_RASTER_PENDING");
+  assert.equal(buildStatus.independentVerificationStatus, "PENDING");
+  assert.equal(buildStatus.selfVerified, false);
+  assert.equal(buildStatus.productionTouched, false);
+
+  const jsonFiles = fs.readdirSync(path.join(ROOT, OUT), { recursive: true })
+    .filter((name) => String(name).endsWith(".json"));
+  for (const file of jsonFiles) {
+    const payload = readJson(`${OUT}/${file}`);
+    assert.equal(JSON.stringify(payload).includes('"claimReleased"'), false,
+      `${file} must not release the Captain-owned claim`);
+  }
+  console.log(`SELF_TEST_OK ${FAMILY_ID}`);
+}
+
 /* ---- the entry point -------------------------------------------------------- */
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
@@ -932,7 +1077,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
     artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
-    byteDerivedHashes: true, rasterEngine: RASTER_ENGINE, rasterPages,
+    rasterState: "BUILT_RASTER_PENDING", byteDerivedHashes: true, rasterEngine: RASTER_ENGINE, rasterPages,
     independentVerificationPending: true
   });
 
@@ -992,6 +1137,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/build-status.json`, {
     schemaVersion: "rcap-family-build-status/v1", familyId: FAMILY_ID,
     buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: BUILD_SCRIPT,
+    rasterState: "BUILT_RASTER_PENDING",
     rasterEngine: skipRaster ? "not rendered in this run" : "chromium_calibrated", popplerUsed: false,
     renderedArtifacts: artifacts.length, rasterPages: rasterPages.length,
     independentVerificationStatus: "PENDING", selfVerified: false,
@@ -1050,11 +1196,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         finding:
           "scripts/build-census-v1-mi-setaside-trafficking-set.mjs (hyphenated) also writes this family's overlay "
-          + "directory and predates this lane.",
+          + "directory and predates this builder.",
         consequence:
-          "PF06 owns the underscored script name and this directory, and this build supersedes what that script "
-          + "produced. The two must not both be run. Flagged rather than resolved here: the other script is not in this "
-          + "lane's owned paths, so removing or redirecting it is the Captain's call."
+          "The two must not both be run against the same output. Flagged rather than resolved here: the other script "
+          + "is outside this focused family's writable paths, so removing or redirecting it is the Captain's call."
       },
       {
         severity: "advisory",
@@ -1093,7 +1238,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
-  runFamily()
-    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
-    .catch((e) => { console.error(e); process.exit(1); });
+  if (process.argv.includes("--self-test")) {
+    selfTest();
+  } else {
+    runFamily()
+      .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+      .catch((e) => { console.error(e); process.exit(1); });
+  }
 }

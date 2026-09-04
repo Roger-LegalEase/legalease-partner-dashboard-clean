@@ -122,12 +122,24 @@ const REFUSALS = Object.freeze([
   ATTORNEY("p3-attorney-contact", 3, "Attorney's Phone Number and Email Address")
 ]);
 
+const EXPECTED_ARTIFACTS = Object.freeze({
+  canonical: Object.freeze({
+    sha256: "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+    byteLength: 91386
+  }),
+  boundary: Object.freeze({
+    sha256: "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+    byteLength: 91479
+  })
+});
+
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const writeJson = (rel, value) => {
   const absolute = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(absolute), { recursive: true });
   fs.writeFileSync(absolute, `${JSON.stringify(value, null, 2)}\n`);
 };
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 function sourceBytes() {
   const corpusRoot = process.env.MASTER_LIBRARY_SOURCE_DIR
     ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
@@ -210,6 +222,74 @@ function instructions() {
   return lines.join("\n");
 }
 
+function selfTest() {
+  assert.equal(FAMILY_ID, "az_marijuana_expungement_limited_jurisdiction-set");
+  assert.equal(ROUTE_KEY, "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction");
+  assert.equal(SOURCE.sha256, "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482");
+  assert.equal(SOURCE.pageCount, 3);
+  assert.deepEqual(Object.keys(FIXTURES).sort(), ["boundary", "canonical"]);
+
+  const terminalIds = [...WRITES, ...REFUSALS].map((row) => row.fieldId ?? row.id);
+  assert.equal(new Set(terminalIds).size, terminalIds.length, "terminal field ids must be unique");
+  assert.equal(terminalIds.length, 42, "the three-page CREM2F census must remain complete");
+  assert.ok(WRITES.every((row) => row.page >= 1 && row.page <= SOURCE.pageCount));
+  assert.ok(WRITES.every((row) => row.rect.width > 0 && row.rect.height > 0));
+  assert.ok(WRITES.every((row) => Object.values(FIXTURES).every((fixture) => String(fixture[row.fact] ?? "").length > 0)));
+  assert.equal(REFUSALS.filter((row) => row.requiredBeforeFiling === true).length, 7);
+  assert.equal(REFUSALS.filter((row) => row.isSelectionControl === true).length, 15);
+  assert.equal(REFUSALS.filter((row) => row.refusalClass === "signature_or_date_participant_completion").length, 2);
+
+  const expectedInstructions = instructions();
+  for (const phrase of [
+    "File in the municipal or justice court that concluded the case",
+    "Rule 36(a)(4) bars a filing fee",
+    "The court sends the petition to the prosecuting agency within 10 days",
+    "Opposition, disputed evidence, or a contested hearing requires a post-generation handoff",
+    ROUTE_KEY
+  ]) assert.ok(expectedInstructions.includes(phrase), `participant instructions dropped: ${phrase}`);
+
+  const receipt = readJson(`${OUT}/source-receipt.json`);
+  assert.equal(receipt.documents.length, 1);
+  assert.equal(receipt.documents[0].sha256, SOURCE.sha256);
+  assert.deepEqual(receipt.documents[0].sourceIds,
+    [`official-form:${SOURCE.documentId}`, `official-form:${SOURCE.continuationId}`]);
+
+  const fieldMap = readJson(`${OUT}/production-field-map.json`);
+  assert.deepEqual(fieldMap.routeKeys, [ROUTE_KEY]);
+  assert.equal(fieldMap.generationAllowed, false);
+  assert.equal(fieldMap.runtimeSelectable, false);
+  assert.equal(fieldMap.commercialRoutesOpened, 0);
+
+  const rendered = readJson(`${OUT}/reports/rendered-artifacts.json`);
+  assert.equal(rendered.rasterState, "BUILT_RASTER_PENDING");
+  assert.equal(rendered.everyPageRastered, false);
+  assert.equal(rendered.independentVerificationPending, true);
+  for (const artifact of rendered.artifacts) {
+    const expected = EXPECTED_ARTIFACTS[artifact.fixture];
+    assert.ok(expected, `unexpected artifact fixture: ${artifact.fixture}`);
+    const bytes = fs.readFileSync(path.join(ROOT, artifact.file));
+    assert.equal(sha256(bytes), expected.sha256, `${artifact.fixture} bytes moved`);
+    assert.equal(bytes.length, expected.byteLength, `${artifact.fixture} length moved`);
+    assert.equal(artifact.sha256, expected.sha256, `${artifact.fixture} report hash moved`);
+    assert.equal(artifact.byteLength, expected.byteLength, `${artifact.fixture} report length moved`);
+  }
+
+  const counters = readJson(`${OUT}/reports/completeness-counters.json`);
+  assert.equal(counters.allNineZero, true);
+  assert.deepEqual(Object.values(counters.counters), Array(9).fill(0));
+  const buildStatus = readJson(`${OUT}/build-status.json`);
+  assert.equal(buildStatus.rasterState, "BUILT_RASTER_PENDING");
+  assert.equal(buildStatus.independentVerificationStatus, "PENDING");
+  assert.equal(buildStatus.selfVerified, false);
+  assert.equal(buildStatus.productionTouched, false);
+
+  for (const file of fs.readdirSync(path.join(ROOT, OUT)).filter((name) => name.endsWith(".json"))) {
+    assert.equal(Object.hasOwn(readJson(`${OUT}/${file}`), "claimReleased"), false,
+      `${file} must not release the Captain-owned claim`);
+  }
+  console.log(`SELF_TEST_OK ${FAMILY_ID}`);
+}
+
 export async function runFamily(argv = process.argv.slice(2)) {
   const checkOnly = argv.includes("--check");
   const source = sourceBytes();
@@ -270,5 +350,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
-  runFamily().then((result) => console.log(JSON.stringify(result, null, 2))).catch((error) => { console.error(error); process.exit(1); });
+  if (process.argv.includes("--self-test")) {
+    selfTest();
+  } else {
+    runFamily().then((result) => console.log(JSON.stringify(result, null, 2))).catch((error) => { console.error(error); process.exit(1); });
+  }
 }
