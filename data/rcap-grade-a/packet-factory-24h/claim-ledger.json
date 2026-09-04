@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b4cd7098f8d6a6397e8e93e9e7ecea29872a6a22",
+  "generatedAtCommit": "c2f638d94fa0132ef11ac85a85ae3c01c0a7ac71",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -778,11 +778,26 @@
         "ar-drug-court-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-drug-court-set",
+      "familyId": "ar-drug-court-set",
+      "itemId": null,
+      "familyIds": [
+        "ar-drug-court-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF13",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T12:28:17.627Z"
     },
     {
       "subjectType": "packet-family",
@@ -12676,7 +12691,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "ff2949e62fe03c943feb7205254cfe116c0a3231b8790b7fde3fd0f6bd50bfe4",
+  "claimsDigest": "218cb72dfda45e4f281456ae2dcdc09c0e8f64c5e7a603140c4920780a6f6b17",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -24412,6 +24427,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-04T12:15:27.428Z"
+    },
+    {
+      "lane": "PF13",
+      "subjectType": "packet-family",
+      "subjectId": "ar-drug-court-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-04T12:28:17.627Z"
     }
   ],
   "reissues": [
