@@ -70,7 +70,7 @@ const SPEC = {
       "role": "the compiled state profile's own pathway for this route, carrying the recorded substance of the statute and, where it exists, the recorded self-help boundary",
       "mustContain": [
         "\"id\": \"juvenile-expungement-under-10-del-c-1017-1019-1017a\"",
-        "Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's",
+        "Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's\\nexpungement petition packet.",
         "Family Court expungement (juvenile) 10 Del. C. §§ 1017–1019 for juvenile records; § 1017A automatic since Aug 1,"
       ]
     },
@@ -109,7 +109,7 @@ const SPEC = {
         "",
         "This petition is brought on the route the committed route contract records as \"Juvenile expungement — discretionary adjudication branch\", under 10 Del. C. § 1018.",
         "",
-        "The compiled Delaware profile records the substance of this route as follows. Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's",
+        "The compiled Delaware profile records the substance of this route as follows. Mandatory/automatic expungement needs no court form; discretionary expungement uses the court's expungement petition packet.",
         "",
         "The committed contract records the timing of this route as: three, five, or seven years from the statutory completion or discharge anchor, according to the discretionary category; favorable-termination and automatic branches carry no elapsed filing wait.",
         "",
@@ -509,7 +509,7 @@ function sanitizePdfText(text) {
   return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
     .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
     .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
-    .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
+    .replaceAll("§§", "Secs.").replaceAll("§", "Sec.").replaceAll("…", "...").replaceAll("′", "'");
 }
 
 async function renderComposedPdf(fullText, title) {

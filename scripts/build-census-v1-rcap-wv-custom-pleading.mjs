@@ -1027,14 +1027,16 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
 }
 
-async function renderComposedPdf(fullText, title) {
+async function renderComposedPdf(fullText, title, componentId) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const fontSize = 11;
+  const lineHeight = componentId === "wv_drug_conditional_discharge-records-checklist-4" ? 13.5 : 14.5;
+  const width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
@@ -1421,8 +1423,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const body = composedBody(componentId, facts);
       assert.ok(body.includes(facts["participant.full_legal_name"]),
         `${componentId}: the composed page must carry the participant's name`);
-      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title, componentId);
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
+      if (componentId === "wv_drug_conditional_discharge-records-checklist-4") {
+        assert.equal(composed.getPageCount(), 1, "the records checklist and its route footer must fit on one page");
+      }
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
         packet.addPage(p);
         pageManifest.push({ packetPage: packet.getPageCount(), component: componentId, documentId: componentId, sourcePage: i + 1, sourceSha256: null });
