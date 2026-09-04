@@ -13,13 +13,18 @@
       "familyId": "rcap-tn-custom-pleading",
       "builder": "scripts/build-census-v1-rcap-tn-custom-pleading.mjs",
       "directory": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading"
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "builder": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
+      "directory": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading"
     }
   ],
   "counts": {
-    "artifacts": 24,
+    "artifacts": 26,
     "routeArtifacts": 22,
-    "familyAssemblies": 2,
-    "reproduces": 24,
+    "familyAssemblies": 4,
+    "reproduces": 26,
     "nondeterministic": 0,
     "divergesFromCommitted": 0,
     "kansasArtifactsWithdrawn": 6
@@ -389,6 +394,38 @@
       "deterministic": true,
       "matchesCommitted": true,
       "classification": "REPRODUCES"
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "unit": "family_assembly",
+      "routeKey": null,
+      "route": null,
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/boundary.pdf",
+      "committedSha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+      "rebuild1Sha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+      "rebuild2Sha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+      "byteLength": 26936,
+      "deterministic": true,
+      "matchesCommitted": true,
+      "classification": "REPRODUCES",
+      "measuredAtCommit": "82f9e4323e402f71a8beeee553e5f2006246e6a9"
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "unit": "family_assembly",
+      "routeKey": null,
+      "route": null,
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/canonical.pdf",
+      "committedSha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+      "rebuild1Sha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+      "rebuild2Sha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+      "byteLength": 26441,
+      "deterministic": true,
+      "matchesCommitted": true,
+      "classification": "REPRODUCES",
+      "measuredAtCommit": "82f9e4323e402f71a8beeee553e5f2006246e6a9"
     }
   ],
   "withdrawnArtifacts": [
@@ -514,5 +551,13 @@
       ],
       "currentBytesAssertNothing": "The six artifacts on disk, hashed at withdrawal. This is a pointer for whoever measures them next. It is not an acceptance, a completeness result, a determinism result, or a raster verdict, and no count in this file counts it."
     }
-  ]
+  ],
+  "focusedRegeneration": {
+    "families": [
+      "nv_seal_probation_family-set"
+    ],
+    "atCommit": "82f9e4323e402f71a8beeee553e5f2006246e6a9",
+    "artifactsAdded": 2,
+    "untouchedArtifactsPreserved": 24
+  }
 }
