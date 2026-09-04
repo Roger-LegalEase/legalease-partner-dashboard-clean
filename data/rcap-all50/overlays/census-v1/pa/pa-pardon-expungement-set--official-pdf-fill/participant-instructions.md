@@ -26,11 +26,14 @@ The petition prints a `Judicial District number` and a `County of ______` line o
 
 ## What you must do
 
-1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
-2. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.
-3. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
-4. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.
-5. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.
+1. **Obtain a copy of the pardon** from the Pennsylvania Board of Pardons. LegalEase does not collect, inspect or authenticate it.
+2. **Confirm from that copy whether the pardon is unconditional or conditional.** If the document and your answer disagree, correct the packet before proceeding.
+3. **Record the quarterly verification date** when you check whether the automatic Board-to-AOPC-to-court process cleared your record: ____________________.
+4. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
+5. **Tick the boxes that are true for you.** This packet marks **no box on either form**. Every checkbox on the petition is a statement about your own record, and the packet leaves all of them to you rather than deciding one on your behalf.
+6. **Sign and date each form yourself.** The platform never signs and never dates a signature. Blank signature and date lines are deliberate.
+7. **Find out first whether you still need to file at all.** A pardon is executive clemency and does not by itself erase your record — court action does. For an **unconditional** pardon, Pennsylvania runs an automatic route: the Board of Pardons transmits eligible records to the Administrative Office of Pennsylvania Courts **quarterly**, AOPC sends the record on to the court of common pleas, and that court orders expungement once it confirms the criteria. Where that automatic route has already cleared your record, there is nothing here to file. The petition in this packet is for the case where it has not. The process-guidance page in this packet sets out both routes and how to tell which one you are in. A **conditional** pardon is a different matter: it may lead to Clean Slate limited access rather than to full expungement.
+8. **Order your Pennsylvania State Police criminal history report within 60 days before you file,** and attach it. If it is not attached, say why in the blank the petition provides.
 
 ## The items you must supply
 
@@ -122,11 +125,25 @@ The petition prints a `Judicial District number` and a `County of ______` line o
 | 2 | Reason for expungement on the Rule 790 information page | your own statement of the reason for expungement, as the Rule 790 information page asks for it |
 | 2 | Criminal justice agencies to be served with the order | the criminal justice agencies on which the order should be served, so the court can name them in its order |
 
+### process_guidance — process_guidance
+
+| Page | The blank on the form | What to write |
+| --- | --- | --- |
+| 1 | Copy of the pardon | obtain a copy of the pardon from the Pennsylvania Board of Pardons; LegalEase does not collect, inspect, or authenticate it |
+| 1 | Pardon type confirmation | compare the pardon document with your answer about whether it is unconditional or conditional, and correct the packet if they disagree |
+| 1 | Quarterly verification date | record the date you checked whether the Board-to-AOPC-to-court quarterly process cleared your record |
+
 ## Things the platform deliberately left blank
 
 - **Your signature and the date you sign.** A signature is yours alone, and a date written before you sign would be false.
 - **The whole of the proposed order.** PA-RCRIM-P-790-ORDER is the order the judge signs. It is tendered with your petition, and the platform has written only the style of the case into it. Do not fill it in and do not sign it.
 - **Every checkbox.** Each one is a statement about your own record or a choice only you can make. Read them and tick the ones that are true for you.
+
+## Stop and get help
+
+- The participant has not yet obtained a pardon. If that is you, the pardon application itself is outside this packet and requires a referral.
+- You cannot determine from the pardon document whether it is conditional or unconditional.
+- The record still appears after the quarterly cycle and it is unclear whether the fallback Rule 790 petition is available.
 
 ## What this packet is not
 
