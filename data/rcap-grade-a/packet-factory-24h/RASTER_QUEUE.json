@@ -18889,8 +18889,40 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS01"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS01",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975778",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+        "boundToBoundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+        "documentsCovered": [
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf",
+          "crrlj-09-0100-boundary-filled.pdf",
+          "crrlj-09-0200-boundary-filled.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 4,
+        "pagesMeasured": 22,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "9928668736",
+          "name": "rcap-raster-wa_vac_substance_use_disorder-set-33850403312",
+          "zipSha256": "sha256:b19315882bd8591acd3c36a9913f7d9f54d7fd689d6b884810f8f028c7582458",
+          "sizeInBytes": 12902521,
+          "expiresAt": "2026-09-18T08:08:12Z"
+        },
+        "receiptArtifactInspection": "Captain downloaded the artifact, matched its ZIP SHA-256 to the Actions API digest, extracted its exact verdict JSON, and validated run, commit, complete document coverage, page count, document-set digest, and every queued/local PDF hash before admission.",
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33850403312; canary artifact 9928346970 has ZIP SHA-256 sha256:9167f715023ed7055d6321f7774125257f4eeabad80278f835ebe8668e59954a.",
+        "pinVerification": "The workflow guard proved checkout commit b61e502996185ac1e23da4d0ae3f6b5b0a092a16; Captain rehashed every declared PDF from the current worktree and matched every queue and receipt pin.",
+        "admittedBy": "Captain, by fail-closed receipt ingestion that rejects stale bytes, failed jobs, and incomplete coverage"
+      }
     },
     {
       "familyId": "wa_vac_survivor_felony-set",
