@@ -225,6 +225,143 @@
         "rule-791-petition-boundary.pdf": "1a17ea6142bd73cfeb93c0f853db378ede98157f317d49cdb670e8ad97974012",
         "rule-791-petition-canonical.pdf": "9b891ec94c31eca7553022ece34db2d1f0f17f514d837781c8f9edfc7ef0ab2c"
       }
+    },
+    {
+      "itemId": "il-seal-edu-set",
+      "status": "STOPPED",
+      "dispatchBase": "d3692a52d14247519ce5230c0d8e025b3a654da8",
+      "claim": "CLAIM_OK FIX07 il-seal-edu-set (repair, grant set b075e9c2ef16d91d)",
+      "obligationsAssigned": [
+        "ROUTE_IDENTITY",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsRepaired": [],
+      "reproduction": "The current map selects the education item 22 but also selects item 15 and writes matter.case_number into all 20 charge-labeled request fields. Its participant instructions omit the ISP Access and Review transcript, comparison against certified dispositions, per-case expunge/seal election, hearing date, wet signature, clear fee-waiver action, and four dispatched stop categories.",
+      "stoppedBecause": "The owned entry point is a two-line wrapper around scripts/build-census-v1-il-exp-pardon-set.mjs. Route selection, known-value matching, repeating-row behavior, fitting, and participant guidance all live in that unowned shared host; the wrapper exposes no family-scoped override. Repairing them here would cross the shared-host boundary or duplicate the implementation.",
+      "artifactHashesUnchanged": {
+        "canonicalPdf": "e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0",
+        "boundaryPdf": "686de38584efa750545d03543757b872cc052e7c95eac14a91084e4353015b26"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 72/424 written; all nine mechanical counters zero. The six dispatched semantic failures remain outside those counters.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-nd-custom-pleading",
+      "status": "COMPLETED",
+      "dispatchBase": "d3692a52d14247519ce5230c0d8e025b3a654da8",
+      "claim": "CLAIM_OK FIX07 rcap-nd-custom-pleading (repair, grant set b075e9c2ef16d91d)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsAssigned": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "whatWasDone": "The family-local composed renderer no longer spends a blank line immediately before each route footer. This keeps the boundary pardoned-conviction footer attached to substantive page 18 instead of creating a route-only page 19; no facts, routes, components, or protected-field rules changed.",
+      "proof": "The focused regression failed first on the route-only fourth component page, then passed with three component pages and zero route-only pages. Both assembled fixtures now contain 35 pages; packet page 18 has the route footer plus 193 canonical or 201 boundary words, and no page in either packet consists only of a route footer. Builder --check binds 3 committed records / 99 anchors / 19 components / 48 writes / 127 blanks. Completeness reports PASS_COMPLETE 48/175 with all nine mechanical counters zero. A second build reproduced both PDF hashes exactly.",
+      "artifacts": [
+        "canonical 4425d89d2dec6b10ac70706420c99af7ea6573b6875d7e1d4222b32463cb9e02 85250 bytes 35 pages",
+        "boundary 449aedcda75058911af1c04520de2be08d10b35a94e40688891bf54a416c870e 86942 bytes 35 pages"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "visualCounterReason": "The exact changed PDFs have no new calibrated Chromium receipt. The repository renderer found no executable Chromium locally, so visualDefects remains unmeasured and the family is fail-closed at BUILT_RASTER_PENDING.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "status": "STOPPED",
+      "dispatchBase": "d3692a52d14247519ce5230c0d8e025b3a654da8",
+      "claim": "CLAIM_OK FIX07 vt_seal_nonconviction-set (repair, grant set b075e9c2ef16d91d)",
+      "obligationsAssigned": [
+        "ARTIFACTS"
+      ],
+      "obligationsRepaired": [],
+      "stoppedBecause": "The dispatched ARTIFACTS failure is no longer reproducible at this Captain base. Current disk bytes, product wiring, and the admitted central RASTER_PASS all bind the same canonical and boundary hashes. The lane contract says to stop rather than re-derive a family when the handed failure no longer reproduces, so no VT file was changed or rebuilt.",
+      "currentEvidence": {
+        "canonicalPdfSha256": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb",
+        "boundaryPdfSha256": "dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5",
+        "productWiringCanonicalSha256": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb",
+        "rasterState": "RASTER_PASS",
+        "rasterWorkflowRunId": "33836771479",
+        "rasterJobId": "100911322211",
+        "rasterArtifactId": "9923703809",
+        "rasterPagesMeasured": 16,
+        "rasterProblemsFound": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedCheck": "PASS_COMPLETE 27/167 written; all nine counters zero on unchanged, hash-bound RASTER_PASS bytes.",
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "status": "STOPPED",
+      "dispatchBase": "d3692a52d14247519ce5230c0d8e025b3a654da8",
+      "claim": "ALREADY_RELEASED: nj_arrest_no_conviction-set at 2026-09-04T04:13:08.891Z",
+      "obligationsAssigned": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsRepaired": [],
+      "stoppedBecause": "BLOCKED_BEFORE_CLAIM. The mandatory FIX07 assertion returned nonzero, so this lane read no NJ packet artifact or builder and made no NJ family change.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNotMeasuredBecause": "Claim refusal forbids artifact inspection.",
+      "claimReleased": false,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
