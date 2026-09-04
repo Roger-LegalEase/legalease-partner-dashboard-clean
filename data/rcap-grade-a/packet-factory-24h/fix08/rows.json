@@ -211,7 +211,10 @@
       "captainBase": "52590631e7c96343bf70142cfb5934a02d55b02f",
       "claimGrantSet": "6b656bc50752563b",
       "claimAsserted": true,
-      "obligationsAssigned": ["COMPONENT_SET", "REQUIRED_BEFORE_FILING"],
+      "obligationsAssigned": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING"
+      ],
       "stoppedBecause": "The current dispatch supplies no finding for either assigned obligation, the focused completeness check is PASS_COMPLETE with every counter zero, and FIX08 explicitly lists every wv-conv-single-misdemeanor-set path under Never write. Repairing without a reproducible defect would require re-deriving the family and crossing the lane's explicit write boundary.",
       "familyBytesChanged": false,
       "countersAfter": {
@@ -255,7 +258,9 @@
       "claimGrantSet": "4b05f33f82fade3b",
       "claimAsserted": true,
       "currentFailedObligation": "SOURCE_IDENTITY",
-      "obligationsRepaired": ["SOURCE_IDENTITY"],
+      "obligationsRepaired": [
+        "SOURCE_IDENTITY"
+      ],
       "repair": "Re-pinned only the source receipt's whole-file route-obligation census hash and byte length after recomputing all three committed-record identities and confirming that the exact WY census route object is unchanged. No packet, authority, route, field-map, component, participant instruction, claim-release or central-state byte changed.",
       "sourcePinRepair": {
         "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
@@ -338,13 +343,17 @@
       "claimGrantSet": "e5af0a189c908787",
       "claimAsserted": true,
       "currentFailedObligation": "REQUIRED_BEFORE_FILING",
-      "obligationsRepaired": ["REQUIRED_BEFORE_FILING"],
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
       "repair": "Removed the identical fourteen-question Oklahoma cross-route analyst checklist from this section 19c petition and from this builder's source anchors. Replaced it with six route-correct required-before-filing items: the existing court and county, existing case number, prostitution-related offense, disposition and date, counsel-directed section 19c relief, and a non-narrative identification of trafficking-nexus evidence. Participant instructions now tell the participant where to copy court-record facts, reserve remedy and nexus-proof choices to legal aid or counsel, and preserve the legal-aid, sensitive-narrative, public-record, personal-safety and immigration stops.",
       "crossRouteChecklistRemoved": {
         "affectedOklahomaRoutesInSharedSource": 11,
         "identicalRequiredFactsDigest": "94779ab948a79c4c735bd59ff19bd0e875a9adcd39036b24ea6e156ce53e31bd",
         "questionsPreviouslyPrinted": 14,
-        "questionsRetainedFromSharedChecklist": ["Trafficking nexus"],
+        "questionsRetainedFromSharedChecklist": [
+          "Trafficking nexus"
+        ],
         "sharedSourceChanged": false
       },
       "routeCorrectRequiredBeforeFiling": [
@@ -533,16 +542,282 @@
       "centralStateEdits": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "il-cannabis-vacate-set",
+      "status": "STOPPED",
+      "verdict": "FAIL_REPAIR_REQUIRED (current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis @ 018cd558455454ca44e7deac8efa7b0e881375d3)",
+      "obligationsAssigned": [
+        "REQUIRED_BEFORE_FILING",
+        "PAGE_ORDER",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "obligationRepaired": null,
+      "obligationsStopped": [
+        "REQUIRED_BEFORE_FILING",
+        "PAGE_ORDER",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "obligationsReproduced": false,
+      "reproductionNote": "Not reproducible in this container: all six CXP source PDFs this family binds live in the unmounted custody, so the build asserts source custody and stops before writing anything.",
+      "stoppedBecause": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "whatIsMissing": {
+        "summary": "This container does not hold the corpus custody these sources live in, so the family cannot be rebuilt and no repaired field map, canonical.pdf or boundary.pdf can be produced. The build asserts source custody before writing anything and fails there, so it wrote zero bytes.",
+        "custodyRequired": "nationwide_recovery_pool_2026_09_02",
+        "custodyRootExpectedAt": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+        "custodyRootPresent": false,
+        "custodyReceipt": "data/rcap-all50/NATIONWIDE_PARTIAL_CUSTODY_2026-09-02.json",
+        "sourcesThatDoNotBind": [
+          "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+          "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+          "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+          "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+          "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+          "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf"
+        ],
+        "whatWasTriedFirst": [
+          "MASTER_LIBRARY_SOURCE_DIR was exported at the pinned Master Library path.",
+          "The gitignored private/ tree was symlinked from the shared checkout, because some builders resolve the library as repoRoot/private and ignore that variable. That tree holds only the Master Library.",
+          "The committed corpus index was searched for the same bytes under any other custody: each of these SHA-256 values is indexed at exactly one path, and that path is in the unmounted recovery pool."
+        ],
+        "whatWouldUnblockIt": "A container that mounts private/source-imports/Nationwide_Recovery_Pool_2026-09-02. The defects themselves are engineering defects in the shared Alabama and Illinois build hosts and need no legal or source research; they need the source bytes in order to be rebuilt, rehashed and re-measured.",
+        "whyNoCodeWasLandedAnyway": "The mapping fixes are writable without the bytes, but they cannot be built, rehashed or measured here. Landing an unbuilt code change into hosts that other, unblocked containers rebuild would put this family's committed artifacts out of step with its builder and would move families this lane does not hold. That is the failure mode that left the Ohio companion undelivered in the first place."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAreUnchanged": true,
+      "countersNote": "The nine completeness counters read all zero on this family BEFORE this dispatch and all zero AFTER it. That is not evidence of repair and is not offered as any. Every obligation this cohort was handed is one the completeness counter cannot see: it counts what the build wrote and what it left unclassified, and these verdicts are about values the build did NOT write, files it declared but did not deliver, answers it delegated that the repository holds, and records it quoted but did not bind. Each row below names the measurement that is its actual proof.",
+      "completenessResult": "PASS_COMPLETE (unchanged)",
+      "packetBytesUnchanged": true,
+      "fixtureMoved": false,
+      "commitSha": null,
+      "claimReleased": true
+    },
+    {
+      "itemId": "il-exp-nonconv-set",
+      "status": "STOPPED",
+      "verdict": "FAIL_REPAIR_REQUIRED (current-byte-independent-verification-il-tx-batch-018 @ 018cd558455454ca44e7deac8efa7b0e881375d3)",
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationRepaired": null,
+      "obligationsStopped": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsReproduced": false,
+      "reproductionNote": "Not reproducible in this container. This family has its own build host, and two of its five sources -- the Case List and the Additional Cases Expungement form -- are in the unmounted custody.",
+      "stoppedBecause": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "whatIsMissing": {
+        "summary": "This container does not hold the corpus custody these sources live in, so the family cannot be rebuilt and no repaired field map, canonical.pdf or boundary.pdf can be produced. The build asserts source custody before writing anything and fails there, so it wrote zero bytes.",
+        "custodyRequired": "nationwide_recovery_pool_2026_09_02",
+        "custodyRootExpectedAt": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+        "custodyRootPresent": false,
+        "custodyReceipt": "data/rcap-all50/NATIONWIDE_PARTIAL_CUSTODY_2026-09-02.json",
+        "sourcesThatDoNotBind": [
+          "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf (b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c)",
+          "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf (36ad55c62b89…)"
+        ],
+        "whatWasTriedFirst": [
+          "MASTER_LIBRARY_SOURCE_DIR was exported at the pinned Master Library path.",
+          "The gitignored private/ tree was symlinked from the shared checkout, because some builders resolve the library as repoRoot/private and ignore that variable. That tree holds only the Master Library.",
+          "The committed corpus index was searched for the same bytes under any other custody: each of these SHA-256 values is indexed at exactly one path, and that path is in the unmounted recovery pool."
+        ],
+        "whatWouldUnblockIt": "A container that mounts private/source-imports/Nationwide_Recovery_Pool_2026-09-02. The defects themselves are engineering defects in the shared Alabama and Illinois build hosts and need no legal or source research; they need the source bytes in order to be rebuilt, rehashed and re-measured.",
+        "whyNoCodeWasLandedAnyway": "The mapping fixes are writable without the bytes, but they cannot be built, rehashed or measured here. Landing an unbuilt code change into hosts that other, unblocked containers rebuild would put this family's committed artifacts out of step with its builder and would move families this lane does not hold. That is the failure mode that left the Ohio companion undelivered in the first place."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAreUnchanged": true,
+      "countersNote": "The nine completeness counters read all zero on this family BEFORE this dispatch and all zero AFTER it. That is not evidence of repair and is not offered as any. Every obligation this cohort was handed is one the completeness counter cannot see: it counts what the build wrote and what it left unclassified, and these verdicts are about values the build did NOT write, files it declared but did not deliver, answers it delegated that the repository holds, and records it quoted but did not bind. Each row below names the measurement that is its actual proof.",
+      "completenessResult": "PASS_COMPLETE (unchanged)",
+      "packetBytesUnchanged": true,
+      "fixtureMoved": false,
+      "commitSha": null,
+      "claimReleased": true
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "status": "STOPPED",
+      "verdict": "FAIL_REPAIR_REQUIRED (vf01 @ fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e)",
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE"
+      ],
+      "obligationRepaired": null,
+      "obligationsStopped": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE"
+      ],
+      "obligationsReproduced": false,
+      "reproductionNote": "Not reproducible in this container. Located for the unblocked container: the same two shared-Illinois-host mapping bugs recorded on il-exp-pardon-set account for the twenty case-number-in-charge-cell writes, the eighteen partial rows and the populated inactive sealing table. The ellipsis defect is in the host's safeSet(), which shrinks to a 6-point floor and then truncates the value and appends a literal '…' rather than either fitting the whole held value or refusing the write and disclosing it.",
+      "furtherRecordsForTheUnblockedContainer": {
+        "SERVICE": "The assignment says to fail closed if the route record does not resolve recipients and method. It does resolve them: registry track il-exp-qualprob's siblings and the Illinois rules carry rules.service 'The circuit court clerk serves, under Sec. 5.2(d)(4). The participant serves no one.' and rules.notice naming the State's Attorney, the Illinois State Police, the arresting agency and, for municipal ordinance violations, the chief legal officer, with a 60-day objection period under Sec. 5.2(d)(5)(B). The repairing container should read that track's own entry and state it, not fail closed."
+      },
+      "stoppedBecause": "BLOCKED_SOURCE_CUSTODY_NOT_MOUNTED",
+      "whatIsMissing": {
+        "summary": "This container does not hold the corpus custody these sources live in, so the family cannot be rebuilt and no repaired field map, canonical.pdf or boundary.pdf can be produced. The build asserts source custody before writing anything and fails there, so it wrote zero bytes.",
+        "custodyRequired": "nationwide_recovery_pool_2026_09_02",
+        "custodyRootExpectedAt": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+        "custodyRootPresent": false,
+        "custodyReceipt": "data/rcap-all50/NATIONWIDE_PARTIAL_CUSTODY_2026-09-02.json",
+        "sourcesThatDoNotBind": [
+          "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf (b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c)"
+        ],
+        "whatWasTriedFirst": [
+          "MASTER_LIBRARY_SOURCE_DIR was exported at the pinned Master Library path.",
+          "The gitignored private/ tree was symlinked from the shared checkout, because some builders resolve the library as repoRoot/private and ignore that variable. That tree holds only the Master Library.",
+          "The committed corpus index was searched for the same bytes under any other custody: each of these SHA-256 values is indexed at exactly one path, and that path is in the unmounted recovery pool."
+        ],
+        "whatWouldUnblockIt": "A container that mounts private/source-imports/Nationwide_Recovery_Pool_2026-09-02. The defects themselves are engineering defects in the shared Alabama and Illinois build hosts and need no legal or source research; they need the source bytes in order to be rebuilt, rehashed and re-measured.",
+        "whyNoCodeWasLandedAnyway": "The mapping fixes are writable without the bytes, but they cannot be built, rehashed or measured here. Landing an unbuilt code change into hosts that other, unblocked containers rebuild would put this family's committed artifacts out of step with its builder and would move families this lane does not hold. That is the failure mode that left the Ohio companion undelivered in the first place."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAreUnchanged": true,
+      "countersNote": "The nine completeness counters read all zero on this family BEFORE this dispatch and all zero AFTER it. That is not evidence of repair and is not offered as any. Every obligation this cohort was handed is one the completeness counter cannot see: it counts what the build wrote and what it left unclassified, and these verdicts are about values the build did NOT write, files it declared but did not deliver, answers it delegated that the repository holds, and records it quoted but did not bind. Each row below names the measurement that is its actual proof.",
+      "completenessResult": "PASS_COMPLETE (unchanged)",
+      "packetBytesUnchanged": true,
+      "fixtureMoved": false,
+      "commitSha": null,
+      "claimReleased": true
     }
   ],
   "currentDispatchAppend": {
     "captainBase": "52590631e7c96343bf70142cfb5934a02d55b02f",
     "familiesRepaired": 1,
     "familiesStopped": 2,
-    "nineCountersZeroOn": ["rcap-tn-custom-pleading"],
+    "nineCountersZeroOn": [
+      "rcap-tn-custom-pleading"
+    ],
     "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
     "selfVerified": false,
     "commercialRoutesOpened": 0,
     "productionTouched": false
+  },
+  "fixBDispatch": {
+    "dispatch": "FIX-B repair cohort, lanes FIX06 / FIX07 / FIX08",
+    "worker": "FIX-B",
+    "baseSha": "d6f430105dfc942be321b64243a77b666992547a",
+    "headSha": "ab55e64b757e58f5737a7c7cfeedaacc2b69b230",
+    "laneKind": "repair",
+    "familiesHeldByTheClaimLedger": "The claim ledger, not the brief text, decided the scope. It grants FIX06 six families, FIX07 four and FIX08 three: thirteen, all FAIL_REPAIR_REQUIRED. The briefs name nine, seven and six. The ledger is authoritative per this dispatch, so the families named in a brief but not granted by the ledger were neither claimed nor read.",
+    "neverWriteVersusOwnedPathsContradiction": "None found. Each brief's never-write list names nj-ordinance-set, ny-160-59-petition-set, pa-490-nonconviction-set and nj-indictable-conviction-set overlay paths, and none of those appears in any of the three owned-paths lists. Nothing was withheld on that ground.",
+    "ownedPathsDidNotCoverTheAssignedRepairs": {
+      "finding": "A different and real defect in the briefs: for several assigned families the owned-paths list names only a three-line shim, while the code carrying the measured defect lives in a shared build host the list does not name at all.",
+      "examples": [
+        "FIX06 owns scripts/build-census-v1-oh_marijuana_expungement-set.mjs, which is a 3-line re-export; the OH family is built by scripts/build-census-v1-nj_arrest_no_conviction-set.mjs.",
+        "FIX06 holds il-exp-pardon-set but its owned-scripts list does not name any Illinois builder.",
+        "FIX07 and FIX08 own Illinois shims whose host, scripts/build-census-v1-il-exp-pardon-set.mjs, is unowned.",
+        "FIX06 owns scripts/build-census-v1-ut_pet_limitations-set.mjs, a shim over scripts/build-census-v1-ut_pet_acquittal-set.mjs."
+      ],
+      "howThisDispatchHandledIt": "Where a repair could not be performed inside the named paths, the shared host was edited with the per-family opt-in pattern the hosts themselves already document, and the containment was then MEASURED rather than asserted: every sibling family on a touched host was rebuilt and its bytes compared. rcap-oh-custom-pleading-clean-tracks produced zero changed files; ak-tf800-set produced byte-identical fixtures after the shared-finalizer change. No live claim was held by any other lane on any host touched.",
+      "hostsTouchedOutsideTheOwnedPathsLists": [
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (Ohio composed families)",
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (opt-in parameter, default off)"
+      ]
+    },
+    "environment": {
+      "masterLibraryMounted": true,
+      "nationwideRecoveryPoolMounted": false,
+      "consequence": "Seven of the thirteen families -- both Alabama families and all five Illinois families -- bind at least one source that is indexed only under custody nationwide_recovery_pool_2026_09_02, which this container does not hold. Each of those builds fails its source-custody assertion before writing a byte. The gitignored private/ tree was symlinked from the shared checkout as instructed; it carries the Master Library and nothing else.",
+      "chromium": "available in this container, so builds were run with --no-raster where a builder offers it, to keep every family in the BUILT_RASTER_PENDING state the dispatch contract expects",
+      "popplerObserved": "scripts/build-census-v1-ut_pet_acquittal-set.mjs rasters through poppler_pdftoppm rather than the calibrated Chromium rasterizer. Reported, not changed: it is nobody's assigned obligation in this dispatch."
+    },
+    "countersAreNotTheProof": "The nine completeness counters read all zero on this family BEFORE this dispatch and all zero AFTER it. That is not evidence of repair and is not offered as any. Every obligation this cohort was handed is one the completeness counter cannot see: it counts what the build wrote and what it left unclassified, and these verdicts are about values the build did NOT write, files it declared but did not deliver, answers it delegated that the repository holds, and records it quoted but did not bind. Each row below names the measurement that is its actual proof.",
+    "fixturesMoved": {
+      "families": [
+        "tx_nd_probation_misdemeanor-set"
+      ],
+      "note": "tx_nd_probation_misdemeanor-set is the ONLY family in this dispatch whose fixture PDFs moved. Its raster receipt is invalidated and it needs a fresh whole-family raster. Every other family in this dispatch is byte-identical in its fixtures and its rasters."
+    },
+    "verificationBelongsElsewhere": "This cohort repaired and issued no PASS. Every family here, including the four whose measured defect turned out to be already absent, must be read again by a lane that neither built nor repaired it.",
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "fullNationalChainRun": false,
+    "centralManifestsHandEdited": false,
+    "lane": "FIX08",
+    "familiesCompleted": [],
+    "familiesStopped": [
+      "il-cannabis-vacate-set",
+      "il-exp-nonconv-set",
+      "il-exp-qualprob-set"
+    ],
+    "commits": [],
+    "historicalRowsPreserved": 8,
+    "rowsAppendedByThisDispatch": 3
   }
 }
