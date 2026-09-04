@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "laneKind": "repair",
+  "baseSha": "46caf9354c58c8ebce4004354fef5b237f391d3f",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "A repaired family is a repaired family. This return issues no verdict, opens no commercial route, marks no packet proven and consumes no packet credit. Every family here must be verified again by a lane that neither built nor repaired it.",
+  "aboutTheNineCounters": "Every family in this return read PASS_COMPLETE with all nine completeness counters at zero before the repair and after it. No counter here is evidence of anything. Each row names the instrument that actually measured its defect.",
+  "environment": {
+    "sourceCustodiesMounted": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "sourceCustodiesAbsent": [
+      "d_source_packs",
+      "nationwide_recovery_pool_2026_09_02",
+      "the operational Nationwide Record Clearing tree",
+      "google-drive"
+    ],
+    "howBindingsWereResolved": "By CONTENT HASH across the mounted corpus rather than by declared path. Every file under private/ was hashed (501 files) and each family's sourceHashes were looked up by sha256. Several families declare a d_source_packs path whose bytes resolve in the Master Library, so a path-based check would have called them missing.",
+    "chromium": "present in this container; rasterisation works here.",
+    "rasterPosture": "Families whose committed build-status is BUILT_RASTER_PENDING were rebuilt with --no-raster so the repair diff carries the repair and not a raster-state change. Families that commit page rasters (ut_pet_acquittal-set, the two WV families) were rebuilt normally and their rasters regenerated in the same run."
+  },
+  "lane": "FIX01",
+  "worker": "FIX-C (repair cohort; built none of these packets and verified none of them)",
+  "whatThisLaneWasGranted": [
+    "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+    "in_arrest_no_charges-set",
+    "tx_exp_acquittal-set",
+    "tx_nd_dwi_deferred-set",
+    "tx_nd_probation_misdemeanor-set",
+    "vt_seal_nonconviction-set"
+  ],
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "ROUTE_IDENTITY"
+      ],
+      "obligationAlreadyAbsent": [
+        "ARTIFACTS"
+      ],
+      "standingVerdict": "vf01 FAIL_REPAIR_REQUIRED at base 3312fdcb, ARTIFACTS and ROUTE_IDENTITY",
+      "decisiveDefect": "Five committed statements still described this family as two letters to two record-holding offices after its component boundary was repaired to ship only the DCJS submission and the agency route sheet: formIdentityNote, agencyTreatmentNote, routeSelectionNote, routeSelectionsMade[1].value and the participant-facing whatThisIsNot paragraph.",
+      "whatWasDone": "Corrected all five in the build script that authors them, and rebuilt. The sentencing-court transmission/correction request is now named as the separately declared sibling route it belongs to.",
+      "instrument": "pdftotext of the delivered bytes (4 pages: DCJS letter 1-2, route sheet 3-4) against componentSet, plus a grep of the family directory for the five phrases, which returns nothing after the rebuild. For ARTIFACTS: every committed record naming a packet hash was enumerated and each equals the bytes on disk.",
+      "artifactsLimbIsStale": "product-wiring.json bound the superseded canonical dbbec831… when vf01 read it. It now binds 8abff71f…, which is the canonical on disk. That limb of the verdict is stale, not broken, and nothing was changed for it.",
+      "fixturesMoved": false,
+      "fixtureDigestsUnchanged": [
+        "canonical 8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec",
+        "boundary c48c6e8cea3616ada41949087580f4db52ea94a0613fa55942f4f62de5fe4878"
+      ],
+      "repairCommit": "3c7d0cecd8f2d61dcb22b6b74d995e839a89ef69"
+    },
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "standingVerdict": "vf06 FAIL_REPAIR_REQUIRED at base 247b790b, CLIPPING_AND_OVERLAP",
+      "decisiveDefect": "cap-PetitionerFullName renders into fourteen widgets of the CCA bundle, 161.1 to 342.2 points wide, and the fit was measured once against widgets[0] and applied to all fourteen. On the boundary fixture three appearances were clipped at the widget edge.",
+      "whatWasDone": "Turned on fitTextPerWidget, the opt-in the shared finalizer already documents for exactly this, in this family's own build script. Every widget is now fitted on its own rectangle, the stored value comes from the most constraining one, and each widget carries its own size in its own /DA. Where no readable size holds the value in every widget the field is refused whole.",
+      "instrument": "Per-widget added-ink measurement: each fixture page differenced against the same page of the bound source with pdftotext -bbox, added words matched to the widget they begin in, and each widget's ink right edge compared with its own rectangle. Boundary before: 14 widgets with added ink, 3 clipped (p7 x=332.9 ink to 523.6 cut after 'Fitzwilliam'; p7 x=406.4 cut after 'y'; p9 x=124.7 ink to 315.4 cut after 'Fitzwilliam'). Boundary after: 0 widgets with added ink, 0 clipped. Canonical after: 14 widgets, 0 overruns.",
+      "alsoInThisReturn": "vf06's COMPONENT_SET OBSERVATION, which it attached in terms to this repair, is also closed: step 1 of 'What you must do before you file' no longer tells the participant to go and get insert forms the packet already carries. Committed separately, in e8d59963eeda80b54156d57a95b32b9c7ec54ace, and it moved no fixture.",
+      "fixturesMoved": true,
+      "fixtureDigests": {
+        "canonicalBefore": "a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271",
+        "canonicalAfter": "2f14e1a7c0e0bf6f162b0385e310a2ce12b9872e13b4bb6b85e21ff139bb9112",
+        "boundaryBefore": "4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23",
+        "boundaryAfter": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d",
+        "insertsUnchanged": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9"
+      },
+      "rasterConsequence": "The raster receipt is invalid and this family needs a fresh whole-family raster. The canonical bytes moved even though its writes did not, because each widget now carries its own measured size.",
+      "repairCommit": "865d42a80b22e8d02d07371e44d8b8596bb3806b"
+    },
+    {
+      "itemId": "tx_exp_acquittal-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "PROTECTED_FIELDS"
+      ],
+      "alsoRepairedUnderStandingSafetyRule": [
+        "the two source-authored sworn zeros on the same document"
+      ],
+      "standingVerdict": "vf01 BLOCKED_SOURCE at base 88d688b8, PROTECTED_FIELDS failed and SOURCE_IDENTITY unmeasured",
+      "decisiveDefect": "The pinned Statement of Inability ships three /Tx fields with a /V already set - Value / Valor 11 = '0' (source p7, packet p14), Amount Cantidad 15 = '0' (source p8, packet p15) and Today = '12/15/2022' (source p11, packet p18) - and this family flattened all three onto the delivered pages. It passed no appearanceDispositions to the finalizer at all, so the structural default read every unwritten /Tx appearance as the court's own ink.",
+      "whatWasDone": "One per-family entry in the appearance-semantics registry giving the three fields render_participant_value_only_when_written with each /V, each widget /Rect and the reason, plus the two lines in the build script that read it. Nothing was written in their place.",
+      "instrument": "scripts/rcap-official-forms/pdf-flattened-widgets.mjs, reading the Form XObject each appearance became and matching it to its widget /Rect, and the build's own reports/actual-writes.json documentAuthoredAppearances, which went 3 -> 0 in both fixtures. A pdftotext extraction does NOT see the two zeros - they are drawn with /Arial, which pdftotext cannot map - so a text check reports those pages clean, which is the wrong answer in the dangerous direction.",
+      "sourceIdentityNote": "vf01 could not measure SOURCE_IDENTITY. It is measurable here: the Statement binary is mounted under human_source_returns and rehashes to bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d exactly.",
+      "pathListDeparture": "data/rcap-all50/shared/field-appearance-semantics.json is not in FIX01's owned-path list. It is the single declared home for this measurement, the entry is additive and family-keyed, and FIX05 recorded the same departure. Containment measured: every other family whose build reads the registry was rebuilt with and without the entry and every output byte is identical between the arms.",
+      "fixturesMoved": true,
+      "fixtureDigests": {
+        "canonicalBefore": "d9fb4fcc682df7c530609115e75165566e0c368f0337f0be0e395933803efcbd",
+        "canonicalAfter": "cc6f681a67a26edb02c90e1a32380c707ae001a094c672639c3e05e667f7a8ae",
+        "boundaryBefore": "0c72f34ff2ce096c529a5a85237ecf35175ab220f4734ab458d17e2764574b15",
+        "boundaryAfter": "a6095ba89ee340ebcb23ec1f8354bd7972dae3ee4b2e60820793e5fe6407e8ed"
+      },
+      "rasterConsequence": "The raster receipt is invalid; this family needs a fresh whole-family raster.",
+      "repairCommit": "65f68daf9ad25380c6e79aecca644216ffa78701"
+    },
+    {
+      "itemId": "tx_nd_dwi_deferred-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [],
+      "verdictIsStale": true,
+      "standingVerdict": "current-byte-independent-verification-il-tx-batch-018 FAIL_REPAIR_REQUIRED at base 018cd558, KNOWN_PREFILLS, PROTECTED_FIELDS and REQUIRED_BEFORE_FILING",
+      "whatWasDone": "NOTHING. The assigned defect is already absent at the current bytes. FIX05 repaired it in e6ab2c784 and the verdict predates that commit.",
+      "instrument": "The three source-authored values were read first-hand out of the pinned binary (Value / Valor 11 = '0', Amount Cantidad 15 = '0', Today = '12/15/2022'), the fee-waiver document was aligned inside the packet (source page 1 = packet page 10), and the ink inside each of the three widget rectangles was measured on both fixtures. What remains inside those rectangles is the form's own printed furniture - a '$' prefix and a ruled signature line, both present in the source's printed layer - and none of the three values. reports/actual-writes.json documentAuthoredAppearances is 0 in both fixtures. All three fields are classified in production-field-map.json: the two amounts REQUIRED_BEFORE_FILING with a stated refusal, Today as signature_or_date_participant_completion.",
+      "fixturesMovedBeforeThisLane": true,
+      "fixtureDigests": {
+        "canonicalBeforeFIX05": "a991f3b4e6a27ebf11bd52ef3370f7e0e4d2b63282ea57585932a172ed0d98e6",
+        "canonicalNow": "7cb3e892bf15353ad55ac1b70b922fdc3c83e173017c0640512700f16bdbed2b",
+        "boundaryBeforeFIX05": "6892d5d7e21334cc8a4f30507e40db5f5ec8759b7043701ab04cf5ead4c909cd",
+        "boundaryNow": "2ccf4e37ad72ce87502b3c6a9eb6c891c99ce2a6dbfaad9568d1117b35a560c7"
+      },
+      "incidentalFindingNotRepaired": "participant-instructions.md line 22 ends mid-clause: 'Your identity is filled in; nothing financial is' and then the conditional note. The truncation is in the build script's component-description string, identically in this family and in tx_nd_probation_misdemeanor-set. It says nothing false, it just stops. Not repaired: it is not an assigned obligation and this family was to be left alone.",
+      "repairCommit": null
+    },
+    {
+      "itemId": "tx_nd_probation_misdemeanor-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [],
+      "verdictIsStale": true,
+      "standingVerdict": "current-byte-independent-verification-il-tx-batch-018 FAIL_REPAIR_REQUIRED at base 018cd558, KNOWN_PREFILLS, PROTECTED_FIELDS and REQUIRED_BEFORE_FILING",
+      "whatWasDone": "NOTHING. The assigned defect is already absent at the current bytes. FIX06 repaired it in d78173897 and the verdict predates that commit.",
+      "instrument": "The same measurement as tx_nd_dwi_deferred-set, run against this family's own four fixtures.",
+      "fixturesMovedBeforeThisLane": true,
+      "fixtureDigests": {
+        "canonicalBeforeFIX06": "c2811db63f9e2d180e2dccc4745855f59cc5550fb63bd3147d8ca981f5df28b8",
+        "canonicalNow": "4cbe29eccdb297c6b578da29f7b32d8a5ed64c9d5647c51457fb7398a4543051",
+        "boundaryBeforeFIX06": "4df5090c138ae6359b6066ca70e1c4ecfdcfda52fb26d281b005a3c54eea4f96",
+        "boundaryNow": "9b905898752d33843a13b1750632040edadaa65f7da8125ddf8c7330eda9bd07"
+      },
+      "repairCommit": null
+    },
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [],
+      "verdictIsStale": true,
+      "standingVerdict": "vf35 FAIL_REPAIR_REQUIRED at base 5c718222, ARTIFACTS",
+      "whatWasDone": "NOTHING. All three limbs of the ARTIFACTS finding are absent at the current bytes.",
+      "instrument": "Every file hash named anywhere in reports/rendered-artifacts.json was recomputed from the file it names: 18 of 18 match, 0 mismatch, 0 missing. product-wiring.json's acceptanceReceipt binds canonical 8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb with verdict RASTER_PASS, which is the canonical on disk. The central raster row in RASTER_QUEUE.json pins the same canonical and boundary dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5. vf35 found product wiring and the central raster row pinning the pre-repair PDFs; neither does now.",
+      "fixturesMoved": false,
+      "repairCommit": null
+    }
+  ],
+  "familiesRepaired": [
+    "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+    "in_arrest_no_charges-set",
+    "tx_exp_acquittal-set"
+  ],
+  "familiesLeftUnchangedBecauseTheVerdictIsStale": [
+    "tx_nd_dwi_deferred-set",
+    "tx_nd_probation_misdemeanor-set",
+    "vt_seal_nonconviction-set"
+  ],
+  "familiesStopped": [],
+  "nineCountersZeroOn": "every family in this return, before and after, which is why none of them is offered as evidence of anything"
+}

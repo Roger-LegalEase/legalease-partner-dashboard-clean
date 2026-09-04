@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "laneKind": "repair",
+  "baseSha": "46caf9354c58c8ebce4004354fef5b237f391d3f",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "A repaired family is a repaired family. This return issues no verdict, opens no commercial route, marks no packet proven and consumes no packet credit. Every family here must be verified again by a lane that neither built nor repaired it.",
+  "aboutTheNineCounters": "Every family in this return read PASS_COMPLETE with all nine completeness counters at zero before the repair and after it. No counter here is evidence of anything. Each row names the instrument that actually measured its defect.",
+  "environment": {
+    "sourceCustodiesMounted": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "sourceCustodiesAbsent": [
+      "d_source_packs",
+      "nationwide_recovery_pool_2026_09_02",
+      "the operational Nationwide Record Clearing tree",
+      "google-drive"
+    ],
+    "howBindingsWereResolved": "By CONTENT HASH across the mounted corpus rather than by declared path. Every file under private/ was hashed (501 files) and each family's sourceHashes were looked up by sha256. Several families declare a d_source_packs path whose bytes resolve in the Master Library, so a path-based check would have called them missing.",
+    "chromium": "present in this container; rasterisation works here.",
+    "rasterPosture": "Families whose committed build-status is BUILT_RASTER_PENDING were rebuilt with --no-raster so the repair diff carries the repair and not a raster-state change. Families that commit page rasters (ut_pet_acquittal-set, the two WV families) were rebuilt normally and their rasters regenerated in the same run."
+  },
+  "lane": "FIX03",
+  "worker": "FIX-C (repair cohort; built none of these packets and verified none of them)",
+  "whatThisLaneWasGranted": [
+    "al-felony-dwop-set",
+    "al-pardoned-felony-set",
+    "nj_arrest_no_conviction-set",
+    "ut_pet_acquittal-set",
+    "wv_conv_single_misdemeanor-set"
+  ],
+  "rows": [
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "standingVerdict": "vf02 FAIL_REPAIR_REQUIRED at base 88d688b8, PAGE_ORDER and CLIPPING_AND_OVERLAP",
+      "decisiveDefect": "The packet delivered its components in order 4, 5, 3, 6, 7, 8, 9, 1, 2 against its own committed packet-set manifest, putting both Bureau of Criminal Identification components on pages 17-19 behind every court document, on a route where BCI issues the certificate whose number paragraph 1 of the petition asks for. And on the BCI Application's sworn declaration the name write began at x=50.500 while the pre-printed 'I' occupies 49.745-52.742.",
+      "whatWasDone": "Set two opt-in flags this shared Utah host already carries and documents, on this family only: deliversInManifestComponentOrder and declarationNameBoxClearsPrePrintedI. The host's own header note records that FIX04 withheld the second from this family because it held no grant here.",
+      "instrument": "The delivered pageManifest form order compared with the committed manifest order: now UT-BCI-EXP-APPLICATION, UT-BCI-THIRD-PARTY-RELEASE, 1044XX, 1000EX, 1020EX, 1146XX, 1148XX, 1149XX, 1169XX, which is manifest order 1 to 9 exactly. And pdftotext -bbox on the declaration line of both fixtures: the name's xMin was 50.500 and is 55.500, the printed 'I' still ends at 52.742, so a 2.242pt overlap became a 2.758pt clear gap. 152 actual writes before and after, 0 glyphs outside measured write boxes.",
+      "containment": "All six sibling families on this host rebuilt with and without the flags. Four produce zero changed files in either arm; ut_pet_limitations-set and ut_pet_no_charges-set drift in 24 files that are byte-identical between the arms, so that drift is pre-existing. No sibling PDF moved.",
+      "pathNote": "data/rcap-grade-a/wave-2/p1-ut-petition-expunge-completeness/rows.json is written by this family's own build script and sits outside the family's declared owned paths. Four lines changed, this family's two artifact hashes and byte lengths; included so it does not name bytes that no longer exist.",
+      "untouched": "vf02 also recorded SERVICE as BLOCKED_LEGAL_INPUT on this family in a separate read - two committed records answer the service question in opposite directions. Untouched. It is counsel's to resolve and was not assigned here.",
+      "fixturesMoved": true,
+      "fixtureDigests": {
+        "canonicalBefore": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+        "canonicalAfter": "b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5",
+        "boundaryBefore": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+        "boundaryAfter": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4"
+      },
+      "rasterConsequence": "The raster receipt is invalid; this family needs a fresh whole-family raster. Its 38 committed page rasters were regenerated in the same run.",
+      "repairCommit": "ce24fe129e450a91d9e6e11c878a271abe9fea14"
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "standingVerdict": "vf06 FAIL_REPAIR_REQUIRED at base 88d688b8, COMPONENT_SET and REQUIRED_BEFORE_FILING",
+      "decisiveDefect": "The committed packet-set manifest declares five components, every one SCA-C906 or process guidance, and no SCA-C900. The delivered nine-page packet appended all five SCA-C900 pages: page 5 an obsolete instruction sheet and pages 6-9 a SECOND complete petition, verification and certificate reciting a petitioner aged 18 to 26 with no prior or subsequent convictions, citing the 2009 statute, and printing a TEN-day reply window where decision NATIONAL-2026-08-28-C-WV-02 holds the period is THIRTY days. Separately the instructions never told the participant to obtain the certified records the track record requires.",
+      "whatWasDone": "Removed the SCA-C900 binding in this family's own entry in the baseline host's source configuration, rather than filtering the delivery, so census, receipt, field map and packet all agree; added a manifest guard to the WV build script so a delivered form the component set does not declare stops the build; and added the same registry-read 'Records you must obtain' section as its sibling.",
+      "instrument": "Delivered pages 9 -> 4; field-census, source-receipt and production-field-map each list SCA-C906 and nothing else; the string SCA-C900 appears nowhere in the family directory; ten now-unused raster PNGs deleted; the build script's own --check passes.",
+      "pathListDeparture": "scripts/build-census-v1-ne-setaside-custodial-set.mjs is the baseline host for thirteen families and is not in FIX03's owned-path list. The change is one sourceId inside the 'wv_conv_single_misdemeanor-set' config object; no other family reads that key. Containment measured: the four NE and SD families on that host drift in seven files that are byte-identical between the arms, no PDF moved in either arm, and two UT families produce zero changed files.",
+      "fixturesMoved": true,
+      "fixtureDigests": {
+        "canonicalBefore": "ea49da395c632c7f028e67c68c95659b376a18ce512c1c8c08205462c6f0dafa",
+        "canonicalAfter": "37764d50ba8f761661e2576cb76ff6a95aaf06bfbc2f00236ecc6c9c03e90ffa",
+        "boundaryBefore": "375d0fb687b73da9b5f74f7506424e75c7421a4e8e9eb620ffcc6ecca7e56f40",
+        "boundaryAfter": "c51fde179db7a9bf1ae3b44b93ba7c48695edf49a3459245bb7bb826462c397e"
+      },
+      "rasterConsequence": "The raster receipt is invalid. The packet is five pages shorter, so this is not a re-render of the same pages and a page-for-page comparison against the old receipt would be meaningless; the family needs a fresh whole-family raster.",
+      "repairCommit": "be668314cb1dffb18757df042102f43802e17ba4"
+    },
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "STOPPED",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "standingVerdict": "FAIL_REPAIR_REQUIRED; see VERIFIER_RETURNS.json for the selected row",
+      "blocker": "BLOCKED_SOURCE",
+      "exactRefusal": "AssertionError [ERR_ASSERTION]: source custody is not mounted: LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, thrown by resolveSources() at scripts/build-census-v1-al-diversion-set.mjs:60. Zero bytes written; the family's fixtures are untouched on disk.",
+      "whyItCannotBeResolvedHere": "Every Alabama family in this backlog binds two sources. C-10-CRIMINAL (527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8) is mounted. CR-65 (c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, 468056 bytes, 8 pages, 108 AcroForm fields) is not. This was established by content hash, not by declared path: every file under private/ was hashed and CR-65's sha256 appears in none of them, and no file named cr-65 or cr65 exists anywhere in the mounted corpus. data/rcap-all50/local-source-corpus-index.json indexes it under custody nationwide_recovery_pool_2026_09_02, custodyType PARTIAL_NATIONWIDE_RECOVERY_POOL, which this container does not mount. CR-65 is the PETITION - the primary_filing and certificate_of_service component - so no repair to any of the five families can be built, rendered or measured here.",
+      "whatWouldUnblockIt": "Mounting nationwide_recovery_pool_2026_09_02, or any custody carrying the exact bytes c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39.",
+      "nothingWasHandEdited": "No artifact of any Alabama family was touched. Hand-editing a record to match a builder that cannot run would put a defect on a record that has none.",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "defectLocatedForTheNextContainer": {
+        "howThisWasLocated": "Without CR-65 the packet cannot be built, but the shared build host scripts/build-census-v1-al-diversion-set.mjs can be read and the mounted C-10-CRIMINAL binary can be censused. knownValue() was executed against C-10-CRIMINAL's own 78 text fields with the committed canonical fixture, reproducing the mis-writes the verifiers reported from first principles.",
+        "KNOWN_PREFILLS": [
+          {
+            "defect": "participant.full_legal_name is written into C-10-CRIMINAL page 1 field 'Spouses Full Name if married'",
+            "cause": "knownValue()'s /full name|printed name of petitioner|print or type name/ branch matches 'Spouses Full Name if married'. It fires before any field-specific check.",
+            "why it matters": "On a signed affidavit of substantial hardship it asserts the participant is married to themselves. A false statement, not a cosmetic one."
+          },
+          {
+            "defect": "participant.phone is written into C-10-CRIMINAL page 1 field 'Employers Telephone Number'",
+            "cause": "knownValue()'s /telephone number|telephone number cell/ branch matches 'Employers Telephone Number'; its exclusion list is only /attorney|server/.",
+            "why it matters": "It asserts the participant's own number as their employer's, on the same sworn affidavit."
+          },
+          {
+            "defect": "'Circuit' is written into C-10-CRIMINAL page 1 field 'COURT OF', whose printed sublabel asks for the county or municipality",
+            "cause": "knownValue()'s C-10 branch returns ['Circuit','matter.court_type'] for BOTH 'IN THE' and 'COURT OF'. Only 'IN THE' takes the court type."
+          },
+          {
+            "defect": "the filing county is written after 'MUNICIPALITY OF' on a circuit-court route",
+            "cause": "knownValue()'s /municipality of/ C-10 branch, unconditional on the route."
+          },
+          {
+            "defect": "CR-65 page 5 receives generic instruction strings instead of held case facts - 'The charge shown on the certified case record', 'Agency shown on the certified arrest record', 'See the selected statutory route and attached certified records'",
+            "cause": "the FIXTURES object in the same host carries those sentences as the values of fixture.charge, fixture.arrestAgency and fixture.grounds. Not verifiable here; CR-65 is not mounted."
+          }
+        ],
+        "PROTECTED_FIELDS": [
+          {
+            "defect": "the participant phone lands on CR-65 page 6's attorney Telephone Number line",
+            "cause": "ORDERING. fillDocument() consults knownValue() FIRST and only reaches attorneyField() in a later branch. attorneyField() names /telephone number_2/ explicitly, but knownValue()'s /telephone number/ branch has already returned the phone and its exclusion list (/attorney|server/) does not contain 'telephone number_2'. Located by reading scripts/build-census-v1-al-diversion-set.mjs lines 86, 108-110 and 140-147."
+          }
+        ],
+        "REQUIRED_BEFORE_FILING": [
+          {
+            "defect": "47 of the 63 declared items are internal field names rather than captions a participant can find on the paper - 'undefined' through 'undefined_32', 'Text1', 'Text2'",
+            "cause": "fillDocument() sets effectiveLabel to `Complete ${name} on ${documentId} page ${page}` for every unmatched field, and to `name` for every write. There is no printed-label harvest on this host at all.",
+            "measured": "C-10-CRIMINAL alone carries 37 text fields literally named 'undefined' or 'undefined_N' and 2 named 'TextN', out of 78. Counted from the mounted binary. The rest of the 47 are on CR-65."
+          }
+        ],
+        "ROUTE_OPTIONS": [
+          {
+            "defect": "C-10-CRIMINAL's STATE OF ALABAMA and MUNICIPALITY OF caption checkboxes are both left unmarked while the municipality line is filled with the filing county, on a route whose court is known to be the circuit court",
+            "cause": "the checkbox branch of fillDocument() marks a checkbox only when documentId is CR-65 and the name is in config.selected. No C-10-CRIMINAL checkbox is ever selected on any Alabama family."
+          }
+        ],
+        "notLocatable": "CLIPPING_AND_OVERLAP on al-felony-dwop-set (the boundary name cut to 'Alexandria Catherine Montgomery-Wash' in CR-65 page 6's Printed Name of Petitioner), REPEATING_ROWS, SERVICE and SELF_HELP_STOP all turn on CR-65's own widgets or on the instruction text, and could not be measured without the binary. Their verifier findings stand as the record.",
+        "oneRepairNoteForWhoeverGetsTheBytes": "safeSet() calls field.setFontSize(8) and TRUNCATES with value.slice(0, maxLength) whenever the widget declares /MaxLen. That is where al-felony-dwop-set's clipped boundary name comes from, and a silent slice on a sworn petition is a defect of the same class as the mis-writes above: it delivers a name that is not the participant's. It should refuse rather than truncate."
+      },
+      "repairCommit": null
+    },
+    {
+      "itemId": "al-pardoned-felony-set",
+      "status": "STOPPED",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "standingVerdict": "FAIL_REPAIR_REQUIRED; see VERIFIER_RETURNS.json for the selected row",
+      "blocker": "BLOCKED_SOURCE",
+      "exactRefusal": "AssertionError [ERR_ASSERTION]: source custody is not mounted: LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, thrown by resolveSources() at scripts/build-census-v1-al-diversion-set.mjs:60. Zero bytes written; the family's fixtures are untouched on disk.",
+      "whyItCannotBeResolvedHere": "Every Alabama family in this backlog binds two sources. C-10-CRIMINAL (527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8) is mounted. CR-65 (c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, 468056 bytes, 8 pages, 108 AcroForm fields) is not. This was established by content hash, not by declared path: every file under private/ was hashed and CR-65's sha256 appears in none of them, and no file named cr-65 or cr65 exists anywhere in the mounted corpus. data/rcap-all50/local-source-corpus-index.json indexes it under custody nationwide_recovery_pool_2026_09_02, custodyType PARTIAL_NATIONWIDE_RECOVERY_POOL, which this container does not mount. CR-65 is the PETITION - the primary_filing and certificate_of_service component - so no repair to any of the five families can be built, rendered or measured here.",
+      "whatWouldUnblockIt": "Mounting nationwide_recovery_pool_2026_09_02, or any custody carrying the exact bytes c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39.",
+      "nothingWasHandEdited": "No artifact of any Alabama family was touched. Hand-editing a record to match a builder that cannot run would put a defect on a record that has none.",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "defectLocatedForTheNextContainer": {
+        "howThisWasLocated": "Without CR-65 the packet cannot be built, but the shared build host scripts/build-census-v1-al-diversion-set.mjs can be read and the mounted C-10-CRIMINAL binary can be censused. knownValue() was executed against C-10-CRIMINAL's own 78 text fields with the committed canonical fixture, reproducing the mis-writes the verifiers reported from first principles.",
+        "KNOWN_PREFILLS": [
+          {
+            "defect": "participant.full_legal_name is written into C-10-CRIMINAL page 1 field 'Spouses Full Name if married'",
+            "cause": "knownValue()'s /full name|printed name of petitioner|print or type name/ branch matches 'Spouses Full Name if married'. It fires before any field-specific check.",
+            "why it matters": "On a signed affidavit of substantial hardship it asserts the participant is married to themselves. A false statement, not a cosmetic one."
+          },
+          {
+            "defect": "participant.phone is written into C-10-CRIMINAL page 1 field 'Employers Telephone Number'",
+            "cause": "knownValue()'s /telephone number|telephone number cell/ branch matches 'Employers Telephone Number'; its exclusion list is only /attorney|server/.",
+            "why it matters": "It asserts the participant's own number as their employer's, on the same sworn affidavit."
+          },
+          {
+            "defect": "'Circuit' is written into C-10-CRIMINAL page 1 field 'COURT OF', whose printed sublabel asks for the county or municipality",
+            "cause": "knownValue()'s C-10 branch returns ['Circuit','matter.court_type'] for BOTH 'IN THE' and 'COURT OF'. Only 'IN THE' takes the court type."
+          },
+          {
+            "defect": "the filing county is written after 'MUNICIPALITY OF' on a circuit-court route",
+            "cause": "knownValue()'s /municipality of/ C-10 branch, unconditional on the route."
+          },
+          {
+            "defect": "CR-65 page 5 receives generic instruction strings instead of held case facts - 'The charge shown on the certified case record', 'Agency shown on the certified arrest record', 'See the selected statutory route and attached certified records'",
+            "cause": "the FIXTURES object in the same host carries those sentences as the values of fixture.charge, fixture.arrestAgency and fixture.grounds. Not verifiable here; CR-65 is not mounted."
+          }
+        ],
+        "PROTECTED_FIELDS": [
+          {
+            "defect": "the participant phone lands on CR-65 page 6's attorney Telephone Number line",
+            "cause": "ORDERING. fillDocument() consults knownValue() FIRST and only reaches attorneyField() in a later branch. attorneyField() names /telephone number_2/ explicitly, but knownValue()'s /telephone number/ branch has already returned the phone and its exclusion list (/attorney|server/) does not contain 'telephone number_2'. Located by reading scripts/build-census-v1-al-diversion-set.mjs lines 86, 108-110 and 140-147."
+          }
+        ],
+        "REQUIRED_BEFORE_FILING": [
+          {
+            "defect": "47 of the 63 declared items are internal field names rather than captions a participant can find on the paper - 'undefined' through 'undefined_32', 'Text1', 'Text2'",
+            "cause": "fillDocument() sets effectiveLabel to `Complete ${name} on ${documentId} page ${page}` for every unmatched field, and to `name` for every write. There is no printed-label harvest on this host at all.",
+            "measured": "C-10-CRIMINAL alone carries 37 text fields literally named 'undefined' or 'undefined_N' and 2 named 'TextN', out of 78. Counted from the mounted binary. The rest of the 47 are on CR-65."
+          }
+        ],
+        "ROUTE_OPTIONS": [
+          {
+            "defect": "C-10-CRIMINAL's STATE OF ALABAMA and MUNICIPALITY OF caption checkboxes are both left unmarked while the municipality line is filled with the filing county, on a route whose court is known to be the circuit court",
+            "cause": "the checkbox branch of fillDocument() marks a checkbox only when documentId is CR-65 and the name is in config.selected. No C-10-CRIMINAL checkbox is ever selected on any Alabama family."
+          }
+        ],
+        "notLocatable": "CLIPPING_AND_OVERLAP on al-felony-dwop-set (the boundary name cut to 'Alexandria Catherine Montgomery-Wash' in CR-65 page 6's Printed Name of Petitioner), REPEATING_ROWS, SERVICE and SELF_HELP_STOP all turn on CR-65's own widgets or on the instruction text, and could not be measured without the binary. Their verifier findings stand as the record.",
+        "oneRepairNoteForWhoeverGetsTheBytes": "safeSet() calls field.setFontSize(8) and TRUNCATES with value.slice(0, maxLength) whenever the widget declares /MaxLen. That is where al-felony-dwop-set's clipped boundary name comes from, and a silent slice on a sworn petition is a defect of the same class as the mis-writes above: it delivers a name that is not the participant's. It should refuse rather than truncate."
+      },
+      "repairCommit": null
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "status": "STOPPED",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "standingVerdict": "vf06 FAIL_REPAIR_REQUIRED at base 88d688b8, REQUIRED_BEFORE_FILING",
+      "blocker": "ROW STOP - not repairable without re-deriving this family's field classification",
+      "sourcesResolve": true,
+      "whatWasMeasuredHere": {
+        "limbA": "All 16 fields vf06 named are present and still carry requiredBeforeFiling: true in production-field-map.json: orderHearYr, hearDay, hearTime, hearTimeM, sigHearJdg, orderFinalDay, MuniCrts, probDivCntys, sigFinalJdg, CoverLtrDDt, CoverLtrEDt, CoverLtrEHearDt, CoverLtrEHearTime, expungDocketNum, sigNoticeDt, CoverLtrGDt. Their printed context was read out of the pinned CN-10557 binary at each widget's own rectangle and confirms the finding for fourteen of them: the four hearing date/time blanks and sigHearJdg sit on the ORDER FOR HEARING at page 27 ('IT IS ORDERED this ___ day of ___, ___' and 'is set for the ___ day of ___, at ___ o'clock ___.m.' and 'Judge, Superior Court of New Jersey'); orderFinalDay is the final order's own date line at page 30; sigFinalJdg is the judge's signature at page 33; expungDocketNum sits beside 'Appearing Pro Se  Docket Number:' at page 40, which the clerk assigns at filing; and the four cover-letter dates and the two cover-letter hearing date/time blanks are later acts.",
+        "whyTheLastTwoAreNotClearCut": "MuniCrts ('The administrator(s) of the ___ Municipal Court(s),' page 27) and probDivCntys ('The ___ County(ies) Probation Division', page 27) are recipient lists on a PROPOSED order, and in the New Jersey kit the petitioner drafts the proposed order and its recipient list. AdminMuniCts, the same blank on the final order at page 31, is NOT in vf06's list, which makes the boundary between the two inconsistent on its face. Deciding it is a classification design decision about who owns a blank on a proposed order, not a repair to a named defect.",
+        "limbB": "The label defect is wider than the fourteen vf06 counted. Of the 69 fields tagged requiredBeforeFiling, 11 display a label that is exactly the internal field name (CoverLtrDDt, CoverLtrEDt, IdbAddrStr, MuniCrtsAddrStr, ProbAddrStr, cnt, contOffense2, jdgmntDocket1 through jdgmntDocket4, sigFinalJdg, sigHearJdg, sigNoticeDt) and a further 19 display a truncated fragment of a printed line - '(statu', '(statute', '. I was arre', 'a', ',', 'an Order of', 'at', 'Original', 'The', 'Kit up', 'offense(s))', 'County Probatio' and others. The cause is a caption harvester that falls back to field.name and otherwise takes whatever text sits nearest the widget."
+      },
+      "whyThisIsStoppedRatherThanHalfRepaired": "Repairing this obligation means re-deciding the ownership of sixteen blanks on a court's own forms, two of them against the New Jersey kit's own practice, and then authoring roughly thirty participant-facing captions for a forty-page kit. That is re-deriving this family's field classification, not repairing a named defect, and it is participant-facing legal copy on a document that is signed under oath. A partial pass would leave the obligation failing anyway. Stopped with the measurement above so the lane that takes it does not start from nothing.",
+      "whatWouldUnblockIt": "A grant that covers re-deriving this family's blank classification, and a decision on who owns a recipient list on a proposed order in the New Jersey kit. The five NJ families share scripts/build-census-v1-nj_arrest_no_conviction-set.mjs and the same CN-10557 kit, so the same defect is very likely on all five and the classification should be decided once.",
+      "repairCommit": null
+    }
+  ],
+  "familiesRepaired": [
+    "ut_pet_acquittal-set",
+    "wv_conv_single_misdemeanor-set"
+  ],
+  "familiesLeftUnchangedBecauseTheVerdictIsStale": [],
+  "familiesStopped": [
+    "al-felony-dwop-set",
+    "al-pardoned-felony-set",
+    "nj_arrest_no_conviction-set"
+  ],
+  "nineCountersZeroOn": "every family in this return, before and after, which is why none of them is offered as evidence of anything"
+}

@@ -1,0 +1,314 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "laneKind": "repair",
+  "baseSha": "46caf9354c58c8ebce4004354fef5b237f391d3f",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "A repaired family is a repaired family. This return issues no verdict, opens no commercial route, marks no packet proven and consumes no packet credit. Every family here must be verified again by a lane that neither built nor repaired it.",
+  "aboutTheNineCounters": "Every family in this return read PASS_COMPLETE with all nine completeness counters at zero before the repair and after it. No counter here is evidence of anything. Each row names the instrument that actually measured its defect.",
+  "environment": {
+    "sourceCustodiesMounted": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "sourceCustodiesAbsent": [
+      "d_source_packs",
+      "nationwide_recovery_pool_2026_09_02",
+      "the operational Nationwide Record Clearing tree",
+      "google-drive"
+    ],
+    "howBindingsWereResolved": "By CONTENT HASH across the mounted corpus rather than by declared path. Every file under private/ was hashed (501 files) and each family's sourceHashes were looked up by sha256. Several families declare a d_source_packs path whose bytes resolve in the Master Library, so a path-based check would have called them missing.",
+    "chromium": "present in this container; rasterisation works here.",
+    "rasterPosture": "Families whose committed build-status is BUILT_RASTER_PENDING were rebuilt with --no-raster so the repair diff carries the repair and not a raster-state change. Families that commit page rasters (ut_pet_acquittal-set, the two WV families) were rebuilt normally and their rasters regenerated in the same run."
+  },
+  "lane": "FIX02",
+  "worker": "FIX-C (repair cohort; built none of these packets and verified none of them)",
+  "whatThisLaneWasGranted": [
+    "al-diversion-set",
+    "al-misd-conviction-set",
+    "al-misd-dwop-set",
+    "in_section1_petition-set",
+    "tx_nd_conviction_no_supervision-set",
+    "wv_conv_multiple_misdemeanors-set"
+  ],
+  "rows": [
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "standingVerdict": "vf05 BLOCKED_SOURCE at base 88d688b8: KNOWN_PREFILLS, PROTECTED_FIELDS and SELF_HELP_STOP failed, SOURCE_IDENTITY unmeasured",
+      "decisiveDefect": "The same three source-authored /V values on the Statement of Inability flattened onto packet pages 16, 17 and 20; and the committed track registry requires stopping for 'Any family violence finding or family violence allegation anywhere in the record' while both the delivered instructions page and participant-instructions.md carried only 'the court has made an affirmative finding of family violence'. The allegation branch - the branch that reaches a person no court has ever found anything against - was absent from both.",
+      "whatWasDone": "One per-family appearance-semantics entry and the two lines that read it, and the two stop-condition strings rewritten to carry the allegation branch in terms.",
+      "instrument": "documentAuthoredAppearances 3 -> 0 in both fixtures, the 15 genuine writes unchanged name for name, addedGlyphs unchanged at 262 canonical and 590 boundary, 0 glyphs outside measured write boxes, 0 refused fields with ink, 24 pages unchanged. The allegation branch reads back out of fixtures/canonical.pdf at extracted line 908 and out of participant-instructions.md at line 206; the other six registry stops are carried unchanged.",
+      "sourceIdentityNote": "vf05 could not measure SOURCE_IDENTITY. All three binaries are mounted and rehash to their pins: petition da0bd63c66a6…, order 6a60f72ac40a…, statement bd17a3fe43d6…",
+      "pathListDeparture": "data/rcap-all50/shared/field-appearance-semantics.json, as for tx_exp_acquittal-set. Containment measured the same way and every other family's output is byte-identical between the arms.",
+      "fixturesMoved": true,
+      "fixtureDigests": {
+        "canonicalBefore": "52821ee02b5528ed73235b359d7d40bd27389792d41ba9d9b799b45515b444a6",
+        "canonicalAfter": "0ae0d995fe3e9a0be3076111882758d7f55a14707d9c9adb69457dd4883fafa1",
+        "boundaryBefore": "614e65dca4a894127c9cfa87c6f6629458a96bff5ad2ec4bdc70eb4573fdf28c",
+        "boundaryAfter": "5c9bbb5d9293206b4aa1c9a0d546453bc634a6489e76eabd57101ce5ab056b66"
+      },
+      "rasterConsequence": "The raster receipt is invalid; this family needs a fresh whole-family raster.",
+      "repairCommit": "8cf395451f8079d8e71bed8d713053e418fd61f0"
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "COMPONENT_SET"
+      ],
+      "standingVerdict": "vf05 FAIL_REPAIR_REQUIRED at base 88d688b8, COMPONENT_SET",
+      "decisiveDefect": "The bound CCA bundle names three sets of insert pages on its own printed pages 4, 10 and 11 and none of them was in the packet. The family's own missing-companion-forms.json was OPEN and said 'it is not a filing until the insert forms are added'.",
+      "whatWasDone": "Bound the insert form. It needed no acquisition: sha256 65500e2cf0916fdd… is already in the mounted Master Library beside the bundle, already in the committed corpus index, and already bound by this family's twin over the same published bundle, in_arrest_no_charges-set. The document definition, its 77 role refusals and the participant explanation of why nothing on the insert is filled in were ported from that twin. No route-specific text was ported.",
+      "instrument": "source-receipt.json now lists two documents where it listed one; the report's answer went YES -> NO, its consequence 'OPEN FINDING' -> 'CLOSED', missing 3 -> 0 and supplied 0 -> 3 with each entry naming the printed instruction it answers; two new insert fixtures both hash f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9, byte-identical to the twin's; the packet is 15 + 4 pages across two files; and a grep for the four stale 'the inserts are not here' claims in participant-instructions.md returns nothing.",
+      "fixturesMoved": false,
+      "fixtureDigestsUnchanged": [
+        "bundle canonical f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241",
+        "bundle boundary a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d"
+      ],
+      "rasterConsequence": "The bundle's raster receipt stands. The family has gained two artifacts that have never been rastered, so it needs raster ENROLMENT for the insert fixtures - an addition to the queue rather than an invalidation of the existing receipt.",
+      "repairCommit": "e8d59963eeda80b54156d57a95b32b9c7ec54ace"
+    },
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "status": "COMPLETED",
+      "obligationRepaired": [
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "standingVerdict": "vf05 FAIL_REPAIR_REQUIRED at base 88d688b8, FILING_DESTINATION and REQUIRED_BEFORE_FILING",
+      "decisiveDefect": "The instructions told a participant with convictions in several counties to file one petition grouping them by circuit court. Controlling decision NATIONAL-2026-08-28-C-WV-02 resolves the opposite: no residence-county venue, no single receiving court for a multi-county group, one petition per circuit court, and counsel where the mapping is uncertain. Separately, the instructions enumerated the form's blanks and never told the participant to obtain the certified records the track record requires and SCA-C906 item n declares attached.",
+      "whatWasDone": "Rewrote the filing-destination section from the decision, naming it, and added a 'Records you must obtain before you file, and check the packet against' section read out of the committed track registry's participantFilingRequirements at build time rather than retyped.",
+      "instrument": "The delivered participant-instructions.md read back against the decision text and against the registry entry, item by item. Fixtures unchanged, so the repair is confined to the markdown, which is not a page of the packet.",
+      "recordConflictReported": "The track registry entry for wv_conv_multiple_misdemeanors still carries the superseded one-petition rule in venue and in destination.detail. The packet now carries the controlling decision's answer; the registry was not edited and the two still disagree. Captain's to reconcile.",
+      "fixturesMoved": false,
+      "fixtureDigestsUnchanged": [
+        "canonical 31a49f2d2216fd2c7a1327aa7f95f3214b8a760e9d46c05517d764d7bd60f90d",
+        "boundary 2a0b701a523d3f7c71f6327c6bd4384cbf438689d0be42d30b869f218f6e1dbe"
+      ],
+      "repairCommit": "be668314cb1dffb18757df042102f43802e17ba4"
+    },
+    {
+      "itemId": "al-diversion-set",
+      "status": "STOPPED",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "standingVerdict": "FAIL_REPAIR_REQUIRED; see VERIFIER_RETURNS.json for the selected row",
+      "blocker": "BLOCKED_SOURCE",
+      "exactRefusal": "AssertionError [ERR_ASSERTION]: source custody is not mounted: LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, thrown by resolveSources() at scripts/build-census-v1-al-diversion-set.mjs:60. Zero bytes written; the family's fixtures are untouched on disk.",
+      "whyItCannotBeResolvedHere": "Every Alabama family in this backlog binds two sources. C-10-CRIMINAL (527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8) is mounted. CR-65 (c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, 468056 bytes, 8 pages, 108 AcroForm fields) is not. This was established by content hash, not by declared path: every file under private/ was hashed and CR-65's sha256 appears in none of them, and no file named cr-65 or cr65 exists anywhere in the mounted corpus. data/rcap-all50/local-source-corpus-index.json indexes it under custody nationwide_recovery_pool_2026_09_02, custodyType PARTIAL_NATIONWIDE_RECOVERY_POOL, which this container does not mount. CR-65 is the PETITION - the primary_filing and certificate_of_service component - so no repair to any of the five families can be built, rendered or measured here.",
+      "whatWouldUnblockIt": "Mounting nationwide_recovery_pool_2026_09_02, or any custody carrying the exact bytes c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39.",
+      "nothingWasHandEdited": "No artifact of any Alabama family was touched. Hand-editing a record to match a builder that cannot run would put a defect on a record that has none.",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "defectLocatedForTheNextContainer": {
+        "howThisWasLocated": "Without CR-65 the packet cannot be built, but the shared build host scripts/build-census-v1-al-diversion-set.mjs can be read and the mounted C-10-CRIMINAL binary can be censused. knownValue() was executed against C-10-CRIMINAL's own 78 text fields with the committed canonical fixture, reproducing the mis-writes the verifiers reported from first principles.",
+        "KNOWN_PREFILLS": [
+          {
+            "defect": "participant.full_legal_name is written into C-10-CRIMINAL page 1 field 'Spouses Full Name if married'",
+            "cause": "knownValue()'s /full name|printed name of petitioner|print or type name/ branch matches 'Spouses Full Name if married'. It fires before any field-specific check.",
+            "why it matters": "On a signed affidavit of substantial hardship it asserts the participant is married to themselves. A false statement, not a cosmetic one."
+          },
+          {
+            "defect": "participant.phone is written into C-10-CRIMINAL page 1 field 'Employers Telephone Number'",
+            "cause": "knownValue()'s /telephone number|telephone number cell/ branch matches 'Employers Telephone Number'; its exclusion list is only /attorney|server/.",
+            "why it matters": "It asserts the participant's own number as their employer's, on the same sworn affidavit."
+          },
+          {
+            "defect": "'Circuit' is written into C-10-CRIMINAL page 1 field 'COURT OF', whose printed sublabel asks for the county or municipality",
+            "cause": "knownValue()'s C-10 branch returns ['Circuit','matter.court_type'] for BOTH 'IN THE' and 'COURT OF'. Only 'IN THE' takes the court type."
+          },
+          {
+            "defect": "the filing county is written after 'MUNICIPALITY OF' on a circuit-court route",
+            "cause": "knownValue()'s /municipality of/ C-10 branch, unconditional on the route."
+          },
+          {
+            "defect": "CR-65 page 5 receives generic instruction strings instead of held case facts - 'The charge shown on the certified case record', 'Agency shown on the certified arrest record', 'See the selected statutory route and attached certified records'",
+            "cause": "the FIXTURES object in the same host carries those sentences as the values of fixture.charge, fixture.arrestAgency and fixture.grounds. Not verifiable here; CR-65 is not mounted."
+          }
+        ],
+        "PROTECTED_FIELDS": [
+          {
+            "defect": "the participant phone lands on CR-65 page 6's attorney Telephone Number line",
+            "cause": "ORDERING. fillDocument() consults knownValue() FIRST and only reaches attorneyField() in a later branch. attorneyField() names /telephone number_2/ explicitly, but knownValue()'s /telephone number/ branch has already returned the phone and its exclusion list (/attorney|server/) does not contain 'telephone number_2'. Located by reading scripts/build-census-v1-al-diversion-set.mjs lines 86, 108-110 and 140-147."
+          }
+        ],
+        "REQUIRED_BEFORE_FILING": [
+          {
+            "defect": "47 of the 63 declared items are internal field names rather than captions a participant can find on the paper - 'undefined' through 'undefined_32', 'Text1', 'Text2'",
+            "cause": "fillDocument() sets effectiveLabel to `Complete ${name} on ${documentId} page ${page}` for every unmatched field, and to `name` for every write. There is no printed-label harvest on this host at all.",
+            "measured": "C-10-CRIMINAL alone carries 37 text fields literally named 'undefined' or 'undefined_N' and 2 named 'TextN', out of 78. Counted from the mounted binary. The rest of the 47 are on CR-65."
+          }
+        ],
+        "ROUTE_OPTIONS": [
+          {
+            "defect": "C-10-CRIMINAL's STATE OF ALABAMA and MUNICIPALITY OF caption checkboxes are both left unmarked while the municipality line is filled with the filing county, on a route whose court is known to be the circuit court",
+            "cause": "the checkbox branch of fillDocument() marks a checkbox only when documentId is CR-65 and the name is in config.selected. No C-10-CRIMINAL checkbox is ever selected on any Alabama family."
+          }
+        ],
+        "notLocatable": "CLIPPING_AND_OVERLAP on al-felony-dwop-set (the boundary name cut to 'Alexandria Catherine Montgomery-Wash' in CR-65 page 6's Printed Name of Petitioner), REPEATING_ROWS, SERVICE and SELF_HELP_STOP all turn on CR-65's own widgets or on the instruction text, and could not be measured without the binary. Their verifier findings stand as the record.",
+        "oneRepairNoteForWhoeverGetsTheBytes": "safeSet() calls field.setFontSize(8) and TRUNCATES with value.slice(0, maxLength) whenever the widget declares /MaxLen. That is where al-felony-dwop-set's clipped boundary name comes from, and a silent slice on a sworn petition is a defect of the same class as the mis-writes above: it delivers a name that is not the participant's. It should refuse rather than truncate."
+      },
+      "repairCommit": null
+    },
+    {
+      "itemId": "al-misd-conviction-set",
+      "status": "STOPPED",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "standingVerdict": "FAIL_REPAIR_REQUIRED; see VERIFIER_RETURNS.json for the selected row",
+      "blocker": "BLOCKED_SOURCE",
+      "exactRefusal": "AssertionError [ERR_ASSERTION]: source custody is not mounted: LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, thrown by resolveSources() at scripts/build-census-v1-al-diversion-set.mjs:60. Zero bytes written; the family's fixtures are untouched on disk.",
+      "whyItCannotBeResolvedHere": "Every Alabama family in this backlog binds two sources. C-10-CRIMINAL (527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8) is mounted. CR-65 (c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, 468056 bytes, 8 pages, 108 AcroForm fields) is not. This was established by content hash, not by declared path: every file under private/ was hashed and CR-65's sha256 appears in none of them, and no file named cr-65 or cr65 exists anywhere in the mounted corpus. data/rcap-all50/local-source-corpus-index.json indexes it under custody nationwide_recovery_pool_2026_09_02, custodyType PARTIAL_NATIONWIDE_RECOVERY_POOL, which this container does not mount. CR-65 is the PETITION - the primary_filing and certificate_of_service component - so no repair to any of the five families can be built, rendered or measured here.",
+      "whatWouldUnblockIt": "Mounting nationwide_recovery_pool_2026_09_02, or any custody carrying the exact bytes c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39.",
+      "nothingWasHandEdited": "No artifact of any Alabama family was touched. Hand-editing a record to match a builder that cannot run would put a defect on a record that has none.",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "defectLocatedForTheNextContainer": {
+        "howThisWasLocated": "Without CR-65 the packet cannot be built, but the shared build host scripts/build-census-v1-al-diversion-set.mjs can be read and the mounted C-10-CRIMINAL binary can be censused. knownValue() was executed against C-10-CRIMINAL's own 78 text fields with the committed canonical fixture, reproducing the mis-writes the verifiers reported from first principles.",
+        "KNOWN_PREFILLS": [
+          {
+            "defect": "participant.full_legal_name is written into C-10-CRIMINAL page 1 field 'Spouses Full Name if married'",
+            "cause": "knownValue()'s /full name|printed name of petitioner|print or type name/ branch matches 'Spouses Full Name if married'. It fires before any field-specific check.",
+            "why it matters": "On a signed affidavit of substantial hardship it asserts the participant is married to themselves. A false statement, not a cosmetic one."
+          },
+          {
+            "defect": "participant.phone is written into C-10-CRIMINAL page 1 field 'Employers Telephone Number'",
+            "cause": "knownValue()'s /telephone number|telephone number cell/ branch matches 'Employers Telephone Number'; its exclusion list is only /attorney|server/.",
+            "why it matters": "It asserts the participant's own number as their employer's, on the same sworn affidavit."
+          },
+          {
+            "defect": "'Circuit' is written into C-10-CRIMINAL page 1 field 'COURT OF', whose printed sublabel asks for the county or municipality",
+            "cause": "knownValue()'s C-10 branch returns ['Circuit','matter.court_type'] for BOTH 'IN THE' and 'COURT OF'. Only 'IN THE' takes the court type."
+          },
+          {
+            "defect": "the filing county is written after 'MUNICIPALITY OF' on a circuit-court route",
+            "cause": "knownValue()'s /municipality of/ C-10 branch, unconditional on the route."
+          },
+          {
+            "defect": "CR-65 page 5 receives generic instruction strings instead of held case facts - 'The charge shown on the certified case record', 'Agency shown on the certified arrest record', 'See the selected statutory route and attached certified records'",
+            "cause": "the FIXTURES object in the same host carries those sentences as the values of fixture.charge, fixture.arrestAgency and fixture.grounds. Not verifiable here; CR-65 is not mounted."
+          }
+        ],
+        "PROTECTED_FIELDS": [
+          {
+            "defect": "the participant phone lands on CR-65 page 6's attorney Telephone Number line",
+            "cause": "ORDERING. fillDocument() consults knownValue() FIRST and only reaches attorneyField() in a later branch. attorneyField() names /telephone number_2/ explicitly, but knownValue()'s /telephone number/ branch has already returned the phone and its exclusion list (/attorney|server/) does not contain 'telephone number_2'. Located by reading scripts/build-census-v1-al-diversion-set.mjs lines 86, 108-110 and 140-147."
+          }
+        ],
+        "REQUIRED_BEFORE_FILING": [
+          {
+            "defect": "47 of the 63 declared items are internal field names rather than captions a participant can find on the paper - 'undefined' through 'undefined_32', 'Text1', 'Text2'",
+            "cause": "fillDocument() sets effectiveLabel to `Complete ${name} on ${documentId} page ${page}` for every unmatched field, and to `name` for every write. There is no printed-label harvest on this host at all.",
+            "measured": "C-10-CRIMINAL alone carries 37 text fields literally named 'undefined' or 'undefined_N' and 2 named 'TextN', out of 78. Counted from the mounted binary. The rest of the 47 are on CR-65."
+          }
+        ],
+        "ROUTE_OPTIONS": [
+          {
+            "defect": "C-10-CRIMINAL's STATE OF ALABAMA and MUNICIPALITY OF caption checkboxes are both left unmarked while the municipality line is filled with the filing county, on a route whose court is known to be the circuit court",
+            "cause": "the checkbox branch of fillDocument() marks a checkbox only when documentId is CR-65 and the name is in config.selected. No C-10-CRIMINAL checkbox is ever selected on any Alabama family."
+          }
+        ],
+        "notLocatable": "CLIPPING_AND_OVERLAP on al-felony-dwop-set (the boundary name cut to 'Alexandria Catherine Montgomery-Wash' in CR-65 page 6's Printed Name of Petitioner), REPEATING_ROWS, SERVICE and SELF_HELP_STOP all turn on CR-65's own widgets or on the instruction text, and could not be measured without the binary. Their verifier findings stand as the record.",
+        "oneRepairNoteForWhoeverGetsTheBytes": "safeSet() calls field.setFontSize(8) and TRUNCATES with value.slice(0, maxLength) whenever the widget declares /MaxLen. That is where al-felony-dwop-set's clipped boundary name comes from, and a silent slice on a sworn petition is a defect of the same class as the mis-writes above: it delivers a name that is not the participant's. It should refuse rather than truncate."
+      },
+      "repairCommit": null
+    },
+    {
+      "itemId": "al-misd-dwop-set",
+      "status": "STOPPED",
+      "obligationRepaired": [],
+      "obligationsAssigned": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "standingVerdict": "FAIL_REPAIR_REQUIRED; see VERIFIER_RETURNS.json for the selected row",
+      "blocker": "BLOCKED_SOURCE",
+      "exactRefusal": "AssertionError [ERR_ASSERTION]: source custody is not mounted: LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf, thrown by resolveSources() at scripts/build-census-v1-al-diversion-set.mjs:60. Zero bytes written; the family's fixtures are untouched on disk.",
+      "whyItCannotBeResolvedHere": "Every Alabama family in this backlog binds two sources. C-10-CRIMINAL (527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8) is mounted. CR-65 (c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39, 468056 bytes, 8 pages, 108 AcroForm fields) is not. This was established by content hash, not by declared path: every file under private/ was hashed and CR-65's sha256 appears in none of them, and no file named cr-65 or cr65 exists anywhere in the mounted corpus. data/rcap-all50/local-source-corpus-index.json indexes it under custody nationwide_recovery_pool_2026_09_02, custodyType PARTIAL_NATIONWIDE_RECOVERY_POOL, which this container does not mount. CR-65 is the PETITION - the primary_filing and certificate_of_service component - so no repair to any of the five families can be built, rendered or measured here.",
+      "whatWouldUnblockIt": "Mounting nationwide_recovery_pool_2026_09_02, or any custody carrying the exact bytes c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39.",
+      "nothingWasHandEdited": "No artifact of any Alabama family was touched. Hand-editing a record to match a builder that cannot run would put a defect on a record that has none.",
+      "buildAttempted": true,
+      "bytesWritten": 0,
+      "defectLocatedForTheNextContainer": {
+        "howThisWasLocated": "Without CR-65 the packet cannot be built, but the shared build host scripts/build-census-v1-al-diversion-set.mjs can be read and the mounted C-10-CRIMINAL binary can be censused. knownValue() was executed against C-10-CRIMINAL's own 78 text fields with the committed canonical fixture, reproducing the mis-writes the verifiers reported from first principles.",
+        "KNOWN_PREFILLS": [
+          {
+            "defect": "participant.full_legal_name is written into C-10-CRIMINAL page 1 field 'Spouses Full Name if married'",
+            "cause": "knownValue()'s /full name|printed name of petitioner|print or type name/ branch matches 'Spouses Full Name if married'. It fires before any field-specific check.",
+            "why it matters": "On a signed affidavit of substantial hardship it asserts the participant is married to themselves. A false statement, not a cosmetic one."
+          },
+          {
+            "defect": "participant.phone is written into C-10-CRIMINAL page 1 field 'Employers Telephone Number'",
+            "cause": "knownValue()'s /telephone number|telephone number cell/ branch matches 'Employers Telephone Number'; its exclusion list is only /attorney|server/.",
+            "why it matters": "It asserts the participant's own number as their employer's, on the same sworn affidavit."
+          },
+          {
+            "defect": "'Circuit' is written into C-10-CRIMINAL page 1 field 'COURT OF', whose printed sublabel asks for the county or municipality",
+            "cause": "knownValue()'s C-10 branch returns ['Circuit','matter.court_type'] for BOTH 'IN THE' and 'COURT OF'. Only 'IN THE' takes the court type."
+          },
+          {
+            "defect": "the filing county is written after 'MUNICIPALITY OF' on a circuit-court route",
+            "cause": "knownValue()'s /municipality of/ C-10 branch, unconditional on the route."
+          },
+          {
+            "defect": "CR-65 page 5 receives generic instruction strings instead of held case facts - 'The charge shown on the certified case record', 'Agency shown on the certified arrest record', 'See the selected statutory route and attached certified records'",
+            "cause": "the FIXTURES object in the same host carries those sentences as the values of fixture.charge, fixture.arrestAgency and fixture.grounds. Not verifiable here; CR-65 is not mounted."
+          }
+        ],
+        "PROTECTED_FIELDS": [
+          {
+            "defect": "the participant phone lands on CR-65 page 6's attorney Telephone Number line",
+            "cause": "ORDERING. fillDocument() consults knownValue() FIRST and only reaches attorneyField() in a later branch. attorneyField() names /telephone number_2/ explicitly, but knownValue()'s /telephone number/ branch has already returned the phone and its exclusion list (/attorney|server/) does not contain 'telephone number_2'. Located by reading scripts/build-census-v1-al-diversion-set.mjs lines 86, 108-110 and 140-147."
+          }
+        ],
+        "REQUIRED_BEFORE_FILING": [
+          {
+            "defect": "47 of the 63 declared items are internal field names rather than captions a participant can find on the paper - 'undefined' through 'undefined_32', 'Text1', 'Text2'",
+            "cause": "fillDocument() sets effectiveLabel to `Complete ${name} on ${documentId} page ${page}` for every unmatched field, and to `name` for every write. There is no printed-label harvest on this host at all.",
+            "measured": "C-10-CRIMINAL alone carries 37 text fields literally named 'undefined' or 'undefined_N' and 2 named 'TextN', out of 78. Counted from the mounted binary. The rest of the 47 are on CR-65."
+          }
+        ],
+        "ROUTE_OPTIONS": [
+          {
+            "defect": "C-10-CRIMINAL's STATE OF ALABAMA and MUNICIPALITY OF caption checkboxes are both left unmarked while the municipality line is filled with the filing county, on a route whose court is known to be the circuit court",
+            "cause": "the checkbox branch of fillDocument() marks a checkbox only when documentId is CR-65 and the name is in config.selected. No C-10-CRIMINAL checkbox is ever selected on any Alabama family."
+          }
+        ],
+        "notLocatable": "CLIPPING_AND_OVERLAP on al-felony-dwop-set (the boundary name cut to 'Alexandria Catherine Montgomery-Wash' in CR-65 page 6's Printed Name of Petitioner), REPEATING_ROWS, SERVICE and SELF_HELP_STOP all turn on CR-65's own widgets or on the instruction text, and could not be measured without the binary. Their verifier findings stand as the record.",
+        "oneRepairNoteForWhoeverGetsTheBytes": "safeSet() calls field.setFontSize(8) and TRUNCATES with value.slice(0, maxLength) whenever the widget declares /MaxLen. That is where al-felony-dwop-set's clipped boundary name comes from, and a silent slice on a sworn petition is a defect of the same class as the mis-writes above: it delivers a name that is not the participant's. It should refuse rather than truncate."
+      },
+      "repairCommit": null
+    }
+  ],
+  "familiesRepaired": [
+    "tx_nd_conviction_no_supervision-set",
+    "in_section1_petition-set",
+    "wv_conv_multiple_misdemeanors-set"
+  ],
+  "familiesLeftUnchangedBecauseTheVerdictIsStale": [],
+  "familiesStopped": [
+    "al-diversion-set",
+    "al-misd-conviction-set",
+    "al-misd-dwop-set"
+  ],
+  "nineCountersZeroOn": "every family in this return, before and after, which is why none of them is offered as evidence of anything"
+}
