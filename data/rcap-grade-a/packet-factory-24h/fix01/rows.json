@@ -1,19 +1,31 @@
 {
   "schemaVersion": "rcap-packet-factory-lane-return/v1",
   "lane": "FIX01",
-  "worker": "FIX01 rapid-repair, Claude Opus 5",
+  "worker": "FIX01 rapid-repair, Codex",
   "laneKind": "repair",
-  "baseSha": "0880e69cc0b839c1b02679a6b64c5c536c62a644",
+  "baseSha": "d75d00dfc4c778ffef1bbe2df72ba5aa8d325fa6",
   "question": "Were exactly the failed proof obligations repaired, on exactly the families they failed on?",
   "selfVerified": false,
   "productionTouched": false,
   "commercialRoutesOpened": 0,
   "grantsNothing": "This is a repairer's return. It issues no verdict, promotes no family, proves none, opens no commercial route and weakens no gate. Every family below goes to a verifier that neither built nor repaired it.",
   "doesNotReplace": "fable-fa-repair-return.json in this directory is an earlier FIX01 dispatch's return at base ee5bdb5b, preserved unchanged beside this file rather than overwritten. rt1-repair-return.json is likewise preserved.",
-  "whatThisLaneWasGranted": "The seven families the claim ledger held open for FIX01 at this base. The FIX01 brief lists nine; az_marijuana_expungement_arrest_no_charges-set carries no FIX01 claim in the ledger and was not read, and wa_vac_homicide_victim_prostitution-set was already released. Neither was touched.",
-  "howEachRowWasMeasured": "Every family was claimed with claim.mjs --assert before anything about it was read, rebuilt with its own build script, and audited with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family. Where a defect was named in the delivered bytes, it was re-measured from the bytes with pdftotext rather than read out of a report.",
-  "aboutTheNineCounters": "All nine counters recompute zero on all seven families, before and after. That is not evidence of repair and is not offered as any: the completeness audit scores blanks, rows, options, components, visibility and protected writes, and none of the obligations assigned to this lane -- SELF_HELP_STOP, ARTIFACTS, ROUTE_IDENTITY, SERVICE, KNOWN_PREFILLS, CLIPPING_AND_OVERLAP, COMPONENT_SET -- is one a counter can see. The proof of each repair is the measurement named in its row.",
-  "rasterNotRun": "No page raster was produced or re-pinned by this lane. No fixture byte moved on any of the seven families, so every existing raster receipt still pins the bytes on disk. visualDefects stays zero because that is what the record says, not because this lane looked.",
+  "whatThisLaneWasGranted": "The current brief names four families. AL diversion and AL felony DWOP asserted successfully. NY DCJS and TX custom pleading returned ALREADY_RELEASED and were stopped before artifact inspection, as the claim rule requires.",
+  "howEachRowWasMeasured": "Each current family was asserted before artifact access. AL diversion and AL felony DWOP ran the required focused completeness check. The felony repair additionally ran a red-then-green generator invariant check, two deterministic rebuilds, and direct text/field-tree inspection of both regenerated PDFs. NY and TX carry no artifact measurement because their claim assertions refused.",
+  "aboutTheNineCounters": "The two claimed Alabama families measured zero on the eight nonvisual counters. AL felony moved PDF bytes and therefore leaves visualDefects unmeasured until the calibrated central raster job. NY and TX have no post-dispatch counters because the claim boundary forbade reading their artifacts.",
+  "rasterNotRun": "No local page raster was run. The regenerated AL felony canonical and boundary hashes are recorded as BUILT_RASTER_PENDING for the calibrated central Chromium lane; no PASS is claimed.",
+  "currentDispatchSummary": {
+    "baseSha": "d75d00dfc4c778ffef1bbe2df72ba5aa8d325fa6",
+    "familiesCompleted": [
+      "al-felony-dwop-set"
+    ],
+    "familiesStopped": [
+      "al-diversion-set",
+      "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "rcap-tx-custom-pleading"
+    ],
+    "historicalRowsPreserved": true
+  },
   "rows": [
     {
       "itemId": "ar-cs-possession-seal-set",
@@ -465,6 +477,92 @@
         "protectedWrites": 0,
         "visualDefects": 0
       }
+    },
+    {
+      "itemId": "al-diversion-set",
+      "status": "STOPPED",
+      "claim": "CLAIM_OK FIX01 al-diversion-set (repair, grant set 53505ecfed5c1fad)",
+      "obligationRepaired": [],
+      "obligationStopped": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "PROTECTED_FIELDS",
+        "SERVICE"
+      ],
+      "whyStopped": "All four defects originate in scripts/build-census-v1-al-diversion-set.mjs, the shared Alabama build host, but that script is outside FIX01's owned paths. The SERVICE finding also says the committed record does not resolve which page-7 method applies; choosing Personal, Sheriff, or Other would invent a legal fact. No artifact or generator output was changed.",
+      "focusedCheck": "PASS_COMPLETE 37/216 written; the verifier already documented that these all-zero counters do not detect the semantic field-role, opaque-label, attorney-ink, or unresolved-service defects.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "itemId": "al-felony-dwop-set",
+      "status": "COMPLETED",
+      "claim": "CLAIM_OK FIX01 al-felony-dwop-set (repair, grant set 53505ecfed5c1fad)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "PROTECTED_FIELDS",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP"
+      ],
+      "whatWasDone": "The owned family wrapper now performs a deterministic, family-scoped build. It leaves spouse, employer, prior-expungement and attorney fields blank; writes Montgomery/Jefferson into the state-court county caption and selects STATE OF ALABAMA; replaces every technical required-before-filing label with the visible requested fact; carries the certified-record and both-clock check; removes widget max-length truncation and fits the full boundary petitioner name at 6pt; and carries the minor-traffic and licensing/firearm stop conditions.",
+      "proof": "The invariant check first failed on the spouse write, then passed after repair. Focused completeness reports PASS_COMPLETE 32/216 with all eight nonvisual counters zero. Both regenerated PDFs reopen with 11 pages and zero widgets; page 6 contains no participant phone in the attorney block; the full boundary name is extractable. A second rebuild reproduced both hashes exactly.",
+      "artifacts": [
+        "canonical d6d1c877ff6d2024182726aae7bca40c376a869256e6ae220673699457f61543 905868 bytes 11 pages",
+        "boundary e4600e924c120bbc1821b41a500ce4f968d2293a1cd198b83fdff49a18cf726e 906110 bytes 11 pages"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "visualCounterReason": "Regenerated bytes have no calibrated Chromium receipt yet; visualDefects is intentionally unmeasured rather than zero."
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED: agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission at 2026-09-03T23:53:08.395Z",
+      "obligationRepaired": [],
+      "obligationStopped": [
+        "ARTIFACTS",
+        "ROUTE_IDENTITY"
+      ],
+      "whyStopped": "The mandatory assertion refused. This dispatch did not inspect or change the family artifacts.",
+      "countersAfter": null,
+      "countersAfterReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access."
+    },
+    {
+      "itemId": "rcap-tx-custom-pleading",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimResult": "ALREADY_RELEASED: rcap-tx-custom-pleading at 2026-09-03T23:53:18.437Z",
+      "obligationRepaired": [],
+      "obligationStopped": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "whyStopped": "The mandatory assertion refused. This dispatch did not inspect or change the family artifacts.",
+      "countersAfter": null,
+      "countersAfterReason": "Not measured because BLOCKED_BEFORE_CLAIM forbids artifact access."
     }
   ],
   "familiesRepaired": [
@@ -475,7 +573,8 @@
     "wa_vac_cannabis-set",
     "nj_arrest_no_conviction-set",
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
-    "in_arrest_no_charges-set"
+    "in_arrest_no_charges-set",
+    "al-felony-dwop-set"
   ],
   "familiesStopped": [
     "in_section1_petition-set",
@@ -483,7 +582,9 @@
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
     "rcap-tx-custom-pleading",
     "tx_exp_acquittal-set",
-    "va_seal_petition_misdemeanor-set"
+    "va_seal_petition_misdemeanor-set",
+    "al-diversion-set",
+    "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission"
   ],
   "nineCountersZeroOn": [
     "ar-cs-possession-seal-set",
@@ -499,6 +600,7 @@
     "in_arrest_no_charges-set",
     "rcap-tx-custom-pleading",
     "tx_exp_acquittal-set",
-    "va_seal_petition_misdemeanor-set"
+    "va_seal_petition_misdemeanor-set",
+    "al-diversion-set"
   ]
 }
