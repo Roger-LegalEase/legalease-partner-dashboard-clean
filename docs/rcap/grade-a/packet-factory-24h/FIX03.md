@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `501b39d8adead0d5577f1508fddfcefbf16d89d7` (or the newer dispatch base)
+**Minimum required ancestor:** `99ceffef59878c74a86830f22c1d673320cf1e7c` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-felony-dwop-set \
   --codex-cloud \
-  --minimum-captain-sha 501b39d8adead0d5577f1508fddfcefbf16d89d7
+  --minimum-captain-sha 99ceffef59878c74a86830f22c1d673320cf1e7c
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -60,10 +60,10 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `al-felony-dwop-set`
 - `il-seal-3yr-set`
-- `ca-17b-reduction-set` — failing: knownRequiredFieldsMissing
-- `oh_marijuana_expungement-set`
-- `rcap-wi-custom-pleading`
-- `ut_pet_no_charges-set`
+- `composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
+- `pa_pardon_expungement-set`
+- `ri_nonconviction_sealing-set`
+- `va_seal_petition_misdemeanor-set`
 
 ## What you receive
 
@@ -78,16 +78,15 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
 - `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-dwop-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
-- `scripts/build-census-v1-ca-17b-reduction-set.mjs`
-- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
-- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
-- `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs`
+- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
+- `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
 
 ## Never write here
 
