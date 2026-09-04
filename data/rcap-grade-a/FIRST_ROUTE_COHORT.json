@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "de2d5eb7db74b388fd775bf9f384c9e220cf2d8e",
+  "atCommit": "6eb2140b4040230eb40ca357b183410400820ba2",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -80,7 +80,7 @@
     }
   ],
   "counts": {
-    "completePacketProven": 111,
+    "completePacketProven": 112,
     "familiesInsideExistingApprovalScope": 110,
     "augustApprovalScope": 57,
     "septemberExactDigestApprovalScope": 53,
@@ -89,9 +89,9 @@
     "provenAndApproved": 43,
     "inCohort": 4,
     "cohortRoutes": 5,
-    "provenButOutsideAnyExistingApproval": 68
+    "provenButOutsideAnyExistingApproval": 69
   },
-  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 111 are packet-proven; 43 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 112 are packet-proven; 43 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [
     {
       "familyId": "dc_innocence_expungement-set",
@@ -445,6 +445,12 @@
     {
       "familyId": "co_pardoned_conviction_seal-set",
       "jurisdiction": "CO",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "jurisdiction": "AK",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -1486,6 +1492,37 @@
         "legalDesignMemoSha256Recorded": null,
         "legalDesignMemoSha256Now": null
       }
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "jurisdiction": "AK",
+      "routeKeys": [
+        "obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": false,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "verdictCurrentAndDeclaresItsBase",
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifierId": "vf04",
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+      },
+      "legalApproval": null
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
