@@ -234741,59 +234741,204 @@
         "name": "Clerk of the sentencing court",
         "detail": "File the Blake motion and the matching order in the court that entered the conviction. Where the case included other charges, a partial vacate order is used. The refund of paid legal financial obligations and accrued interest is claimed with the motion."
       },
+      "officialFormSetMapping": {
+        "status": "MAPPED",
+        "issuer": "Washington State Administrative Office of the Courts",
+        "routeSelections": [
+          {
+            "when": "The conviction was entered in superior court.",
+            "motion": "Blake-001"
+          },
+          {
+            "when": "The conviction was entered in district or municipal court.",
+            "motion": "Blake-002"
+          },
+          {
+            "when": "A hearing is requested or scheduled.",
+            "hearingNotice": "Blake-003"
+          },
+          {
+            "when": "The motion and any notice of hearing are served on the prosecutor.",
+            "proofOfService": "Blake-004"
+          },
+          {
+            "when": "Limited-jurisdiction case and every conviction under the cause number is Blake-void.",
+            "order": "Blake-005"
+          },
+          {
+            "when": "Limited-jurisdiction case and non-Blake counts remain.",
+            "order": "Blake-006"
+          },
+          {
+            "when": "Superior-court case and every conviction under the cause number is Blake-void.",
+            "order": "Blake-007"
+          },
+          {
+            "when": "Superior-court case and non-Blake counts remain.",
+            "order": "Blake-008"
+          }
+        ],
+        "hardStop": "If the sentencing-court level or whether non-Blake counts remain is not established by the court record, do not select a motion or order; require human review.",
+        "refundAdministration": "The selected Blake motion and order address paid LFOs. After vacatur and the court's refund-eligibility determination, the participant applies through the Washington Courts Blake Refund Bureau portal or its official mail process. Blake-002 is the limited-jurisdiction motion, not a standalone refund claim.",
+        "sourceCustodyStatus": "SOURCE_REFRESH_REQUIRED",
+        "sourceCustodyBlocker": "Current Blake-001 and Blake-005 hashes match committed custody. Current Blake-002 differs from the committed same-revision bytes, and Blake-003, Blake-004, Blake-006, Blake-007, and Blake-008 are not bound in committed custody. Ingest the exact current bytes in sourceBindings before build.",
+        "recordedBy": "LEGAL-BLOCK PURGE exact source/form identity closure"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:Blake-001",
+          "revision": "2026-04",
+          "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f"
+        },
+        {
+          "sourceId": "official-form:Blake-002",
+          "revision": "2026-04",
+          "sha256": "f6495869b4fea94e396971aaaf40cc31c9ccab0e79d759cdaf1cc17ded3217cd"
+        },
+        {
+          "sourceId": "official-form:Blake-003",
+          "revision": "2025-12",
+          "sha256": "69c5ba8fadc6123328c3508f8edf38db840c9b0026c75d614a1d9d0b456260e8"
+        },
+        {
+          "sourceId": "official-form:Blake-004",
+          "revision": "2025-12",
+          "sha256": "4fc9b490f332e76fa59104d4bff1458f3bdab53f3f6e139cdf3b66ab1700d0c7"
+        },
+        {
+          "sourceId": "official-form:Blake-005",
+          "revision": "2025-05",
+          "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635"
+        },
+        {
+          "sourceId": "official-form:Blake-006",
+          "revision": "2025-05",
+          "sha256": "85bfbe2da7687db133432b4382aac07156ef7b7b1c1574f65007b607cae74ade"
+        },
+        {
+          "sourceId": "official-form:Blake-007",
+          "revision": "2025-05",
+          "sha256": "6f6d867b882f74048f92c0a734525c597279af792f1468c2f55c6d3cb74de0bc"
+        },
+        {
+          "sourceId": "official-form:Blake-008",
+          "revision": "2025-05",
+          "sha256": "8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426"
+        }
+      ],
       "packetSet": {
         "packetSetId": "wa_blake_vacatur_and_lfo_refund-set",
         "version": "1.0.0",
         "components": [
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-primary-filing-1",
+            "componentId": "wa_blake_vacatur_and_lfo_refund-superior-motion-1",
             "role": "primary_filing",
-            "requirement": "required",
-            "conditionDescription": null,
+            "requirement": "conditional",
+            "conditionDescription": "Use for a superior-court conviction.",
             "outputStrategy": "official_pdf_fill",
             "officialFormId": "Blake-001",
             "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20001%20SupCt%20Blake%20Motion%20April%202026.pdf",
             "order": 1
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-proposed-order-2",
-            "role": "proposed_order",
-            "requirement": "required",
-            "conditionDescription": null,
+            "componentId": "wa_blake_vacatur_and_lfo_refund-limited-jurisdiction-motion-2",
+            "role": "primary_filing",
+            "requirement": "conditional",
+            "conditionDescription": "Use for a district- or municipal-court conviction.",
             "outputStrategy": "official_pdf_fill",
-            "officialFormId": "Blake-005",
-            "officialSourceUrl": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
+            "officialFormId": "Blake-002",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20002%20DistMuniCt%20Blake%20Motion%20April%202026.pdf",
             "order": 2
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-lfo-refund-claim-3",
-            "role": "lfo_refund_claim",
-            "requirement": "required",
-            "conditionDescription": null,
+            "componentId": "wa_blake_vacatur_and_lfo_refund-notice-of-hearing-3",
+            "role": "hearing_notice",
+            "requirement": "conditional",
+            "conditionDescription": "Use when a hearing is requested or scheduled.",
             "outputStrategy": "official_pdf_fill",
-            "officialFormId": "Blake-002",
-            "officialSourceUrl": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
+            "officialFormId": "Blake-003",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20003%20Blake%20Notice%20of%20Hearing.pdf",
             "order": 3
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-records-checklist-4",
+            "componentId": "wa_blake_vacatur_and_lfo_refund-proof-of-service-4",
+            "role": "proof_of_service",
+            "requirement": "required",
+            "conditionDescription": null,
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-004",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20004%20Blake%20Proof%20of%20Service.pdf",
+            "order": 4
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-clj-full-order-5",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in a court of limited jurisdiction and all convictions under the cause number are Blake-void.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-005",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20005%20Order_CLJ%20full%20vacate.pdf",
+            "order": 5
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-clj-partial-order-6",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in a court of limited jurisdiction and non-Blake counts remain.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-006",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20006%20Order_CLJ%20partial%20vacate.pdf",
+            "order": 6
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-superior-full-order-7",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in superior court and all convictions under the cause number are Blake-void.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-007",
+            "officialSourceUrl": "https://www.courts.wa.gov/Forms/documents/Blake%20007%20Order_Superior%20Court%20full%20vacate.pdf",
+            "order": 7
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-superior-partial-order-8",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "conditionDescription": "Use when the case is in superior court and non-Blake counts remain.",
+            "outputStrategy": "official_pdf_fill",
+            "officialFormId": "Blake-008",
+            "officialSourceUrl": "https://www.courts.wa.gov/forms/documents/Blake%20008%20Order_Superior%20Court%20partial%20vacate.pdf",
+            "order": 8
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-refund-portal-9",
+            "role": "lfo_refund_process",
+            "requirement": "required",
+            "conditionDescription": "Completed after the conviction is vacated and refund eligibility is determined by the court.",
+            "outputStrategy": "process_guidance",
+            "officialFormId": null,
+            "officialSourceUrl": "https://refund.courts.wa.gov/",
+            "order": 9
+          },
+          {
+            "componentId": "wa_blake_vacatur_and_lfo_refund-records-checklist-10",
             "role": "records_checklist",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "process_guidance",
             "officialFormId": null,
             "officialSourceUrl": null,
-            "order": 4
+            "order": 10
           },
           {
-            "componentId": "wa_blake_vacatur_and_lfo_refund-filing-instructions-5",
+            "componentId": "wa_blake_vacatur_and_lfo_refund-filing-instructions-11",
             "role": "filing_instructions",
             "requirement": "required",
             "conditionDescription": null,
             "outputStrategy": "process_guidance",
             "officialFormId": null,
             "officialSourceUrl": null,
-            "order": 5
+            "order": 11
           }
         ],
         "participantActionRequired": [
@@ -234912,13 +235057,19 @@
         {
           "title": "Washington Courts — Blake 001, superior court motion, April 2026",
           "url": "https://www.courts.wa.gov/forms/documents/Blake%20001%20SupCt%20Blake%20Motion%20April%202026.pdf",
-          "retrievedOn": "2026-08-06",
+          "retrievedOn": "2026-09-04",
+          "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f"
+        },
+        {
+          "title": "Washington Courts — current Blake form set and local-rule warning",
+          "url": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=151",
+          "retrievedOn": "2026-09-04",
           "sha256": null
         },
         {
-          "title": "Washington Courts — Vacating and sealing forms, carrying the local-rule warning",
-          "url": "https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
-          "retrievedOn": "2026-08-06",
+          "title": "Washington Courts — Blake Refund Bureau",
+          "url": "https://refund.courts.wa.gov/",
+          "retrievedOn": "2026-09-04",
           "sha256": null
         }
       ],
@@ -235066,19 +235217,7 @@
         "Interaction with WA-VAC-04: the same person may qualify for both. Blake is about a void conviction; RCW 9.96.060(6) is about treatment or program participation. Ask both questions."
       ],
       "scopeRestrictions": [],
-      "buildBlockers": [
-        {
-          "question": "The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established.",
-          "impact": "build_blocker",
-          "affectedElement": "packet_components",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
-            "sourceStatement": "What is the current Blake form set and refund administration route? The reference cites an April 2026 superior court Blake motion. **Build blocker** for the Blake track."
-          }
-        }
-      ],
+      "buildBlockers": [],
       "releaseBlockers": [
         {
           "question": "Which counties impose additional local requirements under the Washington Courts local-rule warning, and what the court filing fees for a vacation petition are in district, municipal and superior court. Neither was established at source on this pass. The packet carries a local-check instruction and does not quote a filing fee.",
@@ -235120,18 +235259,7 @@
             "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
             "sourceStatement": "What are the court filing fees for vacation petitions, and do they vary between district, municipal, and superior court? Not established in this pass. **Release blocker** for pricing."
           }
-        },
-        {
-          "question": "The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established.",
-          "impact": "build_blocker",
-          "affectedElement": "packet_components",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
-            "sourceStatement": "What is the current Blake form set and refund administration route? The reference cites an April 2026 superior court Blake motion. **Build blocker** for the Blake track."
-          }
-        }
+    }
       ],
       "guidanceRationales": [],
       "guidanceRereviewCandidate": false,
@@ -235201,9 +235329,7 @@
       "legalStatus": "legal_review_pending",
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
       "implementationQueue": "F_source_problem",
-      "legalDesignBlockers": [
-        "Open question blocks the build (packet_components): The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established."
-      ],
+      "legalDesignBlockers": [],
       "blockers": [
         {
           "kind": "output_review_gate",
@@ -235218,16 +235344,12 @@
           "statement": "Technical proof not started."
         },
         {
-          "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (packet_components): The current Blake form set and the refund administration route. The controlling review cites a superior court Blake motion dated April 2026 and a Blake 006 partial vacate order, which indicates the set is actively maintained; the individual forms were not pulled and hashed at source on this pass, and how the refund is actually administered once ordered was not established."
-        },
-        {
           "kind": "release_blocker",
           "statement": "Open question blocks release (filing_process): Which counties impose additional local requirements under the Washington Courts local-rule warning, and what the court filing fees for a vacation petition are in district, municipal and superior court. Neither was established at source on this pass. The packet carries a local-check instruction and does not quote a filing fee."
         },
         {
           "kind": "source_gate",
-          "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+          "statement": "The current eight-form Blake component set is identified and hash-bound, but exact current Blake-002, Blake-003, Blake-004, Blake-006, Blake-007, and Blake-008 bytes are not yet present in committed source custody."
         }
       ]
     },
