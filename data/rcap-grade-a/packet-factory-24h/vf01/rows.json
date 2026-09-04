@@ -9938,6 +9938,157 @@
       "selfVerificationPerformed": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "ny_mrta_marijuana-set",
+      "lane": "VF01",
+      "worker": "CODEX-CS1-VF-CURRENT",
+      "verifiedAtBase": "e925cd978e25f70e72ba60050b108047b3790cd8",
+      "verifiedAt": "2026-09-04T17:40:44Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-automatic-expungement",
+        "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request"
+      ],
+      "claim": {
+        "assertion": "CLAIM_OK VF01 ny_mrta_marijuana-set (independent-verification, grant set 99dca65ac64d091e)",
+        "assertedBeforeFamilyContentRead": true,
+        "releasedByThisLane": false
+      },
+      "independence": "CODEX-CS1-VF-CURRENT built and repaired neither family in this assignment and edited no packet bytes. This read uses the current repaired family and does not reuse a pre-repair verdict.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The family-level product binding and route census contain both exact MRTA routes. The delivered PDF is correctly scoped to the participant-initiated destruction-request unit; the automatic-expungement unit is process guidance with participantCanInitiate false and requires no filing artifact."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The source receipt, exact corpus index, Master Queue binding, custody reconciliation, field map, and product sourceVersion consistently identify official-form:MRTA-DESTRUCTION-REQUEST at SHA-256 55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544, 272798 bytes, 1 page, with 33 AcroForm fields; the rendered face matches the official NY Courts MRTA destruction application."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each fixture contains exactly the required one-page destruction-request application. The automatic-expungement route has no participant filing component."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All permitted current writes were reconciled to the exact form controls and visually inspected. The boundary fixture's three policy refusals are explicit and correct: an invalid county option and city/email strings that cannot fit at the six-point minimum."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 10 source-required participant facts and execution actions are disclosed, including court and case identity, former aliases, contact information, birth date, SSN last four, signature, affirmation date, and notarization."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All court-determination radio buttons and unknown/other choices remain unselected and are not silently answered for the participant."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The form has no repeating participant row group and no partially populated repeated record."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All six court-only controls, participant signature and affirmation date, and notary execution fields remain blank in both fixtures. The post-repair field classification agrees with the visible output."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Canonical 37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff (247978 bytes, 1 page) and boundary 5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457 (247265 bytes, 1 page) were independently rehashed from current bytes."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each one-page fixture contains the sole required source page; no page is omitted, duplicated, or reordered."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both exact-hash CI raster pages and both fresh local renders were inspected. The central verdict reports zero problems, both pages nonblank and cropped, calibration residual zero; text-geometry inspection found zero words outside the page boxes and no clipping, overlap, stray Markdown delimiter, or hidden write."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The destruction request is directed to the court of conviction, with in-person, mail, and NYSCEF channels and the one-application-per-court rule stated; the automatic route correctly directs no participant filing."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states no application fee and therefore invents no fee-waiver filing, while separately identifying possible DCJS record-review and notary costs."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet correctly assigns notice to the court rather than the participant and identifies the prosecutor, law-enforcement agencies, and DCJS as court-notice recipients."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 14 current stop conditions are carried, including eligibility, offense/date ambiguity, multiple courts, identity mismatch, sealed-file access, prosecutor objection, hearing, court denial, automatic-expungement uncertainty, federal or out-of-state records, immigration consequences, and legal-advice boundaries."
+        }
+      },
+      "failedProofObligations": [],
+      "unmeasuredObligations": [],
+      "focusedCompleteness": {
+        "result": "PASS_COMPLETE",
+        "writesMeasured": 12,
+        "fieldsMeasured": 33,
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "artifacts": {
+        "canonical": {
+          "sha256": "37d456b6c2b79c3801bb9c07030072d5b0487a95f711a92a3fd8ef14e99b05ff",
+          "byteLength": 247978,
+          "pageCount": 1
+        },
+        "boundary": {
+          "sha256": "5f61e8f23675070c7691b16c6522745f5fa033083725f1eefb9caccc32cb3457",
+          "byteLength": 247265,
+          "pageCount": 1
+        }
+      },
+      "source": {
+        "sourceId": "official-form:MRTA-DESTRUCTION-REQUEST",
+        "sha256": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544",
+        "byteLength": 272798,
+        "pageCount": 1,
+        "acroFormFieldCount": 33
+      },
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33531491985",
+        "workflowJobId": "99936307286",
+        "artifactId": "9810053788",
+        "artifactZipSha256": "068a6f9360ac70e96b30b3daf3aa99fc6de6a3ff582dd2a23a5bf7182e2e890b",
+        "documentsDigest": "3c2237b303a93fe89878799ae960e12eec0c1a8c64c7e170b86ddd984a91ee03",
+        "pagesMeasured": 2,
+        "problems": 0,
+        "coversTheWholeFamily": true,
+        "exactArtifactHashesBound": true,
+        "everyCurrentPageInspected": true
+      },
+      "packetEdits": 0,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This independent pass records current packet completeness only. It opens no route and grants no fulfillment or production authority."
     }
   ],
   "supersededLaneMembership": {
