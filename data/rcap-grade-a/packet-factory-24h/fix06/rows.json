@@ -470,6 +470,159 @@
       "centralStateEdits": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "routeKeys": [
+        "obligation:runtime-only:GA:youthful-first-offender-restriction-route"
+      ],
+      "status": "COMPLETED",
+      "buildReturn": "BUILT_RASTER_PENDING",
+      "worker": "CODEX-CS1-FIX06-GA-RFO",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "baseSha": "bcf5991a43a1c2ad05c71be63107620aaca85855",
+      "vf05FailureBaseSha": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "branch": "codex/cs1-fix06-ga-rfo-bcf5",
+      "obligationsRepaired": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "repair": {
+        "ROUTE_IDENTITY": "The exact legacy obligation key now consistently selects the consent-gated Georgia § 42-8-66 retroactive First Offender participant petition required by CLD-2026-08-28-GA-RFO, rather than § 42-8-62.1.",
+        "SOURCE_IDENTITY": "The committed authority chain now binds CLD-2026-08-28-GA-RFO and the effective national § 42-8-66 route record by their current bytes. The stale § 42-8-62.1 p0 contract and conflated compiled profile are retired from the active substantive basis; the route census remains only as the exact legacy-key identity dependency and is repinned from actual bytes.",
+        "COMPONENT_SET": "The generated component set is the controlling § 42-8-66 petition plus route-specific filing instructions; neither rendered component is a § 42-8-62.1 petition.",
+        "REQUIRED_BEFORE_FILING": "The petition, component conditions, field map and instructions require verified written prosecutorial consent, joinder or signed consent endorsement held as a document before filing. Phone calls, silence, unanswered requests and 'no known objection' are expressly insufficient.",
+        "ROUTE_OPTIONS": "The packet states the controlling consent-present filing path, consent-absent-or-disputed attorney/prosecutor handoff, and qualifying-order-on-or-after-2026-07-01 restriction/sealing/agency-distribution/verification-tracking path without a second merits or sealing petition."
+      },
+      "sourceIdentity": {
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "documentsAcquiredOrSubstituted": 0,
+        "committedRecords": [
+          {
+            "recordId": "controlling-decision:CLD-2026-08-28-GA-RFO",
+            "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+            "sha256": "e00332bc05795533067dbe9dba43d36b14a362b7450449e9ac8a67e8c8f92f47",
+            "byteLength": 11907
+          },
+          {
+            "recordId": "effective-route-contract:GA:retroactive-first-offender-treatment-under-42-8-66",
+            "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+            "sha256": "918bc6616e23de07014825cd8cbd9b81dc282613a0f5f2214130ac2af30e4b7b",
+            "byteLength": 37333
+          },
+          {
+            "recordId": "route-obligation-census:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "staleSha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+            "currentSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "currentByteLength": 2607149,
+            "role": "identity dependency only"
+          }
+        ],
+        "familySourceGate": "PASS: zero-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition binds committed legal records by hash",
+        "globalMasterLibraryChecks": "Three expected global completeness checks failed because the Master Library is not mounted; per assignment these do not block a passing family_sources_bind zero-source composition."
+      },
+      "artifactsBefore": [
+        {
+          "fixture": "canonical",
+          "sha256": "b35a0f04979f25912049b4d2d39f27c0b23223b497f30b78b4f0afa7c9eca5de",
+          "byteLength": 11057,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "e3352f6da6302d0074372e3a9d3bab0adbe64b4e42096470cb3ade5ad2f45539",
+          "byteLength": 11242,
+          "pageCount": 4
+        }
+      ],
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "sha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+          "byteLength": 10525,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "3c7ea1d4d7a4f492d64623e0b23bbf89b30a1de3651de68f84ba7c679e27a705",
+          "byteLength": 10708,
+          "pageCount": 4
+        }
+      ],
+      "determinism": {
+        "cleanBuilds": 2,
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "builderStatusEachRun": "COMPLETED",
+        "rasterStateEachRun": "BUILT_RASTER_PENDING"
+      },
+      "inspection": {
+        "canonicalPagesInspected": 4,
+        "boundaryPagesInspected": 4,
+        "allPagesInspected": true,
+        "actualVisibleWritesInspected": {
+          "canonical": 6,
+          "boundary": 6,
+          "allObserved": true
+        },
+        "clippingOrOverlapObserved": false,
+        "orphanPageContentObserved": false
+      },
+      "completeness": {
+        "verdict": "PASS_COMPLETE",
+        "written": 6,
+        "terminalFields": 16,
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "allNineCountersZero": true
+      },
+      "focusedTests": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route' => CLAIM_OK",
+        "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route' => family_sources_bind PASS; three expected global Master Library checks unavailable",
+        "node scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs --check => 3 records bound, 30 anchors verified, 2 components, 6 writes, 10 blanks",
+        "builder --no-raster twice from an absent exact family directory => deterministic hashes, byte lengths and four-page counts; COMPLETED / BUILT_RASTER_PENDING both runs",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route' => PASS_COMPLETE 6/16 written; all nine counters zero",
+        "pdftotext readback => all 12 expected visible write appearances present",
+        "144-DPI page inspection => all eight pages reviewed; no clipping, overlap or orphan continuation"
+      ],
+      "changedPaths": [
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/source-receipt.json",
+        "scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs",
+        "data/rcap-grade-a/packet-factory-24h/fix06/rows.json",
+        "data/rcap-grade-a/codex-cloud/cs1-fix06-ga-rfo-bcf5/RETURN.json"
+      ],
+      "changedBytes": true,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "production": "NO"
     }
   ]
 }
