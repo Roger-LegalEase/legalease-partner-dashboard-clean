@@ -54,7 +54,11 @@ export function unresolvedHistoricalRepairPaths(assignments, claims) {
   for (const assignment of assignments ?? []) {
     if (!assignment?.family || !assignment?.ownedPath) continue;
     const repairs = modernRepairs.get(assignment.family) ?? [];
-    if (repairs.length && repairs.every((claim) => claim.released === true)) continue;
+    /* The first modern claim is the durable handoff from the historical wave.
+     * While it is live, that claim is the sole owner; after release, its
+     * history still proves the handoff occurred. Keeping the Wave-2 pseudo
+     * owner beside either form creates two owners for the same family. */
+    if (repairs.length) continue;
     paths.push({ lane: `WAVE_2_REPAIR:${assignment.family}`, path: assignment.ownedPath });
   }
   return paths;

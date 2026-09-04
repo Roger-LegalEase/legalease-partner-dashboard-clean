@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d231caa33cce4dce0212ba41f67369bf911a2327` (or the newer dispatch base)
+**Minimum required ancestor:** `eb72bb407b465f620719e7f7eff4e9394230b5fb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family al-felony-dwop-set \
   --codex-cloud \
-  --minimum-captain-sha d231caa33cce4dce0212ba41f67369bf911a2327
+  --minimum-captain-sha eb72bb407b465f620719e7f7eff4e9394230b5fb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -62,7 +62,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `in_section1_petition-set`
 - `rcap-ok-custom-pleading`
 - `ut_pet_acquittal-set`
-- `wa_vac_felony-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -79,11 +79,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-dwop-set.mjs`
 - `scripts/build-census-v1-in_section1_petition-set.mjs`
 - `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
-- `scripts/build-census-v1-wa_vac_felony-set.mjs`
 
 ## Never write here
 

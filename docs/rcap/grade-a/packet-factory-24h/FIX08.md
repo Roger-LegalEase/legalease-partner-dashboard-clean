@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d231caa33cce4dce0212ba41f67369bf911a2327` (or the newer dispatch base)
+**Minimum required ancestor:** `eb72bb407b465f620719e7f7eff4e9394230b5fb` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family il-exp-qualprob-set \
   --codex-cloud \
-  --minimum-captain-sha d231caa33cce4dce0212ba41f67369bf911a2327
+  --minimum-captain-sha eb72bb407b465f620719e7f7eff4e9394230b5fb
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -63,7 +63,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `il-seal-2yr-set`
 - `rcap-ks-custom-pleading`
 - `sd_arrest_expungement-set`
-- `va_seal_petition_misdemeanor-set`
+- `vt_exp_decriminalized-set`
 
 ## What you receive
 
@@ -81,12 +81,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `scripts/build-census-v1-il-exp-qualprob-set.mjs`
 - `scripts/build-census-v1-rcap-tn-custom-pleading.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
 - `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 
 ## Never write here
 

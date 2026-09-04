@@ -51,10 +51,9 @@ const claims = [
 assert.deepEqual(
   unresolvedHistoricalRepairPaths(historical, claims),
   [
-    { lane: "WAVE_2_REPAIR:legacy_without_modern_claim-set", path: "data/legacy/**" },
-    { lane: "WAVE_2_REPAIR:live_repair-set", path: "data/live/**" }
+    { lane: "WAVE_2_REPAIR:legacy_without_modern_claim-set", path: "data/legacy/**" }
   ],
-  "a released modern repair supersedes its historical hold, while unknown and live work stay protected"
+  "any modern repair claim supersedes its historical pseudo-owner; only work with no modern claim stays protected"
 );
 
 console.log("OK path ownership recognizes glob collisions and retires only superseded historical holds");
