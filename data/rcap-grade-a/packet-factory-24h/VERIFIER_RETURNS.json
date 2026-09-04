@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 59,
-    "rows": 632,
+    "returnDirectories": 62,
+    "rows": 634,
     "independentVerdicts": 206,
-    "failRepairRequired": 66,
-    "passIndependent": 130
+    "failRepairRequired": 64,
+    "passIndependent": 132
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -49,7 +49,6 @@
     "al-misd-conviction-set",
     "al-misd-dwop-set",
     "al-pardoned-felony-set",
-    "ar-nonconviction-seal-set",
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
     "az_wrongful_arrest_clearance-set",
@@ -79,7 +78,6 @@
     "nc_146_dismissal_petition-set",
     "nj_arrest_no_conviction-set",
     "nv_seal_probation_family-set",
-    "ny_mrta_marijuana-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "rcap-ks-custom-pleading",
@@ -1399,7 +1397,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ar-nonconviction-seal-set",
@@ -1414,6 +1412,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set",
       "superseded": true
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e925cd978e25f70e72ba60050b108047b3790cd8",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set",
+      "superseded": false
     },
     {
       "familyId": "ar-nonconviction-seal-set",
@@ -8336,6 +8348,20 @@
     },
     {
       "familyId": "ny_mrta_marijuana-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "e925cd978e25f70e72ba60050b108047b3790cd8",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -8377,7 +8403,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_mrta_marijuana-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ny_mrta_marijuana-set",
