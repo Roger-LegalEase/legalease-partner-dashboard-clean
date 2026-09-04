@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9c7e70ff0aae28c8a627c5a070b6b07202d9a780` (or the newer dispatch base)
+**Minimum required ancestor:** `501b39d8adead0d5577f1508fddfcefbf16d89d7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family il-seal-2yr-set \
+  --family al-misd-dwop-set \
   --codex-cloud \
-  --minimum-captain-sha 9c7e70ff0aae28c8a627c5a070b6b07202d9a780
+  --minimum-captain-sha 501b39d8adead0d5577f1508fddfcefbf16d89d7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -58,12 +58,12 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 6 families
 
-- `il-seal-2yr-set`
-- `rcap-ks-custom-pleading`
-- `vt_exp_decriminalized-set`
-- `wv_conv_multiple_misdemeanors-set`
-- `in_section1_petition-set`
-- `va_seal_petition_misdemeanor-set`
+- `al-misd-dwop-set`
+- `il-exp-pardon-set`
+- `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
+- `rcap-nd-custom-pleading`
+- `tx_exp_acquittal-set`
+- `vt_seal_nonconviction-set`
 
 ## What you receive
 
@@ -76,16 +76,17 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix06/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
-- `scripts/build-census-v1-il-seal-2yr-set.mjs`
-- `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
-- `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
-- `scripts/build-census-v1-in_section1_petition-set.mjs`
+- `data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/il-exp-pardon-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/**`
+- `scripts/build-census-v1-al-misd-dwop-set.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`
+- `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
+- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
+- `scripts/build-census-v1-vt_seal_nonconviction-set.mjs`
 
 ## Never write here
 
@@ -96,22 +97,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**`
 - `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
-- `data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*`
-- `data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*`
 - `data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*`
-- `data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*`
 - `data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*`
-- `data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*`
 - `data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*`
 
 ## Required outputs

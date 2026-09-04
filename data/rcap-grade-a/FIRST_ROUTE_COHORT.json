@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "b4649bca259fb1b618babb5b928f2a015b453b9f",
+  "atCommit": "501b39d8adead0d5577f1508fddfcefbf16d89d7",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -35,120 +35,23 @@
     }
   ],
   "counts": {
-    "completePacketProven": 85,
+    "completePacketProven": 114,
     "familiesInsideTheOwnerApproval": 57,
-    "provenAndApproved": 2,
-    "inCohort": 2,
-    "cohortRoutes": 13,
-    "provenButOutsideAnyExistingApproval": 83
+    "provenAndApproved": 3,
+    "inCohort": 0,
+    "cohortRoutes": 0,
+    "provenButOutsideAnyExistingApproval": 111
   },
-  "whyTheCohortIsSmall": "The decision owner's completed-output approval covers 57 families and 85 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave and the proof covers the later census-v1 packet wave, so only the 2 in both can enter a first cohort without a new legal decision. The proven figure is also lower than it was: the owner's batch adoption refused sixteen families as the wrong delivery type and withheld nine more pending named corrections, and those families are correctly not proven.",
-  "cohort": [
-    {
-      "familyId": "rcap-ks-custom-pleading",
-      "jurisdiction": "KS",
-      "routeKeys": [
-        "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
-        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
-      ],
-      "routeCount": 2,
-      "deliveryType": "custom_pleading",
-      "inCohort": true,
-      "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf09",
-        "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5"
-      },
-      "legalApproval": {
-        "legalApprovalResult": "approved_by_decision_owner",
-        "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "legalDecisionOwner": "Roger Roman",
-        "legalDecisionEffectiveDate": "2026-08-19",
-        "requiresSignature": false,
-        "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ks-custom-pleading.json",
-        "packetProofSha256Recorded": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
-        "packetProofSha256Now": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
-        "legalDesignMemoSha256Recorded": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
-        "legalDesignMemoSha256Now": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
-      }
-    },
-    {
-      "familyId": "rcap-tn-custom-pleading",
-      "jurisdiction": "TN",
-      "routeKeys": [
-        "obligation:track-only:TN:tn_arrest_no_court_record",
-        "obligation:track-only:TN:tn_illegal_voting",
-        "obligation:track-only:TN:tn_mistaken_identity",
-        "obligation:track-only:TN:tn_nonconviction_petition",
-        "obligation:track-only:TN:tn_post_pardon",
-        "obligation:track-only:TN:tn_pretrial_diversion",
-        "obligation:track-only:TN:tn_recovery_court",
-        "obligation:track-only:TN:tn_redaction",
-        "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
-        "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-        "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
-      ],
-      "routeCount": 11,
-      "deliveryType": "custom_pleading",
-      "inCohort": true,
-      "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf04",
-        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
-      },
-      "legalApproval": {
-        "legalApprovalResult": "approved_by_decision_owner",
-        "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "legalDecisionOwner": "Roger Roman",
-        "legalDecisionEffectiveDate": "2026-08-19",
-        "requiresSignature": false,
-        "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-tn-custom-pleading.json",
-        "packetProofSha256Recorded": "daff84aaf8e788398b6dab0ea26be82e6187630c87c3008f93b28ed9f1ffed03",
-        "packetProofSha256Now": "daff84aaf8e788398b6dab0ea26be82e6187630c87c3008f93b28ed9f1ffed03",
-        "legalDesignMemoSha256Recorded": "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48",
-        "legalDesignMemoSha256Now": "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48"
-      }
-    }
-  ],
-  "cohortRouteIds": [
-    "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
-    "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
-    "obligation:track-only:TN:tn_arrest_no_court_record",
-    "obligation:track-only:TN:tn_illegal_voting",
-    "obligation:track-only:TN:tn_mistaken_identity",
-    "obligation:track-only:TN:tn_nonconviction_petition",
-    "obligation:track-only:TN:tn_post_pardon",
-    "obligation:track-only:TN:tn_pretrial_diversion",
-    "obligation:track-only:TN:tn_recovery_court",
-    "obligation:track-only:TN:tn_redaction",
-    "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
-    "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-    "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
-  ],
+  "whyTheCohortIsSmall": "The decision owner's completed-output approval covers 57 families and 114 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave and the proof covers the later census-v1 packet wave, so only the 3 in both can enter a first cohort without a new legal decision. The proven figure is also lower than it was: the owner's batch adoption refused sixteen families as the wrong delivery type and withheld nine more pending named corrections, and those families are correctly not proven.",
+  "cohort": [],
+  "cohortRouteIds": [],
   "routeReachability": {
     "whatThisSeparates": "A route key names work this factory did. A runtime route id is what screening and the Briefcase resolve. Only a route with both can be sold once a visual review returns; a track-only route cannot be addressed at all, however complete its packet.",
-    "routeKeysInTheCohort": 13,
-    "addressableByTheRuntime": 5,
-    "notAddressableByTheRuntime": 8,
-    "addressable": [
-      "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
-      "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
-      "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
-      "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-      "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
-    ],
-    "notAddressable": [
-      "obligation:track-only:TN:tn_arrest_no_court_record",
-      "obligation:track-only:TN:tn_illegal_voting",
-      "obligation:track-only:TN:tn_mistaken_identity",
-      "obligation:track-only:TN:tn_nonconviction_petition",
-      "obligation:track-only:TN:tn_post_pardon",
-      "obligation:track-only:TN:tn_pretrial_diversion",
-      "obligation:track-only:TN:tn_recovery_court",
-      "obligation:track-only:TN:tn_redaction"
-    ],
+    "routeKeysInTheCohort": 0,
+    "addressableByTheRuntime": 0,
+    "notAddressableByTheRuntime": 0,
+    "addressable": [],
+    "notAddressable": [],
     "recordsDisagreeOn": [],
     "whenTheRecordsDisagree": "The route key's own shape and FIRST_COHORT_RUNTIME_IDENTITY.json are read independently. A route listed here is counted NOT addressable and the disagreement is the finding: one of the two records is stale."
   },
@@ -184,8 +87,74 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "ar-act531-set",
+      "jurisdiction": "AR",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "jurisdiction": "AR",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "jurisdiction": "AR",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "jurisdiction": "AR",
+      "routeCount": 2,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "jurisdiction": "AR",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "az_marijuana_expungement_superior_court-set",
+      "jurisdiction": "AZ",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "az_wrongful_arrest_clearance-set",
       "jurisdiction": "AZ",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "jurisdiction": "CA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "jurisdiction": "CA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "jurisdiction": "CA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "jurisdiction": "CA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "jurisdiction": "CA",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -238,8 +207,44 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "jurisdiction": "MS",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
       "jurisdiction": "OK",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -274,6 +279,12 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "ct-missed-erasure-set",
+      "jurisdiction": "CT",
+      "routeCount": 2,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "ct-pardon-erasure-set",
       "jurisdiction": "CT",
       "routeCount": 2,
@@ -299,12 +310,6 @@
     },
     {
       "familyId": "dc_seal_fugitive-set",
-      "jurisdiction": "DC",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "dc_yra_set_aside-set",
       "jurisdiction": "DC",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
@@ -376,6 +381,18 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "id_felony_reduction-set",
+      "jurisdiction": "ID",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "id_isp_expungement-set",
+      "jurisdiction": "ID",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "id_set_aside_dismissal-set",
       "jurisdiction": "ID",
       "routeCount": 1,
@@ -403,6 +420,12 @@
       "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
       "jurisdiction": "KY",
       "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ma-expunge-time-set",
+      "jurisdiction": "MA",
+      "routeCount": 2,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
@@ -466,9 +489,21 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "nc_146_dismissal_petition-set",
+      "jurisdiction": "NC",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "nd-deferred-imposition-records-set",
       "jurisdiction": "ND",
       "routeCount": 2,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "nd-nonconviction-close-petition-set",
+      "jurisdiction": "ND",
+      "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
@@ -484,7 +519,7 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "nj_arrest_no_conviction-set",
+      "familyId": "nj_disorderly_persons-set",
       "jurisdiction": "NJ",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
@@ -520,6 +555,12 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "jurisdiction": "AL",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "pa_490_nonconviction-set",
       "jurisdiction": "PA",
       "routeCount": 1,
@@ -528,6 +569,18 @@
     {
       "familyId": "ri_marijuana-set",
       "jurisdiction": "RI",
+      "routeCount": 2,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "jurisdiction": "TX",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "jurisdiction": "UT",
       "routeCount": 2,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -568,18 +621,6 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "va_seal_petition_misdemeanor-set",
-      "jurisdiction": "VA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "vt_exp_decriminalized-set",
-      "jurisdiction": "VT",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
       "familyId": "vt_exp_deferred_sentence-set",
       "jurisdiction": "VT",
       "routeCount": 2,
@@ -610,9 +651,9 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_pardon-set",
       "jurisdiction": "VT",
-      "routeCount": 3,
+      "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
@@ -622,7 +663,37 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "wa_vac_felony-set",
+      "familyId": "wa_vac_cannabis-set",
+      "jurisdiction": "WA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "jurisdiction": "WA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "jurisdiction": "WA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "jurisdiction": "WA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "jurisdiction": "WA",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
       "jurisdiction": "WA",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
@@ -655,48 +726,11 @@
   "visualReview": {
     "state": "awaiting_a_named_reviewer",
     "whyItCannotBeInferred": "Every other Grade-A condition is a measurement this factory can make. This one is not: it asks whether a human judges each rendered page fit to file. Nothing in the repository may set it to passed.",
-    "bundleIndexWasReadable": true,
+    "bundleIndexWasReadable": false,
     "whyThatFieldExists": "The bundle index is written to /tmp, which does not survive the session. An empty bundle list therefore has two meanings -- no bundles were built, or this run could not see the ones that were -- and only this field separates them. A record that cannot tell them apart reports the wrong one silently.",
-    "bundleIndexUnreadableBecause": null,
-    "bundles": [
-      {
-        "familyId": "rcap-ks-custom-pleading",
-        "fixture": "canonical",
-        "pages": 12,
-        "fixtureSha256": "6a4ce684338f15386c42d19f53e56ed828ca51dcb748c64e5943ef01e483bfc8"
-      },
-      {
-        "familyId": "rcap-ks-custom-pleading",
-        "fixture": "boundary",
-        "pages": 13,
-        "fixtureSha256": "682a6a4b1d64f6998135325d264af837fab045ae4828fa6a0b4a5e6bc88cdb67"
-      },
-      {
-        "familyId": "rcap-sc-custom-pleading",
-        "fixture": "canonical",
-        "pages": 64,
-        "fixtureSha256": "be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b"
-      },
-      {
-        "familyId": "rcap-sc-custom-pleading",
-        "fixture": "boundary",
-        "pages": 65,
-        "fixtureSha256": "b808c99ade96a876097f1086585818b63824cd79b20f0407cc8169fe6ce1f6a5"
-      },
-      {
-        "familyId": "rcap-tn-custom-pleading",
-        "fixture": "canonical",
-        "pages": 62,
-        "fixtureSha256": "4bfc82385dee12229041fd0627335373210e632a5be2d9b002153e1444fe732b"
-      },
-      {
-        "familyId": "rcap-tn-custom-pleading",
-        "fixture": "boundary",
-        "pages": 62,
-        "fixtureSha256": "be3ec3eeb060fdb4c560f2fc080c6933b86bacc227191040b23b7afb6687506a"
-      }
-    ],
-    "totalPages": 278,
+    "bundleIndexUnreadableBecause": "absent",
+    "bundles": null,
+    "totalPages": null,
     "theseAreFamilyAssemblyBundles": "These bundles render the family ASSEMBLIES. The five routes the runtime can address are reviewed from their own route-scoped artifacts, delivered as the offline review packages, and a family bundle is not a substitute for one."
   },
   "remainingOwnerAction": "One page-by-page visual review of the cohort bundles by a named reviewer, and then the owner-controlled nationwide delivery flip. Neither is performed here.",
@@ -854,6 +888,187 @@
       "legalApproval": null
     },
     {
+      "familyId": "ar-act531-set",
+      "jurisdiction": "AR",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-act531"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "jurisdiction": "AR",
+      "routeKeys": [
+        "obligation:track-pathway:AR:ar-arrest-seal:situation-a-non-convictions"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "jurisdiction": "AR",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-cs-possession-seal"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf30",
+        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "jurisdiction": "AR",
+      "routeKeys": [
+        "obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-1",
+        "obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-2"
+      ],
+      "routeCount": 2,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "jurisdiction": "AR",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-nonconviction-seal"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "az_marijuana_expungement_superior_court-set",
+      "jurisdiction": "AZ",
+      "routeKeys": [
+        "obligation:track-only:AZ:az_marijuana_expungement_superior_court"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf02",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "legalApproval": null
+    },
+    {
       "familyId": "az_wrongful_arrest_clearance-set",
       "jurisdiction": "AZ",
       "routeKeys": [
@@ -878,8 +1093,158 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf32",
+        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "jurisdiction": "CA",
+      "routeKeys": [
+        "obligation:track-only:CA:ca-1203-41"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "jurisdiction": "CA",
+      "routeKeys": [
+        "obligation:track-only:CA:ca-1203-42"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf02",
+        "verifiedAtBase": "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "jurisdiction": "CA",
+      "routeKeys": [
+        "obligation:track-only:CA:ca-1203-43"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf03",
-        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+        "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "jurisdiction": "CA",
+      "routeKeys": [
+        "obligation:track-only:CA:ca-1203-4a"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "ef3cb7083b94142fd9cbeb990b2e3afc22b3018e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "jurisdiction": "CA",
+      "routeKeys": [
+        "obligation:track-only:CA:ca-851-91"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf05",
+        "verifiedAtBase": "1a0f45f0b8bd0dd5f1b85eab8c30170d26660a2f"
       },
       "legalApproval": null
     },
@@ -1029,8 +1394,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf06",
-        "verifiedAtBase": "cd48fc14e"
+        "verifierId": "vf11",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": null
     },
@@ -1059,8 +1424,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf07",
-        "verifiedAtBase": "8b8699c2a"
+        "verifierId": "vf12",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": null
     },
@@ -1089,8 +1454,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf08",
-        "verifiedAtBase": "43e11ccd3a64c5048eb673b369cc365aa0786f94"
+        "verifierId": "vf01",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": null
     },
@@ -1119,8 +1484,129 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf11",
-        "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557"
+        "verifierId": "vf01",
+        "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf36",
+        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:runtime-only:MS:nonadjudication-under-99-15-26"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf36",
+        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf36",
+        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": false,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "verdictCurrentAndDeclaresItsBase",
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifierId": "vf06",
+        "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7"
       },
       "legalApproval": null
     },
@@ -1149,8 +1635,68 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "routeKeys": [
+        "obligation:runtime-only:OK:juvenile-record-expungement"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf05",
-        "verifiedAtBase": "43e11ccd3"
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "routeKeys": [
+        "obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf05",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
       },
       "legalApproval": null
     },
@@ -1301,8 +1847,39 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf11",
-        "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557"
+        "verifierId": "vf07",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ct-missed-erasure-set",
+      "jurisdiction": "CT",
+      "routeKeys": [
+        "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-1-record-and-assessment",
+        "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-2-despp-submission"
+      ],
+      "routeCount": 2,
+      "deliveryType": "participant_agency_application",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": null
     },
@@ -1456,36 +2033,6 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf01",
         "verifiedAtBase": null
-      },
-      "legalApproval": null
-    },
-    {
-      "familyId": "dc_yra_set_aside-set",
-      "jurisdiction": "DC",
-      "routeKeys": [
-        "obligation:track-only:DC:dc_yra_set_aside"
-      ],
-      "routeCount": 1,
-      "deliveryType": "custom_pleading",
-      "checks": {
-        "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": true,
-        "rasterReceiptStillBindsTheBytes": true,
-        "routeToFamilyBindingExact": true,
-        "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
-        "noHoldApplies": true
-      },
-      "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
-      "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf01",
-        "verifiedAtBase": "cd48fc14e"
       },
       "legalApproval": null
     },
@@ -1826,6 +2373,66 @@
       "legalApproval": null
     },
     {
+      "familyId": "id_felony_reduction-set",
+      "jurisdiction": "ID",
+      "routeKeys": [
+        "obligation:track-only:ID:id_felony_reduction"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "id_isp_expungement-set",
+      "jurisdiction": "ID",
+      "routeKeys": [
+        "obligation:track-pathway:ID:id_isp_expungement:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf30",
+        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
+      },
+      "legalApproval": null
+    },
+    {
       "familyId": "id_set_aside_dismissal-set",
       "jurisdiction": "ID",
       "routeKeys": [
@@ -1850,8 +2457,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf03",
-        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+        "verifierId": "vf05",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
       },
       "legalApproval": null
     },
@@ -1973,6 +2580,37 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf02",
         "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ma-expunge-time-set",
+      "jurisdiction": "MA",
+      "routeKeys": [
+        "obligation:unit:MA:ma-expunge-time:ma-expunge-time-commissioner-certification",
+        "obligation:unit:MA:ma-expunge-time:ma-expunge-time-court-determination"
+      ],
+      "routeCount": 2,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf04",
+        "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780"
       },
       "legalApproval": null
     },
@@ -2287,6 +2925,36 @@
       "legalApproval": null
     },
     {
+      "familyId": "nc_146_dismissal_petition-set",
+      "jurisdiction": "NC",
+      "routeKeys": [
+        "obligation:track-only:NC:nc_146_dismissal_petition"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf06",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
       "familyId": "nd-deferred-imposition-records-set",
       "jurisdiction": "ND",
       "routeKeys": [
@@ -2314,6 +2982,36 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf04",
         "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "nd-nonconviction-close-petition-set",
+      "jurisdiction": "ND",
+      "routeKeys": [
+        "obligation:service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:pre_effective_date_petition"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf30",
+        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
       },
       "legalApproval": null
     },
@@ -2378,16 +3076,16 @@
       "legalApproval": null
     },
     {
-      "familyId": "nj_arrest_no_conviction-set",
+      "familyId": "nj_disorderly_persons-set",
       "jurisdiction": "NJ",
       "routeKeys": [
-        "obligation:track-pathway:NJ:nj_arrest_no_conviction:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6"
+        "obligation:track-pathway:NJ:nj_disorderly_persons:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3"
       ],
       "routeCount": 1,
       "deliveryType": "official_pdf_fill",
       "checks": {
         "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": false,
+        "verdictCurrentAndDeclaresItsBase": true,
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
@@ -2396,15 +3094,14 @@
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "verdictCurrentAndDeclaresItsBase",
         "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf27",
-        "verifiedAtBase": null
+        "verifierId": "vf06",
+        "verifiedAtBase": "2c9c0a0014b90ccf194f4c1fb65dde08c1ab094a"
       },
       "legalApproval": null
     },
@@ -2560,6 +3257,36 @@
       "legalApproval": null
     },
     {
+      "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "jurisdiction": "AL",
+      "routeKeys": [
+        "obligation:research-decision-route:AL:al-olr"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf09",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
       "familyId": "pa_490_nonconviction-set",
       "jurisdiction": "PA",
       "routeKeys": [
@@ -2591,13 +3318,12 @@
       "legalApproval": null
     },
     {
-      "familyId": "rcap-ks-custom-pleading",
-      "jurisdiction": "KS",
+      "familyId": "rcap-ga-guidance-implementation",
+      "jurisdiction": "GA",
       "routeKeys": [
-        "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
-        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+        "obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66"
       ],
-      "routeCount": 2,
+      "routeCount": 1,
       "deliveryType": "custom_pleading",
       "checks": {
         "packetProven": true,
@@ -2606,15 +3332,17 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
-      "unmetConditions": [],
-      "inCohort": true,
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf09",
-        "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5"
+        "verifierId": "vf06",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": {
         "legalApprovalResult": "approved_by_decision_owner",
@@ -2623,30 +3351,22 @@
         "legalDecisionEffectiveDate": "2026-08-19",
         "requiresSignature": false,
         "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ks-custom-pleading.json",
-        "packetProofSha256Recorded": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
-        "packetProofSha256Now": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
-        "legalDesignMemoSha256Recorded": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
-        "legalDesignMemoSha256Now": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ga-guidance-implementation.json",
+        "packetProofSha256Recorded": "407b05a4ac9555d5f544d3c6ef19fcb61bba306629870fadd906f9a2e1079621",
+        "packetProofSha256Now": "407b05a4ac9555d5f544d3c6ef19fcb61bba306629870fadd906f9a2e1079621",
+        "legalDesignMemoSha256Recorded": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+        "legalDesignMemoSha256Now": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183"
       }
     },
     {
-      "familyId": "rcap-tn-custom-pleading",
-      "jurisdiction": "TN",
+      "familyId": "rcap-ms-custom-pleading",
+      "jurisdiction": "MS",
       "routeKeys": [
-        "obligation:track-only:TN:tn_arrest_no_court_record",
-        "obligation:track-only:TN:tn_illegal_voting",
-        "obligation:track-only:TN:tn_mistaken_identity",
-        "obligation:track-only:TN:tn_nonconviction_petition",
-        "obligation:track-only:TN:tn_post_pardon",
-        "obligation:track-only:TN:tn_pretrial_diversion",
-        "obligation:track-only:TN:tn_recovery_court",
-        "obligation:track-only:TN:tn_redaction",
-        "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
-        "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-        "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k"
+        "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
+        "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
+        "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement"
       ],
-      "routeCount": 11,
+      "routeCount": 3,
       "deliveryType": "custom_pleading",
       "checks": {
         "packetProven": true,
@@ -2655,15 +3375,17 @@
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": true,
-        "noSubstantiveLegalChangeSinceThatApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
-      "unmetConditions": [],
-      "inCohort": true,
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf04",
-        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
+        "verifierId": "vf36",
+        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b"
       },
       "legalApproval": {
         "legalApprovalResult": "approved_by_decision_owner",
@@ -2672,11 +3394,52 @@
         "legalDecisionEffectiveDate": "2026-08-19",
         "requiresSignature": false,
         "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-tn-custom-pleading.json",
-        "packetProofSha256Recorded": "daff84aaf8e788398b6dab0ea26be82e6187630c87c3008f93b28ed9f1ffed03",
-        "packetProofSha256Now": "daff84aaf8e788398b6dab0ea26be82e6187630c87c3008f93b28ed9f1ffed03",
-        "legalDesignMemoSha256Recorded": "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48",
-        "legalDesignMemoSha256Now": "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48"
+        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json",
+        "packetProofSha256Recorded": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544",
+        "packetProofSha256Now": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544",
+        "legalDesignMemoSha256Recorded": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+        "legalDesignMemoSha256Now": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+      }
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
+      "jurisdiction": "WV",
+      "routeKeys": [
+        "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf05",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "approved_by_decision_owner",
+        "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-08-19",
+        "requiresSignature": false,
+        "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-wv-custom-pleading.json",
+        "packetProofSha256Recorded": "098682331ecb99ce61ff6492df53808679b6771845de00f7fb7d3c61089618f9",
+        "packetProofSha256Now": "098682331ecb99ce61ff6492df53808679b6771845de00f7fb7d3c61089618f9",
+        "legalDesignMemoSha256Recorded": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+        "legalDesignMemoSha256Now": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f"
       }
     },
     {
@@ -2708,6 +3471,67 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf12",
         "verifiedAtBase": null
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "jurisdiction": "TX",
+      "routeKeys": [
+        "obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf10",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "jurisdiction": "UT",
+      "routeKeys": [
+        "obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-bci-certificate",
+        "obligation:unit:UT:ut_pet_conviction:ut_pet_conviction-court-petition"
+      ],
+      "routeCount": 2,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf06",
+        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
       },
       "legalApproval": null
     },
@@ -2895,67 +3719,6 @@
       "legalApproval": null
     },
     {
-      "familyId": "va_seal_petition_misdemeanor-set",
-      "jurisdiction": "VA",
-      "routeKeys": [
-        "obligation:track-only:VA:va_seal_petition_misdemeanor"
-      ],
-      "routeCount": 1,
-      "deliveryType": "official_pdf_fill",
-      "checks": {
-        "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": false,
-        "rasterReceiptStillBindsTheBytes": true,
-        "routeToFamilyBindingExact": true,
-        "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
-        "noHoldApplies": true
-      },
-      "unmetConditions": [
-        "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
-      "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf26",
-        "verifiedAtBase": null
-      },
-      "legalApproval": null
-    },
-    {
-      "familyId": "vt_exp_decriminalized-set",
-      "jurisdiction": "VT",
-      "routeKeys": [
-        "obligation:track-pathway:VT:vt_exp_decriminalized:adult-conviction-expungement-narrow-statutory-route"
-      ],
-      "routeCount": 1,
-      "deliveryType": "official_pdf_fill",
-      "checks": {
-        "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": true,
-        "rasterReceiptStillBindsTheBytes": true,
-        "routeToFamilyBindingExact": true,
-        "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
-        "noSubstantiveLegalChangeSinceThatApproval": false,
-        "noHoldApplies": true
-      },
-      "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "inCohort": false,
-      "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf07",
-        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
-      },
-      "legalApproval": null
-    },
-    {
       "familyId": "vt_exp_deferred_sentence-set",
       "jurisdiction": "VT",
       "routeKeys": [
@@ -3102,24 +3865,22 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf07",
-        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
+        "verifierId": "vf01",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": null
     },
     {
-      "familyId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_pardon-set",
       "jurisdiction": "VT",
       "routeKeys": [
-        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
-        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition",
-        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition"
+        "obligation:track-only:VT:vt_seal_pardon"
       ],
-      "routeCount": 3,
+      "routeCount": 1,
       "deliveryType": "official_pdf_fill",
       "checks": {
         "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": false,
+        "verdictCurrentAndDeclaresItsBase": true,
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
@@ -3128,15 +3889,14 @@
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "verdictCurrentAndDeclaresItsBase",
         "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf12",
-        "verifiedAtBase": null
+        "verifierId": "vf02",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": null
     },
@@ -3171,16 +3931,16 @@
       "legalApproval": null
     },
     {
-      "familyId": "wa_vac_felony-set",
+      "familyId": "wa_vac_cannabis-set",
       "jurisdiction": "WA",
       "routeKeys": [
-        "obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640"
+        "obligation:track-pathway:WA:wa_vac_cannabis:misdemeanor-cannabis-conviction-vacation"
       ],
       "routeCount": 1,
       "deliveryType": "official_pdf_fill",
       "checks": {
         "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": false,
+        "verdictCurrentAndDeclaresItsBase": true,
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
@@ -3189,15 +3949,164 @@
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "verdictCurrentAndDeclaresItsBase",
         "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf27",
-        "verifiedAtBase": null
+        "verifierId": "vf05",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "jurisdiction": "WA",
+      "routeKeys": [
+        "obligation:track-pathway:WA:wa_vac_domestic_violence:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "jurisdiction": "WA",
+      "routeKeys": [
+        "obligation:track-only:WA:wa_vac_misdemeanor_ordinary"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf01",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "jurisdiction": "WA",
+      "routeKeys": [
+        "obligation:track-pathway:WA:wa_vac_survivor_felony:victim-survivor-conviction-vacation-route"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf02",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "jurisdiction": "WA",
+      "routeKeys": [
+        "obligation:track-pathway:WA:wa_vac_survivor_misdemeanor:victim-survivor-conviction-vacation-route"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf03",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "jurisdiction": "WA",
+      "routeKeys": [
+        "obligation:track-only:WA:wa_vac_treaty_fishing"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf07",
+        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
       "legalApproval": null
     },

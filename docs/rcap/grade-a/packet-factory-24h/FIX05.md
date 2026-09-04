@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9c7e70ff0aae28c8a627c5a070b6b07202d9a780` (or the newer dispatch base)
+**Minimum required ancestor:** `501b39d8adead0d5577f1508fddfcefbf16d89d7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family il-exp-qualprob-set \
+  --family al-misd-conviction-set \
   --codex-cloud \
-  --minimum-captain-sha 9c7e70ff0aae28c8a627c5a070b6b07202d9a780
+  --minimum-captain-sha 501b39d8adead0d5577f1508fddfcefbf16d89d7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,14 +56,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 7 families
 
-- `il-exp-qualprob-set`
-- `il-seal-3yr-set`
-- `ut_pet_dismissed_without_prejudice-set`
-- `ut_pet_no_charges-set`
-- `in_arrest_no_charges-set`
-- `ut_pet_acquittal-set`
+- `al-misd-conviction-set`
+- `dc_yra_set_aside-set`
+- `il-seal-nonconv-set`
+- `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`
+- `rcap-ks-custom-pleading`
+- `sd_arrest_expungement-set`
+- `vt_exp_decriminalized-set`
 
 ## What you receive
 
@@ -76,17 +77,20 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix05/**`
-- `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
-- `scripts/build-census-v1-il-exp-qualprob-set.mjs`
-- `scripts/build-census-v1-il-seal-3yr-set.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
-- `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
-- `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
+- `data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
+- `scripts/build-census-v1-al-misd-conviction-set.mjs`
+- `scripts/build-census-v1-dc_yra_set_aside-set.mjs`
+- `scripts/build-census-v1-il-seal-nonconv-set.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs`
+- `scripts/build-census-v1-rcap-ks-custom-pleading.mjs`
+- `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
+- `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 
 ## Never write here
 
@@ -97,22 +101,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**`
 - `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
-- `data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*`
-- `data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*`
 - `data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*`
-- `data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*`
 - `data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*`
-- `data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*`
 - `data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*`
 
 ## Required outputs

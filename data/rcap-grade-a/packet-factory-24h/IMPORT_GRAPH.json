@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 205,
+  "scriptsScanned": 207,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -10,22 +10,11 @@
       "imports": [],
       "transitiveImports": [],
       "importedBy": [
-        "build-census-v1-al-felony-dwop-set.mjs",
         "build-census-v1-al-felony-nonconviction-90-set.mjs",
         "build-census-v1-al-misd-conviction-set.mjs",
         "build-census-v1-al-misd-dwop-set.mjs",
         "build-census-v1-al-pardoned-felony-set.mjs"
       ]
-    },
-    {
-      "script": "build-census-v1-al-felony-dwop-set.mjs",
-      "imports": [
-        "build-census-v1-al-diversion-set.mjs"
-      ],
-      "transitiveImports": [
-        "build-census-v1-al-diversion-set.mjs"
-      ],
-      "importedBy": []
     },
     {
       "script": "build-census-v1-al-felony-nonconviction-90-set.mjs",
@@ -878,7 +867,6 @@
     {
       "script": "build-census-v1-al-diversion-set.mjs",
       "importers": [
-        "al-felony-dwop-set",
         "al-felony-nonconviction-90-set",
         "al-misd-conviction-set",
         "al-misd-dwop-set",

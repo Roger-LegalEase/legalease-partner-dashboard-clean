@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9c7e70ff0aae28c8a627c5a070b6b07202d9a780` (or the newer dispatch base)
+**Minimum required ancestor:** `501b39d8adead0d5577f1508fddfcefbf16d89d7` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family rcap-tn-custom-pleading \
+  --family il-exp-qualprob-set \
   --codex-cloud \
-  --minimum-captain-sha 9c7e70ff0aae28c8a627c5a070b6b07202d9a780
+  --minimum-captain-sha 501b39d8adead0d5577f1508fddfcefbf16d89d7
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,11 +56,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 3 families
+## The 6 families
 
+- `il-exp-qualprob-set`
 - `rcap-tn-custom-pleading`
-- `wv_conv_single_misdemeanor-set`
-- `rcap-nv-custom-pleading`
+- `in_section1_petition-set`
+- `rcap-ok-custom-pleading`
+- `ut_pet_acquittal-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -73,12 +76,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
+- `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
+- `scripts/build-census-v1-il-exp-qualprob-set.mjs`
 - `scripts/build-census-v1-rcap-tn-custom-pleading.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
-- `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
+- `scripts/build-census-v1-in_section1_petition-set.mjs`
+- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
 
 ## Never write here
 
@@ -89,22 +96,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**`
 - `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
-- `data/rcap-all50/overlays/census-v1/**/pa-summary-conviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-dismissed-without-prejudice-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-homicide-victim-prostitution-set*`
-- `data/rcap-all50/overlays/census-v1/**/wv-conv-single-misdemeanor-set*`
 - `data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-limitations-set*`
-- `data/rcap-all50/overlays/census-v1/**/ne-setaside-custodial-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-arrest-no-conviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/oh-marijuana-expungement-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-clean-slate-set*`
 - `data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-acquittal-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-cannabis-set*`
-- `data/rcap-all50/overlays/census-v1/**/wa-vac-survivor-misdemeanor-set*`
-- `data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*`
-- `data/rcap-all50/overlays/census-v1/**/ut-pet-conviction-set*`
 - `data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*`
 
 ## Required outputs

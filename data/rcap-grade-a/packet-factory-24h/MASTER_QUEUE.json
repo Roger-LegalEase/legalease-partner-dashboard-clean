@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
+  "minimumCaptainSha": "501b39d8adead0d5577f1508fddfcefbf16d89d7",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -69,16 +69,15 @@
     "sourceReady": 69,
     "sourceBlocked": 70,
     "legalBlocked": 32,
-    "verifyPending": 9,
-    "repairRequired": 41,
+    "verifyPending": 0,
+    "repairRequired": 49,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 69,
-    "COMPLETE_PACKET_PROVEN": 113,
-    "FAIL_REPAIR_REQUIRED": 41,
+    "COMPLETE_PACKET_PROVEN": 114,
+    "FAIL_REPAIR_REQUIRED": 49,
     "OUT_OF_SCOPE": 5,
-    "VERIFY_PENDING": 9,
     "SOURCE_BLOCKED": 70,
     "LEGAL_BLOCKED": 26,
     "HANDOFF_READY": 2,
@@ -152,7 +151,7 @@
         "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
       }
     ],
-    "paths": 26,
+    "paths": 8,
     "rule": "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
   },
   "theHonestShape": {
@@ -1302,7 +1301,6 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [
-        "al-felony-dwop-set",
         "al-felony-nonconviction-90-set",
         "al-misd-conviction-set",
         "al-misd-dwop-set",
@@ -1457,7 +1455,7 @@
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-felony-dwop-set.mjs",
       "buildScriptExists": true,
-      "sharedBuildHost": "build-census-v1-al-diversion-set.mjs",
+      "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill",
       "ownedPaths": [
         "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**",
@@ -1675,7 +1673,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -1701,11 +1704,31 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-conviction-set.mjs",
@@ -1789,7 +1812,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf05",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -1815,11 +1843,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The form contains directions in fact boxes rather than facts ('The charge shown on the certified case record', 'Agency shown on the certified arrest record', and 'See the selected statutory route...'). C-10 also writes the participant's own name into 'Spouse's Full Name (if married)', the participant address into employer address, and the participant phone into employer phone. These are visible wrong-value writes despite the zero machine counter.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions dump 63 raw PDF labels, including many 'undefined' fields, but omit the registry's semantic actions: obtain the certified local disposition, compare and correct the dismissed-without-prejudice answer, obtain the certified ALEA record, complete and personally sign/date CR-65, and make the fee/waiver choice. They also conflict with the registry's 'source review does not state a notarization requirement' by directing notarization.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Page 6 writes the current case number into the prior-expungement detail line although neither prior-application choice is selected and the companion county and granted/denied fields remain blank. That conditional fact group is partially and incorrectly populated.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "CR-65 page 6 visibly writes the participant telephone number 334-555-0142 into the attorney-only Telephone Number line while the attorney name, signature, address and email remain blank. The protectedWrites=0 counter is a semantic false negative.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry has four route-specific stops. The instructions cover objection, contested hearing and immigration, but omit uncertainty about the 'minor traffic violation' definition and omit licensing and firearm consequences.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-misd-dwop-set.mjs",
@@ -2101,7 +2161,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf06",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -2127,11 +2192,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The same shared Alabama mapping writes directions rather than facts into charge, arrest-agency and ground boxes. C-10 also receives the participant's own name as a spouse name, participant address as employer address, and participant phone as employer phone.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions do not surface the exact semantic prerequisites: obtain the pardon certificate, compare and correct the restoration-of-civil-and-political-rights answer from it, obtain the certified ALEA record, complete/sign/date CR-65, and make the fee/waiver choice. A raw list of 63 PDF field labels is not an actionable substitute, and the notarization direction conflicts with the registry's recorded uncertainty.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Page 6 writes the current case number into the conditional prior-expungement detail line while neither prior-application choice is selected and county plus granted/denied companions remain blank.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "CR-65 page 6 visibly places the participant telephone number on the attorney-only Telephone Number line; the adjacent attorney identity and signature fields remain empty.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The registry requires explicit stops when the pardon withholds firearm rights and when immigration, licensing or firearm consequences are in play. The instructions say only that facts must match the printed option and mention immigration, omitting the pardon/firearm and licensing branches.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
@@ -3285,7 +3382,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no overlay directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -3297,8 +3393,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -3310,7 +3406,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-pardon-seal-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill",
       "ownedPaths": [
@@ -4456,7 +4552,6 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no fixtures directory",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -4468,8 +4563,8 @@
       "ownerCorrectionRequired": null,
       "laneReturnLegalHold": null,
       "routeMappingStatus": "BOUND",
-      "artifactStatus": "NOT_RENDERED",
-      "completenessStatus": "NOT_BUILT",
+      "artifactStatus": "RENDERED",
+      "completenessStatus": "NOT_AUDITED",
       "allNineCountersZero": null,
       "counters": null,
       "failingCounters": [],
@@ -4481,7 +4576,7 @@
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-1203-4-set.mjs",
-      "buildScriptExists": false,
+      "buildScriptExists": true,
       "sharedBuildHost": null,
       "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
       "ownedPaths": [
@@ -8243,9 +8338,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf04",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "lane": "vf03",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -8273,18 +8368,24 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "ARTIFACTS",
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": "The seven inventoried matter facts C1-C7 are printed as labelled blanks and disclosed exactly in participant-instructions.md. But page 1 of both exact PDFs also begins 'IN THE ............................................................ COURT'. The parenthetical identifies the venue rule in general, but neither the field map nor the participant instructions inventories this caption blank, tells the participant the exact court caption to enter, or says where to obtain it. The instructions list only signatures, signing dates and the court-assigned case number as deliberately blank and even warn not to guess an office name. A participant can therefore follow every stated instruction and still have an incomplete court caption. requiredFactsNotCollected and unclassifiedBlanks both report zero because this dot run is authored page text, not a mapped blank."
+          "obligation": "ARTIFACTS",
+          "finding": "The current fixture bytes match rendered-artifacts.json (canonical 12,104 bytes / 58487688e22fdb3d5d1566899add22a2489253462a91f7c056cfc67ea748f282; boundary 12,292 bytes / d041ae07adbeccc2c54a8f46a73df01e10f5769295a792ea4420190c52a9d9e6), but product-wiring.json still names the superseded canonical digest 704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492 in both acceptanceReceipt and proposedRepresentation. RASTER_QUEUE correctly supersedes that old receipt and marks the current pair RASTER_PENDING.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "All eight current pages were freshly rastered and inspected locally with no visible clipping or overlap, and the long boundary values remain complete. The required independent central visual evidence is nevertheless stale: the only receipt binds the prior hashes and RASTER_QUEUE marks it superseded, with currentRasterState RASTER_PENDING.",
+          "evidence": null
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs",
@@ -13310,7 +13411,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf07",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -13336,11 +13442,49 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The fixture holds matter.charge, but Request page 2 writes the case number into the row-1 charge cell because the generic case-number matcher wins before the charge matcher. The Case List's matter.charge value is separately shortened with an ellipsis, so neither of the two intended charge placements contains the complete known charge value.",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The official Request page 4 provides checkbox 13(b), 'I received a pardon from the Governor ... allowing expungement.' Fresh inspection shows it blank. The builder config incorrectly says the statewide Request has no separate pardon checkbox and selects none, even though this route is determined by that exact fact.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Request page 2 rows 2-10 and the inactive sealing table on page 4 rows 2-10 each carry a case number in the charge column while the arrest/case number, agency, arrest date and outcome cells beside it are blank: eighteen incomplete rows. Page 4 row 1 is also fully populated even though the route is expungement, not sealing.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Fresh every-page raster inspection found the Case List charge value visibly truncated to an ellipsis in both fixtures ('Charge exactly as shown o...' canonical and 'Complete charge exactly a...' boundary). No off-page ink or geometric overlap was seen elsewhere.",
+          "evidence": null
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The route record expressly distinguishes pardon venue as the Chief Judge of the circuit of conviction, a designated judge, or the presiding trial judge in qualifying counties. The packet instead gives only the generic instruction to file with the circuit clerk in every county of arrest or charge and never states the pardon-specific destination.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The controlling route record leaves service recipients, method and timing unrecorded. The packet nevertheless asserts that the circuit clerk performs statutory service, without naming recipients or method and without directing the participant to a checkable authority for the unresolved rule.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-pardon-set.mjs",
@@ -13464,7 +13608,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf08",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -13490,11 +13639,49 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_IDENTITY",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "This is the precompletion expungement route, but the output writes the same case into both the expungement and sealing tables on the Request and proposed Order. It also does not select or clearly preserve the item 6 problem-solving/pre-plea/post-plea diversion branch that identifies this route.",
+          "evidence": null
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Twenty Request fields labeled 'List all charges for each case number' contain the case number 2021-CF-004217 instead of a charge. The Case List's charge field contains the truncated direction 'Charge exactly as shown o…' rather than an actual charge.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "A 250-label refusal dump omits the registry's usable semantic actions: obtain an ISP Access and Review transcript, compare and correct case data from it and certified dispositions, make the per-case expunge-versus-seal election, provide the hearing date after objection, sign and verify with a wet signature, and make the county fee/Rule 298 waiver choice.",
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The output selects expungement at the top but then writes the same case into the sealing section and sealing half of the proposed order. The item 6 program-type/completion election is neither selected nor surfaced as a participant action.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Rows 2-10 of both expungement and sealing tables carry case-number text in the charge column while companion agency, arrest-date and outcome cells remain blank. The zero incompleteRows counter is a semantic false negative.",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "The instructions cover objection, contested hearing, printed-fact mismatch and immigration, but omit the registry's stops for transcript ambiguity, an unrecognized case/possible identity theft, federal or out-of-state records, a motion to vacate/modify/reconsider, and petition denial.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-precompletion-set.mjs",
@@ -14725,7 +14912,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -14751,11 +14943,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ARTIFACTS",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": null,
+          "evidence": null
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "finding": null,
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-seal-nonconv-set.mjs",
@@ -18215,10 +18439,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "247b790b6",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -18245,25 +18469,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The petitioner's full legal name is written entirely inside the (Last Name) sub-blank, so the delivered petition reads Last Name: 'Jordan Avery Reyes' with (First Name) and (Middle Name) empty. Nothing in the packet tells the participant to split it.",
-          "evidence": "The form prints three separate captioned rules on the Print: line — measured off the blank official source at 300 dpi they run pt 54.0-168.2 (Last Name), 173.5-285.1 (First Name) and 292.1-405.1 (Middle Name). The write box is a single cell, x 56 width 350, spanning all three, and the text is left-aligned in it. The canonical name occupies pt 56.0-137.0, entirely inside the first rule. The boundary name, 'Maria-Alejandra O'Shaughnessy-Whitfield', occupies pt 56.0-222.8: it runs off the end of the (Last Name) rule at 168.2, across the printed gap, and stops part-way along the (First Name) rule. participant-instructions.md says the platform 'filled in the three facts it holds about you in the shape this form asks for them'; the shape this form asks for is three blanks, and the packet writes one string across them. The Commissioner of Probation keys the surname from that blank."
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "All three written values are drawn through the form's printed rule. The rule crosses the glyph body about a quarter of the way up from the bottom, so the delivered petition reads as though the name, the date of birth and the phone number have each been struck out.",
-          "evidence": "Measured at 300 dpi by rendering the blank official source and the filled fixture and comparing dark-pixel rows in each write box's own column range. Petitioner name (box x56 y529 w350 h13): printed rule at rows 1087-1088, glyph ink rows 1068-1094, so rows 1089-1094 of ink sit below the rule. Date of birth (box x474 y529 w110 h13): rule 1088-1089, glyphs 1069-1094, ink below the rule at 1090-1094 — and '2001-04-17' has no descenders, so this cannot be a descender crossing a baseline. Phone (box x436 y466 w148 h13): rule 1349-1350, glyphs 1332-1357, ink below at 1351-1357. In points the rules sit at PDF y ≈ 531 and 468 while each box's bottom edge is at y 529 and 466, so every box straddles its rule by about 2 pt and the bottom-aligned text lands under it. Identical in the boundary fixture, whose glyph rows are the same to the point. This is why the glyph-versus-box counters read clean: the glyphs are inside their boxes and the boxes are in the wrong place."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-expunge-time-set.mjs",
@@ -29695,9 +29905,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf11",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
+        "lane": "vf07",
+        "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -29725,29 +29935,31 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
+        "ARTIFACTS"
       ],
       "failedObligations": [
         {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Four declared required-before-filing blanks contradict facts printed by the platform on the same forms. On both route primary filings the packet prints the participant's full name and date of birth, then leaves C1 applicant name and C2 date of birth blank and says for all four that the platform holds no value. participant-instructions.md likewise says the platform filled the name and date of birth, then lists those same C1/C2 items as facts the participant must supply. In both fixtures this duplication is visible in the PDF bytes (canonical Jordan Avery Reyes / 1991-04-17; boundary Maria-Alejandra O'Shaughnessy-Whitfield / 1968-12-31). The vacation pleading also misstates the existing sentencing-case cause number as a case number the court may assign at filing: the motion caption says 'if the court assigns one at filing', the proposed order says 'if one was assigned', and the instructions repeat that treatment, although the committed track asks the participant for the cause number and the records checklist directs them to the existing sentencing-court docket.",
+          "obligation": "ARTIFACTS",
+          "finding": "The current PDFs match rendered-artifacts.json and RASTER_QUEUE.json, but family-local product-wiring.json still identifies the superseded packet. proposedRepresentation.components[0].sha256 is 8536db61... while the current canonical is e94f1370..., and binding.acceptanceReceipt points to the old canonical 8536db61... / boundary ce3a0a84... receipt. Thus the family contains contradictory artifact identity records and its declared product binding does not describe the repaired bytes.",
           "evidence": {
-            "declaredRequiredBeforeFiling": 21,
-            "contradictoryHeldFactDeclarations": 4,
-            "affectedFields": [
-              "wa_vac_post_probation_9_95_240-primary-filing-1.fact_applicantName",
-              "wa_vac_post_probation_9_95_240-primary-filing-1.fact_dateOfBirth",
-              "wa_del_nonconviction-primary-filing-1.fact_applicantName",
-              "wa_del_nonconviction-primary-filing-1.fact_dateOfBirth"
-            ],
-            "causeNumberOwnershipMisstatements": 3,
-            "genuineUndisclosedItems": 0
+            "canonical": {
+              "sha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+              "byteLength": 46140,
+              "pageCount": 17
+            },
+            "boundary": {
+              "sha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+              "byteLength": 46647,
+              "pageCount": 17
+            },
+            "staleProductWiringCanonical": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+            "staleAcceptanceBoundary": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d"
           }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",
