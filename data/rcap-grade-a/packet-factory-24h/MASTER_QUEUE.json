@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "0d222face60a447dda7f9db3b243299e69650b0e",
+  "minimumCaptainSha": "034c247c099fa25fec546578080a407216a26ebc",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -72,22 +72,22 @@
     "sourceReady": 100,
     "sourceBlocked": 11,
     "legalBlocked": 7,
-    "verifyPending": 4,
-    "repairRequired": 47,
+    "verifyPending": 3,
+    "repairRequired": 48,
     "sumsToDenominator": true
   },
   "byState": {
     "BUILT_RASTER_PENDING": 28,
     "COMPLETE_PACKET_PROVEN": 112,
-    "FAIL_REPAIR_REQUIRED": 47,
+    "FAIL_REPAIR_REQUIRED": 48,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 100,
-    "VERIFY_PENDING": 4,
     "SOURCE_BLOCKED": 11,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "VERIFY_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -3816,21 +3816,17 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf01",
-        "verifiedAtBase": "142da568654a7d3459248089e325d2cca36e1cbf",
+        "verifiedAtBase": "bebc0489688b69040a72bb0ca42251370d7cb573",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "pinned": "bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66",
-        "now": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -3856,11 +3852,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "source-receipt.json pins the relied-on committed source data/record-clearing/legal-design-packet-set-manifests.json at bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66 / 3679241 bytes. The current committed bytes at assigned base bebc0489 independently rehash to 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419 bytes. The exact Arkansas packet-set node is unchanged from the prior pass base (sorted-node digest ae22de06a6075b7f20fa29606fd47d93e6fbfebadbcd82909a86f69d95fd79c5 at both bases), and the compiled-profile pin still matches 640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470 / 121627 bytes, so this is a stale whole-file source binding requiring receipt repair, not a missing-source block or a substantive Arkansas change. The two official ACIC identities remain cross-bound in the committed corpus indexes at 09f32317... / 529888 bytes / 4 pages and 4ca0a57a... / 274824 bytes / 3 pages; their private binaries were not reachable in this sparse checkout and were not claimed as independently rehashed here.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ar-nonconviction-seal-set.mjs",
