@@ -415,6 +415,70 @@
       "packetsSelfVerified": 0,
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "la-987-set-aside-and-dismiss-set",
+      "status": "COMPLETED",
+      "buildReturn": "BUILT_RASTER_PENDING",
+      "worker": "CODEX-CS2-PF10-LA987",
+      "lane": "PF10",
+      "laneKind": "packet-build",
+      "baseSha": "31cf727c0cb7b31719b206900973c973e9273161",
+      "branch": "codex/cs2-pf10-la987-31cf",
+      "routeKeys": [
+        "obligation:track-only:LA:la-987-set-aside-and-dismiss"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "sourceAuthority": "LA-STATUTORY-FORMS",
+      "sourceBinaries": 0,
+      "componentSet": [
+        "la-987-set-aside-and-dismiss-primary-filing-1",
+        "la-987-set-aside-and-dismiss-instructions-2"
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450",
+          "byteLength": 14642,
+          "pageCount": 5
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "a8412820377682280b6646600860ec4a1cb3316143137331791d64997b79bc02",
+          "byteLength": 14980,
+          "pageCount": 5
+        }
+      ],
+      "determinism": {
+        "builds": 2,
+        "hashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "pageManifestsIdentical": true
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs --no-raster --self-test",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set => PASS_COMPLETE, all nine counters zero"
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "sourceAcquisitionPerformed": false,
+      "selfVerified": false,
+      "claimsReleased": 0,
+      "centralStateEdits": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "supersededShiftReturn": {

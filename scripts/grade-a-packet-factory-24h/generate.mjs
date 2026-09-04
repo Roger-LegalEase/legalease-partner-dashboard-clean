@@ -1631,6 +1631,8 @@ for (const f of IN.scoreboard.familiesDetail) {
    * where rcap-sc-custom-pleading correctly still sits. */
   if (terminalTreatment) state = terminalTreatment.terminalTreatment;
   else if (deliveryTypeRefusal) state = "WRONG_DELIVERY_TYPE";
+  else if (holdReclassificationNextState && comp && nineZero
+    && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
   else if (holdReclassificationNextState) state = holdReclassificationNextState;
   else if (executionReclassification?.stateOverride) state = executionReclassification.stateOverride;
   /* An owner withholding outranks a passing verdict for the same reason a
@@ -1677,6 +1679,9 @@ for (const f of IN.scoreboard.familiesDetail) {
    * A verdict that no longer describes the bytes, or no longer describes the
    * sources those bytes bind, is not a weaker pass. It is not a pass.
    */
+  else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
+    && familyMovedSinceVerdict(independentReturn, directory, buildScript)
+    && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
     && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
   else if (independentReturn?.verdict === "PASS_COMPLETE_INDEPENDENT"
@@ -1823,13 +1828,15 @@ for (const f of IN.scoreboard.familiesDetail) {
    * where a repaired family whose bytes just moved goes to look proven.
    */
   else if (verdict?.verdict === "PASS" && comp && nineZero
-    && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
+    && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
   else if (verdict?.verdict === "PASS" && !comp
     && rasterPassByFamily.get(familyId) !== true) state = "VERIFY_PENDING";
   /* A builder or non-independent PASS is useful build evidence, never an
    * independent verdict. It still owes the independent read. */
   else if (verdict?.verdict === "PASS" && comp && nineZero) state = "VERIFY_PENDING";
   else if (verdict?.verdict === "PASS" && !comp) state = "VERIFY_PENDING";
+  else if (comp && nineZero
+    && rasterPassByFamily.get(familyId) !== true) state = "BUILT_RASTER_PENDING";
   else if (comp && nineZero) state = "VERIFY_PENDING";
   /*
    * A legally blocked family is not source-blocked.
