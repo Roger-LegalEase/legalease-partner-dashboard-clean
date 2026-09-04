@@ -12,12 +12,12 @@
     "tx_nd_dwi_deferred-set"
   ],
   "summary": {
-    "familiesClaimed": 2,
+    "familiesClaimed": 3,
     "PASS_COMPLETE_INDEPENDENT": 1,
     "FAIL_REPAIR_REQUIRED": 1,
     "BLOCKED_SOURCE": 0,
-    "BLOCKED_LEGAL_INPUT": 0,
-    "familiesRemaining": 3
+    "BLOCKED_LEGAL_INPUT": 1,
+    "familiesRemaining": 2
   },
   "overlayDirectoriesModified": 0,
   "commercialRoutesOpened": 0,
@@ -106,6 +106,53 @@
         "SELF_HELP_STOP": { "result": "PASS", "detail": "The instructions stop self-help when the deferred plea was not discharged and dismissed, the matter is federal/military/from another jurisdiction, or immigration advice is needed, matching the track conditions." }
       },
       "failedProofObligations": [],
+      "overlayDirectoriesModified": false,
+      "commercialRoutesOpened": false,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ia-7251-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-7251-set--official-pdf-fill",
+      "legalInputBlocker": "The controlling track still records as an explicit release blocker that no Iowa county filing fee for a Rule 2.86 application was identified and the question remains unresolved.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 4,
+        "allZero": false,
+        "measuredHere": true,
+        "howMeasured": "The focused structural verifier reported PASS_COMPLETE, 14/25 written and structural counters zero. Fresh independent Poppler rendering and visual inspection of canonical pages 1-2 and boundary pages 1-2 found material placement collisions on all four rendered pages, so visualDefects=4 supersedes the stale structural value of zero."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": { "result": "PASS", "detail": "The packet binds obligation:track-pathway:IA:ia-7251:minor-prostitution-7251 and selects the Iowa Code section 725.1, under-18, and no-disqualifying-intervening-conviction declarations on Rule 2.86 Form 5." },
+        "SOURCE_IDENTITY": { "result": "PASS", "detail": "The mounted master-library source was independently rehashed from 288129 bytes to ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef, exactly matching both receipt component records." },
+        "COMPONENT_SET": { "result": "PASS", "detail": "The two-page source contains both required Form 5 primary filing and the conditional paper-filing certificate of service, and both are present in each assembled fixture." },
+        "KNOWN_PREFILLS": { "result": "PASS", "detail": "The focused verifier found every one of the 14 declared writes in the final bytes; their unsafe placement is separately failed under CLIPPING_AND_OVERLAP." },
+        "REQUIRED_BEFORE_FILING": { "result": "FAIL", "detail": "The instructions cover representation, paper-service method/recipient, and participant signature/date, but omit the track's conditional fee-waiver item and do not direct the participant to resolve the expressly unconfirmed fee before filing." },
+        "ROUTE_OPTIONS": { "result": "PASS", "detail": "The route-determined section-725.1 eligibility declarations are selected; the representation and service-method elections remain participant-supplied as required." },
+        "REPEATING_ROWS": { "result": "PASS", "detail": "incompleteRows=0; the packet has no partially written repeating row." },
+        "PROTECTED_FIELDS": { "result": "PASS", "detail": "protectedWrites=0; applicant/service signatures and dates and attorney-only fields remain empty." },
+        "ARTIFACTS": { "result": "PASS", "detail": "Both exact artifact bytes independently rehash to their records: canonical 00092fc77a11cfb8be6f6d4a49d85d8cb17c3263bb765a4c3a43df4d599e1097 (302354 bytes) and boundary 197519714a8e299244e2641b8c5fe2dab4a4ce67ec54da5ba13db842d1063bfe (302439 bytes)." },
+        "PAGE_ORDER": { "result": "PASS", "detail": "Canonical and boundary each preserve Form 5 page 1 followed by its signature and certification page 2." },
+        "CLIPPING_AND_OVERLAP": { "result": "FAIL", "detail": "Despite the admitted central RASTER_PASS, a fresh independent rerender found visual defects on all four pages: county and party names collide with printed labels; dates and route X marks miss their intended boxes/segments; and names, addresses, phone numbers and email addresses overlap captions and rules. The same classes reproduce in canonical and boundary." },
+        "FILING_DESTINATION": { "result": "PASS", "detail": "filing-instructions.md names the Iowa District Court county and existing case shown on the criminal court record, matching the controlling destination." },
+        "FEE_AND_WAIVER": { "result": "FAIL", "detail": "The track expressly records the filing-fee question as an unresolved release blocker and the waiver route as unresolved. The packet cannot establish a complete fee/waiver instruction without that controlling legal input." },
+        "SERVICE": { "result": "PASS", "detail": "The instructions state that e-filing serves the county attorney automatically and that paper filers must mail or deliver a copy, complete and sign the page-2 certificate, and account for the 20-day response period." },
+        "SELF_HELP_STOP": { "result": "FAIL", "detail": "The participant instructions stop for age, charge, trafficking/coercion/exploitation, or later-conviction uncertainty, but omit the controlling stop when the county attorney opposes. They also do not carry the required survivor-services referral and no-probing boundary." }
+      },
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "FEE_AND_WAIVER",
+        "SELF_HELP_STOP"
+      ],
       "overlayDirectoriesModified": false,
       "commercialRoutesOpened": false,
       "productionTouched": false
