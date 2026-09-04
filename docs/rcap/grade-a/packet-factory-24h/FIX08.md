@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a5c6ec64c4bd013fd8f59b129c909ca760e6d586` (or the newer dispatch base)
+**Minimum required ancestor:** `93ccc1fec75fe335691db8596ba6debed57095c0` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'il-cannabis-vacate-set' \
+  --family 'composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708' \
   --codex-cloud \
-  --minimum-captain-sha a5c6ec64c4bd013fd8f59b129c909ca760e6d586
+  --minimum-captain-sha 93ccc1fec75fe335691db8596ba6debed57095c0
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,7 +38,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 7 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-cannabis-vacate-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-qualprob-set'`
@@ -63,8 +64,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 8 families
 
+- `composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708`
 - `il-cannabis-vacate-set`
 - `il-exp-nonconv-set`
 - `il-exp-qualprob-set`
@@ -84,6 +86,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
+- `data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
@@ -91,6 +94,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/**`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs`
 - `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
 - `scripts/build-census-v1-il-exp-nonconv-set.mjs`
 - `scripts/build-census-v1-il-exp-qualprob-set.mjs`
