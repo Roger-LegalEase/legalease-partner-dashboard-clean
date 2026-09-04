@@ -746,6 +746,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     boundReferenceForm: null,
     boundReferenceRole: "none — no binary source is bound; the build is grounded on the committed legal-design record and packet-set manifest alone",
     componentSet: COMPONENTS,
+    componentRoutes: Object.fromEntries(COMPONENTS.map((componentId) => [componentId, ROUTE.routeKey])),
     componentConditions: {},
     dispositionVocabulary: [SIGNATURE, COURT_OWNED],
     routeSelectionsMade: [],

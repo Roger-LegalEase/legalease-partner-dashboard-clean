@@ -70,44 +70,67 @@ const bundleIndex = (() => {
 /*
  * A ROUTE KEY IS NOT A REACHABLE ROUTE.
  *
- * The eight conditions are measured per FAMILY, so the cohort's route figure
- * was simply the sum of the members' route keys: thirteen. Only five of those
- * thirteen can be reached by the runtime. Kansas contributes two municipal
- * pathways compiled under the owner's standing authorisation; Tennessee
- * contributes three of its eleven, and its remaining eight are track-only --
- * they carry no compiled pathway, so packet-route-resolver.ts can form no
- * `${jurisdiction}:${pathwayId}` for them and screening cannot address them at
- * all. Reporting thirteen invites the reading that thirteen routes are one
- * visual review away from sellable, and eight of them are not.
+ * The eight conditions are measured per FAMILY, while screening and the
+ * Briefcase address a `${jurisdiction}:${pathwayId}`. A family route key is
+ * therefore counted separately from a runtime-addressable route: track-only
+ * keys and track-pathway keys with no exact canonical census mapping remain
+ * unreachable however complete the family packet may be.
  *
  * Two independent records must agree before a route is counted addressable:
- * the key itself must be a track-pathway key, and FIRST_COHORT_RUNTIME_IDENTITY
- * must name its runtime route id. Either one alone is a single record vouching
- * for itself. A disagreement is reported rather than resolved -- silently
- * preferring one would hide exactly the drift this cross-check exists to find.
+ * the key itself must be a track-pathway key, and the canonical route census
+ * must map that exact key to the pathway segment it names. Either one alone is
+ * a single record vouching for itself. A missing, duplicated or mismatched
+ * census row fails closed and is reported as disagreement rather than guessed.
+ *
+ * This deliberately consumes the existing crosswalk instead of restating a
+ * jurisdiction list here. FIRST_COHORT_RUNTIME_IDENTITY is a dated KS/TN
+ * investigation record, not the canonical population-wide route mapping; using
+ * it as an allowlist made every later cohort jurisdiction falsely unreachable.
  */
-const runtimeIdentity = (() => {
-  try { return read("data/rcap-grade-a/FIRST_COHORT_RUNTIME_IDENTITY.json"); } catch { return null; }
+const routeCensus = (() => {
+  try { return read("data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"); }
+  catch { return { routes: [] }; }
 })();
-const runtimeRouteIds = new Set([
-  ...(runtimeIdentity?.tennessee?.runtimeRouteIds ?? []).map((r) => r.obligationKey),
-  ...(runtimeIdentity?.kansas?.runtimeRouteIds ?? []).map((r) => r.obligationKey)
-].filter(Boolean));
-/* Kansas records its two pathways as compiled profile ids rather than
- * obligation keys, so its keys are matched on the pathway segment they end
- * with -- the same segment the profile compiles. */
-const kansasCompiled = new Set(runtimeIdentity?.kansas?.compiledPathwaysInTheKansasProfile ?? []);
+const censusRowsByRouteKey = new Map();
+for (const row of routeCensus.routes ?? []) {
+  if (typeof row?.routeKey !== "string" || !row.routeKey) continue;
+  censusRowsByRouteKey.set(row.routeKey, [...(censusRowsByRouteKey.get(row.routeKey) ?? []), row]);
+}
 const routeAddressability = (routeKey) => {
-  const isTrackPathway = routeKey.startsWith("obligation:track-pathway:");
-  const pathwaySegment = routeKey.split(":").slice(4).join(":");
-  const namedByTheRuntimeRecord = runtimeRouteIds.has(routeKey)
-    || (isTrackPathway && kansasCompiled.has(pathwaySegment));
+  const segments = routeKey.split(":");
+  const isTrackPathway = segments[0] === "obligation"
+    && segments[1] === "track-pathway"
+    && segments.length >= 5;
+  const jurisdiction = segments[2] ?? null;
+  const trackId = segments[3] ?? null;
+  const pathwaySegment = segments.slice(4).join(":");
+  const censusRows = censusRowsByRouteKey.get(routeKey) ?? [];
+  const censusRow = censusRows.length === 1 ? censusRows[0] : null;
+  const namedByTheRuntimeRecord = Boolean(
+    isTrackPathway
+    && censusRow
+    && censusRow.jurisdiction === jurisdiction
+    && censusRow.trackId === trackId
+    && typeof censusRow.runtimePathwayId === "string"
+    && censusRow.runtimePathwayId.length > 0
+    && censusRow.runtimePathwayId === pathwaySegment
+  );
   return {
     routeKey,
     isTrackPathway,
     namedByTheRuntimeRecord,
     addressable: isTrackPathway && namedByTheRuntimeRecord,
-    recordsDisagree: isTrackPathway !== namedByTheRuntimeRecord
+    recordsDisagree: isTrackPathway !== namedByTheRuntimeRecord,
+    runtimePathwayId: namedByTheRuntimeRecord ? censusRow.runtimePathwayId : null,
+    runtimeRouteId: namedByTheRuntimeRecord ? `${jurisdiction}:${censusRow.runtimePathwayId}` : null,
+    mappingSource: namedByTheRuntimeRecord
+      ? "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      : null,
+    mappingFailure: namedByTheRuntimeRecord ? null
+      : !isTrackPathway ? "not_a_track_pathway_key"
+      : censusRows.length === 0 ? "missing_census_mapping"
+        : censusRows.length > 1 ? "duplicate_census_mapping"
+          : "census_mapping_does_not_match_route_key"
   };
 };
 
@@ -312,9 +335,19 @@ const doc = {
       addressableByTheRuntime: all.filter((r) => r.addressable).length,
       notAddressableByTheRuntime: all.filter((r) => !r.addressable).length,
       addressable: all.filter((r) => r.addressable).map((r) => r.routeKey),
+      runtimeMappings: all.filter((r) => r.addressable).map((r) => ({
+        routeKey: r.routeKey,
+        runtimePathwayId: r.runtimePathwayId,
+        runtimeRouteId: r.runtimeRouteId,
+        source: r.mappingSource
+      })),
       notAddressable: all.filter((r) => !r.addressable).map((r) => r.routeKey),
+      failedMappings: all.filter((r) => !r.addressable).map((r) => ({
+        routeKey: r.routeKey,
+        reason: r.mappingFailure
+      })),
       recordsDisagreeOn: all.filter((r) => r.recordsDisagree).map((r) => r.routeKey),
-      whenTheRecordsDisagree: "The route key's own shape and FIRST_COHORT_RUNTIME_IDENTITY.json are read independently. A route listed here is counted NOT addressable and the disagreement is the finding: one of the two records is stale."
+      whenTheRecordsDisagree: "The route key's own shape and the canonical route-obligation census are read independently. A missing, duplicated or mismatched census mapping is counted NOT addressable and the disagreement is the finding; no jurisdiction allowlist or inferred pathway is substituted."
     };
   })(),
   provenFamiliesNeedingANewLegalReview: outsideApproval.map((r) => ({
