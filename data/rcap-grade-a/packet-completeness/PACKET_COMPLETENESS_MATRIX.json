@@ -15,14 +15,15 @@
     "FAIL_COMPONENT_SET",
     "FAIL_CURRENTNESS"
   ],
-  "familiesAudited": 203,
+  "familiesAudited": 206,
   "byResult": {
-    "PASS_COMPLETE": 203
+    "PASS_COMPLETE": 205,
+    "FAIL_MISSING_PREFILLS": 1
   },
   "counterTotals": {
     "knownRequiredFieldsMissing": 0,
     "requiredFactsNotCollected": 0,
-    "unclassifiedBlanks": 0,
+    "unclassifiedBlanks": 6,
     "incompleteRows": 0,
     "requiredOptionsMissing": 0,
     "requiredComponentsMissing": 0,
@@ -357,13 +358,14 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 216,
-        "written": 36,
-        "blank": 180,
+        "written": 31,
+        "blank": 185,
         "blanksByDisposition": {
-          "REQUIRED_BEFORE_FILING": 63,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 3,
-          "PROTECTED_FIELD": 61,
-          "PARTICIPANT_ELECTION_GENUINE": 53
+          "REQUIRED_BEFORE_FILING": 55,
+          "LATER_COMPLETION": 2,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 7,
+          "PROTECTED_FIELD": 69,
+          "PARTICIPANT_ELECTION_GENUINE": 52
         },
         "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
@@ -718,6 +720,42 @@
         "fieldMapSchema": "writes-and-refusals"
       },
       "outputApprovalStatus": "REQUESTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "directory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 42,
+        "written": 12,
+        "blank": 30,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 7,
+          "PARTICIPANT_ELECTION_GENUINE": 15,
+          "LATER_COMPLETION": 1,
+          "PROTECTED_FIELD": 3,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 4
+        },
+        "rowsInspected": 1,
+        "fieldMapSchema": "writes-and-refusals"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
       "sourceCurrentness": "EXACT",
       "findings": [],
       "findingsTruncated": 0
@@ -3216,13 +3254,14 @@
       "failedCounters": [],
       "totals": {
         "terminalFields": 424,
-        "written": 72,
-        "blank": 352,
+        "written": 40,
+        "blank": 384,
         "blanksByDisposition": {
-          "PARTICIPANT_ELECTION_GENUINE": 77,
-          "REQUIRED_BEFORE_FILING": 250,
-          "PROTECTED_FIELD": 11,
-          "NOT_APPLICABLE_ON_THIS_ROUTE": 14
+          "PARTICIPANT_ELECTION_GENUINE": 78,
+          "PROTECTED_FIELD": 15,
+          "OPTIONAL_PARTICIPANT_CONTENT": 153,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 14,
+          "REQUIRED_BEFORE_FILING": 124
         },
         "rowsInspected": 0,
         "fieldMapSchema": "writes-and-refusals"
@@ -3808,6 +3847,41 @@
           "PARTICIPANT_ELECTION_GENUINE": 3
         },
         "rowsInspected": 0,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
+      "sourceCurrentness": "EXACT",
+      "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "directory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "result": "PASS_COMPLETE",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [],
+      "totals": {
+        "terminalFields": 102,
+        "written": 2,
+        "blank": 100,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 69,
+          "PROTECTED_FIELD": 21,
+          "NOT_APPLICABLE_ON_THIS_ROUTE": 1,
+          "PARTICIPANT_ELECTION_GENUINE": 9
+        },
+        "rowsInspected": 4,
         "fieldMapSchema": "maps-with-canonical-and-boundary"
       },
       "outputApprovalStatus": "PENDING_INDEPENDENT_VERIFICATION",
@@ -4704,6 +4778,92 @@
       "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
       "sourceCurrentness": "EXACT",
       "findings": [],
+      "findingsTruncated": 0
+    },
+    {
+      "familyId": "pa_6308_underage-set",
+      "directory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill",
+      "result": "FAIL_MISSING_PREFILLS",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 6,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [
+        "unclassifiedBlanks"
+      ],
+      "totals": {
+        "terminalFields": 218,
+        "written": 43,
+        "blank": 175,
+        "blanksByDisposition": {
+          "REQUIRED_BEFORE_FILING": 116,
+          "PROTECTED_FIELD": 37,
+          "PARTICIPANT_ELECTION_GENUINE": 16,
+          "UNCLASSIFIED_BLANK": 6
+        },
+        "rowsInspected": 5,
+        "fieldMapSchema": "documents-and-decisions"
+      },
+      "outputApprovalStatus": "REQUESTED_NOT_GRANTED",
+      "sourceCurrentness": "EXACT",
+      "findings": [
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Attorney for the Commonwealth name and office",
+          "label": "Attorney for the Commonwealth name and office",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Service address",
+          "label": "Service address",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Service method",
+          "label": "Service method",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Date service actually occurred",
+          "label": "Date service actually occurred",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Signature after service",
+          "label": "Signature after service",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "Date signed",
+          "label": "Date signed",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"unmailed_or_unperformed_service\", which is outside the closed vocabulary",
+          "reasonGiven": "Service has not occurred, so the platform holds no fact for this line; complete it only after service actually occurs."
+        }
+      ],
       "findingsTruncated": 0
     },
     {

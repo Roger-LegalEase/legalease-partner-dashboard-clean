@@ -147,6 +147,36 @@ function run() {
   const fix = byLane("rapid-repair");
   const familyById = new Map(master.families.map((f) => [f.familyId, f]));
 
+  // A STOPPED builder row is not a completed build, even when preserved WIP
+  // bytes are complete enough for the matrix to audit.  This guards the exact
+  // failure that promoted a source-unreproducible Michigan WIP to
+  // VERIFY_PENDING after a full matrix refresh.
+  const stoppedBuildPromotions = [];
+  const stoppedBuildRows = new Map();
+  const completedBuildFamilies = new Set();
+  for (const entry of fs.readdirSync(path.join(ROOT, DIR), { withFileTypes: true })) {
+    if (!entry.isDirectory() || !/^pf\d+$/i.test(entry.name)) continue;
+    const rowsPath = `${DIR}/${entry.name}/rows.json`;
+    if (!fs.existsSync(path.join(ROOT, rowsPath))) continue;
+    let laneRows;
+    try { laneRows = read(rowsPath).rows ?? []; } catch { continue; }
+    for (const row of laneRows) {
+      const familyId = row.itemId ?? row.familyId;
+      if (!familyId) continue;
+      if (row.status === "COMPLETED") completedBuildFamilies.add(familyId);
+      else if (row.status === "STOPPED") stoppedBuildRows.set(familyId, rowsPath);
+    }
+  }
+  for (const familyId of completedBuildFamilies) stoppedBuildRows.delete(familyId);
+  for (const [familyId, rowsPath] of stoppedBuildRows) {
+    const family = familyById.get(familyId);
+    if (family && ["PASS_COMPLETE", "VERIFY_PENDING", "VERIFYING", "BUILT_RASTER_PENDING", "VERIFIED_PASS", "COMPLETE_PACKET_PROVEN"].includes(family.state)) {
+      stoppedBuildPromotions.push(`${familyId}: STOPPED in ${rowsPath}, state ${family.state}`);
+    }
+  }
+  check("F37", "a STOPPED packet-build return cannot promote preserved WIP bytes to verification",
+    stoppedBuildPromotions.length === 0, stoppedBuildPromotions.slice(0, 3).join(" | "));
+
   // 1. duplicate families, within one kind of work
   const dupes = [];
   const seen = new Map();
@@ -510,6 +540,10 @@ function run() {
       if (!/^[0-9a-f]{64}$/.test(String(r.canonicalPdfSha256 ?? ""))) rasterProblems2.push(`${r.familyId} queues a canonical PDF with no exact hash`);
       if (!/^[0-9a-f]{64}$/.test(String(r.boundaryPdfSha256 ?? ""))) rasterProblems2.push(`${r.familyId} queues a boundary PDF with no exact hash`);
       if (!(rq.rasterStateVocabulary ?? []).includes(r.currentRasterState)) rasterProblems2.push(`${r.familyId} is in undeclared raster state ${r.currentRasterState}`);
+      const family = familyById.get(r.familyId);
+      if (family && ["SOURCE_READY", "BUILD_IN_PROGRESS", "FAIL_REPAIR_REQUIRED"].includes(family.state)) {
+        rasterProblems2.push(`${r.familyId} is queued while its packet state is ${family.state}`);
+      }
     }
     // One family, one lane. Two readers writing one verdict is a disagreement
     // nobody adjudicates.

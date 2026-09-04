@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
+  "generatedAtCommit": "c737e63afca9dc196ef8605224230e6c8256a209",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -963,6 +963,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-03T23:53:10.974Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "itemId": null,
+      "familyIds": [
+        "az_marijuana_expungement_limited_jurisdiction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4568,7 +4583,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF06",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -12660,7 +12675,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6a1ce8eba8b56961616d9445a66c97b1077752251f6b1120714ca8caae07b4b2",
+  "claimsDigest": "2f415a5a3ac2bc91a732e2cd250d3bccd59f7e22cd0a3928e6934fa5a7d58d98",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34489,6 +34504,30 @@
       "operation": "packet-build",
       "lane": "PF01",
       "withdrawnAt": "2026-09-04T10:51:41Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "packet-build",
+      "lane": "PF06",
+      "withdrawnAt": "2026-09-04T12:06:17Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-17b-reduction-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T12:06:39Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T12:10:42Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

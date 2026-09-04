@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "5b94262e23fb7abdfe6a6a7c656a901ed8a60e92",
+  "minimumCaptainSha": "c737e63afca9dc196ef8605224230e6c8256a209",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "2ac69a2e4d7ee38b6f1c36f1285aaf1e339d5d38a89b839b5c2a334b64853f49",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "0303eb8c6de88ed66121091e032bc1bb638d0d4203c945b2b772b58d69d493be",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -69,25 +69,25 @@
     "activeFamiliesExcluded": 0,
     "guidanceOnly": 0,
     "remaining": 346,
-    "sourceReady": 85,
+    "sourceReady": 84,
     "sourceBlocked": 43,
     "legalBlocked": 5,
-    "verifyPending": 1,
+    "verifyPending": 2,
     "repairRequired": 53,
     "sumsToDenominator": true
   },
   "byState": {
-    "SOURCE_READY": 85,
+    "SOURCE_READY": 84,
     "COMPLETE_PACKET_PROVEN": 123,
     "FAIL_REPAIR_REQUIRED": 53,
     "OUT_OF_SCOPE": 5,
+    "VERIFY_PENDING": 2,
     "PRODUCT_PATH_PENDING": 17,
     "SOURCE_BLOCKED": 43,
     "VERIFIED_PASS": 2,
     "LEGAL_BLOCKED": 5,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -159,10 +159,10 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 24,
-    "sourceReadyFamilies": 85,
+    "sourceReadyFamilies": 84,
     "familiesPerBuilder": 3.5,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 85 do, so a full roster of 24 builders averages 3.5 families each rather than 15 to 25.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 84 do, so a full roster of 24 builders averages 3.5 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 44 source obligations across 48 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -203,6 +203,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -366,7 +367,9 @@
         "verifiedAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -463,6 +466,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -537,6 +541,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -611,6 +616,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -685,6 +691,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -1389,7 +1396,9 @@
         "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -1550,7 +1559,9 @@
         "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -1719,7 +1730,9 @@
         "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -1870,7 +1883,9 @@
         "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -2021,7 +2036,9 @@
         "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -2183,6 +2200,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -2282,6 +2300,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -2405,7 +2424,9 @@
         "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -2563,6 +2584,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -2691,6 +2713,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -3238,6 +3261,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -3355,6 +3379,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -3612,6 +3637,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -3862,7 +3888,9 @@
         "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -4025,6 +4053,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -4161,6 +4190,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -4263,7 +4293,9 @@
         "verifiedAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -4427,9 +4459,7 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": [
-        "no completeness audit"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -4444,15 +4474,25 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_READY",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
@@ -4811,6 +4851,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -7142,6 +7183,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -7935,6 +7977,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -8105,6 +8148,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -8622,7 +8666,9 @@
         "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -8716,7 +8762,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -9779,7 +9827,9 @@
         "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -11321,7 +11371,9 @@
         "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -11870,6 +11922,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -11963,6 +12016,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12072,6 +12126,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12203,6 +12258,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12312,6 +12368,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12440,6 +12497,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12539,6 +12597,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -12638,6 +12697,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14057,6 +14117,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14173,6 +14234,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14290,6 +14352,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14536,6 +14599,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14657,6 +14721,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -14786,6 +14851,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -15381,7 +15447,9 @@
         "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
         "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -15592,7 +15660,9 @@
         "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
         "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -15790,7 +15860,9 @@
         "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -15998,7 +16070,9 @@
         "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -16202,7 +16276,9 @@
         "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -16591,6 +16667,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -16837,7 +16914,9 @@
         "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -17029,7 +17108,9 @@
         "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -17239,7 +17320,9 @@
         "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -17443,7 +17526,9 @@
         "verifiedAtBase": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -17656,7 +17741,9 @@
         "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -17843,6 +17930,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18013,6 +18101,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18183,6 +18272,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -18503,7 +18593,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -20778,6 +20870,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -20930,6 +21023,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -21057,6 +21151,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -21211,6 +21306,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -21333,6 +21429,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -21465,6 +21562,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -21555,6 +21653,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -22378,6 +22477,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -22477,6 +22577,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -22594,6 +22695,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -22711,6 +22813,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -22828,6 +22931,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -23614,6 +23718,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -23744,6 +23849,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -23970,7 +24076,7 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no completeness audit"
+        "packet build has not completed"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -23986,9 +24092,19 @@
       "nextExecutableAction": null,
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
+      "completenessStatus": "PASS_COMPLETE",
+      "allNineCountersZero": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
       "failingCounters": [],
       "failedObligationNames": [],
       "failedObligations": [],
@@ -24126,6 +24242,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -24297,6 +24414,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -24453,6 +24571,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -25990,6 +26109,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -26091,6 +26211,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -26624,6 +26745,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -26814,6 +26936,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -26973,6 +27096,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -27118,6 +27242,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -27408,6 +27533,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -27809,6 +27935,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -27998,6 +28125,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -28325,6 +28453,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -28462,6 +28591,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29089,6 +29219,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29245,6 +29376,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29384,6 +29516,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29539,6 +29672,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29694,6 +29828,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -29799,7 +29934,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -30540,6 +30677,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -30695,6 +30833,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -30905,6 +31044,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -31367,7 +31507,9 @@
         "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31693,6 +31835,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -31795,7 +31938,9 @@
         "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -32424,7 +32569,7 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
-        "no completeness audit"
+        "nonvisual completeness counters not zero: unclassifiedBlanks"
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -32452,10 +32597,22 @@
       "nextExecutableAction": "Bind court-status facts to the proper filing vehicle, refuse automatic selection when status is not established, and then build the selected artifact.",
       "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
       "artifactStatus": "RENDERED",
-      "completenessStatus": "NOT_AUDITED",
-      "allNineCountersZero": null,
-      "counters": null,
-      "failingCounters": [],
+      "completenessStatus": "FAIL_MISSING_PREFILLS",
+      "allNineCountersZero": false,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 6,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failingCounters": [
+        "unclassifiedBlanks"
+      ],
       "failedObligationNames": [],
       "failedObligations": [],
       "continuationResult": null,
@@ -33101,7 +33258,9 @@
         "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf30/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -33510,6 +33669,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -33643,6 +33803,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -33721,7 +33882,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -34062,7 +34225,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -34172,7 +34337,9 @@
         "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -34422,7 +34589,9 @@
         "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf37/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -34558,6 +34727,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -34768,7 +34938,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -34918,7 +35090,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35054,7 +35228,9 @@
         "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -35161,7 +35337,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36077,7 +36255,9 @@
         "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36496,7 +36676,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36633,7 +36815,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36777,6 +36961,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -36924,7 +37109,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37070,6 +37257,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -37337,7 +37525,9 @@
         "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
         "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37655,7 +37845,9 @@
         "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
         "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37821,6 +38013,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -37956,6 +38149,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -38196,7 +38390,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -38392,6 +38588,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -38881,7 +39078,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39192,7 +39391,9 @@
         "verifiedAtBase": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf34/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39449,7 +39650,9 @@
         "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
         "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ut-pet-limitations/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39725,7 +39928,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -40156,6 +40361,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -41129,7 +41335,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -41295,7 +41503,9 @@
         "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf35/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42139,7 +42349,9 @@
         "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf35/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -43060,7 +43272,9 @@
         "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -44560,7 +44774,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -44813,7 +45029,9 @@
         "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -45143,6 +45361,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -45281,9 +45500,9 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 85,
+    "familiesAssignedToBuilders": 84,
     "sourceObligationsAssigned": 44,
-    "actualPromotedAndReleased": 85,
+    "actualPromotedAndReleased": 84,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",

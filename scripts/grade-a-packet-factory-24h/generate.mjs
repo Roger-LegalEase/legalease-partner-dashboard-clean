@@ -1338,6 +1338,31 @@ for (const root of [OUT_DIR, "data/rcap-grade-a/codex-cloud"]) {
     }
   }
 }
+
+/* A completeness audit describes the bytes which happen to be present; it is
+ * not a builder return.  In particular, a preserved WIP can contain auditable
+ * PDFs while its current lane truthfully returns STOPPED because it cannot
+ * reproduce those bytes from the exact source.  Do not turn that stopped WIP
+ * into VERIFY_PENDING merely because the matrix can read it.  The live packet
+ * claim identifies the authoritative lane, and that lane's last row identifies
+ * whether the assigned build actually completed. */
+const stoppedPacketBuildByFamily = new Map();
+const completedPacketBuildFamilies = new Set();
+for (const entry of fs.readdirSync(path.join(ROOT, OUT_DIR), { withFileTypes: true })) {
+  if (!entry.isDirectory() || !/^pf\d+$/i.test(entry.name)) continue;
+  const evidencePath = `${OUT_DIR}/${entry.name}/rows.json`;
+  if (!fs.existsSync(path.join(ROOT, evidencePath))) continue;
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(path.join(ROOT, evidencePath), "utf8")); }
+  catch { continue; }
+  for (const row of doc.rows ?? []) {
+    const familyId = row.itemId ?? row.familyId;
+    if (!familyId) continue;
+    if (row.status === "COMPLETED") completedPacketBuildFamilies.add(familyId);
+    else if (row.status === "STOPPED") stoppedPacketBuildByFamily.set(familyId, { row, evidencePath });
+  }
+}
+for (const familyId of completedPacketBuildFamilies) stoppedPacketBuildByFamily.delete(familyId);
 function repairCompletionAnswersVerdict(independentReturn) {
   const familyId = independentReturn?.familyId;
   const base = independentReturn?.verifiedAtBase;
@@ -1743,6 +1768,10 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";
   else if (activeOwner) state = "BUILD_IN_PROGRESS";
+  /* A stopped packet-build return outranks a completeness read of preserved
+   * WIP bytes.  Central custody still decides SOURCE_READY versus
+   * SOURCE_BLOCKED; the worker's environment does not rewrite source truth. */
+  else if (stoppedPacketBuildByFamily.has(familyId)) state = readiness.ready ? "SOURCE_READY" : "SOURCE_BLOCKED";
   /*
    * A COMPLETENESS FAILURE OUTRANKS A NON-INDEPENDENT PASS.
    *

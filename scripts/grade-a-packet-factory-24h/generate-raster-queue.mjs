@@ -452,6 +452,9 @@ for (const f of master.families) {
 
   // The four preconditions, each asked of a record rather than assumed.
   if (f.state === "SOURCE_BLOCKED") eligibility.push("sources do not bind");
+  if (f.state === "SOURCE_READY") eligibility.push("packet build has not completed");
+  if (f.state === "BUILD_IN_PROGRESS") eligibility.push("packet build is still in progress");
+  if (f.state === "FAIL_REPAIR_REQUIRED") eligibility.push("the current failed obligations have not been repaired");
   if (f.state === "LEGAL_BLOCKED") eligibility.push("an open legal input");
   const comp = f.counters ?? null;
   const nonVisual = comp
