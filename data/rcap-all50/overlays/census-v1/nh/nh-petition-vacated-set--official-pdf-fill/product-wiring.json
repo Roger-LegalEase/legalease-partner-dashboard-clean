@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "nh_petition_vacated-set",
+  "routeKey": "obligation:track-only:NH:nh_petition_vacated",
+  "routeKeys": [
+    "obligation:track-only:NH:nh_petition_vacated"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "nh_petition_vacated-set",
+    "jurisdiction": "NH",
+    "routeKeys": [
+      "obligation:track-only:NH:nh_petition_vacated"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "criminal_history_request",
+      "effect_and_limits_disclosure",
+      "fee_waiver_financial_statement",
+      "fee_waiver_motion",
+      "post_filing_instructions",
+      "primary_filing"
+    ],
+    "packetComponents": [
+      "component:nh_petition_vacated-criminal-history-request-4",
+      "component:nh_petition_vacated-fee-waiver-financial-statement-3",
+      "component:nh_petition_vacated-fee-waiver-motion-2",
+      "component:nh_petition_vacated-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:NHJB-2311",
+        "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:NHJB-2328",
+        "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:NHJB-2956",
+        "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:NHJB-2317-DSe",
+        "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "nh_petition_vacated-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "nh_petition_vacated-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "NHJB-2317",
+        "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nh_petition_vacated-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "NHJB-2311",
+        "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nh_petition_vacated-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "NHJB-2328",
+        "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nh_petition_vacated-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "NHJB-2956",
+        "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+        "requirement": "required"
+      }
+    ]
+  }
+}
