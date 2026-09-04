@@ -8933,6 +8933,136 @@
    },
    "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing: 14/14 applicable, source bind 4/4.",
    "repairedNothing": true
+  },
+  {
+   "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+   "lane": "VF01",
+   "wave": "packet-factory-24h/2026-09-04 repaired-family reread",
+   "worker": "VF01 independent verification; this lane did not build, repair, or raster this packet",
+   "verifiedAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "laneDisposition": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+   "queueStateAtRead": "VERIFY_PENDING",
+   "legalInputStatusAtRead": "SETTLED",
+   "rasterStateAtRead": "RASTER_PENDING",
+   "claim": {
+    "assertion": "CLAIM_OK VF01 agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission (independent-verification, grant set 90512db0be09b6d0)",
+    "assertedBeforeArtifactRead": true,
+    "releasedByThisLane": true
+   },
+   "obligationsScored": 15,
+   "unmeasuredObligations": [],
+   "failedProofObligations": [
+    "ROUTE_IDENTITY",
+    "ARTIFACTS"
+   ],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "writes": "6/13",
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <itemId>: PASS_COMPLETE 6/13 written"
+   },
+   "evidence": {
+    "committedAuthorityBytes": [
+     "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json: 184365 bytes, sha256 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+     "src/lib/rcap-engine/compiled/profiles/NY-new-york.json: 188645 bytes, sha256 ee4926a11e1035c530f3e1cabd71783c260332c799726b175dc2f529f108fa1e"
+    ],
+    "artifacts": {
+     "canonical": "10190 bytes, 4 pages, sha256 8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec",
+     "boundary": "10517 bytes, 4 pages, sha256 c48c6e8cea3616ada41949087580f4db52ea94a0613fa55942f4f62de5fe4878"
+    },
+    "raster": "RASTER_QUEUE binds the current four-page hashes at packet commit dab59932fd7a8c558ed10c997956599e23f9a716 and holds them RASTER_PENDING with next owner RAS02. Its prior RASTER_PASS for the superseded six-page bytes is correctly isolated under supersededReceipts. The prompt does not require RASTER_PASS for this read; both current fixtures were freshly rendered locally and every page inspected.",
+    "staleRecords": "product-wiring.json still names superseded canonical sha256 dbbec83187e79709468b55ac715b815a52ae19b6943fb597a96951eb45afdef3 in acceptanceReceipt and proposedRepresentation although it declares itself derived from current rendered-artifacts.json. participant-instructions.md final paragraph, source-receipt.json, and production-field-map.json still describe two letters to two offices even though the repaired family now contains one DCJS letter plus one route sheet and explicitly delegates the court letter to a sibling family."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The four delivered pages themselves carry only the declared DCJS correction route, and their route footer is exact. But the participant-facing final paragraph still says this family is two pieces of correspondence to two record-holding offices; source-receipt.json and production-field-map.json likewise say two letters, while routeSelectionsMade selects correspondence to the sentencing court and DCJS and routeSelectionNote calls this one pair of instruments. Those statements contradict the repaired component boundary: the current family ships only the DCJS letter and agency route sheet, and its own opening instructions say the court request is a separate sibling family."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The two committed authorities were independently rehashed from repository bytes. Their SHA-256 values and byte lengths exactly match source-receipt.json, and the legal-decision anchors support the post-1991 automatic-partial-seal correction workflow represented by the DCJS submission."
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both fixtures contain exactly the production-field-map componentSet: dcjs_correction_submission on pages 1-2 and agency_route_sheet on pages 3-4. No sentencing-court request or other route component remains in the delivered bytes."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All six declared known writes are present and visible in both fixtures: subject name, date of birth, mailing address, telephone, email, and route-sheet prepared-for name. Boundary values remain complete and readable across natural line/page flow."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All five declared participant-supplied items are named in the instructions and left blank in the submission: DCJS postal address, disposing court name, criminal-history result and date, disposition date, and docket/case number."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet consistently presents the post-November 1, 1991 automatic partial-sealing branch and does not ask the participant to elect between instruments. The pre-1991 branch is a stop condition, not an unselected control."
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "No repeating row exists in either composed component, so no written cell can sit beside an unclassified required blank."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The participant signature and signature-date lines remain blank in both fixtures. No court-, prosecutor-, clerk-, service-certificate-, or agency-owned field carries generated ink."
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "FAIL",
+     "detail": "The current canonical and boundary bytes independently hash to the values in rendered-artifacts.json and RASTER_QUEUE.json. However, product-wiring.json is also a committed packet record, declares rendered-artifacts.json as its source, and still binds the superseded six-page canonical hash dbbec83187e79709468b55ac715b815a52ae19b6943fb597a96951eb45afdef3 in both acceptanceReceipt and proposedRepresentation. The current canonical hash is 8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec, so the bytes do not hash to every record that names them."
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "Both four-page fixtures match every pageManifest entry: two DCJS correction-submission pages followed by two agency-route-sheet pages."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "All eight pages were rendered and inspected. Canonical and boundary names, address, phone, email, route text, and required blank lines are visible without clipping or overlap; the long boundary address and printed-name block wrap cleanly."
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet identifies the New York State Division of Criminal Justice Services Record Review Unit as the recipient, explicitly says this is not filed with a court, and tells the participant that the current DCJS postal address must be obtained from that unit before sending."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The route sheet states $0 for the automatic seal and no filing fee because there is no filing; it states the held $5/$10 certificate charge, names the issuing court records office for a current amount, and says the held profile records a DCJS fee without an amount so the participant must ask DCJS. It correctly says there is no filing-fee waiver because there is no filing fee and names whom to ask about inability to pay the certificate charge."
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The route sheet expressly says nobody must be served, identifies that there is no opposing party, district-attorney notice, or affidavit of service, and directs the participant to send the DCJS submission after the separate court step and keep dated proof."
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "detail": "The packet names six concrete stop conditions: an interests-of-justice non-sealing order, a pre-November 1 1991 disposition, a request for court-file sealing, a non-violation/non-traffic disposition, either office refusing correction, and immigration questions."
+    }
+   },
+   "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing: 14/14 passed, 0 failed, 3 not applicable; this is a zero-source custom composition bound to two committed authority records.",
+   "repairedNothing": true
   }
  ],
  "supersededLaneMembership": {

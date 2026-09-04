@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF01",
  "worker": "VF-SRC-A",
- "assignmentCount": 12,
+ "assignmentCount": 13,
  "assignments": [
   {
    "itemId": "ak-courtview-set",
@@ -362,6 +362,37 @@
     "do not weaken a proof obligation or reclassify participant/legal facts as known merely to zero a counter",
     "this repair opens no commercial route and grants no output approval"
    ]
+  },
+  {
+   "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+   "lane": "VF01",
+   "assignedBy": "VF01 independent repaired-family reread",
+   "foundAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+   "decisiveDefect": "The delivered four-page packet is scoped correctly now, but its participant instructions and binding records were not fully regenerated with that repair: three route records still describe a two-office/two-letter family, and product-wiring.json still pins the superseded six-page canonical PDF instead of the current four-page bytes.",
+   "failedProofObligations": [
+    "ROUTE_IDENTITY",
+    "ARTIFACTS"
+   ],
+   "perObligation": {
+    "ROUTE_IDENTITY": {
+     "measuredDetail": "participant-instructions.md ends by calling this two pieces of correspondence to two record-holding offices. source-receipt.json and production-field-map.json likewise say two letters; production-field-map.json routeSelectionsMade selects sentencing-court and DCJS correspondence and routeSelectionNote calls them one pair of instruments. In contrast, the repaired componentSet and both current PDFs contain only dcjs_correction_submission plus agency_route_sheet and correctly assign the sentencing-court request to a separate sibling family.",
+     "whatRepairMustDo": "Regenerate or narrowly correct every family-scoped route description so this family consistently describes one DCJS correction submission plus its route sheet, with the sentencing-court request only as a prerequisite supplied by the separately declared sibling family. Preserve the now-correct four-page component set and do not merge the sibling route back into this packet."
+    },
+    "ARTIFACTS": {
+     "measuredDetail": "Current canonical.pdf is 10190 bytes / 4 pages / sha256 8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec and boundary.pdf is 10517 bytes / 4 pages / sha256 c48c6e8cea3616ada41949087580f4db52ea94a0613fa55942f4f62de5fe4878; rendered-artifacts.json and RASTER_QUEUE.json name those bytes. product-wiring.json, despite derivedFrom pointing to rendered-artifacts.json, still records old canonical sha256 dbbec83187e79709468b55ac715b815a52ae19b6943fb597a96951eb45afdef3 in acceptanceReceipt and proposedRepresentation.",
+     "whatRepairMustDo": "Regenerate the family-scoped product-wiring declaration from the current rendered-artifacts record so its proposed canonical component names the current four-page digest. Do not carry forward the superseded RASTER_PASS as current acceptance: the queue correctly marks it superseded and holds the new hashes RASTER_PENDING, so the product-wiring record must remain fail-closed until current raster evidence exists."
+    }
+   },
+   "whatAlreadyPasses": "The current PDFs contain no foreign sentencing-court pages, the exact component set and page order pass, both source authorities rehash exactly, all six known writes are visible, all five required-before-filing facts are surfaced, all protected fields are blank, all nine completeness counters are zero, and local inspection finds no clipping or overlap.",
+   "repairMustNotDo": [
+    "do not alter the current packet merely to preserve a stale receipt",
+    "do not restore the sentencing-court request to this family",
+    "do not treat the superseded RASTER_PASS as current evidence",
+    "do not open a route, set a price, or touch Production",
+    "this verification lane may not perform the repair"
+   ],
+   "reVerificationRequired": true
   }
  ],
  "supersededLaneMembership": {
