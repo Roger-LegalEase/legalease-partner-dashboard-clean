@@ -1,28 +1,17 @@
 #!/usr/bin/env node
 /**
- * FABLE-PC composed-treatment builder — Georgia first-offender restriction and
- * sealing under O.C.G.A. § 42-8-62.1.
+ * FABLE-PC composed-treatment builder — Georgia retroactive First Offender
+ * treatment under O.C.G.A. § 42-8-66.
  *
- * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS
+ * CLD-2026-08-28-GA-RFO controls this exact legacy route key. The legacy key
+ * says "youthful", but the committed decision and effective national route
+ * record map it to the consent-gated § 42-8-66 participant petition. The
+ * earlier § 42-8-62.1 route contract and conflated compiled presentation are
+ * stale implementation dependencies, not the authority for this composition.
  *
- * A COMPOSED TREATMENT that IS a court filing: the committed route contract
- * records outcomeMode participant_packet and names a petition or motion under
- * § 42-8-62.1 as its component.
- *
- * THE TRAP THIS FAMILY SITS IN. Its legacy pathway id says
- * 'youthful-first-offender-restriction-route', and a NEIGHBOURING Georgia
- * route — retroactive first-offender treatment under § 42-8-66 — carries a
- * committed note recording that this same legacy id MISDESCRIBES it and is
- * preserved and aliased rather than renamed. The two are different statutes.
- * This family is § 42-8-62.1. The § 42-8-66 route is a different family in
- * this same lane, and its first step is the prosecuting attorney's written
- * consent rather than a filing.
- *
- * The census records a HELD route-presentation conflict here and states in
- * terms that the held compiled presentation does not establish the exact
- * § 42-8-62.1 filing destination. The packet says so and names the office
- * that answers it, rather than reading a destination out of text the census
- * itself records as conflated.
+ * This is a zero-document-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT build. It
+ * acquires no form or source binary. Every relied-on legal statement is bound
+ * to a committed record by exact bytes and anchor-checked before composition.
  *
  * A built family is a built family. It is not verified, not approved, not
  * sellable, and this builder issues no verdict on its own packets.
@@ -33,11 +22,10 @@ const SPEC = {
   "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs",
   "outDir": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
   "jurisdiction": "GA",
-  "legalName": "Georgia First-Offender Restriction and Sealing Petition under O.C.G.A. § 42-8-62.1",
-  "routeName": "asking a Georgia court for first-offender restriction and sealing under the July 1, 2026 amendments to O.C.G.A. § 42-8-62.1",
+  "legalName": "Georgia § 42-8-66 Retroactive First Offender Petition",
+  "routeName": "petitioning the Georgia court of conviction for retroactive First Offender treatment, exoneration and discharge under O.C.G.A. § 42-8-66",
   "statutes": [
-    "O.C.G.A. § 42-8-62.1",
-    "O.C.G.A. § 35-3-37(m)"
+    "O.C.G.A. § 42-8-66"
   ],
   "routes": [
     {
@@ -46,116 +34,120 @@ const SPEC = {
   ],
   "records": [
     {
-      "recordId": "route-contract:GA:youthful-first-offender-restriction-route",
-      "path": "src/lib/legal-authority/routes/p0.json",
-      "role": "the committed route contract: this route's mechanism, statute, outcome mode, timing anchor, recorded conditions, required facts and packet components",
+      "recordId": "controlling-decision:CLD-2026-08-28-GA-RFO",
+      "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+      "role": "the controlling decision for the exact legacy pathway: it supersedes the interim guidance treatment and requires a § 42-8-66 custom participant petition gated on written prosecutorial consent",
       "mustContain": [
-        "\"routeKey\": \"GA:youthful-first-offender-restriction-route\"",
-        "First-offender restriction and sealing under the July 1, 2026 amendments",
-        "O.C.G.A. § 42-8-62.1",
-        "Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1",
-        "restriction and sealing are addressed at sentencing or disposition under the amended process; older first-offender records use the applicable retroactive petition or correction mechanism",
-        "Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms",
-        "Apply July 1, 2026 first-offender law prospectively as written",
-        "Petition or motion under § 42-8-62.1",
-        "First-offender discharge documentation",
-        "Arrest and disposition dates?",
-        "Exact offense?",
-        "First-offender sentence/discharge?",
-        "Pardon and date?",
-        "Pending/later charges?",
-        "Restriction/sealing status?"
+        "\"decisionId\": \"CLD-2026-08-28-GA-RFO\"",
+        "\"GA:youthful-first-offender-restriction-route\"",
+        "A distinct participant petition under O.C.G.A. § 42-8-66 exists after written prosecutorial consent.",
+        "Consent is a prerequisite, not the final relief.",
+        "The participant files in the court of conviction.",
+        "Use a custom participant petition packet.",
+        "No consent means attorney/prosecutor handoff.",
+        "A qualifying post-July 1, 2026 order moves to restriction/sealing implementation and tracking, not a second sealing petition.",
+        "Custom participant petition packet, gated on written prosecutorial consent. Without consent the route is an attorney or prosecutor handoff. A qualifying post-2026-07-01 order routes to restriction and sealing implementation tracking rather than a second petition."
       ]
     },
     {
-      "recordId": "compiled-profile:GA-georgia#youthful-first-offender-restriction-route",
-      "path": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
-      "role": "the compiled state profile's own pathway for this route, carrying the recorded substance of the statute and, where it exists, the recorded self-help boundary",
+      "recordId": "effective-route-contract:GA:retroactive-first-offender-treatment-under-42-8-66",
+      "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "role": "the detailed committed route record projected from the controlling national decision: mechanism, required facts, component list, consent gate, route branches, venue, fee and self-help limits",
       "mustContain": [
-        "\"id\": \"youthful-first-offender-restriction-route\"",
-        "Misdemeanors committed before age 21 (with exceptions for serious traffic, sexual, and certain other offenses)",
-        "The separate sealing step (§ 35-3-37(m))",
-        "court record. To close that, the person files a motion/petition to seal the clerk's record under § 35-3-37(m).",
-        "Restriction must occur first; sealing is the second step."
+        "\"routeKey\": \"GA:retroactive-first-offender-treatment-under-42-8-66\"",
+        "\"ruleId\": \"GA-42-8-66-RETROACTIVE-FIRST-OFFENDER-CONSENT-GATED\"",
+        "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee",
+        "Does the participant hold the prosecuting attorney's WRITTEN consent, joinder or signed endorsement?",
+        "Written prosecutorial consent is a filing prerequisite, not the relief itself",
+        "A phone call, an unanswered request, prosecutor silence or 'no known objection' is not written consent",
+        "\"packetFamily\": \"Georgia § 42-8-66 Retroactive First Offender Petition\"",
+        "Written prosecutor consent, joinder or signed consent endorsement",
+        "Post-order restriction, sealing and verification instructions",
+        "verified written prosecutorial consent, joinder or signed consent endorsement, held as a document",
+        "\"whenUnsatisfied\": \"fail_closed_handoff\"",
+        "a qualifying order was granted on or after 2026-07-01",
+        "The product becomes restriction, sealing, agency distribution and verification tracking.",
+        "the prosecuting attorney refused consent",
+        "\"disposition\": \"attorney_or_prosecutor\"",
+        "Consent withdrawn before the order is entered defeats the filing.",
+        "A contested evidentiary hearing is advocacy, not document preparation.",
+        "Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number. The statute imposes no filing fee."
       ]
     },
     {
       "recordId": "route-obligation-census:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "role": "the committed route-obligation census: this route's exact key, its statutory authority, its recorded destination and its participant-facing instrument",
+      "role": "the committed assignment-identity dependency: it preserves the exact legacy obligation key and points that key to CLD-2026-08-28-GA-RFO; its superseded § 42-8-62.1 presentation is not used as substantive authority",
       "mustContain": [
         "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
-        "not recorded — the held compiled presentation does not establish the exact § 42-8-62.1 filing destination",
-        "Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1"
+        "\"CLD-2026-08-28-GA-RFO\""
       ]
     }
   ],
   "components": [
     {
-      "id": "ga-first-offender-restriction-primary-filing-1",
+      "id": "ga-retroactive-first-offender-42-8-66-petition-1",
       "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "role": "primary_filing",
-      "title": "Petition - Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1",
-      "description": "the composed petition, on this route's own statutory ground",
-      "condition": null,
+      "title": "Petition - Retroactive First Offender Treatment, Exoneration and Discharge under § 42-8-66",
+      "description": "the controlling § 42-8-66 participant petition, available only after verified written prosecutorial consent and only before the court grants the qualifying order",
+      "condition": "generate and file only when verified written prosecutorial consent, joinder or signed consent endorsement is held as a document and no qualifying order has already been granted",
       "body": [
-        "IN THE ............................................................ COURT",
-        "(the Georgia court that entered the first-offender sentence or disposition)",
+        "[C2 - court of conviction] Court and county in which the conviction was entered:",
+        "{{DOTS}}",
+        "STATE OF GEORGIA",
         "",
-        "IN RE: {{participant.full_legal_name}},",
-        "PETITIONER.",
+        "STATE OF GEORGIA,",
+        "v.",
+        "{{participant.full_legal_name}}, DEFENDANT/PETITIONER.",
         "",
-        "Case number, if the court assigns one at filing:",
+        "Original criminal case number:",
         "{{DOTS}}",
         "",
-        "GEORGIA FIRST-OFFENDER RESTRICTION AND SEALING PETITION UNDER § 42-8-62.1",
+        "A. THE CONTROLLING ROUTE AND ITS GATE",
         "",
-        "A. WHAT THE COMMITTED RECORD ESTABLISHES ABOUT THIS ROUTE",
+        "This is the participant-filed petition for retroactive First Offender treatment, exoneration and discharge under O.C.G.A. § 42-8-66. It is filed in the court in which the conviction was entered, in the original criminal matter unless the receiving clerk requires an ancillary number.",
         "",
-        "This petition is brought on the route the committed route contract records as \"First-offender restriction and sealing under the July 1, 2026 amendments\", under O.C.G.A. § 42-8-62.1.",
+        "Written prosecutorial consent is required BEFORE the individual files. Consent is a prerequisite, not the final relief. A phone call, an unanswered request, prosecutor silence or 'no known objection' is not written consent.",
         "",
-        "The compiled Georgia profile records the substance of this route as follows. Misdemeanors committed before age 21 (with exceptions for serious traffic, sexual, and certain other offenses) have long been restrictable, and retroactive First Offender treatment (O.C.G.A. § 42-8-66) can in some cases convert a conviction into a first-offender discharge that is then restrictable.",
+        "[C1 - required written consent document] The verified written prosecutorial consent, joinder or signed consent endorsement is attached:",
+        "{{DOTS}}",
         "",
-        "The committed contract records the timing of this route as: restriction and sealing are addressed at sentencing or disposition under the amended process; older first-offender records use the applicable retroactive petition or correction mechanism.",
-        "",
-        "The committed contract records these conditions on the route: Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms; Apply July 1, 2026 first-offender law prospectively as written.",
-        "",
-        "B. THE PETITIONER",
+        "B. THE PETITIONER AND ORIGINAL MATTER",
         "",
         "Name: {{participant.full_legal_name}}",
         "Date of birth: {{participant.date_of_birth}}",
         "",
-        "C. THE FACTS OF THIS MATTER, WHICH THE PETITIONER SUPPLIES FROM THE RECORD",
-        "",
-        "Each item below is printed in the words the committed record uses for it. Fill each one from the record itself, never from memory.",
-        "",
-        "[C1 - arrest and disposition dates] Arrest and disposition dates?",
+        "[C3 - original matter record] What are the original judgment, sentence and disposition?",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C2 - exact offense] Exact offense?",
+        "C. THE FACTS REQUIRED BY THE COMMITTED ROUTE RECORD",
+        "",
+        "Fill every item from verified records. If an answer is uncertain, stop and get legal help instead of filing.",
+        "",
+        "[C4 - original eligibility] Was the petitioner eligible for First Offender treatment at the time?",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C3 - first-offender sentence/discharge] First-offender sentence/discharge?",
+        "[C5 - statutory branch] Which § 42-8-66 branch applies?",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C4 - pardon and date] Pardon and date?",
+        "[C6 - prior history] Is there any prior felony or prior First Offender history?",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C5 - pending/later charges] Pending/later charges?",
+        "[C7 - prior qualifying order] Has a qualifying order already been granted, and on what date?",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
-        "[C6 - restriction/sealing status] Restriction/sealing status?",
-        "{{DOTS}}",
-        "{{DOTS}}",
+        "D. REQUEST FOR RELIEF",
         "",
-        "D. THE REQUEST",
+        "After the required written consent, the petitioner asks this Court to decide whether the statutory eligibility and interests-of-justice showing has been made and to grant retroactive First Offender treatment, exoneration and discharge under O.C.G.A. § 42-8-66.",
         "",
-        "The petitioner asks the Court for the restriction and sealing that O.C.G.A. § 42-8-62.1 provides on the facts stated above.",
+        "The petitioner understands that a hearing is held if the petitioner or prosecutor requests one, or if the Court wants one.",
         "",
         "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
         "",
@@ -196,51 +188,59 @@ const SPEC = {
       "blanks": [
         {
           "kind": "rbf",
-          "id": "fact_q1",
-          "label": "Item C1 - arrest and disposition dates",
-          "supply": "Arrest and disposition dates — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "written_prosecutorial_consent",
+          "label": "Item C1 - verified written prosecutorial consent, joinder or signed consent endorsement",
+          "supply": "Attach the verified written prosecutorial consent, joinder or signed consent endorsement held as a document; do not file this petition without it",
+          "why": "CLD-2026-08-28-GA-RFO and the effective route record make written prosecutorial consent a prerequisite that must exist before filing"
         },
         {
           "kind": "rbf",
-          "id": "fact_q2",
-          "label": "Item C2 - exact offense",
-          "supply": "Exact offense — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "court_of_conviction",
+          "label": "Item C2 - court and county in which the conviction was entered",
+          "supply": "The court of conviction and its county, copied from the original criminal record",
+          "why": "the effective route record requires the court of conviction and makes that court the filing destination"
         },
         {
           "kind": "rbf",
-          "id": "fact_q3",
-          "label": "Item C3 - first-offender sentence/discharge",
-          "supply": "First-offender sentence/discharge — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "original_case_number",
+          "label": "Original criminal case number in the caption",
+          "supply": "The original criminal case number, copied from the court record; use an ancillary number only if the receiving clerk requires one",
+          "why": "the effective route record says the default docket is the original criminal case"
         },
         {
           "kind": "rbf",
-          "id": "fact_q4",
-          "label": "Item C4 - pardon and date",
-          "supply": "Pardon and date — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "original_judgment_sentence_disposition",
+          "label": "Item C3 - original judgment, sentence and disposition",
+          "supply": "The original judgment, sentence and disposition, copied from verified court records",
+          "why": "the effective route record names these as required facts and packet records"
         },
         {
           "kind": "rbf",
-          "id": "fact_q5",
-          "label": "Item C5 - pending/later charges",
-          "supply": "Pending/later charges — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "original_first_offender_eligibility",
+          "label": "Item C4 - original First Offender eligibility",
+          "supply": "Whether the participant was eligible for First Offender treatment at the time, supported by the applicable evidence",
+          "why": "the effective route record makes original First Offender eligibility a required fact"
         },
         {
           "kind": "rbf",
-          "id": "fact_q6",
-          "label": "Item C6 - restriction/sealing status",
-          "supply": "Restriction/sealing status — copied from the record itself, not from memory",
-          "why": "the committed route contract records this as a required fact of the participant's own matter, and the platform holds no value for it"
+          "id": "applicable_42_8_66_branch",
+          "label": "Item C5 - applicable O.C.G.A. § 42-8-66 branch",
+          "supply": "The applicable § 42-8-66 branch and the evidence supporting it",
+          "why": "the effective route record names the applicable § 42-8-66 branch as a required fact"
         },
         {
-          "kind": "court",
-          "id": "case_number",
-          "label": "Case number of this filing, if the court assigns one at filing",
-          "why": "if a number is assigned, the court assigns it at filing"
+          "kind": "rbf",
+          "id": "prior_felony_or_first_offender_history",
+          "label": "Item C6 - prior felony or prior First Offender history",
+          "supply": "Any prior felony or prior First Offender history, supported by verified records",
+          "why": "the effective route record names this history as a required fact and directs uncertain history out of self-help"
+        },
+        {
+          "kind": "rbf",
+          "id": "qualifying_order_status_and_date",
+          "label": "Item C7 - qualifying order status and date",
+          "supply": "Whether a qualifying order has already been granted and, if so, its date, copied from a verified record",
+          "why": "the effective route record branches an already-granted order away from a second merits petition"
         },
         {
           "kind": "protected",
@@ -257,52 +257,59 @@ const SPEC = {
       ]
     },
     {
-      "id": "ga-first-offender-restriction-filing-instructions-2",
+      "id": "ga-retroactive-first-offender-42-8-66-filing-instructions-2",
       "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "role": "filing_instructions",
-      "title": "Filing Instructions - Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1",
-      "description": "what this set is, where it goes, what it costs, who is notified, and when to stop",
-      "condition": null,
+      "title": "Filing Instructions - Georgia § 42-8-66 Retroactive First Offender Petition",
+      "description": "the consent gate, the filing path, both non-filing branches, the source-required packet checklist, fee, venue and self-help stops",
+      "condition": "the petition path exists only after verified written prosecutorial consent and before a qualifying order has already been granted",
       "body": [
         "This page is for {{participant.full_legal_name}}.",
         "",
-        "FILING INSTRUCTIONS - GEORGIA FIRST-OFFENDER RESTRICTION AND SEALING PETITION UNDER § 42-8-62.1",
+        "THE REQUIRED GATE",
         "",
-        "WHAT THIS ROUTE IS, AND WHO RUNS IT",
+        "Written prosecutorial consent is required BEFORE filing. The document must be verified written consent, joinder or a signed consent endorsement held as a document. A phone call, an unanswered request, prosecutor silence or 'no known objection' does not satisfy the gate.",
         "",
-        "The committed route contract records this route as \"First-offender restriction and sealing under the July 1, 2026 amendments\", under O.C.G.A. § 42-8-62.1, with outcome mode \"participant_packet\".",
+        "THE THREE CONTROLLING ROUTE OPTIONS",
         "",
-        "The committed contract names the packet components for this route as: Petition or motion under § 42-8-62.1; First-offender discharge documentation. This packet composes the filing pages; anything on that list that is a RECORD rather than a pleading is a document you obtain and file with the petition.",
+        "1. CONSENT PRESENT, AND NO QUALIFYING ORDER ALREADY GRANTED: after verified written prosecutorial consent exists, the participant files the § 42-8-66 petition in the court of conviction. The court independently decides the statutory eligibility and interests-of-justice showing.",
+        "2. CONSENT ABSENT OR DISPUTED: do not generate or file the petition. Use an attorney or prosecutor handoff. Refusal, silence, an unanswered request and 'no known objection' are not consent; withdrawn consent defeats the filing.",
+        "3. QUALIFYING ORDER ALREADY GRANTED ON OR AFTER JULY 1, 2026: do not generate a second merits or sealing petition. The route moves to restriction, sealing, agency distribution and verification tracking.",
         "",
-        "Who runs it: The participant petitions and the court decides. Two things run in a fixed order, and the compiled profile records both: RESTRICTION hides the record in the GCIC criminal-history system, but the clerk of court's file remains a public court record; to close that, the person files a motion or petition to seal the clerk's record under § 35-3-37(m). Restriction must occur first; sealing is the second step.",
+        "WHAT THE COMMITTED ROUTE RECORD SAYS THE PACKET SHOULD INCLUDE",
         "",
-        "WHAT YOU DO",
+        "- petition for retroactive First Offender treatment, exoneration and discharge;",
+        "- written prosecutor consent, joinder or signed consent endorsement;",
+        "- proposed order;",
+        "- hearing-request election;",
+        "- certificate of service or local notice document;",
+        "- judgment, sentence and disposition records;",
+        "- evidence of original First Offender eligibility;",
+        "- evidence supporting the applicable § 42-8-66 branch;",
+        "- rehabilitation and interests-of-justice exhibits; and",
+        "- post-order restriction, sealing and verification instructions.",
         "",
-        "- Establish which side of the July 1, 2026 change your record falls on. The committed contract records that the intake must branch explicitly on that date and that the new law is applied prospectively as written.",
-        "- Fill every labelled item on the petition from the court record itself.",
-        "- Sign and date the petition personally.",
-        "- Expect two steps, not one: restriction first, then sealing of the clerk's file under § 35-3-37(m).",
+        "WHERE TO FILE",
         "",
-        "WHAT YOU DO NOT DO",
-        "",
-        "- Do not treat this as the § 42-8-66 RETROACTIVE first-offender route. That is a different statute with a different family in this same lane, and its first step is the prosecuting attorney's written consent, not a filing.",
-        "- Do not expect the clerk's file to close by itself. The compiled profile records that restriction leaves the clerk's file public until the separate § 35-3-37(m) step is taken.",
+        "File in the court of conviction. Use the original criminal matter and preserve its original caption and case number unless the receiving clerk requires an ancillary number.",
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the Georgia court that entered the first-offender sentence or disposition. Ask before you go, because a filing you cannot pay for is a filing you cannot make.",
+        "O.C.G.A. § 42-8-66 imposes no filing fee; no fee waiver is needed.",
         "",
+        "[[PAGE_BREAK]]",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
-        "No committed record this packet binds states a service requirement for a § 42-8-62.1 petition. The office that answers who must be served, and how, is the office of the clerk of the Georgia court that entered the first-offender sentence or disposition.",
+        "The committed route record calls for a certificate of service or local notice document but does not state a universal recipient or method. Confirm the local notice and service requirement with the clerk of the court of conviction before filing; do not guess.",
         "",
         "WHEN TO STOP AND GET HELP INSTEAD",
         "",
-        "- your record may fall on the pre-July 1, 2026 side of the statutory change — the committed contract records that the intake must branch explicitly on that date;",
-        "- what you actually need is RETROACTIVE first-offender treatment under O.C.G.A. § 42-8-66, which is a different statute and a different route, and whose first step is the prosecuting attorney's written consent;",
-        "- the offence is one of the serious traffic, sexual or other offences the compiled profile records as exceptions;",
-        "- you are unsure whether restriction or sealing is what you need, or in what order;",
-        "- any immigration question is involved.",
+        "- written consent is absent or disputed;",
+        "- original First Offender eligibility is uncertain;",
+        "- prior felony or First Offender history is unclear;",
+        "- the prosecutor withdraws consent;",
+        "- the court requires a contested evidentiary hearing; or",
+        "- immigration, firearm, federal or licensing consequences require advice.",
         ""
       ],
       "writes": [
@@ -331,102 +338,151 @@ const SPEC = {
       "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
     }
   },
-  "composedFromNote": "the committed route contract (src/lib/legal-authority/routes/p0.json, GA:youthful-first-offender-restriction-route), the compiled Georgia profile pathway (src/lib/rcap-engine/compiled/profiles/GA-georgia.json#youthful-first-offender-restriction-route) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
-  "formIdentityNote": "No committed record names an official participant form for this route, and the committed contract's own packet components are a composed petition together with records the participant obtains. Every page in this packet is therefore composed by this build from the committed records; no official form was substituted and none was invented.",
-  "routeSelectionNote": "One route, one instrument set: the petition states this route's statutory ground in its own title, body and footer, and no election control exists on any composed page. Where a neighbouring section of the same statute is a different route, the packet says so and tells the participant to stop rather than printing a box to tick.",
+  "composedFromNote": "CLD-2026-08-28-GA-RFO in data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json, the effective § 42-8-66 route contract in src/lib/legal-authority/routes/national-report-2026-08-28.json, and the exact legacy obligation identity in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, each bound by current SHA-256 and anchor-verified at build time",
+  "formIdentityNote": "The controlling records require a custom participant petition and name no official participant form. Every rendered page is therefore composed from the committed codified-text authority chain; no source binary was acquired, substituted or invented.",
+  "routeSelectionNote": "CLD-2026-08-28-GA-RFO maps the exact legacy youthful-first-offender-restriction route key to the consent-gated § 42-8-66 participant petition. The petition and instructions consistently select § 42-8-66 and do not select or disclaim it in favor of § 42-8-62.1.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
-      "statute": "O.C.G.A. § 42-8-62.1",
-      "instrument": "Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statute": "O.C.G.A. § 42-8-66",
+      "instrument": "Georgia § 42-8-66 Retroactive First Offender Petition",
+      "statedOn": "the composed petition and filing instructions, in their titles, bodies and route footers",
+      "precondition": "verified written prosecutorial consent, joinder or signed consent endorsement held as a document"
     }
   ],
   "obligationTable": [
     [
       "FILING_DESTINATION",
-      "The committed census records the destination for this route as **not recorded, because the held compiled presentation does not establish the exact § 42-8-62.1 filing destination**. That is a recorded gap, not an oversight in this packet, and the census also records a held route-presentation conflict for this route. What the records do establish is the court level: the Georgia court that entered the first-offender sentence or disposition. The office that answers which court takes this filing, and in what form, is the office of the clerk of that court."
+      "File in the **court of conviction**. Use the original criminal matter and preserve its original caption and case number unless the receiving clerk requires an ancillary number."
     ],
     [
       "FEE_AND_WAIVER",
-      "No committed record this packet binds states a filing fee, or a fee waiver, for this route. The office that answers both is the office of the clerk of the Georgia court that entered the first-offender sentence or disposition. Ask before you go, because a filing you cannot pay for is a filing you cannot make."
+      "O.C.G.A. § 42-8-66 imposes **no filing fee**. Because no filing fee applies, no fee waiver is needed for this petition."
     ],
     [
       "SERVICE",
-      "No committed record this packet binds states a service requirement for a § 42-8-62.1 petition. The office that answers who must be served, and how, is the office of the clerk of the Georgia court that entered the first-offender sentence or disposition."
+      "The committed route record calls for a certificate of service or local notice document but states no universal recipient or method. Confirm the local notice and service requirement with the clerk of the court of conviction before filing; do not guess."
+    ],
+    [
+      "REQUIRED_BEFORE_FILING",
+      "Verified written prosecutorial consent, joinder or signed consent endorsement held as a document is required **before** filing. A phone call, silence, an unanswered request or 'no known objection' is not written consent."
+    ],
+    [
+      "ROUTE_OPTIONS",
+      "**Consent present:** the participant files the § 42-8-66 petition in the court of conviction. **Consent absent or disputed:** no petition; attorney or prosecutor handoff. **Qualifying order already granted on or after July 1, 2026:** no second merits or sealing petition; move to restriction, sealing, agency distribution and verification tracking."
     ],
     [
       "SELF_HELP_STOP",
-      "**Stop and get help if:** your record may fall on the pre-July 1, 2026 side of the statutory change — the committed contract records that the intake must branch explicitly on that date; **Stop and get help if:** what you actually need is RETROACTIVE first-offender treatment under O.C.G.A. § 42-8-66, which is a different statute and a different route, and whose first step is the prosecuting attorney's written consent; **Stop and get help if:** the offence is one of the serious traffic, sexual or other offences the compiled profile records as exceptions; **Stop and get help if:** you are unsure whether restriction or sealing is what you need, or in what order; **Stop and get help if:** any immigration question is involved."
+      "**Stop and get help if:** consent is absent or disputed; original eligibility is uncertain; prior felony or First Offender history is unclear; the prosecutor withdraws consent; the court requires a contested evidentiary hearing; or immigration, firearm, federal or licensing consequences require advice."
     ]
   ],
   "instructionsIntro": [
-    "This packet is composed from committed repository records, not from an official form: no committed record names an official Georgia participant form for this route.",
-    "The platform filled in what it holds about you: your name, your date of birth, your mailing address, your telephone number and your email. Every fact about your own case belongs to the court record, so each one is a labelled dotted blank listed below."
+    "This is a zero-document-source custom pleading composed from committed codified-text records. No committed record names an official Georgia participant form for this route, and no source binary was acquired.",
+    "The platform filled in what it holds about you: your name, date of birth, mailing address, telephone number and email. Every fact about the original case, consent, eligibility, statutory branch, history and any prior order remains a labelled blank to complete from verified records.",
+    "Do not file the petition unless verified written prosecutorial consent, joinder or signed consent endorsement is held as a document. If that gate is absent or disputed, the result is an attorney or prosecutor handoff, not a petition."
   ],
-  "instrumentChoice": null,
+  "instrumentChoice": {
+    "heading": "The three controlling route options",
+    "intro": [
+      "CLD-2026-08-28-GA-RFO fixes these branches. Do not substitute one branch for another."
+    ],
+    "rows": [
+      [
+        "Consent present filing",
+        "After verified written prosecutorial consent exists, the participant files the § 42-8-66 petition in the court of conviction; the court independently decides the statutory eligibility and interests-of-justice showing."
+      ],
+      [
+        "Consent absent or disputed",
+        "Do not generate or file a petition. Use an attorney or prosecutor handoff."
+      ],
+      [
+        "Qualifying order already granted on or after July 1, 2026",
+        "Do not generate a second merits or sealing petition. Move to restriction, sealing, agency distribution and verification tracking."
+      ]
+    ],
+    "footnotes": [
+      "Consent withdrawn before the order is entered defeats the filing. A contested evidentiary hearing leaves document preparation and requires retained counsel."
+    ]
+  },
   "recordSays": [
     [
-      "The compiled Georgia profile",
-      "Restriction hides the record in the GCIC criminal-history system, but the clerk of court's file remains a public court record. To close that, the person files a motion/petition to seal the clerk's record under § 35-3-37(m). Restriction must occur first; sealing is the second step."
+      "CLD-2026-08-28-GA-RFO",
+      "A distinct participant petition under O.C.G.A. § 42-8-66 exists after written prosecutorial consent. Consent is a prerequisite, not the final relief. The participant files in the court of conviction."
     ],
     [
-      "The committed route contract",
-      "The intake must branch explicitly on the July 1, 2026 statutory change; apply the new law prospectively as written."
+      "The effective § 42-8-66 route record",
+      "Written consent must be a verified document; after consent the participant petitions, and the court decides. The statute imposes no elapsed wait and no filing fee."
     ],
     [
-      "The committed route-obligation census",
-      "This route carries a HELD route-presentation conflict: the census records the compiled presentation as conflated with a neighbouring mechanism and rejects the crosswalk edge. That is why this packet states the destination as not recorded rather than reading one out of the compiled text."
+      "The controlling post-order branch",
+      "A qualifying order already granted on or after July 1, 2026 moves to restriction, sealing, agency distribution and verification tracking, not a second merits or sealing petition."
     ]
   ],
   "documentsToObtain": [
     [
-      "First-offender discharge documentation — the committed contract names it as a component of this packet",
-      "the clerk of the court that entered the first-offender sentence"
+      "Verified written prosecutor consent, joinder or signed consent endorsement — required before filing",
+      "the prosecuting attorney; a phone call, silence, an unanswered request or 'no known objection' is not written consent"
+    ],
+    [
+      "Original judgment, sentence and disposition records",
+      "the clerk of the court of conviction"
+    ],
+    [
+      "Evidence of original First Offender eligibility and evidence supporting the applicable § 42-8-66 branch",
+      "the participant's verified court and case records"
+    ],
+    [
+      "Rehabilitation and interests-of-justice exhibits",
+      "the participant's own supporting records"
     ]
   ],
   "steps": [
-    "**Check the date.** The committed contract records that this route runs on the July 1, 2026 amendments and that the new law applies prospectively as written.",
-    "**Confirm you are on this route and not on § 42-8-66.** Retroactive first-offender treatment is a different statute, and its first step is the prosecuting attorney's written consent.",
-    "**Fill every labelled item from the court record**, and obtain your first-offender discharge documentation.",
-    "**Sign and date the petition personally.**",
-    "**Ask the clerk's office of the court that entered the first-offender sentence** what it takes, what it charges and how it accepts filings — no committed record this packet binds establishes any of the three.",
-    "**Plan for the second step.** Restriction comes first; sealing the clerk's file under § 35-3-37(m) is separate."
+    "**Check for an already-granted qualifying order first.** If one was granted on or after July 1, 2026, do not generate a second merits or sealing petition; move to restriction, sealing, agency distribution and verification tracking.",
+    "**Obtain verified written prosecutorial consent, joinder or a signed consent endorsement.** Without that document, do not file; use an attorney or prosecutor handoff.",
+    "**Complete every labelled petition item from verified records.** If original eligibility, the applicable § 42-8-66 branch, or prior felony or First Offender history is uncertain, stop self-help.",
+    "**Assemble the source-required materials.** Include the written-consent document, proposed order, hearing-request election, certificate of service or local notice document, judgment/sentence/disposition records, eligibility and branch evidence, rehabilitation and interests-of-justice exhibits, and post-order instructions.",
+    "**Preserve the original criminal caption and case number** unless the receiving clerk requires an ancillary number, and confirm the local service or notice procedure with the clerk of the court of conviction.",
+    "**Sign and date the petition personally, then file it in the court of conviction.** A hearing follows if the petitioner or prosecutor requests one or the court wants one."
   ],
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
-    "**Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists."
+    "**The court of conviction, original case number and every matter-specific fact.** Copy each from verified records; this build does not guess them.",
+    "**The written-consent attachment line.** The verified document must exist before filing; this build does not manufacture or replace prosecutorial consent."
   ],
-  "notTold": [],
+  "notTold": [
+    "The committed route record does not state a universal service recipient or method. Confirm the local certificate-of-service or notice procedure with the clerk of the court of conviction.",
+    "This candidate artifact does not establish that written consent has been verified, that the participant is eligible, or that any requested relief will be granted."
+  ],
   "stopConditions": [
-    "your record may fall on the pre-July 1, 2026 side of the statutory change — the committed contract records that the intake must branch explicitly on that date;",
-    "what you actually need is RETROACTIVE first-offender treatment under O.C.G.A. § 42-8-66, which is a different statute and a different route, and whose first step is the prosecuting attorney's written consent;",
-    "the offence is one of the serious traffic, sexual or other offences the compiled profile records as exceptions;",
-    "you are unsure whether restriction or sealing is what you need, or in what order;",
-    "any immigration question is involved."
+    "written prosecutorial consent is absent or disputed — use an attorney or prosecutor handoff rather than filing;",
+    "original First Offender eligibility is uncertain;",
+    "prior felony or prior First Offender history is unclear;",
+    "the prosecutor withdraws consent before the order is entered;",
+    "the court requires a contested evidentiary hearing — that is advocacy, not document preparation;",
+    "immigration, firearm, federal or licensing consequences require advice."
   ],
-  "whatThisIsNot": "This is a composed petition on one Georgia route. It is not an official Georgia form — no committed record names one — it is not legal advice, it is not filed for you, and it is NOT the § 42-8-66 retroactive first-offender instrument, which is a different statute served by a different family in this lane.",
+  "whatThisIsNot": "This is a candidate custom § 42-8-66 participant petition composed from committed codified-text records. It is not an official Georgia form, a request for prosecutorial consent, legal advice, proof of eligibility, proof that consent exists, or permission to file without verified written consent. It is not a § 42-8-62.1 petition.",
   "receiptDoesNotEstablish": [
-    "the exact § 42-8-62.1 filing destination — the census records that the held compiled presentation does not establish it, and this build does not supply one",
-    "that the held route-presentation conflict recorded for this route has been resolved — it has not"
+    "that verified written prosecutorial consent, joinder or signed consent endorsement exists for any participant",
+    "that the participant satisfies statutory eligibility or the interests-of-justice showing",
+    "that no qualifying order has already been granted",
+    "that any route, payment, generation or fulfillment gate is open"
   ],
   "buildFindings": [
     {
-      "finding": "The committed census records this route's destination as not recorded BECAUSE the held compiled presentation does not establish it, and records a held route-presentation conflict with the compiled text described as conflated.",
-      "consequence": "The packet states the destination as not recorded, names the clerk's office of the court that entered the first-offender sentence as the authority, and does not read a destination out of compiled text the census itself records as conflated. Reading one out anyway is exactly the sibling-route inference DET-FEE-AND-WAIVER-001-A3 forbids."
+      "finding": "CLD-2026-08-28-GA-RFO maps the exact legacy youthful-first-offender-restriction route key to the § 42-8-66 participant petition and supersedes the interim no-petition treatment.",
+      "consequence": "The active composition binds and obeys that decision. The stale § 42-8-62.1 contract and conflated compiled profile are removed from the substantive authority chain."
     },
     {
-      "finding": "The compiled Georgia pathway for this route carries text about O.C.G.A. § 42-8-66 retroactive first-offender treatment alongside the § 42-8-62.1 material.",
-      "consequence": "Nothing keyed to § 42-8-66 is used as this route's answer. § 42-8-66 is a separate route with its own family in this same lane, and its first step is a prosecutor's written consent rather than a filing."
+      "finding": "The controlling decision requires written prosecutorial consent before filing and fixes consent-present, consent-absent and post-July 1, 2026 qualifying-order branches.",
+      "consequence": "The petition is conditionally identified, the instructions state all three outcomes, and generation, runtime selection and commercial delivery remain disabled pending independent review."
     }
   ],
-  "counselQuestions": [
-    "The census records a held route-presentation conflict for this route and describes the compiled text as conflated. This packet composes the § 42-8-62.1 petition from the route contract and states the destination as not recorded. Confirm that treatment, or resolve the conflict.",
-    "The packet states the restriction-then-sealing sequence from the compiled profile. Confirm that sequence is right for a § 42-8-62.1 matter specifically."
-  ],
+  "counselQuestions": [],
   "reviewersAttention": [
-    "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT.",
-    "The census records this route's currentServiceDisposition as a crosswalk fidelity conflict with the held presentation edge rejected. This build did not resolve that conflict and does not claim to."
+    "source-receipt.json binds committed repository records rather than a Master Library binary — custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT and acquisitionCommissioned false.",
+    "The exact legacy route key is preserved, but CLD-2026-08-28-GA-RFO controls its § 42-8-66 substance; the stale § 42-8-62.1 dependencies are not active authority.",
+    "This is a candidate artifact only. It remains independent-verification and counsel-review pending, opens no route, and grants no fulfillment authority."
   ]
 };
 
@@ -544,7 +600,14 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  for (const raw of sanitizePdfText(fullText).split("\n")) {
+    if (raw === "[[PAGE_BREAK]]") {
+      page = pdf.addPage([width, height]);
+      y = height - margin;
+      continue;
+    }
+    for (const row of wrap(raw)) draw(row);
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
