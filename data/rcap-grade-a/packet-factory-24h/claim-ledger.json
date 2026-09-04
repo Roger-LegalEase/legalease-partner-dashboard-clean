@@ -6119,8 +6119,8 @@
       "operation": "rapid-repair",
       "lane": "FIX07",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T05:38:19.354Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6791,8 +6791,8 @@
       "operation": "rapid-repair",
       "lane": "FIX04",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-04T17:04:42.815Z"
     },
     {
       "subjectType": "packet-family",
@@ -12942,7 +12942,7 @@
       "releasedAt": null
     }
   ],
-  "claimsDigest": "defc45360a709680d1177a65cf1f5df8d52f6bb2ffb397c9b921c11a32eb24f1",
+  "claimsDigest": "92eba00aba4105db8dbe3aa974845fff325ae7607509e6da9a36d9e98906d662",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -25470,6 +25470,14 @@
       "operation": "independent-verification",
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-04T16:57:45.597Z"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tn-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-04T17:04:42.815Z"
     }
   ],
   "reissues": [
@@ -30866,6 +30874,16 @@
       "previouslyReleasedAt": "2026-09-04T15:06:45.000Z",
       "reissuedAt": "2026-09-04T16:57:45.687Z",
       "reason": "current independent verdict at 440d949d requires exact SOURCE_IDENTITY receipt refresh and pagination-orphan repair on tn_pretrial_diversion, tn_nonconviction_petition, and tn_judicial_diversion; no source acquisition"
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "ny_mrta_marijuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-04T05:38:19.354Z",
+      "reissuedAt": "2026-09-04T17:04:47.163Z",
+      "reason": "current independent verdict requires only PROTECTED_FIELDS metadata correction for Proper_ID, Charge_Sealed, and Comment_Entered in the court-use-only block; current packet bytes already leave them blank"
     }
   ],
   "transfers": [
