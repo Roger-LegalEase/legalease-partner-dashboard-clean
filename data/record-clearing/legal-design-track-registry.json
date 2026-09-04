@@ -11578,6 +11578,37 @@
         "name": "The court where the indictment, information, criminal citation, or complaint was filed",
         "detail": "If the complaint was filed in justice court and an information followed, file in superior court."
       },
+      "recordDrivenFilingCourtSelection": {
+        "status": "MAPPED",
+        "requiredRecordFacts": [
+          "exact charging-instrument type",
+          "court and case number where the charging instrument was filed",
+          "whether a justice-court complaint was followed by an information",
+          "superior court and case number shown by any later information"
+        ],
+        "rules": [
+          {
+            "when": "The charging-document history shows that a justice-court complaint was followed by an information in superior court.",
+            "result": "SELECT_SUPERIOR_COURT_NAMED_BY_INFORMATION"
+          },
+          {
+            "when": "The charging-document history shows an indictment, information, citation, or complaint and no later superior-court information.",
+            "result": "SELECT_COURT_WHERE_CHARGING_INSTRUMENT_WAS_FILED"
+          }
+        ],
+        "hardStop": "If the charging-document history is missing or inconsistent, or does not establish the instrument, court, and any justice-to-superior-court progression, require human review and do not guess.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 8"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:AOCCRSL1F-050825",
+          "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05"
+        },
+        {
+          "sourceId": "official-form:AOCCRSL2F-050825",
+          "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1"
+        }
+      ],
       "packetSet": {
         "packetSetId": "az_record_sealing_dismissal_not_guilty-set",
         "version": "1.0.0",
