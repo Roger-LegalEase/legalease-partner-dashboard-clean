@@ -412,10 +412,28 @@
         "do not regress the repaired widget-specific font sizing",
         "do not print signatures, notary acts, court decisions, service events or other protected-owner facts",
         "do not treat zero machine counters as proof that semantic guidance and row integrity pass",
-        "this verification opens no commercial route and grants no approval"
-      ]
-    }
-  ],
+    "this verification opens no commercial route and grants no approval"
+  ]
+ },
+ {
+  "itemId": "al-pardoned-felony-set",
+  "lane": "VF06",
+  "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The shared Alabama mapping writes directions and unrelated participant data as facts, partially populates a prior-expungement group, writes participant phone into an attorney-only field, and omits the pardon-specific comparison workflow and stop conditions.",
+  "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "REPEATING_ROWS", "PROTECTED_FIELDS", "SELF_HELP_STOP"],
+  "perObligation": {
+   "KNOWN_PREFILLS": {"measuredDetail": "Charge, agency and ground fields contain directions rather than facts; C-10 spouse and employer fields contain the participant's own values.", "whatRepairMustDo": "Write only held facts matching the printed field and refuse every unknown or unrelated value."},
+   "REQUIRED_BEFORE_FILING": {"measuredDetail": "The instructions do not intelligibly require obtaining the pardon certificate, comparing and correcting restoration language, obtaining ALEA records, signing/dating, or making the fee/waiver choice.", "whatRepairMustDo": "Surface every exact packetSet.requiredBeforeFiling action and reconcile the contradictory notarization language."},
+   "REPEATING_ROWS": {"measuredDetail": "The current case number is written into prior-expungement details despite an unselected election and blank companion fields.", "whatRepairMustDo": "Keep that conditional group wholly blank unless separately held prior-expungement facts support a complete truthful group."},
+   "PROTECTED_FIELDS": {"measuredDetail": "CR-65 page 6 writes the participant phone into the attorney-only Telephone Number line.", "whatRepairMustDo": "Remove the participant-to-attorney mapping and keep attorney fields protected absent representation facts."},
+   "SELF_HELP_STOP": {"measuredDetail": "The packet omits an explicit stop when the pardon withholds firearm rights and omits licensing/firearm consequence stops.", "whatRepairMustDo": "Carry all exact al-pardoned-felony registry stop conditions, preserving the distinction between firearm-right restoration and this route."}
+  },
+  "acceptance": ["Rebuild both fixtures, rehash all outputs, obtain a new whole-family raster receipt, and have a new independent reader rescore all fifteen obligations and nine counters."],
+  "repairMustNotDo": ["do not edit official source PDFs", "do not weaken the pardon/restoration conditions", "this verification opens no commercial route and grants no approval"]
+ }
+ ],
      "vf06ReDispatchWaveBlockedFamilies": {
         "whatThisIs": "families this lane read and could not score PASS or FAIL, because an obligation depends on a legal input no record the family binds answers. Not repair assignments; the work here is a decision, not an edit.",
         "families": [

@@ -7389,6 +7389,40 @@
           }
         }
       }
+    },
+    {
+      "itemId": "il-exp-precompletion-set",
+      "lane": "VF08",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill",
+      "claimedBeforeEvidenceRead": true,
+      "claimResult": "CLAIM_OK VF08 il-exp-precompletion-set (independent-verification, grant set 5b17fa37d9409bc0)",
+      "failedProofObligations": ["ROUTE_IDENTITY", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "ROUTE_OPTIONS", "REPEATING_ROWS", "SELF_HELP_STOP"],
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "semanticFalseNegativesFound": true},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "FAIL", "finding": "This is the precompletion expungement route, but the output writes the same case into both the expungement and sealing tables on the Request and proposed Order. It also does not select or clearly preserve the item 6 problem-solving/pre-plea/post-plea diversion branch that identifies this route."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All four source bytes independently rehash exactly: EXP-AD Request 1,015,247 bytes / 44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853; Case List 744,328 / b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c; Order 823,679 / 52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305; fee waiver 1,051,549 / b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both fixtures contain all four required components: six-page Request, one-page Case List, two-page proposed Order, and four-page fee-waiver application."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "Twenty Request fields labeled 'List all charges for each case number' contain the case number 2021-CF-004217 instead of a charge. The Case List's charge field contains the truncated direction 'Charge exactly as shown o…' rather than an actual charge."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "FAIL", "finding": "A 250-label refusal dump omits the registry's usable semantic actions: obtain an ISP Access and Review transcript, compare and correct case data from it and certified dispositions, make the per-case expunge-versus-seal election, provide the hearing date after objection, sign and verify with a wet signature, and make the county fee/Rule 298 waiver choice."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "FAIL", "finding": "The output selects expungement at the top but then writes the same case into the sealing section and sealing half of the proposed order. The item 6 program-type/completion election is neither selected nor surfaced as a participant action."},
+        "REPEATING_ROWS": {"measured": true, "result": "FAIL", "finding": "Rows 2-10 of both expungement and sealing tables carry case-number text in the charge column while companion agency, arrest-date and outcome cells remain blank. The zero incompleteRows counter is a semantic false negative."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "No signature, verification date, court-service block, judge decision or entered-date field carries participant ink."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical 1,735,010 bytes / 094606faeb8e3e22d320c14ec2c4afcb27063adee79f52861befcb4734cadc30 and boundary 1,735,640 / 14c928815215021a21bcc6a5ebab5faec6cc1853264560e9a25170e53dabb53e rehash exactly to the current records and central receipt."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both 13-page fixtures follow the declared order: Request pages 1-6, Case List page 1, Order pages 1-2, then fee-waiver pages 1-4."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "All 26 pages were freshly rastered and inspected. Long boundary identity and contact values fit at the recorded six-point floor; no clipping or overlap was observed. The current hash-bound central receipt reports 26 pages and zero problems."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The filing instructions name the circuit clerk in each county where an arrest occurred or a charge was brought, including Cook County district routing."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The packet states county-specific court fees, the ISP no-petition-fee/$60 order-processing treatment, and includes the Rule 298 waiver application."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The instructions correctly say the circuit clerk performs statutory service after filing and the participant must not complete court-owned service or order fields."},
+        "SELF_HELP_STOP": {"measured": true, "result": "FAIL", "finding": "The instructions cover objection, contested hearing, printed-fact mismatch and immigration, but omit the registry's stops for transcript ambiguity, an unrecognized case/possible identity theft, federal or out-of-state records, a motion to vacate/modify/reconsider, and petition denial."}
+      },
+      "freshVerification": {"preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed", "focusedCompleteness": "PASS_COMPLETE; 70/424 written; all nine counters zero", "sourcesRehashed": "4/4 exact", "artifactsRehashed": "2/2 exact", "pagesLocallyInspected": 26, "centralRaster": "RASTER_PASS bound to both current fixture hashes; 26 pages; 0 problems"},
+      "artifactBytesMovedByThisLane": 0,
+      "overlayDirectoriesModified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This verdict records semantic defects the mechanical counters missed. It approves no output, opens no route and grants no production authority."
     }
   ],
   "obligationSet": "the factory's canonical fifteen (L9)",

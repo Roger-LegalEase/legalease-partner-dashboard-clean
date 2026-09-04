@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF05",
   "worker": "VF-SRC-A",
-  "assignmentCount": 11,
+  "assignmentCount": 12,
   "assignments": [
     {
       "itemId": "ar-misdemeanor-dwi-seal-set",
@@ -619,8 +619,26 @@
     "do not declare completion by changing only a completeness counter or stale report narrative",
     "do not edit an artifact merely so the current raster receipt matches it",
     "this verification opens no commercial route and grants no approval"
-   ]
-  }
+  ]
+ },
+ {
+  "itemId": "al-misd-dwop-set",
+  "lane": "VF05",
+  "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The shared Alabama mapping writes instruction strings and unrelated participant values as legal facts, partially populates a prior-expungement group, writes participant phone into an attorney-only field, and substitutes a raw PDF-label dump for the route's required semantic checklist and complete stop conditions.",
+  "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "REPEATING_ROWS", "PROTECTED_FIELDS", "SELF_HELP_STOP"],
+  "perObligation": {
+   "KNOWN_PREFILLS": {"measuredDetail": "Charge, agency and ground fields contain directions rather than facts; C-10 spouse and employer fields contain the participant's own identity/contact facts.", "whatRepairMustDo": "Write only held facts that match each field's printed meaning. Refuse unknown charge, agency, spouse and employer facts and surface them clearly for participant completion."},
+   "REQUIRED_BEFORE_FILING": {"measuredDetail": "The registry's certified-local-record comparison, ALEA acquisition, signature/date and fee/waiver actions are not intelligibly stated; dozens of raw labels are 'undefined'.", "whatRepairMustDo": "Add the exact registry actions as participant-facing steps and reconcile the packet's notarization direction with the registry's recorded uncertainty."},
+   "REPEATING_ROWS": {"measuredDetail": "The current case number is written into prior-expungement details beside an unselected election and blank county/result companions.", "whatRepairMustDo": "Leave the whole prior-expungement fact group blank unless that participant fact is held, or populate a complete and truthful group from separately collected facts."},
+   "PROTECTED_FIELDS": {"measuredDetail": "CR-65 page 6 writes the participant phone on the attorney-only Telephone Number line.", "whatRepairMustDo": "Never map participant contact data into attorney identity/contact fields; keep every attorney-only field blank absent representation facts."},
+   "SELF_HELP_STOP": {"measuredDetail": "The instructions omit the minor-traffic-definition uncertainty plus licensing and firearm consequences.", "whatRepairMustDo": "Carry every exact al-misd-dwop selfHelpStopCondition from the track registry without borrowing sibling conditions."}
+  },
+  "acceptance": ["Rebuild both fixtures, rehash all outputs, obtain a new whole-family raster receipt, and have a new independent reader rescore all fifteen obligations and nine counters."],
+  "repairMustNotDo": ["do not edit official source PDFs", "do not preserve wrong writes merely to keep current artifact hashes", "this verification opens no commercial route and grants no approval"]
+ }
  ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",

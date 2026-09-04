@@ -5368,6 +5368,40 @@
    },
    "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14; shared-worktree, cloud-marker and full-corpus-index checks failed, but exact family source binding passed 4/4 and all four source hashes were recomputed.",
    "repairedNothing": true
+  },
+  {
+   "itemId": "al-misd-dwop-set",
+   "lane": "VF05",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill",
+   "claimedBeforeEvidenceRead": true,
+   "claimResult": "CLAIM_OK VF05 al-misd-dwop-set (independent-verification, grant set 5b17fa37d9409bc0)",
+   "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "REPEATING_ROWS", "PROTECTED_FIELDS", "SELF_HELP_STOP"],
+   "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "semanticFalseNegativesFound": true},
+   "proofObligations": {
+    "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The exact track-only route maps to the misdemeanor/violation dismissed-without-prejudice option, and CR-65 visibly selects only that printed ground."},
+    "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Both held sources were independently rehashed and match: CR-65 468,056 bytes / c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39; C-10-CRIMINAL 711,433 bytes / 527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8."},
+    "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "The assembled 11 pages contain CR-65 including its certificate of service plus the conditional three-page C-10-CRIMINAL fee-waiver form."},
+    "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "The form contains directions in fact boxes rather than facts ('The charge shown on the certified case record', 'Agency shown on the certified arrest record', and 'See the selected statutory route...'). C-10 also writes the participant's own name into 'Spouse's Full Name (if married)', the participant address into employer address, and the participant phone into employer phone. These are visible wrong-value writes despite the zero machine counter."},
+    "REQUIRED_BEFORE_FILING": {"measured": true, "result": "FAIL", "finding": "The instructions dump 63 raw PDF labels, including many 'undefined' fields, but omit the registry's semantic actions: obtain the certified local disposition, compare and correct the dismissed-without-prejudice answer, obtain the certified ALEA record, complete and personally sign/date CR-65, and make the fee/waiver choice. They also conflict with the registry's 'source review does not state a notarization requirement' by directing notarization."},
+    "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The route-determined CR-65 dismissal ground is selected; participant-owned choices remain unselected."},
+    "REPEATING_ROWS": {"measured": true, "result": "FAIL", "finding": "Page 6 writes the current case number into the prior-expungement detail line although neither prior-application choice is selected and the companion county and granted/denied fields remain blank. That conditional fact group is partially and incorrectly populated."},
+    "PROTECTED_FIELDS": {"measured": true, "result": "FAIL", "finding": "CR-65 page 6 visibly writes the participant telephone number 334-555-0142 into the attorney-only Telephone Number line while the attorney name, signature, address and email remain blank. The protectedWrites=0 counter is a semantic false negative."},
+    "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical 908,043 bytes / 413a9995ba8cc968543bb28f7cb1155d70c4b72d9973f85e582ec815cd257987 and boundary 908,501 bytes / 9652926c43a5fcc237a46d363b922970316d6adfee7696ece6aa7d9f388f3c75 rehash exactly to all current records and the central RASTER_PASS receipt."},
+    "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both fixtures contain CR-65 pages 1-8 followed by C-10-CRIMINAL pages 1-3."},
+    "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "All 22 pages were freshly rastered and inspected; boundary values remain inside their fields. The current hash-bound central receipt independently reports 22 pages and zero problems."},
+    "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The filing instructions name the criminal division of the Alabama circuit court in the county where the charge was filed."},
+    "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "The $500 route fee and included C-10-CRIMINAL indigency route are stated."},
+    "SERVICE": {"measured": true, "result": "PASS", "finding": "The packet directs a separate certificate page after service for the district attorney, law-enforcement agency and filing-court clerk, with date, method, recipient, address and server signature completed only afterward."},
+    "SELF_HELP_STOP": {"measured": true, "result": "FAIL", "finding": "The registry has four route-specific stops. The instructions cover objection, contested hearing and immigration, but omit uncertainty about the 'minor traffic violation' definition and omit licensing and firearm consequences."}
+   },
+   "freshVerification": {"preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed", "focusedCompleteness": "PASS_COMPLETE; 37/216 written; all nine counters zero", "sourcesRehashed": "2/2 exact", "artifactsRehashed": "2/2 exact", "pagesLocallyInspected": 22, "centralRaster": "RASTER_PASS bound to both current fixture hashes; 22 pages; 0 problems"},
+   "artifactBytesMovedByThisLane": 0,
+   "overlayDirectoriesModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "This verdict records semantic defects the mechanical counters missed. It approves no output, opens no route and grants no production authority."
   }
  ],
  "supersededLaneMembership": {
