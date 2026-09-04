@@ -10,6 +10,17 @@
   "productionTouched": false,
   "commercialRoutesOpened": 0,
   "grantsNothing": "A repairer's return. It promotes no family, proves none, issues no PASS and opens no commercial route. Each family below owes a fresh read from a lane that neither built nor repaired it.",
+  "currentReturn": {
+    "workerBranch": "codex/national-repair-fix03",
+    "baseSha": "1fa8edf10a895009aa0de6934148b362a532b0dc",
+    "minimumCaptainAncestor": "afcd697920953dbefd7f7df96f88e38991a2be3c",
+    "rowRange": "rows 4-8",
+    "preflight": "All five family-scoped Codex Cloud preflights returned PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable.",
+    "claims": "All five exact FIX03 claims asserted under grant set 8ca0026dd1d1fb39 with no collision and were released only after these rows were complete.",
+    "selfVerified": false,
+    "productionTouched": false,
+    "commercialRoutesOpened": 0
+  },
   "familiesHeld": "The brief names four families. Three were live in the claim ledger at this base and are answered below. The fourth, ca-1203-42-set, holds a rapid-repair grant to FIX03 that was released at 2026-09-02T16:31:36.739Z and was not re-opened by the dispatch, so --assert would answer ALREADY_RELEASED. It was not read, not built and not touched.",
   "environment": {
     "host": "local git worktree of the repository, not a Codex Cloud container",
@@ -147,6 +158,153 @@
       "blastRadius": "None. No byte of this family was written in this run.",
       "commercialRoutesOpened": 0,
       "needsIndependentRead": true
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "COMPONENT_SET"
+      ],
+      "obligationsRepaired": [],
+      "stopClass": "BLOCKED_SOURCE_MISSING_COMPONENTS",
+      "whyStopped": "The bound official bundle itself names three required Non Conviction Insert Forms that no source bound to this family supplies: Facts pages, Findings pages, and Exhibit pages. The existing family report says the packet cannot be filed without them. Repair would require source acquisition and custody binding, not a family-builder inference, and the dispatch supplies no replacement source.",
+      "whatThisLaneDid": "Claimed the family, passed its 14/14 source-binding preflight for the five currently bound source identities, reproduced the open COMPONENT_SET finding from the family builder and missing-companion-forms report, and changed no family byte.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterBasis": "The nine counters measure only pages present in the bundle and therefore cannot close the missing-component obligation.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsRepaired": [],
+      "stopClass": "PROHIBITED_PATH_CONFLICT",
+      "whyStopped": "The authoritative FIX03 dispatch simultaneously lists this family directory as owned and explicitly prohibits every nj-arrest-no-conviction-set overlay path. It supplies no finding or evidence from which a repair could be made outside that prohibited directory, and the lane forbids re-deriving an unnamed defect.",
+      "whatThisLaneDid": "Claimed the family and passed its 14/14 source preflight. No NJ family artifact was materialized, read, built, or changed.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterBasis": "Unchanged dispatch counters; no after-build measurement is claimed because the protected family was not read or written.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-nv-custom-pleading",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsRepaired": [],
+      "stopClass": "CENTRAL_RASTER_REQUIRED",
+      "whyStopped": "The dispatched evidence reports zero off-page or overlapping text runs in 1,405 canonical and 1,418 boundary draws and identifies the only unsatisfied proof as current calibrated raster evidence: RASTER_PENDING, no raster directory, no page records, and no receipt. This repair lane cannot issue the central hash-bound RASTER_PASS or substitute another renderer, and no changed repair artifact is justified.",
+      "whatThisLaneDid": "Claimed the family, passed its 14/14 zero-source-composition preflight, accepted the dispatch's geometry result, and left all Nevada family and builder bytes unchanged for central raster owner RAS02.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterBasis": "Unchanged dispatch counters; visualDefects zero is not promoted to visual approval and no RASTER_PASS is claimed.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-wi-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification and central calibrated raster review remain required.",
+      "obligationsAssigned": [
+        "COMPONENT_SET",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsRepaired": [
+        "COMPONENT_SET",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "whatWasDone": "Preserved the registry's exact status-request only-if condition in the component model, generated field map, rendered-artifact report, packet component list, and participant table. Classified the primary request's current supervising-authority address as required before sending and removed the nonexistent court-assigned case-number blank. Replaced the generic file-every-page instructions with a choice between the issuance request and conditional status request, both sent to the supervising or detaining authority rather than filed with a court.",
+      "tddEvidence": "The focused builder check first failed because status.condition was null. After the repair it requires the exact registry condition, primary addressee RBF, absence of the invented primary case-number blank, participant disclosure of the condition, absence of both false generic court-filing phrases, and the exact administrative send action. The builder also anchor-checks the two controlling registry/specification statements before composing.",
+      "artifacts": [
+        "canonical fa75790c3ef35af41d142cade19bf6def68149e3767e9b14eb73b1bd45414dc9 17311 bytes 6 pages",
+        "boundary 84297a24847a4a9555b92a8ac138d101fffd03331e71be7229efb72e50f1b5d8 17796 bytes 6 pages"
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "selfVerified": false,
+      "needsIndependentRead": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_acquittal-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "obligationsAssigned": [
+        "CLIPPING_AND_OVERLAP",
+        "PAGE_ORDER"
+      ],
+      "obligationsRepaired": [],
+      "stopClass": "PROHIBITED_PATH_AND_SHARED_HOST",
+      "whyStopped": "The authoritative FIX03 dispatch explicitly prohibits every ut-pet-acquittal-set overlay path and does not grant its shared build host. Both assigned defects require changing delivered PDF bytes through that shared host: moving the BCI components ahead of the court packet and moving the declaration-name write clear of the printed 'I'. Those changes cannot be made inside this lane's writable boundary.",
+      "whatThisLaneDid": "Claimed the family and passed its 14/14 nine-source preflight. No Utah family artifact or shared builder was read, built, or changed.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "counterBasis": "Unchanged dispatch counters; they do not supersede the assigned page-order and collision failures.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "reportedNotRepaired": [

@@ -20,7 +20,9 @@
     "wi_exp_certificate_of_discharge_followup-status-request-2",
     "wi_exp_certificate_of_discharge_followup-filing-instructions-3"
   ],
-  "componentConditions": {},
+  "componentConditions": {
+    "wi_exp_certificate_of_discharge_followup-status-request-2": "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued."
+  },
   "componentRoutes": {
     "wi_exp_certificate_of_discharge_followup-primary-filing-1": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
     "wi_exp_certificate_of_discharge_followup-status-request-2": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
@@ -57,8 +59,18 @@
       "answer": "**Stop and get help if:** The judge did not order expungement at sentencing. There is no certificate owed and the request would be pointless. **Stop and get help if:** Any dispute about whether completion was successful, particularly a revocation or a subsequent conviction, because those are the two facts that destroy the expungement entirely. **Stop and get help if:** The supervising authority declines to issue the certificate, or asserts that completion was not successful. **Stop and get help if:** The authority does not respond, or responds that it has issued and forwarded the certificate while the clerk says nothing was received. **Stop and get help if:** Any request to argue entitlement, allege agency fault or press the authority beyond a neutral request. That is individualized advocacy and outside self-help. **Stop and get help if:** Immigration consequences. **Stop and get help if:** Federal, tribal or out-of-state records. **Stop and get help if:** Neutral request only. Do not draft accusations of agency misconduct, assertions of legal entitlement that would require document review, or any individualized advocacy. Where the authority declines or disputes completion, refer to a lawyer. **Stop and get help if:** After the participant sends the request, issuance and forwarding are the supervising authority's acts and the sealing follows from the certificate reaching the clerk. The packet ends at the letter and the follow-up checklist."
     }
   ],
-  "requiredBeforeFilingCount": 13,
+  "requiredBeforeFilingCount": 14,
   "requiredBeforeFiling": [
+    {
+      "document": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
+      "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.addressee_detail",
+      "page": 1,
+      "printedContext": "The current office and postal address of the supervising or detaining authority",
+      "disclosureLabel": "The current office and postal address of the supervising or detaining authority",
+      "identity": "wi_exp_certificate_of_discharge_followup-primary-filing-1 field addressee_detail",
+      "why": "the committed specification requires the current mailing address of the supervising authority before sending, and which office holds the participant's matter is a fact of that matter",
+      "participantMustSupply": "the current name and postal address of the supervising or detaining authority you are sending this request to, confirmed with that office"
+    },
     {
       "document": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
       "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.fact_caseNumberAndCounty",
@@ -280,6 +292,30 @@
       ],
       "canonicalRefusals": [
         {
+          "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.addressee_detail",
+          "fieldName": "wi_exp_certificate_of_discharge_followup-primary-filing-1.addressee_detail",
+          "page": 1,
+          "printedLabel": "The current office and postal address of the supervising or detaining authority",
+          "printedLine": "The current office and postal address of the supervising or detaining authority",
+          "effectiveLabel": "The current office and postal address of the supervising or detaining authority",
+          "regionHeading": "The current office and postal address of the supervising or detaining authority",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the current name and postal address of the supervising or detaining authority you are sending this request to, confirmed with that office",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "wi_exp_certificate_of_discharge_followup-primary-filing-1 field addressee_detail",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
+          "why": "the committed specification requires the current mailing address of the supervising authority before sending, and which office holds the participant's matter is a fact of that matter",
+          "participantMustSupply": "the current name and postal address of the supervising or detaining authority you are sending this request to, confirmed with that office"
+        },
+        {
           "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.fact_caseNumberAndCounty",
           "fieldName": "wi_exp_certificate_of_discharge_followup-primary-filing-1.fact_caseNumberAndCounty",
           "page": 1,
@@ -470,24 +506,6 @@
           "document": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
           "why": "the committed track registry records this as a required generation input for wi_exp_certificate_of_discharge_followup, and the platform holds no value for it",
           "participantMustSupply": "Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done?"
-        },
-        {
-          "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.case_number",
-          "fieldName": "wi_exp_certificate_of_discharge_followup-primary-filing-1.case_number",
-          "page": 1,
-          "printedLabel": "Case number of this filing, if the court assigns one at filing",
-          "printedLine": "Case number of this filing, if the court assigns one at filing",
-          "effectiveLabel": "Case number of this filing, if the court assigns one at filing",
-          "regionHeading": "Case number of this filing, if the court assigns one at filing",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "court, clerk, prosecutor, agency, or hearing field; the court completes it",
-          "category": "court_prosecutor_clerk_or_agency_owned",
-          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
-          "class": "court_prosecutor_clerk_or_agency_owned",
-          "requiredBeforeFiling": false,
-          "document": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
-          "why": "if a number is assigned, the court assigns it at filing"
         },
         {
           "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.petition_signature",
@@ -600,6 +618,30 @@
       ],
       "boundaryRefusals": [
         {
+          "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.addressee_detail",
+          "fieldName": "wi_exp_certificate_of_discharge_followup-primary-filing-1.addressee_detail",
+          "page": 1,
+          "printedLabel": "The current office and postal address of the supervising or detaining authority",
+          "printedLine": "The current office and postal address of the supervising or detaining authority",
+          "effectiveLabel": "The current office and postal address of the supervising or detaining authority",
+          "regionHeading": "The current office and postal address of the supervising or detaining authority",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the current name and postal address of the supervising or detaining authority you are sending this request to, confirmed with that office",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "wi_exp_certificate_of_discharge_followup-primary-filing-1 field addressee_detail",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
+          "why": "the committed specification requires the current mailing address of the supervising authority before sending, and which office holds the participant's matter is a fact of that matter",
+          "participantMustSupply": "the current name and postal address of the supervising or detaining authority you are sending this request to, confirmed with that office"
+        },
+        {
           "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.fact_caseNumberAndCounty",
           "fieldName": "wi_exp_certificate_of_discharge_followup-primary-filing-1.fact_caseNumberAndCounty",
           "page": 1,
@@ -792,24 +834,6 @@
           "participantMustSupply": "Do you want to ask the authority to issue and forward the certificate, or only to tell you whether it has already been done?"
         },
         {
-          "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.case_number",
-          "fieldName": "wi_exp_certificate_of_discharge_followup-primary-filing-1.case_number",
-          "page": 1,
-          "printedLabel": "Case number of this filing, if the court assigns one at filing",
-          "printedLine": "Case number of this filing, if the court assigns one at filing",
-          "effectiveLabel": "Case number of this filing, if the court assigns one at filing",
-          "regionHeading": "Case number of this filing, if the court assigns one at filing",
-          "sectionHeading": null,
-          "rectBasis": "composed_document_authored_by_this_build",
-          "reason": "court, clerk, prosecutor, agency, or hearing field; the court completes it",
-          "category": "court_prosecutor_clerk_or_agency_owned",
-          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
-          "class": "court_prosecutor_clerk_or_agency_owned",
-          "requiredBeforeFiling": false,
-          "document": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
-          "why": "if a number is assigned, the court assigns it at filing"
-        },
-        {
           "field": "wi_exp_certificate_of_discharge_followup-primary-filing-1.petition_signature",
           "fieldName": "wi_exp_certificate_of_discharge_followup-primary-filing-1.petition_signature",
           "page": 1,
@@ -855,7 +879,9 @@
         "mode": "participant",
         "captionOnly": false,
         "documentAcceptsFill": true,
-        "routeKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup"
+        "routeKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
+        "conditional": true,
+        "conditionDescription": "Used where the participant wants only to know whether the certificate has issued, rather than to ask that it be issued."
       },
       "structuralClass": "composed_document",
       "composedFrom": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
