@@ -1,8 +1,8 @@
 {
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
- "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT",
- "assignmentCount": 20,
+ "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL",
+ "assignmentCount": 22,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -538,8 +538,63 @@
    "do not self-verify or release the claim",
    "this assignment opens no route and grants no production authority"
   ]
+ },
+ {
+  "wave": "packet-factory-24h/VF03/CT-FL exact-base verification (2026-09-04)",
+  "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+  "routeKey": "obligation:track-only:CT:ct-destruction-request",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-CT-FL",
+  "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "Both current exact-hash fixtures split the required three-year-bar-expiration fact from its completion guidance onto a sparse second page. In boundary, page 1 ends with only the label and page 2 begins with its dotted response line and 'Check with' instruction; in canonical, the line remains on page 1 but the instruction alone begins page 2. The governed renderer reports both pages technically nonblank and uncropped, but human inspection finds two pagination defects.",
+  "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+  "perObligation": {
+   "CLIPPING_AND_OVERLAP": {
+    "measuredDetail": "Canonical f7104a55fed4eaa9e5055778f0970fb0a6f6806af31b9e81ff8f110c1bcfd221 / 5593 / 2 and boundary a26db59d0e573f3bba2b38e7e45fb91fe9f08e56ef40472159a9813ae44990c1 / 5710 / 2 rehash exactly. The current governed scale-2.5 receipt at packet commit 706dbbd reports 4/4 pages nonblank, cropped to 2040x2640, residual 0 and machineProblems 0. Independent bbox geometry reports 0/752 outside words and 0 substantive overlaps. Original-resolution page inspection identifies the two field/control pagination splits described above; sparse page-2 ink fractions are 0.010295417409387997 canonical and 0.010611445335710042 boundary.",
+    "whatRepairMustDo": "Reflow both fixtures so the 'Date the three-year destruction bar expires' label, response line and associated 'Check with: the case record and the clerk' instruction stay together. Rebuild deterministically, rerun focused completeness and reraster every changed exact hash through the governed whole-family renderer. A verifier other than CODEX-CS1-VF03-CT-FL and the repairer must inspect the new page evidence."
+   }
+  },
+  "repairMustNotDo": [
+   "do not alter the route's post-erasure-only scope or three-year rule",
+   "do not turn the preparation guide into an unverified official form or court petition",
+   "do not reuse the current raster receipt after fixture bytes change",
+   "do not self-verify or release the claim",
+   "this assignment opens no route and grants no production authority"
+  ]
+ },
+ {
+  "wave": "packet-factory-24h/VF03/CT-FL exact-base verification (2026-09-04)",
+  "itemId": "fl-trafficking-set",
+  "routeKey": "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583",
+  "lane": "VF03",
+  "assignedByVerifier": "CODEX-CS1-VF03-CT-FL",
+  "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+  "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "decisiveDefect": "The family silently reduces its own receipt-named authoritative five-component packet contract to three components, omitting the required certificate-of-service and instruction component identities. Both current fixtures also orphan the sworn statement's six-line notary block and route footer onto a near-empty page 4.",
+  "failedProofObligations": ["COMPONENT_SET", "CLIPPING_AND_OVERLAP"],
+  "perObligation": {
+   "COMPONENT_SET": {
+    "measuredDetail": "data/record-clearing/legal-design-packet-set-manifests.json at current SHA-256 713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572 defines five required components for fl-trafficking-set: primary filing, affidavit, proposed order, fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5. The family source receipt names that record as the source for packet roles. MASTER_QUEUE, packet-set-manifest.json, production-field-map.json and both PDFs bind only the first three. participant-instructions.md and filing-instructions.md contain guidance but are not bound as the required instruction component; no certificate-of-service component exists. Independent requiredComponentsMissing is 2, overriding the declaration-relative focused zero.",
+    "whatRepairMustDo": "Reconcile the family to the authoritative five-component contract. Include and bind fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5 in declared order across the local packet manifest, field map, artifact manifest and packet output. Preserve the existing honest statement that held source review does not establish a service recipient or method; do not invent service law. If legal owners instead intend either component not to be required, they must first make that change in the authoritative packet-set source, not silently in this family."
+   },
+   "CLIPPING_AND_OVERLAP": {
+    "measuredDetail": "Canonical dca3cd333f061c7b80176b5a815fd6266e8882ea51e6aa8e7e8e8ec7f6084570 / 13255 / 5 and boundary 0ca00f36b857d97471e0ed2b5372c5501c796729aa9315a30e002b3801012e6a / 13527 / 5 rehash exactly. The current governed scale-2.5 receipt at packet commit 706dbbd reports 10/10 pages nonblank, cropped to 2040x2640, residual 0 and machineProblems 0. Independent bbox geometry reports 0/1801 outside words and 0 substantive overlaps. Human inspection finds page 4 in each fixture carries only the notary jurat continuation and route footer, with ink fractions 0.006045937314319667 canonical and 0.007214237967914439 boundary, while the preceding page has sufficient space to keep the jurat with the signature/date block.",
+    "whatRepairMustDo": "Keep the sworn statement's notary jurat with its signature/date block instead of emitting the current sparse page 4. Rebuild both personas deterministically, rerun focused completeness against the authoritative component list and reraster every changed exact hash through the governed whole-family renderer. A verifier other than CODEX-CS1-VF03-CT-FL and the repairer must inspect the new page evidence."
+   }
+  },
+  "repairMustNotDo": [
+   "do not invent a service recipient, service method or legal rule that the held source does not establish",
+   "do not weaken the survivor-safety, evidentiary-hearing, excluded-offense or immigration stops",
+   "do not prefill participant signatures, notary fields, judge findings, order fields or clerk fields",
+   "do not reuse the current raster receipt after fixture bytes change",
+   "do not self-verify or release the claim",
+   "this assignment opens no route and grants no production authority"
+  ]
  }
- ],
+],
  "supersededLaneMembership": {
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF03",
@@ -592,7 +647,8 @@
   "FABLE-VA3": 2,
   "CODEX-CS1-VF03-NATIONAL": 5,
   "CODEX-CS1-VF03-CURRENT": 1,
-  "note": "Prior assignments remain preserved. The five source-receipt re-pin assignments from 588f9e74 are now independently cleared by current rows; CODEX-CS1-VF03-CURRENT adds one REQUIRED_BEFORE_FILING assignment for the § 19c fact-set contamination at e10890c114ef6f46907efa9fa660493700ecead1."
+  "CODEX-CS1-VF03-CT-FL": 2,
+  "note": "Prior assignments remain preserved. The five source-receipt re-pin assignments from 588f9e74 are independently cleared by later rows; CODEX-CS1-VF03-CURRENT added one REQUIRED_BEFORE_FILING assignment at e10890c. CODEX-CS1-VF03-CT-FL adds the CT pagination assignment and the FL component-set plus pagination assignment at 706dbbd."
  },
  "fableVa3Read": {
   "wave": "FABLE-VA3",
