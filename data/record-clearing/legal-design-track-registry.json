@@ -11900,6 +11900,42 @@
         "name": "The court where the person had an initial appearance",
         "detail": "If there was no initial appearance, the superior court in the county of arrest."
       },
+      "recordDrivenFilingCourtSelection": {
+        "status": "MAPPED",
+        "requiredRecordFacts": [
+          "charging-document history for the arrest",
+          "official initial-appearance history",
+          "court named by the initial-appearance record, when one occurred",
+          "county of arrest"
+        ],
+        "rules": [
+          {
+            "when": "The charging-document history shows that an indictment, information, citation, or complaint was filed.",
+            "result": "STOP_TRACK_MISMATCH",
+            "statement": "The arrest-with-no-charges track is not established; re-screen against the filed-charge record."
+          },
+          {
+            "when": "The official initial-appearance history identifies a court and the charging-document history establishes that no charge was filed.",
+            "result": "SELECT_INITIAL_APPEARANCE_COURT"
+          },
+          {
+            "when": "The official record establishes that no initial appearance occurred and the charging-document history establishes that no charge was filed.",
+            "result": "SELECT_SUPERIOR_COURT_IN_COUNTY_OF_ARREST"
+          }
+        ],
+        "hardStop": "If the charging-document or initial-appearance history is missing, inconsistent, or does not establish the filing court, require human review and do not guess.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 7"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:AOCCRSL1F-050825",
+          "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05"
+        },
+        {
+          "sourceId": "official-form:AOCCRSL2F-050825",
+          "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1"
+        }
+      ],
       "packetSet": {
         "packetSetId": "az_record_sealing_arrest_no_charges-set",
         "version": "1.0.0",
