@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-04T10:58:07.348Z",
-  "captainHead": "4bcb03efb389a64dee306c88696b04ff2215230c",
+  "generatedAt": "2026-09-04T14:00:15.886Z",
+  "captainHead": "0be1fee769162cf337ad79daaa3d5a94d88b4f5e",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-04T11:18:07.348Z",
-    "nextSourceReleaseDeadline": "2026-09-04T11:28:07.348Z",
+    "nextIntegrationDeadline": "2026-09-04T14:20:15.886Z",
+    "nextSourceReleaseDeadline": "2026-09-04T14:30:15.886Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 0,
+        "measured": 23,
         "threshold": 20,
-        "triggered": false
+        "triggered": true
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 54,
+        "measured": 52,
         "threshold": 20,
         "triggered": true
       },
@@ -62,7 +62,7 @@
           "PF23",
           "PF24"
         ],
-        "measured": 85,
+        "measured": 110,
         "threshold": 80,
         "triggered": true
       }
@@ -78,18 +78,19 @@
   },
   "liveCounts": {
     "liveFamilyDenominator": 346,
-    "sourceReady": 85,
-    "sourceBlocked": 43,
+    "sourceReady": 110,
+    "sourceBlocked": 16,
     "legalBlocked": 5,
-    "verifyPending": 0,
-    "repairRequired": 54,
+    "verifyPending": 23,
+    "repairRequired": 52,
     "byState": {
-      "SOURCE_READY": 85,
-      "COMPLETE_PACKET_PROVEN": 123,
-      "FAIL_REPAIR_REQUIRED": 54,
+      "SOURCE_READY": 110,
+      "COMPLETE_PACKET_PROVEN": 104,
+      "FAIL_REPAIR_REQUIRED": 52,
       "OUT_OF_SCOPE": 5,
+      "VERIFY_PENDING": 23,
       "PRODUCT_PATH_PENDING": 17,
-      "SOURCE_BLOCKED": 43,
+      "SOURCE_BLOCKED": 16,
       "VERIFIED_PASS": 2,
       "LEGAL_BLOCKED": 5,
       "HANDOFF_READY": 2,

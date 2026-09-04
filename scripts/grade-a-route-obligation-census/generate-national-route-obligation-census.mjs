@@ -2393,7 +2393,20 @@ export function buildOutputs() {
         question: `Must ${closureContradiction.pathwayKey} be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?`,
       });
     }
-    const strategy = contractStrategy(contract) ?? outputStrategyFromPacketMode(pathway.packetMode);
+    const contractedStrategy = contractStrategy(contract) ?? outputStrategyFromPacketMode(pathway.packetMode);
+    const exactTrackStrategies = uniq(mappedTracks
+      .map((track) => track.outputStrategy)
+      .filter((value) => ["official_pdf_fill", "custom_pleading", "participant_agency_application"].includes(value)));
+    /* A route-contract guidance_status describes the result/presentation. It
+     * cannot erase an exact participant filing carried by the one joined legal
+     * track. Preserve the track's packet treatment for Category A routes while
+     * retaining guidance_status as contract evidence. */
+    const strategy = contractedStrategy === "process_guidance"
+      && classification.possibleCategory === "A_MUST_FULFILL"
+      && classification.participantCanInitiate === true
+      && exactTrackStrategies.length === 1
+      ? exactTrackStrategies[0]
+      : contractedStrategy;
     const packetSets = uniq([
       ...asArray(launch?.packetSets).map((item) => typeof item === "string" ? item : item.packetSetId),
       ...mappedTracks.map((track) => indexes.packetSetByTrack.get(`${track.jurisdiction}:${track.trackId}`)?.packetSetId),

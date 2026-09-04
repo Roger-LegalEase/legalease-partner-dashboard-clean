@@ -177,18 +177,21 @@ check("S11", "an identity matching several held artifacts is ambiguous, not sile
   ambiguityProblems.length === 0 && haveAmbiguous,
   `${records.filter((r) => (r.heldCandidates ?? []).length > 1).length} ambiguous identit(ies); ${ambiguityProblems.length} problem(s): ${ambiguityProblems.slice(0, 2).join(" | ")}`);
 
-/* S12. The Captain's 42-family reconciliation is a governed input, and the
+/* S12. The Captain's family reconciliation is a governed input, and the
  * generated registry must prove that every resulting family state agrees with
  * that input. This prevents the old generic SOURCE_BLOCKED label from silently
  * returning after a regeneration. */
 const recInput = captainDeterminations.reconciliation42;
 const recOutput = reg.reconciliation42;
 const masterFamilies = new Map((master.families ?? []).map((f) => [f.familyId, f]));
-const expectedGroups = { A: 19, B: 19, C: 4 };
+const expectedGroups = { A: 19, B: 19, C: 4, D: 28 };
+const expectedFamilyCount = Object.values(expectedGroups).reduce((sum, count) => sum + count, 0);
 const recProblems = [];
 const recRows = recInput?.families ?? [];
-if (recRows.length !== 42) recProblems.push(`input has ${recRows.length} family rows`);
-if (new Set(recRows.map((r) => r.familyId)).size !== 42) recProblems.push("input family ids are not 42 unique values");
+if (recRows.length !== expectedFamilyCount) recProblems.push(`input has ${recRows.length} family rows`);
+if (new Set(recRows.map((r) => r.familyId)).size !== expectedFamilyCount) {
+  recProblems.push(`input family ids are not ${expectedFamilyCount} unique values`);
+}
 for (const [group, count] of Object.entries(expectedGroups)) {
   const actual = recRows.filter((r) => r.group === group).length;
   if (actual !== count) recProblems.push(`group ${group} has ${actual}, expected ${count}`);
@@ -218,9 +221,9 @@ const laterBlockers = recOutput?.laterSourceBlockersKeptSeparate ?? [];
 if (laterBlockers.length !== 5 || laterBlockers.some((id) => recRows.some((r) => r.familyId === id))) {
   recProblems.push(`later blocker separation is invalid (${laterBlockers.length})`);
 }
-check("S12", "all 42 reconciled families retain their governed source dispositions or advance downstream, with the five later blockers separate",
-  recProblems.length === 0 && recOutput?.familiesExamined === 42,
-  `${recOutput?.familiesExamined ?? 0}/42 declared; ${recProblems.length} problem(s): ${recProblems.slice(0, 3).join(" | ")}`);
+check("S12", `all ${expectedFamilyCount} reconciled families retain their governed source dispositions or advance downstream, with the five later blockers separate`,
+  recProblems.length === 0 && recOutput?.familiesExamined === expectedFamilyCount,
+  `${recOutput?.familiesExamined ?? 0}/${expectedFamilyCount} declared; ${recProblems.length} problem(s): ${recProblems.slice(0, 3).join(" | ")}`);
 
 for (const r of results) console.log(`  ${r.ok ? "ok  " : "FAIL"} ${r.id.padEnd(3)} ${r.title}${r.ok ? "" : `\n         observed: ${r.observed}`}`);
 console.log(`\n${results.filter((r) => r.ok).length}/${results.length} source-model checks passed.`);

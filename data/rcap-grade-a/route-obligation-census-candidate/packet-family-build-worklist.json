@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:5f40385d0b4014d8b490ed420d45fe0e54b5258a6760333a70c5af96bc8c9d3a",
+    "sourceFingerprint": "sha256:743f613560471288058bb27d699e5834940fb40a5ae5ab0cd16d25c985a926ea",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -14,14 +14,14 @@
     }
   },
   "counts": {
-    "packetFamilies": 352,
-    "officialSourceAcquisitionTasks": 295,
-    "formMapTasks": 261,
-    "composedPleadingTasks": 110,
-    "localVariationTasks": 95,
-    "productWiringTasks": 217,
-    "artifactReviewTasks": 352,
-    "outputApprovalTasks": 337
+    "packetFamilies": 348,
+    "officialSourceAcquisitionTasks": 290,
+    "formMapTasks": 260,
+    "composedPleadingTasks": 107,
+    "localVariationTasks": 96,
+    "productWiringTasks": 213,
+    "artifactReviewTasks": 348,
+    "outputApprovalTasks": 332
   },
   "allowedWorkTypes": [
     "OFFICIAL_FORM_EXISTING_MAP",
@@ -20226,7 +20226,12 @@
             "component:co_motion_seal_conviction-proposed-order-2",
             "official-form:JDF-612",
             "official-form:JDF-615",
-            "source-url:https://www.coloradojudicial.gov/self-help/seal-my-case"
+            "source-sha256:08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+            "source-sha256:184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+            "source-sha256:4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+            "source-url:https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+            "source-url:https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
+            "source-url:https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF615.pdf"
           ],
           "existingArtifactIds": [],
           "missingImplementationWork": [
@@ -21283,7 +21288,6 @@
         "ARTIFACT_REVIEW_REQUIRED",
         "LOCAL_VARIATION_REQUIRED",
         "OFFICIAL_FORM_MAP_REQUIRED",
-        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
         "OUTPUT_LEGAL_APPROVAL_REQUIRED",
         "PRODUCT_WIRING_REQUIRED"
       ],
@@ -21297,13 +21301,11 @@
             "component:co_municipal_conviction_seal-primary-filing-1",
             "component:co_municipal_conviction_seal-proposed-order-2",
             "official-form:JDF-683",
-            "official-form:JDF-684",
+            "official-form:JDF-686",
             "source-url:https://www.coloradojudicial.gov/self-help/seal-my-case"
           ],
           "existingArtifactIds": [],
           "missingImplementationWork": [
-            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
             "Add an exact runtime representation or record an approved exclusion; the legal-design track is not represented in compiled runtime.",
             "Complete exact product wiring without creating runtime or commercial authority.",
             "Complete route-output artifact review; a held source file is not an output artifact.",
@@ -21336,7 +21338,6 @@
             "ARTIFACT_REVIEW_REQUIRED",
             "LOCAL_VARIATION_REQUIRED",
             "OFFICIAL_FORM_MAP_REQUIRED",
-            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
             "OUTPUT_LEGAL_APPROVAL_REQUIRED",
             "PRODUCT_WIRING_REQUIRED"
           ],
@@ -21350,7 +21351,7 @@
             "proposedOrder": {
               "status": "recorded",
               "entries": [
-                "proposed_order: JDF-684"
+                "proposed_order: JDF-686"
               ]
             },
             "coverSheet": {
@@ -21494,7 +21495,7 @@
         "proposedOrder": {
           "status": "recorded",
           "entries": [
-            "proposed_order: JDF-684"
+            "proposed_order: JDF-686"
           ]
         },
         "coverSheet": {
@@ -27145,361 +27146,6 @@
       }
     },
     {
-      "worklistGroupId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
-      "packetFamilyId": null,
-      "packetSetId": null,
-      "packetSetIds": [],
-      "implementationStrategy": "custom_pleading",
-      "routeKeys": [
-        "obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
-      ],
-      "jurisdictions": [
-        "NV"
-      ],
-      "workTypes": [
-        "ARTIFACT_REVIEW_REQUIRED",
-        "COMPOSED_PLEADING",
-        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-        "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-        "PRODUCT_WIRING_REQUIRED"
-      ],
-      "routes": [
-        {
-          "routeKey": "obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
-          "jurisdiction": "NV",
-          "trackId": null,
-          "runtimePathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
-          "requiredSourceIds": [
-            "compiled-profile:src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
-            "compiled-source-ref:section:136-145; pathways:11-24; section:11-24; corpus-unit:8; corpus-unit:52",
-            "route-contract:src/lib/legal-authority/routes/route-splits.json#NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247"
-          ],
-          "existingArtifactIds": [],
-          "missingImplementationWork": [
-            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
-            "Complete exact product wiring without creating runtime or commercial authority.",
-            "Complete route-output artifact review; a held source file is not an output artifact.",
-            "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
-            "Implement or confirm the composed pleading and every required companion component.",
-            "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-            "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-            "Obtain completed-output legal approval for this exact family and route scope.",
-            "Record affidavitOrVerification; current evidence is not recorded.",
-            "Record certificateOfService; current evidence is not recorded.",
-            "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
-            "Record coverSheet; current evidence is not recorded.",
-            "Record feeWaiverTreatment; current evidence is not recorded.",
-            "Record filingDeadline; current evidence is not recorded.",
-            "Record filingDestination; current evidence is not recorded.",
-            "Record filingFee; current evidence is not recorded.",
-            "Record filingMethod; current evidence is not recorded.",
-            "Record laterCompletionFields; current evidence is not recorded.",
-            "Record notarizationRequirements; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
-            "Record proposedOrder; current evidence is not recorded.",
-            "Record schedulesOrContinuationPages; current evidence is not recorded.",
-            "Record serviceMethod; current evidence is not recorded.",
-            "Record serviceRecipients; current evidence is not recorded.",
-            "Record serviceTiming; current evidence is not recorded.",
-            "Record signatureRequirements; current evidence is not recorded.",
-            "Record uncontestedHearingTreatment; current evidence is not recorded.",
-            "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
-          ],
-          "workTypes": [
-            "ARTIFACT_REVIEW_REQUIRED",
-            "COMPOSED_PLEADING",
-            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-            "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-            "PRODUCT_WIRING_REQUIRED"
-          ],
-          "deliverable": {
-            "primaryOfficialFormOrComposedPleading": {
-              "status": "recorded",
-              "entries": [
-                "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247",
-                "Petition to vacate and seal"
-              ]
-            },
-            "proposedOrder": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "coverSheet": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notice": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "certificateOfService": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "affidavitOrVerification": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "schedulesOrContinuationPages": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "requiredParticipantAttachments": {
-              "status": "recorded",
-              "entries": [
-                "Victimization nexus evidence"
-              ]
-            },
-            "laterCompletionFields": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "signatureRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notarizationRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDestination": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingFee": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "feeWaiverTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceRecipients": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceTiming": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDeadline": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "waitingPeriodCalculation": {
-              "status": "recorded",
-              "entries": [
-                "event_trigger \n no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements"
-              ]
-            },
-            "postFilingInstructions": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "uncontestedHearingTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "contestedHearingOrOppositionHandoff": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            }
-          }
-        }
-      ],
-      "reusableFamilyDeliverable": {
-        "primaryOfficialFormOrComposedPleading": {
-          "status": "recorded",
-          "entries": [
-            "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247",
-            "Petition to vacate and seal"
-          ]
-        },
-        "proposedOrder": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "coverSheet": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notice": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "certificateOfService": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "affidavitOrVerification": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "schedulesOrContinuationPages": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "requiredParticipantAttachments": {
-          "status": "recorded",
-          "entries": [
-            "Victimization nexus evidence"
-          ]
-        },
-        "laterCompletionFields": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "signatureRequirements": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notarizationRequirements": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDestination": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingFee": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "feeWaiverTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceRecipients": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceTiming": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDeadline": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "waitingPeriodCalculation": {
-          "status": "recorded",
-          "entries": [
-            "event_trigger \n no fixed elapsed waiting period; the petition follows satisfaction of the statutory victimization nexus and the due-diligence and safety requirements"
-          ]
-        },
-        "postFilingInstructions": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "uncontestedHearingTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "contestedHearingOrOppositionHandoff": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        }
-      }
-    },
-    {
       "worklistGroupId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
       "packetFamilyId": null,
       "packetSetId": null,
@@ -28187,720 +27833,6 @@
           "status": "recorded",
           "entries": [
             "event_trigger \n available at final review, or after successful informal adjustment or closure, when the statutory conditions are met; no generic clock applies"
-          ]
-        },
-        "postFilingInstructions": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "uncontestedHearingTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "contestedHearingOrOppositionHandoff": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        }
-      }
-    },
-    {
-      "worklistGroupId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
-      "packetFamilyId": null,
-      "packetSetId": null,
-      "packetSetIds": [],
-      "implementationStrategy": "custom_pleading",
-      "routeKeys": [
-        "obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement"
-      ],
-      "jurisdictions": [
-        "PA"
-      ],
-      "workTypes": [
-        "ARTIFACT_REVIEW_REQUIRED",
-        "COMPOSED_PLEADING",
-        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-        "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-        "PRODUCT_WIRING_REQUIRED"
-      ],
-      "routes": [
-        {
-          "routeKey": "obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
-          "jurisdiction": "PA",
-          "trackId": null,
-          "runtimePathwayId": "path-k-human-trafficking-vacatur-expungement",
-          "requiredSourceIds": [
-            "compiled-profile:src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
-            "compiled-source-ref:pathways:15-128; section:15-128; corpus-unit:43",
-            "route-contract:src/lib/legal-authority/routes/route-splits.json#PA:path-k-human-trafficking-vacatur-expungement"
-          ],
-          "existingArtifactIds": [],
-          "missingImplementationWork": [
-            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
-            "Complete exact product wiring without creating runtime or commercial authority.",
-            "Complete product wiring for the pending contract-versus-evaluator route-kind adjudication and verify that the participant-facing result presents the exact contract packet without creating commercial authority.",
-            "Complete route-output artifact review; a held source file is not an output artifact.",
-            "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
-            "Implement or confirm the composed pleading and every required companion component.",
-            "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-            "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-            "Obtain completed-output legal approval for this exact family and route scope.",
-            "Record affidavitOrVerification; current evidence is not recorded.",
-            "Record certificateOfService; current evidence is not recorded.",
-            "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
-            "Record coverSheet; current evidence is not recorded.",
-            "Record feeWaiverTreatment; current evidence is not recorded.",
-            "Record filingDeadline; current evidence is not recorded.",
-            "Record filingDestination; current evidence is not recorded.",
-            "Record filingFee; current evidence is not recorded.",
-            "Record filingMethod; current evidence is not recorded.",
-            "Record laterCompletionFields; current evidence is not recorded.",
-            "Record notarizationRequirements; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
-            "Record proposedOrder; current evidence is not recorded.",
-            "Record schedulesOrContinuationPages; current evidence is not recorded.",
-            "Record serviceMethod; current evidence is not recorded.",
-            "Record serviceRecipients; current evidence is not recorded.",
-            "Record serviceTiming; current evidence is not recorded.",
-            "Record signatureRequirements; current evidence is not recorded.",
-            "Record uncontestedHearingTreatment; current evidence is not recorded.",
-            "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
-          ],
-          "workTypes": [
-            "ARTIFACT_REVIEW_REQUIRED",
-            "COMPOSED_PLEADING",
-            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-            "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-            "PRODUCT_WIRING_REQUIRED"
-          ],
-          "deliverable": {
-            "primaryOfficialFormOrComposedPleading": {
-              "status": "recorded",
-              "entries": [
-                "Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet",
-                "Petition to vacate or expunge"
-              ]
-            },
-            "proposedOrder": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "coverSheet": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notice": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "certificateOfService": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "affidavitOrVerification": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "schedulesOrContinuationPages": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "requiredParticipantAttachments": {
-              "status": "recorded",
-              "entries": [
-                "Diversion completion record where applicable",
-                "Trafficking nexus evidence"
-              ]
-            },
-            "laterCompletionFields": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "signatureRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notarizationRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDestination": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingFee": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "feeWaiverTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceRecipients": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceTiming": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDeadline": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "waitingPeriodCalculation": {
-              "status": "recorded",
-              "entries": [
-                "event_trigger \n no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
-              ]
-            },
-            "postFilingInstructions": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "uncontestedHearingTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "contestedHearingOrOppositionHandoff": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            }
-          }
-        }
-      ],
-      "reusableFamilyDeliverable": {
-        "primaryOfficialFormOrComposedPleading": {
-          "status": "recorded",
-          "entries": [
-            "Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet",
-            "Petition to vacate or expunge"
-          ]
-        },
-        "proposedOrder": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "coverSheet": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notice": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "certificateOfService": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "affidavitOrVerification": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "schedulesOrContinuationPages": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "requiredParticipantAttachments": {
-          "status": "recorded",
-          "entries": [
-            "Diversion completion record where applicable",
-            "Trafficking nexus evidence"
-          ]
-        },
-        "laterCompletionFields": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "signatureRequirements": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notarizationRequirements": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDestination": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingFee": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "feeWaiverTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceRecipients": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceTiming": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDeadline": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "waitingPeriodCalculation": {
-          "status": "recorded",
-          "entries": [
-            "event_trigger \n no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
-          ]
-        },
-        "postFilingInstructions": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "uncontestedHearingTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "contestedHearingOrOppositionHandoff": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        }
-      }
-    },
-    {
-      "worklistGroupId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
-      "packetFamilyId": null,
-      "packetSetId": null,
-      "packetSetIds": [],
-      "implementationStrategy": "custom_pleading",
-      "routeKeys": [
-        "obligation:runtime-only:SD:juvenile-trafficking-expungement"
-      ],
-      "jurisdictions": [
-        "SD"
-      ],
-      "workTypes": [
-        "ARTIFACT_REVIEW_REQUIRED",
-        "COMPOSED_PLEADING",
-        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-        "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-        "PRODUCT_WIRING_REQUIRED"
-      ],
-      "routes": [
-        {
-          "routeKey": "obligation:runtime-only:SD:juvenile-trafficking-expungement",
-          "jurisdiction": "SD",
-          "trackId": null,
-          "runtimePathwayId": "juvenile-trafficking-expungement",
-          "requiredSourceIds": [
-            "compiled-profile:src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
-            "compiled-source-ref:section:159-167; section:15-26; pathways:15-26; corpus-unit:10; corpus-unit:65",
-            "route-contract:src/lib/legal-authority/routes/route-splits.json#SD:juvenile-trafficking-expungement"
-          ],
-          "existingArtifactIds": [],
-          "missingImplementationWork": [
-            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
-            "Complete exact product wiring without creating runtime or commercial authority.",
-            "Complete route-output artifact review; a held source file is not an output artifact.",
-            "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
-            "Implement or confirm the composed pleading and every required companion component.",
-            "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-            "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-            "Obtain completed-output legal approval for this exact family and route scope.",
-            "Record affidavitOrVerification; current evidence is not recorded.",
-            "Record certificateOfService; current evidence is not recorded.",
-            "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
-            "Record coverSheet; current evidence is not recorded.",
-            "Record feeWaiverTreatment; current evidence is not recorded.",
-            "Record filingDeadline; current evidence is not recorded.",
-            "Record filingDestination; current evidence is not recorded.",
-            "Record filingFee; current evidence is not recorded.",
-            "Record filingMethod; current evidence is not recorded.",
-            "Record laterCompletionFields; current evidence is not recorded.",
-            "Record notarizationRequirements; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
-            "Record proposedOrder; current evidence is not recorded.",
-            "Record schedulesOrContinuationPages; current evidence is not recorded.",
-            "Record serviceMethod; current evidence is not recorded.",
-            "Record serviceRecipients; current evidence is not recorded.",
-            "Record serviceTiming; current evidence is not recorded.",
-            "Record signatureRequirements; current evidence is not recorded.",
-            "Record uncontestedHearingTreatment; current evidence is not recorded.",
-            "Record waitingPeriodCalculation; current evidence is not recorded.",
-            "Wire the exact runtime pathway to its legal-design track and packet family; this census grants no runtime authority."
-          ],
-          "workTypes": [
-            "ARTIFACT_REVIEW_REQUIRED",
-            "COMPOSED_PLEADING",
-            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-            "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-            "PRODUCT_WIRING_REQUIRED"
-          ],
-          "deliverable": {
-            "primaryOfficialFormOrComposedPleading": {
-              "status": "recorded",
-              "entries": [
-                "Petition under § 26-7A-115.1",
-                "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1"
-              ]
-            },
-            "proposedOrder": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "coverSheet": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notice": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "certificateOfService": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "affidavitOrVerification": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "schedulesOrContinuationPages": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "requiredParticipantAttachments": {
-              "status": "recorded",
-              "entries": [
-                "Victimization nexus evidence"
-              ]
-            },
-            "laterCompletionFields": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "signatureRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notarizationRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDestination": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingFee": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "feeWaiverTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceRecipients": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceTiming": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDeadline": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "waitingPeriodCalculation": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "postFilingInstructions": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "uncontestedHearingTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "contestedHearingOrOppositionHandoff": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            }
-          }
-        }
-      ],
-      "reusableFamilyDeliverable": {
-        "primaryOfficialFormOrComposedPleading": {
-          "status": "recorded",
-          "entries": [
-            "Petition under § 26-7A-115.1",
-            "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1"
-          ]
-        },
-        "proposedOrder": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "coverSheet": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notice": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "certificateOfService": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "affidavitOrVerification": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "schedulesOrContinuationPages": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "requiredParticipantAttachments": {
-          "status": "recorded",
-          "entries": [
-            "Victimization nexus evidence"
-          ]
-        },
-        "laterCompletionFields": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "signatureRequirements": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notarizationRequirements": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDestination": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingFee": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "feeWaiverTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceRecipients": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceTiming": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDeadline": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "waitingPeriodCalculation": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
           ]
         },
         "postFilingInstructions": {
@@ -36315,7 +35247,6 @@
             "compiled-profile:src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
             "compiled-source-ref:section:355-360; section:77-104; pathways:77-104; corpus-unit:24; corpus-unit:116; section:49-76; section:207-236; section:286-309",
             "component:de_mandatory_expungement-primary-filing-1",
-            "official-form:DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION",
             "source-url:https://dsp.delaware.gov/expungements/"
           ],
           "existingArtifactIds": [],
@@ -36358,7 +35289,7 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "primary_filing: DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION"
+                "primary_filing: de_mandatory_expungement-primary-filing-1"
               ]
             },
             "proposedOrder": {
@@ -36504,7 +35435,7 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "primary_filing: DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION"
+            "primary_filing: de_mandatory_expungement-primary-filing-1"
           ]
         },
         "proposedOrder": {
@@ -41805,6 +40736,7 @@
           "requiredSourceIds": [
             "source-url:https://gbi.georgia.gov/services/georgia-criminal-history-record-restrictions",
             "source-url:https://georgiacourts.gov/a2j/self-help-resources/record-restrictions-expungement/",
+            "source-url:https://www.gwinnettcounty.com/government/departments/solicitor/record-restrictions-information",
             "source-url:https://www.lexisnexis.com/hottopics/gacode/"
           ],
           "existingArtifactIds": [],
@@ -67734,370 +66666,6 @@
       }
     },
     {
-      "worklistGroupId": "ma-expunge-mj-set",
-      "packetFamilyId": null,
-      "packetSetId": "ma-expunge-mj-set",
-      "packetSetIds": [
-        "ma-expunge-mj-set"
-      ],
-      "implementationStrategy": "official_pdf_fill",
-      "routeKeys": [
-        "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement"
-      ],
-      "jurisdictions": [
-        "MA"
-      ],
-      "workTypes": [
-        "ARTIFACT_REVIEW_REQUIRED",
-        "OFFICIAL_FORM_MAP_REQUIRED",
-        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-        "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-        "PRODUCT_WIRING_REQUIRED"
-      ],
-      "routes": [
-        {
-          "routeKey": "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement",
-          "jurisdiction": "MA",
-          "trackId": "ma-expunge-mj",
-          "runtimePathwayId": "marijuana-only-expungement",
-          "requiredSourceIds": [
-            "compiled-profile:src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
-            "compiled-source-ref:section:170-179; overview:7-26; section:7-26; section:180-191; section:192-202; corpus-unit:10; corpus-unit:55; corpus-unit:57",
-            "component:ma-expunge-mj-primary-filing-1",
-            "official-form:TC0021",
-            "route-contract:src/lib/legal-authority/routes/route-splits.json#MA:marijuana-only-expungement",
-            "source-url:https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
-            "source-url:https://www.mass.gov/boston-municipal-court-rules",
-            "source-url:https://www.mass.gov/handbook/massachusetts-court-system",
-            "source-url:https://www.mass.gov/lists/sealing-and-expunging-criminal-records-forms",
-            "source-url:private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf"
-          ],
-          "existingArtifactIds": [],
-          "missingImplementationWork": [
-            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
-            "Complete exact product wiring without creating runtime or commercial authority.",
-            "Complete product wiring for the pending contract-versus-evaluator route-kind adjudication and verify that the participant-facing result presents the exact contract packet without creating commercial authority.",
-            "Complete route-output artifact review; a held source file is not an output artifact.",
-            "Complete the exact official-form field map; not_mapped is not an existing map.",
-            "Draft or complete the exact official-form field map for every required official form or companion.",
-            "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
-            "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-            "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-            "Obtain completed-output legal approval for this exact family and route scope.",
-            "Record affidavitOrVerification; current evidence is not recorded.",
-            "Record certificateOfService; current evidence is not recorded.",
-            "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
-            "Record coverSheet; current evidence is not recorded.",
-            "Record feeWaiverTreatment; current evidence is not recorded.",
-            "Record filingDeadline; current evidence is not recorded.",
-            "Record filingFee; current evidence is not recorded.",
-            "Record filingMethod; current evidence is not recorded.",
-            "Record notarizationRequirements; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
-            "Record proposedOrder; current evidence is not recorded.",
-            "Record schedulesOrContinuationPages; current evidence is not recorded.",
-            "Record serviceMethod; current evidence is not recorded.",
-            "Record serviceRecipients; current evidence is not recorded.",
-            "Record serviceTiming; current evidence is not recorded.",
-            "Record uncontestedHearingTreatment; current evidence is not recorded."
-          ],
-          "workTypes": [
-            "ARTIFACT_REVIEW_REQUIRED",
-            "OFFICIAL_FORM_MAP_REQUIRED",
-            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-            "OUTPUT_LEGAL_APPROVAL_REQUIRED",
-            "PRODUCT_WIRING_REQUIRED"
-          ],
-          "deliverable": {
-            "primaryOfficialFormOrComposedPleading": {
-              "status": "recorded",
-              "entries": [
-                "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼",
-                "Petition to expunge"
-              ]
-            },
-            "proposedOrder": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "coverSheet": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notice": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "certificateOfService": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "affidavitOrVerification": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "schedulesOrContinuationPages": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "requiredParticipantAttachments": {
-              "status": "recorded",
-              "entries": [
-                "Offense record showing the marijuana category"
-              ]
-            },
-            "laterCompletionFields": {
-              "status": "recorded",
-              "entries": [
-                "Petitioner signature"
-              ]
-            },
-            "signatureRequirements": {
-              "status": "recorded",
-              "entries": [
-                "Required."
-              ]
-            },
-            "notarizationRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDestination": {
-              "status": "recorded",
-              "entries": [
-                "Statewide form, court-specific filing. File in the court connected to the record.",
-                "clerk \n Clerk's office of the court connected to the record \n The court shall order expungement within 30 days of filing. This is the only hard deadline on a Massachusetts court in the chapter."
-              ]
-            },
-            "filingMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingFee": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "feeWaiverTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceRecipients": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceTiming": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDeadline": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "waitingPeriodCalculation": {
-              "status": "recorded",
-              "entries": [
-                "event_trigger \n eligibility under the marijuana-expungement statute for conduct that is no longer criminal or falls within the statutory marijuana category; no general conviction-sealing period applies"
-              ]
-            },
-            "postFilingInstructions": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "uncontestedHearingTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "contestedHearingOrOppositionHandoff": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            }
-          }
-        }
-      ],
-      "reusableFamilyDeliverable": {
-        "primaryOfficialFormOrComposedPleading": {
-          "status": "recorded",
-          "entries": [
-            "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼",
-            "Petition to expunge"
-          ]
-        },
-        "proposedOrder": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "coverSheet": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notice": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "certificateOfService": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "affidavitOrVerification": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "schedulesOrContinuationPages": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "requiredParticipantAttachments": {
-          "status": "recorded",
-          "entries": [
-            "Offense record showing the marijuana category"
-          ]
-        },
-        "laterCompletionFields": {
-          "status": "recorded",
-          "entries": [
-            "Petitioner signature"
-          ]
-        },
-        "signatureRequirements": {
-          "status": "recorded",
-          "entries": [
-            "Required."
-          ]
-        },
-        "notarizationRequirements": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDestination": {
-          "status": "recorded",
-          "entries": [
-            "Statewide form, court-specific filing. File in the court connected to the record.",
-            "clerk \n Clerk's office of the court connected to the record \n The court shall order expungement within 30 days of filing. This is the only hard deadline on a Massachusetts court in the chapter."
-          ]
-        },
-        "filingMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingFee": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "feeWaiverTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceRecipients": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceTiming": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDeadline": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "waitingPeriodCalculation": {
-          "status": "recorded",
-          "entries": [
-            "event_trigger \n eligibility under the marijuana-expungement statute for conduct that is no longer criminal or falls within the statutory marijuana category; no general conviction-sealing period applies"
-          ]
-        },
-        "postFilingInstructions": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "uncontestedHearingTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "contestedHearingOrOppositionHandoff": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        }
-      }
-    },
-    {
       "worklistGroupId": "ma-expunge-time-set",
       "packetFamilyId": null,
       "packetSetId": "ma-expunge-time-set",
@@ -69412,7 +67980,7 @@
           "runtimePathwayId": null,
           "requiredSourceIds": [
             "component:ma-seal-decrim-primary-filing-1",
-            "official-form:Petition to Seal (Office of the Commissioner of Probation), Part A box 4",
+            "official-form:Petition to Seal (Office of the Commissioner of Probation)",
             "source-url:https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276",
             "source-url:https://www.mass.gov/boston-municipal-court-rules",
             "source-url:https://www.mass.gov/handbook/massachusetts-court-system",
@@ -69459,7 +68027,7 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "primary_filing: Petition to Seal (Office of the Commissioner of Probation), Part A box 4"
+                "primary_filing: Petition to Seal (Office of the Commissioner of Probation)"
               ]
             },
             "proposedOrder": {
@@ -69603,7 +68171,7 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "primary_filing: Petition to Seal (Office of the Commissioner of Probation), Part A box 4"
+            "primary_filing: Petition to Seal (Office of the Commissioner of Probation)"
           ]
         },
         "proposedOrder": {
@@ -81240,7 +79808,7 @@
     },
     {
       "worklistGroupId": "ms-nonconv-set",
-      "packetFamilyId": null,
+      "packetFamilyId": "ms-nonconv-set",
       "packetSetId": "ms-nonconv-set",
       "packetSetIds": [
         "ms-nonconv-set"
@@ -81267,32 +79835,42 @@
           "requiredSourceIds": [
             "compiled-profile:src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
             "compiled-source-ref:pathways:15-155; section:15-155; corpus-unit:12; corpus-unit:15",
+            "packet-spec-source:MS.memo:ms-nonconv",
+            "packet-spec-source:lawrence-format-direction-2026-09-03",
+            "packet-spec-source:mississippi-mcic-administrative-code-title-31-part-2-chapter-6",
+            "packet-spec-source:mississippi-revised-notary-act-and-rules",
+            "packet-spec-source:ms-clinic-filing-review-2026-09-03",
+            "packet-spec-source:ms-nonconv-set-participant-instructions@census-v1",
+            "packet-spec-source:ms-nonconv-set-production-field-map@census-v1",
+            "packet-spec-source:ms-nonconv-set@1.0.0",
+            "packet-specification:data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json#ms-nonconviction-expungement-99-19-71-4",
             "route-contract:src/lib/legal-authority/routes/mississippi.json#MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
             "source-url:https://billstatus.ls.state.ms.us/documents/2026/html/HB/1300-1399/HB1344IN.htm",
             "source-url:https://billstatus.ls.state.ms.us/documents/2026/html/HB/1500-1599/HB1546SG.htm",
             "source-url:https://law.justia.com/codes/mississippi/"
           ],
-          "existingArtifactIds": [],
+          "existingArtifactIds": [
+            "grade-a-filing-artifact-sha256:413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+            "grade-a-fixture:ms-nonconviction-clinic-demo-participant-a:sha256:a0dbb755fcad8e0916d26913e56219a2c2d5a52479b7f01492055000b79325b6",
+            "grade-a-output-artifact-sha256:413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+            "grade-a-packet-specification:ms-nonconviction-expungement-99-19-71-4:sha256:3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f"
+          ],
           "missingImplementationWork": [
             "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
             "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
+            "Close Grade-A proof gap: final_verification: state is unbound",
+            "Close Grade-A proof gap: official_sources: no official source is bound to this route",
             "Complete route-output artifact review; a held source file is not an output artifact.",
             "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
             "Implement or confirm the composed pleading and every required companion component.",
             "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
             "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
             "Obtain completed-output legal approval for this exact family and route scope.",
-            "Record affidavitOrVerification; current evidence is not recorded.",
             "Record and test each local filing, fee, venue, or delivery variation.",
             "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
             "Record coverSheet; current evidence is not recorded.",
-            "Record feeWaiverTreatment; current evidence is not recorded.",
             "Record filingDeadline; current evidence is not recorded.",
-            "Record filingFee; current evidence is not recorded.",
             "Record filingMethod; current evidence is not recorded.",
-            "Record notarizationRequirements; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
             "Record schedulesOrContinuationPages; current evidence is not recorded.",
             "Record serviceTiming; current evidence is not recorded.",
             "Record uncontestedHearingTreatment; current evidence is not recorded."
@@ -81307,14 +79885,17 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "Nonconviction Petition under current § 99-19-71(4)",
-                "Petition under § 99-19-71(4)"
+                "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies.",
+                "ms-proposed-order \n proposed_order \n Order Granting Expunction of Record \n custom_pleading \n required \n pleading \n ms-nonconv-proposed-order-2 \n ORDER GRANTING EXPUNCTION OF RECORD \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Opening \n pleading_paragraph \n THIS CAUSE came on for consideration of the Petition for Expunction of Record. The Court, having considered the Petition and the record and being satisfied that it has jurisdiction over the parties and subject matter, FINDS, ORDERS, AND ADJUDGES as follows: \n Findings \n pleading_numbered_assertions \n jurisdiction \n This Court handled the above-styled and numbered case and has authority to consider the requested relief. \n arrest \n {{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}. \n name_used_at_arrest \n arrest_date \n arresting_agency \n charge \n charge_classification \n charge_legal_citation \n release \n Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}. \n release_date_or_record_source \n disposition \n The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}. \n disposition_date \n disposition_record_wording \n statutory_disposition_category \n entitlement \n Petitioner is entitled to expunction under Miss. Code Ann. Section 99-19-71(4). \n Order identity \n pleading_identity_list \n The record subject to this Order is identified as follows: \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number_last_four \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Provided in the confidential MCIC addendum; last four {{social_security_number_last_four}} \n Relief \n pleading_paragraph \n IT IS ORDERED AND ADJUDGED that the record of the arrest and charge identified above in Case No. {{case_number}} is expunged. \n Records direction \n pleading_paragraph \n IT IS FURTHER ORDERED that the Mississippi Criminal Information Center and every other person or agency maintaining records within the scope of this Order shall purge, expunge, or destroy those records as required by Mississippi law, subject only to any nonpublic record of the expunction order expressly permitted to be retained by statute. \n Certified transmission \n pleading_paragraph \n IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method. \n court_signature_block \n SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____. \n court_type \n APPROVED AS TO FORM \n prosecutor_signature_block \n Optional block for the prosecuting authority when the court's local practice uses it. \n CERTIFIED TRUE COPY \n clerk_certification_block \n The clerk completes this certification after entry of the Order and affixes the Court's seal. \n CONFIDENTIAL MCIC IDENTIFIER ADDENDUM \n confidential_identifier_addendum \n COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery. \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n case_number \n disposition_record_wording \n mcic_identifier_delivery_method \n mcic_identifier_method_confirmation_source \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Court Case Number \n Disposition \n Identifier Delivery Method \n Method Confirmation Source",
+                "ms-service-and-attachments \n certificate_of_service_and_attachment_checklist \n Certificate of Service and Attachment Checklist \n custom_pleading \n required \n pleading \n ms-nonconv-certificate-of-service-3 \n ms-nonconv-attachment-4 \n CERTIFICATE OF SERVICE \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Certificate \n service_certificate \n I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy. \n participant_full_legal_name \n prosecuting_authority_name \n service_address_confirmation_status \n prosecuting_authority_service_address \n ATTACHMENT ASSEMBLY STATUS \n pleading_identity_list \n The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record. \n certified_disposition_exhibit_status \n docket_sheet_exhibit_status \n Exhibit A - Certified disposition \n Exhibit B - Docket sheet"
               ]
             },
             "proposedOrder": {
               "status": "recorded",
               "entries": [
-                "Proposed order"
+                "ms-filing-and-next-steps \n filing_and_next_steps \n Filing Instructions, Next Steps, and When to Get Legal Help \n process_guidance \n required \n ms-nonconv-instructions-5 \n Where this packet goes \n filing_destination \n Confirm the fee or waiver \n fee_and_waiver \n Service and local practice \n service_and_notice \n Copies and records \n copy_requirements \n Limits after an order \n static \n The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question. \n What happens next \n post_filing_timeline \n Stop and get legal help \n hearing_and_objection_stops \n Before you file \n participant_checklist",
+                "ms-proposed-order \n proposed_order \n Order Granting Expunction of Record \n custom_pleading \n required \n pleading \n ms-nonconv-proposed-order-2 \n ORDER GRANTING EXPUNCTION OF RECORD \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Opening \n pleading_paragraph \n THIS CAUSE came on for consideration of the Petition for Expunction of Record. The Court, having considered the Petition and the record and being satisfied that it has jurisdiction over the parties and subject matter, FINDS, ORDERS, AND ADJUDGES as follows: \n Findings \n pleading_numbered_assertions \n jurisdiction \n This Court handled the above-styled and numbered case and has authority to consider the requested relief. \n arrest \n {{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}. \n name_used_at_arrest \n arrest_date \n arresting_agency \n charge \n charge_classification \n charge_legal_citation \n release \n Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}. \n release_date_or_record_source \n disposition \n The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}. \n disposition_date \n disposition_record_wording \n statutory_disposition_category \n entitlement \n Petitioner is entitled to expunction under Miss. Code Ann. Section 99-19-71(4). \n Order identity \n pleading_identity_list \n The record subject to this Order is identified as follows: \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number_last_four \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Provided in the confidential MCIC addendum; last four {{social_security_number_last_four}} \n Relief \n pleading_paragraph \n IT IS ORDERED AND ADJUDGED that the record of the arrest and charge identified above in Case No. {{case_number}} is expunged. \n Records direction \n pleading_paragraph \n IT IS FURTHER ORDERED that the Mississippi Criminal Information Center and every other person or agency maintaining records within the scope of this Order shall purge, expunge, or destroy those records as required by Mississippi law, subject only to any nonpublic record of the expunction order expressly permitted to be retained by statute. \n Certified transmission \n pleading_paragraph \n IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method. \n court_signature_block \n SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____. \n court_type \n APPROVED AS TO FORM \n prosecutor_signature_block \n Optional block for the prosecuting authority when the court's local practice uses it. \n CERTIFIED TRUE COPY \n clerk_certification_block \n The clerk completes this certification after entry of the Order and affixes the Court's seal. \n CONFIDENTIAL MCIC IDENTIFIER ADDENDUM \n confidential_identifier_addendum \n COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery. \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n case_number \n disposition_record_wording \n mcic_identifier_delivery_method \n mcic_identifier_method_confirmation_source \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Court Case Number \n Disposition \n Identifier Delivery Method \n Method Confirmation Source",
+                "ms-service-and-attachments \n certificate_of_service_and_attachment_checklist \n Certificate of Service and Attachment Checklist \n custom_pleading \n required \n pleading \n ms-nonconv-certificate-of-service-3 \n ms-nonconv-attachment-4 \n CERTIFICATE OF SERVICE \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Certificate \n service_certificate \n I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy. \n participant_full_legal_name \n prosecuting_authority_name \n service_address_confirmation_status \n prosecuting_authority_service_address \n ATTACHMENT ASSEMBLY STATUS \n pleading_identity_list \n The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record. \n certified_disposition_exhibit_status \n docket_sheet_exhibit_status \n Exhibit A - Certified disposition \n Exhibit B - Docket sheet"
               ]
             },
             "coverSheet": {
@@ -81324,21 +79905,21 @@
               ]
             },
             "notice": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "ms-filing-and-next-steps \n filing_and_next_steps \n Filing Instructions, Next Steps, and When to Get Legal Help \n process_guidance \n required \n ms-nonconv-instructions-5 \n Where this packet goes \n filing_destination \n Confirm the fee or waiver \n fee_and_waiver \n Service and local practice \n service_and_notice \n Copies and records \n copy_requirements \n Limits after an order \n static \n The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question. \n What happens next \n post_filing_timeline \n Stop and get legal help \n hearing_and_objection_stops \n Before you file \n participant_checklist"
               ]
             },
             "certificateOfService": {
               "status": "recorded",
               "entries": [
-                "certificate_of_service: ms-nonconv-certificate-of-service-3"
+                "ms-service-and-attachments \n certificate_of_service_and_attachment_checklist \n Certificate of Service and Attachment Checklist \n custom_pleading \n required \n pleading \n ms-nonconv-certificate-of-service-3 \n ms-nonconv-attachment-4 \n CERTIFICATE OF SERVICE \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Certificate \n service_certificate \n I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy. \n participant_full_legal_name \n prosecuting_authority_name \n service_address_confirmation_status \n prosecuting_authority_service_address \n ATTACHMENT ASSEMBLY STATUS \n pleading_identity_list \n The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record. \n certified_disposition_exhibit_status \n docket_sheet_exhibit_status \n Exhibit A - Certified disposition \n Exhibit B - Docket sheet"
               ]
             },
             "affidavitOrVerification": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies."
               ]
             },
             "schedulesOrContinuationPages": {
@@ -81350,38 +79931,49 @@
             "requiredParticipantAttachments": {
               "status": "recorded",
               "entries": [
-                "Disposition proof"
+                "Certified disposition or case-ending order",
+                "Docket sheet",
+                "Indictment — conditional: where a grand jury actually returned an indictment",
+                "Other record-specific attachment requested by the court — conditional: where the records office identifies another local requirement"
               ]
             },
             "laterCompletionFields": {
               "status": "recorded",
               "entries": [
-                "Any characterization that a dismissal was 'with prejudice'",
-                "LegalEase must not generate: that the petitioner meets the criteria for expungement, which is the court's finding; that the offence is an 'Expungeable Offense', which appears in the Fourth District caption block as though it were a data field but is a legal conclusion; that the petitioner is a first offender; that the petitioner is rehabilitated; that a dismissal was 'with prejudice' unless the order says so; any statement about immigration, firearms, federal records or professional licensing consequences; or any assertion that the record will be erased everywhere.",
-                "The APPROVED AS TO FORM signature for the prosecuting authority",
-                "The cause number where the court assigns a new one",
-                "The finding that the petitioner meets the criteria for expungement",
-                "The judge's signature, the date, and the order's entry",
-                "The petitioner's signature and the date of signing"
+                "Participant, notary, service-time, prosecutor, judge, clerk, and seal fields remain blank for the person or office that owns each act.",
+                "The participant confirms an actual arrest and subsequent release from an official record; citation-only matters stop for legal review.",
+                "The participant confirms the court-approved MCIC identifier channel; full Social Security information appears only in that protected channel.",
+                "The participant confirms the exact charge, statute or ordinance, misdemeanor classification, name used at arrest, aliases, agency identifier, and exact disposition wording.",
+                "The participant confirms the prosecuting authority and does not represent its service address as confirmed until the court or prosecutor verifies it.",
+                "The participant copies the exact plaintiff, defendant, court, filing location, and case number from the original docket and certified disposition.",
+                "The participant inserts the certified disposition as Exhibit A and docket sheet as Exhibit B before the packet is filing-ready.",
+                "The participant selects exactly one statutory disposition category shown by the certified record and stops for an ambiguous docket entry.",
+                "The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation."
               ]
             },
             "signatureRequirements": {
               "status": "recorded",
               "entries": [
-                "The petitioner signs the petition. LegalEase leaves the signature and date blank and does not use the archived models' 'by and through his attorney' recital."
+                "Do not sign in advance. Sign the Petition and Verification in the physical presence of a notary after taking an oath or affirmation, and have the notary complete the certificate and official stamp.",
+                "Leave signature and service-time fields blank until you perform those acts, and leave prosecutor and court fields for those officials.",
+                "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies.",
+                "ms-filing-and-next-steps \n filing_and_next_steps \n Filing Instructions, Next Steps, and When to Get Legal Help \n process_guidance \n required \n ms-nonconv-instructions-5 \n Where this packet goes \n filing_destination \n Confirm the fee or waiver \n fee_and_waiver \n Service and local practice \n service_and_notice \n Copies and records \n copy_requirements \n Limits after an order \n static \n The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question. \n What happens next \n post_filing_timeline \n Stop and get legal help \n hearing_and_objection_stops \n Before you file \n participant_checklist",
+                "ms-proposed-order \n proposed_order \n Order Granting Expunction of Record \n custom_pleading \n required \n pleading \n ms-nonconv-proposed-order-2 \n ORDER GRANTING EXPUNCTION OF RECORD \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Opening \n pleading_paragraph \n THIS CAUSE came on for consideration of the Petition for Expunction of Record. The Court, having considered the Petition and the record and being satisfied that it has jurisdiction over the parties and subject matter, FINDS, ORDERS, AND ADJUDGES as follows: \n Findings \n pleading_numbered_assertions \n jurisdiction \n This Court handled the above-styled and numbered case and has authority to consider the requested relief. \n arrest \n {{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}. \n name_used_at_arrest \n arrest_date \n arresting_agency \n charge \n charge_classification \n charge_legal_citation \n release \n Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}. \n release_date_or_record_source \n disposition \n The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}. \n disposition_date \n disposition_record_wording \n statutory_disposition_category \n entitlement \n Petitioner is entitled to expunction under Miss. Code Ann. Section 99-19-71(4). \n Order identity \n pleading_identity_list \n The record subject to this Order is identified as follows: \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number_last_four \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Provided in the confidential MCIC addendum; last four {{social_security_number_last_four}} \n Relief \n pleading_paragraph \n IT IS ORDERED AND ADJUDGED that the record of the arrest and charge identified above in Case No. {{case_number}} is expunged. \n Records direction \n pleading_paragraph \n IT IS FURTHER ORDERED that the Mississippi Criminal Information Center and every other person or agency maintaining records within the scope of this Order shall purge, expunge, or destroy those records as required by Mississippi law, subject only to any nonpublic record of the expunction order expressly permitted to be retained by statute. \n Certified transmission \n pleading_paragraph \n IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method. \n court_signature_block \n SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____. \n court_type \n APPROVED AS TO FORM \n prosecutor_signature_block \n Optional block for the prosecuting authority when the court's local practice uses it. \n CERTIFIED TRUE COPY \n clerk_certification_block \n The clerk completes this certification after entry of the Order and affixes the Court's seal. \n CONFIDENTIAL MCIC IDENTIFIER ADDENDUM \n confidential_identifier_addendum \n COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery. \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n case_number \n disposition_record_wording \n mcic_identifier_delivery_method \n mcic_identifier_method_confirmation_source \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Court Case Number \n Disposition \n Identifier Delivery Method \n Method Confirmation Source"
               ]
             },
             "notarizationRequirements": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies."
               ]
             },
             "filingDestination": {
               "status": "recorded",
               "entries": [
-                "The justice, county, circuit or municipal court in which the case was pending or in which the arrest record originated. Circuit court for a felony charge dismissed after indictment; justice or municipal court for a citation or lower-court misdemeanour. All 82 counties, 22 circuit court districts, and every municipal and justice court.",
-                "clerk \n Clerk of the court in which the case was pending \n Paper filing with the clerk of the originating court, with the proposed order tendered alongside. The prosecuting authority is served with a copy."
+                "File in the court that handled the case. Before filing, contact that court's records office to confirm whether the petition uses the existing cause number or a new filing number and whether the court has a preferred local form or filing method.",
+                "Miss. Code Ann. Section 99-19-71(4) and census-v1 participant instructions; local numbering and filing method remain court-specific.",
+                "Records office or clerk for {{court_name}} in {{filing_location}}",
+                "confirm_with_court_of_origin"
               ]
             },
             "filingMethod": {
@@ -81391,15 +79983,17 @@
               ]
             },
             "filingFee": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "Ask the records office of the court that handled the case whether a filing fee applies to this subsection (4) petition.",
+                "If a fee applies and you cannot afford it, ask that court which pauper's affidavit or fee-waiver process it accepts.",
+                "No universal fee amount is printed in this packet."
               ]
             },
             "feeWaiverTreatment": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "If a fee applies and you cannot afford it, ask that court which pauper's affidavit or fee-waiver process it accepts. Do not assume a statewide amount or waiver form."
               ]
             },
             "serviceRecipients": {
@@ -81411,7 +80005,7 @@
             "serviceMethod": {
               "status": "recorded",
               "entries": [
-                "United States mail or hand delivery by the petitioner to the prosecuting authority, contemporaneous with filing, evidenced by the certificate of service."
+                "Deliver a public service copy to {{prosecuting_authority_name}} using this service-address entry: {{prosecuting_authority_service_address}}. Deliver it only after the court or prosecutor confirms the address and local timing. Do not include the confidential MCIC identifier addendum. The certificate leaves the method, date, and signature blank until service occurs. Ask the records office whether advance notice, prosecutor approval as to form, or another local step is required."
               ]
             },
             "serviceTiming": {
@@ -81433,9 +80027,14 @@
               ]
             },
             "postFilingInstructions": {
-              "status": "not_recorded",
+              "status": "recorded",
               "entries": [
-                "not recorded"
+                "Follow up with the court and the agencies named in the order if the public record does not change after they have had time to process it. — on the timetable those offices confirm",
+                "If an order is signed, obtain and keep a certified or conformed copy and ask the court which listed agencies receive it and whether you must deliver copies. — promptly after entry of the order",
+                "Insert the certified disposition as Exhibit A and the docket sheet as Exhibit B, then file the notarized petition, proposed order, and materials required by local practice with the court of origin. — after every record fact, exhibit, and local filing step is confirmed",
+                "Provide the prosecuting authority the copy required by the court and complete the certificate only when service occurs. — at the time directed by the court's local practice",
+                "Sign the Petition and Verification in the physical presence of a notary after the notary administers an oath or affirmation and checks your identification. — after the packet facts are final and before filing",
+                "Watch for a hearing notice, request for another record, objection, or signed order. — after filing; the statute supplies no universal decision deadline"
               ]
             },
             "uncontestedHearingTreatment": {
@@ -81457,14 +80056,17 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "Nonconviction Petition under current § 99-19-71(4)",
-            "Petition under § 99-19-71(4)"
+            "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies.",
+            "ms-proposed-order \n proposed_order \n Order Granting Expunction of Record \n custom_pleading \n required \n pleading \n ms-nonconv-proposed-order-2 \n ORDER GRANTING EXPUNCTION OF RECORD \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Opening \n pleading_paragraph \n THIS CAUSE came on for consideration of the Petition for Expunction of Record. The Court, having considered the Petition and the record and being satisfied that it has jurisdiction over the parties and subject matter, FINDS, ORDERS, AND ADJUDGES as follows: \n Findings \n pleading_numbered_assertions \n jurisdiction \n This Court handled the above-styled and numbered case and has authority to consider the requested relief. \n arrest \n {{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}. \n name_used_at_arrest \n arrest_date \n arresting_agency \n charge \n charge_classification \n charge_legal_citation \n release \n Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}. \n release_date_or_record_source \n disposition \n The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}. \n disposition_date \n disposition_record_wording \n statutory_disposition_category \n entitlement \n Petitioner is entitled to expunction under Miss. Code Ann. Section 99-19-71(4). \n Order identity \n pleading_identity_list \n The record subject to this Order is identified as follows: \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number_last_four \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Provided in the confidential MCIC addendum; last four {{social_security_number_last_four}} \n Relief \n pleading_paragraph \n IT IS ORDERED AND ADJUDGED that the record of the arrest and charge identified above in Case No. {{case_number}} is expunged. \n Records direction \n pleading_paragraph \n IT IS FURTHER ORDERED that the Mississippi Criminal Information Center and every other person or agency maintaining records within the scope of this Order shall purge, expunge, or destroy those records as required by Mississippi law, subject only to any nonpublic record of the expunction order expressly permitted to be retained by statute. \n Certified transmission \n pleading_paragraph \n IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method. \n court_signature_block \n SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____. \n court_type \n APPROVED AS TO FORM \n prosecutor_signature_block \n Optional block for the prosecuting authority when the court's local practice uses it. \n CERTIFIED TRUE COPY \n clerk_certification_block \n The clerk completes this certification after entry of the Order and affixes the Court's seal. \n CONFIDENTIAL MCIC IDENTIFIER ADDENDUM \n confidential_identifier_addendum \n COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery. \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n case_number \n disposition_record_wording \n mcic_identifier_delivery_method \n mcic_identifier_method_confirmation_source \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Court Case Number \n Disposition \n Identifier Delivery Method \n Method Confirmation Source",
+            "ms-service-and-attachments \n certificate_of_service_and_attachment_checklist \n Certificate of Service and Attachment Checklist \n custom_pleading \n required \n pleading \n ms-nonconv-certificate-of-service-3 \n ms-nonconv-attachment-4 \n CERTIFICATE OF SERVICE \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Certificate \n service_certificate \n I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy. \n participant_full_legal_name \n prosecuting_authority_name \n service_address_confirmation_status \n prosecuting_authority_service_address \n ATTACHMENT ASSEMBLY STATUS \n pleading_identity_list \n The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record. \n certified_disposition_exhibit_status \n docket_sheet_exhibit_status \n Exhibit A - Certified disposition \n Exhibit B - Docket sheet"
           ]
         },
         "proposedOrder": {
           "status": "recorded",
           "entries": [
-            "Proposed order"
+            "ms-filing-and-next-steps \n filing_and_next_steps \n Filing Instructions, Next Steps, and When to Get Legal Help \n process_guidance \n required \n ms-nonconv-instructions-5 \n Where this packet goes \n filing_destination \n Confirm the fee or waiver \n fee_and_waiver \n Service and local practice \n service_and_notice \n Copies and records \n copy_requirements \n Limits after an order \n static \n The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question. \n What happens next \n post_filing_timeline \n Stop and get legal help \n hearing_and_objection_stops \n Before you file \n participant_checklist",
+            "ms-proposed-order \n proposed_order \n Order Granting Expunction of Record \n custom_pleading \n required \n pleading \n ms-nonconv-proposed-order-2 \n ORDER GRANTING EXPUNCTION OF RECORD \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Opening \n pleading_paragraph \n THIS CAUSE came on for consideration of the Petition for Expunction of Record. The Court, having considered the Petition and the record and being satisfied that it has jurisdiction over the parties and subject matter, FINDS, ORDERS, AND ADJUDGES as follows: \n Findings \n pleading_numbered_assertions \n jurisdiction \n This Court handled the above-styled and numbered case and has authority to consider the requested relief. \n arrest \n {{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}. \n name_used_at_arrest \n arrest_date \n arresting_agency \n charge \n charge_classification \n charge_legal_citation \n release \n Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}. \n release_date_or_record_source \n disposition \n The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}. \n disposition_date \n disposition_record_wording \n statutory_disposition_category \n entitlement \n Petitioner is entitled to expunction under Miss. Code Ann. Section 99-19-71(4). \n Order identity \n pleading_identity_list \n The record subject to this Order is identified as follows: \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number_last_four \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Provided in the confidential MCIC addendum; last four {{social_security_number_last_four}} \n Relief \n pleading_paragraph \n IT IS ORDERED AND ADJUDGED that the record of the arrest and charge identified above in Case No. {{case_number}} is expunged. \n Records direction \n pleading_paragraph \n IT IS FURTHER ORDERED that the Mississippi Criminal Information Center and every other person or agency maintaining records within the scope of this Order shall purge, expunge, or destroy those records as required by Mississippi law, subject only to any nonpublic record of the expunction order expressly permitted to be retained by statute. \n Certified transmission \n pleading_paragraph \n IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method. \n court_signature_block \n SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____. \n court_type \n APPROVED AS TO FORM \n prosecutor_signature_block \n Optional block for the prosecuting authority when the court's local practice uses it. \n CERTIFIED TRUE COPY \n clerk_certification_block \n The clerk completes this certification after entry of the Order and affixes the Court's seal. \n CONFIDENTIAL MCIC IDENTIFIER ADDENDUM \n confidential_identifier_addendum \n COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery. \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n case_number \n disposition_record_wording \n mcic_identifier_delivery_method \n mcic_identifier_method_confirmation_source \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Court Case Number \n Disposition \n Identifier Delivery Method \n Method Confirmation Source",
+            "ms-service-and-attachments \n certificate_of_service_and_attachment_checklist \n Certificate of Service and Attachment Checklist \n custom_pleading \n required \n pleading \n ms-nonconv-certificate-of-service-3 \n ms-nonconv-attachment-4 \n CERTIFICATE OF SERVICE \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Certificate \n service_certificate \n I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy. \n participant_full_legal_name \n prosecuting_authority_name \n service_address_confirmation_status \n prosecuting_authority_service_address \n ATTACHMENT ASSEMBLY STATUS \n pleading_identity_list \n The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record. \n certified_disposition_exhibit_status \n docket_sheet_exhibit_status \n Exhibit A - Certified disposition \n Exhibit B - Docket sheet"
           ]
         },
         "coverSheet": {
@@ -81474,21 +80076,21 @@
           ]
         },
         "notice": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "ms-filing-and-next-steps \n filing_and_next_steps \n Filing Instructions, Next Steps, and When to Get Legal Help \n process_guidance \n required \n ms-nonconv-instructions-5 \n Where this packet goes \n filing_destination \n Confirm the fee or waiver \n fee_and_waiver \n Service and local practice \n service_and_notice \n Copies and records \n copy_requirements \n Limits after an order \n static \n The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question. \n What happens next \n post_filing_timeline \n Stop and get legal help \n hearing_and_objection_stops \n Before you file \n participant_checklist"
           ]
         },
         "certificateOfService": {
           "status": "recorded",
           "entries": [
-            "certificate_of_service: ms-nonconv-certificate-of-service-3"
+            "ms-service-and-attachments \n certificate_of_service_and_attachment_checklist \n Certificate of Service and Attachment Checklist \n custom_pleading \n required \n pleading \n ms-nonconv-certificate-of-service-3 \n ms-nonconv-attachment-4 \n CERTIFICATE OF SERVICE \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Certificate \n service_certificate \n I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service-address status: {{service_address_confirmation_status}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy. \n participant_full_legal_name \n prosecuting_authority_name \n service_address_confirmation_status \n prosecuting_authority_service_address \n ATTACHMENT ASSEMBLY STATUS \n pleading_identity_list \n The filing package is not complete until the participant-supplied court records are inserted behind the Petition. A generated checklist or divider is not a court record. \n certified_disposition_exhibit_status \n docket_sheet_exhibit_status \n Exhibit A - Certified disposition \n Exhibit B - Docket sheet"
           ]
         },
         "affidavitOrVerification": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies."
           ]
         },
         "schedulesOrContinuationPages": {
@@ -81500,38 +80102,49 @@
         "requiredParticipantAttachments": {
           "status": "recorded",
           "entries": [
-            "Disposition proof"
+            "Certified disposition or case-ending order",
+            "Docket sheet",
+            "Indictment — conditional: where a grand jury actually returned an indictment",
+            "Other record-specific attachment requested by the court — conditional: where the records office identifies another local requirement"
           ]
         },
         "laterCompletionFields": {
           "status": "recorded",
           "entries": [
-            "Any characterization that a dismissal was 'with prejudice'",
-            "LegalEase must not generate: that the petitioner meets the criteria for expungement, which is the court's finding; that the offence is an 'Expungeable Offense', which appears in the Fourth District caption block as though it were a data field but is a legal conclusion; that the petitioner is a first offender; that the petitioner is rehabilitated; that a dismissal was 'with prejudice' unless the order says so; any statement about immigration, firearms, federal records or professional licensing consequences; or any assertion that the record will be erased everywhere.",
-            "The APPROVED AS TO FORM signature for the prosecuting authority",
-            "The cause number where the court assigns a new one",
-            "The finding that the petitioner meets the criteria for expungement",
-            "The judge's signature, the date, and the order's entry",
-            "The petitioner's signature and the date of signing"
+            "Participant, notary, service-time, prosecutor, judge, clerk, and seal fields remain blank for the person or office that owns each act.",
+            "The participant confirms an actual arrest and subsequent release from an official record; citation-only matters stop for legal review.",
+            "The participant confirms the court-approved MCIC identifier channel; full Social Security information appears only in that protected channel.",
+            "The participant confirms the exact charge, statute or ordinance, misdemeanor classification, name used at arrest, aliases, agency identifier, and exact disposition wording.",
+            "The participant confirms the prosecuting authority and does not represent its service address as confirmed until the court or prosecutor verifies it.",
+            "The participant copies the exact plaintiff, defendant, court, filing location, and case number from the original docket and certified disposition.",
+            "The participant inserts the certified disposition as Exhibit A and docket sheet as Exhibit B before the packet is filing-ready.",
+            "The participant selects exactly one statutory disposition category shown by the certified record and stops for an ambiguous docket entry.",
+            "The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation."
           ]
         },
         "signatureRequirements": {
           "status": "recorded",
           "entries": [
-            "The petitioner signs the petition. LegalEase leaves the signature and date blank and does not use the archived models' 'by and through his attorney' recital."
+            "Do not sign in advance. Sign the Petition and Verification in the physical presence of a notary after taking an oath or affirmation, and have the notary complete the certificate and official stamp.",
+            "Leave signature and service-time fields blank until you perform those acts, and leave prosecutor and court fields for those officials.",
+            "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies.",
+            "ms-filing-and-next-steps \n filing_and_next_steps \n Filing Instructions, Next Steps, and When to Get Legal Help \n process_guidance \n required \n ms-nonconv-instructions-5 \n Where this packet goes \n filing_destination \n Confirm the fee or waiver \n fee_and_waiver \n Service and local practice \n service_and_notice \n Copies and records \n copy_requirements \n Limits after an order \n static \n The proposed order directs covered custodians to purge, expunge, or destroy the arrest and charge records as Mississippi law requires, subject only to a nonpublic record of the expunction order that a statute permits. Keep a certified copy of any signed order and answer later questions according to the law that applies to the particular question. \n What happens next \n post_filing_timeline \n Stop and get legal help \n hearing_and_objection_stops \n Before you file \n participant_checklist",
+            "ms-proposed-order \n proposed_order \n Order Granting Expunction of Record \n custom_pleading \n required \n pleading \n ms-nonconv-proposed-order-2 \n ORDER GRANTING EXPUNCTION OF RECORD \n pleading_caption \n court_name \n case_caption_plaintiff_name \n case_caption_defendant_name \n case_number \n Opening \n pleading_paragraph \n THIS CAUSE came on for consideration of the Petition for Expunction of Record. The Court, having considered the Petition and the record and being satisfied that it has jurisdiction over the parties and subject matter, FINDS, ORDERS, AND ADJUDGES as follows: \n Findings \n pleading_numbered_assertions \n jurisdiction \n This Court handled the above-styled and numbered case and has authority to consider the requested relief. \n arrest \n {{name_used_at_arrest}} was arrested on {{arrest_date}} by {{arresting_agency}} for {{charge}}, classified as {{charge_classification}}, in violation of {{charge_legal_citation}}. \n name_used_at_arrest \n arrest_date \n arresting_agency \n charge \n charge_classification \n charge_legal_citation \n release \n Petitioner was released following the arrest, as confirmed by {{release_date_or_record_source}}. \n release_date_or_record_source \n disposition \n The case ended on {{disposition_date}} with this disposition: {{disposition_record_wording}}. The disposition falls within the statutory category {{statutory_disposition_category}}. \n disposition_date \n disposition_record_wording \n statutory_disposition_category \n entitlement \n Petitioner is entitled to expunction under Miss. Code Ann. Section 99-19-71(4). \n Order identity \n pleading_identity_list \n The record subject to this Order is identified as follows: \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number_last_four \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Provided in the confidential MCIC addendum; last four {{social_security_number_last_four}} \n Relief \n pleading_paragraph \n IT IS ORDERED AND ADJUDGED that the record of the arrest and charge identified above in Case No. {{case_number}} is expunged. \n Records direction \n pleading_paragraph \n IT IS FURTHER ORDERED that the Mississippi Criminal Information Center and every other person or agency maintaining records within the scope of this Order shall purge, expunge, or destroy those records as required by Mississippi law, subject only to any nonpublic record of the expunction order expressly permitted to be retained by statute. \n Certified transmission \n pleading_paragraph \n IT IS FURTHER ORDERED that the Clerk shall forward a certified copy bearing the Court's seal, together with the court-approved MCIC identifier material, to the Mississippi Department of Public Safety, Criminal Information Center, {{arresting_agency}}, and these additional custodians: {{other_recordkeeping_agencies}}. The confidential MCIC identifier addendum is incorporated into the certified nonpublic processing copy when the court approves that method. \n court_signature_block \n SO ORDERED AND ADJUDGED, this the ____ day of ____________________, 20____. \n court_type \n APPROVED AS TO FORM \n prosecutor_signature_block \n Optional block for the prosecuting authority when the court's local practice uses it. \n CERTIFIED TRUE COPY \n clerk_certification_block \n The clerk completes this certification after entry of the Order and affixes the Court's seal. \n CONFIDENTIAL MCIC IDENTIFIER ADDENDUM \n confidential_identifier_addendum \n COURT AND MCIC PROCESSING COPY - DO NOT INCLUDE IN PUBLIC OR SERVICE COPIES. This addendum uses the approved synthetic-review layout. A real packet requires the court of origin to confirm the identifier-delivery method before participant delivery. \n name_used_at_arrest \n aliases \n date_of_birth \n social_security_number \n arrest_date \n arresting_agency \n agency_case_number \n charge \n charge_legal_citation \n charge_classification \n race \n sex \n case_number \n disposition_record_wording \n mcic_identifier_delivery_method \n mcic_identifier_method_confirmation_source \n Name used at the time of arrest \n Aliases shown on the record \n Date of Birth \n Social Security Number \n Date of Arrest \n Arresting Agency \n Agency Number \n Charge at Arrest \n Code Section or Ordinance \n Charge Classification \n Race \n Sex \n Court Case Number \n Disposition \n Identifier Delivery Method \n Method Confirmation Source"
           ]
         },
         "notarizationRequirements": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "ms-cover-and-contents \n cover_and_contents \n Your Mississippi Non-Conviction Expungement Packet \n process_guidance \n required \n What this packet is \n static \n This is a five-part self-help packet for the Mississippi non-conviction pathway in Miss. Code Ann. Section 99-19-71(4). It is prepared from the facts you verified against your records. \n Packet contents \n contents_list \n Records to have beside you \n participant_checklist_summary \n Signing and notarization \n static \n DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public. Bring satisfactory identification. The notary must administer an oath or affirmation, witness the signature, complete the notarial certificate, and affix the official notary stamp. The packet is not filing-ready until those steps are complete. \n Important limits \n static \n LegalEase does not file this packet and does not guarantee relief. Before filing, confirm the filing method, local form preference, fee or waiver treatment, copy count, and service practice with the records office of the court that handled the case. Stop and get legal help when a record is ambiguous or a stopping condition in the instructions applies."
           ]
         },
         "filingDestination": {
           "status": "recorded",
           "entries": [
-            "The justice, county, circuit or municipal court in which the case was pending or in which the arrest record originated. Circuit court for a felony charge dismissed after indictment; justice or municipal court for a citation or lower-court misdemeanour. All 82 counties, 22 circuit court districts, and every municipal and justice court.",
-            "clerk \n Clerk of the court in which the case was pending \n Paper filing with the clerk of the originating court, with the proposed order tendered alongside. The prosecuting authority is served with a copy."
+            "File in the court that handled the case. Before filing, contact that court's records office to confirm whether the petition uses the existing cause number or a new filing number and whether the court has a preferred local form or filing method.",
+            "Miss. Code Ann. Section 99-19-71(4) and census-v1 participant instructions; local numbering and filing method remain court-specific.",
+            "Records office or clerk for {{court_name}} in {{filing_location}}",
+            "confirm_with_court_of_origin"
           ]
         },
         "filingMethod": {
@@ -81541,15 +80154,17 @@
           ]
         },
         "filingFee": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "Ask the records office of the court that handled the case whether a filing fee applies to this subsection (4) petition.",
+            "If a fee applies and you cannot afford it, ask that court which pauper's affidavit or fee-waiver process it accepts.",
+            "No universal fee amount is printed in this packet."
           ]
         },
         "feeWaiverTreatment": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "If a fee applies and you cannot afford it, ask that court which pauper's affidavit or fee-waiver process it accepts. Do not assume a statewide amount or waiver form."
           ]
         },
         "serviceRecipients": {
@@ -81561,7 +80176,7 @@
         "serviceMethod": {
           "status": "recorded",
           "entries": [
-            "United States mail or hand delivery by the petitioner to the prosecuting authority, contemporaneous with filing, evidenced by the certificate of service."
+            "Deliver a public service copy to {{prosecuting_authority_name}} using this service-address entry: {{prosecuting_authority_service_address}}. Deliver it only after the court or prosecutor confirms the address and local timing. Do not include the confidential MCIC identifier addendum. The certificate leaves the method, date, and signature blank until service occurs. Ask the records office whether advance notice, prosecutor approval as to form, or another local step is required."
           ]
         },
         "serviceTiming": {
@@ -81583,9 +80198,14 @@
           ]
         },
         "postFilingInstructions": {
-          "status": "not_recorded",
+          "status": "recorded",
           "entries": [
-            "not recorded"
+            "Follow up with the court and the agencies named in the order if the public record does not change after they have had time to process it. — on the timetable those offices confirm",
+            "If an order is signed, obtain and keep a certified or conformed copy and ask the court which listed agencies receive it and whether you must deliver copies. — promptly after entry of the order",
+            "Insert the certified disposition as Exhibit A and the docket sheet as Exhibit B, then file the notarized petition, proposed order, and materials required by local practice with the court of origin. — after every record fact, exhibit, and local filing step is confirmed",
+            "Provide the prosecuting authority the copy required by the court and complete the certificate only when service occurs. — at the time directed by the court's local practice",
+            "Sign the Petition and Verification in the physical presence of a notary after the notary administers an oath or affirmation and checks your identification. — after the packet facts are final and before filing",
+            "Watch for a hearing notice, request for another record, objection, or signed order. — after filing; the statute supplies no universal decision deadline"
           ]
         },
         "uncontestedHearingTreatment": {
@@ -83124,7 +81744,8 @@
             "component:mt_mmrta_completed-proposed-order-3",
             "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
             "official-form:MT-FORM-B",
-            "official-form:MT-OCA-MMRTA",
+            "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+            "official-form:MT-MMRTA-PROPOSED-ORDER",
             "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
             "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
             "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
@@ -83192,7 +81813,7 @@
               "entries": [
                 "One complete set per conviction — MMRTA Form B, the OCA Certificate of Service and the OCA Proposed Order — filed in the court that sentenced the participant, with a copy of the participant's Montana Department of Justice criminal record attached, which Form B marks required.",
                 "The Proposed Order leaves every judicial finding and the signature blank.",
-                "proposed_order: MT-OCA-MMRTA"
+                "proposed_order: MT-MMRTA-PROPOSED-ORDER"
               ]
             },
             "coverSheet": {
@@ -83212,7 +81833,7 @@
               "entries": [
                 "One complete set per conviction — MMRTA Form B, the OCA Certificate of Service and the OCA Proposed Order — filed in the court that sentenced the participant, with a copy of the participant's Montana Department of Justice criminal record attached, which Form B marks required.",
                 "The Certificate of Service names the county attorney for the county in which the petition is filed.",
-                "certificate_of_service: MT-OCA-MMRTA"
+                "certificate_of_service: MT-MMRTA-CERTIFICATE-OF-SERVICE"
               ]
             },
             "affidavitOrVerification": {
@@ -83337,7 +81958,8 @@
             "component:mt_mmrta_completed-proposed-order-3",
             "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
             "official-form:MT-FORM-B",
-            "official-form:MT-OCA-MMRTA",
+            "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+            "official-form:MT-MMRTA-PROPOSED-ORDER",
             "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
             "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
             "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
@@ -83553,7 +82175,7 @@
           "entries": [
             "One complete set per conviction — MMRTA Form B, the OCA Certificate of Service and the OCA Proposed Order — filed in the court that sentenced the participant, with a copy of the participant's Montana Department of Justice criminal record attached, which Form B marks required.",
             "The Proposed Order leaves every judicial finding and the signature blank.",
-            "proposed_order: MT-OCA-MMRTA"
+            "proposed_order: MT-MMRTA-PROPOSED-ORDER"
           ]
         },
         "coverSheet": {
@@ -83573,7 +82195,7 @@
           "entries": [
             "One complete set per conviction — MMRTA Form B, the OCA Certificate of Service and the OCA Proposed Order — filed in the court that sentenced the participant, with a copy of the participant's Montana Department of Justice criminal record attached, which Form B marks required.",
             "The Certificate of Service names the county attorney for the county in which the petition is filed.",
-            "certificate_of_service: MT-OCA-MMRTA"
+            "certificate_of_service: MT-MMRTA-CERTIFICATE-OF-SERVICE"
           ]
         },
         "affidavitOrVerification": {
@@ -83723,7 +82345,8 @@
             "component:mt_mmrta_serving-proposed-order-3",
             "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
             "official-form:MT-FORM-A",
-            "official-form:MT-OCA-MMRTA",
+            "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+            "official-form:MT-MMRTA-PROPOSED-ORDER",
             "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
             "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
             "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
@@ -83792,7 +82415,7 @@
               "status": "recorded",
               "entries": [
                 "LegalEase completes the caption for the correct court level, the participant's identity and case facts, the offence selection the participant makes from the enumerated list, and the conviction date, and assembles the OCA Certificate of Service and the OCA Proposed Order.",
-                "proposed_order: MT-OCA-MMRTA"
+                "proposed_order: MT-MMRTA-PROPOSED-ORDER"
               ]
             },
             "coverSheet": {
@@ -83811,7 +82434,7 @@
               "status": "recorded",
               "entries": [
                 "LegalEase completes the caption for the correct court level, the participant's identity and case facts, the offence selection the participant makes from the enumerated list, and the conviction date, and assembles the OCA Certificate of Service and the OCA Proposed Order.",
-                "certificate_of_service: MT-OCA-MMRTA"
+                "certificate_of_service: MT-MMRTA-CERTIFICATE-OF-SERVICE"
               ]
             },
             "affidavitOrVerification": {
@@ -83936,7 +82559,8 @@
             "component:mt_mmrta_serving-proposed-order-3",
             "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
             "official-form:MT-FORM-A",
-            "official-form:MT-OCA-MMRTA",
+            "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+            "official-form:MT-MMRTA-PROPOSED-ORDER",
             "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
             "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
             "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
@@ -84152,7 +82776,7 @@
           "status": "recorded",
           "entries": [
             "LegalEase completes the caption for the correct court level, the participant's identity and case facts, the offence selection the participant makes from the enumerated list, and the conviction date, and assembles the OCA Certificate of Service and the OCA Proposed Order.",
-            "proposed_order: MT-OCA-MMRTA"
+            "proposed_order: MT-MMRTA-PROPOSED-ORDER"
           ]
         },
         "coverSheet": {
@@ -84171,7 +82795,7 @@
           "status": "recorded",
           "entries": [
             "LegalEase completes the caption for the correct court level, the participant's identity and case facts, the offence selection the participant makes from the enumerated list, and the conviction date, and assembles the OCA Certificate of Service and the OCA Proposed Order.",
-            "certificate_of_service: MT-OCA-MMRTA"
+            "certificate_of_service: MT-MMRTA-CERTIFICATE-OF-SERVICE"
           ]
         },
         "affidavitOrVerification": {
@@ -88392,8 +87016,8 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "Nebraska § 29-3523(6) Error Petition",
-                "Petition under § 29-3523(6)"
+                "composed pleading for ne-expunge-le-error",
+                "primary_filing: ne-expunge-le-error-primary-filing-1"
               ]
             },
             "proposedOrder": {
@@ -88536,8 +87160,8 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "Nebraska § 29-3523(6) Error Petition",
-            "Petition under § 29-3523(6)"
+            "composed pleading for ne-expunge-le-error",
+            "primary_filing: ne-expunge-le-error-primary-filing-1"
           ]
         },
         "proposedOrder": {
@@ -93679,376 +92303,6 @@
           "status": "recorded",
           "entries": [
             "event_trigger \n disposition_date \n available without a general elapsed wait on a qualifying arrest, dismissal, acquittal or other nonconviction, subject to the specific disposition rules; a diversionary dismissal uses its separate statutory period, commonly six months after dismissal"
-          ]
-        },
-        "postFilingInstructions": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "uncontestedHearingTreatment": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "contestedHearingOrOppositionHandoff": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        }
-      }
-    },
-    {
-      "worklistGroupId": "nj_clean_slate-set",
-      "packetFamilyId": null,
-      "packetSetId": "nj_clean_slate-set",
-      "packetSetIds": [
-        "nj_clean_slate-set"
-      ],
-      "implementationStrategy": "official_pdf_fill",
-      "routeKeys": [
-        "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3"
-      ],
-      "jurisdictions": [
-        "NJ"
-      ],
-      "workTypes": [
-        "ARTIFACT_REVIEW_REQUIRED",
-        "OFFICIAL_FORM_MAP_REQUIRED",
-        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-        "OUTPUT_LEGAL_APPROVAL_REQUIRED"
-      ],
-      "routes": [
-        {
-          "routeKey": "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
-          "jurisdiction": "NJ",
-          "trackId": "nj_clean_slate",
-          "runtimePathwayId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
-          "requiredSourceIds": [
-            "compiled-profile:src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
-            "compiled-source-ref:pathways:74-129; section:74-129; corpus-unit:30",
-            "component:nj_clean_slate-order-for-hearing-3",
-            "component:nj_clean_slate-primary-filing-1",
-            "component:nj_clean_slate-proposed-order-4",
-            "component:nj_clean_slate-statements-accompanying-petition-2",
-            "official-form:CN-10557",
-            "route-contract:src/lib/legal-authority/routes/route-splits.json#NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
-            "source-url:https://pub.njleg.gov/Bills/2022/A6000/5826_I1.HTM",
-            "source-url:https://pub.njleg.gov/Bills/2026/A5500/5095_I1.HTM",
-            "source-url:https://pub.njleg.gov/bills/2018/PL19/269_.PDF",
-            "source-url:https://www.njcourts.gov/self-help/expunge-record"
-          ],
-          "existingArtifactIds": [],
-          "missingImplementationWork": [
-            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
-            "Complete route-output artifact review; a held source file is not an output artifact.",
-            "Complete the exact official-form field map; not_mapped is not an existing map.",
-            "Draft or complete the exact official-form field map for every required official form or companion.",
-            "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
-            "Obtain completed-output legal approval for the exact packet family and route scope; the census creates no approval.",
-            "Obtain completed-output legal approval for the exact packet family; this census creates no approval.",
-            "Obtain completed-output legal approval for this exact family and route scope.",
-            "Record affidavitOrVerification; current evidence is not recorded.",
-            "Record certificateOfService; current evidence is not recorded.",
-            "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
-            "Record coverSheet; current evidence is not recorded.",
-            "Record filingDeadline; current evidence is not recorded.",
-            "Record filingMethod; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
-            "Record requiredParticipantAttachments; current evidence is not recorded.",
-            "Record schedulesOrContinuationPages; current evidence is not recorded.",
-            "Record serviceMethod; current evidence is not recorded.",
-            "Record serviceTiming; current evidence is not recorded.",
-            "Record uncontestedHearingTreatment; current evidence is not recorded."
-          ],
-          "workTypes": [
-            "ARTIFACT_REVIEW_REQUIRED",
-            "OFFICIAL_FORM_MAP_REQUIRED",
-            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-            "OUTPUT_LEGAL_APPROVAL_REQUIRED"
-          ],
-          "deliverable": {
-            "primaryOfficialFormOrComposedPleading": {
-              "status": "recorded",
-              "entries": [
-                "New Jersey Clean Slate Petition under 2C:52-5.3",
-                "Verified petition"
-              ]
-            },
-            "proposedOrder": {
-              "status": "recorded",
-              "entries": [
-                "order_for_hearing: CN-10557",
-                "proposed_order: CN-10557"
-              ]
-            },
-            "coverSheet": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notice": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "certificateOfService": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "affidavitOrVerification": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "schedulesOrContinuationPages": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "requiredParticipantAttachments": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "laterCompletionFields": {
-              "status": "recorded",
-              "entries": [
-                "Filing through the eCourts Expungement System",
-                "Serving a certified copy of the signed order on every record-holding agency",
-                "The judge's signature line on the proposed order",
-                "The monies-owed section of the proposed order",
-                "Verification of the petition"
-              ]
-            },
-            "signatureRequirements": {
-              "status": "recorded",
-              "entries": [
-                "The petition is duly verified by the participant."
-              ]
-            },
-            "notarizationRequirements": {
-              "status": "recorded",
-              "entries": [
-                "Verification as the Judiciary kit and the eCourts system require."
-              ]
-            },
-            "filingDestination": {
-              "status": "recorded",
-              "entries": [
-                "The Superior Court in the county in which the person resides, or a county in which one or more of the person's convictions were adjudged. The venue language was read in the official bill text of A5826 at the New Jersey Legislature on 2026-08-06.",
-                "court \n Superior Court, Criminal Division \n Filed through the eCourts Expungement System or on the Judiciary kit forms, which carry a dedicated Clean Slate checkbox on Form A-Continued."
-              ]
-            },
-            "filingMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingFee": {
-              "status": "recorded",
-              "entries": [
-                "New Jersey Courts states \"It's free\", and the Judiciary kit was updated in June 2020 to remove the fee.",
-                "No court filing fee."
-              ]
-            },
-            "feeWaiverTreatment": {
-              "status": "recorded",
-              "entries": [
-                "not applicable to the court filing. There is no filing fee to waive."
-              ]
-            },
-            "serviceRecipients": {
-              "status": "recorded",
-              "entries": [
-                "Service on the required agencies"
-              ]
-            },
-            "serviceMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceTiming": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDeadline": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "waitingPeriodCalculation": {
-              "status": "recorded",
-              "entries": [
-                "elapsed_eligibility_clock \n 10 years \n sentence_completion_actual_date \n last_conviction_date \n release_date \n probation_parole_supervision_end_date \n ten years from the latest qualifying anchor, subject to the case-count and offense exclusions"
-              ]
-            },
-            "postFilingInstructions": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "uncontestedHearingTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "contestedHearingOrOppositionHandoff": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            }
-          }
-        }
-      ],
-      "reusableFamilyDeliverable": {
-        "primaryOfficialFormOrComposedPleading": {
-          "status": "recorded",
-          "entries": [
-            "New Jersey Clean Slate Petition under 2C:52-5.3",
-            "Verified petition"
-          ]
-        },
-        "proposedOrder": {
-          "status": "recorded",
-          "entries": [
-            "order_for_hearing: CN-10557",
-            "proposed_order: CN-10557"
-          ]
-        },
-        "coverSheet": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "notice": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "certificateOfService": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "affidavitOrVerification": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "schedulesOrContinuationPages": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "requiredParticipantAttachments": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "laterCompletionFields": {
-          "status": "recorded",
-          "entries": [
-            "Filing through the eCourts Expungement System",
-            "Serving a certified copy of the signed order on every record-holding agency",
-            "The judge's signature line on the proposed order",
-            "The monies-owed section of the proposed order",
-            "Verification of the petition"
-          ]
-        },
-        "signatureRequirements": {
-          "status": "recorded",
-          "entries": [
-            "The petition is duly verified by the participant."
-          ]
-        },
-        "notarizationRequirements": {
-          "status": "recorded",
-          "entries": [
-            "Verification as the Judiciary kit and the eCourts system require."
-          ]
-        },
-        "filingDestination": {
-          "status": "recorded",
-          "entries": [
-            "The Superior Court in the county in which the person resides, or a county in which one or more of the person's convictions were adjudged. The venue language was read in the official bill text of A5826 at the New Jersey Legislature on 2026-08-06.",
-            "court \n Superior Court, Criminal Division \n Filed through the eCourts Expungement System or on the Judiciary kit forms, which carry a dedicated Clean Slate checkbox on Form A-Continued."
-          ]
-        },
-        "filingMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingFee": {
-          "status": "recorded",
-          "entries": [
-            "New Jersey Courts states \"It's free\", and the Judiciary kit was updated in June 2020 to remove the fee.",
-            "No court filing fee."
-          ]
-        },
-        "feeWaiverTreatment": {
-          "status": "recorded",
-          "entries": [
-            "not applicable to the court filing. There is no filing fee to waive."
-          ]
-        },
-        "serviceRecipients": {
-          "status": "recorded",
-          "entries": [
-            "Service on the required agencies"
-          ]
-        },
-        "serviceMethod": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "serviceTiming": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "filingDeadline": {
-          "status": "not_recorded",
-          "entries": [
-            "not recorded"
-          ]
-        },
-        "waitingPeriodCalculation": {
-          "status": "recorded",
-          "entries": [
-            "elapsed_eligibility_clock \n 10 years \n sentence_completion_actual_date \n last_conviction_date \n release_date \n probation_parole_supervision_end_date \n ten years from the latest qualifying anchor, subject to the case-count and offense exclusions"
           ]
         },
         "postFilingInstructions": {
@@ -99304,8 +97558,7 @@
             "primaryOfficialFormOrComposedPleading": {
               "status": "recorded",
               "entries": [
-                "Motion under § 475C.397",
-                "Oregon Marijuana Set-Aside Motion under ORS 475C.397"
+                "primary_filing: OR-OJD-ADULT-SET-ASIDE-PACKET"
               ]
             },
             "proposedOrder": {
@@ -99455,8 +97708,7 @@
         "primaryOfficialFormOrComposedPleading": {
           "status": "recorded",
           "entries": [
-            "Motion under § 475C.397",
-            "Oregon Marijuana Set-Aside Motion under ORS 475C.397"
+            "primary_filing: OR-OJD-ADULT-SET-ASIDE-PACKET"
           ]
         },
         "proposedOrder": {
@@ -109140,13 +107392,11 @@
       "packetSetId": null,
       "packetSetIds": [
         "oh_2953_32_expungement-set",
-        "oh_2953_32_sealing-set",
         "oh_2953_33_nonconviction-set",
         "oh_2953_35_firearm-set"
       ],
       "implementationStrategy": "custom_pleading",
       "routeKeys": [
-        "obligation:track-only:OH:oh_2953_32_sealing",
         "obligation:track-pathway:OH:oh_2953_32_expungement:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
         "obligation:track-pathway:OH:oh_2953_33_nonconviction:adult-non-conviction-sealing-or-expungement-under-2953-33",
         "obligation:track-pathway:OH:oh_2953_35_firearm:certain-firearm-carry-conviction-expungement-under-2953-35"
@@ -109159,213 +107409,9 @@
         "COMPOSED_PLEADING",
         "LOCAL_VARIATION_REQUIRED",
         "OFFICIAL_FORM_MAP_REQUIRED",
-        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-        "PRODUCT_WIRING_REQUIRED"
+        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED"
       ],
       "routes": [
-        {
-          "routeKey": "obligation:track-only:OH:oh_2953_32_sealing",
-          "jurisdiction": "OH",
-          "trackId": "oh_2953_32_sealing",
-          "runtimePathwayId": null,
-          "requiredSourceIds": [
-            "component:oh_2953_32_sealing-bci-transmission-5",
-            "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
-            "source-url:https://codes.ohio.gov/ohio-revised-code/section-2953.32",
-            "source-url:https://www.legislature.ohio.gov/legislation/134/sb288",
-            "source-url:https://www.ohioattorneygeneral.gov/Files/Forms/Forms-for-BCI-Criminal-Records-and-Background-Chec/Forms-for-Court/Sealings-and-Expungements-Request.aspx"
-          ],
-          "existingArtifactIds": [],
-          "missingImplementationWork": [
-            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
-            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
-            "Add an exact runtime representation or record an approved exclusion; the legal-design track is not represented in compiled runtime.",
-            "Complete exact product wiring without creating runtime or commercial authority.",
-            "Complete route-output artifact review; a held source file is not an output artifact.",
-            "Complete the exact official-form field map; not_mapped is not an existing map.",
-            "Draft or complete the exact official-form field map for every required official form or companion.",
-            "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
-            "Implement or confirm the composed pleading and every required companion component.",
-            "Record affidavitOrVerification; current evidence is not recorded.",
-            "Record and test each local filing, fee, venue, or delivery variation.",
-            "Record certificateOfService; current evidence is not recorded.",
-            "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
-            "Record coverSheet; current evidence is not recorded.",
-            "Record filingDeadline; current evidence is not recorded.",
-            "Record filingMethod; current evidence is not recorded.",
-            "Record notarizationRequirements; current evidence is not recorded.",
-            "Record notice; current evidence is not recorded.",
-            "Record postFilingInstructions; current evidence is not recorded.",
-            "Record proposedOrder; current evidence is not recorded.",
-            "Record requiredParticipantAttachments; current evidence is not recorded.",
-            "Record schedulesOrContinuationPages; current evidence is not recorded.",
-            "Record serviceMethod; current evidence is not recorded.",
-            "Record serviceRecipients; current evidence is not recorded.",
-            "Record serviceTiming; current evidence is not recorded.",
-            "Record uncontestedHearingTreatment; current evidence is not recorded.",
-            "Resolve the explicit non-statewide or locally varying filing configuration."
-          ],
-          "workTypes": [
-            "ARTIFACT_REVIEW_REQUIRED",
-            "COMPOSED_PLEADING",
-            "LOCAL_VARIATION_REQUIRED",
-            "OFFICIAL_FORM_MAP_REQUIRED",
-            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
-            "PRODUCT_WIRING_REQUIRED"
-          ],
-          "deliverable": {
-            "primaryOfficialFormOrComposedPleading": {
-              "status": "recorded",
-              "entries": [
-                "composed pleading for oh_2953_32_sealing",
-                "primary_filing: oh_2953_32_sealing-primary-filing-1"
-              ]
-            },
-            "proposedOrder": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "coverSheet": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "notice": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "certificateOfService": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "affidavitOrVerification": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "schedulesOrContinuationPages": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "requiredParticipantAttachments": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "laterCompletionFields": {
-              "status": "recorded",
-              "entries": [
-                "Attending the hearing",
-                "Payment of the fifty dollar application fee and any local fee, or the indigency showing",
-                "Sending the signed order to BCI with the Sealings and Expungements Request",
-                "Signature on the application",
-                "Transcribing the drafted content onto the court's own application"
-              ]
-            },
-            "signatureRequirements": {
-              "status": "recorded",
-              "entries": [
-                "The participant signs the application."
-              ]
-            },
-            "notarizationRequirements": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDestination": {
-              "status": "recorded",
-              "entries": [
-                "The sentencing court for an Ohio conviction; a court of common pleas for an out-of-state or federal conviction.",
-                "court \n The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction \n Filed with the clerk on that court's own application. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
-              ]
-            },
-            "filingMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingFee": {
-              "status": "recorded",
-              "entries": [
-                "Fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars."
-              ]
-            },
-            "feeWaiverTreatment": {
-              "status": "recorded",
-              "entries": [
-                "Indigency excuses the application fee."
-              ]
-            },
-            "serviceRecipients": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceMethod": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "serviceTiming": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "filingDeadline": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "waitingPeriodCalculation": {
-              "status": "recorded",
-              "entries": [
-                "A person formerly subject to Chapter 2950 registration \n 5 years after the registration requirements end or terminate",
-                "Felony of the fourth or fifth degree, measured from final discharge \n 1 year",
-                "Minor misdemeanour, measured from final discharge \n 6 months",
-                "Misdemeanour bail forfeiture \n none. Any time after the forfeiture entry",
-                "Misdemeanour, measured from final discharge \n 1 year",
-                "One or two felonies of the third degree, measured from final discharge \n 3 years",
-                "Soliciting improper compensation under ORC 2921.43, measured from final discharge \n 7 years"
-              ]
-            },
-            "postFilingInstructions": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "uncontestedHearingTreatment": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            },
-            "contestedHearingOrOppositionHandoff": {
-              "status": "not_recorded",
-              "entries": [
-                "not recorded"
-              ]
-            }
-          }
-        },
         {
           "routeKey": "obligation:track-pathway:OH:oh_2953_32_expungement:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
           "jurisdiction": "OH",
@@ -109962,11 +108008,9 @@
           "status": "recorded",
           "entries": [
             "composed pleading for oh_2953_32_expungement",
-            "composed pleading for oh_2953_32_sealing",
             "composed pleading for oh_2953_33_nonconviction",
             "composed pleading for oh_2953_35_firearm",
             "primary_filing: oh_2953_32_expungement-primary-filing-1",
-            "primary_filing: oh_2953_32_sealing-primary-filing-1",
             "primary_filing: oh_2953_33_nonconviction-primary-filing-1",
             "primary_filing: oh_2953_35_firearm-primary-filing-1"
           ]
@@ -110094,17 +108138,387 @@
         "waitingPeriodCalculation": {
           "status": "recorded",
           "entries": [
-            "A person formerly subject to Chapter 2950 registration \n 5 years after the registration requirements end or terminate",
-            "Felony of the fourth or fifth degree, measured from final discharge \n 1 year",
             "Felony, measured from the date the person first becomes eligible to apply for sealing for that felony \n 10 years from the sealing eligibility date, which is itself one, three or more years after final discharge",
             "Found not guilty by a jury or a court \n none. Any time after the finding is entered upon the minutes of the court or the journal, whichever entry occurs first",
             "Governor's pardon \n none. Any time after an absolute or partial pardon, or after the pardon conditions are met",
             "Minor misdemeanour, measured from final discharge \n 6 months",
             "Misdemeanour bail forfeiture \n generally 1 year after entry, 6 months for a minor misdemeanour",
-            "Misdemeanour bail forfeiture \n none. Any time after the forfeiture entry",
             "Misdemeanour, measured from final discharge \n 1 year",
             "Named in a dismissed complaint, indictment or information \n none. Any time after the dismissal is entered upon the minutes or the journal, whichever occurs first",
-            "No bill entered by a grand jury \n 2 years after the date the foreperson or deputy foreperson reported the no bill",
+            "No bill entered by a grand jury \n 2 years after the date the foreperson or deputy foreperson reported the no bill"
+          ]
+        },
+        "postFilingInstructions": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "uncontestedHearingTreatment": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "contestedHearingOrOppositionHandoff": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        }
+      }
+    },
+    {
+      "worklistGroupId": "rcap-oh-custom-pleading-clean-tracks",
+      "packetFamilyId": "rcap-oh-custom-pleading-clean-tracks",
+      "packetSetId": "oh_2953_32_sealing-set",
+      "packetSetIds": [
+        "oh_2953_32_sealing-set"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:OH:oh_2953_32_sealing"
+      ],
+      "jurisdictions": [
+        "OH"
+      ],
+      "workTypes": [
+        "ARTIFACT_REVIEW_REQUIRED",
+        "LOCAL_VARIATION_REQUIRED",
+        "OFFICIAL_FORM_MAP_REQUIRED",
+        "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
+        "PRODUCT_WIRING_REQUIRED"
+      ],
+      "routes": [
+        {
+          "routeKey": "obligation:track-only:OH:oh_2953_32_sealing",
+          "jurisdiction": "OH",
+          "trackId": "oh_2953_32_sealing",
+          "runtimePathwayId": null,
+          "requiredSourceIds": [
+            "component:oh_2953_32_sealing-bci-transmission-5",
+            "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+            "source-url:https://codes.ohio.gov/ohio-revised-code/section-2953.32",
+            "source-url:https://www.legislature.ohio.gov/legislation/134/sb288",
+            "source-url:https://www.ohioattorneygeneral.gov/Files/Forms/Forms-for-BCI-Criminal-Records-and-Background-Chec/Forms-for-Court/Sealings-and-Expungements-Request.aspx"
+          ],
+          "existingArtifactIds": [],
+          "missingImplementationWork": [
+            "Acquire and verify exact official-source custody for every required relationship; one held source cannot satisfy a separate missing form or source.",
+            "Acquire and verify exact official-source custody; a source relationship alone is not custody.",
+            "Add an exact runtime representation or record an approved exclusion; the legal-design track is not represented in compiled runtime.",
+            "Complete exact product wiring without creating runtime or commercial authority.",
+            "Complete route-output artifact review; a held source file is not an output artifact.",
+            "Complete the exact official-form field map; not_mapped is not an existing map.",
+            "Draft or complete the exact official-form field map for every required official form or companion.",
+            "Generate or locate an exact route output artifact and complete artifact review; source custody is not output proof.",
+            "Record affidavitOrVerification; current evidence is not recorded.",
+            "Record and test each local filing, fee, venue, or delivery variation.",
+            "Record certificateOfService; current evidence is not recorded.",
+            "Record contestedHearingOrOppositionHandoff; current evidence is not recorded.",
+            "Record coverSheet; current evidence is not recorded.",
+            "Record filingDeadline; current evidence is not recorded.",
+            "Record filingMethod; current evidence is not recorded.",
+            "Record notarizationRequirements; current evidence is not recorded.",
+            "Record notice; current evidence is not recorded.",
+            "Record postFilingInstructions; current evidence is not recorded.",
+            "Record proposedOrder; current evidence is not recorded.",
+            "Record requiredParticipantAttachments; current evidence is not recorded.",
+            "Record schedulesOrContinuationPages; current evidence is not recorded.",
+            "Record serviceMethod; current evidence is not recorded.",
+            "Record serviceRecipients; current evidence is not recorded.",
+            "Record serviceTiming; current evidence is not recorded.",
+            "Record uncontestedHearingTreatment; current evidence is not recorded.",
+            "Resolve the explicit non-statewide or locally varying filing configuration."
+          ],
+          "workTypes": [
+            "ARTIFACT_REVIEW_REQUIRED",
+            "LOCAL_VARIATION_REQUIRED",
+            "OFFICIAL_FORM_MAP_REQUIRED",
+            "OFFICIAL_SOURCE_ACQUISITION_REQUIRED",
+            "PRODUCT_WIRING_REQUIRED"
+          ],
+          "deliverable": {
+            "primaryOfficialFormOrComposedPleading": {
+              "status": "recorded",
+              "entries": [
+                "primary_filing: oh_2953_32_sealing-primary-filing-1"
+              ]
+            },
+            "proposedOrder": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "coverSheet": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "notice": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "certificateOfService": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "affidavitOrVerification": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "schedulesOrContinuationPages": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "requiredParticipantAttachments": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "laterCompletionFields": {
+              "status": "recorded",
+              "entries": [
+                "Attending the hearing",
+                "Payment of the fifty dollar application fee and any local fee, or the indigency showing",
+                "Sending the signed order to BCI with the Sealings and Expungements Request",
+                "Signature on the application",
+                "Transcribing the drafted content onto the court's own application"
+              ]
+            },
+            "signatureRequirements": {
+              "status": "recorded",
+              "entries": [
+                "The participant signs the application."
+              ]
+            },
+            "notarizationRequirements": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "filingDestination": {
+              "status": "recorded",
+              "entries": [
+                "The sentencing court for an Ohio conviction; a court of common pleas for an out-of-state or federal conviction.",
+                "court \n The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction \n File statewide standard Form 96-C1 or a substantially similar local form accepted under Sup.R. 11.17. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
+              ]
+            },
+            "filingMethod": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "filingFee": {
+              "status": "recorded",
+              "entries": [
+                "Fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars."
+              ]
+            },
+            "feeWaiverTreatment": {
+              "status": "recorded",
+              "entries": [
+                "Indigency excuses the application fee."
+              ]
+            },
+            "serviceRecipients": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "serviceMethod": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "serviceTiming": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "filingDeadline": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "waitingPeriodCalculation": {
+              "status": "recorded",
+              "entries": [
+                "A person formerly subject to Chapter 2950 registration \n 5 years after the registration requirements end or terminate",
+                "Felony of the fourth or fifth degree, measured from final discharge \n 1 year",
+                "Minor misdemeanour, measured from final discharge \n 6 months",
+                "Misdemeanour bail forfeiture \n none. Any time after the forfeiture entry",
+                "Misdemeanour, measured from final discharge \n 1 year",
+                "One or two felonies of the third degree, measured from final discharge \n 3 years",
+                "Soliciting improper compensation under ORC 2921.43, measured from final discharge \n 7 years"
+              ]
+            },
+            "postFilingInstructions": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "uncontestedHearingTreatment": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            },
+            "contestedHearingOrOppositionHandoff": {
+              "status": "not_recorded",
+              "entries": [
+                "not recorded"
+              ]
+            }
+          }
+        }
+      ],
+      "reusableFamilyDeliverable": {
+        "primaryOfficialFormOrComposedPleading": {
+          "status": "recorded",
+          "entries": [
+            "primary_filing: oh_2953_32_sealing-primary-filing-1"
+          ]
+        },
+        "proposedOrder": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "coverSheet": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "notice": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "certificateOfService": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "affidavitOrVerification": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "schedulesOrContinuationPages": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "requiredParticipantAttachments": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "laterCompletionFields": {
+          "status": "recorded",
+          "entries": [
+            "Attending the hearing",
+            "Payment of the fifty dollar application fee and any local fee, or the indigency showing",
+            "Sending the signed order to BCI with the Sealings and Expungements Request",
+            "Signature on the application",
+            "Transcribing the drafted content onto the court's own application"
+          ]
+        },
+        "signatureRequirements": {
+          "status": "recorded",
+          "entries": [
+            "The participant signs the application."
+          ]
+        },
+        "notarizationRequirements": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "filingDestination": {
+          "status": "recorded",
+          "entries": [
+            "The sentencing court for an Ohio conviction; a court of common pleas for an out-of-state or federal conviction.",
+            "court \n The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction \n File statewide standard Form 96-C1 or a substantially similar local form accepted under Sup.R. 11.17. After an order the court forwards the order and fingerprint record to BCI, or orders fingerprinting, and signed orders go to BCI with the Attorney General's Sealings and Expungements Request."
+          ]
+        },
+        "filingMethod": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "filingFee": {
+          "status": "recorded",
+          "entries": [
+            "Fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars."
+          ]
+        },
+        "feeWaiverTreatment": {
+          "status": "recorded",
+          "entries": [
+            "Indigency excuses the application fee."
+          ]
+        },
+        "serviceRecipients": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "serviceMethod": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "serviceTiming": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "filingDeadline": {
+          "status": "not_recorded",
+          "entries": [
+            "not recorded"
+          ]
+        },
+        "waitingPeriodCalculation": {
+          "status": "recorded",
+          "entries": [
+            "A person formerly subject to Chapter 2950 registration \n 5 years after the registration requirements end or terminate",
+            "Felony of the fourth or fifth degree, measured from final discharge \n 1 year",
+            "Minor misdemeanour, measured from final discharge \n 6 months",
+            "Misdemeanour bail forfeiture \n none. Any time after the forfeiture entry",
+            "Misdemeanour, measured from final discharge \n 1 year",
             "One or two felonies of the third degree, measured from final discharge \n 3 years",
             "Soliciting improper compensation under ORC 2921.43, measured from final discharge \n 7 years"
           ]
@@ -140850,6 +139264,9 @@
             "official-form:Blake-001",
             "official-form:Blake-002",
             "official-form:Blake-005",
+            "source-sha256:a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+            "source-url:https://refund.courts.wa.gov/",
+            "source-url:https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=151",
             "source-url:https://www.courts.wa.gov/forms/?fa=forms.contribute&formID=38",
             "source-url:https://www.courts.wa.gov/forms/documents/Blake%20001%20SupCt%20Blake%20Motion%20April%202026.pdf"
           ],

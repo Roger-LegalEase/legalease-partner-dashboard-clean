@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:5f40385d0b4014d8b490ed420d45fe0e54b5258a6760333a70c5af96bc8c9d3a",
+    "sourceFingerprint": "sha256:743f613560471288058bb27d699e5834940fb40a5ae5ab0cd16d25c985a926ea",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -13,7 +13,7 @@
       "ingestionStatus": "ABSENT_FROM_THIS_WORKTREE_REGISTRIES_USED_AS_CURRENT_REPOSITORY_EVIDENCE"
     }
   },
-  "count": 86,
+  "count": 93,
   "routes": [
     {
       "routeKey": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
@@ -512,6 +512,28 @@
       ]
     },
     {
+      "routeKey": "obligation:track-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "publicLabel": "Intervention-court completion — dismissal-only branch where a record remains",
+      "legalReviewQuestion": "Does intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "legal-design:legal_design_not_performed",
+        "runtime:Transcribed from a route contract, not imported from a legal-design memo. Legal design has not been performed for this route, and output review, visual review and technical proof are all outstanding. This entry opens no route, sets no price and changes no product treatment."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "publicLabel": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "legalReviewQuestion": "Does uncharged-misdemeanor-immediate-dismissal-branch-99-15-59 contain a participant-initiated self-help filing, or only guidance for a process controlled by not recorded?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "legal-design:legal_design_not_performed",
+        "runtime:Transcribed from a route contract, not imported from a legal-design memo. Legal design has not been performed for this route, and output review, visual review and technical proof are all outstanding. This entry opens no route, sets no price and changes no product treatment."
+      ]
+    },
+    {
       "routeKey": "obligation:track-only:ND:nd-juvenile-records-routing",
       "jurisdiction": "ND",
       "publicLabel": "Where to go about a North Dakota juvenile record",
@@ -554,6 +576,17 @@
       ]
     },
     {
+      "routeKey": "obligation:track-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "publicLabel": "Juvenile record expungement",
+      "legalReviewQuestion": "Does juvenile-record-expungement contain a participant-initiated self-help filing, or only guidance for a process controlled by not recorded?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "legal-design:legal_design_not_performed",
+        "runtime:Transcribed from a route contract, not imported from a legal-design memo. Legal design has not been performed for this route, and output review, visual review and technical proof are all outstanding. This entry opens no route, sets no price and changes no product treatment."
+      ]
+    },
+    {
       "routeKey": "obligation:track-only:UT:ut_adj_reduction_402",
       "jurisdiction": "UT",
       "publicLabel": "Not eligible yet? Reducing the conviction level may open a route",
@@ -578,6 +611,28 @@
         "completed-output-counsel-family:rcap-wi-guidance-implementation:approved_by_decision_owner",
         "legal-design:legal_design_approved_with_limitations",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "jurisdiction": "WV",
+      "publicLabel": "Sex-trafficking-victim vacatur and expungement",
+      "legalReviewQuestion": "Does sex-trafficking-victim-vacatur-and-expungement contain a participant-initiated self-help filing, or only guidance for a process controlled by not recorded?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "legal-design:legal_design_not_performed",
+        "runtime:Transcribed from a route contract, not imported from a legal-design memo. Legal design has not been performed for this route, and output review, visual review and technical proof are all outstanding. This entry opens no route, sets no price and changes no product treatment."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "publicLabel": "Human-trafficking-victim vacatur",
+      "legalReviewQuestion": "Does human-trafficking-victim-vacatur-w-s-6-2-708 contain a participant-initiated self-help filing, or only guidance for a process controlled by not recorded?",
+      "classificationConfidence": "low",
+      "currentImplementationEvidence": [
+        "legal-design:legal_design_not_performed",
+        "runtime:Transcribed from a route contract, not imported from a legal-design memo. Legal design has not been performed for this route, and output review, visual review and technical proof are all outstanding. This entry opens no route, sets no price and changes no product treatment."
       ]
     },
     {
@@ -753,6 +808,28 @@
       ]
     },
     {
+      "routeKey": "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement",
+      "jurisdiction": "MA",
+      "publicLabel": "Expunging an old marijuana charge",
+      "legalReviewQuestion": "Which expressly identified actor controls the no-filing guidance pathway marijuana-only-expungement?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json#marijuana-only-expungement",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract:MA:marijuana-only-expungement:LD-MA-02:guidance_status",
+        "route-kind-adjudication:pending:MA:marijuana-only-expungement:LD-MA-02",
+        "route-kind-contract-evidence:MA:marijuana-only-expungement:outcomeMode participant_packet, packetFamily \"Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼\", statute Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
+        "route-kind-evaluator-evidence:MA:marijuana-only-expungement:not a user-filed court petition:prior=needs_more_info:conclusive=false",
+        "runtime-authority-decision:LD-MA-02:route=MA:marijuana-only-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT SEALING/EXPUNGEMENT PACKET:effective-note=Never apply § 100A's conviction-sealing waits to § 100C nonconvictions or the special marijuana route.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:ma-expunge-mj-primary-filing-1:unchecked"
+      ]
+    },
+    {
       "routeKey": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
       "jurisdiction": "MD",
       "publicLabel": "Clearing police records from an arrest before October 2007",
@@ -864,6 +941,28 @@
         "legal-design:legal_design_approved_with_limitations",
         "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+      "jurisdiction": "NJ",
+      "publicLabel": "Clear your whole New Jersey record after ten years",
+      "legalReviewQuestion": "Which expressly identified actor controls the no-filing guidance pathway clean-slate-petition-under-n-j-s-a-2c-52-5-3?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json#clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract:NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3:LD-NJ-01:guidance_status",
+        "runtime-authority-decision:LD-NJ-01:route=NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS GUIDANCE OR ROUTE-SPECIFIC COURT EXPUNGEMENT PACKET:effective-note=Do not implement pending 2026 bills as enacted law; use current five- and ten-year statutes as of August 24, 2026.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:nj_clean_slate-order-for-hearing-3:unchecked",
+        "source-relationship:nj_clean_slate-primary-filing-1:unchecked",
+        "source-relationship:nj_clean_slate-proposed-order-4:unchecked",
+        "source-relationship:nj_clean_slate-statements-accompanying-petition-2:unchecked"
       ]
     },
     {

@@ -2922,8 +2922,8 @@ export function collectFailures(context) {
   const ndPreEffectiveBranchTargets = mappings.find((row) => row.sourceRouteKey === "service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:pre_effective_date_petition")?.canonicalObligationKeys ?? [];
   if (ndPetitionTrackTargets.length !== 1 || !sameSet(ndPetitionTrackTargets, ndPreEffectiveBranchTargets)) failures.push("North Dakota pre-effective petition track and exact service branch are double-counted or disconnected");
 
-  if ((independent?.projectionRouteIds ?? []).length !== 8) {
-    failures.push("Grade-A projection source accounting drift; expected eight exact route identities");
+  if ((independent?.projectionRouteIds ?? []).length !== 9) {
+    failures.push("Grade-A projection source accounting drift; expected nine exact route identities");
   }
   for (const projection of independent?.projectionRows ?? []) {
     const sourceKey = `pathway:${projection.routeId}`;

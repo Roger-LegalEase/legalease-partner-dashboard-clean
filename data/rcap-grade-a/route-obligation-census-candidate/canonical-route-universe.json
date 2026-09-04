@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:5f40385d0b4014d8b490ed420d45fe0e54b5258a6760333a70c5af96bc8c9d3a",
+    "sourceFingerprint": "sha256:743f613560471288058bb27d699e5834940fb40a5ae5ab0cd16d25c985a926ea",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -268,6 +268,7 @@
       "track:MO:mo-610-141-automatic-drug",
       "track:MO:mo-610-145-mistaken-identity",
       "track:MO:mo-art-xiv-marijuana",
+      "track:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "track:MS:ms-diversion",
       "track:MS:ms-drug-cd",
       "track:MS:ms-dui",
@@ -277,6 +278,7 @@
       "track:MS:ms-misd-addl",
       "track:MS:ms-nonadj",
       "track:MS:ms-nonconv",
+      "track:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
       "track:MT:mt_auto_nonconviction",
       "track:MT:mt_deferred_dismissal",
       "track:MT:mt_misdemeanor_expungement",
@@ -361,6 +363,7 @@
       "track:OH:oh_2953_39_prosecutor",
       "track:OH:oh_2953_521_trafficking_nonconviction",
       "track:OH:oh_marijuana_expungement",
+      "track:OK:juvenile-record-expungement",
       "track:OK:ok_18_19_deferred_dismissal",
       "track:OK:ok_18_19_felony_conviction",
       "track:OK:ok_18_19_misdemeanor_conviction",
@@ -503,6 +506,7 @@
       "track:WI:wi_exp_trafficking_2m",
       "track:WI:wi_nc_doj_challenge",
       "track:WI:wi_nc_doj_fingerprint_removal",
+      "track:WV:sex-trafficking-victim-vacatur-and-expungement",
       "track:WV:wv_acc_treatment_job_readiness",
       "track:WV:wv_common_conv_procedure",
       "track:WV:wv_common_nc_procedure",
@@ -515,6 +519,7 @@
       "track:WV:wv_nc_acquittal_dismissal",
       "track:WV:wv_nc_diversion_deferred",
       "track:WV:wv_pardon_expungement",
+      "track:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "track:WY:wy_fel_1502",
       "track:WY:wy_misd_1501",
       "track:WY:wy_nc_1401"
@@ -1032,7 +1037,7 @@
   },
   "counts": {
     "totalJurisdictions": 51,
-    "totalStatutoryLegalTracks": 497,
+    "totalStatutoryLegalTracks": 502,
     "totalLegalTrackUnits": 113,
     "totalRuntimeRoutes": 339,
     "totalEffectiveServiceBranches": 17,
@@ -1051,13 +1056,13 @@
     "runtimeAuthorityRouteKeyRegistryGaps": 14,
     "ownerApprovedCandidateRoutes": 80,
     "ownerApprovedPacketFamilyIds": 15,
-    "totalTypedSourceEntities": 995,
-    "totalCanonicalObligations": 703,
-    "totalCanonicalEntities": 703,
-    "totalDistinctParticipantActionBranches": 504,
-    "possibleCategoryA": 451,
-    "possibleCategoryB": 166,
-    "needsLegalReview": 86,
+    "totalTypedSourceEntities": 1000,
+    "totalCanonicalObligations": 708,
+    "totalCanonicalEntities": 708,
+    "totalDistinctParticipantActionBranches": 499,
+    "possibleCategoryA": 446,
+    "possibleCategoryB": 169,
+    "needsLegalReview": 93,
     "duplicateAliases": 0,
     "pendingAliasInstructions": 1,
     "pendingCensusPacketFamilies": 4,
@@ -14413,6 +14418,17 @@
       ]
     },
     {
+      "routeKey": "track:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "entityType": "legal_track",
+      "sourceIdentity": "track:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "publicLabel": "Intervention-court completion — dismissal-only branch where a record remains",
+      "statuteOrAuthority": "Miss. Code Ann. § 99-19-71(4)",
+      "parentRouteKey": null,
+      "hiddenParticipantBranch": false,
+      "mappedRuntimePathwayIds": []
+    },
+    {
       "routeKey": "track:MS:ms-diversion",
       "entityType": "legal_track",
       "sourceIdentity": "track:MS:ms-diversion",
@@ -14530,6 +14546,17 @@
       "mappedRuntimePathwayIds": [
         "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
       ]
+    },
+    {
+      "routeKey": "track:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "entityType": "legal_track",
+      "sourceIdentity": "track:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "publicLabel": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "statuteOrAuthority": "Miss. Code Ann. § 99-15-59",
+      "parentRouteKey": null,
+      "hiddenParticipantBranch": false,
+      "mappedRuntimePathwayIds": []
     },
     {
       "routeKey": "track:MT:mt_auto_nonconviction",
@@ -15547,6 +15574,17 @@
       "mappedRuntimePathwayIds": [
         "marijuana-hashish-possession-expungement-under-2953-321"
       ]
+    },
+    {
+      "routeKey": "track:OK:juvenile-record-expungement",
+      "entityType": "legal_track",
+      "sourceIdentity": "track:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "publicLabel": "Juvenile record expungement",
+      "statuteOrAuthority": "10A O.S. § 2-6-109",
+      "parentRouteKey": null,
+      "hiddenParticipantBranch": false,
+      "mappedRuntimePathwayIds": []
     },
     {
       "routeKey": "track:OK:ok_18_19_deferred_dismissal",
@@ -17303,6 +17341,17 @@
       ]
     },
     {
+      "routeKey": "track:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "entityType": "legal_track",
+      "sourceIdentity": "track:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "jurisdiction": "WV",
+      "publicLabel": "Sex-trafficking-victim vacatur and expungement",
+      "statuteOrAuthority": "W. Va. Code § 61-14-9",
+      "parentRouteKey": null,
+      "hiddenParticipantBranch": false,
+      "mappedRuntimePathwayIds": []
+    },
+    {
       "routeKey": "track:WV:wv_acc_treatment_job_readiness",
       "entityType": "legal_track",
       "sourceIdentity": "track:WV:wv_acc_treatment_job_readiness",
@@ -17451,6 +17500,17 @@
       "mappedRuntimePathwayIds": [
         "pardon-based-expungement"
       ]
+    },
+    {
+      "routeKey": "track:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "entityType": "legal_track",
+      "sourceIdentity": "track:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "publicLabel": "Human-trafficking-victim vacatur",
+      "statuteOrAuthority": "Wyo. Stat. § 6-2-708(c)",
+      "parentRouteKey": null,
+      "hiddenParticipantBranch": false,
+      "mappedRuntimePathwayIds": []
     },
     {
       "routeKey": "track:WY:wy_fel_1502",
@@ -21581,6 +21641,19 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "obligation:track-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "entityType": "canonical_obligation",
+      "obligationKind": "unmapped_legal_track",
+      "sourceIdentity": "obligation:track-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "publicLabel": "Intervention-court completion — dismissal-only branch where a record remains",
+      "statuteOrAuthority": "Miss. Code Ann. § 99-19-71(4)",
+      "sourceEntityKeys": [
+        "track:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "obligation:track-only:MS:ms-nonadj",
       "entityType": "canonical_obligation",
       "obligationKind": "unmapped_legal_track",
@@ -21590,6 +21663,19 @@
       "statuteOrAuthority": "Miss. Code Ann. § 99-15-26; Miss. Code Ann. § 99-15-26(5); Miss. Code Ann. § 99-19-71(4)",
       "sourceEntityKeys": [
         "track:MS:ms-nonadj"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:track-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "entityType": "canonical_obligation",
+      "obligationKind": "unmapped_legal_track",
+      "sourceIdentity": "obligation:track-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "publicLabel": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "statuteOrAuthority": "Miss. Code Ann. § 99-15-59",
+      "sourceEntityKeys": [
+        "track:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
       ],
       "hiddenParticipantBranch": false
     },
@@ -22071,6 +22157,19 @@
       "statuteOrAuthority": "Ohio Rev. Code § 2953.39; Ohio Rev. Code § 2953.32; Ohio Rev. Code ch. 2925",
       "sourceEntityKeys": [
         "track:OH:oh_2953_39_prosecutor"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:track-only:OK:juvenile-record-expungement",
+      "entityType": "canonical_obligation",
+      "obligationKind": "unmapped_legal_track",
+      "sourceIdentity": "obligation:track-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "publicLabel": "Juvenile record expungement",
+      "statuteOrAuthority": "10A O.S. § 2-6-109",
+      "sourceEntityKeys": [
+        "track:OK:juvenile-record-expungement"
       ],
       "hiddenParticipantBranch": false
     },
@@ -22738,6 +22837,19 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "obligation:track-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "entityType": "canonical_obligation",
+      "obligationKind": "unmapped_legal_track",
+      "sourceIdentity": "obligation:track-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "jurisdiction": "WV",
+      "publicLabel": "Sex-trafficking-victim vacatur and expungement",
+      "statuteOrAuthority": "W. Va. Code § 61-14-9",
+      "sourceEntityKeys": [
+        "track:WV:sex-trafficking-victim-vacatur-and-expungement"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "obligation:track-only:WV:wv_common_nc_procedure",
       "entityType": "canonical_obligation",
       "obligationKind": "unmapped_legal_track",
@@ -22760,6 +22872,19 @@
       "statuteOrAuthority": "W. Va. Code § 17C-5-2(j)(1); W. Va. Code § 17C-5-2(a)(5); W. Va. Code § 17C-5A-3a; W. Va. Code § 17C-5-2(j)(3); W. Va. Code § 61-11-26b",
       "sourceEntityKeys": [
         "track:WV:wv_dui_test_and_lock_dismissal"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:track-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "entityType": "canonical_obligation",
+      "obligationKind": "unmapped_legal_track",
+      "sourceIdentity": "obligation:track-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "publicLabel": "Human-trafficking-victim vacatur",
+      "statuteOrAuthority": "Wyo. Stat. § 6-2-708(c)",
+      "sourceEntityKeys": [
+        "track:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
       ],
       "hiddenParticipantBranch": false
     },
@@ -33597,6 +33722,14 @@
       ]
     },
     {
+      "sourceRouteKey": "track:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "sourceEntityType": "legal_track",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:track-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+      ]
+    },
+    {
       "sourceRouteKey": "track:MS:ms-diversion",
       "sourceEntityType": "legal_track",
       "accountingRelation": "exact_source_to_terminal_representation",
@@ -33670,6 +33803,14 @@
       "accountingRelation": "exact_source_to_terminal_representation",
       "canonicalObligationKeys": [
         "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+      ]
+    },
+    {
+      "sourceRouteKey": "track:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "sourceEntityType": "legal_track",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:track-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
       ]
     },
     {
@@ -34353,6 +34494,14 @@
       "accountingRelation": "exact_source_to_terminal_representation",
       "canonicalObligationKeys": [
         "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321"
+      ]
+    },
+    {
+      "sourceRouteKey": "track:OK:juvenile-record-expungement",
+      "sourceEntityType": "legal_track",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:track-only:OK:juvenile-record-expungement"
       ]
     },
     {
@@ -35535,6 +35684,14 @@
       ]
     },
     {
+      "sourceRouteKey": "track:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "sourceEntityType": "legal_track",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:track-only:WV:sex-trafficking-victim-vacatur-and-expungement"
+      ]
+    },
+    {
       "sourceRouteKey": "track:WV:wv_acc_treatment_job_readiness",
       "sourceEntityType": "legal_track",
       "accountingRelation": "exact_source_to_terminal_representation",
@@ -35629,6 +35786,14 @@
       "accountingRelation": "exact_source_to_terminal_representation",
       "canonicalObligationKeys": [
         "obligation:track-pathway:WV:wv_pardon_expungement:pardon-based-expungement"
+      ]
+    },
+    {
+      "sourceRouteKey": "track:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "sourceEntityType": "legal_track",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:track-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
       ]
     },
     {
@@ -36601,6 +36766,17 @@
       "historical": true,
       "canonicalObligationKeys": [
         "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516"
+      ]
+    },
+    {
+      "specificationIdentity": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json#ms-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "trackId": "ms-nonconv",
+      "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "historical": false,
+      "canonicalObligationKeys": [
+        "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
       ]
     },
     {
@@ -38057,7 +38233,7 @@
       "pathwayId": "marijuana-only-expungement",
       "contractSourceFile": "src/lib/legal-authority/routes/route-splits.json",
       "contractDecisionId": "LD-MA-02",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "guidance_status",
       "authorityDecisionId": "LD-MA-02",
       "authorityRuleId": "MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP",
       "authorityOutputMode": "AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT SEALING/EXPUNGEMENT PACKET",
@@ -39050,7 +39226,7 @@
       "pathwayId": "law-enforcement-error-expungement",
       "contractSourceFile": "src/lib/legal-authority/routes/route-splits.json",
       "contractDecisionId": "LD-NE-05",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "guidance_status",
       "authorityDecisionId": "LD-NE-05",
       "authorityRuleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
       "authorityOutputMode": "ERROR PETITION OR SET-ASIDE APPLICATION",
@@ -39119,7 +39295,7 @@
       "pathwayId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
       "contractSourceFile": "src/lib/legal-authority/routes/route-splits.json",
       "contractDecisionId": "LD-NJ-01",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "guidance_status",
       "authorityDecisionId": "LD-NJ-01",
       "authorityRuleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
       "authorityOutputMode": "AUTOMATIC STATUS GUIDANCE OR ROUTE-SPECIFIC COURT EXPUNGEMENT PACKET",
@@ -39209,7 +39385,7 @@
       "pathwayId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
       "contractSourceFile": "src/lib/legal-authority/routes/route-splits.json",
       "contractDecisionId": "LD-NV-04",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "referral",
       "authorityDecisionId": "LD-NV-04",
       "authorityRuleId": "NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT",
       "authorityOutputMode": "COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET",
@@ -39544,7 +39720,7 @@
       "pathwayId": "marijuana-specific-set-aside-redesignation",
       "contractSourceFile": "src/lib/legal-authority/routes/single-routes.json",
       "contractDecisionId": "LD-OR-03",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "guidance_status",
       "authorityDecisionId": "LD-OR-03",
       "authorityRuleId": "OR-475C.397-SPECIAL-MARIJUANA-VS-137.225-CLASS-MAP",
       "authorityOutputMode": "SPECIAL MARIJUANA MOTION OR GENERAL SET-ASIDE PACKET",
@@ -39612,7 +39788,7 @@
       "pathwayId": "path-k-human-trafficking-vacatur-expungement",
       "contractSourceFile": "src/lib/legal-authority/routes/route-splits.json",
       "contractDecisionId": "LD-PA-03",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "guidance_status",
       "authorityDecisionId": "LD-PA-03",
       "authorityRuleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
       "authorityOutputMode": "ROUTE-SPECIFIC COURT EXPUNGEMENT OR VACATUR PACKET",
@@ -39792,7 +39968,7 @@
       "pathwayId": "juvenile-trafficking-expungement",
       "contractSourceFile": "src/lib/legal-authority/routes/route-splits.json",
       "contractDecisionId": "LD-SD-02",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "referral",
       "authorityDecisionId": "LD-SD-02",
       "authorityRuleId": "SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT",
       "authorityOutputMode": "JUVENILE TRAFFICKING PETITION OR SIS STATUS/CORRECTION GUIDANCE",

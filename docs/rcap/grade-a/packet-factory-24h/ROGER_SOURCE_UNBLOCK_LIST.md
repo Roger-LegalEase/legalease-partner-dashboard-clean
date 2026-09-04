@@ -2,7 +2,7 @@
 
 **RESIDUAL HUMAN-ACTION ITEMS: 0**
 
-**UNIQUE CANONICAL ARTIFACTS: 59**  ·  **UNIQUE FAMILIES: 40**
+**UNIQUE CANONICAL ARTIFACTS: 26**  ·  **UNIQUE FAMILIES: 13**
 
 ## What changed, and why the old list was withdrawn
 
@@ -23,13 +23,9 @@ _Nothing currently requires a person._
 
 | State | Records | Owner |
 |---|---:|---|
-| `STANDALONE_ARTIFACT` | 1 | ACQ obtains the public bytes; PROMO verifies receipt, hash and custody |
-| `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` | 1 | DISC and Captain settle statewide versus local scope and the alias relationship before any inquiry |
-| `MISSING_SOURCE_BINARY` | 1 | ACQ, once DISC has settled an exact official address |
-| `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 34 | DISC settles source identity and the route or family relationship |
-| `CURRENTNESS_UNVERIFIED` | 16 | DISC compares the held edition against the publisher's own forms index |
-| `FAMILY_IDENTITY_AMBIGUOUS` | 5 | DISC settles which document the route actually requires |
-| `UNSUPPORTED_RELATIONSHIP` | 1 | DISC and legal decide which families the artifact genuinely serves |
+| `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 20 | DISC settles source identity and the route or family relationship |
+| `CURRENTNESS_UNVERIFIED` | 4 | DISC compares the held edition against the publisher's own forms index |
+| `FAMILY_IDENTITY_AMBIGUOUS` | 2 | DISC settles which document the route actually requires |
 
 3 SOURCE_BLOCKED famil(ies) name no official form at all — DISC discovery, not an errand.
 
