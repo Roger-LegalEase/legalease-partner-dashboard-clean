@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "034c247c099fa25fec546578080a407216a26ebc",
+  "atCommit": "d91c14a8d67a58b66b06237909db3c14ca4e92fa",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -80,18 +80,18 @@
     }
   ],
   "counts": {
-    "completePacketProven": 112,
+    "completePacketProven": 113,
     "familiesInsideExistingApprovalScope": 110,
     "augustApprovalScope": 57,
     "septemberExactDigestApprovalScope": 53,
     "septemberApprovalsWithCurrentDigests": 45,
     "familiesInsideTheOwnerApproval": 102,
-    "provenAndApproved": 43,
-    "inCohort": 4,
-    "cohortRoutes": 5,
+    "provenAndApproved": 44,
+    "inCohort": 5,
+    "cohortRoutes": 7,
     "provenButOutsideAnyExistingApproval": 69
   },
-  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 112 are packet-proven; 43 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 102 families currently retain approval coverage after applying the September digest condition, while 113 are packet-proven; 44 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [
     {
       "familyId": "dc_innocence_expungement-set",
@@ -236,6 +236,39 @@
       }
     },
     {
+      "familyId": "rcap-ks-custom-pleading",
+      "jurisdiction": "KS",
+      "routeKeys": [
+        "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "routeCount": 2,
+      "deliveryType": "custom_pleading",
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf08",
+        "verifiedAtBase": "bebc0489688b69040a72bb0ca42251370d7cb573"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "approved_by_decision_owner",
+        "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-08-19",
+        "requiresSignature": false,
+        "approvalSource": "august_completed_output_approval",
+        "approvalCurrent": true,
+        "ownerQualification": null,
+        "shippingArtifactDigestPins": null,
+        "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ks-custom-pleading.json",
+        "packetProofSha256Recorded": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+        "packetProofSha256Now": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+        "legalDesignMemoSha256Recorded": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
+        "legalDesignMemoSha256Now": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+      }
+    },
+    {
       "familyId": "wy_fel_1502-set",
       "jurisdiction": "WY",
       "routeKeys": [
@@ -288,18 +321,22 @@
     "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
     "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
     "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+    "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
     "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
   ],
   "routeReachability": {
     "whatThisSeparates": "A route key names work this factory did. A runtime route id is what screening and the Briefcase resolve. Only a route with both can be sold once a visual review returns; a track-only route cannot be addressed at all, however complete its packet.",
-    "routeKeysInTheCohort": 5,
-    "addressableByTheRuntime": 5,
+    "routeKeysInTheCohort": 7,
+    "addressableByTheRuntime": 7,
     "notAddressableByTheRuntime": 0,
     "addressable": [
       "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
       "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
       "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
       "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
       "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
     ],
     "runtimeMappings": [
@@ -325,6 +362,18 @@
         "routeKey": "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
         "runtimePathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
         "runtimeRouteId": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "runtimePathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "runtimeRouteId": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      },
+      {
+        "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
+        "runtimePathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "runtimeRouteId": "KS:municipal-arrest-record-expungement-under-12-4516a",
         "source": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
       },
       {
@@ -4487,6 +4536,50 @@
         "verifiedAtBase": null
       },
       "legalApproval": null
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "jurisdiction": "KS",
+      "routeKeys": [
+        "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "routeCount": 2,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": true,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [],
+      "inCohort": true,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf08",
+        "verifiedAtBase": "bebc0489688b69040a72bb0ca42251370d7cb573"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "approved_by_decision_owner",
+        "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-08-19",
+        "requiresSignature": false,
+        "approvalSource": "august_completed_output_approval",
+        "approvalCurrent": true,
+        "ownerQualification": null,
+        "shippingArtifactDigestPins": null,
+        "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
+        "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ks-custom-pleading.json",
+        "packetProofSha256Recorded": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+        "packetProofSha256Now": "628cb03a621aa4db6967346bd5b73caceb316a7bb7bf777c47345e49a97f1d50",
+        "legalDesignMemoSha256Recorded": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1",
+        "legalDesignMemoSha256Now": "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+      }
     },
     {
       "familyId": "ri_marijuana-set",

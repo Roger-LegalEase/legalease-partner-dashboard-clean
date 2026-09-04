@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "034c247c099fa25fec546578080a407216a26ebc",
+  "minimumCaptainSha": "d91c14a8d67a58b66b06237909db3c14ca4e92fa",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -72,13 +72,13 @@
     "sourceReady": 100,
     "sourceBlocked": 11,
     "legalBlocked": 7,
-    "verifyPending": 3,
+    "verifyPending": 2,
     "repairRequired": 48,
     "sumsToDenominator": true
   },
   "byState": {
     "BUILT_RASTER_PENDING": 28,
-    "COMPLETE_PACKET_PROVEN": 112,
+    "COMPLETE_PACKET_PROVEN": 113,
     "FAIL_REPAIR_REQUIRED": 48,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
@@ -87,7 +87,7 @@
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 3,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -34613,10 +34613,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf08",
+        "verifiedAtBase": "bebc0489688b69040a72bb0ca42251370d7cb573",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -34647,67 +34647,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "COMPONENT_SET"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "The authoritative track-registry packet sets, legal-design packet-set manifest and both committed route packet specifications require a process_guidance component at order 3 for each route. The rendered family instead declares and ships filing-instructions-3 under a different component id and role. Semantic guidance content exists, but exact required component identity does not: two required ids are missing and two undeclared substitutes are present.",
-          "evidence": {
-            "missingRequired": [
-              "ks-12-4516-municipal-process-guidance-3",
-              "ks-12-4516a-municipal-arrest-process-guidance-3"
-            ],
-            "undeclaredSubstitutes": [
-              "ks-12-4516-municipal-filing-instructions-3",
-              "ks-12-4516a-municipal-arrest-filing-instructions-3"
-            ],
-            "authoritativeSources": [
-              "data/record-clearing/legal-design-track-registry.json",
-              "data/record-clearing/legal-design-packet-set-manifests.json",
-              "data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json",
-              "data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json"
-            ]
-          }
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Independent rendering found three orphaned route-footer-only pages. Family boundary.pdf page 4 contains only 'Route: Municipal conviction or diversion expungement - K.S.A. 12-4516' (9 words, 69 characters); family canonical has no corresponding page. Both route-specific municipal canonical.pdf and boundary.pdf page 8 contain that same footer and nothing else. A technically nonblank page is still a pagination/overflow defect, and the two-document central raster's 0-problem result did not detect it.",
-          "evidence": {
-            "defectivePages": [
-              {
-                "artifact": "fixtures/boundary.pdf",
-                "page": 4,
-                "words": 9,
-                "characters": 69,
-                "onlyText": "Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"
-              },
-              {
-                "artifact": "fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-                "page": 8,
-                "words": 9,
-                "characters": 69,
-                "onlyText": "Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"
-              },
-              {
-                "artifact": "fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-                "page": 8,
-                "words": 9,
-                "characters": 69,
-                "onlyText": "Route: Municipal conviction or diversion expungement - K.S.A. 12-4516"
-              }
-            ],
-            "familyPageCountDivergence": "canonical 12 pages; boundary 13 pages; the additional boundary page is the footer-only page 4",
-            "geometryAcrossAllSixPdfs": "13,572 extracted words; 0 off-page words; 0 same-line overlap pairs",
-            "centralMachineReport": "RASTER_PASS, 2 documents / 25 pages / 0 machine-reported problems"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ks-custom-pleading.mjs",
