@@ -1,0 +1,694 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "fl-10yr-bridge-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_driver_license",
+      "page": 1,
+      "printedContext": "Florida driver's license number",
+      "disclosureLabel": "Florida driver's license number",
+      "identity": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION field page1_driver_license",
+      "why": "the fixture does not hold this sensitive identifier",
+      "participantMustSupply": "the participant's Florida driver-license number, if issued"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_place_of_birth",
+      "page": 3,
+      "printedContext": "Fingerprint card place of birth",
+      "disclosureLabel": "Fingerprint card place of birth",
+      "identity": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION field page3_place_of_birth",
+      "why": "the fixture does not hold this identity fact",
+      "participantMustSupply": "the participant's place of birth"
+    },
+    {
+      "document": "FL-RULE-3.989-PETITION",
+      "field": "FL-RULE-3.989-PETITION.certificate_number",
+      "page": 1,
+      "printedContext": "FDLE Certificate of Eligibility number",
+      "disclosureLabel": "FDLE Certificate of Eligibility number",
+      "identity": "FL-RULE-3.989-PETITION field certificate_number",
+      "why": "FDLE issues it only after the Stage 1 application",
+      "participantMustSupply": "the number printed on the fresh FDLE Certificate of Eligibility"
+    },
+    {
+      "document": "FL-RULE-3.989-PETITION",
+      "field": "FL-RULE-3.989-PETITION.certificate_issue_date",
+      "page": 1,
+      "printedContext": "FDLE Certificate of Eligibility issue date",
+      "disclosureLabel": "FDLE Certificate of Eligibility issue date",
+      "identity": "FL-RULE-3.989-PETITION field certificate_issue_date",
+      "why": "FDLE issues it only after the Stage 1 application",
+      "participantMustSupply": "the issue date printed on the fresh FDLE Certificate of Eligibility"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_alias_last",
+      "label": "Alias last name (optional participant-authored content)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_alias_first",
+      "label": "Alias first name (optional participant-authored content)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_alias_middle",
+      "label": "Alias middle name (optional participant-authored content)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_ssn",
+      "label": "Social Security number (optional)",
+      "refusalClass": null,
+      "why": "the official form expressly marks it optional and this build does not hold it"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_applicant_signature",
+      "label": "Applicant signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs in front of the notary or deputy clerk"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_signature_date",
+      "label": "Applicant signature date",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant dates the application when signing"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_notary_state_county",
+      "label": "Notary state and county",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes the acknowledgment"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_notary_date",
+      "label": "Notary acknowledgment date",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes the acknowledgment"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_notary_signature",
+      "label": "Notary signature and commissioned name",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes the acknowledgment"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_identification_method",
+      "label": "Notary identification method",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the notary or deputy clerk completes the acknowledgment"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_arrest_date_2",
+      "label": "Charge row 2 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_charge_2",
+      "label": "Charge row 2 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_arrest_date_3",
+      "label": "Charge row 3 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_charge_3",
+      "label": "Charge row 3 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_arrest_date_4",
+      "label": "Charge row 4 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_charge_4",
+      "label": "Charge row 4 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_arrest_date_5",
+      "label": "Charge row 5 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_charge_5",
+      "label": "Charge row 5 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_arrest_date_6",
+      "label": "Charge row 6 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_charge_6",
+      "label": "Charge row 6 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_arrest_date_7",
+      "label": "Charge row 7 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_charge_7",
+      "label": "Charge row 7 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_arrest_date_8",
+      "label": "Charge row 8 arrest date (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page1_charge_8",
+      "label": "Charge row 8 charge description (optional additional charge)",
+      "refusalClass": null,
+      "why": "optional participant-authored content; this fixture has no additional charge in this row"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_state_attorney",
+      "label": "State Attorney or Statewide Prosecutor",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_reviewing_officer",
+      "label": "Reviewing officer",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_county",
+      "label": "County of prosecution",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_circuit",
+      "label": "Judicial circuit",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_eligible_no_charging_document",
+      "label": "Prosecutor selection 1 - no charging document filed or issued",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_eligible_dismissed_or_acquitted",
+      "label": "Prosecutor selection 2 - dismissed, nolle prosequi, acquitted, or not guilty",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_eligible_ten_year_seal",
+      "label": "Prosecutor selection 3 - withheld-adjudication record sealed at least ten years",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_adjudication",
+      "label": "Prosecutor ineligibility selection - adjudication on a related charge",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_seal_under_ten",
+      "label": "Prosecutor ineligibility selection - withheld-adjudication record sealed under ten years",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_disqualifying_charge",
+      "label": "Prosecutor ineligibility selection - section 943.0584 charge",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_other",
+      "label": "Prosecutor ineligibility selection - other statutory ground",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_other_case_guilt",
+      "label": "Prosecutor ineligibility selection - adjudication of guilt in a different case",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_felony_delinquency",
+      "label": "Prosecutor ineligibility selection - qualifying adjudication of delinquency",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_prior_relief",
+      "label": "Prosecutor ineligibility selection - prior court order for sealing or expunction",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_ineligible_supervision",
+      "label": "Prosecutor ineligibility selection - current court supervision",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_state_attorney_signature",
+      "label": "State Attorney signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_state_attorney_date",
+      "label": "State Attorney signature date",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_state_attorney_title",
+      "label": "State Attorney title",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_reviewing_officer_signature",
+      "label": "Reviewing officer signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_reviewing_officer_date",
+      "label": "Reviewing officer signature date",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_reviewing_officer_title",
+      "label": "Reviewing officer title",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes this field"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_1",
+      "label": "State Attorney row 1 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_1",
+      "label": "State Attorney row 1 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_1",
+      "label": "State Attorney row 1 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_1",
+      "label": "State Attorney row 1 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_2",
+      "label": "State Attorney row 2 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_2",
+      "label": "State Attorney row 2 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_2",
+      "label": "State Attorney row 2 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_2",
+      "label": "State Attorney row 2 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_3",
+      "label": "State Attorney row 3 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_3",
+      "label": "State Attorney row 3 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_3",
+      "label": "State Attorney row 3 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_3",
+      "label": "State Attorney row 3 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_4",
+      "label": "State Attorney row 4 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_4",
+      "label": "State Attorney row 4 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_4",
+      "label": "State Attorney row 4 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_4",
+      "label": "State Attorney row 4 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_5",
+      "label": "State Attorney row 5 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_5",
+      "label": "State Attorney row 5 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_5",
+      "label": "State Attorney row 5 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_5",
+      "label": "State Attorney row 5 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_6",
+      "label": "State Attorney row 6 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_6",
+      "label": "State Attorney row 6 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_6",
+      "label": "State Attorney row 6 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_6",
+      "label": "State Attorney row 6 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_7",
+      "label": "State Attorney row 7 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_7",
+      "label": "State Attorney row 7 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_7",
+      "label": "State Attorney row 7 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_7",
+      "label": "State Attorney row 7 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_charge_8",
+      "label": "State Attorney row 8 charge description",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_statute_8",
+      "label": "State Attorney row 8 statute violation",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_case_8",
+      "label": "State Attorney row 8 case number",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page2_action_8",
+      "label": "State Attorney row 8 action",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the state attorney or statewide prosecutor completes the written certified statement"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_alias_last",
+      "label": "Fingerprint card alias last name (optional participant-authored content)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_alias_first",
+      "label": "Fingerprint card alias first name (optional participant-authored content)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_alias_middle",
+      "label": "Fingerprint card alias middle name (optional participant-authored content)",
+      "refusalClass": null,
+      "why": "the fixture carries no alias"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_ssn",
+      "label": "Fingerprint card Social Security number (optional)",
+      "refusalClass": null,
+      "why": "the source expressly says disclosure is voluntary"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_official_signature",
+      "label": "Signature of official taking fingerprints",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the fingerprint official completes it"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_ori",
+      "label": "ORI or fingerprinting-entity stamp",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the fingerprinting entity completes it"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_participant_signature",
+      "label": "Signature of person fingerprinted",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs while being fingerprinted"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_participant_signature_date",
+      "label": "Date beside signature of person fingerprinted",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant dates the fingerprint card while signing"
+    },
+    {
+      "document": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "field": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION.page3_fingerprint_impressions",
+      "label": "Fingerprint impressions",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the fingerprinting entity takes and completes the impressions"
+    },
+    {
+      "document": "FL-RULE-3.989-PETITION",
+      "field": "FL-RULE-3.989-PETITION.petitioner_signature",
+      "label": "Petitioner signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs after reviewing the final petition"
+    },
+    {
+      "document": "FL-RULE-3.989-PETITION",
+      "field": "FL-RULE-3.989-PETITION.petitioner_signature_date",
+      "label": "Date beside petitioner signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant dates the petition when signing"
+    },
+    {
+      "document": "FL-RULE-3.989-ORDER",
+      "field": "FL-RULE-3.989-ORDER.grant_selection",
+      "label": "[ ] Judge selects GRANTED",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the judge decides the petition"
+    },
+    {
+      "document": "FL-RULE-3.989-ORDER",
+      "field": "FL-RULE-3.989-ORDER.deny_selection",
+      "label": "[ ] Judge selects DENIED",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the judge decides the petition"
+    },
+    {
+      "document": "FL-RULE-3.989-ORDER",
+      "field": "FL-RULE-3.989-ORDER.judge_signature",
+      "label": "Judge signature",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the judge completes the proposed order"
+    },
+    {
+      "document": "FL-RULE-3.989-ORDER",
+      "field": "FL-RULE-3.989-ORDER.order_date",
+      "label": "Date of judicial order",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the judge or clerk enters the order date"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/participant-instructions.md"
+}

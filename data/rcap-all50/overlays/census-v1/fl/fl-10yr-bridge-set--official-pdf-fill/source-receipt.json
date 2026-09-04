@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "fl-10yr-bridge-set",
+  "jurisdiction": "FL",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "the exact held FDLE byte is read directly from mounted source custody; no acquisition, copy, research, or substitution",
+  "allSourcesExact": true,
+  "routeKeys": [
+    "obligation:track-pathway:FL:fl-10yr-bridge:court-ordered-expunction-943-0585"
+  ],
+  "sourceBinaryCommitted": false,
+  "mountedReadOnlySource": {
+    "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "custodyPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf",
+    "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+    "byteLength": 26602
+  },
+  "documents": [
+    {
+      "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "formNumber": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "kind": "held_official_pdf",
+      "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "byteLength": 26602
+    },
+    {
+      "documentId": "FL-RULE-3.989-PETITION",
+      "formNumber": "FL-RULE-3.989-PETITION",
+      "kind": "composed_from_authority",
+      "ownerDetermination": "FL-RULE-3989"
+    },
+    {
+      "documentId": "FL-RULE-3.989-ORDER",
+      "formNumber": "FL-RULE-3.989-ORDER",
+      "kind": "composed_from_authority",
+      "ownerDetermination": "FL-RULE-3989"
+    }
+  ],
+  "compositionAuthority": {
+    "determination": "FL-RULE-3989",
+    "records": [
+      {
+        "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+        "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+        "byteLength": 11095
+      },
+      {
+        "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+        "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+        "byteLength": 121810
+      },
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+        "byteLength": 16586150
+      },
+      {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
+        "byteLength": 3677644
+      }
+    ]
+  },
+  "formIdentityNote": "The held official component is the expunction rendering of FDLE40-021. The two Rule 3.989 components are composed under FL-RULE-3989; they are not represented as held official PDF bytes.",
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "participant eligibility",
+    "source freshness beyond the exact PF17 binding",
+    "independent verification",
+    "visual acceptance",
+    "approval for fulfillment"
+  ]
+}
