@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "worker": "CODEX-CS1-FIX07-WA-ARTIFACTS",
+  "workerId": "CODEX-CS1-FIX07-WA-ARTIFACTS",
+  "lane": "FIX07",
+  "branch": "codex/cs1-fix07-wa-artifacts-bebc",
+  "baseSha": "bebc0489688b69040a72bb0ca42251370d7cb573",
+  "familyId": "rcap-wa-custom-pleading-clean-tracks",
+  "routes": [
+    "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+    "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+  ],
+  "status": "COMPLETED",
+  "claim": "CLAIM_OK FIX07 rcap-wa-custom-pleading-clean-tracks (repair, grant set 241df4e3322b710f)",
+  "repairPresentAtAssignedBase": true,
+  "repairPresentAtAssignedBaseNote": "Ancestor f11fe46961ad4c4925c914874c96ef396b0ac398 already refreshed this family through the owning generated-bookkeeping path. The generator was run again and proved idempotent, two guarded deterministic packet rebuilds reproduced the exact assigned bytes, and this return records the causal ARTIFACTS evidence without a redundant product-wiring or packet diff.",
+  "obligationsRepaired": [
+    "ARTIFACTS"
+  ],
+  "productWiring": {
+    "generator": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+    "proposalCanonicalSha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+    "acceptanceVerdict": "RASTER_PASS",
+    "acceptanceWorkflowRunId": "33839480114",
+    "acceptanceCanonicalSha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+    "coversTheWholeFamily": true,
+    "checkResult": "0 wiring record(s) need creation, 0 record(s) need refresh, 1 unchanged"
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "sha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+      "byteLength": 46140,
+      "pageCount": 17,
+      "unchanged": true
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+      "byteLength": 46647,
+      "pageCount": 17,
+      "unchanged": true
+    }
+  ],
+  "determinism": {
+    "completeBuilds": 2,
+    "hashesLengthsAndPageCountsIdentical": true,
+    "matchedAssignedCurrentBytes": true,
+    "packetBytesMoved": false,
+    "result": "DETERMINISTIC"
+  },
+  "rasterBinding": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33839480114",
+    "canonicalSha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+    "boundarySha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+    "documentsMeasured": 2,
+    "pagesMeasured": 34,
+    "problemsFound": 0,
+    "coversTheWholeFamily": true
+  },
+  "tests": [
+    "builder focused check: PASS",
+    "product-wiring generator and --check: current, unchanged and idempotent",
+    "product-wiring refresh regression test: PASS",
+    "two guarded deterministic no-raster builds: PASS",
+    "packet completeness: PASS_COMPLETE 20/48 written; all nine counters zero",
+    "current raster binding: RASTER_PASS run 33839480114; 34 pages; zero problems",
+    "focused ARTIFACTS-only reread evidence: ARTIFACTS_ONLY_REREAD_EVIDENCE_OK"
+  ],
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/fix07/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix07-wa-artifacts-bebc/RETURN.json"
+  ],
+  "builderChanged": false,
+  "packetPdfChanged": false,
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "productionTouched": false
+}

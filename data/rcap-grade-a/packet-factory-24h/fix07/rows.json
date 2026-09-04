@@ -977,6 +977,132 @@
       "selfVerificationPerformed": 0,
       "routesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "routeKeys": [
+        "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+        "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+      ],
+      "worker": "CODEX-CS1-FIX07-WA-ARTIFACTS",
+      "workerId": "CODEX-CS1-FIX07-WA-ARTIFACTS",
+      "baseSha": "bebc0489688b69040a72bb0ca42251370d7cb573",
+      "branch": "codex/cs1-fix07-wa-artifacts-bebc",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "lane": "FIX07",
+      "laneKind": "repair",
+      "claim": "CLAIM_OK FIX07 rcap-wa-custom-pleading-clean-tracks (repair, grant set 241df4e3322b710f)",
+      "repairPresentAtAssignedBase": true,
+      "repairDisposition": "The assigned Captain base already contains the exact generated-bookkeeping repair from ancestor f11fe46961ad4c4925c914874c96ef396b0ac398: product-wiring.json names the current canonical packet and exact current RASTER_PASS run. This worker ran the owning product-wiring generator, which confirmed the family record was already current and unchanged, reproduced both packet PDFs in two guarded deterministic builds, and recorded the scoped FIX07 completion without introducing redundant packet, builder, source, or central-state changes.",
+      "obligationsAssigned": [
+        "ARTIFACTS"
+      ],
+      "obligationsRepaired": [
+        "ARTIFACTS"
+      ],
+      "artifactIdentity": {
+        "failedVerdictBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+        "supersededProposalCanonicalSha256": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+        "supersededAcceptanceCanonicalSha256": "8536db61f221712b84f50d20348bfbe66497250adb95dce25f2aae4a291479db",
+        "supersededAcceptanceBoundarySha256": "ce3a0a84ba48071b8bef2924f97dc5dc54cb190bcfc5de3d65a356e97088916d",
+        "productWiringGenerator": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+        "generatorRepairRun": "0 wiring record(s) written, 0 record(s) refreshed, 1 unchanged",
+        "generatorCheck": "0 wiring record(s) need creation, 0 record(s) need refresh, 1 unchanged",
+        "proposalCanonicalSha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+        "acceptanceReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33839480114",
+          "boundToCanonicalSha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+          "coversTheWholeFamily": true
+        },
+        "currentRasterReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33839480114",
+          "boundToCanonicalSha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+          "boundToBoundarySha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+          "documentsMeasured": 2,
+          "pagesMeasured": 34,
+          "problemsFound": 0,
+          "coversTheWholeFamily": true
+        }
+      },
+      "artifactsBefore": [
+        {
+          "fixture": "canonical",
+          "sha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+          "byteLength": 46140,
+          "pageCount": 17
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+          "byteLength": 46647,
+          "pageCount": 17
+        }
+      ],
+      "artifactsAfter": [
+        {
+          "fixture": "canonical",
+          "sha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+          "byteLength": 46140,
+          "pageCount": 17
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+          "byteLength": 46647,
+          "pageCount": 17
+        }
+      ],
+      "packetBytesUnchanged": true,
+      "determinism": {
+        "completeBuilds": 2,
+        "guardedAgainstAssignedHashes": true,
+        "canonicalHashesIdentical": true,
+        "boundaryHashesIdentical": true,
+        "byteLengthsIdentical": true,
+        "pageCountsIdentical": true,
+        "matchedAssignedCurrentBytes": true,
+        "result": "DETERMINISTIC"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "focusedTests": [
+        "node scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs --check => CHECK_ONLY; 3 records bound; 53 anchors; 8 components; 20 writes; 28 blanks",
+        "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family rcap-wa-custom-pleading-clean-tracks => current and unchanged",
+        "two guarded node scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs --no-raster runs => COMPLETED with exact assigned hashes, byte lengths and 17-page counts on both runs",
+        "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family rcap-wa-custom-pleading-clean-tracks => 0 need creation; 0 need refresh; 1 unchanged",
+        "node scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs => PASS",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks => PASS_COMPLETE 20/48 written; all nine counters zero",
+        "current raster binding assertion => RASTER_PASS run 33839480114; exact canonical and boundary pins; 2 documents; 34 pages; 0 problems; whole-family coverage",
+        "node scripts/grade-a-packet-factory-24h/generate.mjs --check-artifacts-only-reread-evidence rcap-wa-custom-pleading-clean-tracks => ARTIFACTS_ONLY_REREAD_EVIDENCE_OK"
+      ],
+      "changedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/fix07/rows.json",
+        "data/rcap-grade-a/codex-cloud/cs1-fix07-wa-artifacts-bebc/RETURN.json"
+      ],
+      "builderChanged": false,
+      "packetPdfChanged": false,
+      "sourceAuthorityChanged": false,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "claimReleased": false,
+      "selfVerificationPerformed": 0,
+      "selfVerified": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ]
 }
