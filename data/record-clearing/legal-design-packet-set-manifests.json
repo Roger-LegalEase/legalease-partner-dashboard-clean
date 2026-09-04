@@ -7625,6 +7625,43 @@
       "trackId": "dc_correct_misattributed_arrest",
       "packetSetId": "dc_correct_misattributed_arrest-set",
       "version": "1.0.0",
+      "factoryV2RouteProductization": {
+        "obligationRouteKey": "obligation:track-only:DC:dc_correct_misattributed_arrest",
+        "runtimeRouteId": "DC:dc_correct_misattributed_arrest",
+        "jurisdiction": "DC",
+        "pathwayId": "dc_correct_misattributed_arrest",
+        "registryTrackIds": [
+          "dc_correct_misattributed_arrest"
+        ],
+        "packetFamilyId": "dc_correct_misattributed_arrest-set",
+        "scope": "route_track_family_only",
+        "legalApproval": {
+          "legalApprovalResult": "ADOPT",
+          "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+          "legalDecisionOwner": "Roger Roman",
+          "legalDecisionEffectiveDate": "2026-09-02",
+          "requiresSignature": false,
+          "approvalSource": "september_exact_digest_adoption",
+          "approvalCurrent": true,
+          "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+          "shippingArtifactDigestPins": [
+            {
+              "fixture": "canonical",
+              "file": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf",
+              "sha256": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f"
+            },
+            {
+              "fixture": "boundary",
+              "file": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf",
+              "sha256": "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225"
+            }
+          ]
+        },
+        "postApprovalChangeAudit": null,
+        "createsCommercialAuthority": false,
+        "opensRoute": false,
+        "nextGate": "post-approval substantive-legal-change audit for OWN-ADOPT-2026-09-02-BATCH-53, then separate fulfillment-authority generation"
+      },
       "components": [
         {
           "componentId": "dc_correct_misattributed_arrest-primary-filing-1",
@@ -7635,6 +7672,26 @@
           "officialFormId": null,
           "officialSourceUrl": null,
           "order": 1
+        },
+        {
+          "componentId": "dc_correct_misattributed_arrest-prosecutor-service-2",
+          "role": "prosecutor_service",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "dc_correct_misattributed_arrest-filing-instructions-3",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
         }
       ],
       "participantActionRequired": [

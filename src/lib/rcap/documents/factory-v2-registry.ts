@@ -54,7 +54,7 @@ export type FactoryV2Route = {
   packetFamilyId: string | null;
   /** Present only for an exact route migrated out of a retired legacy jurisdiction. */
   retiredLegacyRouteMigration: FactoryV2RouteMigration | null;
-  /** Present only for the exact unapproved CT route/track/family technical crosswalk. */
+  /** Present only for an exact route/track/family technical crosswalk. */
   exactRouteProductization: FactoryV2ExactRouteProductization | null;
   /** True when the caller must name the exact server-owned track. */
   exactTrackSelectionRequired: boolean;
@@ -73,6 +73,52 @@ const CT_CLEANSLATE_PRODUCTIZATION = {
   scope: "route_track_family_only",
   nextGate: "current CT owner legal approval and post-approval change audit, then separate fulfillment-authority generation"
 } as const;
+const DC_MISATTRIBUTED_PRODUCTIZATION = {
+  obligationRouteKey: "obligation:track-only:DC:dc_correct_misattributed_arrest",
+  runtimeRouteId: "DC:dc_correct_misattributed_arrest",
+  jurisdiction: "DC",
+  pathwayId: "dc_correct_misattributed_arrest",
+  registryTrackIds: ["dc_correct_misattributed_arrest"],
+  packetFamilyId: "dc_correct_misattributed_arrest-set",
+  profileVersion: "2026-06-19-source-conversion-1",
+  scope: "route_track_family_only",
+  nextGate: "post-approval substantive-legal-change audit for OWN-ADOPT-2026-09-02-BATCH-53, then separate fulfillment-authority generation",
+  requiredInputIds: [
+    "participant_full_legal_name",
+    "date_of_birth",
+    "contact_information",
+    "underlying_case_number",
+    "misidentification_facts",
+    "no_fingerprints_taken",
+    "no_other_identification",
+    "prosecuting_office_name_address"
+  ],
+  components: [
+    ["dc_correct_misattributed_arrest-primary-filing-1", "primary_filing", "custom_pleading", 1],
+    ["dc_correct_misattributed_arrest-prosecutor-service-2", "prosecutor_service", "process_guidance", 2],
+    ["dc_correct_misattributed_arrest-filing-instructions-3", "filing_instructions", "process_guidance", 3]
+  ],
+  artifactPins: [
+    [
+      "canonical",
+      "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf",
+      "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+      13617,
+      5
+    ],
+    [
+      "boundary",
+      "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf",
+      "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225",
+      13868,
+      5
+    ]
+  ],
+  referenceSourceId: "DC-HOW-TO-SEAL-OR-EXPUNGE-YOUR-CRIMINAL-RECOR",
+  referenceSourceSha256: "310381f170d1875ef7a40e9e71c8653c1ea5c847628a6c718ea9016c0e312712",
+  referenceSourceByteLength: 47232
+} as const;
+const OWNER_QUALIFICATION = "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.";
 
 const REQUIRED_BUILD_INPUTS = [
   "authoritativeProfile",
@@ -108,6 +154,22 @@ export type FactoryV2RouteMigration = {
   ownerDecisionRecordId: string;
 };
 
+export type FactoryV2LegalApprovalEvidence = {
+  legalApprovalResult: "ADOPT";
+  legalDecisionRecordId: string;
+  legalDecisionOwner: string;
+  legalDecisionEffectiveDate: string;
+  requiresSignature: false;
+  approvalSource: string;
+  approvalCurrent: true;
+  ownerQualification: string;
+  shippingArtifactDigestPins: Array<{
+    fixture: "canonical" | "boundary";
+    file: string;
+    sha256: string;
+  }>;
+};
+
 export type FactoryV2ExactRouteProductization = {
   obligationRouteKey: string;
   runtimeRouteId: string;
@@ -116,7 +178,7 @@ export type FactoryV2ExactRouteProductization = {
   registryTrackIds: string[];
   packetFamilyId: string;
   scope: "route_track_family_only";
-  legalApproval: null;
+  legalApproval: FactoryV2LegalApprovalEvidence | null;
   postApprovalChangeAudit: null;
   createsCommercialAuthority: false;
   opensRoute: false;
@@ -140,7 +202,18 @@ type RawPacketSet = {
   jurisdiction?: unknown;
   trackId?: unknown;
   packetSetId?: unknown;
+  components?: unknown;
   factoryV2RouteProductization?: unknown;
+};
+
+type RawPacketComponent = {
+  componentId?: unknown;
+  role?: unknown;
+  requirement?: unknown;
+  outputStrategy?: unknown;
+  officialFormId?: unknown;
+  officialSourceUrl?: unknown;
+  order?: unknown;
 };
 
 type RawExactRouteProductization = {
@@ -166,6 +239,54 @@ const stringList = (value: unknown): string[] =>
 function exactStringList(actual: unknown, expected: readonly string[]): boolean {
   if (!Array.isArray(actual) || actual.length !== expected.length) return false;
   return actual.every((value, index) => typeof value === "string" && value === expected[index]);
+}
+
+function dcLegalApproval(value: unknown): FactoryV2LegalApprovalEvidence | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const row = value as Partial<FactoryV2LegalApprovalEvidence>;
+  if (
+    row.legalApprovalResult !== "ADOPT"
+    || row.legalDecisionRecordId !== COHORT_OWNER_DECISION
+    || row.legalDecisionOwner !== "Roger Roman"
+    || row.legalDecisionEffectiveDate !== "2026-09-02"
+    || row.requiresSignature !== false
+    || row.approvalSource !== "september_exact_digest_adoption"
+    || row.approvalCurrent !== true
+    || row.ownerQualification !== OWNER_QUALIFICATION
+    || !Array.isArray(row.shippingArtifactDigestPins)
+    || row.shippingArtifactDigestPins.length !== DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins.length
+  ) return null;
+  for (let index = 0; index < DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins.length; index += 1) {
+    const [fixture, file, sha256] = DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins[index];
+    const pin = row.shippingArtifactDigestPins[index];
+    if (pin?.fixture !== fixture || pin.file !== file || pin.sha256 !== sha256) return null;
+  }
+  return {
+    legalApprovalResult: "ADOPT",
+    legalDecisionRecordId: COHORT_OWNER_DECISION,
+    legalDecisionOwner: "Roger Roman",
+    legalDecisionEffectiveDate: "2026-09-02",
+    requiresSignature: false,
+    approvalSource: "september_exact_digest_adoption",
+    approvalCurrent: true,
+    ownerQualification: OWNER_QUALIFICATION,
+    shippingArtifactDigestPins: row.shippingArtifactDigestPins.map((pin) => ({ ...pin }))
+  };
+}
+
+function dcPacketComponentsMatch(value: unknown): boolean {
+  if (!Array.isArray(value) || value.length !== DC_MISATTRIBUTED_PRODUCTIZATION.components.length) return false;
+  return value.every((candidate, index) => {
+    const component = candidate as RawPacketComponent;
+    const [componentId, role, outputStrategy, order] = DC_MISATTRIBUTED_PRODUCTIZATION.components[index];
+    return component?.componentId === componentId
+      && component.role === role
+      && component.requirement === "required"
+      && component.outputStrategy === outputStrategy
+      && component.officialFormId === null
+      && component.officialSourceUrl === null
+      && component.order === order;
+  });
 }
 
 /**
@@ -290,6 +411,151 @@ function loadCtCleanSlateProductization(): FactoryV2ExactRouteProductization | n
   }
 }
 
+/**
+ * This DC family is a track-only legal-design route, so the generated registry
+ * has no pathway row to borrow. The literal crosswalk below is therefore the
+ * whole admission surface: one runtime route, one server-owned track and one
+ * packet family. The owner adoption is preserved as evidence, while the absent
+ * post-approval audit remains null and keeps the specification non-composable.
+ */
+function loadDcMisattributedProductization(): FactoryV2ExactRouteProductization | null {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(path.join(process.cwd(), ROUTE_MIGRATIONS_PATH), "utf8")) as {
+      packetSets?: unknown;
+    };
+    if (!Array.isArray(parsed.packetSets)) return null;
+    const matches = (parsed.packetSets as RawPacketSet[]).filter((packetSet) =>
+      packetSet.packetSetId === DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId);
+    if (matches.length !== 1) return null;
+    const packetSet = matches[0];
+    const row = packetSet.factoryV2RouteProductization as RawExactRouteProductization | null;
+    if (!row || typeof row !== "object" || Array.isArray(row)) return null;
+    const legalApproval = dcLegalApproval(row.legalApproval);
+    if (
+      packetSet.jurisdiction !== DC_MISATTRIBUTED_PRODUCTIZATION.jurisdiction
+      || packetSet.trackId !== DC_MISATTRIBUTED_PRODUCTIZATION.registryTrackIds[0]
+      || !dcPacketComponentsMatch(packetSet.components)
+      || row.obligationRouteKey !== DC_MISATTRIBUTED_PRODUCTIZATION.obligationRouteKey
+      || row.runtimeRouteId !== DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId
+      || row.jurisdiction !== DC_MISATTRIBUTED_PRODUCTIZATION.jurisdiction
+      || row.pathwayId !== DC_MISATTRIBUTED_PRODUCTIZATION.pathwayId
+      || !exactStringList(row.registryTrackIds, DC_MISATTRIBUTED_PRODUCTIZATION.registryTrackIds)
+      || row.packetFamilyId !== DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId
+      || row.packetFamilyId !== packetSet.packetSetId
+      || row.scope !== DC_MISATTRIBUTED_PRODUCTIZATION.scope
+      || !legalApproval
+      || row.postApprovalChangeAudit !== null
+      || row.createsCommercialAuthority !== false
+      || row.opensRoute !== false
+      || row.nextGate !== DC_MISATTRIBUTED_PRODUCTIZATION.nextGate
+    ) return null;
+    return {
+      obligationRouteKey: DC_MISATTRIBUTED_PRODUCTIZATION.obligationRouteKey,
+      runtimeRouteId: DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId,
+      jurisdiction: DC_MISATTRIBUTED_PRODUCTIZATION.jurisdiction,
+      pathwayId: DC_MISATTRIBUTED_PRODUCTIZATION.pathwayId,
+      registryTrackIds: [...DC_MISATTRIBUTED_PRODUCTIZATION.registryTrackIds],
+      packetFamilyId: DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId,
+      scope: DC_MISATTRIBUTED_PRODUCTIZATION.scope,
+      legalApproval,
+      postApprovalChangeAudit: null,
+      createsCommercialAuthority: false,
+      opensRoute: false,
+      nextGate: DC_MISATTRIBUTED_PRODUCTIZATION.nextGate
+    };
+  } catch {
+    return null;
+  }
+}
+
+function dcMisattributedSpecificationMatches(
+  exactProductization: FactoryV2ExactRouteProductization
+): boolean {
+  const specification = packetSpecificationForTrack(
+    exactProductization.runtimeRouteId,
+    exactProductization.registryTrackIds[0]
+  );
+  if (!specification) return false;
+  const exact = specification as typeof specification & {
+    obligationRouteKey?: unknown;
+    legalApproval?: unknown;
+    postApprovalChangeAudit?: unknown;
+    requiredFacts?: Array<{ factId?: unknown; inRegistryRequiredInputs?: unknown }>;
+    sourceIdentities?: Array<{
+      sourceId?: unknown;
+      sha256?: unknown;
+      byteLength?: unknown;
+      instrumentKind?: unknown;
+      shippedAsPacketComponent?: unknown;
+    }>;
+    artifactEvidence?: Array<{
+      fixture?: unknown;
+      file?: unknown;
+      sha256?: unknown;
+      byteLength?: unknown;
+      pageCount?: unknown;
+      components?: unknown;
+      authority?: unknown;
+    }>;
+  };
+  const routeKeys = exact.routeKeys ?? [exact.routeKey];
+  const requiredInputIds = (exact.requiredFacts ?? [])
+    .filter((fact) => fact.inRegistryRequiredInputs === true)
+    .map((fact) => fact.factId);
+  const documents = exact.documents.slice().sort((left, right) => left.order - right.order);
+  const reference = exact.sourceIdentities?.find((source) =>
+    source.sourceId === DC_MISATTRIBUTED_PRODUCTIZATION.referenceSourceId);
+  if (
+    exact.obligationRouteKey !== DC_MISATTRIBUTED_PRODUCTIZATION.obligationRouteKey
+    || exact.routeKey !== DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId
+    || !exactStringList(routeKeys, [DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId])
+    || exact.jurisdiction !== DC_MISATTRIBUTED_PRODUCTIZATION.jurisdiction
+    || exact.pathwayId !== DC_MISATTRIBUTED_PRODUCTIZATION.pathwayId
+    || exact.trackId !== DC_MISATTRIBUTED_PRODUCTIZATION.registryTrackIds[0]
+    || exact.packetFamily !== DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId
+    || exact.packetSetId !== DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId
+    || exact.profileVersion !== DC_MISATTRIBUTED_PRODUCTIZATION.profileVersion
+    || specificationLegalSectionsBound(exact)
+    || !dcLegalApproval(exact.legalApproval)
+    || exact.postApprovalChangeAudit !== null
+    || !exactStringList(requiredInputIds, DC_MISATTRIBUTED_PRODUCTIZATION.requiredInputIds)
+    || documents.length !== DC_MISATTRIBUTED_PRODUCTIZATION.components.length
+    || reference?.sha256 !== DC_MISATTRIBUTED_PRODUCTIZATION.referenceSourceSha256
+    || reference.byteLength !== DC_MISATTRIBUTED_PRODUCTIZATION.referenceSourceByteLength
+    || reference.instrumentKind !== "bound_reference_instrument"
+    || reference.shippedAsPacketComponent !== false
+    || !/^[0-9a-f]{64}$/.test(specificationContentSha256(exact))
+  ) return false;
+  for (let index = 0; index < DC_MISATTRIBUTED_PRODUCTIZATION.components.length; index += 1) {
+    const [manifestComponentId, role, outputStrategy, order] = DC_MISATTRIBUTED_PRODUCTIZATION.components[index];
+    const document = documents[index];
+    if (
+      document?.documentId !== role
+      || document.role !== role
+      || document.outputStrategy !== outputStrategy
+      || document.officialFormId !== null
+      || document.manifestComponentId !== manifestComponentId
+      || document.order !== order
+    ) return false;
+  }
+  if (!Array.isArray(exact.artifactEvidence)
+    || exact.artifactEvidence.length !== DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins.length) return false;
+  for (let index = 0; index < DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins.length; index += 1) {
+    const [fixture, file, sha256, byteLength, pageCount] = DC_MISATTRIBUTED_PRODUCTIZATION.artifactPins[index];
+    const artifact = exact.artifactEvidence[index];
+    if (
+      artifact?.fixture !== fixture
+      || artifact.file !== file
+      || artifact.sha256 !== sha256
+      || artifact.byteLength !== byteLength
+      || artifact.pageCount !== pageCount
+      || !exactStringList(artifact.components, ["primary_filing", "prosecutor_service", "filing_instructions"])
+      || artifact.authority !== "technical_evidence_only"
+    ) return false;
+  }
+  return true;
+}
+
 function admissible(
   route: RawRoute,
   migration: FactoryV2RouteMigration | null,
@@ -354,6 +620,7 @@ function loadAll(): Map<string, FactoryV2Route> {
   const admitted = new Map<string, FactoryV2Route>();
   const migrations = loadRouteMigrations();
   const ctCleanSlateProductization = loadCtCleanSlateProductization();
+  const dcMisattributedProductization = loadDcMisattributedProductization();
   const file = path.join(process.cwd(), REGISTRY_PATH);
   try {
     if (fs.existsSync(file)) {
@@ -394,6 +661,31 @@ function loadAll(): Map<string, FactoryV2Route> {
             || (migration !== null
               && (!exactStringList(rawRegistryTrackIds, registryTrackIds)
                 || !exactStringList(rawPacketSetIds, packetSetIds)))
+        });
+      }
+      // The DC misattributed-arrest obligation is track-only and therefore has
+      // no generated pathway row. Admit precisely the literal crosswalk above,
+      // after checking its server specification, rather than inventing a
+      // jurisdiction aggregate or treating any sibling DC route as equivalent.
+      if (
+        dcMisattributedProductization
+        && !admitted.has(DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId)
+        && dcMisattributedSpecificationMatches(dcMisattributedProductization)
+      ) {
+        const specification = packetSpecificationFor(DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId);
+        admitted.set(DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId, {
+          pathwayKey: DC_MISATTRIBUTED_PRODUCTIZATION.runtimeRouteId,
+          jurisdiction: DC_MISATTRIBUTED_PRODUCTIZATION.jurisdiction,
+          pathwayId: DC_MISATTRIBUTED_PRODUCTIZATION.pathwayId,
+          registryTrackIds: [...DC_MISATTRIBUTED_PRODUCTIZATION.registryTrackIds],
+          packetSetIds: [DC_MISATTRIBUTED_PRODUCTIZATION.packetFamilyId],
+          profileVersion: DC_MISATTRIBUTED_PRODUCTIZATION.profileVersion,
+          requiredInputIds: [...DC_MISATTRIBUTED_PRODUCTIZATION.requiredInputIds],
+          officialFormIds: [],
+          packetFamilyId: specification?.packetFamily ?? null,
+          retiredLegacyRouteMigration: null,
+          exactRouteProductization: dcMisattributedProductization,
+          exactTrackSelectionRequired: true
         });
       }
     }
