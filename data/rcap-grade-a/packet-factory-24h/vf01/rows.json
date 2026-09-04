@@ -3448,21 +3448,24 @@
     {
       "itemId": "dc_yra_set_aside-set",
       "lane": "VF01",
-      "worker": "FABLE-VA5",
-      "verifiedAtBase": "cd48fc14e",
-      "verifiedAt": "2026-09-02T10:05:00Z",
-      "wave": "FABLE-VA5 / VF01 independent verification at Captain head cd48fc14e",
+      "worker": "CODEX-CS1-VF01-DC-YRA",
+      "verifiedAtBase": "3faaa1b8364505b1a511021f4c18c1eb1e992489",
+      "verifiedAt": "2026-09-04T13:09:00Z",
+      "wave": "current-byte independent verification after FIX05 REQUIRED_BEFORE_FILING repair",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading",
       "jurisdiction": "DC",
       "implementationStrategy": "custom_pleading",
-      "independence": "FABLE-VA5 built none of these packets, repaired none, rendered none, and produced none of the reports it reads. Every grant was asserted at data/rcap-grade-a/packet-factory-24h/claim-ledger.json before any artifact of that family was opened. Every SHA-256, page count, word geometry and counter below was recomputed in this container from the bytes on disk at cd48fc14e. No verdict any family already carried was read as evidence; every obligation was scored from zero.",
+      "routeKeys": [
+        "obligation:track-only:DC:dc_yra_set_aside"
+      ],
+      "independence": "CODEX-CS1-VF01-DC-YRA did not build or repair this family, changed no packet byte, and did not inherit the superseded vf03 verdict. The worker asserted VF01 before reading family content, then recomputed hashes, byte lengths, page counts, counters, source-record pins, text geometry, route/component bindings, and every proof obligation from the current committed files and PDFs.",
       "claim": {
-        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 dc_yra_set_aside-set --reason \"FABLE-VA5 independent verification at base cd48fc14e\"",
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 dc_yra_set_aside-set",
         "result": "CLAIM_OK",
         "exitCode": 0,
-        "grantSet": "b46ff8faa6f82672",
-        "assertedAt": "2026-09-02T09:47:00Z"
+        "grantSet": "218cb72dfda45e4f",
+        "claimReleased": false
       },
       "nineCounters": {
         "knownRequiredFieldsMissing": 0,
@@ -3476,176 +3479,270 @@
         "visualDefects": 0,
         "allZero": true,
         "measuredHere": true,
-        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId> run in this container at cd48fc14e; it returned PASS_COMPLETE with 6/13 fields written",
-        "visualDefectsCaveat": "0 because no raster pixel was inspected here, not because a page was looked at",
-        "whatTheseCountersDoNotCover": "These nine counters answer completeness. They do not answer whether a stated fact is the right fact for this route, which is what the fifteen obligations below ask."
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_yra_set_aside-set, executed without a write flag at exact base 3faaa1b8364505b1a511021f4c18c1eb1e992489: PASS_COMPLETE, 6/13 written, all nine counters zero",
+        "scope": "The counters were recomputed by the focused verifier; they were not copied from the builder return."
       },
       "measurements": {
         "fixturesRecomputedFromBytes": [
           {
-            "file": "boundary.pdf",
-            "sha256": "3fb8f39c556160cf1c099a706d7e54215ca57336e01c6d67da8f65e56a20f848",
-            "byteLength": 10709,
-            "pages": 4
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca",
+            "byteLength": 10964,
+            "pageCount": 4,
+            "recordMatches": true
           },
           {
-            "file": "canonical.pdf",
-            "sha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
-            "byteLength": 10525,
-            "pages": 4
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-yra-set-aside-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63",
+            "byteLength": 11147,
+            "pageCount": 4,
+            "recordMatches": true
           }
         ],
-        "pageCountsFromPdfLib": {
-          "boundary.pdf": 4,
-          "canonical.pdf": 4
-        },
-        "wordGeometry": {
-          "boundary.pdf": {
-            "pages": 4,
-            "words": 952,
-            "overlappingPairs": 0
-          },
-          "canonical.pdf": {
-            "pages": 4,
-            "words": 947,
-            "overlappingPairs": 0
-          }
-        },
-        "rasterReceipt": {
-          "verdict": "RASTER_PASS",
-          "workflowRunId": "33605354695",
-          "jobId": "100168605617",
-          "artifactId": 9836931310,
-          "boundToCanonicalSha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
-          "recomputedCanonicalSha256": "302ebea7e9fb4dd9944fc786e33e190117a5fee31dac7bab3e28a063b855b9fc",
-          "bindingStillHolds": true,
-          "noPixelInspected": "Blob storage refused at 403."
-        },
         "committedRecordsRehashed": [
           {
             "path": "data/record-clearing/legal-design-track-registry.json",
-            "declared": "49d08b90a767d616…",
-            "recomputed": "49d08b90a767d616…",
-            "match": true
+            "sha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4",
+            "byteLength": 16586143,
+            "matchesReceipt": true
           },
           {
             "path": "data/record-clearing/legal-design-specifications.json",
-            "declared": "cc0c79598a8406e0…",
-            "recomputed": "cc0c79598a8406e0…",
-            "match": true
+            "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+            "byteLength": 16829383,
+            "matchesReceipt": true
           },
           {
             "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-            "declared": "e615283930c6a9aa…",
-            "recomputed": "e615283930c6a9aa…",
-            "match": true
+            "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+            "byteLength": 2599752,
+            "matchesReceipt": true
           }
-        ]
+        ],
+        "popplerGeometry": {
+          "canonical": {
+            "words": 985,
+            "wordsOutsideMediaBox": 0,
+            "textOverlapPairs": 0
+          },
+          "boundary": {
+            "words": 990,
+            "wordsOutsideMediaBox": 0,
+            "textOverlapPairs": 0
+          }
+        },
+        "localVisualReview": {
+          "renderer": "Poppler pdftoppm at 120 DPI",
+          "documentsReviewed": 2,
+          "pagesReviewed": 8,
+          "observedClippingOrOverlap": 0,
+          "note": "Temporary verification rasters only; no overlay or governed raster record was modified."
+        },
+        "governedRasterReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33844904078",
+          "renderedCommitSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+          "jobId": "100935414107",
+          "artifactId": "9926357197",
+          "boundToCanonicalSha256": "d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca",
+          "boundToBoundarySha256": "1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63",
+          "documentsMeasured": 2,
+          "pagesMeasured": 8,
+          "problemsFound": 0,
+          "coversTheWholeFamily": true,
+          "bindingStillHolds": true
+        }
       },
       "proofObligations": {
         "ROUTE_IDENTITY": {
           "measured": true,
           "result": "PASS",
-          "instrument": "routeKey and trackId across product-wiring.json, production-field-map.json, source-receipt.json, the track registry, the packet-set manifest and the footer on every rendered page",
-          "evidence": "obligation:track-only:DC:dc_yra_set_aside and trackId dc_yra_set_aside everywhere; statutes D.C. Code § 24-906(e-1), § 24-903(c)(2), § 24-906(e-2). The packet also states the identity boundary the registry records — 'A set-aside is not sealing. The person still needs a § 16-806 motion to seal' — which is what keeps this route from being confused with the DC sealing tracks."
+          "finding": "The family ID and sole route obligation:track-only:DC:dc_yra_set_aside agree across the queue, source receipt, production field map, product wiring, route census, committed track registry, and rendered component footers. The packet consistently identifies D.C. Code §§ 24-906(e-1), 24-903(c)(2), and 24-906(e-2), and expressly distinguishes a YRA set-aside from sealing.",
+          "evidence": {
+            "routeKeysDeclared": 1,
+            "recordsCompared": 7,
+            "routeMismatchCount": 0
+          }
         },
         "SOURCE_IDENTITY": {
           "measured": true,
           "result": "PASS",
-          "instrument": "sha256sum recomputed from the bytes of all three committed records",
-          "evidence": "The track registry, the legal-design specifications and the route-obligation census all rehash to their declared values at this base. custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT; the packet-set manifest records officialFormId null and the packet says in terms that no committed record names an official DC form for this route, which the manifest's own file action confirms — 'Blocked pending confirmation of Superior Court form or standing practice for YRA set-aside motions.'"
+          "finding": "This family truthfully declares CUSTOM_PLEADING_FROM_CODIFIED_TEXT and claims no official-form binary. All three committed authority records named by source-receipt.json were rehashed from current bytes and match their exact SHA-256 and byte-length pins; no corpus source was substituted.",
+          "evidence": {
+            "documentBinariesRequired": 0,
+            "committedRecordsChecked": 3,
+            "hashOrLengthMismatches": 0
+          }
         },
         "COMPONENT_SET": {
           "measured": true,
           "result": "PASS",
-          "instrument": "packet-set manifest components against rendered-artifacts componentSet and the pageManifest",
-          "evidence": "The manifest declares one required component, dc_yra_set_aside-primary-filing-1, and it is delivered. A second component, dc_yra_set_aside-filing-instructions-2, is an added process page. requiredComponentsMissing recomputed 0. One observation, recorded and deliberately not scored as a defect of this family: the rendered filing-instructions page's own 'THE PAGES IN THIS SET' list names only the primary filing and does not name itself, while participant-instructions.md lists both components. The generator emits that list from the manifest's declared components, and the same shape appears in other families (for instance scripts/build-census-v1-rcap-tn-custom-pleading.mjs), so it is a repository-wide convention rather than a defect built into this packet. It is reported in the FABLE_VA5 returns file for the Captain to route."
+          "finding": "The registry-required primary filing is delivered on pages 1-2. The authored filing-instructions component is delivered on pages 3-4. rendered-artifacts.json, production-field-map.json, source-receipt.json, and both page manifests agree on those two delivered components; no required component is absent and no foreign component appears.",
+          "evidence": {
+            "registryRequiredComponents": 1,
+            "deliveredComponents": 2,
+            "requiredComponentsMissing": 0,
+            "foreignComponents": 0
+          }
         },
         "KNOWN_PREFILLS": {
           "measured": true,
           "result": "PASS",
-          "instrument": "extracted text against the field map's write rows",
-          "evidence": "Name, date of birth, mailing address, telephone and email appear on the petition page where the map assigns them, and the printed-name block repeats the name at the foot. invisibleWrites recomputed 0. No case number is written anywhere and the packet states why — the court assigns one at filing."
+          "finding": "Each fixture reports six writes, and all six values were independently read in the current PDF text: name in both components plus date of birth, mailing address, telephone, and email. Canonical and boundary values are distinct as expected; no known prefill is missing or invisible.",
+          "evidence": {
+            "canonicalWritesReadBack": 6,
+            "boundaryWritesReadBack": 6,
+            "knownRequiredFieldsMissing": 0,
+            "invisibleWrites": 0
+          }
         },
         "REQUIRED_BEFORE_FILING": {
           "measured": true,
           "result": "PASS",
-          "instrument": "field map requiredBeforeFiling against the blanks report and the manifest's participantActionRequired",
-          "evidence": "requiredBeforeFilingCount 4, blanks report 4, everyRequiredBeforeFilingItemIsDisclosed true, and all four items C1 to C4 are enumerated in the instructions with the question the record uses for each. The manifest's four requiredBeforeFiling entries — signature, notarisation position, fee position, waiver position — are each answered on the filing instructions page."
+          "finding": "All four participant-supplied case facts C1-C4 are labelled on the motion and repeated with their exact questions in participant-instructions.md. The four registry prefiling actions are also resolved participant-facing: personal signing is directed; the repaired sentence 'The source review does not state a notarization requirement for this motion.' appears in participant-instructions.md and on canonical and boundary page 3; the filing-fee and fee-waiver non-statements are also carried with the responsible clerk's office named.",
+          "evidence": {
+            "generationFactsDeclared": 4,
+            "generationFactsDisclosed": 4,
+            "registryPrefilingActions": 4,
+            "registryPrefilingActionsDisclosed": 4,
+            "notarizationStatementHits": {
+              "participantInstructions": 1,
+              "canonical": 1,
+              "boundary": 1
+            },
+            "undisclosed": 0
+          }
         },
         "ROUTE_OPTIONS": {
           "measured": true,
           "result": "PASS",
-          "instrument": "routeSelectionsMade against the registry and the manifest",
-          "evidence": "One route key, one instrument, one component; no branch exists at this stage and none is taken silently. requiredOptionsMissing recomputed 0."
+          "finding": "The route declares no election, unit, or exclusion and the packet silently selects none. One route maps to one statutory instrument; requiredOptionsMissing recomputed zero.",
+          "evidence": {
+            "electionsDeclared": 0,
+            "electionsSelected": 0,
+            "requiredOptionsMissing": 0
+          }
         },
         "REPEATING_ROWS": {
           "measured": true,
           "result": "PASS",
-          "instrument": "field map row scan plus the incompleteRows counter",
-          "evidence": "26 field rows, none row-indexed; the composed motion asks four single-answer items. incompleteRows recomputed 0."
+          "finding": "The composed motion contains no repeating-row structure. C1-C4 are independent single-answer narrative blanks, not a count, charge, or offense grid. incompleteRows recomputed zero.",
+          "evidence": {
+            "repeatingRowStructures": 0,
+            "incompleteRows": 0
+          }
         },
         "PROTECTED_FIELDS": {
           "measured": true,
           "result": "PASS",
-          "instrument": "extraction of the signature and date lines",
-          "evidence": "3 protected blanks declared. The DATE and SIGNATURE OF PETITIONER lines on the petition are empty in the rendered bytes, under the printed note that nothing on the page is signed or dated for the petitioner. protectedWrites recomputed 0."
+          "finding": "The case-number line, participant signature, and signature date remain blank in both current PDFs. The rendered motion explicitly says the participant signs and dates personally, actual-writes reports no refused field with ink, and protectedWrites recomputed zero.",
+          "evidence": {
+            "protectedBlanksChecked": 3,
+            "protectedBlanksWithInk": 0,
+            "protectedWrites": 0
+          }
         },
         "ARTIFACTS": {
           "measured": true,
           "result": "PASS",
-          "instrument": "sha256 from bytes, byte length from stat, page count from pdf-lib, differenced against rendered-artifacts.json (both the pdfs[] and artifacts[] blocks), product-wiring components and the acceptance receipt",
-          "evidence": "canonical.pdf 302ebea7e9fb… 10525 bytes 4 pages; boundary.pdf 3fb8f39c5561… 10709 bytes 4 pages. Six declared bindings, six agree, and both declared byteLengths match stat exactly."
+          "finding": "Both committed PDFs exist and independently rehash to every current declaration: canonical d2cf9e833a383310087bc1f5c975d8157777333744202861336b8450277340ca, 10964 bytes, 4 pages; boundary 1d798f375d664ebe85e8c2c76a9a59459a9bc0a4d1d74fe454cab15efe582d63, 11147 bytes, 4 pages. rendered-artifacts, product wiring, raster queue, and governed receipt carry the same current pins.",
+          "evidence": {
+            "pdfsChecked": 2,
+            "hashMismatches": 0,
+            "lengthMismatches": 0,
+            "pageCountMismatches": 0,
+            "staleBindings": 0
+          }
         },
         "PAGE_ORDER": {
           "measured": true,
           "result": "PASS",
-          "instrument": "pdf-lib page count differenced against the pageManifest, then per-page extraction",
-          "evidence": "Manifest length 4 equals the pdf-lib count 4 for both fixtures; packetPage 1..4 with sourcePage 1,2,1,2 across the two components, and the extracted text shows the filing-instructions component beginning at page 3 exactly as asserted."
+          "finding": "Both artifact manifests are contiguous pages 1-4 and match the PDF page counts: primary filing source pages 1-2 followed by filing-instructions source pages 1-2. Extracted page headings confirm the declared component boundary at packet page 3.",
+          "evidence": {
+            "fixturesChecked": 2,
+            "manifestPagesPerFixture": 4,
+            "sequence": "primary-filing 1,2; filing-instructions 1,2",
+            "orderingDefects": 0
+          }
         },
         "CLIPPING_AND_OVERLAP": {
           "measured": true,
           "result": "PASS",
-          "instrument": "pdftotext -bbox-layout with every same-baseline pair classified",
-          "evidence": "947 words canonical, 952 boundary, zero same-baseline overlapping pairs on either. Text-only finding; see instrumentLimits."
+          "finding": "The admitted governed RASTER_PASS receipt binds both exact current hashes and covers 2 documents/8 pages with 0 problems. Independently, Poppler bbox measurement found 0 words outside the media box and 0 intersecting text pairs across 985 canonical and 990 boundary words; local page review of all eight current pages found no clipping, overlap, orphan page, or unreadable boundary content.",
+          "evidence": {
+            "governedWorkflowRunId": "33844904078",
+            "governedPagesMeasured": 8,
+            "governedProblemsFound": 0,
+            "localPagesReviewed": 8,
+            "wordsOutsideMediaBox": 0,
+            "textOverlapPairs": 0
+          }
         },
         "FILING_DESTINATION": {
           "measured": true,
           "result": "PASS",
-          "instrument": "the track registry's destination and venue against the packet's WHERE IT GOES block",
-          "evidence": "The registry records 'Superior Court of the District of Columbia, Criminal Division' with the detail that service and response mechanics are unresolved, and a venue of one motion per case number. The packet states the destination the registry holds — it does not convert a held answer into a question — and separately states that the registry records the filing VEHICLE as unresolved, naming the clerk's office as the authority for which paper it accepts. That is A1 applied correctly to a record that answers one half of the question and not the other."
+          "finding": "The packet carries the registry destination, Superior Court of the District of Columbia, Criminal Division, and the venue rule of one motion per case number. It separately and truthfully states that filing vehicle and combined-versus-sequential practice are unresolved, naming that court's clerk as the office that answers which paper it accepts.",
+          "evidence": {
+            "destinationMatchesRegistry": true,
+            "venueMatchesRegistry": true,
+            "unresolvedVehicleInvented": false
+          }
         },
         "FEE_AND_WAIVER": {
           "measured": true,
           "result": "PASS",
-          "instrument": "DET-FEE-AND-WAIVER-001 A1/A2 applied against the compiled DC profile and the packet-set manifest",
-          "evidence": "The compiled District of Columbia profile was walked here for every fee, waiver, cost, indigency and dollar-figure key and string: it holds exactly one relevant node, packetGenerator.feeRules, and that array is empty. The repository therefore answers nothing about this route's fee, and the packet says so in the record's own words — quoting the manifest's 'The source review does not state a filing fee for this motion.' and 'The source review does not address a fee waiver.' — and names a reachable office. Nothing held is delegated and no sibling DC figure is borrowed."
+          "finding": "The packet does not invent a fee or borrow a sibling-route amount. It carries the committed record's exact non-statements that no filing fee is stated and no fee-waiver procedure is addressed, then identifies the Superior Court Criminal Division clerk as the office for the current amount and its waiver application.",
+          "evidence": {
+            "feeRuleCarried": true,
+            "waiverRuleCarried": true,
+            "unsupportedDollarAmounts": 0,
+            "responsibleOfficeNamed": true
+          }
         },
         "SERVICE": {
           "measured": true,
           "result": "PASS",
-          "instrument": "the manifest's serve_party entry and the registry's destination detail against the packet's WHO MUST BE SERVED block",
-          "evidence": "Both records say the same thing — 'Unresolved. Service and response mechanics are among the items counsel must confirm.' — and the packet quotes it rather than inventing a rule, then names the clerk's office as the office that answers it. Under A1 that is the permitted shape where no held answer exists."
+          "finding": "The committed record gives no service or response mechanics. The packet represents that limitation exactly rather than inventing an addressee or method, and directs the participant to the Superior Court Criminal Division clerk for who must be served and how. This matches the current SETTLED legal-input treatment for a truthful non-statement and supplies no unsupported service rule.",
+          "evidence": {
+            "registryServiceStatementCarried": true,
+            "registryNoticeStatementCarried": true,
+            "unsupportedServiceRuleCount": 0,
+            "responsibleOfficeNamed": true
+          }
         },
         "SELF_HELP_STOP": {
           "measured": true,
           "result": "PASS",
-          "instrument": "the committed track registry's four selfHelpStopConditions for trackId dc_yra_set_aside compared condition by condition against participant-instructions.md and against the extracted text of the rendered filing-instructions page, then grepped for each condition's distinguishing terms",
-          "evidence": "All four are carried, twice over, and in the registry's own words. [0] prosecutor opposition or a court-ordered response; [1] the court sets a hearing; [2] the record is federal, military, tribal or from another jurisdiction; [3] immigration, firearm, licensing, security clearance, childcare, healthcare or law-enforcement employment consequences. Grepping the rendered PDF text for the distinguishing terms — federal, military, tribal, clearance, childcare, healthcare — returns all of them on the filing-instructions page. The registry's selfHelpBoundaries array is identical to its stop conditions here, so nothing is left uncarried, and the packet does not invite the participant to any hearing: it names a hearing as the point where self-help ends."
+          "finding": "All four committed stop conditions appear in participant-instructions.md and on the rendered filing-instructions component: prosecutor opposition/court-ordered response; a hearing; a federal, military, tribal, or other-jurisdiction record; and immigration, firearm, licensing, clearance, childcare, healthcare, or law-enforcement-employment consequences. None is softened into an ordinary self-help step.",
+          "evidence": {
+            "conditionsDeclared": 4,
+            "conditionsInParticipantInstructions": 4,
+            "conditionsInCanonical": 4,
+            "conditionsInBoundary": 4,
+            "conditionsMissing": 0
+          }
         }
       },
-      "whatICouldNotMeasure": [
-        "pdftotext -bbox-layout reports only extractable text. It cannot see raster ink, vector rules, field borders, images, or any glyph without extractable text. A clean geometry result is therefore evidence about text, not about the printed page.",
-        "Artifact blobs are not downloadable from this container: the proxy refuses blob storage at 403. No pixel of any raster was inspected. Each raster receipt is cited by run, job, artifact id and the canonical hash it binds, and that bound hash was re-derived here from the fixture bytes.",
-        "private/Nationwide Record Clearing is not mounted in this container. No path beginning 'LegalEase <State>/' was readable and none was relied on."
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "supersedes": {
+        "lane": "vf03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "reason": "FIX05 repaired the sole measured REQUIRED_BEFORE_FILING notarization omission; this row independently measures the changed current hashes and does not reuse vf03's result."
+      },
+      "grantsNothing": "This independent technical PASS terminalizes no family, opens no route, grants no output approval, and changes no payment, sponsorship, fulfillment, legal, source, or Production authority.",
+      "changedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       ],
-      "opensNothing": {
-        "overlayDirectoriesModified": 0,
-        "packetsModified": 0,
-        "commercialRoutesOpened": 0,
-        "productionTouched": false,
-        "routesChanged": 0
-      }
+      "overlayDirectoriesModified": 0,
+      "packetsModified": 0,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
     },
     {
       "itemId": "ms-misd-addl-set",
