@@ -73,6 +73,9 @@ const ROUTE = Object.freeze({
 });
 
 const COMPONENTS = ["primary_filing", "proposed_order"];
+const COMPONENT_ROUTES = Object.freeze(
+  Object.fromEntries(COMPONENTS.map((componentId) => [componentId, ROUTE.primaryRouteKey]))
+);
 
 const COMPOSED_TITLES = {
   primary_filing: "Motion to Vacate and Expunge Conviction for Class 4 Felony Prostitution Under 20 ILCS 2630/5.2(j)(3)",
@@ -790,6 +793,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     implementationStrategy: IMPLEMENTATION_STRATEGY,
     officialForm: null,
     componentSet: COMPONENTS,
+    componentRoutes: COMPONENT_ROUTES,
     componentConditions: COMPONENT_CONDITIONS,
     dispositionVocabulary: [SIGNATURE, COURT_OWNED],
     routeSelectionsMade: [],
