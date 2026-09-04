@@ -153,7 +153,12 @@ export type PacketRouteResolution = {
     officialFormIds: string[];
     packetFamilyId: string | null;
     retiredLegacyRouteMigrated: boolean;
+    exactRouteProductized: boolean;
     exactTrackSelectionRequired: boolean;
+    obligationRouteKey?: string;
+    legalApprovalEstablished?: false;
+    postApprovalChangeAuditEstablished?: false;
+    nextGate?: string;
   };
 };
 
@@ -772,6 +777,7 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   // than inherit permission from the fact that the factory can build it.
   const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId);
   if (factoryRoute) {
+    const exactProductization = factoryRoute.exactRouteProductization;
     return {
       routeKind: "factory_v2",
       jurisdiction,
@@ -779,7 +785,9 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
       rendererKind: "packet_document_v1",
       sellable: false,
       creditConsumable: false,
-      reason: `${jurisdiction} ${pathwayId} builds through the shared packet factory from packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here.`,
+      reason: exactProductization
+        ? `${jurisdiction} ${pathwayId} has an exact technical route/track/family mapping through packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. Current owner legal approval and a post-approval change audit are not established; fulfillment authority, payment, sponsorship, credit, delivery, route opening and production remain closed.`
+        : `${jurisdiction} ${pathwayId} builds through the shared packet factory from packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here.`,
       factoryV2: {
         packetSetIds: factoryRoute.packetSetIds,
         registryTrackIds: factoryRoute.registryTrackIds,
@@ -788,7 +796,16 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
         officialFormIds: factoryRoute.officialFormIds,
         packetFamilyId: factoryRoute.packetFamilyId,
         retiredLegacyRouteMigrated: factoryRoute.retiredLegacyRouteMigration !== null,
-        exactTrackSelectionRequired: factoryRoute.exactTrackSelectionRequired
+        exactRouteProductized: exactProductization !== null,
+        exactTrackSelectionRequired: factoryRoute.exactTrackSelectionRequired,
+        ...(exactProductization
+          ? {
+              legalApprovalEstablished: false as const,
+              postApprovalChangeAuditEstablished: false as const,
+              obligationRouteKey: exactProductization.obligationRouteKey,
+              nextGate: exactProductization.nextGate
+            }
+          : {})
       }
     };
   }

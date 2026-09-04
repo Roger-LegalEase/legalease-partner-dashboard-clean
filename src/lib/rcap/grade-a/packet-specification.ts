@@ -9,6 +9,7 @@ import illinoisFelonyProstitutionRelief from "@/../data/record-clearing/packet-s
 import dcActualInnocenceExpungement from "@/../data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json";
 import mississippiAdditionalMisdemeanorRelief from "@/../data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json";
 import wyomingFelonyConvictionExpungement from "@/../data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json";
+import connecticutCleanSlatePetition from "@/../data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -200,6 +201,7 @@ export type DerivedPacketSpecification = {
   schemaVersion: number;
   specificationId: string;
   specificationVersion: string;
+  obligationRouteKey?: string;
   routeKeys?: string[];
   routeKey: string;
   jurisdiction: string;
@@ -214,8 +216,28 @@ export type DerivedPacketSpecification = {
   legalSectionsBound: boolean;
   unboundLegalSections: string[];
   legalSections: Record<string, UnboundLegalSection | { bound: true }>;
+  legalApproval?: null;
+  postApprovalChangeAudit?: null;
+  nextGate?: string;
   sourceIdentities: Array<{ sourceId: string; sha256: string; fieldMap: { overlayProfileSha256: string } }>;
-  documents: Array<{ documentId: string; role: string; order: number }>;
+  documents: Array<{
+    documentId: string;
+    role: string;
+    order: number;
+    outputStrategy?: "official_pdf_fill" | "custom_pleading" | "process_guidance";
+    officialFormId?: string | null;
+    manifestComponentId?: string;
+  }>;
+  /** Exact rendered bytes used as technical evidence; the name deliberately grants no approval. */
+  artifactEvidence?: Array<{
+    fixture: "canonical" | "boundary";
+    file: string;
+    sha256: string;
+    byteLength: number;
+    pageCount: number;
+    components: string[];
+    authority: "technical_evidence_only";
+  }>;
 };
 
 export type RegisteredSpecification = PacketSpecification | DerivedPacketSpecification;
@@ -237,7 +259,8 @@ const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<str
   [(dcActualInnocenceExpungement as unknown as PacketSpecification).routeKey, dcActualInnocenceExpungement as unknown as PacketSpecification],
   ["MS:additional-justice-court-misdemeanor-relief-9-11-15-3", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
   ["MS:additional-municipal-court-misdemeanor-relief-21-23-7-6", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
-  [(wyomingFelonyConvictionExpungement as unknown as PacketSpecification).routeKey, wyomingFelonyConvictionExpungement as unknown as PacketSpecification]
+  [(wyomingFelonyConvictionExpungement as unknown as PacketSpecification).routeKey, wyomingFelonyConvictionExpungement as unknown as PacketSpecification],
+  [(connecticutCleanSlatePetition as unknown as DerivedPacketSpecification).routeKey, connecticutCleanSlatePetition as unknown as DerivedPacketSpecification]
 ]);
 
 /**
