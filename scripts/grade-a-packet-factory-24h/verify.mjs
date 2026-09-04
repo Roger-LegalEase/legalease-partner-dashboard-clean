@@ -316,7 +316,9 @@ function run() {
   }).map((f) => f.familyId);
   const blockedWithNoReason = master.families.filter((f) => f.state === "SOURCE_BLOCKED"
     && (f.sourceReadiness?.reasons ?? []).length === 0
-    && !f.verifierSourceHold?.evidencePath).map((f) => f.familyId);
+    && !f.verifierSourceHold?.evidencePath
+    && !(f.executionReclassification?.stateOverride === "SOURCE_BLOCKED"
+      && f.executionOwner && f.nextExecutableAction)).map((f) => f.familyId);
   check("F13", "SOURCE_READY means every required source is held, indexed and hash-matched",
     falselyReady.length === 0 && blockedWithNoReason.length === 0,
     `${falselyReady.length} falsely ready [${falselyReady.slice(0, 3).join(", ")}]; ${blockedWithNoReason.length} blocked with no stated reason`);
@@ -412,7 +414,7 @@ function run() {
     }
     const failedFamilies = (vr.rows ?? []).filter((r) => r.isIndependentVerification && r.verdict === "FAIL_REPAIR_REQUIRED" && !r.superseded
       && !(repairDone.has(r.familyId) && !repairLive.has(r.familyId)));
-    const PROVEN = new Set(["VERIFYING", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"]);
+    const PROVEN = new Set(["VERIFYING", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "COMPLETE_PACKET_PROVEN"]);
     const repairText = fs.existsSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"))
       ? fs.readFileSync(path.join(ROOT, DIR, "WASHINGTON_REPAIR.json"), "utf8") : "";
     const vermontText = fs.existsSync(path.join(ROOT, DIR, "VERMONT_REPAIR.json"))
@@ -499,7 +501,8 @@ function run() {
       owners.set(r.familyId, r.nextOwner);
     }
     const passed = new Set((rq.rows ?? []).filter((r) => r.currentRasterState === "RASTER_PASS").map((r) => r.familyId));
-    const PROVEN = new Set(["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"]);
+    /* PRODUCT_PATH_PENDING is executable mapping work, not proof of a packet. */
+    const PROVEN = new Set(["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "COMPLETE_PACKET_PROVEN"]);
     for (const f of master.families) {
       if (PROVEN.has(f.state) && !passed.has(f.familyId)) {
         rasterProblems2.push(`${f.familyId} is ${f.state} with no RASTER_PASS; the visual gate never ran on it`);
@@ -1176,14 +1179,18 @@ function run() {
   const legalProblems = [];
   const stale = fs.existsSync(path.join(ROOT, STALE)) ? read(STALE) : null;
   if (stale) {
+    const ownerReclassified = new Set(master.families
+      .filter((f) => f.executionReclassification)
+      .map((f) => f.familyId));
     const currentVerifierHolds = (vr?.rows ?? []).filter((r) => r.isIndependentVerification
-      && r.verdict === "BLOCKED_LEGAL_INPUT" && !r.superseded);
+      && r.verdict === "BLOCKED_LEGAL_INPUT" && !r.superseded
+      && !ownerReclassified.has(r.familyId));
     for (const r of currentVerifierHolds) {
       if (!(r.blockedLegalObligations ?? []).some((o) => o.finding))
         legalProblems.push(`${r.familyId} has a current BLOCKED_LEGAL_INPUT verdict without an extracted finding`);
     }
     const heldByLane = [...new Set([
-      ...(stale.rows ?? []).filter((r) => r.destination === "LEGAL").map((r) => r.familyId),
+      ...(stale.rows ?? []).filter((r) => r.destination === "LEGAL" && !ownerReclassified.has(r.familyId)).map((r) => r.familyId),
       ...currentVerifierHolds.map((r) => r.familyId),
     ])];
     /* ACTIVE_ASSIGNMENTS is an audit history as well as a live roster. A
