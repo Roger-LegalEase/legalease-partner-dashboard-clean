@@ -136,8 +136,7 @@ const CODIFIED_COMMON_INPUTS = {
     sha256: "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3"
   },
   packetSet: {
-    path: PACKET_SET_MANIFESTS_PATH,
-    sha256: "716317177e7b176e191b0d4d6c4a8236fa197bd0a8546e4b636befe068b13168"
+    path: PACKET_SET_MANIFESTS_PATH
   }
 };
 
@@ -325,7 +324,6 @@ function codifiedAuthorityProblem(record, expected, options = {}) {
   const expectedInputs = {
     track_authority: expected.trackAuthority,
     legal_authority: CODIFIED_COMMON_INPUTS.legal,
-    packet_set_authority: CODIFIED_COMMON_INPUTS.packetSet,
     packet_specification_authority: { path: expected.specificationPath, sha256: expected.specificationSha256 }
   };
   for (const [role, expectedInput] of Object.entries(expectedInputs)) {
@@ -334,6 +332,14 @@ function codifiedAuthorityProblem(record, expected, options = {}) {
       return `${role} does not bind its exact admitted path and digest`;
     }
     if (sha256(readSource(input.path)) !== input.sha256) return `${role} moved from its bound current digest`;
+  }
+  const packetSetInput = authorityInputs.find((entry) => entry.role === "packet_set_authority");
+  const packetSetSha256 = sha256(stableStringify(packetSet));
+  if (!packetSetInput
+    || packetSetInput.path !== CODIFIED_COMMON_INPUTS.packetSet.path
+    || packetSetInput.selector?.packetSetId !== expected.familyId
+    || packetSetInput.sha256 !== packetSetSha256) {
+    return "packet_set_authority does not bind the exact current family row";
   }
 
   const classification = inputs.classificationEvidence ?? {};

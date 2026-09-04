@@ -80,8 +80,7 @@ const CODIFIED_AUTHORITY_CONTRACT = "rcap-codified-authority-bound-inputs/v1";
 const INDEPENDENT_FINAL_VERIFICATION_CONTRACT = "rcap-independent-packet-final-verification/v1";
 const CODIFIED_COMMON_INPUTS = {
   packetSet: {
-    path: "data/record-clearing/legal-design-packet-set-manifests.json",
-    sha256: "716317177e7b176e191b0d4d6c4a8236fa197bd0a8546e4b636befe068b13168"
+    path: "data/record-clearing/legal-design-packet-set-manifests.json"
   },
   legal: {
     path: OWNER_BATCH_ADOPTION,
@@ -1001,11 +1000,10 @@ function codifiedAuthorityProof({
   requireEvidence(legalIdentity.sourceId === OWNER_BATCH_ADOPTION_ID, `${routeId} names a different legal authority`);
 
   const trackBytes = readEvidenceBytes(trackExpected.path);
-  const packetSetBytes = readEvidenceBytes(CODIFIED_COMMON_INPUTS.packetSet.path);
   const legalBytes = readEvidenceBytes(CODIFIED_COMMON_INPUTS.legal.path);
   requireEvidence(sha256(trackBytes) === trackExpected.sha256, `${trackExpected.path} moved after the admitted current digest`);
-  requireEvidence(sha256(packetSetBytes) === CODIFIED_COMMON_INPUTS.packetSet.sha256, `${CODIFIED_COMMON_INPUTS.packetSet.path} moved after the admitted current digest`);
   requireEvidence(sha256(legalBytes) === CODIFIED_COMMON_INPUTS.legal.sha256, `${CODIFIED_COMMON_INPUTS.legal.path} moved after the admitted current digest`);
+  const packetSetSha256 = sha256(stableStringify(packetSet));
 
   const trackDocument = JSON.parse(trackBytes.toString("utf8"));
   requireEvidence(
@@ -1042,7 +1040,8 @@ function codifiedAuthorityProof({
         role: "packet_set_authority",
         sourceId: packetSetIdentity.sourceId,
         path: CODIFIED_COMMON_INPUTS.packetSet.path,
-        sha256: CODIFIED_COMMON_INPUTS.packetSet.sha256
+        selector: { packetSetId: familyId },
+        sha256: packetSetSha256
       },
       {
         role: "packet_specification_authority",
