@@ -34,6 +34,22 @@
       "sha256": "b5ae6b193db4680c89e2046067a41a9f4c9b5680cea3b68b34608a06a62c6e15",
       "byteLength": 195114,
       "pageCount": 2
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+      "documentId": "pa_6308_underage-certificate-of-service-3",
+      "fixture": "canonical",
+      "sha256": "79101f2b3d1f284852d4ae743caf7ba43302ee7553d50c127c643a920bb59c77",
+      "byteLength": 2760,
+      "pageCount": 1
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+      "documentId": "pa_6308_underage-certificate-of-service-3",
+      "fixture": "boundary",
+      "sha256": "75e574fc6cd4a47a9d70620fbe3b9189da9c031142057dbfb55871c3710ce198",
+      "byteLength": 2825,
+      "pageCount": 1
     }
   ],
   "rasters": [
@@ -190,14 +206,71 @@
           "dpi": 72
         }
       ]
-    }
-  ],
-  "componentsNotGenerated": [
+    },
     {
       "documentId": "pa_6308_underage-certificate-of-service-3",
-      "documentRole": "certificate_of_service",
-      "generatedParticipantArtifact": false,
-      "why": "The committed packet set requires a custom service certificate, but no governed locally accepted service method or generated component is bound here. It remains an explicit repair remainder rather than guessed content."
+      "fixture": "canonical",
+      "sourcePdf": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+      "directory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/raster/certificate-of-service-canonical",
+      "engine": "bundled_poppler_pdftoppm",
+      "dpi": 72,
+      "contactSheet": {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/reports/contact-sheets/certificate-of-service-canonical.png",
+        "sha256": "ea57bd31ebedb5e06a7038765ae377d78b0bb9b557736ee5ae25a29fabd58b2d",
+        "byteLength": 6697,
+        "pageCount": 1,
+        "columns": 1,
+        "widthPx": 153,
+        "heightPx": 198
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/raster/certificate-of-service-canonical/page-01.png",
+          "sha256": "8c38db0ec6e76bdd250ea822cb39cb9f7403c1aebd7b2dbc438b902f7affbc9e",
+          "byteLength": 48314,
+          "widthPx": 612,
+          "heightPx": 792,
+          "attempts": 1,
+          "looksBlank": false,
+          "croppedToPage": true,
+          "engine": "bundled_poppler_pdftoppm",
+          "dpi": 72
+        }
+      ]
+    },
+    {
+      "documentId": "pa_6308_underage-certificate-of-service-3",
+      "fixture": "boundary",
+      "sourcePdf": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+      "directory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/raster/certificate-of-service-boundary",
+      "engine": "bundled_poppler_pdftoppm",
+      "dpi": 72,
+      "contactSheet": {
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/reports/contact-sheets/certificate-of-service-boundary.png",
+        "sha256": "a4a2a8bfbfdefe16951c3a15f1ce59d673ba1b4e22bdfa27d85a2a4432dc2e20",
+        "byteLength": 7475,
+        "pageCount": 1,
+        "columns": 1,
+        "widthPx": 153,
+        "heightPx": 198
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/raster/certificate-of-service-boundary/page-01.png",
+          "sha256": "98dfd5a91647ee8041e33d860a7bf0e33e72eed2c68e0acef175c7c53d0c7087",
+          "byteLength": 55045,
+          "widthPx": 612,
+          "heightPx": 792,
+          "attempts": 1,
+          "looksBlank": false,
+          "croppedToPage": true,
+          "engine": "bundled_poppler_pdftoppm",
+          "dpi": 72
+        }
+      ]
     }
-  ]
+  ],
+  "componentsNotGenerated": []
 }
