@@ -12,7 +12,7 @@
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d"
+      "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572"
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
@@ -20,7 +20,7 @@
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "2c0ebc42e12a21bb444519c8f9b0e4260c95034175364aac3e0b0cb6d88f5e6e"
+      "sha256": "92dc0ae26c187c247690de921a2d9d144845cc5dddf354e2f3baa0653f86de1a"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -4091,7 +4091,6 @@
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
-          "renderer_unavailable",
           "route_metadata"
         ]
       }
@@ -4146,8 +4145,7 @@
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "intake_fix",
-          "legal_review_pending",
-          "renderer_unavailable"
+          "legal_review_pending"
         ]
       }
     },
@@ -7482,24 +7480,64 @@
       "packetFamilies": [],
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
+        "actual_arrest",
         "age_at_offense",
+        "agency_case_number",
+        "aliases",
+        "arrest_date",
+        "arrest_location",
+        "arresting_agency",
+        "case_caption_defendant_name",
+        "case_caption_plaintiff_name",
+        "case_number",
         "case_outcome",
+        "certified_disposition_exhibit_status",
         "charge",
+        "charge_classification",
+        "charge_legal_citation",
         "contact_information",
         "county",
         "court",
+        "court_name",
+        "court_type",
+        "date_of_birth",
         "disposition_date",
+        "disposition_record_wording",
+        "docket_sheet_exhibit_status",
+        "email_address",
+        "filing_location",
         "financial_obligations",
         "jurisdiction",
+        "mailing_address",
+        "mcic_identifier_delivery_method",
+        "mcic_identifier_method_confirmation_source",
+        "name_used_at_arrest",
+        "nonadjudication_or_diversion",
         "offense_category",
+        "offense_date",
         "offense_level",
+        "open_co_defendant_matter",
+        "other_recordkeeping_agencies",
         "participant_full_legal_name",
         "pathway_id",
         "pending_cases",
+        "personal_impact_confirmed",
+        "personal_impact_statement",
+        "phone_number",
         "prior_relief",
+        "prosecuting_authority_name",
+        "prosecuting_authority_service_address",
+        "race",
         "record_type",
+        "release_confirmed",
+        "release_date_or_record_source",
         "residency_or_location",
         "sentence_completion_date",
+        "service_address_confirmation_status",
+        "sex",
+        "social_security_number",
+        "social_security_number_last_four",
+        "statutory_disposition_category",
         "trafficking_status"
       ],
       "componentCount": 5,
@@ -7797,7 +7835,8 @@
       "officialFormIds": [
         "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
         "MT-FORM-B",
-        "MT-OCA-MMRTA"
+        "MT-MMRTA-CERTIFICATE-OF-SERVICE",
+        "MT-MMRTA-PROPOSED-ORDER"
       ],
       "buildInputs": {
         "authoritativeProfile": true,
@@ -8192,6 +8231,7 @@
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
         "age_at_offense",
+        "case_number",
         "case_outcome",
         "charge",
         "contact_information",
@@ -8200,6 +8240,8 @@
         "disposition_date",
         "financial_obligations",
         "jurisdiction",
+        "nd_charged_quantity",
+        "nd_first_offense_confirmation",
         "offense_category",
         "offense_level",
         "pardon_status",
@@ -9673,14 +9715,18 @@
         "contact_information",
         "court",
         "criminal_history",
+        "date_of_birth",
         "disposition_date",
+        "email_address",
         "jurisdiction",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "pardon_status",
         "participant_full_legal_name",
         "pathway_id",
         "pending_cases",
+        "phone_number",
         "record_type",
         "residency_or_location"
       ],
@@ -13939,14 +13985,18 @@
         "charge",
         "contact_information",
         "court",
+        "date_of_birth",
         "disposition_date",
+        "email_address",
         "identity_error",
         "jurisdiction",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "pardon_status",
         "participant_full_legal_name",
         "pathway_id",
+        "phone_number",
         "record_type",
         "residency_or_location",
         "trafficking_status"
