@@ -8559,6 +8559,139 @@
       ],
       "repairedNothing": true,
       "grantsNothing": "This failure records measurements only; it approves no output and opens no commercial route."
+    },
+    {
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "lane": "VF02",
+      "wave": "National Grade A launch — repaired-family independent reread",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
+      "verifier": "VF02 (independent verification; this lane built, repaired and centrally rastered none of this family)",
+      "claim": {
+        "assertedBeforeArtifactRead": true,
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 az_marijuana_expungement_arrest_no_charges-set",
+        "exitCode": 0,
+        "result": "CLAIM_OK VF02 az_marijuana_expungement_arrest_no_charges-set (independent-verification, grant set 90512db0be09b6d0)",
+        "releasedByThisLane": true
+      },
+      "preflight": {
+        "command": "source /Users/rogerroman/.legalease-corpus-env && node scripts/verify-packet-build-environment.mjs --family az_marijuana_expungement_arrest_no_charges-set --codex-cloud --minimum-captain-sha dab59932fd7a8c558ed10c997956599e23f9a716",
+        "result": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable",
+        "sourceBinding": "1/1 exact under custody_reconciliation."
+      },
+      "obligationsScored": 15,
+      "unmeasuredObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 1,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredHere": true,
+      "focusedVerifier": "PASS_COMPLETE 13/50 written and reported all nine counters 0. Independent comparison of each mapped write against both fixtures found one known required field missing: the boundary Email Address header is refused at the minimum font and contains no ink, so knownRequiredFieldsMissing is 1 here rather than the detector's 0.",
+      "rasterRule": {
+        "assignmentRule": null,
+        "currentQueueState": "RASTER_PASS",
+        "centralReceipt": "Workflow run 33526896195, job 99922353414, artifact 9808449042 binds canonical 6dad189b1cdb575dfc7ef7e0647c077440cd4e331a7e2bf389a522773099c5d3 and boundary 8f041f1d4fd898a176746d1dd5aed7b5967c20b51b14609b7529b6056f9646a5 and covers the whole family.",
+        "freshLocalEvidence": "Poppler rendered all three pages of both current exact-hash artifacts at 144 dpi. All six pages were visually reviewed; the long boundary values are legible without clipping or overlap, and the boundary header Email Address line is visibly blank."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The product binding, field map, source receipt, packet-set manifest and delivered form all identify the arrest-or-citation-with-no-charge marijuana-expungement route, obligation:track-pathway:AZ:az_marijuana_expungement_arrest_no_charges:remedy-3-marijuana-expungement."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The exact governed AOC-CREM3F-071221 source was independently rehashed from the mounted bytes: 3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652 / 22,738 bytes / 3 pages. It equals source-receipt.json and the 1/1 source gate."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet-set requires one primary filing, AOC-CREM3F-071221. Both fixtures contain exactly that complete three-page form and no substituted component."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The canonical artifact writes all 13 mapped values, but the boundary artifact writes only 12. The mapped Email Address header on page 1 is refused as value_exceeds_widget_width_at_minimum_font, actual-writes.json records zero glyphs in that write box, and the fresh raster visibly shows the header line blank even though the same held email is written in the declaration block. The other mapped values remain complete and visible."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The committed packet-set manifest declares five required-before-filing actions. The instructions cover leaving the court-assigned case number blank and completing/signing the perjury declaration, but omit the required comparison of the participant's quantity or plant-count answer against the police report, lab report, or DPS/FBI extract. They also replace the manifest's no-fee rule with an instruction to ask whether a fee exists."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The form's nineteen printed elections concern the participant's sworn conduct and record facts; the route does not determine which statutory marijuana category or hearing choice is true. They remain unmarked and the instructions name each choice and direct the participant to answer from their own paperwork."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The single three-page petition has no repeating row group, and no partially populated tabular row appears in either fixture."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both case-number fields, the participant signature/date line and the full attorney/LDP block remain free of added ink in both fixtures. actual-writes.json records no protected field with a fixture value or added ink."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The current PDFs independently rehash to canonical 6dad189b1cdb575dfc7ef7e0647c077440cd4e331a7e2bf389a522773099c5d3 / 21,410 bytes and boundary 8f041f1d4fd898a176746d1dd5aed7b5967c20b51b14609b7529b6056f9646a5 / 21,650 bytes, exactly matching rendered-artifacts.json and the exact-hash raster receipt."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both fixtures preserve AOC-CREM3F source pages 1 through 3 in order, matching the sole packet component and its source page count."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Fresh review of all six 144-dpi pages shows the complete long boundary name, address, city/state/ZIP, county, declaration email and phone visible within their lines with no overlap or off-page ink. The page-1 email is absent by fail-closed refusal, not clipped or ellipsized."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The instructions name the Superior Court clerk in the county of arrest, and the filled caption names that county, matching the committed track destination."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The instructions say the filing fee and waiver are not established and direct the participant to ask the clerk. The committed track registry and packet-set manifest instead state that Rule 36(a)(4) bars a filing fee and that no waiver is needed, so the packet gives contrary money guidance."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "FAIL",
+          "detail": "The instructions tell the participant to ask whom to serve and how. The committed track registry and packet-set manifest state that the participant serves nobody because Rule 36(b)(2) puts transmittal to the prosecuting agency on the court, so the packet omits the established service disposition."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The repaired guidance now carries all six committed stop conditions: opposition, a hearing, disputed quantity/plant/paraphernalia facts, conduct on or after July 12 2021, an attempt to challenge the underlying conviction, and immigration consequences. It also preserves the registry's distinction between a routine statutory hearing and a contested post-generation handoff."
+        }
+      },
+      "repairAssignmentAdded": true,
+      "evidenceRead": [
+        "the exact governed AOC-CREM3F source bytes from master_library custody",
+        "all committed files under data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+        "the committed AZ track registry, packet-set manifest, route census, master queue and exact-hash raster receipt",
+        "all six fresh Poppler PNGs under /private/tmp/vf02-az-3312"
+      ],
+      "repairedNothing": true,
+      "grantsNothing": "This failure records measurements only; it approves no output and opens no commercial route."
     }
   ],
   "vt1Read": {
