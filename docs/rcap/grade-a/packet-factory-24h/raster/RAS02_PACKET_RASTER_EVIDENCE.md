@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `dab59932fd7a8c558ed10c997956599e23f9a716`
+**Minimum required ancestor:** `3312fdcb5bbc8a78055a753c3b81228e88669cc7`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -79,7 +79,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/fixtures/canonical.pdf` — `2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad`
 - boundary `data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/fixtures/boundary.pdf` — `d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7`
 - expected pages 8 · requested scale 2.5
-- built by FIX01
+- built by FIX02
 
 ### composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26
 
@@ -170,7 +170,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-canonical-filled.pdf` — `a39f4c3ba8d635c3828af504dc2762127b6f4afd48abe398a805417d1cc70271`
 - boundary `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/fixtures/packet-boundary-filled.pdf` — `4e9aeda66690545d2fd412be257f31e190e8a39b8c22ce08e6f630a6c4462f23`
 - expected pages 15 · requested scale 2.5
-- built by FIX03
+- built by FIX04
 
 ### ky_void_seal_controlled_substance-set
 
@@ -296,7 +296,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf` — `8c6b3c46f9fc874c55aa27764768693b419443970c102487adb8446fc2678c30`
 - boundary `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf` — `b8a85562ada431804a4da6b9e6943096934ae812507e57a39fa103fce2892989`
 - expected pages 9 · requested scale 2.5
-- built by FIX01
+- built by FIX05
 
 ### vt_seal_dui-set
 

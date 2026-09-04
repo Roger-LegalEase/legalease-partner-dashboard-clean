@@ -1108,6 +1108,53 @@ try {
   }
 } catch { /* no ledger yet */ }
 
+/* A released repair claim is not proof that it answered the selected FAIL.
+ * Bind the transition to a completed repair row that names every failed
+ * obligation and whose exact row did not exist at the verdict base. */
+const repairCompletionsByFamily = new Map();
+for (const root of [OUT_DIR, "data/rcap-grade-a/codex-cloud"]) {
+  const absoluteRoot = path.join(ROOT, root);
+  if (!fs.existsSync(absoluteRoot)) continue;
+  for (const entry of fs.readdirSync(absoluteRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const evidencePath = `${root}/${entry.name}/rows.json`;
+    if (!fs.existsSync(path.join(ROOT, evidencePath))) continue;
+    let doc = null;
+    try { doc = JSON.parse(fs.readFileSync(path.join(ROOT, evidencePath), "utf8")); } catch { continue; }
+    for (const row of doc.rows ?? []) {
+      if (row.status !== "COMPLETED" || row.repairedByThisLane !== true) continue;
+      if (row.laneKind && row.laneKind !== "repair" && row.laneKind !== "shared-host-repair") continue;
+      const familyId = row.itemId ?? row.familyId;
+      if (!familyId) continue;
+      if (!repairCompletionsByFamily.has(familyId)) repairCompletionsByFamily.set(familyId, []);
+      repairCompletionsByFamily.get(familyId).push({ row, evidencePath });
+    }
+  }
+}
+function repairCompletionAnswersVerdict(independentReturn) {
+  const familyId = independentReturn?.familyId;
+  const base = independentReturn?.verifiedAtBase;
+  const failed = independentReturn?.failedObligationNames ?? [];
+  if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || failed.length === 0) return false;
+  try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
+  catch { return false; }
+  for (const candidate of repairCompletionsByFamily.get(familyId) ?? []) {
+    const evidence = JSON.stringify(candidate.row);
+    if (!failed.every((name) => evidence.includes(name))) continue;
+    if (!candidate.row.countersAfter
+      || !Object.values(candidate.row.countersAfter).every((value) => Number(value) === 0)) continue;
+    let prior = null;
+    try {
+      const before = JSON.parse(execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
+        { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }));
+      prior = (before.rows ?? []).find((row) => (row.itemId ?? row.familyId) === familyId
+        && (row.laneKind === "repair" || row.laneKind === "shared-host-repair"));
+    } catch { return true; /* the exact repair-return file is new after the verdict */ }
+    if (!prior || JSON.stringify(prior) !== JSON.stringify(candidate.row)) return true;
+  }
+  return false;
+}
+
 /*
  * The terminal transition, derived from evidence and never stamped by hand:
  * COMPLETE_PACKET_PROVEN = a fifteen-obligation PASS_COMPLETE_INDEPENDENT
@@ -1428,6 +1475,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (independentFail
     && repairReleasedFamilies.has(familyId) && !repairLiveFamilies.has(familyId)
     && comp && nineZero
+    && repairCompletionAnswersVerdict(independentReturn)
     && familyMovedSinceVerdict(independentReturn, directory, buildScript)) state = "VERIFY_PENDING";
   else if (independentFail) state = "FAIL_REPAIR_REQUIRED";
   else if (activeOwner && activeOwnerLane === "independent-verification") state = "VERIFYING";

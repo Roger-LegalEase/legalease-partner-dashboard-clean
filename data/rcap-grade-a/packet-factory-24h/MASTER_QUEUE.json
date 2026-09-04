@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "dab59932fd7a8c558ed10c997956599e23f9a716",
+  "minimumCaptainSha": "3312fdcb5bbc8a78055a753c3b81228e88669cc7",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -63,22 +63,22 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 2,
+    "activeFamiliesExcluded": 0,
     "guidanceOnly": 0,
-    "remaining": 344,
+    "remaining": 346,
     "sourceReady": 69,
     "sourceBlocked": 70,
     "legalBlocked": 32,
-    "verifyPending": 14,
-    "repairRequired": 34,
+    "verifyPending": 10,
+    "repairRequired": 40,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 69,
     "COMPLETE_PACKET_PROVEN": 113,
-    "VERIFY_PENDING": 14,
+    "VERIFY_PENDING": 10,
     "OUT_OF_SCOPE": 5,
-    "FAIL_REPAIR_REQUIRED": 36,
+    "FAIL_REPAIR_REQUIRED": 40,
     "SOURCE_BLOCKED": 70,
     "LEGAL_BLOCKED": 26,
     "HANDOFF_READY": 2,
@@ -109,10 +109,7 @@
       "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
-    "families": [
-      "oh_marijuana_expungement-set",
-      "pa_pardon_expungement-set"
-    ],
+    "families": [],
     "staleRosterFamilies": [
       {
         "familyId": "sd_arrest_expungement-set",
@@ -3613,7 +3610,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
@@ -25053,7 +25050,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -26861,8 +26858,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX17",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -26873,8 +26870,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "or_contempt_setaside-set",
@@ -27984,8 +27980,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX17",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -27996,8 +27992,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "pa_summary_conviction-set",
@@ -29649,7 +29644,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
@@ -29843,7 +29838,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
