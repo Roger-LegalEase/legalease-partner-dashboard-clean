@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `ed94c395370ce3ef60c2e3800c6740ea9a1d15f5` (or the newer dispatch base)
+**Minimum required ancestor:** `dc3096ed6b707dc96705d3c26ed001bee9736bce` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'id_set_aside_dismissal-set' \
+  --family 'al-diversion-set' \
   --codex-cloud \
-  --minimum-captain-sha ed94c395370ce3ef60c2e3800c6740ea9a1d15f5
+  --minimum-captain-sha dc3096ed6b707dc96705d3c26ed001bee9736bce
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'id_set_aside_dismissal-set'`
+- Assert only these 4 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-seal-3yr-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-wa-custom-pleading-clean-tracks'`
@@ -61,9 +60,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 4 families
 
-- `id_set_aside_dismissal-set`
 - `al-diversion-set`
 - `il-seal-3yr-set`
 - `rcap-wa-custom-pleading-clean-tracks`
@@ -80,12 +78,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
-- `scripts/build-census-v1-id_set_aside_dismissal-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
 - `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
 - `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
