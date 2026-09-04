@@ -1,4 +1,52 @@
 {
+  "currentRead20260904": {
+    "wave": "packet-factory-24h/VF04/current-source-drift-reread (CODEX-CS2-VF04-CURRENT, 2026-09-04)",
+    "worker": "CODEX-CS2-VF04-CURRENT (independent; built, repaired and rastered none of these packet bytes)",
+    "baseSha": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+    "branch": "codex/cs2-vf04-current-46360ba",
+    "claimsAsserted": 4,
+    "claimGrantSet": "4565eb69e8670ad2",
+    "claimResult": "All four exact VF04 claims returned CLAIM_OK before family content was read and remain unreleased.",
+    "familiesRead": [
+      "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "id_felony_reduction-set",
+      "id_set_aside_dismissal-set",
+      "nc_146_dismissal_petition-set"
+    ],
+    "verdictsHere": {
+      "PASS_COMPLETE_INDEPENDENT": 0,
+      "FAIL_REPAIR_REQUIRED": 4,
+      "BLOCKED_SOURCE": 0,
+      "BLOCKED_LEGAL_INPUT": 0,
+      "PRODUCT_PATH_PENDING": 0
+    },
+    "obligationSet": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "ARTIFACTS",
+      "PAGE_ORDER",
+      "CLIPPING_AND_OVERLAP",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP"
+    ],
+    "currentFinding": "All four families fail SOURCE_IDENTITY only. Their source receipts pin stale full-file hashes even though every pinned route-, pathway-, track-, specification- or packet-set object still equals the current exact object. NC also uses legal-design-track-registry.json for participant stops without binding that record in its source receipt.",
+    "focusedCompletenessCommands": 4,
+    "focusedCompletenessResult": "All four commands returned PASS_COMPLETE with all nine counters zero.",
+    "freshRasterReview": "All 34 pages across eight current PDFs were rendered at 144 dpi and inspected; there were no blank pages, page-box crossings, clipping, overlap or protected-field ink.",
+    "centralStateEdits": 0,
+    "packetEdits": 0,
+    "claimsReleased": 0,
+    "routesOpened": 0,
+    "productionTouched": false
+  },
   "nationalRead20260904": {
     "wave": "packet-factory-24h/VF04/national-six-family-read (CODEX-CS2-VF04-NATIONAL, 2026-09-04)",
     "worker": "CODEX-CS2-VF04-NATIONAL (independent; built, repaired and rastered none of these packet bytes)",
@@ -7058,6 +7106,198 @@
       },
       "failedProofObligations": ["COMPONENT_SET","PAGE_ORDER","CLIPPING_AND_OVERLAP"],
       "centralStateEdits":0,"claimsReleased":0,"selfVerificationPerformed":0,"routesOpened":0,"productionTouched":false
+    },
+    {
+      "wave": "packet-factory-24h/VF04/current-source-drift-reread (CODEX-CS2-VF04-CURRENT, 2026-09-04)",
+      "itemId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "lane": "VF04",
+      "worker": "CODEX-CS2-VF04-CURRENT (independent; built, repaired and rastered none of these packet bytes)",
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading",
+      "routeKeys": ["obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"],
+      "decisiveDefect": "The source receipt pins route-census.json at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752, but the current committed record is 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. MASTER_QUEUE marks BOUND_SOURCE_DRIFTED; SOURCE_IDENTITY therefore does not hold even though the exact WY route object is unchanged.",
+      "nineCounters": {"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true,"verifierResult":"PASS_COMPLETE, 6/17 written"},
+      "sourceIdentityEvidence": {
+        "exactPins": [
+          {"path":"src/lib/legal-authority/routes/single-routes.json","pinnedSha256":"6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588","pinnedByteLength":67533,"currentSha256":"6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588","currentByteLength":67533,"result":"EXACT"},
+          {"path":"src/lib/rcap-engine/compiled/profiles/WY-wyoming.json","pinnedSha256":"335463128603a3c980661a61f8740db103898a8aafe02d7b7220dcbaab4c6dea","pinnedByteLength":120012,"currentSha256":"335463128603a3c980661a61f8740db103898a8aafe02d7b7220dcbaab4c6dea","currentByteLength":120012,"result":"EXACT"},
+          {"path":"data/rcap-all50/route-census.json","pinnedSha256":"0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f","pinnedByteLength":2599752,"currentSha256":"9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1","currentByteLength":2607149,"result":"DRIFT"}
+        ],
+        "exactObjectContinuity": [
+          {"object":"WY route contract","sha256":"8117a8eb909c5eb17ec9b4ae8a0548a96b1006f4bce3da722fd7b817f2937046","pinnedEqualsCurrent":true},
+          {"object":"WY compiled pathway","sha256":"f1442b716507b9aae9acd111c72cedc4372e3410b9e02f29a5040c0838ee7761","pinnedEqualsCurrent":true},
+          {"object":"WY census route","sha256":"da4a28897b226a2fd1fc53b2b907620aa5e9ec450af2f4cd64e2ce99d2b06e6b","pinnedEqualsCurrent":true}
+        ]
+      },
+      "artifacts": [
+        {"fixture":"canonical","sha256":"6d6e3190303b0aec3a12c009f2e1f3fea579e70a9739c7916536f9119a6b9ecf","byteLength":12283,"pageCount":4},
+        {"fixture":"boundary","sha256":"61dc959c94e8669b1b7844c1adca0353e66719a822cd97a3af26b8a612538241","byteLength":12478,"pageCount":4}
+      ],
+      "rasterEvidence": {"currentRasterState":"RASTER_PASS","workflowRunId":"33791677725","jobId":"100770326945","artifactId":9907756761,"artifactZipSha256":"sha256:56d21f4309003f4ef3e07def428ef75ad481e4deac3b1d71ed47de971271d241","documentsMeasured":2,"pagesMeasured":8,"problemsFound":0,"pinsEqualRecomputedBytes":true,"freshLocalRaster":{"dpi":144,"pagesInspected":8,"blankPages":0,"pageBoxCrossings":0,"canonicalWords":1145,"boundaryWords":1150,"clippingOrOverlap":false}},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured":true,"result":"PASS","detail":"The exact runtime-only route agrees across receipt, field map, wiring, census and page footers."},
+        "SOURCE_IDENTITY": {"measured":true,"result":"FAIL","detail":"The receipt's route-census full-file pin differs from current committed bytes; exact route semantics remaining equal cannot satisfy the required exact-SHA obligation."},
+        "COMPONENT_SET": {"measured":true,"result":"PASS","detail":"Petition and filing instructions are delivered; participant-obtained nexus evidence is identified without being impersonated as generated content."},
+        "KNOWN_PREFILLS": {"measured":true,"result":"PASS","detail":"All 6/6 declared writes are visible in each fixture."},
+        "REQUIRED_BEFORE_FILING": {"measured":true,"result":"PASS","detail":"All 8/8 required disclosures are present."},
+        "ROUTE_OPTIONS": {"measured":true,"result":"PASS","detail":"Official-documentation and alternative-evidence paths remain separate without a forced election."},
+        "REPEATING_ROWS": {"measured":true,"result":"PASS","detail":"No repeating-row structure or partial row exists."},
+        "PROTECTED_FIELDS": {"measured":true,"result":"PASS","detail":"Case number, signature and signature date remain blank in both fixtures."},
+        "ARTIFACTS": {"measured":true,"result":"PASS","detail":"Both PDFs match exact hashes, lengths, four-page parser counts and raster pins."},
+        "PAGE_ORDER": {"measured":true,"result":"PASS","detail":"Petition pages 1-2 precede filing-instruction pages 3-4."},
+        "CLIPPING_AND_OVERLAP": {"measured":true,"result":"PASS","detail":"Fresh 144-dpi inspection covered all eight pages; no blank page, crossing, clipping or overlap was found."},
+        "FILING_DESTINATION": {"measured":true,"result":"PASS","detail":"The court that entered the conviction is stated."},
+        "FEE_AND_WAIVER": {"measured":true,"result":"PASS","detail":"The packet preserves the verify-with-clerk fee and waiver rule without importing sibling-route amounts."},
+        "SERVICE": {"measured":true,"result":"PASS","detail":"The held-source limitation is stated and confirmation is routed to the convicting-court clerk."},
+        "SELF_HELP_STOP": {"measured":true,"result":"PASS","detail":"Manual review, trauma, safety, other-count, immigration and unsupported-nexus stops are stated."}
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY"],
+      "centralStateEdits":0,"packetEdits":0,"claimsReleased":0,"selfVerificationPerformed":0,"routesOpened":0,"productionTouched":false
+    },
+    {
+      "wave": "packet-factory-24h/VF04/current-source-drift-reread (CODEX-CS2-VF04-CURRENT, 2026-09-04)",
+      "itemId": "id_felony_reduction-set",
+      "lane": "VF04",
+      "worker": "CODEX-CS2-VF04-CURRENT (independent; built, repaired and rastered none of these packet bytes)",
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-felony-reduction-set--custom-pleading",
+      "routeKeys": ["obligation:track-only:ID:id_felony_reduction"],
+      "decisiveDefect": "The source receipt pins stale full-file hashes for legal-design-track-registry.json, legal-design-specifications.json and route-census.json. All three current committed records differ and MASTER_QUEUE marks BOUND_SOURCE_DRIFTED; SOURCE_IDENTITY does not hold even though the exact felony-reduction objects are unchanged.",
+      "nineCounters": {"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true,"verifierResult":"PASS_COMPLETE, 6/13 written"},
+      "sourceIdentityEvidence": {
+        "exactPins": [
+          {"path":"data/record-clearing/legal-design-track-registry.json","pinnedSha256":"baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4","pinnedByteLength":16586143,"currentSha256":"232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee","currentByteLength":16586150,"result":"DRIFT"},
+          {"path":"data/record-clearing/legal-design-specifications.json","pinnedSha256":"cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5","pinnedByteLength":16829383,"currentSha256":"f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e","currentByteLength":16829391,"result":"DRIFT"},
+          {"path":"data/rcap-all50/route-census.json","pinnedSha256":"0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f","pinnedByteLength":2599752,"currentSha256":"9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1","currentByteLength":2607149,"result":"DRIFT"}
+        ],
+        "exactObjectContinuity": [
+          {"object":"id_felony_reduction track","sha256":"46ec53fa1b56f5071ea32d9d87f5ddf9385c6d13c8f8d6ed5914548ef7d02993","pinnedEqualsCurrent":true},
+          {"object":"id_felony_reduction specification","sha256":"b80235914db182d864d273ddc107e639de3fe0c2a137ff2e4ec6a24b2633ef15","pinnedEqualsCurrent":true},
+          {"object":"id_felony_reduction census route","sha256":"586378678089932f75f5a72cda54394d976e8525cf6af4b783bc9a83d927d209","pinnedEqualsCurrent":true}
+        ]
+      },
+      "artifacts": [
+        {"fixture":"canonical","sha256":"d246f76059f94a3f78286381d3ff6289cae01f5593b11c3625a50d223e33afd1","byteLength":8807,"pageCount":4},
+        {"fixture":"boundary","sha256":"8c5d84ecc8a8946d5ad51ad38326119f208ae4791775c7aff448af9ef7fabc48","byteLength":9029,"pageCount":4}
+      ],
+      "rasterEvidence": {"currentRasterState":"RASTER_PASS","workflowRunId":"33605354695","jobId":"100168605493","artifactId":9837021098,"artifactZipSha256":"sha256:d175b86ca273295aa5b076b424f892f1bb6a71f1b35c2406fff41161d6908058","documentsMeasured":2,"pagesMeasured":8,"problemsFound":0,"pinsEqualRecomputedBytes":true,"freshLocalRaster":{"dpi":144,"pagesInspected":8,"blankPages":0,"pageBoxCrossings":0,"canonicalWords":699,"boundaryWords":704,"clippingOrOverlap":false}},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured":true,"result":"PASS","detail":"The route key, § 19-2604(2) mechanism and sentencing-court destination agree."},
+        "SOURCE_IDENTITY": {"measured":true,"result":"FAIL","detail":"All three receipt full-file pins differ from current committed bytes; unchanged exact family objects cannot satisfy the exact-SHA obligation."},
+        "COMPONENT_SET": {"measured":true,"result":"PASS","detail":"Primary filing and filing instructions are present."},
+        "KNOWN_PREFILLS": {"measured":true,"result":"PASS","detail":"All 6/6 declared writes are visible in each fixture."},
+        "REQUIRED_BEFORE_FILING": {"measured":true,"result":"PASS","detail":"All 4/4 required disclosures are present."},
+        "ROUTE_OPTIONS": {"measured":true,"result":"PASS","detail":"Felony reduction remains distinct from set-aside dismissal; no election is preselected."},
+        "REPEATING_ROWS": {"measured":true,"result":"PASS","detail":"No repeating-row structure exists."},
+        "PROTECTED_FIELDS": {"measured":true,"result":"PASS","detail":"Case number, signature and signature date remain blank."},
+        "ARTIFACTS": {"measured":true,"result":"PASS","detail":"Both PDFs match exact hashes, lengths, page counts and raster pins."},
+        "PAGE_ORDER": {"measured":true,"result":"PASS","detail":"Primary filing pages 1-2 precede instruction pages 3-4."},
+        "CLIPPING_AND_OVERLAP": {"measured":true,"result":"PASS","detail":"Fresh 144-dpi inspection covered all eight pages; no blank page, crossing, clipping or overlap was found."},
+        "FILING_DESTINATION": {"measured":true,"result":"PASS","detail":"The sentencing court and caption source are stated."},
+        "FEE_AND_WAIVER": {"measured":true,"result":"PASS","detail":"The lack of a confirmed fee or waiver rule is stated and routed to the sentencing-court clerk."},
+        "SERVICE": {"measured":true,"result":"PASS","detail":"The unsettled service method is stated and routed to the clerk."},
+        "SELF_HELP_STOP": {"measured":true,"result":"PASS","detail":"All four registry stop conditions are stated."}
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY"],
+      "centralStateEdits":0,"packetEdits":0,"claimsReleased":0,"selfVerificationPerformed":0,"routesOpened":0,"productionTouched":false
+    },
+    {
+      "wave": "packet-factory-24h/VF04/current-source-drift-reread (CODEX-CS2-VF04-CURRENT, 2026-09-04)",
+      "itemId": "id_set_aside_dismissal-set",
+      "lane": "VF04",
+      "worker": "CODEX-CS2-VF04-CURRENT (independent; built, repaired and rastered none of these packet bytes)",
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading",
+      "routeKeys": ["obligation:track-only:ID:id_set_aside_dismissal"],
+      "decisiveDefect": "The source receipt pins stale full-file hashes for legal-design-track-registry.json, legal-design-specifications.json and route-census.json. All three current committed records differ and MASTER_QUEUE marks BOUND_SOURCE_DRIFTED; SOURCE_IDENTITY does not hold even though the exact set-aside objects are unchanged.",
+      "nineCounters": {"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true,"verifierResult":"PASS_COMPLETE, 6/14 written"},
+      "sourceIdentityEvidence": {
+        "exactPins": [
+          {"path":"data/record-clearing/legal-design-track-registry.json","pinnedSha256":"baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4","pinnedByteLength":16586143,"currentSha256":"232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee","currentByteLength":16586150,"result":"DRIFT"},
+          {"path":"data/record-clearing/legal-design-specifications.json","pinnedSha256":"cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5","pinnedByteLength":16829383,"currentSha256":"f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e","currentByteLength":16829391,"result":"DRIFT"},
+          {"path":"data/rcap-all50/route-census.json","pinnedSha256":"0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f","pinnedByteLength":2599752,"currentSha256":"9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1","currentByteLength":2607149,"result":"DRIFT"}
+        ],
+        "exactObjectContinuity": [
+          {"object":"id_set_aside_dismissal track","sha256":"9893678692962219dfb85c6b84b163cf8c1bce180ef53aa119fa60ab5e3666a5","pinnedEqualsCurrent":true},
+          {"object":"id_set_aside_dismissal specification","sha256":"0d039e9701657f721b2c112deeb0d8bcb6ea7df3248224e270fde3f47f6bd982","pinnedEqualsCurrent":true},
+          {"object":"id_set_aside_dismissal census route","sha256":"7ab262fefce2e5bad15d67bf887fbc12de314bf051c40685d40c01b5ecbc6fc1","pinnedEqualsCurrent":true}
+        ]
+      },
+      "artifacts": [
+        {"fixture":"canonical","sha256":"7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc","byteLength":10134,"pageCount":4},
+        {"fixture":"boundary","sha256":"69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f","byteLength":10351,"pageCount":4}
+      ],
+      "rasterEvidence": {"currentRasterState":"RASTER_PASS","workflowRunId":"33605354695","jobId":"100168605472","artifactId":9837134404,"artifactZipSha256":"sha256:ea9f994e269a9b80052f820285f713d7513b49dc0c3acdcd092e9f35592fa398","documentsMeasured":2,"pagesMeasured":8,"problemsFound":0,"pinsEqualRecomputedBytes":true,"freshLocalRaster":{"dpi":144,"pagesInspected":8,"blankPages":0,"pageBoxCrossings":0,"canonicalWords":866,"boundaryWords":871,"clippingOrOverlap":false}},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured":true,"result":"PASS","detail":"The route key, § 19-2604(1) mechanism and sentencing-court destination agree."},
+        "SOURCE_IDENTITY": {"measured":true,"result":"FAIL","detail":"All three receipt full-file pins differ from current committed bytes; unchanged exact family objects cannot satisfy the exact-SHA obligation."},
+        "COMPONENT_SET": {"measured":true,"result":"PASS","detail":"Primary filing and filing instructions are present."},
+        "KNOWN_PREFILLS": {"measured":true,"result":"PASS","detail":"All 6/6 declared writes are visible in each fixture."},
+        "REQUIRED_BEFORE_FILING": {"measured":true,"result":"PASS","detail":"All 5/5 required disclosures are present."},
+        "ROUTE_OPTIONS": {"measured":true,"result":"PASS","detail":"Set-aside dismissal remains distinct from felony reduction; no election is preselected."},
+        "REPEATING_ROWS": {"measured":true,"result":"PASS","detail":"No repeating-row structure exists."},
+        "PROTECTED_FIELDS": {"measured":true,"result":"PASS","detail":"Case number, signature and date remain blank."},
+        "ARTIFACTS": {"measured":true,"result":"PASS","detail":"Both PDFs match exact hashes, lengths, four-page counts and raster pins."},
+        "PAGE_ORDER": {"measured":true,"result":"PASS","detail":"Primary filing pages 1-2 precede instruction pages 3-4."},
+        "CLIPPING_AND_OVERLAP": {"measured":true,"result":"PASS","detail":"Fresh 144-dpi inspection covered all eight pages; no blank page, crossing, clipping or overlap was found."},
+        "FILING_DESTINATION": {"measured":true,"result":"PASS","detail":"The sentencing court and caption source are stated."},
+        "FEE_AND_WAIVER": {"measured":true,"result":"PASS","detail":"The lack of confirmed fee and waiver terms is stated and routed to the sentencing-court clerk."},
+        "SERVICE": {"measured":true,"result":"PASS","detail":"The unsettled service method is stated and routed to the clerk."},
+        "SELF_HELP_STOP": {"measured":true,"result":"PASS","detail":"All five registry stop conditions are stated."}
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY"],
+      "centralStateEdits":0,"packetEdits":0,"claimsReleased":0,"selfVerificationPerformed":0,"routesOpened":0,"productionTouched":false
+    },
+    {
+      "wave": "packet-factory-24h/VF04/current-source-drift-reread (CODEX-CS2-VF04-CURRENT, 2026-09-04)",
+      "itemId": "nc_146_dismissal_petition-set",
+      "lane": "VF04",
+      "worker": "CODEX-CS2-VF04-CURRENT (independent; built, repaired and rastered none of these packet bytes)",
+      "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+      "routeKeys": ["obligation:track-only:NC:nc_146_dismissal_petition"],
+      "decisiveDefect": "The source receipt pins packet-set-manifest.json at 563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d / 3677637, but current committed bytes are 713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572 / 3677644. MASTER_QUEUE marks BOUND_SOURCE_DRIFTED. In addition, participant instructions rely on nc_146_dismissal_petition stop conditions from legal-design-track-registry.json, but the source receipt binds no registry record.",
+      "nineCounters": {"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true,"verifierResult":"PASS_COMPLETE, 14/197 written"},
+      "sourceIdentityEvidence": {
+        "exactPins": [
+          {"path":"data/rcap-all50/packet-set-manifest.json","pinnedSha256":"563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d","pinnedByteLength":3677637,"currentSha256":"713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572","currentByteLength":3677644,"result":"DRIFT"}
+        ],
+        "missingBinding": {"path":"data/record-clearing/legal-design-track-registry.json","currentSha256":"232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee","currentByteLength":16586150,"exactObject":"nc_146_dismissal_petition track","exactObjectSha256":"79b337d8e32223b4576e355e9d68753e516f16e5fd0d0f042c62ca90c5bd1df0","reason":"participant-instructions.md relies on this track for the plea-agreement and § 15A-145.4/.145.6 self-help stops"},
+        "exactObjectContinuity": [{"object":"nc_146_dismissal_petition-set packet set","sha256":"08aaf4afe08b6b02fc86c4575a80f463c538ac56b981f413f8750583c78f6f7a","pinnedEqualsCurrent":true}],
+        "sourceDocuments": [
+          {"documentId":"AOC-CR-287","sha256":"a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed","byteLength":257828,"pageCount":2},
+          {"documentId":"AOC-CR-287-INSTRUCTIONS","sha256":"fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7","byteLength":217744,"pageCount":1},
+          {"documentId":"AOC-CV-226","sha256":"74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f","byteLength":269426,"pageCount":2}
+        ]
+      },
+      "artifacts": [
+        {"fixture":"canonical","sha256":"81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1","byteLength":766940,"pageCount":5},
+        {"fixture":"boundary","sha256":"af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251","byteLength":767096,"pageCount":5}
+      ],
+      "rasterEvidence": {"currentRasterState":"RASTER_PASS","workflowRunId":"33608483853","jobId":"100178592266","artifactId":9838346726,"artifactZipSha256":"sha256:c7cdb8bf968745a79818d0760c31a86b66a2454eac72421f1411ace008093f15","documentsMeasured":2,"pagesMeasured":10,"problemsFound":0,"pinsEqualRecomputedBytes":true,"freshLocalRaster":{"dpi":144,"pagesInspected":10,"blankPages":0,"pageBoxCrossings":0,"canonicalWords":2850,"boundaryWords":2858,"clippingOrOverlap":false}},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured":true,"result":"PASS","detail":"The route key agrees across all packet records and delivered AOC-CR-287 pages."},
+        "SOURCE_IDENTITY": {"measured":true,"result":"FAIL","detail":"The packet-set full-file pin differs from current committed bytes, and the relied-on track registry is absent from the receipt's committed records."},
+        "COMPONENT_SET": {"measured":true,"result":"PASS","detail":"AOC-CR-287, its instructions and conditional AOC-CV-226 are delivered in the prescribed order."},
+        "KNOWN_PREFILLS": {"measured":true,"result":"PASS","detail":"All 14/14 declared writes are visible in each fixture."},
+        "REQUIRED_BEFORE_FILING": {"measured":true,"result":"PASS","detail":"All 62/62 required disclosures are present."},
+        "ROUTE_OPTIONS": {"measured":true,"result":"PASS","detail":"Division, subsection and deferred-prosecution elections remain participant facts; none is preselected."},
+        "REPEATING_ROWS": {"measured":true,"result":"PASS","detail":"Agency and offense rows remain wholly blank rather than partly populated."},
+        "PROTECTED_FIELDS": {"measured":true,"result":"PASS","detail":"Side Two, signatures, dates and sworn financial fields remain blank."},
+        "ARTIFACTS": {"measured":true,"result":"PASS","detail":"Both five-page packets match exact hashes, lengths, page counts and raster pins."},
+        "PAGE_ORDER": {"measured":true,"result":"PASS","detail":"Pages are AOC-CR-287 1-2, AOC instructions 3 and AOC-CV-226 4-5."},
+        "CLIPPING_AND_OVERLAP": {"measured":true,"result":"PASS","detail":"Fresh 144-dpi inspection covered all ten pages; no blank page, crossing, clipping or overlap was found."},
+        "FILING_DESTINATION": {"measured":true,"result":"PASS","detail":"The clerk of superior court in the charging county is stated."},
+        "FEE_AND_WAIVER": {"measured":true,"result":"PASS","detail":"No fee for true dismissal, the $175 exception and conditional indigency route are stated."},
+        "SERVICE": {"measured":true,"result":"PASS","detail":"No ordinary service is stated; the separate DNA application and its DA-service rule are distinguished."},
+        "SELF_HELP_STOP": {"measured":true,"result":"PASS","detail":"All six track stops are carried in substance."}
+      },
+      "failedProofObligations": ["SOURCE_IDENTITY"],
+      "centralStateEdits":0,"packetEdits":0,"claimsReleased":0,"selfVerificationPerformed":0,"routesOpened":0,"productionTouched":false
     }
   ],
   "supersededLaneMembership": {
