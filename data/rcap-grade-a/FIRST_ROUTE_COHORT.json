@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-first-route-cohort/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-first-cohort-selection.mjs",
-  "atCommit": "f11fe46961ad4c4925c914874c96ef396b0ac398",
+  "atCommit": "ecf63471a53d99e7e170d1847ade3a0ead855359",
   "createsCommercialAuthority": false,
   "opensAnyRoute": false,
   "paymentRemainsFailClosed": true,
@@ -15,34 +15,47 @@
     "no substantive legal change occurred after that approval, read against the decision record's own two lists",
     "no repair, source, legal, problematic-PDF or maintenance hold applies"
   ],
-  "conditionSevenIsReadRatherThanComputed": "Whether a post-approval change was substantive is a reading of diffs against the decision record's own two lists, not something this script can compute. The reading is recorded in data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json and consulted here. A family with no entry there fails the condition: silence is a missing reading, never a pass.",
+  "conditionSevenIsReadRatherThanComputed": "Whether a post-approval change was substantive is a reading of diffs against the selected decision record's own terms, not something this script can compute. The reading is recorded in data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json and consulted here. A family with no entry there fails the condition, and a reading against a different approval record also fails: silence or mismatched authority is never a pass.",
   "whyAnUnchangedPacketProofIsNotEnough": "All three candidates' packetProofSha256 are unchanged, and that proves less than it appears to. The proofs attest implementation outputs under src/lib/rcap/packets/jurisdictions/ and scripts/verify-rcap-*-custom-pleading.mjs, and none of those paths exists in this checkout — the shipping artifacts come from the census-v1 generator. They are unchanged because nothing touched them. So a v2 record's packetSpecification must be bound to the census-v1 artifact that actually ships, never to the stale proof.",
   "postApprovalAudit": [
     {
+      "familyId": "rcap-ga-guidance-implementation",
+      "verdict": "NEEDS_NEW_DECISION_OWNER_DECISION",
+      "reviewedAgainstApprovalRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "mayEnterTheFirstCohort": false
+    },
+    {
       "familyId": "rcap-ks-custom-pleading",
       "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
       "mayEnterTheFirstCohort": true
     },
     {
       "familyId": "rcap-tn-custom-pleading",
       "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "reviewedAgainstApprovalRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
       "mayEnterTheFirstCohort": true
     },
     {
       "familyId": "rcap-sc-custom-pleading",
       "verdict": "NEEDS_NEW_DECISION_OWNER_DECISION",
+      "reviewedAgainstApprovalRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
       "mayEnterTheFirstCohort": false
     }
   ],
   "counts": {
-    "completePacketProven": 115,
-    "familiesInsideTheOwnerApproval": 57,
-    "provenAndApproved": 3,
+    "completePacketProven": 123,
+    "familiesInsideExistingApprovalScope": 110,
+    "augustApprovalScope": 57,
+    "septemberExactDigestApprovalScope": 53,
+    "septemberApprovalsWithCurrentDigests": 52,
+    "familiesInsideTheOwnerApproval": 109,
+    "provenAndApproved": 55,
     "inCohort": 0,
     "cohortRoutes": 0,
-    "provenButOutsideAnyExistingApproval": 112
+    "provenButOutsideAnyExistingApproval": 68
   },
-  "whyTheCohortIsSmall": "The decision owner's completed-output approval covers 57 families and 115 families are packet-proven, but they are largely different populations: the approval covers the earlier guidance-implementation wave and the proof covers the later census-v1 packet wave, so only the 3 in both can enter a first cohort without a new legal decision. The proven figure is also lower than it was: the owner's batch adoption refused sixteen families as the wrong delivery type and withheld nine more pending named corrections, and those families are correctly not proven.",
+  "whyTheCohortIsSmall": "The August completed-output decision names 57 families and the September exact-digest adoption names 53 disjoint families. 109 families currently retain approval coverage after applying the September digest condition, while 123 are packet-proven; 55 are in both populations. Approval is still only one condition: each family also needs an audit explicitly bound to that selected approval and every other technical, source, raster, wiring, hold and independent-verification condition.",
   "cohort": [],
   "cohortRouteIds": [],
   "routeReachability": {
@@ -56,18 +69,6 @@
     "whenTheRecordsDisagree": "The route key's own shape and FIRST_COHORT_RUNTIME_IDENTITY.json are read independently. A route listed here is counted NOT addressable and the disagreement is the finding: one of the two records is stale."
   },
   "provenFamiliesNeedingANewLegalReview": [
-    {
-      "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
-      "jurisdiction": "CO",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
-      "jurisdiction": "AK",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
     {
       "familyId": "ak-courtview-set",
       "jurisdiction": "AK",
@@ -123,8 +124,8 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "az_wrongful_arrest_clearance-set",
-      "jurisdiction": "AZ",
+      "familyId": "ca-1203-4-set",
+      "jurisdiction": "CA",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -159,6 +160,12 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
+      "familyId": "ca-prop64-set",
+      "jurisdiction": "CA",
+      "routeCount": 3,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
       "familyId": "co_motion_seal_nonconviction-set",
       "jurisdiction": "CO",
       "routeCount": 1,
@@ -173,36 +180,6 @@
     {
       "familyId": "co_pardoned_conviction_seal-set",
       "jurisdiction": "CO",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
-      "jurisdiction": "CO",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
-      "jurisdiction": "NY",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
-      "jurisdiction": "DE",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
-      "jurisdiction": "DE",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
-      "jurisdiction": "IL",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -231,12 +208,6 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-      "jurisdiction": "OK",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
       "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
       "jurisdiction": "OK",
       "routeCount": 1,
@@ -249,31 +220,7 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "composed-treatment:sc_17_22_950_summary",
-      "jurisdiction": "SC",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "composed-treatment:sd_sis_sealing",
-      "jurisdiction": "SD",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ct-cannabis-petition-set",
-      "jurisdiction": "CT",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
       "familyId": "ct-cleanslate-petition-set",
-      "jurisdiction": "CT",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ct-decriminalized-set",
       "jurisdiction": "CT",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
@@ -285,98 +232,14 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "ct-pardon-erasure-set",
-      "jurisdiction": "CT",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ct-under18-misdemeanor-set",
-      "jurisdiction": "CT",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "dc_correct_misattributed_arrest-set",
-      "jurisdiction": "DC",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "dc_innocence_expungement-set",
-      "jurisdiction": "DC",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "dc_seal_fugitive-set",
-      "jurisdiction": "DC",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-deaddocket-j3-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-felony-j1-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-fo-active-pre2026-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-fo-discharged-pre2026-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-fugitive-j5-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-misd-j4-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-nonconv-post2013-set",
-      "jurisdiction": "GA",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-pardon-j7-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-seal-m-set",
-      "jurisdiction": "GA",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ga-vacated-j2-set",
-      "jurisdiction": "GA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
       "familyId": "hi_dag_danc_expungement-set",
       "jurisdiction": "HI",
+      "routeCount": 1,
+      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
+    },
+    {
+      "familyId": "ia-7251-set",
+      "jurisdiction": "IA",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -399,31 +262,13 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "id_set_aside_dismissal-set",
-      "jurisdiction": "ID",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "il-prostitution-j-vacate-set",
+      "familyId": "il-exp-supervision-set",
       "jurisdiction": "IL",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "ky_criminal_record_segregation-set",
-      "jurisdiction": "KY",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ky_void_seal_controlled_substance-set",
-      "jurisdiction": "KY",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "familyId": "ky_expungement_certification-set",
       "jurisdiction": "KY",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
@@ -432,18 +277,6 @@
       "familyId": "ma-expunge-time-set",
       "jurisdiction": "MA",
       "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "me-nonconv-set",
-      "jurisdiction": "ME",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "me-screening-set",
-      "jurisdiction": "ME",
-      "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
@@ -459,37 +292,7 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "mn_prosecutor_agreed-set",
-      "jurisdiction": "MN",
-      "routeCount": 4,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ms-diversion-set",
-      "jurisdiction": "MS",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ms-misd-1st-set",
-      "jurisdiction": "MS",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ms-misd-addl-set",
-      "jurisdiction": "MS",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ms-nonadj-set",
-      "jurisdiction": "MS",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ms-nonconv-set",
+      "familyId": "ms-fel-set",
       "jurisdiction": "MS",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
@@ -501,20 +304,8 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "nd-deferred-imposition-records-set",
-      "jurisdiction": "ND",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
       "familyId": "nd-nonconviction-close-petition-set",
       "jurisdiction": "ND",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "ne-seal-enforcement-set",
-      "jurisdiction": "NE",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -543,18 +334,6 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "nv_repository_removal-set",
-      "jurisdiction": "NV",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "nv_seal_probation_family-set",
-      "jurisdiction": "NV",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
       "familyId": "ny_160_59_petition-set",
       "jurisdiction": "NY",
       "routeCount": 1,
@@ -573,8 +352,8 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "ri_marijuana-set",
-      "jurisdiction": "RI",
+      "familyId": "sc_17_22_950_summary-set",
+      "jurisdiction": "SC",
       "routeCount": 2,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -591,14 +370,8 @@
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
-      "familyId": "va_exp_absolute_pardon-set",
-      "jurisdiction": "VA",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "va_exp_identity_used_by_another-set",
-      "jurisdiction": "VA",
+      "familyId": "ut_pet_traffic-set",
+      "jurisdiction": "UT",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -624,12 +397,6 @@
       "familyId": "va_seal_petition_felony-set",
       "jurisdiction": "VA",
       "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "vt_exp_deferred_sentence-set",
-      "jurisdiction": "VT",
-      "routeCount": 2,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
     {
@@ -659,12 +426,6 @@
     {
       "familyId": "vt_seal_pardon-set",
       "jurisdiction": "VT",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "wa_crop_certificate_of_restoration-set",
-      "jurisdiction": "WA",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     },
@@ -715,18 +476,6 @@
       "jurisdiction": "WI",
       "routeCount": 1,
       "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "wv_dui_deferral_expungement-set",
-      "jurisdiction": "WV",
-      "routeCount": 2,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
-    },
-    {
-      "familyId": "wy_fel_1502-set",
-      "jurisdiction": "WY",
-      "routeCount": 1,
-      "whyNotInCohort": "packet-proven but not named in any existing decision-owner approval scope"
     }
   ],
   "visualReview": {
@@ -755,12 +504,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -769,7 +517,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": "cd48fc14e"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED as a participant agency-application treatment only, not as a court petition. No runtime, technical, visual, payment, sponsorship, or production authority is granted.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "b4da2e74cfda874127ab81b22f4bc544d22ffcbcdd36e51a8c8336b1d47eae80",
+            "sha256Now": "b4da2e74cfda874127ab81b22f4bc544d22ffcbcdd36e51a8c8336b1d47eae80",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "76f05a4a6392cdceb7281e6ce006b46ce0948bae64af955fed6f2f20089c3f7e",
+            "sha256Now": "76f05a4a6392cdceb7281e6ce006b46ce0948bae64af955fed6f2f20089c3f7e",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
@@ -785,12 +564,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -799,7 +577,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": "cd48fc14e"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED as a participant agency-application treatment only, not as a court petition. No runtime, technical, visual, payment, sponsorship, or production authority is granted.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4",
+            "sha256Now": "298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce",
+            "sha256Now": "c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ak-courtview-set",
@@ -1084,6 +893,67 @@
       "deliveryType": "custom_pleading",
       "checks": {
         "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": false,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "verdictCurrentAndDeclaresItsBase",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifierId": "vf02",
+        "verifiedAtBase": "0880e69cc0b839c1b02679a6b64c5c536c62a644"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+            "sha256Now": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+            "sha256Now": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "ca-1203-4-set",
+      "jurisdiction": "CA",
+      "routeKeys": [
+        "obligation:track-pathway:CA:ca-1203-4:tool-1-dismissal-set-aside"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
         "verdictCurrentAndDeclaresItsBase": true,
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
@@ -1099,8 +969,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf32",
-        "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af"
+        "verifierId": "verify-ca-ia-ky-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
       },
       "legalApproval": null
     },
@@ -1255,6 +1125,38 @@
       "legalApproval": null
     },
     {
+      "familyId": "ca-prop64-set",
+      "jurisdiction": "CA",
+      "routeKeys": [
+        "obligation:track-pathway:CA:ca-prop64:prop-64-completed-sentence-application-11361-8",
+        "obligation:track-pathway:CA:ca-prop64:prop-64-currently-serving-petition-11361-8",
+        "obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief"
+      ],
+      "routeCount": 3,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
+      },
+      "legalApproval": null
+    },
+    {
       "familyId": "co_motion_seal_nonconviction-set",
       "jurisdiction": "CO",
       "routeKeys": [
@@ -1359,12 +1261,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1373,7 +1274,38 @@
         "verifierId": "vf10",
         "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d",
+            "sha256Now": "e6d926f76168b6ca6d5dbc2b7a13e6037be2b53203bb8eea6c93cc843e8e0e8d",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea",
+            "sha256Now": "d00acb23ed43217b68d466265ca30050baca432adb85e1d35f25452adbd0d7ea",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
@@ -1389,12 +1321,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1403,7 +1334,38 @@
         "verifierId": "vf11",
         "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5a",
+            "sha256Now": "9a3e8f36ad9c4f83bdd11f4771d4bcb84dcecd6c5eeb407c3319ab0d0ef6fd5a",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+            "sha256Now": "f623426b5f191878a1d01c0531e43df28edceb9c42b3f3bef2617ecbd3b1acf2",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
@@ -1419,12 +1381,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1433,7 +1394,38 @@
         "verifierId": "vf12",
         "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a",
+            "sha256Now": "4357f7181b06cd732c158bd529ffa200976a88f9222c8d73736b5992122d209a",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34",
+            "sha256Now": "6a33192824bf7fcecbb4d043d1c6daae4f84045cbb79a956d3cfb47781d69e34",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
@@ -1449,12 +1441,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1463,7 +1454,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d6b4097679fc575096728708f3ee31b35a834ec7eb9f40d8105df02bc9f24a82",
+            "sha256Now": "d6b4097679fc575096728708f3ee31b35a834ec7eb9f40d8105df02bc9f24a82",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "c67cee6f0abf6f42a76f09c6ab5d57152a5486dcd88d9c7a1590a9565d56dea0",
+            "sha256Now": "c67cee6f0abf6f42a76f09c6ab5d57152a5486dcd88d9c7a1590a9565d56dea0",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
@@ -1479,12 +1501,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1493,7 +1514,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+            "sha256Now": "25f0c6a12204671455391f35dc7d1d801eef8266abdf08153190c960e7bd9426",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6",
+            "sha256Now": "c858109ebd5becf679a4029a3604b41cf3ca27e1b9cea913b3bf8fd1d227a2c6",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -1630,12 +1682,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1644,7 +1695,38 @@
         "verifierId": "vf03",
         "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101",
+            "sha256Now": "e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17",
+            "sha256Now": "8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
@@ -1721,12 +1803,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1735,7 +1816,38 @@
         "verifierId": "vf10",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED only for composed-treatment:sc_17_22_950_summary as listed. This does not adopt sc_17_22_950_summary-set, resolve Q5, or approve any unsupported timing rule. All other gates remain.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "9742b771437d6bf34a3701e1a9838f35f49548f92e450011edf8622a31ce4c63",
+            "sha256Now": "9742b771437d6bf34a3701e1a9838f35f49548f92e450011edf8622a31ce4c63",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "e5c37a603eff1af87cacc0f405aea4738aeb7f6ff65a7fb7d78527a7680f2cdb",
+            "sha256Now": "e5c37a603eff1af87cacc0f405aea4738aeb7f6ff65a7fb7d78527a7680f2cdb",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "composed-treatment:sd_sis_sealing",
@@ -1752,12 +1864,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1766,7 +1877,38 @@
         "verifierId": "vf11",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+            "sha256Now": "d74ec3c175844dbe6a4e842ee0ad816be1b72445e88aa6755d582f00d4a8ab32",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/sd/composed-treatment:sd-sis-sealing--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3",
+            "sha256Now": "0d845a2cc829dc75140b01bda7ae31ab1e5b8ab79b8b9d5f32cca607897f53f3",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ct-cannabis-petition-set",
@@ -1782,12 +1924,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1796,7 +1937,38 @@
         "verifierId": "vf07",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "73f32cf14f330bb162ad0792eecd8b6351e51905d31c6d9c40b0e9bd933a97a3",
+            "sha256Now": "73f32cf14f330bb162ad0792eecd8b6351e51905d31c6d9c40b0e9bd933a97a3",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-cannabis-petition-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "017fe825b8c4d19d7c2ae85d21415454e2d6527754e501b51f33a31a235cce81",
+            "sha256Now": "017fe825b8c4d19d7c2ae85d21415454e2d6527754e501b51f33a31a235cce81",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ct-cleanslate-petition-set",
@@ -1842,21 +2014,51 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf07",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+        "verifierId": "frozen-registry-independent-verification-ct-decriminalized",
+        "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+            "sha256Now": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+            "sha256Now": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ct-missed-erasure-set",
@@ -1904,12 +2106,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1918,7 +2119,38 @@
         "verifierId": "vf08",
         "verifiedAtBase": "f1cb31429"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "fb22c04456ff31e1526fcc6127330c67618fdd5378da60fd512b4be51b7c410b",
+            "sha256Now": "fb22c04456ff31e1526fcc6127330c67618fdd5378da60fd512b4be51b7c410b",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-pardon-erasure-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "dc26b69ffdb89472c0d674378196a1e04664caf06f6c724d43117d80f28838ef",
+            "sha256Now": "dc26b69ffdb89472c0d674378196a1e04664caf06f6c724d43117d80f28838ef",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ct-under18-misdemeanor-set",
@@ -1935,12 +2167,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1949,7 +2180,38 @@
         "verifierId": "vf08",
         "verifiedAtBase": "f1cb31429"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae",
+            "sha256Now": "590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888",
+            "sha256Now": "3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "dc_correct_misattributed_arrest-set",
@@ -1965,12 +2227,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -1979,7 +2240,38 @@
         "verifierId": "vf03",
         "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+            "sha256Now": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225",
+            "sha256Now": "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "dc_innocence_expungement-set",
@@ -1995,12 +2287,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2009,7 +2300,38 @@
         "verifierId": "vf04",
         "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+            "sha256Now": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+            "sha256Now": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "dc_seal_fugitive-set",
@@ -2025,13 +2347,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2040,7 +2361,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "315401332562ec19d602679d75a2a5e1789c2fb60163ec967c7791e0db65ee3a",
+            "sha256Now": "315401332562ec19d602679d75a2a5e1789c2fb60163ec967c7791e0db65ee3a",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "291e6c0f544490fb66158b9fd15e769badc92564033d657529a62ece429513da",
+            "sha256Now": "291e6c0f544490fb66158b9fd15e769badc92564033d657529a62ece429513da",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-deaddocket-j3-set",
@@ -2056,12 +2408,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2070,7 +2421,38 @@
         "verifierId": "vf08",
         "verifiedAtBase": "f1cb31429"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "0860a52c8b3607370fee4757b2224ade00b514f13df43ee92589099c69a278fd",
+            "sha256Now": "0860a52c8b3607370fee4757b2224ade00b514f13df43ee92589099c69a278fd",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-deaddocket-j3-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "65217c5b184350454e5dac9e0d0986162ac9edc600e1291c9638ea2572f95f96",
+            "sha256Now": "65217c5b184350454e5dac9e0d0986162ac9edc600e1291c9638ea2572f95f96",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-felony-j1-set",
@@ -2086,12 +2468,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2100,7 +2481,38 @@
         "verifierId": "vf09",
         "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "87acee6328e42485183be789b94914bccd92fe6728807bd4c976f3dc74cdb856",
+            "sha256Now": "87acee6328e42485183be789b94914bccd92fe6728807bd4c976f3dc74cdb856",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-felony-j1-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "c637ec1cd28c48db48adc796c67e5ba2401f001815e3cf09c2500e7d0914aec4",
+            "sha256Now": "c637ec1cd28c48db48adc796c67e5ba2401f001815e3cf09c2500e7d0914aec4",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-fo-active-pre2026-set",
@@ -2116,12 +2528,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2130,7 +2541,38 @@
         "verifierId": "vf06",
         "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e3ecc96b782b313a09977491d76d96c065a2c2082ef3375d025d1f9071b9e862",
+            "sha256Now": "e3ecc96b782b313a09977491d76d96c065a2c2082ef3375d025d1f9071b9e862",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-fo-active-pre2026-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "95eafa84a182bb34d9274f9d62b26d4eb78665df47dea34b8deb0a367f6a93d6",
+            "sha256Now": "95eafa84a182bb34d9274f9d62b26d4eb78665df47dea34b8deb0a367f6a93d6",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-fo-discharged-pre2026-set",
@@ -2146,12 +2588,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2160,7 +2601,38 @@
         "verifierId": "vf07",
         "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "3ba5a61a33555e0a0663c3aad11cd62d6a24e3c2e8a72e955f4898bc39f2d62d",
+            "sha256Now": "3ba5a61a33555e0a0663c3aad11cd62d6a24e3c2e8a72e955f4898bc39f2d62d",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-fo-discharged-pre2026-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "f5e381285ebc4e0c6250efcaa32c40f069bd805f29176a2c5714f48be3046029",
+            "sha256Now": "f5e381285ebc4e0c6250efcaa32c40f069bd805f29176a2c5714f48be3046029",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-fugitive-j5-set",
@@ -2176,13 +2648,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2191,7 +2662,38 @@
         "verifierId": "vf12",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "98b8c3f6db936186d9429707af2ef62c34a53d5c8d0ae1acb7d2c00ddfcc8d02",
+            "sha256Now": "98b8c3f6db936186d9429707af2ef62c34a53d5c8d0ae1acb7d2c00ddfcc8d02",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-fugitive-j5-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "9480dd333b55a8adcd3cc6f6bfd2294de83ff187151182cce2a2910eaab738c7",
+            "sha256Now": "9480dd333b55a8adcd3cc6f6bfd2294de83ff187151182cce2a2910eaab738c7",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-misd-j4-set",
@@ -2207,13 +2709,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2222,7 +2723,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+            "sha256Now": "b0bdee422f27e0071aa80c690e0cca34c2db05011401408d891e1be2dbc45890",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-misd-j4-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470",
+            "sha256Now": "682fb675da02adc43528a0d6d841bd7c3a428287b36e940788558589586a5470",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-nonconv-post2013-set",
@@ -2239,12 +2771,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2253,7 +2784,38 @@
         "verifierId": "vf06",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "711f92ee779f58b4b8430037aa42388adc879def5730c910f120210119e3d7d3",
+            "sha256Now": "711f92ee779f58b4b8430037aa42388adc879def5730c910f120210119e3d7d3",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-nonconv-post2013-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "9f05f64ebf633a63bb86f8b89da39c27c1f3634a0444290bace45aab088ccf2d",
+            "sha256Now": "9f05f64ebf633a63bb86f8b89da39c27c1f3634a0444290bace45aab088ccf2d",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-pardon-j7-set",
@@ -2269,13 +2831,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2284,7 +2845,38 @@
         "verifierId": "vf02",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "6a1c18a1587a4d7c8e686545c1a8c2b35bdb1347c8e5dd720115045b26ebc9fa",
+            "sha256Now": "6a1c18a1587a4d7c8e686545c1a8c2b35bdb1347c8e5dd720115045b26ebc9fa",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "48a85fc1d7793b1d76c30cf100da6a273b5b325ad5c162822bf6c5c747a6240d",
+            "sha256Now": "48a85fc1d7793b1d76c30cf100da6a273b5b325ad5c162822bf6c5c747a6240d",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-seal-m-set",
@@ -2301,13 +2893,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2316,7 +2907,38 @@
         "verifierId": "vf03",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796",
+            "sha256Now": "9b57311c3b69ac540a711dd174de9bec6d5b1b1fd7870dde4cbb592e2edf4796",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-seal-m-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182",
+            "sha256Now": "09abd2c2eacdc14fe2840688202ccf62d8506dd19f801e926cb2614c5b420182",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ga-vacated-j2-set",
@@ -2332,12 +2954,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2346,7 +2967,38 @@
         "verifierId": "vf04",
         "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "6c2ce97c8086b9f64684f20680feb603b903de1a7888ce1ab4b5a29686b4181c",
+            "sha256Now": "6c2ce97c8086b9f64684f20680feb603b903de1a7888ce1ab4b5a29686b4181c",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ga/ga-vacated-j2-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "490dcbf4d162cc3c91fbf6a76147661285c3934e361ae70011e798e232cd0be5",
+            "sha256Now": "490dcbf4d162cc3c91fbf6a76147661285c3934e361ae70011e798e232cd0be5",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "hi_dag_danc_expungement-set",
@@ -2375,6 +3027,36 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf01",
         "verifiedAtBase": "d0d42c176db1a3b9ec3e04e1dc102a761fcaafcf"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "ia-7251-set",
+      "jurisdiction": "IA",
+      "routeKeys": [
+        "obligation:track-pathway:IA:ia-7251:minor-prostitution-7251"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "verify-ca-ia-ky-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
       },
       "legalApproval": null
     },
@@ -2433,8 +3115,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf04",
-        "verifiedAtBase": "247b790b6decf4ab14924914b10ad16a6ab57400"
+        "verifierId": "frozen-registry-independent-verification-id-felony-reduction",
+        "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883"
       },
       "legalApproval": null
     },
@@ -2482,6 +3164,66 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "frozen-registry-independent-verification-id-set-aside",
+        "verifiedAtBase": "2753847a4d6b718a4a60e031619244d68c143883"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+            "sha256Now": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+            "sha256Now": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "il-exp-supervision-set",
+      "jurisdiction": "IL",
+      "routeKeys": [
+        "obligation:track-pathway:IL:il-exp-supervision:expungement-after-eligible-supervision-or-qualified-probation"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
         "coveredByAnExistingOwnerApproval": false,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
@@ -2493,8 +3235,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf05",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+        "verifierId": "current-byte-independent-verification-il-tx-batch-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
       },
       "legalApproval": null
     },
@@ -2512,12 +3254,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2526,7 +3267,38 @@
         "verifierId": "vf03",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "sha256Now": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "sha256Now": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ky_criminal_record_segregation-set",
@@ -2537,6 +3309,66 @@
       ],
       "routeCount": 2,
       "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf08",
+        "verifiedAtBase": "f1cb31429"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "688787fb65152b5bb91ee9677012709e808db28da9dccb7599f85a631ac97970",
+            "sha256Now": "688787fb65152b5bb91ee9677012709e808db28da9dccb7599f85a631ac97970",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-criminal-record-segregation-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "7e8e5f3eda4cc8cd5a5cc5a29d6c10e83eae825a3508a24e4d9ed7732a5cb470",
+            "sha256Now": "7e8e5f3eda4cc8cd5a5cc5a29d6c10e83eae825a3508a24e4d9ed7732a5cb470",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "ky_expungement_certification-set",
+      "jurisdiction": "KY",
+      "routeKeys": [
+        "obligation:track-only:KY:ky_expungement_certification"
+      ],
+      "routeCount": 1,
+      "deliveryType": "official_pdf_fill",
       "checks": {
         "packetProven": true,
         "verdictCurrentAndDeclaresItsBase": true,
@@ -2554,8 +3386,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf08",
-        "verifiedAtBase": "f1cb31429"
+        "verifierId": "verify-ca-ia-ky-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
       },
       "legalApproval": null
     },
@@ -2573,12 +3405,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2587,7 +3418,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e7419541f263c4fdc41bbcea0d45d4dd748a35830e722c02f88afd412c646037",
+            "sha256Now": "e7419541f263c4fdc41bbcea0d45d4dd748a35830e722c02f88afd412c646037",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-controlled-substance-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "0b864b30e140fd8b53adc948f6b294c093095e133b489dab27a745dd632db12f",
+            "sha256Now": "0b864b30e140fd8b53adc948f6b294c093095e133b489dab27a745dd632db12f",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
@@ -2603,12 +3465,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2617,7 +3478,38 @@
         "verifierId": "vf02",
         "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "695ecde15ad70d6155cd548f9a22b73b499e8fcded9734c7163af2e6845276ae",
+            "sha256Now": "695ecde15ad70d6155cd548f9a22b73b499e8fcded9734c7163af2e6845276ae",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ky/ky-void-seal-marijuana-synthetic-salvia-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "1c5f49b9b7b83407afc3f0419ed32387743aff25a2dd68d921bd2cadc303d427",
+            "sha256Now": "1c5f49b9b7b83407afc3f0419ed32387743aff25a2dd68d921bd2cadc303d427",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ma-expunge-time-set",
@@ -2665,13 +3557,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2680,7 +3571,38 @@
         "verifierId": "vf11",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007",
+            "sha256Now": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665",
+            "sha256Now": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "me-screening-set",
@@ -2696,12 +3618,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2710,7 +3631,38 @@
         "verifierId": "vf12",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/me/me-screening-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "18921d618fb4a51d970ea9c5d40d427d364f42f87727c9824c21442f747fcef5",
+            "sha256Now": "18921d618fb4a51d970ea9c5d40d427d364f42f87727c9824c21442f747fcef5",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/me/me-screening-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "421d3ab97ca8ba4c2cb7dfa678a3d88fb0f1bc0f9e92486ee7e4dfafb3c8da56",
+            "sha256Now": "421d3ab97ca8ba4c2cb7dfa678a3d88fb0f1bc0f9e92486ee7e4dfafb3c8da56",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "me-seal-prost-set",
@@ -2790,12 +3742,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2804,7 +3755,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "24994ff7f637bf66617c748c9096351e241af0c39ecfb0c39245dc363ec6464a",
+            "sha256Now": "24994ff7f637bf66617c748c9096351e241af0c39ecfb0c39245dc363ec6464a",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "7144fd5bf4c61cac0159ddb9a519d4a0e53ae931f8c1dbb150c069b7d570820c",
+            "sha256Now": "7144fd5bf4c61cac0159ddb9a519d4a0e53ae931f8c1dbb150c069b7d570820c",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ms-diversion-set",
@@ -2814,6 +3796,66 @@
         "obligation:unit:MS:ms-diversion:ms-diversion-pti-expungement-petition"
       ],
       "routeCount": 2,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf11",
+        "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557"
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-diversion-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "4d4923f05553c92b885056e5ba6e97cb631e04df3f55e0c45366351b6e8f7bcb",
+            "sha256Now": "4d4923f05553c92b885056e5ba6e97cb631e04df3f55e0c45366351b6e8f7bcb",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-diversion-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "7d39bd412a5db6dd80c54c2d3f6dcc06b4927221eb8aa54e753ba05b01cc7938",
+            "sha256Now": "7d39bd412a5db6dd80c54c2d3f6dcc06b4927221eb8aa54e753ba05b01cc7938",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "ms-fel-set",
+      "jurisdiction": "MS",
+      "routeKeys": [
+        "obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71"
+      ],
+      "routeCount": 1,
       "deliveryType": "custom_pleading",
       "checks": {
         "packetProven": true,
@@ -2832,8 +3874,8 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf11",
-        "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557"
+        "verifierId": "c28-independent-verification-ms-fel-sc-summary",
+        "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa"
       },
       "legalApproval": null
     },
@@ -2851,13 +3893,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2866,7 +3907,38 @@
         "verifierId": "vf02",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+            "sha256Now": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+            "sha256Now": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ms-misd-addl-set",
@@ -2883,12 +3955,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2897,7 +3968,38 @@
         "verifierId": "vf01",
         "verifiedAtBase": "cd48fc14e"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+            "sha256Now": "7878f2c0d297bf272eb166820505996ba32976a174b8019140ee83728bf3cd3c",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+            "sha256Now": "96c13766362702101176e205e7cea1bd39a9305fe175f703ece4e5241680a3c5",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ms-nonadj-set",
@@ -2913,12 +4015,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2927,7 +4028,38 @@
         "verifierId": "vf04",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "b3488303e6e8ab6e344bb4ef96c9533c5adc1db5d04a2a66707d11f3e2d72527",
+            "sha256Now": "b3488303e6e8ab6e344bb4ef96c9533c5adc1db5d04a2a66707d11f3e2d72527",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "3c016942a2891e2b300a33247ec119ee2efce7e129c3ae0991d773152fba47de",
+            "sha256Now": "3c016942a2891e2b300a33247ec119ee2efce7e129c3ae0991d773152fba47de",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ms-nonconv-set",
@@ -2943,13 +4075,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -2958,7 +4089,38 @@
         "verifierId": "vf03",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "4ae768075a7f5aa534813a2303b24260e2b08308c0f3c7f18a4cc21531812ecf",
+            "sha256Now": "4ae768075a7f5aa534813a2303b24260e2b08308c0f3c7f18a4cc21531812ecf",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "c52fc25286a857e49767228c88647f6b8f9364cff08dd4354fd8750294dffa13",
+            "sha256Now": "c52fc25286a857e49767228c88647f6b8f9364cff08dd4354fd8750294dffa13",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
@@ -3005,12 +4167,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3019,7 +4180,38 @@
         "verifierId": "vf04",
         "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1",
+            "sha256Now": "8d6c31287e83b99aa8a78568bab7aff0b8eb50efdf59f65c0de5ded7a20c9bf1",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/nd/nd-deferred-imposition-records-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29",
+            "sha256Now": "c972e9582608a156bd8ab7b1792d66c829edb8c93a50c1be28f5fcf526134a29",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "nd-nonconviction-close-petition-set",
@@ -3065,12 +4257,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3079,7 +4270,38 @@
         "verifierId": "vf08",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ne/ne-seal-enforcement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "611825ac4bd05fb2a1332f7a5c575bbab767c40c605c9320237d511dfc8ef9f2",
+            "sha256Now": "611825ac4bd05fb2a1332f7a5c575bbab767c40c605c9320237d511dfc8ef9f2",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ne/ne-seal-enforcement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "ffe65671c6035dede3a79b1c7a99e87640af699de99520a58eb33743cd8462a7",
+            "sha256Now": "ffe65671c6035dede3a79b1c7a99e87640af699de99520a58eb33743cd8462a7",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ne-setaside-custodial-set",
@@ -3216,12 +4438,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3230,7 +4451,38 @@
         "verifierId": "vf09",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/nv/nv-repository-removal-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "4fa967de12c8220baa4808970311abc1ba399b9760304925558ec0def9beefeb",
+            "sha256Now": "4fa967de12c8220baa4808970311abc1ba399b9760304925558ec0def9beefeb",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/nv/nv-repository-removal-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "fc65671f4c17927097e1037cee4e7e4a93d1676ca3c21c0e0206db6487138ab0",
+            "sha256Now": "fc65671f4c17927097e1037cee4e7e4a93d1676ca3c21c0e0206db6487138ab0",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "nv_seal_probation_family-set",
@@ -3246,12 +4498,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3260,7 +4511,38 @@
         "verifierId": "vf10",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+            "sha256Now": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+            "sha256Now": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "ny_160_59_petition-set",
@@ -3386,6 +4668,10 @@
         "legalDecisionOwner": "Roger Roman",
         "legalDecisionEffectiveDate": "2026-08-19",
         "requiresSignature": false,
+        "approvalSource": "august_completed_output_approval",
+        "approvalCurrent": true,
+        "ownerQualification": null,
+        "shippingArtifactDigestPins": null,
         "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
         "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ga-guidance-implementation.json",
         "packetProofSha256Recorded": "407b05a4ac9555d5f544d3c6ef19fcb61bba306629870fadd906f9a2e1079621",
@@ -3406,7 +4692,7 @@
       "deliveryType": "custom_pleading",
       "checks": {
         "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": true,
+        "verdictCurrentAndDeclaresItsBase": false,
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
@@ -3415,13 +4701,14 @@
         "noHoldApplies": true
       },
       "unmetConditions": [
+        "verdictCurrentAndDeclaresItsBase",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf36",
-        "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b"
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifierId": "vf04",
+        "verifiedAtBase": "9c2b39327f8fe8f9594ee143b1ff11fbcc879c00"
       },
       "legalApproval": {
         "legalApprovalResult": "approved_by_decision_owner",
@@ -3429,6 +4716,10 @@
         "legalDecisionOwner": "Roger Roman",
         "legalDecisionEffectiveDate": "2026-08-19",
         "requiresSignature": false,
+        "approvalSource": "august_completed_output_approval",
+        "approvalCurrent": true,
+        "ownerQualification": null,
+        "shippingArtifactDigestPins": null,
         "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
         "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-ms-custom-pleading.json",
         "packetProofSha256Recorded": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544",
@@ -3447,7 +4738,7 @@
       "deliveryType": "custom_pleading",
       "checks": {
         "packetProven": true,
-        "verdictCurrentAndDeclaresItsBase": true,
+        "verdictCurrentAndDeclaresItsBase": false,
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
@@ -3456,13 +4747,14 @@
         "noHoldApplies": true
       },
       "unmetConditions": [
+        "verdictCurrentAndDeclaresItsBase",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
       "independentVerification": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "verifierId": "vf05",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b"
+        "verdict": "BLOCKED_BEFORE_CLAIM",
+        "verifierId": "vf02",
+        "verifiedAtBase": "f3c6ee4339f137798bba6d18ac8edc2f0693af88"
       },
       "legalApproval": {
         "legalApprovalResult": "approved_by_decision_owner",
@@ -3470,6 +4762,10 @@
         "legalDecisionOwner": "Roger Roman",
         "legalDecisionEffectiveDate": "2026-08-19",
         "requiresSignature": false,
+        "approvalSource": "august_completed_output_approval",
+        "approvalCurrent": true,
+        "ownerQualification": null,
+        "shippingArtifactDigestPins": null,
         "adoptedLegalDesignRecord": "EXT-ADOPT-01-standing-external-counsel-adoption",
         "packetProofPath": "data/record-clearing/production-factory/packet-proofs/rcap-wv-custom-pleading.json",
         "packetProofSha256Recorded": "098682331ecb99ce61ff6492df53808679b6771845de00f7fb7d3c61089618f9",
@@ -3493,13 +4789,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3507,6 +4802,68 @@
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf12",
         "verifiedAtBase": null
+      },
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "79bcf52eb9014313303adc20c37ec9d20d127de1dd28e5b738f2c823f0eba8f0",
+            "sha256Now": "79bcf52eb9014313303adc20c37ec9d20d127de1dd28e5b738f2c823f0eba8f0",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/ri/ri-marijuana-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "fc9c6c8ae3934798ba7dd5eff9bf58629da65a390ba9cf0318032f8b37945312",
+            "sha256Now": "fc9c6c8ae3934798ba7dd5eff9bf58629da65a390ba9cf0318032f8b37945312",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
+    },
+    {
+      "familyId": "sc_17_22_950_summary-set",
+      "jurisdiction": "SC",
+      "routeKeys": [
+        "obligation:unit:SC:sc_17_22_950_summary:sc-17-22-950-unit-a-fingerprinted-automatic",
+        "obligation:unit:SC:sc_17_22_950_summary:sc-17-22-950-unit-b-unfingerprinted-application"
+      ],
+      "routeCount": 2,
+      "deliveryType": "official_pdf_fill",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": false,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "coveredByAnExistingOwnerApproval",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "c28-independent-verification-ms-fel-sc-summary",
+        "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa"
       },
       "legalApproval": null
     },
@@ -3572,13 +4929,13 @@
       "legalApproval": null
     },
     {
-      "familyId": "va_exp_absolute_pardon-set",
-      "jurisdiction": "VA",
+      "familyId": "ut_pet_traffic-set",
+      "jurisdiction": "UT",
       "routeKeys": [
-        "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now"
+        "obligation:track-pathway:UT:ut_pet_traffic:path-i-traffic-offense-expungement-or-deletion"
       ],
       "routeCount": 1,
-      "deliveryType": "custom_pleading",
+      "deliveryType": "official_pdf_fill",
       "checks": {
         "packetProven": true,
         "verdictCurrentAndDeclaresItsBase": true,
@@ -3596,10 +4953,70 @@
       "inCohort": false,
       "independentVerification": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "current-byte-independent-verification-ut-pet-traffic-c28d49571",
+        "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa"
+      },
+      "legalApproval": null
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "jurisdiction": "VA",
+      "routeKeys": [
+        "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now"
+      ],
+      "routeCount": 1,
+      "deliveryType": "custom_pleading",
+      "checks": {
+        "packetProven": true,
+        "verdictCurrentAndDeclaresItsBase": true,
+        "rasterReceiptStillBindsTheBytes": true,
+        "routeToFamilyBindingExact": true,
+        "sourceIdentityComplete": true,
+        "coveredByAnExistingOwnerApproval": true,
+        "noSubstantiveLegalChangeSinceThatApproval": false,
+        "noHoldApplies": true
+      },
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false,
+      "independentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "verifierId": "vf12",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+            "sha256Now": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+            "sha256Now": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "va_exp_identity_used_by_another-set",
@@ -3615,12 +5032,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3629,7 +5045,38 @@
         "verifierId": "vf08",
         "verifiedAtBase": "f1cb31429"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4",
+            "sha256Now": "e01f67987b25265e945bf774750a5af8a10f2360cad8790ca6bbbd116fc099b4",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/va/va-exp-identity-used-by-another-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66",
+            "sha256Now": "eb054b41c4548fd97bd5ab8fcf368b4cdc9d3ac3d43e98b6e6c271b362376f66",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "va_exp_nonconviction-set",
@@ -3769,13 +5216,12 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
         "verdictCurrentAndDeclaresItsBase",
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3784,7 +5230,38 @@
         "verifierId": "vf10",
         "verifiedAtBase": null
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "b4e5975feb1e5727502cf876d0265157e65b94b56769a3cf5a1ae9abd284f96d",
+            "sha256Now": "b4e5975feb1e5727502cf876d0265157e65b94b56769a3cf5a1ae9abd284f96d",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "f8c1e0b0e58e3fd7f39f821ddf5dc7427c9f4b56202f881b97fae5a0f1b01f04",
+            "sha256Now": "f8c1e0b0e58e3fd7f39f821ddf5dc7427c9f4b56202f881b97fae5a0f1b01f04",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "vt_seal_18_to_21-set",
@@ -3950,12 +5427,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -3964,7 +5440,38 @@
         "verifierId": "vf06",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/wa/wa-crop-certificate-of-restoration-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "44d858039dfd15ea013f3d3d431cc74d277d3b8a59d2a12f7edde490808678c9",
+            "sha256Now": "44d858039dfd15ea013f3d3d431cc74d277d3b8a59d2a12f7edde490808678c9",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/wa/wa-crop-certificate-of-restoration-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "9eecfba4d9b8ba5d5ed0feba913e46ffd18a98f708038616a624701130ab8288",
+            "sha256Now": "9eecfba4d9b8ba5d5ed0feba913e46ffd18a98f708038616a624701130ab8288",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "wa_vac_cannabis-set",
@@ -4221,12 +5728,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -4235,7 +5741,38 @@
         "verifierId": "vf08",
         "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "07da2172ae350c39e0a70dcf9cc405eb1d161e80e71505dfdd0acae5483dbfc9",
+            "sha256Now": "07da2172ae350c39e0a70dcf9cc405eb1d161e80e71505dfdd0acae5483dbfc9",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "69d9be37bb0b0eaa8f7a0aff7670144bfe0341ce46c9e2302cc646ccbdeeb44c",
+            "sha256Now": "69d9be37bb0b0eaa8f7a0aff7670144bfe0341ce46c9e2302cc646ccbdeeb44c",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     },
     {
       "familyId": "wy_fel_1502-set",
@@ -4251,12 +5788,11 @@
         "rasterReceiptStillBindsTheBytes": true,
         "routeToFamilyBindingExact": true,
         "sourceIdentityComplete": true,
-        "coveredByAnExistingOwnerApproval": false,
+        "coveredByAnExistingOwnerApproval": true,
         "noSubstantiveLegalChangeSinceThatApproval": false,
         "noHoldApplies": true
       },
       "unmetConditions": [
-        "coveredByAnExistingOwnerApproval",
         "noSubstantiveLegalChangeSinceThatApproval"
       ],
       "inCohort": false,
@@ -4265,7 +5801,38 @@
         "verifierId": "vf09",
         "verifiedAtBase": "8b8699c2a63fcd7fdb3bade119f259653840eae5"
       },
-      "legalApproval": null
+      "legalApproval": {
+        "legalApprovalResult": "ADOPT",
+        "legalDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+        "legalDecisionOwner": "Roger Roman",
+        "legalDecisionEffectiveDate": "2026-09-02",
+        "requiresSignature": false,
+        "approvalSource": "september_exact_digest_adoption",
+        "approvalCurrent": true,
+        "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "shippingArtifactDigestPins": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+            "sha256Now": "3dcdbc4ec3d9f08b6c6302b84f254663aa9302a4f712d7451000e2ecda302e30",
+            "current": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+            "sha256Now": "703e8d3202e8ecc45aefc000346d65db8bec60ae2b9f1e8ce34796e97400f800",
+            "current": true
+          }
+        ],
+        "adoptedLegalDesignRecord": null,
+        "packetProofPath": null,
+        "packetProofSha256Recorded": null,
+        "packetProofSha256Now": null,
+        "legalDesignMemoSha256Recorded": null,
+        "legalDesignMemoSha256Now": null
+      }
     }
   ]
 }
