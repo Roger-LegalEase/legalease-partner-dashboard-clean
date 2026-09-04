@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `d1e6ad9ac8040b0503f1e66402dcd880a3866b01` (or the newer dispatch base)
+**Minimum required ancestor:** `d60aa409312c7258e92d6b9b7d7409c945197ea1` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'al-felony-nonconviction-90-set' \
   --codex-cloud \
-  --minimum-captain-sha d1e6ad9ac8040b0503f1e66402dcd880a3866b01
+  --minimum-captain-sha d60aa409312c7258e92d6b9b7d7409c945197ea1
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -44,10 +44,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'il-seal-edu-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'az_marijuana_expungement_arrest_no_charges-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'in_section1_petition-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-wa-custom-pleading-clean-tracks'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ut_pet_dismissed_with_prejudice-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'wv_conv_single_misdemeanor-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'in_arrest_no_charges-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-tx-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ut_pet_acquittal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'wv_conv_multiple_misdemeanors-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -72,10 +72,10 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief`
 - `il-seal-edu-set`
 - `az_marijuana_expungement_arrest_no_charges-set`
-- `in_section1_petition-set`
-- `rcap-wa-custom-pleading-clean-tracks`
-- `ut_pet_dismissed_with_prejudice-set`
-- `wv_conv_single_misdemeanor-set`
+- `in_arrest_no_charges-set`
+- `rcap-tx-custom-pleading`
+- `ut_pet_acquittal-set`
+- `wv_conv_multiple_misdemeanors-set`
 
 ## What you receive
 
@@ -93,18 +93,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/**`
 - `scripts/build-census-v1-al-felony-nonconviction-90-set.mjs`
 - `scripts/build-census-v1-ar-pardon-seal-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs`
 - `scripts/build-census-v1-il-seal-edu-set.mjs`
-- `scripts/build-census-v1-in_section1_petition-set.mjs`
-- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
-- `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
-- `scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs`
+- `scripts/build-census-v1-in_arrest_no_charges-set.mjs`
+- `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
 
 ## Never write here
 
