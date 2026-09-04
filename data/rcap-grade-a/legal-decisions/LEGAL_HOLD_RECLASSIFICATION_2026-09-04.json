@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "rcap-legal-hold-reclassification/v1",
+  "decisionOwner": "Roger Roman",
+  "confirmedOn": "2026-09-04",
+  "recordedAtCaptainSha": "f11fe46961ad4c4925c914874c96ef396b0ac398",
+  "whatThisDoes": "Reclassifies the named stale LEGAL_BLOCKED projections from evidence already committed. It preserves every owner decision and verifier return, grants no PASS, and opens no route.",
+  "families": [
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "OWNER_CORRECTION_REQUIRED",
+      "ownerCorrection": "Q7-required-component-deliberately-absent",
+      "requiredComponent": "in_infraction_nondisclosure-primary-filing-2",
+      "repairCommit": "417f6d281b3dfae3176e6f9ee63202b73d75a46c",
+      "repairEvidence": {
+        "builder": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
+        "dependencyRecord": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+        "renderedArtifacts": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/reports/rendered-artifacts.json",
+        "componentSet": [
+          "in_infraction_nondisclosure-process-guidance-1",
+          "in_infraction_nondisclosure-primary-filing-2"
+        ],
+        "canonical": {
+          "sha256": "42561798f77784f77ff76defad21ebc6c867fbeafe1f724c9140b27937fd5a49",
+          "byteLength": 12874,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "4a6285024e1fa6e64604acab113d0b6f98dd2df04809fec4a75e244a36859e5a",
+          "byteLength": 12938,
+          "pageCount": 4
+        }
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf07",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+        "bindsCurrentBytes": false,
+        "why": "The verifier base is an ancestor of the repair commit, so it read the former guidance-only two-page packet rather than the repaired four-page packet."
+      },
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The required component is built and both deterministic fixtures pass the focused completeness audit, but no independent verifier has read the post-repair bytes."
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
