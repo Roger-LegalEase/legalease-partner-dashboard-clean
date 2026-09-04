@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-targeted-source-receipt-clarification/v1",
+  "batchId": "source-acquisition-28-families-2026-09-04",
+  "sourceId": "DE-FORM-281",
+  "clarificationStatus": "captain_stop_resolved",
+  "sourceBinary": {
+    "sha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+    "byteLength": 97280,
+    "mimeType": "application/msword",
+    "originalFilename": "281 - petition for expungement of adult record 11192025.doc"
+  },
+  "dateProvenance": {
+    "issuerCatalogRevisionDate": {
+      "value": "2025-11-26",
+      "displayValue": "11/26/2025",
+      "source": "Delaware Courts forms index, Expungement of Criminal Records, row 281",
+      "officialLandingPage": "https://courts.delaware.gov/forms/list.aspx?sec=Forms&sub=Expungement+of+Criminal+Records",
+      "meaning": "Issuer catalog revision date; not text printed in the form and not independently established as the form's legal effective date."
+    },
+    "printedRevision": {
+      "value": "Rev 11/25",
+      "source": "Issuer-original Form 281 binary footer",
+      "meaning": "Revision notation printed on the form itself."
+    },
+    "issuerFilenameDate": {
+      "value": "2025-11-19",
+      "rawToken": "11192025",
+      "source": "Issuer Content-Disposition filename",
+      "meaning": "Date embedded in the issuer filename; preserve separately from the catalog and printed revision fields."
+    },
+    "oleLastSavedDate": {
+      "value": "2025-11-19",
+      "source": "Compound-document metadata in the retained issuer-original .doc",
+      "meaning": "Document last-saved date; corroborates the filename date but is not the printed revision."
+    },
+    "legalEffectiveDate": null
+  },
+  "resolution": {
+    "priorReceiptValue": "11/26/2025",
+    "priorReceiptField": "expectedRevisionOrEffectiveDate",
+    "decision": "The value is supported by the current official Delaware Courts forms index as the catalog revision date. It does not conflict with the form's printed 'Rev 11/25' notation because the two dates describe different metadata layers.",
+    "authoritativeIntegrationRule": [
+      "Preserve issuerCatalogRevisionDate as 2025-11-26.",
+      "Preserve printedRevision exactly as 'Rev 11/25'.",
+      "Preserve issuerFilenameDate as 2025-11-19 when the schema supports filename provenance.",
+      "Do not overwrite the printed revision with the catalog date.",
+      "Do not call 2025-11-26 a legal effective date unless separate issuer authority establishes that meaning."
+    ],
+    "captainMayProceed": true
+  },
+  "immutableEvidenceRule": "The promoted primary artifact and its original receipt remain unchanged as acquisition-time evidence. This clarification is the controlling integration overlay for DE-FORM-281 date fields.",
+  "recordedAt": "2026-09-04T12:27:10Z"
+}
