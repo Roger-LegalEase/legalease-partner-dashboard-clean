@@ -56,6 +56,7 @@ const MS_CLINIC_ARTIFACTS = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-de
 const MS_CLINIC_RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json";
 const FIRST_COHORT_RETURN = "data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json";
 const FIRST_COHORT_EVIDENCE_COMMIT = "ff9705a240c004ed7b9d2f022113abe865442d3f";
+const FIRST_COHORT_RETURN_SHA256 = "96157e584ba2d801f1ba78456bcf08463ad05982dbcc9b2ad5b8735913e649a7";
 const OWNER_BATCH_ADOPTION = "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json";
 const OWNER_BATCH_ADOPTION_ID = "OWN-ADOPT-2026-09-02-BATCH-53";
 const POST_APPROVAL_AUDIT = "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json";
@@ -75,6 +76,56 @@ const PROJECTION_OUT = "data/rcap-grade-a/fulfillment-authority-projection.json"
 const CANDIDATE_JURISDICTIONS = ["ND", "OR"];
 const MS_CLINIC_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
+const CODIFIED_AUTHORITY_CONTRACT = "rcap-codified-authority-bound-inputs/v1";
+const INDEPENDENT_FINAL_VERIFICATION_CONTRACT = "rcap-independent-packet-final-verification/v1";
+const CODIFIED_COMMON_INPUTS = {
+  packetSet: {
+    path: "data/record-clearing/legal-design-packet-set-manifests.json",
+    sha256: "716317177e7b176e191b0d4d6c4a8236fa197bd0a8546e4b636befe068b13168"
+  },
+  legal: {
+    path: OWNER_BATCH_ADOPTION,
+    sha256: "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3"
+  }
+};
+const CODIFIED_TRACK_INPUTS = {
+  DC: {
+    path: "data/record-clearing/legal-design-intake/DC.memo.json",
+    sha256: "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
+  },
+  MS: {
+    path: "data/record-clearing/legal-design-intake/MS.memo.json",
+    sha256: "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
+  },
+  WY: {
+    path: "data/record-clearing/legal-design-intake/WY.memo.json",
+    sha256: "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
+  }
+};
+const FIRST_COHORT_VERIFICATION = {
+  "dc_innocence_expungement-set": {
+    lane: "vf04",
+    verifiedAtBase: "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
+    rowSha256: "f2bccfbdf8b9c6e96bd1afe4127115c0a899042edd442811d1db4d7ea4d64314",
+    evidencePath: "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+    evidenceRowSha256: "baaf498dd7676c19cd1b36a798cf006507b2b0de48a2a33555d1ca40705adc59"
+  },
+  "ms-misd-addl-set": {
+    lane: "vf01",
+    verifiedAtBase: "cd48fc14e",
+    rowSha256: "89da20f7f45e96c0460160df03bb0311a22f98273bbd3177d1b6594c6bef3e50",
+    evidencePath: "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+    evidenceRowSha256: "52d688aaed44fd2ba9145e06ad3798304999f0da3002c3e3eb6e7ee430186063"
+  },
+  "wy_fel_1502-set": {
+    lane: "vf09",
+    verifiedAtBase: "8b8699c2a63fcd7fdb3bade119f259653840eae5",
+    rowSha256: "a98c5d64a6b324b6bbd3941bc0815570bc7677dbb9d9cc3e9b7601938858462f",
+    evidencePath: "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+    evidenceRowSha256: "956c4c7edcf042f5ee7f05d45fd6d011795ae4943e4aace7e4240659dddbdc86"
+  }
+};
+
 // This is an enumerated scope, not a jurisdiction allow-list. The two
 // Mississippi routes deliberately share one family and one specification, but
 // each receives its own authority record so neither can act as a wildcard for
@@ -90,7 +141,8 @@ const FIRST_COHORT_ROUTES = [
       "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
       "scripts/build-census-v1-dc_seal_nonconviction-set.mjs"
     ],
-    overlayRoot: "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading"
+    overlayRoot: "data/rcap-all50/overlays/census-v1/dc/dc-innocence-expungement-set--custom-pleading",
+    verification: FIRST_COHORT_VERIFICATION["dc_innocence_expungement-set"]
   },
   {
     assignmentClaim: "obligation:track-pathway:MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
@@ -99,7 +151,8 @@ const FIRST_COHORT_ROUTES = [
     specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
     builderPath: "scripts/build-census-v1-ms-misd-addl-set.mjs",
     providerPaths: ["scripts/build-census-v1-ms-misd-addl-set.mjs"],
-    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading"
+    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading",
+    verification: FIRST_COHORT_VERIFICATION["ms-misd-addl-set"]
   },
   {
     assignmentClaim: "obligation:track-pathway:MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
@@ -108,7 +161,8 @@ const FIRST_COHORT_ROUTES = [
     specificationPath: "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
     builderPath: "scripts/build-census-v1-ms-misd-addl-set.mjs",
     providerPaths: ["scripts/build-census-v1-ms-misd-addl-set.mjs"],
-    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading"
+    overlayRoot: "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading",
+    verification: FIRST_COHORT_VERIFICATION["ms-misd-addl-set"]
   },
   {
     assignmentClaim: "obligation:track-pathway:WY:felony-conviction-expungement-w-s-7-13-1502",
@@ -117,7 +171,8 @@ const FIRST_COHORT_ROUTES = [
     specificationPath: "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
     builderPath: "scripts/build-census-v1-wy_fel_1502-set.mjs",
     providerPaths: ["scripts/build-census-v1-wy_fel_1502-set.mjs"],
-    overlayRoot: "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading"
+    overlayRoot: "data/rcap-all50/overlays/census-v1/wy/wy-fel-1502-set--custom-pleading",
+    verification: FIRST_COHORT_VERIFICATION["wy_fel_1502-set"]
   }
 ];
 
@@ -295,6 +350,10 @@ const firstCohortCommittedReturnBytes = readGitBlob(FIRST_COHORT_EVIDENCE_COMMIT
 requireEvidence(
   sha256(firstCohortReturnBytes) === sha256(firstCohortCommittedReturnBytes),
   `${FIRST_COHORT_RETURN} is not byte-identical to ${FIRST_COHORT_EVIDENCE_COMMIT}`
+);
+requireEvidence(
+  sha256(firstCohortReturnBytes) === FIRST_COHORT_RETURN_SHA256,
+  `${FIRST_COHORT_RETURN} no longer has the exact admitted first-cohort digest`
 );
 const firstCohortReturn = JSON.parse(firstCohortReturnBytes.toString("utf8"));
 requireEvidence(
@@ -867,6 +926,154 @@ function mississippiClinicCandidateRecord() {
   return record;
 }
 
+function exactSourceIdentity(specification, kind, routeId) {
+  const matches = (specification.sourceIdentities ?? []).filter((entry) => entry.kind === kind);
+  requireEvidence(matches.length === 1, `${routeId} must name exactly one ${kind} source identity`);
+  return matches[0];
+}
+
+/**
+ * Bind a zero-official-binary custom pleading to the committed authority that
+ * actually governs its words. This is not an official-form receipt. The
+ * `sourceKind` discriminator and the explicit null officialBinarySource keep
+ * that distinction machine-readable even though the v2 authority's legacy
+ * source collection is still named `officialSources`.
+ */
+function codifiedAuthorityProof({
+  routeId,
+  familyId,
+  jurisdiction,
+  specificationPath,
+  specification,
+  specificationBytes,
+  sourceReceiptPath,
+  verification
+}) {
+  const sourceReceiptBytes = readEvidenceBytes(sourceReceiptPath);
+  const sourceReceipt = JSON.parse(sourceReceiptBytes.toString("utf8"));
+  requireEvidence(sourceReceipt.familyId === familyId, `${sourceReceiptPath} names a different family`);
+  requireEvidence(sourceReceipt.implementationStrategy === "custom_pleading", `${sourceReceiptPath} is not a custom-pleading receipt`);
+  requireEvidence(sourceReceipt.sourceBinaryCommitted === false, `${sourceReceiptPath} claims a source binary was committed`);
+  requireEvidence(sourceReceipt.commercialRoutesOpened === 0, `${sourceReceiptPath} claims a commercial route was opened`);
+
+  const includedReceiptBinaries = (sourceReceipt.documents ?? []).filter((document) =>
+    document.instrumentKind !== "bound_reference_instrument"
+      || !/not included/i.test(document.role ?? "")
+  );
+  requireEvidence(
+    includedReceiptBinaries.length === 0,
+    `${sourceReceiptPath} includes a binary source and cannot use codified authority`
+  );
+
+  const officialBinarySpecificationDocuments = (specification.documents ?? []).filter((document) =>
+    document.outputStrategy === "official_pdf_fill"
+      || Boolean(document.officialFormId)
+      || Boolean(document.officialSourceId)
+      || Boolean(document.sourcePdfPath)
+  );
+  requireEvidence(
+    officialBinarySpecificationDocuments.length === 0,
+    `${specificationPath} requires an official PDF component and cannot use codified authority`
+  );
+  requireEvidence(
+    (specification.documents ?? []).some((document) => document.outputStrategy === "custom_pleading"),
+    `${specificationPath} has no custom pleading to ground in codified authority`
+  );
+
+  const packetSet = packetSetById.get(specification.packetSetId) ?? null;
+  requireEvidence(packetSet?.packetSetId === familyId, `${specificationPath} does not bind packet set ${familyId}`);
+  const officialBinaryManifestComponents = (packetSet.components ?? []).filter((component) =>
+    component.outputStrategy === "official_pdf_fill" || Boolean(component.officialFormId)
+  );
+  requireEvidence(
+    officialBinaryManifestComponents.length === 0,
+    `${familyId} has an official PDF component and cannot use codified authority`
+  );
+
+  const trackIdentity = exactSourceIdentity(specification, "legal_design_intake_track", routeId);
+  const packetSetIdentity = exactSourceIdentity(specification, "owner_approved_packet_set_manifest", routeId);
+  const legalIdentity = exactSourceIdentity(specification, "owner_exact_digest_adoption", routeId);
+  const trackExpected = CODIFIED_TRACK_INPUTS[jurisdiction];
+  requireEvidence(trackExpected, `${routeId} has no admitted codified track input`);
+  requireEvidence(trackIdentity.location === trackExpected.path, `${routeId} names a different track-authority path`);
+  requireEvidence(packetSetIdentity.location === CODIFIED_COMMON_INPUTS.packetSet.path, `${routeId} names a different packet-set authority path`);
+  requireEvidence(legalIdentity.location === CODIFIED_COMMON_INPUTS.legal.path, `${routeId} names a different legal-authority path`);
+  requireEvidence(legalIdentity.sourceId === OWNER_BATCH_ADOPTION_ID, `${routeId} names a different legal authority`);
+
+  const trackBytes = readEvidenceBytes(trackExpected.path);
+  const packetSetBytes = readEvidenceBytes(CODIFIED_COMMON_INPUTS.packetSet.path);
+  const legalBytes = readEvidenceBytes(CODIFIED_COMMON_INPUTS.legal.path);
+  requireEvidence(sha256(trackBytes) === trackExpected.sha256, `${trackExpected.path} moved after the admitted current digest`);
+  requireEvidence(sha256(packetSetBytes) === CODIFIED_COMMON_INPUTS.packetSet.sha256, `${CODIFIED_COMMON_INPUTS.packetSet.path} moved after the admitted current digest`);
+  requireEvidence(sha256(legalBytes) === CODIFIED_COMMON_INPUTS.legal.sha256, `${CODIFIED_COMMON_INPUTS.legal.path} moved after the admitted current digest`);
+
+  const trackDocument = JSON.parse(trackBytes.toString("utf8"));
+  requireEvidence(
+    (trackDocument.tracks ?? []).some((track) => track.trackId === specification.trackId && track.outputStrategy === "custom_pleading"),
+    `${trackExpected.path} has no exact custom-pleading track ${specification.trackId}`
+  );
+
+  const boundInputs = {
+    contract: CODIFIED_AUTHORITY_CONTRACT,
+    routeId,
+    familyId,
+    trackId: specification.trackId,
+    packetSetId: specification.packetSetId,
+    implementationStrategy: "custom_pleading",
+    officialBinaryComponentsExpected: false,
+    classificationEvidence: {
+      path: sourceReceiptPath,
+      sha256: sha256(sourceReceiptBytes)
+    },
+    authorityInputs: [
+      {
+        role: "track_authority",
+        sourceId: trackIdentity.sourceId,
+        path: trackExpected.path,
+        sha256: trackExpected.sha256
+      },
+      {
+        role: "legal_authority",
+        sourceId: OWNER_BATCH_ADOPTION_ID,
+        path: CODIFIED_COMMON_INPUTS.legal.path,
+        sha256: CODIFIED_COMMON_INPUTS.legal.sha256
+      },
+      {
+        role: "packet_set_authority",
+        sourceId: packetSetIdentity.sourceId,
+        path: CODIFIED_COMMON_INPUTS.packetSet.path,
+        sha256: CODIFIED_COMMON_INPUTS.packetSet.sha256
+      },
+      {
+        role: "packet_specification_authority",
+        sourceId: `${specification.specificationId}@${specification.specificationVersion}`,
+        path: specificationPath,
+        sha256: sha256(specificationBytes)
+      }
+    ]
+  };
+  const boundInputsSha256 = sha256(stableStringify(boundInputs));
+
+  return {
+    sourceKind: "codified_authority",
+    sourceId: `codified-authority:${familyId}:${routeId}`,
+    sha256: boundInputsSha256,
+    expectedSha256: boundInputsSha256,
+    installedSha256: boundInputsSha256,
+    // Explicit sentinels, not invented corpus or binary identities. The
+    // observation generator mirrors them only for codified-authority records.
+    corpusReleaseId: "not_applicable:codified_authority",
+    corpusArchiveSha256: "not_applicable:codified_authority",
+    verifiedAt: `base:${verification.verifiedAtBase}`,
+    verificationRecord: sourceReceiptPath,
+    officialBinaryExpected: false,
+    officialBinarySource: null,
+    contract: CODIFIED_AUTHORITY_CONTRACT,
+    boundInputs,
+    boundInputsSha256
+  };
+}
+
 /**
  * Candidate authority for one of the four already-productized first-cohort
  * routes. The packet factory proves a family; this function deliberately
@@ -876,12 +1083,14 @@ function mississippiClinicCandidateRecord() {
  * The owner adoption is legal/output evidence for the exact pinned bytes only.
  * Its own qualification says it grants no runtime or commercial authority, and
  * the raster and independent-verification receipts say the same. Those proofs
- * are therefore bound here without being promoted into either an official
- * source proof or a participant final verification. Both remain open gates.
+ * are bound here to their exact current rows and artifact inputs. The source
+ * gate is satisfied only through an explicitly discriminated codified-authority
+ * proof after both the specification and packet-set components prove that no
+ * official PDF is required.
  */
 function firstCohortCandidateRecord(definition) {
   const {
-    assignmentClaim, routeId, familyId, specificationPath, builderPath, providerPaths, overlayRoot
+    assignmentClaim, routeId, familyId, specificationPath, builderPath, providerPaths, overlayRoot, verification
   } = definition;
   const jurisdiction = routeId.slice(0, routeId.indexOf(":"));
   const pathwayId = routeId.slice(routeId.indexOf(":") + 1);
@@ -956,13 +1165,35 @@ function firstCohortCandidateRecord(definition) {
     requireEvidence(audited?.pageCountNow === artifact.pageCount, `${familyId} audit has a different ${artifact.fixture} page count`);
   }
 
+  const currentVerifierRows = (verifierReturns.rows ?? [])
+    .filter((entry) => entry.familyId === familyId && entry.superseded === false);
+  requireEvidence(currentVerifierRows.length === 1, `${familyId} must have exactly one current independent-verification registry row`);
   const verifier = verifierByFamily.get(familyId) ?? null;
   requireEvidence(verifier?.verdict === "PASS_COMPLETE_INDEPENDENT", `${familyId} has no current independent complete verdict`);
   requireEvidence(verifier?.isIndependentVerification === true, `${familyId} current verdict is not independent`);
   requireEvidence(verifier?.superseded === false, `${familyId} current independent verdict is superseded`);
   requireEvidence(verifier?.failedObligations?.length === 0 && verifier?.unmeasuredObligations?.length === 0, `${familyId} current independent verdict still has proof gaps`);
+  requireEvidence(Boolean(verifier?.verifiedAtBase), `${familyId} current independent verdict declares no verified base`);
+  requireEvidence(verifier.lane === verification.lane, `${familyId} current independent verdict comes from ${verifier.lane}, not ${verification.lane}`);
+  requireEvidence(verifier.verifiedAtBase === verification.verifiedAtBase, `${familyId} current independent verdict declares a different verified base`);
+  requireEvidence(verifier.evidencePath === verification.evidencePath, `${familyId} current independent verdict names a different evidence path`);
   const verifierRowSha256 = sha256(JSON.stringify(verifier));
   requireEvidence(verifierRowSha256 === audit.currentIndependentVerification?.verifierRowJsonStringifySha256ApprovedAndNow, `${familyId} current independent verdict row drifted after the audit`);
+  requireEvidence(verifierRowSha256 === verification.rowSha256, `${familyId} current independent verdict row differs from the admitted exact digest`);
+
+  const verifierEvidenceBytes = readEvidenceBytes(verifier.evidencePath);
+  const verifierEvidence = JSON.parse(verifierEvidenceBytes.toString("utf8"));
+  const verifierEvidenceRows = (verifierEvidence.rows ?? []).filter((entry) => entry.itemId === familyId);
+  requireEvidence(verifierEvidenceRows.length === 1, `${verifier.evidencePath} must have exactly one row for ${familyId}`);
+  const verifierEvidenceRow = verifierEvidenceRows[0];
+  requireEvidence(verifierEvidenceRow.verdict === "PASS_COMPLETE_INDEPENDENT", `${verifier.evidencePath} has a weaker verdict for ${familyId}`);
+  requireEvidence(verifierEvidenceRow.verifiedAtBase === verification.verifiedAtBase, `${verifier.evidencePath} has a different verified base for ${familyId}`);
+  requireEvidence(String(verifierEvidenceRow.lane ?? "").toLowerCase() === verification.lane, `${verifier.evidencePath} has a different lane for ${familyId}`);
+  const verifierEvidenceRowSha256 = sha256(JSON.stringify(verifierEvidenceRow));
+  requireEvidence(verifierEvidenceRowSha256 === verification.evidenceRowSha256, `${verifier.evidencePath} row for ${familyId} mutated after admission`);
+  const verifierEvidenceRowText = JSON.stringify(verifierEvidenceRow);
+  requireEvidence(verifierEvidenceRowText.includes(canonical.sha256), `${verifier.evidencePath} does not bind the exact canonical digest for ${familyId}`);
+  requireEvidence(verifierEvidenceRowText.includes(boundary.sha256), `${verifier.evidencePath} does not bind the exact boundary digest for ${familyId}`);
 
   const raster = rasterByFamily.get(familyId) ?? null;
   requireEvidence(raster?.currentRasterState === "RASTER_PASS", `${familyId} has no current raster pass`);
@@ -1011,6 +1242,35 @@ function firstCohortCandidateRecord(definition) {
       ? { state: "not_required", basis: notRequiredBasis }
       : { state: "missing", basis: null };
   const ownerOmissionBasis = `${OWNER_BATCH_ADOPTION_ID}+${specificationPath}: approved complete specification omits this dimension`;
+  const codifiedSourceAuthority = codifiedAuthorityProof({
+    routeId,
+    familyId,
+    jurisdiction,
+    specificationPath,
+    specification,
+    specificationBytes,
+    sourceReceiptPath,
+    verification
+  });
+  const finalVerificationBoundInputs = {
+    contract: INDEPENDENT_FINAL_VERIFICATION_CONTRACT,
+    routeId,
+    familyId,
+    packetSpecificationSha256: sha256(specificationBytes),
+    canonicalArtifactSha256: canonical.sha256,
+    boundaryArtifactSha256: boundary.sha256,
+    verifierRegistry: {
+      path: VERIFIER_RETURNS,
+      evidenceRowSha256: verifierRowSha256
+    },
+    verifierEvidence: {
+      path: verifier.evidencePath,
+      evidenceRowSha256: verifierEvidenceRowSha256,
+      verifiedAtBase: verifier.verifiedAtBase,
+      lane: verifier.lane
+    }
+  };
+  const finalVerificationBoundInputsSha256 = sha256(stableStringify(finalVerificationBoundInputs));
 
   const record = {
     schemaVersion: GRADE_A_ADMISSION_SCHEMA_VERSION,
@@ -1037,10 +1297,10 @@ function firstCohortCandidateRecord(definition) {
       sha256: sha256(specificationBytes),
       complete: specification.legalSectionsBound === true && approvedByFixture.size === 2
     },
-    // These are custom pleadings. Their source receipts are bound below as
-    // evidence, but none supplies the independently corroborated official-form
-    // corpus proof this field requires. An empty array is the honest result.
-    officialSources: [],
+    // The v2 schema's legacy collection name covers the source-authority gate.
+    // This entry is explicitly codified authority, not an official source ID,
+    // document digest, court binary or custody claim.
+    officialSources: [codifiedSourceAuthority],
     // Delivery-provider evidence and proof-artifact producer evidence are
     // different facts. The record binds the published worker image here; the
     // filing-format proof below names the census builder that produced the
@@ -1101,12 +1361,17 @@ function firstCohortCandidateRecord(definition) {
       scopeSha256: approvedScopeSha256
     },
     finalVerification: {
-      contract: "rcap-final-verification-bound-inputs/v1",
-      contractModule: "src/lib/rcap/fulfillment/final-verification-contract.ts",
-      state: "unbound",
-      verifierId: null,
-      boundInputsSha256: null,
-      verifiedAt: null
+      contract: INDEPENDENT_FINAL_VERIFICATION_CONTRACT,
+      contractModule: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+      state: "bound",
+      verifierId: verifier.lane,
+      boundInputsSha256: finalVerificationBoundInputsSha256,
+      verifiedAt: verifierEvidenceRow.verifiedAt ?? `base:${verifier.verifiedAtBase}`,
+      verifiedAtBase: verifier.verifiedAtBase,
+      evidencePath: verifier.evidencePath,
+      evidenceRowSha256: verifierRowSha256,
+      evidenceDetailRowSha256: verifierEvidenceRowSha256,
+      boundInputs: finalVerificationBoundInputs
     },
     evidenceBindings: {
       assignmentClaim,
@@ -1151,7 +1416,23 @@ function firstCohortCandidateRecord(definition) {
         lane: verifier.lane,
         verifiedAtBase: verifier.verifiedAtBase,
         evidencePath: verifier.evidencePath,
-        evidenceDocumentSha256: sha256(readEvidenceBytes(verifier.evidencePath))
+        evidenceDocumentSha256: sha256(verifierEvidenceBytes),
+        evidenceRowSha256: verifierEvidenceRowSha256,
+        boundInputs: {
+          packetSpecificationSha256: sha256(specificationBytes),
+          canonicalSha256: canonical.sha256,
+          boundarySha256: boundary.sha256
+        },
+        boundInputsSha256: finalVerificationBoundInputsSha256
+      },
+      codifiedAuthority: {
+        sourceKind: codifiedSourceAuthority.sourceKind,
+        sourceId: codifiedSourceAuthority.sourceId,
+        contract: codifiedSourceAuthority.contract,
+        officialBinaryExpected: codifiedSourceAuthority.officialBinaryExpected,
+        officialBinarySource: codifiedSourceAuthority.officialBinarySource,
+        boundInputs: codifiedSourceAuthority.boundInputs,
+        boundInputsSha256: codifiedSourceAuthority.boundInputsSha256
       },
       provider: {
         deliveryProviderEvidencePath: WORKER_EVIDENCE,
@@ -1186,7 +1467,7 @@ function firstCohortCandidateRecord(definition) {
     changeKind: "created",
     changedAt: ownerBatchAdoption.decidedOn,
     changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-    reason: `Bounded first-cohort candidate derived from ${FIRST_COHORT_RETURN} at ${FIRST_COHORT_EVIDENCE_COMMIT}, ${specificationPath}, current raster and independent-verification receipts, ${OWNER_BATCH_ADOPTION_ID}, and committed provider/fixture evidence. Official-source proof and participant final verification remain absent; no commercial authority is created.`,
+    reason: `Bounded first-cohort candidate derived from ${FIRST_COHORT_RETURN} at ${FIRST_COHORT_EVIDENCE_COMMIT}, ${specificationPath}, current raster and exact independent-verification rows, ${OWNER_BATCH_ADOPTION_ID}, codified custom-pleading authority, and committed provider/fixture evidence. This generator records evidence only; it opens no route and performs no commercial action.`,
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: null
   }];
@@ -1211,6 +1492,9 @@ const firstCohortEvidencePaths = [...new Set([
   POST_APPROVAL_AUDIT,
   RASTER_QUEUE,
   VERIFIER_RETURNS,
+  CODIFIED_COMMON_INPUTS.packetSet.path,
+  ...Object.values(CODIFIED_TRACK_INPUTS).map((entry) => entry.path),
+  ...Object.values(FIRST_COHORT_VERIFICATION).map((entry) => entry.evidencePath),
   ...FIRST_COHORT_ROUTES.flatMap((entry) => [
     entry.specificationPath,
     entry.builderPath,
@@ -1238,7 +1522,7 @@ const registry = {
   candidateScope: {
     jurisdictions: allCandidateJurisdictions,
     routes: [MS_CLINIC_ROUTE, ...FIRST_COHORT_ROUTES.map((entry) => entry.routeId)].sort(),
-    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort route records bind the limited owner adoption, current packet/raster/independent-verification evidence, and committed provider/fixture identities without converting any missing official-source or participant-final-verification proof into approval. The Mississippi clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. A route absent from this registry fails closed."
+    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort route records bind the limited owner adoption, current packet/raster/independent-verification evidence, codified custom-pleading authority, and committed provider/fixture identities. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(readEvidenceBytes(LAUNCH_GRAPH)),
@@ -1263,6 +1547,8 @@ const registry = {
 // — which is exactly the signal it exists to produce.
 const observationRoutes = {};
 for (const record of records) {
+  const codifiedAuthorityOnly = record.officialSources.length > 0
+    && record.officialSources.every((source) => source.sourceKind === "codified_authority");
   observationRoutes[record.routeId] = {
     observedAt: ownerDecision.effectiveDate,
     legalAuthority: {
@@ -1272,8 +1558,12 @@ for (const record of records) {
     },
     packetSpecificationSha256: record.packetSpecification.sha256,
     officialSourceSha256ById: Object.fromEntries(record.officialSources.map((source) => [source.sourceId, source.sha256])),
-    corpusReleaseId: sourceRegistry.corpusRelease.releaseId,
-    corpusArchiveSha256: sourceRegistry.corpusRelease.archiveSha256,
+    corpusReleaseId: codifiedAuthorityOnly
+      ? "not_applicable:codified_authority"
+      : sourceRegistry.corpusRelease.releaseId,
+    corpusArchiveSha256: codifiedAuthorityOnly
+      ? "not_applicable:codified_authority"
+      : sourceRegistry.corpusRelease.archiveSha256,
     provider: record.provider,
     fixtureSha256: record.fixture.sha256,
     artifactSha256: record.artifactValidation.artifactSha256,
