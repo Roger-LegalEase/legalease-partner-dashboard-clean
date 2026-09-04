@@ -65,6 +65,14 @@ const master = readIf("data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json");
 const customerRegistry = readIf("data/record-clearing/factory-v2-route-registry.json");
 const centralRasterQueue = readIf("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json");
 const centralRasterByFamily = new Map((centralRasterQueue?.rows ?? []).map((row) => [row.familyId, row]));
+const routeReceiptDir = path.join(ROOT, "data/rcap-grade-a/route-artifact-acceptance/raster-receipts");
+const routeReceipts = new Map();
+if (fs.existsSync(routeReceiptDir)) {
+  for (const file of fs.readdirSync(routeReceiptDir).filter((name) => name.endsWith(".verdict.json"))) {
+    const verdict = JSON.parse(fs.readFileSync(path.join(routeReceiptDir, file), "utf8"));
+    routeReceipts.set(verdict.familyId, { verdict, file });
+  }
+}
 
 /* Page count from the parser, never from a byte scan and never from the build
  * record: the queue pins what the renderer will be asked to render, and
@@ -137,12 +145,25 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
         && existingRaster.boundaryPdfSha256 === boundary.sha256
         && receipt.boundToCanonicalSha256 === canonical.sha256
         && receipt.boundToBoundarySha256 === boundary.sha256;
+      const routeFamilyId = `${familyId}::route::${route}`;
+      const routeReceipt = routeReceipts.get(routeFamilyId) ?? null;
+      const documentsDigest = crypto.createHash("sha256").update(documents.map((d) => `${d.path}:${d.sha256}`).join("\n")).digest("hex");
+      const exactRouteRasterPass = routeReceipt?.verdict?.verdict === "RASTER_PASS"
+        && routeReceipt.verdict.coversTheWholeFamily === true
+        && (routeReceipt.verdict.problems ?? []).length === 0
+        && routeReceipt.verdict.documentsDigest === documentsDigest
+        && routeReceipt.verdict.hashesBound?.canonical?.path === canonical.path
+        && routeReceipt.verdict.hashesBound.canonical.pinned === canonical.sha256
+        && routeReceipt.verdict.hashesBound?.boundary?.path === boundary.path
+        && routeReceipt.verdict.hashesBound.boundary.pinned === boundary.sha256
+        && (routeReceipt.verdict.measurements ?? []).length === routeReceipt.verdict.pagesMeasured
+        && routeReceipt.verdict.measurements.every((measurement) => measurement.nonblank === true && measurement.croppedToThePage === true);
 
       rows.push({
         /* rcap-raster-batch.mjs keys on familyId and slugs it for the output
          * directory. A route row therefore carries a composite id so a verdict
          * can never be mistaken for the family assembly's verdict. */
-        familyId: `${familyId}::route::${route}`,
+        familyId: routeFamilyId,
         packetFamilyId: familyId,
         routeKey: artifacts[0].routeKey,
         route,
@@ -151,7 +172,9 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
         familyAssemblyIsRouteArtifact,
         equivalenceBasis: artifacts[0].equivalenceBasis ?? null,
         inFirstCohort: FIRST_COHORT_ROUTES.includes(route),
-        packetCommitSha: familyAssemblyIsRouteArtifact
+        packetCommitSha: exactRouteRasterPass
+          ? routeReceipt.verdict.packetCommitSha
+          : familyAssemblyIsRouteArtifact
           ? existingRaster?.packetCommitSha ?? git(["rev-parse", "HEAD"])
           : git(["rev-parse", "HEAD"]),
         canonicalPdfPath: canonical.path, canonicalPdfSha256: canonical.sha256,
@@ -167,7 +190,7 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
               boundary: "the route's own boundary artifact, declared in reports/rendered-artifacts.json under routeArtifacts"
             },
         documents,
-        documentsDigest: crypto.createHash("sha256").update(documents.map((d) => `${d.path}:${d.sha256}`).join("\n")).digest("hex"),
+        documentsDigest,
         coverage: {
           documents: documents.map((d) => d.name),
           rastered: documents.map((d) => d.name),
@@ -176,8 +199,20 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
           basis: "both of the route's artifacts are rendered, so the row covers everything a participant on this route receives"
         },
         requestedScale: REQUESTED_SCALE,
-        currentRasterState: exactExistingRasterPass ? "RASTER_PASS" : "RASTER_PENDING",
-        preexistingRasterAcceptance: exactExistingRasterPass
+        currentRasterState: exactRouteRasterPass || exactExistingRasterPass ? "RASTER_PASS" : "RASTER_PENDING",
+        preexistingRasterAcceptance: exactRouteRasterPass
+          ? {
+              verdict: routeReceipt.verdict.verdict,
+              workflowRunId: routeReceipt.verdict.workflowRunId,
+              boundToCanonicalSha256: routeReceipt.verdict.hashesBound.canonical.pinned,
+              boundToBoundarySha256: routeReceipt.verdict.hashesBound.boundary.pinned,
+              pagesMeasured: routeReceipt.verdict.pagesMeasured,
+              problemsFound: (routeReceipt.verdict.problems ?? []).length,
+              receiptArtifact: routeReceipt.verdict.documentsDigest,
+              source: `data/rcap-grade-a/route-artifact-acceptance/raster-receipts/${routeReceipt.file}`,
+              whyItApplies: "the route receipt binds this exact route id, document set, paths and SHA-256 values"
+            }
+          : exactExistingRasterPass
           ? {
               verdict: receipt.verdict,
               workflowRunId: receipt.workflowRunId,
@@ -191,7 +226,7 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
               whyItApplies: "the one-route family assembly is the route artifact itself, so the receipt binds these exact paths and hashes rather than neighbouring bytes"
             }
           : null,
-        doesNotInheritTheFamilyReceipt: exactExistingRasterPass
+        doesNotInheritTheFamilyReceipt: exactRouteRasterPass || exactExistingRasterPass
           ? null
           : "the family-level RASTER_PASS binds different or insufficiently scoped bytes; it is not carried forward and must not be read as covering this route"
       });

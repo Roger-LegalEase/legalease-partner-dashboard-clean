@@ -1,164 +1,110 @@
 {
   "schemaVersion": "rcap-route-artifact-central-raster-run/v1",
   "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-  "workflowRunId": "33640297318",
-  "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33640297318",
-  "runNumber": 29,
+  "workflowRunId": "33879628067",
+  "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/33879628067",
+  "runNumber": 46,
   "runAttempt": 1,
   "event": "workflow_dispatch",
-  "renderedCommitSha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
-  "headBranch": "fable/routeaccept",
+  "renderedCommitSha": "ddec2dd658ba9f0884cd0376c113164e174c9588",
+  "headBranch": "claude/legalease-sprint-captain-utucnw",
+  "workflowHeadSha": "ad64ed58780f0757fa71bc693c2e72264f214380",
   "dispatchInputs": {
-    "commit_sha": "0eb9a3ccd1e09c2a2d0eff44362f170e4939e561",
+    "commit_sha": "ddec2dd658ba9f0884cd0376c113164e174c9588",
     "raster_manifest_path": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
-    "family_batch": "",
+    "family_batch": "rcap-tn-custom-pleading::route::tn_arrest_no_court_record,rcap-tn-custom-pleading::route::tn_eligible_conviction,rcap-tn-custom-pleading::route::tn_illegal_voting,rcap-tn-custom-pleading::route::tn_judicial_diversion,rcap-tn-custom-pleading::route::tn_mistaken_identity,rcap-tn-custom-pleading::route::tn_nonconviction_petition,rcap-tn-custom-pleading::route::tn_post_pardon,rcap-tn-custom-pleading::route::tn_pretrial_diversion,rcap-tn-custom-pleading::route::tn_recovery_court,rcap-tn-custom-pleading::route::tn_redaction,rcap-tn-custom-pleading::route::tn_two_offense",
     "requested_scale": "2.5"
   },
   "rasterQueueJsonInvolved": false,
-  "whyRasterQueueJsonIsNotInvolved": "The workflow takes raster_manifest_path as an input. It was pointed at this lane-local queue, so data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json was neither read for the matrix nor written; the Captain queues are untouched.",
-  "jobsTotal": 15,
-  "jobsSucceeded": 15,
+  "whyRasterQueueJsonIsNotInvolved": "The workflow read the route-artifact acceptance manifest named by raster_manifest_path; data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json was not the matrix source and was not written by the workflow.",
+  "jobsTotal": 13,
+  "jobsSucceeded": 13,
   "jobsFailed": 0,
   "canaryJob": {
-    "id": 100281394631,
+    "id": 101044827665,
     "name": "Synthetic canary and live negative controls",
     "conclusion": "success",
     "receiptArtifact": {
       "name": "rcap-raster-canary",
-      "id": 9850573707,
-      "zipSha256": "sha256:bf9b9448a7de37db8d769541e3cde88f9307e759a5b2595b7cb33348962babd2",
-      "sizeInBytes": 5957
+      "id": 9939348722,
+      "zipSha256": "sha256:b2be5ed9c5b02b9c54a344457f776fe2018b151b74410a5e7214b85357b49a64",
+      "sizeInBytes": 5959,
+      "expiresAt": "2026-09-18T13:45:17Z"
     },
-    "why": "the family matrix `needs: canary`, so no route job could have run without the synthetic render and the live negative controls passing first"
+    "why": "the family matrix needs the canary job, so no Tennessee route job could run until the synthetic render and live negative controls passed"
   },
   "planJob": {
-    "id": 100282046302,
+    "id": 101045465015,
     "conclusion": "success",
-    "read": "scripts/rcap-raster-plan.mjs over this manifest, which emits only rows whose currentRasterState is RASTER_PENDING"
+    "read": "scripts/rcap-raster-plan.mjs over the exact route-artifact manifest at the immutable packet commit"
   },
-  "pinVerification": "every job runs the step \"Refuse a movable ref and prove the checkout is the pinned commit\", which exits 1 unless git rev-parse HEAD equals inputs.commit_sha. All 15 jobs are green, so all 15 checked out 0eb9a3ccd1e09c2a2d0eff44362f170e4939e561.",
-  "packetBytesUnmodified": "every route job runs the step \"Refuse a modified packet byte\" after rendering, which exits 1 if git diff is non-empty. All 13 are green, so the render modified no tracked file on any runner.",
-  "howTheVerdictIsEstablished": "scripts/rcap-raster-batch.mjs exits 1 on RASTER_FAIL and 1 on RASTER_BLOCKED_ENVIRONMENT, and exits 0 only on RASTER_PASS. Each route job runs it as its render step and the step is green on all 13, so all 13 verdicts are RASTER_PASS.",
-  "whatWasNotReadVerbatim": "This lane read job conclusions and artifact metadata through the API; it did not download the 13 uploaded verdict.json receipts and did not read the runner lines verbatim. For the central run the RASTER_PASS verdicts are therefore a structural proof from the exit-code contract, not a verbatim read. The verbatim per-page measurements this lane holds come from its own local run of the same tool, recorded in raster-receipts/.",
+  "pinVerification": "every route job proved git rev-parse HEAD equals the requested immutable packet commit ddec2dd658ba9f0884cd0376c113164e174c9588; all eleven jobs succeeded",
+  "packetBytesUnmodified": "every route job ran the tracked-byte refusal after rendering; all eleven succeeded and the raster run changed no packet PDF",
+  "howTheVerdictIsEstablished": "all eleven downloaded verdict.json records were read and independently checked for RASTER_PASS, exact packet commit and workflow run, route identity, document hashes, full parsed page coverage, nonblank measurements, page cropping and an empty problem list",
+  "whatWasNotReadVerbatim": "The 156 uploaded PNG page images remain in authenticated GitHub Actions artifact custody and were not committed to Git. Their per-page measurements were read from the eleven downloaded verdict records; the independent verifier must inspect the governed page evidence.",
+  "routesCovered": 11,
+  "pagesCovered": 156,
   "routes": [
-    {
-      "familyId": "rcap-tn-custom-pleading::route::tn_eligible_conviction",
-      "packetFamilyId": "rcap-tn-custom-pleading",
-      "route": "tn_eligible_conviction",
-      "routeKey": "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
-      "jobId": 100282293078,
-      "jobConclusion": "success",
-      "documentsPinned": [
-        {
-          "role": "boundary",
-          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/boundary.pdf",
-          "sha256": "7144db6a93b1f5522cd29f29f77192e782e4e3766fbab6d0d5b1144ec51de3ee",
-          "pageCount": 5
-        },
-        {
-          "role": "canonical",
-          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/canonical.pdf",
-          "sha256": "b8fcb67ca7a3544ffb9e9f5ac5170ffb5a8948f675edfcbd7bbfa2ffc66a09fc",
-          "pageCount": 5
-        }
-      ],
-      "pagesQueued": 10,
-      "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_eligible_conviction-33640297318",
-        "id": 9850767574,
-        "zipSha256": "sha256:ca1c1bb610d43db944b3a47e19d7e7d0ab1bdbc98f336d9c13f690a2234ee552",
-        "sizeInBytes": 4631935,
-        "expiresAt": "2026-09-16T14:17:16Z"
-      }
-    },
-    {
-      "familyId": "rcap-tn-custom-pleading::route::tn_judicial_diversion",
-      "packetFamilyId": "rcap-tn-custom-pleading",
-      "route": "tn_judicial_diversion",
-      "routeKey": "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-      "jobId": 100282292993,
-      "jobConclusion": "success",
-      "documentsPinned": [
-        {
-          "role": "boundary",
-          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/boundary.pdf",
-          "sha256": "d3a6b8dcb0315b87c6b54ac0d1ccf87c5f0396719fed6e9929e961a5db6aff6a",
-          "pageCount": 6
-        },
-        {
-          "role": "canonical",
-          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/canonical.pdf",
-          "sha256": "32fd06a9afb5c77d9d4472e72887442cf92dbebdaad117b63f0436ea13db62d5",
-          "pageCount": 6
-        }
-      ],
-      "pagesQueued": 12,
-      "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_judicial_diversion-33640297318",
-        "id": 9850768574,
-        "zipSha256": "sha256:e499c5ccebe698d48b16632d7260584750c2b546b48e13e999f9fc2260086b9a",
-        "sizeInBytes": 3458260,
-        "expiresAt": "2026-09-16T14:17:16Z"
-      }
-    },
-    {
-      "familyId": "rcap-tn-custom-pleading::route::tn_two_offense",
-      "packetFamilyId": "rcap-tn-custom-pleading",
-      "route": "tn_two_offense",
-      "routeKey": "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k",
-      "jobId": 100282293043,
-      "jobConclusion": "success",
-      "documentsPinned": [
-        {
-          "role": "boundary",
-          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/boundary.pdf",
-          "sha256": "b6e5ad6482c0f9b83cf54b2b67e6ff94857ab1f261d59e3455140690599fb611",
-          "pageCount": 5
-        },
-        {
-          "role": "canonical",
-          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/canonical.pdf",
-          "sha256": "397c4caa4ccecab1c6e16f50db255143cfdf0d9c462b562ab46daab9f349d85a",
-          "pageCount": 5
-        }
-      ],
-      "pagesQueued": 10,
-      "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_two_offense-33640297318",
-        "id": 9850743783,
-        "zipSha256": "sha256:584d2ffa585f613cb0c5eda8642e60aa8486ec70b2b56fd4024c6455930e8892",
-        "sizeInBytes": 4509358,
-        "expiresAt": "2026-09-16T14:17:16Z"
-      }
-    },
     {
       "familyId": "rcap-tn-custom-pleading::route::tn_arrest_no_court_record",
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_arrest_no_court_record",
       "routeKey": "obligation:track-only:TN:tn_arrest_no_court_record",
-      "jobId": 100282292977,
+      "jobId": 101045709616,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/boundary.pdf",
-          "sha256": "480afe6716bf5f06f031d8cd482e9014324a7a80c9016b2783fa8efff47208b2",
-          "pageCount": 6
+          "sha256": "2b3d922d691a7caac6b8539c78ce5180da7ed58fc459cd78e41651fb9b717c52",
+          "pageCount": 8
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_arrest_no_court_record/canonical.pdf",
-          "sha256": "4f407cc9573b786026d2599903d48ff13b31019c61112fb9129c595d4babb56d",
-          "pageCount": 6
+          "sha256": "a39253e6711ba4eb4a0e24d2978363348647abc15a542eb20f0f6eabefce8d4c",
+          "pageCount": 8
         }
       ],
-      "pagesQueued": 12,
+      "pagesQueued": 16,
+      "documentsDigest": "b8462afed2b9e0728f582a4ebc8f42a6f0e8abd597a8fec02bf519ab9e0f567c",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_arrest_no_court_record-33640297318",
-        "id": 9850766922,
-        "zipSha256": "sha256:3bb6ffa00d4eaa71a4279e4ff27528a472b3076cdd5e1091601230287ff4f520",
-        "sizeInBytes": 3656253,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_arrest_no_court_record-33879628067",
+        "id": 9939546095,
+        "zipSha256": "sha256:b8343138cfbf8c6f422c648b55cd76788ba380c6776872226cc7d49302b010c2",
+        "sizeInBytes": 4514923,
+        "expiresAt": "2026-09-18T13:50:41Z"
+      }
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_eligible_conviction",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "route": "tn_eligible_conviction",
+      "routeKey": "obligation:track-pathway:TN:tn_eligible_conviction:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+      "jobId": 101045709767,
+      "jobConclusion": "success",
+      "documentsPinned": [
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/boundary.pdf",
+          "sha256": "ee5ecbb54d1712834b72b15949defed5f17deaeb44df6fa2cbf52301aa6e00de",
+          "pageCount": 8
+        },
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_eligible_conviction/canonical.pdf",
+          "sha256": "25f6299fd0140aba7b8f1a0a7b0d93d452c5a106f7acb66e05601694109c0f29",
+          "pageCount": 8
+        }
+      ],
+      "pagesQueued": 16,
+      "documentsDigest": "3b6d597ae216cd3354549379050aad7151980989b80daa2c1f68987790cef610",
+      "receiptArtifact": {
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_eligible_conviction-33879628067",
+        "id": 9939555866,
+        "zipSha256": "sha256:43cccf8205f25bb905cfdd0c9294cfc0dd868a5084ccd655c11321115dac1b8d",
+        "sizeInBytes": 5816694,
+        "expiresAt": "2026-09-18T13:50:57Z"
       }
     },
     {
@@ -166,29 +112,61 @@
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_illegal_voting",
       "routeKey": "obligation:track-only:TN:tn_illegal_voting",
-      "jobId": 100282292989,
+      "jobId": 101045709671,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/boundary.pdf",
-          "sha256": "fdf011ac0224b35ff6f1f2bbaf89972a52521de85a544d1a86a6b82e39b39353",
-          "pageCount": 5
+          "sha256": "18bd785402d8ebb2f623119ea7d06096398e2cd667ed0b3894e77e7de6c8d1e4",
+          "pageCount": 6
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_illegal_voting/canonical.pdf",
-          "sha256": "54de61f9367ae8038f30c61315638be2ec0e4196ff2297d2560375dd7bc45156",
-          "pageCount": 5
+          "sha256": "6b03194f786adc0f2f72ed141324e31621c01f7bc9fb4adb4b22cd5b576c12d6",
+          "pageCount": 6
         }
       ],
-      "pagesQueued": 10,
+      "pagesQueued": 12,
+      "documentsDigest": "036c594b808bdae5c6d3dab8cd9210dc3636e500507993a37a2c28672437faf4",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_illegal_voting-33640297318",
-        "id": 9850754765,
-        "zipSha256": "sha256:4f676cbfb0cc2da9b430a05fcd5254720fece9ae97b7019d865f53627b7f98c0",
-        "sizeInBytes": 2964042,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_illegal_voting-33879628067",
+        "id": 9939520842,
+        "zipSha256": "sha256:4aa0c598cfa671211434d831d2bf029f432867c8427a629cffcb5ce625f5db49",
+        "sizeInBytes": 3395780,
+        "expiresAt": "2026-09-18T13:50:00Z"
+      }
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading::route::tn_judicial_diversion",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "route": "tn_judicial_diversion",
+      "routeKey": "obligation:track-pathway:TN:tn_judicial_diversion:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+      "jobId": 101045709825,
+      "jobConclusion": "success",
+      "documentsPinned": [
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/boundary.pdf",
+          "sha256": "efbdf4a10387f72af616481da7982a5099b2a5064d33167e899f2fd65404d16f",
+          "pageCount": 7
+        },
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_judicial_diversion/canonical.pdf",
+          "sha256": "013d8caddb1cf2dd0fc336ab44ba9e586ec686fcf1e763cf0c3e46c88556f9f0",
+          "pageCount": 7
+        }
+      ],
+      "pagesQueued": 14,
+      "documentsDigest": "d7ffbf1adac2dfebf149e5a64637417eb9b90032307d445b3d08796548df8cfb",
+      "receiptArtifact": {
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_judicial_diversion-33879628067",
+        "id": 9939547088,
+        "zipSha256": "sha256:05693d5f7041e176863b39faf338162f8001afcc0c9ce0ec8aaae90dee634727",
+        "sizeInBytes": 3969531,
+        "expiresAt": "2026-09-18T13:50:44Z"
       }
     },
     {
@@ -196,29 +174,30 @@
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_mistaken_identity",
       "routeKey": "obligation:track-only:TN:tn_mistaken_identity",
-      "jobId": 100282292988,
+      "jobId": 101045709777,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/boundary.pdf",
-          "sha256": "9795d31c69abf632d2903fab179ec48329c023e12a356913b7bd6ef2c71805ab",
+          "sha256": "c60464f2e0b76b079c660c7c3311fa9d32028272330b907ea69bcb1239232be2",
           "pageCount": 6
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_mistaken_identity/canonical.pdf",
-          "sha256": "ce292942d0c1312f63c5700c6a707aee5fa6068e00195f26ed93bf3a24a61f89",
+          "sha256": "fc2973420ca4e40504735fab9d1d0496a4a3aba2d5c93ffc0f3bc7c66ad06596",
           "pageCount": 6
         }
       ],
       "pagesQueued": 12,
+      "documentsDigest": "4c72c9d97ea0c31b435faf7f1ca8b483f155f9797a073a466e2dff79a7a0747e",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_mistaken_identity-33640297318",
-        "id": 9850772362,
-        "zipSha256": "sha256:7ff8103340f2f4e31d6807825311f32829553f9ae8c6a5c7f45b980408fab0aa",
-        "sizeInBytes": 3795661,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_mistaken_identity-33879628067",
+        "id": 9939513017,
+        "zipSha256": "sha256:a8d0860ebd0278b6c455acaa22bf07fd673db80327adeebb14ea2c52fd8fcc71",
+        "sizeInBytes": 3799104,
+        "expiresAt": "2026-09-18T13:49:49Z"
       }
     },
     {
@@ -226,29 +205,30 @@
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_nonconviction_petition",
       "routeKey": "obligation:track-only:TN:tn_nonconviction_petition",
-      "jobId": 100282293137,
+      "jobId": 101045709862,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/boundary.pdf",
-          "sha256": "3174ec151490d2ed5b8c5c0614add190522fd7ee701141c88e986f3942f4fcee",
-          "pageCount": 6
+          "sha256": "42f53c0407c186f6beed1050c0117639cc7808d38545d88eb4c2248869e00dc2",
+          "pageCount": 8
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_nonconviction_petition/canonical.pdf",
-          "sha256": "cf7a2630c3bdba5dbf58ab8b66c0c517472aafeda1b0899f394182c0ea43be07",
-          "pageCount": 6
+          "sha256": "7f69c01f9039dbf4f110b593a1a28296966e4ca43805cf4bec7bfc4711f6c378",
+          "pageCount": 8
         }
       ],
-      "pagesQueued": 12,
+      "pagesQueued": 16,
+      "documentsDigest": "bf8a05a0fdf52df8808483683f816509ac1248795a90d629f44d95a5d0569a8e",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_nonconviction_petition-33640297318",
-        "id": 9850771096,
-        "zipSha256": "sha256:e26c736aaf7a19f03241580c610f9d7d30ee7ec76c0d4773a9e128133be3ec6f",
-        "sizeInBytes": 3437345,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_nonconviction_petition-33879628067",
+        "id": 9939549549,
+        "zipSha256": "sha256:a055a41e10d1080ee6092f91b94d0aa46962d848db9adedd9e2fd1abd6a9b8bf",
+        "sizeInBytes": 5316638,
+        "expiresAt": "2026-09-18T13:50:47Z"
       }
     },
     {
@@ -256,29 +236,30 @@
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_post_pardon",
       "routeKey": "obligation:track-only:TN:tn_post_pardon",
-      "jobId": 100282292987,
+      "jobId": 101045709694,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/boundary.pdf",
-          "sha256": "bfb2ba6979f542c9189aed13dec93927cab827df87510d39c145b7882598c21f",
-          "pageCount": 5
+          "sha256": "b92f0953c07d5c5e3475d1672c040dbbadcc9bc1d6c80b371e9a5f691024d869",
+          "pageCount": 6
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_post_pardon/canonical.pdf",
-          "sha256": "03f4948be810f94ec2b430fc7684b3fea5da0f4977251dd6d5a419c2a95ec987",
-          "pageCount": 5
+          "sha256": "c60ad4f7feed211dd46eeb5fdaf7e3fafd81ad3b4f004544345adaf579e2c49b",
+          "pageCount": 6
         }
       ],
-      "pagesQueued": 10,
+      "pagesQueued": 12,
+      "documentsDigest": "6e98a317c3068c5ae7487faa15b437da874e2a94f48a2e2346b3658c8f18ac48",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_post_pardon-33640297318",
-        "id": 9850756525,
-        "zipSha256": "sha256:c0601dbebafc199411ab5dc0e69c66c846ede5b46331138f56347ae02623d033",
-        "sizeInBytes": 4119537,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_post_pardon-33879628067",
+        "id": 9939522426,
+        "zipSha256": "sha256:5695486055bbeb2ea524e26ec2af3395775e21ae5595fd93eb8ad8a31f77aa01",
+        "sizeInBytes": 4447868,
+        "expiresAt": "2026-09-18T13:50:03Z"
       }
     },
     {
@@ -286,29 +267,30 @@
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_pretrial_diversion",
       "routeKey": "obligation:track-only:TN:tn_pretrial_diversion",
-      "jobId": 100282292994,
+      "jobId": 101045709716,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/boundary.pdf",
-          "sha256": "5e94e8ee99c6437d60f57c967070553045f674ef79fe94eeeb2d2c2c4fa5b881",
-          "pageCount": 6
+          "sha256": "12e3051e6dd0334b01bd6c54f6cc5e2c4e2c3d0b995ca8f5dba5d61a4dcc2cc5",
+          "pageCount": 7
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_pretrial_diversion/canonical.pdf",
-          "sha256": "3e2e151485ceb673901585f0c5d2d913e53fc5bfd837ff93c8c43ddaba664dac",
-          "pageCount": 6
+          "sha256": "66381863eddf88563e60c0b61e5d715c904585e18812495e2da0efa5cee986c6",
+          "pageCount": 7
         }
       ],
-      "pagesQueued": 12,
+      "pagesQueued": 14,
+      "documentsDigest": "d75a7965c0f5017d421ad3d74753eba5211990c4e8e3c2bf82ddb23459189be3",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_pretrial_diversion-33640297318",
-        "id": 9850775014,
-        "zipSha256": "sha256:002ea6b29a04f234678597091da99cd39d4ea880da08a941ba56e45529bdf803",
-        "sizeInBytes": 3333195,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_pretrial_diversion-33879628067",
+        "id": 9939529113,
+        "zipSha256": "sha256:e26dcce1d2664c05934ec4d703b9e6344f42ed6a8f06b84e6f2caee2f38669e0",
+        "sizeInBytes": 3893622,
+        "expiresAt": "2026-09-18T13:50:15Z"
       }
     },
     {
@@ -316,29 +298,30 @@
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_recovery_court",
       "routeKey": "obligation:track-only:TN:tn_recovery_court",
-      "jobId": 100282292992,
+      "jobId": 101045709657,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/boundary.pdf",
-          "sha256": "c4a3881633797310d3999b05a53fb28ace305aa6f70a62b70737249ff3d5550a",
-          "pageCount": 5
+          "sha256": "97397f36f5a4996e4f6ac005403b5fc9451b5c72c6126d61b2f78443265aa264",
+          "pageCount": 6
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_recovery_court/canonical.pdf",
-          "sha256": "a4e798f319fe06653e80f4b1ed3ff4b27b34b30854739a9ebc218b865d0225a5",
-          "pageCount": 5
+          "sha256": "1ad8e4eeacb7e56fc725afdc34035c336f0b4c9354bf900212914f02063e4972",
+          "pageCount": 6
         }
       ],
-      "pagesQueued": 10,
+      "pagesQueued": 12,
+      "documentsDigest": "00f5a9c48a98358b64c15a2d88bfde11819b91beba4e932f22a13a3bbefc3157",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_recovery_court-33640297318",
-        "id": 9850777554,
-        "zipSha256": "sha256:1e62232dec453992376ac44bc46c045f3374abe644bb1966b396284c0b9750e7",
-        "sizeInBytes": 4400365,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_recovery_court-33879628067",
+        "id": 9939518330,
+        "zipSha256": "sha256:d062a27a1a1206f2be34a1642266a6cd9e7db09b984a830b6f2c10b6c84be30e",
+        "sizeInBytes": 4803252,
+        "expiresAt": "2026-09-18T13:49:57Z"
       }
     },
     {
@@ -346,183 +329,61 @@
       "packetFamilyId": "rcap-tn-custom-pleading",
       "route": "tn_redaction",
       "routeKey": "obligation:track-only:TN:tn_redaction",
-      "jobId": 100282293090,
+      "jobId": 101045710007,
       "jobConclusion": "success",
       "documentsPinned": [
         {
           "role": "boundary",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/boundary.pdf",
-          "sha256": "e2a9c951b87d77c14c1cb3453a4ead0aed3ea8de5e3e97e3f1ecbb2507df37be",
-          "pageCount": 7
+          "sha256": "0ba9466bde33956b342f861ea1149c43916ea401cf3c78adb4b745250af8c247",
+          "pageCount": 8
         },
         {
           "role": "canonical",
           "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_redaction/canonical.pdf",
-          "sha256": "af51506aed52e3f40385d864d0520e20db0f8fc2980c942aaef26bf36828b7ea",
-          "pageCount": 7
+          "sha256": "aee4f6657c1a7d600c3b3181bf5e84ce1c5bed91bd3b04280ba9001758c1165f",
+          "pageCount": 8
         }
       ],
-      "pagesQueued": 14,
+      "pagesQueued": 16,
+      "documentsDigest": "bc2bed467d6288c06aef2973eb25c92f33dde69d76d1c96623e0e50ec89b8430",
       "receiptArtifact": {
-        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_redaction-33640297318",
-        "id": 9850808210,
-        "zipSha256": "sha256:e9ac392c890e6d4d20aef6a6d81a591639232fdd4ad89268f8144be915e0b9a0",
-        "sizeInBytes": 4115609,
-        "expiresAt": "2026-09-16T14:17:16Z"
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_redaction-33879628067",
+        "id": 9939550420,
+        "zipSha256": "sha256:4ff79cd5552043cfc9443062f2e174b6a0bcd45eb9fd63edca6cada39c4ea5f8",
+        "sizeInBytes": 4660068,
+        "expiresAt": "2026-09-18T13:50:48Z"
       }
-    }
-  ],
-  "routesCovered": 11,
-  "pagesCovered": 124,
-  "grantsNothing": "A raster verdict is one gate. It does not make an artifact PASS_COMPLETE, promotes nothing, opens no commercial route, and is not independent verification.",
-  "packetPdfsModified": 0,
-  "packetContentChanged": false,
-  "commercialRoutesOpened": 0,
-  "productionTouched": false,
-  "routesWithdrawn": 2,
-  "jobCountsAreHistoricalFactsAboutTheRun": "Run 33640297318 really did run 15 jobs and 15 really did succeed, so those numbers are left as they are. What changed is what the run still covers: 2 of its route jobs rendered Kansas bytes that no longer exist, and those routes are withdrawn below. No central run has rendered the current Kansas bytes.",
-  "withdrawnRoutes": [
+    },
     {
-      "family": "rcap-ks-custom-pleading",
-      "lane": "FIX03",
-      "branch": "fable/kspath",
-      "withdrawnAt": "2026-09-02",
-      "selfVerified": false,
-      "mayNotVerifyItsOwnRepair": true,
-      "why": "Every Kansas hash in this record is a pre-repair hash. The builder was re-pointed from the two superseded track-only obligation keys to the current five-segment track-pathway keys, and the packet page then printed the 108- and 105-character machine key, hard-wrapped mid-token across three lines. Roger Roman decided on 2026-09-02 that the Kansas packet page prints a short human label and the machine id stays in the manifests and the wiring. Both changes moved every artifact's bytes. The bytes this record binds no longer exist.",
-      "whatAWithdrawalIs": "A withdrawal removes a claim. It does not make a new one, and it leaves no binding of its own standing. Nothing here says the current Kansas artifacts are deterministic, complete, or rastered to acceptance; it says only that the rows which used to say so were about bytes that no longer exist. The current bytes are named below so an independent lane can measure them without hunting, and naming them asserts nothing about them.",
-      "routesWithdrawn": [
+      "familyId": "rcap-tn-custom-pleading::route::tn_two_offense",
+      "packetFamilyId": "rcap-tn-custom-pleading",
+      "route": "tn_two_offense",
+      "routeKey": "obligation:track-pathway:TN:tn_two_offense:pathway-4-two-offense-expunction-under-40-32-101-k",
+      "jobId": 101045710023,
+      "jobConclusion": "success",
+      "documentsPinned": [
         {
-          "route": "ks-12-4516-municipal",
-          "jobId": 100282293069,
-          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516-municipal",
-          "pagesQueued": 13,
-          "documentsThisRunRendered": [
-            {
-              "role": "boundary",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-              "priorSha256": "90c875fd8dd183dc767146ca303e1d60ecebf175edc83698b8b8fe590f921c5b",
-              "priorPageCount": 7
-            },
-            {
-              "role": "canonical",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-              "priorSha256": "fbf3f59d049aa6b17e1df460957c331ba9585c8f1bcd0d6b668c5fc591d8aea6",
-              "priorPageCount": 6
-            }
-          ]
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/boundary.pdf",
+          "sha256": "05b3332096564ba0a499390437b513d9b9c0ac5d2ad2f83e1093183e8cce52fe",
+          "pageCount": 8
         },
         {
-          "route": "ks-12-4516a-municipal-arrest",
-          "jobId": 100282293024,
-          "routeKeyItNamed": "obligation:track-only:KS:ks-12-4516a-municipal-arrest",
-          "pagesQueued": 12,
-          "documentsThisRunRendered": [
-            {
-              "role": "boundary",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-              "priorSha256": "f2411e4da02234137a7e7ae9a4f4106900699caff8a6f076b6ed758cf4ba334a",
-              "priorPageCount": 6
-            },
-            {
-              "role": "canonical",
-              "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-              "priorSha256": "3feb0a58960ed550377f1d4c8fd9bee9c52175166da72326ab4230f5691e8685",
-              "priorPageCount": 6
-            }
-          ]
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/routes/tn_two_offense/canonical.pdf",
+          "sha256": "ae4c0792b19a72f294682f12c800a9fb87a92e1223617701cb341b28b3aaab5e",
+          "pageCount": 8
         }
       ],
-      "thisLaneCannotReplaceThem": "A central receipt comes from the GitHub-hosted workflow. This lane does not dispatch workflows and did not touch .github/workflows, so run 33640297318's Kansas coverage is withdrawn and nothing replaces it. No central run has rendered the current Kansas bytes. What does exist is a local receipt for each of the six current artifacts, rendered in this container against those exact hashes and listed in rasterReceiptsForTheCurrentBytes. A local receipt is not a central one and does not restore a withdrawn central route.",
-      "laneContinuedBy": "KSPATH2, the same repair grant on rcap-ks-custom-pleading, still unreleased in claim-ledger.json. FIX03 wrote the withdrawal; this amendment removes the bindings the withdrawal itself left standing.",
-      "theseAreHistoryNotBindings": "Every SHA-256 and page count under a `prior...` key in this withdrawal is a historical value, recording what the withdrawn row asserted. It is not a binding. Those bytes are not on disk and no build in this repository produces them. Nothing may be re-derived from them, and a reader who finds one here has found the record of a retracted claim, not a claim. The keys were renamed from `boundToSha256` and `boundToPageCount` because a key that reads as a binding is a binding to everyone who greps for one.",
-      "currentBytesOnDisk": [
-        {
-          "unit": "family_assembly",
-          "route": null,
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-          "sha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
-          "pageCount": 12
-        },
-        {
-          "unit": "family_assembly",
-          "route": null,
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
-          "sha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
-          "pageCount": 13
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516-municipal",
-          "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
-          "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
-          "sha256": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
-          "pageCount": 6
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516a-municipal-arrest",
-          "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
-          "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a",
-          "fixture": "canonical",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
-          "sha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
-          "pageCount": 6
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516-municipal",
-          "routeKey": "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
-          "routeLabel": "Municipal conviction or diversion expungement - K.S.A. 12-4516",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
-          "sha256": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f",
-          "pageCount": 7
-        },
-        {
-          "unit": "route_artifact",
-          "route": "ks-12-4516a-municipal-arrest",
-          "routeKey": "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a",
-          "routeLabel": "Municipal arrest record expungement - K.S.A. 12-4516a",
-          "fixture": "boundary",
-          "file": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
-          "sha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
-          "pageCount": 6
-        }
-      ],
-      "currentBytesAssertNothing": "The six artifacts on disk, hashed at withdrawal. This is a pointer for whoever measures them next. It is not an acceptance, a completeness result, a determinism result, or a raster verdict, and no count in this file counts it.",
-      "rasterReceiptsForTheCurrentBytes": {
-        "familyAssembly": {
-          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading.verdict.json",
-          "verdict": "RASTER_PASS",
-          "pagesMeasured": 25,
-          "boundTo": {
-            "canonical": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
-            "boundary": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2"
-          }
-        },
-        "ks-12-4516-municipal": {
-          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516-municipal.verdict.json",
-          "verdict": "RASTER_PASS",
-          "pagesMeasured": 13,
-          "boundTo": {
-            "canonical": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
-            "boundary": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f"
-          }
-        },
-        "ks-12-4516a-municipal-arrest": {
-          "file": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/rcap-ks-custom-pleading__route__ks-12-4516a-municipal-arrest.verdict.json",
-          "verdict": "RASTER_PASS",
-          "pagesMeasured": 12,
-          "boundTo": {
-            "canonical": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
-            "boundary": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617"
-          }
-        }
+      "pagesQueued": 16,
+      "documentsDigest": "32241a6d4e6d8377d74c1f743673af13ddb0e363a157b65244840f2964b5eb28",
+      "receiptArtifact": {
+        "name": "rcap-raster-rcap-tn-custom-pleading__route__tn_two_offense-33879628067",
+        "id": 9939541839,
+        "zipSha256": "sha256:47fe229d977db6a3c0c35902af8e6be34a22a7fe5d5b1699bf9338cb3fc4c6a1",
+        "sizeInBytes": 5974676,
+        "expiresAt": "2026-09-18T13:50:35Z"
       }
     }
   ]
