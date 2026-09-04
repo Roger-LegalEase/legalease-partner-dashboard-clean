@@ -130,6 +130,8 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
@@ -168,6 +170,7 @@ const COURTOWN = (why) => ({ policy: "protect", refusalClass: COURT_OWNED, why }
  */
 const ELECTION = (what, why) => ({ policy: "election", what, why });
 
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 const FAMILY_ID = "tx_exp_acquittal-set";
 const OUT = "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading";
 const BUILD_SCRIPT = "scripts/build-census-v1-tx_exp_acquittal-set.mjs";
@@ -1186,7 +1189,20 @@ async function renderDocument(source, census, fixtureName) {
     census: censusForFinalizer,
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: source.title
+    title: source.title,
+    /*
+     * What each field's appearance MEANS, so the finalizer knows which
+     * unwritten /Tx appearances are the court's own ink and which are a
+     * participant answer the source happened to ship a value for.
+     *
+     * The Statement of Inability arrives with three of its own /V values set.
+     * Without this, the structural default reads all three as the court's ink
+     * and flattens them onto a document sworn under penalty of perjury. The
+     * finalizer is handed one family's dispositions and never learns which
+     * family they came from, so it cannot branch on one.
+     */
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
+      `${FAMILY_ID}:${source.componentId}`)
   });
   return { bytes, report };
 }
