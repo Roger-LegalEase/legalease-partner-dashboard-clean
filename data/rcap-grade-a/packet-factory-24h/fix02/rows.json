@@ -1058,6 +1058,117 @@
       },
       "selfVerified": false,
       "independentVerificationStatus": "PENDING"
+    },
+    {
+      "itemId": "id_set_aside_dismissal-set",
+      "routeKey": "obligation:track-only:ID:id_set_aside_dismissal",
+      "status": "COMPLETED",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "worker": "CODEX-CS2-FIX02-ID-SOURCE-RECEIPT",
+      "assignedBase": "93c37a96b86feca8a7322a33d1cf9eb3d1db1eab",
+      "workerBranch": "codex/cs2-fix02-id-source-receipt-93c",
+      "claim": "CLAIM_OK FIX02 id_set_aside_dismissal-set (repair, grant set 2014c8f5975be4ce)",
+      "obligationRepaired": "SOURCE_IDENTITY",
+      "repair": "Refreshed only source-receipt.json's three mutable committed-record SHA-256 and byte-length pins from current committed bytes after re-reading the exact Idaho route records and proving every anchor the existing builder requires. Mutable whole-file movement was not treated as a substantive source change. No document source was researched, acquired, or substituted.",
+      "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+      "documentSources": 0,
+      "sourcePins": [
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "oldSha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4",
+          "oldByteLength": 16586143,
+          "newSha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+          "newByteLength": 16586150,
+          "routeObject": "$.tracks[130]",
+          "anchorsVerified": 13
+        },
+        {
+          "path": "data/record-clearing/legal-design-specifications.json",
+          "oldSha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+          "oldByteLength": 16829383,
+          "newSha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+          "newByteLength": 16829391,
+          "routeObject": "$.customPleadingSpecs[77]",
+          "anchorsVerified": 1
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "oldSha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "oldByteLength": 2599752,
+          "newSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "newByteLength": 2607149,
+          "routeObject": "$.routes[173]",
+          "anchorsVerified": 1
+        }
+      ],
+      "anchorProof": {
+        "builderCheck": "CHECK_ONLY; 3 records bound; 15 anchors verified",
+        "track": "The one exact id_set_aside_dismissal track still carries the legal name, I.C. § 19-2604(1) mechanism and authority, sentencing-court venue, all five generation questions, fee nonstatement, service-confirmation block, and filing-vehicle-confirmation block required by the builder.",
+        "specification": "The one exact Idaho custom-pleading object still carries componentId id_set_aside_dismissal-primary-filing-1 with the same authority, venue, rules, generation requirements, and packet instructions.",
+        "route": "The one exact census object still carries obligation:track-only:ID:id_set_aside_dismissal, I.C. § 19-2604(1), track id_set_aside_dismissal, custom_pleading, packet set id_set_aside_dismissal-set, and the sentencing-court destination.",
+        "routeAnchorsChangedOrMissing": false
+      },
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family 'id_set_aside_dismissal-set'",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+        "familySourcesBind": "PASS: zero-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition binds committed legal records by hash inside its builder",
+        "qualifiedFailures": "Only global master_library_mounted, master_library_complete, and corpus_matches_committed_index were unavailable; this assignment expressly permits proceeding for this zero-document family when family_sources_bind passes. No source-bearing-family gate was weakened."
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256Before": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+          "sha256After": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+          "byteLengthBefore": 10134,
+          "byteLengthAfter": 10134,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256Before": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+          "sha256After": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+          "byteLengthBefore": 10351,
+          "byteLengthAfter": 10351,
+          "pageCount": 4
+        }
+      ],
+      "determinism": {
+        "builder": "scripts/build-census-v1-id_set_aside_dismissal-set.mjs",
+        "command": "node scripts/build-census-v1-id_set_aside_dismissal-set.mjs --no-raster",
+        "successfulBuilds": 2,
+        "identicalFamilyTreeAfterEachBuild": true,
+        "postBuildTreeSha256": "2b402a59737b62bb9c0b3398cb792760808e784bbd65ad7d98dabe55ac943e82",
+        "postBuildReceiptSha256": "73191aedc158e04f2bb3da8f26eeada5b3e106ad6ee28494b5bf5ba3e69b16b0",
+        "identicalPacketHashesLengthsAndPages": true,
+        "result": "DETERMINISTIC"
+      },
+      "rasterAcceptance": {
+        "existingWorkflowRunId": 33605354695,
+        "exactHashBoundRunStillValid": true,
+        "why": "Both covered canonical and boundary PDF hashes are unchanged."
+      },
+      "focusedCompleteness": "PASS_COMPLETE 6/14 written; all nine counters zero",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "changedFamilyPaths": [
+        "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/source-receipt.json"
+      ],
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerification": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "independentVerificationStatus": "PENDING"
     }
   ],
   "whatCouldNotBeEstablished": [
