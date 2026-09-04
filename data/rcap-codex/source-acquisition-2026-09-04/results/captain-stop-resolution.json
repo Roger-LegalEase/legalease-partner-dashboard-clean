@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-captain-source-integration-stop-resolution/v1",
+  "batchId": "source-acquisition-28-families-2026-09-04",
+  "previousCaptainStartingSha": "326a567c34626a416ca9b8c43980e11210135bd8",
+  "resolvedAt": "2026-09-04T12:27:10Z",
+  "stopConditions": {
+    "deForm281DateConflict": {
+      "status": "resolved",
+      "controllingClarification": "results/corrections/DE-FORM-281-date-provenance.json",
+      "issuerCatalogRevisionDate": "2025-11-26",
+      "printedRevision": "Rev 11/25",
+      "issuerFilenameDate": "2025-11-19",
+      "legalEffectiveDate": null,
+      "integrationRule": "Store the catalog date, printed revision, and filename date as distinct provenance fields. Do not overwrite one with another."
+    },
+    "durableOwnerOnlyCustody": {
+      "status": "resolved",
+      "controllingRecord": "results/artifact-custody.json",
+      "provider": "Google Drive",
+      "folderId": "1fbmrR7ArOXw9CMvKlWFtZwQKq7XYju5R",
+      "folderUrl": "https://drive.google.com/drive/folders/1fbmrR7ArOXw9CMvKlWFtZwQKq7XYju5R",
+      "shared": false,
+      "primaryArchiveDriveFileId": "1xWvjkwl3ev-vx8b56PubDwJyHqulV9Nu",
+      "supplementArchiveDriveFileId": "1iLYGgg-vZUMGB5F5iR94e1EAVeibmOOt"
+    },
+    "missouriCr301": {
+      "status": "still_blocked",
+      "sourceId": "MO-CR301",
+      "familyId": "mo-610-145-mistaken-identity-set",
+      "officialBinaryUrl": "https://www.courts.mo.gov/file.jsp?id=116396",
+      "historicalExpectedSha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8",
+      "historicalExpectedByteLength": 952015,
+      "exactStop": "Obtain the issuer-original CR301 binary through a normal interactive browser, then inspect, hash, receipt, and place it in the same owner-only custody folder. Do not substitute CR310, CR311, or another form."
+    }
+  },
+  "captainDirective": {
+    "mayResumeAuthoritativeIntegration": true,
+    "familiesExpectedToIntegrateOrReclassifyNow": 27,
+    "familiesExpectedToRemainSourceBlocked": [
+      "mo-610-145-mistaken-identity-set"
+    ],
+    "prohibitedConclusion": "Do not report 28/28 source-cleared while CR301 remains unavailable.",
+    "requiredReadBeforeMutation": [
+      "data/rcap-codex/source-acquisition-2026-09-04/results/corrections/DE-FORM-281-date-provenance.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/results/artifact-custody.json",
+      "data/rcap-codex/source-acquisition-2026-09-04/CAPTAIN-STOP-RESOLUTION-2026-09-04.md"
+    ]
+  }
+}
