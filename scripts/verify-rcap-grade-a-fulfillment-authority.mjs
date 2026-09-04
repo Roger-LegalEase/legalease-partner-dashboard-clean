@@ -130,6 +130,56 @@ const FIRST_COHORT_EXPECTED = [
   }
 ];
 
+const IL_EXISTING_V2_EXPECTED = {
+  assignmentClaim: "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+  routeId: "IL:felony-prostitution-relief",
+  familyId: "il-prostitution-j-vacate-set",
+  specificationPath: "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+  specificationSha256: "7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa",
+  specificationContentSha256: "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+  canonicalSha256: "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+  canonicalByteLength: 7802,
+  canonicalPageCount: 3,
+  boundarySha256: "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+  boundaryByteLength: 7980,
+  boundaryPageCount: 3,
+  verification: {
+    lane: "vf01",
+    verifiedAtBase: "31cf727c0cb7b31719b206900973c973e9273161",
+    rowSha256: "f3c933a8ab6b932b9e0ad7d23fef78a4f6ddebbe8851e261c9a4bad56c43267d",
+    evidencePath: "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+    evidenceRowSha256: "c90ff84b1f56d881967854ff763c14fe67abe4f236d2ab6226cd5ad102285172"
+  },
+  trackAuthority: {
+    path: "data/record-clearing/legal-design-intake/IL.memo.json",
+    sha256: "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
+  },
+  productizationReceipt: {
+    path: "data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json",
+    sha256: "333bc15d565388d1b732cac0657a3da166ccea4676fa4ece772fbe204c8dfd29",
+    introducedAtCommit: "f46cec6f9a5e1ddc1e81334f927f44b7da9e858e",
+    implementationCommit: "beed7d5c5c52f103989919a9d52506b8431ac5e9",
+    localImplementationCommit: "ab44d1800555c5c3d8d80aec191aec6bc1bb9426"
+  },
+  currentVerificationReturn: {
+    path: "data/rcap-grade-a/packet-factory-24h/vf01/il-prostitution-j-vacate-set-current-return.json",
+    sha256: "6005937cf7dd689f70bc277c4e446d62273095f66ecdf13dded9ba486970c7e9"
+  },
+  postApprovalAuditRowSha256: "4ce1f0a89b1a8730ecad573cb9f6759f1c6d2ad11c8822cf6b5680cc60ebdacd",
+  rasterRowSha256: "6983d5f8e719e42c6ab71284e36a61ad0be0af9df1c4656c4f6ce958d0840a1e",
+  rasterReceipt: {
+    workflowRunId: "33574304514",
+    jobId: "100075268121",
+    artifactId: "9826156184",
+    artifactName: "rcap-raster-il-prostitution-j-vacate-set-33574304514",
+    artifactZipSha256: "sha256:d5cdac57c5fc78b781b6169081c34c7779240c4ee1a6eb6351df203f6926e48d"
+  },
+  currentBuilderSha256: "27df6b2fcf89564f9d97a1f775ac20e3d990c367fa107e20a9b841d9d9594eec",
+  currentProductionFieldMapSha256: "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8"
+};
+
+const EXACT_PRODUCTIZED_EXPECTED = [...FIRST_COHORT_EXPECTED, IL_EXISTING_V2_EXPECTED];
+
 const CODIFIED_COMMON_INPUTS = {
   legal: {
     path: "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
@@ -140,8 +190,10 @@ const CODIFIED_COMMON_INPUTS = {
   }
 };
 
-const readSource = (rel) => fs.readFileSync(path.join(rootDir, rel), "utf8");
+const readBytes = (rel) => fs.readFileSync(path.join(rootDir, rel));
+const readSource = (rel) => readBytes(rel).toString("utf8");
 const readJson = (rel) => JSON.parse(readSource(rel));
+const readGitBlob = (commit, rel) => execFileSync("git", ["-C", rootDir, "show", `${commit}:${rel}`], { encoding: "utf8" });
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
 
 const authority = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
@@ -359,6 +411,121 @@ function codifiedAuthorityProblem(record, expected, options = {}) {
   if (includedReceiptBinaries.length > 0) return "source receipt includes a binary source in the packet";
 
   return null;
+}
+
+function exactExistingV2Problem(record, expected = IL_EXISTING_V2_EXPECTED) {
+  const bindings = record.evidenceBindings ?? {};
+  const productization = bindings.exactRouteProductization ?? {};
+  const expectedProductization = expected.productizationReceipt;
+  if (record.routeId !== expected.routeId || record.jurisdiction !== "IL" || record.packetFamilyId !== expected.familyId) {
+    return "record identity is not the exact Illinois runtime route and family";
+  }
+  if (bindings.assignmentClaim !== expected.assignmentClaim) return "obligation route is absent, aliased, or different";
+  if (productization.path !== expectedProductization.path
+    || productization.sha256 !== expectedProductization.sha256
+    || productization.introducedAtCommit !== expectedProductization.introducedAtCommit
+    || productization.implementationCommit !== expectedProductization.implementationCommit
+    || productization.localImplementationCommit !== expectedProductization.localImplementationCommit) {
+    return "exact-route productization receipt identity moved";
+  }
+  if (sha256(readSource(productization.path)) !== expectedProductization.sha256
+    || sha256(readGitBlob(expectedProductization.introducedAtCommit, productization.path)) !== expectedProductization.sha256) {
+    return "exact-route productization receipt bytes are stale";
+  }
+  if (productization.routeId !== expected.routeId
+    || productization.obligationRoute !== expected.assignmentClaim
+    || productization.packetFamilyId !== expected.familyId
+    || productization.packetBytesChanged !== false
+    || productization.automaticSiblingAdmitted !== false
+    || productization.tracklessAggregateRouteAdmitted !== false
+    || productization.routeOpened !== false) {
+    return "productization receipt broadened identity, changed bytes, or opened a route";
+  }
+
+  const specification = readJson(expected.specificationPath);
+  const specificationBinding = bindings.packetSpecification ?? {};
+  if (record.schemaVersion !== GRADE_A_ADMISSION_SCHEMA_VERSION
+    || specification.schemaVersion !== 2
+    || record.packetSpecification?.sha256 !== expected.specificationSha256
+    || specificationBinding.sha256 !== expected.specificationSha256
+    || specificationBinding.schemaVersion !== 2
+    || specificationBinding.contentSha256 !== expected.specificationContentSha256
+    || specificationBinding.authoritativeRegistryContentSha256 !== expected.specificationContentSha256
+    || sha256(readSource(expected.specificationPath)) !== expected.specificationSha256
+    || specification.specificationSha256 !== expected.specificationContentSha256
+    || specification.artifactBinding?.obligationRouteKey !== expected.assignmentClaim) {
+    return "current authoritative v2 specification binding moved";
+  }
+
+  for (const fixture of ["canonical", "boundary"]) {
+    const title = fixture[0].toUpperCase() + fixture.slice(1);
+    const artifact = bindings.approvedArtifacts?.[fixture] ?? {};
+    const bytes = artifact.path ? readBytes(artifact.path) : Buffer.alloc(0);
+    if (artifact.sha256 !== expected[`${fixture}Sha256`]
+      || artifact.byteLength !== expected[`${fixture}ByteLength`]
+      || artifact.pageCount !== expected[`${fixture}PageCount`]
+      || bytes.length !== expected[`${fixture}ByteLength`]
+      || sha256(bytes) !== expected[`${fixture}Sha256`]) {
+      return `${title} artifact bytes, length, or page binding moved`;
+    }
+  }
+
+  const auditDocument = readJson("data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json");
+  const auditRow = (auditDocument.families ?? []).find((row) => row.familyId === expected.familyId);
+  if (!auditRow || sha256(JSON.stringify(auditRow)) !== expected.postApprovalAuditRowSha256
+    || bindings.postApprovalAudit?.rowSha256 !== expected.postApprovalAuditRowSha256
+    || bindings.postApprovalAudit?.verdict !== "COVERED_BY_EXISTING_APPROVAL"
+    || bindings.ownerApproval?.recordId !== FIRST_COHORT_OWNER_APPROVAL
+    || record.legalAuthority?.recordId !== FIRST_COHORT_OWNER_APPROVAL) {
+    return "owner approval or exact post-approval audit row moved";
+  }
+
+  const rasterDocument = readJson("data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json");
+  const rasterRow = (rasterDocument.rows ?? []).find((row) => row.familyId === expected.familyId);
+  const raster = bindings.rasterReceipt ?? {};
+  if (!rasterRow || sha256(JSON.stringify(rasterRow)) !== expected.rasterRowSha256
+    || raster.rowSha256 !== expected.rasterRowSha256
+    || raster.verdict !== "RASTER_PASS"
+    || raster.coversTheWholeFamily !== true
+    || raster.workflowRunId !== expected.rasterReceipt.workflowRunId
+    || raster.jobId !== expected.rasterReceipt.jobId
+    || raster.receiptArtifact?.id !== expected.rasterReceipt.artifactId
+    || raster.receiptArtifact?.name !== expected.rasterReceipt.artifactName
+    || raster.receiptArtifact?.zipSha256 !== expected.rasterReceipt.artifactZipSha256
+    || raster.canonicalSha256 !== expected.canonicalSha256
+    || raster.boundarySha256 !== expected.boundarySha256) {
+    return "current whole-family raster job/artifact receipt moved or went stale";
+  }
+
+  const currentReviewBinding = bindings.currentIndependentReviewReceipt ?? {};
+  const currentReview = readJson(expected.currentVerificationReturn.path);
+  if (currentReviewBinding.path !== expected.currentVerificationReturn.path
+    || currentReviewBinding.sha256 !== expected.currentVerificationReturn.sha256
+    || sha256(readSource(expected.currentVerificationReturn.path)) !== expected.currentVerificationReturn.sha256
+    || currentReview.base !== expected.verification.verifiedAtBase
+    || currentReview.verdict !== "VERIFIED_PASS"
+    || currentReview.route?.customerRouteId !== expected.routeId
+    || currentReview.route?.obligationRouteKey !== expected.assignmentClaim
+    || currentReview.route?.packetFamily !== expected.familyId
+    || currentReview.failedObligations?.length !== 0
+    || currentReview.unmeasuredObligations?.length !== 0
+    || currentReview.lapsedVerdictDeltaReviewed?.freshCurrentByteReviewPerformed !== true) {
+    return "current independent review receipt moved or is incomplete";
+  }
+  if (bindings.provider?.artifactProducer?.builderSha256 !== expected.currentBuilderSha256
+    || sha256(readSource(bindings.provider?.artifactProducer?.builderPath ?? "")) !== expected.currentBuilderSha256
+    || bindings.productionFieldMap?.sha256 !== expected.currentProductionFieldMapSha256
+    || sha256(readSource(bindings.productionFieldMap?.path ?? "")) !== expected.currentProductionFieldMapSha256
+    || !bindings.provider?.deliveryProviderEvidenceSha256
+    || stableStringify(bindings.provider?.deliveryProvider) !== stableStringify(record.provider)
+    || bindings.fixture?.witnessFixtureId !== expected.routeId
+    || bindings.fixture?.expectedPaymentAllowed !== false
+    || record.fixture?.sha256 !== bindings.fixture?.witnessFixtureSha256
+    || record.fixture?.deterministic !== true) {
+    return "provider, current builder/field-map, or deterministic fixture binding moved";
+  }
+
+  return finalVerificationProblem(record, expected) ?? codifiedAuthorityProblem(record, expected);
 }
 
 // ---------------------------------------------------------------------------
@@ -965,9 +1132,9 @@ check("no route in the shipped registry is commercially eligible without every p
   return null;
 });
 
-check("the candidate lanes, bounded clinic route and exact first cohort are the only jurisdictions in the registry", () => {
+check("the candidate lanes, bounded clinic route and exact productized routes are the only jurisdictions in the registry", () => {
   const jurisdictions = [...new Set(registryDocument.records.map((record) => record.jurisdiction))].sort();
-  return jurisdictions.join(",") === "DC,MS,ND,OR,WY" ? null : `the registry carries ${jurisdictions.join(",")}`;
+  return jurisdictions.join(",") === "DC,IL,MS,ND,OR,WY" ? null : `the registry carries ${jurisdictions.join(",")}`;
 });
 
 check("Mississippi authority is limited to the clinic demo and two enumerated first-cohort routes", () => {
@@ -985,6 +1152,39 @@ check("Mississippi authority is limited to the clinic demo and two enumerated fi
     : `unexpected Mississippi authority scope: ${mississippiRoutes.join(",") || "none"}`;
 });
 
+check("Illinois authority is exact-route only and rejects aggregate, wildcard, alias, sibling-family and wrong-family requests", () => {
+  const record = registryDocument.records.find((entry) => entry.routeId === IL_EXISTING_V2_EXPECTED.routeId);
+  const observation = observationDocument.routes?.[IL_EXISTING_V2_EXPECTED.routeId] ?? null;
+  if (!record || !observation) return "the exact Illinois record or observation is absent";
+  const forbiddenRouteIds = [
+    "IL:",
+    "IL:*",
+    "IL:automatic-prostitution-relief",
+    "IL:felony-prostitution-conviction-vacatur-and-expungement"
+  ];
+  for (const routeId of forbiddenRouteIds) {
+    const decision = admitCommercialAction({
+      admissionPoint: "launch_graph_commercial_status",
+      request: { routeId, jurisdiction: "IL", packetFamilyId: record.packetFamilyId },
+      record,
+      observation
+    });
+    if (decision.admitted) return `${routeId} inherited the exact Illinois record`;
+  }
+  const wrongFamily = admitCommercialAction({
+    admissionPoint: "launch_graph_commercial_status",
+    request: { routeId: record.routeId, jurisdiction: "IL", packetFamilyId: "il-prostitution-j-auto-set" },
+    record,
+    observation
+  });
+  if (wrongFamily.admitted) return "the automatic-prostitution sibling family inherited authority";
+  const unprovenObligationAlias = "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-conviction-vacatur-and-expungement";
+  if (registryDocument.records.some((entry) => entry.evidenceBindings?.assignmentClaim === unprovenObligationAlias)) {
+    return "an uncommitted descriptive obligation alias was recorded as current evidence";
+  }
+  return null;
+});
+
 check("the first-cohort authority scope is exactly four route-family records", () => {
   const actual = registryDocument.records
     .filter((record) => record.evidenceBindings?.firstCohortReturn?.commit === FIRST_COHORT_EVIDENCE_COMMIT)
@@ -998,14 +1198,19 @@ check("the first-cohort authority scope is exactly four route-family records", (
     : `expected ${stableStringify(expected)}, got ${stableStringify(actual)}`;
 });
 
-check("every first-cohort record binds the exact committed specification, artifacts and receipts", () => {
-  for (const expected of FIRST_COHORT_EXPECTED) {
+check("every exact productized record binds its committed specification, artifacts and receipts", () => {
+  for (const expected of EXACT_PRODUCTIZED_EXPECTED) {
     const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
     if (!record) return `${expected.routeId} has no record`;
     if (record.packetFamilyId !== expected.familyId) return `${expected.routeId} binds ${record.packetFamilyId}`;
     const bound = record.evidenceBindings;
     if (bound?.assignmentClaim !== expected.assignmentClaim) return `${expected.routeId} binds a different assignment claim`;
-    if (bound?.firstCohortReturn?.commit !== FIRST_COHORT_EVIDENCE_COMMIT) return `${expected.routeId} binds a different first-cohort commit`;
+    if (expected.productizationReceipt) {
+      const problem = exactExistingV2Problem(record, expected);
+      if (problem) return `${expected.routeId}: ${problem}`;
+    } else if (bound?.firstCohortReturn?.commit !== FIRST_COHORT_EVIDENCE_COMMIT) {
+      return `${expected.routeId} binds a different first-cohort commit`;
+    }
     if (record.packetSpecification?.sha256 !== expected.specificationSha256
       || bound?.packetSpecification?.sha256 !== expected.specificationSha256) {
       return `${expected.routeId} binds a different packet specification`;
@@ -1045,8 +1250,8 @@ check("every first-cohort record binds the exact committed specification, artifa
   return null;
 });
 
-check("every first-cohort record binds current independent verification to exact family and artifact inputs", () => {
-  for (const expected of FIRST_COHORT_EXPECTED) {
+check("every exact productized record binds current independent verification to exact family and artifact inputs", () => {
+  for (const expected of EXACT_PRODUCTIZED_EXPECTED) {
     const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
     if (!record) return `${expected.routeId} has no record`;
     const problem = finalVerificationProblem(record, expected);
@@ -1055,8 +1260,8 @@ check("every first-cohort record binds current independent verification to exact
   return null;
 });
 
-check("every first-cohort custom pleading uses exact codified authority and no official binary source", () => {
-  for (const expected of FIRST_COHORT_EXPECTED) {
+check("every exact productized custom pleading uses exact codified authority and no official binary source", () => {
+  for (const expected of EXACT_PRODUCTIZED_EXPECTED) {
     const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
     if (!record) return `${expected.routeId} has no record`;
     const problem = codifiedAuthorityProblem(record, expected);
@@ -1065,9 +1270,9 @@ check("every first-cohort custom pleading uses exact codified authority and no o
   return null;
 });
 
-check("every first-cohort record closes the two measured evidence gaps without opening a route", () => {
+check("every exact productized record closes its fulfillment evidence gaps without opening a route", () => {
   const firstCohortReturn = readJson("data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json");
-  for (const expected of FIRST_COHORT_EXPECTED) {
+  for (const expected of EXACT_PRODUCTIZED_EXPECTED) {
     const record = registryDocument.records.find((entry) => entry.routeId === expected.routeId);
     const row = projection.routes.find((entry) => entry.routeId === expected.routeId);
     if (!record || !row) return `${expected.routeId} is absent from the registry or projection`;
@@ -1081,9 +1286,19 @@ check("every first-cohort record closes the two measured evidence gaps without o
     if ((row.missingProof ?? []).length !== 0 || (row.stalenessReasons ?? []).length !== 0) {
       return `${expected.routeId} still reports open or stale evidence`;
     }
-    const productizationRow = (firstCohortReturn.routeResults ?? []).find((entry) => entry.routeId === expected.routeId);
-    if (productizationRow?.availabilityAfterChange !== "UNFINISHED") {
-      return `${expected.routeId} productization return no longer records its original UNFINISHED posture`;
+    if (expected.productizationReceipt) {
+      const productizationReceipt = readJson(expected.productizationReceipt.path);
+      if (productizationReceipt.packetSpecification?.opensRoute !== false
+        || productizationReceipt.artifacts?.packetBytesChanged !== false
+        || productizationReceipt.route?.automaticSiblingAdmitted !== false
+        || productizationReceipt.route?.tracklessAggregateRouteAdmitted !== false) {
+        return `${expected.routeId} exact productization receipt no longer records its closed posture`;
+      }
+    } else {
+      const productizationRow = (firstCohortReturn.routeResults ?? []).find((entry) => entry.routeId === expected.routeId);
+      if (productizationRow?.availabilityAfterChange !== "UNFINISHED") {
+        return `${expected.routeId} productization return no longer records its original UNFINISHED posture`;
+      }
     }
     const [jurisdiction, ...pathwayParts] = expected.routeId.split(":");
     const resolution = resolvePacketRoute({ state: jurisdiction, pathway: pathwayParts.join(":") });
@@ -1418,6 +1633,36 @@ if (MUTATIONS) {
     return before === after && after !== COMPLETE_PACKET_PROVEN ? null : "editing the projection moved the runtime answer";
   });
 
+  const ilRecord = registryDocument.records.find((record) => record.routeId === IL_EXISTING_V2_EXPECTED.routeId);
+  if (!ilRecord) mutations.push("focused Illinois mutations: the exact existing-v2 record is absent");
+  const requireExactIlRefusal = (record) => exactExistingV2Problem(record)
+    ? null
+    : "mutated Illinois evidence was accepted";
+  const IL_EVIDENCE_MUTATIONS = [
+    ["Illinois wrong family", (record) => { record.packetFamilyId = "il-prostitution-j-auto-set"; }],
+    ["Illinois unproven obligation alias", (record) => { record.evidenceBindings.assignmentClaim = "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-conviction-vacatur-and-expungement"; }],
+    ["Illinois stale productization receipt", (record) => { record.evidenceBindings.exactRouteProductization.sha256 = sha256("stale receipt"); }],
+    ["Illinois stale v2 specification", (record) => { record.evidenceBindings.packetSpecification.sha256 = sha256("stale specification"); }],
+    ["Illinois stale canonical bytes", (record) => { record.evidenceBindings.approvedArtifacts.canonical.sha256 = sha256("stale canonical"); }],
+    ["Illinois stale boundary bytes", (record) => { record.evidenceBindings.approvedArtifacts.boundary.sha256 = sha256("stale boundary"); }],
+    ["Illinois stale raster workflow", (record) => { record.evidenceBindings.rasterReceipt.workflowRunId = "33574304513"; }],
+    ["Illinois stale raster artifact", (record) => { record.evidenceBindings.rasterReceipt.receiptArtifact.zipSha256 = `sha256:${sha256("stale raster artifact")}`; }],
+    ["Illinois weaker independent verdict", (record) => { record.evidenceBindings.independentVerification.verdict = "PASS"; }],
+    ["Illinois stale independent row", (record) => { record.finalVerification.evidenceRowSha256 = sha256("stale verifier row"); }],
+    ["Illinois stale owner approval", (record) => { record.evidenceBindings.ownerApproval.recordId = "OWN-STALE"; }],
+    ["Illinois stale post-approval audit", (record) => { record.evidenceBindings.postApprovalAudit.rowSha256 = sha256("stale audit row"); }],
+    ["Illinois missing current review receipt", (record) => { delete record.evidenceBindings.currentIndependentReviewReceipt; }],
+    ["Illinois provider substitution", (record) => { record.evidenceBindings.provider.artifactProducer.builderSha256 = sha256("other builder"); }]
+  ];
+  for (const [label, breakEvidence] of IL_EVIDENCE_MUTATIONS) {
+    mutate(`${label} fails closed`, () => {
+      if (!ilRecord) return null;
+      const record = clone(ilRecord);
+      breakEvidence(record);
+      return requireExactIlRefusal(record);
+    });
+  }
+
   mutate("an unknown admission point is refused rather than defaulted", () => {
     const record = provenRecord();
     const decision = admitCommercialAction({
@@ -1431,7 +1676,7 @@ if (MUTATIONS) {
     for (const failure of mutations) console.error(`  ✗ ${failure}`);
     process.exit(1);
   }
-  console.log(`Mutations: ${PROOF_MUTATIONS.length + 19} deliberate breakages, all caught.`);
+  console.log(`Mutations: ${PROOF_MUTATIONS.length + 19 + IL_EVIDENCE_MUTATIONS.length} deliberate breakages, all caught.`);
 }
 
 if (failures.length > 0) {

@@ -10,8 +10,8 @@
 //   1. data/rcap-grade-a/fulfillment-authority-registry.json
 //      The canonical controlling registry. Candidate records are written here
 //      ONLY for the lanes that were asked for them — Oregon, North Dakota, the
-//      bounded Mississippi clinic-demo route, and the four enumerated
-//      DC/MS/WY first-cohort routes —
+//      bounded Mississippi clinic-demo route, the four enumerated DC/MS/WY
+//      first-cohort routes, and the exact productized Illinois v2 route —
 //      and only with the proof those lanes actually produced. Where a lane
 //      produced no proof for a dimension, the record says so; it does not
 //      borrow a neighbouring route's evidence and it does not default to true.
@@ -57,6 +57,10 @@ const MS_CLINIC_RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clini
 const FIRST_COHORT_RETURN = "data/rcap-grade-a/packet-factory-24h/fix05/first-route-cohort-productization-return.json";
 const FIRST_COHORT_EVIDENCE_COMMIT = "ff9705a240c004ed7b9d2f022113abe865442d3f";
 const FIRST_COHORT_RETURN_SHA256 = "96157e584ba2d801f1ba78456bcf08463ad05982dbcc9b2ad5b8735913e649a7";
+const IL_PRODUCTIZATION_RETURN = "data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json";
+const IL_PRODUCTIZATION_RETURN_SHA256 = "333bc15d565388d1b732cac0657a3da166ccea4676fa4ece772fbe204c8dfd29";
+const IL_CURRENT_VERIFICATION_RETURN = "data/rcap-grade-a/packet-factory-24h/vf01/il-prostitution-j-vacate-set-current-return.json";
+const IL_CURRENT_VERIFICATION_RETURN_SHA256 = "6005937cf7dd689f70bc277c4e446d62273095f66ecdf13dded9ba486970c7e9";
 const OWNER_BATCH_ADOPTION = "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json";
 const OWNER_BATCH_ADOPTION_ID = "OWN-ADOPT-2026-09-02-BATCH-53";
 const POST_APPROVAL_AUDIT = "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json";
@@ -92,6 +96,10 @@ const CODIFIED_TRACK_INPUTS = {
     path: "data/record-clearing/legal-design-intake/DC.memo.json",
     sha256: "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
   },
+  IL: {
+    path: "data/record-clearing/legal-design-intake/IL.memo.json",
+    sha256: "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
+  },
   MS: {
     path: "data/record-clearing/legal-design-intake/MS.memo.json",
     sha256: "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2"
@@ -123,6 +131,14 @@ const FIRST_COHORT_VERIFICATION = {
     evidencePath: "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
     evidenceRowSha256: "956c4c7edcf042f5ee7f05d45fd6d011795ae4943e4aace7e4240659dddbdc86"
   }
+};
+
+const IL_EXISTING_V2_VERIFICATION = {
+  lane: "vf01",
+  verifiedAtBase: "31cf727c0cb7b31719b206900973c973e9273161",
+  rowSha256: "f3c933a8ab6b932b9e0ad7d23fef78a4f6ddebbe8851e261c9a4bad56c43267d",
+  evidencePath: "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+  evidenceRowSha256: "c90ff84b1f56d881967854ff763c14fe67abe4f236d2ab6226cd5ad102285172"
 };
 
 // This is an enumerated scope, not a jurisdiction allow-list. The two
@@ -174,6 +190,49 @@ const FIRST_COHORT_ROUTES = [
     verification: FIRST_COHORT_VERIFICATION["wy_fel_1502-set"]
   }
 ];
+
+// This route was productized after the original four-route cohort. It uses the
+// same v2 authority shape, but its own receipt and its later independent review
+// are separate evidence and must never be backfilled into the frozen cohort
+// return. The obligation identity below is the only one committed anywhere in
+// the current route census and family artifacts; a longer descriptive alias is
+// not accepted as an equivalent route.
+const EXISTING_V2_ROUTES = [
+  {
+    assignmentClaim: "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+    routeId: "IL:felony-prostitution-relief",
+    familyId: "il-prostitution-j-vacate-set",
+    specificationPath: "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+    builderPath: "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+    providerPaths: ["scripts/build-census-v1-il-prostitution-j-vacate-set.mjs"],
+    overlayRoot: "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading",
+    verification: IL_EXISTING_V2_VERIFICATION,
+    productizationReceipt: {
+      path: IL_PRODUCTIZATION_RETURN,
+      sha256: IL_PRODUCTIZATION_RETURN_SHA256,
+      introducedAtCommit: "f46cec6f9a5e1ddc1e81334f927f44b7da9e858e",
+      implementationCommit: "beed7d5c5c52f103989919a9d52506b8431ac5e9",
+      localImplementationCommit: "ab44d1800555c5c3d8d80aec191aec6bc1bb9426",
+      specificationFileSha256: "7fffc6b35c6bc4e03e8b8844aec69bb1bdaca16ffa955b167b7f73e1b9dbd9fa",
+      specificationContentSha256: "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+      postApprovalAuditRowSha256: "4ce1f0a89b1a8730ecad573cb9f6759f1c6d2ad11c8822cf6b5680cc60ebdacd",
+      rasterRowSha256: "6983d5f8e719e42c6ab71284e36a61ad0be0af9df1c4656c4f6ce958d0840a1e",
+      rasterReceipt: {
+        workflowRunId: "33574304514",
+        jobId: "100075268121",
+        artifactId: "9826156184",
+        artifactName: "rcap-raster-il-prostitution-j-vacate-set-33574304514",
+        artifactZipSha256: "sha256:d5cdac57c5fc78b781b6169081c34c7779240c4ee1a6eb6351df203f6926e48d"
+      },
+      currentVerificationReturnPath: IL_CURRENT_VERIFICATION_RETURN,
+      currentVerificationReturnSha256: IL_CURRENT_VERIFICATION_RETURN_SHA256,
+      currentBuilderSha256: "27df6b2fcf89564f9d97a1f775ac20e3d990c367fa107e20a9b841d9d9594eec",
+      currentProductionFieldMapSha256: "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8"
+    }
+  }
+];
+
+const EXACT_PRODUCTIZED_ROUTES = [...FIRST_COHORT_ROUTES, ...EXISTING_V2_ROUTES];
 
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
 const gitBlobSha1 = (value) => crypto.createHash("sha1")
@@ -366,11 +425,11 @@ requireEvidence(ownerBatchAdoption.recordId === OWNER_BATCH_ADOPTION_ID, `${OWNE
 requireEvidence(ownerBatchAdoption.decisionOwner === "Roger Roman", `${OWNER_BATCH_ADOPTION_ID} has no exact decision owner`);
 requireEvidence(ownerBatchAdoption.decidedOn === "2026-09-02", `${OWNER_BATCH_ADOPTION_ID} has an unexpected decision date`);
 
-const firstCohortFamilies = [...new Set(FIRST_COHORT_ROUTES.map((entry) => entry.familyId))].sort();
+const exactProductizedFamilies = [...new Set(EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.familyId))].sort();
 const ownerQualification = ownerBatchAdoption.adoption?.qualifications?.find((entry) =>
-  firstCohortFamilies.every((familyId) => entry.families?.includes(familyId))
+  exactProductizedFamilies.every((familyId) => entry.families?.includes(familyId))
 ) ?? null;
-requireEvidence(ownerQualification, `${OWNER_BATCH_ADOPTION_ID} does not adopt all three assigned families in one exact qualification`);
+requireEvidence(ownerQualification, `${OWNER_BATCH_ADOPTION_ID} does not adopt every exact productized family in one qualification`);
 requireEvidence(
   /No runtime, technical, visual, payment, sponsorship, or production authority is granted\./.test(ownerQualification.ownerNote ?? ""),
   `${OWNER_BATCH_ADOPTION_ID} no longer carries its fail-closed qualification`
@@ -380,21 +439,21 @@ const postApprovalAuditBytes = readEvidenceBytes(POST_APPROVAL_AUDIT);
 const postApprovalAudit = JSON.parse(postApprovalAuditBytes.toString("utf8"));
 const postApprovalAuditByFamily = new Map(
   (postApprovalAudit.families ?? [])
-    .filter((entry) => firstCohortFamilies.includes(entry.familyId))
+    .filter((entry) => exactProductizedFamilies.includes(entry.familyId))
     .map((entry) => [entry.familyId, entry])
 );
 const rasterQueueBytes = readEvidenceBytes(RASTER_QUEUE);
 const rasterQueue = JSON.parse(rasterQueueBytes.toString("utf8"));
 const rasterByFamily = new Map(
   (rasterQueue.rows ?? [])
-    .filter((entry) => firstCohortFamilies.includes(entry.familyId))
+    .filter((entry) => exactProductizedFamilies.includes(entry.familyId))
     .map((entry) => [entry.familyId, entry])
 );
 const verifierReturnsBytes = readEvidenceBytes(VERIFIER_RETURNS);
 const verifierReturns = JSON.parse(verifierReturnsBytes.toString("utf8"));
 const verifierByFamily = new Map(
   (verifierReturns.rows ?? [])
-    .filter((entry) => firstCohortFamilies.includes(entry.familyId) && entry.superseded === false)
+    .filter((entry) => exactProductizedFamilies.includes(entry.familyId) && entry.superseded === false)
     .map((entry) => [entry.familyId, entry])
 );
 
@@ -1074,10 +1133,11 @@ function codifiedAuthorityProof({
 }
 
 /**
- * Candidate authority for one of the four already-productized first-cohort
- * routes. The packet factory proves a family; this function deliberately
- * produces a separate record for each exact runtime route and refuses any
- * wildcard or neighbouring route.
+ * Candidate authority for an exact already-productized v2 route: either one
+ * of the four frozen first-cohort routes or a separately receipted later
+ * productization. The packet factory proves a family; this function
+ * deliberately produces a separate record for each exact runtime route and
+ * refuses any wildcard or neighbouring route.
  *
  * The owner adoption is legal/output evidence for the exact pinned bytes only.
  * Its own qualification says it grants no runtime or commercial authority, and
@@ -1087,17 +1147,48 @@ function codifiedAuthorityProof({
  * proof after both the specification and packet-set components prove that no
  * official PDF is required.
  */
-function firstCohortCandidateRecord(definition) {
+function exactProductizedCandidateRecord(definition) {
   const {
-    assignmentClaim, routeId, familyId, specificationPath, builderPath, providerPaths, overlayRoot, verification
+    assignmentClaim, routeId, familyId, specificationPath, builderPath, providerPaths, overlayRoot, verification,
+    productizationReceipt = null
   } = definition;
   const jurisdiction = routeId.slice(0, routeId.indexOf(":"));
   const pathwayId = routeId.slice(routeId.indexOf(":") + 1);
 
-  const returnedRoute = firstCohortReturn.routeResults.find((entry) => entry.routeId === routeId) ?? null;
-  requireEvidence(returnedRoute, `${FIRST_COHORT_RETURN} has no result for ${routeId}`);
-  requireEvidence(returnedRoute.familyId === familyId, `${routeId} maps to ${returnedRoute.familyId}, not ${familyId}, in the committed return`);
-  requireEvidence(returnedRoute.availabilityAfterChange === "UNFINISHED", `${routeId} was unexpectedly opened by the productization return`);
+  let exactRouteReceiptBytes = null;
+  let exactRouteReceipt = null;
+  let returnedRoute = null;
+  if (productizationReceipt) {
+    exactRouteReceiptBytes = readEvidenceBytes(productizationReceipt.path);
+    requireEvidence(sha256(exactRouteReceiptBytes) === productizationReceipt.sha256, `${productizationReceipt.path} moved after admission`);
+    requireEvidence(sha256(readGitBlob(productizationReceipt.introducedAtCommit, productizationReceipt.path)) === productizationReceipt.sha256, `${productizationReceipt.path} is not byte-identical to its admitted commit`);
+    exactRouteReceipt = JSON.parse(exactRouteReceiptBytes.toString("utf8"));
+    requireEvidence(exactRouteReceipt.status === "READY_FOR_GRADE_A_FULFILLMENT_RECORD_GENERATION", `${productizationReceipt.path} does not hand off to this generator`);
+    requireEvidence(exactRouteReceipt.commit === productizationReceipt.implementationCommit, `${productizationReceipt.path} names a different implementation commit`);
+    requireEvidence(exactRouteReceipt.localImplementationCommit === productizationReceipt.localImplementationCommit, `${productizationReceipt.path} names a different local implementation commit`);
+    requireEvidence(exactRouteReceipt.route?.runtimeRouteId === routeId, `${productizationReceipt.path} names a different runtime route`);
+    requireEvidence(exactRouteReceipt.route?.packetFamilyId === familyId, `${productizationReceipt.path} names a different packet family`);
+    requireEvidence(exactRouteReceipt.route?.obligationRouteKey === assignmentClaim, `${productizationReceipt.path} names a different obligation route`);
+    requireEvidence(exactRouteReceipt.route?.automaticSiblingAdmitted === false, `${productizationReceipt.path} admits the automatic sibling`);
+    requireEvidence(exactRouteReceipt.route?.tracklessAggregateRouteAdmitted === false, `${productizationReceipt.path} admits the trackless aggregate route`);
+    requireEvidence(exactRouteReceipt.packetSpecification?.opensRoute === false, `${productizationReceipt.path} claims to open the route`);
+    requireEvidence(exactRouteReceipt.artifacts?.packetBytesChanged === false, `${productizationReceipt.path} claims packet bytes changed`);
+    requireEvidence(exactRouteReceipt.exactNextGate?.currentAdmissionDenial === "fulfillment_no_record", `${productizationReceipt.path} was not produced while fulfillment failed closed`);
+    returnedRoute = {
+      routeId,
+      familyId,
+      artifacts: ["canonical", "boundary"].map((fixture) => ({
+        fixture,
+        ...exactRouteReceipt.artifacts?.[fixture],
+        unchanged: exactRouteReceipt.artifacts?.packetBytesChanged === false
+      }))
+    };
+  } else {
+    returnedRoute = firstCohortReturn.routeResults.find((entry) => entry.routeId === routeId) ?? null;
+    requireEvidence(returnedRoute, `${FIRST_COHORT_RETURN} has no result for ${routeId}`);
+    requireEvidence(returnedRoute.availabilityAfterChange === "UNFINISHED", `${routeId} was unexpectedly opened by the productization return`);
+  }
+  requireEvidence(returnedRoute.familyId === familyId, `${routeId} maps to ${returnedRoute.familyId}, not ${familyId}, in its productization evidence`);
   requireEvidence(returnedRoute.artifacts?.length === 2, `${routeId} does not bind exactly canonical and boundary artifacts`);
   requireEvidence(resolvePacketFamilyId(routeId) === familyId, `the shipped resolver does not map ${routeId} to ${familyId}`);
 
@@ -1106,6 +1197,16 @@ function firstCohortCandidateRecord(definition) {
   requireEvidence(specification.jurisdiction === jurisdiction, `${specificationPath} has the wrong jurisdiction for ${routeId}`);
   requireEvidence(specification.packetFamily === familyId, `${specificationPath} has the wrong family for ${routeId}`);
   requireEvidence(specification.routeKeys?.includes(routeId), `${specificationPath} does not enumerate ${routeId}`);
+  if (productizationReceipt) {
+    const registeredSpecification = packetSpecificationFor(routeId) ?? null;
+    requireEvidence(specification.schemaVersion === 2, `${specificationPath} is not an existing v2 packet specification`);
+    requireEvidence(specification.artifactBinding?.obligationRouteKey === assignmentClaim, `${specificationPath} binds a different obligation route`);
+    requireEvidence(sha256(specificationBytes) === productizationReceipt.specificationFileSha256, `${specificationPath} file bytes moved after exact-route productization`);
+    requireEvidence(specification.specificationSha256 === productizationReceipt.specificationContentSha256, `${specificationPath} records a different v2 content digest`);
+    requireEvidence(exactRouteReceipt.packetSpecification?.specificationSha256 === productizationReceipt.specificationContentSha256, `${productizationReceipt.path} binds a different v2 specification digest`);
+    requireEvidence(registeredSpecification?.packetFamily === familyId, `the authoritative v2 specification registry does not resolve ${routeId} to ${familyId}`);
+    requireEvidence(specificationContentSha256(registeredSpecification) === productizationReceipt.specificationContentSha256, `the authoritative v2 specification registry observes stale content for ${routeId}`);
+  }
   requireEvidence(specification.legalSectionsBound === true, `${specificationPath} does not bind its legal sections`);
   requireEvidence(
     specification.legalSectionsBoundBy?.ownerDecisionRecordId === OWNER_BATCH_ADOPTION_ID,
@@ -1127,9 +1228,9 @@ function firstCohortCandidateRecord(definition) {
   for (const artifact of [canonical, boundary]) {
     const returned = returnedByFixture.get(artifact.fixture) ?? null;
     const ownerPin = ownerPinByFixture.get(artifact.fixture) ?? null;
-    requireEvidence(returned?.sha256 === artifact.sha256, `${routeId} ${artifact.fixture} hash differs from ${FIRST_COHORT_RETURN}`);
-    requireEvidence(returned?.byteLength === artifact.byteLength, `${routeId} ${artifact.fixture} byte length differs from ${FIRST_COHORT_RETURN}`);
-    requireEvidence(returned?.pageCount === artifact.pageCount, `${routeId} ${artifact.fixture} page count differs from ${FIRST_COHORT_RETURN}`);
+    requireEvidence(returned?.sha256 === artifact.sha256, `${routeId} ${artifact.fixture} hash differs from its exact productization evidence`);
+    requireEvidence(returned?.byteLength === artifact.byteLength, `${routeId} ${artifact.fixture} byte length differs from its exact productization evidence`);
+    requireEvidence(returned?.pageCount === artifact.pageCount, `${routeId} ${artifact.fixture} page count differs from its exact productization evidence`);
     requireEvidence(returned?.unchanged === true, `${routeId} ${artifact.fixture} was not returned as unchanged`);
     requireEvidence(ownerPin?.file === artifact.file, `${OWNER_BATCH_ADOPTION_ID} pins a different ${artifact.fixture} path for ${familyId}`);
     requireEvidence(ownerPin?.sha256 === artifact.sha256, `${OWNER_BATCH_ADOPTION_ID} pins a different ${artifact.fixture} hash for ${familyId}`);
@@ -1141,6 +1242,30 @@ function firstCohortCandidateRecord(definition) {
   requireEvidence(audit?.reviewedAgainstApprovalRecordId === OWNER_BATCH_ADOPTION_ID, `${familyId} audit cites a different owner decision`);
   requireEvidence(audit?.mayEnterTheFirstCohort === true, `${familyId} was not admitted to the bounded first cohort`);
   requireEvidence(audit.currentShippingArtifact?.fixtures?.length === 2, `${familyId} audit does not bind both fixture hashes`);
+  const auditRowSha256 = sha256(JSON.stringify(audit));
+  if (productizationReceipt) {
+    requireEvidence(auditRowSha256 === productizationReceipt.postApprovalAuditRowSha256, `${familyId} post-approval audit row moved after exact-route productization`);
+  }
+
+  let currentVerificationReturnBytes = null;
+  let currentVerificationReturn = null;
+  if (productizationReceipt) {
+    currentVerificationReturnBytes = readEvidenceBytes(productizationReceipt.currentVerificationReturnPath);
+    requireEvidence(sha256(currentVerificationReturnBytes) === productizationReceipt.currentVerificationReturnSha256, `${productizationReceipt.currentVerificationReturnPath} moved after admission`);
+    currentVerificationReturn = JSON.parse(currentVerificationReturnBytes.toString("utf8"));
+    requireEvidence(currentVerificationReturn.familyId === familyId, `${productizationReceipt.currentVerificationReturnPath} names a different family`);
+    requireEvidence(currentVerificationReturn.base === verification.verifiedAtBase, `${productizationReceipt.currentVerificationReturnPath} declares a different review base`);
+    requireEvidence(currentVerificationReturn.worker === "CODEX-CS1-VF01-IL-CURRENT", `${productizationReceipt.currentVerificationReturnPath} names a different independent worker`);
+    requireEvidence(currentVerificationReturn.route?.customerRouteId === routeId, `${productizationReceipt.currentVerificationReturnPath} names a different runtime route`);
+    requireEvidence(currentVerificationReturn.route?.obligationRouteKey === assignmentClaim, `${productizationReceipt.currentVerificationReturnPath} names a different obligation route`);
+    requireEvidence(currentVerificationReturn.route?.packetFamily === familyId, `${productizationReceipt.currentVerificationReturnPath} names a different packet family`);
+    requireEvidence(currentVerificationReturn.verdict === "VERIFIED_PASS", `${productizationReceipt.currentVerificationReturnPath} is not a current-byte pass`);
+    requireEvidence(currentVerificationReturn.obligationsMeasured === 15, `${productizationReceipt.currentVerificationReturnPath} did not measure all fifteen obligations`);
+    requireEvidence(currentVerificationReturn.failedObligations?.length === 0 && currentVerificationReturn.unmeasuredObligations?.length === 0, `${productizationReceipt.currentVerificationReturnPath} still has proof gaps`);
+    requireEvidence(currentVerificationReturn.approval?.ownerDecisionRecordId === OWNER_BATCH_ADOPTION_ID, `${productizationReceipt.currentVerificationReturnPath} names a different owner approval`);
+    requireEvidence(currentVerificationReturn.approval?.postApprovalAuditVerdict === audit.verdict, `${productizationReceipt.currentVerificationReturnPath} names a different post-approval verdict`);
+    requireEvidence(currentVerificationReturn.approval?.scopeCreatesNoRuntimeOrCommercialAuthority === true, `${productizationReceipt.currentVerificationReturnPath} claims commercial authority`);
+  }
 
   const renderedArtifactsPath = `${overlayRoot}/reports/rendered-artifacts.json`;
   const sourceReceiptPath = `${overlayRoot}/source-receipt.json`;
@@ -1148,9 +1273,17 @@ function firstCohortCandidateRecord(definition) {
   const participantInstructionsPath = `${overlayRoot}/participant-instructions.md`;
   const renderedArtifactsBytes = readEvidenceBytes(renderedArtifactsPath);
   const renderedArtifacts = JSON.parse(renderedArtifactsBytes.toString("utf8"));
+  const productionFieldMapBytes = readEvidenceBytes(productionFieldMapPath);
   requireEvidence(sha256(renderedArtifactsBytes) === audit.currentShippingArtifact.renderedArtifactsReportSha256, `${familyId} rendered-artifact report drifted after the audit`);
   requireEvidence(sha256(readEvidenceBytes(sourceReceiptPath)) === audit.currentShippingArtifact.sourceReceiptSha256, `${familyId} source receipt drifted after the audit`);
-  requireEvidence(sha256(readEvidenceBytes(productionFieldMapPath)) === audit.currentShippingArtifact.productionFieldMapSha256, `${familyId} production field map drifted after the audit`);
+  if (productizationReceipt) {
+    requireEvidence(currentVerificationReturn.lapsedVerdictDeltaReviewed?.formerFieldMapSha256 === audit.currentShippingArtifact.productionFieldMapSha256, `${familyId} current review does not trace the owner-audited field map`);
+    requireEvidence(currentVerificationReturn.lapsedVerdictDeltaReviewed?.currentFieldMapSha256 === productizationReceipt.currentProductionFieldMapSha256, `${familyId} current review names a different field map`);
+    requireEvidence(currentVerificationReturn.lapsedVerdictDeltaReviewed?.freshCurrentByteReviewPerformed === true, `${familyId} metadata delta was not independently reviewed`);
+    requireEvidence(sha256(productionFieldMapBytes) === productizationReceipt.currentProductionFieldMapSha256, `${familyId} production field map moved after current review`);
+  } else {
+    requireEvidence(sha256(productionFieldMapBytes) === audit.currentShippingArtifact.productionFieldMapSha256, `${familyId} production field map drifted after the audit`);
+  }
   requireEvidence(sha256(readEvidenceBytes(participantInstructionsPath)) === audit.currentShippingArtifact.participantInstructionsSha256, `${familyId} participant instructions drifted after the audit`);
   requireEvidence(renderedArtifacts.familyId === familyId, `${renderedArtifactsPath} names a different family`);
   requireEvidence(renderedArtifacts.renderedFresh === true && renderedArtifacts.derivedFromBytes === true && renderedArtifacts.byteDerivedHashes === true, `${renderedArtifactsPath} does not carry fresh byte-derived artifact evidence`);
@@ -1177,7 +1310,11 @@ function firstCohortCandidateRecord(definition) {
   requireEvidence(verifier.verifiedAtBase === verification.verifiedAtBase, `${familyId} current independent verdict declares a different verified base`);
   requireEvidence(verifier.evidencePath === verification.evidencePath, `${familyId} current independent verdict names a different evidence path`);
   const verifierRowSha256 = sha256(JSON.stringify(verifier));
-  requireEvidence(verifierRowSha256 === audit.currentIndependentVerification?.verifierRowJsonStringifySha256ApprovedAndNow, `${familyId} current independent verdict row drifted after the audit`);
+  if (!productizationReceipt) {
+    requireEvidence(verifierRowSha256 === audit.currentIndependentVerification?.verifierRowJsonStringifySha256ApprovedAndNow, `${familyId} current independent verdict row drifted after the audit`);
+  } else {
+    requireEvidence(currentVerificationReturn.base === verifier.verifiedAtBase, `${familyId} current review and verifier registry disagree on their base`);
+  }
   requireEvidence(verifierRowSha256 === verification.rowSha256, `${familyId} current independent verdict row differs from the admitted exact digest`);
 
   const verifierEvidenceBytes = readEvidenceBytes(verifier.evidencePath);
@@ -1193,6 +1330,15 @@ function firstCohortCandidateRecord(definition) {
   const verifierEvidenceRowText = JSON.stringify(verifierEvidenceRow);
   requireEvidence(verifierEvidenceRowText.includes(canonical.sha256), `${verifier.evidencePath} does not bind the exact canonical digest for ${familyId}`);
   requireEvidence(verifierEvidenceRowText.includes(boundary.sha256), `${verifier.evidencePath} does not bind the exact boundary digest for ${familyId}`);
+  if (productizationReceipt) {
+    requireEvidence(verifierEvidenceRow.sourceReturn === productizationReceipt.currentVerificationReturnPath, `${verifier.evidencePath} does not bind the current independent return`);
+    for (const artifact of [canonical, boundary]) {
+      const currentArtifact = currentVerificationReturn.artifacts?.[artifact.fixture] ?? null;
+      requireEvidence(currentArtifact?.sha256 === artifact.sha256, `${productizationReceipt.currentVerificationReturnPath} has a different ${artifact.fixture} hash`);
+      requireEvidence(currentArtifact?.byteLength === artifact.byteLength, `${productizationReceipt.currentVerificationReturnPath} has a different ${artifact.fixture} byte length`);
+      requireEvidence(currentArtifact?.pageCount === artifact.pageCount, `${productizationReceipt.currentVerificationReturnPath} has a different ${artifact.fixture} page count`);
+    }
+  }
 
   const raster = rasterByFamily.get(familyId) ?? null;
   requireEvidence(raster?.currentRasterState === "RASTER_PASS", `${familyId} has no current raster pass`);
@@ -1204,6 +1350,16 @@ function firstCohortCandidateRecord(definition) {
   requireEvidence(audit.currentRasterPins?.jobId === raster.rasterReceipt.jobId, `${familyId} audit and raster receipt disagree on job`);
   requireEvidence(audit.currentRasterPins?.canonicalSha256 === canonical.sha256, `${familyId} audit has a different raster canonical pin`);
   requireEvidence(audit.currentRasterPins?.boundarySha256 === boundary.sha256, `${familyId} audit has a different raster boundary pin`);
+  const rasterRowSha256 = sha256(JSON.stringify(raster));
+  if (productizationReceipt) {
+    const expectedRaster = productizationReceipt.rasterReceipt;
+    requireEvidence(rasterRowSha256 === productizationReceipt.rasterRowSha256, `${familyId} current raster row moved after exact-route productization`);
+    requireEvidence(raster.rasterReceipt.workflowRunId === expectedRaster.workflowRunId, `${familyId} bound a stale raster workflow run`);
+    requireEvidence(raster.rasterReceipt.jobId === expectedRaster.jobId, `${familyId} bound a stale raster job`);
+    requireEvidence(raster.rasterReceipt.receiptArtifact?.id === expectedRaster.artifactId, `${familyId} bound a stale raster artifact id`);
+    requireEvidence(raster.rasterReceipt.receiptArtifact?.name === expectedRaster.artifactName, `${familyId} bound a stale raster artifact name`);
+    requireEvidence(raster.rasterReceipt.receiptArtifact?.zipSha256 === expectedRaster.artifactZipSha256, `${familyId} bound a stale raster artifact digest`);
+  }
 
   const providerByteParts = providerPaths.map((rel) => readEvidenceBytes(rel));
   const builderBytes = Buffer.concat(providerByteParts);
@@ -1212,7 +1368,12 @@ function firstCohortCandidateRecord(definition) {
   const auditedBuilder = audit.postApprovalPathAndByteCensus?.builder ?? null;
   const builderEntryBytes = providerByteParts[providerPaths.indexOf(builderPath)];
   requireEvidence(auditedBuilder?.path === builderPath, `${familyId} audit names a different builder`);
-  requireEvidence(gitBlobSha1(builderEntryBytes) === auditedBuilder.gitBlobAtApprovalAndNow, `${builderPath} drifted from the owner-audited Git blob`);
+  if (productizationReceipt) {
+    requireEvidence(builderSha256 === productizationReceipt.currentBuilderSha256, `${builderPath} moved after current independent review`);
+    requireEvidence(currentVerificationReturn.currentRecordHashes?.familyBuilder === builderSha256, `${productizationReceipt.currentVerificationReturnPath} binds a different current builder`);
+  } else {
+    requireEvidence(gitBlobSha1(builderEntryBytes) === auditedBuilder.gitBlobAtApprovalAndNow, `${builderPath} drifted from the owner-audited Git blob`);
+  }
   const deterministic = builderSource.includes("stampDeterministic(pdf)")
     && renderedArtifacts.renderedFresh === true
     && renderedArtifacts.derivedFromBytes === true
@@ -1374,12 +1535,53 @@ function firstCohortCandidateRecord(definition) {
     },
     evidenceBindings: {
       assignmentClaim,
-      firstCohortReturn: {
-        commit: FIRST_COHORT_EVIDENCE_COMMIT,
-        path: FIRST_COHORT_RETURN,
-        sha256: sha256(firstCohortReturnBytes)
+      ...(productizationReceipt ? {
+        exactRouteProductization: {
+          path: productizationReceipt.path,
+          sha256: sha256(exactRouteReceiptBytes),
+          introducedAtCommit: productizationReceipt.introducedAtCommit,
+          implementationCommit: exactRouteReceipt.commit,
+          localImplementationCommit: exactRouteReceipt.localImplementationCommit,
+          status: exactRouteReceipt.status,
+          schemaVersion: exactRouteReceipt.schemaVersion,
+          routeId,
+          obligationRoute: assignmentClaim,
+          packetFamilyId: familyId,
+          packetBytesChanged: exactRouteReceipt.artifacts.packetBytesChanged,
+          automaticSiblingAdmitted: exactRouteReceipt.route.automaticSiblingAdmitted,
+          tracklessAggregateRouteAdmitted: exactRouteReceipt.route.tracklessAggregateRouteAdmitted,
+          routeOpened: exactRouteReceipt.packetSpecification.opensRoute
+        },
+        currentIndependentReviewReceipt: {
+          path: productizationReceipt.currentVerificationReturnPath,
+          sha256: sha256(currentVerificationReturnBytes),
+          worker: currentVerificationReturn.worker,
+          base: currentVerificationReturn.base,
+          verdict: currentVerificationReturn.verdict,
+          obligationsMeasured: currentVerificationReturn.obligationsMeasured,
+          failedObligations: currentVerificationReturn.failedObligations,
+          unmeasuredObligations: currentVerificationReturn.unmeasuredObligations,
+          currentBuilderSha256: currentVerificationReturn.currentRecordHashes.familyBuilder,
+          currentProductionFieldMapSha256: currentVerificationReturn.currentRecordHashes.productionFieldMap,
+          metadataDeltaFinding: currentVerificationReturn.lapsedVerdictDeltaReviewed.finding,
+          freshCurrentByteReviewPerformed: currentVerificationReturn.lapsedVerdictDeltaReviewed.freshCurrentByteReviewPerformed
+        }
+      } : {
+        firstCohortReturn: {
+          commit: FIRST_COHORT_EVIDENCE_COMMIT,
+          path: FIRST_COHORT_RETURN,
+          sha256: sha256(firstCohortReturnBytes)
+        }
+      }),
+      packetSpecification: {
+        path: specificationPath,
+        sha256: sha256(specificationBytes),
+        ...(productizationReceipt ? {
+          schemaVersion: specification.schemaVersion,
+          contentSha256: specification.specificationSha256,
+          authoritativeRegistryContentSha256: specificationContentSha256(packetSpecificationFor(routeId))
+        } : {})
       },
-      packetSpecification: { path: specificationPath, sha256: sha256(specificationBytes) },
       approvedArtifacts: {
         canonical: { path: canonical.file, sha256: canonical.sha256, byteLength: canonical.byteLength, pageCount: canonical.pageCount },
         boundary: { path: boundary.file, sha256: boundary.sha256, byteLength: boundary.byteLength, pageCount: boundary.pageCount }
@@ -1396,14 +1598,20 @@ function firstCohortCandidateRecord(definition) {
       postApprovalAudit: {
         path: POST_APPROVAL_AUDIT,
         fileSha256: sha256(postApprovalAuditBytes),
-        verdict: audit.verdict
+        rowSha256: auditRowSha256,
+        verdict: audit.verdict,
+        ...(productizationReceipt ? {
+          independentVerificationAtAudit: audit.currentIndependentVerification,
+          reconciliation: "The owner audit pins the unchanged legal design, source receipt, rendered-artifact report and PDF bytes. The later independent current-byte review binds the bookkeeping-only builder/field-map delta, and the exact-route productization receipt binds the current v2 specification. No evidence claims the older audit reviewed later metadata."
+        } : {})
       },
       rasterReceipt: {
         path: RASTER_QUEUE,
-        rowSha256: sha256(JSON.stringify(raster)),
+        rowSha256: rasterRowSha256,
         verdict: raster.rasterReceipt.verdict,
         workflowRunId: raster.rasterReceipt.workflowRunId,
         jobId: raster.rasterReceipt.jobId,
+        ...(productizationReceipt ? { receiptArtifact: raster.rasterReceipt.receiptArtifact ?? null } : {}),
         canonicalSha256: canonical.sha256,
         boundarySha256: boundary.sha256,
         coversTheWholeFamily: raster.rasterReceipt.coversTheWholeFamily
@@ -1456,7 +1664,7 @@ function firstCohortCandidateRecord(definition) {
         boundarySha256: boundary.sha256
       },
       sourceReceipt: { path: sourceReceiptPath, sha256: audit.currentShippingArtifact.sourceReceiptSha256 },
-      productionFieldMap: { path: productionFieldMapPath, sha256: audit.currentShippingArtifact.productionFieldMapSha256 }
+      productionFieldMap: { path: productionFieldMapPath, sha256: sha256(productionFieldMapBytes) }
     },
     history: []
   };
@@ -1466,7 +1674,9 @@ function firstCohortCandidateRecord(definition) {
     changeKind: "created",
     changedAt: ownerBatchAdoption.decidedOn,
     changedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-    reason: `Bounded first-cohort candidate derived from ${FIRST_COHORT_RETURN} at ${FIRST_COHORT_EVIDENCE_COMMIT}, ${specificationPath}, current raster and exact independent-verification rows, ${OWNER_BATCH_ADOPTION_ID}, codified custom-pleading authority, and committed provider/fixture evidence. This generator records evidence only; it opens no route and performs no commercial action.`,
+    reason: productizationReceipt
+      ? `Exact existing-v2 candidate derived from ${productizationReceipt.path} at ${productizationReceipt.introducedAtCommit}, ${specificationPath}, current raster and independent current-byte review evidence, ${OWNER_BATCH_ADOPTION_ID}, the exact post-approval audit row, codified custom-pleading authority, and committed provider/fixture evidence. This generator records evidence only; every hosted and additive launch gate remains independent, and no route is opened.`
+      : `Bounded first-cohort candidate derived from ${FIRST_COHORT_RETURN} at ${FIRST_COHORT_EVIDENCE_COMMIT}, ${specificationPath}, current raster and exact independent-verification rows, ${OWNER_BATCH_ADOPTION_ID}, codified custom-pleading authority, and committed provider/fixture evidence. This generator records evidence only; it opens no route and performs no commercial action.`,
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: null
   }];
@@ -1481,12 +1691,14 @@ const rows = launchGraph.rows
 const records = [
   ...rows.map(candidateRecord),
   mississippiClinicCandidateRecord(),
-  ...FIRST_COHORT_ROUTES.map(firstCohortCandidateRecord)
+  ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedCandidateRecord)
 ]
   .sort((a, b) => a.routeId.localeCompare(b.routeId));
 
-const firstCohortEvidencePaths = [...new Set([
+const exactProductizedEvidencePaths = [...new Set([
   FIRST_COHORT_RETURN,
+  IL_PRODUCTIZATION_RETURN,
+  IL_CURRENT_VERIFICATION_RETURN,
   OWNER_BATCH_ADOPTION,
   POST_APPROVAL_AUDIT,
   RASTER_QUEUE,
@@ -1494,7 +1706,8 @@ const firstCohortEvidencePaths = [...new Set([
   CODIFIED_COMMON_INPUTS.packetSet.path,
   ...Object.values(CODIFIED_TRACK_INPUTS).map((entry) => entry.path),
   ...Object.values(FIRST_COHORT_VERIFICATION).map((entry) => entry.evidencePath),
-  ...FIRST_COHORT_ROUTES.flatMap((entry) => [
+  IL_EXISTING_V2_VERIFICATION.evidencePath,
+  ...EXACT_PRODUCTIZED_ROUTES.flatMap((entry) => [
     entry.specificationPath,
     entry.builderPath,
     ...entry.providerPaths,
@@ -1509,7 +1722,7 @@ const firstCohortEvidencePaths = [...new Set([
 const allCandidateJurisdictions = [...new Set([
   ...CANDIDATE_JURISDICTIONS,
   "MS",
-  ...FIRST_COHORT_ROUTES.map((entry) => entry.routeId.slice(0, entry.routeId.indexOf(":")))
+  ...EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.routeId.slice(0, entry.routeId.indexOf(":")))
 ])].sort();
 
 const registry = {
@@ -1520,8 +1733,8 @@ const registry = {
   changesRuntime: false,
   candidateScope: {
     jurisdictions: allCandidateJurisdictions,
-    routes: [MS_CLINIC_ROUTE, ...FIRST_COHORT_ROUTES.map((entry) => entry.routeId)].sort(),
-    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort route records bind the limited owner adoption, current packet/raster/independent-verification evidence, codified custom-pleading authority, and committed provider/fixture identities. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. A route absent from this registry fails closed."
+    routes: [MS_CLINIC_ROUTE, ...EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.routeId)].sort(),
+    rule: "Candidate records exist only for lanes and exact routes that were asked to provide evidence. The four first-cohort records and the separately productized exact Illinois v2 route bind their own current packet/raster/independent-verification, owner-audit, codified-authority, provider and fixture evidence. A fulfillment record is additive: it opens no route and supplies no hosted canary, deployment pin, payment, sponsorship, launch-graph or Production gate. Codified authority is accepted only where both specification and packet-set components require no official PDF; official-PDF routes still require exact official bytes. The Mississippi clinic record remains incomplete while participant final verification is unbound or any technical Preview predicate is absent. A route absent from this registry fails closed."
   },
   evidenceInputs: {
     [LAUNCH_GRAPH]: sha256(readEvidenceBytes(LAUNCH_GRAPH)),
@@ -1535,7 +1748,7 @@ const registry = {
     [MS_CLINIC_FIXTURE]: sha256(readEvidenceBytes(MS_CLINIC_FIXTURE)),
     [MS_CLINIC_ARTIFACTS]: sha256(readEvidenceBytes(MS_CLINIC_ARTIFACTS)),
     [MS_CLINIC_RASTER_REVIEW]: sha256(readEvidenceBytes(MS_CLINIC_RASTER_REVIEW)),
-    ...Object.fromEntries(firstCohortEvidencePaths.map((rel) => [rel, sha256(readEvidenceBytes(rel))]))
+    ...Object.fromEntries(exactProductizedEvidencePaths.map((rel) => [rel, sha256(readEvidenceBytes(rel))]))
   },
   records
 };
