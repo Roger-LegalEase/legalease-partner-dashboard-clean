@@ -1,0 +1,167 @@
+name: RCAP Promote Targeted Source Ledgers to Branch
+
+on:
+  push:
+    branches:
+      - "claude/source-acquisition-28-20260904"
+    paths:
+      - "data/rcap-codex/source-acquisition-2026-09-04/promotion-run-request.json"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: rcap-promote-targeted-source-ledgers-28
+  cancel-in-progress: true
+
+jobs:
+  promote:
+    name: Materialize acquisition receipts and ledgers in Git
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out acquisition branch
+        uses: actions/checkout@v4
+        with:
+          ref: claude/source-acquisition-28-20260904
+          fetch-depth: 0
+
+      - name: Download primary lightweight ledger artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: rcap-targeted-source-ledger-28-33866926858
+          path: /tmp/rcap-primary-ledger
+          repository: Roger-LegalEase/legalease-partner-dashboard-clean
+          run-id: 33866926858
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download corrected supplement artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: rcap-targeted-source-supplement-28-33868246348
+          path: /tmp/rcap-supplement
+          repository: Roger-LegalEase/legalease-partner-dashboard-clean
+          run-id: 33868246348
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Promote non-binary acquisition evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ROOT="data/rcap-codex/source-acquisition-2026-09-04"
+          RESULTS="$ROOT/results"
+          rm -rf "$RESULTS"
+          mkdir -p "$RESULTS/primary-ledger" "$RESULTS/supplement-ledger"
+
+          cp -a /tmp/rcap-primary-ledger/. "$RESULTS/primary-ledger/"
+
+          while IFS= read -r -d '' file; do
+            rel="${file#/tmp/rcap-supplement/}"
+            mkdir -p "$RESULTS/supplement-ledger/$(dirname "$rel")"
+            cp "$file" "$RESULTS/supplement-ledger/$rel"
+          done < <(
+            find /tmp/rcap-supplement -type f \
+              \( -iname '*.json' -o -iname '*.yaml' -o -iname '*.yml' \
+                 -o -iname '*.csv' -o -iname '*.md' -o -iname '*.txt' \
+                 -o -iname '*.log' -o -iname '*.html' \) -print0
+          )
+
+          cat > "$RESULTS/artifact-custody.json" <<'JSON'
+          {
+            "schemaVersion": "rcap-targeted-source-artifact-custody/v1",
+            "batchId": "source-acquisition-28-families-2026-09-04",
+            "branch": "claude/source-acquisition-28-20260904",
+            "policy": {
+              "repositoryContains": "manifests, receipts, ledgers, extracted text, disposition summaries, and run evidence",
+              "repositoryExcludes": "issuer-original PDF, DOC, and DOCX binaries",
+              "binaryCustodyReason": "The owner assignment required owner-only source custody; this repository is public.",
+              "promotionRule": "Do not move original binaries into the public Git tree without a separate owner decision."
+            },
+            "primaryRun": {
+              "runId": 33866926858,
+              "headSha": "0350cbd5b6a3d074b4b1128dcc966114704b3abb",
+              "conclusion": "success",
+              "fullSourceArtifact": {
+                "artifactId": 9934370357,
+                "name": "rcap-targeted-source-acquisition-28-33866926858",
+                "sizeBytes": 16154170,
+                "digest": "sha256:7e30f1b2e49c6fa47714b24c18d88cd764e554fe22a6072bd6faf429fef0f813",
+                "expiresAt": "2026-10-04T11:15:29Z"
+              },
+              "ledgerArtifact": {
+                "artifactId": 9934370956,
+                "name": "rcap-targeted-source-ledger-28-33866926858",
+                "sizeBytes": 268484,
+                "digest": "sha256:a895e8d198a8375dd3046b3cb6c9b4b7783d0bff4b108bcce078a8b71a8f7b17",
+                "expiresAt": "2026-10-04T11:15:30Z"
+              }
+            },
+            "correctedSupplementRun": {
+              "runId": 33868246348,
+              "headSha": "af7f5824a57f8aaa73dd08f4aefb8a55c508fd9a",
+              "conclusion": "success",
+              "artifact": {
+                "artifactId": 9934849936,
+                "name": "rcap-targeted-source-supplement-28-33868246348",
+                "sizeBytes": 794519,
+                "digest": "sha256:2390f30919ab7eecda2c384023900f9f45cd983e86fb2b7a468510b354e38b90",
+                "expiresAt": "2026-10-04T11:31:30Z"
+              },
+              "supersedesFailedRunId": 33867794063
+            }
+          }
+          JSON
+
+          cat > "$RESULTS/README.md" <<'MARKDOWN'
+          # RCAP 28-family source-acquisition results
+
+          This directory is the repository-visible evidence package for the owner-assigned 28-family acquisition batch dated 2026-09-04.
+
+          ## What is here
+
+          - `primary-ledger/`: the exact lightweight ledger artifact from successful run `33866926858`, including the 28-family manifest, acquisition summary, YAML/CSV ledgers, family-source bindings, source receipts, and extracted text.
+          - `supplement-ledger/`: the non-binary evidence from corrected successful supplement run `33868246348`.
+          - `artifact-custody.json`: immutable run, artifact, digest, size, and expiration identifiers for retrieving the issuer-original bytes.
+
+          ## What is deliberately not here
+
+          The issuer-original PDFs and DOCX files remain in authenticated GitHub Actions artifact custody. This repository is public, while the owner assignment required owner-only source custody. No original source binary may be copied into the public Git tree without a separate owner decision.
+
+          ## Fail-closed reading rule
+
+          A successful workflow run proves that the workflow completed and produced a receipt for every planned source record. It does **not** prove that every source was acquired. Read `primary-ledger/acquisition-summary.json`, each source receipt, and the supplement disposition summary together. Preserve `unresolved`, `not_acquired`, `issuer_binary_blocked_http_403`, and `no_public_binary_exposed` as distinct outcomes. Never convert one into `acquired` merely because a neighboring source succeeded.
+
+          ## Corrected supplement
+
+          Run `33868246348` is the controlling supplement. It supersedes failed run `33867794063`. Its verification gate required the San Diego CRM-307 source and the Texas § 411.0736 model petition and model order to be acquired, while Missouri CR301 remained an explicit OSCA HTTP-403 issuer-host block and Delaware mandatory expungement remained a no-public-binary agency-process disposition.
+          MARKDOWN
+
+          if find "$RESULTS" -type f \
+            \( -iname '*.pdf' -o -iname '*.doc' -o -iname '*.docx' \
+               -o -iname '*.rtf' -o -iname '*.zip' -o -iname '*.bin' \) \
+            -print -quit | grep -q .; then
+            echo "Binary source material entered the public results tree." >&2
+            exit 1
+          fi
+
+          test -f "$RESULTS/primary-ledger/acquisition-summary.json"
+          test -f "$RESULTS/artifact-custody.json"
+          find "$RESULTS" -type f -print | sort
+
+      - name: Commit promoted ledgers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Roger-LegalEase"
+          git config user.email "roger@legalease.com"
+          git add data/rcap-codex/source-acquisition-2026-09-04/results
+          if git diff --cached --quiet; then
+            echo "No ledger changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(rcap): promote 28-family acquisition ledgers"
+          git push origin HEAD:claude/source-acquisition-28-20260904
