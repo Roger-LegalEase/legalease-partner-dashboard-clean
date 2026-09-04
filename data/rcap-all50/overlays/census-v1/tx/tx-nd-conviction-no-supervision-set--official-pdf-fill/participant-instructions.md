@@ -203,7 +203,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 - you are not sure whether the misdemeanour was punishable by fine only, which decides whether you wait at all or wait two years;
 - you have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure;
 - **The prosecutor opposes the petition or requests a hearing.**
-- the court has made an affirmative finding of family violence, or any offence on the § 411.074 exclusion list is in your history;
+- there is a family violence **finding** or a family violence **allegation** anywhere in your record — an allegation stops this route even where no court ever made a finding — or any offence on the § 411.074 exclusion list is in your history;
 - you are not a United States citizen.
 
 Where self-help stops, the clerk of the court that sentenced you answers filing mechanics and the county's fee, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the other-offence question depends on.

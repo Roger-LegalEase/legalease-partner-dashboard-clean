@@ -166,6 +166,8 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
@@ -205,6 +207,7 @@ const COURTOWN = (why) => ({ policy: "protect", refusalClass: COURT_OWNED, why }
  */
 const ELECTION = (what, why) => ({ policy: "election", what, why });
 
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 const FAMILY_ID = "tx_nd_conviction_no_supervision-set";
 const OUT = "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs";
@@ -802,7 +805,7 @@ const COMPOSED_COMPONENTS = {
       L.push("- You are not sure whether the misdemeanour was punishable by fine only, which decides whether you wait at all or wait two years.");
       L.push("- You have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure.");
       L.push("- The prosecutor opposes the petition or requests a hearing.");
-      L.push("- The court has made an affirmative finding of family violence, or any offence on the Sec. 411.074 exclusion list is in your history.");
+      L.push("- There is a family violence FINDING or a family violence ALLEGATION anywhere in your record - an allegation stops this route even where no court ever made a finding - or any offence on the Sec. 411.074 exclusion list is in your history.");
       L.push("- You are not a United States citizen.", "");
       L.push("DOCUMENTS TO GET FIRST, AND WHO HAS THEM.");
       L.push("- Your Texas DPS criminal history record - the Texas Department of Public Safety Crime Records Service, following DPS form CR-63. It establishes the disposition and shows every other conviction and deferred adjudication.");
@@ -918,7 +921,7 @@ const INSTRUCTIONS = {
     "- you are not sure whether the misdemeanour was punishable by fine only, which decides whether you wait at all or wait two years;",
     "- you have any other conviction or deferred adjudication other than a fine-only traffic offence, or you are not sure;",
     "- **The prosecutor opposes the petition or requests a hearing.**",
-    "- the court has made an affirmative finding of family violence, or any offence on the § 411.074 exclusion list is in your history;",
+    "- there is a family violence **finding** or a family violence **allegation** anywhere in your record — an allegation stops this route even where no court ever made a finding — or any offence on the § 411.074 exclusion list is in your history;",
     "- you are not a United States citizen.",
     "",
     "Where self-help stops, the clerk of the court that sentenced you answers filing mechanics and the county's fee, and the Texas Department of Public Safety Crime Records Service issues the criminal history record the other-offence question depends on."
@@ -1245,7 +1248,18 @@ async function renderDocument(source, census, fixtureName) {
     census: censusForFinalizer,
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: source.title
+    title: source.title,
+    /*
+     * What each field's appearance MEANS, so the finalizer knows which
+     * unwritten /Tx appearances are the court's own ink and which are a
+     * participant answer the source happened to ship a value for.
+     *
+     * The Statement of Inability arrives with three of its own /V values set.
+     * Without this the structural default reads all three as the court's ink
+     * and flattens them onto a document sworn under penalty of perjury.
+     */
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
+      `${FAMILY_ID}:${source.componentId}`)
   });
   return { bytes, report };
 }

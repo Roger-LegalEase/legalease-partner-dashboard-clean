@@ -238,6 +238,47 @@
           "because": "This family's production-field-map.json refuses tx_exp_acquittal-fee-waiver-statement-5.Today with category signature_or_date_participant_completion and the stated reason \"a date written before the Statement is actually sworn would be false\", and participant-instructions.md tells the participant the signature and its date are left blank. The delivered page carried 12/15/2022 anyway, on the page headed by the declaration under penalty of perjury and beside an empty signature rule. vf01 failed this family on PROTECTED_FIELDS for exactly this. A packet that states a date the participant did not enter, on a document they will swear years later, states something false on their behalf."
         }
       }
+    },
+    "tx_nd_conviction_no_supervision-set:tx_nd_conviction_no_supervision-fee-waiver-statement-4": {
+      "measuredAt": "65f68daf9ad25380c6e79aecca644216ffa78701",
+      "whyThisFamilyNeededClassifying": "The same Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) already classified for rcap-tx-custom-pleading, tx_nd_dwi_probation-set, tx_nd_dwi_deferred-set and tx_exp_acquittal-set, enclosed here as component 4 of the Sec. 411.0735 nondisclosure packet. This family read no dispositions at all, so all three source-authored /V values survived into both delivered fixtures: Value / Valor 11 = \"0\" on packet page 16, Amount Cantidad 15 = \"0\" on packet page 17, and Today = \"12/15/2022\" on packet page 20, beside the participant's own unsigned signature rule on the Option 1 declaration under penalty of perjury.",
+      "howMeasured": "Each /V was read first-hand from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, 6667524 bytes) on source pages 7, 8 and 11, and each surviving flattened appearance was read out of the Form XObject it became in fixtures/canonical.pdf and fixtures/boundary.pdf with scripts/rcap-official-forms/pdf-flattened-widgets.mjs and matched to its widget /Rect. This build's own reports/actual-writes.json counted all three under documentAuthoredAppearances before the repair.",
+      "theSameFieldOnTheSameFormIsClassifiedForOtherFamilies": "This is a per-family registry, so a form enclosed by several families is classified once per family. These entries agree with tx_nd_dwi_deferred-set's and tx_exp_acquittal-set's because the field, the form and the pinned binary are the same; each was measured against this family's own delivered bytes and this family's own field map, and no other family's entry is read or changed by this one.",
+      "fields": {
+        "Value / Valor 11": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            313.44,
+            131.32,
+            538.685,
+            160.12
+          ],
+          "because": "This family's production-field-map.json refuses this field with completenessDisposition REQUIRED_BEFORE_FILING and the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\". The official source ships the field carrying /V \"0\", so the structural rule read it as the court's own ink and flattened a sworn zero onto a financial line the participant never answered. vf05 failed this family on KNOWN_PREFILLS for exactly this. A zero on a sworn statement of inability is an answer, not an empty space."
+        },
+        "Amount Cantidad 15": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            318.218,
+            91.2,
+            538.68,
+            120.0
+          ],
+          "because": "This family's production-field-map.json refuses this field with completenessDisposition REQUIRED_BEFORE_FILING and the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\". The official source ships the field carrying /V \"0\", so the structural rule read it as the court's own ink and flattened a sworn zero onto a financial line the participant never answered. vf05 failed this family on KNOWN_PREFILLS for exactly this. A zero on a sworn statement of inability is an answer, not an empty space."
+        },
+        "Today": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "12/15/2022",
+          "rect": [
+            97.7522,
+            302.312,
+            247.752,
+            324.312
+          ],
+          "because": "This family's field census marks tx_nd_conviction_no_supervision-fee-waiver-statement-4.Today policy=protect and reports/blanks-left-for-the-participant.json records that a date written before the Statement is sworn would be false. The delivered page carried 12/15/2022 anyway, on the page headed by the declaration under penalty of perjury and beside an empty signature rule. vf05 failed this family on PROTECTED_FIELDS for exactly this. A packet that states a date the participant did not enter, on a document they will swear years later, states something false on their behalf."
+        }
+      }
     }
   }
 }
