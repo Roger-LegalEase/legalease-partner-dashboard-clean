@@ -4669,6 +4669,11 @@ const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)
 const DOTS = (n = 84) => ".".repeat(n);
 const COMPONENT_IDS = SPEC.components.map((c) => c.id);
 const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
+const COMPACT_GUIDANCE_COMPONENTS = new Set([
+  "tn_nonconviction_petition-filing-and-after-order-instructions-3",
+  "tn_pretrial_diversion-filing-and-after-order-instructions-3",
+  "tn_judicial_diversion-filing-and-after-order-instructions-3",
+]);
 
 /* ---- committed-record binding ------------------------------------------------ *
  * This family binds no Master Library binary: its authority is a set of
@@ -4710,14 +4715,20 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
 }
 
-async function renderComposedPdf(fullText, title) {
+async function renderComposedPdf(fullText, title, componentId) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
   pdf.setProducer("RCAP census-v1 artifact-only renderer");
   pdf.setCreator("RCAP evidence build");
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const fontSize = 11;
+  // These three long guidance sheets previously stranded the final route-list
+  // item and route line on a near-empty third page. A small leading reduction
+  // keeps that closing block with the preceding guidance without
+  // changing any word, component, field, margin, or type size.
+  const lineHeight = COMPACT_GUIDANCE_COMPONENTS.has(componentId) ? 13 : 14.5;
+  const width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
@@ -5112,7 +5123,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const body = composedBody(componentId, facts);
       assert.ok(body.includes(facts["participant.full_legal_name"]),
         `${componentId}: the composed page must carry the participant's name`);
-      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title, componentId);
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
         packet.addPage(p);
@@ -5217,7 +5228,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         const body = composedBody(componentId, facts);
         assert.ok(body.includes(facts["participant.full_legal_name"]),
           `${componentId}: the composed page must carry the participant's name`);
-        const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+        const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title, componentId);
         const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
         for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
           packet.addPage(p);
