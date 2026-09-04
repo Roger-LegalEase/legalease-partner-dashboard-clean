@@ -3,6 +3,7 @@ import oregonSetAside from "@/../data/record-clearing/packet-specifications/OR-s
 import kansasMunicipalConvictionOrDiversion from "@/../data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json";
 import kansasMunicipalArrestRecord from "@/../data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json";
 import mississippiNonConviction from "@/../data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json";
+import virginiaAbsolutePardon from "@/../data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -200,7 +201,8 @@ const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<str
   // municipal court's own published instrument wherever one exists.
   [(kansasMunicipalConvictionOrDiversion as unknown as DerivedPacketSpecification).routeKey, kansasMunicipalConvictionOrDiversion as unknown as DerivedPacketSpecification],
   [(kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification).routeKey, kansasMunicipalArrestRecord as unknown as DerivedPacketSpecification],
-  [(mississippiNonConviction as unknown as PacketSpecification).routeKey, mississippiNonConviction as unknown as PacketSpecification]
+  [(mississippiNonConviction as unknown as PacketSpecification).routeKey, mississippiNonConviction as unknown as PacketSpecification],
+  [(virginiaAbsolutePardon as unknown as PacketSpecification).routeKey, virginiaAbsolutePardon as unknown as PacketSpecification]
 ]);
 
 /**

@@ -20,7 +20,10 @@ const writeJson = (root, relativePath, value) => {
   fs.writeFileSync(target, `${JSON.stringify(value, null, 2)}\n`);
 };
 
-function makeFamily(root, familyId, slug) {
+function makeFamily(root, familyId, slug, {
+  jurisdiction = "ZZ",
+  routeKey = `obligation:test:${familyId}`
+} = {}) {
   const directory = `data/families/${slug}`;
   const pins = ["canonical", "boundary"].map((fixture) => {
     const file = `${directory}/fixtures/${fixture}.pdf`;
@@ -33,10 +36,10 @@ function makeFamily(root, familyId, slug) {
   return {
     master: {
       familyId,
-      jurisdiction: "ZZ",
+      jurisdiction,
       state: "COMPLETE_PACKET_PROVEN",
       directory,
-      routeKeys: [`obligation:test:${familyId}`],
+      routeKeys: [routeKey],
       implementationStrategy: "custom_pleading",
       sourceBound: true,
       legalInputStatus: "SETTLED",
@@ -59,8 +62,13 @@ function runScenario({
     fs.mkdirSync(scriptDir, { recursive: true });
     fs.copyFileSync(generator, path.join(scriptDir, path.basename(generator)));
 
-    const august = makeFamily(root, "august-family", "august-family");
-    const september = makeFamily(root, "september-family", "september-family");
+    const missingRuntimeRoute = "obligation:track-pathway:ZZ:missing-track:missing-pathway";
+    const virginiaRoute = "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now";
+    const august = makeFamily(root, "august-family", "august-family", { routeKey: missingRuntimeRoute });
+    const september = makeFamily(root, "september-family", "september-family", {
+      jurisdiction: "VA",
+      routeKey: virginiaRoute
+    });
     const exactTreatment = makeFamily(root, "composed-treatment:sc_17_22_950_summary", "exact-treatment");
     const similarlyNamedSet = makeFamily(root, "sc_17_22_950_summary-set", "similarly-named-set");
     const families = [august, september, exactTreatment, similarlyNamedSet];
@@ -155,7 +163,14 @@ function runScenario({
         }
       ]
     });
-    writeJson(root, "data/rcap-grade-a/FIRST_COHORT_RUNTIME_IDENTITY.json", {});
+    writeJson(root, "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", {
+      routes: [{
+        routeKey: virginiaRoute,
+        jurisdiction: "VA",
+        trackId: "va_exp_absolute_pardon",
+        runtimePathwayId: "regime-1-expungement-available-now"
+      }]
+    });
 
     const run = spawnSync(process.execPath, [path.join(scriptDir, path.basename(generator))], {
       cwd: root,
@@ -186,6 +201,23 @@ assert.equal(byId.get("august-family").checks.coveredByAnExistingOwnerApproval, 
   "August approval behavior must be preserved");
 assert.equal(byId.get("august-family").legalApproval.legalDecisionRecordId, AUGUST_ID,
   "August approval provenance must be preserved");
+assert.ok(current.output.routeReachability.addressable.includes(
+  "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now"
+), "the canonical census mapping must make the exact Virginia route addressable");
+assert.equal(current.output.routeReachability.runtimeMappings.find(
+  (row) => row.routeKey === "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now"
+)?.runtimeRouteId, "VA:regime-1-expungement-available-now",
+"the reachability record must retain the exact runtime identity resolved from the census");
+assert.ok(current.output.routeReachability.notAddressable.includes(
+  "obligation:track-pathway:ZZ:missing-track:missing-pathway"
+), "a genuine missing census mapping must remain fail-closed");
+assert.equal(current.output.routeReachability.failedMappings.find(
+  (row) => row.routeKey === "obligation:track-pathway:ZZ:missing-track:missing-pathway"
+)?.reason, "missing_census_mapping", "the fail-closed record must name the missing canonical mapping");
+const missingMapping = current.output.routeReachability.recordsDisagreeOn.includes(
+  "obligation:track-pathway:ZZ:missing-track:missing-pathway"
+);
+assert.equal(missingMapping, true, "a missing runtime mapping must be reported as a records disagreement");
 assert.equal(byId.get("composed-treatment:sc_17_22_950_summary").checks.coveredByAnExistingOwnerApproval, true,
   "the exact adopted treatment ID must be covered");
 assert.equal(byId.get("sc_17_22_950_summary-set").checks.coveredByAnExistingOwnerApproval, false,
