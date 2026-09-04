@@ -11120,6 +11120,250 @@
       "routesOpened": 0,
       "productionTouched": false,
       "grantsNothing": "PASS_COMPLETE_INDEPENDENT proves current packet completeness only. It approves no output, opens no commercial route, creates no fulfillment authority, releases no claim, and touches no Production system."
+    },
+    {
+      "itemId": "ar-nonconviction-seal-set",
+      "lane": "VF01",
+      "worker": "CODEX-CS1-VF01-AR",
+      "verifiedAtBase": "bebc0489688b69040a72bb0ca42251370d7cb573",
+      "verifiedAt": "2026-09-04T19:03:37Z",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-nonconviction-seal"
+      ],
+      "claim": {
+        "assertion": "CLAIM_OK VF01 ar-nonconviction-seal-set (independent-verification, grant set 241df4e3322b710f)",
+        "assertedBeforeFamilyContentRead": true,
+        "releasedByThisLane": false
+      },
+      "repositoryPreflight": {
+        "head": "bebc0489688b69040a72bb0ca42251370d7cb573",
+        "branch": "codex/cs1-vf01-ar-verify-bebc",
+        "mergeBaseToAssignedBase": "bebc0489688b69040a72bb0ca42251370d7cb573",
+        "worktreeWasClean": true,
+        "packetBuildEnvironment": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 3 not applicable",
+        "failedChecks": [
+          "master_library_mounted",
+          "master_library_complete",
+          "corpus_matches_committed_index",
+          "family_sources_bind"
+        ],
+        "effectOnVerdict": "The absent private corpus does not turn the supported defect into BLOCKED_SOURCE: SOURCE_IDENTITY independently fails on a stale exact SHA-256 and byte-length pin to a committed repository source whose current bytes are present."
+      },
+      "independence": "CODEX-CS1-VF01-AR did not build, repair, raster-admit, productize or previously verify this family and accepted no earlier verdict as proof. No packet, source, legal, route, fulfillment, launch, claim or Production record was edited.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "source-receipt.json, production-field-map.json, product-wiring.json and the participant-instructions footer each bind exactly one route, obligation:track-only:AR:ar-nonconviction-seal. All family identifiers agree and no foreign-route component appears."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "source-receipt.json pins the relied-on committed source data/record-clearing/legal-design-packet-set-manifests.json at bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66 / 3679241 bytes. The current committed bytes at assigned base bebc0489 independently rehash to 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419 bytes. The exact Arkansas packet-set node is unchanged from the prior pass base (sorted-node digest ae22de06a6075b7f20fa29606fd47d93e6fbfebadbcd82909a86f69d95fd79c5 at both bases), and the compiled-profile pin still matches 640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470 / 121627 bytes, so this is a stale whole-file source binding requiring receipt repair, not a missing-source block or a substantive Arkansas change. The two official ACIC identities remain cross-bound in the committed corpus indexes at 09f32317... / 529888 bytes / 4 pages and 4ca0a57a... / 274824 bytes / 3 pages; their private binaries were not reachable in this sparse checkout and were not claimed as independently rehashed here."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Each fixture contains exactly the required primary filing and proposed order: petition source pages 1-4 followed by order source pages 1-3. The field map, rendered manifest, packet-set node and product wiring all name the same two components."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 13 declared writes in each fixture were read from the current PDF on their mapped packet pages: 9 petition writes and 4 order writes. The canonical and boundary names, case numbers, charges, address facts and DOB repetitions are visible with their printed labels; knownRequiredFieldsMissing=0 and invisibleWrites=0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All 24 required-before-filing field dispositions have their exact disclosure labels in participant-instructions.md. The instructions also require the ACIC history, fingerprint card, disposition check, caption/case/identification facts, participant elections, signatures, notarization and a venue answer before filing where venue is unresolved."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The route-determined instrument-set selection is the ACIC non-conviction petition/order pair. All 18 case-specific or court-specific elections remain unwritten: paragraph 2's four dispositions, paragraph 4's pair, paragraph 5's pair, and the matching order elections. The instructions tell the participant exactly how to choose; requiredOptionsMissing=0."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The first petition offense line is populated and its second line is wholly blank. Petition and order pending-charge detail lines are wholly blank, as are the order's offense-detail lines. No row carries written cells beside required cells left blank; incompleteRows=0."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Fresh extracted-text and raster inspection found no ink in the 12 protected signature/date/notary/certificate/judge fields: petition signature and date, certificate name/signature/date, notary signature and four jurat facts, and judge signature/date. The 18 participant/court elections also remain blank; protectedWrites=0."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current canonical.pdf independently rehashes to 28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5 / 819258 bytes / 7 pages. Current boundary.pdf independently rehashes to 8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871 / 819462 bytes / 7 pages. Both match rendered-artifacts.json and the current raster queue."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both seven-page manifests and the visible packet bytes preserve petition pages 1-4 followed by order pages 1-3. The seventh page is the order identification page and no orphan, duplicate or foreign page exists."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "pdftotext -bbox-layout measured 1000 canonical and 1008 boundary words: zero outside the 612x792 page boxes and zero within two points of an edge. All 21 same-baseline overlaps (8 canonical, 13 boundary) are expected participant values sitting on their own underscore rules; none is text-on-text. Fresh 180-DPI rasters of all 14 pages were inspected, including the longest boundary values, and show no clipping, label collision, unintended mark or page-order defect."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions direct nolle-prosequi and dismissal matters to the court where the order was entered. For acquittal and never-filed matters, they disclose that the held authority does not resolve venue, direct the participant to the circuit clerk's office for the exact county and court, and say not to file until that answer is obtained."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The exact-matching compiled Arkansas profile records the Act 1460 filing fee as $0. The instructions state no filing fee, explain why no fee-waiver form is supplied, separate possible records/copy/notary costs, and direct an unexpected court charge back to the filing clerk for identification and waiver/reduction information."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions require service within three days of filing on the prosecuting attorney or city attorney, depending on who prosecuted, and on the arresting agency, by prepaid mail or hand delivery. They keep the certificate blank until service and disclose both the manifest's 30-day objection period and the profile's 30-day misdemeanor / 90-day felony treatment; signed-order distribution is correctly assigned to the clerk."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The instructions stop for an inapplicable disposition, excluded acquittal, pending felony, registration issue, opposition, contested hearing, missing offense facts, unresolved acquittal/never-filed venue, immigration/licensing/firearm consequences and possible refiling of a nolle-prossed charge."
+        }
+      },
+      "failedProofObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "exactRepairRequired": "Refresh only the packet-set-manifest committed-record SHA-256 and byteLength in this family's source-receipt.json after confirming the current exact Arkansas node remains ae22de06a6075b7f20fa29606fd47d93e6fbfebadbcd82909a86f69d95fd79c5. Do not rebuild the unchanged packet PDFs or change legal, route, fulfillment or commercial authority.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "focusedVerifier": "PASS_COMPLETE 13/78 written"
+      },
+      "sourceEvidence": {
+        "officialSourcesFromCurrentIndexes": [
+          {
+            "sourceId": "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION",
+            "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+            "byteLength": 529888,
+            "pageCount": 4,
+            "acroFormFieldCount": 45
+          },
+          {
+            "sourceId": "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION",
+            "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+            "byteLength": 274824,
+            "pageCount": 3,
+            "acroFormFieldCount": 33
+          }
+        ],
+        "staleCommittedRecordPin": {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "receiptSha256": "bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66",
+          "receiptByteLength": 3679241,
+          "currentSha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "currentByteLength": 3683419,
+          "receiptMatches": false,
+          "exactArkansasNodeSha256": "ae22de06a6075b7f20fa29606fd47d93e6fbfebadbcd82909a86f69d95fd79c5",
+          "exactArkansasNodeChangedSincePriorPass": false
+        },
+        "compiledProfile": {
+          "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+          "sha256": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+          "byteLength": 121627,
+          "receiptMatches": true
+        },
+        "currentTrackNodeSha256": "34abc10b438cbc39e6fbb967162b1c142dcce644391f9540ea25188d0e7a6f7e",
+        "currentTrackNodeChangedSincePriorPass": false,
+        "sourceReceiptSha256": "0cda1adfbceb5c7556d77f2e27f3b73d66378b9f3933bb5b1ddd636a70b45a4f"
+      },
+      "artifacts": {
+        "canonical": {
+          "sha256": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5",
+          "byteLength": 819258,
+          "pageCount": 7
+        },
+        "boundary": {
+          "sha256": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871",
+          "byteLength": 819462,
+          "pageCount": 7
+        },
+        "independentlyRehashed": true
+      },
+      "actualWrites": {
+        "declaredPerFixture": 13,
+        "mappedPetitionWritesPerFixture": 9,
+        "mappedOrderWritesPerFixture": 4,
+        "allReadFromMappedPacketPages": true,
+        "everyMappedWriteHasPrintedLabel": true
+      },
+      "textGeometry": {
+        "canonical": {
+          "pages": 7,
+          "words": 1000,
+          "outsidePage": 0,
+          "withinTwoPointsOfEdge": 0,
+          "sameBaselineOverlapPairs": 8,
+          "trueTextCollisions": 0
+        },
+        "boundary": {
+          "pages": 7,
+          "words": 1008,
+          "outsidePage": 0,
+          "withinTwoPointsOfEdge": 0,
+          "sameBaselineOverlapPairs": 13,
+          "trueTextCollisions": 0
+        }
+      },
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33608483853",
+        "workflowJobId": "100178590411",
+        "artifactId": "9838220702",
+        "artifactZipSha256": "d7367a8ebea9690dccf84aa1eccbb2f480e4ab1a0b3f3fdd386d3d6a028b509f",
+        "artifactZipByteLength": 4120388,
+        "renderedCommitSha": "84045d06c9f14b29c8fb822343e0f390d5be98c3",
+        "documentsDigest": "e3016b4d7fdf254850a6fe0af2141547b71214672531bdc8b8b6680b9c0469dd",
+        "documentsMeasured": 2,
+        "pagesMeasured": 14,
+        "problems": 0,
+        "coversTheWholeFamily": true,
+        "exactArtifactHashesBound": true,
+        "currentQueueAndReceiptRecordAgree": true,
+        "renderedCommitPresentAndAncestor": true,
+        "freshLocalRastersInspected": 14
+      },
+      "focusedTests": [
+        "git branch/rev-parse/merge-base/status => exact branch and bebc0489688b69040a72bb0ca42251370d7cb573, clean",
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 ar-nonconviction-seal-set => CLAIM_OK grant set 241df4e3322b710f",
+        "VF01 Codex Cloud preflight => PACKET_BUILD_ENVIRONMENT_NOT_READY 10/14; absent private corpus caused four named failures",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-nonconviction-seal-set => PASS_COMPLETE 13/78 written; all nine counters zero",
+        "sha256sum + wc -c + pdfinfo current canonical and boundary => assigned hashes, 819258/819462 bytes, 7 pages each",
+        "pdftotext -layout per mapped write => 26/26 fixture writes visible on intended packet pages",
+        "pdftotext -bbox-layout all 14 pages => 1000/1008 words, zero edge crossings, 21 value-on-rule overlaps, zero text collisions",
+        "fresh 180-DPI raster inspection of all 14 pages => zero clipping, overlap, unintended marks or protected writes",
+        "current RASTER_QUEUE plus FABLE_RAS6 receipt cross-check => RASTER_PASS run 33608483853, exact hashes/digest, 14 pages, zero problems",
+        "current committed-source rehash => packet-set manifest pin stale; compiled Arkansas profile pin exact; Arkansas packet-set and track node hashes unchanged from prior pass base"
+      ],
+      "changedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "data/rcap-grade-a/codex-cloud/cs1-vf01-ar-verify-bebc/RETURN.json"
+      ],
+      "packetEdits": 0,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "FAIL_REPAIR_REQUIRED records a bounded packet-evidence defect. It repairs nothing, approves no output, opens no route, creates no fulfillment authority, releases no claim and touches no Production system."
     }
   ],
   "supersededLaneMembership": {
