@@ -1,10 +1,10 @@
 # Witness divergence diagnosis
 
-All **260** intended-paid pathways from Session A's canonical graph (`f2f3f06fcc5aea68…`).
+All **262** intended-paid pathways from Session A's canonical graph (`99425ad54d2658ce…`).
 
 | Outcome | Pathways |
 |---|---|
-| `correct_pathway` | 260 |
+| `correct_pathway` | 262 |
 | `wrong_path` | 0 |
 | `non_converging` | 0 |
 
@@ -30,7 +30,7 @@ a cluster means "fix this and these are done".
 
 ## Fixtures
 
-`data/rcap-ledger/public-witness-fixtures.json` carries **260** replayable fixtures — every
+`data/rcap-ledger/public-witness-fixtures.json` carries **262** replayable fixtures — every
 pathway the existing runtime already reaches, with the exact answers and the terminal
 result each must produce. A regression shows up as a fixture failure rather than a lost route.
 

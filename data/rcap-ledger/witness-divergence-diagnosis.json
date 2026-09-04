@@ -4,12 +4,13 @@
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
-    "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
-    "pathways": 260,
+    "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
+    "pathways": 262,
     "dispositions": {
-      "family_bridge_missing_no_family": 152,
-      "approved_by_decision_owner": 68,
-      "family_bridge_missing_no_track": 40
+      "family_bridge_missing_no_family": 151,
+      "approved_by_decision_owner": 70,
+      "family_bridge_missing_no_track": 40,
+      "owner_approval_pending": 1
     }
   },
   "createsNoDenominator": "The pathway set is Session A's graph, consumed as-is. No pathway is added, dropped or reclassified here.",
@@ -18,7 +19,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 260
+    "combosTried": 262
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -26,10 +27,10 @@
   },
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
-    "pathways": 260,
-    "correct_pathway": 260,
+    "pathways": 262,
+    "correct_pathway": 262,
     "baselineOutcomes": {
-      "correct_pathway": 260
+      "correct_pathway": 262
     },
     "correctedByFixtureAlone": 0,
     "failing": 0,
@@ -1629,6 +1630,52 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "ks.waiting_rule_not_executed"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+      "pathwayLabel": "Municipal arrest record expungement",
+      "sessionADisposition": "approved_by_decision_owner",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ks.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "pathwayLabel": "Municipal conviction or diversion expungement",
+      "sessionADisposition": "approved_by_decision_owner",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_more_info",
+        "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ks.route_identified_packet_not_yet_available"
         ]
       },
       "combosTried": 1
@@ -4432,7 +4479,7 @@
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
           "or.compiled_rule_match.route-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
         ]
@@ -5341,7 +5388,7 @@
       "jurisdiction": "VA",
       "pathwayId": "regime-1-expungement-available-now",
       "pathwayLabel": "Regime 1 — Expungement (§ 19.2-392.2), available now",
-      "sessionADisposition": "family_bridge_missing_no_family",
+      "sessionADisposition": "owner_approval_pending",
       "outcome": "correct_pathway",
       "reachedBy": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",

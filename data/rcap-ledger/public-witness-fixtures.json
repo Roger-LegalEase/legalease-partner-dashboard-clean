@@ -4,9 +4,9 @@
   "purpose": "A deterministic, replayable fixture for every pathway the existing runtime can already reach correctly. Each carries the exact answer map and the terminal result it must produce, so a regression shows up as a fixture failure rather than as a lost route.",
   "changesNoRuntime": true,
   "evaluatorToday": "2026-07-01",
-  "canonicalGraphSha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
+  "canonicalGraphSha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
   "totals": {
-    "fixtures": 260,
+    "fixtures": 262,
     "correctedByFixtureAlone": 0
   },
   "fixtures": [
@@ -3457,6 +3457,90 @@
       "expected": {
         "pathwayId": "conviction-or-diversion-216614",
         "resultCode": "needs_review",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "KS:municipal-arrest-record-expungement-under-12-4516a",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/kansas",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Municipal arrest record expungement",
+        "record_documents": "Yes",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        }
+      ],
+      "expected": {
+        "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+      "jurisdiction": "KS",
+      "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/kansas",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Municipal conviction or diversion expungement",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "resultCode": "needs_more_info",
         "paymentAllowed": false
       }
     },
@@ -9613,7 +9697,7 @@
       "expected": {
         "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
         "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "paymentAllowed": false
       }
     },
     {
