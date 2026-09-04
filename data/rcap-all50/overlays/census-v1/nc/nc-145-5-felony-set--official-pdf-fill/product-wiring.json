@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "nc_145_5_felony-set",
+  "routeKey": "obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5",
+  "routeKeys": [
+    "obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "nc_145_5_felony-set",
+    "jurisdiction": "NC",
+    "routeKeys": [
+      "obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "fee_waiver",
+      "filing_and_followthrough_guidance",
+      "good_character_affidavit_request",
+      "instructions",
+      "primary_filing",
+      "record_gathering_guidance"
+    ],
+    "packetComponents": [
+      "component:nc_145_5_felony-fee-waiver-3",
+      "component:nc_145_5_felony-instructions-2",
+      "component:nc_145_5_felony-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:AOC-CR-297",
+        "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:AOC-CR-297-INSTRUCTIONS",
+        "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:AOC-CV-226",
+        "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "source-sha256:689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+        "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+        "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "nc_145_5_felony-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "nc_145_5_felony-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "AOC-CR-297",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nc_145_5_felony-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "AOC-CR-297-INSTRUCTIONS",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nc_145_5_felony-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "AOC-CV-226",
+        "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+        "requirement": "required"
+      }
+    ]
+  }
+}

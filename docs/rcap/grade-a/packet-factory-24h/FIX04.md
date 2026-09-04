@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `6fb3646998580d95da92e327da415bdb55aaae94` (or the newer dispatch base)
+**Minimum required ancestor:** `14dee319037c1ed63f68f54dff117a07c65ab057` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ar-pardon-seal-set' \
   --codex-cloud \
-  --minimum-captain-sha 6fb3646998580d95da92e327da415bdb55aaae94
+  --minimum-captain-sha 14dee319037c1ed63f68f54dff117a07c65ab057
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -43,7 +43,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'az_marijuana_expungement_arrest_no_charges-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-nv-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'ut_pet_dismissed_with_prejudice-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'rcap-ok-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX04 'il-seal-edu-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -67,7 +67,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `az_marijuana_expungement_arrest_no_charges-set`
 - `rcap-nv-custom-pleading`
 - `ut_pet_dismissed_with_prejudice-set`
-- `rcap-ok-custom-pleading`
+- `il-seal-edu-set`
 
 ## What you receive
 
@@ -84,11 +84,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ar-pardon-seal-set.mjs`
 - `scripts/build-census-v1-rcap-nv-custom-pleading.mjs`
 - `scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs`
-- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
+- `scripts/build-census-v1-il-seal-edu-set.mjs`
 
 ## Never write here
 
