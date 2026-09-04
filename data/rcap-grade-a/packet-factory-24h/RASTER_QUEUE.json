@@ -4452,8 +4452,48 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": "FIX05",
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975731",
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "87f93a9b4273a1af89de31a7576ae0e4aae86e42361bfacfae042574695885d4",
+        "boundToBoundarySha256": "53b07cf75b2fee362fcfa07a9f080d86dc04ae4adb705fe4039078508884ac4a",
+        "documentsCovered": [
+          "hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf",
+          "hs-11361-8-completed-sentence-application-canonical/cr-401-unchanged-official.pdf",
+          "hs-11361-8-completed-sentence-application-canonical/cr-403-unchanged-official.pdf",
+          "hs-11361-8-currently-serving-petition-canonical/cr-400-filled.pdf",
+          "hs-11361-8-currently-serving-petition-canonical/cr-401-unchanged-official.pdf",
+          "hs-11361-8-currently-serving-petition-canonical/cr-403-unchanged-official.pdf",
+          "hs-11361-8-completed-sentence-application-boundary/cr-400-filled.pdf",
+          "hs-11361-8-completed-sentence-application-boundary/cr-401-unchanged-official.pdf",
+          "hs-11361-8-completed-sentence-application-boundary/cr-403-unchanged-official.pdf",
+          "hs-11361-8-currently-serving-petition-boundary/cr-400-filled.pdf",
+          "hs-11361-8-currently-serving-petition-boundary/cr-401-unchanged-official.pdf",
+          "hs-11361-8-currently-serving-petition-boundary/cr-403-unchanged-official.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "documentsMeasured": 12,
+        "pagesMeasured": 16,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "9928691151",
+          "name": "rcap-raster-ca-prop64-set-33850403312",
+          "zipSha256": "sha256:5a8dc1a6668a9af723fbed058bd59a378ca79119e983cc2b9b2fac01b742bfbd",
+          "sizeInBytes": 10751413,
+          "expiresAt": "2026-09-18T08:08:57Z"
+        },
+        "receiptArtifactInspection": "Captain downloaded the artifact, matched its ZIP SHA-256 to the Actions API digest, extracted its exact verdict JSON, and validated run, commit, complete document coverage, page count, document-set digest, and every queued/local PDF hash before admission.",
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33850403312; canary artifact 9928346970 has ZIP SHA-256 sha256:9167f715023ed7055d6321f7774125257f4eeabad80278f835ebe8668e59954a.",
+        "pinVerification": "The workflow guard proved checkout commit b61e502996185ac1e23da4d0ae3f6b5b0a092a16; Captain rehashed every declared PDF from the current worktree and matched every queue and receipt pin.",
+        "admittedBy": "Captain, by fail-closed receipt ingestion that rejects stale bytes, failed jobs, and incomplete coverage"
+      }
     },
     {
       "familyId": "co_motion_seal_nonconviction-set",
