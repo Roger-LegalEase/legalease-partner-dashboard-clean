@@ -430,6 +430,48 @@
       "countersMeasurementBasis": "Current MASTER_QUEUE control-plane row at the authoritative base only; not remeasured because the claim refusal prohibited artifact read.",
       "commercialRoutesOpened": 0,
       "productionTouched": false
+    },
+    {
+      "itemId": "al-diversion-set",
+      "status": "STOPPED",
+      "laneKind": "repair",
+      "baseSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+      "claim": {
+        "assertion": "CLAIM_OK FIX02 al-diversion-set (repair, grant set 8d440f6b6e0b4c5e)",
+        "assertedBeforeArtifactRead": true,
+        "releasedByThisLane": true
+      },
+      "obligationRepaired": [],
+      "obligationStopped": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "whyStopped": "The four failures reproduce, but the durable repair originates in scripts/build-census-v1-al-diversion-set.mjs, which writes the wrong spouse, employer, prior-expungement and attorney values, generates the opaque TextN/undefined labels, and emits the unresolved service instruction. FIX02 grants this family output directory but does not grant that builder. Editing only generated output would be erased on the next deterministic build. In addition, the dispatch explicitly requires a committed authority for the legally valid service method or a fail-closed stop; no such resolved method is supplied by the assignment.",
+      "evidence": {
+        "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 3 not applicable; both sources bind by exact SHA-256 after mounting the already-governed recovery custody",
+        "wrongSemanticWritesReproduced": 4,
+        "opaqueTechnicalLabelsReproduced": 45,
+        "serviceMethod": "The participant instructions name recipients and ask the participant to complete a method after service, but do not select a legally grounded Personal, Sheriff, or Other method.",
+        "focusedCompleteness": "PASS_COMPLETE 37/216 written; all nine counters are zero, confirming the verifier's documented semantic blind spot rather than discharging the four obligations.",
+        "familyFilesModified": 0,
+        "builderFilesModified": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredByThisLane": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
     }
   ],
   "whatCouldNotBeEstablished": [
