@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "rcap-codex-cloud-productization-return/v1",
+  "workerId": "CODEX-CS2-PROD-DC-MISATTRIBUTED",
+  "createdAt": "2026-09-04T18:46:46Z",
+  "exactBase": "be7d60cce57e302465e347c235be9263e7299553",
+  "branch": "codex/cs2-productize-dc-misattributed-be7d",
+  "tip": "05bf1984eaa76a69aa7da9139fd0bd07a4f3c99f",
+  "tipScope": "bounded implementation tip before the separate RETURN receipt commit",
+  "pushed": "YES",
+  "status": "TECHNICAL_PRODUCTIZATION_COMPLETE_POST_APPROVAL_AUDIT_REQUIRED",
+  "claim": {
+    "assertion": "CLAIM_OK CODEX-CS2-PROD-DC-MISATTRIBUTED dc_correct_misattributed_arrest-set",
+    "result": "CLAIM_OK",
+    "unreleasedFamilyClaims": 0,
+    "competingActiveAssignments": 0,
+    "competingProcesses": 0,
+    "competingClaims": 0
+  },
+  "family": "dc_correct_misattributed_arrest-set",
+  "route": {
+    "obligationRouteKey": "obligation:track-only:DC:dc_correct_misattributed_arrest",
+    "runtimeRouteId": "DC:dc_correct_misattributed_arrest",
+    "registryTrackId": "dc_correct_misattributed_arrest",
+    "packetFamilyId": "dc_correct_misattributed_arrest-set",
+    "deliveryStrategy": "custom_pleading",
+    "components": [
+      "primary_filing",
+      "prosecutor_service",
+      "filing_instructions"
+    ],
+    "siblingTrackAdmitted": false,
+    "stateAggregateAdmitted": false,
+    "tracklessRouteAdmitted": false,
+    "clientSuppliedFamilyAdmitted": false
+  },
+  "packetSpecification": {
+    "path": "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+    "specificationSha256": "d97781b29e4b5525c0782a3a07a75e421f601310801b599136e3955c3b87d3e0",
+    "legalSectionsBound": false,
+    "legalApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "legalApprovalCurrent": true,
+    "postApprovalChangeAudit": null,
+    "createsCommercialAuthority": false,
+    "opensRoute": false
+  },
+  "referenceSource": {
+    "sourceId": "DC-HOW-TO-SEAL-OR-EXPUNGE-YOUR-CRIMINAL-RECOR",
+    "sha256": "310381f170d1875ef7a40e9e71c8653c1ea5c847628a6c718ea9016c0e312712",
+    "byteLength": 47232,
+    "use": "authority_and_filing_channel_reference_only",
+    "shippedAsPacketComponent": false
+  },
+  "artifacts": {
+    "canonical": {
+      "path": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+      "byteLength": 13617,
+      "pageCount": 5,
+      "unchanged": true
+    },
+    "boundary": {
+      "path": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225",
+      "byteLength": 13868,
+      "pageCount": 5,
+      "unchanged": true
+    },
+    "bytesReusedUnderCommittedOneRouteComponentEquivalence": true,
+    "packetBytesChanged": 0
+  },
+  "evidence": {
+    "nationalFamilyState": "COMPLETE_PACKET_PROVEN",
+    "firstRouteCohort": {
+      "packetProven": true,
+      "verdictCurrentAndDeclaresItsBase": true,
+      "rasterReceiptStillBindsTheBytes": true,
+      "routeToFamilyBindingExact": true,
+      "sourceIdentityComplete": true,
+      "coveredByAnExistingOwnerApproval": true,
+      "noSubstantiveLegalChangeSinceThatApproval": false,
+      "noHoldApplies": true,
+      "unmetConditions": [
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "inCohort": false
+    },
+    "independentVerdict": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifierId": "vf03",
+      "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+    },
+    "rasterReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33549186956",
+      "jobId": "99994820911",
+      "artifactId": "9816906065",
+      "boundToCanonicalSha256": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+      "coversWholeFamily": true
+    },
+    "legalApproval": {
+      "result": "ADOPT",
+      "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "owner": "Roger Roman",
+      "effectiveDate": "2026-09-02",
+      "approvalSource": "september_exact_digest_adoption",
+      "approvalCurrent": true,
+      "exactShippingHashesCovered": true,
+      "createsRuntimeOrCommercialAuthority": false
+    }
+  },
+  "missingPostApprovalAudit": {
+    "established": false,
+    "cohortCheck": "noSubstantiveLegalChangeSinceThatApproval=false",
+    "auditRecord": null,
+    "exactMissingGate": "post-approval substantive-legal-change audit for OWN-ADOPT-2026-09-02-BATCH-53",
+    "fabricated": false
+  },
+  "commercialAdmission": {
+    "consumer_checkout": "fulfillment_no_record",
+    "sponsored_entitlement": "fulfillment_no_record",
+    "packet_credit_admission": "fulfillment_no_record",
+    "fulfillmentRecordCreated": false
+  },
+  "tests": [
+    {
+      "command": "current scripts/verify-rcap-first-route-cohort-productization.mjs source in mutation mode with tracked sparse sources loaded in memory",
+      "result": "PASS",
+      "detail": "7 routes; 17 fail-closed mutations caught, including DC wrong-family, sibling-track, aggregate-route, trackless-route, fabricated-audit and wrong-owner substitutions; the manifest was restored byte-for-byte"
+    },
+    {
+      "command": "node scripts/verify-rcap-first-route-cohort-productization.mjs and --mutations directly",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "The baseline loader stops before assertions on intentionally unmaterialized src/lib/legal-authority/index.ts. The same current verifier source passes with tracked missing sources read in memory, without sparse-checkout expansion."
+    },
+    {
+      "command": "focused factory-v2 and packet-specification admission/refusal checks",
+      "result": "PASS",
+      "detail": "The exact route/track/family is admitted; wrong-family, sibling-track, sibling-route, aggregate, trackless and client-selected-family substitutions refuse."
+    },
+    {
+      "command": "focused exact DC manifest mutations",
+      "result": "PASS",
+      "detail": "6 of 6 mutations refused: wrong family, sibling track, aggregate route, trackless route, fabricated post-approval audit and wrong owner approval."
+    },
+    {
+      "command": "actual packet-route resolver, buildRenderJobSpec and commercial admission modules with tracked sparse sources loaded in memory",
+      "result": "PASS",
+      "detail": "Exact render path resolves only for the server-owned track; consumer checkout, sponsored entitlement and packet-credit admission each return fulfillment_no_record."
+    },
+    {
+      "command": "jq empty; node --check; targeted ESLint; targeted TypeScript transpilation; specification stable-content digest; sha256sum; wc; pdfinfo; git diff --check",
+      "result": "PASS",
+      "detail": "JSON and syntax are valid; changed code has zero lint errors; all changed TypeScript transpiles; specification digest is current; both PDFs match exact hashes, lengths and five-page counts; packet bytes are unchanged."
+    },
+    {
+      "command": "npx tsc --noEmit --pretty false",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Only baseline sparse modules are absent under partners, rcap-engine, legal-authority, fulfillment, render, Supabase and rcap-ledger; the resolver callback additionally loses its contextual type because the profile-registry declaration is absent. No materialization was broadened."
+    },
+    {
+      "command": "factory-v2 verifier/check and repository render/money/fulfillment/route-resolution verifiers",
+      "result": "SOURCE_LIGHT_UNAVAILABLE",
+      "detail": "Direct entrypoints stop on tracked-but-unmaterialized profile-registry, legal-authority, fulfillment, render-job, renderer-component or state-machine paths; the focused executable checks cover this exact route."
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-jobs.mjs",
+      "result": "ENVIRONMENT_UNAVAILABLE",
+      "detail": "psql, initdb and pg_ctl are not installed in this Codespace."
+    }
+  ],
+  "changedPaths": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+    "src/lib/rcap/documents/factory-v2-registry.ts",
+    "src/lib/rcap/documents/packet-route-resolver.ts",
+    "src/lib/rcap/grade-a/packet-specification.ts",
+    "scripts/verify-rcap-first-route-cohort-productization.mjs",
+    "data/rcap-grade-a/codex-cloud/cs2-productize-dc-misattributed-be7d/RETURN.json"
+  ],
+  "packetBytesChanged": 0,
+  "fulfillmentFilesChanged": 0,
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "canaries": 0,
+  "ProductionTouched": "NO"
+}
