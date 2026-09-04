@@ -11578,6 +11578,37 @@
         "name": "The court where the indictment, information, criminal citation, or complaint was filed",
         "detail": "If the complaint was filed in justice court and an information followed, file in superior court."
       },
+      "recordDrivenFilingCourtSelection": {
+        "status": "MAPPED",
+        "requiredRecordFacts": [
+          "exact charging-instrument type",
+          "court and case number where the charging instrument was filed",
+          "whether a justice-court complaint was followed by an information",
+          "superior court and case number shown by any later information"
+        ],
+        "rules": [
+          {
+            "when": "The charging-document history shows that a justice-court complaint was followed by an information in superior court.",
+            "result": "SELECT_SUPERIOR_COURT_NAMED_BY_INFORMATION"
+          },
+          {
+            "when": "The charging-document history shows an indictment, information, citation, or complaint and no later superior-court information.",
+            "result": "SELECT_COURT_WHERE_CHARGING_INSTRUMENT_WAS_FILED"
+          }
+        ],
+        "hardStop": "If the charging-document history is missing or inconsistent, or does not establish the instrument, court, and any justice-to-superior-court progression, require human review and do not guess.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 8"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:AOCCRSL1F-050825",
+          "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05"
+        },
+        {
+          "sourceId": "official-form:AOCCRSL2F-050825",
+          "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1"
+        }
+      ],
       "packetSet": {
         "packetSetId": "az_record_sealing_dismissal_not_guilty-set",
         "version": "1.0.0",
@@ -11900,6 +11931,42 @@
         "name": "The court where the person had an initial appearance",
         "detail": "If there was no initial appearance, the superior court in the county of arrest."
       },
+      "recordDrivenFilingCourtSelection": {
+        "status": "MAPPED",
+        "requiredRecordFacts": [
+          "charging-document history for the arrest",
+          "official initial-appearance history",
+          "court named by the initial-appearance record, when one occurred",
+          "county of arrest"
+        ],
+        "rules": [
+          {
+            "when": "The charging-document history shows that an indictment, information, citation, or complaint was filed.",
+            "result": "STOP_TRACK_MISMATCH",
+            "statement": "The arrest-with-no-charges track is not established; re-screen against the filed-charge record."
+          },
+          {
+            "when": "The official initial-appearance history identifies a court and the charging-document history establishes that no charge was filed.",
+            "result": "SELECT_INITIAL_APPEARANCE_COURT"
+          },
+          {
+            "when": "The official record establishes that no initial appearance occurred and the charging-document history establishes that no charge was filed.",
+            "result": "SELECT_SUPERIOR_COURT_IN_COUNTY_OF_ARREST"
+          }
+        ],
+        "hardStop": "If the charging-document or initial-appearance history is missing, inconsistent, or does not establish the filing court, require human review and do not guess.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 7"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:AOCCRSL1F-050825",
+          "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05"
+        },
+        {
+          "sourceId": "official-form:AOCCRSL2F-050825",
+          "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1"
+        }
+      ],
       "packetSet": {
         "packetSetId": "az_record_sealing_arrest_no_charges-set",
         "version": "1.0.0",
@@ -20798,7 +20865,7 @@
         "convictions for conduct that is no longer prohibited, within § 24-72-711"
       ],
       "exclusions": [
-        "The list of qualifying offense categories has not been confirmed."
+        "Screening and the exact conviction record must establish that the convicted conduct is no longer prohibited; otherwise this track stops for human review."
       ],
       "waitingPeriods": [],
       "outputStrategy": "official_pdf_fill",
@@ -20813,6 +20880,49 @@
         "name": "The court where the conviction records are located, in the existing criminal case",
         "detail": "Court-controlled with a district attorney response opportunity."
       },
+      "officialFormElectionMapping": {
+        "status": "MAPPED",
+        "primaryFormId": "JDF-2371",
+        "routeDeterminedSelections": [
+          {
+            "formLocation": "Section 1 and Section 5",
+            "selection": "C.R.S. § 24-72-711 motion for a conviction whose conduct is no longer prohibited",
+            "condition": "Screening and the exact conviction record establish that the conduct of conviction is no longer prohibited."
+          }
+        ],
+        "recordDeterminedSelections": [
+          {
+            "formLocation": "Section 4 offense class",
+            "sourceFact": "offense class shown by the exact conviction record"
+          },
+          {
+            "formLocation": "Section 4 drug-offense question",
+            "sourceFact": "whether the exact conviction record establishes a drug offense committed before October 1, 2013"
+          },
+          {
+            "formLocation": "Section 4 psilocybin or psilocyn question",
+            "sourceFact": "the exact conviction statute is one enumerated by the form and the screening facts establish that the conduct is no longer unlawful under C.R.S. § 18-18-434"
+          }
+        ],
+        "leaveBlankUnlessEstablished": [
+          "participant assertions",
+          "drug-offense election",
+          "psilocybin or psilocyn election",
+          "any unresolved legal election"
+        ],
+        "hardStop": "If the screening facts and exact conviction record do not establish the C.R.S. § 24-72-711 basis, require human review and do not select an eligibility election.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 9"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:JDF-2371",
+          "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6"
+        },
+        {
+          "sourceId": "official-form:JDF-2374",
+          "sha256": "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72"
+        }
+      ],
       "packetSet": {
         "packetSetId": "co_decriminalized_conduct_seal-set",
         "version": "1.0.0",
@@ -69237,6 +69347,47 @@
         "name": "Office of the Circuit Court Clerk",
         "detail": "Filed with the circuit court clerk in the county where the original charge was filed. One petition per criminal case. Where a circuit case has an underlying district case, the Clerks' Manual directs that only one fee is collected."
       },
+      "officialFormElectionMapping": {
+        "status": "MAPPED",
+        "primaryFormId": "AOC-496.2",
+        "recordFactsRequired": [
+          "exact conviction or disposition",
+          "offense classification shown by the court record",
+          "sentence-completion date",
+          "probation-completion date, when applicable",
+          "whether the conviction was expressly voided under KRS 218A.275(8) or KRS 218A.276(8)"
+        ],
+        "section6Selections": [
+          {
+            "selection": "Five years have passed after the later of sentence completion or successful probation completion",
+            "condition": "Select only when the exact record establishes a misdemeanor, violation, or qualifying traffic-infraction conviction under the ordinary KRS 431.078 route and establishes the later completion date plus five years."
+          },
+          {
+            "selection": "First controlled-substances conviction voided under KRS 218A.275(8)",
+            "condition": "Select only when the exact disposition record expressly establishes that statutory voiding."
+          },
+          {
+            "selection": "Marijuana, synthetic-drug, or salvia conviction voided under KRS 218A.276(8)",
+            "condition": "Select only when the exact disposition record expressly establishes that statutory voiding."
+          }
+        ],
+        "courtOwnedFields": {
+          "formId": "AOC-496",
+          "instruction": "Leave judicial findings and the court's grant or denial selections blank; do not prefill them as participant assertions."
+        },
+        "hardStop": "If the conviction, disposition, offense classification, completion dates, or statutory voiding basis do not establish one exact election, require human review and do not select a ground based on similar wording.",
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 10"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:AOC-496.2",
+          "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+        },
+        {
+          "sourceId": "official-form:AOC-496",
+          "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd"
+        }
+      ],
       "packetSet": {
         "packetSetId": "ky_misdemeanor_expungement-set",
         "version": "1.0.0",
@@ -130904,6 +131055,37 @@
         "name": "Clerk of the sentencing court",
         "detail": "Filed in the existing criminal case, in person, by mail, or by fax for a self-represented filer. In district court the participant obtains a hearing date from the judge's bailiff and then files DC 1:15 and gives a copy to the prosecutor; in county court the clerk schedules and mails notice."
       },
+      "controllingVehicle": {
+        "status": "MAPPED",
+        "implementationStrategy": "official_pdf_fill",
+        "primaryOfficialFormId": "CC-6-11",
+        "companionOfficialFormIds": [
+          "CC-6-11.2",
+          "CC-6-11a",
+          "DC-1-15"
+        ],
+        "customPleadingAuthorized": false,
+        "recordedBy": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json#ne-setaside-noncustodial-set",
+        "statement": "The controlling Nebraska legal-design record selects the official CC-6-11 packet. A custom pleading is not an authorized substitute."
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:CC-6-11",
+          "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492"
+        },
+        {
+          "sourceId": "official-form:CC-6-11.2",
+          "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6"
+        },
+        {
+          "sourceId": "official-form:CC-6-11a",
+          "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac"
+        },
+        {
+          "sourceId": "official-form:DC-1-15",
+          "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b"
+        }
+      ],
       "packetSet": {
         "packetSetId": "ne-setaside-noncustodial-set",
         "version": "1.0.0",
@@ -168439,6 +168621,28 @@
         "name": "Oregon circuit court where the contempt finding was entered",
         "detail": "As on the conviction track: motion, service on the prosecuting attorney who prosecuted the charge of contempt, fingerprints to the Department of State Police, victim notice by the prosecuting attorney, and a 120-day objection window."
       },
+      "routeIdentityMapping": {
+        "status": "MAPPED",
+        "relationship": "OBSOLETE_ALIAS",
+        "legacyTrackId": "or_contempt_setaside",
+        "legacyPacketSetId": "or_contempt_setaside-set",
+        "canonicalRouteId": "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "controllingVehicle": "ORS 137.225(1)(a) motion using the Oregon Judicial Department adult set-aside packet",
+        "duplicateFamily": false,
+        "historyDisposition": "Preserve the legacy track and packet-set identifiers as historical aliases; route them to the canonical ORS 137.225(1)(a) path and do not create a duplicate family.",
+        "legalQuestion": false,
+        "recordedBy": "LEGAL-BLOCK PURGE Group B row 12"
+      },
+      "sourceBindings": [
+        {
+          "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+          "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        },
+        {
+          "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+          "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6"
+        }
+      ],
       "packetSet": {
         "packetSetId": "or_contempt_setaside-set",
         "version": "1.0.0",
