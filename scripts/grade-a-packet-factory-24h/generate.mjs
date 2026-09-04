@@ -1367,8 +1367,24 @@ for (const f of IN.scoreboard.familiesDetail) {
   const ownerCorrection = ownerCorrectionsRequired.get(familyId) ?? null;
   const ownerCorrectionAwaitsReread = Boolean(ownerCorrection)
     && holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED";
+  /* A reclassification can request one fresh read; it cannot permanently
+   * outrank the read after that read returns.  A plain PASS is the extractor's
+   * deliberate downgrade for an incomplete obligation set, so it still leaves
+   * the request pending.  Every substantive current return is allowed through
+   * to the normal verdict state machine below. */
+  const reclassificationRereadAnchor = holdReclassification?.disposition === "POST_REPAIR_REREAD_REQUIRED"
+    ? holdReclassification.repairCommit
+    : IN.legalHoldReclassification?.recordedAtCaptainSha;
+  const reclassificationRereadReturned = Boolean(independentReturn)
+    && !["PASS", "BLOCKED_BEFORE_CLAIM"].includes(independentReturn.verdict)
+    && isCommitish(independentReturn.verifiedAtBase)
+    && isCommitish(reclassificationRereadAnchor)
+    && (independentReturn.verifiedAtBase === reclassificationRereadAnchor
+      || readIsLaterThan(independentReturn.verifiedAtBase, reclassificationRereadAnchor))
+    && !familyMovedSinceVerdict(independentReturn, directory, buildScript);
   const holdReclassificationNextState = ["POST_REPAIR_REREAD_REQUIRED", "SELECT_SUBSTANTIVE_VERDICT"]
-    .includes(holdReclassification?.disposition) ? "VERIFY_PENDING" : null;
+    .includes(holdReclassification?.disposition)
+    && !reclassificationRereadReturned ? "VERIFY_PENDING" : null;
   const legalBlocked = (executionReclassification || holdReclassification) ? false : (
     routes.some((r) => openCounselRoutes.has(r.routeKey))
     || (verdict?.verdict === "BLOCKED_LEGAL_APPROVAL_INPUT" && wave2Legal?.superseded !== true)

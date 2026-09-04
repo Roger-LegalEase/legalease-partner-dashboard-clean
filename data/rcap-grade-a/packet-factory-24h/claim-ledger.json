@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "eb72bb407b465f620719e7f7eff4e9394230b5fb",
+  "generatedAtCommit": "08770c6f78e599cf86f00c56cdf18881e222c48b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1128,20 +1128,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-03T21:45:37.421Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ca-prop64-set",
-      "familyId": "ca-prop64-set",
-      "itemId": null,
-      "familyIds": [
-        "ca-prop64-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3070,11 +3056,11 @@
         "il-cannabis-vacate-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-04T06:18:43.586Z"
     },
     {
       "subjectType": "packet-family",
@@ -3085,24 +3071,9 @@
         "il-cannabis-vacate-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF04",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-04T06:18:43.586Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "il-exp-nonconv-set",
-      "familyId": "il-exp-nonconv-set",
-      "itemId": null,
-      "familyIds": [
-        "il-exp-nonconv-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -3120,6 +3091,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T06:27:17.460Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-nonconv-set",
+      "familyId": "il-exp-nonconv-set",
+      "itemId": null,
+      "familyIds": [
+        "il-exp-nonconv-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3253,20 +3239,6 @@
       "operation": "rapid-repair",
       "lane": "FIX08",
       "laneKind": "repair",
-      "released": false
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "il-exp-supervision-set",
-      "familyId": "il-exp-supervision-set",
-      "itemId": null,
-      "familyIds": [
-        "il-exp-supervision-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
       "released": false
     },
     {
@@ -3562,10 +3534,11 @@
         "in_infraction_nondisclosure-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false
+      "operation": "packet-build",
+      "lane": "PF03",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-01T18:55:43.349Z"
     },
     {
       "subjectType": "packet-family",
@@ -3576,11 +3549,11 @@
         "in_infraction_nondisclosure-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF03",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-01T18:55:43.349Z"
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6204,11 +6177,11 @@
         "tx_nd_dwi_deferred-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF04",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-04T06:26:36.064Z"
     },
     {
       "subjectType": "packet-family",
@@ -6219,11 +6192,11 @@
         "tx_nd_dwi_deferred-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF04",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-04T06:26:36.064Z"
+      "operation": "rapid-repair",
+      "lane": "FIX05",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6279,11 +6252,11 @@
         "tx_nd_probation_misdemeanor-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "operation": "packet-build",
+      "lane": "PF06",
+      "laneKind": "packet-build",
+      "released": true,
+      "releasedAt": "2026-09-04T07:10:36.671Z"
     },
     {
       "subjectType": "packet-family",
@@ -6294,11 +6267,11 @@
         "tx_nd_probation_misdemeanor-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF06",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-04T07:10:36.671Z"
+      "operation": "rapid-repair",
+      "lane": "FIX06",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12704,7 +12677,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4352f2172a8b180c24c47ed2b8d5d54520430897987c98ae6de4b1ef63ae1e89",
+  "claimsDigest": "3f4cb271847c2ff7b896f5c396220c184ff52a19810a252a435c6a4a9d01e160",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33833,6 +33806,62 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "withdrawnAt": "2026-09-04T09:04:00Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-cannabis-vacate-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-04T09:05:44Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-nonconv-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T09:08:52Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-exp-supervision-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-04T09:08:52Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_infraction_nondisclosure-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-04T09:08:52Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_deferred-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T09:08:52Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_probation_misdemeanor-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T09:08:52Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-prop64-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-04T09:10:24Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

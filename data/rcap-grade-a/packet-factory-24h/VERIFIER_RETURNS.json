@@ -33,10 +33,10 @@
     }
   ],
   "counts": {
-    "returnDirectories": 57,
-    "rows": 579,
-    "independentVerdicts": 198,
-    "failRepairRequired": 48,
+    "returnDirectories": 59,
+    "rows": 586,
+    "independentVerdicts": 202,
+    "failRepairRequired": 52,
     "passIndependent": 145
   },
   "failRepairRequiredFamilies": [
@@ -53,15 +53,17 @@
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
     "dc_yra_set_aside-set",
+    "il-cannabis-vacate-set",
+    "il-exp-nonconv-set",
     "il-exp-pardon-set",
     "il-exp-precompletion-set",
     "il-exp-qualprob-set",
-    "il-exp-supervision-set",
     "il-seal-2yr-set",
     "il-seal-3yr-set",
     "il-seal-edu-set",
     "il-seal-nonconv-set",
     "in_arrest_no_charges-set",
+    "in_infraction_nondisclosure-set",
     "in_section1_petition-set",
     "nj_arrest_no_conviction-set",
     "ny_mrta_marijuana-set",
@@ -77,6 +79,8 @@
     "rcap-wi-custom-pleading",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
+    "tx_nd_dwi_deferred-set",
+    "tx_nd_probation_misdemeanor-set",
     "ut_pet_acquittal-set",
     "ut_pet_dismissed_with_prejudice-set",
     "ut_pet_dismissed_without_prejudice-set",
@@ -2394,6 +2398,20 @@
     {
       "familyId": "ca-prop64-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "247b790b6",
@@ -2651,20 +2669,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
-      "chronologySelection": {
-        "disposition": "SELECT_SUBSTANTIVE_VERDICT",
-        "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
-        "recordedAtCaptainSha": "dbd8a738abfe56992317961859d883375c976195",
-        "historicalVerdictPreserved": {
-          "lane": "vf02",
-          "verdict": "BLOCKED_SOURCE",
-          "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-          "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
-          "whyHistorical": "The return records a verifier environment where the private master corpus was absent; that environment-scoped refusal remains history and is not a legal ruling."
-        },
-        "selectionExpiresWhen": "A later independent substantive verdict declares a verifiedAtBase equal to or descending from recordedAtCaptainSha."
-      },
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ca-prop64-set",
@@ -4908,6 +4913,98 @@
       "superseded": true
     },
     {
+      "familyId": "il-cannabis-vacate-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "The receipt pins six exact official-form sources, but the current held files could not be independently read and rehashed in this environment; source identity is therefore not independently established.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The controlling manifest requires the Illinois State Police Access and Review transcript, a case-number compare-and-correct step, and the ISP $60 order-processing disclosure. Current instructions substitute a generic certified disposition and omit those exact actions and cost.",
+          "evidence": null
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The rendered packet is alphabetic (Additional Cannabis, Additional Notice, Getting Started, Motion, Notice, Order), not controlling manifest order 1-6 (Motion, Additional Cannabis, Getting Started, Notice, Additional Notice, Order).",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "County filing fee/waiver uncertainty is stated, but the controlling manifest's exact $60 Illinois State Police court-order processing cost is omitted.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The controlling manifest states clerk service under section 5.2(i)(3), while current instructions merely tell the participant to confirm notice recipients with the clerk and do not surface that service model.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "PAGE_ORDER",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-cannabis-vacate-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-exp-nonconv-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "current-byte-independent-verification-il-tx-batch-018",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All 27 charge-entry fields across the Request and Additional Cases forms are incorrectly bound to matter.case_number and print 2021-CF-004217 instead of the known charge.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The participant guidance does not accurately reconcile the already-inked malformed charge rows with the remaining case facts the participant must supply, so the packet is not truthfully completion-ready.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Later repeated charge cells are inked while their sibling case, agency, date, and outcome cells remain blank; the Case List also spreads one record across arrest1 through arrest5 as though those one-dimensional slots were five columns.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The participant criminal case number is written into five clerk-reserved caption fields: Request 7 - Case Number, Case List 7 - Case Number, Additional Cases 7 - Case Number, Order 7 - Case Number, and FW-CIV 4 - Case Number.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The Case List arrest3 charge is deliberately shortened by the builder's safeSet path to Charge exactly as shown o…, so the exact participant fact is truncated despite the visual raster reporting zero layout problems.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-nonconv-set",
+      "superseded": false
+    },
+    {
       "familyId": "il-exp-pardon-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf07",
@@ -5053,6 +5150,20 @@
     },
     {
       "familyId": "il-exp-supervision-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "current-byte-independent-verification-il-tx-batch-018",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-supervision-set",
+      "superseded": false
+    },
+    {
+      "familyId": "il-exp-supervision-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -5095,7 +5206,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-supervision-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-prostitution-j-vacate-set",
@@ -5485,6 +5596,28 @@
     },
     {
       "familyId": "in_infraction_nondisclosure-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "All three committed grounding records rehash exactly, but the current source receipt is internally stale: it both records the missing-form question resolved and the petition built, and says the same open question keeps it undrafted. The participant-facing assertion that Indiana publishes no statewide form is also broader than the receipt/dependency evidence, which says live confirmation at the official forms index remains outstanding after a refused fetch.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set",
+      "superseded": false
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf07",
       "isIndependentVerification": true,
@@ -5495,7 +5628,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "in_section1_petition-set",
@@ -12189,6 +12322,40 @@
       "superseded": true
     },
     {
+      "familyId": "tx_nd_dwi_deferred-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "current-byte-independent-verification-il-tx-batch-018",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions say nothing financial is filled in and assign signature and date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_deferred-set",
+      "superseded": false
+    },
+    {
       "familyId": "tx_nd_dwi_probation-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf01",
@@ -12309,6 +12476,40 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_probation-set",
       "superseded": true
+    },
+    {
+      "familyId": "tx_nd_probation_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "current-byte-independent-verification-il-tx-batch-018",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions assign every financial fact plus the signature date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map.",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_probation_misdemeanor-set",
+      "superseded": false
     },
     {
       "familyId": "ut_pet_acquittal-set",

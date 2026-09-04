@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `eb72bb407b465f620719e7f7eff4e9394230b5fb` (or the newer dispatch base)
+**Minimum required ancestor:** `08770c6f78e599cf86f00c56cdf18881e222c48b` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family il-exp-qualprob-set \
+  --family il-cannabis-vacate-set \
   --codex-cloud \
-  --minimum-captain-sha eb72bb407b465f620719e7f7eff4e9394230b5fb
+  --minimum-captain-sha 08770c6f78e599cf86f00c56cdf18881e222c48b
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -56,8 +56,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 8 families
 
+- `il-cannabis-vacate-set`
+- `il-exp-nonconv-set`
 - `il-exp-qualprob-set`
 - `rcap-tn-custom-pleading`
 - `il-seal-2yr-set`
@@ -76,12 +78,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
+- `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
+- `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
+- `scripts/build-census-v1-il-exp-nonconv-set.mjs`
 - `scripts/build-census-v1-il-exp-qualprob-set.mjs`
 - `scripts/build-census-v1-rcap-tn-custom-pleading.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`

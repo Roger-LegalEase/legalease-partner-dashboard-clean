@@ -35,4 +35,10 @@ for (const familyId of reclassified) {
   assert.ok(row.executionOwner || row.activeOwner, `${familyId} has no exact execution owner`);
   assert.ok(row.nextExecutableAction, `${familyId} has no exact next executable action`);
 }
+
+const indiana = master.families.find((f) => f.familyId === "in_infraction_nondisclosure-set");
+assert.equal(indiana.selectedIndependentVerdict?.verdict, "FAIL_REPAIR_REQUIRED",
+  "the post-repair Indiana reread must be selected");
+assert.equal(indiana.state, "FAIL_REPAIR_REQUIRED",
+  "a returned post-repair FAIL must outrank the historical reread instruction");
 console.log("PASS owner moved 22 false legal holds into exact executable ownership");

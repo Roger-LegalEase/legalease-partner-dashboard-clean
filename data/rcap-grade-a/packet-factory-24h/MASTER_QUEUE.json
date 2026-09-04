@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "eb72bb407b465f620719e7f7eff4e9394230b5fb",
+  "minimumCaptainSha": "08770c6f78e599cf86f00c56cdf18881e222c48b",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
@@ -71,19 +71,18 @@
     "sourceReady": 60,
     "sourceBlocked": 75,
     "legalBlocked": 5,
-    "verifyPending": 7,
-    "repairRequired": 49,
+    "verifyPending": 0,
+    "repairRequired": 54,
     "sumsToDenominator": true
   },
   "byState": {
     "SOURCE_READY": 60,
-    "COMPLETE_PACKET_PROVEN": 121,
-    "FAIL_REPAIR_REQUIRED": 49,
+    "COMPLETE_PACKET_PROVEN": 123,
+    "FAIL_REPAIR_REQUIRED": 54,
     "OUT_OF_SCOPE": 5,
     "SOURCE_BLOCKED": 75,
     "PRODUCT_PATH_PENDING": 10,
     "VERIFIED_PASS": 2,
-    "VERIFY_PENDING": 7,
     "LEGAL_BLOCKED": 5,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -5921,17 +5920,14 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf12",
-        "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
+        "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": {
@@ -5941,9 +5937,9 @@
         "wave2LegalInputClass": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
         "wave2SendToLawrence": false,
         "supersededBy": {
-          "lane": "vf12",
+          "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
           "verdict": "PASS_COMPLETE_INDEPENDENT",
-          "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22"
+          "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
         },
         "reason": "a later independent read, at a review base it declares and that is later than the wave-2 return commit, scored all fifteen obligations with none failing",
         "whatThisDoesNotDo": "It lifts one stale block. It approves no output, opens no commercial route and proves no packet; COMPLETE_PACKET_PROVEN still needs its raster receipt and its wiring record."
@@ -6032,7 +6028,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ca-prop64-set.mjs",
@@ -13854,7 +13850,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -13884,11 +13885,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "PAGE_ORDER",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "The receipt pins six exact official-form sources, but the current held files could not be independently read and rehashed in this environment; source identity is therefore not independently established.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The controlling manifest requires the Illinois State Police Access and Review transcript, a case-number compare-and-correct step, and the ISP $60 order-processing disclosure. Current instructions substitute a generic certified disposition and omit those exact actions and cost.",
+          "evidence": null
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "finding": "The rendered packet is alphabetic (Additional Cannabis, Additional Notice, Getting Started, Motion, Notice, Order), not controlling manifest order 1-6 (Motion, Additional Cannabis, Getting Started, Notice, Additional Notice, Order).",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "County filing fee/waiver uncertainty is stated, but the controlling manifest's exact $60 Illinois State Police court-order processing cost is omitted.",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "The controlling manifest states clerk service under section 5.2(i)(3), while current instructions merely tell the participant to confirm notice recipients with the clerk and do not surface that service model.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-cannabis-vacate-set.mjs",
@@ -14021,7 +14054,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "current-byte-independent-verification-il-tx-batch-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -14051,11 +14089,43 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "All 27 charge-entry fields across the Request and Additional Cases forms are incorrectly bound to matter.case_number and print 2021-CF-004217 instead of the known charge.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The participant guidance does not accurately reconcile the already-inked malformed charge rows with the remaining case facts the participant must supply, so the packet is not truthfully completion-ready.",
+          "evidence": null
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "Later repeated charge cells are inked while their sibling case, agency, date, and outcome cells remain blank; the Case List also spreads one record across arrest1 through arrest5 as though those one-dimensional slots were five columns.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The participant criminal case number is written into five clerk-reserved caption fields: Request 7 - Case Number, Case List 7 - Case Number, Additional Cases 7 - Case Number, Order 7 - Case Number, and FW-CIV 4 - Case Number.",
+          "evidence": null
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The Case List arrest3 charge is deliberately shortened by the builder's safeSet path to Charge exactly as shown o…, so the exact participant fact is truncated despite the visual raster reporting zero layout problems.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
@@ -14744,10 +14814,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "current-byte-independent-verification-il-tx-batch-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -14778,43 +14848,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REPEATING_ROWS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "REPEATING_ROWS",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": null,
-          "evidence": null
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-exp-supervision-set.mjs",
@@ -16457,18 +16495,15 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf07",
-        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -16543,11 +16578,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "All three committed grounding records rehash exactly, but the current source receipt is internally stale: it both records the missing-form question resolved and the petition built, and says the same open question keeps it undrafted. The participant-facing assertion that Indiana publishes no statewide form is also broader than the receipt/dependency evidence, which says live confirmation at the official forms index remains outstanding after a refused fetch.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
@@ -33397,7 +33440,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "current-byte-independent-verification-il-tx-batch-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -33427,11 +33475,31 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions say nothing financial is filled in and assign signature and date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
@@ -33672,7 +33740,12 @@
         "directAttachment": true
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "current-byte-independent-verification-il-tx-batch-018",
+        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -33702,11 +33775,31 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture.",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The instructions assign every financial fact plus the signature date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate.",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map.",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs",
