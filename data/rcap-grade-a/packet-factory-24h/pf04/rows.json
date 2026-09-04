@@ -659,14 +659,12 @@
   "currentRun": {
     "captainBaseSha": "c8e5ff716c2835ab8c5e8c4b0a0dc05608f34f5b",
     "minimumCaptainSha": "9c7e70ff0aae28c8a627c5a070b6b07202d9a780",
-    "status": "IN_PROGRESS",
+    "status": "COMPLETE",
     "familiesAssigned": 8,
-    "rowsReturned": 7,
+    "rowsReturned": 8,
     "familiesCompleted": 4,
-    "familiesStopped": 3,
-    "remaining": [
-      "mt_deferred_dismissal-set"
-    ],
+    "familiesStopped": 4,
+    "remaining": [],
     "packetsSelfVerified": 0,
     "commercialRoutesOpened": 0,
     "productionTouched": false,
@@ -839,6 +837,22 @@
         "basis": "All five official sources bind exactly, but every source is a flat PDF: 25 pages total and zero AcroForm fields. The family requires measured participant fields, a service-address table, proof-of-service dates, proposed-order judicial blanks, and conditional fee-waiver financial rows. No existing family-scoped builder or safe field geometry exists for these bytes; writing against guessed rectangles would create an unreviewed 25-page measurement mode and risk ink on protected/order fields.",
         "whatWouldUnblockIt": "A measured flat-form map for EXP102, EXP104, EXP105 and FEE102 (EXP101 remains carried instructions), with field-level write boxes, protected/refused regions and row semantics pinned to these exact hashes.",
         "legalInputStatus": "SETTLED; the stop is only the missing measured flat-form implementation",
+        "overlayFilesChanged": 0,
+        "artifacts": [],
+        "counters": null,
+        "selfVerified": false
+      },
+      {
+        "itemId": "mt_deferred_dismissal-set",
+        "status": "STOPPED",
+        "result": "BUILDER_STOP_DOCX_CONVERSION_NOT_BUILT",
+        "rowGate": "PASS 14/14; 1/1 held source exact",
+        "sourcesBind": [
+          {"sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX", "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7", "format": "DOCX"}
+        ],
+        "basis": "The court motion, service certificate and proposed order may be composed, but the required second-stage CRISS component is an exact official DOCX. This repository has no family-scoped deterministic DOCX-to-PDF/fill path or measured output-byte proof for this source. Omitting or recreating the official CRISS form would violate the five-component manifest, and using an external office conversion would not be reproducible from the committed builder and pinned input.",
+        "whatWouldUnblockIt": "A repository-owned deterministic DOCX rendering/fill procedure pinned to the exact held bytes, with measured fields and stable PDF output, after which the three court pleadings and process guidance can be composed in the same family packet.",
+        "legalInputStatus": "SETTLED; the stop is only the missing deterministic DOCX official-form implementation",
         "overlayFilesChanged": 0,
         "artifacts": [],
         "counters": null,
