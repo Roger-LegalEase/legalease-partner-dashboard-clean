@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "dc3096ed6b707dc96705d3c26ed001bee9736bce",
+  "generatedAtCommit": "df5fd5a4e29b1d18c0939d8c8de952b79aa833e6",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -25601,6 +25601,14 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-04T18:02:57.587Z"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-nonconviction-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-04T18:07:30.595Z"
     }
   ],
   "reissues": [
@@ -31077,6 +31085,16 @@
       "previouslyReleasedAt": "2026-09-04T15:13:18.239Z",
       "reissuedAt": "2026-09-04T18:05:11.919Z",
       "reason": "FIX02 refreshed the stale route-record source pins without changing packet bytes; exact-hash raster run 33605354695 remains current and independent reread is now required"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "ar-nonconviction-seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-04T18:07:30.595Z",
+      "reissuedAt": "2026-09-04T18:07:54.860Z",
+      "reason": "The independent PASS is current for packet bytes and raster evidence, but the shared legal-design manifest changed on a separate Illinois route after the assigned review base; hold one exact reread until the active shared-manifest productization wave settles"
     }
   ],
   "transfers": [
