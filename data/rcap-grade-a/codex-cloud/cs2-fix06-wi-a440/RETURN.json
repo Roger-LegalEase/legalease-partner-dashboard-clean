@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "workerId": "CODEX-CS2-FIX06-WI",
+  "lane": "FIX06",
+  "status": "COMPLETED",
+  "base": "d2b05c4e198e22f1029d2025ba02f1dd330194d9",
+  "branch": "codex/cs2-fix06-wi-a440",
+  "commit": "bb9ae06d46aafa976aa72fe3123568dc86a32549",
+  "tip": "reported out of band after the final metadata commit because a commit cannot contain its own object id",
+  "pushed": "NO",
+  "pushStatus": "PENDING_FINAL_RETURN_COMMIT_AND_PUSH",
+  "family": "rcap-wi-custom-pleading",
+  "route": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
+  "claim": "CLAIM_OK CODEX-CS2-FIX06-WI FIX06 rcap-wi-custom-pleading",
+  "startingPackets": {
+    "canonical": {
+      "sha256": "fa75790c3ef35af41d142cade19bf6def68149e3767e9b14eb73b1bd45414dc9",
+      "byteLength": 17311
+    },
+    "boundary": {
+      "sha256": "84297a24847a4a9555b92a8ac138d101fffd03331e71be7229efb72e50f1b5d8",
+      "byteLength": 17796
+    }
+  },
+  "finalPackets": {
+    "canonical": {
+      "sha256": "531f5683d99c908e932e04d4804baea82f879d687da95fb499e17ad07d28ee7e",
+      "byteLength": 17623
+    },
+    "boundary": {
+      "sha256": "018cd1f39cd8842d1ed4f62ea7ad095ada85307b07fb7a1a4d2c4bbd1d0891a7",
+      "byteLength": 18101
+    }
+  },
+  "twoBuildIdentities": {
+    "committedInputs": "5ab8a73c7be60a775362b0a47474b6ef966698c3",
+    "build1": {
+      "canonical": {
+        "sha256": "531f5683d99c908e932e04d4804baea82f879d687da95fb499e17ad07d28ee7e",
+        "byteLength": 17623
+      },
+      "boundary": {
+        "sha256": "018cd1f39cd8842d1ed4f62ea7ad095ada85307b07fb7a1a4d2c4bbd1d0891a7",
+        "byteLength": 18101
+      },
+      "result": "COMPLETED"
+    },
+    "build2": {
+      "canonical": {
+        "sha256": "531f5683d99c908e932e04d4804baea82f879d687da95fb499e17ad07d28ee7e",
+        "byteLength": 17623
+      },
+      "boundary": {
+        "sha256": "018cd1f39cd8842d1ed4f62ea7ad095ada85307b07fb7a1a4d2c4bbd1d0891a7",
+        "byteLength": 18101
+      },
+      "result": "COMPLETED"
+    }
+  },
+  "deterministic": true,
+  "deterministicResult": "BUILD_1_AND_BUILD_2_BYTE_IDENTICAL",
+  "failedObligationsAndMeasuredCorrections": {
+    "COMPONENT_SET": "The field map and rendered-artifacts report carry the status-only condition. The status page is labeled as the alternative status inquiry and warns not to send it with the issuance request; the participant table and steps require exactly one request, never both.",
+    "REQUIRED_BEFORE_FILING": "The primary recipient name/address is participant-supplied and disclosed; the phantom primary-filing-1.case_number protection is absent; the status request's existing req_case_number is participant-supplied REQUIRED_BEFORE_FILING and no status blank is court-owned.",
+    "FILING_DESTINATION": "The selected request goes to the supervising or detaining authority and is not called a court filing. The authority forwards the resulting certificate to the clerk of circuit court; participants are not told to file all packet pages together with a court."
+  },
+  "focusedCommandsAndResults": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-wi-custom-pleading'",
+      "result": "PASS — claim grant set 1943fe2092d2bce9"
+    },
+    {
+      "command": "node scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
+      "result": "PASS twice — COMPLETED each run; all nine builder counters zero; exact packet identities above"
+    },
+    {
+      "command": "node --check scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/build-census-v1-rcap-wi-custom-pleading.mjs --check",
+      "result": "PASS — CHECK_ONLY; 3 records; 25 anchors; 3 components; 11 writes; 18 blanks; focused WI semantic assertions pass"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-wi-custom-pleading'",
+      "result": "PASS_COMPLETE — 11/29 written; all nine counters zero"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family 'rcap-wi-custom-pleading' and --check",
+      "result": "PASS — current canonical digest pinned; stale central raster acceptance removed; clean check 1 unchanged"
+    },
+    {
+      "command": "node scripts/verify-packet-build-environment.mjs --family 'rcap-wi-custom-pleading'",
+      "result": "EXPECTED GLOBAL ENVIRONMENT FAILURE — 10/13 passed, 3 failed, 4 not applicable; worktree_clean and zero-source family_sources_bind pass; only absent global Master Library mounted/complete/index checks fail"
+    },
+    {
+      "command": "npm run rcap:verify-wi-state-pack",
+      "result": "INHERITED SPARSE-CHECKOUT FAILURE — MODULE_NOT_FOUND src/lib/record-clearing/index.ts; the command also requires src/lib/rcap/state-packs/wisconsin/index.ts, and both committed paths are excluded from this assignment's sparse checkout"
+    }
+  ],
+  "completenessCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "changedPaths": [
+    "scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/build-status.json",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/boundary/page-01/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/boundary/page-02/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/boundary/page-03/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/boundary/page-04/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/boundary/page-05/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/boundary/page-06/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/canonical/page-01/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/canonical/page-02/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/canonical/page-03/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/canonical/page-04/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/canonical/page-05/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/raster/canonical/page-06/page.png",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/fix06/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs2-fix06-wi-a440/RETURN.json"
+  ],
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "productionTouched": "NO"
+}
