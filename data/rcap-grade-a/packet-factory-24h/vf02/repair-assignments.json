@@ -3,7 +3,7 @@
   "lane": "VF02",
   "worker": "VF-SRC-A",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "assignmentCount": 23,
+  "assignmentCount": 25,
   "assignments": [
     {
       "itemId": "oh_marijuana_expungement-set",
@@ -799,6 +799,80 @@
       ],
       "deterministicRequirement": "Build canonical and boundary twice and require identical SHA-256 and byte lengths across runs. Reraster only when PDF bytes change.",
       "reVerificationOwed": "A different independent lane that neither built nor repaired the return must rerun all fifteen obligations against current exact hashes.",
+      "grantsNothing": "This assignment releases no claim and opens no route."
+    },
+    {
+      "repairAssignmentId": "VF02-POSTFIX-B-4F73-AZ-WRONGFUL-ARREST-NOTARIZATION-NONSTATEMENT",
+      "itemId": "az_wrongful_arrest_clearance-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "jurisdiction": "AZ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+      "raisedBy": "CODEX-CS2-VF02-POSTFIX-B",
+      "raisedAtBase": "4f73e89995c3ecfc01bf4e4b5fc39a14d339ecdb",
+      "currentPacketHashes": {
+        "canonical": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+        "boundary": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9"
+      },
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "decisiveDefect": "The committed registry declares 'The source review does not state a notarization requirement.' as requiredBeforeFiling, requirement required, but that statement reaches neither participant-instructions.md nor either rendered fixture. Case-insensitive search for 'notar' returns zero hits in all three participant-facing reads.",
+      "perObligation": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "whatIsWrong": "Four of the registry's five declared required-before-filing items reach the participant: signature/date, personal signing, the fee non-statement and the waiver non-statement. The notarization non-statement alone is absent, even though rules.notarization and packetSet.participantActionRequired[kind=notarize] both carry it.",
+          "howToRepair": "Carry the registry's notarization non-statement in participant-instructions.md and the rendered filing-instructions component, and name the Arizona Superior Court clerk as the office that answers whether notarization is required. Do not state that notarization is or is not required."
+        }
+      ],
+      "repairMustPreserve": [
+        "A.R.S. section 13-4051 route identity and exact destination",
+        "all participant writes, fee/waiver/service non-statements and self-help stops",
+        "protected court case number and petitioner signature/date blanks"
+      ],
+      "mayNotBeRepairedBy": [
+        "CODEX-CS2-VF02-POSTFIX-B",
+        "VF02"
+      ],
+      "deterministicRequirement": "Build canonical and boundary twice and require identical SHA-256 and byte lengths across runs. Because participant-facing PDF bytes must change, obtain a new raster receipt bound to the repaired hashes.",
+      "reVerificationOwed": "A different independent lane that neither built nor repaired the return must rerun all fifteen obligations against the repaired exact hashes.",
+      "grantsNothing": "This assignment releases no claim and opens no route."
+    },
+    {
+      "repairAssignmentId": "VF02-POSTFIX-B-4F73-CT-DECRIMINALIZED-NOTARIZATION-NONSTATEMENT",
+      "itemId": "ct-decriminalized-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "jurisdiction": "CT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading",
+      "raisedBy": "CODEX-CS2-VF02-POSTFIX-B",
+      "raisedAtBase": "4f73e89995c3ecfc01bf4e4b5fc39a14d339ecdb",
+      "currentPacketHashes": {
+        "canonical": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+        "boundary": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73"
+      },
+      "failedProofObligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "decisiveDefect": "The committed registry declares 'The source review does not state a notarization requirement.' as requiredBeforeFiling, requirement required, but that statement reaches neither participant-instructions.md nor either rendered fixture. Case-insensitive search for 'notar' returns zero hits in all three participant-facing reads.",
+      "perObligation": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "whatIsWrong": "Six of the registry's seven declared required-before-filing items reach the participant: case-look-up confirmation, decriminalization allegation, signature, personal signing, fee uncertainty and waiver uncertainty. The notarization non-statement alone is absent, even though rules.notarization and packetSet.participantActionRequired[kind=notarize] both carry it.",
+          "howToRepair": "Carry the registry's notarization non-statement in participant-instructions.md and the rendered filing-instructions component, and name the Superior Court clerk or Judicial Department records center for older courts as the office that answers whether notarization is required. Do not state that notarization is or is not required."
+        }
+      ],
+      "repairMustPreserve": [
+        "Connecticut section 54-142d route identity and decriminalization-boundary treatment",
+        "all participant writes, case-look-up check, fee/waiver/service uncertainty and self-help stops",
+        "protected court case number and petitioner signature/date blanks"
+      ],
+      "mayNotBeRepairedBy": [
+        "CODEX-CS2-VF02-POSTFIX-B",
+        "VF02"
+      ],
+      "deterministicRequirement": "Build canonical and boundary twice and require identical SHA-256 and byte lengths across runs. Because participant-facing PDF bytes must change, obtain a new raster receipt bound to the repaired hashes.",
+      "reVerificationOwed": "A different independent lane that neither built nor repaired the return must rerun all fifteen obligations against the repaired exact hashes.",
       "grantsNothing": "This assignment releases no claim and opens no route."
     }
   ],
