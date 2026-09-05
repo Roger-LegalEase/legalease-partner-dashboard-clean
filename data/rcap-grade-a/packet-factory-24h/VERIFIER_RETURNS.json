@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 709,
-    "independentVerdicts": 233,
-    "failRepairRequired": 59,
-    "passIndependent": 165
+    "rows": 713,
+    "independentVerdicts": 234,
+    "failRepairRequired": 57,
+    "passIndependent": 168
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -82,13 +82,11 @@
     "nv_seal_probation_family-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
-    "rcap-nd-custom-pleading",
     "rcap-nv-custom-pleading",
-    "rcap-ok-custom-pleading",
     "rcap-tx-custom-pleading",
-    "rcap-wa-custom-pleading-clean-tracks",
     "rcap-wi-custom-pleading",
     "rcap-wv-custom-pleading",
+    "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
     "tx_nd_dwi_deferred-set",
@@ -12974,6 +12972,20 @@
     },
     {
       "familyId": "rcap-nd-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nd-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-nd-custom-pleading",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf11",
       "isIndependentVerification": true,
@@ -13116,7 +13128,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nd-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-nv-custom-pleading",
@@ -13665,6 +13677,20 @@
     },
     {
       "familyId": "rcap-ok-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -13701,7 +13727,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-ok-custom-pleading",
@@ -14316,6 +14342,20 @@
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -14344,7 +14384,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
@@ -14694,6 +14734,61 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_marijuana-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "TWO DEFECTS VISIBLE ON THE DELIVERED PAGES, both present in canonical and in boundary. (1) HARD-SPLIT ROUTE KEYS, 8 instances per fixture, on pages 6, 12 and 13 and twice on page 8. The route trailer prints 'obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-affidav' at 467.3pt against the 468pt column and resumes 'it ;' on the next line, and 'obligation:unit:RI:…-stage-3-notice-hearing-and-certif' at 466.2pt resuming 'ied-copies'. Both land inside SCAN01's hard-split band (457.6, 468] and neither break is on one of the token's own separators. The shared separator-aware splitter at scripts/rcap-custom-pleading/split-token.mjs breaks the same two tokens at their hyphens instead — '…-court-motion-and-' / 'affidavit' and '…-notice-hearing-and-' / 'certified-copies' — with hardSplits 0, which I ran against these exact tokens at the composer's own metrics to confirm. The cause is the private character-accumulating splitToken still in the build host at scripts/build-census-v1-ri_decriminalized-set.mjs lines 1764-1772 (build-status.json names that file as this family's buildHost); it accumulates one character at a time and cuts at whichever character first reaches the margin, which is the pre-FIX16 behaviour the shared module was extracted to replace. (2) A ROUTE-KEY-ONLY PAGE at page 8 of each fixture: five drawn lines at x=72, y=720 down to y=662, all of them the machine route trailer — the tail of the notice-package component whose body ends on page 7 — with no heading, no route name in words, no prose and nothing to say what the page is. Rastered locally at 110dpi into /tmp and confirmed by eye: the participant is handed a whole page of internal identifiers, two of them broken mid-word. Neither defect is seen by any of the nine counters, which read zero throughout, nor by the corpus SCAN01 sweep, which classifies this family as official-pdf-fill and does not visit it. WHAT IS REQUIRED: replace the private splitToken in the build host with createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs under a fitsByFontMetrics(font, fontSize, maxWidth) predicate, and keep the trailer with the block it closes so no page is delivered carrying only a route key — the trailer pull-down that Oklahoma's and Washington's composers already carry. Neither is this lane's to write.",
+          "evidence": {
+            "defectClasses": [
+              "A_token_integrity/hard_split",
+              "B_page_content/route_key_only_page"
+            ],
+            "hardSplitInstancesPerFixture": 8,
+            "hardSplitPages": [
+              6,
+              8,
+              12,
+              13
+            ],
+            "hardSplitMeasuredWidthsPt": [
+              467.3,
+              466.2
+            ],
+            "columnPt": 468,
+            "band": "(457.6, 468]",
+            "routeKeyOnlyPages": [
+              8
+            ],
+            "routeKeyOnlyPageLineCount": 5,
+            "rasteredLocally": [
+              "canonical p6",
+              "canonical p8"
+            ],
+            "sharedSplitterWouldProduce": [
+              "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-|affidavit",
+              "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-3-notice-hearing-and-|certified-copies"
+            ],
+            "component": "renderComposedPdf splitToken in scripts/build-census-v1-ri_decriminalized-set.mjs:1764-1772 (declared buildHost for this family)",
+            "countersSawIt": false,
+            "scan01SawIt": false
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_multiple_misdemeanors-set",
       "superseded": false
     },
     {

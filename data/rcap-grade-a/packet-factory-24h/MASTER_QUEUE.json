@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "b96bad780e3f88d5e4676f01296568a1e87d67d2",
+  "minimumCaptainSha": "738de4fc37fca23fb3a5f6ce12e101897f15abe5",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,18 +72,18 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 19,
-    "repairRequired": 43,
+    "verifyPending": 15,
+    "repairRequired": 44,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 145,
-    "FAIL_REPAIR_REQUIRED": 49,
+    "COMPLETE_PACKET_PROVEN": 148,
+    "FAIL_REPAIR_REQUIRED": 50,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 19,
+    "VERIFY_PENDING": 15,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -35619,10 +35619,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf12",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf06",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -35653,64 +35653,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Twelve orphan pages across this family's twelve PDFs, each carrying only the tail of the petitioner contact block plus the route footer. Assembled canonical pages 4, 25 and 31 carry three lines each; assembled boundary pages 4, 25 and 31 carry four to five lines, one of which is the second half of a mailing address broken at the page boundary. The same pages recur in routes/nd-seal-felony-conviction (page 4), routes/nd-dui-record-seal (page 3) and routes/nd-marijuana-first-offense-seal (page 3) in both fixtures. Confirmed by pdftotext -layout per page and by rendering assembled canonical page 4 at 72dpi, which shows three lines near the top and nothing else. No word in any of the twelve PDFs falls within 18pt of a page edge, so this is a pagination defect rather than a margin overrun. nd-seal-misdemeanor-conviction and nd-seal-pardoned-conviction are clean, which is what FIX04 and FIX07 repaired.",
-          "evidence": {
-            "orphanPages": {
-              "fixtures/canonical.pdf": [
-                4,
-                25,
-                31
-              ],
-              "fixtures/boundary.pdf": [
-                4,
-                25,
-                31
-              ],
-              "fixtures/routes/nd-seal-felony-conviction/canonical.pdf": [
-                4
-              ],
-              "fixtures/routes/nd-seal-felony-conviction/boundary.pdf": [
-                4
-              ],
-              "fixtures/routes/nd-dui-record-seal/canonical.pdf": [
-                3
-              ],
-              "fixtures/routes/nd-dui-record-seal/boundary.pdf": [
-                3
-              ],
-              "fixtures/routes/nd-marijuana-first-offense-seal/canonical.pdf": [
-                3
-              ],
-              "fixtures/routes/nd-marijuana-first-offense-seal/boundary.pdf": [
-                3
-              ]
-            },
-            "totalOrphanPages": 12,
-            "affectedComponents": [
-              "nd-seal-felony-conviction-primary-filing-1",
-              "nd-dui-record-seal-primary-filing-1",
-              "nd-marijuana-first-offense-seal-primary-filing-1"
-            ],
-            "cleanComponents": [
-              "nd-seal-misdemeanor-conviction-primary-filing-1",
-              "nd-seal-pardoned-conviction-primary-filing-1"
-            ],
-            "writtenValueBrokenAcrossPageBreak": "mailing_address, boundary fixture, felony and marijuana primary filings",
-            "wordsOutsideMargin": 0,
-            "priorFailAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-            "fix04ReissueAddressed": "the pardoned-conviction instance only"
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
@@ -36009,10 +35956,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf09",
-        "verifiedAtBase": "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf07",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -36043,37 +35990,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "SIX PAGES PER FIXTURE ARE PAGINATION OVERFLOW: five carry nothing but a wrapped route key, and on the sixth the petitioner's own contact block is broken across the page break — in the boundary fixture, mid-address. HOW THIS WAS MEASURED, AND WHY MY FIRST PASS MISSED IT. My first clipping check tested only whether a value is truncated or overflows its rule WITHIN a line, and on that test both fixtures are clean — every long boundary value is present verbatim and nothing collides. That test cannot see a value broken across a PAGE break. I only went looking because two earlier lanes had failed this obligation on this cohort (vf29/vf37 on Oklahoma, vf02 on Nevada) and a verifier does not get to overturn a finding it did not re-measure. The probe: for every page of every fixture, take the first non-blank line and flag it when it continues a contact block opened on the previous page (PRINTED NAME / MAILING ADDRESS / TELEPHONE / EMAIL) or is a bare postcode fragment following a MAILING ADDRESS; separately count non-whitespace characters per page and read every thin page rather than trusting a threshold. My first threshold of 200 characters would have MISSED the boundary fixture's split page at 216 characters, which is why every flagged page was then read, and the two decisive pages were also rendered at 150 dpi and looked at.",
-          "evidence": {
-            "obligation": "CLIPPING_AND_OVERLAP",
-            "summary": "SIX PAGES PER FIXTURE ARE PAGINATION OVERFLOW: five carry nothing but a wrapped route key, and on the sixth the petitioner's own contact block is broken across the page break — in the boundary fixture, mid-address.",
-            "defectA": {
-              "what": "FIVE WHOLE PAGES CONTAIN NO PARTICIPANT-FACING CONTENT AT ALL — only the 'Routes this set serves' footer, with the route key wrapped mid-token.",
-              "pages": "canonical and boundary alike: 16, 24, 36, 40, 45",
-              "exampleVerbatim": "page 16 in full: 'obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expung / ement ; obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expung / ement' — and nothing else on the page.",
-              "thisIsTheSAMEDEFECTvf37RECORDED": "vf37 at 5c718222c failed this family for 'canonical page 39 is near-empty and contains only an orphaned '-expungement' footer fragment'. The packet has since been repaginated from 160 pages to 83, so the page NUMBER moved and the defect did not. It reproduces five times per fixture. vf37's verdict is NOT stale."
-            },
-            "defectB": {
-              "what": "THE PETITIONER'S CONTACT BLOCK IS SPLIT ACROSS A PAGE BREAK, and in the boundary fixture the mailing address itself is broken mid-value.",
-              "page": "28 in both fixtures",
-              "canonical": "page 27 ends 'PRINTED NAME: Jordan Avery Reyes / MAILING ADDRESS: 42 Magnolia Street, Springfield 62704'; page 28 opens 'TELEPHONE: 555-0142 / EMAIL: jordan.reyes@example.org' followed by the route footer, and holds nothing else.",
-              "boundary": "page 28 OPENS WITH THE BARE POSTCODE FRAGMENT '39501-2214' — the tail of the mailing address whose earlier half sits at the foot of page 27 — then TELEPHONE and EMAIL. A filing whose signature block states the petitioner's address in two halves on two sheets is not a clean filing, and the sheet a clerk sees first carries a truncated address.",
-              "component": "ok_18_19_felony_conviction-primary-filing-2 (the composed petition)"
-            },
-            "notFailedOnThese": "Pages 9, 67 and 82 are also short (181-217 non-space characters) but each carries two lines of substantive participant text — 'the prosecuting agency objects, or the court sets a contested hearing, stop and get a lawyer. The papers in this packet still stand; what ends is doing it alone.' — plus the footer. Those are ordinary continuation pages and are NOT part of this finding.",
-            "exactRepair": "Keep the route footer with the block it belongs to (keep-with-next on the signature/contact group and on the footer), and break the route key on its delimiters rather than mid-word. Both defects are in the composer's page-break logic, not in any field map, and one fix addresses Oklahoma and Washington together — they share the composer."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
@@ -36634,10 +36555,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf09",
-        "verifiedAtBase": "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf08",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -36668,29 +36589,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "THE WASHINGTON STATE PATROL REQUEST'S CONTACT BLOCK IS BROKEN ACROSS A PAGE BREAK IN BOTH FIXTURES, leaving an orphan page carrying two contact lines and internal route metadata — and in the boundary fixture the mailing address is split mid-value. HOW THIS WAS MEASURED, AND WHY MY FIRST PASS MISSED IT. My first clipping check tested only whether a value is truncated or overflows its rule WITHIN a line, and on that test both fixtures are clean — every long boundary value is present verbatim and nothing collides. That test cannot see a value broken across a PAGE break. I only went looking because two earlier lanes had failed this obligation on this cohort (vf29/vf37 on Oklahoma, vf02 on Nevada) and a verifier does not get to overturn a finding it did not re-measure. The probe: for every page of every fixture, take the first non-blank line and flag it when it continues a contact block opened on the previous page (PRINTED NAME / MAILING ADDRESS / TELEPHONE / EMAIL) or is a bare postcode fragment following a MAILING ADDRESS; separately count non-whitespace characters per page and read every thin page rather than trusting a threshold. My first threshold of 200 characters would have MISSED the boundary fixture's split page at 216 characters, which is why every flagged page was then read, and the two decisive pages were also rendered at 150 dpi and looked at.",
-          "evidence": {
-            "obligation": "CLIPPING_AND_OVERLAP",
-            "summary": "THE WASHINGTON STATE PATROL REQUEST'S CONTACT BLOCK IS BROKEN ACROSS A PAGE BREAK IN BOTH FIXTURES, leaving an orphan page carrying two contact lines and internal route metadata — and in the boundary fixture the mailing address is split mid-value.",
-            "page": "12 in both fixtures (of 17)",
-            "component": "wa_del_nonconviction-primary-filing-1 — the request to the Washington State Patrol",
-            "canonical": "page 11 ends 'PRINTED NAME: Jordan Avery Reyes / MAILING ADDRESS: 42 Magnolia Street, Springfield 62704'; page 12 in its entirety is 'TELEPHONE: 555-0142 / EMAIL: jordan.reyes@example.org' then 'Route: obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-06 / 0' — the route key wrapped mid-token so the page's last character is a lone '0'. Read at 150 dpi: the page is otherwise blank.",
-            "boundary": "page 12 OPENS WITH THE BARE POSTCODE FRAGMENT '39501-2214', the tail of a mailing address whose earlier half is at the foot of page 11, then TELEPHONE, EMAIL and the same wrapped route key.",
-            "whyThisMatters": "This is an agency request the participant sends to the Washington State Patrol. The sheet carrying their signature line ends with a half-written address, and the sheet completing it is a near-blank page whose visible content is an internal obligation key that means nothing to the WSP.",
-            "sameClassAsARepairThisCohortAlreadyMade": "vf02 failed nv_seal_probation_family-set at 759046bd9 for exactly this shape — proposed_order running to a second page holding only the route key — and Nevada was repaired at a120d8bd5 ('Fix NV proposed order footer pagination'), going from 20 pages to 9. This lane re-measured Nevada and finds zero such pages there now. The same repair was never applied to Washington or Oklahoma, which share the composer.",
-            "exactRepair": "Keep the contact block and its route footer with the signature group they belong to, and break the route key on ':' or '-' rather than mid-token. One composer fix covers Washington and Oklahoma; Nevada shows it has already been solved once."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",
@@ -37618,8 +37521,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf06",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37648,11 +37558,52 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "TWO DEFECTS VISIBLE ON THE DELIVERED PAGES, both present in canonical and in boundary. (1) HARD-SPLIT ROUTE KEYS, 8 instances per fixture, on pages 6, 12 and 13 and twice on page 8. The route trailer prints 'obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-affidav' at 467.3pt against the 468pt column and resumes 'it ;' on the next line, and 'obligation:unit:RI:…-stage-3-notice-hearing-and-certif' at 466.2pt resuming 'ied-copies'. Both land inside SCAN01's hard-split band (457.6, 468] and neither break is on one of the token's own separators. The shared separator-aware splitter at scripts/rcap-custom-pleading/split-token.mjs breaks the same two tokens at their hyphens instead — '…-court-motion-and-' / 'affidavit' and '…-notice-hearing-and-' / 'certified-copies' — with hardSplits 0, which I ran against these exact tokens at the composer's own metrics to confirm. The cause is the private character-accumulating splitToken still in the build host at scripts/build-census-v1-ri_decriminalized-set.mjs lines 1764-1772 (build-status.json names that file as this family's buildHost); it accumulates one character at a time and cuts at whichever character first reaches the margin, which is the pre-FIX16 behaviour the shared module was extracted to replace. (2) A ROUTE-KEY-ONLY PAGE at page 8 of each fixture: five drawn lines at x=72, y=720 down to y=662, all of them the machine route trailer — the tail of the notice-package component whose body ends on page 7 — with no heading, no route name in words, no prose and nothing to say what the page is. Rastered locally at 110dpi into /tmp and confirmed by eye: the participant is handed a whole page of internal identifiers, two of them broken mid-word. Neither defect is seen by any of the nine counters, which read zero throughout, nor by the corpus SCAN01 sweep, which classifies this family as official-pdf-fill and does not visit it. WHAT IS REQUIRED: replace the private splitToken in the build host with createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs under a fitsByFontMetrics(font, fontSize, maxWidth) predicate, and keep the trailer with the block it closes so no page is delivered carrying only a route key — the trailer pull-down that Oklahoma's and Washington's composers already carry. Neither is this lane's to write.",
+          "evidence": {
+            "defectClasses": [
+              "A_token_integrity/hard_split",
+              "B_page_content/route_key_only_page"
+            ],
+            "hardSplitInstancesPerFixture": 8,
+            "hardSplitPages": [
+              6,
+              8,
+              12,
+              13
+            ],
+            "hardSplitMeasuredWidthsPt": [
+              467.3,
+              466.2
+            ],
+            "columnPt": 468,
+            "band": "(457.6, 468]",
+            "routeKeyOnlyPages": [
+              8
+            ],
+            "routeKeyOnlyPageLineCount": 5,
+            "rasteredLocally": [
+              "canonical p6",
+              "canonical p8"
+            ],
+            "sharedSplitterWouldProduce": [
+              "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-|affidavit",
+              "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-3-notice-hearing-and-|certified-copies"
+            ],
+            "component": "renderComposedPdf splitToken in scripts/build-census-v1-ri_decriminalized-set.mjs:1764-1772 (declared buildHost for this family)",
+            "countersSawIt": false,
+            "scan01SawIt": false
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",

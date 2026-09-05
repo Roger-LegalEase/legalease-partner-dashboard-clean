@@ -8547,6 +8547,206 @@
         "SOURCE_IDENTITY"
       ],
       "notMeasurableHere": []
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "lane": "VF08",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "verifier": "FABLE-VF06/07/08-WAVE-THREE (independent — built none of these packets and repaired none of them)",
+      "verifiedAtBase": "d7e293f81",
+      "canonicalSha256": "78910c462040fbed6980384c0eb342b44eb8ec80d09eceb3ef97783ae119b050",
+      "boundarySha256": "587838be98adfff4f4f0e4e91d56aab08897551380ee1411b9e528e1b3bad471",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "rasterState": "RASTER_PASS",
+      "rasterStateEvidence": "RASTER_QUEUE.json row rcap-wa-custom-pleading-clean-tracks carries currentRasterState RASTER_PASS with rasterReceipt workflowRunId 33950997948, jobConclusion success, and boundToCanonicalSha256/boundToBoundarySha256 both equal to the SHA-256 recomputed here from the fixture bytes on disk. Two limits are recorded rather than smoothed: the family's own build-status.json still reads rasterState BUILT_RASTER_PENDING with rasterPages 0 and rasterEngine \"not rendered in this run\", so the family record and the central queue disagree on their face; and the queue's coverage block names boundary.pdf under notRenderedByThisGate, so the central raster read canonical pages only. Both fixtures were read here at appearance level regardless, by composed content stream and by local raster into /tmp.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": {
+            "routes": 2,
+            "printedRouteKeys": 2,
+            "notCarriedByCensus": 0
+          },
+          "finding": "Two routes, and the packet keeps them apart where it matters most. RCW 9.95.240 dismissal-after-probation and vacation of a pre-1984 conviction goes to the sentencing court and signs 'SIGNATURE OF PETITIONER'; RCW 10.97.060 non-conviction record deletion goes to the Washington State Patrol, signs 'SIGNATURE OF REQUESTER', and its own page says in terms that it is not a court filing, no court is involved, no order is sought and no court assigns it a case number. Both printed route keys are carried by the committed census."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": [
+            {
+              "record": "data/record-clearing/legal-design-track-registry.json",
+              "shaMatches": true,
+              "byteLenMatches": true,
+              "anchorStatementsVerified": 48,
+              "identityRefreshPresent": true
+            },
+            {
+              "record": "data/record-clearing/legal-design-specifications.json",
+              "shaMatches": true,
+              "byteLenMatches": true,
+              "anchorStatementsVerified": 3,
+              "identityRefreshPresent": true
+            },
+            {
+              "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "shaMatches": true,
+              "byteLenMatches": true,
+              "anchorStatementsVerified": 2,
+              "identityRefreshPresent": true
+            }
+          ],
+          "finding": "custom_pleading from codified text: no official form binary is bound and none is claimed (the receipt records that no Washington Courts pattern form was identified for RCW 9.95.240). All three committed authority records rehash byte-exact and byte-length-exact, and all three carry their identityRefresh annotations intact at this base, which the FIX23 return flagged as erasable by a plain rebuild."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": {
+            "declared": 8,
+            "locatedInBytes": 8,
+            "pageCount": 17
+          },
+          "finding": "requiredComponentsMissing 0; all 8 declared components were located on their own pages: the RCW 9.95.240 petition (1-3), proposed order (4), records checklist (5-6) and filing instructions (7-9), and the RCW 10.97.060 request (10-12), records checklist (13-14), expectation-setting page (15-16) and accuracy-remedy guidance (17). The deletion route correctly renders no proposed order, because no court order is sought."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": {
+            "writesTotal": 20,
+            "writesProvenInBytes": 20,
+            "outsideWriteBoxes": 0
+          },
+          "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; 20 of 20 writes per fixture carry foundInOutputBytes true and 0 glyphs land outside a measured write box."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": {
+            "requiredBeforeFiling": 21,
+            "labelsMissingFromInstructionsFile": 0
+          },
+          "finding": "unclassifiedBlanks 0; all 21 required-before-filing items are enumerated and every disclosureLabel was checked against participant-instructions.md here: 0 missing."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "selectionControlsDrawn": 0
+          },
+          "finding": "requiredOptionsMissing 0; both documents are authored for one statutory branch each and print no election control."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": {
+            "incompleteRows": 0
+          },
+          "finding": "incompleteRows 0; no repeating row carries a written cell beside a required cell left blank."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": {
+            "protectedWrites": 0,
+            "refusedFieldsWithInk": 0,
+            "protectedBlanksEnumerated": 7
+          },
+          "finding": "protectedWrites 0 and refusedFieldsWithInk empty; 7 protected blanks enumerated. On the pages, the RCW 9.95.240 proposed order carries 'EVERY DECISION ON THIS PAGE IS THE COURT'S', its ORDERS line, DATED line and signature line are empty, and '(The court signs here if, and only if, it grants the petition.)' sits under the empty rule; the petitioner and requester signature and date lines on pages 3 and 12 carry no ink."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": {
+            "canonicalMatches": true,
+            "boundaryMatches": true,
+            "pageCount": 17
+          },
+          "finding": "Both fixtures rehash to exactly the digests the record and the dispatch name: canonical 78910c46… and boundary 587838be…, 17 pages each."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": {
+            "manifestDocuments": 8,
+            "deliveredOrderMatches": true
+          },
+          "finding": "The delivered page order matches the packets[] manifest order for both fixtures across all eight components."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": {
+            "pagesRead": 34,
+            "orphanedExecutionBlocks": 0,
+            "orphanedExecutionBlocksBeforeFix23": 2,
+            "routeKeyOnlyPages": 0,
+            "hardSplitTokens": 0,
+            "markdownArtefacts": 0,
+            "emptyPages": 0,
+            "thinnestPageLines": 5,
+            "thinnestPage": 9,
+            "rasteredLocally": [
+              "canonical p8",
+              "canonical p9"
+            ]
+          },
+          "finding": "All 34 pages of the two fixtures read at appearance level from the composed content stream, with pages 8 and 9 also rastered locally into /tmp. No page opens on PRINTED NAME or a bare contact block: page 12 of each fixture, the page FIX23 repaired, now opens on 'DATE …… SIGNATURE OF REQUESTER ……' with its parenthetical, contact block and route trailer beneath it, so the closing execution unit is whole. No route-key-only page, no empty page, no hard-split token — the one wrapped route key on pages 12 and 17 breaks on its own hyphen ('…-under-rcw-10-97-' / '060') — no raw markdown printed as body text, and no ink outside a measured write box. The one page below the eight-line census benchmark is page 9 of each fixture, which is the item separately put to this lane and is ruled on in page9Fragment below; it is a five-line continuation of a bulleted list, not a severed execution block, and it does not violate any of the fifteen."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": {
+            "routesCovered": 2,
+            "distinctDestinations": 2
+          },
+          "finding": "Both destinations are named and they are different, which is the point of this family: 'Clerk of the sentencing court… the superior court that imposed the pre-1984 sentence' for RCW 9.95.240, and the Washington State Patrol for RCW 10.97.060, with the request page repeating that it is an agency request and not a petition and the records checklist naming where to send it."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": {
+            "routesCovered": 2,
+            "feeFigurePrinted": false
+          },
+          "finding": "Stated for both routes without guessing: 'Fee as recorded: Not established at source; the packet does not quote a court filing fee and directs the participant to ask the clerk. Fee waiver as recorded: Not established for the court filing fee.' The deletion route's expectation-setting pages carry the record's warning that deletion is hard to obtain and that this must be set before anyone pays."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": {
+            "routesCovered": 2
+          },
+          "finding": "For RCW 9.95.240: serve the prosecutor's office for the sentencing court and file proof of service. For RCW 10.97.060 the packet records 'Notice as recorded: none. There is no notice or objection process; the agency decides' — a correct statement of no service rather than a silence."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": {
+            "routesCovered": 2,
+            "statedOnPages": [
+              8,
+              17
+            ]
+          },
+          "finding": "Fourteen stop conditions are printed on page 8 under 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' for the vacation route, and the deletion route's page 17 carries its own two, including that challenging an agency refusal is the separate RCW 10.97.110 remedy that this packet neither brings nor drafts. Page 8 also carries 'Never call Washington vacation expungement.'"
+        }
+      },
+      "page9Fragment": {
+        "requirementTested": "CLIPPING_AND_OVERLAP, applied at appearance level as the assignment frames it: a participant reading the delivered pages in order must be able to tell what the fragment belongs to, and nothing may be cut, hidden or duplicated. No other of the fifteen reaches this page — it carries no field, no execution block, no election and no repeating row, and there is no obligation among the fifteen that a page reach a minimum line count.",
+        "ruling": "PASS",
+        "evidence": {
+          "whatIsOnThePage": "Five drawn lines at x=72, from y=720 to y=647.5, identical in canonical and boundary: the last two bullets of the 'THE PAGES IN THIS SET' list that begins at the foot of page 8, then the route trailer 'Route: obligation:track-only:WA:wa_vac_post_probation_9_95_240'.",
+          "nothingIsCut": "Both bullets are complete sentences that end inside the page. No token is hard-split anywhere in this family: the width-band test finds none, and each bullet's own component id wraps on whitespace, not mid-token.",
+          "nothingIsHidden": "Every line is drawn inside the 468pt column at the composer's own margin, and reports/actual-writes.json records 0 non-whitespace glyphs outside a measured write box in both fixtures.",
+          "nothingIsDuplicated": "Page 8 carries the list heading and the first two bullets; page 9 carries the third and fourth and no repeat of either earlier bullet. Page 8 carries no route trailer, so the trailer on page 9 is this component's only one.",
+          "theReaderCanAttributeIt": "Each bullet names its own component id — wa_vac_post_probation_9_95_240-records-checklist-3 and -filing-instructions-4 — and each ends with the route in plain English, '(Clear an older Washington conviction after you finished probation)'. The trailer names the route key. Reading in order, the participant arrives from page 8's 'THE PAGES IN THIS SET' heading and its first two bullets into the continuation of the same list.",
+          "confirmedByEye": "Rastered locally at 110dpi into /tmp and read as an image, not only as a content stream.",
+          "whyThisIsNotTheRule1bDefect": "This lane did not treat the page as repaired because Rule 1b moved signature lines. Rule 1b moved page 12, not page 9; page 9 is character-identical before and after that repair, as FIX23's own notRepairedHere block records. It was assessed on its own content: there is no signature line on or near it to be severed from, so the orphaned-execution-block class does not describe it.",
+          "whyThisIsNotACallForRedesign": "A continuation page existing is not itself a defect, and SCAN01's eight-line thinnest-legitimate-page figure is a census benchmark, not one of the fifteen obligations. Keeping the tail of a bulleted list whole would need a new list-block rule and a re-pagination of the family, which would move content no obligation has found wrong. Nothing here is required.",
+          "whatWouldHaveMadeItAFail": "If either bullet had been severed mid-sentence or mid-token across the break, if the page had carried only the route trailer with no prose (which is what this lane found and failed in Rhode Island's page 8), or if page 8's bullets had been repeated here."
+        }
+      },
+      "failedObligationNames": [],
+      "notMeasurableHere": []
     }
   ],
   "obligationSet": "the factory's canonical fifteen (L9)",
@@ -8956,5 +9156,27 @@
     "commercialRoutesOpened": 0,
     "productionTouched": false,
     "preflightAtThisBase": "12 of 13 registered applicable checks pass; corpus_matches_committed_index fails on one absent Master Library file, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', which is not a source of this family. This family is a zero-source composition and family_sources_bind passes."
+  },
+  "vf08WaveThreeAppend20260905": {
+    "verifier": "FABLE-VF06/07/08-WAVE-THREE (independent — built none of these packets and repaired none of them)",
+    "itemIds": [
+      "rcap-wa-custom-pleading-clean-tracks"
+    ],
+    "verifiedAtBase": "d7e293f81",
+    "note": "Per-row base, stamped on the rows this lane wrote rather than on the document, because these files are shared and a document-level base would land on rows whose authors never read at this commit.",
+    "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable (codex-cloud mode). The single failure is corpus_matches_committed_index, '1 absent, 0 mismatched of 24 sampled'. The absent entry is the committed index's master_library path 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', which exists in neither mounted custody nor in the release archive; the Master Library on both mounts is laid out under STATES/<JJ>/ and carries no 'LegalEase Alabama' tree. It is an index-to-corpus divergence in Alabama and it touches none of the four families scored here, every one of whose own digests resolved. Recorded rather than waived. The other applicable checks passed: master_library_mounted, master_library_complete (499 files, 329 PDFs, 51 jurisdictions), family_sources_bind, absent_is_not_empty, stale_artifact_block_consulted, worktree_clean, cloud_checkout_contains_captain_base.",
+    "corpusMounted": true,
+    "corpusMountedHow": "two custodies mounted and both consulted; sources resolved by content hash rather than by declared path",
+    "overlayDirectoriesModified": 0,
+    "buildScriptsModified": 0,
+    "sharedRecordsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "obligationsScored": 15,
+    "obligationsScoredNote": "All fifteen canonical obligations scored by name on every family in this append, with no NOT_MEASURABLE_HERE and no BLOCKED_LEGAL_INPUT recorded on any of them.",
+    "summary": "FABLE-VF06/07/08-WAVE-THREE appended one row at base d7e293f81 and altered no earlier row: rcap-wa-custom-pleading-clean-tracks PASS_COMPLETE_INDEPENDENT, with an explicit ruling on the separately recorded page-9 fragment. The fragment is ruled PASS against CLIPPING_AND_OVERLAP: it is a five-line continuation of the 'THE PAGES IN THIS SET' bulleted list begun on page 8, each bullet complete and self-identifying by component id and by route name, nothing cut, hidden or duplicated. It was assessed on its own content rather than treated as repaired by Rule 1b, which moved page 12 and left page 9 character-identical.",
+    "rowsAppended": 1,
+    "rowsBefore": 32,
+    "rowsAfter": 33
   }
 }
