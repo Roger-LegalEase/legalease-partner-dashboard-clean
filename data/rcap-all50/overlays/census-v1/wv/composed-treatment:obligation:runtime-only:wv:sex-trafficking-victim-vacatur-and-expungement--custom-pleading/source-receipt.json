@@ -23,8 +23,8 @@
       ],
       "recordId": "route-contract:WV:sex-trafficking-victim-vacatur-and-expungement",
       "pathInRepository": "src/lib/legal-authority/routes/single-routes.json",
-      "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
-      "byteLength": 67533,
+      "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+      "byteLength": 100125,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route contract: this route's mechanism, statute, outcome mode, timing anchor, recorded conditions, required facts and packet components",
       "anchorStatementsVerified": 17
@@ -47,21 +47,32 @@
       ],
       "recordId": "route-obligation-census:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
       "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-      "byteLength": 2607149,
+      "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+      "byteLength": 2625273,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route-obligation census: this route's exact key, its statutory authority, its recorded destination and its participant-facing instrument",
       "anchorStatementsVerified": 3,
       "identityRefresh": {
-        "refreshedOn": "2026-09-04",
+        "refreshedOn": "2026-09-05",
         "was": {
           "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
           "byteLength": 2599752
         },
-        "why": "The record was rewritten around this receipt's anchors. Every anchored entry this receipt binds was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and all were identical, so the bound content is unchanged and only the whole-file identity moved.",
-        "anchorsCompared": 1,
-        "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "39b88c674"
+        "why": "The census has been rewritten around this receipt's anchors twice. The annotation this receipt carried recorded only the first move and ended at 9816a479e532017f, which is no longer the identity on disk, so the builder dropped it rather than laundering a stale comparison forward. This lane re-did the comparison across the WHOLE drift instead of copying anything. Both historical blobs were recovered - 0936833332542f8e at commit 39b88c674 and 9816a479e532017f at commit ecd2bde79 - and the single census entry this receipt binds, the one whose routeKey is obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement, was serialised and compared object-for-object against the bytes on disk at 4d0eb74bbafe6ee3: identical at all three identities. All three anchor statements are present in all three. The bound content has not moved; only the whole-file identity has, twice.",
+        "anchorsCompared": 3,
+        "anchorsIdentical": 3,
+        "entriesComparedObjectForObject": 1,
+        "entriesIdentical": 1,
+        "previousPinLastSeenAtCommit": "39b88c674",
+        "throughIdentities": [
+          {
+            "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "byteLength": 2607149,
+            "lastSeenAtCommit": "ecd2bde79",
+            "comparedHere": true
+          }
+        ],
+        "comparedBy": "FIX30, rebuilding this family to remove markdown emphasis delimiters from a delivered page"
       }
     }
   ],

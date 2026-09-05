@@ -470,6 +470,7 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
+import { stripMarkdownEmphasis, assertNoMarkdownDelimitersOnDeliveredPages } from "./rcap-custom-pleading/composed-page-markdown.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -518,8 +519,16 @@ function resolveRecords() {
 }
 
 /* ---- deterministic composed-page rendering ---------------------------------- */
+/* Source markup a PDF page cannot render is removed before the normalisations
+ * below, on the same footing as the characters they normalise away: emphasis
+ * delimiters are markdown in participant-instructions.md and four black
+ * asterisks on a composed page. The one shared rule lives in
+ * scripts/rcap-custom-pleading/composed-page-markdown.mjs, imported rather than
+ * copied, because a page printing markup is a defect of the renderer and not of
+ * any one family. A string carrying no closed emphasis pair passes through
+ * unchanged, so no family whose pages carry no markup moves a byte. */
 function sanitizePdfText(text) {
-  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+  return stripMarkdownEmphasis(text).replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
     .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
     .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
@@ -657,6 +666,10 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   const pages = doc.getPages();
   assert.equal(pages.length, pageManifest.length, "the page manifest must describe every page of the packet");
   const textOfPage = pages.map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  /* No delivered page may print markup. Read from the saved bytes, so it holds
+   * whatever the markup arrived from -- a component body, a fixture value, or a
+   * future edit to either. */
+  assertNoMarkdownDelimitersOnDeliveredPages(textOfPage, fixtureName);
   const textOfComponent = new Map();
   for (const [i, m] of pageManifest.entries()) {
     textOfComponent.set(m.component, `${textOfComponent.get(m.component) ?? ""} ${textOfPage[i]}`);
