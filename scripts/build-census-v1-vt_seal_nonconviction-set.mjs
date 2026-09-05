@@ -174,13 +174,143 @@ const FEE_WAIVER_COMPONENT_REQUIREMENT = Object.freeze({
   manifestRecord: "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set].components[vt_seal_nonconviction-fee-waiver-application-5]"
 });
 
-const COMPONENTS = ["petition", "stipulation_and_proposed_order", "fee_waiver_application", "process_guidance"];
+/* ---- what the manifest says about the interests-of-justice prompts --------- *
+ *
+ * The packet-set manifest names FIVE components for this family and the packet
+ * used to declare four. The missing one is
+ * vt_seal_nonconviction-interests-of-justice-prompts-4, conditional on
+ * "Only on the Sec. 7603(g) ordinary petition route, where the petitioner
+ * carries the affirmative burden" -- a route this packet expressly carries, as
+ * ROUTE_KEYS[1], as the petition it fills, and as section 1 of its own guidance
+ * page. Its condition is therefore MET here, and a component whose condition is
+ * met is owed a page.
+ *
+ * Unlike the fee waiver, which is conditional, unmet, and dispositioned in
+ * componentRequirements as delivered_unfilled, this component was absent
+ * silently: neither rendered nor dispositioned, and invisible to every counter
+ * because a component that was never built has no field-map row to count.
+ *
+ * WHAT IT MAY BE AND WHAT IT MAY NOT BE. The committed record fixes this and
+ * the build does not get to choose. The intake memo's component note is
+ * "Prompts the participant to write, in their own words, why sealing serves the
+ * interests of justice. LegalEase never generates this argument." The track
+ * registry says the same of the unit: "The interests-of-justice statement is a
+ * participant-authored field with prompts and never generated argument, because
+ * on this route the burden is affirmative on the petitioner rather than on the
+ * State." So the page carries QUESTIONS and carries no answer: no drafted
+ * sentence the participant could sign, no example statement, no argument. The
+ * blank it feeds -- question 4 of 200-00130 -- stays a supply, exactly as it
+ * was, and nothing on the petition changed.
+ */
+const IOJ_COMPONENT_REQUIREMENT = Object.freeze({
+  requirement: "conditional",
+  conditionDescription: "Only on the Sec. 7603(g) ordinary petition route, where the petitioner carries the affirmative burden.",
+  conditionMetOnThisTrack: true,
+  whyTheConditionIsMet: "This packet carries the Sec. 7603(g) ordinary contested petition as one of its three routes: it is ROUTE_KEYS[1] (obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition), it is the route 200-00130 is filled for, and it is section 1 of the packet's own process-guidance page. On that route the burden is affirmative on the petitioner.",
+  filingDispositionForThisTrack: "not_filed_by_itself",
+  deliveryTreatment: "rendered_as_a_composed_component_page_of_participant_facing_prompts",
+  whatItCarries: "Prompts only -- questions for the participant to answer in their own words, and a statement of where their own answer goes on the petition.",
+  whatItNeverCarries: "No generated argument, no drafted or example statement, and no sentence the participant could sign as their own. The platform writes nothing into question 4 of 200-00130 and this page writes nothing there either.",
+  feedsBlank: "200-00130 question 4, printed caption '4. I believe that sealing of my criminal history is in the interests of justice because:', which remains a participant supply and was not changed by this component.",
+  manifestRecord: "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set].components[vt_seal_nonconviction-interests-of-justice-prompts-4]",
+  registryRecord: "data/record-clearing/legal-design-track-registry.json -> vt_seal_nonconviction, unit vt-nonconviction-ordinary-petition"
+});
+
+const COMPONENTS = ["petition", "stipulation_and_proposed_order", "fee_waiver_application", "process_guidance", "interests_of_justice_prompts"];
 const DOCUMENT_OF_COMPONENT = {
   petition: "200-00130",
   stipulation_and_proposed_order: "200-00132",
   fee_waiver_application: "600-00228",
-  process_guidance: "process_guidance"
+  process_guidance: "process_guidance",
+  interests_of_justice_prompts: "interests_of_justice_prompts"
 };
+
+/* ---- every component the manifest declares, and where it lands ------------- *
+ *
+ * The manifest is read at build time rather than restated here, and this table
+ * says only which packet component carries each declared componentId. The build
+ * refuses if the manifest's five ids are not exactly these five, and refuses if
+ * any declared component neither reaches a page of the assembled packet nor
+ * carries a componentRequirements disposition explaining why its condition is
+ * not met. A component that stops reaching a page now stops the build.
+ *
+ * One row is not an identity: the manifest's component 1 has role
+ * automatic_sealing_verification_guidance, and this packet's composed page is
+ * named process_guidance in componentSet, in documentOfComponent, in the page
+ * manifest and in the delivered page's own footer. The page discharges the role
+ * -- it is where the three routes, including the one that files nothing, are
+ * set out -- and the mapping is written down rather than left to be inferred.
+ */
+const MANIFEST_COMPONENT_DELIVERY = Object.freeze({
+  "vt_seal_nonconviction-automatic-sealing-verification-guidance-1": {
+    packetComponent: "process_guidance",
+    note: "The composed process-guidance page carries this role. Its section 3, THE ROUTE THAT FILES NOTHING, is the automatic Sec. 7603(a)(1) route and how to verify it."
+  },
+  "vt_seal_nonconviction-petition-2": { packetComponent: "petition", note: "Form 200-00130." },
+  "vt_seal_nonconviction-stipulation-and-proposed-order-3": { packetComponent: "stipulation_and_proposed_order", note: "Form 200-00132." },
+  "vt_seal_nonconviction-interests-of-justice-prompts-4": {
+    packetComponent: "interests_of_justice_prompts",
+    note: "The composed prompts page. Its condition is met on this track, so it is rendered rather than dispositioned."
+  },
+  "vt_seal_nonconviction-fee-waiver-application-5": {
+    packetComponent: "fee_waiver_application",
+    note: "Form 600-00228, delivered unfilled; its condition is not met and componentRequirements says so."
+  }
+});
+
+/* Every conditional component of this set, with its condition and whether the
+ * condition is met on this track. The fee waiver's condition is not met and it
+ * is delivered unfilled; the prompts component's condition IS met and it is
+ * rendered. Both are here for the same reason: a conditional component has to
+ * say which it is. */
+const COMPONENT_REQUIREMENTS = Object.freeze({
+  fee_waiver_application: FEE_WAIVER_COMPONENT_REQUIREMENT,
+  interests_of_justice_prompts: IOJ_COMPONENT_REQUIREMENT
+});
+
+const PACKET_SET_MANIFEST = "data/record-clearing/legal-design-packet-set-manifests.json";
+
+/**
+ * Every component the packet-set manifest declares is rendered or dispositioned.
+ *
+ * Rendered means a page of THIS assembled fixture carries it. Dispositioned
+ * means componentRequirements records the condition and records that it is not
+ * met on this track. Anything else -- a component the manifest names that the
+ * packet neither delivers nor accounts for -- fails the build, which is the
+ * defect this function exists to make impossible to ship again.
+ */
+function assertEveryDeclaredComponentIsAccountedFor(familyId, pageManifest, componentRequirements, fixtureName) {
+  const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, PACKET_SET_MANIFEST), "utf8"));
+  const set = (manifest.packetSets ?? []).find((row) => row.packetSetId === familyId);
+  assert.ok(set, `${familyId}: no packet-set manifest entry to read the declared components from`);
+  const declared = (set.components ?? []).map((c) => c.componentId);
+  assert.deepEqual([...declared].sort(), Object.keys(MANIFEST_COMPONENT_DELIVERY).sort(),
+    `${familyId}: the packet-set manifest declares components this build has no delivery for: ${JSON.stringify(declared)}`);
+  const onAPage = new Set(pageManifest.map((p) => p.component));
+  const accounted = [];
+  for (const component of set.components ?? []) {
+    const delivery = MANIFEST_COMPONENT_DELIVERY[component.componentId];
+    assert.ok(COMPONENTS.includes(delivery.packetComponent),
+      `${familyId} ${fixtureName}: ${component.componentId} is delivered as ${delivery.packetComponent}, which componentSet does not declare`);
+    const rendered = onAPage.has(delivery.packetComponent);
+    const disposition = componentRequirements[delivery.packetComponent] ?? null;
+    const dispositioned = disposition !== null && disposition.conditionMetOnThisTrack === false;
+    assert.ok(rendered || dispositioned,
+      `${familyId} ${fixtureName}: ${component.componentId} (${component.requirement}) reaches no page and carries no componentRequirements disposition`);
+    if (component.requirement === "required") {
+      assert.ok(rendered, `${familyId} ${fixtureName}: ${component.componentId} is REQUIRED and reaches no page`);
+    }
+    accounted.push({
+      componentId: component.componentId, role: component.role, requirement: component.requirement,
+      conditionDescription: component.conditionDescription ?? null,
+      packetComponent: delivery.packetComponent, note: delivery.note,
+      pages: pageManifest.filter((p) => p.component === delivery.packetComponent).map((p) => p.packetPage),
+      dispositionedInComponentRequirements: disposition !== null,
+      conditionMetOnThisTrack: disposition ? disposition.conditionMetOnThisTrack : null
+    });
+  }
+  return accounted;
+}
 
 const CONSENT_OPTIONS = ["YES", "NO"];
 const YES_NO = ["Yes", "No"];
@@ -423,7 +553,12 @@ export const FAMILY_CONFIGS = Object.freeze({
       "200-00130": [ROUTE_KEYS[1]],
       "200-00132": [ROUTE_KEYS[2]],
       "600-00228": [ROUTE_KEYS[1], ROUTE_KEYS[2]],
-      process_guidance: [ROUTE_KEYS[0]]
+      process_guidance: [ROUTE_KEYS[0]],
+      // The prompts page belongs to the Sec. 7603(g) ordinary petition route and
+      // to no other: that is the route its manifest condition names, and the one
+      // where the burden is affirmative on the petitioner. No route key is added
+      // here; this is an existing key of this family being assigned a document.
+      interests_of_justice_prompts: [ROUTE_KEYS[1]]
     },
     // The committed track registry entry this route's self-help stop conditions
     // are read from at build time. Naming the track rather than carrying the
@@ -749,7 +884,15 @@ function composedBody(config, facts, resolved) {
   L.push("If the State's Attorney will not sign, that is not the end of it. File the petition on its own and ask the court to set a hearing. The two routes use the same underlying facts and this packet prepares both.", "");
   L.push("3. THE ROUTE THAT FILES NOTHING", "");
   L.push("Some non-conviction records are cleared without a petition at all, and a packet that only ever told you to file would be telling you to do work you may not need to do. Before you file, ask the clerk of the unit above whether the record you are asking about has already been sealed, or is due to be, without a filing. If it has, nothing in this packet needs to be filed.", "");
-  L.push("This page states no timetable and no criterion for that, because neither is established by the forms this packet is built from. The clerk of the unit is who can tell you where your own record stands.", "");
+  /* FIX43. This sentence used to read "This page states no timetable and no
+   * criterion for that, because neither is established by the forms this packet
+   * is built from." True of the three bound PDFs and false of the record the
+   * page is built from, which establishes both: 13 V.S.A. Sec. 7603(a)(1)'s
+   * 60-day clock and its three triggers, and Form 200-00331 as how the
+   * participant checks. A required component that tells the participant no
+   * timetable exists where the record supplies one is worse than silent. The
+   * clerk sentence that followed it is unchanged and still true. */
+  L.push("There is a timetable and there is a criterion, and both come from the statute rather than from these forms. Under 13 V.S.A. Sec. 7603(a)(1) the court shall issue the sealing order within 60 days after final disposition where the court made no probable cause determination at arraignment, the charge was dismissed before trial with or without prejudice, or you were acquitted -- unless a party objects in the interests of justice, in which case the court schedules a hearing under Sec. 7603(b) instead, with you and the prosecuting attorney as the only parties. To see where your own record stands, complete Form 200-00331, Request for Criminal Record Search, and submit it to the court in the county; the result of that search is how you see whether the automatic sealing has already happened. A separate request is needed for each county and there is a fee for it, so allow time for the answer before you decide whether to file. The clerk of the unit is who can tell you where your own record stands.", "");
   L.push("NO FILING FEE ON THIS TRACK", "");
   L.push("There is no filing fee on this non-conviction sealing track. Under 32 V.S.A. Sec. 1431(e), the $90 fee applies only to sealing a conviction for a violation of 23 V.S.A. Sec. 1201(a). This track does not seal a conviction.", "");
   L.push("Form 600-00228, the Judiciary's statewide Application to Waive Filing Fees and Service Costs, is conditional: it is used only where a filing fee is actually charged and the applicant cannot pay it. No fee is charged on this track, so nothing on it needs to be completed or filed for this petition. It is in this packet BLANK on purpose -- the platform has written nothing on it, because page 2 of that form is a financial declaration made under oath and this packet asserts no financial fact on your behalf.", "");
@@ -762,6 +905,68 @@ function composedBody(config, facts, resolved) {
    * rendered into fixtures/canonical.pdf, so the participant reads it on paper. */
   L.push(`Route: ${config.routeName} (${config.statute})`);
   return L.join("\n");
+}
+
+/* ---- the composed interests-of-justice prompts component ------------------- *
+ *
+ * PROMPTS ONLY. Every line below is either a question for the participant, a
+ * statement of where their own answer goes, or a statement of what the platform
+ * will not do. There is no drafted sentence here, no example statement and no
+ * argument, because the committed record for this route says the statement is a
+ * participant-authored field with prompts and never generated argument. If a
+ * future edit puts a sentence here that a participant could copy onto the
+ * petition and sign, that edit has broken the component.
+ */
+function interestsOfJusticePromptsBody(config, facts) {
+  const L = [];
+  L.push("INTERESTS-OF-JUSTICE PROMPTS -- THE STATEMENT ONLY YOU CAN WRITE", "");
+  L.push(`Petitioner: ${facts["participant.full_legal_name"]}`);
+  L.push(`Case No.: ${facts["matter.case_number"]}`);
+  L.push("Route: an ordinary contested petition at any time (13 V.S.A. Sec. 7603(g))", "");
+  L.push("WHY THIS PAGE IS IN THE PACKET", "");
+  L.push("On the ordinary petition route the court grants the petition if it finds that sealing serves the interests of justice. The burden is yours rather than the State's: this is the route where you have to satisfy the court, and not the one where the State has to show why not. Question 4 of the petition (200-00130) prints \"I believe that sealing of my criminal history is in the interests of justice because:\" and the words after that colon are yours.", "");
+  L.push("THIS PAGE IS PROMPTS, NOT AN ANSWER, AND IT IS NOT FILED", "");
+  L.push("The platform has written nothing in question 4 and it will not. It does not draft that statement for you, does not show you an example one, and does not suggest sentences for you to sign your name under. What follows is questions. Your answers to them, in your own words, are what goes on the petition. This page itself is not filed and is not part of what the court reads.", "");
+  L.push("QUESTIONS TO ANSWER IN YOUR OWN WORDS", "");
+  L.push("Answer the ones that are true of you and leave the rest alone. A short, plain, honest answer is a real answer: there is no required length and no required form of words.", "");
+  for (const question of INTERESTS_OF_JUSTICE_PROMPTS) L.push(`- ${question}`);
+  L.push("");
+  L.push("WHERE YOUR ANSWER GOES", "");
+  L.push("Write it in the space the petition prints after question 4. If what you have written does not fit that space, ask the clerk of the unit where you are filing how the court wants a longer statement submitted, rather than cutting it down before you have asked. Where self-help ends on this route is the instructions page, which lists the registry's stop conditions in its own words.", "");
+  L.push(`Route: ${config.routeName} (${config.statute})`);
+  return L.join("\n");
+}
+
+const INTERESTS_OF_JUSTICE_PROMPTS = Object.freeze([
+  "What happened in this case, and how did it end?",
+  "What does having this record on your criminal history stop you from doing now?",
+  "Has it come up in a job, a license application, housing, schooling, volunteering or anything else? What happened when it did?",
+  "Who else is affected by it -- family, dependants, anyone who relies on you?",
+  "How much time has passed since the case ended, and what have you been doing in that time?",
+  "Is there anything about how the case ended -- no charge filed, no probable cause found, dismissed, or acquitted -- that you want the court to have in front of it?",
+  "What would change for you if the court sealed this record?",
+  "Is there anything you would want the court to know that nobody has asked you about yet?"
+]);
+
+function interestsOfJusticePromptsMap(config) {
+  const id = "interests_of_justice_prompts";
+  const base = (fid, label) => ({
+    field: `${id}.${fid}`, page: 1, printedLabel: label, printedLine: label,
+    effectiveLabel: label, regionHeading: label, sectionHeading: null,
+    rectBasis: "composed_document_authored_by_this_build"
+  });
+  const writes = [
+    { ...base("petitioner_name", "Petitioner named on this page"), factId: "participant.full_legal_name", kind: "composed_text", document: id },
+    { ...base("case_number", "Case No. printed on this page"), factId: "matter.case_number", kind: "composed_text", document: id }
+  ];
+  return {
+    formNumber: id,
+    documentPolicy: documentPolicy(config, id),
+    structuralClass: "composed_document",
+    explicitMappings: {}, roleRefusals: [], selectionControls: [],
+    canonicalWrites: writes, canonicalRefusals: [],
+    boundaryWrites: writes, boundaryRefusals: []
+  };
 }
 
 function sanitizePdfText(t) {
@@ -1028,7 +1233,12 @@ function instructionsMarkdown(config, resolved, rbf, maps) {
    * vt_exp_decriminalized-set's fourth component and is not in this packet at
    * all; componentSet, documentOfComponent, the page manifest and the delivered
    * page footer all say process_guidance. */
-  out.push("| `process_guidance` | the composed page that sets out all three routes, including the one that files nothing, and says where the packet goes |", "");
+  out.push("| `process_guidance` | the composed page that sets out all three routes, including the one that files nothing, and says where the packet goes |");
+  /* The fifth component the packet-set manifest declares, conditional on the
+   * § 7603(g) ordinary petition route and met on this track. It is prompts, and
+   * the row says so, because a participant who reads "interests-of-justice" in
+   * a contents list and expects a written argument has been misled. */
+  out.push("| `interests_of_justice_prompts` | the composed page of prompts for the statement in question 4 of the petition — questions for you to answer in your own words; the platform writes no part of that statement |", "");
   out.push("## What you must do", "");
   out.push("1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.");
   out.push("2. **Say which non-conviction ending applies to your case.** Question 2 of the petition offers three: you were cited or arrested but no charge was filed, a charge was filed and the court found no probable cause, or a charge was filed and the court dismissed it. Those are three different things and only you know which happened. The packet has already stated that you were **not convicted** — that much the route decides — and it leaves the rest to you.");
@@ -1118,7 +1328,7 @@ function instructionsMarkdown(config, resolved, rbf, maps) {
 
 /* ---- artifacts ------------------------------------------------------------ */
 function writeArtifacts(ctx) {
-  const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped, routeSelectionsMade } = ctx;
+  const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped, routeSelectionsMade, manifestComponentDelivery } = ctx;
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
   W("production-field-map.json", `${JSON.stringify({
     schemaVersion: "rcap-official-form-field-map/v1-census-v1",
@@ -1126,9 +1336,8 @@ function writeArtifacts(ctx) {
     jurisdiction: config.jurisdiction, statute: config.statute, legalName: config.legalName,
     officialForms: resolved.map((r) => r.formNumber),
     componentSet: COMPONENTS, documentOfComponent: DOCUMENT_OF_COMPONENT,
-    componentRequirements: {
-      fee_waiver_application: FEE_WAIVER_COMPONENT_REQUIREMENT
-    },
+    componentRequirements: COMPONENT_REQUIREMENTS,
+    manifestComponentDelivery,
     captionBasis: "every printed caption in this map was READ OUT OF THE PINNED BINARY at build time -- the printed line nearest the widget's own baseline on the widget's own page -- and captionReadAt records the y it was read from. The source gate is the exact SHA-256 binding, which fails the family closed on any change to the form.",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
     routeSelectionsMade,
@@ -1144,15 +1353,14 @@ function writeArtifacts(ctx) {
     bindingMethod: "exact path + corpus-index SHA-256 + on-disk SHA-256 + byte length",
     routeSelectionId: config.routeSelectionId, allSourcesExact: true,
     documents: resolved.map((r) => ({ sourceIds: [r.sourceId], formNumber: r.formNumber, revision: r.revision, pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength })),
-    composedComponentsAuthoredByThisBuild: ["process_guidance"],
+    composedComponentsAuthoredByThisBuild: ["process_guidance", "interests_of_justice_prompts"],
     commercialRoutesOpened: 0
   }, null, 2)}\n`);
   W("reports/rendered-artifacts.json", `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
     componentSet: COMPONENTS, artifacts,
-    componentRequirements: {
-      fee_waiver_application: FEE_WAIVER_COMPONENT_REQUIREMENT
-    },
+    componentRequirements: COMPONENT_REQUIREMENTS,
+    manifestComponentDelivery,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
     rasterSkipped, rasterPages
@@ -1196,7 +1404,9 @@ function writeArtifacts(ctx) {
       { finding: "The three bound binaries carry twenty checkboxes, and the map declared them without the words printed beside them.", consequence: "Every one of the twenty now carries the printed caption with the form's own Wingdings box glyphs taken out of it, and each of the ten that shares a YES/NO line with its opposite carries the single option word located against the pinned binary by position -- the build refuses if the word nearest to the right of the box is not the word the policy names. Every declared blank checkbox carries a participant instruction, and participant-instructions.md lists all twenty in a generated table." },
       { finding: "The map declared routeSelectionsMade as the empty array while the build struck two diagonals through question 2 of the petition in both fixtures, and the field the mark lands on carried the literal string 'undefined' where its reason should have been.", consequence: "routeSelectionsMade is now built from the marks actually drawn, with the box, the printed caption, the stroke count read back from the output bytes and the route reason; and the census carries routeReason through to the map, so six off-route conviction-branch boxes no longer print 'undefined' as their reason. The build refuses if a route selection or an off-route box has no reason." },
       { finding: "The participant does not serve the prosecutor with process.", consequence: "The court provides a filed petition to the prosecutor. For a stipulation, the participant takes or sends the form to the prosecuting office, and the prosecutor signs and files it with the court." },
-      { finding: "The boundary stipulation's printed-name and email widgets require the finalizer's existing minimum-size and widget-appearance alignment safeguards.", consequence: "Field 34d carries the full boundary name in fitted visible ink, and field 34i preserves the held boundary email rather than disappearing without an explicit refusal." }
+      { finding: "The boundary stipulation's printed-name and email widgets require the finalizer's existing minimum-size and widget-appearance alignment safeguards.", consequence: "Field 34d carries the full boundary name in fitted visible ink, and field 34i preserves the held boundary email rather than disappearing without an explicit refusal." },
+      { finding: "The packet-set manifest declares FIVE components for this family and the packet declared four. The fifth, vt_seal_nonconviction-interests-of-justice-prompts-4, is conditional on the Sec. 7603(g) ordinary petition route -- a route this packet expressly carries -- so its condition is met, and it was neither rendered nor dispositioned. No counter could see it: a component that was never built has no field-map row to count.", consequence: "It is now a composed component page of participant-facing prompts, appended after the guidance page so that no page of the three official forms and no page of the guidance moves. It carries questions only: no drafted statement, no example, no argument, because the manifest, the intake memo and the track registry all say the statement is participant-authored with prompts and never generated argument. Question 4 of 200-00130 is unchanged and still a participant supply. The build now reads the manifest at build time and refuses, per fixture, if any declared component neither reaches a page nor carries a componentRequirements disposition." },
+      { finding: "The guidance page told the participant that no timetable and no criterion is established for the route that files nothing. That was true of the three bound PDFs and false of the record the page is built from.", consequence: "The sentence is corrected out of the record: 13 V.S.A. Sec. 7603(a)(1)'s 60 days after final disposition, its three triggers, the objection in the interests of justice that converts it into a Sec. 7603(b) hearing, and Form 200-00331, Request for Criminal Record Search, as how the participant sees whether the automatic sealing has already happened. No other guidance sentence was touched." }
     ]
   }, null, 2)}\n`);
   W("participant-instructions.md", instructions);
@@ -1205,7 +1415,8 @@ function writeArtifacts(ctx) {
     requested: "visual review and counsel review", buildStatus: "state_built",
     counselQuestionsRaised: [
       "The packet marks question 2 of 200-00130 as 'I was not convicted' on the reasoning that a non-conviction sealing family determines that answer. Confirm that is right for all three of this family's routes.",
-      "The process-guidance page tells the participant to ask the clerk whether the record has already been sealed without a filing, and states no timetable or criterion for it because the forms establish none. Confirm that is the right treatment for the no-filing route, or supply the criterion."
+      "The process-guidance page now states the timetable and the criterion for the no-filing route out of the record rather than out of the three bound forms: the Sec. 7603(a)(1) 60-day clock from final disposition, its three triggers, the objection that converts it into a Sec. 7603(b) hearing, and Form 200-00331 as how the participant checks. Confirm that statement is right as written. It replaced a sentence that told the participant no timetable and no criterion existed.",
+      "The interests-of-justice prompts component is delivered as a page of questions and carries no drafted or example statement, because the packet-set manifest, the intake memo and the track registry all describe it as participant-authored with prompts and never generated argument. Confirm the eight prompts ask and do not answer, and that none of them suggests a ground the participant has not raised."
     ],
     approvedForLive: false, live: false, commercialRoutesOpened: 0
   }, null, 2)}\n`);
@@ -1263,6 +1474,9 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
    * cannot be reconciled with the page it describes is not a map of that page.
    */
   const routeSelectionsMade = [];
+  /* Where each of the packet-set manifest's five declared components landed,
+   * recorded per fixture by the assertion and reported for the canonical one. */
+  const manifestComponentDelivery = [];
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixtureName];
@@ -1348,6 +1562,24 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     documents.push("process_guidance");
     if (fixtureName === "canonical") maps.push(composedMap(config));
 
+    /* The fifth component the packet-set manifest declares. Its condition -- the
+     * Sec. 7603(g) ordinary petition route -- is met on this track, so it is
+     * rendered rather than dispositioned, as a composed page of participant
+     * prompts. It is appended after the guidance page so that no page of the
+     * three official forms and no page of the guidance moves. */
+    const iojBytes = await renderComposedPdf(interestsOfJusticePromptsBody(config, facts), "Interests-of-Justice Prompts");
+    const iojDoc = await PDFDocument.load(iojBytes, { ignoreEncryption: true });
+    for (const [i, page] of (await packet.copyPages(iojDoc, iojDoc.getPageIndices())).entries()) {
+      packet.addPage(page);
+      pageManifest.push({ packetPage: packet.getPageCount(), component: "interests_of_justice_prompts", documentId: "interests_of_justice_prompts", sourcePage: i + 1, sourceSha256: null });
+    }
+    documents.push("interests_of_justice_prompts");
+    if (fixtureName === "canonical") maps.push(interestsOfJusticePromptsMap(config));
+
+    const declaredComponentDelivery = assertEveryDeclaredComponentIsAccountedFor(
+      familyId, pageManifest, COMPONENT_REQUIREMENTS, fixtureName);
+    if (fixtureName === "canonical") manifestComponentDelivery.push(...declaredComponentDelivery);
+
     const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
     const file = `${outDir}/fixtures/${fixtureName}.pdf`;
     fs.writeFileSync(path.join(ROOT, file), packetBytes);
@@ -1395,7 +1627,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   assert.ok(routeSelectionsMade.length > 0,
     "this family marks question 2 of 200-00130 from the route, and no mark was recorded for the map to declare");
-  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped: skipRaster, routeSelectionsMade });
+  writeArtifacts({ familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit, rasterSkipped: skipRaster, routeSelectionsMade, manifestComponentDelivery });
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
   return {
     familyId, status: allZero ? "COMPLETED" : "STOPPED",

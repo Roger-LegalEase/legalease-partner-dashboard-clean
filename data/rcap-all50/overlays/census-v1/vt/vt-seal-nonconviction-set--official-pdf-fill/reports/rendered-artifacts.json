@@ -6,15 +6,16 @@
     "petition",
     "stipulation_and_proposed_order",
     "fee_waiver_application",
-    "process_guidance"
+    "process_guidance",
+    "interests_of_justice_prompts"
   ],
   "artifacts": [
     {
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
-      "sha256": "35989442e0569baaa8e062249850f5f29e528ebce972a7b0fcea2bf391026543",
-      "byteLength": 857566,
-      "pageCount": 8,
+      "sha256": "0b657ac8491a6ece183b3523ad2163e2bd73b6fdc3a516f58bfb283188b8d3e2",
+      "byteLength": 861953,
+      "pageCount": 9,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -71,6 +72,13 @@
           "documentId": "process_guidance",
           "sourcePage": 2,
           "sourceSha256": null
+        },
+        {
+          "packetPage": 9,
+          "component": "interests_of_justice_prompts",
+          "documentId": "interests_of_justice_prompts",
+          "sourcePage": 1,
+          "sourceSha256": null
         }
       ],
       "documents": [
@@ -80,21 +88,23 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ],
       "components": [
         "petition",
         "stipulation_and_proposed_order",
         "fee_waiver_application",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     },
     {
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
-      "sha256": "1c0dc4cd9fe86227cfe6e33e87d093056218c8f95ec06cbb95f3c29195b44fec",
-      "byteLength": 857906,
-      "pageCount": 8,
+      "sha256": "4851f377fef33a03857976a33c0e9543b6f6de14dc00146890232d3e571a6d12",
+      "byteLength": 862320,
+      "pageCount": 9,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -151,6 +161,13 @@
           "documentId": "process_guidance",
           "sourcePage": 2,
           "sourceSha256": null
+        },
+        {
+          "packetPage": 9,
+          "component": "interests_of_justice_prompts",
+          "documentId": "interests_of_justice_prompts",
+          "sourcePage": 1,
+          "sourceSha256": null
         }
       ],
       "documents": [
@@ -160,13 +177,15 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ],
       "components": [
         "petition",
         "stipulation_and_proposed_order",
         "fee_waiver_application",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     }
   ],
@@ -180,8 +199,92 @@
       "whyItIsStillDelivered": "600-00228 is the Vermont Judiciary's single statewide fee-waiver application and the packet-set manifest carries it as a component of this set. It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file. The instructions and the process-guidance page name the form, say no fee is charged on this track, and say the only circumstance in which it is used.",
       "nothingIsWrittenOnIt": true,
       "manifestRecord": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set].components[vt_seal_nonconviction-fee-waiver-application-5]"
+    },
+    "interests_of_justice_prompts": {
+      "requirement": "conditional",
+      "conditionDescription": "Only on the Sec. 7603(g) ordinary petition route, where the petitioner carries the affirmative burden.",
+      "conditionMetOnThisTrack": true,
+      "whyTheConditionIsMet": "This packet carries the Sec. 7603(g) ordinary contested petition as one of its three routes: it is ROUTE_KEYS[1] (obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition), it is the route 200-00130 is filled for, and it is section 1 of the packet's own process-guidance page. On that route the burden is affirmative on the petitioner.",
+      "filingDispositionForThisTrack": "not_filed_by_itself",
+      "deliveryTreatment": "rendered_as_a_composed_component_page_of_participant_facing_prompts",
+      "whatItCarries": "Prompts only -- questions for the participant to answer in their own words, and a statement of where their own answer goes on the petition.",
+      "whatItNeverCarries": "No generated argument, no drafted or example statement, and no sentence the participant could sign as their own. The platform writes nothing into question 4 of 200-00130 and this page writes nothing there either.",
+      "feedsBlank": "200-00130 question 4, printed caption '4. I believe that sealing of my criminal history is in the interests of justice because:', which remains a participant supply and was not changed by this component.",
+      "manifestRecord": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set].components[vt_seal_nonconviction-interests-of-justice-prompts-4]",
+      "registryRecord": "data/record-clearing/legal-design-track-registry.json -> vt_seal_nonconviction, unit vt-nonconviction-ordinary-petition"
     }
   },
+  "manifestComponentDelivery": [
+    {
+      "componentId": "vt_seal_nonconviction-automatic-sealing-verification-guidance-1",
+      "role": "automatic_sealing_verification_guidance",
+      "requirement": "required",
+      "conditionDescription": null,
+      "packetComponent": "process_guidance",
+      "note": "The composed process-guidance page carries this role. Its section 3, THE ROUTE THAT FILES NOTHING, is the automatic Sec. 7603(a)(1) route and how to verify it.",
+      "pages": [
+        7,
+        8
+      ],
+      "dispositionedInComponentRequirements": false,
+      "conditionMetOnThisTrack": null
+    },
+    {
+      "componentId": "vt_seal_nonconviction-petition-2",
+      "role": "petition",
+      "requirement": "conditional",
+      "conditionDescription": "Only where the automatic route did not run or does not reach the disposition.",
+      "packetComponent": "petition",
+      "note": "Form 200-00130.",
+      "pages": [
+        1,
+        2
+      ],
+      "dispositionedInComponentRequirements": false,
+      "conditionMetOnThisTrack": null
+    },
+    {
+      "componentId": "vt_seal_nonconviction-stipulation-and-proposed-order-3",
+      "role": "stipulation_and_proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Used where the participant asks the prosecuting office to stipulate and the office agrees. Where the prosecutor will not stipulate, the petition proceeds on its own and the court sets the matter down if the prosecutor opposes.",
+      "packetComponent": "stipulation_and_proposed_order",
+      "note": "Form 200-00132.",
+      "pages": [
+        3,
+        4
+      ],
+      "dispositionedInComponentRequirements": false,
+      "conditionMetOnThisTrack": null
+    },
+    {
+      "componentId": "vt_seal_nonconviction-interests-of-justice-prompts-4",
+      "role": "interests_of_justice_prompts",
+      "requirement": "conditional",
+      "conditionDescription": "Only on the § 7603(g) ordinary petition route, where the petitioner carries the affirmative burden.",
+      "packetComponent": "interests_of_justice_prompts",
+      "note": "The composed prompts page. Its condition is met on this track, so it is rendered rather than dispositioned.",
+      "pages": [
+        9
+      ],
+      "dispositionedInComponentRequirements": true,
+      "conditionMetOnThisTrack": true
+    },
+    {
+      "componentId": "vt_seal_nonconviction-fee-waiver-application-5",
+      "role": "fee_waiver_application",
+      "requirement": "conditional",
+      "conditionDescription": "Only where a filing fee is charged; on this track none is.",
+      "packetComponent": "fee_waiver_application",
+      "note": "Form 600-00228, delivered unfilled; its condition is not met and componentRequirements says so.",
+      "pages": [
+        5,
+        6
+      ],
+      "dispositionedInComponentRequirements": true,
+      "conditionMetOnThisTrack": false
+    }
+  ],
   "packets": [
     {
       "fixture": "canonical",
@@ -192,7 +295,8 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     },
     {
@@ -204,7 +308,8 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     }
   ],

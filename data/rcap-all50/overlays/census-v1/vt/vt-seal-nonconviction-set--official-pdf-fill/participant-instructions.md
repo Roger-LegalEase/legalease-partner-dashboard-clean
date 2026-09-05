@@ -30,6 +30,7 @@ Form **600-00228**, *Application to Waive Filing Fees and Service Costs*, is the
 | `stipulation_and_proposed_order` | **200-00132** — Stipulation to Seal Criminal History Record + Order |
 | `fee_waiver_application` | **600-00228** — Application to Waive Filing Fees and Service Costs — conditional, and its condition is not met on this track; delivered blank, nothing on it is completed or filed here |
 | `process_guidance` | the composed page that sets out all three routes, including the one that files nothing, and says where the packet goes |
+| `interests_of_justice_prompts` | the composed page of prompts for the statement in question 4 of the petition — questions for you to answer in your own words; the platform writes no part of that statement |
 
 ## What you must do
 
