@@ -20,7 +20,15 @@
     },
     {
       "finding": "The held fee answer is no filing fee on this non-conviction track; the $90 fee in 32 V.S.A. Sec. 1431(e) is limited to sealing a DUI conviction.",
-      "consequence": "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it; the participant is told not to complete or file it on this track."
+      "consequence": "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it, and the packet-set manifest resolves that condition against this track: none is charged. The form is therefore DELIVERED UNFILLED -- the build writes nothing on it, not the name, address, telephone, email, docket number or printed name it once wrote, and none of the financial declaration. An earlier build prefilled all of those on a component whose filing disposition is do_not_file and whose page 2 is sworn, while the instructions told the participant twice not to complete it. A packet may not fill a form in and tell the reader not to fill it in."
+    },
+    {
+      "finding": "The three bound binaries carry twenty checkboxes, and the map declared them without the words printed beside them.",
+      "consequence": "Every one of the twenty now carries the printed caption with the form's own Wingdings box glyphs taken out of it, and each of the ten that shares a YES/NO line with its opposite carries the single option word located against the pinned binary by position -- the build refuses if the word nearest to the right of the box is not the word the policy names. Every declared blank checkbox carries a participant instruction, and participant-instructions.md lists all twenty in a generated table."
+    },
+    {
+      "finding": "The map declared routeSelectionsMade as the empty array while the build struck two diagonals through question 2 of the petition in both fixtures, and the field the mark lands on carried the literal string 'undefined' where its reason should have been.",
+      "consequence": "routeSelectionsMade is now built from the marks actually drawn, with the box, the printed caption, the stroke count read back from the output bytes and the route reason; and the census carries routeReason through to the map, so six off-route conviction-branch boxes no longer print 'undefined' as their reason. The build refuses if a route selection or an off-route box has no reason."
     },
     {
       "finding": "The participant does not serve the prosecutor with process.",
