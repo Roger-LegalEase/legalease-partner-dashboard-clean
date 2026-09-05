@@ -4952,10 +4952,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX33",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T12:09:49.293Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13097,7 +13097,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "08e3d6740afaadfa93b6445a182c41c9194bcea91391e5962feff3737749a793",
+  "claimsDigest": "3a2706369327796560e477f712acccafaa6cde070cd68f0b7d01b9c61a1f6e42",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38899,6 +38899,17 @@
       "previouslyReleasedAt": "2026-09-05T12:02:37.210Z",
       "transferredAt": "2026-09-05T12:02:37.334Z",
       "reason": "FIX35 (05151bc8c) measured that the repaired shared Rhode Island host moves this family: two route-key-only pages (8 and 13 of 14) and the trailer under the clerk certification on page 6 are what the pull-down and trailer relocation fix. FIX42 rebuilds it on the repaired host together with ri_decriminalized-set."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX33",
+      "previouslyReleasedAt": "2026-09-05T12:09:49.293Z",
+      "transferredAt": "2026-09-05T12:12:52.329Z",
+      "reason": "FIX33's completed row (753cd3916, integrated at 91f425678) lists KNOWN_PREFILLS as repaired and, in the same row, says the item-1 conviction table and item-2 nexus that VF01 named under KNOWN_PREFILLS were not written because no charge fact is held. The reader takes the row's own disclaimer as withdrawing the claim, so the family stays FAIL_REPAIR_REQUIRED with no work anyone can do. The grant returns to FIX33 to settle its own row on the contract: either compose item 1 and item 2 from held facts where the platform holds them, or state that no such fact is held anywhere and name the residual under the obligation it actually belongs to."
     }
   ],
   "withdrawals": [
