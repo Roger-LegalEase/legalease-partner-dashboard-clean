@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9a7df10b5e7275be39c8760e8fb1129caf25fa19",
+  "minimumCaptainSha": "9f98bcfb5397ce1f84d910b699caf12e62ef476f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -26,7 +26,7 @@
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
     "data/rcap-all50/local-source-corpus-index.json": "212a27e26d4a767a1efbc4edf8e731af26040e6ebcaddd9549071997e7eeb4b6",
-    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "12def4bba6825e525abc13ceeb8634cd36a4b7e6c0b5d0a6dfde81389950d695",
+    "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "ab279fbe0cce34d28ca5e83450d7ee0081a2511329c3f4c745a3af76bb4015fd",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "8bb6e5df8fcee315dc8b7237a87331741c83edb1e67e7363df5d49290a35dcf7",
     "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json": "fffcdd101c1b73512af91e812273fd70b9ee96b68c35b09cb4c94c8fe32d6150"
@@ -69,8 +69,8 @@
     "activeFamiliesExcluded": 0,
     "guidanceOnly": 0,
     "remaining": 346,
-    "sourceReady": 86,
-    "sourceBlocked": 11,
+    "sourceReady": 91,
+    "sourceBlocked": 6,
     "legalBlocked": 7,
     "verifyPending": 15,
     "repairRequired": 58,
@@ -82,8 +82,8 @@
     "FAIL_REPAIR_REQUIRED": 58,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
-    "SOURCE_READY": 86,
-    "SOURCE_BLOCKED": 11,
+    "SOURCE_READY": 91,
+    "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -92,8 +92,8 @@
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 90,
-    "SOURCE_BOUND_BY_HELD_BYTES": 239,
-    "SOURCE_GENUINELY_MISSING": 7,
+    "SOURCE_BOUND_BY_HELD_BYTES": 244,
+    "SOURCE_GENUINELY_MISSING": 2,
     "SOURCE_IDENTITY_UNRESOLVED": 8,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 2
   },
@@ -156,11 +156,11 @@
   },
   "theHonestShape": {
     "buildersProvisioned": 24,
-    "sourceReadyFamilies": 86,
-    "familiesPerBuilder": 3.6,
+    "sourceReadyFamilies": 91,
+    "familiesPerBuilder": 3.8,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 86 do, so a full roster of 24 builders averages 3.6 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 14 source obligations across 18 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 91 do, so a full roster of 24 builders averages 3.8 families each rather than 15 to 25.",
+    "whatWouldChangeIt": "The source conveyor. 9 source obligations across 13 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -36501,15 +36501,14 @@
         "primary_filing",
         "proposed_order"
       ],
-      "officialFormFamily": "DC-33+DC-33-ORDER",
+      "officialFormFamily": "DC-33",
       "forms": [
-        "DC-33",
-        "DC-33-ORDER"
+        "DC-33"
       ],
       "sourceIds": [
         "official-form:DC-33",
-        "official-form:DC-33-ORDER",
-        "official-form:DC-33-AFFIDAVIT"
+        "official-form:DC-33-AFFIDAVIT",
+        "official-form:DC-33-ORDER"
       ],
       "sourceHashes": [
         {
@@ -36519,15 +36518,14 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:DC-33-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
-        ],
+        "ready": true,
+        "reasons": [],
         "satisfiedByRelationship": [
-          "official-form:DC-33-AFFIDAVIT"
+          "official-form:DC-33-AFFIDAVIT",
+          "official-form:DC-33-ORDER"
         ],
         "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
         "boundSources": [
@@ -36542,10 +36540,9 @@
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
         "supersededSourceIds": [],
-        "namedOfficialForms": 2,
+        "namedOfficialForms": 1,
         "effectiveOfficialSourceIds": [
-          "official-form:DC-33",
-          "official-form:DC-33-ORDER"
+          "official-form:DC-33"
         ],
         "boundCount": 1,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
@@ -36553,9 +36550,9 @@
       },
       "sourceReconciliation": {
         "group": "B",
-        "disposition": "SOURCE_BLOCKED",
-        "exactNextAction": "Obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted participant-supplied order vehicle; preserve the court-specific motion selector.",
-        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; DC-33 alone also cannot serve non-District-Court cases.",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Bind DC-33 and render its affidavit region, then compose the District Court proposed order for the decriminalised-conduct branch.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": null,
@@ -36565,7 +36562,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -36590,7 +36587,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_decriminalized-set.mjs",
@@ -36625,10 +36622,9 @@
         "no filing — process guidance",
         "participant filing, sworn affidavit, hearing attendance, and certified-order delivery after the deferred-sentence packet is prepared"
       ],
-      "officialFormFamily": "Superior-55+Superior-55-ORDER",
+      "officialFormFamily": "Superior-55",
       "forms": [
-        "Superior-55",
-        "Superior-55-ORDER"
+        "Superior-55"
       ],
       "sourceIds": [
         "official-form:Superior-55",
@@ -36642,13 +36638,15 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Superior-55-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByRelationship": [
+          "official-form:Superior-55-ORDER"
         ],
+        "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
         "boundSources": [
           {
             "sourceId": "official-form:Superior-55",
@@ -36664,10 +36662,9 @@
           "official-form:DC-33",
           "official-form:DC-33-ORDER"
         ],
-        "namedOfficialForms": 2,
+        "namedOfficialForms": 1,
         "effectiveOfficialSourceIds": [
-          "official-form:Superior-55",
-          "official-form:Superior-55-ORDER"
+          "official-form:Superior-55"
         ],
         "boundCount": 1,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
@@ -36675,9 +36672,9 @@
       },
       "sourceReconciliation": {
         "group": "B",
-        "disposition": "SOURCE_BLOCKED",
-        "exactNextAction": "Bind the held Superior-55 Part Three motion and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "The route's DC-33 mapping is superseded by Superior-55 Part Three, whose instructions require an order that is not held or composition-authorized.",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Bind the held Superior-55 Part Three motion and compose the Superior Court felony/deferred proposed order.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary Superior Court felony and deferred-sentence proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": {
@@ -36694,7 +36691,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -36719,7 +36716,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
@@ -36753,10 +36750,9 @@
         "Court-specific Motion to Expunge or Seal Record and Affidavit, with the proposed order (official_pdf_fill)",
         "no filing — process guidance"
       ],
-      "officialFormFamily": "Superior-55+Superior-55-ORDER",
+      "officialFormFamily": "Superior-55",
       "forms": [
-        "Superior-55",
-        "Superior-55-ORDER"
+        "Superior-55"
       ],
       "sourceIds": [
         "official-form:Superior-55",
@@ -36770,13 +36766,15 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:Superior-55-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByRelationship": [
+          "official-form:Superior-55-ORDER"
         ],
+        "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
         "boundSources": [
           {
             "sourceId": "official-form:Superior-55",
@@ -36789,10 +36787,9 @@
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
         "supersededSourceIds": [],
-        "namedOfficialForms": 2,
+        "namedOfficialForms": 1,
         "effectiveOfficialSourceIds": [
-          "official-form:Superior-55",
-          "official-form:Superior-55-ORDER"
+          "official-form:Superior-55"
         ],
         "boundCount": 1,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
@@ -36800,9 +36797,9 @@
       },
       "sourceReconciliation": {
         "group": "B",
-        "disposition": "SOURCE_BLOCKED",
-        "exactNextAction": "Keep Superior-55 Part Two bound and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "Superior-55 requires the filer to bring an order, but no exact order template or authority to compose one is held.",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Keep Superior-55 Part Two bound and compose the Superior Court felony/deferred proposed order.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary Superior Court felony and deferred-sentence proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": null,
@@ -36812,7 +36809,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -36837,7 +36834,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
@@ -36871,10 +36868,9 @@
         "Court-specific Motion to Expunge or Seal Record and Affidavit, with the proposed order (official_pdf_fill)",
         "no filing — process guidance"
       ],
-      "officialFormFamily": "DC-33+DC-33-ORDER",
+      "officialFormFamily": "DC-33",
       "forms": [
-        "DC-33",
-        "DC-33-ORDER"
+        "DC-33"
       ],
       "sourceIds": [
         "official-form:DC-33",
@@ -36888,13 +36884,15 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:DC-33-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByRelationship": [
+          "official-form:DC-33-ORDER"
         ],
+        "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
         "boundSources": [
           {
             "sourceId": "official-form:DC-33",
@@ -36907,10 +36905,9 @@
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
         "supersededSourceIds": [],
-        "namedOfficialForms": 2,
+        "namedOfficialForms": 1,
         "effectiveOfficialSourceIds": [
-          "official-form:DC-33",
-          "official-form:DC-33-ORDER"
+          "official-form:DC-33"
         ],
         "boundCount": 1,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
@@ -36918,9 +36915,9 @@
       },
       "sourceReconciliation": {
         "group": "B",
-        "disposition": "SOURCE_BLOCKED",
-        "exactNextAction": "Keep DC-33 Part Three A bound for District Court and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; other trial courts require court-specific motion treatment.",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Keep DC-33 Part Three A bound for District Court and compose the District Court proposed order.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": null,
@@ -36930,7 +36927,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -36955,7 +36952,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
@@ -37079,10 +37076,9 @@
         "Court-specific Motion to Expunge or Seal Record and Affidavit, with the proposed order (official_pdf_fill)",
         "no filing — process guidance"
       ],
-      "officialFormFamily": "DC-33+DC-33-ORDER",
+      "officialFormFamily": "DC-33",
       "forms": [
-        "DC-33",
-        "DC-33-ORDER"
+        "DC-33"
       ],
       "sourceIds": [
         "official-form:DC-33",
@@ -37096,13 +37092,15 @@
           "tier": "exact_form_number"
         }
       ],
-      "sourceStatus": "SOURCE_GENUINELY_MISSING",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:DC-33-ORDER: MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding"
+        "ready": true,
+        "reasons": [],
+        "satisfiedByRelationship": [
+          "official-form:DC-33-ORDER"
         ],
+        "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
         "boundSources": [
           {
             "sourceId": "official-form:DC-33",
@@ -37115,10 +37113,9 @@
         "boundAuthorities": [],
         "boundAuthorityCount": 0,
         "supersededSourceIds": [],
-        "namedOfficialForms": 2,
+        "namedOfficialForms": 1,
         "effectiveOfficialSourceIds": [
-          "official-form:DC-33",
-          "official-form:DC-33-ORDER"
+          "official-form:DC-33"
         ],
         "boundCount": 1,
         "custodyClass": "SOURCE_GENUINELY_MISSING",
@@ -37126,9 +37123,9 @@
       },
       "sourceReconciliation": {
         "group": "B",
-        "disposition": "SOURCE_BLOCKED",
-        "exactNextAction": "Keep DC-33 Part Three B bound for District Court and obtain the exact participant order template or written Rhode Island Judiciary/clerk confirmation of the accepted order vehicle.",
-        "exactResidual": "DC-33 requires the filer to bring an order, but no exact order template or authority to compose one is held; current form wording also requires reconciliation against the fewer-than-six statutory limit.",
+        "disposition": "SOURCE_READY",
+        "exactNextAction": "Keep DC-33 Part Three B bound for District Court and compose the District Court proposed order. The fewer-than-six statutory limit still has to be reconciled against the current form wording.",
+        "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
         "permissionHold": null,
         "productQuestion": null,
         "sourceReplacements": null,
@@ -37138,7 +37135,7 @@
       "selectedIndependentVerdict": null,
       "rasterEnrolmentRefusal": [
         "no overlay directory",
-        "sources do not bind",
+        "packet build has not completed",
         "no completeness audit"
       ],
       "legalInputStatus": "SETTLED",
@@ -37163,7 +37160,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "SOURCE_BLOCKED",
+      "state": "SOURCE_READY",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",
@@ -46483,13 +46480,13 @@
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
-    "familiesAssignedToBuilders": 86,
-    "sourceObligationsAssigned": 14,
-    "actualPromotedAndReleased": 86,
+    "familiesAssignedToBuilders": 91,
+    "sourceObligationsAssigned": 9,
+    "actualPromotedAndReleased": 91,
     "actualPromotedAndReleasedMeaning": "families whose every source is held, indexed and hash-matched now — buildable today",
     "currentlyPromotionReady": 0,
     "currentlyPromotionReadyMeaning": "families whose only remaining obligations are promotions — the bytes exist and the custody record does not",
-    "prospectiveReleasesAcrossSourceLanes": 11,
+    "prospectiveReleasesAcrossSourceLanes": 6,
     "prospectiveReleasesMeaning": "families the conveyor would release if every obligation in it resolved. A forecast, not an achievement.",
     "commercialRoutesOpened": 0,
     "productionTouched": false

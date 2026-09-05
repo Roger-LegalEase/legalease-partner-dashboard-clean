@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9a7df10b5e7275be39c8760e8fb1129caf25fa19` (or the newer dispatch base)
+**Minimum required ancestor:** `9f98bcfb5397ce1f84d910b699caf12e62ef476f` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -20,9 +20,8 @@
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC02 \
-  --source-obligation 'ri_decriminalized-set::official-form:DC-33-ORDER' \
   --codex-cloud \
-  --minimum-captain-sha 9a7df10b5e7275be39c8760e8fb1129caf25fa19
+  --minimum-captain-sha 9f98bcfb5397ce1f84d910b699caf12e62ef476f
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -40,7 +39,7 @@ It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owne
 ## Claim before you read
 
 - Assert each exact source obligation before reading evidence: `node scripts/grade-a-packet-factory-24h/claim.mjs --assert SRC02 <itemId>`
-- The committed assignment contains exactly 5 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
+- The committed assignment contains exactly 0 itemIds; iterate those values only. A familyId is metadata and is not a source claim key.
 - A non-zero exit stops that row only: record `BLOCKED_BEFORE_CLAIM`, read none of its evidence, and continue with unrelated obligations.
 - Release each completed obligation independently: `node scripts/grade-a-packet-factory-24h/claim.mjs --release SRC02 <itemId>`.
 
@@ -72,13 +71,13 @@ A publisher's commercial-reuse restriction is a counsel and business decision. R
 
 ## Mission
 
-Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.
+Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition. No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.
 
 ## What bounds this lane
 
 the private corpus and the committed inventory, read only — nothing is fetched here
 
-**5 obligations · 5 families this lane WOULD release if every one of them resolves · hosts: RI**
+**0 obligations · 0 families this lane WOULD release if every one of them resolves · hosts: —**
 
 > Prospective. Nothing below is promoted custody yet, and this number is not a count of families you can build today.
 
@@ -103,52 +102,12 @@ the private corpus and the committed inventory, read only — nothing is fetched
 
 | Item id | Source id | Jurisdiction | Current operation | Family ownership | Required input | Handoff |
 | --- | --- | --- | --- | --- | --- | --- |
-| `ri_decriminalized-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_decriminalized-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ri_deferred_sentence-set::official-form:Superior-55-ORDER` | `official-form:Superior-55-ORDER` | RI | `held-inventory-reconciliation` | `ri_deferred_sentence-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ri_first_offender_felony-set::official-form:Superior-55-ORDER` | `official-form:Superior-55-ORDER` | RI | `held-inventory-reconciliation` | `ri_first_offender_felony-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_first_offender_misdemeanor-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-| `ri_multiple_misdemeanors-set::official-form:DC-33-ORDER` | `official-form:DC-33-ORDER` | RI | `held-inventory-reconciliation` | `ri_multiple_misdemeanors-set` | named held-corpus identity or pinned SHA-256 | `PROMO` |
-
-Deterministically assert exactly the 5 committed itemIds (failures are recorded per row and do not terminate the loop):
-
-```sh
-node - <<'NODE'
-const {spawnSync}=require('node:child_process');
-const a=require('./data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json').assignments.find(x=>x.assignmentId==='SRC02');
-if (!a || a.items.length !== 5) throw new Error('SRC02 committed item count changed');
-for (const itemId of a.items) {
-  const r=spawnSync(process.execPath,['scripts/grade-a-packet-factory-24h/claim.mjs','--assert','SRC02',itemId],{stdio:'inherit'});
-  if (r.status !== 0) console.error('ROW_STOP', itemId);
-}
-NODE
-```
-
-
-Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
-
-```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC02 --source-obligation 'ri_decriminalized-set::official-form:DC-33-ORDER' --codex-cloud --minimum-captain-sha 9a7df10b5e7275be39c8760e8fb1129caf25fa19
-
-# A failed row is recorded STOPPED; continue with unrelated rows.
-```
-
+| _No current obligations_ | — | — | `held-inventory-reconciliation` | — | Lane remains queued; do not invent an input. | — |
 **Prospective release is never actual release. Record familiesActuallyReleasedNow only after every remaining source binds; otherwise it is an empty array.**
 
 ### Families this lane would release
 
-`ri_decriminalized-set`, `ri_deferred_sentence-set`, `ri_first_offender_felony-set`, `ri_first_offender_misdemeanor-set`, `ri_multiple_misdemeanors-set`
 
-
-### Settle these first
-
-**Settle the documents at the top of this list first. Leverage is counted per DOCUMENT: acquiring one form releases every family waiting on it, and one form can gate ten families while the next gates one.**
-
-| Document | Jurisdiction | Families waiting |
-| --- | --- | --- |
-| DC-33 | RI | 3 |
-| Superior-55 | RI | 2 |
-
-> On 2026-08-31 an acquisition batch fetched thirty documents successfully and unblocked zero families — all thirty belonged to jurisdictions already resolved, with no overlap against the 238 documents gating the 256 blocked families. Fetch capacity is not the constraint. Knowing which document to fetch is.
 
 ## Owned paths — write only here
 

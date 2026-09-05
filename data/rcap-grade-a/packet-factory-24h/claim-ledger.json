@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9a7df10b5e7275be39c8760e8fb1129caf25fa19",
+  "generatedAtCommit": "9f98bcfb5397ce1f84d910b699caf12e62ef476f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7177,6 +7177,66 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "familyId": "ri_decriminalized-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_decriminalized-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF18",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "familyId": "ri_deferred_sentence-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_deferred_sentence-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF09",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "familyId": "ri_first_offender_felony-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_first_offender_felony-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF19",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_first_offender_misdemeanor-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ri_marijuana-set",
       "familyId": "ri_marijuana-set",
       "itemId": null,
@@ -7189,6 +7249,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:05:06.867Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "familyId": "ri_multiple_misdemeanors-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_multiple_misdemeanors-set"
+      ],
+      "sourceId": null,
+      "operation": "packet-build",
+      "lane": "PF02",
+      "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12385,62 +12460,6 @@
     },
     {
       "subjectType": "source-obligation",
-      "subjectId": "ri_decriminalized-set::official-form:DC-33-ORDER",
-      "itemId": "ri_decriminalized-set::official-form:DC-33-ORDER",
-      "familyIds": [
-        "ri_decriminalized-set"
-      ],
-      "sourceId": "official-form:DC-33-ORDER",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "ri_deferred_sentence-set::official-form:Superior-55-ORDER",
-      "itemId": "ri_deferred_sentence-set::official-form:Superior-55-ORDER",
-      "familyIds": [
-        "ri_deferred_sentence-set"
-      ],
-      "sourceId": "official-form:Superior-55-ORDER",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "ri_first_offender_felony-set::official-form:Superior-55-ORDER",
-      "itemId": "ri_first_offender_felony-set::official-form:Superior-55-ORDER",
-      "familyIds": [
-        "ri_first_offender_felony-set"
-      ],
-      "sourceId": "official-form:Superior-55-ORDER",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER",
-      "itemId": "ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER",
-      "familyIds": [
-        "ri_first_offender_misdemeanor-set"
-      ],
-      "sourceId": "official-form:DC-33-ORDER",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "source-obligation",
       "subjectId": "ri_marijuana-set::NO_DOCUMENT_SOURCE_NAMED",
       "itemId": "ri_marijuana-set::NO_DOCUMENT_SOURCE_NAMED",
       "familyIds": [
@@ -12452,20 +12471,6 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:39:57.733Z"
-    },
-    {
-      "subjectType": "source-obligation",
-      "subjectId": "ri_multiple_misdemeanors-set::official-form:DC-33-ORDER",
-      "itemId": "ri_multiple_misdemeanors-set::official-form:DC-33-ORDER",
-      "familyIds": [
-        "ri_multiple_misdemeanors-set"
-      ],
-      "sourceId": "official-form:DC-33-ORDER",
-      "operation": "held-inventory-reconciliation",
-      "lane": "SRC02",
-      "laneKind": "source-reconciliation",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "source-obligation",
@@ -13084,7 +13089,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fcff3d3b0c5b0d61d340ad0a0850d14a80137098302fe7ec02bb96b6835c5e60",
+  "claimsDigest": "bb6e4fc8468325e93087613bd9380ee169d6b13afc13fb060785db61b7053673",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -40085,6 +40090,46 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "withdrawnAt": "2026-09-05T01:16:42Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ri_decriminalized-set::official-form:DC-33-ORDER",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-05T02:38:01Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ri_deferred_sentence-set::official-form:Superior-55-ORDER",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-05T02:38:01Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ri_first_offender_felony-set::official-form:Superior-55-ORDER",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-05T02:38:01Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ri_first_offender_misdemeanor-set::official-form:DC-33-ORDER",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-05T02:38:01Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "source-obligation",
+      "subjectId": "ri_multiple_misdemeanors-set::official-form:DC-33-ORDER",
+      "operation": "held-inventory-reconciliation",
+      "lane": "SRC02",
+      "withdrawnAt": "2026-09-05T02:38:01Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
