@@ -2,7 +2,7 @@
 
 This packet is SCAO form **MC 227a**, _Application to Set Aside Misdemeanor Marihuana Conviction(s)_, prepared under MCL 780.621e; MCL 780.621b, MCL 780.621f, MCL 780.622, MCL 780.623; SCAO form MC 227a (Rev. 7/24).
 
-The platform filled in what it holds about your case: the county and the case number. Everything else is yours, and every one of those blanks is listed below by the part of the form it is in. Page 2 of your packet is the court's own instruction sheet — read it; the steps below follow it.
+The platform filled in what it holds: your name, your address and your telephone number in the defendant's contact box, and the county and the case number in the caption. Everything else is yours, and every one of those blanks is listed below by the part of the form it is in. Page 2 of your packet is the court's own instruction sheet — read it; the steps below follow it.
 
 ## Check you are on the right form
 
@@ -46,7 +46,6 @@ The certificate is a declaration under the penalties of perjury that you have al
 | Caption | Court address | the street address of the court where the conviction was entered |
 | Caption | Court telephone no. | that court's telephone number |
 | Parties | The People of — the named city, village or township | the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan |
-| Parties | Defendant's name, address, and telephone no. | your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs |
 | Parties | CTN/TCN | the CTN or TCN number from the court or police record |
 | Parties | SID | your SID number, from the court or police record |
 | 1. Convictions to be set aside | Conviction a — Crime | the crime you were convicted of, exactly as the court's record states it. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
