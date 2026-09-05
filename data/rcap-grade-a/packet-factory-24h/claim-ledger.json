@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "73375e9a66ff7ae19e4e6cef5e7a3d54328c9003",
+  "generatedAtCommit": "8711a700b024fde2e3a3ba093482cd5d5a0c7501",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5433,10 +5433,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX36",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain consolidation: ms-nonconv-set and ms-misd-1st-set fail on the same shared host (scripts/rcap-custom-pleading/composed-family-host.mjs: hard-split keys and the trailer under the prosecuting-authority line); one writer per shared host, so the repair moves to FIX36, which already holds ms-misd-1st-set. No lane asserted this grant."
     },
     {
       "subjectType": "packet-family",
@@ -13304,7 +13305,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d1f7f39f5c97a7147a913cf1fcabc29aae10c251f6515b838fe42be2ffff4386",
+  "claimsDigest": "c25dc3c6a72bbd8f4df88c60dbc4d0ae94111e598861ce7dcaac21c77afdcf8d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28106,6 +28107,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T14:34:26.472Z",
       "reason": "Settled on the contract. A builder-readable fact path exists for item 1 and item 2, so branch 1 applied: the crime and case number of each held conviction are written, the sworn nexus statement is laid out across the five printed lines, and the caption's multiple-case-numbers box is settled from the delivered table. The charge-code column has no fact anywhere and matter.conviction_date is unreachable behind the shared disposition_or_hearing protect rule; both stay declared REQUIRED_BEFORE_FILING and the unreachable descriptor is raised for the registry owner. obligationsThisRowDoesNotDischarge names neither obligation. Rebuilt twice byte-identical; nine counters zero; corpus unmoved. Central raster owed. (Replayed by Captain from FIX33 commit 2995ebb32.)"
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T14:35:20.974Z",
+      "reason": "Captain consolidation: ms-nonconv-set and ms-misd-1st-set fail on the same shared host (scripts/rcap-custom-pleading/composed-family-host.mjs: hard-split keys and the trailer under the prosecuting-authority line); one writer per shared host, so the repair moves to FIX36, which already holds ms-misd-1st-set. No lane asserted this grant."
     }
   ],
   "reissues": [
@@ -39293,6 +39303,17 @@
       "previouslyReleasedAt": "2026-09-05T10:31:58.491Z",
       "transferredAt": "2026-09-05T14:22:21.705Z",
       "reason": "Fresh independent read of FIX34's rebuild (35989442/1c0dc4cd, live raster run 33965687102); VF03 neither built nor repaired it, and VF01 is reading New Hampshire concurrently."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX36",
+      "previouslyReleasedAt": "2026-09-05T14:35:20.974Z",
+      "transferredAt": "2026-09-05T14:35:21.062Z",
+      "reason": "One writer for the composed-family host: FIX36 repairs ms-misd-1st-set and ms-nonconv-set together."
     }
   ],
   "withdrawals": [
