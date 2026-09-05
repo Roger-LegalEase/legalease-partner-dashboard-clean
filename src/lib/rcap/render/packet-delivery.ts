@@ -27,6 +27,7 @@ import { packetSpecificationForTrack, specificationContentSha256 } from "@/lib/r
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
 import { currentPersonalizedVerification } from "@/lib/rcap/render/personalized-packet";
 import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import { getCurrentFulfillmentRecord } from "@/lib/rcap/fulfillment/grade-a-registry";
 
 export type DeliveryPorts = {
   getJob(jobId: string): Promise<RenderJobRow | null>;
@@ -179,7 +180,8 @@ export async function authorizePacketDownload(
       if (!specification || !binding || job.consumerVerificationHash !== current.hash
         || binding.trackId !== current.snapshot.selectedTrackId
         || binding.packetFamilyId !== specification.packetFamily
-        || binding.specificationSha256 !== specificationContentSha256(specification)) {
+        || binding.specificationSha256 !== specificationContentSha256(specification)
+        || binding.specificationFileSha256 !== getCurrentFulfillmentRecord(job.routeId)?.packetSpecification.sha256) {
         return { ok: false, status: 409, code: "verification_binding_mismatch", message: "This packet must be reviewed again before it can be downloaded." };
       }
     }

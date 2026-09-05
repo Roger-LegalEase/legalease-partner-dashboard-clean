@@ -57,6 +57,7 @@ export function preparePersonalizedPacket(input: {
     trackId: snapshot.selectedTrackId, packetFamilyId: specification.packetFamily,
     specificationId: specification.specificationId, specificationVersion: specification.specificationVersion,
     specificationSha256: authority.record.packetSpecificationSha256,
+    specificationFileSha256: authority.record.packetSpecificationFileSha256,
     provider: GRADE_A_RENDERER_KIND, providerVersion: GRADE_A_RENDERER_VERSION
   };
   const packetId = uuidFor(`rcap:personalized-packet:v1:${stableStringify(payload)}`);
