@@ -14496,6 +14496,174 @@
     "whyThisRowIsNotBlockedOnIt": "The verdict does not turn on it: KNOWN_PREFILLS and REQUIRED_BEFORE_FILING fail on the case number and paragraph 12 independently, and those are repair-actionable now."
    },
    "grantsNothing": "This row is a reading. A PASS proves a packet is complete as measured here; it approves no output, promotes nothing and opens no commercial route. A FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory, no build script and no shared record."
+  },
+  {
+   "itemId": "rcap-tx-custom-pleading",
+   "lane": "VF01",
+   "verifier": "VF01 independent-verification, Claude Opus 5",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
+   "verifiedAtBase": "9efb77c08",
+   "claim": "CLAIM_OK VF01 rcap-tx-custom-pleading (independent-verification, grant set caee39aba1d3b728). Asserted before any family artifact was read; the grant is not released in this return.",
+   "canonicalSha256": "a2f87783f7f1d993be0668f25dc2d42dfa5c14863848b24c60d50b19230c2957",
+   "boundarySha256": "a037710fc690fea8ea63a5dc7b1304863206cc4144a9caa0b843b071898699df",
+   "digestsRecomputedHere": "sha256sum over the two files on disk in this worktree returns exactly those two values, at 385717 and 385952 bytes, 16 pages each parsed with pdf-lib 1.17.1. The RASTER_QUEUE receipt for run 33962404350 / job 101296759138 declares boundToCanonicalSha256 a2f87783.. and boundToBoundarySha256 a037710f.., so the receipt is bound to the bytes measured below rather than to superseded ones. That was confirmed before anything else was measured.",
+   "rasterState": "RASTER_PASS",
+   "rasterReceipt": {
+    "workflowRunId": "33962404350",
+    "jobId": 101296759138,
+    "renderedCommitSha": "cc86b1609bdb84c74da8d241b197d8b81699cb06",
+    "jobConclusion": "success",
+    "documentsCovered": [
+     "canonical.pdf"
+    ],
+    "whatItDidNotRender": "boundary.pdf. The queue row's own coverage block says the gate renders the one assembled canonical document and that boundary.pdf is bound by hash but not rendered by this gate, so a defect visible only in the boundary fixture is not something this RASTER_PASS excludes. The decisive defect found below is present in BOTH fixtures, canonical included, so the gate rendered a page carrying it and passed: a page raster measures ink placement, not token integrity, which is what the SCAN01 sweep exists for.",
+    "receiptArtifactsNotReadHere": "This lane did not download the workflow artifact; the binding rests on the queue's pinned digest pair, which equals the bytes on disk, plus the recorded job conclusion and canary precondition (job 101296447979)."
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family rcap-tx-custom-pleading --codex-cloud --minimum-captain-sha b7c9035a9fd056e34d7530416d5ffa1c06e24f41",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable",
+    "theOneFailure": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', declared by the committed index under custody master_library and not present in the mounted Master Library. It is Alabama, it is not this family's source, and FIX24 recorded the same absence at its own base as a pre-existing corpus gap it did not cause. It is recorded rather than argued away.",
+    "whatDidPass": "family_sources_bind 1/1 by exact SHA-256; master_library_mounted and master_library_complete at 499 files / 329 PDFs / 51 jurisdictions; private_is_git_ignored; absent_is_not_empty; stale_artifact_block_consulted with 0 artifacts under this family held; repo identity, Captain-base ancestry and assignment presence all replaced-and-passing in cloud mode.",
+    "environment": "git worktree at /home/user/vf01-worktree on branch vf01-texas-read cut from 9efb77c08, core.sparseCheckout false and zero skip-worktree bits. private/ copied in (the Captain worktree carries none) and MASTER_LIBRARY_SOURCE_DIR exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. node_modules symlinked to the Captain install; pdf-lib 1.17.1, node 22.22.2.",
+    "runOnce": true
+   },
+   "custodiesMountedHere": {
+    "mounted": [
+     "master_library (350 indexed binaries)",
+     "human_source_returns (1 indexed binary)"
+    ],
+    "notMounted": [
+     "d_source_packs",
+     "nationwide_recovery_pool_2026_09_02"
+    ],
+    "howSourcesWereResolved": "By content hash, never by declared path. Every one of the 500 files under the two mounted custody roots was hashed and the family's declared source digest searched for among them; it resolved to exactly one file. A digest that had been absent by hash would have been NOT_MEASURABLE_HERE for SOURCE_IDENTITY rather than a FAIL, and none was."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading, run read-only in this worktree at this base: PASS_COMPLETE, 9/152 written, exit 0.",
+    "whatTheNineDidNotSee": "The decisive defect. Three route keys are chopped mid-word on delivered page 16 of both fixtures. Every character is present, the ink is inside its column and no field is involved at all, so none of the nine counters can register it; the token is the only thing that measures it."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "Nine route keys across eight Texas expunction tracks, and the same nine, sorted and compared as sets, in source-receipt.json, production-field-map.json, product-wiring.json binding, and the MASTER_QUEUE row that carries this family at VERIFY_PENDING. All nine are also carried by data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json, so no printed key is one the census has dropped. The nine are printed on the delivered page 16 footer of both fixtures and reconstruct to exactly the declared nine.",
+     "evidence": "set comparison of routeKeys across source-receipt.json, production-field-map.json, product-wiring.json and MASTER_QUEUE.json; substring presence of all nine in canonical-route-universe.json; pdftotext -layout page 16 of both fixtures"
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "One bound source, the Texas Statement of Inability to Afford Payment of Court Costs approved in Misc. Docket No. 22-9090. Resolved by content rather than by path: hashing all 500 files under the two mounted custody roots produced exactly one match for bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf. That is the digest source-receipt.json, rendered-artifacts.json boundSources and product-wiring.json sourceVersion all declare, and it re-hashes unchanged after everything this lane did, so the issuer-original bytes were not written to. The binary parses as 12 pages, 132 AcroForm fields, 141 widgets, matching every count the receipt declares.",
+     "evidence": "SHA-256 sweep of both mounted custodies; source-receipt.json; reports/rendered-artifacts.json; product-wiring.json; pdf-lib parse of the pinned binary"
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "Two components are declared for this packet and both are rendered and present: tx-expunction-fee-waiver-statement, the twelve official pages, and tx-expunction-fee-waiver-instructions, four composed pages. The page manifest of each fixture runs 1 to 16 contiguously, sourcePage 1-12 then 1-4, and the delivered files really do hold 16 pages. The eight further ids in componentSet are the same statement's identity inside the eight sibling packet sets and are declared under servesComponentIdsInOtherPacketSets, not separate renders owed here. requiredComponentsMissing is zero, measured here.",
+     "evidence": "reports/rendered-artifacts.json componentSet and both pageManifests; pdf-lib page counts; pdftotext of every delivered page"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "finding": "Eight non-empty appearances per fixture and every one is a fact the platform holds about the participant, read back from the flattened appearance stream rather than from the write report: on page 2 the full legal name, date of birth, address, telephone and e-mail; on page 11 the name and address of the Option 1 declaration; on page 12 the printed name of the Option 2 affidavit. Each renders visibly in a local raster at 150dpi, in both fixtures, including the boundary fixture's 79-character address and 59-character e-mail, which shrink to fit inside their own rules. VF10's page-2 defect is repaired on these bytes and I confirmed it against the form rather than against the report: page 2 prints 04/17/1994 and 12/31/1972 on a rule whose printed legend reads Month Day Year / Mes Dia Ano. The page-11 date of birth is still blank and is ruled on separately in page11DateOfBirthRuling; I accept it, on a structural fact I re-tested on the pinned binary myself.",
+     "evidence": "flattenedWidgets() over both fixtures; pdftoppm -r 150 rasters of all 32 delivered pages read by eye; pdftotext -layout; first-hand pdf-lib read of the pinned binary"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "99 items are declared required-before-filing in production-field-map.json and all 99 are named in participant-instructions.md, checked one at a time by whitespace-normalised effective label with zero undisclosed. The same 99 appear on the boundary side. The inventory is also complete against the PAGE and not merely against the field list, which is the failure mode a per-field-name count hides: every one of the 138 flattened appearances in the canonical fixture maps to a source widget within 2 points, all 130 blank appearances carry a field-map row, and none is unaccounted. Their dispositions are 98 required-before-filing, 27 genuine participant elections, 4 signature-or-date and 1 clerk-owned.",
+     "evidence": "production-field-map.json canonicalRefusals and boundaryRefusals; participant-instructions.md; a widget-level join of flattenedWidgets() output against the pinned binary's own widget rectangles"
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "No election on this form is determined by the route, and the packet says why rather than leaving it implied: the eight tracks share one filing rule, one fee rule and one waiver route, which is why a single Statement serves all eight, and which of the eight a participant is on is settled by their own disposition before this component is reached. The 19 selection controls are the form's own benefit-programme boxes and its three radio groups, every one a genuine participant election. The Option 1 / Option 2 choice is the form's own, and the form's page 10 instruction to fill out only one box is delivered intact. requiredOptionsMissing is zero, measured here.",
+     "evidence": "production-field-map.json selectionControls and routeSelectionNote; delivered page 10 text; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "The repeating structures are the property schedule on page 7 and the monthly-expense schedule on page 8. On the delivered pages every cell of both is empty in both fixtures, so no row carries a written cell beside a required cell left blank. This is the page the family's history turns on and it was read at appearance level rather than by text extraction: pdftotext reads these pages clean whether or not they carry ink, because the source-carried glyphs are drawn in an unsubsetted Arial it cannot map. incompleteRows is zero, measured here.",
+     "evidence": "flattenedWidgets() over pages 7 and 8 of both fixtures; 150dpi rasters of pages 7 and 8 read by eye"
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "Six protected rows and not one carries ink. Signature on page 11 and Signature12 and Signature13 on page 12 draw empty appearances; the Year of the page-12 jurat draws empty; the Cause Number on the page-1 caption draws empty, which is what the form's own text asks for. Today, the Option 1 declaration date, draws nothing at all, because the appearance registry cleared the 2022 value the source ships. The notary's own month blank at page 12 (135.24, 265.17) draws empty as well, which is the point of the page-11 ruling below. protectedWrites is zero, measured here and confirmed by eye on the page-11 and page-12 rasters.",
+     "evidence": "flattenedWidgets() over both fixtures cross-referenced to the protected rows of production-field-map.json; rasters of pages 1, 11 and 12"
+    },
+    "SOURCE_SHIPPED_INK": {
+     "result": "PASS",
+     "finding": "This is the check the family exists in this state for and it is clean. The pinned binary carries exactly three of its 132 fields with a non-empty /V, and I read all three first-hand rather than from FIX24's return: Value / Valor 11 = \"0\" at page 7 [313.44, 131.32], Amount Cantidad 15 = \"0\" at page 8 [318.218, 91.2], and Today = \"12/15/2022\" at page 11 [97.7522, 302.312]. All three are covered by the appearance-registry entry rcap-tx-custom-pleading:tx-expunction-fee-waiver-statement with disposition render_participant_value_only_when_written. On the delivered bytes none of the three draws anything: probing each rectangle within 2 points in both fixtures returns nothing, standalone zeros number zero, and the only three source widgets with no delivered appearance at all are precisely those three. The pages read clean by eye too.",
+     "evidence": "pdf-lib field-and-widget enumeration of the pinned binary; data/rcap-all50/shared/field-appearance-semantics.json; flattenedWidgets() coordinate probes in both fixtures; 150dpi rasters of pages 7, 8 and 11"
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "finding": "canonical.pdf hashes to a2f87783f7f1d993be0668f25dc2d42dfa5c14863848b24c60d50b19230c2957 at 385717 bytes and boundary.pdf to a037710fc690fea8ea63a5dc7b1304863206cc4144a9caa0b843b071898699df at 385952 bytes, and those are the digests reports/rendered-artifacts.json, product-wiring.json, the RASTER_QUEUE row and its acceptance receipt all name. Sixteen pages each. Nothing in the record points at bytes that are no longer there.",
+     "evidence": "sha256sum on disk; reports/rendered-artifacts.json; product-wiring.json; RASTER_QUEUE.json"
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "The manifest and the file agree in both fixtures: packet pages 1 to 16 contiguous, source pages 1 to 12 of the official Statement in their own order, then the four composed instruction pages 1 to 4. No page is out of order, none is a fragment or a route-key-only leaf, and neither signature page is orphaned: page 11 is Option 1 and page 12 is Option 2 of the form's own single Declaration/Affidavit section, both preceded by the page-10 instruction that governs them.",
+     "evidence": "reports/rendered-artifacts.json pageManifest for both fixtures; pdf-lib page counts; pdftotext -layout of all 16 pages of each fixture"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "FAIL",
+     "finding": "Three route keys are hard-split mid-word on delivered page 16 of BOTH fixtures. The footer prints 'obligation:track-pathway:TX:tx_exp_limitations:expunction-for-arrest-with-no-charge-filed-after-the-limi' and continues 'tations-period' on the next line; 'obligation:track-pathway:TX:tx_exp_no_charge:expunction-for-arrest-with-no-charge-filed-after-the-limit' continues 'ations-period'; and 'obligation:track-pathway:TX:tx_exp_pardon_innocence:expunction-after-pardon-or-actual-innocence-reli' continues 'ef'. None of the three breaks falls on one of the token's own separators; each is a cut at whichever character first reached the margin. The cause is in the builder and is exact: scripts/build-census-v1-rcap-tx-custom-pleading.mjs still defines its own character-accumulating splitToken at lines 1099 to 1106, the original faulty variant, and has not been migrated onto the shared separator-aware splitter at scripts/rcap-custom-pleading/split-token.mjs. I proved the repair works rather than assuming it: running the shared splitter over the same three keys with the same Times-Roman 11pt / 468pt column predicate breaks them at 'after-the-' and 'innocence-' and reports hardSplits 0, while the builder's private copy reproduces the three chopped fragments exactly. SCAN01's own sweep already classifies this family as 'G0 original row-by-row, original splitter', splitTokenVariant 'char-by-char (fault 1 present)', with 6 hard_split_token defects across the two fixtures, and it is still unrepaired at this base. No other defect of this kind exists in the family: a width-band scan of every composed line in both fixtures finds these three and nothing else, no ink lands outside a measured write box, no field value is clipped or truncated, and the boundary fixture's over-long name, address and e-mail all fit inside their rules.",
+     "evidence": "pdftotext -layout page 16 of canonical.pdf and boundary.pdf; scripts/build-census-v1-rcap-tx-custom-pleading.mjs lines 1090-1120; a side-by-side run of the private splitToken against createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs; data/rcap-grade-a/packet-factory-24h/scan01/composed-pdf-text-integrity-sweep.json; 150dpi rasters of all 32 delivered pages"
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "finding": "Composed page 13 names it in the terms the record uses: a verified ex parte petition filed with the DISTRICT CLERK OF THE COUNTY OF ARREST or of the alleged offence, through eFileTexas, in person, or by mail where the clerk allows, opening a new civil action with a new cause number. That matches the destination and the filing rule the track registry carries for all eight tracks, and it explains on the page why the Statement's own caption leaves the cause number to the clerk.",
+     "evidence": "delivered page 13 of both fixtures; data/record-clearing/legal-design-track-registry.json destination, venue and rules.filing for the eight tx_exp_ tracks"
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "finding": "Both are stated and stated currently. The packet says art. 102.006 was repealed by S.B. 1667 effective 1 September 2025, temporarily re-added by H.B. 16 of the 89th Legislature's 2nd Called Session, and permanently replaced by art. 102.0061 effective 1 January 2026; that a district court charges the ordinary county civil ex parte filing fee rather than a flat amount and a justice or municipal court of record charges a flat $100; that it will not repeat the stale $250-$500 range; that art. 102.0061(c) and (d) waive the fee outright in two situations without this form at all; and that art. 55A.254(e) and (f) make each paper-only agency a $25 charge that lands twice. The waiver route itself is the delivered Rule 145 Statement, and the packet says Rule 145 obliges the clerk to hand it over free and unasked. Every one of those tracks the registry's rules.fees and rules.feeWaiver text.",
+     "evidence": "delivered pages 13 and 14 of both fixtures; legal-design-track-registry.json rules.fees and rules.feeWaiver"
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "finding": "Composed page 15 states who serves and that it is not the participant: on all eight routes the CLERK sends the petition and the notice of hearing by certified mail return receipt requested or by secure e-mail, electronic transmission or fax; the court sets a hearing not earlier than the 30th day after filing and gives a copy to each listed official, agency or entity other than central federal depositories; and DPS notifies those itself, so the participant does not chase the FBI. The packet also sends the participant first to the clerk's published art. 55A.253(c) agency and e-mail list, which is where the service list comes from.",
+     "evidence": "delivered page 15 of both fixtures; participant-instructions.md; legal-design-track-registry.json"
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "finding": "Measured on the delivered bytes rather than inherited from the bookkeeping row that claims the repair. The eight tx_exp_ tracks in data/record-clearing/legal-design-track-registry.json carry 26 unique selfHelpStopConditions between them, 10 to 12 per track. All 26 appear verbatim, whitespace-normalised, in canonical.pdf, in boundary.pdf and in participant-instructions.md: 26 of 26 in each, 0 missing. Each is printed under WHEN TO STOP AND GET HELP INSTEAD tagged with the track ids it belongs to, so a participant on any of the eight served routes can see the stops that are theirs. Every one of the twenty VF10 named as missing or narrowed is now present, the three common ones it listed included.",
+     "evidence": "legal-design-track-registry.json selfHelpStopConditions for all eight tracks; whitespace-normalised substring test against pdftotext of both fixtures and against participant-instructions.md; delivered pages 15 and 16"
+    }
+   },
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "page11DateOfBirthRuling": {
+    "question": "Is a declared, captioned, disclosed participant blank an acceptable discharge of KNOWN_PREFILLS and REQUIRED_BEFORE_FILING when the held fact could not be inked without also inking the notary's jurat widget, and do the instructions disclose it clearly enough that a participant will fill it?",
+    "ruling": "ACCEPTED. Both obligations are discharged by the declaration on these bytes.",
+    "theStructuralClaimWasRetestedHere": "Not taken from FIX29. Reading the pinned binary directly with pdf-lib, 'Month / Mes' is ONE PDFTextField carrying TWO widgets: page 11 [79.73, 495.56, 128.82, 515.46], the first of the three boxes under the printed caption 'My date of birth is / Mi fecha de nacimiento es', and page 12 [135.24, 265.17, 316.07, 285.07], which is the month blank on the '____________, 20____' line inside the block the form itself headlines 'The notary fills out this section. / El Notario llena esta seccion.' Only four of the form's 132 fields carry more than one widget and this is the only text field among them; 'Day / Dia' and 'Year / Ano' carry one widget each, both on page 11. So the claim is true as stated, and the consequence follows: a factory that writes a field rather than a widget cannot ink the participant's birth month on page 11 without also inking the notary's blank on page 12.",
+    "whyThatSettlesIt": "The alternatives are both worse than the blank. Writing the field puts machine ink in a jurat block the participant may not complete, which is a protected write and the defect PROTECTED_FIELDS exists to catch. Writing only Day and Year delivers a two-thirds machine-filled date on a declaration sworn under penalty of perjury, which is the shape incompleteRows refuses everywhere else. Declining both, declaring the three boxes, and telling the participant exactly what to write is the only remaining option that adds no defect.",
+    "measuredAgainstTheContractsOwnSixConditions": "DECLARED: yes, all three rows set disposition REQUIRED_BEFORE_FILING and requiredBeforeFiling true. IDENTIFIED: yes, and with the form's own printed line rather than a description - printedLabel and printedContext on all three rows read 'My date of birth is / Mi fecha de nacimiento es', pinned to page 11, and the builder carries a captionDrift assertion that fails the build if that caption stops being printed where the dictionary says. PARTICIPANT-COMPLETABLE: yes for the three page-11 boxes. NOT ROUTE-DETERMINED: yes, routeDetermined is false and the date of birth is not an election. DISCLOSED: yes, four times over. The sixth condition, GENUINELY UNAVAILABLE, is the one that does not hold on the contract's literal words: the contract says a fact written anywhere else in the same packet is available, and this packet writes the date of birth on page 2. That is recorded rather than glossed. It does not change the ruling, because the contract's sentence is aimed at a build that holds a value and declines to write it, and this build holds the value and CANNOT write it at this blank without producing a protected write. The counters stay zero only because these rows do not set factAvailable, and a reader should know that rather than infer it from a green number.",
+    "isTheDisclosureGoodEnoughThatAParticipantWillFillIt": "Yes, on the delivered pages and not merely in the markdown. It is stated in four places, in participant terms, and it is impossible to reach the form without meeting it: a bolded paragraph in the opening block of participant-instructions.md; the same paragraph printed on delivered page 14 of both fixtures in the packet itself, headed 'PAGE 11 ASKS FOR YOUR DATE OF BIRTH AGAIN'; three separate rows in the items-you-must-supply table, one per box, each naming the page, the printed caption, which of the three boxes it is, and where to copy the value from; and a bullet in the list of what was deliberately left blank. All four give the same instruction - copy it from the date already printed on page 2 - and the month row adds the one warning a participant needs, that the same field is the notary's month on page 12 and that blank is the notary's to fill. The instruction the participant needs is a transcription from a value they already hold on page 2 of the same document, which is about as completable as a required-before-filing item gets. VF10's earlier finding that the packet told the participant the date of birth had already been filled is gone: no such sentence survives in the file or on the page.",
+    "theOneThingThatWouldMakeItInk": "Per-widget writing in the shared finalizer, so a field's page-11 widget can be filled while its page-12 widget is left alone. That is a factory-wide change to scripts/rcap-official-forms/rcap-official-form-finalize.mjs affecting every family that encloses a multi-widget field, not a repair to this family, and it is not owed for this verdict. It is named so the acceptance is legible as an acceptance of a known factory limit rather than as a finding that nothing is missing.",
+    "aBookkeepingArtefactWorthNaming": "Because the field map is keyed by field NAME, the page-12 notary widget inherits its field's REQUIRED_BEFORE_FILING disposition and is counted among the 98 blank required-before-filing appearances. Nothing on the delivered page is wrong for it - the widget draws nothing and the instructions tell the participant in terms to leave that one for the notary - but the inventory calls a notary blank a participant blank, and a later reader should not take that count as a statement about who fills page 12."
+   },
+   "historyReadFreshAndNotCopied": {
+    "vf10": "Its FAIL at 88d688b8b on KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SELF_HELP_STOP was read and then re-tested rather than carried. All three of its findings are answered on these bytes: page 2 now prints the date in the form's own Month Day Year order, the page-11 boxes are declared, captioned and disclosed, and all 26 registry stop conditions print verbatim. Its verdict is superseded by measurement here, not by another lane's assertion.",
+    "fix24": "Its two sworn zeros were re-measured from both ends. The registry entry it wrote covers all three source-shipped values, and on these bytes none of the three draws: the probes are empty, standalone zeros are zero, and the only three source widgets with no delivered appearance are exactly those three.",
+    "fix29": "Its central claim was tested on the pinned binary rather than believed, and it holds: 'Month / Mes' is one field with two widgets, the second in the notary's block. Its honest limit - that a verifier applying VF10's page-11 test will still find that line blank - is correct, and this row finds it blank and accepts it for the reason above.",
+    "captainBookkeeping": "The SELF_HELP_STOP row integrated at a8931f0e0 was read and then independently verified against the registry and the delivered bytes at 26 of 26. Nothing in this row rests on that row's assertion."
+   },
+   "independence": "This lane built, repaired, rendered and rastered nothing. It edited no overlay directory, no build script and no shared record, released no grant, wrote no claim ledger, and created no subagent. Every raster it made was written to /tmp and read there. The one file this return writes is this rows.json.",
+   "repairAssignment": {
+    "obligation": "CLIPPING_AND_OVERLAP",
+    "decisiveDefect": "Three route keys chopped mid-word on delivered page 16 of both fixtures, from the builder's own character-accumulating splitToken.",
+    "exactChange": "In scripts/build-census-v1-rcap-tx-custom-pleading.mjs, delete the private splitToken at lines 1099-1106 and take the splitter from scripts/rcap-custom-pleading/split-token.mjs instead: createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }), used at the existing call site on line 1110. Then rebuild both fixtures with --no-raster and assert split.hardSplits === 0. The three keys then break after 'after-the-' and 'innocence-' and no token is chopped.",
+    "whatElseMoves": "Both fixture digests move, so the RASTER_PASS receipt for run 33962404350 stops binding and a fresh central raster is owed on the new bytes. product-wiring.json will need re-pinning through generate-product-wiring.mjs, which sets acceptanceReceipt to null when the declared digest no longer matches the file. No other obligation in this row is disturbed by the change.",
+    "notThisLanesToMake": true
+   },
+   "grantsNothing": "This row is a reading. A FAIL is a verdict and a repair assignment, never an edit. It promotes nothing, approves no output, sets no price and opens no commercial route, and the claim it was taken under is left held for Captain to release."
   }
  ],
  "supersededLaneMembership": {
