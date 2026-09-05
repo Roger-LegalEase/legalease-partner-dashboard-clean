@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX54-DE-CRIMINAL-HISTORY",
+  "assignmentId": "FIX54",
+  "assignedBase": "4447f8683",
+  "branch": "fix54-de-criminal-history",
+  "laneKind": "repair",
+  "scope": "REQUIRED_BEFORE_FILING only, on the one granted family de_mandatory_expungement-set. One file changed in scripts/: this family's own single-family builder. The shared composed host, the shared agency-guidance treatment, the route key, the legal records and every other family were read and not edited.",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX54 de_mandatory_expungement-set -> CLAIM_OK FIX54 de_mandatory_expungement-set (repair, grant set 66782905fa7da2b6), exit 0, asserted before any family artifact was edited."
+  ],
+  "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family de_mandatory_expungement-set --minimum-captain-sha c48e7c1d1392c3c13086d87062c184d5306d2699",
+    "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, exit 1",
+    "runOnceBeforeAnyEdit": true,
+    "recordedAsItRan": true,
+    "theTwoFailures": [
+      "private_is_git_ignored: reported NOT git-ignored. Diagnosed here rather than accepted. private/ is a read-only symlink to the mount, so the check's own `git check-ignore -q private/` exits 128 with 'fatal: pathspec private/ is beyond a symbolic link'. Run without the trailing slash it exits 0 (measured here). .gitignore carries 'private/', `git ls-files private/` is empty, and nothing under private/ was opened for writing by this lane. VF01's own Delaware row, FIX48, FIX47, FIX45 and FIX08 record the identical failure for the identical reason.",
+      "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. Identical to what VF01 recorded on this family: the absent entry is an Alabama pardon-board form, and this family is custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT with zero document binaries owed (family_sources_bind passed on exactly that ground)."
+    ],
+    "whatPassedThatMatters": "repo_identity fix54-de-criminal-history at 4447f868, clone_is_complete, worktree_clean, node 22.22.2, pdf-lib 1.17.1, master_library_complete 499 files / 329 PDFs / 51 jurisdictions, family_sources_bind, stale_artifact_block_consulted (0 artifacts under this family held), absent_is_not_empty.",
+    "worktree": "/home/user/fix54-worktree, branch fix54-de-criminal-history from 4447f8683 on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules",
+    "masterLibrarySourceDir": "exported to /home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, the path scripts/verify-packet-build-environment.mjs resolves at line 212",
+    "beforeBytes": "The whole data/rcap-all50/overlays/census-v1/de tree was copied to /tmp/fix54-before before the first edit, with an md5 manifest, and every before/after comparison below is against that copy. Deleted after measuring.",
+    "rasters": "/tmp/fix54-raster, 150 dpi, all six delivered pages, deleted after measuring",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "fixtureIdentityConfirmedBeforeAnyEdit": {
+    "canonicalSha256": "fa51ea79d5bc37f3be15485cb54441dee8e4d5baef142ffe4e31e3bc307949e4",
+    "boundarySha256": "c7c80a2a47d11c9b02004decbaba27cdd8033876d00e10d23bda0a6775cadf66",
+    "matchesVF01": true,
+    "method": "sha256sum over the fixture bytes on disk at 4447f8683, run before the builder was opened for editing. Both equal the digests VF01's Delaware row recorded."
+  },
+  "rows": [
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "familyId": "de_mandatory_expungement-set",
+      "jurisdiction": "DE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "builder": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
+      "buildHost": "scripts/rcap-custom-pleading/composed-family-host.mjs, via makeAgencyGuidanceFamily exported from scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs. Both were read and neither was edited.",
+      "verdictRepaired": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "71b369461",
+        "failedObligationNames": [
+          "REQUIRED_BEFORE_FILING"
+        ],
+        "finding": "Two of the six required-before-filing items the record declares for this track are named nowhere: the certified Delaware criminal history, and the instruction to check the charge answer against it."
+      },
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The digests moved, so the live RASTER_PASS receipt (workflow run 33979005853, job 101341001031) bound to canonical fa51ea79d5bc37f3be15485cb54441dee8e4d5baef142ffe4e31e3bc307949e4 and boundary c7c80a2a47d11c9b02004decbaba27cdd8033876d00e10d23bda0a6775cadf66 stops binding. A fresh central raster is owed on canonical 79ac2a683a83c6d0cb1554a458bf1349c2db9fe65afc7b640843e34dc3731747 and boundary 8049dcee06160b54febf021de4866bd9056527795626fd1f6bfcdb57669a1118. The local 150 dpi rasters read here are this lane's own reading of its own bytes and are not a central receipt. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing and still name the superseded digests; enrolling the new pair is Captain's.",
+        "INDEPENDENT VERIFICATION. This lane wrote and built these bytes and verifies none of them. No verdict was written, no obligation is scored here, and VF01's FAIL_REPAIR_REQUIRED at 71b369461 stands unedited in MASTER_QUEUE.json and in product-wiring.json lastIndependentVerification.",
+        "LEGAL INPUT ON THE ACQUISITION CHANNEL. DE.memo.json tracks[1].unresolvedQuestions[0] marks the SBI application form, its current fee, the service code and the submission requirements as a release blocker not yet source-approved. This lane invented none of them and printed none of them; the guide now says in terms that how the certified history is ordered and what it costs are not source-approved. Whether that channel can be stated at all is an owner and counsel call, not this lane's.",
+        "PAGINATION. The shared flow host keeps no blocks and this lane did not change it. The new page boundaries are recorded under pagination below rather than repaired."
+      ],
+      "whatChanged": {
+        "summary": "Two paragraphs added to the delivered guide and one line added to participant-instructions.md, in this family's builder alone. Nothing else in the packet's participant-facing text was touched.",
+        "file": "scripts/build-census-v1-de_mandatory_expungement-set.mjs, three added lines and no removed line (git diff: 3 insertions, 0 deletions).",
+        "changeOne": {
+          "where": "sections[1] 'Exact SBI destination and next steps', inserted as the first two paragraphs of that section, ahead of 'Start with the Delaware State Police...', so the document names the document before it sends the participant to SBI.",
+          "paragraphOneAsDelivered": "Required before you use this process: obtain the certified Delaware criminal history. The committed Delaware record states it this way: \"Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.\" and \"Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.\" How that certified history is ordered, and what it now costs, are not source-approved and are not stated here; confirm them with SBI.",
+          "paragraphTwoAsDelivered": "Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against the certified Delaware criminal history, and correct the packet if they disagree.",
+          "quotedMemoText": [
+            "DE.memo.json tracks[1].legalDesignDecision.limitations[0].statement, classification required_before_filing, quoted word for word: 'Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.'",
+            "DE.memo.json tracks[1].rules.filing, quoted word for word: 'Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.'",
+            "The check-your-answer sentence is data/record-clearing/legal-design-packet-set-manifests.json requiredBeforeFiling[1] for this packet set, reproduced with the manifest's own question text; only the manifest's proper-noun form 'Certified Delaware criminal history' is rendered in running prose as 'the certified Delaware criminal history'."
+          ]
+        },
+        "changeTwo": {
+          "where": "instructions[1], which the shared treatment emits under '## Route boundary' in participant-instructions.md. Placed immediately after the contact-SBI line and ahead of the Cost line, so the required-before-filing items read in the order the record puts them.",
+          "lineAsDelivered": "Required before you use the agency process: obtain the certified Delaware criminal history. The committed Delaware record states it as \"Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.\" and \"Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.\" Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against the certified Delaware criminal history, and correct the packet if they disagree. How that certified history is ordered and what it now costs are not source-approved and are not stated here; confirm them with SBI.",
+          "atLine": "participant-instructions.md line 24 (the file's only added line; every other line is byte-identical to the base)."
+        },
+        "whatWasDeliberatelyNotPrinted": {
+          "identoGoServiceCode27S23V": "not printed. grep for '27S23V' and for 'IdentoGo' returns 0 in participant-instructions.md and 0 in the delivered text of both fixtures.",
+          "aboutSeventyTwoDollarCost": "not printed. grep for '$72' returns 0 in the instructions file and 0 in both fixtures. The only '72' anywhere in the delivered text is the statutory cite 4372(l), which was there before this lane.",
+          "why": "DE.memo.json tracks[1].unresolvedQuestions[0] marks the SBI form, its current fee, the service code and the submission requirements as a release blocker not yet source-approved. The new text defers them in the same construction the guide already uses for the SBI's own application fee: 'not source-approved and are not stated here; confirm them with SBI.'",
+          "invented": "nothing. Every declarative sentence added is either a verbatim memo quotation or the manifest's own required-before-filing text."
+        },
+        "whatWasNotTouched": [
+          "the route key obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a - unchanged and still printed four times, twice per fixture",
+          "scripts/rcap-custom-pleading/composed-family-host.mjs - read, not edited",
+          "the shared agency-guidance treatment makeAgencyGuidanceFamily - read, not edited",
+          "the seven requiredFacts, their labels, their authorities and their reasons - unchanged, so the family's declared blank set is the same seven it was",
+          "the fee sentence, the 4372(l) waiver sentence, the SBI destination, the self-help stops, the protected-items text, buildFindings, counselQuestions, reviewerAttention, receiptLimits and the two fixture fact sets",
+          "every legal record, every specification, every route registry, RASTER_QUEUE.json and MASTER_QUEUE.json",
+          "any other family, in Delaware or elsewhere"
+        ],
+        "filesChanged": [
+          "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
+          "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-grade-a/packet-factory-24h/fix54/rows.json",
+          "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+        ]
+      },
+      "theSixDeclaredRequiredBeforeFilingItems": {
+        "measuredAgainst": "data/record-clearing/legal-design-packet-set-manifests.json, the de_mandatory_expungement-set entry, requiredBeforeFiling[0..5], checked against the delivered text of canonical.pdf page by page with pdftotext -layout and against participant-instructions.md.",
+        "table": [
+          {
+            "index": 1,
+            "recordItem": "Obtain Certified Delaware criminal history. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.",
+            "namedOnDeliveredPage": "canonical page 1, boundary page 1 - 'Required before you use this process: obtain the certified Delaware criminal history...' under EXACT SBI DESTINATION AND NEXT STEPS",
+            "namedInInstructionsFile": "line 24",
+            "beforeThisLane": "ABSENT from both",
+            "note": "The acquisition channel (IdentoGo, 27S23V, about $72, single-open PDF) is deliberately NOT printed and is deferred as not source-approved."
+          },
+          {
+            "index": 2,
+            "recordItem": "Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against Certified Delaware criminal history, and correct the packet if they disagree.",
+            "namedOnDeliveredPage": "canonical page 1, boundary page 1 - the paragraph immediately following, same section",
+            "namedInInstructionsFile": "line 24",
+            "beforeThisLane": "ABSENT from both"
+          },
+          {
+            "index": 3,
+            "recordItem": "The applicant signs their own application.",
+            "namedOnDeliveredPage": "canonical page 3, boundary page 3 - PROTECTED ITEMS: 'Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs.'",
+            "namedInInstructionsFile": "line 30, 'Protected items left blank'",
+            "beforeThisLane": "present, unchanged by this lane"
+          },
+          {
+            "index": 4,
+            "recordItem": "The source review does not state a notarization requirement for the SBI application.",
+            "namedOnDeliveredPage": "canonical page 3, boundary page 3 - PROTECTED ITEMS: 'No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide.'",
+            "namedInInstructionsFile": "line 30, which names notarization and leaves it to the receiving authority",
+            "beforeThisLane": "present, unchanged by this lane"
+          },
+          {
+            "index": 5,
+            "recordItem": "The court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved.",
+            "namedOnDeliveredPage": "canonical pages 1-2 (the sentence now breaks across the page boundary), boundary page 2 - 'Cost, as the committed Delaware record states it: the court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved and is not stated here; confirm it with SBI.'",
+            "namedInInstructionsFile": "line 25",
+            "beforeThisLane": "present, discharged by FIX48/67caa7d56, unchanged by this lane"
+          },
+          {
+            "index": 6,
+            "recordItem": "Under Sec. 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
+            "namedOnDeliveredPage": "canonical page 2, boundary page 2 - 'Fee waiver and conversion, as the same record states it: under 11 Del. C. Sec. 4372(l)...'",
+            "namedInInstructionsFile": "line 25",
+            "beforeThisLane": "present, discharged by FIX48/67caa7d56, unchanged by this lane"
+          }
+        ],
+        "result": "All six are now named on a delivered page and in participant-instructions.md. Each is named once; no item is stated twice on the delivered pages."
+      },
+      "digests": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "fa51ea79d5bc37f3be15485cb54441dee8e4d5baef142ffe4e31e3bc307949e4",
+          "oldByteLength": 8711,
+          "newSha256": "79ac2a683a83c6d0cb1554a458bf1349c2db9fe65afc7b640843e34dc3731747",
+          "newByteLength": 9514,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "c7c80a2a47d11c9b02004decbaba27cdd8033876d00e10d23bda0a6775cadf66",
+          "oldByteLength": 8848,
+          "newSha256": "8049dcee06160b54febf021de4866bd9056527795626fd1f6bfcdb57669a1118",
+          "newByteLength": 9635,
+          "pagesBefore": 3,
+          "pagesAfter": 3
+        },
+        "digestsMovedInThisLane": true,
+        "whyTheyMoved": "The two added guide paragraphs. Bytes grew 803 on the canonical and 787 on the boundary; the page count is 3 in both, before and after. Page counts parsed with pdf-lib 1.17.1 from the bytes on disk.",
+        "aFreshCentralRasterIsOwed": true
+      },
+      "deterministicRebuild": "Built, then built again with no other change: md5 of every one of the 12 files under the family directory is identical across the two runs, both fixtures included, canonical 79ac2a68... and boundary 8049dcee... both times. A third build after product-wiring.json was regenerated reproduced the committed directory exactly (diff -r against a copy: no differences).",
+      "otherDelawarePacketSets": {
+        "result": "byte-identical",
+        "method": "md5 manifest of every file under data/rcap-all50/overlays/census-v1/de before the first edit and again after the final build; every path outside de-mandatory-expungement-set--official-pdf-fill is unchanged.",
+        "onDisk": [
+          "composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading - unchanged",
+          "composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1018-discretionary-petition--custom-pleading - unchanged"
+        ],
+        "notOnDisk": "MASTER_QUEUE.json lists three further Delaware families - de_discretionary_family_court-set, de_discretionary_superior_court-set and de_pardon_expungement-set - whose overlay directories do not exist in this tree at all, so there are no bytes of theirs to move. git status is confined to the one granted family plus its builder, which is the stronger statement: no file outside this family changed anywhere in the repository.",
+        "whyNoOtherFamilyCouldHaveMoved": "The only script edited is this family's own single-family builder. grep -rln over scripts/ for its filename returns only itself; nothing imports it. The shared host and the shared agency-guidance treatment it composes through were not edited."
+      },
+      "raster": {
+        "method": "pdftoppm -r 150 -png over all three pages of both fixtures into /tmp/fix54-raster, and every page read as an image. Deleted after measuring; nothing was rastered into the delivered tree and no rasterState was set by this lane.",
+        "pagesRead": 6,
+        "clipping": "none. Measured as well as read: every hex Tj string in the inflated content streams of all six pages was decoded and its width recomputed with pdf-lib's Times-Roman metrics at its own 11pt size. linesOutsideColumn 0, offPageOrBelowMargin 0, overlappingLinePairs 0, on both fixtures. Widest line reaches x=537.311 against a column right edge of 540; lowest baseline y=82, above the 72pt margin. Both figures are exactly what VF01 measured on the pre-repair bytes, so the new paragraphs added no wider line than the guide already carried.",
+        "noLinePastTheColumn": true,
+        "noPageBreakInsideAHeadingOrList": "No heading is split and no heading is orphaned at a page foot in either fixture. See pagination for the two block boundaries that did move and what they are.",
+        "theNewTextRead": "Read at 150 dpi on page 1 of both fixtures: both new paragraphs sit fully inside the column under EXACT SBI DESTINATION AND NEXT STEPS, the straight double quotes around the two memo sentences and around the manifest's question render correctly, and no word is severed."
+      },
+      "pagination": {
+        "recordedNotRepaired": "The shared flow host keeps no blocks. VF01 recorded the same class of boundary on the pre-repair bytes as 'pagination, not ink outside a measured write box', and this lane did not edit the host.",
+        "whatImproved": "Canonical page 1 previously ENDED on the bare heading 'SELF-HELP STOP' with its body on page 2. That orphaned heading is gone: the heading and its first paragraph are now together on page 2.",
+        "whatMoved": "Canonical now splits one sentence across pages 1-2 ('...a $75 filing fee on the / mandatory path after the SBI letter'), and in both fixtures one of the seven fact blocks under FACTS YOU MUST CONFIRM BEFORE ACTING is split across pages 2-3: canonical carries 'Fines, fees, and restitution status:' with its answer rule on page 2 and its 'Check with:' line on page 3; boundary carries the label alone on page 2 with the rule and the 'Check with:' line on page 3. The label and its answer line are never separated from each other on the canonical, no word is severed, no character is lost and the reading order is intact.",
+        "whatIsUnchanged": "Boundary page 2 still ends on the bare heading 'PROTECTED ITEMS' with its body on page 3, exactly as VF01 recorded it before this repair."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, and VF01 said in terms why that is the starting condition rather than the evidence: requiredFactsNotCollected counts the family's own seven declared blanks against the family's own instructions file, which cannot see a required-before-filing item the RECORD declares and the family never declared. This repair adds no blank and removes none - the seven declared facts are untouched - so the counter that was blind to the defect is equally blind to the fix. The evidence is the six-item table above, measured against the packet-set manifest and the delivered pages.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set -> PASS_COMPLETE, 5/12 written, 1 family audited, nine counters zero, exit 0. Run read-only before the edit and again after the final build; git status was unchanged by the run.",
+        "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+        "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 26 by appearance-registry, 3 by clearSourceCarriedTextValues, exit 0",
+        "verify-packet-build-environment.mjs": "exit 1, 11/13, the two failures diagnosed under preflight",
+        "generate-product-wiring.mjs": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family de_mandatory_expungement-set -> 1 record refreshed, 1 component digest re-pinned fa51ea79d5bc -> 79ac2a683a83, exit 0. No digest was hand-edited."
+      },
+      "acceptanceReceipt": null,
+      "acceptanceReceiptNote": "product-wiring.json binding.acceptanceReceipt was a RASTER_PASS receipt bound to the superseded canonical fa51ea79...; regenerating the wiring record nulled it, because the bytes it bound no longer exist. lastIndependentVerification still carries VF01's FAIL_REPAIR_REQUIRED and was not edited.",
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. No central raster covers canonical 79ac2a683a83... or boundary 8049dcee0616... The only rasters taken were this lane's own local 150 dpi reads of its own output, into /tmp and deleted. RASTER_QUEUE.json was not opened and still binds the superseded pair.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and scored no obligation on them. REQUIRED_BEFORE_FILING is repaired here and remains unverified until an independent lane reads it.",
+        "The other fourteen obligations were not re-measured; this lane read VF01's row for them and changed nothing they rest on.",
+        "MASTER_QUEUE.json, RASTER_QUEUE.json and every legal record were left unedited."
+      ],
+      "queuesTouched": "none",
+      "legalRecordsTouched": "none",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row repairs one obligation on one family. It promotes nothing, opens no route, and grants no approval."
+    }
+  ]
+}

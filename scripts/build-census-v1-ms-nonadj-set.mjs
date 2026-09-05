@@ -185,7 +185,17 @@ function composedBody(componentId, facts) {
     L.push("JUDGE", "");
     L.push("APPROVED AS TO FORM (completed, if the prosecuting authority approves, by that authority; never pre-signed and never pre-filled):", "");
     L.push("...................................................");
-    L.push("PROSECUTING AUTHORITY");
+    L.push("PROSECUTING AUTHORITY", "");
+    /* The order's last page was the judge's caption, the prosecutor's approval
+     * caption and then the machine trailer, so the route key printed inside a
+     * block the page itself says is completed by the prosecuting authority and
+     * is never pre-filled. This is the closing line this family's own passing
+     * sibling ms-diversion-set already prints, word for word, between its
+     * prosecutor caption and its trailer: a preparer-voice note naming what is
+     * reserved to others, so the trailer follows the preparer's sentence rather
+     * than the prosecutor's signature line. Nothing in the decretal block, the
+     * findings, the court's terms or the captions changed. */
+    L.push("(The findings, the date of entry, the judge's signature and the prosecuting authority's approval as to form are all left blank.)");
   } else if (componentId === "certificate_of_service") {
     caption();
     L.push("CERTIFICATE OF SERVICE ON THE PROSECUTING AUTHORITY", "");

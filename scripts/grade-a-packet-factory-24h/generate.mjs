@@ -26,6 +26,7 @@ import { makeEmitter } from "../lib/generator-emit.mjs";
 import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
 import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
 import { pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
+import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
 import {
   repairRowDischargesFailure,
   repairRowsJointlyDischargeFailure,
@@ -4184,6 +4185,12 @@ const survivingClaims = [...claimRowsRespectingExternal, ...preservedGrants].fil
    * hold, not a retired-lane orphan or a dissolved obligation. */
   const heldFamily = c.subjectType === "packet-family" ? familyIndex.get(c.subjectId) : null;
   if (heldFamily?.activeOwner === c.lane) return true;
+  /* A live grant the Captain dealt on the record (transfer, reissue or grant
+   * with a stated reason, in this tenure) is deliberate work the dispatch does
+   * not name — a read of a proven family with a measured defect, a repair
+   * behind a legal hold. It stays until its lane releases it. See
+   * captain-dealt-grants.mjs. */
+  if (captainDealtLiveGrant(priorLedger, c)) return true;
   if (!dispatchLaneIds.has(c.lane) && !externalLanes.has(c.lane) && dispatchedKeys.has(claimDispatchKey2(c))) {
     withdrawnNow.push({ subjectType: c.subjectType, subjectId: c.subjectId, operation: c.operation, lane: c.lane,
       withdrawnAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
@@ -4456,6 +4463,11 @@ const claimLedgerRecord = {
    * after this generator was last touched, so without this line the first
    * regeneration after any transfer would erase the record of it. */
   transfers: priorLedger.transfers ?? [],
+  /* The grant log is the Captain's record of a claim minted for a subject the
+   * dispatch names for nothing. Without this line the first regeneration
+   * erased it, and the next one withdrew the grant it had proven — two of the
+   * seventeen scale-cohort reads went that way before this landed. */
+  grants: priorLedger.grants ?? [],
   withdrawals: [...(priorLedger.withdrawals ?? []), ...withdrawnNow]
 };
 

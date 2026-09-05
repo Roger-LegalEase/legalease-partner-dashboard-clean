@@ -28,7 +28,8 @@ import {
 import { APPEARANCE_DISPOSITION, structuralDisposition } from "./rcap-appearance-semantics.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFName, PDFDict, PDFArray, PDFDocument, PDFNumber, PDFRawStream, PDFRef, decodePDFRawStream } = require("pdf-lib");
+const { PDFName, PDFDict, PDFArray, PDFDocument, PDFNumber, PDFRawStream, PDFRef, PDFCheckBox, PDFRadioGroup,
+  decodePDFRawStream } = require("pdf-lib");
 
 export { neutralizeXfa, stripDocumentActions, stripLinkAnnotations, scanAnnotationActions };
 
@@ -516,6 +517,334 @@ function stripWidgetBackground(pdfDoc, acroField) {
   return stripped;
 }
 
+
+/**
+ * SUPPLIES THE APPEARANCE THE SOURCE OMITTED, SO NOTHING IS SYNTHESIZED IN ITS
+ * PLACE.
+ *
+ * pdf-lib regenerates an appearance for any check box or radio widget whose
+ * CURRENT /AS state has no entry in /AP /N — `PDFCheckBox.needsAppearancesUpdate`
+ * returns true on exactly that condition — and its default provider paints a
+ * stroked square the size of the widget's own rectangle. flatten() then stamps
+ * that square onto the page as ordinary ink.
+ *
+ * Under ISO 32000-1 12.5.5 a viewer draws the stream named by /AS and nothing
+ * else, so a widget whose /AS state is absent from /AP /N is drawn as NOTHING.
+ * The square is therefore not the court's form and not a mark anybody made; it
+ * is produced by the normalization and it is on the page only because the
+ * normalization ran.
+ *
+ * Vermont's petition 200-00130 and stipulation 200-00132 are the measured case:
+ * 12 and 2 button widgets, every one of them /AS /Off with /Yes as the only
+ * state in /AP /N and no /BC in /MK. The official forms print one small box at
+ * each of those rectangles; the delivered packet printed a second, larger 14.4pt
+ * square around it, and a zero-write baseline over the pinned binaries proved
+ * the squares came from the shared step rather than from the family's writes.
+ *
+ * The remedy is to supply the missing state rather than to suppress a drawing:
+ * an EMPTY form XObject sized to the widget's own /Rect is installed for that
+ * state, which is what the source's own silence means. pdf-lib then reports no
+ * update is needed, generates nothing, and flattens a stream that paints
+ * nothing — the same page a conforming viewer shows.
+ *
+ * WHAT IS NEVER TOUCHED, and each for its own reason:
+ *
+ *   * a widget whose /AS state ALREADY has a stream. Vermont's fee-waiver form
+ *     600-00228 ships an /Off appearance that draws its own box, and that box is
+ *     the court's. Reproducing it is source fidelity, and RI-OFF-APPEARANCE
+ *     settles that it stays.
+ *   * a widget belonging to a field this run WROTE. A checked box must render
+ *     its mark, and the mark lives in the /Yes stream this never goes near.
+ *   * text fields, choosers, pushbuttons and every other field type.
+ *   * a widget with no /AS at all, and one whose /AP /N is a bare stream rather
+ *     than a state dictionary. Neither is the measured condition, and inventing
+ *     a state dictionary for them would be a structural rewrite rather than the
+ *     supply of a missing entry. They are counted and left exactly as they are.
+ *
+ * Nothing here reads a family, a form number, a field name or a caption: the
+ * condition is a structural fact about the widget, and it is the same fact in
+ * every jurisdiction.
+ */
+export function suppressSynthesizedSelectionAppearances(pdfDoc, form, writtenFields = new Set()) {
+  const report = { installed: [], skippedWritten: 0, skippedStateAlreadyDrawn: 0, skippedNoAppearanceState: 0,
+    skippedNonDictionaryAppearance: 0 };
+  for (const field of form.getFields()) {
+    if (!(field instanceof PDFCheckBox || field instanceof PDFRadioGroup)) continue;
+    const name = field.getName();
+    if (writtenFields.has(name)) { report.skippedWritten += 1; continue; }
+    for (const widget of field.acroField.getWidgets()) {
+      const state = widget.dict.lookup(PDFName.of("AS"));
+      if (!(state instanceof PDFName)) { report.skippedNoAppearanceState += 1; continue; }
+      let ap = widget.dict.lookup(PDFName.of("AP"));
+      if (ap !== undefined && !(ap instanceof PDFDict)) { report.skippedNonDictionaryAppearance += 1; continue; }
+      let normal = ap instanceof PDFDict ? pdfDoc.context.lookup(ap.get(PDFName.of("N"))) : undefined;
+      if (normal !== undefined && !(normal instanceof PDFDict)) { report.skippedNonDictionaryAppearance += 1; continue; }
+      if (normal instanceof PDFDict && normal.get(state) !== undefined) { report.skippedStateAlreadyDrawn += 1; continue; }
+
+      // The widget's own rectangle, normalized: /Rect corners may arrive in any
+      // order, and a BBox of negative extent would clip the stream to nothing on
+      // some viewers even though this one paints nothing anyway.
+      const rect = widget.getRectangle();
+      const width = Math.abs(rect.width);
+      const height = Math.abs(rect.height);
+      const empty = pdfDoc.context.formXObject([], {
+        BBox: pdfDoc.context.obj([0, 0, width, height]),
+        Matrix: pdfDoc.context.obj([1, 0, 0, 1, 0, 0]),
+        Resources: pdfDoc.context.obj({})
+      });
+      const emptyRef = pdfDoc.context.register(empty);
+
+      if (!(ap instanceof PDFDict)) {
+        ap = pdfDoc.context.obj({});
+        widget.dict.set(PDFName.of("AP"), ap);
+      }
+      if (!(normal instanceof PDFDict)) {
+        normal = pdfDoc.context.obj({});
+        ap.set(PDFName.of("N"), normal);
+      }
+      normal.set(state, emptyRef);
+      report.installed.push({ field: name, state: String(state.toString()),
+        rect: { x: +rect.x.toFixed(3), y: +rect.y.toFixed(3), width: +width.toFixed(3), height: +height.toFixed(3) } });
+    }
+  }
+  report.installedCount = report.installed.length;
+  return report;
+}
+
+/**
+ * The tolerance below which a 12.5.5 mapping counts as the identity.
+ *
+ * Not a fudge factor and not a per-family exception: it is a geometric
+ * threshold, applied to every widget in every jurisdiction the same way. A
+ * mapping that moves no corner of the appearance by more than this cannot
+ * change a pixel at any raster resolution this factory uses -- 0.05pt is a
+ * fifth of a pixel at 300 dpi -- and rewriting a stream to apply it would
+ * change bytes without changing the page.
+ *
+ * The measured case for it is Vermont 600-00228 field 16, whose /Rect is
+ * 14.400 by 14.401 against a 14.4 by 14.4 BBox. Its exact mapping is a scale of
+ * 1.00007, which is a rounding artefact of the form's own rectangle rather than
+ * a defect, and VF02's sweep requires that placement to stay byte-identical.
+ * Field 15 on the same page is 3.6pt out and is seventy times this threshold.
+ */
+export const APPEARANCE_FIT_TOLERANCE_PT = 0.05;
+
+/** The bounding box of `bbox` after `matrix`, per ISO 32000-1 8.10.2. */
+function boundingBoxAfterMatrix(bbox, matrix) {
+  const [x0, y0, x1, y1] = bbox;
+  const [a, b, c, d, e, f] = matrix;
+  const corners = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]
+    .map(([x, y]) => [a * x + c * y + e, b * x + d * y + f]);
+  const xs = corners.map((p) => p[0]);
+  const ys = corners.map((p) => p[1]);
+  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+}
+
+/** m1 applied first, then m2, in PDF's row-vector convention. */
+function composeMatrices(m1, m2) {
+  const [a1, b1, c1, d1, e1, f1] = m1;
+  const [a2, b2, c2, d2, e2, f2] = m2;
+  return [
+    a1 * a2 + b1 * c2, a1 * b2 + b1 * d2,
+    c1 * a2 + d1 * c2, c1 * b2 + d1 * d2,
+    e1 * a2 + f1 * c2 + e2, e1 * b2 + f1 * d2 + f2
+  ];
+}
+
+/** The six numbers of an appearance stream's /Matrix, defaulting to the identity. */
+function matrixOf(pdfDoc, streamDict) {
+  const raw = streamDict.get(PDFName.of("Matrix"));
+  if (raw === undefined) return [1, 0, 0, 1, 0, 0];
+  const arr = pdfDoc.context.lookup(raw);
+  if (!(arr instanceof PDFArray) || arr.size() !== 6) return null;
+  return arr.asArray().map((n) => n.asNumber());
+}
+
+/** The four numbers of an appearance stream's /BBox, or null when it has none. */
+function appearanceBBoxOf(pdfDoc, streamDict) {
+  const raw = streamDict.get(PDFName.of("BBox"));
+  if (raw === undefined) return null;
+  const arr = pdfDoc.context.lookup(raw);
+  if (!(arr instanceof PDFArray) || arr.size() !== 4) return null;
+  const [x0, y0, x1, y1] = arr.asArray().map((n) => n.asNumber());
+  return [Math.min(x0, x1), Math.min(y0, y1), Math.max(x0, x1), Math.max(y0, y1)];
+}
+
+/**
+ * The appearance stream pdf-lib's flatten() will actually place for a widget.
+ *
+ * It mirrors PDFForm.findWidgetAppearanceRef exactly, and it reads rather than
+ * ensures: PDFAnnotation.getNormalAppearance calls ensureAP, which INSTALLS an
+ * empty /AP on a widget that has none, and a function that changes bytes merely
+ * by looking is the defect this factory exists to catch. A widget flatten would
+ * itself refuse is left alone here and counted.
+ */
+function normalAppearanceRefForFlatten(pdfDoc, field, widget) {
+  const ap = widget.dict.lookup(PDFName.of("AP"));
+  if (!(ap instanceof PDFDict)) return { ref: null, why: "no_appearance_dictionary" };
+  const n = ap.get(PDFName.of("N"));
+  if (n === undefined) return { ref: null, why: "no_normal_appearance" };
+  const resolved = pdfDoc.context.lookup(n);
+  if (resolved instanceof PDFDict) {
+    // A state dictionary. flatten() selects by the FIELD's value, falling back
+    // to /Off, and never by /AS -- so this does the same, or the repair would
+    // rescale a stream that is not the one stamped.
+    if (!(field instanceof PDFCheckBox || field instanceof PDFRadioGroup)) {
+      return { ref: null, why: "state_dictionary_on_a_field_flatten_cannot_place" };
+    }
+    const value = field.acroField.getValue();
+    const chosen = resolved.get(value) ?? resolved.get(PDFName.of("Off"));
+    if (!(chosen instanceof PDFRef)) return { ref: null, why: "selected_state_is_not_an_indirect_stream" };
+    return { ref: chosen, container: resolved, key: resolved.get(value) === chosen ? value : PDFName.of("Off") };
+  }
+  if (!(n instanceof PDFRef)) return { ref: null, why: "normal_appearance_is_not_an_indirect_stream" };
+  return { ref: n, container: ap, key: PDFName.of("N") };
+}
+
+/**
+ * APPLIES THE BBox-TO-Rect MAPPING ISO 32000-1 12.5.5 REQUIRES, WHICH pdf-lib's
+ * flatten() DOES NOT.
+ *
+ * 12.5.5 says an appearance is placed by transforming its /BBox by its /Matrix,
+ * taking the bounding box of the result, and computing the matrix A that maps
+ * that box onto the annotation's /Rect. pdf-lib's PDFForm.flatten emits a
+ * translation and nothing else -- `q 1 0 0 1 <x> <y> cm /FlatWidget-N Do Q`,
+ * with rotateInPlace at rotation 0 contributing an identity -- so A is never
+ * applied. Where a source widget ships an appearance whose transformed BBox is
+ * not exactly its /Rect, the stream is stamped at the wrong size, at the wrong
+ * place, or both, and every conforming viewer draws the source form differently
+ * from the flattened packet.
+ *
+ * Vermont's fee-waiver form 600-00228 field 15 is the measured instance: BBox
+ * [0 0 18 18] against a /Rect of 14.4 by 14.4, a required scale of 0.8 that is
+ * never applied, so a 17pt stroked square is stamped where the court's form
+ * draws a 13.6pt one -- about 3.4pt of stroke outside the widget's own box, and
+ * 670 dark pixels at 300 dpi that the form carries nowhere.
+ *
+ * THE REMEDY IS TO PRE-COMPOSE, NOT TO REWRITE THE PAGE. flatten() will place
+ * the stream at `translate(rect.x, rect.y)` whatever this function does, so the
+ * mapping is folded into the stream's own /Matrix instead:
+ *
+ *     wanted   content -> Matrix -> A            (A maps into /Rect absolutely)
+ *     given    content -> Matrix' -> T(rect.x, rect.y)
+ *     so       Matrix' = Matrix x A x T(-rect.x, -rect.y)
+ *                      = Matrix x B,  B = [sx 0 0 sy -bx0*sx -by0*sy]
+ *
+ * where [bx0 by0 bx1 by1] is the transformed BBox and sx, sy scale it to the
+ * /Rect's own width and height. B drops out of /Rect's POSITION entirely --
+ * pdf-lib has already translated there -- so only its size participates.
+ *
+ * WHAT IS LEFT BYTE-IDENTICAL, and this is the greater part of the corpus:
+ * every placement whose mapping is the identity within
+ * APPEARANCE_FIT_TOLERANCE_PT. Nothing about the widget is read except its
+ * /Rect, its appearance /BBox and its appearance /Matrix. No family, form
+ * number, field name, caption or jurisdiction appears anywhere in this
+ * function, and there is no list of any kind in it.
+ *
+ * A stream placed by more than one widget that needs more than one mapping is
+ * COPIED rather than mutated, because mutating it would repair one placement by
+ * breaking the other.
+ */
+export function fitAppearanceStreamsToRect(pdfDoc, form, { tolerancePt = APPEARANCE_FIT_TOLERANCE_PT } = {}) {
+  const report = { rescaled: [], rescaledCount: 0, widgetsExamined: 0, alreadyCorrect: 0,
+    skippedNoPlaceableAppearance: {}, skippedDegenerateGeometry: 0, streamsCopiedForConflictingPlacements: 0,
+    tolerancePt };
+
+  // Every placement first, so a stream shared by two widgets that need
+  // different mappings is discovered before any of them is edited.
+  const wanted = [];
+  for (const field of form.getFields()) {
+    for (const widget of field.acroField.getWidgets()) {
+      report.widgetsExamined += 1;
+      const found = normalAppearanceRefForFlatten(pdfDoc, field, widget);
+      if (!found.ref) {
+        report.skippedNoPlaceableAppearance[found.why] = (report.skippedNoPlaceableAppearance[found.why] ?? 0) + 1;
+        continue;
+      }
+      const stream = pdfDoc.context.lookup(found.ref);
+      const dict = stream?.dict;
+      if (!dict) { report.skippedNoPlaceableAppearance.appearance_is_not_a_stream =
+        (report.skippedNoPlaceableAppearance.appearance_is_not_a_stream ?? 0) + 1; continue; }
+      const bbox = appearanceBBoxOf(pdfDoc, dict);
+      const matrix = matrixOf(pdfDoc, dict);
+      if (!bbox || !matrix) { report.skippedNoPlaceableAppearance.unreadable_bbox_or_matrix =
+        (report.skippedNoPlaceableAppearance.unreadable_bbox_or_matrix ?? 0) + 1; continue; }
+
+      const rect = widget.getRectangle();
+      const rectWidth = Math.abs(rect.width);
+      const rectHeight = Math.abs(rect.height);
+      const [bx0, by0, bx1, by1] = boundingBoxAfterMatrix(bbox, matrix);
+      const boxWidth = bx1 - bx0;
+      const boxHeight = by1 - by0;
+      // 12.5.5 leaves a degenerate box undefined, and inventing a scale for one
+      // would be a rewrite rather than the mapping. Counted, not touched.
+      if (!(boxWidth > 0) || !(boxHeight > 0) || !(rectWidth > 0) || !(rectHeight > 0)) {
+        report.skippedDegenerateGeometry += 1;
+        continue;
+      }
+      const sx = rectWidth / boxWidth;
+      const sy = rectHeight / boxHeight;
+      // How far the flattened corners actually move. This, not the scale
+      // factor, is what a reader would see, and it is what the tolerance is in.
+      const displacement = Math.max(Math.abs(bx0), Math.abs(bx1 - rectWidth),
+        Math.abs(by0), Math.abs(by1 - rectHeight));
+      if (displacement <= tolerancePt) { report.alreadyCorrect += 1; continue; }
+
+      wanted.push({
+        field: field.getName(), ref: found.ref, container: found.container, key: found.key, stream,
+        matrix, bbox, rect: { width: rectWidth, height: rectHeight },
+        fitted: composeMatrices(matrix, [sx, 0, 0, sy, -bx0 * sx, -by0 * sy]),
+        scale: { x: sx, y: sy }, displacementPt: displacement
+      });
+    }
+  }
+
+  // A stream carrying two different wanted matrices is copied for all but the
+  // first; one carrying the same matrix twice is edited once.
+  const byRef = new Map();
+  for (const w of wanted) {
+    const list = byRef.get(w.ref.toString()) ?? [];
+    list.push(w);
+    byRef.set(w.ref.toString(), list);
+  }
+  const same = (a, b) => a.every((n, i) => Math.abs(n - b[i]) < 1e-9);
+
+  for (const [, group] of byRef) {
+    let editedInPlace = false;
+    for (const w of group) {
+      if (!editedInPlace || same(w.fitted, group[0].fitted)) {
+        if (!editedInPlace) {
+          w.stream.dict.set(PDFName.of("Matrix"), pdfDoc.context.obj(w.fitted));
+          editedInPlace = true;
+        }
+      } else {
+        if (!(w.stream instanceof PDFRawStream)) {
+          throw new Error(
+            `fitAppearancesToRect: appearance ${w.ref.toString()} is placed by widgets needing different `
+            + `mappings and its stream cannot be copied (${w.stream.constructor.name}); field ${w.field}`
+          );
+        }
+        const copy = PDFRawStream.of(w.stream.dict.clone(pdfDoc.context), w.stream.contents.slice());
+        copy.dict.set(PDFName.of("Matrix"), pdfDoc.context.obj(w.fitted));
+        const copyRef = pdfDoc.context.register(copy);
+        w.container.set(w.key, copyRef);
+        report.streamsCopiedForConflictingPlacements += 1;
+      }
+      report.rescaled.push({
+        field: w.field,
+        appearanceBBox: w.bbox,
+        sourceMatrix: w.matrix,
+        widgetRect: { width: +w.rect.width.toFixed(4), height: +w.rect.height.toFixed(4) },
+        requiredScale: { x: +w.scale.x.toFixed(6), y: +w.scale.y.toFixed(6) },
+        fittedMatrix: w.fitted.map((n) => +n.toFixed(6)),
+        displacementPt: +w.displacementPt.toFixed(4)
+      });
+    }
+  }
+  report.rescaledCount = report.rescaled.length;
+  return report;
+}
+
 /**
  * Decides, per field, what survives into the flattened page.
  *
@@ -582,7 +911,44 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
    * the option changes nothing for it, and a family that has never been rebuilt
    * against this option keeps the bytes it has. See detachFromAcroForm.
    */
-  detachNestedControlFields = false } = {}) {
+  detachNestedControlFields = false,
+  /*
+   * Whether a check box or radio widget whose CURRENT /AS state has no stream in
+   * /AP /N is given an EMPTY appearance for that state before appearances are
+   * generated, so pdf-lib synthesizes no square there and flatten stamps none.
+   *
+   * Off by default and deliberately, on the same reasoning as
+   * detachNestedControlFields above and the finalizer's own opt-in flags: the
+   * families sharing this module are rebuilt by different workers at different
+   * times, and a repair lane holding one family does not get to decide what the
+   * others' next rebuild produces. Every caller that does not pass this keeps
+   * the bytes it has, to the byte. See suppressSynthesizedSelectionAppearances
+   * for what the option does and for the four cases it never touches.
+   *
+   * CAPTAIN DECISION: like those flags, this default should flip to true once
+   * every family can be rebuilt together. A border the official form does not
+   * print is ink the packet added, wherever it occurs.
+   */
+  suppressSynthesizedAppearances = false,
+  /*
+   * Whether each widget appearance about to be flattened is first given the
+   * BBox-to-Rect mapping ISO 32000-1 12.5.5 requires and pdf-lib's flatten()
+   * never applies.
+   *
+   * Off by default and deliberately, on exactly the reasoning the two options
+   * above give: the families sharing this module are rebuilt by different
+   * workers at different times, and a repair lane holding one family does not
+   * get to decide what the others' next rebuild produces. A caller that does
+   * not pass this keeps the bytes it has, to the byte -- and so does a
+   * placement whose mapping is already the identity even when it is passed.
+   * See fitAppearanceStreamsToRect for the transform and for what it refuses.
+   *
+   * CAPTAIN DECISION: like those flags, this default should flip to true once
+   * every family can be rebuilt together. An appearance stamped at 125% of the
+   * size the court's own form draws it is wrong ink wherever it occurs, and no
+   * family can opt out of a specification.
+   */
+  fitAppearancesToRect = false } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -605,10 +971,25 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // never asking for the rectangle at all.
       report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions,
         { walkFieldTree: detachNestedControlFields });
+      // Before appearances are generated, for the same reason the background
+      // strip runs before them: a state supplied here is a state pdf-lib does
+      // not regenerate, whereas a stream replaced afterwards would be editing a
+      // square that had already been invented.
+      if (suppressSynthesizedAppearances) {
+        report.synthesizedSelectionAppearancesSuppressed = suppressSynthesizedSelectionAppearances(pdfDoc, form, writtenFields);
+      }
       // Appearances must exist before flattening: flatten draws each field's
       // appearance stream onto the page, so a field whose appearance was never
       // generated flattens to nothing and the value disappears.
       form.updateFieldAppearances(defaultFont ?? undefined);
+      // AFTER appearances are generated and immediately before they are placed:
+      // the mapping has to be computed against the streams that will actually
+      // be stamped, including any pdf-lib has just generated, and flatten()'s
+      // own updateFieldAppearances pass regenerates nothing that is already
+      // clean, so a matrix fitted here survives into the page.
+      if (fitAppearancesToRect) {
+        report.appearancesFittedToRect = fitAppearanceStreamsToRect(pdfDoc, form);
+      }
       form.flatten();
       report.flattened = true;
     } else {

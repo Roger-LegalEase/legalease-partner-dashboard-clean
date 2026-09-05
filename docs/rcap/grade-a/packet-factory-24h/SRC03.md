@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9efb77c0856b7e4f4908c9d5c34e8659e2654164` (or the newer dispatch base)
+**Minimum required ancestor:** `990f71db693622fc53d761cd1939c30cb2dc56d9` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -22,7 +22,7 @@ node scripts/verify-packet-build-environment.mjs \
   --assignment-id SRC03 \
   --source-obligation 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' \
   --codex-cloud \
-  --minimum-captain-sha 9efb77c0856b7e4f4908c9d5c34e8659e2654164
+  --minimum-captain-sha 990f71db693622fc53d761cd1939c30cb2dc56d9
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -125,7 +125,7 @@ NODE
 Run the row gate once per listed item, after the lane gate. This exact first command demonstrates the interface; substitute each other exact item id from the table without changing the lane:
 
 ```sh
-node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' --codex-cloud --minimum-captain-sha 9efb77c0856b7e4f4908c9d5c34e8659e2654164
+node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-obligation 'census-pending-family:ME:juvenile-sealing::official-form:JV-043' --codex-cloud --minimum-captain-sha 990f71db693622fc53d761cd1939c30cb2dc56d9
 
 # A failed row is recorded STOPPED; continue with unrelated rows.
 ```
@@ -163,10 +163,7 @@ node scripts/verify-packet-build-environment.mjs --assignment-id SRC03 --source-
 - `data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**`
-- `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
 - `data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*`
-- `data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*`
 
 ## Required outputs
 

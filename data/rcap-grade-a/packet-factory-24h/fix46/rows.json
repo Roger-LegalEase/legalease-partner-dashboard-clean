@@ -1,0 +1,469 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX46-VA-WV-PULLDOWN",
+  "assignmentId": "FIX46",
+  "assignedBase": "a71d69523",
+  "branch": "fix46-va-wv-pulldown",
+  "laneKind": "repair",
+  "generatedAtBase": "a71d69523",
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "scope": "The one failed obligation, CLIPPING_AND_OVERLAP, on the two granted families, at each builder's trailer pull-down. Nothing else in VF07's rows was disturbed: no wrap rule, no pagination constant, no component, no field map, no source pin, no route key, no appearance entry and not one line of participant-instructions.md.",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX46 va_exp_nonconviction-set -> CLAIM_OK FIX46 va_exp_nonconviction-set (repair, grant set efde5ab871cfd14c), exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX46 wv_dui_deferral_expungement-set -> CLAIM_OK FIX46 wv_dui_deferral_expungement-set (repair, grant set efde5ab871cfd14c), exit 0"
+  ],
+  "verdictProvenance": "VF07's FAIL rows for these two families, read at data/rcap-grade-a/packet-factory-24h/vf07/rows.json in the assigned base a71d69523 (rows 56 and 57), each carrying verifiedAtBase a0fbceb30 and failedObligationNames [CLIPPING_AND_OVERLAP]. The verdicts were read before any builder was opened.",
+  "preflight": {
+    "worktree": "/home/user/fix46-worktree, branch fix46-va-wv-pulldown from a71d69523 on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "exported as private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, the path scripts/verify-packet-build-environment.mjs resolves it to",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/14 passed, 3 failed, 3 not applicable, run after the repair. The three failures are recorded on each row rather than argued away.",
+    "throwawayCheckout": "/home/user/fix46-throwaway, detached at a71d69523, used only for the control rebuild; nothing there was committed and it was removed when done.",
+    "rasters": "written under /tmp/fix46-raster, read, and deleted after measuring",
+    "otherWorktreesTouched": 0,
+    "captainBranchTouched": false,
+    "subagentsCreated": 0
+  },
+  "hostsChanged": [
+    {
+      "file": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "familiesReached": 1,
+      "diff": "49 lines touched, 25 of them comment"
+    },
+    {
+      "file": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
+      "familiesReached": 1,
+      "diff": "83 lines touched, 40 of them comment"
+    }
+  ],
+  "sharedHelpersChanged": 0,
+  "sharedHelperNote": "Neither edit reaches a shared module. Both builders are single-family hosts: grep -rln over scripts/ finds no importer of either file, each declares one FAMILY_ID and one output root, and every write goes under that root. SCAN01 run whole-corpus before and after confirms it from the bytes: of 249 family directories, exactly these two moved.",
+  "rows": [
+    {
+      "itemId": "va_exp_nonconviction-set",
+      "familyId": "va_exp_nonconviction-set",
+      "jurisdiction": "VA",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-va_exp_nonconviction-set.mjs (single-family host: nothing imports it, it declares one FAMILY_ID and one output root, and every write goes under that root)",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX46 va_exp_nonconviction-set -> CLAIM_OK FIX46 va_exp_nonconviction-set (repair, grant set efde5ab871cfd14c), exit 0. Asserted before any family artifact was read or written.",
+      "verdictRepaired": {
+        "lane": "vf07",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a0fbceb30",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "THE CENTRAL RASTER. These bytes were built with --no-raster and carry no acceptance receipt. product-wiring.json acceptanceReceipt is null on this family: the receipt that stood was bound to the pre-repair canonical digest and a receipt bound to bytes nobody rendered would be a false one. RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not touched.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. Every measurement in this row is a builder's own reading and is offered as evidence for a later independent reader, not as a verdict. VF07's FAIL is answered on the one obligation it named; no obligation is re-issued as passing by this lane."
+      ],
+      "whatChanged": {
+        "summary": "One block boundary in the composer. A heading and the paragraph it introduces are now one block, so the trailer pull-down moves the pair or neither. Not one character of the packet's text was added, removed or reworded, and no row moved except the heading.",
+        "lineMovedVerbatim": "WHAT THIS PACKET IS NOT",
+        "component": "filing_instructions, pages 6 and 7 of seven, in the canonical and the boundary fixture alike",
+        "placementPerPageBefore": {
+          "page6": {
+            "drawnLines": 32,
+            "lastDrawnLineVerbatim": "WHAT THIS PACKET IS NOT",
+            "lastDrawnLineY": 140.0,
+            "note": "the page ended on a heading with roughly two inches of clear sheet under it and nothing beneath the heading; four row slots stood free and the block needed three"
+          },
+          "page7": {
+            "drawnLines": 3,
+            "everyDrawnLineVerbatim": [
+              "This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice,",
+              "it is not filed for you, and it does not decide whether the court will grant expungement.",
+              "Route: obligation:track-only:VA:va_exp_nonconviction"
+            ],
+            "note": "the last sheet the participant is handed opened on two unattributed sentences with no heading above them"
+          }
+        },
+        "placementPerPageAfter": {
+          "page6": {
+            "drawnLines": 31,
+            "lastTwoDrawnLinesVerbatim": [
+              "- How long you have, and exactly how service must be made. The petition sets no filing deadline and",
+              "states no service mechanics; neither does this page. Ask the same clerk."
+            ],
+            "lastDrawnLineY": 169.0,
+            "note": "the page now ends on the complete second bullet of TWO THINGS THIS PACKET DOES NOT TELL YOU; no heading is left standing alone"
+          },
+          "page7": {
+            "drawnLines": 4,
+            "everyDrawnLineVerbatim": [
+              "WHAT THIS PACKET IS NOT",
+              "This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice,",
+              "it is not filed for you, and it does not decide whether the court will grant expungement.",
+              "Route: obligation:track-only:VA:va_exp_nonconviction"
+            ],
+            "drawnLineY": [
+              720.0,
+              691.0,
+              676.5,
+              647.5
+            ],
+            "note": "the heading and the paragraph it introduces are on one page, in that order, with the trailer beneath the preparer's own sentence exactly as VF07's repair note asked"
+          }
+        },
+        "builderEdit": "scripts/build-census-v1-va_exp_nonconviction-set.mjs, renderComposedPdf(). The blocks were one source line each, which is why the pull-down could move the paragraph and leave its heading behind. A heading line (HEADING_LINE = /^[A-Z][A-Z ,'()-]*$/) now carries its blank separator and the paragraph it introduces with it, as one block; a heading block that fits on a page is not split across a page break; and an assertion reads the settled layout back and refuses a build in which any heading block's drawn rows landed on more than one page. 49 lines touched in one file, 25 of them comment.",
+        "whyThisAndNotMore": "VF07 named the machinery as already present and correct - 'the machinery is already on this host; it moved the wrong half of the unit'. So the pull-down, the wrap rule, the line height, the column width, the font and the 45-row page are untouched; only what counts as one unit changed. No new pagination scheme was introduced.",
+        "whatWasNotChanged": "No wrap rule, no line height, no column width, no font, no rows-per-page count, no component, no field-map entry, no source pin, no route key, no appearance entry, no participant-instructions line, and no word of any composed page. The two pinned CC-1473 pages and both --CC-1473-primary-filing.pdf fixtures re-hash byte-identical."
+      },
+      "placementDiff": "Canonical and boundary alike: page 6 loses exactly one drawn line (32 -> 31) and page 7 gains exactly one (3 -> 4). Whole-document text extraction from the composed content stream, page by page, before and after, differs in those five lines and nowhere else; pages 1-5 are line-for-line and coordinate-for-coordinate identical, and the page count stays 7.",
+      "artifacts": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "646977c2b3e2e334f13b958a864b2447f13c99d5ca204ad6a1f37e6d429b4b84",
+          "oldByteLength": 126823,
+          "oldPageCount": 7,
+          "newSha256": "be8bd4375526b04171d7d55ccdd4eb40958bc6ff2aa7559603110fb68c260fcb",
+          "newByteLength": 126840,
+          "newPageCount": 7
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "ca101cc62be98bb1fd02b760bb853f6fcb48cd1d37c6416155150ac196c1bab4",
+          "oldByteLength": 127064,
+          "oldPageCount": 7,
+          "newSha256": "de2b0b59e205d053d77b0aaf090d373cc8af00c0e2fbdff2ed7a821c7cf2ff20",
+          "newByteLength": 127081,
+          "newPageCount": 7
+        },
+        "unchanged": [
+          "canonical--CC-1473-primary-filing.pdf sha256 fec0c22338cd5c0bd0c08ae9f4e65ed0ec052b968cb9db0f1fd882d6e08c60c9, 115313 bytes, 2 pages - byte-identical before and after",
+          "boundary--CC-1473-primary-filing.pdf sha256 81c567b6cece7780b3f8f6a9015ace596e6e43b7dee15df419de1454d8145c33, 115459 bytes, 2 pages - byte-identical before and after"
+        ]
+      },
+      "deterministicRebuild": "Built with --no-raster, then rebuilt twice more. All three runs produced the same four digests, byte for byte.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set, run in this worktree on the committed bytes before the edit and on the rebuilt bytes after it. PASS_COMPLETE, 15/56 written, both times.",
+      "scan01": {
+        "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs (whole corpus, 249 family directories, before and after)",
+        "corpusTotalBefore": 131,
+        "corpusTotalAfter": 131,
+        "corpusClassesBefore": {
+          "fragment_page": 56,
+          "thin_page": 39,
+          "hard_split_token": 20,
+          "orphaned_execution_block": 10,
+          "route_key_only_page": 5,
+          "widowed_labelled_value": 1
+        },
+        "corpusClassesAfter": {
+          "fragment_page": 54,
+          "thin_page": 41,
+          "hard_split_token": 20,
+          "orphaned_execution_block": 10,
+          "route_key_only_page": 5,
+          "widowed_labelled_value": 1
+        },
+        "familyDirectoriesWhoseDefectListMoved": 2,
+        "whichOnes": [
+          "va-exp-nonconviction-set--official-pdf-fill",
+          "wv-dui-deferral-expungement-set--custom-pleading"
+        ],
+        "thisFamilyBefore": "2 x fragment_page (canonical p7 and boundary p7, 3 drawn lines each)",
+        "thisFamilyAfter": "2 x fragment_page (canonical p7 and boundary p7, 4 drawn lines each)",
+        "reportedNotArguedAway": "SCAN01's fragment_page threshold is <= 5 drawn lines, so the last page is still counted at 4. It is reported here rather than engineered away: VF07 read this page and said in terms that a short closing page is not the defect - 'the three-line last page is NOT a defect for being three lines' - and prescribed exactly the four lines now printed. Pulling a further block down to clear a line-count threshold would move a page VF07 did not ask to move.",
+        "everyOtherFamily": "The other 247 family directories are unchanged defect-for-defect, string-for-string."
+      },
+      "appearanceCheck": {
+        "composedContentStream": "Every page of both fixtures walked with the repository's own content-stream text walker (extractTextItems + groupIntoLines over each page's Contents), so what was read is drawn ink and not a field value.",
+        "localRaster": "pdftoppm -r 100, canonical pages 6 and 7 and boundary page 7, rendered into /tmp and read as images; the rasters were deleted after measuring.",
+        "whatTheRasterShows": "Page 6 ends on the complete second bullet, with clear sheet beneath and no heading left standing alone. Page 7 opens on WHAT THIS PACKET IS NOT, then the two rows of the closing paragraph, then the route trailer - the heading and its paragraph on one page, in the participant's reading order. Boundary page 7 is identical in placement to canonical page 7.",
+        "whatWasLookedForAndNotFound": "No overlapping rows, no ink outside the 468pt column, no split route key, no page whose only content is the trailer, and no machine text inside or beneath any court's or clerk's block: the clerk's certification band on page 1 still carries no ink at all."
+      },
+      "everythingElseHeldStill": "Control rebuild first: at the assigned base a71d69523, in a detached throwaway checkout with the builder unmodified, this family rebuilt to its committed bytes exactly (git status clean), so every digest movement here is attributable to the edit and not to build noise. No shared helper was touched - scripts/rcap-custom-pleading/split-token.mjs and every other imported module are byte-identical - and this builder is a single-family host, so no other family reads what changed.",
+      "verifiersRun": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX46 va_exp_nonconviction-set -> CLAIM_OK, exit 0",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set -> PASS_COMPLETE, nine counters zero, before and after",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, exit 0 (249 receipts compared against HEAD, 53 carrying an identityRefresh)",
+        "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs -> corpus total 131 before and 131 after; only this family and the West Virginia family moved",
+        "node scripts/verify-packet-build-environment.mjs --family va_exp_nonconviction-set --codex-cloud --minimum-captain-sha a71d69523 -> 11/14 passed, 3 failed, 3 not applicable (run after the repair)",
+        "three builds with --no-raster, all four digests byte-identical across all three"
+      ],
+      "preflightFailuresReportedNotWaived": [
+        "worktree_clean: 12 uncommitted paths, which is the expected state of a repair lane mid-flight.",
+        "private_is_git_ignored: private/ is mounted as a symlink and the 'private/' .gitignore pattern does not match it the way the checker tests it. git status never listed it and nothing under it was written or staged.",
+        "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled - the same pre-existing corpus gap earlier lanes recorded at their own bases, and not a source of this family. family_sources_bind passed 1/1 by exact SHA-256."
+      ],
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "why": "The receipt that stood bound boundToCanonicalSha256 646977c2..., which these bytes are no longer. A receipt naming a digest nobody rendered would assert a rendering that did not happen.",
+        "lastIndependentVerification": "left as VF07 FAIL_REPAIR_REQUIRED at a0fbceb30. This lane repaired the bytes; it does not get to record them as verified.",
+        "paymentEligible": false,
+        "sponsorshipEligible": false
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/independent-visual-review.json",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/product-wiring.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row is a repair record. It promotes nothing, approves no output and opens no commercial route."
+    },
+    {
+      "itemId": "wv_dui_deferral_expungement-set",
+      "familyId": "wv_dui_deferral_expungement-set",
+      "jurisdiction": "WV",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "ownerPinned": true,
+      "ownerRereviewOwed": true,
+      "ownerPinNote": "FIX07 recorded this family as ownerPinned with ownerRereviewOwed true, and this repair moves owner-pinned shipping bytes a second time. The pins must be re-taken, the family re-rastered, and it must be verified by a lane that did not perform this repair. Recorded here, not decided here.",
+      "buildHost": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs (single-family host: nothing imports it, it declares one FAMILY_ID and one output root, and every write goes under that root)",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX46 wv_dui_deferral_expungement-set -> CLAIM_OK FIX46 wv_dui_deferral_expungement-set (repair, grant set efde5ab871cfd14c), exit 0. Asserted before any family artifact was read or written.",
+      "verdictRepaired": {
+        "lane": "vf07",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a0fbceb30",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "THE CENTRAL RASTER. These bytes were built with --no-raster and carry no acceptance receipt. product-wiring.json acceptanceReceipt is null on this family: the receipt that stood was bound to the pre-repair canonical digest and a receipt bound to bytes nobody rendered would be a false one. RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not touched.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. Every measurement in this row is a builder's own reading and is offered as evidence for a later independent reader, not as a verdict. VF07's FAIL is answered on the one obligation it named; no obligation is re-issued as passing by this lane.",
+        "THE OWNER RE-REVIEW. This family is owner-pinned and the owner re-review is owed. These bytes moved a second time under an owner pin; nothing in this row satisfies that re-review or stands in for it."
+      ],
+      "whatChanged": {
+        "summary": "Two placements, no new words. The route trailer no longer closes a component whose last block belongs to a third party - on the affidavit it now closes the preparer's own half of the page, immediately above the execution unit - and the closing execution unit is one block that is never split across a page break. Not one character of the packet's text was added, removed or reworded, and the notary's block is untouched in wording.",
+        "component": "supporting_affidavit, pages 3 and 4 of eleven, in the canonical and the boundary fixture alike",
+        "placementPerPageBefore": {
+          "page3": {
+            "drawnLines": 28,
+            "lastThreeDrawnLinesVerbatim": [
+              "(You sign this affidavit before a notary public or other officer authorized to administer oaths, and not",
+              "before. The block below is completed by that officer, never by you and never by this packet.)",
+              "Taken, subscribed and sworn to before me this ...... day of .................., 20......"
+            ],
+            "lastDrawnLineY": 125.5,
+            "note": "the jurat was cut in half at the page turn, with three row slots still free and the moved block needing two"
+          },
+          "page4": {
+            "drawnLines": 3,
+            "everyDrawnLineVerbatim": [
+              "Officer authorized to administer oaths ............................................",
+              "Route: obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-1-motion-to-dismiss ;",
+              "obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge"
+            ],
+            "note": "a bare sheet carrying the officer's signature rule with the packet's own machine text drawn directly beneath it and nothing in the preparer's voice between them - no caption, no case number, no affiant"
+          }
+        },
+        "placementPerPageAfter": {
+          "page3": {
+            "drawnLines": 25,
+            "lastThreeDrawnLinesVerbatim": [
+              "I swear or affirm that the statements above are true.",
+              "Route: obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-1-motion-to-dismiss ;",
+              "obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge"
+            ],
+            "drawnLineY": [
+              241.5,
+              212.5,
+              198.0
+            ],
+            "note": "the trailer prints whole, with its Route: label and both unit keys intact, beneath the affidavit's own closing sentence and above the execution unit - never inside it and never beneath it"
+          },
+          "page4": {
+            "drawnLines": 6,
+            "everyDrawnLineVerbatim": [
+              "SIGNATURE OF AFFIANT ....................................................",
+              "DATE ....................................................................",
+              "(You sign this affidavit before a notary public or other officer authorized to administer oaths, and not",
+              "before. The block below is completed by that officer, never by you and never by this packet.)",
+              "Taken, subscribed and sworn to before me this ...... day of .................., 20......",
+              "Officer authorized to administer oaths ............................................"
+            ],
+            "drawnLineY": [
+              720.0,
+              705.5,
+              676.5,
+              662.0,
+              633.0,
+              618.5
+            ],
+            "note": "the whole execution unit on one page, in order: the affiant's signature and date lines, the sentence that says the block below is the officer's, the jurat and the officer's rule. Nothing at all is drawn beneath the officer's rule - no machine text, no trailer, no ink of any kind - and the page says on its own face what is being signed."
+          }
+        },
+        "builderEdit": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs, two places. (1) composedBody(): the single trailer push at the foot of the function became conditional - where a component's last drawn line is an officer's execution line (OFFICER_EXECUTION_LINE, matching 'Taken, subscribed and sworn to before me' and 'Officer authorized to administer oaths'), the same trailer and the same separator row are spliced in ahead of the execution unit instead of behind it. Only the affidavit satisfies that test; the other six components keep the trailer at the foot, unchanged. (2) renderComposedPdf(): the closing execution unit - from the affiant's own 'SIGNATURE OF ' line to the last drawn line - is gathered into ONE block, so a third party's execution line is no longer a block that the pull-down can elect as the trailer's companion; a block that fits on a page is not split across a page break; and two assertions read the settled layout back, refusing a build in which the unit's drawn rows landed on more than one page or in which the trailer was drawn on the page that carries the officer's block. 83 lines touched in one file, 40 of them comment.",
+        "whyThisAndNotAnAddedLine": "VF07 offered two repairs: move the jurat whole and print a preparer-voice closer between it and the trailer, or place the trailer where the passing families place it. The second needs no new words. It is what FIX35 did to the Rhode Island order, where the disclaimer and trailer were lifted out of the clerk's certification block to close the moving party's half above it. Nothing was invented and no sentence was authored into a legal document to solve a layout problem.",
+        "whatWasNotChanged": "No wrap rule, no line height, no column width, no font, no rows-per-page count, no component, no field-map entry, no source pin, no route key (both unit keys print whole and break only at the ' ;' that separates them), no appearance entry, no participant-instructions line, no notary-block wording, and no word of any composed page. The nine pages other than 3 and 4 are line-for-line and coordinate-for-coordinate identical."
+      },
+      "placementDiff": "Canonical and boundary alike: page 3 goes from 28 to 25 drawn lines and page 4 from 3 to 6. Whole-document text extraction from the composed content stream, page by page, before and after, differs on those two pages and nowhere else; the page count stays 11.",
+      "artifacts": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "a0cc3dfc1e1303e605dbafb5a2296f54588a83b1142d0ef836be59d74fa159bf",
+          "oldByteLength": 25313,
+          "oldPageCount": 11,
+          "newSha256": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+          "newByteLength": 25304,
+          "newPageCount": 11
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "dc0caf437b44200a637cdeab46b1508312f3ded148d62ed45a9a0d33470321b4",
+          "oldByteLength": 25794,
+          "oldPageCount": 11,
+          "newSha256": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+          "newByteLength": 25786,
+          "newPageCount": 11
+        }
+      },
+      "deterministicRebuild": "Built with --no-raster, then rebuilt twice more. All three runs produced the same two digests, byte for byte.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set, run in this worktree on the committed bytes before the edit and on the rebuilt bytes after it. PASS_COMPLETE, 15/46 written, both times.",
+      "scan01": {
+        "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs (whole corpus, 249 family directories, before and after)",
+        "corpusTotalBefore": 131,
+        "corpusTotalAfter": 131,
+        "corpusClassesBefore": {
+          "fragment_page": 56,
+          "thin_page": 39,
+          "hard_split_token": 20,
+          "orphaned_execution_block": 10,
+          "route_key_only_page": 5,
+          "widowed_labelled_value": 1
+        },
+        "corpusClassesAfter": {
+          "fragment_page": 54,
+          "thin_page": 41,
+          "hard_split_token": 20,
+          "orphaned_execution_block": 10,
+          "route_key_only_page": 5,
+          "widowed_labelled_value": 1
+        },
+        "thisFamilyBefore": "2 x fragment_page, class B_page_content (canonical p4 and boundary p4, 3 drawn lines each)",
+        "thisFamilyAfter": "0 defects. The same two pages are now recorded as thin_page, class D_census - 6 drawn lines, above the fragment threshold, 'recorded as census, not asserted as a defect'.",
+        "everyOtherFamily": "The other 247 family directories are unchanged defect-for-defect, string-for-string."
+      },
+      "appearanceCheck": {
+        "composedContentStream": "Every page of both fixtures walked with the repository's own content-stream text walker (extractTextItems + groupIntoLines over each page's Contents), so what was read is drawn ink.",
+        "localRaster": "pdftoppm -r 100, canonical pages 3 and 4 and boundary page 4, rendered into /tmp and read as images; the rasters were deleted after measuring.",
+        "whatTheRasterShows": "Page 4 carries the affiant's signature and date rules, the sentence reserving the block below to the officer, the jurat sentence and the officer's rule, and then clear sheet - there is no machine text beneath the officer's line, and no ink of any kind. Page 3 ends on the two-row trailer standing under the affidavit's own closing sentence, above the execution unit. Boundary page 4 is identical in placement to canonical page 4.",
+        "whatWasLookedForAndNotFound": "No overlapping rows, no ink outside the 468pt column, no split route key, no empty page, no page whose only content is the trailer, and no machine text inside or directly beneath any execution, signature or notary block anywhere in the packet."
+      },
+      "everythingElseHeldStill": "Control rebuild first: at the assigned base a71d69523, in a detached throwaway checkout with the builder unmodified, this family rebuilt to its committed bytes exactly (git status clean), so every digest movement here is attributable to the edit and not to build noise. No shared helper was touched - scripts/rcap-custom-pleading/split-token.mjs and every other imported module are byte-identical - and this builder is a single-family host, so no other family reads what changed.",
+      "verifiersRun": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX46 wv_dui_deferral_expungement-set -> CLAIM_OK, exit 0",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set -> PASS_COMPLETE, nine counters zero, before and after",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, exit 0 (249 receipts compared against HEAD, 53 carrying an identityRefresh)",
+        "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs -> corpus total 131 before and 131 after; this family 2 defects -> 0",
+        "node scripts/verify-packet-build-environment.mjs --family wv_dui_deferral_expungement-set --codex-cloud --minimum-captain-sha a71d69523 -> 11/14 passed, 3 failed, 3 not applicable (run after the repair); family_sources_bind passes as a zero-source composition",
+        "three builds with --no-raster, both digests byte-identical across all three"
+      ],
+      "preflightFailuresReportedNotWaived": [
+        "worktree_clean: 12 uncommitted paths, which is the expected state of a repair lane mid-flight.",
+        "private_is_git_ignored: private/ is mounted as a symlink and the 'private/' .gitignore pattern does not match it the way the checker tests it. git status never listed it and nothing under it was written or staged.",
+        "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled - the same pre-existing corpus gap earlier lanes recorded at their own bases. This family binds zero source binaries, so no source of its own is implicated."
+      ],
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "why": "The receipt that stood bound boundToCanonicalSha256 a0cc3dfc..., which these bytes are no longer.",
+        "lastIndependentVerification": "left as VF07 FAIL_REPAIR_REQUIRED at a0fbceb30.",
+        "paymentEligible": false,
+        "sponsorshipEligible": false
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/product-wiring.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row is a repair record. It promotes nothing, approves no output and opens no commercial route."
+    }
+  ],
+  "notDone": [
+    "The central raster for both families. Both were built with --no-raster, both acceptance receipts are null, and RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not touched.",
+    "Independent verification. This lane built these bytes and verifies neither family.",
+    "The owner re-review owed on wv_dui_deferral_expungement-set. Recorded on the row; not satisfied here.",
+    "Virginia's last page is still counted by SCAN01 as fragment_page at 4 drawn lines (was 3). It is reported, not engineered away: VF07 prescribed exactly those four lines and said in terms that a short closing page is not the defect.",
+    "No specification, legal record, RASTER_QUEUE.json or MASTER_QUEUE.json was edited."
+  ],
+  "packetBytesChanged": 4,
+  "overlayDirectoriesModified": 2,
+  "buildersModified": 2,
+  "centralStateEdits": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": 0,
+  "grantsNothing": "This return is a repair record. It promotes nothing, approves no output and opens no commercial route. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not that record."
+}

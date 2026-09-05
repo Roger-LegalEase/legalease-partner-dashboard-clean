@@ -1151,6 +1151,106 @@
     "Do not open, promote or price any route; a repair reopens nothing.",
     "Re-render, re-raster and have a lane that did not perform the repair verify the result. Both fixture digests will move and the owner pins must be re-taken."
    ]
+  },
+  {
+   "itemId": "va_seal_ancillary_matter_only-set",
+   "lane": "VF04",
+   "wave": "packet-factory-24h/VF04/virginia-post-FIX63-read (2026-09-05)",
+   "worker": "VF04 independent-verification, branch vf04-va-read (built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-ancillary-matter-only-set--official-pdf-fill",
+   "verifiedAtBase": "a8f99a33a",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "fixturesMoved": false,
+   "canonicalSha256": "0d538027a6945c50b562193222a6c17b22b1582e720931a2e36ed9b9b027dbf8",
+   "boundarySha256": "3fdd85e7ac3344fa235c9d7f8bcb775660fe058a502115e9f2c7d5a36ad86a9e",
+   "decisiveDefect": "The packet tells the participant, in the instructions and again on the delivered filing-instructions page, that the filing fee and whether it can be waived are not established and that they must ask the circuit court clerk. Four committed records establish, for this exact route, that no court fees or costs are charged and that there is nothing to waive. A participant filing a free petition is sent to a counter to ask its price. Separately, none of this track's registry stop conditions reaches the participant.",
+   "failedProofObligations": [
+    "FEE_AND_WAIVER",
+    "SELF_HELP_STOP"
+   ],
+   "perObligation": {
+    "FEE_AND_WAIVER": "State the answer the repository holds instead of delegating it. In participant-instructions.md ('Two things this packet does not tell you') and in the filing_instructions composed component ('TWO THINGS THIS PACKET DOES NOT TELL YOU'), replace the fee refusal with: no court fees or costs are charged for this petition, on Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), and there is therefore no waiver to apply for. Keep, and keep separate, the CCRE's own charge for the participant's own copy of their criminal history record, which the same records establish as a different cost. The sources: the committed packet-set manifest's pay_fee and apply_fee_waiver actions for this packetSetId, VA.memo.json rules.fees and rules.feeWaiver for this track, the census destination detail 'File the petition with no court fees or costs', and the compiled profile line 'Sealing petition (Sec. 19.2-392.12) $0 No court fees or costs (from 7/1/2026)'. Do NOT keep the named-authority sentence as well: DET-FEE-AND-WAIVER-001 A1 forecloses delegation where the repository holds the answer. The service-deadline sentence in the same block is honest and should stay - no committed record establishes a participant service deadline for this route.",
+    "SELF_HELP_STOP": "Carry this track's own stop conditions to the participant. data/record-clearing/legal-design-track-registry.json holds selfHelpStopConditions for this track; quote them rather than restating them, in a 'when to stop and get a lawyer' block in participant-instructions.md and on the filing_instructions page. The general 'not legal advice' paragraph is not a substitute and should stay where it is. TRUTH4 check B records the same gap on 128 families from the same class of composer, so this is a central change with a per-track data read, not a hand edit of three packets."
+   },
+   "whatIsNotWrong": "CLIPPING_AND_OVERLAP passes on these bytes and the FIX63 repair is not in question: the placement sweep is clean in both fixtures with a live negative control, and measured against the pinned form stripped of every annotation, not one unmarked selection widget carries a pixel of the packet's own ink. Nine counters are zero, measured here. The failures are in the packet's words and in its route record, not in its ink.",
+   "repairMustNotDo": [
+    "Do not rebuild or re-render the fixtures for the fee or self-help repair unless the composed pages actually change; if they do, both digests move and a fresh central raster and a fresh independent read are owed.",
+    "Do not invent a fee figure. The records establish that none is charged; state that, and cite it.",
+    "Do not delete the CCRE-charge sentence: that cost is real and separately established.",
+    "Do not write any value onto a protected, court-only, prosecutor-only or signature field.",
+    "Do not open, promote or price any route; a repair reopens nothing.",
+    "Do not resolve the route-key disagreement by deleting the printed footer alone if the field map keeps the unknown key; the two records must agree with the census.",
+    "A lane that did not perform the repair must verify the result."
+   ],
+   "grantsNothing": "This assignment opens no route, promotes no packet and releases no grant."
+  },
+  {
+   "itemId": "va_seal_enumerated_seven_year-set",
+   "lane": "VF04",
+   "wave": "packet-factory-24h/VF04/virginia-post-FIX63-read (2026-09-05)",
+   "worker": "VF04 independent-verification, branch vf04-va-read (built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-enumerated-seven-year-set--official-pdf-fill",
+   "verifiedAtBase": "a8f99a33a",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "fixturesMoved": false,
+   "canonicalSha256": "34d42262da86edae01a0c3bef54add2789e9084ab72d7f49c6d8c25d67a80aff",
+   "boundarySha256": "eb4632d4bb8ffb4a5d88c154d965b10c08d7848b12807dfd46e21283bf23d671",
+   "decisiveDefect": "The packet prints, on four participant-facing pages of each fixture and in participant-instructions.md, a route key that exists in no route record in this repository, while the family's own product-wiring binds a different key that does exist. The packet tells the participant, in the instructions and again on the delivered filing-instructions page, that the filing fee and whether it can be waived are not established and that they must ask the circuit court clerk. Four committed records establish, for this exact route, that no court fees or costs are charged and that there is nothing to waive. A participant filing a free petition is sent to a counter to ask its price. Separately, none of this track's registry stop conditions reaches the participant.",
+   "failedProofObligations": [
+    "ROUTE_IDENTITY",
+    "FEE_AND_WAIVER",
+    "SELF_HELP_STOP"
+   ],
+   "perObligation": {
+    "ROUTE_IDENTITY": "Make the route key the packet PRINTS, and the key production-field-map.json declares, be a key the route obligation census actually carries. product-wiring.json already binds the census key for this family; the field map and the printed footer carry a key that occurs zero times in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json. Either correct the field map and the footer to the census key, or, if the printed key is the intended route, add it to the census and reconcile the product wiring - but the packet must not print a key that is neither. The key is emitted by scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, which builds four Virginia families, so check all four rather than editing one.",
+    "FEE_AND_WAIVER": "State the answer the repository holds instead of delegating it. In participant-instructions.md ('Two things this packet does not tell you') and in the filing_instructions composed component ('TWO THINGS THIS PACKET DOES NOT TELL YOU'), replace the fee refusal with: no court fees or costs are charged for this petition, on Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), and there is therefore no waiver to apply for. Keep, and keep separate, the CCRE's own charge for the participant's own copy of their criminal history record, which the same records establish as a different cost. The sources: the committed packet-set manifest's pay_fee and apply_fee_waiver actions for this packetSetId, VA.memo.json rules.fees and rules.feeWaiver for this track, the census destination detail 'File the petition with no court fees or costs', and the compiled profile line 'Sealing petition (Sec. 19.2-392.12) $0 No court fees or costs (from 7/1/2026)'. Do NOT keep the named-authority sentence as well: DET-FEE-AND-WAIVER-001 A1 forecloses delegation where the repository holds the answer. The service-deadline sentence in the same block is honest and should stay - no committed record establishes a participant service deadline for this route.",
+    "SELF_HELP_STOP": "Carry this track's own stop conditions to the participant. data/record-clearing/legal-design-track-registry.json holds selfHelpStopConditions for this track; quote them rather than restating them, in a 'when to stop and get a lawyer' block in participant-instructions.md and on the filing_instructions page. The general 'not legal advice' paragraph is not a substitute and should stay where it is. TRUTH4 check B records the same gap on 128 families from the same class of composer, so this is a central change with a per-track data read, not a hand edit of three packets."
+   },
+   "whatIsNotWrong": "CLIPPING_AND_OVERLAP passes on these bytes and the FIX63 repair is not in question: the placement sweep is clean in both fixtures with a live negative control, and measured against the pinned form stripped of every annotation, not one unmarked selection widget carries a pixel of the packet's own ink. Nine counters are zero, measured here. The failures are in the packet's words and in its route record, not in its ink.",
+   "repairMustNotDo": [
+    "Do not rebuild or re-render the fixtures for the fee or self-help repair unless the composed pages actually change; if they do, both digests move and a fresh central raster and a fresh independent read are owed.",
+    "Do not invent a fee figure. The records establish that none is charged; state that, and cite it.",
+    "Do not delete the CCRE-charge sentence: that cost is real and separately established.",
+    "Do not write any value onto a protected, court-only, prosecutor-only or signature field.",
+    "Do not open, promote or price any route; a repair reopens nothing.",
+    "Do not resolve the route-key disagreement by deleting the printed footer alone if the field map keeps the unknown key; the two records must agree with the census.",
+    "A lane that did not perform the repair must verify the result."
+   ],
+   "grantsNothing": "This assignment opens no route, promotes no packet and releases no grant."
+  },
+  {
+   "itemId": "va_seal_petition_felony-set",
+   "lane": "VF04",
+   "wave": "packet-factory-24h/VF04/virginia-post-FIX63-read (2026-09-05)",
+   "worker": "VF04 independent-verification, branch vf04-va-read (built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-seal-petition-felony-set--official-pdf-fill",
+   "verifiedAtBase": "a8f99a33a",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "fixturesMoved": false,
+   "canonicalSha256": "df2d104009b72d410d037eba14f632ccb39424ccb2b5b9738bda4c44d9056bdd",
+   "boundarySha256": "6b9c71ab019ff408cbba9e2226e46e6c86133358f1b704c7eccfacd48a42352b",
+   "decisiveDefect": "The packet prints, on four participant-facing pages of each fixture and in participant-instructions.md, a route key that exists in no route record in this repository, while the family's own product-wiring binds a different key that does exist. The packet tells the participant, in the instructions and again on the delivered filing-instructions page, that the filing fee and whether it can be waived are not established and that they must ask the circuit court clerk. Four committed records establish, for this exact route, that no court fees or costs are charged and that there is nothing to waive. A participant filing a free petition is sent to a counter to ask its price. Separately, none of this track's registry stop conditions reaches the participant.",
+   "failedProofObligations": [
+    "ROUTE_IDENTITY",
+    "FEE_AND_WAIVER",
+    "SELF_HELP_STOP"
+   ],
+   "perObligation": {
+    "ROUTE_IDENTITY": "Make the route key the packet PRINTS, and the key production-field-map.json declares, be a key the route obligation census actually carries. product-wiring.json already binds the census key for this family; the field map and the printed footer carry a key that occurs zero times in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json. Either correct the field map and the footer to the census key, or, if the printed key is the intended route, add it to the census and reconcile the product wiring - but the packet must not print a key that is neither. The key is emitted by scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, which builds four Virginia families, so check all four rather than editing one.",
+    "FEE_AND_WAIVER": "State the answer the repository holds instead of delegating it. In participant-instructions.md ('Two things this packet does not tell you') and in the filing_instructions composed component ('TWO THINGS THIS PACKET DOES NOT TELL YOU'), replace the fee refusal with: no court fees or costs are charged for this petition, on Va. Code Sec. 19.2-392.12(B) and Sec. 19.2-392.12:1(C), and there is therefore no waiver to apply for. Keep, and keep separate, the CCRE's own charge for the participant's own copy of their criminal history record, which the same records establish as a different cost. The sources: the committed packet-set manifest's pay_fee and apply_fee_waiver actions for this packetSetId, VA.memo.json rules.fees and rules.feeWaiver for this track, the census destination detail 'File the petition with no court fees or costs', and the compiled profile line 'Sealing petition (Sec. 19.2-392.12) $0 No court fees or costs (from 7/1/2026)'. Do NOT keep the named-authority sentence as well: DET-FEE-AND-WAIVER-001 A1 forecloses delegation where the repository holds the answer. The service-deadline sentence in the same block is honest and should stay - no committed record establishes a participant service deadline for this route.",
+    "SELF_HELP_STOP": "Carry this track's own stop conditions to the participant. data/record-clearing/legal-design-track-registry.json holds selfHelpStopConditions for this track; quote them rather than restating them, in a 'when to stop and get a lawyer' block in participant-instructions.md and on the filing_instructions page. The general 'not legal advice' paragraph is not a substitute and should stay where it is. TRUTH4 check B records the same gap on 128 families from the same class of composer, so this is a central change with a per-track data read, not a hand edit of three packets."
+   },
+   "whatIsNotWrong": "CLIPPING_AND_OVERLAP passes on these bytes and the FIX63 repair is not in question: the placement sweep is clean in both fixtures with a live negative control, and measured against the pinned form stripped of every annotation, not one unmarked selection widget carries a pixel of the packet's own ink. Nine counters are zero, measured here. The failures are in the packet's words and in its route record, not in its ink.",
+   "repairMustNotDo": [
+    "Do not rebuild or re-render the fixtures for the fee or self-help repair unless the composed pages actually change; if they do, both digests move and a fresh central raster and a fresh independent read are owed.",
+    "Do not invent a fee figure. The records establish that none is charged; state that, and cite it.",
+    "Do not delete the CCRE-charge sentence: that cost is real and separately established.",
+    "Do not write any value onto a protected, court-only, prosecutor-only or signature field.",
+    "Do not open, promote or price any route; a repair reopens nothing.",
+    "Do not resolve the route-key disagreement by deleting the printed footer alone if the field map keeps the unknown key; the two records must agree with the census.",
+    "A lane that did not perform the repair must verify the result."
+   ],
+   "grantsNothing": "This assignment opens no route, promotes no packet and releases no grant."
   }
  ],
  "supersededLaneMembership": {
@@ -1326,6 +1426,20 @@
    "ri_first_offender_felony-set"
   ],
   "theRepairIsOneCentralChangeNotThree": "The Rhode Island route-key pages and the Mississippi hard-split route key come from the same composer footer. A repair worker should change the composer once and re-render every family that carries it.",
+  "verifierMayNotRepair": "This lane wrote no overlay directory, no build script and no shared record. A defect found here is a verdict and a repair assignment, never an edit."
+ },
+ "vf04VirginiaReadAppend20260905": {
+  "appendedBy": "lane VF04, independent-verification, branch vf04-va-read, base a8f99a33a",
+  "assignmentsAdded": [
+   "va_seal_ancillary_matter_only-set",
+   "va_seal_enumerated_seven_year-set",
+   "va_seal_petition_felony-set"
+  ],
+  "assignmentsBefore": 22,
+  "assignmentsAfter": 25,
+  "earlierAssignmentsAltered": 0,
+  "assignmentCountFieldNote": "The top-level assignmentCount field still reads 22 and is left byte-unchanged; earlier waves also appended without touching it, and this lane does not rewrite an earlier record to keep a counter tidy. The assignments array now holds 25.",
+  "theRepairIsTwoCentralChangesNotSix": "The fee sentence and the missing stop conditions come from the shared build host scripts/build-census-v1-va_seal_petition_misdemeanor-set.mjs, which composes the filing_instructions and participant-instructions for four Virginia families; the unknown route key comes from the same host. A repair worker should change the host once, re-render every family it builds, re-raster centrally, and have a lane that did not repair verify the result. va_seal_petition_misdemeanor-set is not in this lane's grant and was neither read nor measured, but it is built by that host and should be checked for the same three defects.",
   "verifierMayNotRepair": "This lane wrote no overlay directory, no build script and no shared record. A defect found here is a verdict and a repair assignment, never an edit."
  }
 }

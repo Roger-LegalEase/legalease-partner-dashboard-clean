@@ -100,6 +100,10 @@ const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const BUILD_HOST = "scripts/build-census-v1-ga-host.mjs";
+
+/* The machine trailer, recognised the way the Oklahoma composer recognises it.
+ * It is the last line every composed component draws. */
+const TRAILER_LINE = /^(Route: |Route:$|Routes this set serves \()/;
 const MEMO_PATH = "data/record-clearing/legal-design-intake/GA.memo.json";
 const MANIFESTS_PATH = "data/record-clearing/legal-design-packet-set-manifests.json";
 
@@ -1150,13 +1154,6 @@ async function renderComposedPdf(fullText, title) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  let page = pdf.addPage([width, height]);
-  let y = height - margin;
-  const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
-    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-    y -= lineHeight;
-  };
   /* The shared separator-aware splitter. The private char-by-char copy that
    * stood here cut an over-long token at whichever character first reached the
    * margin; this one breaks at the token's own separators and chops only a run
@@ -1177,7 +1174,62 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  /* THE SOLE-OCCUPANT TRAILER PULL-DOWN.
+   *
+   * The route trailer is internal machine metadata rather than pleading text,
+   * so it is never left as the sole occupant of a participant-facing page:
+   * where the body ends flush with a page boundary the last content block is
+   * pulled down to keep it company. Ported from the Oklahoma composer
+   * (scripts/build-census-v1-rcap-ok-custom-pleading.mjs) onto this host's own
+   * pagination rather than invented here -- same soleOccupant predicate, same
+   * whole-block move, same refusal to move a block that would not fit, same
+   * guard.
+   *
+   * The row flow underneath it is the one this host already had. The loop it
+   * replaces drew row by row and started a new page when y fell below the
+   * margin, which is exactly rowsPerPage = floor((height - 2 * margin) /
+   * lineHeight) + 1 = 45 rows a page; rows are now laid into that same grid
+   * before anything is drawn, purely so the trailer can be caught sitting
+   * alone while the layout is still a plan. No block-cohesion rule is added,
+   * no constant moves, and pages are still created and drawn one at a time in
+   * the same order, so every component that did not end on a trailer-only page
+   * is paginated row for row and byte for byte as before. */
+  const rowsPerPage = Math.floor((height - 2 * margin) / lineHeight) + 1;
+  const blocks = [];
+  for (const raw of sanitizePdfText(fullText).split("\n")) {
+    blocks.push({ index: blocks.length, rows: wrap(raw), trailer: TRAILER_LINE.test(raw) });
+  }
+  const pages = [[]];
+  for (const block of blocks) {
+    for (const text of block.rows) {
+      let target = pages[pages.length - 1];
+      if (target.length === rowsPerPage) { pages.push([]); target = pages[pages.length - 1]; }
+      target.push({ text, block: block.index, trailer: block.trailer });
+    }
+  }
+  const soleOccupant = (rows) => rows.length > 0 && rows.every((r) => r.trailer || r.text === "");
+  for (let guard = 0; guard < blocks.length && pages.length > 1 && soleOccupant(pages[pages.length - 1]); guard++) {
+    const last = pages[pages.length - 1];
+    const previous = pages[pages.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    if (moved.length === 0 || moved.length + last.length > rowsPerPage) { previous.push(...moved); break; }
+    last.unshift(...moved);
+    if (previous.length === 0) pages.splice(pages.length - 2, 1);
+  }
+  for (const rows of pages) {
+    const page = pdf.addPage([width, height]);
+    let y = height - margin;
+    for (const row of rows) {
+      if (row.text) page.drawText(row.text, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
+      y -= lineHeight;
+    }
+  }
+  /* Proof, not intention: no delivered page of this document carries the
+   * trailer and nothing else. */
+  assert.ok(!pages.some(soleOccupant),
+    `renderComposedPdf left a page carrying only the route trailer in "${title}"`);
   /* No Georgia token reaches the column, so the splitter must never have run.
    * If a future edit lengthens a route key past 468pt this fails loudly here
    * instead of shipping a page whose text a participant cannot read. */

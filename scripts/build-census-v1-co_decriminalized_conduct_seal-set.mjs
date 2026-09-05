@@ -412,6 +412,24 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    /* FIX68. JDF-2371 fields 3J.1 and 3J.2 ship appearances whose /BBox is
+     * wider than the widget's own /Rect -- 222.79pt of rule in a 180pt box and
+     * 364.96pt of rule in a 144pt box. ISO 32000-1 12.5.5 requires the
+     * transformed BBox to be fitted to the /Rect (here scales of 0.808 and
+     * 0.395), and pdf-lib's flatten() emits a translation only, so the fit
+     * never happened: 42.79pt and 220.96pt of rule overhung their own boxes on
+     * packet page 2 of both fixtures. VF08 measured 5321 dark pixels outside
+     * those two rects per fixture at 300 dpi where the form's own conforming
+     * placement carries 4, and proved the ink is the shared step's rather than
+     * this family's by reproducing the identical pixel set from a zero-write
+     * flatten of the pinned source with the option OFF.
+     *
+     * Opting in pre-composes the 12.5.5 mapping into each affected
+     * appearance's own /Matrix. This is the shared step's defect, not
+     * Colorado's; the option is default-off and no other family's bytes move
+     * because this family passes it. No synthesized square was recorded for
+     * this family, so FIX50's suppressSynthesizedAppearances is not passed. */
+    fitAppearancesToRect: true,
     title: source.title
   });
   if (process.env.CO_DEBUG_RENDER) {

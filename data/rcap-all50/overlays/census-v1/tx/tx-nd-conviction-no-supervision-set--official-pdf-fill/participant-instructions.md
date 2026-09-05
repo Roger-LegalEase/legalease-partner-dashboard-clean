@@ -8,7 +8,7 @@ It contains the state's own forms: the Office of Court Administration model peti
 
 **The order form covers three sections at once.** Its page 2 has a box for §§ 411.0725, 411.073 and 411.0735, and yours is 411.0735. **None of the three is marked in this packet**, because the sentence above them says the *Court* finds which section applies — marking one would assert a finding no court has made.
 
-The platform filled in what it holds about you, in the shape each form asks for it: your name on the petition, the proposed order and the Statement, your telephone number on the petition, and your date of birth, address, telephone number and email on the Statement.
+The platform filled in what it holds about you, in the shape each form asks for it: your name on the petition, the proposed order and the Statement, your telephone number on the petition, and your date of birth, address, telephone number and email on the Statement. The Statement asks for your date of birth twice; it is written on page 2 and left for you on page 11, for the reason given under *Things the platform deliberately left blank*.
 
 **Your address is not written on the petition, and that is deliberate.** That block splits it across Address and City/State/Zip, and the platform holds your address as a single line and will not guess where the street ends. The Statement asks for the whole address in one blank, so there it is filled in.
 
@@ -110,6 +110,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 | Court identity on the Statement caption (County / Condado) | the court number and county from the top of your petition - the form says to copy them from the petition |
 | County and state where the declaration is signed | the county and state where you sign this declaration |
 | Court identity on the Statement caption (Court Number / Número del Tribunal) | the court number and county from the top of your petition - the form says to copy them from the petition |
+| Date-of-birth box on the Option 1 declaration, page 11 (Day / Día) | the DAY and the YEAR of your date of birth, in the second and third boxes under "My date of birth is / Mi fecha de nacimiento es" on page 11 of the Statement - copy them from the date of birth already printed on page 2 of the Statement |
 | Property, expense or debt entry: Debt payments to list Pagos por deudas hechas a indíquelosRow1 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: Debt payments to list Pagos por deudas hechas a indíquelosRow2 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Income or employment entry: Describe  describa 1 | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
@@ -134,6 +135,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 | Income or employment entry: in unemployment  en beneficios de desempleo | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 | Income or employment entry: is my total monthly income  son mis ingresos totales al mes | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 | Mailing address line on the Statement | your mailing address, which you write here yourself - it is already printed on this form's other address line, so copy it across |
+| Month box of the date of birth on the Option 1 declaration, page 11 | the MONTH of your date of birth, in the first of the three boxes under "My date of birth is / Mi fecha de nacimiento es" on page 11 of the Statement - copy it from the date of birth already printed on page 2 of the Statement. The same form field is also the notary's month blank on page 12; leave that one for the notary |
 | Property, expense or debt entry: My debts include / Mis duedas incluyen 1 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: My debts include / Mis duedas incluyen 2 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: My debts include / Mis duedas incluyen 3 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
@@ -169,6 +171,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 | Property, expense or debt entry: Value / Valor 7 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: Value / Valor 8 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
 | Property, expense or debt entry: Value / Valor 9 | the entry and the amount, from your own records - this is sworn under penalty of perjury, so take the figures from statements and bills rather than from memory |
+| Date-of-birth box on the Option 1 declaration, page 11 (Year / Año) | the DAY and the YEAR of your date of birth, in the second and third boxes under "My date of birth is / Mi fecha de nacimiento es" on page 11 of the Statement - copy them from the date of birth already printed on page 2 of the Statement |
 | Income or employment entry: your | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 | Income or employment entry: your job title for | the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory |
 
@@ -193,6 +196,7 @@ Each is a blank on the official form named beside it. Fill every one that belong
 - **Both parts of your address on the petition**, because that block splits what the platform holds as one line.
 - **Every financial fact on the Statement of Inability.** It is sworn under penalty of perjury and the platform holds none of it.
 - **The cause number on the Statement.** Its own face says the Clerk's office fills that in when you file.
+- **The three date-of-birth boxes on page 11 of the Statement** — the month box, the day box and the year box under "My date of birth is / Mi fecha de nacimiento es". They are yours rather than the platform's for a mechanical reason, not a legal one: on this form the month box is one form field with the notary's month on page 12, and the platform cannot write one without writing the other, so it writes neither and leaves the whole line to you. Your date of birth is already printed on page 2 of the same Statement — copy it across.
 - **The district attorney's name and address**, if that county wants the proof of delivery.
 
 ## When to stop and get help instead

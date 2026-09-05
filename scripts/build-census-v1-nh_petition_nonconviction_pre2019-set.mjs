@@ -67,6 +67,8 @@ import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-w
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 
 /*
  * The calibrated page rasterizer, resolved wherever it lives.
@@ -93,6 +95,36 @@ const OUT = "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre
 const BUILD_SCRIPT = "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs";
 
 /*
+ * WHAT THE SOURCE ITSELF DRAWS INSIDE A FIELD, AND WHETHER IT MAY REACH THE FILING.
+ *
+ * Refusing to WRITE a field does not clear the appearance the source ships in
+ * it. Two of these four forms ship one:
+ *
+ *   NHJB-2311 sig.8      -- no /V at all, and a widget appearance drawing
+ *                           "Enter /s/ before name" in /TiBo 12 at 0.75 g. Grey,
+ *                           legible, sitting on the Signature of Filer rule of a
+ *                           motion nobody has signed.
+ *   NHJB-2328 12.total,  -- /V "0" and an appearance drawing "0.00" at 1 g,
+ *   money.total,            WHITE. Invisible on the page and present in the text
+ *   monthly.total           layer, on a sworn financial affidavit whose every
+ *                           contributing line is blank.
+ *
+ * All four are /Tx text fields, so the finalizer's structural default calls each
+ * of them the court's own ink and preserves it. It is not the court's ink: each
+ * is a participant input the source ships pre-answered or pre-prompted, and this
+ * build refuses to write all four in its own field map. What the appearance
+ * MEANS is recorded per field:component in the shared registry at
+ * data/rcap-all50/shared/field-appearance-semantics.json and handed to the
+ * finalizer here, which drops the value and every widget appearance of an
+ * unwritten field it is told is a participant input. Nothing is decided by field
+ * name, form or text in this file or in the finalizer: only by the disposition.
+ *
+ * A component with no registry entry is handed an empty map and keeps the
+ * structural default, so NHJB-2317 and NHJB-2956 are byte-unaffected by this.
+ */
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
+
+/*
  * THE COST OF FILING, READ OUT OF THE COMMITTED RECORD RATHER THAN DENIED.
  *
  * This packet used to tell the participant that "the fee for a petition to annul
@@ -112,7 +144,19 @@ const BUILD_SCRIPT = "scripts/build-census-v1-nh_petition_nonconviction_pre2019-
  * print a figure this file remembered.
  */
 const GROUNDING_RECORDS = Object.freeze({
-  memo: "data/record-clearing/legal-design-intake/NH.memo.json"
+  memo: "data/record-clearing/legal-design-intake/NH.memo.json",
+  /*
+   * The track registry is bound as well as the memo, because the packet now
+   * prints something out of it. Independent verification measured this family at
+   * 0 of 8 self-help stop conditions carried while the comparative families it
+   * holds carried 13/13, 5/5 and 7/7, and four of the eight are warnings a
+   * participant can be harmed by not having -- the RSA 651:5, IV three-year bar
+   * on a further petition, that the annulment is not recognised federally or for
+   * immigration, that RSA 651:5, XVII does not oblige a private background-check
+   * database to remove the record, and that annulment does not restore firearm
+   * rights. A packet that prints them must bind the record they came from.
+   */
+  trackRegistry: "data/record-clearing/legal-design-track-registry.json"
 });
 const MEMO_TRACK_ID = "nh_petition_nonconviction_pre2019";
 /* The schedule the memo names in its own officialSources list. */
@@ -192,6 +236,45 @@ function loadFeeGrounding() {
   assert.ok(schedule, `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} names no ${FEE_SCHEDULE_TITLE_PREFIX} source`);
 
   return { record: memo, track, fees, feeWaiver, sharedFee, schedule };
+}
+
+/*
+ * WHERE SELF-HELP ENDS, IN THE RECORD'S OWN WORDS.
+ *
+ * The committed legal-design record holds eight selfHelpStopConditions for this
+ * track and the packet used to carry none of them. They are read here rather
+ * than restated, and every one of the eight is printed verbatim: a stop
+ * condition paraphrased is a stop condition weakened, and the two that carry a
+ * statute cite -- RSA 651:5, IV and RSA 651:5, XVII -- lose the cite in any
+ * paraphrase.
+ *
+ * TWO RECORDS, AND THEY MUST AGREE. The registry is the record independent
+ * verification named; the intake memo carries the same track and this family
+ * already binds it by SHA-256 for the fee. Both are read and asserted identical,
+ * so the packet cannot print eight sentences that only one of them holds. A
+ * count that is not eight, or a disagreement between the two, stops the build
+ * rather than shipping a shortened list.
+ */
+const SELF_HELP_STOP_CONDITIONS_EXPECTED = 8;
+
+function loadSelfHelpStops(memo) {
+  const registry = readGroundingRecord(GROUNDING_RECORDS.trackRegistry);
+  const track = (registry.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  assert.ok(track, `${GROUNDING_RECORDS.trackRegistry} holds no track ${MEMO_TRACK_ID}`);
+
+  const conditions = track.selfHelpStopConditions ?? [];
+  assert.equal(conditions.length, SELF_HELP_STOP_CONDITIONS_EXPECTED,
+    `${GROUNDING_RECORDS.trackRegistry} track ${MEMO_TRACK_ID} carries ${conditions.length} selfHelpStopConditions, `
+    + `not ${SELF_HELP_STOP_CONDITIONS_EXPECTED}; the packet prints every one of them and will not print a list it cannot account for`);
+  for (const c of conditions) {
+    assert.ok(typeof c === "string" && c.trim().length > 0, "a self-help stop condition is empty");
+  }
+
+  const fromMemo = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID)?.selfHelpStopConditions ?? [];
+  assert.deepEqual(fromMemo, conditions,
+    `${GROUNDING_RECORDS.memo} and ${GROUNDING_RECORDS.trackRegistry} disagree on this track's self-help stop conditions`);
+
+  return { record: registry, conditions, boundaries: track.selfHelpBoundaries ?? [] };
 }
 
 const SUPPLY = (what) => ({ policy: "supply", what });
@@ -666,6 +749,17 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
+    /* VF08 read all 38 selection-widget rects across canonical.pdf and
+     * boundary.pdf as delivering a stroked square that NHJB-2317 and NHJB-2328
+     * do not print: each widget's current /AS state has no stream in /AP /N, so
+     * a conforming viewer paints nothing there. VF08's zero-write baseline over
+     * the same pinned bytes painted the identical pixels, so the ink comes from
+     * the shared flattening step and not from this family. Opting in supplies
+     * the missing state as an EMPTY appearance, so nothing is synthesized and
+     * nothing is flattened there. A widget of a field this run writes, and any
+     * widget whose /AS state ships its own appearance, are untouched by this. */
+    suppressSynthesizedAppearances: true,
     title: source.title
   });
   if (process.env.CO_DEBUG_RENDER) {
@@ -962,7 +1056,7 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf, fee) {
+function participantInstructions(maps, rbf, fee, stops) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -1032,8 +1126,8 @@ function participantInstructions(maps, rbf, fee) {
   out.push("3. **Read the certification on page 2 before you tick anything.** Every box there is a statement you swear to under penalties of law, and several are legal characterisations of your own record — whether the time requirements of RSA 651:5, III are met, whether the matter is a violent crime or a felony crime of obstruction of justice, whether it carries an enhanced penalty for a second conviction. None of them is ticked for you, and none of them should be ticked until you know it is true.");
   out.push("4. **Decide whether to ask for a hearing.** The form says the court may decide your petition without one after reading the Department of Corrections report and any response from the State. If you want a hearing, tick the box that asks for it.");
   out.push("5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.");
-  out.push("6. **If you fill NHJB-2328 in by hand, correct the printed totals.** The form prints **Total $ 0.00** under each column because that is the value it ships with, and a printed packet cannot add up what you write on it. Cross the 0.00 out and write the real total, or fill the form in on a computer before you print it.");
-  out.push("7. **The signature line on NHJB-2311 already reads \"Enter /s/ before name\".** That is the form's own instruction, printed in the box: New Hampshire wants your electronic signature written as /s/ followed by your name.");
+  out.push("6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and the lines that feed it are blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.");
+  out.push("7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries \"Enter /s/ before name\" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: \"If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe\". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.");
   out.push("8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.");
   out.push("");
 
@@ -1058,6 +1152,28 @@ function participantInstructions(maps, rbf, fee) {
   out.push("- **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.");
   out.push("- **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.");
   out.push("");
+
+  out.push("## Where self-help ends", "");
+  out.push(
+    "This packet prepares four official forms; it decides nothing. The committed legal-design record for this route "
+    + "names the points where preparing your own papers stops being enough, and it names "
+    + `${stops.conditions.length} of them. They are set out below in that record's own words. If any one of them `
+    + "describes your case, stop here and get advice from a **lawyer licensed in New Hampshire** before you file. "
+    + "The clerk of the court that handled your matter can tell you what the court requires procedurally, but a clerk "
+    + "cannot give you legal advice. This packet does not name a legal-aid organisation or a referral line, for the "
+    + "same reason it prints no courthouse address: the platform holds no sourced New Hampshire directory, and an "
+    + "invented one in a filing instruction is worse than none.", ""
+  );
+  for (const condition of stops.conditions) out.push(`- ${condition}`);
+  out.push("");
+  out.push(
+    "Four of those are worth reading twice, because they cost money or they mislead. **RSA 651:5, IV bars a further "
+    + "petition more often than every three years** — if a petition to annul this matter was denied within the last "
+    + "three years, you are about to pay a filing fee for a petition the statute bars. **An annulment is a New "
+    + "Hampshire court order about a New Hampshire record**: it is not recognised federally and it does not resolve "
+    + "immigration consequences. **RSA 651:5, XVII does not oblige a private background-check company to remove the "
+    + "record** from its database. And **an annulment does not restore firearm rights.**", ""
+  );
 
   out.push("## What annulment does, and what it does not do", "");
   out.push(
@@ -1094,6 +1210,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
   /* Bound before anything is rendered, so a memo that stopped stating the fee
    * stops the build rather than producing a packet that quietly omits it. */
   const fee = loadFeeGrounding();
+
+  /* Bound and asserted before anything is composed, for the same reason as the
+   * fee: a record that stopped holding the eight stop conditions stops the build
+   * rather than producing a packet that quietly omits them again. */
+  const stops = loadSelfHelpStops(fee.record);
 
   const censuses = [];
   for (const source of resolved) {
@@ -1209,7 +1330,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, fee);
+  const instructionsText = participantInstructions(maps, rbf, fee, stops);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1245,6 +1366,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
           "participant-instructions.md quotes this track's fee, single-fee-per-location rule and waiver papers verbatim. "
           + "Before this binding the packet told the participant no source it held established a fee, which was true of "
           + "its four form binaries and false of the repository."
+      },
+      {
+        path: stops.record.path, sha256: stops.record.sha256, byteLength: stops.record.byteLength,
+        trackId: MEMO_TRACK_ID,
+        fieldsQuotedOnParticipantSurfaces: ["selfHelpStopConditions"],
+        selfHelpStopConditionsCarriedVerbatim: stops.conditions.length,
+        whyItIsBound:
+          "participant-instructions.md prints all " + stops.conditions.length + " of this track's self-help stop "
+          + "conditions word for word under 'Where self-help ends'. Independent verification measured the packet at 0 "
+          + "of 8 carried while the record held all eight, so the record the sentences come from is bound by SHA-256 "
+          + "here and the build asserts it still holds exactly eight, and that the intake memo agrees with it, before "
+          + "printing any of them."
       }
     ],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
@@ -1270,7 +1403,78 @@ export async function runFamily(argv = process.argv.slice(2)) {
         isSelectionControl: r.isSelectionControl, multiline: r.multiline, maxLength: r.maxLength,
         section: r.section, effectiveLabel: r.effectiveLabel, policy: r.policy, factId: r.fact,
         printedTextAtCoordinate: r.printedTextAtCoordinate
-      }))
+      })),
+      /*
+       * WHAT THE BLANK OFFICIAL FORM ALREADY CARRIES IN EACH FIELD.
+       *
+       * The `fields` array above says what each field IS. This says what the
+       * source ships INSIDE it before any participant sees the form, which is a
+       * different question and the one the corpus-wide check
+       * scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs
+       * asks: every value an official source ships inside a field must be
+       * dispositioned by somebody, on the record, before the bytes go out. Until
+       * this family emitted it, that check could not see New Hampshire at all --
+       * it reads `documents[].rows[].sourceValuePresentInBlankForm`, this census
+       * carried no `rows`, and a family that is invisible to a checker is not a
+       * clean family.
+       *
+       * TWO PLACES A SOURCE CAN CARRY A VALUE, AND BOTH ARE READ. NHJB-2328's
+       * three totals carry theirs in /V. NHJB-2311's signature box carries no /V
+       * at all and carries its placeholder in the widget's own appearance
+       * stream, which flattens onto the page exactly the same way; a reader that
+       * looked only at /V would report that form as shipping nothing. So the
+       * value is taken from /V where there is one, and otherwise from the ink
+       * the PINNED SOURCE ITSELF draws at that widget's rectangle when flattened
+       * unwritten -- the same sourceInk measurement the byte proof uses, so the
+       * two cannot disagree.
+       *
+       * Whitespace is not a value. Three choice controls on these forms ship
+       * /V " ", a single space, which draws nothing and asserts nothing; they
+       * are recorded as carrying null rather than as carrying a space, because a
+       * checker asked to disposition a space would be asked to disposition
+       * nothing.
+       *
+       * A CONTROL THE STRUCTURAL RULE ALREADY ANSWERS IS NOT AN UNDISPOSITIONED
+       * VALUE, AND IT IS ALSO NOT HIDDEN. Sixteen of these fields are
+       * pushbuttons whose /MK caption -- "Clear Form", "Lock & Save Form", "Top
+       * of Page", "Instructions" -- the source draws, and one is a dropdown
+       * shipping a selected option on a section this route does not use. The
+       * finalizer removes a pushbutton as chrome and drops an unanswered
+       * chooser's prompt without consulting any registry, so neither can reach a
+       * filing and neither is the defect this check exists to catch. Recording
+       * them as source-carried values would ask a human to disposition, by name,
+       * seventeen appearances that are already gone -- seventeen manufactured
+       * findings. They are recorded instead under
+       * sourceAppearanceOnAControlTheStructuralRuleAlreadyAnswers, with the
+       * disposition that removes each one named, so the reader can see what was
+       * excluded and why rather than having to trust that nothing was.
+       */
+      rows: census.rows.map((r) => {
+        const declared = r.sourceValue === null || r.sourceValue === undefined
+          ? null : String(Array.isArray(r.sourceValue) ? r.sourceValue.join(" ") : r.sourceValue);
+        const declaredValue = declared !== null && declared.trim() !== "" ? declared : null;
+        const drawn = (r.widgets ?? [])
+          .flatMap((w) => drawnAt(sourceInkByForm.get(source.formNumber) ?? [], { page: w.page, rect: w.rect }))
+          .map((d) => d.text).filter(Boolean).join("").trim();
+        const drawnValue = drawn !== "" ? drawn : null;
+        const carried = declaredValue ?? drawnValue;
+        const structurallyAnswered = r.type === "button"
+          ? "suppress_control_appearance: a pushbutton is chrome and the finalizer removes it"
+          : r.isSelectionControl === true
+            ? "render_participant_value_only_when_written: an unanswered chooser's prompt is dropped by the finalizer"
+            : null;
+        return {
+          field: r.key, type: r.type, page: r.page, rect: r.rect, rectBasis: r.rectBasis,
+          isSelectionControl: r.isSelectionControl, policy: r.policy, factId: r.fact ?? null,
+          effectiveLabel: r.effectiveLabel, section: r.section,
+          sourceValuePresentInBlankForm: structurallyAnswered === null ? carried : null,
+          sourceValueCarriedIn: structurallyAnswered !== null || carried === null
+            ? null
+            : declaredValue !== null ? "acroform_field_value" : "widget_appearance_stream_the_source_ships",
+          sourceAppearanceOnAControlTheStructuralRuleAlreadyAnswers:
+            structurallyAnswered !== null && carried !== null ? { text: carried, removedBy: structurallyAnswered } : null
+        };
+      })
     }))
   });
 

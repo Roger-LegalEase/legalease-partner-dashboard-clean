@@ -45,6 +45,8 @@ import { extractTextItems, groupIntoLines } from "../rcap-official-forms/rcap-pd
 import { stampDeterministic } from "../rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "../rcap-packet-completeness/completeness-contract.mjs";
 import { preserveIdentityRefresh } from "../rcap-packet-completeness/identity-refresh.mjs";
+import { stripMarkdownEmphasis, assertNoMarkdownDelimitersOnDeliveredPages } from "./composed-page-markdown.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./split-token.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 export const ROOT = path.resolve(path.dirname(thisFile), "../..");
@@ -57,8 +59,13 @@ export const ELECTION_CLASS = "participant_sworn_narrative_or_legal_election";
 
 export const DOTS = (n = 84) => ".".repeat(n);
 
+/* Source markup a PDF page cannot render is removed before the normalisations
+ * below, on the same footing as the characters they normalise away: emphasis
+ * delimiters are markdown in participant-instructions.md and four black
+ * asterisks on a composed page. See composed-page-markdown.mjs. A string that
+ * carries no closed emphasis pair passes through unchanged. */
 export function sanitizePdfText(text) {
-  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+  return stripMarkdownEmphasis(text).replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
     .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
     .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
     .replaceAll("§", "Sec. ").replaceAll("…", "...");
@@ -144,15 +151,16 @@ async function renderComposedPdf(fullText, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /* A token too wide for the 468pt column breaks at its OWN separators -- the
+   * colons and hyphens a route key is built from -- and never mid-word. The
+   * private character-accumulating splitter this replaces printed
+   * "...-conviction-expungemen" / "t-99-19-71-1" on five delivered pages per
+   * fixture, severing the word the route is named for. The shared module is
+   * scripts/rcap-custom-pleading/split-token.mjs; the same move FIX21 made for
+   * the Georgia and Kentucky hosts and FIX35 for Rhode Island. hardSplits is
+   * asserted zero per composed document below, so a future key with no
+   * separator to break on fails the build rather than shipping chopped. */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -166,6 +174,8 @@ async function renderComposedPdf(fullText, title) {
     return rows;
   };
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  assert.equal(splitToken.hardSplits, 0,
+    `${title}: a token was chopped mid-word to fit the column; it has no separator to break on and must not ship broken`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
@@ -180,6 +190,10 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   const pages = doc.getPages();
   assert.equal(pages.length, pageManifest.length, "the page manifest must describe every page of the packet");
   const textOfPage = pages.map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  /* No delivered page may print markup. Read from the saved bytes, so it holds
+   * whatever the markup arrived from -- a component body, a fixture value, or a
+   * future edit to either. */
+  assertNoMarkdownDelimitersOnDeliveredPages(textOfPage, fixtureName);
   const textOfComponent = new Map();
   for (const [i, m] of pageManifest.entries()) {
     textOfComponent.set(m.component, `${textOfComponent.get(m.component) ?? ""} ${textOfPage[i]}`);
@@ -327,6 +341,111 @@ function hashFile(rel) {
   return { path: rel, sha256: crypto.createHash("sha256").update(bytes).digest("hex"), byteLength: bytes.length };
 }
 
+
+/* ---- the specification the route binds, measured against the delivered pages -------- *
+ * OPT-IN, and silent for a family that does not declare it: a family with no
+ * `packetSpecification` gets exactly the records it got before, byte for byte.
+ *
+ * WHY IT EXISTS. VF06 failed ms-nonconv-set on COMPONENT_SET at b3467e894 for a
+ * defect no counter could see. The packet specification the route binds names
+ * five documents; the build declared five components of its own, rendered all
+ * five, compared the delivered pages against its OWN declaration, and reported
+ * 5/5. One of the specification's five documents -- the required order-1 cover
+ * and contents page -- had no component at all, so the omission was invisible to
+ * requiredComponentsMissing by construction. A component set measured only
+ * against the build's own report of itself cannot fail; measured against the
+ * server-owned specification, it can.
+ *
+ * So a declaring family states, per specification document, either which of its
+ * components render it or an explicit disposition saying why nothing does. A
+ * specification document that is neither rendered nor dispositioned stops the
+ * build. A rendered binding must name components this family actually has AND
+ * that actually reach a page in every fixture, so a component that stops being
+ * rendered stops the build too.
+ */
+function specificationConformance(family, artifacts, componentIds) {
+  const declared = family.packetSpecification;
+  if (!declared) return null;
+  const rel = declared.path;
+  assert.ok(fs.existsSync(path.join(ROOT, rel)), `packet specification missing: ${rel}`);
+  const identity = hashFile(rel);
+  const spec = JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+  const specDocuments = Array.isArray(spec.documents) ? spec.documents : [];
+  assert.ok(specDocuments.length > 0, `${rel}: the specification names no documents`);
+
+  const binding = declared.documentBinding ?? {};
+  for (const documentId of Object.keys(binding)) {
+    assert.ok(specDocuments.some((d) => d.documentId === documentId),
+      `packetSpecification.documentBinding names ${documentId}, which is not a document of ${rel}`);
+  }
+
+  /* Which components actually reach a page, read from each fixture's own page
+   * manifest rather than from the component list the build intended. */
+  const renderedComponentsPerFixture = artifacts.map((a) => new Set(a.pageManifest.map((p) => p.component)));
+
+  const documents = specDocuments
+    .slice()
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    .map((d) => {
+      const bound = binding[d.documentId];
+      assert.ok(bound, `${rel}: specification document ${d.documentId} (${d.requirement ?? "unspecified"}) is neither rendered nor dispositioned by ${family.buildScript}`);
+      const renderedBy = Array.isArray(bound.renderedBy) ? bound.renderedBy : [];
+      if (renderedBy.length === 0) {
+        assert.ok(typeof bound.disposition === "string" && bound.disposition.length > 0,
+          `${rel}: specification document ${d.documentId} renders nothing and carries no disposition`);
+        assert.ok(typeof bound.why === "string" && bound.why.length > 0,
+          `${rel}: specification document ${d.documentId} carries a disposition with no stated reason`);
+        return {
+          documentId: d.documentId, role: d.role ?? null, order: d.order ?? null,
+          requirement: d.requirement ?? null, title: d.title ?? null,
+          rendered: false, renderedByComponents: [],
+          disposition: bound.disposition, why: bound.why,
+          pages: {}
+        };
+      }
+      for (const componentId of renderedBy) {
+        assert.ok(componentIds.includes(componentId),
+          `${rel}: specification document ${d.documentId} binds component ${componentId}, which this family does not declare`);
+        for (const [i, rendered] of renderedComponentsPerFixture.entries()) {
+          assert.ok(rendered.has(componentId),
+            `${rel}: specification document ${d.documentId} binds component ${componentId}, which reaches no page of the ${artifacts[i].fixture} fixture`);
+        }
+      }
+      return {
+        documentId: d.documentId, role: d.role ?? null, order: d.order ?? null,
+        requirement: d.requirement ?? null, title: d.title ?? null,
+        rendered: true, renderedByComponents: renderedBy,
+        disposition: null, why: null,
+        pages: Object.fromEntries(artifacts.map((a) => [
+          a.fixture,
+          a.pageManifest.filter((p) => renderedBy.includes(p.component)).map((p) => p.packetPage)
+        ]))
+      };
+    });
+
+  const rendered = documents.filter((d) => d.rendered).length;
+  assert.equal(rendered + documents.filter((d) => !d.rendered).length, specDocuments.length,
+    `${rel}: every specification document must be accounted for exactly once`);
+
+  return {
+    specification: identity.path,
+    specificationSha256: identity.sha256,
+    specificationByteLength: identity.byteLength,
+    specificationId: spec.specificationId ?? null,
+    specificationVersion: spec.specificationVersion ?? null,
+    packetFamily: spec.packetFamily ?? null,
+    measuredAgainst: "the specification the route binds, not this build's own componentSet",
+    documentsTheSpecificationNames: specDocuments.length,
+    documentsRendered: rendered,
+    documentsDispositionedWithoutRendering: specDocuments.length - rendered,
+    everySpecificationDocumentRendersOrIsDispositioned: true,
+    documents,
+    ...(declared.manifestGaps ? { manifestGaps: declared.manifestGaps } : {}),
+    ...(declared.openLegalQuestions ? { openLegalQuestions: declared.openLegalQuestions } : {}),
+    grantsNothing: "Conformance to the specification's document set is a build assertion. It is not independent verification, not a raster acceptance and not an approval."
+  };
+}
+
 /* ---- the entry point ----------------------------------------------------------------------- */
 export async function runComposedFamily(family, argv = process.argv.slice(2)) {
   process.chdir(ROOT);
@@ -409,6 +528,10 @@ export async function runComposedFamily(family, argv = process.argv.slice(2)) {
     });
   }
 
+  /* Measured after both fixtures are assembled, so it reads the page manifests
+   * the packets actually produced rather than the component list intended. */
+  const conformance = specificationConformance(family, artifacts, componentIds);
+
   const rbf = requiredBeforeFilingItems(family, maps);
   const instructionsText = family.participantInstructions(rbf);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
@@ -454,6 +577,7 @@ export async function runComposedFamily(family, argv = process.argv.slice(2)) {
     renderedFresh: true, derivedFromBytes: true,
     componentSet: componentIds,
     componentConditions,
+    ...(conformance ? { specificationConformance: conformance } : {}),
     pdfs: pdfsDeclared,
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
@@ -544,6 +668,15 @@ export async function runComposedFamily(family, argv = process.argv.slice(2)) {
     directory: OUT,
     implementationStrategy: "custom_pleading",
     components: componentIds,
+    ...(conformance ? {
+      specificationConformance: {
+        specification: conformance.specification,
+        specificationSha256: conformance.specificationSha256,
+        documentsTheSpecificationNames: conformance.documentsTheSpecificationNames,
+        documentsRendered: conformance.documentsRendered,
+        documentsDispositionedWithoutRendering: conformance.documentsDispositionedWithoutRendering
+      }
+    } : {}),
     writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
     requiredBeforeFiling: rbf.length,
     artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),

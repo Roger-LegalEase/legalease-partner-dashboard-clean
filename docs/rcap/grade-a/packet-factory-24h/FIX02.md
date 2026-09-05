@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `9efb77c0856b7e4f4908c9d5c34e8659e2654164` (or the newer dispatch base)
+**Minimum required ancestor:** `990f71db693622fc53d761cd1939c30cb2dc56d9` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'de_mandatory_expungement-set' \
+  --family 'nm_conviction-set' \
   --codex-cloud \
-  --minimum-captain-sha 9efb77c0856b7e4f4908c9d5c34e8659e2654164
+  --minimum-captain-sha 990f71db693622fc53d761cd1939c30cb2dc56d9
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -39,11 +39,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 ## Claim before you read
 
 - Assert only these 5 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'de_mandatory_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nm_conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nm_release_without_conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nv_seal_probation_family-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-exp-qualprob-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'vt_seal_dui-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,11 +63,11 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 ## The 5 families
 
-- `de_mandatory_expungement-set`
 - `nm_conviction-set`
 - `nm_release_without_conviction-set`
 - `al-diversion-set`
-- `nv_seal_probation_family-set`
+- `il-exp-qualprob-set`
+- `vt_seal_dui-set`
 
 ## What you receive
 
@@ -80,15 +80,15 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
-- `scripts/build-census-v1-de_mandatory_expungement-set.mjs`
+- `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/**`
 - `scripts/build-census-v1-nm_conviction-set.mjs`
 - `scripts/build-census-v1-nm_release_without_conviction-set.mjs`
-- `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
+- `scripts/build-census-v1-il-exp-qualprob-set.mjs`
+- `scripts/build-census-v1-vt_seal_dui-set.mjs`
 
 ## Never write here
 
@@ -98,10 +98,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**`
-- `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
 - `data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*`
-- `data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*`
 
 ## Required outputs
 

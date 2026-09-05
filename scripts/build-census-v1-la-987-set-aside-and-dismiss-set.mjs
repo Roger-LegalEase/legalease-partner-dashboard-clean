@@ -20,6 +20,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 import {
   BLANK_DISPOSITIONS,
   PASS_COUNTERS,
@@ -136,8 +137,6 @@ const FACTS = Object.freeze({
     "case.parish": "Tangipahoa Parish",
     "case.docket_number": "TEST-2026-000001",
     "case.division": "Division A",
-    "case.conviction_offense": "Offense wording from the canonical fixture court record",
-    "case.conviction_statute": "Statute citation from the canonical fixture court record",
     "case.conviction_level": "Misdemeanor - Article 894(B)",
     "case.conviction_date": "2021-04-17",
     "case.deferred_sentence_date": "2021-06-01",
@@ -152,12 +151,10 @@ const FACTS = Object.freeze({
     "case.parish": "Saint John the Baptist Parish",
     "case.docket_number": "TEST-BOUNDARY-2026-0000000000000001",
     "case.division": "Division Z-Long",
-    "case.conviction_offense": "Offense wording exactly as it appears on the boundary fixture court record, including the full court-record description",
-    "case.conviction_statute": "Statutory citation exactly as it appears on the boundary fixture court record",
     "case.conviction_level": "Felony - Article 893(E)",
     "case.conviction_date": "2018-12-31",
     "case.deferred_sentence_date": "2019-02-28",
-    "case.deferral_period": "Five years and the full period stated in the boundary fixture court record",
+    "case.deferral_period": "Five years",
     "case.probation_completion_date": "2024-02-28",
     "case.represented_by_counsel": "No - use the unrepresented mover block"
   }
@@ -382,8 +379,6 @@ function primaryMap() {
     written(FORM_ID, "parish", "Parish of conviction", "case.parish"),
     written(FORM_ID, "docket_number", "Docket or case number", "case.docket_number"),
     written(FORM_ID, "division", "Court division", "case.division"),
-    written(FORM_ID, "conviction_offense", "Conviction offense wording", "case.conviction_offense"),
-    written(FORM_ID, "conviction_statute", "Conviction statute", "case.conviction_statute"),
     written(FORM_ID, "conviction_level", "Misdemeanor or felony and selected Article", "case.conviction_level"),
     written(FORM_ID, "conviction_date", "Conviction or plea date", "case.conviction_date"),
     written(FORM_ID, "deferred_sentence_date", "Deferred sentence and probation date", "case.deferred_sentence_date"),
@@ -392,6 +387,20 @@ function primaryMap() {
     written(FORM_ID, "representation", "Whether the mover is represented by an attorney", "case.represented_by_counsel")
   ];
   const refusals = [
+    required(
+      FORM_ID,
+      "conviction_offense",
+      "Conviction offense wording",
+      "write the offense exactly as it is worded on your court record, taken from the minute entry or sentencing order for this docket that the clerk of the sentencing court holds",
+      "the committed Article 987 record collects the offense and the statute of conviction as the participant's own answer to \"What offence were you convicted of, and under what statute?\", and the court record this fixture declares carries neither, so this build holds no value to print and prints none"
+    ),
+    required(
+      FORM_ID,
+      "conviction_statute",
+      "Conviction statute",
+      "write the statutory citation exactly as it appears on your court record, taken from the same minute entry or sentencing order",
+      "the committed Article 987 record collects the offense and the statute of conviction as the participant's own answer to \"What offence were you convicted of, and under what statute?\", and the court record this fixture declares carries neither, so this build holds no value to print and prints none"
+    ),
     required(
       FORM_ID,
       "deferred_period_run_assertion",
@@ -486,15 +495,14 @@ function primaryBody(facts) {
     "MOTION TO SET ASIDE CONVICTION AND DISMISS PROSECUTION;",
     "RULE TO SHOW CAUSE; ORDER OF DISMISSAL",
     "La. C.Cr.P. art. 987 - statutory form composed from the committed LA-STATUTORY-FORMS authority",
-    `Assigned component identity: ${PRIMARY}`,
     ""
   ];
   caption(lines, facts);
   lines.push("MOTION TO SET ASIDE CONVICTION AND DISMISS PROSECUTION", "");
   lines.push(`Mover full legal name: ${facts["participant.full_legal_name"]}`);
   lines.push(`Mover date of birth: ${facts["participant.date_of_birth"]}`);
-  lines.push(`Conviction offense wording: ${facts["case.conviction_offense"]}`);
-  lines.push(`Conviction statute: ${facts["case.conviction_statute"]}`);
+  lines.push(`Conviction offense wording: ${DOTS(41)}`);
+  lines.push(`Conviction statute: ${DOTS(57)}`);
   lines.push(`Conviction or plea date: ${facts["case.conviction_date"]}`);
   lines.push(`Misdemeanor or felony and selected Article: ${facts["case.conviction_level"]}`);
   lines.push(`Deferred sentence and probation date: ${facts["case.deferred_sentence_date"]}`);
@@ -518,7 +526,7 @@ function primaryBody(facts) {
   lines.push(`Route: ${ROUTE_KEY}`);
   lines.push(PAGE_BREAK);
 
-  lines.push(FORM_ID, "RULE TO SHOW CAUSE", `Assigned component identity: ${PRIMARY}`, "");
+  lines.push(FORM_ID, "RULE TO SHOW CAUSE", "");
   caption(lines, facts);
   lines.push("PROPOSED RULE - COURT COMPLETES AND ISSUES THIS SECTION", "");
   lines.push("The district attorney is ordered to show cause why the Motion to Set Aside Conviction and Dismiss Prosecution should not be granted. The rule is directed to the district attorney; the court sets the return date, time, and place.", "");
@@ -527,10 +535,9 @@ function primaryBody(facts) {
   lines.push(`Courtroom or place set by the court clerk: ${DOTS(31)}`, "");
   lines.push(`Judge signature on the Rule to Show Cause: ${DOTS(30)}`, "");
   lines.push("Leave every line above blank for the court. The district attorney's response belongs to the district attorney and is not printed as a participant field in this packet.", "");
-  lines.push(`Route: ${ROUTE_KEY}`);
   lines.push(PAGE_BREAK);
 
-  lines.push(FORM_ID, "ORDER OF DISMISSAL", `Assigned component identity: ${PRIMARY}`, "");
+  lines.push(FORM_ID, "ORDER OF DISMISSAL", "");
   caption(lines, facts);
   lines.push("COURT USE ONLY - UNEXECUTED PROPOSED ORDER", "");
   lines.push("No finding has been made and no relief has been granted unless and until the judge completes and signs an order and the clerk enters it.", "");
@@ -542,7 +549,6 @@ function primaryBody(facts) {
   lines.push(`Place of the court order: ${DOTS(42)}`);
   lines.push(`Judge signature on the Order of Dismissal: ${DOTS(31)}`, "");
   lines.push("The participant leaves every finding, ruling, date, place, decretal paragraph, and judicial signature blank.", "");
-  lines.push(`Route: ${ROUTE_KEY}`);
   return lines.join("\n");
 }
 
@@ -578,7 +584,7 @@ function participantInstructions(requiredBeforeFiling, name) {
     "",
     "## Required before filing",
     "",
-    "Check every prefilled neutral participant and case fact against the court record and correct the packet if it disagrees. The two assertions below remain yours alone and are intentionally blank.",
+    "Check every prefilled neutral participant and case fact against the court record and correct the packet if it disagrees. Every item below remains yours alone and is intentionally left blank on the instrument.",
     "",
     "| Document | Blank on the document | What you must supply |",
     "| --- | --- | --- |"
@@ -642,14 +648,11 @@ function markdownToPlain(markdown) {
 function instructionsBody(facts, participantText, filingText) {
   return [
     TITLES[INSTRUCTIONS].toUpperCase(),
-    `Assigned component identity: ${INSTRUCTIONS}`,
     `Prepared for: ${facts["participant.full_legal_name"]}`,
     "",
     markdownToPlain(participantText),
     "",
-    markdownToPlain(filingText),
-    "",
-    `Route: ${ROUTE_KEY}`
+    markdownToPlain(filingText)
   ].join("\n");
 }
 
@@ -668,7 +671,22 @@ function sanitizePdfText(text) {
     .replaceAll("…", "...");
 }
 
-async function renderDocument(text, title) {
+/*
+ * THE PAGE FOOT IS CHROME, AND THE COMPOSED BODY IS NOT.
+ *
+ * Pages 2 and 3 of the Article 987 instrument ARE the court's sections - the
+ * Rule the court issues and the unexecuted proposed Order. A machine
+ * identifier set in body face at the body's own left margin, one line under
+ * the court section's closing sentence, reads as a line of the court's own
+ * section, which is what VF02 failed at 97be5bcda. The component identity now
+ * prints once per page as page-foot chrome instead: 7pt against the body's
+ * 10.25pt, grey, below a hairline rule, in the 60pt band beneath the body's
+ * bottom margin that no composed line can reach. The route trailer stays a
+ * composed body line in the register the passing families use, but only in the
+ * preparer's parts of the packet - the Motion and the instructions - and never
+ * inside a court-completed section.
+ */
+async function renderDocument(text, title, componentIdentity) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
   pdf.setTitle(title);
@@ -682,6 +700,9 @@ async function renderDocument(text, title) {
   const fontSize = 10.25;
   const lineHeight = 13.25;
   const maxWidth = width - (2 * margin);
+  const footerSize = 7;
+  const footerRuleY = 44;
+  const footerBaseline = 32;
   let page = pdf.addPage([width, height]);
   let y = height - margin;
   const newPage = () => { page = pdf.addPage([width, height]); y = height - margin; };
@@ -724,6 +745,18 @@ async function renderDocument(text, title) {
       if (row) page.drawText(row, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
       y -= lineHeight;
     }
+  }
+  const footer = `Assigned component identity: ${componentIdentity}`;
+  assert.ok(componentIdentity, "every composed component must carry a page-foot identity");
+  assert.ok(font.widthOfTextAtSize(footer, footerSize) <= maxWidth, "the page-foot chrome must fit the column on one line");
+  for (const sheet of pdf.getPages()) {
+    sheet.drawLine({
+      start: { x: margin, y: footerRuleY },
+      end: { x: width - margin, y: footerRuleY },
+      thickness: 0.5,
+      color: rgb(0.72, 0.72, 0.72)
+    });
+    sheet.drawText(footer, { x: margin, y: footerBaseline, size: footerSize, font, color: rgb(0.38, 0.38, 0.38) });
   }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
@@ -847,7 +880,15 @@ function countCompleteness(maps, proofs, instructionsText) {
 function writeJson(relative, value) {
   const target = path.join(ROOT, relative);
   fs.mkdirSync(path.dirname(target), { recursive: true });
-  fs.writeFileSync(target, `${JSON.stringify(value, null, 2)}\n`);
+  /*
+   * A hand-written identityRefresh on a grounding pin this build did not move
+   * has to survive the rebuild that regenerates the receipt around it. The
+   * annotation is carried forward only while the rebuild re-measures the exact
+   * sha256 it was written against; when the record moves again it is dropped
+   * rather than laundered onto bytes nobody compared. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs.
+   */
+  fs.writeFileSync(target, `${JSON.stringify(preserveIdentityRefresh(fs, target, value), null, 2)}\n`);
 }
 
 export async function runFamily(argv = process.argv.slice(2)) {
@@ -896,7 +937,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     for (const item of bodies) {
       assert.ok(item.body.includes(facts["participant.full_legal_name"]));
       assert.ok(item.body.includes(ROUTE_KEY));
-      const bytes = await renderDocument(item.body, TITLES[item.component]);
+      const bytes = await renderDocument(item.body, TITLES[item.component], item.component);
       const componentPdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
       const pages = await packet.copyPages(componentPdf, componentPdf.getPageIndices());
       for (const [index, page] of pages.entries()) {

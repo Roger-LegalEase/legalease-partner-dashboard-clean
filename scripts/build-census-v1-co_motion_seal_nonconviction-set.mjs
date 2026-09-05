@@ -394,8 +394,43 @@ async function renderDocument(source, census, fixtureName) {
   const writableNames = new Set(writable.map((r) => r.name));
   const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
 
+  /* CLIPPING_AND_OVERLAP, measured by VF08 at 150 dpi and recorded in
+   * data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json: 5 of JDF-477's 16 and 7 of JDF-478's 11 selection widgets
+   * carry an /AS state with no matching stream under /AP /N. The shared
+   * sanitizer calls updateFieldAppearances() before flatten(), pdf-lib
+   * regenerates an appearance for exactly that condition, and its default
+   * check-box provider paints a stroked square the size of the widget --
+   * so 14 widget readings across the two bound fixtures (7 per fixture, on delivered pages 2, 3 and 4)
+   * delivered a black-bordered box that JDF-477 and JDF-478 does not print and that no
+   * conforming viewer paints (ISO 32000-1 12.5.5). VF08's zero-write
+   * baseline over the same pinned bytes painted the identical pixels, so the
+   * ink is the shared step's and not this family's.
+   *
+   * Opting in supplies the missing state as an EMPTY appearance instead, so
+   * nothing is synthesized and nothing is flattened there. It reaches only
+   * unwritten selection widgets whose current state has no stream:
+   * the 15 widgets that ship their own state for /AS are untouched by this, because a widget's own appearance is source-owned form structure (RI-OFF-APPEARANCE). A ticked box still renders its
+   * mark from the stream the source ships for the state it is set to. */
   const { bytes, report } = await finalizeOfficialForm({
     sourceBytes: source.bytes,
+    suppressSynthesizedAppearances: true,
+    /* CLIPPING_AND_OVERLAP, measured by VF02 at 300 dpi on the delivered bytes and
+     * recorded in data/rcap-grade-a/packet-factory-24h/vf02/rows.json: the five
+     * Group_6_0 radios of JDF-477 section 6 each SHIP THEIR OWN /Off stream with
+     * /BBox [0 0 18 18] against a /Rect of 13.68 x 13.68. ISO 32000-1 12.5.5 fits
+     * that transformed BBox onto the /Rect, so a conforming viewer draws the
+     * Judiciary's grey bevel at 13.68pt; pdf-lib's flatten() emits a translation
+     * and no scale, so the packet stamped it at 18pt -- cmScale 1 x requiredScale
+     * 0.76, an error of 4.32pt on each axis, putting ink outside the widget's own
+     * box on packet page 1 of both fixtures. suppressSynthesizedAppearances does
+     * not reach these by design: it leaves alone a widget that ships its own
+     * stream for the state it is set to, which is exactly what these are.
+     *
+     * fitAppearancesToRect pre-composes the 12.5.5 mapping into each affected
+     * appearance's own /Matrix. It is geometric -- it reads only /Rect, /BBox and
+     * /Matrix, never a form, field, caption or route -- and the appearance content
+     * bytes are not touched and no value is written into any field. */
+    fitAppearancesToRect: true,
     expectedSha256: source.sha256,
     census: census.rows.map((r) => ({
       name: r.name, type: r.type, effectiveLabel: r.effectiveLabel, regionHeading: r.section,

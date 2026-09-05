@@ -553,7 +553,40 @@ async function renderDocument(source, census, fixtureName) {
      * to the participant as something to supply would be reclassifying a fact
      * the platform holds, which is the opposite of the fix.
      */
-    evaluateDeclaredMinimumSize: true
+    evaluateDeclaredMinimumSize: true,
+    /* FIX58. The same shared-flattening defect FIX50 measured on the sibling
+     * vt_seal_nonconviction-set, and the same repair, taken here for the five
+     * families this host builds. 200-00130 ships 12 check-box widgets and
+     * 200-00132 ships 2, and every one of them is at /AS /Off with /Yes as the
+     * only state in /AP /N. sanitizeAndFlatten calls updateFieldAppearances()
+     * before flatten(), pdf-lib regenerates an appearance for exactly that
+     * condition, and its default provider paints a stroked square -- so all 14
+     * unticked boxes were delivered inside a border the court's paper does not
+     * print and no conforming viewer paints (ISO 32000-1 12.5.5). VF08 measured
+     * 28 such widget readings per family across the two fixtures and proved by a
+     * zero-write baseline over the pinned bytes that the ink is the sanitizer's,
+     * not this family's.
+     *
+     * Opting in supplies the missing /Off state as an EMPTY appearance, so
+     * nothing is synthesized and nothing is flattened there. 600-00228 ships its
+     * own /Off appearance for all six of its boxes and this does not reach them:
+     * they are the court's own and stay, which is what RI-OFF-APPEARANCE
+     * settles. No write, no mark and no text is touched. */
+    suppressSynthesizedAppearances: true,
+    /* FIX67. 600-00228 field 15 ships an appearance whose /BBox is [0 0 18 18]
+     * against a /Rect of 14.4 x 14.4. ISO 32000-1 12.5.5 requires the
+     * transformed BBox to be fitted to the /Rect -- here a scale of 0.8 -- and
+     * pdf-lib's flatten() emits a translation only, so the fit never happens
+     * and a 17pt stroked square is stamped where the Judiciary's form draws a
+     * 13.6pt one, 672 dark pixels at 300 dpi outside the widget's own /Rect in
+     * both fixtures (VF02's sweep, VF04's re-read). FIX61 put the repair in the
+     * shared flattening step as an opt-in and proved it on the sibling
+     * vt_seal_nonconviction-set; this takes it here, at the one call site the
+     * five families this host builds all share. Widgets already within
+     * tolerance are untouched. This is the shared step's defect, not Vermont's;
+     * the option is default-off and no other family's bytes move because these
+     * five pass it. */
+    fitAppearancesToRect: true
   });
   if (process.env.VT_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);

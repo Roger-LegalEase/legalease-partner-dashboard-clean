@@ -100,20 +100,99 @@ const FIXTURES = Object.freeze({
   }
 });
 
+/*
+ * WHERE EACH VALUE GOES, AND WHY NO WRITE PAINTS ANYTHING BUT THE VALUE.
+ *
+ * Every write used to paint an opaque white rectangle (x-1, y-1, width+2,
+ * height+2) and then draw its own 0.6pt rule across the box before the text.
+ * Measured against a zero-write baseline of the pinned CREM2F at 150 dpi, that
+ * erased 9,244 pixels of the AOC's own printed ink on the canonical fixture and
+ * 8,562 on the boundary one, and put back a rule the form does not print: the
+ * caption table's vertical double rules were severed in five places, the
+ * CASE-number rule left its cell and ran through the "Petition to Expunge"
+ * title, the defendant and continuation-page rules were redrawn 67 to 139 pt
+ * longer than the AOC prints them, and every contact rule was redrawn 1.4 to
+ * 4.5 pt lower than the printed one it had covered. VF06 recorded it as
+ * CLIPPING_AND_OVERLAP; this is the repair.
+ *
+ * The white fill existed because these boxes STRADDLED the rule they were
+ * meant to write on: with the box bottom 1.5 to 5 pt below the printed rule and
+ * the baseline 2 pt above the box bottom, the form's rule crossed the middle of
+ * every value. Deleting the fill alone therefore delivers a struck-through
+ * packet, which was rendered and read here before this was written.
+ *
+ * So the boxes moved off the rules instead. Each rect below is the space
+ * DIRECTLY ABOVE the writing rule the form prints for that field, clamped
+ * horizontally to that rule's own printed extent (rounded DOWN to the quarter
+ * point, so a box can only be shorter than the rule and never longer), and
+ * measured from the pinned binary rastered at 600 dpi (0.12 pt per row):
+ *
+ *   field                printed rule (top pt, x extent)     rect (x, y, w, h)
+ *   p1-person-filing     682.44  x 139.9-394.9    140,    683,    254.75, 10.5
+ *   p1-mailing-address   667.20  x 154.9-394.9    155,    667.75, 239.75, 10.5
+ *   p1-city-state-zip    651.24  x 175.0-394.9    175,    651.75, 219.75, 10.5
+ *   p1-email             636.00  x 145.0-394.9    145,    636.5,  249.75, 10.5
+ *   p1-phone             619.20  x 180.0-394.9    180,    619.75, 214.75, 10.5
+ *   p1-caption-case      none inside the box      360,    513,     70,    13
+ *   p1-defendant         458.28  x  78.9-239.8     79,    458.75, 160.75, 10.5
+ *   p1-date-of-birth     419.28  x 180.0-253.4    180,    419.75,  73.25, 10.5
+ *   p1-item3-case        101.52  x 205.0-537.8    205,    102,    332.75, 10.5
+ *   p3-mailing-address   708.84  x  75.0-503.0     75,    709.25, 428,    10.5
+ *   p3-phone             671.28  x  75.0-503.0     75,    671.75, 428,    10.5
+ *   p3-email             632.76  x  75.0-503.0     75,    633.25, 428,    10.5
+ *
+ * No box grew: x never moves left, the right edge never passes the end of the
+ * printed rule, and the top never rises above where it already was. Widths on
+ * five boxes shrank because the old ones ran off the end of the form's rule or
+ * across a printed cell border -- p1-caption-case from 215 to 70 pt so it stays
+ * inside the CASE Number cell rather than crossing into the title, p1-defendant
+ * and p1-date-of-birth so they stop at the caption table's inner border,
+ * p1-item3-case at the end of the dashed leader, and the three page-3 boxes at
+ * the end of the rule the AOC prints. Every one of the twelve now contains ZERO
+ * pixels of printed source ink, verified against the same 600 dpi baseline.
+ *
+ * p1-caption-case is the one field with no printed rule inside its box: the
+ * form's CASE-number rule is at y 504.2-505.0, well below where this build
+ * writes the number, beside the printed label. That placement is unchanged. It
+ * is only narrowed, and no rule is drawn under it, because the form draws none
+ * there.
+ */
 const WRITES = Object.freeze([
-  { id: "p1-person-filing", page: 1, label: "Person Filing", fact: "fullName", rect: { x: 140, y: 679, width: 255, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-mailing-address", page: 1, label: "Mailing Address", fact: "mailingAddress", rect: { x: 155, y: 663, width: 240, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-city-state-zip", page: 1, label: "City, State, Zip Code", fact: "cityStateZip", rect: { x: 175, y: 647, width: 220, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-email", page: 1, label: "Email Address", fact: "email", rect: { x: 145, y: 631, width: 250, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-phone", page: 1, label: "Telephone Number", fact: "phone", rect: { x: 180, y: 615, width: 215, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-caption-case", page: 1, label: "CASE Number", fact: "caseNumber", rect: { x: 360, y: 513, width: 215, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-defendant", page: 1, label: "Defendant (FIRST, MI, LAST)", fact: "fullName", rect: { x: 79, y: 454, width: 300, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-date-of-birth", page: 1, label: "Date of Birth", fact: "dateOfBirth", rect: { x: 180, y: 415, width: 150, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p1-item3-case", page: 1, label: "Court case number", fact: "caseNumber", rect: { x: 205, y: 97, width: 365, height: 13 }, documentId: SOURCE.documentId },
-  { id: "p3-mailing-address", page: 3, label: "Petitioner's Mailing Address", fact: "mailingAddress", rect: { x: 75, y: 707, width: 495, height: 13 }, documentId: SOURCE.continuationId },
-  { id: "p3-phone", page: 3, label: "Petitioner's Phone Number", fact: "phone", rect: { x: 75, y: 670, width: 495, height: 13 }, documentId: SOURCE.continuationId },
-  { id: "p3-email", page: 3, label: "Petitioner's Email address", fact: "email", rect: { x: 75, y: 631, width: 495, height: 13 }, documentId: SOURCE.continuationId }
+  { id: "p1-person-filing", page: 1, label: "Person Filing", fact: "fullName", rect: { x: 140, y: 683, width: 254.75, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p1-mailing-address", page: 1, label: "Mailing Address", fact: "mailingAddress", rect: { x: 155, y: 667.75, width: 239.75, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p1-city-state-zip", page: 1, label: "City, State, Zip Code", fact: "cityStateZip", rect: { x: 175, y: 651.75, width: 219.75, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p1-email", page: 1, label: "Email Address", fact: "email", rect: { x: 145, y: 636.5, width: 249.75, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p1-phone", page: 1, label: "Telephone Number", fact: "phone", rect: { x: 180, y: 619.75, width: 214.75, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p1-caption-case", page: 1, label: "CASE Number", fact: "caseNumber", rect: { x: 360, y: 513, width: 70, height: 13 }, documentId: SOURCE.documentId },
+  { id: "p1-defendant", page: 1, label: "Defendant (FIRST, MI, LAST)", fact: "fullName", rect: { x: 79, y: 458.75, width: 160.75, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p1-date-of-birth", page: 1, label: "Date of Birth", fact: "dateOfBirth", rect: { x: 180, y: 419.75, width: 73.25, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p1-item3-case", page: 1, label: "Court case number", fact: "caseNumber", rect: { x: 205, y: 102, width: 332.75, height: 10.5 }, documentId: SOURCE.documentId },
+  { id: "p3-mailing-address", page: 3, label: "Petitioner's Mailing Address", fact: "mailingAddress", rect: { x: 75, y: 709.25, width: 428, height: 10.5 }, documentId: SOURCE.continuationId },
+  { id: "p3-phone", page: 3, label: "Petitioner's Phone Number", fact: "phone", rect: { x: 75, y: 671.75, width: 428, height: 10.5 }, documentId: SOURCE.continuationId },
+  { id: "p3-email", page: 3, label: "Petitioner's Email address", fact: "email", rect: { x: 75, y: 633.25, width: 428, height: 10.5 }, documentId: SOURCE.continuationId }
 ]);
+
+/*
+ * The printed writing rules of the pinned CREM2F, measured at 600 dpi.
+ *
+ * These are facts about the paper, not choices this build makes, and they are
+ * pinned so that the clearance below cannot be lost by a later edit to a rect.
+ * topPt is the highest raster row of the rule; leftPt/rightPt are its extent.
+ * p1-caption-case is absent because the form prints no rule inside its box.
+ */
+const PRINTED_RULES = Object.freeze({
+  "p1-person-filing": { topPt: 682.44, leftPt: 139.92, rightPt: 394.92 },
+  "p1-mailing-address": { topPt: 667.20, leftPt: 154.92, rightPt: 394.92 },
+  "p1-city-state-zip": { topPt: 651.24, leftPt: 174.96, rightPt: 394.92 },
+  "p1-email": { topPt: 636.00, leftPt: 144.96, rightPt: 394.92 },
+  "p1-phone": { topPt: 619.20, leftPt: 180.00, rightPt: 394.92 },
+  "p1-defendant": { topPt: 458.28, leftPt: 78.96, rightPt: 239.76 },
+  "p1-date-of-birth": { topPt: 419.28, leftPt: 180.00, rightPt: 253.44 },
+  "p1-item3-case": { topPt: 101.52, leftPt: 204.96, rightPt: 537.84 },
+  "p3-mailing-address": { topPt: 708.84, leftPt: 75.00, rightPt: 503.04 },
+  "p3-phone": { topPt: 671.28, leftPt: 75.00, rightPt: 503.04 },
+  "p3-email": { topPt: 632.76, leftPt: 75.00, rightPt: 503.04 }
+});
 
 const RBF = (id, page, label, what, documentId = SOURCE.documentId) => ({
   fieldId: id, fieldName: id, page, documentId, effectiveLabel: label,
@@ -168,12 +247,12 @@ const REFUSALS = Object.freeze([
 
 const EXPECTED_ARTIFACTS = Object.freeze({
   canonical: Object.freeze({
-    sha256: "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
-    byteLength: 91386
+    sha256: "d82d2df0f6e16c61cb8dfd3d405945a4b92fc885b4dd99ed07058d880023614f",
+    byteLength: 91028
   }),
   boundary: Object.freeze({
-    sha256: "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
-    byteLength: 91479
+    sha256: "aa1bade440c1417966bd1579d6b5084f0961942b18fb8643e1835e3d4c1181c8",
+    byteLength: 91130
   })
 });
 
@@ -194,10 +273,25 @@ function sourceBytes() {
   return bytes;
 }
 
-function fontSize(font, text, width) {
+/*
+ * The largest size at or below 9pt whose ink fits the box in BOTH directions.
+ *
+ * The height half is new with the rule repair. Nothing clips these glyphs, so
+ * the box is only honoured if the type is chosen to fit it: Helvetica's
+ * ascender is 0.718 em and its descender 0.212 em, and the baseline sits 2pt
+ * above the box bottom, so a 9pt line needs 8.46pt above that bottom and 1.91pt
+ * below the baseline. A box too short for the smallest permitted size fails the
+ * build rather than letting a glyph out over a printed rule.
+ */
+function fontSize(font, text, width, height) {
+  const ASCENDER = 0.718;
+  const DESCENDER = 0.212;
+  const fits = (size) => font.widthOfTextAtSize(text, size) <= width - 4
+    && 2 + size * ASCENDER <= height
+    && size * DESCENDER <= 2;
   let size = 9;
-  while (size > 6 && font.widthOfTextAtSize(text, size) > width - 4) size -= 0.25;
-  assert.ok(font.widthOfTextAtSize(text, size) <= width - 4, `value does not fit measured box: ${text}`);
+  while (size > 6 && !fits(size)) size -= 0.25;
+  assert.ok(fits(size), `value does not fit measured box: ${text}`);
   return size;
 }
 
@@ -210,9 +304,10 @@ async function render(bytes, fixtureName) {
     const page = pdf.getPage(row.page - 1);
     const value = FIXTURES[fixtureName][row.fact];
     const { x, y, width, height } = row.rect;
-    page.drawRectangle({ x: x - 1, y: y - 1, width: width + 2, height: height + 2, color: rgb(1, 1, 1) });
-    page.drawLine({ start: { x, y }, end: { x: x + width, y }, thickness: 0.6, color: rgb(0, 0, 0) });
-    page.drawText(value, { x: x + 2, y: y + 2, size: fontSize(font, value, width), font, color: rgb(0, 0, 0) });
+    // The value and nothing else. No fill, because an opaque fill erases
+    // whatever the AOC printed under the box; no rule, because the AOC prints
+    // its own and a second one is ink this packet has no authority to add.
+    page.drawText(value, { x: x + 2, y: y + 2, size: fontSize(font, value, width, height), font, color: rgb(0, 0, 0) });
   }
   return pdf.save({ useObjectStreams: false, updateMetadata: false });
 }
@@ -289,6 +384,30 @@ function selfTest() {
   assert.equal(terminalIds.length, 42, "the three-page CREM2F census must remain complete");
   assert.ok(WRITES.every((row) => row.page >= 1 && row.page <= SOURCE.pageCount));
   assert.ok(WRITES.every((row) => row.rect.width > 0 && row.rect.height > 0));
+
+  /*
+   * No write box may sit on, or reach past the end of, a rule the form prints.
+   *
+   * This is the invariant the CLIPPING_AND_OVERLAP repair established, and it
+   * is asserted rather than commented because the previous geometry looked
+   * perfectly reasonable in the source and was wrong only against the paper.
+   */
+  for (const row of WRITES) {
+    const rule = PRINTED_RULES[row.id];
+    if (!rule) {
+      assert.equal(row.id, "p1-caption-case", `no printed rule is pinned for ${row.id}`);
+      continue;
+    }
+    assert.ok(row.rect.y >= rule.topPt,
+      `${row.id}: the write box bottom ${row.rect.y} sits on the printed rule at ${rule.topPt}`);
+    assert.ok(row.rect.x + row.rect.width <= rule.rightPt,
+      `${row.id}: the write box ends at ${row.rect.x + row.rect.width}, past the printed rule end ${rule.rightPt}`);
+    assert.ok(row.rect.x >= rule.leftPt - 0.5,
+      `${row.id}: the write box starts at ${row.rect.x}, before the printed rule begins at ${rule.leftPt}`);
+  }
+  assert.ok(WRITES.find((row) => row.id === "p1-caption-case").rect.x
+    + WRITES.find((row) => row.id === "p1-caption-case").rect.width <= 430,
+    "p1-caption-case must stay inside the CASE Number cell; its right border is printed at x 430.44");
   assert.ok(WRITES.every((row) => Object.values(FIXTURES).every((fixture) => String(fixture[row.fact] ?? "").length > 0)));
   assert.equal(REFUSALS.filter((row) => row.requiredBeforeFiling === true).length, 7);
   assert.equal(REFUSALS.filter((row) => row.isSelectionControl === true).length, 15);

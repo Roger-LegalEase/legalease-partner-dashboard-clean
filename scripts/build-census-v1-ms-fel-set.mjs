@@ -128,6 +128,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -730,6 +731,19 @@ function sanitizePdfText(text) {
     .replaceAll("§", "Sec. ").replaceAll("…", "...");
 }
 
+/*
+ * The route trailer is internal machine metadata, not pleading text.
+ *
+ * VF08 read a delivered page inside a proposed order the court is asked to sign
+ * whose only ink was this line. A page that says nothing to the court is a
+ * visible defect on a delivered page, so the trailer is never left as the sole
+ * occupant of one: when the body ends flush with a page boundary the previous
+ * block is pulled down to keep it company. The rule is
+ * scripts/build-census-v1-rcap-ok-custom-pleading.mjs's sole-occupant pull-down,
+ * moved onto this builder's own pagination rather than a new scheme.
+ */
+const TRAILER_LINE = /^(Route: |Route:$|Routes this set serves \()/;
+
 async function renderComposedPdf(fullText, title) {
   const pdf = await PDFDocument.create();
   stampDeterministic(pdf);
@@ -739,22 +753,23 @@ async function renderComposedPdf(fullText, title) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  let page = pdf.addPage([width, height]);
-  let y = height - margin;
-  const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
-    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-    y -= lineHeight;
-  };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /* The same 45 rows a page this composer has always drawn: y starts at
+   * height - margin and a row is drawn while y >= margin, which is
+   * floor((height - 2 * margin) / lineHeight) + 1 rows. Stated once here so the
+   * layout can be settled as a plan before any ink is placed. */
+  const rowsPerPage = Math.floor((height - 2 * margin) / lineHeight) + 1;
+
+  /*
+   * The one shared separator-aware splitter, not a private copy.
+   *
+   * A route key too long for the 468pt column is broken at its OWN separators
+   * -- after a colon, underscore, slash, dot or hyphen -- so the broken line
+   * ends on the separator and announces itself as continuing, instead of at
+   * whichever glyph first reached the margin. hardSplits is asserted zero after
+   * every composed document below: a future route key with no separator to
+   * break on fails the build instead of shipping a chopped one.
+   */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -767,7 +782,54 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+
+  /* Lay every block out into pages before drawing anything, so the trailer can
+   * be caught sitting alone while the layout is still only a plan. A block is
+   * one source line together with every row it wraps to; the rows fill pages in
+   * exactly the order and at exactly the density they always did. */
+  const blocks = sanitizePdfText(fullText).split("\n").map((raw, index) =>
+    ({ index, rows: wrap(raw), trailer: TRAILER_LINE.test(raw) }));
+  const pages = [[]];
+  for (const block of blocks) {
+    for (const text of block.rows) {
+      if (pages[pages.length - 1].length === rowsPerPage) pages.push([]);
+      pages[pages.length - 1].push({ text, block: block.index, trailer: block.trailer });
+    }
+  }
+
+  /*
+   * The sole-occupant pull-down. A last page whose every drawn row is trailer
+   * takes the previous block down onto it. Whole blocks only, a move that would
+   * not fit is refused, and a page that already carries prose is left alone.
+   */
+  const soleOccupant = (page) => page.length > 0 && page.every((r) => r.trailer || r.text === "");
+  for (let guard = 0; guard < blocks.length && pages.length > 1 && soleOccupant(pages[pages.length - 1]); guard++) {
+    const last = pages[pages.length - 1];
+    const previous = pages[pages.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    if (moved.length === 0 || moved.length + last.length > rowsPerPage) { previous.push(...moved); break; }
+    last.unshift(...moved);
+    if (previous.length === 0) pages.splice(pages.length - 2, 1);
+  }
+
+  /* Proof, not intention: no delivered page of this document is only trailer. */
+  for (const [index, rows] of pages.entries()) {
+    assert.ok(!soleOccupant(rows),
+      `${title}: page ${index + 1} carries nothing but the route trailer`);
+  }
+
+  for (const rows of pages) {
+    const page = pdf.addPage([width, height]);
+    for (const [index, row] of rows.entries()) {
+      if (row.text) {
+        page.drawText(row.text, { x: margin, y: height - margin - index * lineHeight, size: fontSize, font, color: rgb(0, 0, 0) });
+      }
+    }
+  }
+  assert.equal(splitToken.hardSplits, 0,
+    `${title}: a token was chopped mid-word because it carries no separator to break on`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 

@@ -36,12 +36,28 @@
  * published: whether § 99-19-72's fee reaches a subsection (4) petition at all
  * is a recorded open question.
  */
+import fs from "node:fs";
+import path from "node:path";
+import assert from "node:assert/strict";
 import {
-  mapHelpers, composedMapOf, runIfMain, DOTS
+  mapHelpers, composedMapOf, runIfMain, DOTS, ROOT
 } from "./rcap-custom-pleading/composed-family-host.mjs";
 
 const FAMILY_ID = "ms-nonconv-set";
 const OUT = "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading";
+
+/* The specification the route binds, and the reason this family reads it.
+ *
+ * product-wiring.json for ms-nonconv-set binds this file by SHA-256 and
+ * declares serviceDisposition exact_runtime_route_and_grade_a_specification_
+ * installed. It names five documents. Until FIX01 the build rendered four of
+ * them and measured its component set against its own rendered-artifacts.json
+ * componentSet, which declared exactly what it rendered, so the omission of the
+ * required order-1 cover_and_contents document could not fail any counter. The
+ * component set is now measured against this file. The specification is read at
+ * build time and hashed into source-receipt.json; it is never written by this
+ * build. */
+const PACKET_SPECIFICATION = "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json";
 
 const ROUTE = Object.freeze({
   routeKeys: ["obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"],
@@ -51,6 +67,7 @@ const ROUTE = Object.freeze({
 });
 
 const COMPONENTS = [
+  { id: "cover_and_contents", role: "cover_and_contents", title: "Your Mississippi Non-Conviction Expungement Packet" },
   { id: "primary_filing", role: "primary_filing", title: "Petition for Expungement of Criminal Record Under Miss. Code Ann. Sec. 99-19-71(4)" },
   { id: "proposed_order", role: "proposed_order", title: "Proposed Order of Expungement" },
   { id: "certificate_of_service", role: "certificate_of_service", title: "Certificate of Service" },
@@ -75,6 +92,55 @@ const FIXTURES = {
   }
 };
 
+/* ---- the specification's own text, read rather than restated -------------------- *
+ * Every static sentence on the cover page below is printed from this file, so a
+ * later edit to the specification reaches the packet instead of drifting from
+ * it silently. A heading the specification names but this build cannot render
+ * stops the build rather than being skipped. */
+const SPEC = JSON.parse(fs.readFileSync(path.join(ROOT, PACKET_SPECIFICATION), "utf8"));
+const COVER_DOC = SPEC.documents.find((d) => d.documentId === "ms-cover-and-contents");
+assert.ok(COVER_DOC, `${PACKET_SPECIFICATION}: no document ms-cover-and-contents`);
+const coverSection = (heading) => {
+  const s = COVER_DOC.sections.find((x) => x.heading === heading);
+  assert.ok(s, `${PACKET_SPECIFICATION}: the cover document names no section "${heading}"`);
+  return s;
+};
+const coverStatic = (heading) => {
+  const s = coverSection(heading);
+  assert.equal(s.kind, "static", `${PACKET_SPECIFICATION}: section "${heading}" is ${s.kind}, not static`);
+  assert.ok(typeof s.body === "string" && s.body.length > 0, `${PACKET_SPECIFICATION}: section "${heading}" carries no body`);
+  return s.body;
+};
+/* Section order is the specification's, not this builder's. */
+const COVER_HEADINGS = COVER_DOC.sections.map((s) => s.heading);
+assert.deepEqual(COVER_HEADINGS,
+  ["What this packet is", "Packet contents", "Records to have beside you", "Signing and notarization", "Important limits"],
+  `${PACKET_SPECIFICATION}: the cover document's section set moved; the composed page must be re-read against it rather than silently renumbered`);
+
+/* The delivery order the contents list prints. Each entry names the composed
+ * component that carries it and the specification document it belongs to, so
+ * the list cannot drift from what the packet actually delivers. */
+const DELIVERY_ORDER = [
+  { component: "cover_and_contents", specificationDocumentId: "ms-cover-and-contents",
+    what: "this cover and contents page, which is not filed with the court" },
+  { component: "primary_filing", specificationDocumentId: "ms-petition-for-expungement",
+    what: "the petition you file, quoting Sec. 99-19-71(4) and pleading the one statutory category your record shows" },
+  { component: "proposed_order", specificationDocumentId: "ms-proposed-order",
+    what: "the order you tender with the petition for the judicial officer to consider; the Court alone completes, signs and enters it" },
+  { component: "certificate_of_service", specificationDocumentId: "ms-service-and-attachments",
+    what: "your record that a copy went to the prosecuting authority, completed only when the copy actually goes out" },
+  { component: "attachment", specificationDocumentId: "ms-service-and-attachments",
+    what: "the checklist of what you attach - the certified disposition in every case, the indictment only where one exists; the checklist itself is not an attachment" },
+  { component: "instructions", specificationDocumentId: "ms-filing-and-next-steps",
+    what: "what you do, in order, what the order does once entered, and when to stop and get help instead of filing" }
+];
+
+/* The records the participant needs in front of them, and the pre-filing checks
+ * the specification's own participantChecklist requires. Printed verbatim from
+ * the specification. */
+const CHECKLIST = SPEC.participantChecklist.filter((c) => c.requiredBeforeFiling === true);
+assert.ok(CHECKLIST.length > 0, `${PACKET_SPECIFICATION}: participantChecklist carries no required-before-filing item`);
+
 /* ---- composed bodies ------------------------------------------------------------ *
  * Everything below is traceable to the family's committed records, named inline:
  *   [MEMO]     data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv
@@ -98,7 +164,41 @@ function composedBody(componentId, facts) {
     L.push("Cause No. " + DOTS(44));
     L.push("(copy the cause number from the court record; where the court assigns a new number for the expungement it is supplied at filing)", "");
   };
-  if (componentId === "primary_filing") {
+  if (componentId === "cover_and_contents") {
+    L.push(`Prepared for ${name}`, "");
+    L.push("This page is a guide to the packet. It is not a filing and it is not given to the court.", "");
+
+    L.push("WHAT THIS PACKET IS", "");
+    L.push(coverStatic("What this packet is"), "");
+
+    L.push("PACKET CONTENTS", "");
+    L.push("The pages are delivered in this order.", "");
+    let n = 0;
+    for (const entry of DELIVERY_ORDER) {
+      n += 1;
+      const title = COMPONENTS.find((c) => c.id === entry.component).title;
+      L.push(`${n}. ${title} - ${entry.what}.`);
+    }
+    L.push("");
+    L.push("The packet specification for this route groups the Certificate of Service and the Exhibit Checklist as one document, which is why it describes a five-part packet where six items are listed above.", "");
+
+    L.push("RECORDS TO HAVE BESIDE YOU", "");
+    L.push("Have these in front of you before you write anything on these pages, and copy from them rather than from memory:");
+    L.push("- the certified copy of the disposition or sentencing order showing how the case ended;");
+    L.push("- the docket sheet for the case, whose exact wording you copy;");
+    L.push("- the indictment, only where a grand jury actually returned one;");
+    L.push("- your own Mississippi criminal history record, so you see every case before you file.", "");
+    L.push("With those beside you, each of these must be true before the packet is ready to file:");
+    for (const item of CHECKLIST) L.push(`- ${item.text}`);
+    L.push("");
+
+    L.push("SIGNING AND NOTARIZATION", "");
+    L.push(coverStatic("Signing and notarization"), "");
+    L.push("That paragraph is printed here word for word from the packet specification this route binds, which is the record that governs what this page must carry. The composed petition in this packet carries a simple truth statement and no separate verification or notarial block, because the legal-design intake record for this track records notarization as unresolved. The two records disagree on their face; this packet does not settle which of them governs, and the point is recorded as an open counsel question. Until it is settled, treat the paragraph above as the safer course, and ask the records office of the court that heard the case whether that court requires a verified or notarized petition. The filing instructions in this packet name the same office for the same question.", "");
+
+    L.push("IMPORTANT LIMITS", "");
+    L.push(coverStatic("Important limits"), "");
+  } else if (componentId === "primary_filing") {
     caption("PETITIONER");
     L.push("PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD UNDER MISS. CODE ANN. Sec. 99-19-71(4)", "");
     L.push(`The petitioner, ${name}, petitions this Court for an order expunging the record of the case described below, and states:`, "");
@@ -147,6 +247,16 @@ function composedBody(componentId, facts) {
     L.push("Any other person or agency keeping an official record of the case:");
     L.push(DOTS(), "");
     L.push("PROVIDED that the existing records of fingerprints are excepted from this order, as Miss. Code Ann. Sec. 99-19-71 provides; that the Mississippi Criminal Information Center shall retain a nonpublic record solely for the purpose of determining, in subsequent proceedings, whether the person is a first offender; and that upon entry of this order the petitioner is restored, in contemplation of law, to the status the petitioner occupied before the arrest, and shall not be held thereafter guilty of perjury for failure to recite the arrest, except as Sec. 99-19-71(3) provides for first-offender determinations.", "");
+    /* The machine trailer closes the preparer's half of the order here, above
+     * the execution and approval band, instead of printing after it. It used to
+     * be the last ink on the order's second page, below "JUDICIAL OFFICER OF THE
+     * COURT", below "(the Court alone completes, signs and enters this order)" and
+     * below "APPROVED AS TO FORM, for the prosecuting authority:" -- machine text
+     * inside a band the page itself assigns to the Court. Placement only: the line
+     * is the same line, and no word of the decretal block, the findings, the entry
+     * date or either signature block is touched. FIX35 made the same move on the
+     * Rhode Island host. */
+    L.push(`Route: ${ROUTE.routeKeys[0]}`, "");
     L.push("SO ORDERED.", "");
     L.push("ENTERED, this the " + DOTS(12) + " day of " + DOTS(20) + ", " + DOTS(8), "");
     L.push("JUDICIAL OFFICER OF THE COURT " + DOTS(44));
@@ -177,7 +287,7 @@ function composedBody(componentId, facts) {
     L.push("ADVISABLE:", "");
     L.push("- The docket sheet for the case, from the records office of the court that heard the case. It shows exactly how the case ended, and its wording matters: 'passed to the file' or 'retired to the file' is a reason to stop and get advice.");
     L.push("- Your own Mississippi criminal history record, from the Mississippi Criminal Information Center, so you can see every case on your record before you file.");
-  } else {
+  } else if (componentId === "instructions") {
     L.push(`This packet is prepared for ${ROUTE.routeName}.`, "");
     L.push(`Prepared for: ${name}`, "");
     L.push("WHAT YOU DO, IN ORDER", "");
@@ -211,14 +321,31 @@ function composedBody(componentId, facts) {
     L.push("- Your court's own preferred forms or local requirements, which vary by county and district. Ask before you file.", "");
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of composed pleadings and process pages. Mississippi publishes no statewide expungement form, which is why these pages are composed. It is not legal advice, it is not filed for you, and it does not decide the classification of an ambiguous docket entry.");
+  } else {
+    /* A component with no body of its own is a build defect, not a page that
+     * quietly inherits another component's text. The trailing `else` used to be
+     * the instructions branch, so a sixth component added ahead of it rendered
+     * the filing instructions under its own heading. That is exactly what
+     * happened on FIX01's first build of the cover page, and it is why this
+     * branch now refuses instead of falling through. */
+    throw new Error(`${componentId}: no composed body is defined for this component`);
   }
-  L.push("", `Route: ${ROUTE.routeKeys[0]}`);
+  if (componentId !== "proposed_order") L.push("", `Route: ${ROUTE.routeKeys[0]}`);
   return L.join("\n");
 }
 
 /* ---- the field maps -------------------------------------------------------------- */
 function maps() {
   const out = [];
+  {
+    /* The cover carries the participant's own name and nothing else that is
+     * written or left blank: every other line on it is either the
+     * specification's own text or a description of a page delivered elsewhere
+     * in this packet. It has no dotted blank, so it declares no refusal. */
+    const h = mapHelpers("cover_and_contents");
+    out.push(composedMapOf("cover_and_contents", FAMILY,
+      [h.write("participant_full_name", "Full name of the person this packet was prepared for", "participant.full_legal_name")], []));
+  }
   {
     const h = mapHelpers("primary_filing");
     const writes = [
@@ -352,6 +479,7 @@ function participantInstructions(rbf) {
 
   out.push("## What is in this packet", "");
   out.push("| Component | What it is |", "| --- | --- |");
+  out.push("| `cover_and_contents` | the cover and contents page — what the packet is, what is in it in delivery order, the records to have beside you, and the signing and notarization page; it is not filed |");
   out.push("| `primary_filing` | the composed petition under § 99-19-71(4), quoting the statute's own mandatory words |");
   out.push("| `proposed_order` | the proposed order tendered with the petition; the Court alone completes it |");
   out.push("| `certificate_of_service` | the record of delivery of a copy to the prosecuting authority, contemporaneous with filing |");
@@ -412,8 +540,57 @@ const FAMILY = {
     + "(data/record-clearing/legal-design-packet-set-manifests.json, ms-nonconv-set)",
   compositionSources: [
     "data/record-clearing/legal-design-intake/MS.memo.json",
-    "data/record-clearing/legal-design-packet-set-manifests.json"
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    PACKET_SPECIFICATION
   ],
+  /* The component set is measured against the specification the route binds,
+   * not against this build's own componentSet. Every one of the
+   * specification's five documents must either render here or carry a stated
+   * disposition; a specification document that does neither stops the build. */
+  packetSpecification: {
+    path: PACKET_SPECIFICATION,
+    documentBinding: {
+      "ms-cover-and-contents": { renderedBy: ["cover_and_contents"] },
+      "ms-petition-for-expungement": { renderedBy: ["primary_filing"] },
+      "ms-proposed-order": { renderedBy: ["proposed_order"] },
+      "ms-service-and-attachments": { renderedBy: ["certificate_of_service", "attachment"] },
+      "ms-filing-and-next-steps": { renderedBy: ["instructions"] }
+    },
+    manifestGaps: [
+      {
+        specificationDocumentId: "ms-cover-and-contents",
+        gap:
+          "data/record-clearing/legal-design-packet-set-manifests.json declares five components for ms-nonconv-set "
+          + "and none of them is the specification's required order-1 cover_and_contents document, so "
+          + "product-wiring.json maps it to manifestComponentIds []. This build renders the document as the composed "
+          + "component cover_and_contents and does not edit the manifest, the specification or any legal-design "
+          + "record. Giving the document a manifest component id is owed to the productization lane.",
+        thisBuildDidNotEditTheManifest: true
+      }
+    ],
+    openLegalQuestions: [
+      {
+        question:
+          "Which record governs the notarised verification on a Sec. 99-19-71(4) petition: the specification, which "
+          + "makes the jurat mandatory and calls the packet not filing-ready without it, or the legal-design intake "
+          + "memo, which records notarization as unresolved and prints a simple truth statement?",
+        specificationSays:
+          "finalVerificationRequirements: 'The participant signs the petition and verification in the notary's "
+          + "physical presence after the notary administers an oath or affirmation.'",
+        memoSays:
+          "data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv: notarization is unresolved and "
+          + "the petition carries a simple truth statement rather than a notarized verification.",
+        howThisBuildTreatsIt:
+          "It does not resolve it. No verification block and no notarial certificate was added to the petition, the "
+          + "order or the certificate of service. The cover's signing-and-notarization page prints the "
+          + "SPECIFICATION's wording verbatim, because the specification is the server-owned document for this page, "
+          + "says on the page that it is printed from the specification, states that the composed petition carries a "
+          + "truth statement instead, and sends the participant to the records office of the court that heard the "
+          + "case - which is what the filing instructions already do.",
+        unresolvedBy: "FIX01; counsel or the owner settles it"
+      }
+    ]
+  },
   composedBody,
   maps,
   fixtures: FIXTURES,

@@ -473,6 +473,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { stripMarkdownEmphasis, assertNoMarkdownDelimitersOnDeliveredPages } from "./rcap-custom-pleading/composed-page-markdown.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 
@@ -523,8 +524,22 @@ function resolveRecords() {
 }
 
 /* ---- deterministic composed-page rendering ---------------------------------- */
+/* Source markup a PDF page cannot render is removed before the normalisations
+ * below, on the same footing as the characters they normalise away: emphasis
+ * delimiters are markdown in participant-instructions.md and four black
+ * asterisks on a composed page. This packet printed them at the worst possible
+ * place - the first bullet under "WHEN TO STOP AND GET HELP INSTEAD" on the
+ * filing-instructions page opened with its delimiters showing, in the same 11pt
+ * Times-Roman as the text around it, so they bought no emphasis and appeared
+ * only as stray characters. The one shared rule lives in
+ * scripts/rcap-custom-pleading/composed-page-markdown.mjs, imported rather than
+ * copied, because a page printing markup is a defect of the renderer and not of
+ * any one family, and this is the repair FIX30 made for the Oklahoma and West
+ * Virginia trafficking families. Not one word of the delivered sentence
+ * changes. A string carrying no closed emphasis pair passes through unchanged,
+ * so no page whose text carries no markup moves a byte. */
 function sanitizePdfText(text) {
-  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+  return stripMarkdownEmphasis(text).replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
     .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
     .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
     .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
@@ -662,6 +677,10 @@ async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
   const pages = doc.getPages();
   assert.equal(pages.length, pageManifest.length, "the page manifest must describe every page of the packet");
   const textOfPage = pages.map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  /* No delivered page may print markup. Read from the saved bytes, so it holds
+   * whatever the markup arrived from -- a component body, a fixture value, or a
+   * future edit to either. */
+  assertNoMarkdownDelimitersOnDeliveredPages(textOfPage, fixtureName);
   const textOfComponent = new Map();
   for (const [i, m] of pageManifest.entries()) {
     textOfComponent.set(m.component, `${textOfComponent.get(m.component) ?? ""} ${textOfPage[i]}`);

@@ -137,12 +137,15 @@ const FIRST_COHORT_VERIFICATION = {
     evidencePath: "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
     evidenceRowSha256: "52d688aaed44fd2ba9145e06ad3798304999f0da3002c3e3eb6e7ee430186063"
   },
+  // Re-pinned 2026-09-05: VF07's targeted re-read at aefd46f7c passed the same
+  // bytes and became the current verdict; the vf09 row it replaced is kept in the
+  // post-approval audit as previousPin.
   "wy_fel_1502-set": {
-    lane: "vf09",
-    verifiedAtBase: "8b8699c2a63fcd7fdb3bade119f259653840eae5",
-    rowSha256: "a98c5d64a6b324b6bbd3941bc0815570bc7677dbb9d9cc3e9b7601938858462f",
-    evidencePath: "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
-    evidenceRowSha256: "956c4c7edcf042f5ee7f05d45fd6d011795ae4943e4aace7e4240659dddbdc86"
+    lane: "vf07",
+    verifiedAtBase: "aefd46f7c",
+    rowSha256: "ddb864aa2052a5acf9dfdfaeabc3cf28cbb2543a2364e8b99216752bb3758169",
+    evidencePath: "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+    evidenceRowSha256: "68ec092ccbeeed2b5c25fe87aaf03721cba07124e1295a560866b34e40a2d4db"
   }
 };
 
@@ -1699,10 +1702,84 @@ const rows = launchGraph.rows
   .filter((row) => CANDIDATE_JURISDICTIONS.includes(row.jurisdiction))
   .sort((a, b) => a.pathwayKey.localeCompare(b.pathwayKey));
 
+/*
+ * A RECORD WHOSE EVIDENCE NO LONGER HOLDS IS REVOKED, NOT KEPT AND NOT HIDDEN.
+ *
+ * Every requireEvidence above is a hard refusal, and that was the whole
+ * generator's behaviour: one exact-productized family losing its current
+ * independent PASS made this script exit without writing anything, which left
+ * the committed registry carrying that family's record unchanged, still
+ * commercially eligible, for as long as nobody could regenerate it. On
+ * 2026-09-05 three first-cohort families (il-prostitution-j-vacate-set,
+ * ms-misd-addl-set, ms-nonconv-set) failed fresh targeted reads and the
+ * registry went on saying otherwise. A refusal to write is not a refusal to
+ * sell.
+ *
+ * So an evidence refusal on an exact-productized route now becomes the
+ * record's next version with revocation.revoked = true and the refusal as its
+ * reason, appended to the record's own history chain so the shipped authority
+ * module reads it as REVOKED and denies. When the evidence holds again the
+ * fresh candidate supersedes the revoked version as "reinstated" on the same
+ * chain. A route that never had a record is written nowhere, which the
+ * registry's own rule already reads as a denial. Nothing here opens a route:
+ * this only stops a stale record from keeping one open.
+ */
+const committedRegistry = (() => {
+  try { return JSON.parse(readGitBlob("HEAD", REGISTRY_OUT).toString("utf8")); }
+  catch { return { records: [] }; }
+})();
+const withdrawnCandidates = [];
+const GENERATOR_ID = "scripts/generate-rcap-grade-a-fulfillment-authority.mjs";
+const changeDate = new Date().toISOString().slice(0, 10);
+function priorCurrentRecordFor(routeId) {
+  return (committedRegistry.records ?? []).find((entry) => entry.routeId === routeId && (entry.supersededBy ?? null) === null) ?? null;
+}
+function exactProductizedRecordOrRevocation(definition) {
+  const prior = priorCurrentRecordFor(definition.routeId);
+  let record;
+  try {
+    record = exactProductizedCandidateRecord(definition);
+  } catch (error) {
+    if (!/^First-cohort evidence refusal:/.test(String(error?.message ?? ""))) throw error;
+    const reason = String(error.message);
+    if (!prior) {
+      withdrawnCandidates.push({ routeId: definition.routeId, packetFamilyId: definition.familyId, disposition: "NO_RECORD_WRITTEN", reason });
+      return null;
+    }
+    if (prior.revocation?.revoked === true) {
+      withdrawnCandidates.push({ routeId: definition.routeId, packetFamilyId: definition.familyId, disposition: "ALREADY_REVOKED", recordId: prior.recordId, version: prior.version, revokedAt: prior.revocation.revokedAt, reason: prior.revocation.reason, currentRefusal: reason });
+      return prior;
+    }
+    const lastEntry = prior.history[prior.history.length - 1];
+    const revoked = { ...prior, version: prior.version + 1, revocation: { revoked: true, reason, revokedAt: changeDate, revokedBy: GENERATOR_ID } };
+    delete revoked.history;
+    const recordSha256 = fulfillmentRecordSha256(revoked);
+    revoked.history = [...prior.history, {
+      version: revoked.version, changeKind: "revoked", changedAt: changeDate, changedBy: GENERATOR_ID,
+      reason: `Revoked because the record's evidence no longer holds: ${reason}. The route denies until a fresh independent read, a current raster receipt and the owner re-review restore the evidence, at which point this generator reinstates the record on this same history chain.`,
+      recordSha256, supersedesRecordSha256: lastEntry.recordSha256
+    }];
+    withdrawnCandidates.push({ routeId: definition.routeId, packetFamilyId: definition.familyId, disposition: "REVOKED", recordId: prior.recordId, version: revoked.version, revokedAt: changeDate, reason });
+    return revoked;
+  }
+  if (prior?.revocation?.revoked === true) {
+    const lastEntry = prior.history[prior.history.length - 1];
+    record.version = prior.version + 1;
+    delete record.history;
+    const recordSha256 = fulfillmentRecordSha256(record);
+    record.history = [...prior.history, {
+      version: record.version, changeKind: "reinstated", changedAt: changeDate, changedBy: GENERATOR_ID,
+      reason: `Reinstated: the evidence the revoked version ${prior.version} lacked holds again on the current bytes, raster receipt and independent verification.`,
+      recordSha256, supersedesRecordSha256: lastEntry.recordSha256
+    }];
+  }
+  return record;
+}
+
 const records = [
   ...rows.map(candidateRecord),
   mississippiClinicCandidateRecord(),
-  ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedCandidateRecord)
+  ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedRecordOrRevocation).filter(Boolean)
 ]
   .sort((a, b) => a.routeId.localeCompare(b.routeId));
 
@@ -1742,6 +1819,10 @@ const registry = {
   purpose: "The one canonical controlling registry of Grade-A fulfillment authority records. Only COMPLETE_PACKET_PROVEN authorizes a commercial action; every other state, including the absence of a record, denies.",
   createsApproval: false,
   changesRuntime: false,
+  withdrawnCandidates: {
+    rule: "An exact-productized route whose evidence fails a requirement is not silently kept at its last version: its record is revoked on its own history chain (REVOKED denies at the runtime) or, if it never had a record, written nowhere. Entries here are the refusals measured on this regeneration.",
+    entries: withdrawnCandidates.sort((a, b) => a.routeId.localeCompare(b.routeId))
+  },
   candidateScope: {
     jurisdictions: allCandidateJurisdictions,
     routes: [MS_CLINIC_ROUTE, ...EXACT_PRODUCTIZED_ROUTES.map((entry) => entry.routeId)].sort(),

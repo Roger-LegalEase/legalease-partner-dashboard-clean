@@ -173,6 +173,7 @@ import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
   from "./rcap-packet-completeness/completeness-contract.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -620,9 +621,80 @@ const SOI_RULES = [
     label: (n) => `Signature on the sworn declaration (${n})`,
     why: "the Statement is sworn by the participant and is never prefilled"
   },
+  /*
+   * THE OPTION 1 DATE OF BIRTH IS NOT A DECLARATION DATE.
+   *
+   * One rule matched "Day / Día", "Month / Mes", "Year / Año", "Today" and
+   * "Year" together and called all five a date part of the sworn declaration,
+   * refused because "a date written before the Statement is actually sworn
+   * would be false". That reason is exactly right for the day the participant
+   * signs and exactly wrong for the day they were born.
+   *
+   * Read from the pinned binary, source page 11 carries FOUR date widgets, not
+   * one date: "Month / Mes" [79.73,495.56], "Day / Día" [134.54,495.51] and
+   * "Year / Año" [193.40,495.61] are the three boxes on the
+   * "________/________/________" rule printed directly under "My date of birth
+   * is / Mi fecha de nacimiento es", while "Today" [97.75,302.31] sits under
+   * "Date (month, day, year) / Fecha (mes, día, año)" beside the signature.
+   * Only "Today" is a declaration date. Source page 12's "Year"
+   * [343.359,264.575] is the notary's "____________, 20____" line.
+   *
+   * So the packet held a date of birth, wrote it on source page 2 (delivered
+   * page 11), and left the source-page-11 boxes blank (delivered page 20)
+   * while the field map recorded them as protected signature-date parts, so
+   * they never reached "The items you must supply" either. VF04 read that off
+   * the delivered bytes and failed KNOWN_PREFILLS on it.
+   *
+   * WHY THEY ARE DECLARED RATHER THAN WRITTEN. "Month / Mes" is ONE AcroForm
+   * field carrying TWO widgets — the source-page-11 date-of-birth month
+   * [79.73,495.56] and the source-page-12 notary month [135.241,265.173] — and
+   * this factory writes a field, not a widget. Writing the participant's birth
+   * month would therefore also print it in the notary's blank on a page the
+   * notary completes. Two of the three boxes could be written and the third
+   * could not; a date that is two-thirds machine-filled on a perjury
+   * declaration is a worse artifact than one the participant completes in one
+   * hand, and the completeness contract would read it as an incomplete row.
+   * All three are declared, and the instructions tell the participant to copy
+   * the date already printed on source page 2.
+   *
+   * THIS IS NOT A NEW TREATMENT. The identical structure on the identical
+   * pinned Statement of Inability was treated exactly this way by FIX29 in
+   * scripts/build-census-v1-rcap-tx-custom-pleading.mjs; VF01 tested the
+   * two-widget claim against the pinned binary, accepted the treatment on
+   * 2026-09-05, and that family passed a fresh read at 321938c38. This family
+   * follows it rather than inventing a second answer to the same form.
+   */
+  {
+    id: "option1_date_of_birth_month",
+    re: /^Month \/ Mes$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: () => "Month box of the date of birth on the Option 1 declaration, page 11",
+    /*
+     * THE CAPTION IS THE FORM'S, NOT OURS. A declared blank is only declared to
+     * the participant if the words beside it in the packet are the words printed
+     * beside it on the paper. `caption` carries the form's own printed line and
+     * `captionAt` says where it is printed, so the captionDrift check re-reads
+     * page 11 of the pinned binary on every build and fails if that line has
+     * moved or been reworded.
+     */
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the MONTH of your date of birth, in the first of the three boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 of the Statement - copy it from the date of birth already printed on page 2 of the Statement. The same form field is also the notary's month blank on page 12; leave that one for the notary",
+    why: "this box is one widget of an AcroForm field whose other widget is the notary's month on page 12, and this factory writes a field rather than a widget, so filling the birth month here would also print it in the notary's blank. The box is declared instead of forced, and the fact it needs is already printed on page 2 of the same document"
+  },
+  {
+    id: "option1_date_of_birth_day_and_year",
+    re: /^(Day \/ Día|Year \/ Año)$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: (n) => `Date-of-birth box on the Option 1 declaration, page 11 (${n})`,
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the DAY and the YEAR of your date of birth, in the second and third boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 of the Statement - copy them from the date of birth already printed on page 2 of the Statement",
+    why: "the three boxes on this line are one date and are completed together. Their month box shares an AcroForm field with the notary's month on page 12 and cannot be written without writing the notary's blank, so the whole line is left to the participant rather than delivered two-thirds filled"
+  },
   {
     id: "declaration_date",
-    re: /^(Day \/ Día|Month \/ Mes|Year \/ Año|Today|Year)$/,
+    re: /^(Today|Year)$/,
     kind: "protect", section: S.SOI_DECLARATION,
     label: (n) => `Date part of the sworn declaration (${n})`,
     why: "a date written before the Statement is actually sworn would be false"
@@ -710,7 +782,15 @@ function statementFields(fieldNames, selectionNames) {
     const rule = SOI_RULES.find((r) => (r.selectionOnly ? isSelection : (!r.selectionOnly && r.re && r.re.test(name))));
     if (!rule) { unmatched.push(name); continue; }
     used.add(rule.id);
-    const base = { section: rule.section, label: rule.label(name), ...(isSelection ? { selection: true } : {}) };
+    const base = {
+      section: rule.section, label: rule.label(name),
+      // The form's own printed line, where the rule records one. mapsFrom uses
+      // it as printedLabel, and censusOf re-reads it off the pinned binary at
+      // captionAt on every build, so a caption that moved fails the build.
+      ...(rule.caption ? { caption: rule.caption } : {}),
+      ...(rule.captionAt ? { captionAt: rule.captionAt } : {}),
+      ...(isSelection ? { selection: true } : {})
+    };
     if (rule.kind === "write") spec[name] = { ...base, ...WRITE(rule.fact) };
     else if (rule.kind === "protect") spec[name] = { ...base, ...PROTECT(SIGNATURE, rule.why) };
     else if (rule.kind === "courtowned") spec[name] = { ...base, ...COURTOWN(rule.why) };
@@ -791,6 +871,7 @@ const COMPOSED_COMPONENTS = {
       L.push("NOW THE NUMBER TO IGNORE: $28. You may have read that an order of nondisclosure costs $28. THAT FIGURE IS NOT YOURS. It belongs only to the no-petition route under Government Code Sec. 411.072(c), and the committed record states in terms that it is not a filing fee at all. This is a petition route under Sec. 411.0735. Do not arrive at the clerk's window with $28.", "");
       L.push("IF YOU CANNOT AFFORD IT. Paragraph 6 of the petition lets you choose between paying the fees and costs and filing a STATEMENT OF INABILITY TO AFFORD PAYMENT OF COURT COSTS under Texas Rule of Civil Procedure 145. That Statement is in this packet, on the statewide bilingual form approved by the Supreme Court of Texas in Misc. Docket No. 22-9090. Rule 145 requires the clerk to make that form available WITHOUT CHARGE AND WITHOUT YOUR HAVING TO ASK, so you are entitled to it whether or not you use the copy here.", "");
       L.push("The Statement is sworn under penalty of perjury. Fill it from your own records - pay statements, benefit letters, bills - and not from memory. Nothing on it is filled in for you except your own name, date of birth, address, telephone number and email, because the platform holds no financial fact about anyone.", "");
+      L.push("PAGE 11 OF THE STATEMENT ASKS FOR YOUR DATE OF BIRTH AGAIN, in three boxes under 'My date of birth is / Mi fecha de nacimiento es', and those three boxes are left for you to write. Copy them from page 2 of the same Statement. They are not filled in for a mechanical reason rather than a legal one: on this form the month box is one form field with the notary's month on page 12, so filling your birth month would also write in the notary's blank.", "");
       L.push("WHO GIVES NOTICE TO THE STATE - AND IT IS NOT YOU. Under Sec. 411.0745(e), on receipt of your petition THE COURT provides notice to the State and an opportunity for a hearing. The committed record states that you should not be charged for that notice. OCA instructions do direct a petitioner to show proof that the district attorney received a copy, and some counties expect it, which is why this packet includes a proof-of-delivery page marked CONDITIONAL. Ask the clerk whether that county wants it.", "");
       L.push("WILL THERE BE A HEARING? A hearing is required UNLESS the State does not request one before the 45th day after receiving notice AND the court finds that you are entitled to file the petition and that issuing the order is in the best interest of justice.", "");
       L.push("NOTARIZATION. Subchapter E-1 does not require the petition to be notarized. County practice may differ. Ask the clerk.", "");
@@ -875,7 +956,7 @@ const INSTRUCTIONS = {
     "",
     "**The order form covers three sections at once.** Its page 2 has a box for §§ 411.0725, 411.073 and 411.0735, and yours is 411.0735. **None of the three is marked in this packet**, because the sentence above them says the *Court* finds which section applies — marking one would assert a finding no court has made.",
     "",
-    "The platform filled in what it holds about you, in the shape each form asks for it: your name on the petition, the proposed order and the Statement, your telephone number on the petition, and your date of birth, address, telephone number and email on the Statement.",
+    "The platform filled in what it holds about you, in the shape each form asks for it: your name on the petition, the proposed order and the Statement, your telephone number on the petition, and your date of birth, address, telephone number and email on the Statement. The Statement asks for your date of birth twice; it is written on page 2 and left for you on page 11, for the reason given under *Things the platform deliberately left blank*.",
     "",
     "**Your address is not written on the petition, and that is deliberate.** That block splits it across Address and City/State/Zip, and the platform holds your address as a single line and will not guess where the street ends. The Statement asks for the whole address in one blank, so there it is filled in.",
     "",
@@ -912,6 +993,7 @@ const INSTRUCTIONS = {
     "- **Both parts of your address on the petition**, because that block splits what the platform holds as one line.",
     "- **Every financial fact on the Statement of Inability.** It is sworn under penalty of perjury and the platform holds none of it.",
     "- **The cause number on the Statement.** Its own face says the Clerk's office fills that in when you file.",
+    "- **The three date-of-birth boxes on page 11 of the Statement** — the month box, the day box and the year box under \"My date of birth is / Mi fecha de nacimiento es\". They are yours rather than the platform's for a mechanical reason, not a legal one: on this form the month box is one form field with the notary's month on page 12, and the platform cannot write one without writing the other, so it writes neither and leaves the whole line to you. Your date of birth is already printed on page 2 of the same Statement — copy it across.",
     "- **The district attorney's name and address**, if that county wants the proof of delivery."
   ],
   stopsLines: [
@@ -1313,15 +1395,21 @@ async function renderComposedPdf(fullText, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /*
+   * The one shared separator-aware splitter, not a private copy.
+   *
+   * A route key too long for the 468pt column is broken at its OWN separators
+   * -- after a colon, underscore, slash, dot or hyphen -- so a reader carries
+   * across the break with the key still legible. The character-accumulating
+   * splitter this replaces cut at whichever glyph first reached the margin,
+   * which is how the proof-of-delivery page came to print
+   * "...-for-an-eligible-c" / "onviction-411-0735", a key broken inside a word.
+   *
+   * hardSplits is asserted zero after every composed document below: a future
+   * route key with no separator to break on fails the build instead of
+   * shipping a chopped one.
+   */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -1335,6 +1423,8 @@ async function renderComposedPdf(fullText, title) {
     return rows;
   };
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  assert.equal(splitToken.hardSplits, 0,
+    `${title}: a token was chopped mid-word because it carries no separator to break on`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 

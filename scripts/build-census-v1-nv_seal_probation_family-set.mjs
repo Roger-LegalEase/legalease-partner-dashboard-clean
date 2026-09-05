@@ -331,7 +331,7 @@ function composedBody(componentId, facts) {
     L.push("- records sit in more than one county, or in both municipal and justice or district court;");
     L.push("- federal, tribal, military or out-of-state records are involved - a Nevada order does not reach them;");
     L.push("- your goal is firearm rights, which sealing does not restore;");
-    L.push("- any pending charge, any offence-category question, or any immigration question.");
+    L.push("- any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation; any offence-category question; or any immigration question.");
   }
   // The internal route key overflowed onto a participant-facing, otherwise
   // blank continuation page for the proposed order. It is not pleading text.
@@ -701,7 +701,7 @@ function participantInstructions(maps, rbf) {
   out.push("- records sit in more than one county or more than one court;");
   out.push("- federal, tribal, military or out-of-state records — a Nevada order does not reach them;");
   out.push("- your goal is firearm rights, which sealing does not restore;");
-  out.push("- any pending charge, offence-category question, or immigration question.", "");
+  out.push("- any pending charge, and any conviction during the clean period other than a minor moving or standing traffic violation; any offence-category question; or any immigration question.", "");
 
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of composed pleadings, screens and process pages. It is not an official Nevada form — none exists for a subsection 2 petition, which is why these pages are composed — and it is not legal advice, it is not filed for you, and it does not decide whether the court will order sealing. Sealing is not expungement: it does not authorise destruction of the records, it does not restore firearm rights, and it must not be described as having any immigration effect.", "");

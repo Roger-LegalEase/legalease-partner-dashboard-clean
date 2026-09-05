@@ -406,6 +406,7 @@ import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
@@ -478,15 +479,13 @@ async function renderComposedPdf(fullText, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /* The shared separator-aware splitter, in place of this file's own
+   * character-accumulating splitToken. A route key too long for the 468pt
+   * column now breaks only after one of its own separators (colon,
+   * underscore, slash, dot, hyphen) and never mid-word. hardSplits counts
+   * any run with no separator to break on; the assertion below makes that a
+   * build failure rather than a shipped split. */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -500,6 +499,8 @@ async function renderComposedPdf(fullText, title) {
     return rows;
   };
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  assert.equal(splitToken.hardSplits, 0,
+    `composed document "${title}" needed ${splitToken.hardSplits} hard split(s): a token had no separator to break on inside the column. Refusing to ship a mid-word split.`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 

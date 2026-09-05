@@ -11,6 +11,14 @@ These files are deterministic review fixtures made from exact held official sour
 - Court, judge, prosecutor, clerk, law-enforcement, agency, notary, hearing, and post-order fields remain for their proper owners.
 - Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.
 
+## Values this platform holds but did not print
+
+The blanks below are not blanks the platform has no fact for. It holds each of these values and could not put it on the paper, so it left the box **empty** rather than print something a court could not read, or leave a row half filled. **Write each one in by hand before you file.** Which of them bites on a real packet depends on how long that participant's own name, charge or docket number is; the fixtures a row was measured on are named in the last column.
+
+| Source field | The fact | Why it is not printed | Measured on |
+| --- | --- | --- | --- |
+| `arrest1CaseNum` | `matter.case_number` | the value does not fit this box at a size a court could read | boundary |
+
 ## Exact facts still required before filing
 
 The platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.

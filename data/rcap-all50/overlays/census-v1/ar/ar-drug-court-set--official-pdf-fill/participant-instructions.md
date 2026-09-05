@@ -10,72 +10,270 @@ Stop self-help for any objection or contested hearing, uncertainty about complet
 
 Before filing, obtain the fingerprint card and the ACIC criminal history when the records step applies; compare the criminal history with the court, county, charge, and disposition; then complete these exact official-form blanks from the named record:
 
-- **_______ DIVISION** (`ACIC-PETITION-DRUG-COURT-PRE:DIVISION`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
-- **federal court and the status of that/those charges is/are as** (`ACIC-PETITION-DRUG-COURT-PRE:federal court and the status of thatthose charges isare as follows 1`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "__________________________________________________".
-- **ACIC-PETITION-DRUG-COURT-PRE printed blank federal court and the status of thatthose charges isare as follows 2** (`ACIC-PETITION-DRUG-COURT-PRE:federal court and the status of thatthose charges isare as follows 2`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "__________________________________________________".
-- **number(s)** (`ACIC-PETITION-DRUG-COURT-PRE:numbers`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "number(s) _____________ in _____________ County ____________".
-- **was found guilty of** (`ACIC-PETITION-DRUG-COURT-PRE:was found guilty of`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "was found guilty of ________________________________________,".
-- **in violation of A.C.A. §** (`ACIC-PETITION-DRUG-COURT-PRE:in violation of ACA`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "in violation of A.C.A. § ___________________.".
-- **Race** (`ACIC-PETITION-DRUG-COURT-PRE:Race`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "Race ____________ Arrest Tracking Number ________________".
-- **Sex** (`ACIC-PETITION-DRUG-COURT-PRE:Sex`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "Sex ____________ SID No. _____________________".
-- **IN THE** (`ACIC-PETITION-DRUG-COURT-PRE:COURT`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "IN THE ______________ COURT OF ________________, ARKANSAS".
-- **IN THE ______________ COURT OF** (`ACIC-PETITION-DRUG-COURT-PRE:COUNTY`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "IN THE ______________ COURT OF ________________, ARKANSAS".
-- **1.The defendant was arrested on t** (`ACIC-PETITION-DRUG-COURT-PRE:DAY`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "1.The defendant was arrested on the _______ day of ______________,".
-- **_____, and charged with the offense(s) of:** (`ACIC-PETITION-DRUG-COURT-PRE:YEAR`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
-- **ACIC-PETITION-DRUG-COURT-PRE printed blank OFFENSE 01** (`ACIC-PETITION-DRUG-COURT-PRE:OFFENSE 01`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "______________________________________________________".
-- **ACIC-PETITION-DRUG-COURT-PRE printed blank OFFENSE 02** (`ACIC-PETITION-DRUG-COURT-PRE:OFFENSE 02`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "_____________________________________________________".
-- **A** (`ACIC-PETITION-DRUG-COURT-PRE:CLASS`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "A Class _____ [_] felony in violation of A.C.A.§[_] misdemeanor".
-- **____________________.** (`ACIC-PETITION-DRUG-COURT-PRE:ACA`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
-- **4.On** (`ACIC-PETITION-DRUG-COURT-PRE:DATE 01`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "4.On __________the Defendant successfully completed the drug court".
-- **8.If applicable, on the** (`ACIC-PETITION-DRUG-COURT-PRE:DAY 02`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "8.If applicable, on the ______ day of _________, ________, in case".
-- **1.The defendant was arrested on the _______ day of** (`ACIC-PETITION-DRUG-COURT-PRE:MONTH`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "1.The defendant was arrested on the _______ day of ______________,".
-- **8.If applicable, on the ______ day of** (`ACIC-PETITION-DRUG-COURT-PRE:MONTH 02`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "8.If applicable, on the ______ day of _________, ________, in case".
-- **8.If applicable, on the ______ day of _________,** (`ACIC-PETITION-DRUG-COURT-PRE:YEAR 02`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "8.If applicable, on the ______ day of _________, ________, in case".
-- **number(s) _____________ in** (`ACIC-PETITION-DRUG-COURT-PRE:COUNTY 02`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "number(s) _____________ in _____________ County ____________".
-- **number(s) _____________ in _____________ County** (`ACIC-PETITION-DRUG-COURT-PRE:COURT 02`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "number(s) _____________ in _____________ County ____________".
-- **prays this Court enter an Order Sealing case number(s)** (`ACIC-PETITION-DRUG-COURT-PRE:CASE NUMBER(S)`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "prays this Court enter an Order Sealing case number(s) _____________".
-- **from** (`ACIC-PETITION-DRUG-COURT-PRE:COUNTY 03`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "from _________ County ___________ Court pursuant to A.C.A.§16-98-".
-- **from _________ County** (`ACIC-PETITION-DRUG-COURT-PRE:COURT 03`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "from _________ County ___________ Court pursuant to A.C.A.§16-98-".
-- **IN TH** (`ACIC-PETITION-DRUG-COURT-POST:COURT OF`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "IN THE ______________ COURT OF ________________, ARKANSAS".
-- **_______ DIVISION** (`ACIC-PETITION-DRUG-COURT-POST:DIVISION`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
-- **______________, _____, and charged with the oense(s) of** (`ACIC-PETITION-DRUG-COURT-POST:1`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "_____________________________________________________".
-- **_____________________________________________________** (`ACIC-PETITION-DRUG-COURT-POST:2`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
-- **number(s) _____________ in** (`ACIC-PETITION-DRUG-COURT-POST:in`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "number(s) _____________ in _____________ County ____________".
-- **was found guilty of** (`ACIC-PETITION-DRUG-COURT-POST:was found guilty of`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "was found guilty of ________________________________________,".
-- **in violation of A.C.A. §** (`ACIC-PETITION-DRUG-COURT-POST:in violation of ACA`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "in violation of A.C.A. § ___________________.".
-- **from** (`ACIC-PETITION-DRUG-COURT-POST:from`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "from _________ County ___________ Court pursuant to A.C.A.§16-98-303.".
-- **from _________ County** (`ACIC-PETITION-DRUG-COURT-POST:County_2`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "from _________ County ___________ Court pursuant to A.C.A.§16-98-303.".
-- **Race** (`ACIC-PETITION-DRUG-COURT-POST:Race`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "Race ____________ Arrest Tracking Number ________________".
-- **Sex** (`ACIC-PETITION-DRUG-COURT-POST:Sex`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "Sex ____________ SID No. _____________________".
-- **number(s) _____________ in _____________ County** (`ACIC-PETITION-DRUG-COURT-POST:County`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "number(s) _____________ in _____________ County ____________".
-- **T he defendant was arrested on the** (`ACIC-PETITION-DRUG-COURT-POST:Day`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "T he defendant was arrested on the _______ day of".
-- **T he defendant was arrested on the _______ day of** (`ACIC-PETITION-DRUG-COURT-POST:Month`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "______________, _____, and charged with the oense(s) of".
-- **______________,** (`ACIC-PETITION-DRUG-COURT-POST:Year`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "______________, _____, and charged with the oense(s) of".
-- **A Class** (`ACIC-PETITION-DRUG-COURT-POST:Class Letter`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "A Class _____ [_] felony [_] misdemeanor in violationof A.C.A.§".
-- **A Class _____ [_] felony [_] misdemeanor in violationof A.C.** (`ACIC-PETITION-DRUG-COURT-POST:ACA Code`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "____________________.".
-- **________________________________________, in violation of** (`ACIC-PETITION-DRUG-COURT-POST:Guilty charge`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
-- **A.C.A** (`ACIC-PETITION-DRUG-COURT-POST:ACA Code 2`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "A.C.A. § ___________________, on the ________ day of _________,".
-- **A.C.A. § ___________________, on the** (`ACIC-PETITION-DRUG-COURT-POST:Day 2`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "A.C.A. § ___________________, on the ________ day of _________,".
-- **A.C.A. § ___________________, on the ________ day of** (`ACIC-PETITION-DRUG-COURT-POST:Month 2`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "A.C.A. § ___________________, on the ________ day of _________,".
-- **A.C.A. § ___________________, on the ________ day of _______** (`ACIC-PETITION-DRUG-COURT-POST:Year 2`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "_________.".
-- **3.The Defendant was placed on probation for a period of** (`ACIC-PETITION-DRUG-COURT-POST:Prob Months`, page 1): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "3.The Defendant was placed on probation for a period of ______".
-- **federal court and the status of that/those charges is/are as** (`ACIC-PETITION-DRUG-COURT-POST:Charges 1`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "__________________________________________________".
-- **__________________________________________________** (`ACIC-PETITION-DRUG-COURT-POST:Charges 2`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
-- **8. If applicable, on the** (`ACIC-PETITION-DRUG-COURT-POST:Day 3`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "8. If applicable, on the ______ day of _________, ________, in case".
-- **8. If applicable, on the ______ day of** (`ACIC-PETITION-DRUG-COURT-POST:Month 3`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "8. If applicable, on the ______ day of _________, ________, in case".
-- **8. If applicable, on the ______ day of _________,** (`ACIC-PETITION-DRUG-COURT-POST:Year 3`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "8. If applicable, on the ______ day of _________, ________, in case".
-- **number(s)** (`ACIC-PETITION-DRUG-COURT-POST:Case no 2`, page 2): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "number(s) _____________ in _____________ County ____________".
-- **prays this Court enter an Order Sealing case number(s)** (`ACIC-PETITION-DRUG-COURT-POST:Case no 3`, page 3): Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact. Printed on the form as: "prays this Court enter an Order Sealing case number(s) _____________".
-- **IN THE** (`ACIC-ORDER-DRUG-COURT-PRE:COURT OF`, page 1): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "IN THE ______________ COURT OF ________________, ARKANSAS".
-- **_______ DIVISION** (`ACIC-ORDER-DRUG-COURT-PRE:DIVISION`, page 1): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
-- **Race** (`ACIC-ORDER-DRUG-COURT-PRE:Race`, page 4): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "Race ____________ Arrest Tracking Number ________________".
-- **Sex** (`ACIC-ORDER-DRUG-COURT-PRE:Sex`, page 4): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "Sex ____________ SID No. _____________________".
-- **ACIC-ORDER-DRUG-COURT-PRE printed blank SID** (`ACIC-ORDER-DRUG-COURT-PRE:SID`, page 4): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "Sex ____________ SID No. _____________________".
-- **IN THE** (`ACIC-ORDER-DRUG-COURT-POST:COURT OF`, page 1): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "IN THE ______________ COURT OF ________________, ARKANSAS".
-- **_______ DIVISION** (`ACIC-ORDER-DRUG-COURT-POST:DIVISION`, page 1): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
-- **Race** (`ACIC-ORDER-DRUG-COURT-POST:Race`, page 4): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "Race ____________ Arrest Tracking Number ________________".
-- **Sex** (`ACIC-ORDER-DRUG-COURT-POST:Sex`, page 4): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "Sex ____________ SID No. _____________________".
-- **ACIC-ORDER-DRUG-COURT-POST printed blank SID** (`ACIC-ORDER-DRUG-COURT-POST:SID`, page 4): Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition. Printed on the form as: "Sex ____________ SID No. _____________________".
+- **DIVISION, the 1st of 1 blank on the printed line "_______ DIVISION"** (`ACIC-PETITION-DRUG-COURT-PRE:DIVISION`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **federal court and the status of thatthose charges isare as follows 1, the 1st of 1 blank on the printed line "__________________________________________________" (the 1st of 2 identical lines on that page, counting from the top), which continues "federal court and the status of that/those charges is/are as follows:"** (`ACIC-PETITION-DRUG-COURT-PRE:federal court and the status of thatthose charges isare as follows 1`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **federal court and the status of thatthose charges isare as follows 2, the 1st of 1 blank on the printed line "__________________________________________________" (the 2nd of 2 identical lines on that page, counting from the top), which continues "federal court and the status of that/those charges is/are as follows:"** (`ACIC-PETITION-DRUG-COURT-PRE:federal court and the status of thatthose charges isare as follows 2`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **numbers, the 1st of 3 blanks on the printed line "number(s) _____________ in _____________ County ____________"** (`ACIC-PETITION-DRUG-COURT-PRE:numbers`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **was found guilty of, the 1st of 1 blank on the printed line "was found guilty of ________________________________________,"** (`ACIC-PETITION-DRUG-COURT-PRE:was found guilty of`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **in violation of ACA, the 1st of 1 blank on the printed line "in violation of A.C.A. § ___________________."** (`ACIC-PETITION-DRUG-COURT-PRE:in violation of ACA`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Race, the 1st of 2 blanks on the printed line "Race ____________ Arrest Tracking Number ________________"** (`ACIC-PETITION-DRUG-COURT-PRE:Race`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Sex, the 1st of 2 blanks on the printed line "Sex ____________ SID No. _____________________"** (`ACIC-PETITION-DRUG-COURT-PRE:Sex`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COURT, the 1st of 2 blanks on the printed line "IN THE ______________ COURT OF ________________, ARKANSAS"** (`ACIC-PETITION-DRUG-COURT-PRE:COURT`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COUNTY, the 2nd of 2 blanks on the printed line "IN THE ______________ COURT OF ________________, ARKANSAS"** (`ACIC-PETITION-DRUG-COURT-PRE:COUNTY`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **DAY, the 1st of 2 blanks on the printed line "1.The defendant was arrested on the _______ day of ______________,"** (`ACIC-PETITION-DRUG-COURT-PRE:DAY`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **YEAR, the 1st of 1 blank on the printed line "_____, and charged with the offense(s) of:"** (`ACIC-PETITION-DRUG-COURT-PRE:YEAR`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **OFFENSE 01, the 1st of 1 blank on the printed line "______________________________________________________", which continues "_____, and charged with the offense(s) of:"** (`ACIC-PETITION-DRUG-COURT-PRE:OFFENSE 01`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **OFFENSE 02, the 1st of 1 blank on the printed line "_____________________________________________________", which continues "_____, and charged with the offense(s) of:"** (`ACIC-PETITION-DRUG-COURT-PRE:OFFENSE 02`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **CLASS, the 1st of 3 blanks on the printed line "A Class _____ [_] felony in violation of A.C.A.§[_] misdemeanor"** (`ACIC-PETITION-DRUG-COURT-PRE:CLASS`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **ACA, the 1st of 1 blank on the printed line "____________________.", which continues "A Class _____ [_] felony in violation of A.C.A.§[_] misdemeanor"** (`ACIC-PETITION-DRUG-COURT-PRE:ACA`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **DATE 01, the 1st of 1 blank on the printed line "4.On __________the Defendant successfully completed the drug court"** (`ACIC-PETITION-DRUG-COURT-PRE:DATE 01`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **DAY 02, the 1st of 3 blanks on the printed line "8.If applicable, on the ______ day of _________, ________, in case"** (`ACIC-PETITION-DRUG-COURT-PRE:DAY 02`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **MONTH, the 2nd of 2 blanks on the printed line "1.The defendant was arrested on the _______ day of ______________,"** (`ACIC-PETITION-DRUG-COURT-PRE:MONTH`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **MONTH 02, the 2nd of 3 blanks on the printed line "8.If applicable, on the ______ day of _________, ________, in case"** (`ACIC-PETITION-DRUG-COURT-PRE:MONTH 02`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **YEAR 02, the 3rd of 3 blanks on the printed line "8.If applicable, on the ______ day of _________, ________, in case"** (`ACIC-PETITION-DRUG-COURT-PRE:YEAR 02`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COUNTY 02, the 2nd of 3 blanks on the printed line "number(s) _____________ in _____________ County ____________"** (`ACIC-PETITION-DRUG-COURT-PRE:COUNTY 02`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COURT 02, the 3rd of 3 blanks on the printed line "number(s) _____________ in _____________ County ____________"** (`ACIC-PETITION-DRUG-COURT-PRE:COURT 02`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **CASE NUMBER(S), the 1st of 1 blank on the printed line "prays this Court enter an Order Sealing case number(s) _____________"** (`ACIC-PETITION-DRUG-COURT-PRE:CASE NUMBER(S)`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COUNTY 03, the 1st of 2 blanks on the printed line "from _________ County ___________ Court pursuant to A.C.A.§16-98-"** (`ACIC-PETITION-DRUG-COURT-PRE:COUNTY 03`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COURT 03, the 2nd of 2 blanks on the printed line "from _________ County ___________ Court pursuant to A.C.A.§16-98-"** (`ACIC-PETITION-DRUG-COURT-PRE:COURT 03`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COURT OF, the 1st of 2 blanks on the printed line "IN THE ______________ COURT OF ________________, ARKANSAS"** (`ACIC-PETITION-DRUG-COURT-POST:COURT OF`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **DIVISION, the 1st of 1 blank on the printed line "_______ DIVISION"** (`ACIC-PETITION-DRUG-COURT-POST:DIVISION`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **1, the 1st of 1 blank on the printed line "_____________________________________________________" (the 1st of 2 identical lines on that page, counting from the top), which continues "______________, _____, and charged with the oense(s) of"** (`ACIC-PETITION-DRUG-COURT-POST:1`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **2, the 1st of 1 blank on the printed line "_____________________________________________________" (the 2nd of 2 identical lines on that page, counting from the top), which continues "______________, _____, and charged with the oense(s) of"** (`ACIC-PETITION-DRUG-COURT-POST:2`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **in, the 2nd of 3 blanks on the printed line "number(s) _____________ in _____________ County ____________"** (`ACIC-PETITION-DRUG-COURT-POST:in`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **was found guilty of, the 1st of 1 blank on the printed line "was found guilty of ________________________________________,"** (`ACIC-PETITION-DRUG-COURT-POST:was found guilty of`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **in violation of ACA, the 1st of 1 blank on the printed line "in violation of A.C.A. § ___________________."** (`ACIC-PETITION-DRUG-COURT-POST:in violation of ACA`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **from, the 1st of 2 blanks on the printed line "from _________ County ___________ Court pursuant to A.C.A.§16-98-303."** (`ACIC-PETITION-DRUG-COURT-POST:from`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **County_2, the 2nd of 2 blanks on the printed line "from _________ County ___________ Court pursuant to A.C.A.§16-98-303."** (`ACIC-PETITION-DRUG-COURT-POST:County_2`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Race, the 1st of 2 blanks on the printed line "Race ____________ Arrest Tracking Number ________________"** (`ACIC-PETITION-DRUG-COURT-POST:Race`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Sex, the 1st of 2 blanks on the printed line "Sex ____________ SID No. _____________________"** (`ACIC-PETITION-DRUG-COURT-POST:Sex`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **County, the 3rd of 3 blanks on the printed line "number(s) _____________ in _____________ County ____________"** (`ACIC-PETITION-DRUG-COURT-POST:County`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Day, the 1st of 1 blank on the printed line "T he defendant was arrested on the _______ day of"** (`ACIC-PETITION-DRUG-COURT-POST:Day`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Month, the 1st of 2 blanks on the printed line "______________, _____, and charged with the oense(s) of"** (`ACIC-PETITION-DRUG-COURT-POST:Month`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Year, the 2nd of 2 blanks on the printed line "______________, _____, and charged with the oense(s) of"** (`ACIC-PETITION-DRUG-COURT-POST:Year`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Class Letter, the 1st of 3 blanks on the printed line "A Class _____ [_] felony [_] misdemeanor in violationof A.C.A.§"** (`ACIC-PETITION-DRUG-COURT-POST:Class Letter`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **ACA Code, the 1st of 1 blank on the printed line "____________________.", which continues "A Class _____ [_] felony [_] misdemeanor in violationof A.C.A.§"** (`ACIC-PETITION-DRUG-COURT-POST:ACA Code`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Guilty charge, the 1st of 1 blank on the printed line "________________________________________, in violation of"** (`ACIC-PETITION-DRUG-COURT-POST:Guilty charge`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **ACA Code 2, the 1st of 3 blanks on the printed line "A.C.A. § ___________________, on the ________ day of _________,"** (`ACIC-PETITION-DRUG-COURT-POST:ACA Code 2`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Day 2, the 2nd of 3 blanks on the printed line "A.C.A. § ___________________, on the ________ day of _________,"** (`ACIC-PETITION-DRUG-COURT-POST:Day 2`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Month 2, the 3rd of 3 blanks on the printed line "A.C.A. § ___________________, on the ________ day of _________,"** (`ACIC-PETITION-DRUG-COURT-POST:Month 2`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Year 2, the 1st of 1 blank on the printed line "_________.", which continues "A.C.A. § ___________________, on the ________ day of _________,"** (`ACIC-PETITION-DRUG-COURT-POST:Year 2`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Prob Months, the 1st of 1 blank on the printed line "3.The Defendant was placed on probation for a period of ______"** (`ACIC-PETITION-DRUG-COURT-POST:Prob Months`, page 1)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Charges 1, the 1st of 1 blank on the printed line "__________________________________________________" (the 1st of 2 identical lines on that page, counting from the top), which continues "federal court and the status of that/those charges is/are as follows:"** (`ACIC-PETITION-DRUG-COURT-POST:Charges 1`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Charges 2, the 1st of 1 blank on the printed line "__________________________________________________" (the 2nd of 2 identical lines on that page, counting from the top), which continues "federal court and the status of that/those charges is/are as follows:"** (`ACIC-PETITION-DRUG-COURT-POST:Charges 2`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Day 3, the 1st of 3 blanks on the printed line "8. If applicable, on the ______ day of _________, ________, in case"** (`ACIC-PETITION-DRUG-COURT-POST:Day 3`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Month 3, the 2nd of 3 blanks on the printed line "8. If applicable, on the ______ day of _________, ________, in case"** (`ACIC-PETITION-DRUG-COURT-POST:Month 3`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Year 3, the 3rd of 3 blanks on the printed line "8. If applicable, on the ______ day of _________, ________, in case"** (`ACIC-PETITION-DRUG-COURT-POST:Year 3`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Case no 2, the 1st of 3 blanks on the printed line "number(s) _____________ in _____________ County ____________"** (`ACIC-PETITION-DRUG-COURT-POST:Case no 2`, page 2)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **Case no 3, the 1st of 1 blank on the printed line "prays this Court enter an Order Sealing case number(s) _____________"** (`ACIC-PETITION-DRUG-COURT-POST:Case no 3`, page 3)
+  - Supplied by: the participant, from the court file, the ACIC criminal history, or the drug-court completion record.
+  - Supplied when: before the petition is signed and filed.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact.
+- **COURT OF, the 1st of 2 blanks on the printed line "IN THE ______________ COURT OF ________________, ARKANSAS"** (`ACIC-ORDER-DRUG-COURT-PRE:COURT OF`, page 1)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **DIVISION, the 1st of 1 blank on the printed line "_______ DIVISION"** (`ACIC-ORDER-DRUG-COURT-PRE:DIVISION`, page 1)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **Race, the 1st of 2 blanks on the printed line "Race ____________ Arrest Tracking Number ________________"** (`ACIC-ORDER-DRUG-COURT-PRE:Race`, page 4)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **Sex, the 1st of 2 blanks on the printed line "Sex ____________ SID No. _____________________"** (`ACIC-ORDER-DRUG-COURT-PRE:Sex`, page 4)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **SID, the 2nd of 2 blanks on the printed line "Sex ____________ SID No. _____________________"** (`ACIC-ORDER-DRUG-COURT-PRE:SID`, page 4)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **COURT OF, the 1st of 2 blanks on the printed line "IN THE ______________ COURT OF ________________, ARKANSAS"** (`ACIC-ORDER-DRUG-COURT-POST:COURT OF`, page 1)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **DIVISION, the 1st of 1 blank on the printed line "_______ DIVISION"** (`ACIC-ORDER-DRUG-COURT-POST:DIVISION`, page 1)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **Race, the 1st of 2 blanks on the printed line "Race ____________ Arrest Tracking Number ________________"** (`ACIC-ORDER-DRUG-COURT-POST:Race`, page 4)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **Sex, the 1st of 2 blanks on the printed line "Sex ____________ SID No. _____________________"** (`ACIC-ORDER-DRUG-COURT-POST:Sex`, page 4)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
+- **SID, the 2nd of 2 blanks on the printed line "Sex ____________ SID No. _____________________"** (`ACIC-ORDER-DRUG-COURT-POST:SID`, page 4)
+  - Supplied by: the participant, copying the underlying court or ACIC record.
+  - Supplied when: before the proposed order is lodged, so it matches the petition it accompanies.
+  - Disposition: REQUIRED_BEFORE_FILING. Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition.
 
 Sign and date the petition yourself after all answers are true. Complete a certificate of service only after service occurred. The proposed order remains unsigned and undated for the judge.
 

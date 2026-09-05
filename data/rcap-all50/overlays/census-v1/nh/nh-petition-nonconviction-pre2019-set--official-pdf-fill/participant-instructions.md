@@ -40,8 +40,8 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 3. **Read the certification on page 2 before you tick anything.** Every box there is a statement you swear to under penalties of law, and several are legal characterisations of your own record — whether the time requirements of RSA 651:5, III are met, whether the matter is a violent crime or a felony crime of obstruction of justice, whether it carries an enhanced penalty for a second conviction. None of them is ticked for you, and none of them should be ticked until you know it is true.
 4. **Decide whether to ask for a hearing.** The form says the court may decide your petition without one after reading the Department of Corrections report and any response from the State. If you want a hearing, tick the box that asks for it.
 5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.
-6. **If you fill NHJB-2328 in by hand, correct the printed totals.** The form prints **Total $ 0.00** under each column because that is the value it ships with, and a printed packet cannot add up what you write on it. Cross the 0.00 out and write the real total, or fill the form in on a computer before you print it.
-7. **The signature line on NHJB-2311 already reads "Enter /s/ before name".** That is the form's own instruction, printed in the box: New Hampshire wants your electronic signature written as /s/ followed by your name.
+6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and the lines that feed it are blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.
+7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries "Enter /s/ before name" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: "If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.
 8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.
 
 ## NHJB-2317 — Petition to Annul Record: Offenses Resolved Prior to 01/01/2019: the items you must supply
@@ -182,6 +182,21 @@ This packet does not take payment and cannot confirm what a particular clerk wil
 - **The counsel blocks.** You are filing this yourself; no attorney-representation fact is held for you.
 - **Page 3 of NHJB-2317 and page 2 of NHJB-2311.** Both are marked FOR COURT USE ONLY and carry the court's own order.
 - **Section II of NHJB-2956** — the third-party release. This packet requests your own record for your own annulment.
+
+## Where self-help ends
+
+This packet prepares four official forms; it decides nothing. The committed legal-design record for this route names the points where preparing your own papers stops being enough, and it names 8 of them. They are set out below in that record's own words. If any one of them describes your case, stop here and get advice from a **lawyer licensed in New Hampshire** before you file. The clerk of the court that handled your matter can tell you what the court requires procedurally, but a clerk cannot give you legal advice. This packet does not name a legal-aid organisation or a referral line, for the same reason it prints no courthouse address: the platform holds no sourced New Hampshire directory, and an invented one in a filing instruction is worse than none.
+
+- Prosecutor opposition.
+- The participant requests a hearing.
+- Multiple charges across multiple courts, which means multiple petitions and multiple filing fees.
+- Federal, military, tribal or out-of-state records.
+- A prior annulment petition denied within the last 3 years, because RSA 651:5, IV bars a further petition more frequently than every 3 years.
+- The participant needs the annulment recognized federally or for immigration. It will not be.
+- The participant expects a private background-check database to remove the record. RSA 651:5, XVII says it need not.
+- The participant expects annulment to restore firearm rights. It does not.
+
+Four of those are worth reading twice, because they cost money or they mislead. **RSA 651:5, IV bars a further petition more often than every three years** — if a petition to annul this matter was denied within the last three years, you are about to pay a filing fee for a petition the statute bars. **An annulment is a New Hampshire court order about a New Hampshire record**: it is not recognised federally and it does not resolve immigration consequences. **RSA 651:5, XVII does not oblige a private background-check company to remove the record** from its database. And **an annulment does not restore firearm rights.**
 
 ## What annulment does, and what it does not do
 

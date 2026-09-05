@@ -6,15 +6,16 @@
     "petition",
     "stipulation_and_proposed_order",
     "fee_waiver_application",
-    "process_guidance"
+    "process_guidance",
+    "interests_of_justice_prompts"
   ],
   "artifacts": [
     {
       "fixture": "canonical",
       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
-      "sha256": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb",
-      "byteLength": 857428,
-      "pageCount": 8,
+      "sha256": "1f510c618b3f87e50403f61273d7fd5175e6ebc5a67805870da932a3e875002a",
+      "byteLength": 861318,
+      "pageCount": 9,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -71,6 +72,13 @@
           "documentId": "process_guidance",
           "sourcePage": 2,
           "sourceSha256": null
+        },
+        {
+          "packetPage": 9,
+          "component": "interests_of_justice_prompts",
+          "documentId": "interests_of_justice_prompts",
+          "sourcePage": 1,
+          "sourceSha256": null
         }
       ],
       "documents": [
@@ -80,21 +88,23 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ],
       "components": [
         "petition",
         "stipulation_and_proposed_order",
         "fee_waiver_application",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     },
     {
       "fixture": "boundary",
       "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
-      "sha256": "dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5",
-      "byteLength": 857944,
-      "pageCount": 8,
+      "sha256": "8374cf99a4b43419043c8d809e46318812d8f766e9aab745e3806cee40c190e4",
+      "byteLength": 861685,
+      "pageCount": 9,
       "pageManifest": [
         {
           "packetPage": 1,
@@ -151,6 +161,13 @@
           "documentId": "process_guidance",
           "sourcePage": 2,
           "sourceSha256": null
+        },
+        {
+          "packetPage": 9,
+          "component": "interests_of_justice_prompts",
+          "documentId": "interests_of_justice_prompts",
+          "sourcePage": 1,
+          "sourceSha256": null
         }
       ],
       "documents": [
@@ -160,13 +177,15 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ],
       "components": [
         "petition",
         "stipulation_and_proposed_order",
         "fee_waiver_application",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     }
   ],
@@ -174,9 +193,98 @@
     "fee_waiver_application": {
       "requirement": "conditional",
       "conditionDescription": "Only where a filing fee is actually charged; on this track none is.",
-      "filingDispositionForThisTrack": "do_not_file"
+      "conditionMetOnThisTrack": false,
+      "filingDispositionForThisTrack": "do_not_file",
+      "deliveryTreatment": "delivered_unfilled",
+      "whyItIsStillDelivered": "600-00228 is the Vermont Judiciary's single statewide fee-waiver application and the packet-set manifest carries it as a component of this set. It is delivered exactly as the Judiciary publishes it, with nothing written on it, so the packet asserts no financial fact and no identity on a form the participant is told not to file. The instructions and the process-guidance page name the form, say no fee is charged on this track, and say the only circumstance in which it is used.",
+      "nothingIsWrittenOnIt": true,
+      "manifestRecord": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set].components[vt_seal_nonconviction-fee-waiver-application-5]"
+    },
+    "interests_of_justice_prompts": {
+      "requirement": "conditional",
+      "conditionDescription": "Only on the Sec. 7603(g) ordinary petition route, where the petitioner carries the affirmative burden.",
+      "conditionMetOnThisTrack": true,
+      "whyTheConditionIsMet": "This packet carries the Sec. 7603(g) ordinary contested petition as one of its three routes: it is ROUTE_KEYS[1] (obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition), it is the route 200-00130 is filled for, and it is section 1 of the packet's own process-guidance page. On that route the burden is affirmative on the petitioner.",
+      "filingDispositionForThisTrack": "not_filed_by_itself",
+      "deliveryTreatment": "rendered_as_a_composed_component_page_of_participant_facing_prompts",
+      "whatItCarries": "Prompts only -- questions for the participant to answer in their own words, and a statement of where their own answer goes on the petition.",
+      "whatItNeverCarries": "No generated argument, no drafted or example statement, and no sentence the participant could sign as their own. The platform writes nothing into question 4 of 200-00130 and this page writes nothing there either.",
+      "feedsBlank": "200-00130 question 4, printed caption '4. I believe that sealing of my criminal history is in the interests of justice because:', which remains a participant supply and was not changed by this component.",
+      "manifestRecord": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set].components[vt_seal_nonconviction-interests-of-justice-prompts-4]",
+      "registryRecord": "data/record-clearing/legal-design-track-registry.json -> vt_seal_nonconviction, unit vt-nonconviction-ordinary-petition"
     }
   },
+  "manifestComponentDelivery": [
+    {
+      "componentId": "vt_seal_nonconviction-automatic-sealing-verification-guidance-1",
+      "role": "automatic_sealing_verification_guidance",
+      "requirement": "required",
+      "conditionDescription": null,
+      "packetComponent": "process_guidance",
+      "note": "The composed process-guidance page carries this role. Its section 3, THE ROUTE THAT FILES NOTHING, is the automatic Sec. 7603(a)(1) route and how to verify it.",
+      "pages": [
+        7,
+        8
+      ],
+      "dispositionedInComponentRequirements": false,
+      "conditionMetOnThisTrack": null
+    },
+    {
+      "componentId": "vt_seal_nonconviction-petition-2",
+      "role": "petition",
+      "requirement": "conditional",
+      "conditionDescription": "Only where the automatic route did not run or does not reach the disposition.",
+      "packetComponent": "petition",
+      "note": "Form 200-00130.",
+      "pages": [
+        1,
+        2
+      ],
+      "dispositionedInComponentRequirements": false,
+      "conditionMetOnThisTrack": null
+    },
+    {
+      "componentId": "vt_seal_nonconviction-stipulation-and-proposed-order-3",
+      "role": "stipulation_and_proposed_order",
+      "requirement": "conditional",
+      "conditionDescription": "Used where the participant asks the prosecuting office to stipulate and the office agrees. Where the prosecutor will not stipulate, the petition proceeds on its own and the court sets the matter down if the prosecutor opposes.",
+      "packetComponent": "stipulation_and_proposed_order",
+      "note": "Form 200-00132.",
+      "pages": [
+        3,
+        4
+      ],
+      "dispositionedInComponentRequirements": false,
+      "conditionMetOnThisTrack": null
+    },
+    {
+      "componentId": "vt_seal_nonconviction-interests-of-justice-prompts-4",
+      "role": "interests_of_justice_prompts",
+      "requirement": "conditional",
+      "conditionDescription": "Only on the § 7603(g) ordinary petition route, where the petitioner carries the affirmative burden.",
+      "packetComponent": "interests_of_justice_prompts",
+      "note": "The composed prompts page. Its condition is met on this track, so it is rendered rather than dispositioned.",
+      "pages": [
+        9
+      ],
+      "dispositionedInComponentRequirements": true,
+      "conditionMetOnThisTrack": true
+    },
+    {
+      "componentId": "vt_seal_nonconviction-fee-waiver-application-5",
+      "role": "fee_waiver_application",
+      "requirement": "conditional",
+      "conditionDescription": "Only where a filing fee is charged; on this track none is.",
+      "packetComponent": "fee_waiver_application",
+      "note": "Form 600-00228, delivered unfilled; its condition is not met and componentRequirements says so.",
+      "pages": [
+        5,
+        6
+      ],
+      "dispositionedInComponentRequirements": true,
+      "conditionMetOnThisTrack": false
+    }
+  ],
   "packets": [
     {
       "fixture": "canonical",
@@ -187,7 +295,8 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     },
     {
@@ -199,332 +308,12 @@
         "200-00132",
         "fee_waiver_application",
         "600-00228",
-        "process_guidance"
+        "process_guidance",
+        "interests_of_justice_prompts"
       ]
     }
   ],
-  "rasterEngine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
-  "rasterSkipped": false,
-  "rasterPages": [
-    {
-      "fixture": "canonical",
-      "page": 1,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-01/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "92fd7dd37515c688b49562b4c4a0ff6b5d3917a180ee578a6e8591a36e70ec60"
-    },
-    {
-      "fixture": "canonical",
-      "page": 2,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-02/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "640e7d874bec228feac8d21309e852e475a962d1fda3333333f44e102c7da878"
-    },
-    {
-      "fixture": "canonical",
-      "page": 3,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-03/page.png",
-      "component": "stipulation_and_proposed_order",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "6dc6848785d40d4338d9c2dab345f4ed4a95293076eab00e88b14bb1fa084b7d"
-    },
-    {
-      "fixture": "canonical",
-      "page": 4,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-04/page.png",
-      "component": "stipulation_and_proposed_order",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "8763dc00cfb45346d020fe9c6c6cb50d9b1df3f0e7038923d30e459e6f8e9a8c"
-    },
-    {
-      "fixture": "canonical",
-      "page": 5,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-05/page.png",
-      "component": "fee_waiver_application",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "f49be45483809c98c4a733f9a32d9333e85f6784accfa62cea2dc34294e8fdfc"
-    },
-    {
-      "fixture": "canonical",
-      "page": 6,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-06/page.png",
-      "component": "fee_waiver_application",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "6904224f09e293d357311cf1daaa4f8ef92f15b4ee44c46c600d683c97d62b70"
-    },
-    {
-      "fixture": "canonical",
-      "page": 7,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-07/page.png",
-      "component": "process_guidance",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "f6789bfc2f6dda48f81ed3fcc89fbcb715a1d002e19757528a9778d8acbcf36e"
-    },
-    {
-      "fixture": "canonical",
-      "page": 8,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/canonical/page-08/page.png",
-      "component": "process_guidance",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "2126f4181c42a94ef4a8cd16903b94773b65627f07443e40026ab54e78d9a157"
-    },
-    {
-      "fixture": "boundary",
-      "page": 1,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-01/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "7fd4c6885ea0befb1b8a5ee24174c1d1146a4243383ee55b07737c0528216754"
-    },
-    {
-      "fixture": "boundary",
-      "page": 2,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-02/page.png",
-      "component": "petition",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "5bc1880e6cf5f0d51b628b863f3691f04e5e934c0b3c5979c6a23129d947d77c"
-    },
-    {
-      "fixture": "boundary",
-      "page": 3,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-03/page.png",
-      "component": "stipulation_and_proposed_order",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "ca28399456f9dacc1b0434fa48efb58a82b69f114cf3e7485017d6be2797a691"
-    },
-    {
-      "fixture": "boundary",
-      "page": 4,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-04/page.png",
-      "component": "stipulation_and_proposed_order",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "8763dc00cfb45346d020fe9c6c6cb50d9b1df3f0e7038923d30e459e6f8e9a8c"
-    },
-    {
-      "fixture": "boundary",
-      "page": 5,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-05/page.png",
-      "component": "fee_waiver_application",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "c5f3b463b03e7424bd524d7ddcce0f8762406c6edf70c19ed2acba8007db8ab1"
-    },
-    {
-      "fixture": "boundary",
-      "page": 6,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-06/page.png",
-      "component": "fee_waiver_application",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "0326ffc28e2baf2217abaaed760d3339ff26b97e43ecb49111648d84ca9cab5f"
-    },
-    {
-      "fixture": "boundary",
-      "page": 7,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-07/page.png",
-      "component": "process_guidance",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "2296dac16c288d52b439e200d82febc812fa85403e7be2d86dc26f9143e2959a"
-    },
-    {
-      "fixture": "boundary",
-      "page": 8,
-      "file": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/raster/boundary/page-08/page.png",
-      "component": "process_guidance",
-      "pageWidthPt": 612,
-      "pageHeightPt": 792,
-      "pixelsPerPoint": 3.3333,
-      "calibrationResidualPx": 0,
-      "paperBounds": {
-        "x0": 204,
-        "y0": 3,
-        "x1": 2243,
-        "y1": 2642,
-        "width": 2040,
-        "height": 2640
-      },
-      "engine": "chromium_calibrated_scripts_lib_pdf_page_raster",
-      "sha256": "2126f4181c42a94ef4a8cd16903b94773b65627f07443e40026ab54e78d9a157"
-    }
-  ]
+  "rasterEngine": null,
+  "rasterSkipped": true,
+  "rasterPages": []
 }

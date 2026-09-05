@@ -27,13 +27,21 @@
  * as a finished row while missing the fact the application turns on.
  *
  * Third, `dinfo` -- the box captioned "Defendant's name, address, and telephone
- * no." -- asks for three facts in one free-text block. The platform holds all
- * three, separately, and the shared semantic registry has no composed fact for a
- * name-address-telephone block; a field takes one fact. Writing only the name
- * would put a third of an answer in a box the court reads as the applicant's
- * contact details. It is left to the participant, the reason is stated in the
- * disclosure rather than implied, and the gap is raised in build-findings for
- * whoever owns the descriptor list.
+ * no." -- asks for three facts in one free-text block, and this family writes
+ * all three. It used to ship BLANK, on the reason that the build had "no way to
+ * compose them into a single block for this form". That is a sentence about the
+ * build rather than about the filing, and the completeness contract classes a
+ * blank excused that way as a missing known fact rather than an unavailable
+ * one: the platform holds the name, the address and the telephone number for
+ * both fixtures, so the court was being handed an application with no applicant
+ * on it for want of a channel. The channel exists. The block is composed from
+ * the three held facts through the finalizer's `composedFieldValues`, which
+ * takes FACT IDS rather than text and refuses the whole box unless every named
+ * fact is held, so a third of a contact block can never reach the page; the
+ * three are drawn one to a line at a 9pt ceiling, fitted against this widget's
+ * own 48pt of clear height. The sibling family
+ * scripts/build-census-v1-mi_setaside_trafficking-set.mjs composes the
+ * identically captioned box on MC 227b the same way, from the same fact ids.
  *
  * A NOTE ON THE OTHER BUILDER. scripts/build-census-v1-mi-setaside-marihuana-set.mjs
  * (hyphenated) also writes this family's overlay directory and predates this
@@ -105,6 +113,9 @@ const WRITE = (fact) => ({ policy: "write", fact });
 const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
 const ELECTION = (why) => ({ policy: "election", why });
 const ATTORNEY = (why) => ({ policy: "attorney", why });
+/* Several held facts, one printed box. The caller names fact ids and their
+ * order; no caller text reaches the page. See the header comment. */
+const COMPOSE = (factIds, maxFontSize, how) => ({ policy: "compose", factIds, maxFontSize, how });
 
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
@@ -171,18 +182,16 @@ const FORM_FIELDS = {
       ...SUPPLY("the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan")
     },
     /*
-     * Three facts, one box, and no composed fact to bind. See the header
-     * comment: the platform holds the name, the address and the telephone
-     * number separately, a field takes one fact, and a third of an answer in
-     * the applicant's contact block is worse than an empty one the participant
-     * fills.
+     * Three facts, one box, and the platform holds all three. See the header
+     * comment for why this box used to be blank and why that reason was a
+     * statement about the build rather than about the filing.
      */
     dinfo: {
       section: "Parties", label: "Defendant's name, address, and telephone no.",
-      ...SUPPLY(
-        "your name, your address and your telephone number, together in this one box. The platform holds all three but "
-        + "has no way to compose them into a single block for this form, and writing only one of the three would leave "
-        + "the court without the contact details it needs"
+      ...COMPOSE(
+        ["participant.full_legal_name", "participant.street_address", "participant.phone"], 9,
+        "the three facts the printed caption names, in the order it names them, one to a line, in the party block "
+        + "opposite THE PEOPLE OF"
       )
     },
     ctntcn: { section: "Parties", label: "CTN/TCN", ...AGENCY("the CTN or TCN number from the court or police record") },
@@ -314,6 +323,9 @@ async function censusOf(source) {
       section: entry.section, effectiveLabel: entry.label,
       bindingLabel: entry.bindingLabel ?? entry.label,
       policy: entry.policy, fact: entry.fact ?? null,
+      composedFrom: entry.factIds ?? null,
+      composedMaxFontSize: entry.maxFontSize ?? null,
+      composedHow: entry.how ?? null,
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
       // The scrambled extraction at this widget's own coordinate, kept as
       // evidence of WHY the printed-caption check is unavailable on this form.
@@ -334,7 +346,14 @@ async function renderDocument(source, census, fixtureName) {
   const facts = FIXTURES[fixtureName];
   const writable = census.rows.filter((r) => r.policy === "write");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
-  const writableNames = new Set(writable.map((r) => r.name));
+  /* A composed box is a write, so it may not also be handed to the finalizer as
+   * unwritable-by-role: that gate is not overridable, and naming the field in
+   * both places would refuse the box while the map claimed it was filled. */
+  const composed = census.rows.filter((r) => r.policy === "compose");
+  const composedFieldValues = Object.fromEntries(composed.map((r) => [
+    r.name, { factIds: r.composedFrom, maxFontSize: r.composedMaxFontSize ?? undefined }
+  ]));
+  const writableNames = new Set([...writable, ...composed].map((r) => r.name));
   const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
 
   const { bytes, report } = await finalizeOfficialForm({
@@ -349,7 +368,8 @@ async function renderDocument(source, census, fixtureName) {
       widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })),
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
-    facts, explicitMappings, unwritableFields,
+    facts, explicitMappings, unwritableFields, composedFieldValues,
+    fitTextPerWidget: true,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
@@ -359,6 +379,30 @@ async function renderDocument(source, census, fixtureName) {
   }
   return { bytes, report };
 }
+
+/*
+ * A PDF string drawn in a standard font is WinAnsi, not Latin-1.
+ *
+ * The two agree everywhere except 0x80-0x9F, and that block is where the
+ * typographic punctuation lives. It matters here for the first time: the
+ * boundary participant's surname carries U+2019, which the finalizer encodes as
+ * 0x92, and reading the appearance back as Latin-1 yields U+0092 -- an
+ * invisible control character that is not the apostrophe on the page and would
+ * not match the held fact. This family previously recorded that as the
+ * apostrophe being dropped from the finalized bytes; it was a reading error,
+ * and the block is translated back here so the read-back is the text the page
+ * actually draws.
+ */
+const WIN_ANSI_HIGH = {
+  0x80: "\u20AC", 0x82: "\u201A", 0x83: "\u0192", 0x84: "\u201E", 0x85: "\u2026",
+  0x86: "\u2020", 0x87: "\u2021", 0x88: "\u02C6", 0x89: "\u2030", 0x8A: "\u0160",
+  0x8B: "\u2039", 0x8C: "\u0152", 0x8E: "\u017D", 0x91: "\u2018", 0x92: "\u2019",
+  0x93: "\u201C", 0x94: "\u201D", 0x95: "\u2022", 0x96: "\u2013", 0x97: "\u2014",
+  0x98: "\u02DC", 0x99: "\u2122", 0x9A: "\u0161", 0x9B: "\u203A", 0x9C: "\u0153",
+  0x9E: "\u017E", 0x9F: "\u0178"
+};
+const fromWinAnsi = (text) => String(text ?? "")
+  .replace(/[\u0080-\u009F]/g, (c) => WIN_ANSI_HIGH[c.charCodeAt(0)] ?? c);
 
 /* ---- byte proof ------------------------------------------------------------ */
 async function byteProof(source, census, artifactBytes, report, fixtureName) {
@@ -376,13 +420,32 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
       const text = drawn.map((d) => d.text).filter(Boolean);
       const ink = text.join("").trim();
-      if (written.has(r.name) && r.policy === "write") {
+      if (written.has(r.name) && (r.policy === "write" || r.policy === "compose")) {
         glyphs += ink.length;
+        /*
+         * A COMPOSED BOX IS PROVED FACT BY FACT.
+         *
+         * `matchesExpected` compares one string with one fact and there is no
+         * one fact here. The proof that matters is that each fact the printed
+         * caption names is legible in the box, so each held value is looked for
+         * in the ink the page actually carries; line breaks carry no character,
+         * so whitespace is collapsed on both sides before the comparison.
+         */
+        const collapse = (x) => fromWinAnsi(x).replace(/\s+/g, " ").trim();
+        const composedFacts = (r.composedFrom ?? []).map((factId) => {
+          const held = String(FIXTURES[fixtureName][factId] ?? "");
+          return { factId, expected: held, presentOnThePage: held !== "" && collapse(ink).includes(collapse(held)) };
+        });
         actualWrites.push({
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
           drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
-          matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
+          ...(r.policy === "compose"
+            ? { composedFrom: r.composedFrom, composedFacts, composedMaxFontSize: r.composedMaxFontSize }
+            : {}),
+          matchesExpected: r.policy === "compose"
+            ? composedFacts.length > 0 && composedFacts.every((f) => f.presentOnThePage)
+            : ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
         });
         continue;
       }
@@ -401,6 +464,14 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       refusedFieldsWithInk.push({ fieldId: r.key, page: wdg.page, drawnText: text });
     }
   }
+  /* Every fact a composed box claims must be legible in that box. A block that
+   * drew two of its three facts is a partial contact block, which is the defect
+   * arriving from the other side, and it stops the build rather than shipping. */
+  const composedShort = actualWrites.filter((w) => w.composedFacts && !w.matchesExpected);
+  assert.equal(composedShort.length, 0,
+    `${source.formNumber}/${fixtureName}: a composed box does not carry every fact it names: `
+    + composedShort.map((w) => `${w.field} missing `
+      + w.composedFacts.filter((f) => !f.presentOnThePage).map((f) => f.factId).join(", ")).join("; "));
   return { actualWrites, refusedFieldsWithInk, documentAuthoredAppearances, glyphs, appearances: widgets.length };
 }
 
@@ -424,6 +495,26 @@ function mapFor(source, census, report) {
       printedTextAtCoordinate: r.printedTextAtCoordinate,
       document: source.formNumber
     };
+
+    if (r.policy === "compose") {
+      if (writtenNames.has(r.name)) {
+        const drawn = (report.composedWrites ?? []).find((c) => c.field === r.name) ?? null;
+        canonicalWrites.push({
+          ...base, factId: null, kind: r.type, composed: true, composedFrom: r.composedFrom,
+          composedMaxFontSize: r.composedMaxFontSize, composedHow: r.composedHow,
+          fontSizeDrawn: drawn?.fontSize ?? null, linesDrawn: drawn?.lines ?? null,
+          why: `the printed caption asks for ${r.composedFrom.length} facts in one box and the platform holds all `
+            + `${r.composedFrom.length}; they are written ${r.composedHow}`
+        });
+      } else {
+        canonicalRefusals.push({
+          ...base, reason: "the finalizer refused this composed write; the packet does not claim a value it did not draw",
+          category: null, completenessClass: null, class: null,
+          requiredBeforeFiling: false, why: "reported rather than claimed, so the defect is visible to the audit"
+        });
+      }
+      continue;
+    }
 
     if (r.policy === "write") {
       if (writtenNames.has(r.name)) canonicalWrites.push({ ...base, factId: r.fact, kind: r.type });
@@ -496,7 +587,7 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
   const row = (r, selection = false) => ({
     id: r.field, name: r.fieldName ?? r.field, label: r.effectiveLabel ?? "", reason: r.reason ?? "",
     refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
-    factId: r.factId ?? null, isSelectionControl: selection,
+    factId: r.factId ?? null, composedFrom: r.composedFrom ?? null, isSelectionControl: selection,
     declared: {
       disposition: r.completenessDisposition ?? null,
       ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
@@ -511,7 +602,9 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
     ...m.selectionControls.map((c) => row(c, true))
   ]);
 
-  const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean));
+  /* A fact a composed box draws is a fact the platform holds, so it counts as
+   * available exactly as a single-fact write does. */
+  const availableFacts = new Set(writes.flatMap((w) => [w.factId, ...(w.composedFrom ?? [])]).filter(Boolean));
   for (const p of writeProofs) {
     for (const w of p.actualWrites) if (w.factId && String(w.drawnText.join("")).trim()) availableFacts.add(String(w.factId));
   }
@@ -617,7 +710,8 @@ function participantInstructions(maps, rbf) {
     + `under ${ROUTE.authority}.`, ""
   );
   out.push(
-    "The platform filled in what it holds about your case: the county and the case number. Everything else is yours, "
+    "The platform filled in what it holds: your name, your address and your telephone number in the defendant's "
+    + "contact box, and the county and the case number in the caption. Everything else is yours, "
     + "and every one of those blanks is listed below by the part of the form it is in. Page 2 of your packet is the "
     + "court's own instruction sheet \u2014 read it; the steps below follow it.", ""
   );
@@ -678,6 +772,22 @@ function participantInstructions(maps, rbf) {
   out.push("- **The attorney block.** You are applying yourself; no attorney-representation fact is held for you.");
   out.push("");
 
+  out.push("## What a set-aside does not reach", "");
+  out.push(
+    "An order setting aside a conviction is not a clean slate everywhere. The adopted record requires this packet to "
+    + "state plainly what the relief does not reach:", ""
+  );
+  out.push("- **Your Secretary of State driving record survives.** A set-aside does not clear it.");
+  out.push("- **SORA registration and reporting obligations continue** for a listed offence, per the note on MC 228.");
+  out.push("- **Firearm rights are not restored.**");
+  out.push("- **Restitution obligations survive.**");
+  out.push("- **No fine, costs or other money paid is returned.** You are not entitled to get any of it back.", "");
+  out.push(
+    "> Not affected: The Secretary of State driving record. ... SORA registration and reporting obligations continue "
+    + "for a listed offense, per the note on MC 228. Firearm rights are not restored. Restitution obligations "
+    + "survive. The applicant is not entitled to return of any fine, costs or other money paid.", ""
+  );
+
   out.push("## What happens after you file", "");
   out.push(
     "The court's instruction sheet says: if the prosecuting agency files a response opposing your application, the court "
@@ -693,6 +803,13 @@ function participantInstructions(maps, rbf) {
   );
   out.push("");
   out.push(`_Route: ${ROUTE.routeKey} \u2014 ${ROUTE.authority}_`);
+  out.push("");
+  out.push(
+    "_The scope-of-relief statement under \u201cWhat a set-aside does not reach\u201d is the adopted "
+    + "packet_instruction of data/record-clearing/legal-design-intake/MI.memo.json, track mi_setaside_marihuana, "
+    + "classificationBasis explicit_state_addendum, source LegalEase-Michigan-Record-Clearing-Legal-Review.md "
+    + "\u2014 \u201cTRACK 1 / FILING AND POST-FILING PROCESS\u201d._"
+  );
   return `${out.join("\n")}\n`;
 }
 
@@ -730,6 +847,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       documents: censuses.map(({ source, census }) => ({
         formNumber: source.formNumber, sha256: source.sha256, fields: census.rows.length,
         writes: census.rows.filter((r) => r.policy === "write").length,
+        composed: census.rows.filter((r) => r.policy === "compose").length,
         supply: census.rows.filter((r) => r.policy === "supply").length,
         elections: census.rows.filter((r) => r.policy === "election").length,
         protected: census.rows.filter((r) => r.policy === "protect").length,
@@ -887,6 +1005,38 @@ export async function runFamily(argv = process.argv.slice(2)) {
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
 
+  /*
+   * THE PARTIES BOX MUST BE A COMPOSED WRITE, NOT A REFUSAL.
+   *
+   * The defect this family was repaired for is a box that could be filled and
+   * was not, so the check is on the SHAPE of the delivered record rather than
+   * on a counter: dinfo names its three facts in the order the printed caption
+   * names them, both fixtures hold all three, it appears on the written side of
+   * the field map and on no refusal side, and both fixtures' byte proofs found
+   * every one of the three facts in the ink at its rectangle.
+   */
+  assert.deepEqual(FORM_FIELDS["MC-227A"].dinfo.factIds,
+    ["participant.full_legal_name", "participant.street_address", "participant.phone"],
+    "the Parties box carries the three facts its printed caption names, in the order it names them");
+  for (const [name, fixture] of Object.entries(FIXTURES)) {
+    for (const factId of FORM_FIELDS["MC-227A"].dinfo.factIds) {
+      assert.ok(String(fixture[factId] ?? "").trim().length > 0,
+        `${name} does not hold ${factId}, and the composed channel refuses a partial block`);
+    }
+  }
+  for (const m of maps) {
+    const dinfo = m.canonicalWrites.find((w) => w.acroFieldName === "dinfo");
+    assert.ok(dinfo && dinfo.composed === true, "the Parties box must be a composed write, not a refusal");
+    assert.equal(m.canonicalRefusals.some((r) => r.acroFieldName === "dinfo"), false);
+  }
+  for (const proof of writeProofs) {
+    const dinfo = proof.actualWrites.find((w) => w.field === "dinfo");
+    assert.ok(dinfo, `${proof.fixture}: the Parties box carries no read-back write`);
+    assert.equal(dinfo.composedFacts.length, 3);
+    assert.ok(dinfo.matchesExpected,
+      `${proof.fixture}: the Parties box does not carry every fact it names`);
+  }
+
   writeJson(`${OUT}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
     artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
@@ -935,8 +1085,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
     whatToLookAt: [
       "Page 1, the caption block: the county and the case number written, each under the heading it belongs to, and the "
         + "judicial district, circuit, ORI, court address, court telephone and police report number blank.",
-      "Page 1, the parties block: neither People-of box ticked, and the defendant's name-address-telephone box blank. "
-        + "Confirm the empty contact box reads as a blank the applicant fills, not as a form that lost a value.",
+      "Page 1, the parties block: neither People-of box ticked, and the defendant's name-address-telephone box carrying "
+        + "the applicant's name, street address and telephone number, one to a line. Confirm all three lines sit inside "
+        + "the box, that none of them touches the printed caption above it, and that the longest boundary line is not "
+        + "clipped at the right edge.",
       "Page 1, the conviction table: all four lines blank, all four columns.",
       "Page 1, the applicant signature row: date and signature blank.",
       "Page 1, the CERTIFICATE OF MAILING at the foot: date and signature blank. This is the one to look hardest at \u2014 "
@@ -996,14 +1148,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding:
-          "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" \u2014 three facts in one free-text box. "
-          + "The platform holds all three separately and the shared semantic registry has no composed fact for a "
-          + "name-address-telephone block, so a field, which takes one fact, can bind at most one of them.",
+          "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" \u2014 three facts in one free-text box, "
+          + "and the platform holds all three. This family shipped it BLANK, on the reason that the build had no way to "
+          + "compose them into a single block for this form. That is a sentence about the build, and the completeness "
+          + "contract classes a blank excused that way as a missing known fact rather than an unavailable one.",
         consequence:
-          "The box is left to the participant and the reason is stated in the disclosure rather than implied. Writing "
-          + "only the name would put a third of an answer in the box the court reads for the applicant's contact "
-          + "details. The gap is a shared-registry one: a composed participant contact fact would let this box be "
-          + "filled, and that list is outside this family's owned paths."
+          "REPAIRED. The box is composed from participant.full_legal_name, participant.street_address and "
+          + "participant.phone through the shared finalizer's opt-in composedFieldValues channel, which takes fact ids "
+          + "rather than text and refuses the whole box unless every named fact is held, so a partial contact block "
+          + "cannot reach the page. The three are drawn one to a line at a 9pt ceiling, fitted against this widget's "
+          + "own 48pt of clear height, and the byte proof looks for each held value in the ink the finished page "
+          + "carries. No shared-registry gap remains here: the sibling family "
+          + "scripts/build-census-v1-mi_setaside_trafficking-set.mjs composes the identically captioned box on MC 227b "
+          + "from the same three fact ids."
       },
       {
         finding:
@@ -1017,11 +1174,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         severity: "advisory",
         finding:
-          "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the "
-          + "name without it.",
+          "The boundary participant's name carries a typographic apostrophe (U+2019). This family previously recorded "
+          + "that the finalized bytes carry the name WITHOUT it. That was a reading error rather than a defect: the "
+          + "finalizer encodes it as WinAnsi 0x92, and this builder's read-back decoded the appearance as Latin-1, "
+          + "which turns 0x92 into an invisible control character.",
         consequence:
-          "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in "
-          + "vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+          "The apostrophe is on the page, and it reaches the page for the first time here, in the composed Parties box "
+          + "of the boundary fixture. The read-back now translates the WinAnsi 0x80-0x9F block before comparing, and "
+          + "the byte proof requires each of the three held facts to be present in the ink, so a character the "
+          + "encoding really did drop would fail the build rather than ship."
       }
     ]
   });

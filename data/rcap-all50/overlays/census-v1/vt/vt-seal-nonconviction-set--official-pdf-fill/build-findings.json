@@ -20,7 +20,15 @@
     },
     {
       "finding": "The held fee answer is no filing fee on this non-conviction track; the $90 fee in 32 V.S.A. Sec. 1431(e) is limited to sealing a DUI conviction.",
-      "consequence": "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it; the participant is told not to complete or file it on this track."
+      "consequence": "600-00228 is expressly conditional only where a fee is actually charged and the participant cannot pay it, and the packet-set manifest resolves that condition against this track: none is charged. The form is therefore DELIVERED UNFILLED -- the build writes nothing on it, not the name, address, telephone, email, docket number or printed name it once wrote, and none of the financial declaration. An earlier build prefilled all of those on a component whose filing disposition is do_not_file and whose page 2 is sworn, while the instructions told the participant twice not to complete it. A packet may not fill a form in and tell the reader not to fill it in."
+    },
+    {
+      "finding": "The three bound binaries carry twenty checkboxes, and the map declared them without the words printed beside them.",
+      "consequence": "Every one of the twenty now carries the printed caption with the form's own Wingdings box glyphs taken out of it, and each of the ten that shares a YES/NO line with its opposite carries the single option word located against the pinned binary by position -- the build refuses if the word nearest to the right of the box is not the word the policy names. Every declared blank checkbox carries a participant instruction, and participant-instructions.md lists all twenty in a generated table."
+    },
+    {
+      "finding": "The map declared routeSelectionsMade as the empty array while the build struck two diagonals through question 2 of the petition in both fixtures, and the field the mark lands on carried the literal string 'undefined' where its reason should have been.",
+      "consequence": "routeSelectionsMade is now built from the marks actually drawn, with the box, the printed caption, the stroke count read back from the output bytes and the route reason; and the census carries routeReason through to the map, so six off-route conviction-branch boxes no longer print 'undefined' as their reason. The build refuses if a route selection or an off-route box has no reason."
     },
     {
       "finding": "The participant does not serve the prosecutor with process.",
@@ -29,6 +37,14 @@
     {
       "finding": "The boundary stipulation's printed-name and email widgets require the finalizer's existing minimum-size and widget-appearance alignment safeguards.",
       "consequence": "Field 34d carries the full boundary name in fitted visible ink, and field 34i preserves the held boundary email rather than disappearing without an explicit refusal."
+    },
+    {
+      "finding": "The packet-set manifest declares FIVE components for this family and the packet declared four. The fifth, vt_seal_nonconviction-interests-of-justice-prompts-4, is conditional on the Sec. 7603(g) ordinary petition route -- a route this packet expressly carries -- so its condition is met, and it was neither rendered nor dispositioned. No counter could see it: a component that was never built has no field-map row to count.",
+      "consequence": "It is now a composed component page of participant-facing prompts, appended after the guidance page so that no page of the three official forms and no page of the guidance moves. It carries questions only: no drafted statement, no example, no argument, because the manifest, the intake memo and the track registry all say the statement is participant-authored with prompts and never generated argument. Question 4 of 200-00130 is unchanged and still a participant supply. The build now reads the manifest at build time and refuses, per fixture, if any declared component neither reaches a page nor carries a componentRequirements disposition."
+    },
+    {
+      "finding": "The guidance page told the participant that no timetable and no criterion is established for the route that files nothing. That was true of the three bound PDFs and false of the record the page is built from.",
+      "consequence": "The sentence is corrected out of the record: 13 V.S.A. Sec. 7603(a)(1)'s 60 days after final disposition, its three triggers, the objection in the interests of justice that converts it into a Sec. 7603(b) hearing, and Form 200-00331, Request for Criminal Record Search, as how the participant sees whether the automatic sealing has already happened. No other guidance sentence was touched."
     }
   ]
 }

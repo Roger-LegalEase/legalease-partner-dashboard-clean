@@ -8,7 +8,7 @@ This packet is the Administrative Office of the Courts' own **AOC-CR-297, Petiti
 
 **Most of this form is not yours, and that is why so little of it is filled in.** Side One carries the petition, but it also carries a CERTIFICATE OF SERVICE that is only true once the district attorney has actually been served, and a REQUEST BY JUDGE block addressed to the State Bureau of Investigation. The whole of Side Two is the SBI's certification, the AOC records officer's report, thirteen FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK. This packet writes nothing on any of them, and neither should you.
 
-The platform filled what it holds and nothing else: your name, your street address, your city and your state in the petitioner block on Side One, the county in the caption, and the file number in the caption's File No. box. On AOC-CV-226 it filled your name, your city, state and ZIP, your telephone number and your date of birth.
+The platform filled what it holds and nothing else: your name, your street address, your city, your state, your ZIP code and your date of birth in the petitioner block on Side One, the county in the caption, and the file number in the caption's File No. box. On AOC-CV-226 it filled your name, your street address, your city, state and ZIP, your telephone number and your date of birth.
 
 **The offence table on Side One is left entirely to you.** Its six columns — File No.(s), Date Of Arrest, Offense Description, Date Of Offense, Disposition, Date Of Disposition/Conviction — are conviction facts about your own record, and paragraph 1 asks you to certify that no offence listed is more serious than a Class H felony and that none is on the statute's exclusion list. Those are characterizations of the official record, not of your memory, and the table below tells you which record each column comes from.
 
@@ -96,13 +96,11 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Date Of Disposition/Conviction - conviction table, row 1 | the date of the conviction. The waiting period runs from this date or from the completion of the whole sentence, whichever is later |
 | Drivers License No. | your driver's licence number, from the licence itself |
 | Drivers License State | the state that issued your driver's licence |
-| Date Of Birth on the petition | your date of birth. On this form the platform writes it only on AOC-CV-226 |
 | File No.(s) - conviction table, row 1 | the file number of the nonviolent felony conviction, exactly as the clerk's record prints it |
 | Name Of Arresting Agency | the name of the agency that arrested you. The form's own note says the clerk will not provide addresses for you |
 | Name Of Other Agency (if any) - first | the name of any other State or local government agency with a record of your case. Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity |
 | Name Of Other Agency (if any) - second | the name of a further agency, if there is one; use AOC-CR-285 if there are more than the form has room for |
 | Offense Description - conviction table, row 1 | the offence description and its CLASS, copied from the official record - paragraph 1 certifies that no offence listed is more serious than a Class H felony |
-| Address Of Petitioner - Zip | your ZIP code. On this form the platform writes it only on AOC-CV-226 |
 | Race | your race, as the form asks |
 | Sex | your sex, as the form asks |
 | Full Social Security No. | your Social Security number, as the form asks |
@@ -113,7 +111,6 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | --- | --- |
 | Monthly income from the applicant's employment | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |
 | Name And Address Of Applicant's Employer (if not employed, state reason; if self-employed, state trade) | your employer's name and address, or the reason you are not employed, or your trade if you are self-employed |
-| Street Number And Street Name, Including Apartment Or Unit No. | your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one |
 | Cash on hand and in bank accounts - bank name and account type (do not list account no.) | the name of your bank and the type of account, without the account number |
 | Bond Amount | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |
 | Bond Type | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |
@@ -159,7 +156,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 4. **Complete the offence table on Side One, all six columns of each row.** Copy every entry from the official record, not from memory. If there are more convictions than the form has room for, attach AOC-CR-285 and tick the box that says you have; that attachment is not in this packet.
 5. **Read paragraph 1 before you sign anything.** It certifies that no offence listed is more serious than a Class H felony and that none is an exception G.S. 15A-145.5 identifies as ineligible. If you are not certain of the class of every offence, stop and get a North Carolina lawyer.
 6. **Tick ONE branch of paragraph 2** — one nonviolent felony at the ten-year (or fifteen-year, for a G.S. 14-54(a) conviction) tier, or two or three at the twenty-year tier — and read the acknowledgement in the first branch: expunging one felony before the twenty-year period has run can preclude you from expunging others later.
-7. **Write your ZIP code, your driver's licence number and state, your race, your sex, your date of birth and your Social Security number yourself.** The table below says which blank each goes in.
+7. **Write your driver's licence number and state, your race, your sex and your Social Security number yourself.** Your ZIP code and your date of birth are already filled in on the petitioner block; check them against your own records. The table below says which blank each of the rest goes in.
 8. **List the arresting agency and every other State or local agency with a record of the case, with complete addresses.** Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity.
 9. **Tick Petitioner or Petitioner's Attorney in the signature block**, then sign and date the petition and print your name beside it.
 10. **Only if you cannot pay the $175.00 fee, complete AOC-CV-226 in full** — the whole financial statement is yours — and swear it before the officer named on its jurat.
@@ -174,7 +171,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 - **The whole offence table on Side One**, because every cell in it is a conviction fact from the official record and paragraph 1 turns those cells into a certification about offence class.
 - **Both branches of paragraph 2**, which turn on how many nonviolent felonies you have and whether any were disposed in the same session of court.
 - **Every agency name and address.** The form's own note makes these the petitioner's, and says the clerk will not provide addresses for you.
-- **Your ZIP code, your driver's licence number and state, your race, your sex, your date of birth and your Social Security number.** Government identifiers and personal descriptors this build does not write onto any form, on a row whose printed captions the shared rules cannot read reliably in any case.
+- **Your driver's licence number and state, your race and your sex, and your Social Security number.** The licence number and the Social Security number are government identifiers this build does not write onto any form, and the platform holds no race or sex fact for you. Your ZIP code and your date of birth are NOT in this list: the platform holds both and writes both, on the petitioner block of AOC-CR-297 and on AOC-CV-226.
 - **The petitioner's-attorney block.** No representation fact is held for you, and this build never writes participant data into a block the court reads as counsel's.
 - **Every figure on AOC-CV-226.** The affidavit is a sworn financial statement; the platform invents no number.
 - **Every signature, every date beside one, and every printed name in a signature block, on both forms.**
