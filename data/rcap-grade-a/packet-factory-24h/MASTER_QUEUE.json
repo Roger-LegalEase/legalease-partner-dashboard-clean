@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "6687e670c391a26461e7fc60498d05649f08abbd",
+  "minimumCaptainSha": "e7ce69ea50ff933a7d42de8fb77db4cca4a14b0d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "9ccf858d3c51dd35ef69b936b1cac1f1a5bb8be27506e8cd1299a8557165e58e",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "5a2f9865875d0fc2dd8dc8558e4bd61b22a09f799ec2d4fd403f55e6203ab4f9",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 12,
+    "activeFamiliesExcluded": 11,
     "guidanceOnly": 0,
-    "remaining": 334,
+    "remaining": 335,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
@@ -78,14 +78,14 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 151,
-    "FAIL_REPAIR_REQUIRED": 61,
+    "FAIL_REPAIR_REQUIRED": 60,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 1,
+    "BUILT_RASTER_PENDING": 2,
     "GUIDANCE_READY": 9,
     "WRONG_DELIVERY_TYPE": 1,
     "VERIFY_PENDING": 1
@@ -110,7 +110,6 @@
     ],
     "families": [
       "il-seal-edu-set",
-      "la-987-set-aside-and-dismiss-set",
       "mi_setaside_trafficking-set",
       "ms-misd-1st-set",
       "nh_petition_nonconviction_pre2019-set",
@@ -22233,9 +22232,7 @@
         "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -22348,9 +22345,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX32",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -22361,8 +22358,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ma-bmc-multi-set",
