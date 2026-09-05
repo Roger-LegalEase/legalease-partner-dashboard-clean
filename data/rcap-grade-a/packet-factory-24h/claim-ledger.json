@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "567b0b8102cd2ce3cd2740619ea550f37744182b",
+  "generatedAtCommit": "b2e111ee1f737d7e05cf9a4f2e9def3a658c4492",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7077,6 +7077,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "rcap-tx-custom-pleading",
+      "itemId": null,
+      "familyId": "rcap-tx-custom-pleading",
+      "familyIds": [
+        "rcap-tx-custom-pleading"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
       "familyId": "rcap-tx-custom-pleading",
       "itemId": null,
       "familyIds": [
@@ -9033,6 +9048,21 @@
       "operation": "packet-build",
       "lane": "PF24",
       "laneKind": "packet-build",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "itemId": null,
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "familyIds": [
+        "wv_conv_multiple_misdemeanors-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -13512,39 +13542,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-tx-custom-pleading",
-      "itemId": null,
-      "familyId": "rcap-tx-custom-pleading",
-      "familyIds": [
-        "rcap-tx-custom-pleading"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_conv_multiple_misdemeanors-set",
-      "itemId": null,
-      "familyId": "wv_conv_multiple_misdemeanors-set",
-      "familyIds": [
-        "wv_conv_multiple_misdemeanors-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "47b1ba40f6100af45cf73f7778a3a27020055bb5e9a0d20babb8fdd0449907f0",
+  "claimsDigest": "2de4970b1677605b7d7ae05ae4711148273760fcbc76c37baa971eef831e2f26",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42293,6 +42293,30 @@
       "reason": "Scale-cohort measurement read: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place (measured on Vermont 600-00228 field 15 by VF02). VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP; a known defect may not stay counted as proven."
     }
   ],
+  "grants": [
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-05T18:48:35.225Z",
+      "grantedBy": "Captain",
+      "reason": "Scale-cohort measurement read, re-dealt after the generator dropped the grant log: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place. VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "grantedAt": "2026-09-05T18:48:35.307Z",
+      "grantedBy": "Captain",
+      "reason": "Scale-cohort measurement read, re-dealt after the generator dropped the grant log: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place. VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+    }
+  ],
   "withdrawals": [
     {
       "subjectType": "packet-family",
@@ -46277,30 +46301,6 @@
       "lane": "VF08",
       "withdrawnAt": "2026-09-05T18:47:15Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    }
-  ],
-  "grants": [
-    {
-      "lane": "VF08",
-      "subjectType": "packet-family",
-      "subjectId": "rcap-tx-custom-pleading",
-      "operation": "independent-verification",
-      "laneKind": "independent-verification",
-      "grantedAt": "2026-09-05T18:48:35.225Z",
-      "grantedBy": "Captain",
-      "reason": "Scale-cohort measurement read, re-dealt after the generator dropped the grant log: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place. VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP.",
-      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
-    },
-    {
-      "lane": "VF08",
-      "subjectType": "packet-family",
-      "subjectId": "wv_conv_multiple_misdemeanors-set",
-      "operation": "independent-verification",
-      "laneKind": "independent-verification",
-      "grantedAt": "2026-09-05T18:48:35.307Z",
-      "grantedBy": "Captain",
-      "reason": "Scale-cohort measurement read, re-dealt after the generator dropped the grant log: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place. VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP.",
-      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ]
 }
