@@ -67,6 +67,7 @@ import { extractTextItems, groupIntoLines, extractPageGeometry } from "./rcap-of
 import { finalizeOfficialForm, PARTICIPANT_INK, SELECTION_INSET, SELECTION_LINE_WIDTH } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -754,22 +755,13 @@ async function renderComposedPdf(fullText, title) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  let page = pdf.addPage([width, height]);
-  let y = height - margin;
-  const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
-    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-    y -= lineHeight;
-  };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /* The same 45 rows a page this composer has always drawn: the old loop broke
+   * when the next baseline fell below the bottom margin, and this is that count
+   * stated once instead of rediscovered per page. */
+  const rowsPerPage = Math.floor((height - 2 * margin) / lineHeight) + 1;
+  /* The one separator-aware splitter, shared, in place of the private
+   * character-accumulating copy this builder carried. */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -782,7 +774,54 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+
+  /* The route trailer is internal machine metadata rather than participant
+   * text, and it must never be the only thing on a delivered page: this packet
+   * ended on a sheet carrying "Route: obligation:track-only:VA:va_exp_nonconviction"
+   * and nothing else. The layout is settled first so that page can be caught
+   * while it is still a plan, and the block above it is pulled down to keep the
+   * trailer company. This is the sole-occupant pull-down
+   * scripts/build-census-v1-rcap-ok-custom-pleading.mjs already carries, moved
+   * onto this composer's own row-by-row pagination rather than a new scheme:
+   * where the rows fall is unchanged, blocks move whole or not at all, and a
+   * move that would not fit is refused. */
+  const TRAILER_LINE = /^Route: /;
+  const source = sanitizePdfText(fullText).split("\n");
+  const blocks = source.map((raw, index) => ({ index, rows: wrap(raw), trailer: TRAILER_LINE.test(raw) }));
+  const pages = [[]];
+  for (const block of blocks) {
+    for (const text of block.rows) {
+      let page = pages[pages.length - 1];
+      if (page.length === rowsPerPage) { pages.push([]); page = pages[pages.length - 1]; }
+      page.push({ text, block: block.index, trailer: block.trailer });
+    }
+  }
+  const soleOccupant = (rows) => rows.length > 0 && rows.every((r) => r.trailer || r.text === "");
+  for (let guard = 0; guard < blocks.length && pages.length > 1 && soleOccupant(pages[pages.length - 1]); guard++) {
+    const last = pages[pages.length - 1];
+    const previous = pages[pages.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    if (moved.length === 0 || moved.length + last.length > rowsPerPage) { previous.push(...moved); break; }
+    last.unshift(...moved);
+    if (previous.length === 0) pages.splice(pages.length - 2, 1);
+  }
+  assert.equal(soleOccupant(pages[pages.length - 1]), false,
+    `${title}: the delivered packet still ends on a page carrying only the route trailer`);
+
+  for (const rows of pages) {
+    const page = pdf.addPage([width, height]);
+    let y = height - margin;
+    for (const row of rows) {
+      if (row.text) page.drawText(row.text, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
+      y -= lineHeight;
+    }
+  }
+  /* Nothing in this family's text is long enough to need chopping, and the
+   * assertion says so rather than assuming it: a future route key with no
+   * separator to break on fails the build instead of shipping unreadable. */
+  assert.equal(splitToken.hardSplits, 0, `${title}: a token was hard-split with no separator to break on`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
