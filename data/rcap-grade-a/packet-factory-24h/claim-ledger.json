@@ -1418,9 +1418,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto VF02 so the five post-repair reads sit on one lane with one worker; VF01 is reading North Carolina, North Dakota and New Hampshire; no work was done here."
     },
     {
       "subjectType": "packet-family",
@@ -1554,10 +1556,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:16:32.271Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4935,8 +4937,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:56:22.021Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13585,7 +13587,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5e5e1fc5ded2efea10aa322d3d3d89a6f24512f0604907fc9442ddb6b4f5c839",
+  "claimsDigest": "5770e8b132a9c4673e90029ceada3462449d3be552d591e2d2d1763211f8cea9",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30259,6 +30261,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T22:14:45.472Z",
       "reason": "FIX70 repaired CLIPPING_AND_OVERLAP by opting the builder into fitAppearancesToRect, so the five JDF-477 Group_6_0 bevels now fit their 13.68pt rects and outside-rect ink falls from 2,966 pixels per fixture to the pinned form's own zero; central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix70/rows.json (Replayed by Captain from FIX70 commit 344cec3bc.)"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "co_decriminalized_conduct_seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T22:16:15.706Z",
+      "reason": "Consolidated onto VF02 so the five post-repair reads sit on one lane with one worker; VF01 is reading North Carolina, North Dakota and New Hampshire; no work was done here."
     }
   ],
   "reissues": [
@@ -37339,6 +37350,16 @@
       "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
       "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
       "reclassificationDisposition": "OWNER_CONFIRMED_ROUTE_MAPPING_COMPLETE"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-prost-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-05T21:56:22.021Z",
+      "reissuedAt": "2026-09-05T22:16:16.207Z",
+      "reason": "Independent read owed after FIX71 (the instructions component rebuilt from ME.memo.json; no fixture byte moved, the run 33991318221 receipt still binds); fifteen obligations with COMPONENT_SET measured item by item against the memo, nine counters measured, no score carried from the pre-repair read."
     }
   ],
   "transfers": [
@@ -43391,6 +43412,28 @@
       "previouslyReleasedAt": "2026-09-05T21:07:21.291Z",
       "transferredAt": "2026-09-05T21:58:12.532Z",
       "reason": "Independent read owed after FIX67 (the shared host opts the five families into fitAppearancesToRect; field 15 delivered at its 14.4pt Rect, sweep 161/161) and the central raster receipt from run 33993870603 on 1e2df14e9; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read; vt_seal_dui-set still carries the FEE_AND_WAIVER counsel item and may be BLOCKED_LEGAL_INPUT on that alone."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_decriminalized_conduct_seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-05T22:16:15.706Z",
+      "transferredAt": "2026-09-05T22:16:15.817Z",
+      "reason": "Independent read owed after the FIX68 fitAppearancesToRect opt-in and the central raster receipt from run 33994313031 on 5cc23772e; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_multiple_conviction_seal-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-05T21:16:32.271Z",
+      "transferredAt": "2026-09-05T22:16:15.923Z",
+      "reason": "Independent read owed after the FIX68 fitAppearancesToRect opt-in and the central raster receipt from run 33994313031 on 5cc23772e; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
     }
   ],
   "grants": [
