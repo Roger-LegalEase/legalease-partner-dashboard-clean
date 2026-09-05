@@ -35,7 +35,7 @@ The State’s Attorney’s signature on the stipulation (200-00132) is not servi
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.
 3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.
-4. **File the fee waiver (600-00228) only if you cannot pay.** If you receive public assistance you may stop after Section 1 and go straight to the signature block.
+4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.
 
 ## The items you must supply
 
