@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF05",
  "worker": "VF-SRC-A",
- "assignmentCount": 15,
+ "assignmentCount": 17,
  "assignments": [
   {
    "itemId": "ar-misdemeanor-dwi-seal-set",
@@ -50,7 +50,7 @@
    "verifiedBy": "FABLE-VC",
    "verifiedAtBase": "4f5af4e714ae19dacdf17304abcbac9a6d1ea0b7",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading",
-   "decisiveDefect": "product-wiring.json declares the packet's primary_filing component at SHA-256 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a. That is the digest of fixtures/canonical.pdf as it stood at the original build commit db2585afb, before FIX04's repair. The file at that path now hashes 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad \u2014 which is what the same file's own binding.acceptanceReceipt.boundToCanonicalSha256 says, and what the bytes, the RASTER_QUEUE pin and reports/rendered-artifacts.json all say. One record inside the packet directory names bytes that do not exist.",
+   "decisiveDefect": "product-wiring.json declares the packet's primary_filing component at SHA-256 9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a. That is the digest of fixtures/canonical.pdf as it stood at the original build commit db2585afb, before FIX04's repair. The file at that path now hashes 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad — which is what the same file's own binding.acceptanceReceipt.boundToCanonicalSha256 says, and what the bytes, the RASTER_QUEUE pin and reports/rendered-artifacts.json all say. One record inside the packet directory names bytes that do not exist.",
    "failedProofObligations": [
     "ARTIFACTS"
    ],
@@ -67,7 +67,7 @@
     "whereTheDefectLives": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
     "theLine": "In the branch that handles an existing product-wiring.json the generator rewrites only `binding` and states in its own comment: 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence'. So proposedRepresentation.components[].sha256 keeps whatever the first write recorded, and any family whose fixtures moved afterwards carries a digest for bytes that no longer exist.",
     "measuredScope": "80 census-v1 product-wiring.json files declare component digests at base 4f5af4e7. 70 agree with the bytes on disk; 10 do not: pa_pardon_expungement-set, composed-treatment AK set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set, va_seal_petition_misdemeanor-set.",
-    "whatRepairMustDo": "Refresh proposedRepresentation.components[].sha256 from reports/rendered-artifacts.json \u2014 the file product-wiring.json already names as its own derivedFrom \u2014 whenever an existing record is refreshed, or drop the digest from the proposal and let the binding carry it alone. No packet byte moves and no re-raster is needed.",
+    "whatRepairMustDo": "Refresh proposedRepresentation.components[].sha256 from reports/rendered-artifacts.json — the file product-wiring.json already names as its own derivedFrom — whenever an existing record is refreshed, or drop the digest from the proposal and let the binding carry it alone. No packet byte moves and no re-raster is needed.",
     "whoMayNotDoIt": "Not this lane. FABLE-VC may not edit factory scripts or overlay directories; this is named, not repaired.",
     "notAPacketDefect": "The delivered canonical and boundary bytes are correct and hash exactly to the raster receipt, the RASTER_QUEUE row and reports/rendered-artifacts.json in every one of the three families this lane scored."
    }
@@ -213,12 +213,12 @@
    ],
    "perObligation": {
     "SELF_HELP_STOP": {
-     "measuredDetail": "8 recorded stop conditions, 0 carried. The packet's entire statement of where self-help ends is \"It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement\", plus the Self-Help Center number 888-583-0009 given twice in other contexts. One condition is worse than omitted: the registry names \"The prosecutor or a victim objects, or the court schedules a hearing\" as a point where self-help stops, and the packet's only sentence on that situation sends the participant onward \u2014 \"The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it.\"",
+     "measuredDetail": "8 recorded stop conditions, 0 carried. The packet's entire statement of where self-help ends is \"It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement\", plus the Self-Help Center number 888-583-0009 given twice in other contexts. One condition is worse than omitted: the registry names \"The prosecutor or a victim objects, or the court schedules a hearing\" as a point where self-help stops, and the packet's only sentence on that situation sends the participant onward — \"The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it.\"",
      "whatRepairMustDo": "participant-instructions.md must carry the 8 selfHelpStopConditions the committed track registry records for this track, in the registry's own words as this family's siblings do, and must correct the objection/hearing sentence so it stops the participant rather than directing them to attend. The non-citizen condition must be stated as the hard stop the registry calls it. This is a text repair in participant-instructions.md; no fixture byte needs to move and none should.",
      "sourceOfTruth": "data/record-clearing/legal-design-track-registry.json, track ut_pet_dismissed_with_prejudice, field selfHelpStopConditions"
     }
    },
-   "whatIsNotWrongHere": "The other fourteen obligations pass on measurement, and two things a repair could disturb are recorded so it does not. First, the DET-FEE-AND-WAIVER-001 A4 defect a prior lane found on these same canonical bytes (ad594f0a\u2026) is repaired and must stay repaired: the instructions now state \"The BCI application fee is $65.00, and it is non-refundable\" and quote the two places the packet's own pages print it, which this lane confirmed with pdftotext at lines 696, 734 and 770 of the extracted canonical text. Second, all 12 corpus-bound sources and the compiled Utah state profile recompute exactly; nothing about source identity is in question.",
+   "whatIsNotWrongHere": "The other fourteen obligations pass on measurement, and two things a repair could disturb are recorded so it does not. First, the DET-FEE-AND-WAIVER-001 A4 defect a prior lane found on these same canonical bytes (ad594f0a…) is repaired and must stay repaired: the instructions now state \"The BCI application fee is $65.00, and it is non-refundable\" and quote the two places the packet's own pages print it, which this lane confirmed with pdftotext at lines 696, 734 and 770 of the extracted canonical text. Second, all 12 corpus-bound sources and the compiled Utah state profile recompute exactly; nothing about source identity is in question.",
    "repairMustNotDo": [
     "Do not edit an artifact merely so a record matches it. Where the record and the bytes disagree, repair whichever one is wrong on its own evidence.",
     "This verification opens no commercial route, sets no price, touches no checkout and grants no approval. A repaired family returns to VERIFY_PENDING, not to live.",
@@ -236,7 +236,7 @@
    "raisedBy": "FABLE-RVB2 (independent; built, repaired and rendered none of these packets)",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill",
    "nineCountersAtThisBase": "all zero, measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-4a-set (no --write). Every defect below is one the counters do not measure.",
-   "decisiveDefect": "Two obligations fail with all nine counters at zero. (1) REQUIRED_BEFORE_FILING: the same MC-031 defect as ca-1203-42-set, field for field \u2014 two read-only viewer notices declared as participant blanks, nine rows stating a caption the form does not print. (2) SELF_HELP_STOP: 0 of 5 registry stop conditions carried, including the one that names this track's defining question.",
+   "decisiveDefect": "Two obligations fail with all nine counters at zero. (1) REQUIRED_BEFORE_FILING: the same MC-031 defect as ca-1203-42-set, field for field — two read-only viewer notices declared as participant blanks, nine rows stating a caption the form does not print. (2) SELF_HELP_STOP: 0 of 5 registry stop conditions carried, including the one that names this track's defining question.",
    "failedProofObligations": [
     {
      "obligation": "REQUIRED_BEFORE_FILING",
@@ -278,7 +278,7 @@
       "repair": "Reclassify NoticeHeader1 and NoticeFooter1 as NOT_A_FILING_FACT / NOT_APPLICABLE_ON_THIS_ROUTE in the field map for every family that encloses MC-031, and remove their rows from the participant blanks table. Do not simply drop them from the table while leaving blankTreatment REQUIRED_BEFORE_FILING; the declaration is the defect."
      },
      "defectTwo": {
-      "what": "Nine rows in the blanks table state a printed caption that the form does not print \u2014 they echo the field's internal name back as the caption.",
+      "what": "Nine rows in the blanks table state a printed caption that the form does not print — they echo the field's internal name back as the caption.",
       "currentText": "Rows read 'the form prints `FillText10` beside it', and the same for FillText7, FillText8, FillText9, FillText11, FillText13, FillText14, NoticeHeader1 and NoticeFooter1. MC-031 prints none of those strings anywhere.",
       "provedHow": "Measured from MC-031's own printed words with pdftotext -bbox word geometry against each widget rectangle read from the AcroForm.",
       "realPrintedCaptions": [
@@ -373,8 +373,8 @@
       "The participant is not a United States citizen.",
       "Whether probation was granted cannot be established from the participant's answer or their record."
      ],
-     "whyItMatters": "Penal Code \u00a7 1203.4a is the section for a conviction where probation was NOT granted. The registry's last stop condition is therefore this track's threshold question: if whether probation was granted cannot be established, the participant may be on the wrong section entirely. A packet that does not carry that stop lets a participant file \u00a7 1203.4a on a probation case.",
-     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: \u2026') rather than paraphrasing the boundary in the packet's own voice.",
+     "whyItMatters": "Penal Code § 1203.4a is the section for a conviction where probation was NOT granted. The registry's last stop condition is therefore this track's threshold question: if whether probation was granted cannot be established, the participant may be on the wrong section entirely. A packet that does not carry that stop lets a participant file § 1203.4a on a probation case.",
+     "theStandardToRepairTo": "Two families in this same lane set already do it correctly and should be copied rather than re-invented: ca-851-91-set carries 6 of 6 and ca-prop64-set 3 of 3, each under an explicit heading that quotes the registry as the authority ('The registry draws one more line, and it is the one this list is easiest to misread. In its own words: …') rather than paraphrasing the boundary in the packet's own voice.",
      "repair": "Add a self-help boundary section to participant-instructions.md carrying all 5 of this track's recorded stop conditions verbatim, attributed to the committed track registry, and bind the SELF_HELP_STOP record so the binding is auditable rather than a prose match."
     }
    ],
@@ -432,7 +432,7 @@
       "repair": "Reclassify NoticeHeader1 and NoticeFooter1 as NOT_A_FILING_FACT / NOT_APPLICABLE_ON_THIS_ROUTE in the field map for every family that encloses MC-031, and remove their rows from the participant blanks table. Do not simply drop them from the table while leaving blankTreatment REQUIRED_BEFORE_FILING; the declaration is the defect."
      },
      "defectTwo": {
-      "what": "Nine rows in the blanks table state a printed caption that the form does not print \u2014 they echo the field's internal name back as the caption.",
+      "what": "Nine rows in the blanks table state a printed caption that the form does not print — they echo the field's internal name back as the caption.",
       "currentText": "Rows read 'the form prints `FillText10` beside it', and the same for FillText7, FillText8, FillText9, FillText11, FillText13, FillText14, NoticeHeader1 and NoticeFooter1. MC-031 prints none of those strings anywhere.",
       "provedHow": "Measured from MC-031's own printed words with pdftotext -bbox word geometry against each widget rectangle read from the AcroForm.",
       "realPrintedCaptions": [
@@ -701,7 +701,7 @@
      "whatRepairMustDo": "After the content repairs and deterministic rebuild, update exact artifact pins and obtain a fresh governed whole-family RASTER_PASS bound to both new hashes, covering every canonical and boundary page as nonblank and defect-free. A local verifier artifact is not acceptance."
     },
     "SERVICE": {
-     "measuredDetail": "The filing instructions require service on two distinct recipients\u2014the county prosecuting attorney and the supervising probation office\u2014but page 7 exposes only one singular recipient/address/method block. Its certification also says the signer served a proposed order, while no proposed order is in the packet and the instructions identify only application, affidavit and certificate for filing.",
+     "measuredDetail": "The filing instructions require service on two distinct recipients—the county prosecuting attorney and the supervising probation office—but page 7 exposes only one singular recipient/address/method block. Its certification also says the signer served a proposed order, while no proposed order is in the packet and the instructions identify only application, affidavit and certificate for filing.",
      "whatRepairMustDo": "Provide separately completable service records for both required offices, with address and method for each, and make the certification name only the components actually served. Remove the proposed-order representation unless the controlling source requires and the rebuilt component set actually includes that order."
     }
    },
@@ -781,6 +781,55 @@
     "do not resolve the open routing question (which form applies where the conviction is old and the vacatur recent); it is a recorded release blocker on this track and is not this repair's to close",
     "this verification opens no commercial route, approves no output and promotes nothing"
    ]
+  },
+  {
+   "itemId": "nm_identity_theft-set",
+   "lane": "VF05",
+   "wave": "packet-factory-24h/VF04-VF05/wave-three (2026-09-05)",
+   "worker": "CLAUDE-VF04-VF05-WAVE-THREE (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+   "verifiedAtBase": "d7e293f81",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "fixturesMoved": false,
+   "decisiveDefect": "Packet page 11 of 17 delivers a caption naming the wrong court, from the same Form 4-222 binary nm_conviction-set encloses: 'STATE OF NEW MEXICO / COUNTY OF Bernalillo / SIXTH JUDICIAL DISTRICT COURT' in the canonical fixture and the same with 'Sierra' in the boundary. Bernalillo is in the Second Judicial District and Sierra in the Seventh, and the packet's other three documents caption the correct district. The county is this build's own write, placed directly above source-shipped ink naming a court the participant has not chosen.",
+   "secondDefect": "On Form 4-951 page 1, item 2, matter.court is written into both blanks of the unelected 'has the following pending expungement case or cases' branch as well as the 'has no pending cases' blank, with neither box marked and the case-number line blank.",
+   "failedProofObligations": [
+    "KNOWN_PREFILLS",
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "perObligation": {
+    "KNOWN_PREFILLS": "Remove the two matter.court writes on the unelected branch of Form 4-951 item 2. Note what is already right and must stay right: at item 6 the build writes the district into the District Court line and leaves 'District Attorney for the ___ Judicial District' blank, so no district attorney is read as the filer's own attorney.",
+    "CLIPPING_AND_OVERLAP": "Resolve the Form 4-222 caption jointly with nm_conviction-set; it is the same binary and the same defect."
+   },
+   "repairMustNotDo": [
+    "Do not change either fixture's page count or component set to make the defect go away.",
+    "Do not write any value onto a protected, court-only, prosecutor-only or signature field.",
+    "Do not open, promote or price any route; a repair reopens nothing.",
+    "Re-render, re-raster and have a lane that did not perform the repair verify the result. Both fixture digests will move and the owner pins must be re-taken."
+   ]
+  },
+  {
+   "itemId": "ri_first_offender_misdemeanor-set",
+   "lane": "VF05",
+   "wave": "packet-factory-24h/VF04-VF05/wave-three (2026-09-05)",
+   "worker": "CLAUDE-VF04-VF05-WAVE-THREE (independent; built, repaired and rendered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+   "verifiedAtBase": "d7e293f81",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "fixturesMoved": false,
+   "decisiveDefect": "Packet page 8 of 13 - notice-package page 2 - contains nothing but the internal machine route-key block, and the same block prints at the foot of pages 6 and 12. Page 6 is the proposed order, so a District Court judge is handed 'Route: obligation:unit:RI:ri_first_offender_misdemeanor:...' beneath the clerk's certification line. Two of the three keys are split mid-token and print as 'court-motion-an' / 'd-affidavit' and 'notice-hearing-a' / 'nd-certified-copies'.",
+   "failedProofObligations": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "perObligation": {
+    "CLIPPING_AND_OVERLAP": "Stop emitting the route-key block into the composed body of participant- and court-facing pages; removing it also removes the page that exists only to carry it. Same composer change as ri_first_offender_felony-set and ms-misd-1st-set."
+   },
+   "repairMustNotDo": [
+    "Do not change either fixture's page count or component set to make the defect go away.",
+    "Do not write any value onto a protected, court-only, prosecutor-only or signature field.",
+    "Do not open, promote or price any route; a repair reopens nothing.",
+    "Re-render, re-raster and have a lane that did not perform the repair verify the result. Both fixture digests will move and the owner pins must be re-taken."
+   ]
   }
  ],
  "supersededLaneMembership": {
@@ -858,7 +907,7 @@
     ],
     "perObligation": {
      "SELF_HELP_STOP": {
-      "measuredDetail": "participant-instructions.md contains no stop-and-get-help section of any kind, and never mentions \u00a7 7602(c), \u00a7 7602(d), a limitation clock, a waiting period or eligibility. The committed treatment (data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon) records that the statute does not resolve which clock a pardoned misdemeanour runs on and that this 'decides when you may file at all'.",
+      "measuredDetail": "participant-instructions.md contains no stop-and-get-help section of any kind, and never mentions § 7602(c), § 7602(d), a limitation clock, a waiting period or eligibility. The committed treatment (data/rcap-all50/terminalization-treatments/vt.json, trackId vt_seal_pardon) records that the statute does not resolve which clock a pardoned misdemeanour runs on and that this 'decides when you may file at all'.",
       "whatRepairMustDo": "When VTL01 is answered, state the governing clock and add the stop conditions. Until then the packet must not present itself as filing-ready."
      },
      "ARTIFACTS": {
@@ -872,7 +921,7 @@
      "whereTheDefectLives": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
      "theLine": "In the branch that handles an existing product-wiring.json the generator rewrites only `binding` and states in its own comment: 'its identity, its proposal and its non-grants are untouched, and only the binding is rewritten from current evidence'. So proposedRepresentation.components[].sha256 keeps whatever the first write recorded, and any family whose fixtures moved afterwards carries a digest for bytes that no longer exist.",
      "measuredScope": "80 census-v1 product-wiring.json files declare component digests at base 4f5af4e7. 70 agree with the bytes on disk; 10 do not: pa_pardon_expungement-set, composed-treatment AK set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, ky_void_seal_marijuana_synthetic_salvia-set, ky_void_seal_controlled_substance-set, vt_seal_pardon-set, vt_seal_nonconviction-set, vt_seal_felony-set, vt_exp_decriminalized-set, ct-missed-erasure-set, va_seal_petition_misdemeanor-set.",
-     "whatRepairMustDo": "Refresh proposedRepresentation.components[].sha256 from reports/rendered-artifacts.json \u2014 the file product-wiring.json already names as its own derivedFrom \u2014 whenever an existing record is refreshed, or drop the digest from the proposal and let the binding carry it alone. No packet byte moves and no re-raster is needed.",
+     "whatRepairMustDo": "Refresh proposedRepresentation.components[].sha256 from reports/rendered-artifacts.json — the file product-wiring.json already names as its own derivedFrom — whenever an existing record is refreshed, or drop the digest from the proposal and let the binding carry it alone. No packet byte moves and no re-raster is needed.",
      "whoMayNotDoIt": "Not this lane. FABLE-VC may not edit factory scripts or overlay directories; this is named, not repaired.",
      "notAPacketDefect": "The delivered canonical and boundary bytes are correct and hash exactly to the raster receipt, the RASTER_QUEUE row and reports/rendered-artifacts.json in every one of the three families this lane scored."
     }
@@ -1058,7 +1107,7 @@
        "118 Maple Street": 1
       }
      },
-     "buildsOwnCorroboration": "reports/participant-name-placement.json records placementsFound 16 on pages 1,3,5,7,8,9,13 with placementsOutsideTheAllowlist 0 \u2014 the same page set, so the packet's own two artifacts disagree and the bytes side with the placement report."
+     "buildsOwnCorroboration": "reports/participant-name-placement.json records placementsFound 16 on pages 1,3,5,7,8,9,13 with placementsOutsideTheAllowlist 0 — the same page set, so the packet's own two artifacts disagree and the bytes side with the placement report."
     },
     "whatARepairMustDo": "Rewrite lines 42-46 to state what is actually filled and where: that cap-PetitionerFullName, cap-COUNTY, DD-cap-CourtType and Address are shared fields in the published bundle, that filling them on the Appearance propagates the name to pages 1,3,5,7,8,9,13, the county and court type to pages 1,3,7,9 and the address to pages 1 and 13, and that the participant must therefore NOT re-write the name or county onto those pages. The caption items genuinely left to the participant are the court type and the cause number.",
     "doNot": "Do not change any fixture PDF to make the prose true; the bytes are correct and the prose is wrong."
@@ -1086,19 +1135,31 @@
     ],
     "evidence": {
      "measuredOnTheDeliveredBytes": "packet-canonical-filled.pdf: catalog /AcroForm absent, getForm().getFields() = 0, and 0 annotations on each of the 15 pages. inserts-canonical-filled.pdf: same, 0 on each of 4 pages. Both boundary fixtures identical in this respect.",
-     "sourcesAreFillable": "the 15-page bundle b04f2941c91f903e\u2026 carries 68 AcroForm fields; the 4-page insert 65500e2cf0916fdd\u2026 carries 77.",
+     "sourcesAreFillable": "the 15-page bundle b04f2941c91f903e… carries 68 AcroForm fields; the 4-page insert 65500e2cf0916fdd… carries 77.",
      "instructionsAssumeInteractivity": [
       "line 54 'The Appearance's caption has a dropdown for the court type and this packet does not choose it'",
       "line 90 'the court type (a dropdown; inside the PDF, DD-cap-CourtType)'",
       "line 100 'the two election boxes (Check Box9, Check Box10) | tick the relief you are asking the court to order'",
-      "line 103 'Confidential Information Form \u2014 full Social Security Number (PetFullSSN)'",
+      "line 103 'Confidential Information Form — full Social Security Number (PetFullSSN)'",
       "lines 114-119 name 40+ insert field identifiers for the participant to complete"
      ],
      "contrast": "in_conviction_misd-set retains all 191 widget annotations on its retained pages, so the two Indiana families ship inconsistent treatments of the same publisher's forms."
     },
-    "whatARepairMustDo": "Decide the delivery contract and make prose and bytes agree, one of: (i) deliver the packet un-flattened so the named fields exist and the instructions are followable \u2014 in which case the PetFullSSN p8/p9 sharing recorded in the rows observations MUST be disclosed, because typing the full Social Security number into the Confidential Information Form will also print it on page 9 of the proposed order, a public record, against line 78's 'Put the full number nowhere else'; or (ii) keep the flattened print-and-hand-complete delivery and rewrite every instruction that names a field identifier or an interactive control to describe a position on the printed page instead.",
+    "whatARepairMustDo": "Decide the delivery contract and make prose and bytes agree, one of: (i) deliver the packet un-flattened so the named fields exist and the instructions are followable — in which case the PetFullSSN p8/p9 sharing recorded in the rows observations MUST be disclosed, because typing the full Social Security number into the Confidential Information Form will also print it on page 9 of the proposed order, a public record, against line 78's 'Put the full number nowhere else'; or (ii) keep the flattened print-and-hand-complete delivery and rewrite every instruction that names a field identifier or an interactive control to describe a position on the printed page instead.",
     "doNot": "Do not un-flatten without also fixing line 78 and disclosing the PetFullSSN p8/p9 hazard."
    }
   ]
+ },
+ "vf04Vf05WaveThreeAppend20260905": {
+  "worker": "CLAUDE-VF04-VF05-WAVE-THREE (independent; built, repaired and rendered none of these packets)",
+  "verifiedAtBase": "d7e293f81",
+  "branch": "vf04-vf05-wave-three",
+  "whatThisMarkerIs": "Repair assignments appended by this reading. Every assignment already here is preserved byte for byte; only entries carrying wave \"packet-factory-24h/VF04-VF05/wave-three (2026-09-05)\" are this reading.",
+  "assignmentsAdded": [
+   "nm_identity_theft-set",
+   "ri_first_offender_misdemeanor-set"
+  ],
+  "theRepairIsOneCentralChangeNotThree": "The Rhode Island route-key pages and the Mississippi hard-split route key come from the same composer footer. A repair worker should change the composer once and re-render every family that carries it.",
+  "verifierMayNotRepair": "This lane wrote no overlay directory, no build script and no shared record. A defect found here is a verdict and a repair assignment, never an edit."
  }
 }
