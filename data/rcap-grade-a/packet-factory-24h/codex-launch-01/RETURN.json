@@ -1,0 +1,704 @@
+{
+  "schemaVersion": "rcap-launch-engineering-return/v1",
+  "lane": "CODEX-LAUNCH-01",
+  "assignmentId": "codex-launch-01-il-felony-prostitution-relief-delivery-v1",
+  "status": "IN_SCOPE_IMPLEMENTED_SHARED_DEPENDENCIES_REMAIN",
+  "allAcceptancePassed": false,
+  "base": "cf6b9f05c35d9142922f581705f69f39af7e0965",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "branch": "codex/launch-01-il-delivery",
+  "commit": "fbee9d12f38f8f834e440cd3d17ad00470f7365b",
+  "commitMeaning": "Tested implementation commit. RETURN.json is carried by the following bounded handoff commit on the same worker branch.",
+  "initialWorkspace": {
+    "branch": "main",
+    "sha": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+    "clean": true,
+    "assignmentPresent": false
+  },
+  "branchProvenance": {
+    "actualCaptainSnapshot": "cf6b9f05c35d9142922f581705f69f39af7e0965",
+    "existingLocalWorkerBranch": false,
+    "existingRemoteWorkerBranch": false,
+    "worktreeUsed": "/workspaces/legalease-partner-dashboard-clean",
+    "createdFromCaptainSnapshot": true
+  },
+  "changedPaths": [
+    "data/rcap-ledger/launch-graph.json",
+    "scripts/generate-rcap-launch-graph.mjs",
+    "scripts/test-rcap-il-delivery-ephemeral.mjs",
+    "scripts/verify-rcap-consumer-delivery-environment.mjs",
+    "scripts/verify-rcap-factory-v2-route.mjs",
+    "scripts/verify-rcap-il-delivery-binding.mjs",
+    "scripts/verify-rcap-lane-f-commercial-admission.mjs",
+    "scripts/verify-rcap-launch-graph.mjs",
+    "scripts/verify-rcap-money-gate-delivery-binding.mjs",
+    "scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+    "scripts/verify-rcap-packet-delivery-contract.mjs",
+    "scripts/verify-rcap-packet-delivery-e2e.mjs",
+    "scripts/verify-rcap-packet-render-jobs.mjs",
+    "scripts/verify-rcap-packet-render-path.mjs",
+    "scripts/verify-rcap-render-job-contract.mjs",
+    "scripts/verify-rcap-render-worker-delivery.mjs",
+    "scripts/verify-rcap-sellable-pathway-closure.mjs",
+    "src/app/api/rcap/packets/[jobId]/download/route.ts",
+    "src/lib/rcap/render/commercial-admission.ts",
+    "src/lib/rcap/render/packet-delivery.ts",
+    "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN.json"
+  ],
+  "implementation": [
+    "The launch graph resolves only the assigned IL row using the server-owned specification track, then invokes the existing probeArtifact with only that track packet set. The automatic sibling remains in the source inventory, never in the artifact scope.",
+    "Artifact evidence names the exact route, track, family and specification digest; JSON is regenerated using --json-only. Default --check still checks both JSON and Markdown.",
+    "Final-verification translation retains an exact IL track/family binding. Missing, wildcard and automatic tracks cannot inherit the vacatur family at consumer, sponsored, generation or download admission.",
+    "The IL download core requires current verification for consumer and sponsored jobs, checks route and matter against the job, and supports the sponsored participant-owned Briefcase binding. The IL route handler supplies protected current verification through existing readers and honors the unchanged consumer-delivery control.",
+    "Assigned RCAP delivery verifiers import the focused IL contract checks. Existing worker and mobile HTTP tests additionally exercise both funding paths through real ephemeral PostgreSQL and filesystem storage, with unchanged specification-pinned PDF fixtures at the render port.",
+    "The pre-existing packet-delivery-contract positive fixture used a retired Mississippi route and crashed at base. Its positive job-building case now uses exact Illinois; an explicit assertion also preserves refusal of the retired Mississippi route."
+  ],
+  "verifiersBefore": [
+    {
+      "command": "node scripts/verify-route-resolution.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs --check",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-path.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-jobs.mjs",
+      "exitCode": 1,
+      "reason": "PostgreSQL absent from the initial local environment"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-contract.mjs",
+      "exitCode": 1,
+      "reason": "Pre-existing fixture expected retired MS:misdemeanor_conviction to build a new job; dereferenced null spec."
+    },
+    {
+      "command": "node scripts/verify-rcap-render-job-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-render-worker-delivery.mjs",
+      "exitCode": 1,
+      "reason": "PostgreSQL absent from the initial local environment"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-e2e.mjs",
+      "exitCode": 1,
+      "reason": "PostgreSQL absent from the initial local environment"
+    },
+    {
+      "command": "npx tsc --noEmit -p .",
+      "exitCode": 0
+    },
+    {
+      "command": "ESLint --stdin --stdin-filename on each changed pre-existing file read with git show cf6b9f05c35d9142922f581705f69f39af7e0965:<file>",
+      "exitCode": 0,
+      "individualCommands": [
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:data/rcap-ledger/launch-graph.json | npx eslint --stdin --stdin-filename data/rcap-ledger/launch-graph.json",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/generate-rcap-launch-graph.mjs | npx eslint --stdin --stdin-filename scripts/generate-rcap-launch-graph.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-consumer-delivery-environment.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-consumer-delivery-environment.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-factory-v2-route.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-factory-v2-route.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-lane-f-commercial-admission.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-lane-f-commercial-admission.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-launch-graph.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-launch-graph.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-money-gate-delivery-binding.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-money-gate-delivery-binding.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-no-checkout-on-automatic-routes.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-packet-delivery-contract.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-packet-delivery-contract.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-packet-delivery-e2e.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-packet-delivery-e2e.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-packet-render-jobs.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-packet-render-jobs.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-packet-render-path.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-packet-render-path.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-render-job-contract.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-render-job-contract.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-render-worker-delivery.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-render-worker-delivery.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:scripts/verify-rcap-sellable-pathway-closure.mjs | npx eslint --stdin --stdin-filename scripts/verify-rcap-sellable-pathway-closure.mjs",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:src/app/api/rcap/packets/[jobId]/download/route.ts | npx eslint --stdin --stdin-filename src/app/api/rcap/packets/[jobId]/download/route.ts",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:src/lib/rcap/render/commercial-admission.ts | npx eslint --stdin --stdin-filename src/lib/rcap/render/commercial-admission.ts",
+          "exitCode": 0
+        },
+        {
+          "command": "git show cf6b9f05c35d9142922f581705f69f39af7e0965:src/lib/rcap/render/packet-delivery.ts | npx eslint --stdin --stdin-filename src/lib/rcap/render/packet-delivery.ts",
+          "exitCode": 0
+        }
+      ],
+      "note": "New verifier files did not exist at base. JSON is ignored by the existing ESLint configuration; existing unused-variable warnings remain."
+    }
+  ],
+  "verifiersAfter": [
+    {
+      "command": "node scripts/verify-route-resolution.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs --check",
+      "exitCode": 1,
+      "reason": "Only docs/record-clearing/LAUNCH_GRAPH.md is stale. This generated Markdown report is outside writablePaths; default --check was preserved and still checks both outputs."
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-path.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-jobs.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-render-job-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-render-worker-delivery.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-e2e.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "npx tsc --noEmit -p .",
+      "exitCode": 0
+    },
+    {
+      "command": "npx eslint data/rcap-ledger/launch-graph.json scripts/generate-rcap-launch-graph.mjs scripts/verify-rcap-consumer-delivery-environment.mjs scripts/verify-rcap-factory-v2-route.mjs scripts/verify-rcap-lane-f-commercial-admission.mjs scripts/verify-rcap-launch-graph.mjs scripts/verify-rcap-money-gate-delivery-binding.mjs scripts/verify-rcap-no-checkout-on-automatic-routes.mjs scripts/verify-rcap-packet-delivery-contract.mjs scripts/verify-rcap-packet-delivery-e2e.mjs scripts/verify-rcap-packet-render-jobs.mjs scripts/verify-rcap-packet-render-path.mjs scripts/verify-rcap-render-job-contract.mjs scripts/verify-rcap-render-worker-delivery.mjs scripts/verify-rcap-sellable-pathway-closure.mjs src/app/api/rcap/packets/[jobId]/download/route.ts src/lib/rcap/render/commercial-admission.ts src/lib/rcap/render/packet-delivery.ts scripts/test-rcap-il-delivery-ephemeral.mjs scripts/verify-rcap-il-delivery-binding.mjs",
+      "exitCode": 0
+    }
+  ],
+  "focusedRegressions": [
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs (at base)",
+      "exitCode": 0,
+      "observed": "IL renderer legacy_retired; artifactResult null; deterministicArtifactProven false. Baseline regenerated outputs were unchanged."
+    },
+    {
+      "command": "node scripts/verify-rcap-il-delivery-binding.mjs --il-graph /tmp/codex-launch-01/base-launch-graph.json",
+      "exitCode": 1,
+      "observed": "IL graph must resolve the productized track (legacy_retired != factory_v2)."
+    },
+    {
+      "command": "node scripts/verify-rcap-il-delivery-binding.mjs (after graph fix, before commercial-admission fix)",
+      "exitCode": 1,
+      "observed": "Missing expected exception: consumer_payment: trackless verification must not inherit the vacatur family."
+    },
+    {
+      "command": "node scripts/verify-rcap-il-delivery-binding.mjs",
+      "exitCode": 0,
+      "observed": "Exact track/family/job and consumer/sponsored denials pass; also executed by the final acceptance verifiers."
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs --json-only",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "exitCode": 0,
+      "observed": "24/24 mutations detected, including lost IL track, automatic sibling, wrong family and wildcard artifact scope."
+    }
+  ],
+  "launchGraphRowBefore": {
+    "pathwayKey": "IL:felony-prostitution-relief",
+    "jurisdiction": "IL",
+    "pathwayId": "felony-prostitution-relief",
+    "pathwayLabel": "Felony-prostitution relief",
+    "availability": "MAINTENANCE_HOLD",
+    "compiledPathway": {
+      "present": true,
+      "profileVersion": "2026-06-19-source-conversion-1"
+    },
+    "registryTracks": [
+      "il-prostitution-j-auto",
+      "il-prostitution-j-vacate"
+    ],
+    "registryGap": false,
+    "pathwayLevelPacketRecord": null,
+    "packetFamilies": [
+      "rcap-il-guidance-implementation"
+    ],
+    "packetSets": [
+      {
+        "packetSetId": "il-prostitution-j-auto-set",
+        "trackId": "il-prostitution-j-auto",
+        "components": 1
+      },
+      {
+        "packetSetId": "il-prostitution-j-vacate-set",
+        "trackId": "il-prostitution-j-vacate",
+        "components": 2
+      }
+    ],
+    "ownerApprovedLegalStatus": "approved_by_decision_owner",
+    "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "legalBasis": "owner_approved_packet_family",
+    "packetSpecification": {
+      "complete": true,
+      "componentCount": 3,
+      "participantActionsRequired": 19
+    },
+    "sourceAssets": {
+      "officialFormIdsNamed": [],
+      "officialFormIdsHeldInThisRepository": [],
+      "allNamedSourcesHeld": false
+    },
+    "technicalStatus": {
+      "completedOutputVerifierResults": [
+        "passed"
+      ],
+      "current": true
+    },
+    "pdfStatus": {
+      "problematicAssets": [],
+      "hold": false
+    },
+    "renderer": {
+      "routeKind": "legacy_retired",
+      "rendererKind": "packet_document_v1",
+      "packetSetIds": [],
+      "reason": "IL's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+    },
+    "publicWitness": {
+      "reachesThisPathway": true,
+      "settled": true,
+      "resultCode": "likely_not_eligible",
+      "rounds": 1
+    },
+    "paymentResult": {
+      "allowedAtTheEvaluator": false,
+      "sellableAtTheResolver": false,
+      "creditConsumable": false
+    },
+    "artifactResult": null,
+    "dtcResult": {
+      "deliverable": false
+    },
+    "rcapResult": {
+      "creditConsumable": false
+    },
+    "operationalGates": {
+      "publicWitnessReachesThisPathway": true,
+      "authoritativeIntendedPathway": true,
+      "paymentAllowed": false,
+      "packetSpecificationComplete": true,
+      "ownerApprovedLegalDesign": true,
+      "technicalApprovalCurrent": true,
+      "rendererSelected": true,
+      "deterministicArtifactProven": false,
+      "noProblematicPdfHold": true
+    },
+    "unmetOperationalGates": [
+      "paymentAllowed",
+      "deterministicArtifactProven"
+    ],
+    "fulfillmentAuthorityAdmitted": true,
+    "operationallySellable": false,
+    "allOperationalGatesMet": false
+  },
+  "launchGraphRowAfter": {
+    "pathwayKey": "IL:felony-prostitution-relief",
+    "jurisdiction": "IL",
+    "pathwayId": "felony-prostitution-relief",
+    "pathwayLabel": "Felony-prostitution relief",
+    "availability": "MAINTENANCE_HOLD",
+    "compiledPathway": {
+      "present": true,
+      "profileVersion": "2026-06-19-source-conversion-1"
+    },
+    "registryTracks": [
+      "il-prostitution-j-auto",
+      "il-prostitution-j-vacate"
+    ],
+    "registryGap": false,
+    "pathwayLevelPacketRecord": null,
+    "packetFamilies": [
+      "rcap-il-guidance-implementation"
+    ],
+    "packetSets": [
+      {
+        "packetSetId": "il-prostitution-j-auto-set",
+        "trackId": "il-prostitution-j-auto",
+        "components": 1
+      },
+      {
+        "packetSetId": "il-prostitution-j-vacate-set",
+        "trackId": "il-prostitution-j-vacate",
+        "components": 2
+      }
+    ],
+    "ownerApprovedLegalStatus": "approved_by_decision_owner",
+    "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "legalBasis": "owner_approved_packet_family",
+    "packetSpecification": {
+      "complete": true,
+      "componentCount": 3,
+      "participantActionsRequired": 19
+    },
+    "sourceAssets": {
+      "officialFormIdsNamed": [],
+      "officialFormIdsHeldInThisRepository": [],
+      "allNamedSourcesHeld": false
+    },
+    "technicalStatus": {
+      "completedOutputVerifierResults": [
+        "passed"
+      ],
+      "current": true
+    },
+    "pdfStatus": {
+      "problematicAssets": [],
+      "hold": false
+    },
+    "renderer": {
+      "trackId": "il-prostitution-j-vacate",
+      "routeKind": "factory_v2",
+      "rendererKind": "packet_document_v1",
+      "packetSetIds": [
+        "il-prostitution-j-vacate-set"
+      ],
+      "reason": "IL felony-prostitution-relief builds through the shared packet factory from packet set il-prostitution-j-vacate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+    },
+    "publicWitness": {
+      "reachesThisPathway": true,
+      "settled": true,
+      "resultCode": "likely_not_eligible",
+      "rounds": 1
+    },
+    "paymentResult": {
+      "allowedAtTheEvaluator": false,
+      "sellableAtTheResolver": false,
+      "creditConsumable": false
+    },
+    "artifactResult": {
+      "rendered": true,
+      "deterministic": true,
+      "sha256": "e2ab3592cd8c9b4f69d7f97914754b3739f52f2d486715af72c55f3726620dde",
+      "characters": 3192,
+      "sections": 11,
+      "warnings": 0,
+      "errors": [],
+      "scope": {
+        "routeId": "IL:felony-prostitution-relief",
+        "trackId": "il-prostitution-j-vacate",
+        "packetFamilyId": "il-prostitution-j-vacate-set",
+        "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f"
+      }
+    },
+    "dtcResult": {
+      "deliverable": false
+    },
+    "rcapResult": {
+      "creditConsumable": false
+    },
+    "operationalGates": {
+      "publicWitnessReachesThisPathway": true,
+      "authoritativeIntendedPathway": true,
+      "paymentAllowed": false,
+      "packetSpecificationComplete": true,
+      "ownerApprovedLegalDesign": true,
+      "technicalApprovalCurrent": true,
+      "rendererSelected": true,
+      "deterministicArtifactProven": true,
+      "noProblematicPdfHold": true
+    },
+    "unmetOperationalGates": [
+      "paymentAllowed"
+    ],
+    "fulfillmentAuthorityAdmitted": true,
+    "operationallySellable": false,
+    "allOperationalGatesMet": false
+  },
+  "resolutionOutcomesChanged": [
+    {
+      "route": "IL:felony-prostitution-relief",
+      "fields": [
+        {
+          "field": "artifactResult",
+          "before": null,
+          "after": {
+            "rendered": true,
+            "deterministic": true,
+            "sha256": "e2ab3592cd8c9b4f69d7f97914754b3739f52f2d486715af72c55f3726620dde",
+            "characters": 3192,
+            "sections": 11,
+            "warnings": 0,
+            "errors": [],
+            "scope": {
+              "routeId": "IL:felony-prostitution-relief",
+              "trackId": "il-prostitution-j-vacate",
+              "packetFamilyId": "il-prostitution-j-vacate-set",
+              "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f"
+            }
+          }
+        },
+        {
+          "field": "operationalGates.deterministicArtifactProven",
+          "before": false,
+          "after": true
+        },
+        {
+          "field": "renderer.packetSetIds",
+          "before": [],
+          "after": [
+            "il-prostitution-j-vacate-set"
+          ]
+        },
+        {
+          "field": "renderer.reason",
+          "before": "IL's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery.",
+          "after": "IL felony-prostitution-relief builds through the shared packet factory from packet set il-prostitution-j-vacate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        },
+        {
+          "field": "renderer.routeKind",
+          "before": "legacy_retired",
+          "after": "factory_v2"
+        },
+        {
+          "field": "renderer.trackId",
+          "before": null,
+          "after": "il-prostitution-j-vacate"
+        },
+        {
+          "field": "unmetOperationalGates",
+          "before": [
+            "paymentAllowed",
+            "deterministicArtifactProven"
+          ],
+          "after": [
+            "paymentAllowed"
+          ]
+        }
+      ]
+    }
+  ],
+  "invariants": {
+    "rowsCompared": 262,
+    "allPaymentAndCommercialFlagsUnchanged": true,
+    "unrelatedRowsUnchanged": 261,
+    "paymentAllowedBefore": 28,
+    "paymentAllowedAfter": 28,
+    "operationallySellableBefore": 0,
+    "operationallySellableAfter": 0
+  },
+  "generatorOnlyOutputs": {
+    "regenerated": [
+      "data/rcap-ledger/launch-graph.json"
+    ],
+    "unchangedAndCurrent": [
+      "data/record-clearing/factory-v2-route-registry.json"
+    ],
+    "publicWitnessFilesChanged": false,
+    "unrelatedGraphRowChanges": []
+  },
+  "routesOpened": 0,
+  "paymentTouched": false,
+  "productionTouched": false,
+  "packetBytesTouched": false,
+  "legalAuthorityTouched": false,
+  "approvalRecordsTouched": false,
+  "localAcceptance": {
+    "ephemeralPostgres": true,
+    "filesystemStorageAdapter": true,
+    "mobileChromiumHttpDownload": true,
+    "consumerAccountingResult": "zero_charge",
+    "sponsoredAccountingResult": "consumed",
+    "repeatDownloadConsumesAgain": false,
+    "renderPort": "Read-only, unchanged canonical PDF fixture pinned by the server-owned specification; not the production worker adapter or a personalized render.",
+    "fixtureSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+    "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f",
+    "paymentProvider": "Synthetic local event passed through record_consumer_packet_payment in the ephemeral database; no Stripe request.",
+    "identity": "Local test identities; HTTP wrapper exercises the delivery core, not Next.js session authentication.",
+    "hostedAcceptance": false,
+    "environmentPreparation": "Installed local PostgreSQL 16, Playwright Chromium and browser system libraries. No hosted credentials, shared database, .env file, Production configuration or deployed environment variable was used or changed.",
+    "eslint": "Exit 0. Four existing unused-variable warnings; generated JSON ignored by the repository ESLint configuration."
+  },
+  "whatRemains": [
+    {
+      "kind": "out_of_scope_generated_dependency",
+      "paths": [
+        "docs/record-clearing/LAUNCH_GRAPH.md"
+      ],
+      "requiredChange": "Captain runs node scripts/generate-rcap-launch-graph.mjs and commits the generated Markdown report, then reruns the unchanged --check. Expected report counters: factory_v2 165 -> 166, composed text 165 -> 166, complete artifact probes 41 -> 42, unmet deterministic artifact gates 221 -> 220. Payment 28 and operationally sellable 0 stay unchanged.",
+      "whyNotChanged": "Only the JSON ledger and named registry/witness outputs are writable. Markdown is not listed. This is the sole remaining failure in the specified local acceptance command list."
+    },
+    {
+      "kind": "out_of_scope_consumer_authority_dependency",
+      "paths": [
+        "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+        "src/lib/expungement-ai/payment-adapter.ts",
+        "src/lib/expungement-ai/packet-generation.ts"
+      ],
+      "observed": "Calling packetFulfillmentAuthority(\"IL\", \"felony-prostitution-relief\") returns allowed=false, missing=[\"fulfillment record\"]. This reader uses data/rcap-ledger/packet-fulfillment-records.json; the independent Grade-A commercial authority already admits grade-a-il-felony-prostitution-relief-v1.",
+      "requiredChange": "Captain must reconcile this older consumer fulfillment/provider lookup with the existing canonical Grade-A authority and the exact server-owned IL specification, preserving evaluator/payment/launch gates. Do not create a second approval or bypass the missing-record check. The consumer checkout and generation callers cannot complete while their separate reader rejects the route.",
+      "whyNotChanged": "These consumer library paths and their old ledger are outside this assignment. Approval/fulfillment records are expressly protected."
+    },
+    {
+      "kind": "out_of_scope_worker_provider_dependency",
+      "paths": [
+        "scripts/rcap-render-worker.mjs",
+        "src/lib/expungement-ai/packet-generation.ts"
+      ],
+      "observed": "scripts/rcap-render-worker.mjs renderer.render calls getRcapDocumentPacket(claim.packetId) then renderRcapPacketPdf(packet, \"full\"). The consumer Grade-A path instead invokes buildGradeAArtifact and renderGradeAPacketPdf inline; it does not enqueue this worker job.",
+      "requiredChange": "Captain must connect the exact IL consumer/sponsored generation path to the existing durable queue and a production renderer adapter that reads server-owned verified facts and the exact specification/track/family, preserving approved packet bytes. Bind the queued artifact to the current verification and serve it through authorized private delivery. Keep unrelated legacy dispatch unchanged. The local fixed-fixture adapter is test-only and must not be shipped as a participant renderer.",
+      "whyNotChanged": "The worker executable and consumer packet-generation module are outside writablePaths. Changing packet builders, packet bytes or specifications is prohibited."
+    },
+    {
+      "kind": "hosted_acceptance",
+      "requiredChange": "After Captain integration and dependency closure, run both hosted consumer and sponsored canaries using owner-held credentials. No local, synthetic-payment, fixture-render or mocked-identity result in this return is hosted acceptance."
+    },
+    {
+      "kind": "publication_and_launch",
+      "requiredChange": "Captain remains sole integrator. Re-run acceptance after integration and perform the existing worker publication/equivalence process before reusing a digest after worker-input changes. paymentAllowed opens only through fulfillment authority and launch gates; this branch grants no payment, credit, partial rollout or Production authority."
+    }
+  ]
+}
