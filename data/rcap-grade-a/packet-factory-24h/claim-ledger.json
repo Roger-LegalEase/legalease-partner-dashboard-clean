@@ -7355,9 +7355,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Lane label VF02 is occupied by the Michigan read; the Texas no-supervision read moves to VF05 so one worker holds one lane label."
+      "released": true,
+      "releasedAt": "2026-09-05T17:18:45.611Z",
+      "releaseReason": "VF05 PASS_COMPLETE_INDEPENDENT at 30a8b3b71: all fifteen obligations pass on the FIX47 bytes (canonical dd3c2594, boundary cc799883, RASTER_PASS run 33977913138 job 101338199890); nine counters zero; no checkbox question (0 of 36 button widgets lack an /Off appearance). Open note for the census-step owner: field-census.census-v1.json records 3 source-carried values while the pinned OCA petition carries 2 more (Dropdown4/Dropdown5), cleared correctly by the build but unexamined by the verifier. Return at data/rcap-grade-a/packet-factory-24h/vf05/rows.json (Captain release after integrating VF05 commit 2bfaf127a)."
     },
     {
       "subjectType": "packet-family",
@@ -13100,9 +13100,25 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "itemId": null,
+      "familyId": "mi_setaside_marihuana-set",
+      "familyIds": [
+        "mi_setaside_marihuana-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX51",
+      "laneKind": "repair",
+      "released": true,
+      "releasedAt": "2026-09-05T17:18:44.844Z",
+      "releaseReason": "Added MI.memo.json's adopted scope-of-relief disclosure (driving record, SORA, firearm rights, restitution, no return of money paid) to participant-instructions.md; no packet byte moved; independent verification owed; return at data/rcap-grade-a/packet-factory-24h/fix51/rows.json (Replayed by Captain from FIX51 commit f9ecf9e17.)"
     }
   ],
-  "claimsDigest": "6db6ba2a612e03fbf553fe1e2d3e25d02ab0687fefa1531d70c071c4eb3cf401",
+  "claimsDigest": "ab70d7dbb9f0be8405bcb889b92c6f708cbb28cc0ae8b8ad6a1a8bdde6b26287",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28552,6 +28568,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T17:18:16.708Z",
       "reason": "Added the adopted attorney-or-qualified-advocate review instruction for the item 2 narrative with its five limits quoted whole, and the scope-of-relief paragraph naming the driving record, SORA, firearm rights, restitution and the non-return of money paid, to participant-instructions.md only; no packet byte moved and all four fixtures are byte-identical, so no central raster is owed, and independent verification is still owed; return at data/rcap-grade-a/packet-factory-24h/fix51/rows.json (Replayed by Captain from FIX51 commit f9ecf9e17.)"
+    },
+    {
+      "lane": "FIX51",
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T17:18:44.844Z",
+      "reason": "Added MI.memo.json's adopted scope-of-relief disclosure (driving record, SORA, firearm rights, restitution, no return of money paid) to participant-instructions.md; no packet byte moved; independent verification owed; return at data/rcap-grade-a/packet-factory-24h/fix51/rows.json (Replayed by Captain from FIX51 commit f9ecf9e17.)"
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_conviction_no_supervision-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T17:18:45.611Z",
+      "reason": "VF05 PASS_COMPLETE_INDEPENDENT at 30a8b3b71: all fifteen obligations pass on the FIX47 bytes (canonical dd3c2594, boundary cc799883, RASTER_PASS run 33977913138 job 101338199890); nine counters zero; no checkbox question (0 of 36 button widgets lack an /Off appearance). Open note for the census-step owner: field-census.census-v1.json records 3 source-carried values while the pinned OCA petition carries 2 more (Dropdown4/Dropdown5), cleared correctly by the build but unexamined by the verifier. Return at data/rcap-grade-a/packet-factory-24h/vf05/rows.json (Captain release after integrating VF05 commit 2bfaf127a)."
     }
   ],
   "reissues": [
@@ -44208,6 +44242,19 @@
       "lane": "FIX51",
       "withdrawnAt": "2026-09-05T17:04:23Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    }
+  ],
+  "grants": [
+    {
+      "lane": "FIX51",
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-05T17:18:44.755Z",
+      "grantedBy": "Captain",
+      "reason": "Re-recorded at integration: the dispatch generator withdrew this live grant while FIX51 was executing because the family was COMPLETE_PACKET_PROVEN rather than FAIL; the lane asserted it at base 877917233 where it was live.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ]
 }
