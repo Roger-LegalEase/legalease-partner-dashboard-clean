@@ -2130,8 +2130,8 @@
       "operation": "rapid-repair",
       "lane": "FIX02",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T16:16:35.880Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6693,8 +6693,8 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-04T18:40:05.614Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12992,7 +12992,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "19c5c5cee2b6ddf08069f20a9a4786debfbc4cae5c26c642d0e3d9ff86fbe929",
+  "claimsDigest": "ee868ad1ef1cf3d93822127f8d03b3c198024c585ff0eea0159f25393e542df3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -32632,6 +32632,26 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-05T00:21:54Z",
       "reason": "the current dispatch names VF07 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "FIX02",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-04T16:16:35.880Z",
+      "reissuedAt": "2026-09-05T00:34:22.118Z",
+      "reason": "VF-D failed this family on CLIPPING_AND_OVERLAP at base 21d53521f: boundary.pdf page 3 is an orphan whose only ink is the route footer drawn near the page top, canonical 4pp against boundary 5pp. The prior repair grant was released before that read, so the work this grant is being re-opened for has not been done. The independence rule governs who may verify, not who may repair."
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nd-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "previouslyReleasedAt": "2026-09-04T18:40:05.614Z",
+      "reissuedAt": "2026-09-05T00:34:22.244Z",
+      "reason": "VF-D failed this family on CLIPPING_AND_OVERLAP at base 21d53521f: the contact block splits across a page break in three of five routes, leaving twelve orphan pages across the family's twelve PDFs, and in the boundary fixture the mailing address breaks mid-value. An earlier repair fixed only the pardoned-conviction instance. The prior grant was released before that read, so the remaining work has not been done."
     }
   ],
   "transfers": [
