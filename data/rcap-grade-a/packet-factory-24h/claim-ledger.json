@@ -8529,8 +8529,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T18:13:03.625Z",
+      "releaseReason": "VF02 FAIL_REPAIR_REQUIRED at 986f826de: fourteen obligations pass on the FIX50 bytes (canonical 1da18e3f, boundary e3e8c13d; the 14 synthesized squares are gone and every differing pixel is inside a declared write box); CLIPPING_AND_OVERLAP fails on a second shared-flattening defect on page 5 — flattened widgets are placed with 1 0 0 1 x y cm and no scale, so 600-00228 field 15, whose /AP BBox is 18x18 against a 14.4x14.4 /Rect, is stamped at 125 percent (about 3.4pt of stroke outside the widget box, 670 dark pixels at 300 dpi the form carries nowhere); ISO 32000-1 12.5.5 requires the BBox to be mapped onto the Rect. Not RI-OFF-APPEARANCE and not a legal input; repair belongs to the shared flattening step. Return at data/rcap-grade-a/packet-factory-24h/vf02/rows.json (Captain release after integrating VF02 commit 2c8db02fb)."
     },
     {
       "subjectType": "packet-family",
@@ -8557,10 +8558,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX50",
+      "lane": "FIX61",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T17:15:00.085Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Repaired CLIPPING_AND_OVERLAP by giving the shared flattening step an opt-in that installs an empty appearance for a check-box state the source omitted, so the 14 synthesized squares on the Vermont petition and stipulation are gone while the 600-00228 boxes and every participant write are unchanged; a read-only scan finds 47 families and 1062 widgets exposed to the same shared behaviour with 46 still on the default; a central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix50/rows.json (Replayed by Captain from FIX50 commit 8e6e1a3f0.)"
     },
     {
@@ -13477,7 +13478,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6e819aa009746c60a01b130f50ad09d6b59f66bf30a7a685848b5588cf243a88",
+  "claimsDigest": "e73b4b20e71c65b923720c9cd52c000c2e7a3242c872693f69dba90f4a9c844b",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -29278,6 +29279,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T18:09:47.103Z",
       "reason": "Opted the builder into suppressSynthesizedAppearances so the 14 AOC-CR-288 checkbox widgets now carry exactly the pinned form's own ink (0 differing pixels at 150 dpi, nothing else moved); a central raster on the new bytes and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix55/rows.json (Replayed by Captain from FIX55 commit da9ed0a2e.)"
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T18:13:03.625Z",
+      "reason": "VF02 FAIL_REPAIR_REQUIRED at 986f826de: fourteen obligations pass on the FIX50 bytes (canonical 1da18e3f, boundary e3e8c13d; the 14 synthesized squares are gone and every differing pixel is inside a declared write box); CLIPPING_AND_OVERLAP fails on a second shared-flattening defect on page 5 — flattened widgets are placed with 1 0 0 1 x y cm and no scale, so 600-00228 field 15, whose /AP BBox is 18x18 against a 14.4x14.4 /Rect, is stamped at 125 percent (about 3.4pt of stroke outside the widget box, 670 dark pixels at 300 dpi the form carries nowhere); ISO 32000-1 12.5.5 requires the BBox to be mapped onto the Rect. Not RI-OFF-APPEARANCE and not a legal input; repair belongs to the shared flattening step. Return at data/rcap-grade-a/packet-factory-24h/vf02/rows.json (Captain release after integrating VF02 commit 2c8db02fb)."
     }
   ],
   "reissues": [
@@ -41500,6 +41510,17 @@
       "previouslyReleasedAt": "2026-09-05T11:59:44.772Z",
       "transferredAt": "2026-09-05T17:57:05.494Z",
       "reason": "VF08 FAIL CLIPPING_AND_OVERLAP at 942cab9b5 on ri_multiple_misdemeanors-set: the shared flattening step delivers a synthesized square at check-box widgets whose /Off state ships no appearance; opt the builder into suppressSynthesizedAppearances (FIX50), rebuild, confirm the squares are gone and every write unchanged; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX50",
+      "toLane": "FIX61",
+      "previouslyReleasedAt": "2026-09-05T17:15:00.085Z",
+      "transferredAt": "2026-09-05T18:13:03.709Z",
+      "reason": "VF02 FAIL CLIPPING_AND_OVERLAP at 986f826de: the shared flattening step places each widget appearance with 1 0 0 1 x y cm and never applies the BBox-to-Rect mapping ISO 32000-1 12.5.5 requires, so 600-00228 field 15 (BBox 18x18, Rect 14.4x14.4) is stamped at 125 percent; add the mapping as an opt-in in rcap-active-content.mjs, opt Vermont in, rebuild, scan the corpus for widgets whose BBox size differs from Rect size."
     }
   ],
   "withdrawals": [
