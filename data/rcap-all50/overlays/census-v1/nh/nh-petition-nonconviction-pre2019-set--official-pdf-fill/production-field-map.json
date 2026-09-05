@@ -14,18 +14,8 @@
   ],
   "routeDeterminedSelections": [],
   "routeSelectionNote": "The packet states the route it was built for: a petition to annul the record of a matter resolved before 1 January 2019, on the Judicial Branch's own pre-2019 form, under RSA 651:5. Nothing on the certification page is a route election: each box there is a statement the applicant swears to under penalties of law about their own record, several of them legal characterisations of their own matters, and a packet that ticked one would be swearing for them. Which court, whether to ask for a hearing, and every financial answer on the waiver papers are the participant's too, and each is disclosed by name.",
-  "requiredBeforeFilingCount": 87,
+  "requiredBeforeFilingCount": 82,
   "requiredBeforeFiling": [
-    {
-      "document": "NHJB-2317",
-      "field": "NHJB-2317/Mailing Address.2",
-      "page": 1,
-      "section": "Applicant's Information",
-      "disclosureLabel": "City or Town",
-      "identity": "NHJB-2317 field Mailing Address.2",
-      "why": "the platform holds no value for this and the participant supplies it before filing: the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json",
-      "participantMustSupply": "the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json"
-    },
     {
       "document": "NHJB-2317",
       "field": "NHJB-2317/rsa",
@@ -788,16 +778,6 @@
     },
     {
       "document": "NHJB-2956",
-      "field": "NHJB-2956/name.1",
-      "page": 1,
-      "section": "Section I — Who You Are",
-      "disclosureLabel": "Last name",
-      "identity": "NHJB-2956 field name.1",
-      "why": "the platform holds no value for this and the participant supplies it before filing: your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself",
-      "participantMustSupply": "your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself"
-    },
-    {
-      "document": "NHJB-2956",
       "field": "NHJB-2956/name.2",
       "page": 1,
       "section": "Section I — Who You Are",
@@ -805,26 +785,6 @@
       "identity": "NHJB-2956 field name.2",
       "why": "the platform holds no value for this and the participant supplies it before filing: any maiden name or alias your record might be under",
       "participantMustSupply": "any maiden name or alias your record might be under"
-    },
-    {
-      "document": "NHJB-2956",
-      "field": "NHJB-2956/name.3",
-      "page": 1,
-      "section": "Section I — Who You Are",
-      "disclosureLabel": "First name",
-      "identity": "NHJB-2956 field name.3",
-      "why": "the platform holds no value for this and the participant supplies it before filing: your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-      "participantMustSupply": "your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line"
-    },
-    {
-      "document": "NHJB-2956",
-      "field": "NHJB-2956/name.4",
-      "page": 1,
-      "section": "Section I — Who You Are",
-      "disclosureLabel": "Middle name box, which the form heads MI",
-      "identity": "NHJB-2956 field name.4",
-      "why": "the platform holds no value for this and the participant supplies it before filing: your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-      "participantMustSupply": "your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line"
     },
     {
       "document": "NHJB-2956",
@@ -868,16 +828,6 @@
     },
     {
       "document": "NHJB-2956",
-      "field": "NHJB-2956/Mailing Address1",
-      "page": 1,
-      "section": "Section I — Who You Are",
-      "disclosureLabel": "Your address — street, city, state and zip on one line",
-      "identity": "NHJB-2956 field Mailing Address1",
-      "why": "the platform holds no value for this and the participant supplies it before filing: your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address",
-      "participantMustSupply": "your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address"
-    },
-    {
-      "document": "NHJB-2956",
       "field": "NHJB-2956/license",
       "page": 1,
       "section": "Section I — Who You Are",
@@ -902,6 +852,7 @@
       "explicitMappings": {
         "NHJB-2317/name.1": "participant.full_legal_name",
         "NHJB-2317/Mailing Address.1": "participant.street_address",
+        "NHJB-2317/Mailing Address.2": "participant.city",
         "NHJB-2317/States/short": "participant.state",
         "NHJB-2317/zip": "participant.zip",
         "NHJB-2317/telnum.1": "participant.phone",
@@ -1557,6 +1508,36 @@
           "kind": "text"
         },
         {
+          "field": "NHJB-2317/Mailing Address.2",
+          "fieldName": "NHJB-2317/Mailing Address.2",
+          "acroFieldName": "Mailing Address.2",
+          "page": 1,
+          "rect": {
+            "x": 36,
+            "y": 416.13,
+            "width": 155.82,
+            "height": 16.87
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "City or Town",
+          "printedLine": "City or Town",
+          "sectionHeading": "Applicant's Information",
+          "regionHeading": "City or Town",
+          "effectiveLabel": "City or Town",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 402,
+              "extracted": "E-mail Address: (optional)"
+            }
+          ],
+          "document": "NHJB-2317",
+          "factId": "participant.city",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
           "field": "NHJB-2317/States/short",
           "fieldName": "NHJB-2317/States/short",
           "acroFieldName": "States/short",
@@ -1761,44 +1742,6 @@
         }
       ],
       "canonicalRefusals": [
-        {
-          "field": "NHJB-2317/Mailing Address.2",
-          "fieldName": "NHJB-2317/Mailing Address.2",
-          "acroFieldName": "Mailing Address.2",
-          "page": 1,
-          "rect": {
-            "x": 36,
-            "y": 416.13,
-            "width": 155.82,
-            "height": 16.87
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "City or Town",
-          "printedLine": "City or Town",
-          "sectionHeading": "Applicant's Information",
-          "regionHeading": "City or Town",
-          "effectiveLabel": "City or Town",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 402,
-              "extracted": "E-mail Address: (optional)"
-            }
-          ],
-          "document": "NHJB-2317",
-          "reason": "the participant supplies this before filing: the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2317 field Mailing Address.2",
-          "factId": "participant.city",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json",
-          "participantMustSupply": "the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json"
-        },
         {
           "field": "NHJB-2317/rsa",
           "fieldName": "NHJB-2317/rsa",
@@ -2539,6 +2482,36 @@
           "kind": "text"
         },
         {
+          "field": "NHJB-2317/Mailing Address.2",
+          "fieldName": "NHJB-2317/Mailing Address.2",
+          "acroFieldName": "Mailing Address.2",
+          "page": 1,
+          "rect": {
+            "x": 36,
+            "y": 416.13,
+            "width": 155.82,
+            "height": 16.87
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "City or Town",
+          "printedLine": "City or Town",
+          "sectionHeading": "Applicant's Information",
+          "regionHeading": "City or Town",
+          "effectiveLabel": "City or Town",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 402,
+              "extracted": "E-mail Address: (optional)"
+            }
+          ],
+          "document": "NHJB-2317",
+          "factId": "participant.city",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
           "field": "NHJB-2317/States/short",
           "fieldName": "NHJB-2317/States/short",
           "acroFieldName": "States/short",
@@ -2743,44 +2716,6 @@
         }
       ],
       "boundaryRefusals": [
-        {
-          "field": "NHJB-2317/Mailing Address.2",
-          "fieldName": "NHJB-2317/Mailing Address.2",
-          "acroFieldName": "Mailing Address.2",
-          "page": 1,
-          "rect": {
-            "x": 36,
-            "y": 416.13,
-            "width": 155.82,
-            "height": 16.87
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "City or Town",
-          "printedLine": "City or Town",
-          "sectionHeading": "Applicant's Information",
-          "regionHeading": "City or Town",
-          "effectiveLabel": "City or Town",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 402,
-              "extracted": "E-mail Address: (optional)"
-            }
-          ],
-          "document": "NHJB-2317",
-          "reason": "the participant supplies this before filing: the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2317 field Mailing Address.2",
-          "factId": "participant.city",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json",
-          "participantMustSupply": "the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a packet that wrote into a box named for a different line would risk printing your street address where your town belongs — so this one is left for you. The reason is recorded in full in build-findings.json"
-        },
         {
           "field": "NHJB-2317/rsa",
           "fieldName": "NHJB-2317/rsa",
@@ -11917,7 +11852,11 @@
       },
       "structuralClass": "acroform",
       "explicitMappings": {
-        "NHJB-2956/Date": "participant.date_of_birth"
+        "NHJB-2956/name.1": "participant.last_name",
+        "NHJB-2956/name.3": "participant.first_name",
+        "NHJB-2956/name.4": "participant.middle_name",
+        "NHJB-2956/Date": "participant.date_of_birth",
+        "NHJB-2956/Mailing Address1": "participant.street_city_state_zip"
       },
       "roleRefusals": [],
       "selectionControls": [
@@ -11978,6 +11917,108 @@
       ],
       "canonicalWrites": [
         {
+          "field": "NHJB-2956/name.1",
+          "fieldName": "NHJB-2956/name.1",
+          "acroFieldName": "name.1",
+          "page": 1,
+          "rect": {
+            "x": 70.39,
+            "y": 541.99,
+            "width": 92.23,
+            "height": 15.17
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Last name",
+          "printedLine": "Last name",
+          "sectionHeading": "Section I — Who You Are",
+          "regionHeading": "Last name",
+          "effectiveLabel": "Last name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 545,
+              "extracted": "Name:"
+            },
+            {
+              "y": 535,
+              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+            }
+          ],
+          "document": "NHJB-2956",
+          "factId": "participant.last_name",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
+          "field": "NHJB-2956/name.3",
+          "fieldName": "NHJB-2956/name.3",
+          "acroFieldName": "name.3",
+          "page": 1,
+          "rect": {
+            "x": 235.62,
+            "y": 541.99,
+            "width": 58.94,
+            "height": 15.17
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "First name",
+          "printedLine": "First name",
+          "sectionHeading": "Section I — Who You Are",
+          "regionHeading": "First name",
+          "effectiveLabel": "First name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 545,
+              "extracted": "Name:"
+            },
+            {
+              "y": 535,
+              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+            }
+          ],
+          "document": "NHJB-2956",
+          "factId": "participant.first_name",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
+          "field": "NHJB-2956/name.4",
+          "fieldName": "NHJB-2956/name.4",
+          "acroFieldName": "name.4",
+          "page": 1,
+          "rect": {
+            "x": 293.93,
+            "y": 541.99,
+            "width": 12.46,
+            "height": 15.17
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Middle name box, which the form heads MI",
+          "printedLine": "Middle name box, which the form heads MI",
+          "sectionHeading": "Section I — Who You Are",
+          "regionHeading": "Middle name box, which the form heads MI",
+          "effectiveLabel": "Middle name box, which the form heads MI",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 545,
+              "extracted": "Name:"
+            },
+            {
+              "y": 535,
+              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+            }
+          ],
+          "document": "NHJB-2956",
+          "factId": "participant.middle_name",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
           "field": "NHJB-2956/Date",
           "fieldName": "NHJB-2956/Date",
           "acroFieldName": "Date",
@@ -12008,51 +12049,43 @@
           "document": "NHJB-2956",
           "factId": "participant.date_of_birth",
           "kind": "text"
-        }
-      ],
-      "canonicalRefusals": [
+        },
         {
-          "field": "NHJB-2956/name.1",
-          "fieldName": "NHJB-2956/name.1",
-          "acroFieldName": "name.1",
+          "field": "NHJB-2956/Mailing Address1",
+          "fieldName": "NHJB-2956/Mailing Address1",
+          "acroFieldName": "Mailing Address1",
           "page": 1,
           "rect": {
-            "x": 70.39,
-            "y": 541.99,
-            "width": 92.23,
+            "x": 39.72,
+            "y": 494.22,
+            "width": 262.27,
             "height": 15.17
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Last name",
-          "printedLine": "Last name",
+          "printedLabel": "Your address — street, city, state and zip on one line",
+          "printedLine": "Your address — street, city, state and zip on one line",
           "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "Last name",
-          "effectiveLabel": "Last name",
+          "regionHeading": "Your address — street, city, state and zip on one line",
+          "effectiveLabel": "Your address — street, city, state and zip on one line",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
-              "y": 545,
-              "extracted": "Name:"
+              "y": 487,
+              "extracted": "STREET/CITY/STATE/ZIP CODE STREET/CITY/STATE/ZIP CODE"
             },
             {
-              "y": 535,
-              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+              "y": 510,
+              "extracted": "Address: Address:"
             }
           ],
           "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field name.1",
-          "factId": "participant.last_name",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself",
-          "participantMustSupply": "your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself"
-        },
+          "factId": "participant.street_city_state_zip",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        }
+      ],
+      "canonicalRefusals": [
         {
           "field": "NHJB-2956/name.2",
           "fieldName": "NHJB-2956/name.2",
@@ -12094,90 +12127,6 @@
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: any maiden name or alias your record might be under",
           "participantMustSupply": "any maiden name or alias your record might be under"
-        },
-        {
-          "field": "NHJB-2956/name.3",
-          "fieldName": "NHJB-2956/name.3",
-          "acroFieldName": "name.3",
-          "page": 1,
-          "rect": {
-            "x": 235.62,
-            "y": 541.99,
-            "width": 58.94,
-            "height": 15.17
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "First name",
-          "printedLine": "First name",
-          "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "First name",
-          "effectiveLabel": "First name",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 545,
-              "extracted": "Name:"
-            },
-            {
-              "y": 535,
-              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
-            }
-          ],
-          "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field name.3",
-          "factId": "participant.first_name",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "participantMustSupply": "your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line"
-        },
-        {
-          "field": "NHJB-2956/name.4",
-          "fieldName": "NHJB-2956/name.4",
-          "acroFieldName": "name.4",
-          "page": 1,
-          "rect": {
-            "x": 293.93,
-            "y": 541.99,
-            "width": 12.46,
-            "height": 15.17
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Middle name box, which the form heads MI",
-          "printedLine": "Middle name box, which the form heads MI",
-          "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "Middle name box, which the form heads MI",
-          "effectiveLabel": "Middle name box, which the form heads MI",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 545,
-              "extracted": "Name:"
-            },
-            {
-              "y": 535,
-              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
-            }
-          ],
-          "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field name.4",
-          "factId": "participant.middle_name",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "participantMustSupply": "your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line"
         },
         {
           "field": "NHJB-2956/gender",
@@ -12405,48 +12354,6 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "viewer ui control; never a filing fact — a navigation button in the PDF viewer, not a place anything is filed"
-        },
-        {
-          "field": "NHJB-2956/Mailing Address1",
-          "fieldName": "NHJB-2956/Mailing Address1",
-          "acroFieldName": "Mailing Address1",
-          "page": 1,
-          "rect": {
-            "x": 39.72,
-            "y": 494.22,
-            "width": 262.27,
-            "height": 15.17
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Your address — street, city, state and zip on one line",
-          "printedLine": "Your address — street, city, state and zip on one line",
-          "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "Your address — street, city, state and zip on one line",
-          "effectiveLabel": "Your address — street, city, state and zip on one line",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 487,
-              "extracted": "STREET/CITY/STATE/ZIP CODE STREET/CITY/STATE/ZIP CODE"
-            },
-            {
-              "y": 510,
-              "extracted": "Address: Address:"
-            }
-          ],
-          "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field Mailing Address1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address",
-          "participantMustSupply": "your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address"
         },
         {
           "field": "NHJB-2956/record",
@@ -12592,6 +12499,108 @@
       ],
       "boundaryWrites": [
         {
+          "field": "NHJB-2956/name.1",
+          "fieldName": "NHJB-2956/name.1",
+          "acroFieldName": "name.1",
+          "page": 1,
+          "rect": {
+            "x": 70.39,
+            "y": 541.99,
+            "width": 92.23,
+            "height": 15.17
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Last name",
+          "printedLine": "Last name",
+          "sectionHeading": "Section I — Who You Are",
+          "regionHeading": "Last name",
+          "effectiveLabel": "Last name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 545,
+              "extracted": "Name:"
+            },
+            {
+              "y": 535,
+              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+            }
+          ],
+          "document": "NHJB-2956",
+          "factId": "participant.last_name",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
+          "field": "NHJB-2956/name.3",
+          "fieldName": "NHJB-2956/name.3",
+          "acroFieldName": "name.3",
+          "page": 1,
+          "rect": {
+            "x": 235.62,
+            "y": 541.99,
+            "width": 58.94,
+            "height": 15.17
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "First name",
+          "printedLine": "First name",
+          "sectionHeading": "Section I — Who You Are",
+          "regionHeading": "First name",
+          "effectiveLabel": "First name",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 545,
+              "extracted": "Name:"
+            },
+            {
+              "y": 535,
+              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+            }
+          ],
+          "document": "NHJB-2956",
+          "factId": "participant.first_name",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
+          "field": "NHJB-2956/name.4",
+          "fieldName": "NHJB-2956/name.4",
+          "acroFieldName": "name.4",
+          "page": 1,
+          "rect": {
+            "x": 293.93,
+            "y": 541.99,
+            "width": 12.46,
+            "height": 15.17
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Middle name box, which the form heads MI",
+          "printedLine": "Middle name box, which the form heads MI",
+          "sectionHeading": "Section I — Who You Are",
+          "regionHeading": "Middle name box, which the form heads MI",
+          "effectiveLabel": "Middle name box, which the form heads MI",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 545,
+              "extracted": "Name:"
+            },
+            {
+              "y": 535,
+              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+            }
+          ],
+          "document": "NHJB-2956",
+          "factId": "participant.middle_name",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        },
+        {
           "field": "NHJB-2956/Date",
           "fieldName": "NHJB-2956/Date",
           "acroFieldName": "Date",
@@ -12622,51 +12631,43 @@
           "document": "NHJB-2956",
           "factId": "participant.date_of_birth",
           "kind": "text"
-        }
-      ],
-      "boundaryRefusals": [
+        },
         {
-          "field": "NHJB-2956/name.1",
-          "fieldName": "NHJB-2956/name.1",
-          "acroFieldName": "name.1",
+          "field": "NHJB-2956/Mailing Address1",
+          "fieldName": "NHJB-2956/Mailing Address1",
+          "acroFieldName": "Mailing Address1",
           "page": 1,
           "rect": {
-            "x": 70.39,
-            "y": 541.99,
-            "width": 92.23,
+            "x": 39.72,
+            "y": 494.22,
+            "width": 262.27,
             "height": 15.17
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Last name",
-          "printedLine": "Last name",
+          "printedLabel": "Your address — street, city, state and zip on one line",
+          "printedLine": "Your address — street, city, state and zip on one line",
           "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "Last name",
-          "effectiveLabel": "Last name",
+          "regionHeading": "Your address — street, city, state and zip on one line",
+          "effectiveLabel": "Your address — street, city, state and zip on one line",
           "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
           "printedTextAtCoordinate": [
             {
-              "y": 545,
-              "extracted": "Name:"
+              "y": 487,
+              "extracted": "STREET/CITY/STATE/ZIP CODE STREET/CITY/STATE/ZIP CODE"
             },
             {
-              "y": 535,
-              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
+              "y": 510,
+              "extracted": "Address: Address:"
             }
           ],
           "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field name.1",
-          "factId": "participant.last_name",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself",
-          "participantMustSupply": "your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself"
-        },
+          "factId": "participant.street_city_state_zip",
+          "kind": "text",
+          "writeChannel": "finalizer_named_fact_channel",
+          "whyNotTheDescriptorChannel": "New Hampshire names this box for the line above it rather than for what it collects, so the shared binder resolves the wrong fact from its NAME before its printed line is consulted. See build-findings.json; the fact is written at this widget's own rectangle through the finalizer's opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+        }
+      ],
+      "boundaryRefusals": [
         {
           "field": "NHJB-2956/name.2",
           "fieldName": "NHJB-2956/name.2",
@@ -12708,90 +12709,6 @@
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: any maiden name or alias your record might be under",
           "participantMustSupply": "any maiden name or alias your record might be under"
-        },
-        {
-          "field": "NHJB-2956/name.3",
-          "fieldName": "NHJB-2956/name.3",
-          "acroFieldName": "name.3",
-          "page": 1,
-          "rect": {
-            "x": 235.62,
-            "y": 541.99,
-            "width": 58.94,
-            "height": 15.17
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "First name",
-          "printedLine": "First name",
-          "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "First name",
-          "effectiveLabel": "First name",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 545,
-              "extracted": "Name:"
-            },
-            {
-              "y": 535,
-              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
-            }
-          ],
-          "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field name.3",
-          "factId": "participant.first_name",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "participantMustSupply": "your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line"
-        },
-        {
-          "field": "NHJB-2956/name.4",
-          "fieldName": "NHJB-2956/name.4",
-          "acroFieldName": "name.4",
-          "page": 1,
-          "rect": {
-            "x": 293.93,
-            "y": 541.99,
-            "width": 12.46,
-            "height": 15.17
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Middle name box, which the form heads MI",
-          "printedLine": "Middle name box, which the form heads MI",
-          "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "Middle name box, which the form heads MI",
-          "effectiveLabel": "Middle name box, which the form heads MI",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 545,
-              "extracted": "Name:"
-            },
-            {
-              "y": 535,
-              "extracted": "LAST (MAIDEN/ALIAS) FIRST MI NAME OF PERSON/ENTITY TO RECEIVE RECORD"
-            }
-          ],
-          "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field name.4",
-          "factId": "participant.middle_name",
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line",
-          "participantMustSupply": "your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line"
         },
         {
           "field": "NHJB-2956/gender",
@@ -13019,48 +12936,6 @@
           "class": null,
           "requiredBeforeFiling": false,
           "why": "viewer ui control; never a filing fact — a navigation button in the PDF viewer, not a place anything is filed"
-        },
-        {
-          "field": "NHJB-2956/Mailing Address1",
-          "fieldName": "NHJB-2956/Mailing Address1",
-          "acroFieldName": "Mailing Address1",
-          "page": 1,
-          "rect": {
-            "x": 39.72,
-            "y": 494.22,
-            "width": 262.27,
-            "height": 15.17
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Your address — street, city, state and zip on one line",
-          "printedLine": "Your address — street, city, state and zip on one line",
-          "sectionHeading": "Section I — Who You Are",
-          "regionHeading": "Your address — street, city, state and zip on one line",
-          "effectiveLabel": "Your address — street, city, state and zip on one line",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 487,
-              "extracted": "STREET/CITY/STATE/ZIP CODE STREET/CITY/STATE/ZIP CODE"
-            },
-            {
-              "y": 510,
-              "extracted": "Address: Address:"
-            }
-          ],
-          "document": "NHJB-2956",
-          "reason": "the participant supplies this before filing: your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "NHJB-2956 field Mailing Address1",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address",
-          "participantMustSupply": "your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address"
         },
         {
           "field": "NHJB-2956/record",

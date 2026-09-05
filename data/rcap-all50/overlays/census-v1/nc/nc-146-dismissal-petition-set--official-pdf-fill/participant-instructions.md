@@ -6,11 +6,11 @@ This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petiti
 
 **Side One of AOC-CR-287 is yours. Side Two is not.** Side Two carries the court's FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK; this packet writes nothing anywhere on it, and neither should you.
 
-The platform filled what it holds: your name and address block on Side One, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your address, your telephone number and your date of birth.
+The platform filled what it holds: on Side One your name, your street address, your city, your state, your ZIP code and your date of birth, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your street address, your city, state and ZIP, your telephone number and your date of birth.
 
 **The offence table on Side One is deliberately left entirely to you, and it is worth knowing why.** The table has five columns — File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. The platform can bind four of them and cannot bind the fifth: nothing in the shared list of facts matches a "date of dismissal". Filling four columns and leaving the fifth blank would give you a row that looks finished and is not, which is worse than an empty one. So the row is yours, all five columns of it are listed below, and you copy each from the clerk's record.
 
-**Two more blanks on the petition are empty for a reason worth stating.** Your ZIP code and your date of birth on Side One are both refused by the shared rules, because on that crowded row the caption capture reads the neighbouring "Race" and "Full Social Security No." captions instead of their own. The platform holds both facts and writes them on AOC-CV-226; on the petition they are yours to write.
+**Your ZIP code and your date of birth on Side One are filled in — check them.** They used to be left to you, because on that crowded row the shared caption reader was picking up the neighbouring "Race" and "Full Social Security No." captions instead of their own and refusing the write. This build reads those two captions off the printed form itself, so both facts are now written where the form asks for them, as they already were on AOC-CV-226. The blanks beside them — Drivers License No., Drivers License State, Full Social Security No., Race, Sex and Age At Time Of Offense — are still empty, and the table below says which of them you must supply.
 
 ## Who decides this, and what you do not file
 
@@ -83,7 +83,6 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Address Of Arresting Agency - Zip | the arresting agency's ZIP code |
 | Paragraph 3(b) - file nos. and offence descriptions of charges that were NOT dismissed, first line | only if you tick paragraph 3's box b: the file numbers and offence descriptions of the charges that resulted in a conviction on the day of dismissal or had not reached final disposition |
 | Date Of Arrest, table row 1 | the date you were arrested on that charge |
-| Date Of Birth on the petition | your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring "Full Social Security No." caption and refuse the write as a government identifier |
 | Date Of Dismissal, table row 1 | the date the charge was dismissed - check it against your SBI record or the clerk's file before you write it |
 | Date Of Offense, table row 1 | the date of the offence itself |
 | Drivers License No. | your driver's licence number, from the licence itself |
@@ -95,7 +94,6 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Name Of Other Agency (if any) - first | the name of any other State or local government agency with a record of your case. Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity |
 | Address Of Other Agency (if any) - second, street line | that agency's street address, in full |
 | Name Of Other Agency (if any) - second | the name of a further agency, if there is one; use AOC-CR-285 if there are more than the form has room for |
-| Address Of Petitioner - Zip | your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring "Race" caption instead of this blank's own and refuse the write |
 | Race | your race, as the form asks |
 | Sex | your sex, as the form asks |
 
@@ -105,7 +103,6 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | --- | --- |
 | Monthly income from the applicant's employment | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |
 | Name And Address Of Applicant's Employer (if not employed, state reason; if self-employed, state trade) | your employer's name and address, or the reason you are not employed, or your trade if you are self-employed |
-| Street Number And Street Name, Including Apartment Or Unit No. | your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one |
 | Cash on hand and in bank accounts - bank name and account type (do not list account no.) | the name of your bank and the type of account, without the account number |
 | Bond Amount | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |
 | Bond Type | your own figure, which you swear to. This affidavit is a sworn financial statement and the platform invents no number on it |

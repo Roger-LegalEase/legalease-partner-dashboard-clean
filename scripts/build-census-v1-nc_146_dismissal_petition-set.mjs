@@ -188,6 +188,72 @@ const SPEC = {
           why: "The state of the same if-different block." },
         { field: "ApplicantFullPermanentMailingAddressZip", class: "if_different_than_above_block",
           why: "The ZIP of the same if-different block." }
+      ],
+      /*
+       * ONE HELD FACT, ON THE LINE THE FORM PRINTS FOR IT.
+       *
+       * AOC-CV-226's applicant block prints a street line, then a City, State
+       * And Zip Code line. This packet has always written the city, the state
+       * and the ZIP and left the street line empty, so delivered page 4 carried
+       * an applicant address with no street above a city and a ZIP, on a
+       * document sworn under G.S. 7A-450 et seq. — while the same street
+       * address is written on the petition, delivered page 1. The completeness
+       * contract's REQUIRED_BEFORE_FILING_CONDITIONS names that exact case: "A
+       * fact written anywhere else in the same packet is available, and
+       * refusing it here is a missing known fact." VF01 scored it as this
+       * family's one failing obligation, and had already scored the same defect
+       * on the sibling family nc_145_5_felony-set against this same binary.
+       *
+       * WHY THE ORDINARY DESCRIPTOR CHANNEL REFUSES IT, measured here against
+       * the live rules rather than inherited. decideBinding tries the field
+       * NAME and then, only if the name matches nothing, the printed LABEL:
+       *
+       *   name  "ApplicantStreetNumberAndStreetNameLine1"     -> [] ;
+       *   label as CAPTURED  "... Including Apartment Or Unit N"        -> [] ;
+       *   label as PRINTED   "... Including Apartment Or Unit Number If
+       *                       Applicable"                               -> [] .
+       *
+       * so the decision is { writable: false, reason: "no_allowlisted_fact_
+       * matches" } on all three subjects, measured in this container. An
+       * explicitMappings entry cannot reach it either, because decideBinding
+       * returns on the empty match set BEFORE it consults explicitMappings.
+       * participant.street_address requires one of street addr | mailing addr |
+       * addr line N | ^addr | address and none of the three subjects carries
+       * any of them; participant.full_legal_name would match on
+       * "Applicant"/"Name" and is correctly refused by its own \bstreet\b
+       * clause. So this is NOT a protected-category refusal and NOT a
+       * wrong-caption refusal: it is a gap in the SHARED descriptor list, which
+       * reaches every builder in the corpus. This lane does not open
+       * scripts/rcap-official-forms/rcap-field-semantics.mjs; the gap stays
+       * reported in build-findings.json for the lane that owns it, and the
+       * caption correction below does not close it.
+       *
+       * THE CHANNEL USED INSTEAD, and its limits. narrativeAcrossFields is the
+       * finalizer's own opt-in channel for one held fact laid out on the ruled
+       * line or lines a form prints for it. The caller names a FACT ID and a
+       * FIELD and nothing else: the shared module resolves the fact from the
+       * same facts set every other write is resolved from, runs the same
+       * protect test on the caption AND on the field name, refuses a field
+       * already written or classified unwritable by role, fits the value to
+       * that widget's own rectangle and refuses it WHOLE rather than
+       * truncating. No caller text can reach the page through it. It is named
+       * here for ONE field and one fact; ApplicantStreetNumberAndStreetNameLine2
+       * is not named and stays optional, and the whole "if different than
+       * above" block stays refused by role above, so the address cannot land in
+       * the block that exists for a different one.
+       *
+       * WHERE THE INK GOES, measured on the pinned form at 300 dpi before the
+       * write was made. The widget rect is page 1 x[37.241,315.008]
+       * y[659.057,675.413]. Its cell prints exactly one caption, "Street Number
+       * And Street Name, Including Apartment Or Unit Number If Applicable", at
+       * y 685.9-679.7, directly above the rect; the rect's own interior holds
+       * no printed word at all — 68 dark pixels at 300 dpi, every one of them
+       * the cell's right rule at x 314.88-315.12. The one widget rect that
+       * touches it is line two of this same block,
+       * x[37.241,315.008] y[643.031,659.387], sharing the cell hairline.
+       */
+      narrativeLines: [
+        { factId: "participant.street_address", fields: ["ApplicantStreetNumberAndStreetNameLine1"] }
       ]
     }
   },
@@ -271,9 +337,9 @@ const SPEC = {
   instructionsIntro: [
     "This packet is the Administrative Office of the Courts' own **AOC-CR-287, Petition and Order of Expunction (Charge(s) Dismissed)**, its own instruction sheet for that form, and — only if a fee applies to your case — **AOC-CV-226, the Civil Affidavit of Indigency**. G.S. 15A-146(c) requires a petition under this section to be on a form the AOC has approved, which is why nothing here is a composed document.",
     "**Side One of AOC-CR-287 is yours. Side Two is not.** Side Two carries the court's FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK; this packet writes nothing anywhere on it, and neither should you.",
-    "The platform filled what it holds: your name and address block on Side One, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your address, your telephone number and your date of birth.",
+    "The platform filled what it holds: on Side One your name, your street address, your city, your state, your ZIP code and your date of birth, the county, and the file number in the caption. On AOC-CV-226 it filled your name, your street address, your city, state and ZIP, your telephone number and your date of birth.",
     "**The offence table on Side One is deliberately left entirely to you, and it is worth knowing why.** The table has five columns — File No., Offense Description, Date Of Arrest, Date Of Offense, Date Of Dismissal. The platform can bind four of them and cannot bind the fifth: nothing in the shared list of facts matches a \"date of dismissal\". Filling four columns and leaving the fifth blank would give you a row that looks finished and is not, which is worse than an empty one. So the row is yours, all five columns of it are listed below, and you copy each from the clerk's record.",
-    "**Two more blanks on the petition are empty for a reason worth stating.** Your ZIP code and your date of birth on Side One are both refused by the shared rules, because on that crowded row the caption capture reads the neighbouring \"Race\" and \"Full Social Security No.\" captions instead of their own. The platform holds both facts and writes them on AOC-CV-226; on the petition they are yours to write."
+    "**Your ZIP code and your date of birth on Side One are filled in — check them.** They used to be left to you, because on that crowded row the shared caption reader was picking up the neighbouring \"Race\" and \"Full Social Security No.\" captions instead of their own and refusing the write. This build reads those two captions off the printed form itself, so both facts are now written where the form asks for them, as they already were on AOC-CV-226. The blanks beside them — Drivers License No., Drivers License State, Full Social Security No., Race, Sex and Age At Time Of Offense — are still empty, and the table below says which of them you must supply."
   ],
 
   whoDecides: [
@@ -397,15 +463,57 @@ const SPEC = {
     },
     {
       finding:
-        "CAPTION-CAPTURE DEFECT on Side One's crowded identifier row. PetitionerZip is refused as "
-        + "protected_category/race because the capture returns the neighbouring \"Race\" caption; DateOfBirth is "
-        + "refused as protected_category/government_identifier because the capture returns the blob \"Date Of "
-        + "BirthFull Social Security No.Age At Time Of Offense\". Both refusals are safe -- they withhold rather "
-        + "than mis-write -- but both are for the wrong reason, and the platform holds both facts and writes "
-        + "them on AOC-CV-226.",
+        "CAPTION-CAPTURE DEFECT on Side One's crowded identifier row, STILL OPEN IN THE SHARED HOST. "
+        + "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs reads that row one blank out of step: it returns "
+        + "the neighbouring \"Race\" for PetitionerZip and the blob \"Date Of BirthFull Social Security No.Age At "
+        + "Time Of O \u00faense\" for DateOfBirth, so the shared semantics refused both -- one as a protected personal "
+        + "descriptor and one as a government identifier -- for reasons neither cell's printed caption supports. "
+        + "The defect reaches every builder in the corpus and this lane does not open that host.",
       consequence:
-        "Both are declared required-before-filing with the true reason stated to the participant rather than "
-        + "presented as facts the platform lacks. Reported for the lane that owns the caption capture."
+        "REPAIRED LOCALLY AND ONLY LOCALLY. This family's own CAPTION_CORRECTIONS table replaces those two captured "
+        + "labels with what the pinned AOC-CR-287 prints, each measured on its own 300 dpi raster against the "
+        + "page's rule strokes and recorded under captionCorrectionsApplied: PetitionerZip's cell prints no caption "
+        + "at all (55 dark pixels inside the rect, all of them the address block's right rule), and DateOfBirth's "
+        + "cell prints \"Date Of Birth\" ABOVE the rect with no glyph inside it. With the measured captions in place "
+        + "both bind through the ordinary FIELD NAME channel and both are now WRITTEN, as the platform already "
+        + "wrote them on AOC-CV-226. No protect rule is disabled: the test still runs on the corrected caption and "
+        + "on the field name, and Race, Sex, FullSocialSecurityNumber, AgeAtTimeOfOffense, DriversLicenseNumber and "
+        + "DriversLicenseState on those same rows all still return protected_category. The correction throws rather "
+        + "than applying if the capture ever stops returning the string it names, so it cannot outlive the defect. "
+        + "The shared capture is unchanged and stays reported here for the lane that owns it."
+    },
+    {
+      finding:
+        "SHARED-DESCRIPTOR GAP on AOC-CV-226's street line, the same one the sibling family nc_145_5_felony-set "
+        + "recorded against this same binary. decideBinding returns no_allowlisted_fact_matches for "
+        + "ApplicantStreetNumberAndStreetNameLine1 on all three subjects available to it -- the field name, the "
+        + "CAPTURED caption \"Street Number And Street Name, Including Apartment Or Unit N\", and the caption the "
+        + "form actually PRINTS, \"Street Number And Street Name, Including Apartment Or Unit Number If "
+        + "Applicable\" -- because participant.street_address requires one of street addr | mailing addr | addr "
+        + "line N | ^addr | address and none of the three carries any of them. An explicitMappings entry cannot "
+        + "reach it either: decideBinding returns on the empty match set BEFORE it consults explicitMappings.",
+      consequence:
+        "The applicant's street address is now WRITTEN on delivered page 4 through the finalizer's own opt-in "
+        + "narrativeAcrossFields channel, naming one fact id and one field, so the affidavit no longer swears an "
+        + "address with no street above a city and a ZIP. The report records the write as kind "
+        + "\"text_narrative_line\", which is the shared module's word for a held fact laid out on a form's own "
+        + "ruled line and not a claim by this family that a street address is a narrative. THE GAP ITSELF IS NOT "
+        + "CLOSED: closing it needs a descriptor in scripts/rcap-official-forms/rcap-field-semantics.mjs, a shared "
+        + "host carrying 137 builders, and a change there could move other families' bytes. It is reported here "
+        + "for the lane that owns that host."
+    },
+    {
+      finding:
+        "CAPTION TRUNCATION in the shared capture. rcap-pdf-anchor-capture.mjs caps an effective label at "
+        + "CAPTION_MAX_CHARS = 60, and AOC-CV-226's street caption is 78 characters, so the capture returns it cut "
+        + "mid-word at \"Unit N\" -- a caption the form does not print.",
+      consequence:
+        "Corrected in this family's own CAPTION_CORRECTIONS table from the pinned form's 300 dpi raster and "
+        + "recorded under captionCorrectionsApplied, because this family's field map, disclosure table and refusal "
+        + "records all quote the effective label and a truncated quotation of an official caption is a false "
+        + "statement about the paper. The correction changes nothing about binding -- measured with the full "
+        + "printed caption in place, decideBinding still returns no_allowlisted_fact_matches -- and the cap itself "
+        + "stays reported for the lane that owns the capture."
     },
     {
       finding:
@@ -416,8 +524,10 @@ const SPEC = {
         + "does not fire -- so the address would be written into the block that exists for a DIFFERENT one while "
         + "the Street Number And Street Name line above it stayed empty.",
       consequence:
-        "Both refused by role with the reason stated. On AOC-CV-226 that leaves the street line to the "
-        + "participant: it binds nothing either, since no descriptor matches \"Street Number And Street Name\"."
+        "Both refused by role with the reason stated, and the whole if-different block stays refused. The street "
+        + "line ABOVE that block is a different question and is answered differently: it binds no descriptor "
+        + "either, and it is now written through the named channel described in the next finding, so the "
+        + "participant's one address appears on the line the form prints for it and nowhere else."
     },
     {
       finding:
@@ -456,7 +566,8 @@ const SPEC = {
 
   counselQuestions: [
     "Side One's offence table ships empty because its Date Of Dismissal column cannot be bound. Confirm that an empty table with all five columns disclosed is preferable to a four-of-five row, or direct that the four be written.",
-    "The petition's ZIP and date-of-birth blanks are left to the participant because of a caption-capture defect, not because the platform lacks the facts. Confirm that disclosing the true reason to the participant is right.",
+    "The petition's ZIP and date-of-birth blanks are now written, on captions this lane measured off the pinned form because the shared capture returns a neighbouring cell's caption for both. Confirm that a family-local caption correction, measured and recorded, is the right way to write a fact the packet already writes elsewhere.",
+    "AOC-CV-226's street line is written through the finalizer's named-fact channel rather than the descriptor channel, because no shared descriptor matches the caption the AOC prints. Confirm that writing the applicant's street address on the line the form prints for it is right, and that the \"if different than above\" block below it must stay empty.",
     "AOC-CV-226 is delivered unconditionally in the packet although the manifest makes it conditional on a fee applying. Confirm that delivering it with the condition stated is better than omitting it.",
     "The packet names AOC-CR-295 and AOC-CR-285 as forms the participant may need and does not contain. Confirm that naming without carrying is the right treatment for both.",
     "The AOC instruction sheet is delivered unmodified as a packet component. Confirm that redistributing the AOC's own instructions inside a prepared packet is appropriate."
@@ -466,7 +577,8 @@ const SPEC = {
     "The offence table on Side One is EMPTY BY DECISION, not by omission. build-findings.json records why and names the shared-host change that would close it.",
     "Side Two of AOC-CR-287 is deliberately untouched in full. Please check on the raster that nothing has landed in the FINDINGS OF FACT, the ORDER or the CERTIFICATION BY CLERK.",
     "This family's census alias for official-form:AOC-CR-287 points at the instruction sheet rather than the petition. The build binds by hash and is unaffected; the census is not.",
-    "AOC-CV-226 is a sworn financial statement. Every money figure on it is blank by design."
+    "AOC-CV-226 is a sworn financial statement. Every money figure on it is blank by design.",
+    "THREE FACTS THAT USED TO BE BLANK ARE NOW WRITTEN. Please check on the raster that Side One carries the ZIP code on the address line and the date of birth under its own \"Date Of Birth\" caption, with Full Social Security No., Age At Time Of Offense, Race and Sex still empty beside them; and that AOC-CV-226's street line carries the address whole, with the second street line and the entire \"Full Permanent Mailing Address Of Applicant (if different than above)\" block below it still empty."
   ],
 
   composedBody() {
@@ -484,15 +596,18 @@ const SPEC = {
         h.write("PetitionerCity", "Address Of Petitioner - City", "participant.city", 1),
         h.write("PetitionerState", "Address Of Petitioner - State", "participant.state", 1),
         h.write("CountyName", "County named in the caption of the petition", "matter.county", 1),
-        h.write("FileNumber", "File No. in the caption of the petition", "matter.case_number", 1)
+        h.write("FileNumber", "File No. in the caption of the petition", "matter.case_number", 1),
+        /* Both were declared required-before-filing until FIX78, on a caption
+         * the pinned form does not print. See CAPTION_CORRECTIONS: the capture
+         * returns the neighbouring "Race" for the ZIP cell and runs three
+         * captions together for the date-of-birth cell, and with the measured
+         * captions in place both bind through the ordinary FIELD NAME channel
+         * (factBasis "field_name"), exactly as the six writes above do. The
+         * platform holds both facts and already writes them on AOC-CV-226. */
+        h.write("PetitionerZip", "Address Of Petitioner - Zip", "participant.zip", 1),
+        h.write("DateOfBirth", "Date Of Birth", "participant.date_of_birth", 1)
       );
       refusals.push(
-        h.rbf("PetitionerZip", "Address Of Petitioner - Zip",
-          "your ZIP code. The platform holds it and writes it on AOC-CV-226, but it cannot write it here: on this crowded row the shared rules read the neighbouring \"Race\" caption instead of this blank's own and refuse the write",
-          "a caption-capture defect returns the printed word Race for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so", 1),
-        h.rbf("DateOfBirth", "Date Of Birth on the petition",
-          "your date of birth. The platform holds it and writes it on AOC-CV-226; on this row the shared rules read the neighbouring \"Full Social Security No.\" caption and refuse the write as a government identifier",
-          "the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it; the fact is held and the refusal is a capture defect", 1),
         h.rbf("DriversLicenseNumber", "Drivers License No.",
           "your driver's licence number, from the licence itself",
           "the shared semantics refuse a government identifier on any form", 1),
@@ -655,12 +770,17 @@ const SPEC = {
         h.write("ApplicantTelephoneNumber", "Telephone Number Of Applicant", "participant.phone", 1),
         h.write("ApplicantDateOfBirth", "Date Of Birth of the applicant", "participant.date_of_birth", 1),
         h.write("CountyName", "County named in the caption of the affidavit", "matter.county", 1),
-        h.write("FileNumber", "File No. in the caption of the affidavit", "matter.case_number", 1)
+        h.write("FileNumber", "File No. in the caption of the affidavit", "matter.case_number", 1),
+        /* Written through the finalizer's opt-in narrativeAcrossFields channel
+         * rather than the descriptor channel, because no shared descriptor
+         * matches this caption however it is spelled. The caption below is the
+         * one the pinned form PRINTS, measured at 300 dpi; the shared capture
+         * cuts it at 60 characters. See officialComponents.fee_waiver. */
+        h.write("ApplicantStreetNumberAndStreetNameLine1",
+          "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "participant.street_address", 1)
       );
       refusals.push(
-        h.rbf("ApplicantStreetNumberAndStreetNameLine1", "Street Number And Street Name, Including Apartment Or Unit No.",
-          "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one",
-          "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two", 1),
         h.optional("ApplicantStreetNumberAndStreetNameLine2", "Street Number And Street Name - second line",
           "used only if your street address needs a second line", 1),
         h.optional("ApplicantFullPermanentMailingAddressAddr1", "Full Permanent Mailing Address Of Applicant (if different than above) - street line",
@@ -1162,7 +1282,118 @@ const FIELD_TYPE = (f) => {
   return "unknown";
 };
 
-async function censusAcroForm(bytes) {
+/* ---- captions this family measured off the pinned paper ---------------------- *
+ *
+ * WHAT THIS IS, AND WHAT IT IS NOT.
+ *
+ * The shared capture (scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs)
+ * reads AOC-CR-287's crowded identifier rows ONE BLANK OUT OF STEP, and caps an
+ * effective label at CAPTION_MAX_CHARS = 60. Both are shared defects reaching
+ * every builder in the corpus, and this lane does not open that host: they stay
+ * reported in build-findings.json for the lane that owns them. What this table
+ * does is narrower — it replaces the captured label of three named fields, on
+ * two named documents, with the caption THIS LANE MEASURED on the pinned
+ * binary's own 300 dpi raster, so that this family's field map, disclosure
+ * table and refusal records quote the paper rather than the capture.
+ *
+ * IT DISABLES NO PROTECT RULE. decideBinding still runs protectCategoryOf on
+ * the corrected caption AND on the field name, and every other blank on those
+ * rows is refused exactly as before: Race, Sex, FullSocialSecurityNumber,
+ * AgeAtTimeOfOffense, DriversLicenseNumber and DriversLicenseState all still
+ * return protected_category, measured after this change.
+ *
+ * IT CANNOT OUTLIVE THE DEFECT. Each entry states the string the capture
+ * returns today, and the census THROWS rather than applying a correction whose
+ * capture has changed — a stale correction silently overriding a capture that
+ * had already been repaired upstream is worse than no correction at all.
+ */
+const CAPTION_CORRECTIONS = {
+  "AOC-CR-287": {
+    /*
+     * MEASURED on the pinned AOC-CR-287 (sha256 a876229328f9ee83..) rastered at
+     * 300 dpi and read against the page's own rule strokes. The widget rect,
+     * read from the pinned form itself, is page 1 x[255.807,315.085]
+     * y[641.918,655.164]: the bottom-right cell of the block captioned "Name
+     * And Address Of Petitioner (type or print full name)", which prints that
+     * one caption at its top and NO zip-specific caption anywhere. Inside the
+     * rect there are 55 dark pixels at 300 dpi and every one of them is the
+     * block's own right rule at x 314.88-315.12; no caption and no other
+     * printed word lies inside it. The printed word "Race" the capture returns
+     * is in the NEXT printed row down, below the block's closing rule at
+     * y=642.0, inside Race's own rect x[222.868,267.868] y[617.745,633.330].
+     * PetitionerCity and PetitionerState sit on this identical line, are
+     * already written by this packet and land correctly.
+     */
+    PetitionerZip: {
+      capturedLabel: "Race",
+      measuredLabel: null,
+      measuredAt:
+        "page 1 rect x[255.807,315.085] y[641.918,655.164]; 300 dpi raster of the pinned form shows 55 dark pixels "
+        + "inside the rect, all of them the address block's own right rule at x 314.88-315.12, and no printed caption "
+        + "of any kind; the printed \"Race\" the capture returns is at x[224.3,240.6] y 623-628, in the row below the "
+        + "block's closing rule at y=642.0"
+    },
+    /*
+     * MEASURED on the same raster. The widget rect is page 1
+     * x[36.629,109.445] y[593.600,609.185]. Its cell is bounded above by a rule
+     * at y 618.0-617.5 and below by one at y 594.0-593.5, and prints exactly
+     * one caption, "Date Of Birth", whose glyphs occupy y 615.36-610.56 —
+     * ABOVE the rect's top edge at 609.185, clear by 1.375pt. Row by row inside
+     * the rect there are exactly two dark pixels per row (the cell's left and
+     * right rules at x=36.63 and x=109.44) down to y 594.24, and then the
+     * cell's closing rule. No glyph of any caption lies inside the rect. "Full
+     * Social Security No." begins at x=110.61, on the far side of the cell
+     * divider, inside FullSocialSecurityNumber's own rect x[110.610,221.703],
+     * and "Age At Time Of Offense" is further right again in its own cell — the
+     * capture runs all three together into one label and refuses the date of
+     * birth as a government identifier on the strength of it.
+     */
+    DateOfBirth: {
+      capturedLabel: "Date Of BirthFull Social Security No.Age At Time Of O \u00faense",
+      measuredLabel: "Date Of Birth",
+      measuredAt:
+        "page 1 rect x[36.629,109.445] y[593.600,609.185]; 300 dpi raster of the pinned form shows \"Date Of Birth\" "
+        + "printed at y 615.36-610.56 inside the same cell and ABOVE the rect, and shows no glyph inside the rect at "
+        + "all — every dark pixel in it is the cell's own left rule at x=36.63, right rule at x=109.44, or its closing "
+        + "rule at y 594.0-593.5. \"Full Social Security No.\" begins at x=110.61, inside its own rect"
+    }
+  },
+  /*
+   * A THIRD CORRECTION, ON THE OTHER FORM, AND OF A DIFFERENT KIND.
+   *
+   * The two above are WRONG captions — a neighbour's word, and three captions
+   * run together across two cell dividers. This one is a TRUNCATED caption. The
+   * shared capture caps an effective label at CAPTION_MAX_CHARS = 60 and
+   * AOC-CV-226's street caption is 78 characters, so the capture returns it cut
+   * mid-word at "Unit N", which is a caption the form does not print. It is
+   * corrected because this family's field map, its disclosure table and its
+   * refusal records all quote the effective label, and a truncated quotation of
+   * an official form's printed caption is a false statement about the paper.
+   *
+   * THIS CORRECTION DOES NOT BY ITSELF MAKE THE WRITE POSSIBLE, and saying so
+   * is the point. Measured here against the live rules with the corrected
+   * caption in place, decideBinding still returns no_allowlisted_fact_matches.
+   * The rule that refuses it, and the channel the write is made through
+   * instead, are on the fee_waiver document's narrativeLines note above.
+   */
+  "AOC-CV-226": {
+    ApplicantStreetNumberAndStreetNameLine1: {
+      capturedLabel: "Street Number And Street Name, Including Apartment Or Unit N",
+      measuredLabel: "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+      measuredAt:
+        "page 1 rect x[37.241,315.008] y[659.057,675.413]; 300 dpi raster of the pinned AOC-CV-226 (sha256 "
+        + "74057a13e4bccccb..) shows the caption printed once, in italic bold, at y 685.9-679.7 directly above the rect "
+        + "and inside the same ruled cell, and shows 68 dark pixels inside the rect itself, every one of them the "
+        + "cell's right rule at x 314.88-315.12. The capture cut that caption at 60 characters, which is "
+        + "CAPTION_MAX_CHARS in scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
+    }
+  }
+};
+
+/** Corrections actually applied, so the report states them rather than implying them. */
+const captionCorrectionsApplied = [];
+
+async function censusAcroForm(bytes, documentId = null) {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   const pages = doc.getPages();
   const pageIndexOfRef = new Map(pages.map((p, i) => [p.ref, i + 1]));
@@ -1196,12 +1427,32 @@ async function censusAcroForm(bytes) {
     const context = captureWidgetContext(pages[pageNo - 1], widgets, { isFirstPage: pageNo === 1 });
     for (const c of context) if (!labelOf.has(c.name)) labelOf.set(c.name, c);
   }
+  const corrections = (documentId && CAPTION_CORRECTIONS[documentId]) || {};
   const fields = raw.map((f) => {
     const c = labelOf.get(f.name) ?? {};
+    const captured = c.effectiveLabel ?? null;
+    const fix = Object.prototype.hasOwnProperty.call(corrections, f.name) ? corrections[f.name] : null;
+    if (fix) {
+      /* A correction that does not correct the caption it names is a stale
+       * record, and a stale record is worse than none: it would silently keep
+       * overriding a capture that had already been repaired upstream. */
+      if (captured !== fix.capturedLabel) {
+        throw new Error(
+          `caption correction for ${documentId}.${f.name} expected the capture to return `
+          + `${JSON.stringify(fix.capturedLabel)} and it returned ${JSON.stringify(captured)}; `
+          + "re-measure the printed caption before this correction is used");
+      }
+      captionCorrectionsApplied.push({
+        document: documentId, field: f.name, capturedLabel: fix.capturedLabel,
+        measuredLabel: fix.measuredLabel, measuredAt: fix.measuredAt
+      });
+    }
     return {
       ...f,
-      effectiveLabel: c.effectiveLabel ?? null,
-      labelBasis: c.labelBasis ?? null,
+      effectiveLabel: fix ? fix.measuredLabel : captured,
+      labelBasis: fix
+        ? "measured_from_the_pinned_forms_own_300_dpi_raster_and_rule_strokes"
+        : (c.labelBasis ?? null),
       regionHeading: c.regionHeading ?? null,
       regionIsDocumentTitle: c.regionIsDocumentTitle ?? false
     };
@@ -1678,7 +1929,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   // not of the facts written onto it.
   const censusByComponent = new Map();
   for (const b of bound) {
-    if (b.doc.acroform === true) censusByComponent.set(b.componentId, await censusAcroForm(b.bytes));
+    if (b.doc.acroform === true) censusByComponent.set(b.componentId, await censusAcroForm(b.bytes, b.doc.documentId));
   }
 
   const cellsByComponent = new Map();
@@ -1797,6 +2048,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
             facts,
             explicitMappings: b.doc.explicitMappings ?? {},
             unwritableFields: (b.doc.unwritable ?? []).map((u) => ({ field: u.field, class: u.class })),
+            /* Opt-in, and empty for every document of this family but the
+             * fee_waiver. See officialComponents.fee_waiver.narrativeLines. */
+            narrativeAcrossFields: b.doc.narrativeLines ?? [],
             captionOnly: b.doc.captionOnly === true,
             documentTextLines: census.documentTextLines,
             evaluateDeclaredMinimumSize: true,
@@ -2091,7 +2345,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-family-build-findings/v1", familyId: SPEC.familyId, blocking: [],
-    findings: SPEC.buildFindings
+    findings: SPEC.buildFindings,
+    /* Stated rather than implied: the captions this family replaced, what the
+     * shared capture returned for each, and the measurement that replaced it. */
+    captionCorrectionsApplied
   });
 
   writeJson(`${OUT}/approval-request.json`, {

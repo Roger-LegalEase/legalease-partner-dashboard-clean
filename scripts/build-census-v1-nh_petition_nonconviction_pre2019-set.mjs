@@ -289,13 +289,51 @@ const OPTIONAL = (what) => ({ policy: "optional", what });
 /* A branch of the form this route does not use. Never populated with participant data. */
 const NOT_ON_ROUTE = (why) => ({ policy: "not_on_route", why });
 /*
- * A fact the platform HOLDS that this widget cannot receive — because the
- * shared binder refuses the write on evidence about the widget, not about the
- * fact. The fact id travels with the row so the completeness contract decides
- * availability for itself: if the packet writes that fact anywhere else in this
- * family, the contract refuses the blank rather than taking the build's word.
+ * A fact the platform HOLDS, written at this widget's own rectangle through the
+ * finalizer's opt-in named-fact channel rather than through the shared
+ * descriptor channel.
+ *
+ * WHY THE ORDINARY CHANNEL CANNOT REACH THESE BOXES, measured against the live
+ * rules in this container rather than asserted. decideBinding tries the field
+ * NAME first and the printed LABEL only if the name matches nothing, and New
+ * Hampshire names several boxes for the line ABOVE them rather than for what
+ * they collect. So the name channel matches, and matches the WRONG fact:
+ *
+ *   NHJB-2317 "Mailing Address.2"  (prints City/Town)   -> participant.street_address
+ *   NHJB-2956 "name.1"/"name.3"/"name.4" (LAST/FIRST/MI) -> participant.full_legal_name
+ *   NHJB-2956 "Mailing Address1"   (STREET/CITY/STATE/ZIP CODE) -> participant.street_address
+ *
+ * and an explicit mapping to the right fact is then refused as
+ * explicit_mapping_conflicts_with_field_name. A caption correction cannot help
+ * either, because the NAME channel resolves before the label is consulted at
+ * all. That is a property of scripts/rcap-official-forms/rcap-field-semantics.mjs,
+ * which is shared by every builder in the corpus and which this lane does not
+ * open; it stays reported in build-findings.json for the lane that owns it.
+ *
+ * Until FIX78 these five boxes were declared required-before-filing with the
+ * sentence "the platform holds no value for this", which this builder's own
+ * fixtures contradict, and the paper showed it: NHJB-2317 printed an address
+ * with a street, a state and a ZIP and no town, and NHJB-2956's Section I
+ * carried a date of birth with no name and no address at all. The completeness
+ * contract's REQUIRED_BEFORE_FILING_CONDITIONS names that case in terms -- "A
+ * fact written anywhere else in the same packet is available, and refusing it
+ * here is a missing known fact" -- and VF01 scored it as this family's one
+ * failing obligation.
+ *
+ * THE CHANNEL AND ITS LIMITS. narrativeAcrossFields is the finalizer's own
+ * opt-in channel for one held fact laid out on the ruled line a form prints for
+ * it. The caller names a FACT ID and a FIELD and nothing else: the shared
+ * module resolves the fact from the same facts set every other write is
+ * resolved from, runs the same protect test on the caption AND on the field
+ * name, refuses a field already written or classified unwritable by role, fits
+ * the value to that widget's own rectangle, and refuses it WHOLE rather than
+ * truncating. No caller text can reach the page through it. The ordinary pass
+ * skips a named field entirely, so the wrong fact cannot be written there
+ * first. It is named here for five fields and five facts and for nothing else:
+ * NHJB-2956 "name.2" (maiden name or alias) is NOT named and stays the
+ * participant's, as does every other box on these forms.
  */
-const HELD_BUT_UNWRITABLE = (fact, what) => ({ policy: "supply", fact, what });
+const NARRATIVE = (fact, what) => ({ policy: "narrative", fact, what });
 
 const SIGNATURE = "signature_or_date_participant_completion";
 const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
@@ -326,10 +364,8 @@ const FORM_FIELDS = {
     "Mailing Address.1": { section: "Applicant's Information", label: "Address", ...WRITE("participant.street_address") },
     "Mailing Address.2": {
       section: "Applicant's Information", label: "City or Town",
-      ...HELD_BUT_UNWRITABLE("participant.city",
-        "the city or town you live in. This box prints City/Town but New Hampshire named it \"Mailing Address.2\", and a "
-        + "packet that wrote into a box named for a different line would risk printing your street address where your "
-        + "town belongs — so this one is left for you. The reason is recorded in full in build-findings.json")
+      ...NARRATIVE("participant.city",
+        "the city or town you live in, in the box the form prints City/Town")
     },
     "States/short": { section: "Applicant's Information", label: "State", ...WRITE("participant.state") },
     zip: { section: "Applicant's Information", label: "Zip Code", ...WRITE("participant.zip") },
@@ -514,23 +550,25 @@ const FORM_FIELDS = {
   "NHJB-2956": {
     "name.1": {
       section: "Section I — Who You Are", label: "Last name",
-      ...HELD_BUT_UNWRITABLE("participant.last_name",
-        "your last name. New Hampshire named all four boxes on this line name.1 to name.4, so the shared binder resolves "
-        + "the FULL legal name for each of them and refuses to put one part of a name in a box the whole name would "
-        + "bind to. The State Police read this line as LAST (MAIDEN/ALIAS) FIRST MI, so print the parts yourself")
+      ...NARRATIVE("participant.last_name", "your last name, in the first box of the LAST (MAIDEN/ALIAS) FIRST MI line")
     },
+    /* NOT written, and it must stay that way. A maiden name or an alias is a
+     * fact about the participant's own record that the platform does not hold,
+     * and the State Police read this box as a name the record may also be
+     * under. It is the one box on this line left to the participant. */
     "name.2": { section: "Section I — Who You Are", label: "Maiden name or alias", ...SUPPLY("any maiden name or alias your record might be under") },
     "name.3": {
       section: "Section I — Who You Are", label: "First name",
-      ...HELD_BUT_UNWRITABLE("participant.first_name", "your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line")
+      ...NARRATIVE("participant.first_name", "your first name, in the third box of the LAST (MAIDEN/ALIAS) FIRST MI line")
     },
     "name.4": {
       section: "Section I — Who You Are", label: "Middle name box, which the form heads MI",
-      ...HELD_BUT_UNWRITABLE("participant.middle_name", "your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line")
+      ...NARRATIVE("participant.middle_name", "your middle initial, in the last box of the LAST (MAIDEN/ALIAS) FIRST MI line")
     },
     "Mailing Address1": {
       section: "Section I — Who You Are", label: "Your address — street, city, state and zip on one line",
-      ...SUPPLY("your address written on one line as street, city, state and zip. The platform holds those as separate facts and the shared registry has no single fact for the composed line, so writing only the street would put a fraction of an answer in a box the State Police reads as your whole address")
+      ...NARRATIVE("participant.street_city_state_zip",
+        "your address on one line as street, city, state and zip, which is what the form's single ruled STREET/CITY/STATE/ZIP CODE line asks for")
     },
     Date: { section: "Section I — Who You Are", label: "Date of birth", ...WRITE("participant.date_of_birth") },
     gender: { section: "Section I — Who You Are", label: "Sex, as the State Police record holds it", ...SUPPLY("the sex the State Police record holds for you; the form offers Female and Male") },
@@ -599,6 +637,48 @@ const FIXTURES = {
     "matter.charges": [{ case_number: "218-2018-CR-00119821-SUPPLEMENTAL" }]
   }
 };
+
+/* ---- one held line, derived from held facts and from nothing else ----------- *
+ *
+ * NHJB-2956 gives the whole address ONE ruled line and captions it
+ * STREET/CITY/STATE/ZIP CODE. The finalizer's composed-field channel joins the
+ * facts it is given with a newline, one fact per line, which is right for a
+ * multi-line block and wrong for a box the form rules as a single line: with a
+ * newline in it the value measures wider than the widget at every size and the
+ * channel refuses it, measured here on the pinned binary.
+ *
+ * So the line is derived here, from the two facts this packet already holds and
+ * already writes elsewhere -- participant.street_address on NHJB-2317 and
+ * NHJB-2328, and participant.city_state_zip, which is a fact the shared
+ * registry itself carries -- and named to the finalizer as a single fact id.
+ * NOTHING IS AUTHORED: the value is a function of held facts, computed by
+ * joining them in the order the form's own caption prints them, and if either
+ * part is missing the fact is simply absent and the line stays blank for the
+ * participant rather than carrying a fraction of an address.
+ *
+ * The registry has no descriptor and no single fact for this line. That gap is
+ * in scripts/rcap-official-forms/rcap-field-semantics.mjs, which this lane does
+ * not open, and it is reported in build-findings.json.
+ */
+const COMPOSED_FACTS = {
+  "participant.street_city_state_zip": {
+    from: ["participant.street_address", "participant.city_state_zip"],
+    join: ", ",
+    printedCaption: "STREET/CITY/STATE/ZIP CODE"
+  }
+};
+
+function factsFor(fixtureName) {
+  const held = FIXTURES[fixtureName];
+  const facts = { ...held };
+  for (const [factId, spec] of Object.entries(COMPOSED_FACTS)) {
+    const parts = spec.from.map((f) => held[f]);
+    if (parts.every((v) => typeof v === "string" && v.trim() !== "")) {
+      facts[factId] = parts.map((v) => v.trim()).join(spec.join);
+    }
+  }
+  return facts;
+}
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 
 /* ---- source binding ------------------------------------------------------ *
@@ -733,10 +813,16 @@ async function censusOf(source) {
 
 /* ---- render ---------------------------------------------------------------- */
 async function renderDocument(source, census, fixtureName) {
-  const facts = FIXTURES[fixtureName];
+  const facts = factsFor(fixtureName);
   const writable = census.rows.filter((r) => r.policy === "write");
+  /* Fields written through the finalizer's named-fact channel. See NARRATIVE.
+   * They are deliberately NOT in unwritableFields -- the narrative pass refuses
+   * a field classified unwritable by role -- and deliberately NOT in
+   * explicitMappings either, because the ordinary pass skips a named field
+   * entirely and never reaches a binding decision for it. */
+  const narrativeRows = census.rows.filter((r) => r.policy === "narrative");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
-  const writableNames = new Set(writable.map((r) => r.name));
+  const writableNames = new Set([...writable, ...narrativeRows].map((r) => r.name));
   const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
 
   const { bytes, report } = await finalizeOfficialForm({
@@ -749,6 +835,9 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    /* One fact, one field, per entry. Opt-in and empty on any document of this
+     * family that declares no NARRATIVE row. */
+    narrativeAcrossFields: narrativeRows.map((r) => ({ factId: r.fact, fields: [r.name] })),
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
     /* VF08 read all 38 selection-widget rects across canonical.pdf and
      * boundary.pdf as delivering a stroked square that NHJB-2317 and NHJB-2328
@@ -794,6 +883,36 @@ async function sourceInkOf(source) {
   try { return await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
 }
 
+/*
+ * WHAT THE PAGE CARRIES, READ BACK IN THE ENCODING THE PAGE USES.
+ *
+ * scripts/rcap-official-forms/pdf-flattened-widgets.mjs decodes an appearance
+ * stream's string bytes as latin1, which is right for every byte below 0x80 and
+ * wrong for the range WinAnsi uses for typography: a right single quotation
+ * mark is drawn as the single byte 0x92, and latin1 turns that into U+0092, a
+ * C1 control. VF01 read the consequence in this family's own report -- three
+ * boundary writes recorded drawnText "Maria-Alejandra O\u0092Shaughnessy-
+ * Whitfield" and matchesExpected false, while the delivered bytes carry U+2019
+ * and the page prints the surname whole. A report that says three writes did
+ * not match what was expected, on a page where they did, is a defect in the
+ * report.
+ *
+ * The shared reader is not opened here: 40-odd families share it. This is the
+ * WinAnsi 0x80-0x9F block applied to what it returns, so this family's own
+ * read-back compares like with like. Every byte outside that block is
+ * unchanged, so no other value moves.
+ */
+const WINANSI_HIGH = {
+  0x80: "\u20ac", 0x82: "\u201a", 0x83: "\u0192", 0x84: "\u201e", 0x85: "\u2026",
+  0x86: "\u2020", 0x87: "\u2021", 0x88: "\u02c6", 0x89: "\u2030", 0x8a: "\u0160",
+  0x8b: "\u2039", 0x8c: "\u0152", 0x8e: "\u017d", 0x91: "\u2018", 0x92: "\u2019",
+  0x93: "\u201c", 0x94: "\u201d", 0x95: "\u2022", 0x96: "\u2013", 0x97: "\u2014",
+  0x98: "\u02dc", 0x99: "\u2122", 0x9a: "\u0161", 0x9b: "\u203a", 0x9c: "\u0153",
+  0x9e: "\u017e", 0x9f: "\u0178"
+};
+const fromWinAnsi = (value) => String(value ?? "").replace(/[\u0080-\u009f]/g,
+  (c) => WINANSI_HIGH[c.codePointAt(0)] ?? c);
+
 async function byteProof(source, census, artifactBytes, report, fixtureName, sourceInk = []) {
   const tmp = path.join(ROOT, `.nh-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
@@ -809,13 +928,16 @@ async function byteProof(source, census, artifactBytes, report, fixtureName, sou
       const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
       const text = drawn.map((d) => d.text).filter(Boolean);
       const ink = text.join("").trim();
-      if (written.has(r.name) && r.policy === "write") {
+      if (written.has(r.name) && (r.policy === "write" || r.policy === "narrative")) {
         glyphs += ink.length;
+        const facts = factsFor(fixtureName);
+        const readBack = text.map(fromWinAnsi);
         actualWrites.push({
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
-          drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
-          matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
+          writtenThrough: r.policy === "narrative" ? "finalizer_named_fact_channel" : "shared_descriptor_channel",
+          drawnText: readBack, expected: facts[r.fact] ?? null,
+          matchesExpected: fromWinAnsi(ink) === String(facts[r.fact] ?? "").trim()
         });
         continue;
       }
@@ -868,8 +990,22 @@ function mapFor(source, census, report) {
       document: source.formNumber
     };
 
-    if (r.policy === "write") {
-      if (writtenNames.has(r.name)) canonicalWrites.push({ ...base, factId: r.fact, kind: r.type });
+    if (r.policy === "write" || r.policy === "narrative") {
+      if (writtenNames.has(r.name)) {
+        canonicalWrites.push({
+          ...base, factId: r.fact, kind: r.type,
+          ...(r.policy === "narrative"
+            ? {
+              writeChannel: "finalizer_named_fact_channel",
+              whyNotTheDescriptorChannel:
+                "New Hampshire names this box for the line above it rather than for what it collects, so the shared "
+                + "binder resolves the wrong fact from its NAME before its printed line is consulted. See "
+                + "build-findings.json; the fact is written at this widget's own rectangle through the finalizer's "
+                + "opt-in named-fact channel, which resolves the fact id from the same facts set as every other write."
+            }
+            : {})
+        });
+      }
       else {
         canonicalRefusals.push({
           ...base, reason: "the finalizer refused this write; the packet does not claim a value it did not draw",
@@ -1072,9 +1208,11 @@ function participantInstructions(maps, rbf, fee, stops) {
     `All four are prepared for one route — **${ROUTE.publicLabel}** — under ${ROUTE.authority}.`, ""
   );
   out.push(
-    "The platform filled in what it holds about you and your case: your name, your date of birth, your address, your "
-    + "phone, your e-mail and the case number. Everything else is yours, and every one of those blanks is listed below "
-    + "by the form and the section it is in.", ""
+    "The platform filled in what it holds about you and your case: your name, your date of birth, your street address, "
+    + "your city or town, your state, your ZIP code, your phone, your e-mail and the case number. On NHJB-2956, the "
+    + "State Police release, it also filled the LAST, FIRST and MI boxes from the parts of your name and wrote your "
+    + "address on that form's single STREET/CITY/STATE/ZIP CODE line. Everything else is yours, and every one of those "
+    + "blanks is listed below by the form and the section it is in.", ""
   );
 
   out.push("## One offence, one petition", "");
@@ -1128,7 +1266,7 @@ function participantInstructions(maps, rbf, fee, stops) {
   out.push("5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.");
   out.push("6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and the lines that feed it are blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.");
   out.push("7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries \"Enter /s/ before name\" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: \"If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe\". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.");
-  out.push("8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.");
+  out.push("8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section I carries your name across the LAST, FIRST and MI boxes and your address on the line below it — check both. The one box on that name line the platform left empty is **(MAIDEN/ALIAS)**: fill it in yourself if your record might be under a maiden name or an alias, because the platform holds no such fact for you. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.");
   out.push("");
 
   for (const [doc, items] of byDoc) {
@@ -1229,7 +1367,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
      * claim a value the paper does not show -- so it is refused here rather than
      * discovered by a reader of the raster.
      */
-    const writesOntoHidden = census.rows.filter((r) => r.policy === "write" && r.hiddenUntilTheFormRevealsIt === true);
+    const writesOntoHidden = census.rows.filter((r) => (r.policy === "write" || r.policy === "narrative") && r.hiddenUntilTheFormRevealsIt === true);
     assert.equal(writesOntoHidden.length, 0,
       `${source.formNumber}: ${writesOntoHidden.length} write(s) land on a widget the form hides: ${JSON.stringify(writesOntoHidden.map((r) => r.key))}`);
     if (source.acroFieldCount != null) {
@@ -1245,6 +1383,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       documents: censuses.map(({ source, census }) => ({
         formNumber: source.formNumber, sha256: source.sha256, fields: census.rows.length,
         writes: census.rows.filter((r) => r.policy === "write").length,
+        narrativeWrites: census.rows.filter((r) => r.policy === "narrative").length,
         supply: census.rows.filter((r) => r.policy === "supply").length,
         elections: census.rows.filter((r) => r.policy === "election").length,
         viewer: census.rows.filter((r) => r.policy === "viewer").length,
@@ -1565,9 +1704,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "widget's own rectangle -- but several boxes are NAMED for the line above them rather than for what they "
       + "collect, so a reader of the paper is the check that a value sits under the heading it belongs to.",
     whatToLookAt: [
-      "NHJB-2317 page 1: the applicant's name, date of birth, address, state, zip, telephone and e-mail each under the "
-        + "heading they belong to, the City/Town box BLANK (see build-findings.json), and the case number in the "
-        + "caption.",
+      "NHJB-2317 page 1: the applicant's name, date of birth, street address, CITY OR TOWN, state, zip, telephone and "
+        + "e-mail each under the heading they belong to, and the case number in the caption. The City/Town box is "
+        + "written as of FIX78 and it is the box New Hampshire named \"Mailing Address.2\" — please read the paper and "
+        + "confirm the TOWN is in it and not the street address.",
+      "NHJB-2956 Section I: the surname, first name and middle initial each in their own box on the LAST "
+        + "(MAIDEN/ALIAS) FIRST MI line, with the (MAIDEN/ALIAS) box BLANK and left to the participant; the whole "
+        + "address on the single STREET/CITY/STATE/ZIP CODE line beneath it; the date of birth beside an empty Sex "
+        + "box; and Section II's third-party name and address untouched. These four writes are new as of FIX78 and "
+        + "each goes into a box New Hampshire named for a different line, so a reader of the paper is the check.",
       "NHJB-2317 charge block: the RSA, charge, charge date, disposition date, sentence-completed date and the "
         + "description of the sentence all blank.",
       "NHJB-2317 page 2: every one of the ten certification boxes unticked, the pending-charges box empty, and the "
@@ -1583,9 +1728,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "carrying anything else is a defect.",
       "NHJB-2328 pages 2 and 3: every expense, asset and liability line blank, the certificate-of-service box unticked, "
         + "and the whole signature block blank.",
-      "NHJB-2956: the date of birth written, the four name boxes blank (see build-findings.json), the physical "
-        + "description and licence lines blank, and SECTION II entirely blank — including the dropdown New Hampshire "
-        + "put on the 'name of person or entity to receive record' line.",
+      "NHJB-2956: the date of birth written; the LAST, FIRST and MI boxes written and the (MAIDEN/ALIAS) box between "
+        + "them BLANK; the whole address on the single STREET/CITY/STATE/ZIP CODE line; the physical description and "
+        + "licence lines blank; and SECTION II entirely blank — including the dropdown New Hampshire put on the "
+        + "'name of person or entity to receive record' line.",
       "Across all four: no signature anywhere, no date beside a signature anywhere, and no counsel block filled."
     ],
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
@@ -1623,23 +1769,63 @@ export async function runFamily(argv = process.argv.slice(2)) {
     findings: [
       {
         finding:
-          "NHJB-2317 prints City/Town at the box New Hampshire named \"Mailing Address.2\", directly under the box named "
-          + "\"Mailing Address.1\" that prints Address.",
+          "SHARED-BINDER GAP, STILL OPEN, ON BOXES NEW HAMPSHIRE NAMES FOR THE LINE ABOVE THEM. NHJB-2317 prints "
+          + "City/Town at the box named \"Mailing Address.2\", directly under the box named \"Mailing Address.1\" that "
+          + "prints Address; NHJB-2956 asks for LAST (MAIDEN/ALIAS) FIRST MI in four boxes and names all four name.1 "
+          + "to name.4; and NHJB-2956's whole-address line is named \"Mailing Address1\". decideBinding resolves a "
+          + "field's fact from its NAME before its printed line and never reaches the label when the name matches, so "
+          + "\"Mailing Address.2\" and \"Mailing Address1\" resolve to participant.street_address and the four name "
+          + "boxes each resolve to participant.full_legal_name — measured here, in this container. An explicit "
+          + "mapping to the right fact is then refused as explicit_mapping_conflicts_with_field_name, and a caption "
+          + "correction cannot help because the label is never consulted. The rule lives in "
+          + "scripts/rcap-official-forms/rcap-field-semantics.mjs, which is shared by every builder in the corpus and "
+          + "which this lane does not open.",
         consequence:
-          "The shared binder resolves a field's fact from its NAME before its printed line, because a name is more "
-          + "reliable than a harvested caption, and it therefore refuses a city write into a field whose own name says "
-          + "mailing address. The build does not force it: the city is carried to the participant with the fact id "
-          + "declared, so the completeness contract decides for itself whether the packet holds that fact elsewhere. "
-          + "The rule lives in scripts/rcap-official-forms/, which this lane does not write."
+          "REPAIRED LOCALLY AND ONLY LOCALLY, by FIX78. Until then these five boxes were declared "
+          + "required-before-filing and disclosed with the sentence \"the platform holds no value for this\", which "
+          + "this builder's own fixtures contradict: the city, the three name parts and the address are all held and "
+          + "four of the five are written elsewhere in this same packet. The paper showed it — NHJB-2317 printed an "
+          + "address with a street, a state and a ZIP and no town, and NHJB-2956's Section I carried a date of birth "
+          + "above a blank name line and a blank address line, on the release the participant is told to mail to the "
+          + "State Police. Each of the five is now WRITTEN at that widget's own rectangle through the finalizer's "
+          + "opt-in named-fact channel, which names one fact id and one field, resolves the fact from the same facts "
+          + "set as every other write, runs the same protect test on the caption and on the field name, and refuses a "
+          + "value whole rather than truncating it. NHJB-2956's name.2 (maiden name or alias) is NOT named and stays "
+          + "the participant's. The shared gap itself is unchanged and stays reported here for the lane that owns it."
       },
       {
         finding:
-          "NHJB-2956 asks for LAST (MAIDEN/ALIAS) FIRST MI in four boxes and names all four name.1 to name.4.",
+          "NO SINGLE REGISTRY FACT NAMES A ONE-LINE ADDRESS. NHJB-2956 gives the whole address one ruled line and "
+          + "captions it STREET/CITY/STATE/ZIP CODE. FACT_DESCRIPTORS carries participant.street_address, "
+          + "participant.city, participant.state, participant.zip and participant.city_state_zip, and nothing that "
+          + "names street, city, state and zip together. The finalizer's composed-field channel joins the facts it is "
+          + "given with a newline, one fact per line, which is right for a multi-line block: measured here on the "
+          + "pinned NHJB-2956, a two-fact composition of this line carries a newline, measures wider than the widget "
+          + "at every size down to the 6pt readable floor, and is refused as "
+          + "value_exceeds_widget_width_at_minimum_font.",
         consequence:
-          "Every one of those names resolves to the participant's FULL legal name in the shared binder, so a write of "
-          + "one name part into one box is refused as a mapping conflict — correctly, because the alternative is the "
-          + "whole name printed in the box the State Police read as a surname. All four are carried to the participant "
-          + "with their fact ids declared."
+          "The line is derived in this builder from the two held facts the packet already writes elsewhere — "
+          + "participant.street_address and participant.city_state_zip — joined in the order the form's own caption "
+          + "prints them, and named to the finalizer as a single fact id. Nothing is authored: the value is a "
+          + "function of held facts, and if either part were missing the fact would be absent and the line would stay "
+          + "blank rather than carry a fraction of an address. Closing the gap properly means a descriptor and a fact "
+          + "in scripts/rcap-official-forms/rcap-field-semantics.mjs, a shared host this lane does not open; it is "
+          + "reported here for the lane that owns it."
+      },
+      {
+        finding:
+          "READ-BACK ENCODING in the shared flattened-widget reader. "
+          + "scripts/rcap-official-forms/pdf-flattened-widgets.mjs decodes an appearance stream's string bytes as "
+          + "latin1. WinAnsi draws a right single quotation mark as the single byte 0x92, which latin1 turns into "
+          + "U+0092, a C1 control — so this family's own report recorded drawnText "
+          + "\"Maria-Alejandra O\\u0092Shaughnessy-Whitfield\" and matchesExpected FALSE on three boundary writes, "
+          + "while the delivered bytes carry U+2019 and the page prints the surname whole at 300 dpi.",
+        consequence:
+          "A report saying three writes did not match what was expected, on a page where they did, is a defect in the "
+          + "report and VF01 read it as one. This family now applies the WinAnsi 0x80-0x9F block to what the shared "
+          + "reader returns, before comparing and before recording drawnText, so its read-back compares like with "
+          + "like; every byte outside that block is unchanged, so no other value moves. The shared reader is not "
+          + "opened here — 40-odd families share it — and the defect stays reported for the lane that owns it."
       },
       {
         finding:
