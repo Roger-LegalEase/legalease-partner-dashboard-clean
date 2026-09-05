@@ -157,8 +157,8 @@ const EXPECTED_ARTIFACTS = Object.freeze({
     byteLength: 379008
   }),
   boundary: Object.freeze({
-    sha256: "08551383a970f6bb2b53719980beb7277094518b8fc807a77018d3e48aa5735d",
-    byteLength: 379757
+    sha256: "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2",
+    byteLength: 379892
   })
 });
 
@@ -198,6 +198,37 @@ const AGENCY = (what) => SUPPLY(what);
 /* The four conviction rows, generated so the columns of one row cannot drift
  * apart. The form's instruction 4 says the values come from the court's own
  * record, which the platform does not hold. */
+/*
+ * The size a conviction cell falls back to when its held value needs two lines.
+ *
+ * Not a preference. It is the size this packet already prints a case number at:
+ * `caseno`'s page-2 and page-3 widgets are fitted to 6pt by the same shared
+ * fitter in the same run, and 6 is the fitter's own declared readable floor.
+ * Wrapping at the largest size that merely FITS the box would put the break
+ * inside a token; the floor puts it on the value's own hyphen, and the rule
+ * below is what actually decides, so this constant can never smuggle an
+ * illegible line onto the page by itself.
+ */
+const WRAPPED_CELL_FONT_SIZE = 6;
+
+/**
+ * Is a wrapped cell readable as ONE value rather than as two?
+ *
+ * Two conditions, both about the value and neither about this fixture: the
+ * drawn lines must concatenate back to the held value exactly -- the shared
+ * wrapper keeps the boundary space on a word-wrapped line and adds nothing to a
+ * mid-token split, so a lossless join is a real check -- and every line but the
+ * last must end at a delimiter the value itself carries. A case number cut
+ * after "SUPPLE" reads as two values to the clerk who transcribes it; one cut
+ * after "2024-0011882-" reads as the number it is.
+ */
+function legibleWrap(wrapped) {
+  const lines = wrapped?.lines ?? [];
+  if (lines.length < 1) return false;
+  if (lines.join("") !== String(wrapped.value)) return false;
+  return lines.slice(0, -1).every((line) => /[ -]$/.test(line));
+}
+
 const CONVICTION_ROWS = ["1", "2", "3", "4"];
 const CONVICTION_LETTERS = { 1: "a", 2: "b", 3: "c", 4: "d" };
 /*
@@ -720,10 +751,10 @@ async function renderDocument(source, census, fixtureName) {
     if (!rowCellsByRow.has(n)) rowCellsByRow.set(n, []);
     rowCellsByRow.get(n).push(r.name);
   }
-  const measure = await finalizeOfficialForm({
+  const measureWith = (wrapInCellFields) => finalizeOfficialForm({
     sourceBytes: source.bytes, expectedSha256: source.sha256,
     census: censusForFinalizer, facts, explicitMappings, unwritableFields, composedFieldValues,
-    narrativeAcrossFields,
+    narrativeAcrossFields, wrapInCellFields,
     /* No selections in the measurement render: what to settle is decided FROM
      * this render's result, so asking it here would be circular. */
     selectionsFromHeldFacts: {},
@@ -731,7 +762,59 @@ async function renderDocument(source, census, fixtureName) {
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
-  const refusedCells = new Set(measure.report.refused.map((x) => x.field));
+
+  const measure = await measureWith({});
+
+  /*
+   * A CELL THE ISSUER'S BOX CAN SHOW ON TWO LINES IS NOT AN UNSHOWABLE CELL.
+   *
+   * The single-line refusal above is right for a ruled blank and wrong for this
+   * table. Each conviction cell is an OPEN BOX 21pt tall with no interior rule
+   * -- read off the issuer's own widget rectangles and confirmed on a raster of
+   * the delivered page -- so a value that needs two lines has room for two
+   * lines. Withholding row a of the boundary record because a 28-character case
+   * number needs 97.7pt of the 92pt usable width at the 6pt readable floor left
+   * a conviction the platform holds out of a table the court reads as the whole
+   * list, which is a worse answer than a smaller two-line entry.
+   *
+   * So a conviction cell refused for width is offered ONE second chance, at the
+   * 6pt floor -- the size this same case number already prints at in this same
+   * packet, in the page-2 and page-3 headers -- and it is taken only if the
+   * wrap is legible by a rule that does not depend on this record:
+   *
+   *   every line but the last ends at a delimiter OF THE VALUE ITSELF, a space
+   *   or a hyphen, so no token is broken across lines;
+   *   the drawn lines concatenate back to the held value exactly.
+   *
+   * An identifier chopped mid-token would be a legibility defect of its own,
+   * and a cell that cannot pass this keeps the old answer: the row is withheld
+   * whole, declared, and disclosed. Nothing here writes a value the platform
+   * does not hold, and nothing shortens one.
+   */
+  const rowCellNames = new Set([...rowCellsByRow.values()].flat());
+  const wrapCandidates = measure.report.refused
+    .filter((x) => rowCellNames.has(x.field) && x.category === "unfittable")
+    .map((x) => x.field);
+  const wrapOffer = Object.fromEntries(wrapCandidates.map((name) => [name, { maxFontSize: WRAPPED_CELL_FONT_SIZE }]));
+  const wrapMeasure = wrapCandidates.length > 0 ? await measureWith(wrapOffer) : null;
+  const wrapsAccepted = new Map();
+  for (const w of wrapMeasure?.report?.wrappedInCell ?? []) {
+    if (!legibleWrap(w)) continue;
+    wrapsAccepted.set(w.field, w);
+  }
+  const wrapsRejected = (wrapMeasure?.report?.wrappedInCell ?? [])
+    .filter((w) => !wrapsAccepted.has(w.field))
+    .map((w) => ({ field: w.field, lines: w.lines, why: "a line ends inside a token, so the value would read as two values" }));
+  const wrapInCellFields = Object.fromEntries([...wrapsAccepted.keys()]
+    .map((name) => [name, { maxFontSize: WRAPPED_CELL_FONT_SIZE }]));
+  const settledMeasure = wrapsAccepted.size > 0 ? await measureWith(wrapInCellFields) : measure;
+
+  /* Refused after the second chance: what measure two refused, plus every cell
+   * whose offered wrap was not legible enough to take. */
+  const refusedCells = new Set([
+    ...settledMeasure.report.refused.map((x) => x.field),
+    ...wrapCandidates.filter((name) => !wrapsAccepted.has(name))
+  ]);
   /* A row is DELIVERED only when every writable cell of it is written. A row
    * with one refused cell is withheld whole, and a row with all of them refused
    * was never going to be delivered either: both are treated the same, because
@@ -762,6 +845,13 @@ async function renderDocument(source, census, fixtureName) {
     [...settlements].filter(([, v]) => v?.checked === true)
   );
 
+  /* A cell in a row that is being withheld whole is not wrapped: the row is not
+   * delivered at all, and naming it here would ask the finalizer to wrap a
+   * field it has already refused by role. */
+  const withheldNow = new Set(withheldRowCells);
+  const wrapInCellFieldsDelivered = Object.fromEntries(
+    Object.entries(wrapInCellFields).filter(([name]) => !withheldNow.has(name)));
+
   const { bytes, report } = await finalizeOfficialForm({
     sourceBytes: source.bytes,
     expectedSha256: source.sha256,
@@ -769,6 +859,7 @@ async function renderDocument(source, census, fixtureName) {
     facts, explicitMappings, composedFieldValues,
     unwritableFields: unwritableWithPartialRowsWithheld,
     narrativeAcrossFields, selectionsFromHeldFacts,
+    wrapInCellFields: wrapInCellFieldsDelivered,
     /*
      * MEASURE EVERY WIDGET, NOT JUST THE FIRST ONE.
      *
@@ -808,6 +899,15 @@ async function renderDocument(source, census, fixtureName) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
     for (const r of report.refused) console.log(`   ${r.field ?? r.anchor}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
   }
+  report.convictionCellsWrappedInCell = (report.wrappedInCell ?? []).map((w) => ({
+    field: w.field, factId: w.factId, fontSizePt: w.fontSize, lines: w.lines,
+    issuerFlaggedMultiline: w.issuerFlaggedMultiline,
+    multilineFlagSetByThisRun: w.multilineFlagSetByThisRun,
+    why: "the held value cannot be shown on one line at a readable size in the issuer's column, and this cell is an "
+      + "open box 21pt tall; the value is drawn whole on two lines inside it, breaking only at its own delimiters"
+  }));
+  report.convictionCellWrapsOffered = wrapCandidates;
+  report.convictionCellWrapsNotLegibleEnough = wrapsRejected;
   report.convictionRowsWithheldWhole = rowsRefusedWhole.map((n) => ({
     row: CONVICTION_LETTERS[n], cells: rowCellsByRow.get(n),
     why: "at least one cell of this conviction row could not be drawn inside the box the form prints for it, and a "
@@ -1200,7 +1300,25 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
 }
 
 /* ---- field map ------------------------------------------------------------- */
-function mapFor(source, census, report, settlements = new Map()) {
+/*
+ * ONE SIDE OF THE MAP, GENERATED FROM ONE RENDER.
+ *
+ * This used to be called once, for the canonical render, and its result was
+ * assigned to BOTH sides of the map: `boundaryWrites: canonicalWrites,
+ * boundaryRefusals: canonicalRefusals`. The two arrays were then not merely
+ * equal but the same objects, so the map could not have described the boundary
+ * artifact even by accident. On the delivered boundary.pdf that made the map
+ * claim ink in item 1 row a, which is blank there, and declare eight inked
+ * fields -- c2, c3, c4, cno2, cno3, cno4, Explain4 and Explain5 -- as blanks
+ * required before filing. No counter could see it: the completeness reader
+ * consumes canonicalWrites, canonicalRefusals and selectionControls and never
+ * the boundary side, so the nine counters read zero over a record that
+ * described a document nobody had rendered.
+ *
+ * A side is now generated from the render whose bytes it describes, and the
+ * caller names which side it is.
+ */
+function mapSideFor(source, census, report, settlements = new Map()) {
   const writtenNames = new Set(report.written.map((w) => w.field));
   const canonicalWrites = [];
   const canonicalRefusals = [];
@@ -1301,9 +1419,22 @@ function mapFor(source, census, report, settlements = new Map()) {
     if (r.policy === "row") {
       if (writtenNames.has(r.name)) {
         const w = (report.written ?? []).find((x) => x.field === r.name) ?? null;
+        const wrapped = (report.convictionCellsWrappedInCell ?? []).find((x) => x.field === r.name) ?? null;
         canonicalWrites.push({
           ...base, factId: w?.factId ?? r.fact, kind: r.type, rowFact: r.fact,
-          why: "a cell of item 1, written from the conviction the platform holds for that row"
+          ...(wrapped
+            ? {
+              wrappedInCell: true,
+              wrappedLines: wrapped.lines,
+              wrappedFontSizePt: wrapped.fontSizePt,
+              multilineFlagSetByThisBuild: wrapped.multilineFlagSetByThisRun === true,
+              wrappedWhy: wrapped.why
+            }
+            : {}),
+          why: wrapped
+            ? "a cell of item 1, written whole from the conviction the platform holds for that row, on two lines "
+              + "inside the issuer's own 21pt cell because it cannot be shown on one at a readable size"
+            : "a cell of item 1, written from the conviction the platform holds for that row"
         });
       } else {
         canonicalRefusals.push({
@@ -1420,12 +1551,39 @@ function mapFor(source, census, report, settlements = new Map()) {
   }
 
   return {
+    formNumber: source.formNumber,
+    writes: canonicalWrites, refusals: canonicalRefusals, selectionControls,
+    explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId]))
+  };
+}
+
+/**
+ * The two sides of one document's map, each from its own render.
+ *
+ * The completeness reader consumes the canonical side and the selection
+ * controls, so those keep their names and their place. The boundary side is
+ * carried beside them under names of its own, and `sideGeneration` states in
+ * the artifact which render produced which, so a reader never has to infer it.
+ */
+function assembleMap(source, canonicalSide, boundarySide) {
+  return {
     formNumber: source.formNumber, documentId: source.formNumber, documentRole: source.instrumentKind,
     documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: ROUTE.routeKey },
     structuralClass: "acroform",
-    explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId])),
-    roleRefusals: [], selectionControls, canonicalWrites, canonicalRefusals,
-    boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
+    sideGeneration:
+      "canonicalWrites, canonicalRefusals and selectionControls are generated from the canonical render; "
+      + "boundaryWrites, boundaryRefusals and boundarySelectionControls from the boundary render. Neither side is a "
+      + "copy of the other, and where the two records hold the same facts the two sides are identical because the "
+      + "renders are, not because one was assigned to both.",
+    explicitMappings: canonicalSide.explicitMappings,
+    roleRefusals: [],
+    selectionControls: canonicalSide.selectionControls,
+    canonicalWrites: canonicalSide.writes,
+    canonicalRefusals: canonicalSide.refusals,
+    boundaryExplicitMappings: boundarySide.explicitMappings,
+    boundarySelectionControls: boundarySide.selectionControls,
+    boundaryWrites: boundarySide.writes,
+    boundaryRefusals: boundarySide.refusals
   };
 }
 
@@ -1552,6 +1710,34 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
 function writeJson(rel, value) {
   fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
   fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
+}
+
+/**
+ * What one side of the map covers, counted from that side's own arrays.
+ *
+ * Every AcroForm field of the bound binary carries exactly one row on each
+ * side, so `rowsOnThisSide` is checkable against the binary rather than
+ * inferred, and it is asserted in the self-test for both sides.
+ */
+function sideCoverage(maps, side) {
+  const writesOf = (m) => (side === "boundary" ? m.boundaryWrites : m.canonicalWrites);
+  const refusalsOf = (m) => (side === "boundary" ? m.boundaryRefusals : m.canonicalRefusals);
+  const controlsOf = (m) => (side === "boundary" ? m.boundarySelectionControls : m.selectionControls);
+  const controls = maps.flatMap((m) => controlsOf(m));
+  return {
+    generatedFrom: `the ${side} render`,
+    rowsOnThisSide: maps.reduce((n, m) => n + writesOf(m).length + refusalsOf(m).length + controlsOf(m).length, 0),
+    writes: maps.reduce((n, m) => n + writesOf(m).length, 0),
+    composedWrites: maps.reduce((n, m) => n + writesOf(m).filter((w) => w.composed === true).length, 0),
+    wrappedInCellWrites: maps.reduce((n, m) => n + writesOf(m).filter((w) => w.wrappedInCell).length, 0),
+    refusals: maps.reduce((n, m) => n + refusalsOf(m).length, 0),
+    requiredBeforeFiling: maps.reduce((n, m) => n + refusalsOf(m).filter((r) => r.requiredBeforeFiling === true).length, 0),
+    selectionControls: controls.length,
+    selectionControlsByDisposition: controls.reduce((acc, c) => {
+      acc[c.completenessDisposition] = (acc[c.completenessDisposition] ?? 0) + 1; return acc;
+    }, {}),
+    selectionControlsMarkedByThisBuild: controls.filter((c) => c.markedByThisBuild === true).length
+  };
 }
 
 function requiredBeforeFilingItems(maps) {
@@ -1851,6 +2037,70 @@ function selfTest() {
     assert.ok(written.length === 0 || written.length === cells.length,
       `conviction row ${CONVICTION_LETTERS[n]} is partly written: ${written.join(", ")}`);
   }
+  /*
+   * THE TWO SIDES DESCRIBE TWO DOCUMENTS.
+   *
+   * The failure this replaces was not a wrong value; it was one side standing
+   * in for both, which no counter reads and no equality check would have caught
+   * either, because the two records legitimately agree wherever their facts do.
+   * So the assertions below are about the SHAPE of the record: each side covers
+   * the binary exactly once, no field is written and declared on the same side,
+   * and the sides differ exactly where the fixtures' facts differ.
+   */
+  for (const side of ["canonical", "boundary"]) {
+    const writes = side === "boundary" ? map0.boundaryWrites : map0.canonicalWrites;
+    const refusals = side === "boundary" ? map0.boundaryRefusals : map0.canonicalRefusals;
+    const controls = side === "boundary" ? map0.boundarySelectionControls : map0.selectionControls;
+    assert.equal(writes.length + refusals.length + controls.length, SOURCE_PIN.acroFieldCount,
+      `every AcroForm field of MC 227b must carry a row on the ${side} side of the field map`);
+    const writtenOnThisSide = new Set(writes.map((w) => w.acroFieldName));
+    for (const r of refusals) {
+      assert.equal(writtenOnThisSide.has(r.acroFieldName), false,
+        `${r.acroFieldName} is both written and declared blank on the ${side} side`);
+    }
+    /* The obligation in one line: a field declared required before filing must
+     * be one this side does not write. */
+    for (const r of refusals.filter((x) => x.requiredBeforeFiling === true)) {
+      assert.equal(writtenOnThisSide.has(r.acroFieldName), false,
+        `${r.acroFieldName} is declared required before filing on the ${side} side and is inked there`);
+    }
+    for (const n of CONVICTION_ROWS) {
+      const cells = ["c", "cno"].map((k) => `${k}${n}`);
+      const written = cells.filter((name) => writtenOnThisSide.has(name));
+      assert.ok(written.length === 0 || written.length === cells.length,
+        `conviction row ${CONVICTION_LETTERS[n]} is partly written on the ${side} side: ${written.join(", ")}`);
+    }
+  }
+  /* The two sides are not the same objects and not the same bytes, and where
+   * they differ they differ because the two records hold different facts. */
+  assert.notEqual(map0.canonicalWrites, map0.boundaryWrites);
+  assert.notEqual(map0.canonicalRefusals, map0.boundaryRefusals);
+  const canonicalCharges = FIXTURES.canonical["matter.charges"].length;
+  const boundaryCharges = FIXTURES.boundary["matter.charges"].length;
+  const rowCellsWritten = (writes) => writes.filter((w) => w.rowFact).length;
+  assert.equal(rowCellsWritten(map0.canonicalWrites), canonicalCharges * 2,
+    "the canonical side writes both fillable cells of every conviction the canonical record holds");
+  assert.equal(rowCellsWritten(map0.boundaryWrites), boundaryCharges * 2,
+    "the boundary side writes both fillable cells of every conviction the boundary record holds");
+  /* Item 1 row a of the BOUNDARY record: the conviction the platform holds and
+   * whose case number the same packet prints three times. */
+  for (const name of ["c1", "cno1"]) {
+    assert.ok(map0.boundaryWrites.some((w) => w.acroFieldName === name),
+      `item 1 row a's ${name} must carry its held conviction on the boundary side`);
+  }
+  /* A wrapped cell is legible as one value, or it is not written at all. */
+  for (const w of map0.boundaryWrites.filter((x) => x.wrappedInCell)) {
+    assert.ok(w.wrappedLines.length > 1, `${w.acroFieldName} is marked wrapped and carries one line`);
+    assert.ok(legibleWrap({ lines: w.wrappedLines, value: w.wrappedLines.join("") }),
+      `${w.acroFieldName} wraps inside a token`);
+    assert.ok(w.wrappedFontSizePt >= 6, `${w.acroFieldName} is drawn below the readable floor`);
+  }
+  /* The settled caption box is settled per side, from the table each side
+   * delivers, and the canonical record's single case number leaves it unticked. */
+  const settledOn = (controls) => controls.find((c) => c.acroFieldName === "multcaseno");
+  assert.equal(settledOn(map0.selectionControls).markedByThisBuild, false);
+  assert.equal(settledOn(map0.boundarySelectionControls).markedByThisBuild, true);
+
   assert.equal(fieldMap.generationAllowed, false);
   assert.equal(fieldMap.runtimeSelectable, false);
   assert.equal(fieldMap.commercialRoutesOpened, 0);
@@ -1955,7 +2205,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const artifacts = [];
   const writeProofs = [];
   const rasterPages = [];
-  const maps = [];
+  /* One side per fixture, assembled into the map after both renders exist. */
+  const mapSides = { canonical: [], boundary: [] };
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const packet = await PDFDocument.create();
@@ -1985,7 +2236,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         packet.addPage(p);
         pageManifest.push({ packetPage: packet.getPageCount(), formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
       }
-      if (fixtureName === "canonical") maps.push(mapFor(source, census, report, settlements));
+      mapSides[fixtureName].push(mapSideFor(source, census, report, settlements));
     }
 
     const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
@@ -2020,6 +2271,18 @@ export async function runFamily(argv = process.argv.slice(2)) {
       });
     }
   }
+
+  /* Both renders have happened; each side of the map now describes the bytes it
+   * was generated from. The order is the order of `censuses`, and the two sides
+   * are asserted to be the same documents in the same order rather than trusted
+   * to be. */
+  assert.equal(mapSides.canonical.length, censuses.length);
+  assert.equal(mapSides.boundary.length, censuses.length);
+  const maps = censuses.map(({ source }, i) => {
+    assert.equal(mapSides.canonical[i].formNumber, source.formNumber);
+    assert.equal(mapSides.boundary[i].formNumber, source.formNumber);
+    return assembleMap(source, mapSides.canonical[i], mapSides.boundary[i]);
+  });
 
   const rbf = requiredBeforeFilingItems(maps);
   const instructionsText = participantInstructions(maps, rbf);
@@ -2096,25 +2359,34 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "facts about the participant's own record. The form itself routes the two neighbouring applications elsewhere, "
       + "to MC 227a and MC 227, and the instructions carry that in the form's own words.",
     convictionTableNote:
-      "All sixteen cells of the four-row conviction table are declared required-before-filing and none is written. The "
-      + "form's instruction 4 says the exact date and charge come from the court and that a certified copy of each "
-      + "conviction must be attached; the platform holds neither.",
+      "The four-row conviction table has sixteen cells and the two columns the platform can fill are the CRIME and "
+      + "CASE NUMBER columns. What is written differs by record, so it is stated per side rather than once: the "
+      + "canonical record holds one conviction and the canonical side writes row a's two cells, and the boundary "
+      + "record holds four and the boundary side writes all eight. The CHARGE CODE(S) and DATE OF CONVICTION columns "
+      + "are written in neither, for the two separate reasons in build-findings.json, and stay declared and "
+      + "disclosed: the form's instruction 4 says the exact date and charge come from the court and that a certified "
+      + "copy of each conviction must be attached. A conviction row is written whole or withheld whole.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     /* Stated so the count can be checked against the binary rather than
      * inferred from the arrays: every AcroForm field of MC 227b carries exactly
      * one row here, and the fourteen checkboxes are rows like any other. */
     terminalFieldCoverage: {
       acroFormFieldsInTheBoundBinary: SOURCE_PIN.acroFieldCount,
-      rowsInThisMap: maps.reduce((n, m) =>
-        n + m.canonicalWrites.length + m.canonicalRefusals.length + m.selectionControls.length, 0),
-      writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
-      composedWrites: maps.reduce((n, m) => n + m.canonicalWrites.filter((w) => w.composed === true).length, 0),
-      refusals: maps.reduce((n, m) => n + m.canonicalRefusals.length, 0),
-      selectionControls: maps.reduce((n, m) => n + m.selectionControls.length, 0),
-      selectionControlsByDisposition: maps.flatMap((m) => m.selectionControls).reduce((acc, c) => {
-        acc[c.completenessDisposition] = (acc[c.completenessDisposition] ?? 0) + 1; return acc;
-      }, {}),
-      selectionControlsMarkedByThisBuild: 0
+      /* Counted per side, because the two sides describe two documents. The
+       * single figure that used to stand here was the canonical one, and a
+       * boundary reader had no way to know that. */
+      canonical: sideCoverage(maps, "canonical"),
+      boundary: sideCoverage(maps, "boundary"),
+      /* Kept at the canonical figures under their old names so a reader of the
+       * previous shape is not silently given different numbers. */
+      rowsInThisMap: sideCoverage(maps, "canonical").rowsOnThisSide,
+      writes: sideCoverage(maps, "canonical").writes,
+      composedWrites: sideCoverage(maps, "canonical").composedWrites,
+      refusals: sideCoverage(maps, "canonical").refusals,
+      selectionControls: sideCoverage(maps, "canonical").selectionControls,
+      selectionControlsByDisposition: sideCoverage(maps, "canonical").selectionControlsByDisposition,
+      selectionControlsMarkedByThisBuild: sideCoverage(maps, "canonical").selectionControlsMarkedByThisBuild,
+      whichSideTheseUnprefixedFiguresDescribe: "canonical"
     },
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
@@ -2187,9 +2459,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "caption is drawn inside the top of that widget and the CTN/TCN rule closes it at the foot, so confirm the "
         + "first line clears the caption and the last line clears the rule.",
       "Page 1, the conviction table: in the canonical fixture line a carries a crime and a case number and lines b to "
-        + "d are blank; in the boundary fixture lines b, c and d carry them and line a is blank because its case "
-        + "number does not fit the column. The charge-code and date-of-conviction columns are blank in every line of "
-        + "both. Confirm each written cell sits inside its column and under the heading it belongs to.",
+        + "d are blank; in the boundary fixture all four lines carry both. The charge-code and date-of-conviction "
+        + "columns are blank in every line of both. Confirm each written cell sits inside its column and under the "
+        + "heading it belongs to.",
+      "Page 1, the conviction table, boundary fixture, LINE a. This is the one to look hardest at in item 1. Neither "
+        + "of its cells can be shown on one line at a readable size in the column the form prints, so both are drawn "
+        + "at 6pt on two lines inside the cell: the crime wraps at a word boundary and the case number "
+        + "\"2024-0011882-SUPPLEMENTAL-FY\" breaks after its own hyphen. Read it as a clerk transcribing the case "
+        + "number would: confirm the two lines read as one value, that nothing is cut off at the right edge or by the "
+        + "cell rule, and that line a is clearly smaller than lines b to d rather than looking like a different form.",
       "Page 1, the caption: the multiple-case-numbers box is ticked in the boundary fixture and not in the canonical "
         + "one. Confirm the tick is inside its box and that the boundary table really does list more than one case "
         + "number.",
@@ -2255,9 +2533,46 @@ export async function runFamily(argv = process.argv.slice(2)) {
         consequence:
           "Repaired for the two columns the form can take. The crime and the case number of each conviction the "
           + "platform holds are written; the charge-code and conviction-date columns are not, for the two separate "
-          + "reasons below. A conviction line is written whole or withheld whole: the boundary record's row a carries "
-          + "a 28-character case number needing 92.4pt in 92pt of usable column, the fitter refuses it, and the whole "
-          + "row is withheld rather than delivered as a crime with no case number beside it."
+          + "reasons below. A conviction line is still written whole or withheld whole, and no row is delivered with "
+          + "a crime and no case number beside it; the boundary record's row a, which needs two lines, is covered by "
+          + "the wrapped-cell finding below."
+      },
+      {
+        finding:
+          "The field map's BOUNDARY SIDE was the canonical side. `mapFor` ran once, against the canonical render, and "
+          + "its result was assigned to both sides -- boundaryWrites: canonicalWrites, boundaryRefusals: "
+          + "canonicalRefusals -- so the two were not merely equal but the same arrays. On the delivered boundary.pdf "
+          + "that made the map claim ink in item 1 row a where the page was blank, declare eight fields the build "
+          + "actually inked (c2, c3, c4, cno2, cno3, cno4, Explain4, Explain5) as blanks required before filing, and "
+          + "record the canonical settlement basis for a caption box the boundary page ticks. No counter could see it: "
+          + "verify-packet-completeness.mjs consumes canonicalWrites, canonicalRefusals and selectionControls and "
+          + "never the boundary side, so nine zeros stood over a record describing a document nobody had rendered.",
+        consequence:
+          "Repaired at the cause. Each side of the map is generated from the render whose bytes it describes: the "
+          + "canonical side from the canonical render, boundaryWrites, boundaryRefusals, boundarySelectionControls and "
+          + "boundaryExplicitMappings from the boundary render, with `sideGeneration` stating which is which in the "
+          + "artifact itself. reports/actual-writes.json was already per fixture and is unchanged in kind; the map now "
+          + "agrees with it on both fixtures rather than on one."
+      },
+      {
+        finding:
+          "A conviction cell whose held value needs two lines was refused and its whole row withheld. The refusal is "
+          + "the shared fitter's, and it is right for a ruled blank: below 6pt the choice is between an illegible "
+          + "filing and no filing. It is not right for THIS table. Each cell is an open box 21pt tall with no interior "
+          + "rule -- read off the issuer's own widget rectangles -- so a value needing two lines has room for two. The "
+          + "cost of the refusal was a conviction the platform holds missing from a table the court reads as the whole "
+          + "list, which is worse than a smaller two-line entry.",
+        consequence:
+          "A conviction cell refused for width is offered one second chance at 6pt -- the size this same packet "
+          + "already prints this same case number at, in the page-2 and page-3 headers -- through the finalizer's new "
+          + "opt-in wrapInCellFields channel, which also sets the multiline flag on the working copy of that field "
+          + "because pdf-lib lays a value out on one line unless the field says otherwise. The offer is taken only if "
+          + "the drawn lines concatenate back to the held value exactly AND every line but the last ends at a "
+          + "delimiter of the value itself, so no token is broken across lines: a case number cut after \"SUPPLE\" "
+          + "reads as two values, one cut after \"2024-0011882-\" reads as the number it is. A cell that fails that "
+          + "test keeps the old answer and its row is withheld whole. The boundary record's row a is now delivered: "
+          + "the crime over two word-wrapped lines and the case number broken at its own hyphen, both inside their "
+          + "cells and both measured against the clip. The canonical fixture has no such cell and is byte-identical."
       },
       {
         finding:
