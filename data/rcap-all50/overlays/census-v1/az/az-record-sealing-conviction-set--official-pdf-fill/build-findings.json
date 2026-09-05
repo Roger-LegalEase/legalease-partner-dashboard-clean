@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "az_record_sealing_conviction-set",
+  "buildScript": "scripts/build-census-v1-az_record_sealing_conviction-set.mjs",
+  "findings": [
+    {
+      "id": "AZ-SEALING-PRINTED-FOOTER-DISAGREES-WITH-BOUND-IDENTITY",
+      "severity": "recorded_observation",
+      "finding": "Both binaries are bound under their 050625 identities per DET-AZ-SEALING-PRINTED-IDENTITY-IS-050625, and both print the 050825 string in their own page footers on every page - AOCCRSL1F-050825 on all five pages of the petition and AOCCRSL2F-050825 on all three pages of the order - and print no 050625 string anywhere.",
+      "whatThisBuildDid": "Followed the determination: bound both binaries by content hash, recorded them under the 050625 identities, and recorded this measurement beside them in source-receipt.json rather than quietly reconciling it. The determination is not re-opened here.",
+      "whyItMatters": "The bytes the participant files carry the 050825 footer, because they are the exact published bytes and this build changes no footer. A reader comparing the receipt with the artifact will see the difference and should not have to rediscover it."
+    },
+    {
+      "id": "AZ-SEALING-FORM-SHIPS-A-COUNTY-ALREADY-FILLED-IN",
+      "severity": "defect_in_the_official_form",
+      "finding": "Both published binaries ship with the AcroForm text field `County` already carrying the value \"MOHAVE\" - on the line that names the county the petition is filed in, directly under the form's own printed instruction \"Select a county.\"",
+      "whatThisBuildDid": "Writes the participant's own county over it on both documents, and then asserts from the OUTPUT BYTES that no artifact carries the string MOHAVE anywhere unless the participant's county actually is Mohave.",
+      "whyItMatters": "Flattened unchanged, that value would put a wrong county on the face of a petition sworn under penalty of perjury, for every participant in the other fourteen Arizona counties. The shared widget-contribution rule would also have dropped an unwritten field, but a defect this specific earns a check of its own rather than a dependency on a default."
+    },
+    {
+      "id": "AZ-SEALING-ORDER-CARRIES-TWO-SHARED-VALUE-FINDING-CONTROLS",
+      "severity": "defect_in_the_official_form",
+      "finding": "On the order, `Check Box5` carries two widgets and `Check Box20` carries two widgets, and in each case BOTH widgets have the same /Yes appearance state. Marking either one marks both: on Check Box5 that is the finding that the court served the prosecuting agency AND the finding about the sixty-day period, and on Check Box20 it is 'not filed in the correct court' AND 'Other'.",
+      "whatThisBuildDid": "Nothing. Every control on pages 2 and 3 of the order is court-owned and this build marks none of them, so the defect is recorded rather than encountered.",
+      "whyItMatters": "A court or a later build that marks either control through the AcroForm will silently make a second finding it did not intend. Every control this build DOES mark was measured first and each carries its own distinct on-state."
+    },
+    {
+      "id": "AZ-SEALING-PACKET-SET-MANIFEST-COMPONENT-CHECK",
+      "severity": "checked_directly",
+      "finding": "The committed packet-set manifest at data/record-clearing/legal-design-packet-set-manifests.json names exactly three components for this family - az_record_sealing_conviction-primary-filing-1 (required), az_record_sealing_conviction-proposed-order-2 (conditional) and az_record_sealing_conviction-continuation-3 (conditional) - and this build generates all three.",
+      "whatThisBuildDid": "Opened the manifest and compared it component by component, because requiredComponentsMissing derives its denominator from this family's own field map and receipt and never opens that file. The counter cannot report a component the manifest names and the build never mentions.",
+      "whyItMatters": "A Colorado packet passed with nine zeros while shipping two of four required components. The check is here so this family's answer is a measurement rather than a silence."
+    },
+    {
+      "id": "AZ-SEALING-CONTINUATION-IS-CONDITIONAL-AND-ITS-CONDITION-IS-MET",
+      "severity": "recorded_decision",
+      "finding": "The continuation component is conditional on 'For additional counts.' Both fixtures carry more than the 4 counts item 2c holds (5 and 7), so the condition is met, the sheet is generated, and the petition's own 'Additional counts continue on a separate page' control is marked.",
+      "whatThisBuildDid": "Generated the sheet as a composed region of the petition and marked the parent's control. A case with four counts or fewer generates no sheet and leaves that control unmarked; the mark and the sheet are driven by the same fact so they can never disagree.",
+      "whyItMatters": "DET-AZ-CONT-IS-NOT-A-DOCUMENT-AOCCRSL1F-050825-CONT removes the phantom official-form obligation. The sheet is part of the petition, and the control is what says so on the face of the filing."
+    },
+    {
+      "id": "AZ-SEALING-WHAT-THIS-BUILD-WILL-NOT-MARK",
+      "severity": "recorded_decision",
+      "finding": "Eight controls on the petition are left unmarked on purpose: the amended-petition box, request boxes one and two, the ADOC absolute-discharge and probation-discharge answers, the prior-petition-in-this-case answer, the later-conviction answer, the hearing request and the attachments box.",
+      "whatThisBuildDid": "Left each blank, classified each as a genuine participant election, and named every one of them in participant-instructions.md so the participant is asked rather than surprised.",
+      "whyItMatters": "Each is a fact about the participant's record or a decision about their own case that the platform does not hold. A mark on a document sworn under penalty of perjury that the record does not establish is the worst defect this factory can ship, and it is worse than a blank."
+    },
+    {
+      "id": "AZ-SEALING-WHAT-THIS-BUILD-DOES-MARK-AND-WHY",
+      "severity": "recorded_decision",
+      "finding": "Seven controls are marked. Four are route-determined - representing self, request box three, item 4's judgment-of-guilt option, and the additional-counts control - and three transcribe an intake answer the committed registry's generationRequirements name as required: monetary terms satisfied, other terms completed, prior sealing in Arizona, and pending charges.",
+      "whatThisBuildDid": "Measured each control's own appearance states off the bound bytes on this build, asserted the target widget carries the on-state being applied and is neither Hidden nor NoView, set the field value and every widget's appearance state explicitly, and drove each fact-driven mark from the fixture's own answer rather than from a hard-coded state.",
+      "whyItMatters": "A petition that never says which of item 4's three situations it is about is not a petition for this route. And a control whose widgets share one on-state marks more than one thing at once, which is why every state is measured rather than assumed."
+    },
+    {
+      "id": "AZ-SEALING-WHITE-PLACEHOLDER-TEXT-READS-AS-AN-OVERLAP-AND-IS-NOT-ONE",
+      "severity": "measured_and_recorded_for_the_next_reader",
+      "finding": "The petition draws the placeholder 'Click to enter a date' inside nine date fields and 'Select a county.' inside the county field, and every one of those runs is drawn with the fill colour operator `1 g` - WHITE INK ON A WHITE PAGE. It is page content, not a field value: a copy of the source with the AcroForm and every annotation deleted still carries all nine.",
+      "whatThisBuildDid": "Measured the fill colour off the page content stream rather than trusting a text extraction. Two written fields - the date of birth and the date the judgment of guilt was entered - sit exactly on top of a placeholder run, and the county field's value can reach the start of another; none of the three is a visible overlap because none of the placeholders has a visible colour.",
+      "whyItMatters": "pdftotext reports text a reader cannot see. Any text-based visual check over these artifacts will report three overlaps that are not there, and a lane that repairs them will be repairing nothing. The measurement is recorded here so the next reader checks the colour before believing the extraction."
+    },
+    {
+      "id": "AZ-SEALING-SOURCES-RESOLVED-BY-HASH-NOT-BY-PATH",
+      "severity": "recorded_method",
+      "finding": "The SHA-256 index built over the mounted custodies on this build carries 500 files and 500 distinct digests, and both source digests resolve inside it.",
+      "whatThisBuildDid": "Refused to believe any absence from an index it had not first proved non-empty, and recorded the declared paths as the thing that was declared rather than using them to find anything.",
+      "whyItMatters": "A scan that indexed zero files once reported every digest in the repository as missing."
+    }
+  ],
+  "selfHelpStopConditionsCarried": 11,
+  "reviewStatus": "qa_review_pending"
+}

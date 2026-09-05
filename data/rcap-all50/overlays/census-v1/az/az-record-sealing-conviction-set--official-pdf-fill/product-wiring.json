@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-product-wiring/v1",
+  "familyId": "az_record_sealing_conviction-set",
+  "routeKeys": [
+    "obligation:track-only:AZ:az_record_sealing_conviction"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "buildScript": "scripts/build-census-v1-az_record_sealing_conviction-set.mjs",
+  "directory": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-conviction-set--official-pdf-fill",
+  "commercialAuthority": "none. A built family is a built family: it is not verified, not approved, not sellable, and this build opens no route.",
+  "requiredFactsForGeneration": [
+    {
+      "key": "caseNumberAndCourt",
+      "question": "What is the case number, and which court convicted you?",
+      "requirement": "required"
+    },
+    {
+      "key": "offenceClassAndSection",
+      "question": "What was the offence, its statute section, and its class?",
+      "requirement": "required"
+    },
+    {
+      "key": "sentenceCompletionDate",
+      "question": "On what date did you complete the nonmonetary terms of probation or sentence and get discharged by the court?",
+      "requirement": "required"
+    },
+    {
+      "key": "monetaryObligationsPaid",
+      "question": "Have all fines, fees and victim restitution been paid?",
+      "requirement": "required"
+    },
+    {
+      "key": "priorSealing",
+      "question": "Have you had records sealed in Arizona before?",
+      "requirement": "required"
+    },
+    {
+      "key": "priorDenial",
+      "question": "Has a sealing petition of yours been denied in the last three years?",
+      "requirement": "required"
+    },
+    {
+      "key": "pendingCharges",
+      "question": "Do you have any charge pending now?",
+      "requirement": "required"
+    },
+    {
+      "key": "bestInterestsFacts",
+      "question": "In your own words, why is sealing in your best interests and consistent with public safety?",
+      "requirement": "required"
+    }
+  ]
+}
