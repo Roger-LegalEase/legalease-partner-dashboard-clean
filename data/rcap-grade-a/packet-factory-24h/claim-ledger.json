@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "fcf0930c8a07eca34ba7b629346687b085559178",
+  "generatedAtCommit": "c7116a38f447ce6fa3c6f54ea4a137ccd2aa4d24",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4414,8 +4414,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T16:43:47.920Z",
+      "releaseReason": "VF01 BLOCKED_LEGAL_INPUT at b35fbc6ed: fourteen obligations pass on the FIX45 bytes (canonical 8b931df1, boundary 8e967c9d, RASTER_PASS run 33976214998); KNOWN_PREFILLS blocks on the open Louisiana counsel question whether the motion's conviction offence wording and statute are prefilled as neutral case fields per LA.memo.json or left as captioned blanks as the build declares. Return at data/rcap-grade-a/packet-factory-24h/vf01/rows.json (Captain release after integrating VF01 commit 7d2204c9d)."
     },
     {
       "subjectType": "packet-family",
@@ -7381,11 +7382,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX37",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T16:40:20.392Z",
-      "releaseReason": "Repaired CLIPPING_AND_OVERLAP: pages 9 and 24 now print the census route key obligation:track-only:TX:tx_nd_dwi_deferred instead of the DWI-probation sibling's track-pathway key, with the line unmoved and 22 of 24 pages pixel-identical; central raster on the new digests and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix37/rows.json (Replayed by Captain from FIX37 commit bb83149f0.)"
+      "releasedAt": "2026-09-05T16:40:20.392Z"
     },
     {
       "subjectType": "packet-family",
@@ -13014,7 +13014,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "643413a9393a168f7ab9d8ae940c8cb911500d85bfc2140dcaebe80fe7716d65",
+  "claimsDigest": "ef1a65f47a040b62eafa51951e56650c8475681f79d1b4761763bc2ccba68c2c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28338,6 +28338,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T16:40:20.392Z",
       "reason": "Repaired CLIPPING_AND_OVERLAP: pages 9 and 24 now print the census route key obligation:track-only:TX:tx_nd_dwi_deferred instead of the DWI-probation sibling's track-pathway key, with the line unmoved and 22 of 24 pages pixel-identical; central raster on the new digests and independent verification are still owed; return at data/rcap-grade-a/packet-factory-24h/fix37/rows.json (Replayed by Captain from FIX37 commit bb83149f0.)"
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "la-987-set-aside-and-dismiss-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T16:43:47.920Z",
+      "reason": "VF01 BLOCKED_LEGAL_INPUT at b35fbc6ed: fourteen obligations pass on the FIX45 bytes (canonical 8b931df1, boundary 8e967c9d, RASTER_PASS run 33976214998); KNOWN_PREFILLS blocks on the open Louisiana counsel question whether the motion's conviction offence wording and statute are prefilled as neutral case fields per LA.memo.json or left as captioned blanks as the build declares. Return at data/rcap-grade-a/packet-factory-24h/vf01/rows.json (Captain release after integrating VF01 commit 7d2204c9d)."
     }
   ],
   "reissues": [
