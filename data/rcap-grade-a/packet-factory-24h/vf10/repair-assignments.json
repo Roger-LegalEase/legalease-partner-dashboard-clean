@@ -287,94 +287,160 @@
     "ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, ROUTE_OPTIONS, PROTECTED_FIELDS, ARTIFACTS and PAGE_ORDER all PASS on this family and were measured, not assumed. The source binds exactly (c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1,924,831 B, three places agreeing) and both fixture hashes recompute to what the reports record. Do not re-derive any of that in the repair."
    ]
   },
+  {
+   "itemId": "pa_pardon_expungement-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+   "assignedBy": "FABLE-RVD (RV-D), lane VF10",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "decisiveDefect": "Two mapped known prefills, AddrState and AddrZip, are declared written on the boundary fixture and are absent from its bytes, and the loss is disclosed nowhere in the family. The packet also tells the participant that a telephone number and an email address were prefilled when the petition form carries no such field.",
+   "failedProofObligations": [
     {
-      "itemId": "pa_pardon_expungement-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
-      "assignedBy": "FABLE-RVD (RV-D), lane VF10",
-      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
-      "decisiveDefect": "Two mapped known prefills, AddrState and AddrZip, are declared written on the boundary fixture and are absent from its bytes, and the loss is disclosed nowhere in the family. The packet also tells the participant that a telephone number and an email address were prefilled when the petition form carries no such field.",
-      "failedProofObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "production-field-map.json lists AddrState and AddrZip in boundaryWrites for PA-RCRIM-P-790-PETITION, so a reader that trusts any row whose decision is not refuse counts nine boundary writes. The boundary fixture's bytes carry seven. Canonical page 1 prints '42 Maple Street', 'Philadelphia', 'PA', '19107'; boundary page 1 prints '1188 Upper Notch Crossing Road, Apartment 14B', 'Wilkes-Barre Township' and then stops. The family's own reports/actual-writes.json already records 7 for the boundary petition, so the field map and the byte proof contradict each other inside one directory.",
-          "howToProve": "Decode the page content streams of fixtures/boundary.pdf and fixtures/canonical.pdf — both are flattened and carry no AcroForm — and compare against the pinned source at STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf."
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "participant-instructions.md line 5 states 'The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number.' No telephone number and no email address appears in either fixture, and the petition form has no telephone or email field among its 76.",
-          "howToProve": "Search both fixtures for any phone- or email-shaped value; enumerate the source form's fields."
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Because the build believes AddrState and AddrZip were written, neither appears among the 78 requiredBeforeFiling items, so on the boundary path the petition is filed with a street address and a city and no state and no ZIP and the packet never asks anyone to complete them."
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet carries no self-help boundary at all. None of the registry's three selfHelpStopConditions for pa_pardon_expungement appears, verbatim or in substance; participant-instructions.md has no section for them and neither do the two process-guidance pages. The document never tells the participant to seek a lawyer. The load-bearing omission is the first condition — that the participant has not yet obtained a pardon, the pardon application itself being out of scope and a referral — so nothing in the packet establishes that a pardon must already have been granted before this petition is filed."
-        }
-      ],
-      "repairInstruction": "Three things, in this order. First, settle what the boundary path actually writes: either make the two address fields fit and write them, or refuse them and record the refusal the way this repository's other families do — an unfittable entry carrying the field, factId, value, measured rect, minimum font size and required width, exactly as ma-expunge-time-set and id_isp_expungement-set already do — and add both to requiredBeforeFiling so the participant is asked for them. Do not leave production-field-map.json declaring a write the paper does not carry. Second, correct participant-instructions.md line 5 so it names only what is prefilled; the telephone and email claims must go. Third, add a self-help section carrying the registry's three stop conditions for pa_pardon_expungement in the registry's own words, and name the office or the lawyer that answers where self-help ends.",
-      "doNotDo": "Do not close the KNOWN_PREFILLS defect by deleting the two rows from boundaryWrites without deciding whether the participant is asked for the values. Silence in the field map and silence to the participant is the defect, not the row.",
-      "obligationsAlreadyPassing": [
-        "ROUTE_IDENTITY",
-        "SOURCE_IDENTITY",
-        "COMPONENT_SET",
-        "ROUTE_OPTIONS",
-        "REPEATING_ROWS",
-        "PROTECTED_FIELDS",
-        "ARTIFACTS",
-        "PAGE_ORDER",
-        "CLIPPING_AND_OVERLAP",
-        "FILING_DESTINATION",
-        "FEE_AND_WAIVER",
-        "SERVICE"
-      ],
-      "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "production-field-map.json lists AddrState and AddrZip in boundaryWrites for PA-RCRIM-P-790-PETITION, so a reader that trusts any row whose decision is not refuse counts nine boundary writes. The boundary fixture's bytes carry seven. Canonical page 1 prints '42 Maple Street', 'Philadelphia', 'PA', '19107'; boundary page 1 prints '1188 Upper Notch Crossing Road, Apartment 14B', 'Wilkes-Barre Township' and then stops. The family's own reports/actual-writes.json already records 7 for the boundary petition, so the field map and the byte proof contradict each other inside one directory.",
+     "howToProve": "Decode the page content streams of fixtures/boundary.pdf and fixtures/canonical.pdf — both are flattened and carry no AcroForm — and compare against the pinned source at STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf."
     },
     {
-      "itemId": "rcap-tx-custom-pleading",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "lane": "VF10",
-      "assignedBy": "Codex VF10 independent verification",
-      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
-      "decisiveDefect": "The delivered Statement mishandles a known date of birth on two pages and the common eight-route instructions omit 20 of the route registry's 26 unique self-help stop conditions. The focused verifier and central raster both report zero problems because the page-11 date blank is a non-AcroForm printed line and the route-specific legal stops are outside their structural counters.",
-      "failedProofObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "On packet page 2 both fixtures place a raw ISO date (1994-04-17 / 1972-12-31) over the official form's explicitly labelled Month Day Year line, reversing the requested presentation order. On packet page 11 the Option 1 'My date of birth is / Mi fecha de nacimiento es' three-part line remains blank in both fixtures even though DOB is held. Text readback finds each DOB value exactly once, while the Statement asks for it twice. The page-11 line is not an AcroForm field, is absent from field-census.census-v1.json and therefore evades knownRequiredFieldsMissing.",
-          "repairRequired": "Render the held date in month-day-year form on page 2 and overlay the same correctly presented date on the Option 1 date line on page 11 in both fixtures. Inventory the non-widget page-11 blank so future completeness checks can see it. Rebuild, rehash, raster all pages and independently reread both occurrences."
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The map and instructions disclose all 96 inventoried required refusals but never disclose the page-11 Option 1 DOB blank. The instructions instead state that the platform filled the date of birth. A participant choosing Option 1 is thus left with a required declaration fact blank and no direction to complete it.",
-          "repairRequired": "The preferred repair is to prefill the held DOB on page 11. If the repaired renderer cannot safely write that printed line, classify and disclose it as a conditional required-before-filing item for Option 1 and correct the statement that DOB is already filled. Do not leave the paper, field inventory and participant instructions in disagreement."
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "Across tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity and tx_exp_specialty_court, the current legal-design intake carries 26 unique selfHelpStopConditions: nine shared and 17 route-specific. The packet carries six shared conditions in substance, narrows 'Immigration consequences' to non-citizenship, and omits the other 20. Missing shared conditions are venue uncertainty across counties, immigration consequences generally and an attempt to attack the underlying case. Missing route-specific conditions are: no-charge -- whether prosecution remains possible and whether Class C deferred disposition is community supervision; dismissed -- unstated dismissal reason, deferred adjudication rather than dismissal, and whether diversion was authorised under Government Code 76.011; limitations -- computing/tolling the limitations period and any tolling by absence, indictment or another event; pardon-innocence -- actual-innocence wording absent and clemency/habeas relief still being sought; pardon-other -- document not confirmed as a pardon; unlawful-carry -- offence date/subsection unconfirmed; mistaken-identity -- identity dispute, prosecutor refusal to verify, and unavailable authenticated fingerprints; specialty-court -- no state-attorney consent, closed 30-day window and prior expunction on the same ground.",
-          "repairRequired": "Make the stop guidance route-aware. For the selected route, carry all nine common registry stops plus that track's exact route-specific stops, without replacing 'Immigration consequences' with the narrower citizenship test. The composed PDF and participant-instructions.md must agree. Rebuild and independently reread every served route variant; one undifferentiated seven-bullet list is not sufficient for eight legally different routes."
-        }
-      ],
-      "obligationsAlreadyPassing": [
-        "ROUTE_IDENTITY",
-        "SOURCE_IDENTITY",
-        "COMPONENT_SET",
-        "ROUTE_OPTIONS",
-        "REPEATING_ROWS",
-        "PROTECTED_FIELDS",
-        "ARTIFACTS",
-        "PAGE_ORDER",
-        "CLIPPING_AND_OVERLAP",
-        "FILING_DESTINATION",
-        "FEE_AND_WAIVER",
-        "SERVICE"
-      ],
-      "freshAcceptanceRequired": "After repair, rerun the focused completeness verifier, regenerate canonical and boundary artifacts, obtain a new exact-SHA whole-family raster receipt, and have an independent verifier visually reread the two DOB locations and compare the selected route's complete stop list against its current registry entry.",
-      "whatThisDoesNotChange": "The official source hash, eight served conditional component ids, filing destination, fee/waiver rule and service rule all passed at this base. Do not replace the official form, change route membership or duplicate the form eight times merely to repair these defects. This assignment opens no commercial route and approves no output."
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "participant-instructions.md line 5 states 'The platform filled in what it holds about you: your name, your date of birth, your address, your telephone number, your email and your docket number.' No telephone number and no email address appears in either fixture, and the petition form has no telephone or email field among its 76.",
+     "howToProve": "Search both fixtures for any phone- or email-shaped value; enumerate the source form's fields."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "Because the build believes AddrState and AddrZip were written, neither appears among the 78 requiredBeforeFiling items, so on the boundary path the petition is filed with a street address and a city and no state and no ZIP and the packet never asks anyone to complete them."
+    },
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "The packet carries no self-help boundary at all. None of the registry's three selfHelpStopConditions for pa_pardon_expungement appears, verbatim or in substance; participant-instructions.md has no section for them and neither do the two process-guidance pages. The document never tells the participant to seek a lawyer. The load-bearing omission is the first condition — that the participant has not yet obtained a pardon, the pardon application itself being out of scope and a referral — so nothing in the packet establishes that a pardon must already have been granted before this petition is filed."
     }
-  ],
+   ],
+   "repairInstruction": "Three things, in this order. First, settle what the boundary path actually writes: either make the two address fields fit and write them, or refuse them and record the refusal the way this repository's other families do — an unfittable entry carrying the field, factId, value, measured rect, minimum font size and required width, exactly as ma-expunge-time-set and id_isp_expungement-set already do — and add both to requiredBeforeFiling so the participant is asked for them. Do not leave production-field-map.json declaring a write the paper does not carry. Second, correct participant-instructions.md line 5 so it names only what is prefilled; the telephone and email claims must go. Third, add a self-help section carrying the registry's three stop conditions for pa_pardon_expungement in the registry's own words, and name the office or the lawyer that answers where self-help ends.",
+   "doNotDo": "Do not close the KNOWN_PREFILLS defect by deleting the two rows from boundaryWrites without deciding whether the participant is asked for the values. Silence in the field map and silence to the participant is the defect, not the row.",
+   "obligationsAlreadyPassing": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE"
+   ],
+   "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+  },
+  {
+   "itemId": "rcap-tx-custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "lane": "VF10",
+   "assignedBy": "Codex VF10 independent verification",
+   "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
+   "decisiveDefect": "The delivered Statement mishandles a known date of birth on two pages and the common eight-route instructions omit 20 of the route registry's 26 unique self-help stop conditions. The focused verifier and central raster both report zero problems because the page-11 date blank is a non-AcroForm printed line and the route-specific legal stops are outside their structural counters.",
+   "failedProofObligations": [
+    {
+     "obligation": "KNOWN_PREFILLS",
+     "finding": "On packet page 2 both fixtures place a raw ISO date (1994-04-17 / 1972-12-31) over the official form's explicitly labelled Month Day Year line, reversing the requested presentation order. On packet page 11 the Option 1 'My date of birth is / Mi fecha de nacimiento es' three-part line remains blank in both fixtures even though DOB is held. Text readback finds each DOB value exactly once, while the Statement asks for it twice. The page-11 line is not an AcroForm field, is absent from field-census.census-v1.json and therefore evades knownRequiredFieldsMissing.",
+     "repairRequired": "Render the held date in month-day-year form on page 2 and overlay the same correctly presented date on the Option 1 date line on page 11 in both fixtures. Inventory the non-widget page-11 blank so future completeness checks can see it. Rebuild, rehash, raster all pages and independently reread both occurrences."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "The map and instructions disclose all 96 inventoried required refusals but never disclose the page-11 Option 1 DOB blank. The instructions instead state that the platform filled the date of birth. A participant choosing Option 1 is thus left with a required declaration fact blank and no direction to complete it.",
+     "repairRequired": "The preferred repair is to prefill the held DOB on page 11. If the repaired renderer cannot safely write that printed line, classify and disclose it as a conditional required-before-filing item for Option 1 and correct the statement that DOB is already filled. Do not leave the paper, field inventory and participant instructions in disagreement."
+    },
+    {
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Across tx_exp_no_charge, tx_exp_dismissed, tx_exp_limitations, tx_exp_pardon_innocence, tx_exp_pardon_other, tx_exp_unlawful_carry, tx_exp_mistaken_identity and tx_exp_specialty_court, the current legal-design intake carries 26 unique selfHelpStopConditions: nine shared and 17 route-specific. The packet carries six shared conditions in substance, narrows 'Immigration consequences' to non-citizenship, and omits the other 20. Missing shared conditions are venue uncertainty across counties, immigration consequences generally and an attempt to attack the underlying case. Missing route-specific conditions are: no-charge -- whether prosecution remains possible and whether Class C deferred disposition is community supervision; dismissed -- unstated dismissal reason, deferred adjudication rather than dismissal, and whether diversion was authorised under Government Code 76.011; limitations -- computing/tolling the limitations period and any tolling by absence, indictment or another event; pardon-innocence -- actual-innocence wording absent and clemency/habeas relief still being sought; pardon-other -- document not confirmed as a pardon; unlawful-carry -- offence date/subsection unconfirmed; mistaken-identity -- identity dispute, prosecutor refusal to verify, and unavailable authenticated fingerprints; specialty-court -- no state-attorney consent, closed 30-day window and prior expunction on the same ground.",
+     "repairRequired": "Make the stop guidance route-aware. For the selected route, carry all nine common registry stops plus that track's exact route-specific stops, without replacing 'Immigration consequences' with the narrower citizenship test. The composed PDF and participant-instructions.md must agree. Rebuild and independently reread every served route variant; one undifferentiated seven-bullet list is not sufficient for eight legally different routes."
+    }
+   ],
+   "obligationsAlreadyPassing": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE"
+   ],
+   "freshAcceptanceRequired": "After repair, rerun the focused completeness verifier, regenerate canonical and boundary artifacts, obtain a new exact-SHA whole-family raster receipt, and have an independent verifier visually reread the two DOB locations and compare the selected route's complete stop list against its current registry entry.",
+   "whatThisDoesNotChange": "The official source hash, eight served conditional component ids, filing destination, fee/waiver rule and service rule all passed at this base. Do not replace the official form, change route membership or duplicate the form eight times merely to repair these defects. This assignment opens no commercial route and approves no output."
+  },
+  {
+   "itemId": "nv_seal_probation_family-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+   "assignedBy": "VF-D independent-verification cohort",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading",
+   "decisiveDefect": "Nothing in this family binds either of its two codified grounds by SHA-256. source-receipt.json names data/record-clearing/legal-design-intake/NV.memo.json and data/record-clearing/legal-design-packet-set-manifests.json as the records the build is grounded on and asserts they were 'verified present and un-drifted before anything is composed', but records no digest for either, so the assertion cannot be checked and drift in either record would be undetectable. The builder does not bind them either: scripts/build-census-v1-nv_seal_probation_family-set.mjs calls crypto.createHash only on the output packet bytes and on the raster PNGs. The only 64-hex digests anywhere in the family directory are the two artifact hashes. Every other family in this cohort binds its committed grounds by exact SHA-256 with an anchorStatementsVerified count, so the standard is met elsewhere and missed here.",
+   "failedProofObligations": [
+    {
+     "obligation": "SOURCE_IDENTITY",
+     "finding": "The receipt names two codified grounds and binds neither by SHA-256, so there is no digest to recompute and the receipt's own 'un-drifted' claim is unfalsifiable from the record. The builder hashes only its output bytes and its raster PNGs, never the grounds. This is not the unmounted-corpus limit: both grounds are committed repository records, present and readable in this container, and would have rehashed exactly had a digest been recorded to compare against.",
+     "evidence": {
+      "committedRecordsBound": 0,
+      "groundsNamedWithoutDigest": [
+       "data/record-clearing/legal-design-intake/NV.memo.json",
+       "data/record-clearing/legal-design-packet-set-manifests.json"
+      ],
+      "onlyDigestsInFamilyDirectory": "the two artifact hashes",
+      "builderHashesOnly": [
+       "output packet bytes",
+       "raster PNGs"
+      ],
+      "currentGroundHashes": {
+       "data/record-clearing/legal-design-intake/NV.memo.json": "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5",
+       "data/record-clearing/legal-design-packet-set-manifests.json": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec"
+      },
+      "notAnEnvironmentLimit": true
+     }
+    }
+   ],
+   "smallestExactRepair": "Add a committedRecords array to source-receipt.json binding both codified grounds by exact SHA-256 and byteLength recomputed from the bytes at build time, with an anchorStatementsVerified count, in the same shape the other five families in this cohort already use; and have the builder recompute and assert those digests before composing, so a drifted ground fails the build instead of passing silently. At this base the bytes are NV.memo.json sha256 113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5 (312293 bytes) and legal-design-packet-set-manifests.json sha256 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec (3683419 bytes). Nothing else in this family needs to move.",
+   "obligationsThatPassAndMustNotMove": [
+    "ROUTE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+   ],
+   "nineCountersAtThisBase": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "whyNoCounterSawIt": "Recomputed here with the repository's own completeness verifier. All nine zero. The failure below is one no completeness counter can see: a source-authored binding is invisible to every one of the nine.",
+   "repairedNothingHere": "This lane verifies and does not repair. No builder, packet, field map or fixture was edited."
+  }
+ ],
  "fableVA10Note": "The one assignment above FABLE-VA10's belongs to an earlier roster (ut_pet_traffic-set) and is left exactly as that lane wrote it; assignment ids are reused across shifts, so these six were written beside it rather than over it, and each carries a VA10- prefixed assignmentId, its own verifiedAtBase and raisedBy FABLE-VA10. The file's top-level generatedAtBase still describes the earlier lane's assignment, not these.",
- "vtcAppendNote": "VT-C appended one repair assignment (nj_arrest_no_conviction-set) at base a0d49e1ad49ad4397eac4b009225baf0b94bf03e and re-serialised no earlier entry. VT-C's other seven families — ar-nonconviction-seal-set, composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief, tx_exp_acquittal-set, wa_vac_survivor_misdemeanor-set, ca-851-91-set, wv_conv_multiple_misdemeanors-set and ut_pet_conviction-set — returned PASS_COMPLETE_INDEPENDENT and carry no repair assignment."
+ "vtcAppendNote": "VT-C appended one repair assignment (nj_arrest_no_conviction-set) at base a0d49e1ad49ad4397eac4b009225baf0b94bf03e and re-serialised no earlier entry. VT-C's other seven families — ar-nonconviction-seal-set, composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief, tx_exp_acquittal-set, wa_vac_survivor_misdemeanor-set, ca-851-91-set, wv_conv_multiple_misdemeanors-set and ut_pet_conviction-set — returned PASS_COMPLETE_INDEPENDENT and carry no repair assignment.",
+ "vfdRead": {
+  "reader": "VF-D independent-verification cohort",
+  "generatedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "added": 1
+ }
 }

@@ -101,160 +101,165 @@
    "alsoRecordedNotAFailure": "reports/actual-writes.json records expected \"\" — an empty string — for all 13 AcroForm writes on this family, so its foundInOutputBytes: true proves nothing about them. The packet is correct: this lane located all 13 values geometrically inside their own widget rectangles in both fixtures. But the evidence file is not load-bearing as written and a later lane should not be asked to trust it. Worth fixing alongside, in the same script's write-reporting path.",
    "whatThisDoesNotChange": "Thirteen of fifteen obligations pass on measurement made in this lane at this base, including all three source digests rehashed byte-exact in two independent custodies and agreeing with the committed corpus index, both artifact digests recomputed from the PDF bytes, all 67 same-baseline overlap pairs classified as a value on its own underscore rule with zero value-on-value and zero overruns, the five dependant rows wholly blank with incompleteRows 0, and a fee-and-waiver treatment that names both the figure that applies and the figure that does not. Neither failure touches source fidelity."
   },
+  {
+   "itemId": "in_arrest_no_charges-set",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
+   "assignedBy": "FABLE-RVD (RV-D), lane VF11",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "decisiveDefect": "Fourteen of the 140 declared blanks carry category null and why null, six of them captions sharing one label; and the packet attributes to the committed record an early-filing exception the registry does not contain.",
+   "failedProofObligations": [
     {
-      "itemId": "in_arrest_no_charges-set",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
-      "assignedBy": "FABLE-RVD (RV-D), lane VF11",
-      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
-      "decisiveDefect": "Fourteen of the 140 declared blanks carry category null and why null, six of them captions sharing one label; and the packet attributes to the committed record an early-filing exception the registry does not contain.",
-      "failedProofObligations": [
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "Under 'less than a year has passed' the packet states that the committed record 'records one exception: early filing is permitted on the written agreement of the prosecuting attorney'. The registry records no such exception. Track in_arrest_no_charges holds exactly one waitingPeriods entry — condition 'The arrest, with no charges pending', duration 'One year' — and the strings 'agreement', 'consent' and 'earlier' do not occur anywhere in the track. The nearest text is an exclusion about pretrial diversion, 'Persons currently in a pretrial diversion programme unless the prosecuting attorney authorises', which is not an early-filing exception. This is a composed legal proposition presented as a quotation from the record, and it invites filing before the statutory year on an agreement the record never authorises.",
-          "howToProve": "Read the track's waitingPeriods and exclusions in data/record-clearing/legal-design-track-registry.json and search the track for 'agreement'."
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "unclassifiedBlanks 14. In reports/blanks-left-for-the-participant.json, 14 of 140 blanks carry category null and why null. Six are Caption1 through Caption6, every one labelled only 'Caption', so a caption repeating across six rows names no fact for any row. AdditionalInformation on page 2 carries the literal string 'null' as its effectiveLabel, and LEA1, LEA2 and Date4 are labelled from truncated form text as 'b', 'd' and 'I hereby certify that o'."
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "participant-instructions.md tells the reader to hand-copy the caption across every document because 'none of them has boxes for it'. The bytes contradict this: cap-PetitionerFullName is one field with 14 widgets and prints on pages 1, 3, 5, 7, 8, 9 and 13, and cap-COUNTY is one field with 8 widgets and prints on pages 1, 3, 7 and 9. The instruction also says the packet filled in 'on the Appearance only'."
-        }
-      ],
-      "repairInstruction": "Give each of the 14 blanks a category and a why. For Caption1 through Caption6, read the printed caption at each widget's own measured position and record which fact each row takes, as id_isp_expungement-set does with its printedLabelCorrections; six rows sharing the label 'Caption' is the defect. Repair the label harvest that produced 'null', 'b', 'd' and 'I hereby certify that o'. Then correct the two participant sentences so they describe the artifact: the caption is already printed on pages 3, 5, 7, 8, 9 and 13 and the reader should check it rather than copy it. Finally, delete the prosecuting-attorney early-filing exception, or ground it in a committed record and cite that record.",
-      "notADefect": "The insert-form repair holds and needs no further work. The insert document renders 4 pages, its canonical and boundary fixtures are byte-identical, its page content is line-for-line identical to the pinned source, and the shared-name hazard it guards against is real: 33 of the form's 77 distinct field names carry widgets on more than one page, spanning the petition's Facts pages, the order's Findings page and Exhibit A. The eleven added stop conditions are the registry's own words and no sentence tells the participant to attend a hearing. Leave all of that alone.",
-      "obligationsAlreadyPassing": [
-        "ROUTE_IDENTITY",
-        "SOURCE_IDENTITY",
-        "COMPONENT_SET",
-        "KNOWN_PREFILLS",
-        "ROUTE_OPTIONS",
-        "REPEATING_ROWS",
-        "PROTECTED_FIELDS",
-        "ARTIFACTS",
-        "PAGE_ORDER",
-        "CLIPPING_AND_OVERLAP",
-        "FILING_DESTINATION",
-        "FEE_AND_WAIVER",
-        "SERVICE"
-      ],
-      "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+     "obligation": "SELF_HELP_STOP",
+     "finding": "Under 'less than a year has passed' the packet states that the committed record 'records one exception: early filing is permitted on the written agreement of the prosecuting attorney'. The registry records no such exception. Track in_arrest_no_charges holds exactly one waitingPeriods entry — condition 'The arrest, with no charges pending', duration 'One year' — and the strings 'agreement', 'consent' and 'earlier' do not occur anywhere in the track. The nearest text is an exclusion about pretrial diversion, 'Persons currently in a pretrial diversion programme unless the prosecuting attorney authorises', which is not an early-filing exception. This is a composed legal proposition presented as a quotation from the record, and it invites filing before the statutory year on an agreement the record never authorises.",
+     "howToProve": "Read the track's waitingPeriods and exclusions in data/record-clearing/legal-design-track-registry.json and search the track for 'agreement'."
     },
     {
-      "itemId": "rcap-ms-custom-pleading",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
-      "assignedBy": "FABLE-RVD (RV-D), lane VF11",
-      "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
-      "decisiveDefect": "requiredComponentsMissing 3. Each of the three Mississippi tracks is missing its required attachment-4 component, and the gap is hidden because the filing instructions were built under the id filing-instructions-4 and occupy the missing component's ordinal. This is the same ordinal collision that was repaired in rcap-wv-custom-pleading, unrepaired here and present on all three tracks at once.",
-      "failedProofObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "The registry packetSets for ms-drug-cd, ms-dui and ms-mip each declare five components, every one requirement 'required' with no conditional limb: primary-filing-1, proposed-order-2, certificate-of-service-3, attachment-4 (role attachment, process_guidance) and instructions-5 (role instructions, process_guidance). The rendered componentSet carries four per track, ending filing-instructions-4. So ordinals read 1,2,3,4 — unique and contiguous within each track — and an ordinal-based check sees a complete set while attachment-4 is absent from all three and no component exists under the id instructions-5.",
-          "howToProve": "Compare the rendered componentSet in reports/rendered-artifacts.json against each track's packetSet.components in data/record-clearing/legal-design-track-registry.json BY NAME, not by ordinal."
-        },
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "The missing component is substantive, not a formality. Mississippi's registry holds twelve participantFilingRequirements across the three tracks — four for ms-drug-cd, five for ms-dui, three for ms-mip, including the certified conditional discharge and discharge-and-dismissal orders, the blood or breath test result or documentation that no test was refused, the certified driving record and the clerk's zero-balance account sheet. None of the 26 delivered pages of the canonical fixture carries a records-to-obtain checklist. The list exists only in participant-instructions.md, which is not a delivered packet component.",
-          "howToProve": "Search all 26 delivered pages for the requirement names; they are absent."
-        }
-      ],
-      "repairInstruction": "Build the missing attachment-4 component for each of the three tracks and renumber the filing instructions to instructions-5, so the delivered componentSet matches each registry packetSet by name. Model it on the repair already made to rcap-wv-custom-pleading, whose records-checklist-4 renders as its own packet pages and reproduces that track's participantFilingRequirements verbatim — name, who holds it, how to obtain it, the condition where conditional, and which participant answer each record checks. Then re-render both fixtures, re-hash, and re-run the builder counters, which currently report requiredComponentsMissing 0.",
-      "checkTheOtherFamilies": "The collision is a class, not an incident. Any family whose delivered componentIds are compared to the registry by ordinal rather than by name can hide a missing component the same way. Worth a sweep of every custom_pleading family whose registry packetSet ends in a process_guidance pair.",
-      "notADefect": "FEE_AND_WAIVER passes and needs no change. The packet publishes no amount, reproduces each track's registry fee and waiver rules verbatim with § 99-19-72's limit intact, states each petition's own subsection, declines to decide the reach, and names the clerk — the circuit clerk on the DUI route. No rescinded figure appears anywhere in the family and nothing is read across from a sibling route. All fifteen registry stop conditions appear verbatim, including the DUI track's blanket mandatory-attorney-review stop. Leave all of that alone.",
-      "adr0004": "Mississippi's legacy commercial authority was retired on 2026-08-28. That retirement is not the defect recorded here and this assignment does not touch it. Completing this repair restores no authority, opens no route and sets no price.",
-      "obligationsAlreadyPassing": [
-        "ROUTE_IDENTITY",
-        "SOURCE_IDENTITY",
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "ROUTE_OPTIONS",
-        "REPEATING_ROWS",
-        "PROTECTED_FIELDS",
-        "ARTIFACTS",
-        "PAGE_ORDER",
-        "CLIPPING_AND_OVERLAP",
-        "FILING_DESTINATION",
-        "FEE_AND_WAIVER",
-        "SERVICE",
-        "SELF_HELP_STOP"
-      ],
-      "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "unclassifiedBlanks 14. In reports/blanks-left-for-the-participant.json, 14 of 140 blanks carry category null and why null. Six are Caption1 through Caption6, every one labelled only 'Caption', so a caption repeating across six rows names no fact for any row. AdditionalInformation on page 2 carries the literal string 'null' as its effectiveLabel, and LEA1, LEA2 and Date4 are labelled from truncated form text as 'b', 'd' and 'I hereby certify that o'."
     },
     {
-      "assignmentId": "VF11-NATIONAL-ND-BOUNDARY-FOOTER-OVERFLOW-001",
-      "issuedBy": "VF11",
-      "issuedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-      "itemId": "rcap-nd-custom-pleading",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
-      "decisiveDefect": "The boundary fixture's long identity/contact block pushes the pardoned-conviction primary filing's route footer onto a standalone otherwise blank page. Boundary page 19 contains only the two-word, 59-character route footer; the equivalent canonical component ends on page 18.",
-      "failedProofObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Canonical.pdf is 35 pages and its pardoned-conviction primary filing occupies pages 16-18. Boundary.pdf is 36 pages and that component occupies pages 16-19. Boundary page 18 contains the substantive end of the petition and the long participant contact block; page 19 contains only 'Route: obligation:track-only:ND:nd-seal-pardoned-conviction'. Direct extraction finds 2 words and 59 characters on page 19. The central receipt reports 71 pages and zero machine problems, but independent full-page rendering confirms the orphaned-page overflow."
-        }
-      ],
-      "repairInstruction": "Adjust pagination in scripts/build-census-v1-rcap-nd-custom-pleading.mjs so the route footer remains with meaningful content for the pardoned-conviction boundary component. Keep the long boundary values visible and untruncated; do not solve the defect by clipping, shrinking them below a legible size, deleting the route footer, or moving another isolated fragment onto page 19. Re-render both fixtures and inspect every page for orphaned headings, footers and continuation fragments.",
-      "howToProveTheRepair": [
-        "Read the repaired boundary PDF page by page and show that no page contains only a route footer or another orphaned fragment.",
-        "Compare canonical and boundary component manifests and explain any remaining page-count difference with substantive content on every page.",
-        "Recompute both artifact hashes and the documents digest, obtain a fresh exact-hash whole-family raster receipt, and have a lane that neither built nor repaired the new bytes rerun all fifteen obligations."
-      ],
-      "repairMustPreserve": [
-        "all five exact route identities and the current 19-component order",
-        "all 48 canonical and 48 boundary known prefills",
-        "all 83 required-before-filing disclosures and all 127 protected refusals per fixture",
-        "all five destination, fee/waiver and service treatments",
-        "all 101 exact registry stop-condition and boundary statements"
-      ],
-      "machineRasterBlindSpot": "A central RASTER_PASS with zero machine-reported problems does not cure a visibly orphaned route-footer-only page. The repair proof must include a human page review as well as the automated receipt.",
-      "notForThisLane": "VF11 measured this defect and may not repair or verify its own repair.",
-      "grantsNothing": "This assignment authorizes only a packet repair. It opens no route, sets no price and approves no output."
-    },
-    {
-      "assignmentId": "VF11-NATIONAL-WA-REQUIRED-BEFORE-FILING-CONTRADICTION-001",
-      "issuedBy": "VF11",
-      "issuedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-      "itemId": "rcap-wa-custom-pleading-clean-tracks",
-      "verdict": "FAIL_REPAIR_REQUIRED",
-      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
-      "decisiveDefect": "Both route primary filings print the participant's name and date of birth, then ask the participant to supply those facts again in blank C1/C2 fields whose declarations falsely say the platform holds no value. The vacation route additionally treats the existing sentencing-case cause number as a new number the court may assign at filing.",
-      "failedProofObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "Four declared required-before-filing fields contradict the exact delivered bytes and participant-instructions.md. The vacation and WSP deletion primary filings each print participant.full_legal_name and participant.date_of_birth, while their C1 applicant-name and C2 date-of-birth blanks say 'the platform holds no value for it'. The instructions first state that the platform filled the name and date of birth and then list the same four blanks as facts the participant must supply. This is present in both fixtures: canonical Jordan Avery Reyes / 1991-04-17 and boundary Maria-Alejandra O'Shaughnessy-Whitfield / 1968-12-31."
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The RCW 9.95.240 motion belongs in an existing sentencing case and the committed generation requirements ask the participant for that case's cause number. Nevertheless, the motion caption calls it 'Case number, if the court assigns one at filing', the proposed order says 'if one was assigned', and the instructions tell the participant that the court assigns every caption number at filing. The packet's own records checklist instead correctly identifies the existing sentencing-court docket as the source of the cause number."
-        }
-      ],
-      "repairInstruction": "Make the required-before-filing declarations and participant instructions describe the bytes truthfully. On each route, do not ask for a full name or date of birth that the platform already prints. If another case-filed name is genuinely required, narrow C1 to the other/alias name only; otherwise convert name and birth date to explicit check-and-correct prompts or remove the duplicate blanks. Update the production field map and blank report so none says the platform holds no value for a fact it writes. For the vacation route, treat the cause number as the existing sentencing-case cause number: direct the participant to obtain it from the sentencing-court docket and place or hand-copy it consistently into the motion and proposed-order captions. Remove every statement that this existing-case number will be assigned at filing. Preserve the other genuine required-before-filing questions, protected signatures/dates and court/agency decisions, both exact routes and component order, and all destination, fee, service and stop-condition content. Rebuild both fixtures if any packet byte changes, obtain a fresh exact-hash whole-family raster receipt, and send the new bytes to a lane that neither built nor repaired them for all fifteen obligations.",
-      "howToProveTheRepair": [
-        "Compare every required-before-filing declaration against actual-writes.json and the exact fixture text; no field may say the platform lacks a fact that the same fixture prints.",
-        "Read both primary filings and participant-instructions.md and confirm there is no duplicate blank full-name or date-of-birth request; any retained alias or confirmation prompt must say exactly what the participant must do.",
-        "Read the vacation motion and proposed-order captions and confirm the existing sentencing-case cause number is requested and treated consistently, never as a new number assigned at filing.",
-        "Re-run the focused completeness verifier, recompute both artifact hashes, obtain a fresh exact-hash whole-family raster receipt, and have an independent lane remeasure all fifteen obligations."
-      ],
-      "repairMustPreserve": [
-        "both exact Washington route identities and the current eight-component order",
-        "all 16 genuine known prefills per fixture and all protected-field refusals",
-        "the remaining genuine required-before-filing questions and records-to-obtain guidance",
-        "both routes' filing destination, fee and waiver, service and self-help-stop treatments"
-      ],
-      "machineRasterBlindSpot": "The central exact-hash receipt is RASTER_PASS for 34 pages with zero machine problems. That proves visual integrity, not substantive consistency between printed facts and hand-completion instructions.",
-      "notForThisLane": "VF11 measured this defect and may not repair or verify its own repair.",
-      "grantsNothing": "This assignment authorizes only a packet repair. It opens no route, sets no price and approves no output."
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "participant-instructions.md tells the reader to hand-copy the caption across every document because 'none of them has boxes for it'. The bytes contradict this: cap-PetitionerFullName is one field with 14 widgets and prints on pages 1, 3, 5, 7, 8, 9 and 13, and cap-COUNTY is one field with 8 widgets and prints on pages 1, 3, 7 and 9. The instruction also says the packet filled in 'on the Appearance only'."
     }
-  ],
+   ],
+   "repairInstruction": "Give each of the 14 blanks a category and a why. For Caption1 through Caption6, read the printed caption at each widget's own measured position and record which fact each row takes, as id_isp_expungement-set does with its printedLabelCorrections; six rows sharing the label 'Caption' is the defect. Repair the label harvest that produced 'null', 'b', 'd' and 'I hereby certify that o'. Then correct the two participant sentences so they describe the artifact: the caption is already printed on pages 3, 5, 7, 8, 9 and 13 and the reader should check it rather than copy it. Finally, delete the prosecuting-attorney early-filing exception, or ground it in a committed record and cite that record.",
+   "notADefect": "The insert-form repair holds and needs no further work. The insert document renders 4 pages, its canonical and boundary fixtures are byte-identical, its page content is line-for-line identical to the pinned source, and the shared-name hazard it guards against is real: 33 of the form's 77 distinct field names carry widgets on more than one page, spanning the petition's Facts pages, the order's Findings page and Exhibit A. The eleven added stop conditions are the registry's own words and no sentence tells the participant to attend a hearing. Leave all of that alone.",
+   "obligationsAlreadyPassing": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE"
+   ],
+   "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+  },
+  {
+   "itemId": "rcap-ms-custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+   "assignedBy": "FABLE-RVD (RV-D), lane VF11",
+   "verifiedAtBase": "726a49dfe0bdadc5f841bd4dadc871c6256418de",
+   "decisiveDefect": "requiredComponentsMissing 3. Each of the three Mississippi tracks is missing its required attachment-4 component, and the gap is hidden because the filing instructions were built under the id filing-instructions-4 and occupy the missing component's ordinal. This is the same ordinal collision that was repaired in rcap-wv-custom-pleading, unrepaired here and present on all three tracks at once.",
+   "failedProofObligations": [
+    {
+     "obligation": "COMPONENT_SET",
+     "finding": "The registry packetSets for ms-drug-cd, ms-dui and ms-mip each declare five components, every one requirement 'required' with no conditional limb: primary-filing-1, proposed-order-2, certificate-of-service-3, attachment-4 (role attachment, process_guidance) and instructions-5 (role instructions, process_guidance). The rendered componentSet carries four per track, ending filing-instructions-4. So ordinals read 1,2,3,4 — unique and contiguous within each track — and an ordinal-based check sees a complete set while attachment-4 is absent from all three and no component exists under the id instructions-5.",
+     "howToProve": "Compare the rendered componentSet in reports/rendered-artifacts.json against each track's packetSet.components in data/record-clearing/legal-design-track-registry.json BY NAME, not by ordinal."
+    },
+    {
+     "obligation": "COMPONENT_SET",
+     "finding": "The missing component is substantive, not a formality. Mississippi's registry holds twelve participantFilingRequirements across the three tracks — four for ms-drug-cd, five for ms-dui, three for ms-mip, including the certified conditional discharge and discharge-and-dismissal orders, the blood or breath test result or documentation that no test was refused, the certified driving record and the clerk's zero-balance account sheet. None of the 26 delivered pages of the canonical fixture carries a records-to-obtain checklist. The list exists only in participant-instructions.md, which is not a delivered packet component.",
+     "howToProve": "Search all 26 delivered pages for the requirement names; they are absent."
+    }
+   ],
+   "repairInstruction": "Build the missing attachment-4 component for each of the three tracks and renumber the filing instructions to instructions-5, so the delivered componentSet matches each registry packetSet by name. Model it on the repair already made to rcap-wv-custom-pleading, whose records-checklist-4 renders as its own packet pages and reproduces that track's participantFilingRequirements verbatim — name, who holds it, how to obtain it, the condition where conditional, and which participant answer each record checks. Then re-render both fixtures, re-hash, and re-run the builder counters, which currently report requiredComponentsMissing 0.",
+   "checkTheOtherFamilies": "The collision is a class, not an incident. Any family whose delivered componentIds are compared to the registry by ordinal rather than by name can hide a missing component the same way. Worth a sweep of every custom_pleading family whose registry packetSet ends in a process_guidance pair.",
+   "notADefect": "FEE_AND_WAIVER passes and needs no change. The packet publishes no amount, reproduces each track's registry fee and waiver rules verbatim with § 99-19-72's limit intact, states each petition's own subsection, declines to decide the reach, and names the clerk — the circuit clerk on the DUI route. No rescinded figure appears anywhere in the family and nothing is read across from a sibling route. All fifteen registry stop conditions appear verbatim, including the DUI track's blanket mandatory-attorney-review stop. Leave all of that alone.",
+   "adr0004": "Mississippi's legacy commercial authority was retired on 2026-08-28. That retirement is not the defect recorded here and this assignment does not touch it. Completing this repair restores no authority, opens no route and sets no price.",
+   "obligationsAlreadyPassing": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+   ],
+   "grantsNothing": "This assignment authorises a repair. It opens no route, sets no price and approves no output."
+  },
+  {
+   "assignmentId": "VF11-NATIONAL-ND-BOUNDARY-FOOTER-OVERFLOW-001",
+   "issuedBy": "VF11",
+   "issuedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "itemId": "rcap-nd-custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
+   "decisiveDefect": "The boundary fixture's long identity/contact block pushes the pardoned-conviction primary filing's route footer onto a standalone otherwise blank page. Boundary page 19 contains only the two-word, 59-character route footer; the equivalent canonical component ends on page 18.",
+   "failedProofObligations": [
+    {
+     "obligation": "CLIPPING_AND_OVERLAP",
+     "finding": "Canonical.pdf is 35 pages and its pardoned-conviction primary filing occupies pages 16-18. Boundary.pdf is 36 pages and that component occupies pages 16-19. Boundary page 18 contains the substantive end of the petition and the long participant contact block; page 19 contains only 'Route: obligation:track-only:ND:nd-seal-pardoned-conviction'. Direct extraction finds 2 words and 59 characters on page 19. The central receipt reports 71 pages and zero machine problems, but independent full-page rendering confirms the orphaned-page overflow."
+    }
+   ],
+   "repairInstruction": "Adjust pagination in scripts/build-census-v1-rcap-nd-custom-pleading.mjs so the route footer remains with meaningful content for the pardoned-conviction boundary component. Keep the long boundary values visible and untruncated; do not solve the defect by clipping, shrinking them below a legible size, deleting the route footer, or moving another isolated fragment onto page 19. Re-render both fixtures and inspect every page for orphaned headings, footers and continuation fragments.",
+   "howToProveTheRepair": [
+    "Read the repaired boundary PDF page by page and show that no page contains only a route footer or another orphaned fragment.",
+    "Compare canonical and boundary component manifests and explain any remaining page-count difference with substantive content on every page.",
+    "Recompute both artifact hashes and the documents digest, obtain a fresh exact-hash whole-family raster receipt, and have a lane that neither built nor repaired the new bytes rerun all fifteen obligations."
+   ],
+   "repairMustPreserve": [
+    "all five exact route identities and the current 19-component order",
+    "all 48 canonical and 48 boundary known prefills",
+    "all 83 required-before-filing disclosures and all 127 protected refusals per fixture",
+    "all five destination, fee/waiver and service treatments",
+    "all 101 exact registry stop-condition and boundary statements"
+   ],
+   "machineRasterBlindSpot": "A central RASTER_PASS with zero machine-reported problems does not cure a visibly orphaned route-footer-only page. The repair proof must include a human page review as well as the automated receipt.",
+   "notForThisLane": "VF11 measured this defect and may not repair or verify its own repair.",
+   "grantsNothing": "This assignment authorizes only a packet repair. It opens no route, sets no price and approves no output."
+  },
+  {
+   "assignmentId": "VF11-NATIONAL-WA-REQUIRED-BEFORE-FILING-CONTRADICTION-001",
+   "issuedBy": "VF11",
+   "issuedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+   "itemId": "rcap-wa-custom-pleading-clean-tracks",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+   "decisiveDefect": "Both route primary filings print the participant's name and date of birth, then ask the participant to supply those facts again in blank C1/C2 fields whose declarations falsely say the platform holds no value. The vacation route additionally treats the existing sentencing-case cause number as a new number the court may assign at filing.",
+   "failedProofObligations": [
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "Four declared required-before-filing fields contradict the exact delivered bytes and participant-instructions.md. The vacation and WSP deletion primary filings each print participant.full_legal_name and participant.date_of_birth, while their C1 applicant-name and C2 date-of-birth blanks say 'the platform holds no value for it'. The instructions first state that the platform filled the name and date of birth and then list the same four blanks as facts the participant must supply. This is present in both fixtures: canonical Jordan Avery Reyes / 1991-04-17 and boundary Maria-Alejandra O'Shaughnessy-Whitfield / 1968-12-31."
+    },
+    {
+     "obligation": "REQUIRED_BEFORE_FILING",
+     "finding": "The RCW 9.95.240 motion belongs in an existing sentencing case and the committed generation requirements ask the participant for that case's cause number. Nevertheless, the motion caption calls it 'Case number, if the court assigns one at filing', the proposed order says 'if one was assigned', and the instructions tell the participant that the court assigns every caption number at filing. The packet's own records checklist instead correctly identifies the existing sentencing-court docket as the source of the cause number."
+    }
+   ],
+   "repairInstruction": "Make the required-before-filing declarations and participant instructions describe the bytes truthfully. On each route, do not ask for a full name or date of birth that the platform already prints. If another case-filed name is genuinely required, narrow C1 to the other/alias name only; otherwise convert name and birth date to explicit check-and-correct prompts or remove the duplicate blanks. Update the production field map and blank report so none says the platform holds no value for a fact it writes. For the vacation route, treat the cause number as the existing sentencing-case cause number: direct the participant to obtain it from the sentencing-court docket and place or hand-copy it consistently into the motion and proposed-order captions. Remove every statement that this existing-case number will be assigned at filing. Preserve the other genuine required-before-filing questions, protected signatures/dates and court/agency decisions, both exact routes and component order, and all destination, fee, service and stop-condition content. Rebuild both fixtures if any packet byte changes, obtain a fresh exact-hash whole-family raster receipt, and send the new bytes to a lane that neither built nor repaired them for all fifteen obligations.",
+   "howToProveTheRepair": [
+    "Compare every required-before-filing declaration against actual-writes.json and the exact fixture text; no field may say the platform lacks a fact that the same fixture prints.",
+    "Read both primary filings and participant-instructions.md and confirm there is no duplicate blank full-name or date-of-birth request; any retained alias or confirmation prompt must say exactly what the participant must do.",
+    "Read the vacation motion and proposed-order captions and confirm the existing sentencing-case cause number is requested and treated consistently, never as a new number assigned at filing.",
+    "Re-run the focused completeness verifier, recompute both artifact hashes, obtain a fresh exact-hash whole-family raster receipt, and have an independent lane remeasure all fifteen obligations."
+   ],
+   "repairMustPreserve": [
+    "both exact Washington route identities and the current eight-component order",
+    "all 16 genuine known prefills per fixture and all protected-field refusals",
+    "the remaining genuine required-before-filing questions and records-to-obtain guidance",
+    "both routes' filing destination, fee and waiver, service and self-help-stop treatments"
+   ],
+   "machineRasterBlindSpot": "The central exact-hash receipt is RASTER_PASS for 34 pages with zero machine problems. That proves visual integrity, not substantive consistency between printed facts and hand-completion instructions.",
+   "notForThisLane": "VF11 measured this defect and may not repair or verify its own repair.",
+   "grantsNothing": "This assignment authorizes only a packet repair. It opens no route, sets no price and approves no output."
+  }
+ ],
  "va11Note": {
   "issuedBy": "FABLE-VA11",
   "issuedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
   "whyThisFileHoldsMoreThanOneRoster": "This file already held VF11 lane work from an earlier roster when this lane arrived, and assignment ids are reused across shifts. The pre-existing entry and every top-level key were preserved byte-for-byte and these two assignments were written beside them, with ids prefixed VA11- so they cannot collide with another shift`s.",
   "scopeOfTheseTwo": "Two of five subjects failed. The other three — the IL criminal-identity-theft mistaken-identity composed treatment, ct-decriminalized-set and ms-diversion-set — passed all fifteen obligations and need no repair; three positive DET-FEE-AND-WAIVER-001-A3 findings are recorded on their rows in vf11/rows.json and a repair lane must not undo them.",
   "thisLaneEditedNothing": "No packet PDF, fixture, overlay, field map, build script, queue, route, price or production surface was modified. A defect here is a verdict and a repair assignment, never an edit."
+ },
+ "vfdRead": {
+  "reader": "VF-D independent-verification cohort",
+  "generatedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "added": 0
  }
 }
