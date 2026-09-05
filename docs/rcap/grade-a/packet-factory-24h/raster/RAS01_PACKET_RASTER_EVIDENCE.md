@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `59bf2cc11f058e8a3d3cc9057db3c14a803cadb8`
+**Minimum required ancestor:** `fd450d1246b95bbaea7c861eaab4c5eeabc6a4ac`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -219,7 +219,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/canonical.pdf` — `09903a851aa2f95ad2ae5d92b169edd322fbbc97c974681f5b9f7be9dc6b92c6`
 - boundary `data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/boundary.pdf` — `b1abb9972ccdb1080688a2b70644a81410975c9034e5b4833ac9de02a76d41b9`
 - expected pages 9 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### nj_ordinance-set
 
