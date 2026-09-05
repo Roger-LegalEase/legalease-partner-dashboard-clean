@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 799,
+    "rows": 800,
     "independentVerdicts": 240,
     "failRepairRequired": 51,
     "passIndependent": 174
@@ -6361,6 +6361,48 @@
       ],
       "failedObligationNames": [
         "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "71b369461",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two of the six required-before-filing items the record declares for this track are named nowhere: the certified Delaware criminal history, and the instruction to check the charge answer against it. Repair-actionable without invention - the record supplies the sentence to print, in DE.memo.json tracks[1].legalDesignDecision.limitations[0] and rules.filing. A repair lane should name the document as required before the participant contacts SBI, and should NOT print the IdentoGo service code 27S23V or the about-$72 cost, because the same memo's unresolvedQuestions[0] marks the service code and fee not source-approved, exactly as the SBI's own application fee is already deferred in the delivered guide.",
+          "evidence": {
+            "measuredAgainst": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[83].requiredBeforeFiling - the six items the RECORD declares for this track - checked string-by-string against participant-instructions.md and against the delivered text of both fixtures. The family's own seven declared blanks were checked too, and all seven disclosureLabels are present verbatim in participant-instructions.md; that check alone is circular, because the family declares the list the same file answers.",
+            "namedAndCovered": [
+              "'The court instructions state a $75 filing fee on the mandatory path after the SBI letter...' - named in participant-instructions.md line 25 and on delivered page 1 of both fixtures.",
+              "'Under Sec. 4372(l), if an outstanding fine or fee is unpaid...' - named in participant-instructions.md line 25 and on delivered page 1 of both fixtures.",
+              "'The applicant signs their own application.' - covered in substance by 'Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs.' on the delivered page and by the Protected items paragraph of participant-instructions.md.",
+              "'The source review does not state a notarization requirement for the SBI application.' - covered by the same Protected items paragraph, which names notarization and leaves it to the receiving authority."
+            ],
+            "absentFromBothTheInstructionsFileAndEveryDeliveredPage": [
+              "Item 1 of 6: 'Obtain Certified Delaware criminal history. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.' Searched here for 'certified Delaware criminal history', 'certified criminal history', 'IdentoGo', '27S23V' and '$72': zero occurrences in participant-instructions.md and zero in the delivered text of either fixture. The only near-miss strings are 'the participant's current Delaware criminal-history record' and 'certified court and correctional records', which are check-against sources for two blanks, not an instruction to obtain the certified history.",
+              "Item 2 of 6: 'Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against Certified Delaware criminal history, and correct the packet if they disagree.' Absent for the same reason: the document it checks against is never named."
+            ],
+            "theRecordSettlesThisFourWaysForThisTrack": [
+              "DE.memo.json tracks[1].supportingDocuments[0]: 'Certified Delaware criminal history', requirement 'required', requiredBeforeFiling true, confirms offenceTypeAndSection.",
+              "DE.memo.json tracks[1].rules.filing: 'Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.'",
+              "DE.memo.json tracks[1].destination.detail: 'obtain the certified SBI history, submit the mandatory-expungement application and fee/materials, and await SBI's determination.'",
+              "DE.memo.json tracks[1].legalDesignDecision.limitations[0], classification 'required_before_filing': 'Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.'"
+            ],
+            "whyItMattersOnThisRouteRatherThanBeingBookkeeping": "The record makes the certified history the precondition of the whole route: DE.memo.json records that 'The SBI issues the letter after reviewing the certified criminal history', and the guide's own next step is to wait for that letter. A participant who follows the delivered guide exactly - call SBI, ask whether the automatic process has reached the case, wait for the eligibility letter - is never told to obtain the one document the record says SBI reviews. The guide instead defers 'required materials' to whatever SBI says after its review, which inverts the order the record states.",
+            "whyThisIsNotBlockedLegalInput": "The record is not silent. That a certified Delaware criminal history must be obtained before the application is stated in four committed places for this track and repeated in the packet-set manifest. Only the CHANNEL is unsettled: DE.memo.json tracks[1].unresolvedQuestions[0] marks the SBI form, its current fee, the service code and the submission requirements as a release blocker not yet source-approved, which is why the guide already defers the SBI's own fee. The obligation the packet owes - name the document - is settled; the acquisition mechanics are not."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",

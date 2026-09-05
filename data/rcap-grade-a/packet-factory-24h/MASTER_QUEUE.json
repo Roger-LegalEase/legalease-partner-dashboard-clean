@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9ed655249f7064fb558a51cf8c8361b4232dd923",
+  "minimumCaptainSha": "9b5c6f2ea21c0a1aed7b37de80f45456caa7ea19",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 3,
+    "activeFamiliesExcluded": 4,
     "guidanceOnly": 0,
-    "remaining": 343,
+    "remaining": 342,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 6,
+    "verifyPending": 5,
     "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 154,
-    "FAIL_REPAIR_REQUIRED": 48,
+    "FAIL_REPAIR_REQUIRED": 49,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -86,7 +86,7 @@
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 6,
+    "VERIFY_PENDING": 5,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -109,6 +109,7 @@
     ],
     "families": [
       "az_marijuana_expungement_limited_jurisdiction-set",
+      "de_mandatory_expungement-set",
       "il-seal-edu-set",
       "ut_pet_limitations-set"
     ],
@@ -12021,10 +12022,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf01",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "verifiedAtBase": "71b369461",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -12054,20 +12057,40 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "FEE_AND_WAIVER"
+        "REQUIRED_BEFORE_FILING"
       ],
       "failedObligations": [
         {
-          "obligation": "FEE_AND_WAIVER",
-          "finding": null,
-          "evidence": "the packet-set manifest for track de_mandatory_expungement states a definite fee position and a definite waiver route, and participant-instructions.md states neither. pay_fee: 'The court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved.' apply_fee_waiver: the 11 Del. C. 4372(l) provision under which, where an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive or convert the fines or fees. The guide defers the whole fee question to 'any fee stated by SBI after its review'. Deferring the SBI's own fee is correct because the record marks it not source-approved; omitting the $75 and omitting 4372(l) is not, and the guide asks the participant about unpaid 'Fines, fees, and restitution status' without telling them the waiver exists."
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two of the six required-before-filing items the record declares for this track are named nowhere: the certified Delaware criminal history, and the instruction to check the charge answer against it. Repair-actionable without invention - the record supplies the sentence to print, in DE.memo.json tracks[1].legalDesignDecision.limitations[0] and rules.filing. A repair lane should name the document as required before the participant contacts SBI, and should NOT print the IdentoGo service code 27S23V or the about-$72 cost, because the same memo's unresolvedQuestions[0] marks the service code and fee not source-approved, exactly as the SBI's own application fee is already deferred in the delivered guide.",
+          "evidence": {
+            "measuredAgainst": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[83].requiredBeforeFiling - the six items the RECORD declares for this track - checked string-by-string against participant-instructions.md and against the delivered text of both fixtures. The family's own seven declared blanks were checked too, and all seven disclosureLabels are present verbatim in participant-instructions.md; that check alone is circular, because the family declares the list the same file answers.",
+            "namedAndCovered": [
+              "'The court instructions state a $75 filing fee on the mandatory path after the SBI letter...' - named in participant-instructions.md line 25 and on delivered page 1 of both fixtures.",
+              "'Under Sec. 4372(l), if an outstanding fine or fee is unpaid...' - named in participant-instructions.md line 25 and on delivered page 1 of both fixtures.",
+              "'The applicant signs their own application.' - covered in substance by 'Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs.' on the delivered page and by the Protected items paragraph of participant-instructions.md.",
+              "'The source review does not state a notarization requirement for the SBI application.' - covered by the same Protected items paragraph, which names notarization and leaves it to the receiving authority."
+            ],
+            "absentFromBothTheInstructionsFileAndEveryDeliveredPage": [
+              "Item 1 of 6: 'Obtain Certified Delaware criminal history. Request the certified criminal history through IdentoGo, service code 27S23V, at about $72. Save the PDF at first opening; it can only be opened once.' Searched here for 'certified Delaware criminal history', 'certified criminal history', 'IdentoGo', '27S23V' and '$72': zero occurrences in participant-instructions.md and zero in the delivered text of either fixture. The only near-miss strings are 'the participant's current Delaware criminal-history record' and 'certified court and correctional records', which are check-against sources for two blanks, not an instruction to obtain the certified history.",
+              "Item 2 of 6: 'Check your answer to \"What were the exact charges and statute sections, and were they violations, misdemeanors or felonies?\" against Certified Delaware criminal history, and correct the packet if they disagree.' Absent for the same reason: the document it checks against is never named."
+            ],
+            "theRecordSettlesThisFourWaysForThisTrack": [
+              "DE.memo.json tracks[1].supportingDocuments[0]: 'Certified Delaware criminal history', requirement 'required', requiredBeforeFiling true, confirms offenceTypeAndSection.",
+              "DE.memo.json tracks[1].rules.filing: 'Submit the mandatory-expungement application and materials to the State Bureau of Identification with the certified criminal history.'",
+              "DE.memo.json tracks[1].destination.detail: 'obtain the certified SBI history, submit the mandatory-expungement application and fee/materials, and await SBI's determination.'",
+              "DE.memo.json tracks[1].legalDesignDecision.limitations[0], classification 'required_before_filing': 'Obtain the certified SBI history and submit it with the mandatory-expungement application. LegalEase does not review the history itself.'"
+            ],
+            "whyItMattersOnThisRouteRatherThanBeingBookkeeping": "The record makes the certified history the precondition of the whole route: DE.memo.json records that 'The SBI issues the letter after reviewing the certified criminal history', and the guide's own next step is to wait for that letter. A participant who follows the delivered guide exactly - call SBI, ask whether the automatic process has reached the case, wait for the eligibility letter - is never told to obtain the one document the record says SBI reviews. The guide instead defers 'required materials' to whatever SBI says after its review, which inverts the order the record states.",
+            "whyThisIsNotBlockedLegalInput": "The record is not silent. That a certified Delaware criminal history must be obtained before the application is stated in four committed places for this track and repeated in the packet-set manifest. Only the CHANNEL is unsettled: DE.memo.json tracks[1].unresolvedQuestions[0] marks the SBI form, its current fee, the service code and the submission requirements as a release blocker not yet source-approved, which is why the guide already defers the SBI's own fee. The obligation the packet owes - name the document - is settled; the acquisition mechanics are not."
+          }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX54",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -12078,7 +12101,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "de_pardon_expungement-set",
