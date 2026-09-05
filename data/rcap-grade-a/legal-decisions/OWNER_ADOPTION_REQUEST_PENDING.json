@@ -5,7 +5,7 @@
   "isAnApproval": false,
   "whatThisIs": "A request assembled for the decision owner. It adopts nothing, approves nothing, opens no route and grants no runtime, payment, sponsorship or production authority. Reading it changes no state; only the owner's own returned decision does.",
   "producedBy": "scripts/rcap-route-productization/generate-owner-adoption-request.mjs",
-  "producedAtCommit": "1dabf8cc671c96e24ce679e96fba60b6d1bcfdc9",
+  "producedAtCommit": "c5729d06336bd2c9b9c1019f46eef61567d8dedf",
   "precedent": {
     "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
     "decidedOn": "2026-09-02",
@@ -16,9 +16,9 @@
   "whyItIsOneDecisionAndNotMany": "Every family here is blocked at the same first unmet chain link and every one names the same single next action. Split into separate asks it is the same work for the owner performed dozens of times over.",
   "whyTheseAreNotAlreadyCovered": "Fifty-three families sit inside an owner approval and six have a current one. An adoption names exact digests, so when a packet is rebuilt or repaired the adoption stops describing what would ship. These families have moved since they were last adopted, or were never adopted.",
   "counts": {
-    "provenFamilies": 130,
-    "blockedAtCurrentLegalApproval": 48,
-    "adoptionWouldUnblock": 41,
+    "provenFamilies": 139,
+    "blockedAtCurrentLegalApproval": 53,
+    "adoptionWouldUnblock": 46,
     "notReadyToAskAbout": 0,
     "aDifferentOwnerAsk": 7
   },
@@ -2172,6 +2172,333 @@
           "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
           "closesPreconditions": [
             "P10"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "in_conviction_d6-set",
+      "jurisdiction": "IN",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "5cbca55230f082a5ede6be2bfb3749e6f8b28a2d2e2c7c23ce5012ca2f84d4e6",
+          "byteLength": 1728002
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "37fa7ae2bfc2aa8fd969fe16502f5acb26de315fc2d33cf2aa88f25c956b535a",
+          "byteLength": 1727505
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-boundary.pdf",
+          "sha256": "61a9a728bc2c6b7fe640b6a7d3ba94687e844092552a4e4a3f572fbb2169059a",
+          "byteLength": 21427
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-canonical.pdf",
+          "sha256": "c1b5d4a3d88ca37e81d53d0b2e21ff5653a47138f7a6cf7ea761a22553fbf23b",
+          "byteLength": 21388
+        }
+      ],
+      "shippingArtifactCount": 4,
+      "fixtureLayout": "2 canonical and 2 boundary; this family ships more than one document set and the adoption covers every one of them",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "in_conviction_felony-set",
+      "jurisdiction": "IN",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "092cf31c9b4499a4b0515c86de8d3536005f4ff2a5bf2ca66b80835919f898dd",
+          "byteLength": 988554
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "0b3cc11b5fa81e4e089be91ad0d562f033315556763c09777ede621516196ce0",
+          "byteLength": 988097
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/fixtures/participant-guidance-boundary.pdf",
+          "sha256": "4464b0b8f7905b299ab54c7c87769322677d771f28331d819bc070bd371e0a7a",
+          "byteLength": 22613
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/fixtures/participant-guidance-canonical.pdf",
+          "sha256": "fddf13cab83b3f13471b44aba127af633a4816ff25210a5314aad757e17ecab3",
+          "byteLength": 22580
+        }
+      ],
+      "shippingArtifactCount": 4,
+      "fixtureLayout": "2 canonical and 2 boundary; this family ships more than one document set and the adoption covers every one of them",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "in_conviction_misd-set",
+      "jurisdiction": "IN",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "55a851e6a344bf742a73444686a98bfbff957ed291305cb3cfdecaa6c6b3ea02",
+          "byteLength": 1791969
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "b8dab03eb354af295a890cdf3f6319189013a70b78a2e861ed6a3073acae1de6",
+          "byteLength": 1791490
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading/fixtures/participant-guidance-boundary.pdf",
+          "sha256": "bd5e9414acc640aa8418a99429d7fee29edcc49ecf77329f7db3f8237e0437e0",
+          "byteLength": 21660
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-misd-set--custom-pleading/fixtures/participant-guidance-canonical.pdf",
+          "sha256": "7d566ee59f8ef23c0ccaaf77a87c2f70981eddca12918299d7c10693535e9c08",
+          "byteLength": 21621
+        }
+      ],
+      "shippingArtifactCount": 4,
+      "fixtureLayout": "2 canonical and 2 boundary; this family ships more than one document set and the adoption covers every one of them",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
           ]
         }
       ],
@@ -4397,6 +4724,228 @@
           "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
           "closesPreconditions": [
             "P10"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "jurisdiction": "WV",
+      "implementationStrategy": "official_pdf_fill",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "2a0b701a523d3f7c71f6327c6bd4384cbf438689d0be42d30b869f218f6e1dbe",
+          "byteLength": 173742
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "31a49f2d2216fd2c7a1327aa7f95f3214b8a760e9d46c05517d764d7bd60f90d",
+          "byteLength": 173531
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S8_produceOneCurrentIndependentPass",
+          "preconditions": [
+            "P16",
+            "P17",
+            "P18"
+          ],
+          "owner": "an independent verifier lane",
+          "onlyRogerCanDoThis": false,
+          "work": "leave exactly one current PASS_COMPLETE_INDEPENDENT row over the current bytes",
+          "closesPreconditions": [
+            "P16"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "jurisdiction": "WV",
+      "implementationStrategy": "official_pdf_fill",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c51fde179db7a9bf1ae3b44b93ba7c48695edf49a3459245bb7bb826462c397e",
+          "byteLength": 173459
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "37764d50ba8f761661e2576cb76ff6a95aaf06bfbc2f00236ecc6c9c03e90ffa",
+          "byteLength": 173236
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S8_produceOneCurrentIndependentPass",
+          "preconditions": [
+            "P16",
+            "P17",
+            "P18"
+          ],
+          "owner": "an independent verifier lane",
+          "onlyRogerCanDoThis": false,
+          "work": "leave exactly one current PASS_COMPLETE_INDEPENDENT row over the current bytes",
+          "closesPreconditions": [
+            "P16"
           ]
         },
         {
