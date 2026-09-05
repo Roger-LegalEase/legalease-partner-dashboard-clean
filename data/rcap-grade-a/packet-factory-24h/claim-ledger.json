@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "18bbabc2ee096efd7602b81bec62b88d774e999e",
+  "generatedAtCommit": "c148c59fbcb9366d6eaef6c2b88542310d4f8bd3",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5961,11 +5961,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:24:43.086Z",
-      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: COMPONENT_SET (two required process_guidance components render nowhere), PROTECTED_FIELDS (sig.8 Enter /s/ before name at 0.75 g on page 4; three 0.00 at 1 g on pages 6-7), CLIPPING_AND_OVERLAP, SELF_HELP_STOP (0 of 10 registry stops); SERVICE BLOCKED_LEGAL_INPUT. Same classes as its sibling; one NH host repair. Verdict extracted."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13207,7 +13205,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "1ce0313a10fb6b410eb853e0bae9ebbe75997e7bdd7b208bedb492c740e9f7d0",
+  "claimsDigest": "b3d19326bf3401239a72d2856565eee46af67c3771586c1de9b77e457c09bfb3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34845,6 +34843,16 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-05T14:54:01Z",
       "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_vacated-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:03:23Z",
+      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
