@@ -1801,6 +1801,19 @@ export async function runFamily(argv = process.argv.slice(2)) {
             documentTextLines: census.documentTextLines,
             evaluateDeclaredMinimumSize: true,
             alignWidgetFontSizeToFit: true,
+            /* VF08 read 74 of 76 selection-widget rects across canonical.pdf and
+             * boundary.pdf as delivering a stroked square that AOC-CR-287 and
+             * AOC-CV-226 do not print: at each one the widget's current /AS
+             * state has no stream in /AP /N, so a conforming viewer paints
+             * nothing there. VF08's zero-write baseline over the same pinned
+             * bytes painted the identical pixels, so the ink comes from the
+             * shared flattening step and not from this family. Opting in
+             * supplies the missing state as an EMPTY appearance, so nothing is
+             * synthesized and nothing is flattened there. AOC-CR-288 is shared
+             * with nc_146_acquittal, which FIX55 opted in the same way. A widget
+             * of a field this run writes, and any widget whose /AS state ships
+             * its own appearance, are untouched by this. */
+            suppressSynthesizedAppearances: true,
             title: `${SPEC.jurisdiction} ${b.doc.documentId}`
           });
           bytes = result.bytes;

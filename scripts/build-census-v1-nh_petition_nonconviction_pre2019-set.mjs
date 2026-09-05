@@ -750,6 +750,16 @@ async function renderDocument(source, census, fixtureName) {
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
+    /* VF08 read all 38 selection-widget rects across canonical.pdf and
+     * boundary.pdf as delivering a stroked square that NHJB-2317 and NHJB-2328
+     * do not print: each widget's current /AS state has no stream in /AP /N, so
+     * a conforming viewer paints nothing there. VF08's zero-write baseline over
+     * the same pinned bytes painted the identical pixels, so the ink comes from
+     * the shared flattening step and not from this family. Opting in supplies
+     * the missing state as an EMPTY appearance, so nothing is synthesized and
+     * nothing is flattened there. A widget of a field this run writes, and any
+     * widget whose /AS state ships its own appearance, are untouched by this. */
+    suppressSynthesizedAppearances: true,
     title: source.title
   });
   if (process.env.CO_DEBUG_RENDER) {
