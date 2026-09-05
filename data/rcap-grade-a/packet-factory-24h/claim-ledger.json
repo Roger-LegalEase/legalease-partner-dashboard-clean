@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "73c81c5ea888279df7388834318683d8642d889d",
+  "generatedAtCommit": "d29326d62d75bfc61cb4524c68db74ab8ffe8760",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1378,6 +1378,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T22:51:22.708Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_conviction-set",
+      "itemId": null,
+      "familyId": "co_motion_seal_conviction-set",
+      "familyIds": [
+        "co_motion_seal_conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "laneKind": "independent-verification",
+      "released": true,
+      "releasedAt": "2026-09-05T03:37:01.276Z"
     },
     {
       "subjectType": "packet-family",
@@ -6107,7 +6122,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF04",
+      "lane": "PF18",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T06:01:24.574Z"
@@ -6122,7 +6137,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF18",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T22:52:11.335Z"
@@ -7072,66 +7087,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "ri_decriminalized-set",
-      "familyId": "ri_decriminalized-set",
-      "itemId": null,
-      "familyIds": [
-        "ri_decriminalized-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF02",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T03:38:38.510Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ri_deferred_sentence-set",
-      "familyId": "ri_deferred_sentence-set",
-      "itemId": null,
-      "familyIds": [
-        "ri_deferred_sentence-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF02",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T03:38:38.917Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ri_first_offender_felony-set",
-      "familyId": "ri_first_offender_felony-set",
-      "itemId": null,
-      "familyIds": [
-        "ri_first_offender_felony-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF02",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T03:38:39.042Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ri_first_offender_misdemeanor-set",
-      "familyId": "ri_first_offender_misdemeanor-set",
-      "itemId": null,
-      "familyIds": [
-        "ri_first_offender_misdemeanor-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF02",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T03:38:38.641Z"
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "ri_marijuana-set",
       "familyId": "ri_marijuana-set",
       "itemId": null,
@@ -7144,21 +7099,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:05:06.867Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ri_multiple_misdemeanors-set",
-      "familyId": "ri_multiple_misdemeanors-set",
-      "itemId": null,
-      "familyIds": [
-        "ri_multiple_misdemeanors-set"
-      ],
-      "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF02",
-      "laneKind": "packet-build",
-      "released": true,
-      "releasedAt": "2026-09-05T03:38:38.782Z"
     },
     {
       "subjectType": "packet-family",
@@ -7393,7 +7333,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:22.792Z"
@@ -7468,7 +7408,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:22.914Z"
@@ -7647,7 +7587,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.392Z"
@@ -8082,7 +8022,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:23.032Z"
@@ -12952,24 +12892,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "co_motion_seal_conviction-set",
-      "itemId": null,
-      "familyId": "co_motion_seal_conviction-set",
-      "familyIds": [
-        "co_motion_seal_conviction-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T03:37:01.276Z"
     }
   ],
-  "claimsDigest": "d5b6069d9bc56b1360b3995f6cff36135ff8362b232d567504e39593cb4afbe7",
+  "claimsDigest": "2a7b568b87c2f0af80c64a6fc9ed770e8484a8973343996a17ac5fbe2373290f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -33281,6 +33206,56 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T02:27:14Z",
       "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "packet-build",
+      "lane": "PF01",
+      "dispatchNames": "PF01",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T03:44:10Z",
+      "reason": "the current dispatch names PF01 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "packet-build",
+      "lane": "PF01",
+      "dispatchNames": "PF01",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T03:44:10Z",
+      "reason": "the current dispatch names PF01 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "packet-build",
+      "lane": "PF03",
+      "dispatchNames": "PF03",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T03:44:10Z",
+      "reason": "the current dispatch names PF03 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "packet-build",
+      "lane": "PF09",
+      "dispatchNames": "PF09",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T03:44:10Z",
+      "reason": "the current dispatch names PF09 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "packet-build",
+      "lane": "PF18",
+      "dispatchNames": "PF18",
+      "familyState": "SOURCE_READY",
+      "reissuedAt": "2026-09-05T03:44:10Z",
+      "reason": "the current dispatch names PF18 for this subject, its family is SOURCE_READY and owes packet-build, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -40227,6 +40202,46 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-05T02:58:01Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "packet-build",
+      "lane": "PF09",
+      "withdrawnAt": "2026-09-05T03:45:12Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "packet-build",
+      "lane": "PF18",
+      "withdrawnAt": "2026-09-05T03:45:12Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "packet-build",
+      "lane": "PF03",
+      "withdrawnAt": "2026-09-05T03:45:12Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "packet-build",
+      "lane": "PF01",
+      "withdrawnAt": "2026-09-05T03:45:12Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "packet-build",
+      "lane": "PF01",
+      "withdrawnAt": "2026-09-05T03:45:12Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

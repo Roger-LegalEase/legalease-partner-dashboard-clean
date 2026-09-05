@@ -90,6 +90,17 @@ const normalizeRow = (row, document = null) => ({
      */
     factAvailable: row.factAvailable === true,
     /*
+     * The named route condition, forwarded for exactly the reason the comment
+     * above gives. NOT_APPLICABLE_ON_THIS_ROUTE gained a declared channel in the
+     * contract, and classifyBlank enters it only when this key is present -- so
+     * a row declaring the disposition landed on UNCLASSIFIED_BLANK and the
+     * channel was inert from the day it was written. A Rhode Island build lane
+     * found it by reading the reader rather than trusting the contract, which
+     * is the second time this reader has silently dropped a key the contract
+     * decides on. The structural check below is so there is not a third.
+     */
+    routeConditionThatMakesItInapplicable: row.routeConditionThatMakesItInapplicable ?? null,
+    /*
      * The case-determined exception, forwarded to the contract that decides it.
      *
      * `classifyBlank` grew this exception and it is pinned in both directions by

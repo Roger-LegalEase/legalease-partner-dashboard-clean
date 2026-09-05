@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 243,
+  "scriptsScanned": 248,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -589,6 +589,57 @@
       "importedBy": []
     },
     {
+      "script": "build-census-v1-ri_decriminalized-set.mjs",
+      "imports": [],
+      "transitiveImports": [],
+      "importedBy": [
+        "build-census-v1-ri_deferred_sentence-set.mjs",
+        "build-census-v1-ri_first_offender_felony-set.mjs",
+        "build-census-v1-ri_first_offender_misdemeanor-set.mjs",
+        "build-census-v1-ri_multiple_misdemeanors-set.mjs"
+      ]
+    },
+    {
+      "script": "build-census-v1-ri_deferred_sentence-set.mjs",
+      "imports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ri_first_offender_felony-set.mjs",
+      "imports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ri_first_offender_misdemeanor-set.mjs",
+      "imports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
+      "script": "build-census-v1-ri_multiple_misdemeanors-set.mjs",
+      "imports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "transitiveImports": [
+        "build-census-v1-ri_decriminalized-set.mjs"
+      ],
+      "importedBy": []
+    },
+    {
       "script": "build-census-v1-ri_nonconviction_sealing-set.mjs",
       "imports": [
         "build-census-v1-nj_arrest_no_conviction-set.mjs"
@@ -954,6 +1005,16 @@
         "pa_summary_conviction-set",
         "rcap-oh-custom-pleading-clean-tracks",
         "ri_nonconviction_sealing-set"
+      ],
+      "owner": "UNOWNED_IN_THIS_WAVE"
+    },
+    {
+      "script": "build-census-v1-ri_decriminalized-set.mjs",
+      "importers": [
+        "ri_deferred_sentence-set",
+        "ri_first_offender_felony-set",
+        "ri_first_offender_misdemeanor-set",
+        "ri_multiple_misdemeanors-set"
       ],
       "owner": "UNOWNED_IN_THIS_WAVE"
     },
