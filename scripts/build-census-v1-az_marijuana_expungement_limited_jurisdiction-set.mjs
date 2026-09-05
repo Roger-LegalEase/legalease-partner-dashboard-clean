@@ -26,6 +26,50 @@ const FAMILY_ID = "az_marijuana_expungement_limited_jurisdiction-set";
 const ROUTE_KEY = "obligation:track-only:AZ:az_marijuana_expungement_limited_jurisdiction";
 const OUT = "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs";
+const REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const TRACK_ID = "az_marijuana_expungement_limited_jurisdiction";
+
+/*
+ * The self-help stop conditions this packet prints, pinned by value.
+ *
+ * The packet carried one paraphrase -- "Opposition, disputed evidence, or a
+ * contested hearing requires a post-generation handoff" -- which covers the
+ * first three of the registry's eight conditions and no more. The remaining
+ * five were absent from the whole family directory, and two of them are not
+ * soft advice at all: conduct on or after 12 July 2021, and a sale or other
+ * non-listed marijuana offence, are the boundaries outside which A.R.S.
+ * Sec. 36-2862 does not reach the petitioner, and the registry lists both again
+ * under exclusions. The immigration warning was gone too.
+ *
+ * These are assertions rather than defaults. readTrack() refuses to continue if
+ * the registry no longer says exactly this, so a repair cannot quietly go on
+ * printing a stale boundary. Nothing here is composed: every sentence is the
+ * registry's own, and no eligibility rule, date or offence class originates in
+ * this file.
+ */
+const PINNED_STOPS = Object.freeze([
+  "Prosecuting agency files a response opposing eligibility.",
+  "Court sets a hearing.",
+  "The record does not establish quantity, plant count, or paraphernalia character and the prosecutor disputes it.",
+  "Conduct date is on or after July 12, 2021.",
+  "The offense is a sale or any other non-listed marijuana offense.",
+  "The petitioner wants to challenge the underlying conviction rather than expunge it.",
+  "A denial the petitioner wants to appeal.",
+  "Immigration consequences are in play."
+]);
+const PINNED_HANDOFF = "A routine hearing contemplated by statute does not prevent packet generation. Opposition, disputed evidence, or a contested hearing is a post_generation_handoff.";
+
+function readTrack() {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, REGISTRY), "utf8"));
+  const track = registry.tracks.find((row) => row.trackId === TRACK_ID);
+  assert.ok(track, `${FAMILY_ID}: the registry no longer carries track ${TRACK_ID}`);
+  assert.deepEqual(track.selfHelpStopConditions, [...PINNED_STOPS],
+    `${FAMILY_ID}: the registry self-help stop conditions moved; re-read them before printing`);
+  assert.ok((track.postGenerationHandoffs ?? []).includes(PINNED_HANDOFF),
+    `${FAMILY_ID}: the registry post-generation handoff sentence moved`);
+  return { stops: track.selfHelpStopConditions, handoff: PINNED_HANDOFF };
+}
+
 const SOURCE = Object.freeze({
   formNumber: "AOC-CREM2F-071221",
   documentId: "AOC-CREM2F-071221",
@@ -191,6 +235,7 @@ async function proveWrites(bytes, fixtureName) {
 }
 
 function instructions() {
+  const track = readTrack();
   const lines = [
     "# Filing instructions - Arizona municipal/justice-court marijuana expungement",
     "",
@@ -215,6 +260,16 @@ function instructions() {
     "File in the municipal or justice court that concluded the case, in person, by mail, or by e-filing where that court accepts it. Rule 36(a)(4) bars a filing fee, so no fee-waiver form applies. The court sends the petition to the prosecuting agency within 10 days.",
     "",
     "If the filing lacks enough information to identify the records, the court may require the missing information within 45 days. Opposition, disputed evidence, or a contested hearing requires a post-generation handoff.",
+    "",
+    "## When to stop and get help",
+    "",
+    "The track record lists the conditions under which this packet is not the right tool and the matter should go to a person:",
+    "",
+    ...track.stops.map((line) => `- ${line}`),
+    "",
+    `The record draws one distinction on that list, and it is printed here in the record's own words: *"${track.handoff}"* A hearing the statute itself contemplates is a normal step; opposition or a contested hearing is where this stops being a self-help packet.`,
+    "",
+    "Two of those conditions are eligibility boundaries rather than cautions. The registry lists conduct on or after July 12, 2021, and a sale or any other non-listed marijuana offense, again under this track's exclusions: outside them A.R.S. 36-2862 does not reach the record at all, and no petition on this form cures that.",
     "",
     `Route: ${ROUTE_KEY}`,
     ""
@@ -245,8 +300,15 @@ function selfTest() {
     "Rule 36(a)(4) bars a filing fee",
     "The court sends the petition to the prosecuting agency within 10 days",
     "Opposition, disputed evidence, or a contested hearing requires a post-generation handoff",
+    "## When to stop and get help",
     ROUTE_KEY
   ]) assert.ok(expectedInstructions.includes(phrase), `participant instructions dropped: ${phrase}`);
+  const { stops, handoff } = readTrack();
+  assert.equal(stops.length, 8, "the registry states eight self-help stop conditions for this track");
+  for (const stop of stops) {
+    assert.ok(expectedInstructions.includes(stop), `participant instructions drop a registry stop condition: ${stop}`);
+  }
+  assert.ok(expectedInstructions.includes(handoff), "participant instructions drop the registry post-generation handoff sentence");
 
   const receipt = readJson(`${OUT}/source-receipt.json`);
   assert.equal(receipt.documents.length, 1);
