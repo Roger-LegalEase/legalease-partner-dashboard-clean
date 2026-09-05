@@ -55,6 +55,32 @@ export function repairRowDischargesFailure(row, failedObligationNames) {
   return failed.every((name) => text.includes(name));
 }
 
+/**
+ * Several completed rows may jointly discharge one verdict. FIX29 repaired
+ * KNOWN_PREFILLS and REQUIRED_BEFORE_FILING on rcap-tx-custom-pleading and
+ * honestly wrote that SELF_HELP_STOP was not its work, while the row that
+ * carries SELF_HELP_STOP is a different one. A single-row test refused both.
+ *
+ * Each row contributes what it says it repaired (a not-discharged list only
+ * withdraws that row's own claim); every failed name must be contributed by at
+ * least one row. Rows with no structured statement fall back to text inclusion.
+ */
+export function repairRowsJointlyDischargeFailure(rows, failedObligationNames) {
+  const failed = Array.isArray(failedObligationNames) ? failedObligationNames : [];
+  if (!Array.isArray(rows) || rows.length === 0 || failed.length === 0) return false;
+  const NAME = /\b[A-Z][A-Z_]{2,}\b/g;
+  const namesIn = (v) => Array.isArray(v) ? v.flatMap(namesIn) : typeof v === "string" ? (v.match(NAME) ?? []) : [];
+  const discharged = new Set();
+  for (const row of rows) {
+    if (!row) continue;
+    const notDischarged = new Set(namesIn(row.obligationsThisRowDoesNotDischarge ?? row.obligationsNotRepaired ?? row.obligationsStillOpen));
+    const repaired = namesIn(row.obligationsRepaired ?? row.obligationRepaired);
+    const claimed = repaired.length > 0 ? repaired : failed.filter((name) => JSON.stringify(row).includes(name));
+    for (const name of claimed) if (!notDischarged.has(name)) discharged.add(name);
+  }
+  return failed.every((name) => discharged.has(name));
+}
+
 export function artifactsOnlyBookkeepingRepairsFailure(evidence) {
   const failed = evidence?.failedObligationNames;
   const bookkeeping = evidence?.artifactBookkeeping;

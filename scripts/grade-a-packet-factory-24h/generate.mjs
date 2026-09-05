@@ -28,6 +28,7 @@ import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-rete
 import { pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
 import {
   repairRowDischargesFailure,
+  repairRowsJointlyDischargeFailure,
   artifactsOnlyBookkeepingRepairsFailure,
   canRereadAfterRepair,
   repairSupersedesFailedVerdict
@@ -1639,8 +1640,8 @@ function repairCompletionAfterVerdict(independentReturn) {
   if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || failed.length === 0) return null;
   try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
   catch { return null; }
+  const orderedCandidates = [];
   for (const candidate of repairCompletionsByFamily.get(familyId) ?? []) {
-    if (!repairRowDischargesFailure(candidate.row, failed)) continue;
     if (!candidate.row.countersAfter
       || !Object.values(candidate.row.countersAfter).every((value) => Number(value) === 0)) continue;
     let priorDocument = null;
@@ -1651,16 +1652,23 @@ function repairCompletionAfterVerdict(independentReturn) {
       try {
         execFileSync("git", ["cat-file", "-e", `${base}:${candidate.evidencePath}`],
           { cwd: ROOT, stdio: "ignore" });
-      } catch { return candidate; /* the exact repair-return file is new after the verdict */ }
+      } catch { orderedCandidates.push(candidate); continue; /* the exact repair-return file is new after the verdict */ }
       continue; /* an unreadable pre-verdict record proves no ordering */
     }
     let before = null;
     try { before = JSON.parse(priorDocument); } catch { continue; }
     const prior = (before.rows ?? []).find((row) => (row.itemId ?? row.familyId) === familyId
       && (row.laneKind === "repair" || row.laneKind === "shared-host-repair"));
-    if (!prior || JSON.stringify(prior) !== JSON.stringify(candidate.row)) return candidate;
+    if (!prior || JSON.stringify(prior) !== JSON.stringify(candidate.row)) orderedCandidates.push(candidate);
   }
-  return null;
+  /* One row may discharge everything the verdict failed; several may do it
+   * jointly. Either way the result is the most recent row that contributes, so
+   * downstream evidence (its file, its counters) is a real row. */
+  const contributing = orderedCandidates.filter((c) => repairRowDischargesFailure(c.row, failed)
+    || repairRowsJointlyDischargeFailure(orderedCandidates.map((x) => x.row), failed));
+  if (contributing.length === 0) return null;
+  if (!orderedCandidates.every((c) => Object.values(c.row.countersAfter ?? {}).every((v) => Number(v) === 0))) return null;
+  return contributing[contributing.length - 1];
 }
 
 /*

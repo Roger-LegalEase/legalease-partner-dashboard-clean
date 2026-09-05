@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e9ce0c44b10f1109469af9c0784b936951396f28",
+  "generatedAtCommit": "3850ccdb182d6808caaf70e265960b933afb3ae3",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6820,10 +6820,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX29",
+      "lane": "FIX07",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T10:59:57.851Z"
     },
     {
       "subjectType": "packet-family",
@@ -12957,7 +12957,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "322805812600aacceb3da528ba767152525c81a68cec481f559cb4c12b0c44f1",
+  "claimsDigest": "8e37f0ee26c4b9c1bec8b22bc2bd9a96be8266449e1943b92a3829c6721a15ca",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27336,6 +27336,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T10:39:21.234Z",
       "reason": "The generator's verification deal shrank to the lanes it emits and named VF04 for this family; no worker was executing on VF11. Captain moves the grant to the dealt lane."
+    },
+    {
+      "lane": "FIX29",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T10:59:57.851Z",
+      "reason": "KNOWN_PREFILLS and REQUIRED_BEFORE_FILING repaired and rebuilt --no-raster twice byte-identical; SELF_HELP_STOP verified already carried at base by FIX01 and not claimed. Independent verification and central raster owed on canonical a2f87783.. / boundary a037710f.. (Replayed by Captain from FIX29 commit d214579b3.)"
     }
   ],
   "reissues": [

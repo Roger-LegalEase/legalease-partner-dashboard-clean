@@ -363,9 +363,74 @@ const SOI_RULES = [
     label: (n) => `Signature on the sworn declaration (${n})`,
     why: "the Statement is sworn by the participant and is never prefilled"
   },
+  /*
+   * THE OPTION 1 DATE OF BIRTH IS NOT A DECLARATION DATE.
+   *
+   * One rule used to match "Day / Día", "Month / Mes", "Year / Año", "Today"
+   * and "Year" together and call all five a date part of the sworn
+   * declaration, refused because "a date written before the Statement is
+   * actually sworn would be false". That reason is exactly right for the day
+   * the participant signs and exactly wrong for the day they were born.
+   *
+   * Read from the pinned binary, page 11 carries FOUR date widgets, not one
+   * date: "Month / Mes" [79.73,495.56], "Day / Día" [134.54,495.51] and
+   * "Year / Año" [193.40,495.61] are the three boxes on the
+   * "________/________/________" rule printed directly under "My date of birth
+   * is / Mi fecha de nacimiento es", while "Today" [97.75,302.31] sits under
+   * "Date (month, day, year) / Fecha (mes, día, año)" beside the signature.
+   * Only "Today" is a declaration date. Page 12's "Month / Mes" and "Year" are
+   * the notary's "____________, 20____" line.
+   *
+   * So the packet held a date of birth, printed it on page 2, and left the
+   * page-11 boxes blank while telling the participant the date of birth was
+   * already filled in. It was not, and it was not inventoried either: the
+   * three boxes were counted as protected signature-date parts, so they never
+   * reached "The items you must supply".
+   *
+   * WHY THEY ARE DECLARED RATHER THAN WRITTEN. "Month / Mes" is ONE AcroForm
+   * field carrying TWO widgets — the page-11 date-of-birth month and the
+   * page-12 notary month — and this factory writes a field, not a widget.
+   * Writing the participant's birth month would therefore also print it in the
+   * notary's blank on a page the notary completes. Two of the three boxes
+   * could be written and the third could not; a date that is two-thirds
+   * machine-filled on a perjury declaration is a worse artifact than one the
+   * participant completes in one hand, and the completeness contract would
+   * read it as an incomplete row. All three are declared, and the instructions
+   * tell the participant to copy the date already printed on page 2.
+   */
+  {
+    id: "option1_date_of_birth_month",
+    re: /^Month \/ Mes$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: () => "Month box of the date of birth on the Option 1 declaration, page 11",
+    /*
+     * THE CAPTION IS THE FORM'S, NOT OURS. A declared blank is only declared to
+     * the participant if the words beside it in the packet are the words printed
+     * beside it on the paper. `caption` carries the form's own printed line and
+     * `captionAt` says where it is printed, so the captionDrift check re-reads
+     * page 11 of the pinned binary on every build and fails if that line has
+     * moved or been reworded. The descriptive label above stays the disclosure
+     * label; this becomes the printed context in the field map and in the
+     * participant's list.
+     */
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the MONTH of your date of birth, in the first of the three boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 - copy it from the date of birth already printed on page 2. The same form field is also the notary's month blank on page 12; leave that one for the notary",
+    why: "this box is one widget of an AcroForm field whose other widget is the notary's month on page 12, and this factory writes a field rather than a widget, so filling the birth month here would also print it in the notary's blank. The box is declared instead of forced, and the fact it needs is on page 2 of the same packet"
+  },
+  {
+    id: "option1_date_of_birth_day_and_year",
+    re: /^(Day \/ Día|Year \/ Año)$/,
+    kind: "supply", section: S.SOI_DECLARATION,
+    label: (n) => `Date-of-birth box on the Option 1 declaration, page 11 (${n})`,
+    caption: "My date of birth is / Mi fecha de nacimiento es",
+    captionAt: { page: 11, y: 521 },
+    what: "the DAY and the YEAR of your date of birth, in the second and third boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 - copy them from the date of birth already printed on page 2",
+    why: "the three boxes on this line are one date and are completed together. Their month box shares an AcroForm field with the notary's month on page 12 and cannot be written without writing the notary's blank, so the whole line is left to the participant rather than delivered two-thirds filled"
+  },
   {
     id: "declaration_date",
-    re: /^(Day \/ Día|Month \/ Mes|Year \/ Año|Today|Year)$/,
+    re: /^(Today|Year)$/,
     kind: "protect", section: S.SOI_DECLARATION,
     label: (n) => `Date part of the sworn declaration (${n})`,
     why: "a date written before the Statement is actually sworn would be false"
@@ -444,6 +509,37 @@ const SOI_RULES = [
  * remembered. A name that matches no rule, and a rule that matches no name, both
  * fail the build.
  */
+/*
+ * THE ORDER THIS FORM PRINTS A DATE IN, read off the form itself.
+ *
+ * Page 2 prints, on the rule directly beneath the date-of-birth blank:
+ *
+ *     Month Day Year      /   Mes Día Año
+ *
+ * The platform stores a date of birth as YYYY-MM-DD and the shared finalizer
+ * writes a date fact as the string the fact set carries, so the blank read
+ * "1994-04-17" on a line whose own face names month first. That is not an
+ * unconventional format; against the printed line it is month 1994, day 04,
+ * year 17.
+ *
+ * The order is named here, per field, because this is the file that has read
+ * the form's printed rule. The finalizer never infers one.
+ */
+const PRINTED_DATE_ORDER_BY_FIELD = {
+  [STATEMENT]: {
+    "My date of birth / Mi fecha de nacimiento es": "month_day_year"
+  }
+};
+
+/* The printed line each named field's order was read from, asserted against the
+ * pinned binary at build time so a form revision that moves or rewords the rule
+ * fails the build instead of silently reordering a date. */
+const PRINTED_DATE_ORDER_EVIDENCE = {
+  [STATEMENT]: {
+    "My date of birth / Mi fecha de nacimiento es": { page: 2, printedLine: /month\s+day\s+year/i }
+  }
+};
+
 function statementFields(fieldNames, selectionNames) {
   const spec = {};
   const unmatched = [];
@@ -453,7 +549,13 @@ function statementFields(fieldNames, selectionNames) {
     const rule = SOI_RULES.find((r) => (r.selectionOnly ? isSelection : (!r.selectionOnly && r.re && r.re.test(name))));
     if (!rule) { unmatched.push(name); continue; }
     used.add(rule.id);
-    const base = { section: rule.section, label: rule.label(name), ...(isSelection ? { selection: true } : {}) };
+    const base = {
+      section: rule.section, label: rule.label(name),
+      // A rule may name the form's OWN printed caption and where it is printed.
+      // Carried through so captionDrift can re-read it off the page each build.
+      ...(rule.caption ? { caption: rule.caption, captionAt: rule.captionAt } : {}),
+      ...(isSelection ? { selection: true } : {})
+    };
     if (rule.kind === "write") spec[name] = { ...base, ...WRITE(rule.fact) };
     else if (rule.kind === "protect") spec[name] = { ...base, ...PROTECT(SIGNATURE, rule.why) };
     else if (rule.kind === "courtowned") spec[name] = { ...base, ...COURTOWN(rule.why) };
@@ -505,7 +607,8 @@ const COMPOSED_COMPONENTS = {
       L.push("Article 55A.254(e) FORBIDS the clerk charging anything to transmit the petition or the notice of hearing ELECTRONICALLY. Article 55A.254(f) REQUIRES the clerk to charge $25 FOR EACH LISTED ENTITY UNABLE TO RECEIVE AN ELECTRONIC TRANSMISSION. The same structure repeats at the ORDER stage under art. 55A.351(b-2) and (b-3).", "");
       L.push("So every paper-only agency you name in your petition is a direct $25 cost to you, and it lands TWICE - once at the petition stage and once at the order stage. A list with ten paper-only agencies on it costs $500 in transmission charges alone, which is more than the filing fee you are asking to have waived.", "");
       L.push("HOW TO KEEP THAT DOWN. Article 55A.253(c) requires EACH DISTRICT CLERK to compile and maintain, on the clerk's own website, a list of the agencies and entities that hold arrest records, WITH E-MAIL ADDRESSES. Ask for it by name; the clerk is not always expecting the question. Use the e-mail addresses. Deduplicate your list. A state or local agency with a listed e-mail address MUST accept electronic service.", "");
-      L.push("FILLING THIS FORM IN. It is SWORN UNDER PENALTY OF PERJURY. Your name, date of birth, address, telephone number and email are filled in for you. NOTHING FINANCIAL IS, and that is deliberate: a guessed figure on a sworn affidavit is far worse than a blank one. Take every number from pay statements, benefit letters and bills rather than from memory.", "");
+      L.push("FILLING THIS FORM IN. It is SWORN UNDER PENALTY OF PERJURY. On PAGE 2 your name, date of birth, address, telephone number and email are filled in for you, and the date of birth is printed month, day, year because that is the order the rule under that blank asks for. NOTHING FINANCIAL IS FILLED IN, and that is deliberate: a guessed figure on a sworn affidavit is far worse than a blank one. Take every number from pay statements, benefit letters and bills rather than from memory.", "");
+      L.push("PAGE 11 ASKS FOR YOUR DATE OF BIRTH AGAIN, in three boxes under 'My date of birth is / Mi fecha de nacimiento es', and those three boxes are left for you to write. Copy them from page 2. They are not filled in for a mechanical reason rather than a legal one: on this form the month box is one form field with the notary's month on page 12, so filling your birth month would also write in the notary's blank.", "");
       L.push("The cause number on the first page is left blank because the form itself says so: 'The Clerk's office will fill in the Cause Number when you file this form.'", "");
       L.push("WHO SERVES WHOM - AND IT IS NOT YOU. On all eight routes the CLERK sends the petition and the notice of hearing, by certified mail return receipt requested or by secure e-mail, electronic transmission or fax. The court sets a hearing NOT EARLIER THAN THE 30TH DAY after the petition is filed and gives a copy of the petition and the notice to each official, agency or entity listed, OTHER THAN central federal depositories. On receipt, DPS notifies those itself - so you do not chase the FBI.", "");
       L.push("WHEN TO STOP AND GET HELP INSTEAD.");
@@ -572,7 +675,11 @@ const INSTRUCTIONS = {
     "",
     "**One form, eight routes.** The same filing rule, the same fee rule and the same waiver route govern all eight Texas expunction routes this serves — no charge filed, dismissed or quashed, limitations expired, pardon or relief on actual innocence, pardon for another reason, mistaken identity or identity theft, specialty court dismissal, and pre-2021 unlawful carrying of a handgun. You are on one of them and you need one copy.",
     "",
-    "The platform filled in your name, date of birth, address, telephone number and email. **Nothing financial is filled in**, and that is deliberate: this is sworn under penalty of perjury, and a guessed figure on a sworn affidavit is far worse than a blank one.",
+    "**On page 2** the platform filled in your name, date of birth, address, telephone number and email. Your date of birth is printed there in the order that page asks for — **month, day, year** — because that is what the rule under the blank says.",
+    "",
+    "**Page 11 asks for your date of birth a second time**, in three boxes under \"My date of birth is / Mi fecha de nacimiento es\", and those three are left for you. Copy them from page 2. The platform cannot fill them: on this form the month box shares one form field with the notary's month on page 12, so filling your birth month there would also write in the notary's blank.",
+    "",
+    "**Nothing financial is filled in**, and that is deliberate: this is sworn under penalty of perjury, and a guessed figure on a sworn affidavit is far worse than a blank one.",
     "",
     "**The cause number is blank because the form says it should be** — \"The Clerk's office will fill in the Cause Number when you file this form.\""
   ],
@@ -598,7 +705,8 @@ const INSTRUCTIONS = {
     "- **The cause number**, because the form's own first page says the Clerk's office fills it in when you file.",
     "- **The court number, the county, and the two blocks copied from the top of your petition.** The form tells you to copy them across from the petition.",
     "- **Your signature and the date.** You sign when you actually swear it.",
-    "- **The county and state in the declaration**, which is where you sign."
+    "- **The county and state in the declaration**, which is where you sign.",
+    "- **The three date-of-birth boxes on page 11.** They are yours rather than the platform's for a mechanical reason, not a legal one: the month box is one form field with the notary's month on page 12, and the platform cannot write one without writing the other. The date itself is already printed on page 2 — copy it across."
   ],
   stopsLines: [
     ...REGISTRY_STOP_LINES,
@@ -928,7 +1036,13 @@ async function renderDocument(source, census, fixtureName) {
      * run wrote it - which it never does.
      */
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
-      `${FAMILY_ID}:${source.componentId}`)
+      `${FAMILY_ID}:${source.componentId}`),
+    /*
+     * The date of birth is printed in the order page 2 prints beneath the
+     * blank, not in the order the platform stores it. Empty for any component
+     * that does not name one, which is the shared default.
+     */
+    printedDateOrderByField: PRINTED_DATE_ORDER_BY_FIELD[source.componentId] ?? {}
   });
   return { bytes, report };
 }
@@ -1352,6 +1466,55 @@ function requiredBeforeFilingItems(maps) {
     .sort((a, b) => (order[a.document] - order[b.document]) || String(a.field).localeCompare(String(b.field)));
 }
 
+/*
+ * The blanks the participant completes, COUNTED FROM THE PAGE.
+ *
+ * requiredBeforeFilingItems() counts field-map rows, and the field map holds
+ * one row per AcroForm FIELD NAME. A field can put the same name on two
+ * widgets, on two pages, in two different parts of a form, and a per-name count
+ * cannot see the second one. The Option 1 date-of-birth line is the measured
+ * case: its three boxes were counted as protected declaration-date parts and
+ * were absent from a 96-item inventory that was otherwise complete, and its
+ * month box shares an AcroForm field with the notary's month on page 12.
+ *
+ * So this walks the census WIDGETS, which are read first-hand from the pinned
+ * binary and carry their own page and rectangle. Every appearance a participant
+ * completes must be reachable from the inventory; an appearance somebody else
+ * completes is named here, with who completes it and why, rather than being
+ * quietly dropped from the denominator.
+ */
+const APPEARANCES_COMPLETED_BY_SOMEONE_ELSE = [
+  {
+    document: STATEMENT, field: "Month / Mes", page: 12,
+    completedBy: "the notary",
+    why: "page 12's \"Subscribed before me this day of ... ____________, 20____\" line carries a second widget of the "
+      + "SAME AcroForm field as page 11's date-of-birth month box. The notary completes this one. The field is "
+      + "classified required-before-filing for the participant because of its page-11 appearance, and this "
+      + "appearance is excluded from what the participant is told to fill."
+  }
+];
+
+function participantCompletedBlankAppearances(censusByForm) {
+  const excluded = new Set(APPEARANCES_COMPLETED_BY_SOMEONE_ELSE
+    .map((a) => `${a.document}\u0000${a.field}\u0000${a.page}`));
+  const appearances = [];
+  for (const [componentId, census] of censusByForm) {
+    for (const r of census.rows) {
+      if (r.policy !== "supply" && r.policy !== "election") continue;
+      for (const w of r.widgets) {
+        if (excluded.has(`${componentId}\u0000${r.name}\u0000${w.page}`)) continue;
+        appearances.push({
+          document: componentId, field: r.name, label: r.effectiveLabel,
+          sourcePage: w.page, rect: w.rect,
+          policy: r.policy,
+          countedIn: r.policy === "supply" ? "requiredBeforeFiling" : "participantElections"
+        });
+      }
+    }
+  }
+  return appearances;
+}
+
 function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
@@ -1451,6 +1614,31 @@ export async function runFamily(argv = process.argv.slice(2)) {
     `the field dictionary names fields this form does not have: ${stale.map((s) => `${s.document}/${s.field}`).join(", ")}`);
   assert.equal(drift.length, 0,
     `a recorded caption is no longer printed where the dictionary says: ${drift.map((d) => `${d.field}@p${d.page}`).join(", ")}`);
+
+  /*
+   * A printed date order is only as good as the line it was read off.
+   *
+   * Every field named in PRINTED_DATE_ORDER_BY_FIELD must still exist, must
+   * still be a field this build writes, and must still have the printed rule
+   * PRINTED_DATE_ORDER_EVIDENCE recorded for it on the page the census read.
+   * A form revision that reworded "Month Day Year" would otherwise leave the
+   * reordering in place with nothing on the paper to justify it.
+   */
+  for (const [componentId, orders] of Object.entries(PRINTED_DATE_ORDER_BY_FIELD)) {
+    const census = censusByForm.get(componentId);
+    assert.ok(census, `a printed date order names component ${componentId}, which this build does not render`);
+    for (const fieldName of Object.keys(orders)) {
+      const row = census.rows.find((r) => r.name === fieldName);
+      assert.ok(row, `a printed date order names field ${JSON.stringify(fieldName)}, which ${componentId} does not have`);
+      assert.equal(row.policy, "write",
+        `a printed date order names ${JSON.stringify(fieldName)}, which this build does not write`);
+      const evidence = PRINTED_DATE_ORDER_EVIDENCE[componentId]?.[fieldName];
+      assert.ok(evidence, `no printed line is recorded for the date order on ${JSON.stringify(fieldName)}`);
+      const lines = census.pageText.find((pg) => pg.page === evidence.page)?.lines ?? [];
+      assert.ok(lines.some((l) => evidence.printedLine.test(l.text)),
+        `the printed line the date order for ${JSON.stringify(fieldName)} was read from is no longer on page ${evidence.page} of ${componentId}`);
+    }
+  }
 
   fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
   fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
@@ -1684,9 +1872,34 @@ export async function runFamily(argv = process.argv.slice(2)) {
     blockingFindings: []
   });
 
+  /*
+   * The inventory is checked against the PAGE before it is published. Every
+   * appearance the participant completes must be reachable from a required-
+   * before-filing row or from a declared participant election; anything else is
+   * a blank on a delivered page that no list closes.
+   */
+  const participantAppearances = participantCompletedBlankAppearances(censusByForm);
+  const inventoriedFields = new Set(rbf.map((i) => i.field));
+  const electionFields = new Set(maps.flatMap((m) => (m.selectionControls ?? []).map((c) => c.selectionId)));
+  const uninventoried = participantAppearances.filter((a) =>
+    !inventoriedFields.has(`${a.document}.${a.field}`) && !electionFields.has(`${a.document}.${a.field}`));
+  assert.equal(uninventoried.length, 0,
+    "a blank the participant completes is on a delivered page and in no list: "
+    + uninventoried.map((a) => `${a.document}/${a.field}@p${a.sourcePage}`).join(", "));
+
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
     schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling: rbf,
+    /*
+     * Counted from the widget rectangles of the pinned binary rather than from
+     * the field map's one-row-per-name, so a field that appears twice is
+     * counted twice and a blank that no field name reaches cannot hide.
+     */
+    participantCompletedBlankAppearances: participantAppearances.length,
+    participantCompletedBlankAppearancesByPage: participantAppearances
+      .reduce((acc, a) => { acc[a.sourcePage] = (acc[a.sourcePage] ?? 0) + 1; return acc; }, {}),
+    everyParticipantCompletedAppearanceIsInventoried: true,
+    appearancesCompletedBySomeoneElse: APPEARANCES_COMPLETED_BY_SOMEONE_ELSE,
     protectedBlanks: maps.flatMap((m) => (m.canonicalRefusals ?? [])
       .filter((r) => r.requiredBeforeFiling !== true)
       .map((r) => ({ document: m.formNumber, field: r.field, label: r.effectiveLabel, refusalClass: r.category ?? null, why: r.why ?? r.reason }))),

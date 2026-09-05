@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 import {
   repairRowDischargesFailure,
+  repairRowsJointlyDischargeFailure,
   artifactsOnlyBookkeepingRepairsFailure,
   canRereadAfterRepair,
   repairSupersedesFailedVerdict
@@ -175,4 +176,13 @@ assert.equal(repairRowDischargesFailure(fix18Shaped, ["REQUIRED_BEFORE_FILING", 
 assert.equal(repairRowDischargesFailure({ ...fix18Shaped, whatChanged: "SELF_HELP_STOP remains open" }, ["REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"]), false,
   "an obligation named only outside the repaired field is not repaired");
 
-console.log("OK post-repair reread preserves byte movement, admits only exact ARTIFACTS bookkeeping evidence, and reads what a repair row says it repaired");
+/* Two honest rows discharge one verdict jointly; a name nobody claims stays open. */
+const fix29Shaped = { ...fix24Shaped, obligationRepaired: undefined, obligationsRepaired: ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"], obligationsThisRowDoesNotDischarge: ["SELF_HELP_STOP"] };
+const bookkeepingShaped = { ...fix24Shaped, obligationRepaired: undefined, obligationsRepaired: ["SELF_HELP_STOP"], obligationsThisRowDoesNotDischarge: ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"] };
+assert.equal(repairRowsJointlyDischargeFailure([fix29Shaped], threeFailed), false, "one row that disclaims a failed name does not discharge the verdict alone");
+assert.equal(repairRowsJointlyDischargeFailure([fix29Shaped, bookkeepingShaped], threeFailed), true, "two rows whose claims together cover every failed name discharge it jointly");
+assert.equal(repairRowsJointlyDischargeFailure([fix29Shaped, fix24Shaped], threeFailed), false, "a name no row claims (SELF_HELP_STOP) stays open");
+assert.equal(repairRowsJointlyDischargeFailure([bookkeepingShaped, { ...fix29Shaped, obligationsThisRowDoesNotDischarge: ["REQUIRED_BEFORE_FILING"] }], threeFailed), false, "a row's own disclaimer withdraws only its own claim, so the disclaimed name must come from another row");
+assert.equal(repairRowsJointlyDischargeFailure([], threeFailed), false, "no rows discharge nothing");
+
+console.log("OK post-repair reread preserves byte movement, admits only exact ARTIFACTS bookkeeping evidence, reads what a repair row says it repaired, and lets honest rows discharge a verdict jointly");

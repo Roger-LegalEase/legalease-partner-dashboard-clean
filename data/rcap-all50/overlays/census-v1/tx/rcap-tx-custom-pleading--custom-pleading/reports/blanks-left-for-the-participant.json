@@ -354,6 +354,16 @@
     },
     {
       "document": "tx-expunction-fee-waiver-statement",
+      "field": "tx-expunction-fee-waiver-statement.Day / Día",
+      "page": 11,
+      "printedContext": "My date of birth is / Mi fecha de nacimiento es",
+      "disclosureLabel": "Date-of-birth box on the Option 1 declaration, page 11 (Day / Día)",
+      "identity": "tx-expunction-fee-waiver-statement field Day / Día",
+      "why": "the three boxes on this line are one date and are completed together. Their month box shares an AcroForm field with the notary's month on page 12 and cannot be written without writing the notary's blank, so the whole line is left to the participant rather than delivered two-thirds filled",
+      "participantMustSupply": "the DAY and the YEAR of your date of birth, in the second and third boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 - copy them from the date of birth already printed on page 2"
+    },
+    {
+      "document": "tx-expunction-fee-waiver-statement",
       "field": "tx-expunction-fee-waiver-statement.Debt payments to list Pagos por deudas hechas a indíquelosRow1",
       "page": 8,
       "printedContext": "Property, expense or debt entry: Debt payments to list Pagos por deudas hechas a indíquelosRow1",
@@ -591,6 +601,16 @@
       "identity": "tx-expunction-fee-waiver-statement field Mailing  Dirección Postal",
       "why": "the shared field-name semantics refuse to bind an address to a field whose name carries \"postal\", a rule aimed at postal codes, and this form's bilingual field name reads \"Mailing  Direccion Postal\". Shared machinery is not this lane's to edit, so the blank is declared rather than forced",
       "participantMustSupply": "your mailing address, which you write here yourself - it is already printed on this form's other address line, so copy it across"
+    },
+    {
+      "document": "tx-expunction-fee-waiver-statement",
+      "field": "tx-expunction-fee-waiver-statement.Month / Mes",
+      "page": 11,
+      "printedContext": "My date of birth is / Mi fecha de nacimiento es",
+      "disclosureLabel": "Month box of the date of birth on the Option 1 declaration, page 11",
+      "identity": "tx-expunction-fee-waiver-statement field Month / Mes",
+      "why": "this box is one widget of an AcroForm field whose other widget is the notary's month on page 12, and this factory writes a field rather than a widget, so filling the birth month here would also print it in the notary's blank. The box is declared instead of forced, and the fact it needs is on page 2 of the same packet",
+      "participantMustSupply": "the MONTH of your date of birth, in the first of the three boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 - copy it from the date of birth already printed on page 2. The same form field is also the notary's month blank on page 12; leave that one for the notary"
     },
     {
       "document": "tx-expunction-fee-waiver-statement",
@@ -944,6 +964,16 @@
     },
     {
       "document": "tx-expunction-fee-waiver-statement",
+      "field": "tx-expunction-fee-waiver-statement.Year / Año",
+      "page": 11,
+      "printedContext": "My date of birth is / Mi fecha de nacimiento es",
+      "disclosureLabel": "Date-of-birth box on the Option 1 declaration, page 11 (Year / Año)",
+      "identity": "tx-expunction-fee-waiver-statement field Year / Año",
+      "why": "the three boxes on this line are one date and are completed together. Their month box shares an AcroForm field with the notary's month on page 12 and cannot be written without writing the notary's blank, so the whole line is left to the participant rather than delivered two-thirds filled",
+      "participantMustSupply": "the DAY and the YEAR of your date of birth, in the second and third boxes under \"My date of birth is / Mi fecha de nacimiento es\" on page 11 - copy them from the date of birth already printed on page 2"
+    },
+    {
+      "document": "tx-expunction-fee-waiver-statement",
       "field": "tx-expunction-fee-waiver-statement.your",
       "page": 5,
       "printedContext": "Income or employment entry: your",
@@ -961,6 +991,29 @@
       "identity": "tx-expunction-fee-waiver-statement field your job title for",
       "why": "the platform holds no income, employment or benefit fact about any participant",
       "participantMustSupply": "the amount and the source, from your own records - this is sworn under penalty of perjury, so take the figures from pay statements and benefit letters rather than from memory"
+    }
+  ],
+  "participantCompletedBlankAppearances": 126,
+  "participantCompletedBlankAppearancesByPage": {
+    "1": 9,
+    "2": 1,
+    "3": 17,
+    "4": 20,
+    "5": 17,
+    "6": 7,
+    "7": 20,
+    "8": 19,
+    "9": 12,
+    "11": 4
+  },
+  "everyParticipantCompletedAppearanceIsInventoried": true,
+  "appearancesCompletedBySomeoneElse": [
+    {
+      "document": "tx-expunction-fee-waiver-statement",
+      "field": "Month / Mes",
+      "page": 12,
+      "completedBy": "the notary",
+      "why": "page 12's \"Subscribed before me this day of ... ____________, 20____\" line carries a second widget of the SAME AcroForm field as page 11's date-of-birth month box. The notary completes this one. The field is classified required-before-filing for the participant because of its page-11 appearance, and this appearance is excluded from what the participant is told to fill."
     }
   ],
   "protectedBlanks": [
@@ -1113,20 +1166,6 @@
     },
     {
       "document": "tx-expunction-fee-waiver-statement",
-      "field": "tx-expunction-fee-waiver-statement.Day / Día",
-      "label": "Date part of the sworn declaration (Day / Día)",
-      "refusalClass": "signature_or_date_participant_completion",
-      "why": "a date written before the Statement is actually sworn would be false"
-    },
-    {
-      "document": "tx-expunction-fee-waiver-statement",
-      "field": "tx-expunction-fee-waiver-statement.Year / Año",
-      "label": "Date part of the sworn declaration (Year / Año)",
-      "refusalClass": "signature_or_date_participant_completion",
-      "why": "a date written before the Statement is actually sworn would be false"
-    },
-    {
-      "document": "tx-expunction-fee-waiver-statement",
       "field": "tx-expunction-fee-waiver-statement.Group12",
       "label": "Box marked on the Statement: Group12",
       "refusalClass": "participant_sworn_narrative_or_legal_election",
@@ -1150,13 +1189,6 @@
       "document": "tx-expunction-fee-waiver-statement",
       "field": "tx-expunction-fee-waiver-statement.Year",
       "label": "Date part of the sworn declaration (Year)",
-      "refusalClass": "signature_or_date_participant_completion",
-      "why": "a date written before the Statement is actually sworn would be false"
-    },
-    {
-      "document": "tx-expunction-fee-waiver-statement",
-      "field": "tx-expunction-fee-waiver-statement.Month / Mes",
-      "label": "Date part of the sworn declaration (Month / Mes)",
       "refusalClass": "signature_or_date_participant_completion",
       "why": "a date written before the Statement is actually sworn would be false"
     }

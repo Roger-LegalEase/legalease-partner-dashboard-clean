@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-05T10:11:20.969Z",
-  "captainHead": "085bbec84750a1158234b6a600af945b7656067d",
+  "generatedAt": "2026-09-05T11:01:32.493Z",
+  "captainHead": "3850ccdb182d6808caaf70e265960b933afb3ae3",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-05T10:31:20.969Z",
-    "nextSourceReleaseDeadline": "2026-09-05T10:41:20.969Z",
+    "nextIntegrationDeadline": "2026-09-05T11:21:32.493Z",
+    "nextSourceReleaseDeadline": "2026-09-05T11:31:32.493Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 24,
+        "measured": 19,
         "threshold": 20,
-        "triggered": true
+        "triggered": false
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 45,
+        "measured": 50,
         "threshold": 20,
         "triggered": true
       },
@@ -81,17 +81,16 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 24,
-    "repairRequired": 45,
+    "verifyPending": 19,
+    "repairRequired": 50,
     "byState": {
-      "COMPLETE_PACKET_PROVEN": 141,
-      "FAIL_REPAIR_REQUIRED": 45,
+      "COMPLETE_PACKET_PROVEN": 145,
+      "FAIL_REPAIR_REQUIRED": 50,
       "PRODUCT_PATH_PENDING": 20,
       "OUT_OF_SCOPE": 5,
       "SOURCE_READY": 82,
-      "VERIFY_PENDING": 24,
       "SOURCE_BLOCKED": 6,
-      "BUILT_RASTER_PENDING": 4,
+      "VERIFY_PENDING": 19,
       "LEGAL_BLOCKED": 7,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
