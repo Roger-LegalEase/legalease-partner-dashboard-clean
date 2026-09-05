@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-launch-engineering-assignment/v1",
+  "assignmentId": "codex-launch-01-il-felony-prostitution-relief-delivery-v1",
+  "lane": "CODEX-LAUNCH-01",
+  "laneKind": "launch-engineering",
+  "executor": "Codex (OpenAI) Cloud task, launched by the owner; not a Claude worker",
+  "authorizedBy": "Owner instruction of 2026-09-05: Codex is authorized for one bounded non-packet launch-engineering assignment when Codex capacity is available; the Captain remains sole integrator.",
+  "recordedBy": "Claude Code Captain",
+  "recordedOn": "2026-09-05",
+  "status": "PREPARED_NOT_LAUNCHED",
+  "whyNotLaunchedFromHere": "This container has no Codex CLI, API credential or Codex Cloud session control. The only launch path is the owner starting a Codex Cloud task from the prompt in ASSIGNMENT.md on the branch named below. Nothing here waits on that: every packet track continues.",
+  "necessaryOwnerAction": "Start one Codex Cloud task on Roger-LegalEase/legalease-partner-dashboard-clean, branch codex/launch-01-il-delivery created from the current tip of claude/legalease-sprint-captain-utucnw, with data/rcap-grade-a/packet-factory-24h/codex-launch-01/ASSIGNMENT.md as the whole prompt.",
+  "codeBase": "d7e293f81 on claude/legalease-sprint-captain-utucnw (Codex branches from the current captain tip, which carries this record and is a descendant of that commit)",
+  "route": {
+    "runtimeRouteId": "IL:felony-prostitution-relief",
+    "obligationRouteKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+    "registryTrackId": "il-prostitution-j-vacate",
+    "packetFamilyId": "il-prostitution-j-vacate-set",
+    "automaticSibling": { "trackId": "il-prostitution-j-auto", "admitted": false, "mustStayClosed": true },
+    "fulfillmentRecordId": "grade-a-il-felony-prostitution-relief-v1",
+    "commercialStatus": "commercially_eligible",
+    "whyChosen": "The owner named it. It holds a Grade-A fulfillment record, an owner-bound v2 specification (bc9050e0...), a current-byte independent PASS, a hash-bound RASTER_PASS (run 33574304514), and a productization return (data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json, status READY_FOR_GRADE_A_FULFILLMENT_RECORD_GENERATION). No Claude worker owns it."
+  },
+  "measuredStartingState": {
+    "launchGraphRow": "data/rcap-ledger/launch-graph.json pathwayKey IL:felony-prostitution-relief: availability MAINTENANCE_HOLD; renderer.routeKind legacy_retired; artifactResult null; operationalGates.deterministicArtifactProven false; paymentAllowed false; dtcResult.deliverable false; rcapResult.creditConsumable false; fulfillmentAuthorityAdmitted true; unmetOperationalGates [paymentAllowed, deterministicArtifactProven]",
+    "whyLegacyRetired": "scripts/generate-rcap-launch-graph.mjs line 239 resolves the pathway with resolvePacketRoute({ state, pathway }) and no trackId. src/lib/rcap/documents/packet-route-resolver.ts fences LEGACY_VERIFIED jurisdictions (MS, IL, DC, PA, TX) behind factoryV2RouteMigrationFor / factoryV2RouteProductizationFor, both track-exact, so the pathway-level resolution has no track and stays legacy_retired; factoryResolves is then false, probeArtifact never runs and artifactResult is null.",
+    "disposition": "data/rcap-grade-a/route-productization/ROUTE_PRODUCTIZATION_DISPOSITION.json nearestRoutes: exactCurrentBlocker = no hosted consumer canary and no hosted sponsored canary, hosted workflow undispatchable from this repository (credentials named, not carried)"
+  },
+  "task": "Complete the existing consumer/sponsored delivery path for IL:felony-prostitution-relief so that a participant whose screening lands on registry track il-prostitution-j-vacate is served, end to end, by the factory_v2 renderer bound to the server-owned specification: (1) the runtime route resolves through the exact productized track (the automatic sibling il-prostitution-j-auto stays closed; the trackless aggregate route is never admitted); (2) the launch graph reads a route-scoped deterministic artifact for the route (operationalGates.deterministicArtifactProven true, artifactResult.rendered and .deterministic true) produced by the existing probe, not by a bypass; (3) consumer checkout -> render job -> authorized download, and the sponsored (partner/clinic) entitlement path, bind to that exact route and family through the existing delivery core (authorizePacketDownload / streamAuthorizedPacket, runWorkerCycle, commercial-admission, consumer-delivery-control); (4) every existing delivery verifier covers the exact route. paymentAllowed, sellable and creditConsumable stay false at the resolver and the evaluator: commercial authority comes only from the fulfillment record and the launch gates, and this assignment opens nothing. Production, Vercel, Supabase auth/RLS/session, Stripe live mode and environment variables are untouched.",
+  "writablePaths": [
+    "src/lib/rcap/documents/packet-route-resolver.ts",
+    "src/lib/rcap/documents/factory-v2-registry.ts",
+    "src/lib/rcap/render/**",
+    "src/lib/rcap/fulfillment/**",
+    "src/app/api/**/rcap*/** (route handlers for checkout, render jobs, delivery and sponsored entitlement only)",
+    "scripts/generate-rcap-launch-graph.mjs",
+    "scripts/verify-rcap-*.mjs and scripts/test-rcap-*.mjs for the delivery path (extend or add cases; never weaken an assertion)",
+    "data/rcap-ledger/launch-graph.json, data/rcap-ledger/public-witness-*.json, data/record-clearing/factory-v2-route-registry.json (regenerated with their generators only, never hand-edited)"
+  ],
+  "prohibitedPaths": [
+    "data/rcap-all50/** (packet families, fixtures, field maps, receipts)",
+    "data/rcap-grade-a/packet-factory-24h/** except this lane's own return directory",
+    "data/rcap-grade-a/legal-decisions/**, data/record-clearing/legal-design-*/**, data/record-clearing/packet-specifications/**",
+    "data/rcap-grade-a/fulfillment-authority-registry.json and scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+    "supabase/**, migrations, RLS, auth or session code; Stripe configuration; .env*, vercel.json, .github/workflows/**",
+    "scripts/build-census-v1-*.mjs and every packet builder or host"
+  ],
+  "acceptance": {
+    "mustPass": [
+      "node scripts/verify-route-resolution.mjs",
+      "node scripts/verify-rcap-factory-v2-route.mjs && node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "node scripts/generate-rcap-launch-graph.mjs --check && node scripts/verify-rcap-launch-graph.mjs && node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+      "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only && node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+      "node scripts/verify-rcap-money-gate-delivery-binding.mjs && node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+      "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+      "node scripts/verify-rcap-packet-render-path.mjs && node scripts/verify-rcap-packet-render-jobs.mjs && node scripts/verify-rcap-packet-delivery-contract.mjs && node scripts/verify-rcap-render-job-contract.mjs",
+      "node scripts/verify-rcap-render-worker-delivery.mjs and node scripts/verify-rcap-packet-delivery-e2e.mjs (both against the ephemeral database and the filesystem storage adapter they already use)",
+      "npx tsc --noEmit -p . and eslint on every changed file"
+    ],
+    "mustBeTrueAfter": [
+      "launch-graph row IL:felony-prostitution-relief: renderer.routeKind factory_v2 for the productized track, artifactResult.rendered true, artifactResult.deterministic true, operationalGates.deterministicArtifactProven true",
+      "launch-graph: every row keeps operationallySellable false and paymentAllowed false; no availability changes except the IL row's unmetOperationalGates shrinking by deterministicArtifactProven",
+      "resolver: IL:felony-prostitution-relief with trackId il-prostitution-j-auto resolves to no factory route and no checkout; with trackId il-prostitution-j-vacate resolves factory_v2 with sellable false and creditConsumable false",
+      "a focused delivery test proves a consumer job and a sponsored entitlement for the exact route bind to family il-prostitution-j-vacate-set and refuse the automatic sibling, a wrong family, and a wildcard route scope",
+      "no packet byte, receipt, ledger, queue, legal record or specification changed (git diff --stat against the base must show only the writable paths)"
+    ],
+    "notAcceptance": "A green verifier is not the outcome; the outcome is that the delivery core serves this exact route from the factory_v2 renderer with commercial authority still fail-closed. Say plainly what remains (the hosted consumer and sponsored canaries need credentials only the owner holds; paymentAllowed opens only through the fulfillment record and launch gates)."
+  },
+  "returnLocation": "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN.json on branch codex/launch-01-il-delivery: {schemaVersion 'rcap-launch-engineering-return/v1', lane, base, branch, commit, changedPaths, verifiersBefore, verifiersAfter (command and exit code), launchGraphRowBefore/After for the IL route, resolutionOutcomesChanged (list), routesOpened 0, paymentTouched false, productionTouched false, whatRemains}",
+  "integration": "The Captain reads the return, re-runs the acceptance list on the captain branch, treats any change to worker inputs (resolver, renderer, delivery core) as requiring the existing publication/equivalence process before any worker digest is reused, and integrates by copying the exact commit's files or merging; Codex never pushes to the captain branch or main.",
+  "ownership": "This record is the ownership record: the writable paths above are owned by CODEX-LAUNCH-01 until its return is integrated or the assignment is withdrawn; no Claude lane is dispatched onto them meanwhile. No packet-family claim is minted because no packet family is written."
+}
