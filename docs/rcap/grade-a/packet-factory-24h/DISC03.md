@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `3cc2f939779088a93181d46caca85a6ce2a6000f` (or the newer dispatch base)
+**Minimum required ancestor:** `21ddabcb37d365310f786bfa305c8f2fdf6e0d0f` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC03 \
   --codex-cloud \
-  --minimum-captain-sha 3cc2f939779088a93181d46caca85a6ce2a6000f
+  --minimum-captain-sha 21ddabcb37d365310f786bfa305c8f2fdf6e0d0f
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
