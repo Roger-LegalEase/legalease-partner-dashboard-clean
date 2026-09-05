@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b23dc9672b87c0f49aba66a7838ad77ee7aa392e",
+  "generatedAtCommit": "f21a4f598191ed2cf0b7c667e7b9d76ce3e52ea4",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1125,8 +1125,7 @@
       "lane": "VF01",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T11:14:21.759Z",
-      "releaseReason": "VF01 PASS_COMPLETE_INDEPENDENT at 48449fe39 on 276e1ab9/fcfc45c3, RASTER_PASS 33960054973 bound; FIX28's three repairs hold on the delivered pages. Verdict extracted."
+      "releasedAt": "2026-09-05T11:14:21.759Z"
     },
     {
       "subjectType": "packet-family",
@@ -2252,7 +2251,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-04T15:55:47.184Z"
@@ -5230,6 +5229,21 @@
         "ms-fel-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-fel-set",
+      "familyId": "ms-fel-set",
+      "itemId": null,
+      "familyIds": [
+        "ms-fel-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -5307,10 +5321,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T10:14:35.765Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5353,10 +5366,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T02:01:28.709Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7479,7 +7491,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-03T19:00:40.745Z"
@@ -7994,10 +8006,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T23:58:16.453Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -8807,8 +8818,7 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:53:12.913Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13198,7 +13208,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "301c9978833e12ef73c58694db9d2257e8ce5a9a39356e453fa7ea40b5f8af4f",
+  "claimsDigest": "3c3876c1eba3cd0d33972f246d745b5fd6d37dd6ba9bbcf19993f9bac7c45a44",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35058,6 +35068,46 @@
       "previouslyReleasedAt": "2026-09-05T00:10:40.505Z",
       "reissuedAt": "2026-09-05T15:19:00.737Z",
       "reason": "Fresh independent read of FIX03's rebuild (shared splitter; live raster run 33973718354); VF05 neither built nor repaired these families."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-misd-addl-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "dispatchNames": "VF04",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:27:23Z",
+      "reason": "the current dispatch names VF04 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonadj-set",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "dispatchNames": "VF05",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:27:23Z",
+      "reason": "the current dispatch names VF05 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "dispatchNames": "VF07",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:27:23Z",
+      "reason": "the current dispatch names VF07 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "dispatchNames": "VF08",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:27:23Z",
+      "reason": "the current dispatch names VF08 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
