@@ -51,8 +51,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 165,
-    "factoryV2Resolved": 165,
+    "factoryV2Selected": 166,
+    "factoryV2Resolved": 166,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -96,15 +96,15 @@
       }
     ],
     "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 165,
-    "deterministicallyRendered": 41,
+    "deterministicallyRenderedComposedText": 166,
+    "deterministicallyRendered": 42,
     "officialFormsNamedButNotHeldInThisRepository": 124,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 167,
     "technicalApprovalCurrent": 192,
-    "deterministicArtifactProven": 221,
+    "deterministicArtifactProven": 220,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 234,
     "rendererSelected": 70,
@@ -6747,10 +6747,13 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "legacy_retired",
+        "trackId": "il-prostitution-j-vacate",
+        "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
-        "packetSetIds": [],
-        "reason": "IL's legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery."
+        "packetSetIds": [
+          "il-prostitution-j-vacate-set"
+        ],
+        "reason": "IL felony-prostitution-relief builds through the shared packet factory from packet set il-prostitution-j-vacate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -6763,7 +6766,21 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": null,
+      "artifactResult": {
+        "rendered": true,
+        "deterministic": true,
+        "sha256": "e2ab3592cd8c9b4f69d7f97914754b3739f52f2d486715af72c55f3726620dde",
+        "characters": 3192,
+        "sections": 11,
+        "warnings": 0,
+        "errors": [],
+        "scope": {
+          "routeId": "IL:felony-prostitution-relief",
+          "trackId": "il-prostitution-j-vacate",
+          "packetFamilyId": "il-prostitution-j-vacate-set",
+          "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f"
+        }
+      },
       "dtcResult": {
         "deliverable": false
       },
@@ -6778,12 +6795,11 @@
         "ownerApprovedLegalDesign": true,
         "technicalApprovalCurrent": true,
         "rendererSelected": true,
-        "deterministicArtifactProven": false,
+        "deterministicArtifactProven": true,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
-        "paymentAllowed",
-        "deterministicArtifactProven"
+        "paymentAllowed"
       ],
       "fulfillmentAuthorityAdmitted": true,
       "operationallySellable": false,

@@ -1,3 +1,4 @@
+await import("./verify-rcap-il-delivery-binding.mjs");
 // Verifies the phase-49 durable render job contract and artifact-gated credit
 // movement by applying the migration to a throwaway PostgreSQL cluster and
 // running the behavioural assertions in

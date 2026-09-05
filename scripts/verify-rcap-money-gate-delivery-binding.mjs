@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 // The money gate may never be wider than the delivery gate.
 //
 //   node scripts/verify-rcap-money-gate-delivery-binding.mjs

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 // Focused gate on the canonical launch graph.
 //
 //   node scripts/verify-rcap-launch-graph.mjs
@@ -60,6 +61,17 @@ function failures({ graph, closure }) {
   const out = [];
   const fail = (ok, message) => { if (!ok) out.push(message); };
   const rows = graph.rows ?? [];
+  const illinois = rows.find((row) => row.pathwayKey === "IL:felony-prostitution-relief");
+  fail(illinois?.renderer?.routeKind === "factory_v2"
+    && illinois?.renderer?.trackId === "il-prostitution-j-vacate",
+  "IL-resolution: the exact productized track must select the factory");
+  fail(illinois?.artifactResult?.scope?.routeId === illinois?.pathwayKey
+    && illinois?.artifactResult?.scope?.trackId === "il-prostitution-j-vacate"
+    && illinois?.artifactResult?.scope?.packetFamilyId === "il-prostitution-j-vacate-set"
+    && illinois?.artifactResult?.rendered === true
+    && illinois?.artifactResult?.deterministic === true
+    && illinois?.operationalGates?.deterministicArtifactProven === true,
+  "IL-artifact: the proven artifact must carry the exact route/track/family scope");
 
   // D — one denominator.
   const intended = (closure.pathways ?? []).filter((pathway) => pathway.category === "paid_packet_intended");
@@ -184,6 +196,10 @@ if (MUTATIONS) {
   const base = failures(documents).length;
   const clone = () => JSON.parse(JSON.stringify(documents));
   const mutations = [
+    ["Illinois loses its selected track", (d) => { delete d.graph.rows.find((row) => row.pathwayKey === "IL:felony-prostitution-relief").renderer.trackId; }],
+    ["Illinois artifact inherits the automatic sibling", (d) => { d.graph.rows.find((row) => row.pathwayKey === "IL:felony-prostitution-relief").artifactResult.scope.trackId = "il-prostitution-j-auto"; }],
+    ["Illinois artifact has wildcard scope", (d) => { d.graph.rows.find((row) => row.pathwayKey === "IL:felony-prostitution-relief").artifactResult.scope.routeId = "IL:*"; }],
+    ["Illinois artifact names the wrong family", (d) => { d.graph.rows.find((row) => row.pathwayKey === "IL:felony-prostitution-relief").artifactResult.scope.packetFamilyId = "il-prostitution-j-auto-set"; }],
     ["a pathway dropped from the denominator", (d) => { d.graph.rows.pop(); }],
     ["a pathway invented", (d) => {
       const row = JSON.parse(JSON.stringify(d.graph.rows[0]));
