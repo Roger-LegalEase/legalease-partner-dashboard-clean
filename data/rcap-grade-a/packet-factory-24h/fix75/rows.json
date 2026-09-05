@@ -1,0 +1,1794 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX75",
+  "laneKind": "shared-host-repair",
+  "laneSummary": "Five Vermont sealing families repaired together through their one shared host, scripts/build-census-v1-vt_seal_misdemeanor-set.mjs. Two repairs in one rebuild: the boundary participant's full legal name now fits field 34d of 200-00132 on packet page 3 (an existing, default-off finalizer option, alignWidgetFontSizeToFit, opted into at the host's single call site — no shared module was edited and no font size was hand-set), and the four families that carried none of their declared self-help stop conditions now carry all of them, verbatim from the committed track registry, through the code path vt_seal_pardon-set already used. Raster on the new bytes and independent verification are still owed.",
+  "baseCommit": "a777f061b",
+  "branch": "fix75-vt-host-fit-stops",
+  "generatedBy": "FIX75",
+  "rows": [
+    {
+      "itemId": "vt_seal_18_to_21-set",
+      "familyId": "vt_seal_18_to_21-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "lane": "FIX75",
+      "baseCommit": "a777f061b",
+      "branch": "fix75-vt-host-fit-stops",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX75 vt_seal_18_to_21-set -> CLAIM_OK FIX75 vt_seal_18_to_21-set (repair, grant set a2bba26e25b8c21f), exit 0. Asserted before any artifact of this family was edited.",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "PROTECTED_BLANKS",
+        "SERVICE_AND_DESTINATION"
+      ],
+      "whatChanged": {
+        "sharedHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs — the one host all five families are built by. No shared module was edited: scripts/rcap-official-forms/rcap-official-form-finalize.mjs and scripts/rcap-official-forms/rcap-text-fitting.mjs are untouched.",
+        "knownPrefills": "alignWidgetFontSizeToFit: true added at the host's single finalizeOfficialForm call, beside the evaluateDeclaredMinimumSize, suppressSynthesizedAppearances and fitAppearancesToRect that were already there. The option is the finalizer's own, default-off, and rewrites only the size token inside each widget's existing /DA, so a widget whose declared size already equals the fit is left alone. fitTextPerWidget was NOT used and is still false: this host declares one widget per field, so per-widget fitting measures the identical rectangle and would have changed nothing.",
+        "selfHelpStop": "registryGuidanceTrackId: \"vt_seal_18_to_21\" added to this family's config, which is the one word the host's FIX04 comment says each family needs once its repair is claimed. The family now reads ITS OWN committed registry track through the same code path vt_seal_pardon-set already used, and participant-instructions.md gains the 'When to stop and get a lawyer' section carrying all 11 of the track's selfHelpStopConditions verbatim, the sentence naming a scheduled hearing as where this packet's self-help ends, and the 'What has to be true before this petition can succeed' section carrying the track's 4 waitingPeriods and 6 exclusions verbatim. Nothing was written that the registry does not say and no condition was softened, shortened or paraphrased; the change to the file is purely additive (git diff shows insertions only).",
+        "alsoChangedAsAConsequence": [
+          "reports/rendered-artifacts.json: the two fixture digests and byte lengths, and a componentSet block the family did not carry before (the registry's four declared packet-set components, each named and marked delivered). This lane does not claim COMPONENT_SET on it; it is named here because it is a change this rebuild made.",
+          "raster/canonical/page-03/page.png and raster/boundary/page-03/page.png: the builder's own page rasters for the one page whose bytes moved."
+        ],
+        "notChanged": "suppressSynthesizedAppearances and fitAppearancesToRect are exactly as FIX67 left them (git diff of the host shows no line touching either). No FEE_AND_WAIVER text was touched anywhere; for vt_seal_dui-set the fee-and-waiver section of participant-instructions.md is byte-identical to the file at base, proved by diff."
+      },
+      "selfHelpStop": {
+        "registryTrackId": "vt_seal_18_to_21",
+        "registryFile": "data/record-clearing/legal-design-track-registry.json",
+        "registryField": "tracks[].selfHelpStopConditions",
+        "conditionsDeclared": 11,
+        "conditionsCarriedBefore": 0,
+        "conditionsCarriedAfter": 11,
+        "heading": "## When to stop and get a lawyer",
+        "introLineDelivered": "The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:",
+        "hearingLineDelivered": "**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.",
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The prosecutor opposes the petition, or the court schedules a hearing.",
+            "deliveredLine": "- The prosecutor opposes the petition, or the court schedules a hearing.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 2,
+            "registryCondition": "A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "deliveredLine": "- A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 3,
+            "registryCondition": "Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "deliveredLine": "- Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 4,
+            "registryCondition": "The criminal history record mixes qualifying and nonqualifying offences.",
+            "deliveredLine": "- The criminal history record mixes qualifying and nonqualifying offences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 5,
+            "registryCondition": "The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "deliveredLine": "- The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 6,
+            "registryCondition": "The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "deliveredLine": "- The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 7,
+            "registryCondition": "Any felony not plainly on the § 7601(4)(B) list.",
+            "deliveredLine": "- Any felony not plainly on the § 7601(4)(B) list.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 8,
+            "registryCondition": "Immigration consequences.",
+            "deliveredLine": "- Immigration consequences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 9,
+            "registryCondition": "The participant wants to attack the underlying conviction rather than clear the record.",
+            "deliveredLine": "- The participant wants to attack the underlying conviction rather than clear the record.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 10,
+            "registryCondition": "The criminal history record includes both qualifying and nonqualifying offences, which is an absolute bar under § 7609(b)(1).",
+            "deliveredLine": "- The criminal history record includes both qualifying and nonqualifying offences, which is an absolute bar under § 7609(b)(1).",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 11,
+            "registryCondition": "The participant was under 18 at the time, which falls outside chapter 230.",
+            "deliveredLine": "- The participant was under 18 at the time, which falls outside chapter 230.",
+            "presentVerbatimInParticipantInstructions": true
+          }
+        ],
+        "measuredBy": "each registry condition matched, whitespace- and quote-normalised, against the family's participant-instructions.md read from the working tree after the final rebuild",
+        "pardonUnchanged": "vt_seal_pardon-set's participant-instructions.md is byte-identical to the file at base and still carries 10 of 10."
+      },
+      "knownPrefills": {
+        "field": "34d",
+        "form": "200-00132",
+        "formTitle": "Stipulation to Seal Criminal History Record and Order",
+        "packetPage": 3,
+        "caption": "Printed Name (Defendant's, in the stipulation signature block)",
+        "appearance": "FlatWidget-4869070959",
+        "widgetRectPt": {
+          "width": 174.743,
+          "height": 12.96
+        },
+        "clipPathMaxXPt": 173.743,
+        "whyItWasNotFitted": "34d is the one written field on 200-00132 whose widget annotation is a SEPARATE dictionary carrying its own /DA '/Calibri 11 Tf 0 g'. pdf-lib's text appearance provider prefers the widget's /DA font size over the field's, and applyFitToTextField sets the size on the FIELD. 34e, 34f and 34h carry the same /DA string but their widget IS the field dictionary (the merged single-widget shape), so the fit already reached them; 34i has a separate widget with no /DA of its own and so followed the field too. Verified by loading the pinned source (SHA-256 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2) and comparing widget dict identity field by field.",
+        "boundary": {
+          "valueWritten": "Maria-Alejandra O’Shaughnessy-Whitfield",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 204.23,
+            "textStartXPt": 1,
+            "textEndXPt": 205.23,
+            "overflowBeyondClipPt": 31.49,
+            "delivered": "clipped: the page prints 'Maria-Alejandra O’Shaughnessy-Wh' and the last characters never reach the paper"
+          },
+          "after": {
+            "fontSizePt": 8.96,
+            "drawnWidthPt": 166.35,
+            "textStartXPt": 1,
+            "textEndXPt": 167.35,
+            "headroomInsideClipPt": 6.39,
+            "delivered": "the whole value prints inside its clip"
+          },
+          "fontSizeFloor": "MIN_READABLE_FONT_SIZE = 6; the fit landed four rungs above it, at 8.96. No size was hand-set: 8.96 is the size the shared fitter measured against this widget's own rectangle.",
+          "rasterProof300dpi": {
+            "method": "page 3 of the boundary fixture rendered at 300 dpi before and after into /tmp (Chromium, the repository's calibrated rasterizer), the widget's own rectangle cropped, the form's printed rule rows (y 2551-2554) excluded so only participant glyphs are counted",
+            "before": {
+              "glyphPixels": 7292,
+              "glyphInkX": [
+                1656,
+                2376
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 1,
+              "readByEye": "the name is cut mid-word at the clip edge"
+            },
+            "after": {
+              "glyphPixels": 5834,
+              "glyphInkX": [
+                1656,
+                2342
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 35,
+              "readByEye": "'Maria-Alejandra O’Shaughnessy-Whitfield' reads whole, clear of the printed rule and of the neighbouring caption; no overlap"
+            }
+          }
+        },
+        "canonical": {
+          "valueWritten": "Jordan Avery Reyes",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 97.85,
+            "textEndXPt": 98.85,
+            "headroomInsideClipPt": 74.89
+          },
+          "after": {
+            "fontSizePt": 10.96,
+            "drawnWidthPt": 97.5,
+            "textEndXPt": 98.5,
+            "headroomInsideClipPt": 75.24
+          },
+          "note": "The canonical name was never clipped. Its size moves 11 -> 10.96 because 10.96 is the largest rung the shared fitter's ladder offers on a 12.96pt-high widget (its height ceiling is rect.height - 2). That is the fitter's own measurement, not a size set by this lane, and it is the largest size that widget's geometry allows: the canonical name is not made smaller than it needs to be."
+        },
+        "everyOtherWrite": "All 24 text-bearing flattened appearances were re-read in each fixture after the rebuild, each against its own clip path, font and size: 24 of 24 fit in canonical and 24 of 24 fit in boundary (23 of 24 before). Only 34d's size changed in either fixture; the other 23 appearances are byte-for-byte the size they were."
+      },
+      "placementSweep": {
+        "test": "VF02's sweep, re-implemented for measurement only and not committed: for every flattened widget placement in a fixture, compose the page's cm matrices with the appearance stream's own /Matrix, transform its /BBox, and require the placed extent to equal the source widget's /Rect (cmScale x requiredScale == 1), matching each placement to its source widget by page and translation.",
+        "before": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "after": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "change": "none — 161/161 per fixture before and after, on all five families"
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set, run in this container before and after the rebuild; PASS_COMPLETE, 24/165 written, exit 0 both times",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
+          "when": "before",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
+          "when": "after",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh; the rebuild erased none"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family vt_seal_18_to_21-set",
+          "when": "before and after",
+          "exitCode": 0,
+          "result": "BROKEN_DENOMINATOR: 'no census matched --family <id>'. The --family filter does not resolve this family's spelling, so the unfiltered run above — which covers all 96 families including this one — is what is reported. Stated plainly rather than counted as a pass."
+        }
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+            "byteLength": 851974,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+            "byteLength": 852466,
+            "pageCount": 6
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "byteLength": 851978,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "byteLength": 852465,
+            "pageCount": 6
+          }
+        },
+        "note": "Identical across all five family directories, file for file, before and after. The 'before' pair is VF05's canonical 6d13376c… and boundary 22ae0bc5…, re-hashed on disk before any measurement. The five may again share identical digests, and they do: the five packets differ only in participant-instructions.md, which is not inside the PDFs."
+      },
+      "rebuild": {
+        "command": "node scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
+        "passes": 3,
+        "byteIdentical": true,
+        "detail": "Rebuilt three times. A baseline rebuild at base, before any edit, reproduced VF05's digests exactly, so the builder is deterministic in this container. After the edits, three consecutive rebuilds of all five families produced identical canonical and boundary digests; the last two ran entirely on the final source."
+      },
+      "raster": {
+        "engine": "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs (Chromium, calibrated), run in this container into /tmp only",
+        "pagesWhoseBytesChanged": [
+          3
+        ],
+        "pixelIdentityAt150dpi": {
+          "canonical": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "1909 differing pixels, all inside x[826,1032] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          },
+          "boundary": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "4695 differing pixels, all inside x[827,1188] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          }
+        },
+        "statement": "Every page of both fixtures other than page 3 is pixel-identical at 150 dpi, and on page 3 every differing pixel falls in the single 22-pixel-high band that carries field 34d.",
+        "rastersDeleted": true
+      },
+      "otherFamilyDirectories": "byte-identical: git status shows no change anywhere outside these five family directories and the one shared host script.",
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs (and --family vt_seal_misdemeanor-set)",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/12 passed, 2 failed, 5 not applicable",
+        "passed": [
+          "repo_identity fix75-vt-host-fit-stops at a777f061",
+          "clone_is_complete",
+          "worktree_clean",
+          "node_toolchain node 22.22.2",
+          "pdf_lib_importable pdf-lib 1.17.1",
+          "master_library_mounted",
+          "master_library_complete (499 files, 329 PDFs, 51 jurisdictions)",
+          "family_sources_bind 3/3 by exact SHA-256",
+          "master_library_not_at_operational_path",
+          "absent_is_not_empty",
+          "stale_artifact_block_consulted"
+        ],
+        "failed": [
+          "private_is_git_ignored — private/ is reached through a symlink to the read-only source clone, and .gitignore's 'private/' pattern does not match a symlink, so the check reports it as not ignored. Nothing under private/ is staged: every path in this lane's commits was named by hand and the commit is 'git add <path>' only, never 'git add .', '-A' or '--all'.",
+          "corpus_matches_committed_index — 1 absent, 0 mismatched of 24 sampled. The absent sample is not one of this family's three sources; --family vt_seal_misdemeanor-set reports family_sources_bind 3/3 by exact SHA-256."
+        ],
+        "notApplicable": "the browser and rasterizer checks, which this invocation did not request; page rasters for this measurement were rendered separately into /tmp.",
+        "environment": "MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library, as scripts/verify-packet-build-environment.mjs expects; node_modules symlinked from the captain worktree; work confined to /home/user/fix75-worktree on branch fix75-vt-host-fit-stops off a777f061b."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "Central raster on the new bytes. Both fixture digests moved, so FIX67's live RASTER_PASS receipt (run 33993870603) no longer binds these bytes and this family carries no acceptance receipt. The 300 dpi and 150 dpi rasters this lane read were rendered locally into /tmp and deleted; they are a measurement, not a receipt.",
+        "Independent verification. This lane built and repaired these five families and cannot verify its own work. Every obligation above is a builder's measurement and needs an independent reader.",
+        "FEE_AND_WAIVER for vt_seal_dui-set was deliberately not touched: it is a counsel hold and is named in obligationsThisRowDoesNotDischarge.",
+        "REQUIRED_BEFORE_FILING and COMPONENT_SET were not measured here, although the same registry opt-in added waiting-period, exclusion and component-set content for the four siblings. That content is registry-quoted, but whether it discharges those obligations is for an independent reader to decide.",
+        "The placement sweep script used here was written for this measurement and is not committed."
+      ]
+    },
+    {
+      "itemId": "vt_seal_dui-set",
+      "familyId": "vt_seal_dui-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "lane": "FIX75",
+      "baseCommit": "a777f061b",
+      "branch": "fix75-vt-host-fit-stops",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX75 vt_seal_dui-set -> CLAIM_OK FIX75 vt_seal_dui-set (repair, grant set a2bba26e25b8c21f), exit 0. Asserted before any artifact of this family was edited.",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "FEE_AND_WAIVER",
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "PROTECTED_BLANKS",
+        "SERVICE_AND_DESTINATION"
+      ],
+      "whatChanged": {
+        "sharedHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs — the one host all five families are built by. No shared module was edited: scripts/rcap-official-forms/rcap-official-form-finalize.mjs and scripts/rcap-official-forms/rcap-text-fitting.mjs are untouched.",
+        "knownPrefills": "alignWidgetFontSizeToFit: true added at the host's single finalizeOfficialForm call, beside the evaluateDeclaredMinimumSize, suppressSynthesizedAppearances and fitAppearancesToRect that were already there. The option is the finalizer's own, default-off, and rewrites only the size token inside each widget's existing /DA, so a widget whose declared size already equals the fit is left alone. fitTextPerWidget was NOT used and is still false: this host declares one widget per field, so per-widget fitting measures the identical rectangle and would have changed nothing.",
+        "selfHelpStop": "registryGuidanceTrackId: \"vt_seal_dui\" added to this family's config, which is the one word the host's FIX04 comment says each family needs once its repair is claimed. The family now reads ITS OWN committed registry track through the same code path vt_seal_pardon-set already used, and participant-instructions.md gains the 'When to stop and get a lawyer' section carrying all 11 of the track's selfHelpStopConditions verbatim, the sentence naming a scheduled hearing as where this packet's self-help ends, and the 'What has to be true before this petition can succeed' section carrying the track's 4 waitingPeriods and 4 exclusions verbatim. Nothing was written that the registry does not say and no condition was softened, shortened or paraphrased; the change to the file is purely additive (git diff shows insertions only).",
+        "alsoChangedAsAConsequence": [
+          "reports/rendered-artifacts.json: the two fixture digests and byte lengths, and a componentSet block the family did not carry before (the registry's four declared packet-set components, each named and marked delivered). This lane does not claim COMPONENT_SET on it; it is named here because it is a change this rebuild made.",
+          "raster/canonical/page-03/page.png and raster/boundary/page-03/page.png: the builder's own page rasters for the one page whose bytes moved."
+        ],
+        "notChanged": "suppressSynthesizedAppearances and fitAppearancesToRect are exactly as FIX67 left them (git diff of the host shows no line touching either). No FEE_AND_WAIVER text was touched anywhere; for vt_seal_dui-set the fee-and-waiver section of participant-instructions.md is byte-identical to the file at base, proved by diff."
+      },
+      "selfHelpStop": {
+        "registryTrackId": "vt_seal_dui",
+        "registryFile": "data/record-clearing/legal-design-track-registry.json",
+        "registryField": "tracks[].selfHelpStopConditions",
+        "conditionsDeclared": 11,
+        "conditionsCarriedBefore": 0,
+        "conditionsCarriedAfter": 11,
+        "heading": "## When to stop and get a lawyer",
+        "introLineDelivered": "The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:",
+        "hearingLineDelivered": "**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.",
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The prosecutor opposes the petition, or the court schedules a hearing.",
+            "deliveredLine": "- The prosecutor opposes the petition, or the court schedules a hearing.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 2,
+            "registryCondition": "A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "deliveredLine": "- A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 3,
+            "registryCondition": "Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "deliveredLine": "- Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 4,
+            "registryCondition": "The criminal history record mixes qualifying and nonqualifying offences.",
+            "deliveredLine": "- The criminal history record mixes qualifying and nonqualifying offences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 5,
+            "registryCondition": "The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "deliveredLine": "- The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 6,
+            "registryCondition": "The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "deliveredLine": "- The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 7,
+            "registryCondition": "Any felony not plainly on the § 7601(4)(B) list.",
+            "deliveredLine": "- Any felony not plainly on the § 7601(4)(B) list.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 8,
+            "registryCondition": "Immigration consequences.",
+            "deliveredLine": "- Immigration consequences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 9,
+            "registryCondition": "The participant wants to attack the underlying conviction rather than clear the record.",
+            "deliveredLine": "- The participant wants to attack the underlying conviction rather than clear the record.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 10,
+            "registryCondition": "The participant holds a commercial driver's licence or permit, which closes this route and, under § 7602(a)(5), may close the whole section.",
+            "deliveredLine": "- The participant holds a commercial driver's licence or permit, which closes this route and, under § 7602(a)(5), may close the whole section.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 11,
+            "registryCondition": "The participant was under 25 at the time of the offence and has not been tested against 33 V.S.A. § 5119(g) or, if 18 to 21, against § 7609.",
+            "deliveredLine": "- The participant was under 25 at the time of the offence and has not been tested against 33 V.S.A. § 5119(g) or, if 18 to 21, against § 7609.",
+            "presentVerbatimInParticipantInstructions": true
+          }
+        ],
+        "measuredBy": "each registry condition matched, whitespace- and quote-normalised, against the family's participant-instructions.md read from the working tree after the final rebuild",
+        "pardonUnchanged": "vt_seal_pardon-set's participant-instructions.md is byte-identical to the file at base and still carries 10 of 10."
+      },
+      "knownPrefills": {
+        "field": "34d",
+        "form": "200-00132",
+        "formTitle": "Stipulation to Seal Criminal History Record and Order",
+        "packetPage": 3,
+        "caption": "Printed Name (Defendant's, in the stipulation signature block)",
+        "appearance": "FlatWidget-4869070959",
+        "widgetRectPt": {
+          "width": 174.743,
+          "height": 12.96
+        },
+        "clipPathMaxXPt": 173.743,
+        "whyItWasNotFitted": "34d is the one written field on 200-00132 whose widget annotation is a SEPARATE dictionary carrying its own /DA '/Calibri 11 Tf 0 g'. pdf-lib's text appearance provider prefers the widget's /DA font size over the field's, and applyFitToTextField sets the size on the FIELD. 34e, 34f and 34h carry the same /DA string but their widget IS the field dictionary (the merged single-widget shape), so the fit already reached them; 34i has a separate widget with no /DA of its own and so followed the field too. Verified by loading the pinned source (SHA-256 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2) and comparing widget dict identity field by field.",
+        "boundary": {
+          "valueWritten": "Maria-Alejandra O’Shaughnessy-Whitfield",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 204.23,
+            "textStartXPt": 1,
+            "textEndXPt": 205.23,
+            "overflowBeyondClipPt": 31.49,
+            "delivered": "clipped: the page prints 'Maria-Alejandra O’Shaughnessy-Wh' and the last characters never reach the paper"
+          },
+          "after": {
+            "fontSizePt": 8.96,
+            "drawnWidthPt": 166.35,
+            "textStartXPt": 1,
+            "textEndXPt": 167.35,
+            "headroomInsideClipPt": 6.39,
+            "delivered": "the whole value prints inside its clip"
+          },
+          "fontSizeFloor": "MIN_READABLE_FONT_SIZE = 6; the fit landed four rungs above it, at 8.96. No size was hand-set: 8.96 is the size the shared fitter measured against this widget's own rectangle.",
+          "rasterProof300dpi": {
+            "method": "page 3 of the boundary fixture rendered at 300 dpi before and after into /tmp (Chromium, the repository's calibrated rasterizer), the widget's own rectangle cropped, the form's printed rule rows (y 2551-2554) excluded so only participant glyphs are counted",
+            "before": {
+              "glyphPixels": 7292,
+              "glyphInkX": [
+                1656,
+                2376
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 1,
+              "readByEye": "the name is cut mid-word at the clip edge"
+            },
+            "after": {
+              "glyphPixels": 5834,
+              "glyphInkX": [
+                1656,
+                2342
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 35,
+              "readByEye": "'Maria-Alejandra O’Shaughnessy-Whitfield' reads whole, clear of the printed rule and of the neighbouring caption; no overlap"
+            }
+          }
+        },
+        "canonical": {
+          "valueWritten": "Jordan Avery Reyes",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 97.85,
+            "textEndXPt": 98.85,
+            "headroomInsideClipPt": 74.89
+          },
+          "after": {
+            "fontSizePt": 10.96,
+            "drawnWidthPt": 97.5,
+            "textEndXPt": 98.5,
+            "headroomInsideClipPt": 75.24
+          },
+          "note": "The canonical name was never clipped. Its size moves 11 -> 10.96 because 10.96 is the largest rung the shared fitter's ladder offers on a 12.96pt-high widget (its height ceiling is rect.height - 2). That is the fitter's own measurement, not a size set by this lane, and it is the largest size that widget's geometry allows: the canonical name is not made smaller than it needs to be."
+        },
+        "everyOtherWrite": "All 24 text-bearing flattened appearances were re-read in each fixture after the rebuild, each against its own clip path, font and size: 24 of 24 fit in canonical and 24 of 24 fit in boundary (23 of 24 before). Only 34d's size changed in either fixture; the other 23 appearances are byte-for-byte the size they were."
+      },
+      "placementSweep": {
+        "test": "VF02's sweep, re-implemented for measurement only and not committed: for every flattened widget placement in a fixture, compose the page's cm matrices with the appearance stream's own /Matrix, transform its /BBox, and require the placed extent to equal the source widget's /Rect (cmScale x requiredScale == 1), matching each placement to its source widget by page and translation.",
+        "before": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "after": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "change": "none — 161/161 per fixture before and after, on all five families"
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set, run in this container before and after the rebuild; PASS_COMPLETE, 24/165 written, exit 0 both times",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+          "when": "before",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+          "when": "after",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh; the rebuild erased none"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family vt_seal_dui-set",
+          "when": "before and after",
+          "exitCode": 0,
+          "result": "BROKEN_DENOMINATOR: 'no census matched --family <id>'. The --family filter does not resolve this family's spelling, so the unfiltered run above — which covers all 96 families including this one — is what is reported. Stated plainly rather than counted as a pass."
+        }
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+            "byteLength": 851974,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+            "byteLength": 852466,
+            "pageCount": 6
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "byteLength": 851978,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "byteLength": 852465,
+            "pageCount": 6
+          }
+        },
+        "note": "Identical across all five family directories, file for file, before and after. The 'before' pair is VF05's canonical 6d13376c… and boundary 22ae0bc5…, re-hashed on disk before any measurement. The five may again share identical digests, and they do: the five packets differ only in participant-instructions.md, which is not inside the PDFs."
+      },
+      "rebuild": {
+        "command": "node scripts/build-census-v1-vt_seal_dui-set.mjs",
+        "passes": 3,
+        "byteIdentical": true,
+        "detail": "Rebuilt three times. A baseline rebuild at base, before any edit, reproduced VF05's digests exactly, so the builder is deterministic in this container. After the edits, three consecutive rebuilds of all five families produced identical canonical and boundary digests; the last two ran entirely on the final source."
+      },
+      "raster": {
+        "engine": "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs (Chromium, calibrated), run in this container into /tmp only",
+        "pagesWhoseBytesChanged": [
+          3
+        ],
+        "pixelIdentityAt150dpi": {
+          "canonical": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "1909 differing pixels, all inside x[826,1032] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          },
+          "boundary": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "4695 differing pixels, all inside x[827,1188] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          }
+        },
+        "statement": "Every page of both fixtures other than page 3 is pixel-identical at 150 dpi, and on page 3 every differing pixel falls in the single 22-pixel-high band that carries field 34d.",
+        "rastersDeleted": true
+      },
+      "otherFamilyDirectories": "byte-identical: git status shows no change anywhere outside these five family directories and the one shared host script.",
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs (and --family vt_seal_misdemeanor-set)",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/12 passed, 2 failed, 5 not applicable",
+        "passed": [
+          "repo_identity fix75-vt-host-fit-stops at a777f061",
+          "clone_is_complete",
+          "worktree_clean",
+          "node_toolchain node 22.22.2",
+          "pdf_lib_importable pdf-lib 1.17.1",
+          "master_library_mounted",
+          "master_library_complete (499 files, 329 PDFs, 51 jurisdictions)",
+          "family_sources_bind 3/3 by exact SHA-256",
+          "master_library_not_at_operational_path",
+          "absent_is_not_empty",
+          "stale_artifact_block_consulted"
+        ],
+        "failed": [
+          "private_is_git_ignored — private/ is reached through a symlink to the read-only source clone, and .gitignore's 'private/' pattern does not match a symlink, so the check reports it as not ignored. Nothing under private/ is staged: every path in this lane's commits was named by hand and the commit is 'git add <path>' only, never 'git add .', '-A' or '--all'.",
+          "corpus_matches_committed_index — 1 absent, 0 mismatched of 24 sampled. The absent sample is not one of this family's three sources; --family vt_seal_misdemeanor-set reports family_sources_bind 3/3 by exact SHA-256."
+        ],
+        "notApplicable": "the browser and rasterizer checks, which this invocation did not request; page rasters for this measurement were rendered separately into /tmp.",
+        "environment": "MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library, as scripts/verify-packet-build-environment.mjs expects; node_modules symlinked from the captain worktree; work confined to /home/user/fix75-worktree on branch fix75-vt-host-fit-stops off a777f061b."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "Central raster on the new bytes. Both fixture digests moved, so FIX67's live RASTER_PASS receipt (run 33993870603) no longer binds these bytes and this family carries no acceptance receipt. The 300 dpi and 150 dpi rasters this lane read were rendered locally into /tmp and deleted; they are a measurement, not a receipt.",
+        "Independent verification. This lane built and repaired these five families and cannot verify its own work. Every obligation above is a builder's measurement and needs an independent reader.",
+        "FEE_AND_WAIVER for vt_seal_dui-set was deliberately not touched: it is a counsel hold and is named in obligationsThisRowDoesNotDischarge.",
+        "REQUIRED_BEFORE_FILING and COMPONENT_SET were not measured here, although the same registry opt-in added waiting-period, exclusion and component-set content for the four siblings. That content is registry-quoted, but whether it discharges those obligations is for an independent reader to decide.",
+        "The placement sweep script used here was written for this measurement and is not committed."
+      ]
+    },
+    {
+      "itemId": "vt_seal_felony-set",
+      "familyId": "vt_seal_felony-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+      "lane": "FIX75",
+      "baseCommit": "a777f061b",
+      "branch": "fix75-vt-host-fit-stops",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX75 vt_seal_felony-set -> CLAIM_OK FIX75 vt_seal_felony-set (repair, grant set a2bba26e25b8c21f), exit 0. Asserted before any artifact of this family was edited.",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "PROTECTED_BLANKS",
+        "SERVICE_AND_DESTINATION"
+      ],
+      "whatChanged": {
+        "sharedHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs — the one host all five families are built by. No shared module was edited: scripts/rcap-official-forms/rcap-official-form-finalize.mjs and scripts/rcap-official-forms/rcap-text-fitting.mjs are untouched.",
+        "knownPrefills": "alignWidgetFontSizeToFit: true added at the host's single finalizeOfficialForm call, beside the evaluateDeclaredMinimumSize, suppressSynthesizedAppearances and fitAppearancesToRect that were already there. The option is the finalizer's own, default-off, and rewrites only the size token inside each widget's existing /DA, so a widget whose declared size already equals the fit is left alone. fitTextPerWidget was NOT used and is still false: this host declares one widget per field, so per-widget fitting measures the identical rectangle and would have changed nothing.",
+        "selfHelpStop": "registryGuidanceTrackId: \"vt_seal_felony\" added to this family's config, which is the one word the host's FIX04 comment says each family needs once its repair is claimed. The family now reads ITS OWN committed registry track through the same code path vt_seal_pardon-set already used, and participant-instructions.md gains the 'When to stop and get a lawyer' section carrying all 11 of the track's selfHelpStopConditions verbatim, the sentence naming a scheduled hearing as where this packet's self-help ends, and the 'What has to be true before this petition can succeed' section carrying the track's 4 waitingPeriods and 6 exclusions verbatim. Nothing was written that the registry does not say and no condition was softened, shortened or paraphrased; the change to the file is purely additive (git diff shows insertions only).",
+        "alsoChangedAsAConsequence": [
+          "reports/rendered-artifacts.json: the two fixture digests and byte lengths, and a componentSet block the family did not carry before (the registry's four declared packet-set components, each named and marked delivered). This lane does not claim COMPONENT_SET on it; it is named here because it is a change this rebuild made.",
+          "raster/canonical/page-03/page.png and raster/boundary/page-03/page.png: the builder's own page rasters for the one page whose bytes moved."
+        ],
+        "notChanged": "suppressSynthesizedAppearances and fitAppearancesToRect are exactly as FIX67 left them (git diff of the host shows no line touching either). No FEE_AND_WAIVER text was touched anywhere; for vt_seal_dui-set the fee-and-waiver section of participant-instructions.md is byte-identical to the file at base, proved by diff."
+      },
+      "selfHelpStop": {
+        "registryTrackId": "vt_seal_felony",
+        "registryFile": "data/record-clearing/legal-design-track-registry.json",
+        "registryField": "tracks[].selfHelpStopConditions",
+        "conditionsDeclared": 11,
+        "conditionsCarriedBefore": 0,
+        "conditionsCarriedAfter": 11,
+        "heading": "## When to stop and get a lawyer",
+        "introLineDelivered": "The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:",
+        "hearingLineDelivered": "**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.",
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The prosecutor opposes the petition, or the court schedules a hearing.",
+            "deliveredLine": "- The prosecutor opposes the petition, or the court schedules a hearing.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 2,
+            "registryCondition": "A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "deliveredLine": "- A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 3,
+            "registryCondition": "Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "deliveredLine": "- Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 4,
+            "registryCondition": "The criminal history record mixes qualifying and nonqualifying offences.",
+            "deliveredLine": "- The criminal history record mixes qualifying and nonqualifying offences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 5,
+            "registryCondition": "The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "deliveredLine": "- The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 6,
+            "registryCondition": "The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "deliveredLine": "- The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 7,
+            "registryCondition": "Any felony not plainly on the § 7601(4)(B) list.",
+            "deliveredLine": "- Any felony not plainly on the § 7601(4)(B) list.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 8,
+            "registryCondition": "Immigration consequences.",
+            "deliveredLine": "- Immigration consequences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 9,
+            "registryCondition": "The participant wants to attack the underlying conviction rather than clear the record.",
+            "deliveredLine": "- The participant wants to attack the underlying conviction rather than clear the record.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 10,
+            "registryCondition": "The exact statutory subsection of a regulated-drug felony cannot be established from the record.",
+            "deliveredLine": "- The exact statutory subsection of a regulated-drug felony cannot be established from the record.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 11,
+            "registryCondition": "The felony is not plainly on the § 7601(4)(B) list.",
+            "deliveredLine": "- The felony is not plainly on the § 7601(4)(B) list.",
+            "presentVerbatimInParticipantInstructions": true
+          }
+        ],
+        "measuredBy": "each registry condition matched, whitespace- and quote-normalised, against the family's participant-instructions.md read from the working tree after the final rebuild",
+        "pardonUnchanged": "vt_seal_pardon-set's participant-instructions.md is byte-identical to the file at base and still carries 10 of 10."
+      },
+      "knownPrefills": {
+        "field": "34d",
+        "form": "200-00132",
+        "formTitle": "Stipulation to Seal Criminal History Record and Order",
+        "packetPage": 3,
+        "caption": "Printed Name (Defendant's, in the stipulation signature block)",
+        "appearance": "FlatWidget-4869070959",
+        "widgetRectPt": {
+          "width": 174.743,
+          "height": 12.96
+        },
+        "clipPathMaxXPt": 173.743,
+        "whyItWasNotFitted": "34d is the one written field on 200-00132 whose widget annotation is a SEPARATE dictionary carrying its own /DA '/Calibri 11 Tf 0 g'. pdf-lib's text appearance provider prefers the widget's /DA font size over the field's, and applyFitToTextField sets the size on the FIELD. 34e, 34f and 34h carry the same /DA string but their widget IS the field dictionary (the merged single-widget shape), so the fit already reached them; 34i has a separate widget with no /DA of its own and so followed the field too. Verified by loading the pinned source (SHA-256 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2) and comparing widget dict identity field by field.",
+        "boundary": {
+          "valueWritten": "Maria-Alejandra O’Shaughnessy-Whitfield",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 204.23,
+            "textStartXPt": 1,
+            "textEndXPt": 205.23,
+            "overflowBeyondClipPt": 31.49,
+            "delivered": "clipped: the page prints 'Maria-Alejandra O’Shaughnessy-Wh' and the last characters never reach the paper"
+          },
+          "after": {
+            "fontSizePt": 8.96,
+            "drawnWidthPt": 166.35,
+            "textStartXPt": 1,
+            "textEndXPt": 167.35,
+            "headroomInsideClipPt": 6.39,
+            "delivered": "the whole value prints inside its clip"
+          },
+          "fontSizeFloor": "MIN_READABLE_FONT_SIZE = 6; the fit landed four rungs above it, at 8.96. No size was hand-set: 8.96 is the size the shared fitter measured against this widget's own rectangle.",
+          "rasterProof300dpi": {
+            "method": "page 3 of the boundary fixture rendered at 300 dpi before and after into /tmp (Chromium, the repository's calibrated rasterizer), the widget's own rectangle cropped, the form's printed rule rows (y 2551-2554) excluded so only participant glyphs are counted",
+            "before": {
+              "glyphPixels": 7292,
+              "glyphInkX": [
+                1656,
+                2376
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 1,
+              "readByEye": "the name is cut mid-word at the clip edge"
+            },
+            "after": {
+              "glyphPixels": 5834,
+              "glyphInkX": [
+                1656,
+                2342
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 35,
+              "readByEye": "'Maria-Alejandra O’Shaughnessy-Whitfield' reads whole, clear of the printed rule and of the neighbouring caption; no overlap"
+            }
+          }
+        },
+        "canonical": {
+          "valueWritten": "Jordan Avery Reyes",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 97.85,
+            "textEndXPt": 98.85,
+            "headroomInsideClipPt": 74.89
+          },
+          "after": {
+            "fontSizePt": 10.96,
+            "drawnWidthPt": 97.5,
+            "textEndXPt": 98.5,
+            "headroomInsideClipPt": 75.24
+          },
+          "note": "The canonical name was never clipped. Its size moves 11 -> 10.96 because 10.96 is the largest rung the shared fitter's ladder offers on a 12.96pt-high widget (its height ceiling is rect.height - 2). That is the fitter's own measurement, not a size set by this lane, and it is the largest size that widget's geometry allows: the canonical name is not made smaller than it needs to be."
+        },
+        "everyOtherWrite": "All 24 text-bearing flattened appearances were re-read in each fixture after the rebuild, each against its own clip path, font and size: 24 of 24 fit in canonical and 24 of 24 fit in boundary (23 of 24 before). Only 34d's size changed in either fixture; the other 23 appearances are byte-for-byte the size they were."
+      },
+      "placementSweep": {
+        "test": "VF02's sweep, re-implemented for measurement only and not committed: for every flattened widget placement in a fixture, compose the page's cm matrices with the appearance stream's own /Matrix, transform its /BBox, and require the placed extent to equal the source widget's /Rect (cmScale x requiredScale == 1), matching each placement to its source widget by page and translation.",
+        "before": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "after": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "change": "none — 161/161 per fixture before and after, on all five families"
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set, run in this container before and after the rebuild; PASS_COMPLETE, 24/165 written, exit 0 both times",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
+          "when": "before",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
+          "when": "after",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh; the rebuild erased none"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family vt_seal_felony-set",
+          "when": "before and after",
+          "exitCode": 0,
+          "result": "BROKEN_DENOMINATOR: 'no census matched --family <id>'. The --family filter does not resolve this family's spelling, so the unfiltered run above — which covers all 96 families including this one — is what is reported. Stated plainly rather than counted as a pass."
+        }
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+            "byteLength": 851974,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+            "byteLength": 852466,
+            "pageCount": 6
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "byteLength": 851978,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "byteLength": 852465,
+            "pageCount": 6
+          }
+        },
+        "note": "Identical across all five family directories, file for file, before and after. The 'before' pair is VF05's canonical 6d13376c… and boundary 22ae0bc5…, re-hashed on disk before any measurement. The five may again share identical digests, and they do: the five packets differ only in participant-instructions.md, which is not inside the PDFs."
+      },
+      "rebuild": {
+        "command": "node scripts/build-census-v1-vt_seal_felony-set.mjs",
+        "passes": 3,
+        "byteIdentical": true,
+        "detail": "Rebuilt three times. A baseline rebuild at base, before any edit, reproduced VF05's digests exactly, so the builder is deterministic in this container. After the edits, three consecutive rebuilds of all five families produced identical canonical and boundary digests; the last two ran entirely on the final source."
+      },
+      "raster": {
+        "engine": "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs (Chromium, calibrated), run in this container into /tmp only",
+        "pagesWhoseBytesChanged": [
+          3
+        ],
+        "pixelIdentityAt150dpi": {
+          "canonical": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "1909 differing pixels, all inside x[826,1032] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          },
+          "boundary": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "4695 differing pixels, all inside x[827,1188] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          }
+        },
+        "statement": "Every page of both fixtures other than page 3 is pixel-identical at 150 dpi, and on page 3 every differing pixel falls in the single 22-pixel-high band that carries field 34d.",
+        "rastersDeleted": true
+      },
+      "otherFamilyDirectories": "byte-identical: git status shows no change anywhere outside these five family directories and the one shared host script.",
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs (and --family vt_seal_misdemeanor-set)",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/12 passed, 2 failed, 5 not applicable",
+        "passed": [
+          "repo_identity fix75-vt-host-fit-stops at a777f061",
+          "clone_is_complete",
+          "worktree_clean",
+          "node_toolchain node 22.22.2",
+          "pdf_lib_importable pdf-lib 1.17.1",
+          "master_library_mounted",
+          "master_library_complete (499 files, 329 PDFs, 51 jurisdictions)",
+          "family_sources_bind 3/3 by exact SHA-256",
+          "master_library_not_at_operational_path",
+          "absent_is_not_empty",
+          "stale_artifact_block_consulted"
+        ],
+        "failed": [
+          "private_is_git_ignored — private/ is reached through a symlink to the read-only source clone, and .gitignore's 'private/' pattern does not match a symlink, so the check reports it as not ignored. Nothing under private/ is staged: every path in this lane's commits was named by hand and the commit is 'git add <path>' only, never 'git add .', '-A' or '--all'.",
+          "corpus_matches_committed_index — 1 absent, 0 mismatched of 24 sampled. The absent sample is not one of this family's three sources; --family vt_seal_misdemeanor-set reports family_sources_bind 3/3 by exact SHA-256."
+        ],
+        "notApplicable": "the browser and rasterizer checks, which this invocation did not request; page rasters for this measurement were rendered separately into /tmp.",
+        "environment": "MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library, as scripts/verify-packet-build-environment.mjs expects; node_modules symlinked from the captain worktree; work confined to /home/user/fix75-worktree on branch fix75-vt-host-fit-stops off a777f061b."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "Central raster on the new bytes. Both fixture digests moved, so FIX67's live RASTER_PASS receipt (run 33993870603) no longer binds these bytes and this family carries no acceptance receipt. The 300 dpi and 150 dpi rasters this lane read were rendered locally into /tmp and deleted; they are a measurement, not a receipt.",
+        "Independent verification. This lane built and repaired these five families and cannot verify its own work. Every obligation above is a builder's measurement and needs an independent reader.",
+        "FEE_AND_WAIVER for vt_seal_dui-set was deliberately not touched: it is a counsel hold and is named in obligationsThisRowDoesNotDischarge.",
+        "REQUIRED_BEFORE_FILING and COMPONENT_SET were not measured here, although the same registry opt-in added waiting-period, exclusion and component-set content for the four siblings. That content is registry-quoted, but whether it discharges those obligations is for an independent reader to decide.",
+        "The placement sweep script used here was written for this measurement and is not committed."
+      ]
+    },
+    {
+      "itemId": "vt_seal_misdemeanor-set",
+      "familyId": "vt_seal_misdemeanor-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
+      "lane": "FIX75",
+      "baseCommit": "a777f061b",
+      "branch": "fix75-vt-host-fit-stops",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX75 vt_seal_misdemeanor-set -> CLAIM_OK FIX75 vt_seal_misdemeanor-set (repair, grant set a2bba26e25b8c21f), exit 0. Asserted before any artifact of this family was edited.",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "PROTECTED_BLANKS",
+        "SERVICE_AND_DESTINATION"
+      ],
+      "whatChanged": {
+        "sharedHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs — the one host all five families are built by. No shared module was edited: scripts/rcap-official-forms/rcap-official-form-finalize.mjs and scripts/rcap-official-forms/rcap-text-fitting.mjs are untouched.",
+        "knownPrefills": "alignWidgetFontSizeToFit: true added at the host's single finalizeOfficialForm call, beside the evaluateDeclaredMinimumSize, suppressSynthesizedAppearances and fitAppearancesToRect that were already there. The option is the finalizer's own, default-off, and rewrites only the size token inside each widget's existing /DA, so a widget whose declared size already equals the fit is left alone. fitTextPerWidget was NOT used and is still false: this host declares one widget per field, so per-widget fitting measures the identical rectangle and would have changed nothing.",
+        "selfHelpStop": "registryGuidanceTrackId: \"vt_seal_misdemeanor\" added to this family's config, which is the one word the host's FIX04 comment says each family needs once its repair is claimed. The family now reads ITS OWN committed registry track through the same code path vt_seal_pardon-set already used, and participant-instructions.md gains the 'When to stop and get a lawyer' section carrying all 9 of the track's selfHelpStopConditions verbatim, the sentence naming a scheduled hearing as where this packet's self-help ends, and the 'What has to be true before this petition can succeed' section carrying the track's 4 waitingPeriods and 19 exclusions verbatim. Nothing was written that the registry does not say and no condition was softened, shortened or paraphrased; the change to the file is purely additive (git diff shows insertions only).",
+        "alsoChangedAsAConsequence": [
+          "reports/rendered-artifacts.json: the two fixture digests and byte lengths, and a componentSet block the family did not carry before (the registry's four declared packet-set components, each named and marked delivered). This lane does not claim COMPONENT_SET on it; it is named here because it is a change this rebuild made.",
+          "raster/canonical/page-03/page.png and raster/boundary/page-03/page.png: the builder's own page rasters for the one page whose bytes moved."
+        ],
+        "notChanged": "suppressSynthesizedAppearances and fitAppearancesToRect are exactly as FIX67 left them (git diff of the host shows no line touching either). No FEE_AND_WAIVER text was touched anywhere; for vt_seal_dui-set the fee-and-waiver section of participant-instructions.md is byte-identical to the file at base, proved by diff."
+      },
+      "selfHelpStop": {
+        "registryTrackId": "vt_seal_misdemeanor",
+        "registryFile": "data/record-clearing/legal-design-track-registry.json",
+        "registryField": "tracks[].selfHelpStopConditions",
+        "conditionsDeclared": 9,
+        "conditionsCarriedBefore": 0,
+        "conditionsCarriedAfter": 9,
+        "heading": "## When to stop and get a lawyer",
+        "introLineDelivered": "The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:",
+        "hearingLineDelivered": "**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.",
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The prosecutor opposes the petition, or the court schedules a hearing.",
+            "deliveredLine": "- The prosecutor opposes the petition, or the court schedules a hearing.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 2,
+            "registryCondition": "A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "deliveredLine": "- A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 3,
+            "registryCondition": "Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "deliveredLine": "- Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 4,
+            "registryCondition": "The criminal history record mixes qualifying and nonqualifying offences.",
+            "deliveredLine": "- The criminal history record mixes qualifying and nonqualifying offences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 5,
+            "registryCondition": "The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "deliveredLine": "- The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 6,
+            "registryCondition": "The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "deliveredLine": "- The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 7,
+            "registryCondition": "Any felony not plainly on the § 7601(4)(B) list.",
+            "deliveredLine": "- Any felony not plainly on the § 7601(4)(B) list.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 8,
+            "registryCondition": "Immigration consequences.",
+            "deliveredLine": "- Immigration consequences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 9,
+            "registryCondition": "The participant wants to attack the underlying conviction rather than clear the record.",
+            "deliveredLine": "- The participant wants to attack the underlying conviction rather than clear the record.",
+            "presentVerbatimInParticipantInstructions": true
+          }
+        ],
+        "measuredBy": "each registry condition matched, whitespace- and quote-normalised, against the family's participant-instructions.md read from the working tree after the final rebuild",
+        "pardonUnchanged": "vt_seal_pardon-set's participant-instructions.md is byte-identical to the file at base and still carries 10 of 10."
+      },
+      "knownPrefills": {
+        "field": "34d",
+        "form": "200-00132",
+        "formTitle": "Stipulation to Seal Criminal History Record and Order",
+        "packetPage": 3,
+        "caption": "Printed Name (Defendant's, in the stipulation signature block)",
+        "appearance": "FlatWidget-4869070959",
+        "widgetRectPt": {
+          "width": 174.743,
+          "height": 12.96
+        },
+        "clipPathMaxXPt": 173.743,
+        "whyItWasNotFitted": "34d is the one written field on 200-00132 whose widget annotation is a SEPARATE dictionary carrying its own /DA '/Calibri 11 Tf 0 g'. pdf-lib's text appearance provider prefers the widget's /DA font size over the field's, and applyFitToTextField sets the size on the FIELD. 34e, 34f and 34h carry the same /DA string but their widget IS the field dictionary (the merged single-widget shape), so the fit already reached them; 34i has a separate widget with no /DA of its own and so followed the field too. Verified by loading the pinned source (SHA-256 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2) and comparing widget dict identity field by field.",
+        "boundary": {
+          "valueWritten": "Maria-Alejandra O’Shaughnessy-Whitfield",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 204.23,
+            "textStartXPt": 1,
+            "textEndXPt": 205.23,
+            "overflowBeyondClipPt": 31.49,
+            "delivered": "clipped: the page prints 'Maria-Alejandra O’Shaughnessy-Wh' and the last characters never reach the paper"
+          },
+          "after": {
+            "fontSizePt": 8.96,
+            "drawnWidthPt": 166.35,
+            "textStartXPt": 1,
+            "textEndXPt": 167.35,
+            "headroomInsideClipPt": 6.39,
+            "delivered": "the whole value prints inside its clip"
+          },
+          "fontSizeFloor": "MIN_READABLE_FONT_SIZE = 6; the fit landed four rungs above it, at 8.96. No size was hand-set: 8.96 is the size the shared fitter measured against this widget's own rectangle.",
+          "rasterProof300dpi": {
+            "method": "page 3 of the boundary fixture rendered at 300 dpi before and after into /tmp (Chromium, the repository's calibrated rasterizer), the widget's own rectangle cropped, the form's printed rule rows (y 2551-2554) excluded so only participant glyphs are counted",
+            "before": {
+              "glyphPixels": 7292,
+              "glyphInkX": [
+                1656,
+                2376
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 1,
+              "readByEye": "the name is cut mid-word at the clip edge"
+            },
+            "after": {
+              "glyphPixels": 5834,
+              "glyphInkX": [
+                1656,
+                2342
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 35,
+              "readByEye": "'Maria-Alejandra O’Shaughnessy-Whitfield' reads whole, clear of the printed rule and of the neighbouring caption; no overlap"
+            }
+          }
+        },
+        "canonical": {
+          "valueWritten": "Jordan Avery Reyes",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 97.85,
+            "textEndXPt": 98.85,
+            "headroomInsideClipPt": 74.89
+          },
+          "after": {
+            "fontSizePt": 10.96,
+            "drawnWidthPt": 97.5,
+            "textEndXPt": 98.5,
+            "headroomInsideClipPt": 75.24
+          },
+          "note": "The canonical name was never clipped. Its size moves 11 -> 10.96 because 10.96 is the largest rung the shared fitter's ladder offers on a 12.96pt-high widget (its height ceiling is rect.height - 2). That is the fitter's own measurement, not a size set by this lane, and it is the largest size that widget's geometry allows: the canonical name is not made smaller than it needs to be."
+        },
+        "everyOtherWrite": "All 24 text-bearing flattened appearances were re-read in each fixture after the rebuild, each against its own clip path, font and size: 24 of 24 fit in canonical and 24 of 24 fit in boundary (23 of 24 before). Only 34d's size changed in either fixture; the other 23 appearances are byte-for-byte the size they were."
+      },
+      "placementSweep": {
+        "test": "VF02's sweep, re-implemented for measurement only and not committed: for every flattened widget placement in a fixture, compose the page's cm matrices with the appearance stream's own /Matrix, transform its /BBox, and require the placed extent to equal the source widget's /Rect (cmScale x requiredScale == 1), matching each placement to its source widget by page and translation.",
+        "before": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "after": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "change": "none — 161/161 per fixture before and after, on all five families"
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set, run in this container before and after the rebuild; PASS_COMPLETE, 24/165 written, exit 0 both times",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+          "when": "before",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+          "when": "after",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh; the rebuild erased none"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family vt_seal_misdemeanor-set",
+          "when": "before and after",
+          "exitCode": 0,
+          "result": "BROKEN_DENOMINATOR: 'no census matched --family <id>'. The --family filter does not resolve this family's spelling, so the unfiltered run above — which covers all 96 families including this one — is what is reported. Stated plainly rather than counted as a pass."
+        }
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+            "byteLength": 851974,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+            "byteLength": 852466,
+            "pageCount": 6
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "byteLength": 851978,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "byteLength": 852465,
+            "pageCount": 6
+          }
+        },
+        "note": "Identical across all five family directories, file for file, before and after. The 'before' pair is VF05's canonical 6d13376c… and boundary 22ae0bc5…, re-hashed on disk before any measurement. The five may again share identical digests, and they do: the five packets differ only in participant-instructions.md, which is not inside the PDFs."
+      },
+      "rebuild": {
+        "command": "node scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+        "passes": 3,
+        "byteIdentical": true,
+        "detail": "Rebuilt three times. A baseline rebuild at base, before any edit, reproduced VF05's digests exactly, so the builder is deterministic in this container. After the edits, three consecutive rebuilds of all five families produced identical canonical and boundary digests; the last two ran entirely on the final source."
+      },
+      "raster": {
+        "engine": "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs (Chromium, calibrated), run in this container into /tmp only",
+        "pagesWhoseBytesChanged": [
+          3
+        ],
+        "pixelIdentityAt150dpi": {
+          "canonical": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "1909 differing pixels, all inside x[826,1032] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          },
+          "boundary": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "4695 differing pixels, all inside x[827,1188] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          }
+        },
+        "statement": "Every page of both fixtures other than page 3 is pixel-identical at 150 dpi, and on page 3 every differing pixel falls in the single 22-pixel-high band that carries field 34d.",
+        "rastersDeleted": true
+      },
+      "otherFamilyDirectories": "byte-identical: git status shows no change anywhere outside these five family directories and the one shared host script.",
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs (and --family vt_seal_misdemeanor-set)",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/12 passed, 2 failed, 5 not applicable",
+        "passed": [
+          "repo_identity fix75-vt-host-fit-stops at a777f061",
+          "clone_is_complete",
+          "worktree_clean",
+          "node_toolchain node 22.22.2",
+          "pdf_lib_importable pdf-lib 1.17.1",
+          "master_library_mounted",
+          "master_library_complete (499 files, 329 PDFs, 51 jurisdictions)",
+          "family_sources_bind 3/3 by exact SHA-256",
+          "master_library_not_at_operational_path",
+          "absent_is_not_empty",
+          "stale_artifact_block_consulted"
+        ],
+        "failed": [
+          "private_is_git_ignored — private/ is reached through a symlink to the read-only source clone, and .gitignore's 'private/' pattern does not match a symlink, so the check reports it as not ignored. Nothing under private/ is staged: every path in this lane's commits was named by hand and the commit is 'git add <path>' only, never 'git add .', '-A' or '--all'.",
+          "corpus_matches_committed_index — 1 absent, 0 mismatched of 24 sampled. The absent sample is not one of this family's three sources; --family vt_seal_misdemeanor-set reports family_sources_bind 3/3 by exact SHA-256."
+        ],
+        "notApplicable": "the browser and rasterizer checks, which this invocation did not request; page rasters for this measurement were rendered separately into /tmp.",
+        "environment": "MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library, as scripts/verify-packet-build-environment.mjs expects; node_modules symlinked from the captain worktree; work confined to /home/user/fix75-worktree on branch fix75-vt-host-fit-stops off a777f061b."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "Central raster on the new bytes. Both fixture digests moved, so FIX67's live RASTER_PASS receipt (run 33993870603) no longer binds these bytes and this family carries no acceptance receipt. The 300 dpi and 150 dpi rasters this lane read were rendered locally into /tmp and deleted; they are a measurement, not a receipt.",
+        "Independent verification. This lane built and repaired these five families and cannot verify its own work. Every obligation above is a builder's measurement and needs an independent reader.",
+        "FEE_AND_WAIVER for vt_seal_dui-set was deliberately not touched: it is a counsel hold and is named in obligationsThisRowDoesNotDischarge.",
+        "REQUIRED_BEFORE_FILING and COMPONENT_SET were not measured here, although the same registry opt-in added waiting-period, exclusion and component-set content for the four siblings. That content is registry-quoted, but whether it discharges those obligations is for an independent reader to decide.",
+        "The placement sweep script used here was written for this measurement and is not committed."
+      ]
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "familyId": "vt_seal_pardon-set",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "lane": "FIX75",
+      "baseCommit": "a777f061b",
+      "branch": "fix75-vt-host-fit-stops",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX75 vt_seal_pardon-set -> CLAIM_OK FIX75 vt_seal_pardon-set (repair, grant set a2bba26e25b8c21f), exit 0. Asserted before any artifact of this family was edited.",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "CLIPPING_AND_OVERLAP",
+        "PROTECTED_BLANKS",
+        "SERVICE_AND_DESTINATION",
+        "SELF_HELP_STOP"
+      ],
+      "whatChanged": {
+        "sharedHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs — the one host all five families are built by. No shared module was edited: scripts/rcap-official-forms/rcap-official-form-finalize.mjs and scripts/rcap-official-forms/rcap-text-fitting.mjs are untouched.",
+        "knownPrefills": "alignWidgetFontSizeToFit: true added at the host's single finalizeOfficialForm call, beside the evaluateDeclaredMinimumSize, suppressSynthesizedAppearances and fitAppearancesToRect that were already there. The option is the finalizer's own, default-off, and rewrites only the size token inside each widget's existing /DA, so a widget whose declared size already equals the fit is left alone. fitTextPerWidget was NOT used and is still false: this host declares one widget per field, so per-widget fitting measures the identical rectangle and would have changed nothing.",
+        "selfHelpStop": "None. This family already carried its ten conditions and its participant-instructions.md is byte-identical to the file at base — proved by diff. The two pardon-specific closing sentences (the conditional-pardon note under the exclusions, and the note that the tenth stop condition is an unresolved clock) were placed behind an explicit vt_seal_pardon test so that turning the mechanism on for the four siblings could not print them on routes they are false of; the pardon output is unchanged either way.",
+        "alsoChangedAsAConsequence": [
+          "reports/rendered-artifacts.json: the two fixture digests and byte lengths.",
+          "raster/canonical/page-03/page.png and raster/boundary/page-03/page.png: the builder's own page rasters for the one page whose bytes moved."
+        ],
+        "notChanged": "suppressSynthesizedAppearances and fitAppearancesToRect are exactly as FIX67 left them (git diff of the host shows no line touching either). No FEE_AND_WAIVER text was touched anywhere; for vt_seal_dui-set the fee-and-waiver section of participant-instructions.md is byte-identical to the file at base, proved by diff."
+      },
+      "selfHelpStop": {
+        "registryTrackId": "vt_seal_pardon",
+        "registryFile": "data/record-clearing/legal-design-track-registry.json",
+        "registryField": "tracks[].selfHelpStopConditions",
+        "conditionsDeclared": 10,
+        "conditionsCarriedBefore": 10,
+        "conditionsCarriedAfter": 10,
+        "heading": "## When to stop and get a lawyer",
+        "introLineDelivered": "The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:",
+        "hearingLineDelivered": "**A scheduled hearing is where this packet's self-help ends.** The committed track registry records the prosecutor opposing the petition, or the court scheduling a hearing, as the point to get a lawyer or a legal-aid office rather than to press on alone. The hearing date stands either way, so start looking for help the day you learn of one.",
+        "table": [
+          {
+            "n": 1,
+            "registryCondition": "The prosecutor opposes the petition, or the court schedules a hearing.",
+            "deliveredLine": "- The prosecutor opposes the petition, or the court schedules a hearing.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 2,
+            "registryCondition": "A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "deliveredLine": "- A victim files a statement in opposition. Under § 7608 the respondent must notify any known victim at the time the petition is filed, and the victim may offer a statement before any stipulation.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 3,
+            "registryCondition": "Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "deliveredLine": "- Any criminal charge is pending anywhere. Under § 7604 the court cannot act on the petition until the new charge is disposed of.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 4,
+            "registryCondition": "The criminal history record mixes qualifying and nonqualifying offences.",
+            "deliveredLine": "- The criminal history record mixes qualifying and nonqualifying offences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 5,
+            "registryCondition": "The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "deliveredLine": "- The participant holds a commercial driver's licence or commercial learner's permit and the offence was committed in a motor vehicle. Section 7602(a)(5) disapplies the whole section, not only the DUI route.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 6,
+            "registryCondition": "The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "deliveredLine": "- The offence may be a listed crime under 13 V.S.A. § 5301(7).",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 7,
+            "registryCondition": "Any felony not plainly on the § 7601(4)(B) list.",
+            "deliveredLine": "- Any felony not plainly on the § 7601(4)(B) list.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 8,
+            "registryCondition": "Immigration consequences.",
+            "deliveredLine": "- Immigration consequences.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 9,
+            "registryCondition": "The participant wants to attack the underlying conviction rather than clear the record.",
+            "deliveredLine": "- The participant wants to attack the underlying conviction rather than clear the record.",
+            "presentVerbatimInParticipantInstructions": true
+          },
+          {
+            "n": 10,
+            "registryCondition": "The pardoned offence is a misdemeanour and the timing turns on whether the three-year or the seven-year clock applies, which the statute does not resolve.",
+            "deliveredLine": "- The pardoned offence is a misdemeanour and the timing turns on whether the three-year or the seven-year clock applies, which the statute does not resolve.",
+            "presentVerbatimInParticipantInstructions": true
+          }
+        ],
+        "measuredBy": "each registry condition matched, whitespace- and quote-normalised, against the family's participant-instructions.md read from the working tree after the final rebuild",
+        "pardonUnchanged": "participant-instructions.md is byte-identical to the file at base; still 10 of 10."
+      },
+      "knownPrefills": {
+        "field": "34d",
+        "form": "200-00132",
+        "formTitle": "Stipulation to Seal Criminal History Record and Order",
+        "packetPage": 3,
+        "caption": "Printed Name (Defendant's, in the stipulation signature block)",
+        "appearance": "FlatWidget-4869070959",
+        "widgetRectPt": {
+          "width": 174.743,
+          "height": 12.96
+        },
+        "clipPathMaxXPt": 173.743,
+        "whyItWasNotFitted": "34d is the one written field on 200-00132 whose widget annotation is a SEPARATE dictionary carrying its own /DA '/Calibri 11 Tf 0 g'. pdf-lib's text appearance provider prefers the widget's /DA font size over the field's, and applyFitToTextField sets the size on the FIELD. 34e, 34f and 34h carry the same /DA string but their widget IS the field dictionary (the merged single-widget shape), so the fit already reached them; 34i has a separate widget with no /DA of its own and so followed the field too. Verified by loading the pinned source (SHA-256 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2) and comparing widget dict identity field by field.",
+        "boundary": {
+          "valueWritten": "Maria-Alejandra O’Shaughnessy-Whitfield",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 204.23,
+            "textStartXPt": 1,
+            "textEndXPt": 205.23,
+            "overflowBeyondClipPt": 31.49,
+            "delivered": "clipped: the page prints 'Maria-Alejandra O’Shaughnessy-Wh' and the last characters never reach the paper"
+          },
+          "after": {
+            "fontSizePt": 8.96,
+            "drawnWidthPt": 166.35,
+            "textStartXPt": 1,
+            "textEndXPt": 167.35,
+            "headroomInsideClipPt": 6.39,
+            "delivered": "the whole value prints inside its clip"
+          },
+          "fontSizeFloor": "MIN_READABLE_FONT_SIZE = 6; the fit landed four rungs above it, at 8.96. No size was hand-set: 8.96 is the size the shared fitter measured against this widget's own rectangle.",
+          "rasterProof300dpi": {
+            "method": "page 3 of the boundary fixture rendered at 300 dpi before and after into /tmp (Chromium, the repository's calibrated rasterizer), the widget's own rectangle cropped, the form's printed rule rows (y 2551-2554) excluded so only participant glyphs are counted",
+            "before": {
+              "glyphPixels": 7292,
+              "glyphInkX": [
+                1656,
+                2376
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 1,
+              "readByEye": "the name is cut mid-word at the clip edge"
+            },
+            "after": {
+              "glyphPixels": 5834,
+              "glyphInkX": [
+                1656,
+                2342
+              ],
+              "clipRightEdgePx": 2377,
+              "gapToClipPx": 35,
+              "readByEye": "'Maria-Alejandra O’Shaughnessy-Whitfield' reads whole, clear of the printed rule and of the neighbouring caption; no overlap"
+            }
+          }
+        },
+        "canonical": {
+          "valueWritten": "Jordan Avery Reyes",
+          "before": {
+            "fontSizePt": 11,
+            "drawnWidthPt": 97.85,
+            "textEndXPt": 98.85,
+            "headroomInsideClipPt": 74.89
+          },
+          "after": {
+            "fontSizePt": 10.96,
+            "drawnWidthPt": 97.5,
+            "textEndXPt": 98.5,
+            "headroomInsideClipPt": 75.24
+          },
+          "note": "The canonical name was never clipped. Its size moves 11 -> 10.96 because 10.96 is the largest rung the shared fitter's ladder offers on a 12.96pt-high widget (its height ceiling is rect.height - 2). That is the fitter's own measurement, not a size set by this lane, and it is the largest size that widget's geometry allows: the canonical name is not made smaller than it needs to be."
+        },
+        "everyOtherWrite": "All 24 text-bearing flattened appearances were re-read in each fixture after the rebuild, each against its own clip path, font and size: 24 of 24 fit in canonical and 24 of 24 fit in boundary (23 of 24 before). Only 34d's size changed in either fixture; the other 23 appearances are byte-for-byte the size they were."
+      },
+      "placementSweep": {
+        "test": "VF02's sweep, re-implemented for measurement only and not committed: for every flattened widget placement in a fixture, compose the page's cm matrices with the appearance stream's own /Matrix, transform its /BBox, and require the placed extent to equal the source widget's /Rect (cmScale x requiredScale == 1), matching each placement to its source widget by page and translation.",
+        "before": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "after": {
+          "canonical": "161/161",
+          "boundary": "161/161"
+        },
+        "change": "none — 161/161 per fixture before and after, on all five families"
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set, run in this container before and after the rebuild; PASS_COMPLETE, 24/165 written, exit 0 both times",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+          "when": "before",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+          "when": "after",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, nine counters zero"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED — 249 receipts compared against HEAD, 53 carrying an identityRefresh; the rebuild erased none"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED — 96 families examined, 29 source-carried values, 0 undispositioned"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family vt_seal_pardon-set",
+          "when": "before and after",
+          "exitCode": 0,
+          "result": "BROKEN_DENOMINATOR: 'no census matched --family <id>'. The --family filter does not resolve this family's spelling, so the unfiltered run above — which covers all 96 families including this one — is what is reported. Stated plainly rather than counted as a pass."
+        }
+      ],
+      "digests": {
+        "before": {
+          "canonical": {
+            "sha256": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+            "byteLength": 851974,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+            "byteLength": 852466,
+            "pageCount": 6
+          }
+        },
+        "after": {
+          "canonical": {
+            "sha256": "c360eac4b8698a0f9b11180a98e7515030dc9406746ebe0de48a61c09bb68843",
+            "byteLength": 851978,
+            "pageCount": 6
+          },
+          "boundary": {
+            "sha256": "21fa17be618b32306ef2b22de7c2807b439815d0db0ae58becc648b2083c132a",
+            "byteLength": 852465,
+            "pageCount": 6
+          }
+        },
+        "note": "Identical across all five family directories, file for file, before and after. The 'before' pair is VF05's canonical 6d13376c… and boundary 22ae0bc5…, re-hashed on disk before any measurement. The five may again share identical digests, and they do: the five packets differ only in participant-instructions.md, which is not inside the PDFs."
+      },
+      "rebuild": {
+        "command": "node scripts/build-census-v1-vt_seal_pardon-set.mjs",
+        "passes": 3,
+        "byteIdentical": true,
+        "detail": "Rebuilt three times. A baseline rebuild at base, before any edit, reproduced VF05's digests exactly, so the builder is deterministic in this container. After the edits, three consecutive rebuilds of all five families produced identical canonical and boundary digests; the last two ran entirely on the final source."
+      },
+      "raster": {
+        "engine": "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs (Chromium, calibrated), run in this container into /tmp only",
+        "pagesWhoseBytesChanged": [
+          3
+        ],
+        "pixelIdentityAt150dpi": {
+          "canonical": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "1909 differing pixels, all inside x[826,1032] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          },
+          "boundary": {
+            "page1": "identical",
+            "page2": "identical",
+            "page3": "4695 differing pixels, all inside x[827,1188] y[1256,1277] — the 34d line",
+            "page4": "identical",
+            "page5": "identical",
+            "page6": "identical"
+          }
+        },
+        "statement": "Every page of both fixtures other than page 3 is pixel-identical at 150 dpi, and on page 3 every differing pixel falls in the single 22-pixel-high band that carries field 34d.",
+        "rastersDeleted": true
+      },
+      "otherFamilyDirectories": "byte-identical: git status shows no change anywhere outside these five family directories and the one shared host script.",
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs (and --family vt_seal_misdemeanor-set)",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/12 passed, 2 failed, 5 not applicable",
+        "passed": [
+          "repo_identity fix75-vt-host-fit-stops at a777f061",
+          "clone_is_complete",
+          "worktree_clean",
+          "node_toolchain node 22.22.2",
+          "pdf_lib_importable pdf-lib 1.17.1",
+          "master_library_mounted",
+          "master_library_complete (499 files, 329 PDFs, 51 jurisdictions)",
+          "family_sources_bind 3/3 by exact SHA-256",
+          "master_library_not_at_operational_path",
+          "absent_is_not_empty",
+          "stale_artifact_block_consulted"
+        ],
+        "failed": [
+          "private_is_git_ignored — private/ is reached through a symlink to the read-only source clone, and .gitignore's 'private/' pattern does not match a symlink, so the check reports it as not ignored. Nothing under private/ is staged: every path in this lane's commits was named by hand and the commit is 'git add <path>' only, never 'git add .', '-A' or '--all'.",
+          "corpus_matches_committed_index — 1 absent, 0 mismatched of 24 sampled. The absent sample is not one of this family's three sources; --family vt_seal_misdemeanor-set reports family_sources_bind 3/3 by exact SHA-256."
+        ],
+        "notApplicable": "the browser and rasterizer checks, which this invocation did not request; page rasters for this measurement were rendered separately into /tmp.",
+        "environment": "MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library, as scripts/verify-packet-build-environment.mjs expects; node_modules symlinked from the captain worktree; work confined to /home/user/fix75-worktree on branch fix75-vt-host-fit-stops off a777f061b."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "Central raster on the new bytes. Both fixture digests moved, so FIX67's live RASTER_PASS receipt (run 33993870603) no longer binds these bytes and this family carries no acceptance receipt. The 300 dpi and 150 dpi rasters this lane read were rendered locally into /tmp and deleted; they are a measurement, not a receipt.",
+        "Independent verification. This lane built and repaired these five families and cannot verify its own work. Every obligation above is a builder's measurement and needs an independent reader.",
+        "FEE_AND_WAIVER for vt_seal_dui-set was deliberately not touched: it is a counsel hold and is named in obligationsThisRowDoesNotDischarge.",
+        "REQUIRED_BEFORE_FILING and COMPONENT_SET were not measured here, although the same registry opt-in added waiting-period, exclusion and component-set content for the four siblings. That content is registry-quoted, but whether it discharges those obligations is for an independent reader to decide.",
+        "The placement sweep script used here was written for this measurement and is not committed."
+      ]
+    }
+  ]
+}
