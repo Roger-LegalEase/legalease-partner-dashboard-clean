@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF18",
+  "workerId": "BUILD-B",
+  "lane": "packet-build",
+  "engine": "remote agent session",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "workerBranch": "claude/build-b-custom-pleading-cohort",
+  "writtenAlongsideNotOverIt": {
+    "existingFile": null,
+    "whyThisFileExists": "this lane directory held no rows.json, so nothing was overwritten and nothing is contradicted."
+  },
+  "familiesAssigned": 1,
+  "familiesBuilt": 0,
+  "familiesStopped": 1,
+  "preflight": {
+    "command": "not run: scripts/verify-packet-build-environment.mjs is the Codex Cloud lane gate and this lane runs in a different container",
+    "environmentFactsEstablishedInstead": [
+      "only two of the five source custodies are mounted: the Master Library and human-source-returns",
+      "no browser resolves here, so every family is returned BUILT_RASTER_PENDING with its exact canonical and boundary hashes"
+    ]
+  },
+  "selfVerification": 0,
+  "rows": [
+    {
+      "itemId": "fl-sealing-set",
+      "status": "STOPPED_BLOCKED_SOURCE",
+      "familyId": "fl-sealing-set",
+      "blockerClass": "absent_source_bytes",
+      "blocker": "The family's only held source, the FDLE Application for a Certificate of Eligibility for Sealing, is absent by content hash from every mounted custody.",
+      "missingDigest": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
+      "missingDigestFacts": {
+        "byteLength": 26589,
+        "pageCount": 6,
+        "declaredPath": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-",
+        "acquisitionRecord": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json",
+        "whyItIsAbsent": "the acquisition returned the bytes from a stateful-POST form renderer and stored them in a Google Drive custody, which is not one of the two custodies mounted here"
+      },
+      "whatWasCheckedAndRejected": {
+        "candidate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
+        "candidateSha256": "82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d",
+        "whyItWasRejected": "different bytes. Binding a different binary to the obligation would satisfy one identity with another's bytes, which the source-identity rule forbids by name."
+      },
+      "mountedCustodiesSearched": [
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+        "private/human-source-returns"
+      ],
+      "whatWouldUnblockIt": "the exact 26,589 bytes hashing to 1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec, mounted in a custody this container can read.",
+      "whatWasNotDone": "no packet was rendered and no file was written under this family's directory."
+    }
+  ],
+  "laneNote": "BUILD-B, custom_pleading cohort. Five families built and returned BUILT_RASTER_PENDING, three stopped and named. No verdict is issued on this lane's own work, no commercial route is opened, and nothing in production is touched."
+}

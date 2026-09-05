@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "in_conviction_d6-set",
+  "jurisdiction": "IN",
+  "trackId": "in_conviction_d6",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-pathway:IN:in_conviction_d6:conviction-expungement-with-sealed-confidential-access"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "statute": "I.C. 35-38-9-3",
+  "identityDetermination": {
+    "id": "DET-IN-CCA-CANDIDATES-ARE-NOT-OFFICIAL-in_conviction_d6-set",
+    "determination": "Neither candidate is an official published form. ACQUIRE_EXACT_SOURCE -> COMPOSE_FROM_AUTHORITY.",
+    "obligations": [
+      "official-form:CCA conviction expungement petition",
+      "official-form:CCA conviction expungement order"
+    ],
+    "whatThisDoesNotEstablish": "It sets the treatment. It composes nothing yet, approves no output and opens no route."
+  },
+  "exactNextActionFollowed": "Compose the petition and proposed order from Indiana authority; retain the separately bound statewide supporting forms.",
+  "components": [
+    {
+      "componentId": "in_conviction_d6-primary-filing-1",
+      "documentId": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "title": "Verified Petition for Expungement of Conviction Records",
+      "role": "primary_filing",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CCA conviction expungement petition",
+      "order": 1,
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "in_conviction_d6-proposed-order-2",
+      "documentId": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "title": "Order on the Verified Petition for Expungement of Conviction Records",
+      "role": "proposed_order",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CCA conviction expungement order",
+      "order": 2,
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "in_conviction_d6-attachment-3",
+      "documentId": "CCA-XP-0220-7009",
+      "title": "Conviction Expungement Insert",
+      "role": "attachment",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CCA-XP-0220-7009",
+      "order": 3,
+      "treatment": "retained_official_form_delivered_verbatim",
+      "generated": true
+    },
+    {
+      "componentId": "in_conviction_d6-attachment-4",
+      "documentId": "CCA-GF-0120-3016",
+      "title": "Appearance by Unrepresented Person in Expungement Matter",
+      "role": "attachment",
+      "requirement": "conditional",
+      "conditionDescription": "Required for a self-represented filer.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CCA-GF-0120-3016",
+      "order": 4,
+      "treatment": "retained_official_form_delivered_verbatim",
+      "generated": true
+    },
+    {
+      "componentId": "in_conviction_d6-attachment-5",
+      "documentId": "CCA-XP-0120-7002 Form ACR",
+      "title": "Notice of Exclusion of Confidential Information from Public Access",
+      "role": "attachment",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CCA-XP-0120-7002 Form ACR",
+      "order": 5,
+      "treatment": "retained_official_form_delivered_verbatim",
+      "generated": true
+    },
+    {
+      "componentId": "in_conviction_d6-attachment-6",
+      "documentId": "Confidential Information Form",
+      "title": "Confidential Information Form",
+      "role": "attachment",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "Confidential Information Form",
+      "order": 6,
+      "treatment": "retained_official_form_delivered_verbatim",
+      "generated": true
+    }
+  ],
+  "conditionalComponentsGenerated": [
+    {
+      "componentId": "in_conviction_d6-attachment-4",
+      "conditionTheRecordStates": "Required for a self-represented filer.",
+      "whyItIsGenerated": "both fixtures are self-represented filers, which is the condition the record states, so the Appearance by Unrepresented Person is delivered"
+    }
+  ],
+  "retainedOfficialDocuments": [
+    {
+      "componentId": "in_conviction_d6-attachment-3",
+      "documentId": "CCA-XP-0220-7009",
+      "sourceId": "official-form:CCA-XP-0220-7009",
+      "issuer": "Indiana Coalition for Court Access",
+      "whatItIs": "the conviction insert for this section, carrying the facts, findings and exhibit pages that the petition and the order both call for",
+      "sourceSha256": "499ed8a49c785fa949bcce19c3783f84318b73bc162cb5db8576094a321990b1",
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-XP-0220-7009__conviction-expungement-insert-i-c-35-38-9-3__REV-2020-02__EN.pdf",
+      "sourcePages": [
+        1,
+        2,
+        3
+      ],
+      "pageCount": 3,
+      "markerProvedOnEveryPage": "CCA-XP-0220-7009",
+      "widgetCount": 134,
+      "filledByThisBuild": false,
+      "fieldMappedByThisBuild": false
+    },
+    {
+      "componentId": "in_conviction_d6-attachment-4",
+      "documentId": "CCA-GF-0120-3016",
+      "sourceId": "official-form:CCA-GF-0120-3016",
+      "issuer": "Indiana Coalition for Court Access",
+      "whatItIs": "the Appearance by Unrepresented Person in Expungement Matter, which also carries the certificate of service to the county prosecutor",
+      "sourceSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+      "sourcePages": [
+        1,
+        2
+      ],
+      "pageCount": 2,
+      "markerProvedOnEveryPage": "CCA-GF-0120-3016",
+      "widgetCount": 33,
+      "filledByThisBuild": false,
+      "fieldMappedByThisBuild": false
+    },
+    {
+      "componentId": "in_conviction_d6-attachment-5",
+      "documentId": "CCA-XP-0120-7002 Form ACR",
+      "sourceId": "official-form:CCA-XP-0120-7002 Form ACR",
+      "issuer": "Indiana Coalition for Court Access",
+      "whatItIs": "Form ACR, the Notice of Exclusion of Confidential Information from Public Access",
+      "sourceSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+      "sourcePages": [
+        7
+      ],
+      "pageCount": 1,
+      "markerProvedOnEveryPage": "CCA-XP-0120-7002",
+      "widgetCount": 13,
+      "filledByThisBuild": false,
+      "fieldMappedByThisBuild": false
+    },
+    {
+      "componentId": "in_conviction_d6-attachment-6",
+      "documentId": "Confidential Information Form",
+      "sourceId": "official-form:Confidential Information Form",
+      "issuer": "Indiana Coalition for Court Access",
+      "whatItIs": "the Confidential Information Form, which carries the full Social Security number and is filed as a confidential document",
+      "sourceSha256": "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-PETITION-ORDER__coalition-for-court-access-section-1-non-conviction-expungement-petition-and-order-bundle__SOURCE-2021__EN.pdf",
+      "sourcePages": [
+        8
+      ],
+      "pageCount": 1,
+      "markerProvedOnEveryPage": "CONFIDENTIAL INFORMATION FORM",
+      "widgetCount": 2,
+      "filledByThisBuild": false,
+      "fieldMappedByThisBuild": false
+    }
+  ],
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/participant-instructions.md",
+  "filingInstructions": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/filing-instructions.md",
+  "participantGuidancePdfs": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-canonical.pdf",
+      "sha256": "c1b5d4a3d88ca37e81d53d0b2e21ff5653a47138f7a6cf7ea761a22553fbf23b",
+      "byteLength": 21388,
+      "pageCount": 7
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/in/in-conviction-d6-set--custom-pleading/fixtures/participant-guidance-boundary.pdf",
+      "sha256": "61a9a728bc2c6b7fe640b6a7d3ba94687e844092552a4e4a3f572fbb2169059a",
+      "byteLength": 21427,
+      "pageCount": 7
+    }
+  ]
+}

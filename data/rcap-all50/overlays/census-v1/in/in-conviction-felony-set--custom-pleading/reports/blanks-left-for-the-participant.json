@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "in_conviction_felony-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "component": "in_conviction_felony-primary-filing-1",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.mailing_address",
+      "page": 1,
+      "disclosureLabel": "Petitioner mailing address",
+      "identity": "IN-CONVICTION-EXPUNGEMENT-PETITION field mailing_address",
+      "why": "the platform holds no address for this fixture and does not invent one",
+      "participantMustSupply": "your current mailing address, written by hand, so the court and the prosecuting attorney can reach you"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "component": "in_conviction_felony-primary-filing-1",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.telephone_and_email",
+      "page": 1,
+      "disclosureLabel": "Petitioner telephone number and email address",
+      "identity": "IN-CONVICTION-EXPUNGEMENT-PETITION field telephone_and_email",
+      "why": "the platform holds no contact details for this fixture and does not invent them",
+      "participantMustSupply": "the telephone number and email address you want the court to use"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "component": "in_conviction_felony-primary-filing-1",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.ssn_last_four",
+      "page": 1,
+      "disclosureLabel": "Last four digits of the Social Security number",
+      "identity": "IN-CONVICTION-EXPUNGEMENT-PETITION field ssn_last_four",
+      "why": "the committed packet instruction is that only the last four digits appear on the petition and that the full number is never persisted, so the platform holds no value to write",
+      "participantMustSupply": "the last four digits of your Social Security number, and only the last four - the full number goes on the Confidential Information Form"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "component": "in_conviction_felony-primary-filing-1",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.all_indiana_convictions",
+      "page": 1,
+      "disclosureLabel": "Every Indiana conviction in any county, and whether each is eligible yet",
+      "identity": "IN-CONVICTION-EXPUNGEMENT-PETITION field all_indiana_convictions",
+      "why": "one petition per lifetime under I.C. 35-38-9-9(i) makes this list decisive, and only the certified limited criminal history the participant orders establishes it",
+      "participantMustSupply": "the full list from your certified limited criminal history, county by county, with the eligibility date of each"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "component": "in_conviction_felony-primary-filing-1",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.serious_bodily_injury",
+      "page": 1,
+      "disclosureLabel": "Whether the offense involved serious bodily injury",
+      "identity": "IN-CONVICTION-EXPUNGEMENT-PETITION field serious_bodily_injury",
+      "why": "the committed record classifies this as a legal judgment rather than a fact the platform holds, and lists it as a manual completion item",
+      "participantMustSupply": "the answer, taken from your own court record and from legal advice if it is not obvious"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "component": "in_conviction_felony-primary-filing-1",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.additional_information",
+      "page": 1,
+      "disclosureLabel": "Additional information the petitioner wants the court to know",
+      "identity": "IN-CONVICTION-EXPUNGEMENT-PETITION field additional_information",
+      "why": "the committed record says this is participant-authored and that LegalEase formats the participant's own facts rather than composing an argument",
+      "participantMustSupply": "anything else you want the court to know, in your own words"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.verification_signature",
+      "page": 2,
+      "label": "Verification and signature of the petitioner",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the petition is verified; the petitioner signs it personally"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.verification_signature_date",
+      "page": 2,
+      "label": "Date of the petitioner's signature",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before signing would be false"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.xp_cause_number",
+      "page": 2,
+      "label": "Expungement cause number assigned by the clerk",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the clerk opens the XP cause and assigns its number when the petition is filed"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-PETITION",
+      "field": "IN-CONVICTION-EXPUNGEMENT-PETITION.filing_stamp",
+      "page": 2,
+      "label": "Filed on stamp applied by the clerk",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the clerk stamps the petition when it is filed"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "field": "IN-CONVICTION-EXPUNGEMENT-ORDER.findings",
+      "page": 1,
+      "label": "Findings of the court on the verified petition",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the findings are the court's, made by a preponderance on the statutory conditions"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "field": "IN-CONVICTION-EXPUNGEMENT-ORDER.granted_or_denied",
+      "page": 1,
+      "label": "Whether the petition is granted or denied",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "granting or denying the petition is the court's decision and this build makes none of it"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "field": "IN-CONVICTION-EXPUNGEMENT-ORDER.decretal_paragraphs",
+      "page": 1,
+      "label": "Ordered, adjudged and decreed paragraphs",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the decretal paragraphs are the court's judgment"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "field": "IN-CONVICTION-EXPUNGEMENT-ORDER.sealing_directives",
+      "page": 1,
+      "label": "Entities the court directs to seal or restrict records",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the sealing directives are the court's, and the related arrest records are ordered expunged by the same order under I.C. 35-38-9-6(g) and 35-38-9-7(e)"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "field": "IN-CONVICTION-EXPUNGEMENT-ORDER.order_date",
+      "page": 1,
+      "label": "Date of the court order",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court dates its own order"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "field": "IN-CONVICTION-EXPUNGEMENT-ORDER.judge_signature",
+      "page": 1,
+      "label": "Signature of the judge on the order",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the judge signs if and when the court enters the order"
+    },
+    {
+      "document": "IN-CONVICTION-EXPUNGEMENT-ORDER",
+      "field": "IN-CONVICTION-EXPUNGEMENT-ORDER.distribution",
+      "page": 1,
+      "label": "Distribution list completed by the clerk",
+      "disposition": "PROTECTED_FIELD",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "distribution of a signed order is the clerk's act"
+    }
+  ],
+  "everyIntentionalBlankClassified": true,
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/in/in-conviction-felony-set--custom-pleading/participant-instructions.md",
+  "blanksOnRetainedOfficialForms": {
+    "documents": [
+      {
+        "documentId": "CCA-XP-0220-7010",
+        "widgetCount": 137
+      },
+      {
+        "documentId": "CCA-GF-0120-3016",
+        "widgetCount": 33
+      },
+      {
+        "documentId": "CCA-XP-0120-7002 Form ACR",
+        "widgetCount": 13
+      },
+      {
+        "documentId": "Confidential Information Form",
+        "widgetCount": 2
+      }
+    ],
+    "treatment": "delivered blank and completed by hand; enumerated in reports/retained-official-form-widgets.json and not classified here"
+  },
+  "obtainOrConfirmBeforeFiling": [
+    {
+      "kind": "obtain_document",
+      "requirement": "required",
+      "obtainedFrom": "Indiana State Police",
+      "description": "Obtain Certified limited criminal history from the Indiana State Police. Request a certified limited criminal history from the Indiana State Police. Confirm the current charge and turnaround at build time."
+    },
+    {
+      "kind": "confirm_answer",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "Check your answer to \"List every conviction you have in Indiana, in any county, and whether each is eligible yet.\" against Certified limited criminal history from the Indiana State Police, and correct the packet if they disagree."
+    },
+    {
+      "kind": "obtain_document",
+      "requirement": "required",
+      "obtainedFrom": "Clerk of the court of conviction",
+      "description": "Obtain Confirmation that all fines, fees, costs and restitution are satisfied. Ask the clerk for the balance on the cause number, including any restitution."
+    },
+    {
+      "kind": "confirm_answer",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "Check your answer to \"Have you paid all fines, fees and court costs, and satisfied any restitution?\" against Confirmation that all fines, fees, costs and restitution are satisfied, and correct the packet if they disagree."
+    },
+    {
+      "kind": "obtain_document",
+      "requirement": "conditional",
+      "obtainedFrom": "Prosecuting attorney of the county of conviction",
+      "description": "Obtain Written prosecutor consent. Ask the prosecuting attorney for written consent. Silence is not consent."
+    },
+    {
+      "kind": "confirm_answer",
+      "requirement": "conditional",
+      "obtainedFrom": null,
+      "description": "Check your answer to \"Has the prosecuting attorney given written consent, either to shorten the waiting period or to allow the filing?\" against Written prosecutor consent, and correct the packet if they disagree."
+    },
+    {
+      "kind": "complete_field",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "Verification and signature — Petition, verification block."
+    },
+    {
+      "kind": "complete_field",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "Section classification — Petition, offence classification."
+    },
+    {
+      "kind": "complete_field",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "Additional-information narrative — Petition, additional information."
+    },
+    {
+      "kind": "complete_field",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "Full Social Security number — Confidential Information Form."
+    },
+    {
+      "kind": "sign",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "The petition is verified and signed by the petitioner."
+    },
+    {
+      "kind": "pay_fee",
+      "requirement": "required",
+      "obtainedFrom": null,
+      "description": "A civil filing fee applies to Sections 2 through 5. The amount, whether it is per county, and indigency waiver availability are unresolved."
+    },
+    {
+      "kind": "apply_fee_waiver",
+      "requirement": "conditional",
+      "obtainedFrom": null,
+      "description": "Unresolved. Indigency waiver availability has not been confirmed."
+    }
+  ],
+  "selfHelpStopConditionsCarried": 13
+}

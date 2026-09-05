@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "in_conviction_d6-set",
+  "blocking": [],
+  "openObligations": [
+    {
+      "obligation": "a field-level map of the four retained official forms",
+      "owedTo": "the official_pdf_fill treatment",
+      "whyItIsNotProducedHere": "the captions harvested at those widgets' own positions are fragments, and two of the three insert pages are the court's findings and order rather than the participant's to complete; a map built from those captions would read as authoritative and would not be",
+      "whatIsProducedInstead": "reports/retained-official-form-widgets.json enumerates every widget, its page, its rectangle, the caption harvested at its own position and the basis of the harvest",
+      "consequenceForTheNineCounters": "the counters measure the two documents this build authored, and reports/completeness-counters.json says so on its face"
+    }
+  ],
+  "findings": [
+    {
+      "finding": "The queue declares four held sources; three of them resolve to one published fifteen-page bundle and one to a standalone insert.",
+      "treatment": "All 4 digests resolved by content hash inside private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and private/human-source-returns, and every selected page was proved against the form number the issuer printed in that page's own footer before it was copied."
+    },
+    {
+      "finding": "The two candidates once treated as official published forms - the CCA conviction expungement petition and order - are not official published forms.",
+      "treatment": "DET-IN-CCA-CANDIDATES-ARE-NOT-OFFICIAL-in_conviction_d6-set sets the treatment to COMPOSE_FROM_AUTHORITY, and the queue row's exact next action says to compose those two and retain the supporting forms. That is what this build does, and both statements are asserted at build time."
+    },
+    {
+      "finding": "The retained official forms are delivered into the packet unfilled.",
+      "treatment": "Every retained page was proved, from the finalized packet bytes, to carry no fixture value. Nothing this build wrote appears on any of them."
+    },
+    {
+      "finding": "The Appearance by Unrepresented Person is a conditional component.",
+      "treatment": "The condition the record states is a self-represented filer, both fixtures are self-represented, so the condition is met and the component is delivered. The condition and the reason are recorded in the packet set manifest."
+    },
+    {
+      "finding": "The committed record does not settle the civil filing fee, whether it is charged per county, or whether an indigency waiver exists.",
+      "treatment": "The packet quotes the record's own words, states plainly that the amount, the per-county question and the waiver are unsettled, and names the clerk of the filing court as the place to ask. It invents no figure."
+    },
+    {
+      "finding": "The committed record does not state a prosecutor response deadline or a number of days between service and any hearing.",
+      "treatment": "The packet says the record states none rather than supplying one."
+    },
+    {
+      "finding": "The registry holds 6 packet instructions and scope restrictions for this track, including the one-petition-per-lifetime rule and the Chastain gate.",
+      "treatment": "Every one is carried verbatim, and the two scope restrictions are printed under a READ THIS FIRST heading at the top of the participant instructions."
+    },
+    {
+      "finding": "The memo holds 13 self-help stop conditions and 4 exclusions for this track.",
+      "treatment": "Every one is carried verbatim and numbered, with the count printed beside them so short carriage is visible."
+    },
+    {
+      "finding": "The full Social Security number must never be persisted, and only the last four digits belong on the petition.",
+      "treatment": "The petition leaves the last four digits blank as a required-before-filing item and says where the full number goes. This build holds and writes no Social Security number at all."
+    }
+  ]
+}
