@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "61a898123fcfdcebf31885b09d3aa5ad922714fc",
+  "minimumCaptainSha": "c48e7c1d1392c3c13086d87062c184d5306d2699",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -71,8 +71,8 @@
     "remaining": 343,
     "sourceReady": 82,
     "sourceBlocked": 6,
-    "legalBlocked": 12,
-    "verifyPending": 7,
+    "legalBlocked": 13,
+    "verifyPending": 6,
     "repairRequired": 46,
     "sumsToDenominator": true
   },
@@ -82,9 +82,9 @@
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
-    "VERIFY_PENDING": 7,
+    "VERIFY_PENDING": 6,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 12,
+    "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "WRONG_DELIVERY_TYPE": 1
@@ -163,7 +163,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 18 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 19 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -26807,21 +26807,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf06",
-        "verifiedAtBase": "b3467e894",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf01",
+        "verifiedAtBase": "30a8b3b71",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "ms-nonconv-set",
+        "foundBy": [
+          "vf01 (current independent verification)"
+        ],
+        "why": "COMPONENT_SET: BLOCKED_LEGAL_INPUT, naming it exactly: the required section VERIFICATION (kind verification_on_oath, notarisationRequired true) of the required specification document ms-petition-for-expungement reaches no page and carries no disposition, and which of two committed records governs it — the specification's mandatory jurat or MS.memo.json's unresolved notarization — is an open counsel question this lane must not settle. Everything else this obligation asks is measured and clean: all five specification documents render at the pages the record names, the cover prints the specification's wording verbatim with nothing invented, and the contents list matches what is delivered. VF06's FAIL is cured; only the jurat half remains, exactly as FIX01 said it would.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -26841,56 +26850,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "COMPONENT_SET"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "A REQUIRED DOCUMENT THE ROUTE NAMES IS NOT RENDERED, and the family's own records disclose the gap without curing it. product-wiring.json for this family binds data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json by SHA-256 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f — recomputed byte-exact here — declares serviceDisposition 'exact_runtime_route_and_grade_a_specification_installed', and maps that specification's documents onto packet-set manifest component ids. The specification names five documents. Four map to manifest components and are rendered. The fifth, ms-cover-and-contents, role cover_and_contents, order 1, requirement 'required', maps to manifestComponentIds [] — it has no component in data/record-clearing/legal-design-packet-set-manifests.json and nothing renders it. The delivered 8-page packet opens directly on the petition: there is no cover, no packet-contents list, no 'records to have beside you' summary and no signing-and-notarization page anywhere in either fixture, searched for by their own headings. Nothing in build-findings.json or approval-request.json records the omission; the build measured its component set against its own rendered-artifacts.json componentSet and reported 5/5, which is why requiredComponentsMissing reads 0. WHAT THE MISSING PAGE CARRIES, WHICH IS WHY THIS IS NOT COSMETIC. The specification's cover document is where the participant is told 'DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public... The packet is not filing-ready until those steps are complete', and where the packet contents and the records-to-have-beside-you list appear. Its absence removes that warning from the delivered packet entirely. AN OPEN LEGAL INPUT SITS INSIDE THE SAME DEFECT AND A REPAIR LANE MUST NOT GUESS IT. Two committed legal-design records disagree on their face about the notarised verification, and neither is marked as superseding the other. data/record-clearing/legal-design-intake/MS.memo.json — the composition source this family's source-receipt binds by hash — records for this track: notarization 'None on the archived models. Whether any district requires verification or notarization is unresolved; the petition carries a simple truth statement rather than a notarized verification', classified impact 'nonblocking_research_note', affectedElement 'packet_components'. The specification v2.0.0 the product-wiring binds requires the opposite: five notaryOwnedFields, a finalVerificationRequirement that 'the participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation', and the cover page's 'not filing-ready until those steps are complete'. The delivered petition follows the memo — a bare 'I declare that the facts stated in this petition are true and correct', no verification block, no notarial certificate — and this family's own approval-request.json raises the point as counsel question 4, unanswered. THE REPAIR, STATED SO IT CAN BE ACTED ON. The cover half needs no legal answer: either render the specification's required order-1 cover_and_contents document into this packet and give it a component in the packet-set manifest, or record on the owner's authority that the census-v1 overlay is not this specification's representation — that the specification is served only by the Grade-A clinic artifacts at data/rcap-ledger/grade-a/ (12 and 13 pages, documentCount 5) — and correct product-wiring.json, which today asserts the opposite. The jurat half must not be repaired either way until the owner or counsel settles which of the two committed records governs; writing a notarial certificate into the petition on a lane's own reading, or leaving it out on the strength of the memo alone, would both be a lane deciding an open legal question.",
-          "evidence": {
-            "measuredAgainst": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, specificationVersion 2.0.0, packetFamily ms-nonconv-set",
-            "specificationBoundByHashInThisFamilysOwnProductWiring": true,
-            "packetSpecificationSha256Declared": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
-            "packetSpecificationSha256RecomputedHere": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
-            "documentsTheSpecificationNames": 5,
-            "documentsRenderedInTheDeliveredPacket": 4,
-            "missing": {
-              "documentId": "ms-cover-and-contents",
-              "role": "cover_and_contents",
-              "order": 1,
-              "requirement": "required",
-              "title": "Your Mississippi Non-Conviction Expungement Packet",
-              "manifestComponentIdsInThisFamilysProductWiring": [],
-              "presentInLegalDesignPacketSetManifests": false
-            },
-            "theOtherFourMapCleanly": {
-              "ms-petition-for-expungement": "ms-nonconv-primary-filing-1",
-              "ms-proposed-order": "ms-nonconv-proposed-order-2",
-              "ms-service-and-attachments": [
-                "ms-nonconv-certificate-of-service-3",
-                "ms-nonconv-attachment-4"
-              ],
-              "ms-filing-and-next-steps": "ms-nonconv-instructions-5"
-            },
-            "deliveredPacketOpensOn": "PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD UNDER MISS. CODE ANN. SEC. 99-19-71(4)",
-            "searchedForInTheDeliveredBytes": [
-              "Packet contents",
-              "What this packet is",
-              "Records to have beside you",
-              "five-part",
-              "notary",
-              "verification"
-            ],
-            "foundInTheDeliveredBytes": 0,
-            "requiredComponentsMissingCounter": 0,
-            "whyTheCounterIsZero": "the counter compares the delivered pages against reports/rendered-artifacts.json's own componentSet, which declares the five components this build authored. Measured against the build's own declaration the packet is 5/5; measured against the specification the route binds it is 4/5. That is a source-authored default, and it is the reason this obligation is measured against the specification and not against the report."
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",

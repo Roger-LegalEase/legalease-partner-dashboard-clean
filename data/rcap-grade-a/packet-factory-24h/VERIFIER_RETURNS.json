@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 795,
+    "rows": 796,
     "independentVerdicts": 240,
-    "failRepairRequired": 54,
+    "failRepairRequired": 53,
     "passIndependent": 172
   },
   "failRepairRequiredFamilies": [
@@ -70,7 +70,6 @@
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
     "mi_setaside_trafficking-set",
-    "ms-nonconv-set",
     "nc_145_5_felony-set",
     "nc_146_acquittal_petition-set",
     "nj_arrest_no_conviction-set",
@@ -9671,6 +9670,43 @@
     },
     {
       "familyId": "ms-nonconv-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "30a8b3b71",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "COMPONENT_SET"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "BLOCKED_LEGAL_INPUT, naming it exactly: the required section VERIFICATION (kind verification_on_oath, notarisationRequired true) of the required specification document ms-petition-for-expungement reaches no page and carries no disposition, and which of two committed records governs it — the specification's mandatory jurat or MS.memo.json's unresolved notarization — is an open counsel question this lane must not settle. Everything else this obligation asks is measured and clean: all five specification documents render at the pages the record names, the cover prints the specification's wording verbatim with nothing invented, and the contents list matches what is delivered. VF06's FAIL is cured; only the jurat half remains, exactly as FIX01 said it would.",
+          "evidence": {
+            "measuredAgainst": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, specificationVersion 2.0.0, recomputed here to 3a1bed79... at 59843 B — the specification this family's own product-wiring binds, not the build's rendered-artifacts.json componentSet.",
+            "theVF06FailIsCURED": "All five specification documents now reach delivered pages, verified by reading each page rather than the build's report: ms-cover-and-contents -> canonical and boundary pages 1-2; ms-petition-for-expungement -> 3-4; ms-proposed-order -> 5-6; ms-service-and-attachments -> 7 (certificate of service) and 8 (exhibit checklist); ms-filing-and-next-steps -> 9-10. documentsRendered 5 of 5, documentsDispositionedWithoutRendering 0, no unassigned page and no seventh component in either fixture. The 8-page packet VF06 read opened on the petition; this one opens on the cover.",
+            "theCoverPrintsTheSpecificationsWordingAndNothingInvented": "Checked string-for-string against the specification's own section bodies. 'What this packet is', 'Signing and notarization' and 'Important limits' are printed verbatim — each specification body string occurs exactly in the delivered page text with no edit, no paraphrase and no addition inside the quoted paragraph. All nine of the specification's participantChecklist items (confirm-caption, confirm-case-facts, insert-exhibits, complete-verification, protect-mcic-identifiers, confirm-service, confirm-fee-and-copies, protect-owned-fields, stop-for-ambiguity) print verbatim under RECORDS TO HAVE BESIDE YOU: 9 of 9 matched exactly. The six drawn headings are the specification's five section headings plus the document's own title. The only page text not read out of the specification is the four records-to-have-beside-you lines (already in this family's participant-instructions.md and its exhibit checklist), the six contents descriptions (each naming a page this packet actually delivers, in delivery order), and the attribution paragraph under SIGNING AND NOTARIZATION — which is disclosure about the packet, not invented legal content.",
+            "theContentsListMatchesWhatIsDelivered": "Six numbered items on the cover against six components on ten pages, in the delivered order, each named by the title printed on its own page. The one-line explanation of why a five-part specification yields six listed items is accurate: the specification groups the certificate of service and the exhibit checklist as the single document ms-service-and-attachments, role certificate_of_service_and_attachment_checklist.",
+            "WHAT_IS_STILL_UNSETTLED_AND_WHY_IT_IS_NOT_A_FAIL": "The same specification defines the required document ms-petition-for-expungement as SEVEN sections, and its seventh is: {heading 'VERIFICATION', kind 'verification_on_oath', notarisationRequired true, jurat 'Signed and sworn to or affirmed before me on this ______ day of ____________________, 20____, by {{participant_full_legal_name}}.'}. No delivered page of either fixture carries a VERIFICATION heading, a jurat, or any notarial certificate: the petition ends at 'I declare that the facts stated in this petition are true and correct' on page 4, and the specification's five notaryOwnedFields (notary_signature, notary_printed_name, notary_commission_expiration, notary_commission_identification_number, notary_official_stamp) and its participantAtSigningFields petition_verification_signature exist on no page. Measured at DOCUMENT granularity the specification is 5/5 and the build's specificationConformance assertion (everySpecificationDocumentRendersOrIsDispositioned true) is honest; measured at the SECTION granularity the same specification defines, one required section of a required document is neither rendered nor dispositioned, and the build's new host assertion does not reach sections.",
+            "whyALaneMayNotDecideIt": "Two committed records disagree on their face and neither supersedes the other. The specification v2.0.0 makes the jurat mandatory (finalVerificationRequirements: 'The participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation'; copyRequirements: 'Notarized filing original with Exhibits A and B'; the cover's own required wording: 'The packet is not filing-ready until those steps are complete'). data/record-clearing/legal-design-intake/MS.memo.json tracks[0].rules.notarization — recomputed byte-exact here — says: 'None on the archived models. Whether any district requires verification or notarization is unresolved; the petition carries a simple truth statement rather than a notarized verification', and tracks[0].unresolvedQuestions[5] records the same as unresolved. Writing a notarial certificate into the petition, or leaving it out on the memo alone, would each be a verification lane deciding an open legal question. It is already raised as counsel question 4 in this family's approval-request.json, unanswered, and recorded in rendered-artifacts.json specificationConformance.openLegalQuestions.",
+            "whatTheDeliveredPacketDoesInsteadIsHonestAndVisible": "The cover prints the specification's mandatory-notarisation paragraph verbatim and then states on the page that the composed petition carries a simple truth statement and no separate verification or notarial block because the intake record records notarization as unresolved, that this packet does not settle which record governs, that the participant should treat the specification paragraph as the safer course, and that the records office of the court that heard the case is the authority to ask. Delivered page 10 says the same. The contradiction is disclosed to the participant on a delivered page; it is not concealed. That is why this is BLOCKED_LEGAL_INPUT and not FAIL.",
+            "theManifestGapIsSeparateAndDoesNotBlockAnything": "data/record-clearing/legal-design-packet-set-manifests.json packetSets[packetSetId=ms-nonconv-set] still declares exactly five components — ms-nonconv-primary-filing-1, ms-nonconv-proposed-order-2, ms-nonconv-certificate-of-service-3, ms-nonconv-attachment-4, ms-nonconv-instructions-5 — and none is the cover, which is why product-wiring maps ms-cover-and-contents to manifestComponentIds []. Read here directly. Nothing is missing from the delivered packet on account of it; the specification's order-1 document renders as the composed component cover_and_contents. Giving that document a manifest component id is owed to the productization lane and no lane touched the manifest.",
+            "requiredComponentsMissingCounter": 0,
+            "whyTheCounterIsZero": "It compares delivered pages against the build's own componentSet, which now declares six components and renders six. It could not see VF06's defect and it cannot see the VERIFICATION section either."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ms-nonconv-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -9740,7 +9776,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ms-nonconv-set",
