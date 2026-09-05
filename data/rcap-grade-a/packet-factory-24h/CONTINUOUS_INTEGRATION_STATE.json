@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-05T17:48:33.810Z",
-  "captainHead": "eeec1961c962018da6dfd57ca8e9a49b8a081359",
+  "generatedAt": "2026-09-05T17:57:28.399Z",
+  "captainHead": "9afc79f470ec2bc8fa23f09676ca710c640da2e4",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-05T18:08:33.810Z",
-    "nextSourceReleaseDeadline": "2026-09-05T18:18:33.810Z",
+    "nextIntegrationDeadline": "2026-09-05T18:17:28.399Z",
+    "nextSourceReleaseDeadline": "2026-09-05T18:27:28.399Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 4,
+        "measured": 2,
         "threshold": 20,
         "triggered": false
       },
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 49,
+        "measured": 72,
         "threshold": 20,
         "triggered": true
       },
@@ -81,19 +81,20 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 14,
-    "verifyPending": 4,
-    "repairRequired": 49,
+    "verifyPending": 2,
+    "repairRequired": 72,
     "byState": {
-      "COMPLETE_PACKET_PROVEN": 154,
-      "FAIL_REPAIR_REQUIRED": 49,
+      "COMPLETE_PACKET_PROVEN": 131,
+      "FAIL_REPAIR_REQUIRED": 72,
       "PRODUCT_PATH_PENDING": 20,
       "OUT_OF_SCOPE": 5,
       "SOURCE_READY": 82,
+      "BUILT_RASTER_PENDING": 2,
       "SOURCE_BLOCKED": 6,
       "LEGAL_BLOCKED": 14,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
-      "VERIFY_PENDING": 4,
+      "VERIFY_PENDING": 2,
       "WRONG_DELIVERY_TYPE": 1
     }
   },

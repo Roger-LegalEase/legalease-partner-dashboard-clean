@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `eeec1961c962018da6dfd57ca8e9a49b8a081359` (or the newer dispatch base)
+**Minimum required ancestor:** `9afc79f470ec2bc8fa23f09676ca710c640da2e4` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --assignment-id DISC06 \
   --codex-cloud \
-  --minimum-captain-sha eeec1961c962018da6dfd57ca8e9a49b8a081359
+  --minimum-captain-sha 9afc79f470ec2bc8fa23f09676ca710c640da2e4
 ```
 
 It must print **`SOURCE_CONVEYOR_PREFLIGHT_READY`**. The lane gate and each owned row gate must both pass.
@@ -126,10 +126,7 @@ the issuing court or agency that publishes the document
 - `data/rcap-grade-a/codex-cloud/p2v02-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/p2v03-washington-independent-verification/**`
 - `data/rcap-grade-a/codex-cloud/sdv01-south-dakota-independent-verification/**`
-- `data/rcap-all50/overlays/census-v1/**/nj-ordinance-set*`
 - `data/rcap-all50/overlays/census-v1/**/ny-160-59-petition-set*`
-- `data/rcap-all50/overlays/census-v1/**/pa-490-nonconviction-set*`
-- `data/rcap-all50/overlays/census-v1/**/nj-indictable-conviction-set*`
 
 ## Required outputs
 
