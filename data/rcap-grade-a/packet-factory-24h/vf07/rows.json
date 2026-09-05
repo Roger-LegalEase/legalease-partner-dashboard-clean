@@ -8628,6 +8628,191 @@
       "whatCouldNotBeTested": "The two counsel questions the builder recorded rather than answered — the held record contradicting itself on a $28 charge, and a stop condition citing Gov't Code § 411.0735 where the route is § 411.0727 — were not examined, because examining them means reading the packet. One thing bearing on the first is visible without opening the family and is offered as a lead, not a finding: TX.memo.json track tx_nd_conviction_no_supervision states in terms that 'The $28 figure belongs only to the no-petition route under Gov't Code 411.072(c) and is not a filing fee', and the sibling family verified above states the same to its participant. Whoever reads tx_nd_veterans_court-set should check its guide against that sentence and against its own track's rules.fees before treating the contradiction as unresolved.",
       "alsoNotVerified": "the second build recorded at data/rcap-grade-a/packet-factory-24h/pf25/build-c-cohort-return.json. Two builders reaching the same counters is evidence about the build, not a verdict about the packet, and this lane read neither.",
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/vf07-stale-verdicts-and-first-reads.json"
+    },
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "lane": "VF07",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+      "verifier": "FABLE-VF06/07/08-WAVE-THREE (independent — built none of these packets and repaired none of them)",
+      "verifiedAtBase": "d7e293f81",
+      "canonicalSha256": "cf302fc33576f54acc1429516974642daefff7b0f854347498f81bb02344cb25",
+      "boundarySha256": "c7340a2555e44e011df445066cb91bee6be961959b74e97459a52c2613f068cf",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "rasterState": "RASTER_PASS",
+      "rasterStateEvidence": "RASTER_QUEUE.json row rcap-ok-custom-pleading carries currentRasterState RASTER_PASS with rasterReceipt workflowRunId 33950997948, jobConclusion success, and boundToCanonicalSha256/boundToBoundarySha256 both equal to the SHA-256 recomputed here from the fixture bytes on disk. Two limits are recorded rather than smoothed: the family's own build-status.json still reads rasterState BUILT_RASTER_PENDING with rasterPages 0 and rasterEngine \"not rendered in this run\", so the family record and the central queue disagree on their face; and the queue's coverage block names boundary.pdf under notRenderedByThisGate, so the central raster read canonical pages only. Both fixtures were read here at appearance level regardless, by composed content stream and by local raster into /tmp.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": {
+            "trackSections": 8,
+            "printedRouteKeys": 16,
+            "declaredRouteKeys": 16,
+            "notCarriedByCensus": 0
+          },
+          "finding": "A composed multi-route pleading serving 16 route keys across 8 track sections, and every section was checked separately for identity, destination and stops. The eight are identity theft (22 O.S. § 18 identity-theft category), deferred-dismissal, felony conviction, misdemeanor conviction, non-conviction, pardon, the § 991c deferred-sentence court-record update, and the § 60.18 victim-protective-order route. Each section opens on its own captioned petition naming its own statutory ground, and all 16 printed route keys reconstruct per page from the delivered bytes and all 16 are carried by the committed census — no printed key the census no longer carries."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": [
+            {
+              "record": "data/record-clearing/legal-design-track-registry.json",
+              "shaMatches": true,
+              "byteLenMatches": true,
+              "anchorStatementsVerified": 116,
+              "identityRefreshPresent": true
+            },
+            {
+              "record": "data/record-clearing/legal-design-specifications.json",
+              "shaMatches": true,
+              "byteLenMatches": true,
+              "anchorStatementsVerified": 16,
+              "identityRefreshPresent": true
+            },
+            {
+              "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "shaMatches": true,
+              "byteLenMatches": true,
+              "anchorStatementsVerified": 16,
+              "identityRefreshPresent": true
+            }
+          ],
+          "finding": "custom_pleading from codified text: no official form binary is bound and none is claimed (the receipt records that no standard statewide Oklahoma petition form was identified). All three committed authority records rehash byte-exact and byte-length-exact, and all three carry their identityRefresh annotations intact at this base — the FIX23 return warned those are erased by a plain rebuild, so I checked rather than assumed."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": {
+            "declared": 53,
+            "locatedInBytes": 53,
+            "pageCount": 80,
+            "sectionsOfSeven": 7,
+            "sectionsOfFour": 1
+          },
+          "finding": "requiredComponentsMissing 0, and all 53 declared components were located on their own pages of the delivered bytes rather than counted from the manifest: seven each for identity theft (pp. 1-9), deferred dismissal (10-21), felony conviction (22-33), misdemeanor conviction (34-45), non-conviction (46-57), pardon (58-66) and the protective-order route (72-80), and four for § 991c (67-71), which correctly renders an arrest-record screen, petition, proposed order and effect disclosure and no fee or hearing component, because that route asks the sentencing court to update its own record and sets no hearing."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": {
+            "writesTotal": 85,
+            "writesProvenInBytes": 85,
+            "outsideWriteBoxes": 0
+          },
+          "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0; 85 of 85 writes per fixture carry foundInOutputBytes true and 0 glyphs land outside a measured write box in either fixture."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": {
+            "requiredBeforeFiling": 113,
+            "labelsMissingFromInstructionsFile": 0
+          },
+          "finding": "unclassifiedBlanks 0; all 113 required-before-filing items are enumerated and every disclosureLabel was checked against participant-instructions.md here: 0 missing. The petitions print each item in the committed record's own words with the reason it is asked, which is what a participant needs to fill it from the record."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "selectionControlsDrawn": 0
+          },
+          "finding": "requiredOptionsMissing 0. Each of the eight sections is authored for its own statutory branch and prints no election control, so no route-determined election is left to the participant; the free-route screen at the head of each section is a warning page, not an election."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": {
+            "incompleteRows": 0
+          },
+          "finding": "incompleteRows 0. The C1-C13 answer structures are carried whole as required-before-filing blanks; no row carries a written cell beside a required cell left blank."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": {
+            "protectedWrites": 0,
+            "refusedFieldsWithInk": 0,
+            "protectedBlanksEnumerated": 56
+          },
+          "finding": "protectedWrites 0 and refusedFieldsWithInk empty in both fixtures; 56 protected blanks are enumerated. On the pages, all eight proposed orders carry the court-only block empty, and the four petitioner signature lines at pages 15, 27, 39 and 51 carry no ink."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": {
+            "canonicalMatches": true,
+            "boundaryMatches": true,
+            "pageCount": 80
+          },
+          "finding": "Both fixtures rehash to exactly the digests the record and the dispatch name: canonical cf302fc3… and boundary c7340a25…, 80 pages each."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": {
+            "manifestDocuments": 53,
+            "deliveredOrderMatches": true
+          },
+          "finding": "The delivered page order matches the packets[] manifest order for both fixtures across all 53 components, section by section, with no component out of sequence and none rendered twice."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": {
+            "pagesRead": 160,
+            "orphanedExecutionBlocks": 0,
+            "orphanedExecutionBlocksBeforeFix23": 8,
+            "routeKeyOnlyPages": 0,
+            "fragmentPages": 0,
+            "hardSplitTokens": 0,
+            "markdownArtefacts": 0,
+            "emptyPages": 0,
+            "thinnestPageLines": 7,
+            "scan01DefectsRemaining": "4, all class D_census thin_page (canonical and boundary pp. 35 and 47, 7 drawn lines each), which SCAN01 itself records as census and not asserted as a defect; each of those pages carries its route in plain English and is not a fragment",
+            "rasteredLocally": [
+              "canonical p15"
+            ]
+          },
+          "finding": "SCAN01 measured 8 orphaned execution blocks here before FIX23. I confirm on the bytes at this base that there are none. All 160 pages of the two fixtures were read at appearance level from the composed content stream and page 15 was additionally rastered locally into /tmp. NOT ONE PAGE OPENS ON A PRINTED NAME OR A BARE CONTACT BLOCK — the four pages that previously did (15, 27, 39, 51 in each fixture) now open on 'DATE …… SIGNATURE OF PETITIONER ……', followed by '(The petitioner signs and dates this petition personally…)', then PRINTED NAME, MAILING ADDRESS, TELEPHONE, EMAIL, then 'Routes this set serves (n):' naming the section's own route keys, so the page says both that it executes a petition and which route's petition it executes. NO ROUTE-KEY-ONLY PAGE and no fragment page: every one of the 80 pages carries prose, the thinnest is 7 lines, and the six thin pages are the four free-route continuation screens (11, 23, 35, 47), each of which opens on 'If the free route does not reach you, the rest of this packet is for the route named at the foot of this page:' followed by that route in plain English, and the two prosecutor-objection stop pages (44, 56), which open on the stop sentence itself. NO HARD-SPLIT TOKEN in either fixture: every wrapped route key breaks on one of its own hyphens ('…-deferred-dismissal-' / 'expungement'), which is the repaired separator-aware splitter behaving as scripts/rcap-custom-pleading/split-token.mjs specifies. No raw markdown printed as body text (zero asterisks, zero backticks in the drawn text), no empty page, no ink outside a measured write box, and no page carrying a route key the census no longer holds."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": {
+            "routeSectionsCovered": 8,
+            "distinctDestinations": 2
+          },
+          "finding": "participant-instructions.md carries a FILING_DESTINATION row for each of the eight route sections. Seven name the Oklahoma district court for the county where the arrest information is located, with the record's own note that same-county arrests may be combined and separate counties need separate petitions; the § 991c row correctly names a different court — the district court that entered the deferred sentence — rather than repeating the section 18 venue."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": {
+            "routeSectionsCovered": 8,
+            "feeDisclosureComponents": 7
+          },
+          "finding": "A FEE_AND_WAIVER row is present for all eight sections, each carrying the OSBI position that expunging a court record is free while an arrest record carries a $150 processing fee plus possible local fees, and each recording plainly that the district court filing fee and any waiver are not established. Each section also renders its own 'WHAT THIS COSTS' page except § 991c, whose fee row states the position in the instructions instead."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": {
+            "routeSectionsCovered": 8,
+            "hearingInstructionComponents": 7
+          },
+          "finding": "A SERVICE row is present for all eight sections. Seven record service by the court's notice, with thirty days to the prosecuting agency, the arresting agency, the OSBI and any other agency holding relevant records, and require the proposed order to identify every agency it applies to; the § 991c row honestly records service and notice as not established rather than borrowing the section 18 rule."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": {
+            "routeSectionsCovered": 8
+          },
+          "finding": "A SELF_HELP_STOP row is present for all eight sections, each with its own route-specific stop ahead of the shared ones, and the shared stops carry the review's central warning that recommending a paid petition to someone entitled to the SB 2030 free route is the specific harm to avoid. Six sections additionally render the prosecutor-objection stop on their own delivered pages."
+        }
+      },
+      "failedObligationNames": [],
+      "notMeasurableHere": []
     }
   ],
   "obligationSet": [
@@ -9179,5 +9364,27 @@
       "MEDIUM: A worktree can inherit a sparse-checkout cone and measure a tree that is not there",
       "LOW: AL_ABPP-3 is missing from the mounted Master Library"
     ]
+  },
+  "vf07WaveThreeAppend20260905": {
+    "verifier": "FABLE-VF06/07/08-WAVE-THREE (independent — built none of these packets and repaired none of them)",
+    "itemIds": [
+      "rcap-ok-custom-pleading"
+    ],
+    "verifiedAtBase": "d7e293f81",
+    "note": "Per-row base, stamped on the rows this lane wrote rather than on the document, because these files are shared and a document-level base would land on rows whose authors never read at this commit.",
+    "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable (codex-cloud mode). The single failure is corpus_matches_committed_index, '1 absent, 0 mismatched of 24 sampled'. The absent entry is the committed index's master_library path 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', which exists in neither mounted custody nor in the release archive; the Master Library on both mounts is laid out under STATES/<JJ>/ and carries no 'LegalEase Alabama' tree. It is an index-to-corpus divergence in Alabama and it touches none of the four families scored here, every one of whose own digests resolved. Recorded rather than waived. The other applicable checks passed: master_library_mounted, master_library_complete (499 files, 329 PDFs, 51 jurisdictions), family_sources_bind, absent_is_not_empty, stale_artifact_block_consulted, worktree_clean, cloud_checkout_contains_captain_base.",
+    "corpusMounted": true,
+    "corpusMountedHow": "two custodies mounted and both consulted; sources resolved by content hash rather than by declared path",
+    "overlayDirectoriesModified": 0,
+    "buildScriptsModified": 0,
+    "sharedRecordsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "obligationsScored": 15,
+    "obligationsScoredNote": "All fifteen canonical obligations scored by name on every family in this append, with no NOT_MEASURABLE_HERE and no BLOCKED_LEGAL_INPUT recorded on any of them.",
+    "summary": "FABLE-VF06/07/08-WAVE-THREE appended one row at base d7e293f81 and altered no earlier row: rcap-ok-custom-pleading PASS_COMPLETE_INDEPENDENT. The 8 orphaned execution blocks SCAN01 measured before FIX23 are gone on these bytes; all 160 pages of the two fixtures were read, no page opens on a PRINTED NAME or bare contact block, no route-key-only or fragment page remains, no token is hard-split, and every one of the eight route sections carries its own identity, destination and stops.",
+    "rowsAppended": 1,
+    "rowsBefore": 40,
+    "rowsAfter": 41
   }
 }
