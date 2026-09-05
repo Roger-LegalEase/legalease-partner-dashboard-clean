@@ -54,7 +54,22 @@
         "boundaryAfter": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4"
       },
       "rasterConsequence": "The raster receipt is invalid; this family needs a fresh whole-family raster. Its 38 committed page rasters were regenerated in the same run.",
-      "repairCommit": "ce24fe129e450a91d9e6e11c878a271abe9fea14"
+      "repairCommit": "ce24fe129e450a91d9e6e11c878a271abe9fea14",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterMeasuredAtCommit": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "defectRecheckedAtThatCommit": "delivered pageManifest order is UT-BCI-EXP-APPLICATION, UT-BCI-THIRD-PARTY-RELEASE, 1044XX, 1000EX, 1020EX, 1146XX, 1148XX, 1149XX, 1169XX — manifest order 1 to 9. On packet page 2 the printed 'I' still ends at x=52.742 and the participant name now begins at x=55.500 in both fixtures. canonical b6614145…, boundary 9a3c2721…"
     },
     {
       "itemId": "wv_conv_single_misdemeanor-set",
@@ -76,7 +91,22 @@
         "boundaryAfter": "c51fde179db7a9bf1ae3b44b93ba7c48695edf49a3459245bb7bb826462c397e"
       },
       "rasterConsequence": "The raster receipt is invalid. The packet is five pages shorter, so this is not a re-render of the same pages and a page-for-page comparison against the old receipt would be meaningless; the family needs a fresh whole-family raster.",
-      "repairCommit": "be668314cb1dffb18757df042102f43802e17ba4"
+      "repairCommit": "be668314cb1dffb18757df042102f43802e17ba4",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterMeasuredAtCommit": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "defectRecheckedAtThatCommit": "delivered packet is 4 pages; field-census, source-receipt and production-field-map each list SCA-C906 alone; the string SCA-C900 appears in 0 files in the family directory. canonical 37764d50…, boundary c51fde17…"
     },
     {
       "itemId": "al-felony-dwop-set",
@@ -146,7 +176,9 @@
         "notLocatable": "CLIPPING_AND_OVERLAP on al-felony-dwop-set (the boundary name cut to 'Alexandria Catherine Montgomery-Wash' in CR-65 page 6's Printed Name of Petitioner), REPEATING_ROWS, SERVICE and SELF_HELP_STOP all turn on CR-65's own widgets or on the instruction text, and could not be measured without the binary. Their verifier findings stand as the record.",
         "oneRepairNoteForWhoeverGetsTheBytes": "safeSet() calls field.setFontSize(8) and TRUNCATES with value.slice(0, maxLength) whenever the widget declares /MaxLen. That is where al-felony-dwop-set's clipped boundary name comes from, and a silent slice on a sworn petition is a defect of the same class as the mis-writes above: it delivers a name that is not the participant's. It should refuse rather than truncate."
       },
-      "repairCommit": null
+      "repairCommit": null,
+      "laneKind": "repair",
+      "repairedByThisLane": false
     },
     {
       "itemId": "al-pardoned-felony-set",
@@ -215,7 +247,9 @@
         "notLocatable": "CLIPPING_AND_OVERLAP on al-felony-dwop-set (the boundary name cut to 'Alexandria Catherine Montgomery-Wash' in CR-65 page 6's Printed Name of Petitioner), REPEATING_ROWS, SERVICE and SELF_HELP_STOP all turn on CR-65's own widgets or on the instruction text, and could not be measured without the binary. Their verifier findings stand as the record.",
         "oneRepairNoteForWhoeverGetsTheBytes": "safeSet() calls field.setFontSize(8) and TRUNCATES with value.slice(0, maxLength) whenever the widget declares /MaxLen. That is where al-felony-dwop-set's clipped boundary name comes from, and a silent slice on a sworn petition is a defect of the same class as the mis-writes above: it delivers a name that is not the participant's. It should refuse rather than truncate."
       },
-      "repairCommit": null
+      "repairCommit": null,
+      "laneKind": "repair",
+      "repairedByThisLane": false
     },
     {
       "itemId": "nj_arrest_no_conviction-set",
@@ -234,7 +268,9 @@
       },
       "whyThisIsStoppedRatherThanHalfRepaired": "Repairing this obligation means re-deciding the ownership of sixteen blanks on a court's own forms, two of them against the New Jersey kit's own practice, and then authoring roughly thirty participant-facing captions for a forty-page kit. That is re-deriving this family's field classification, not repairing a named defect, and it is participant-facing legal copy on a document that is signed under oath. A partial pass would leave the obligation failing anyway. Stopped with the measurement above so the lane that takes it does not start from nothing.",
       "whatWouldUnblockIt": "A grant that covers re-deriving this family's blank classification, and a decision on who owns a recipient list on a proposed order in the New Jersey kit. The five NJ families share scripts/build-census-v1-nj_arrest_no_conviction-set.mjs and the same CN-10557 kit, so the same defect is very likely on all five and the classification should be decided once.",
-      "repairCommit": null
+      "repairCommit": null,
+      "laneKind": "repair",
+      "repairedByThisLane": false
     }
   ],
   "familiesRepaired": [
@@ -247,5 +283,12 @@
     "al-pardoned-felony-set",
     "nj_arrest_no_conviction-set"
   ],
-  "nineCountersZeroOn": "every family in this return, before and after, which is why none of them is offered as evidence of anything"
+  "nineCountersZeroOn": "every family in this return, before and after, which is why none of them is offered as evidence of anything",
+  "countersProvenance": {
+    "measuredAtCommit": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "measuredHow": "One run of `node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>` per family, at the commit above, after this worktree was reset to the Captain tip that already carries this cohort's eight integrated repairs. Not copied from the notes taken at the original base 46caf9354c58c8ebce4004354fef5b237f391d3f: the repairs have since been rebased onto other lanes' changes and a stale number would be a claim rather than a measurement.",
+    "result": "All eight repaired families read PASS_COMPLETE with all nine counters at zero. None has regressed.",
+    "whatCountersAfterDoesAndDoesNotShow": "countersAfter is supplied because the integration gate requires it. It is not the evidence that any repair worked. Every one of these families read PASS_COMPLETE with nine zero counters BEFORE its repair as well: no counter can see a value the source authored, a clipped appearance inside its own box, a component order that contradicts the manifest, a second obsolete petition bound into a packet, or a filing destination naming the wrong court. Each row's `instrument` field names what actually measured its defect, and every one of those was re-run at this commit before this file was written."
+  },
+  "twoRowShapesInThisFile": "A row carrying repairedByThisLane: true is a family this cohort actually repaired, and its countersAfter was measured at the commit named in countersProvenance. A row carrying repairedByThisLane: false is a family this cohort deliberately changed nothing on, because its assigned defect was already absent when measured; those rows establish that a standing verdict is stale and they are not offered as repairs. Neither shape is a verdict, and every family here must still be verified by a lane that neither built nor repaired it."
 }
