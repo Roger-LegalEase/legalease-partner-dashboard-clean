@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "edc5430cd6cc6299588e9d05995a3c40545f33d9",
+  "minimumCaptainSha": "b23dc9672b87c0f49aba66a7838ad77ee7aa392e",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,13 +72,13 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 8,
-    "verifyPending": 11,
+    "verifyPending": 10,
     "repairRequired": 50,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 140,
-    "VERIFY_PENDING": 11,
+    "COMPLETE_PACKET_PROVEN": 141,
+    "VERIFY_PENDING": 10,
     "FAIL_REPAIR_REQUIRED": 54,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
@@ -17384,10 +17384,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "d974bcdd8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -17418,39 +17418,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL. NOTHING is drawn between the judge's signature caption and the trailer. The page reads 'ENTERED this ...... day of .................., 20......', the signature rule, 'JUDGE', and then, as the next drawn line, 'Route: obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief'. The order is tendered to a circuit judge for signature and the machine identifier is the next mark under the caption where the judge signs and the clerk enters — exactly the RI placement VF04 and VF06 ruled a CLIPPING_AND_OVERLAP failure. Every other family in this read that I passed carries a preparer-voice line in that gap; this one carries none. Measured fresh on both fixtures: no page is empty, no page carries only route keys, and no route key is split — every printed key reconstructs whole from the content stream, so classes a, b and d are absent here and only SCAN02's class c was in question.",
-          "evidence": {
-            "measuredHere": true,
-            "instrument": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs extractTextItems + groupIntoLines over the composed content stream of every page of both fixtures, plus a local 110dpi pdftoppm raster of the cited page into /tmp/vf07-raster",
-            "pagesReadCanonical": 3,
-            "pagesReadBoundary": 3,
-            "citedPage": 3,
-            "component": "proposed_order",
-            "signatureOrCertificationLineVerbatim": "JUDGE",
-            "linesDrawnBetweenSignatureLineAndTrailer": [],
-            "trailerVerbatim": "Route: obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
-            "trailerPresentInBothFixtures": true,
-            "rasterInspected": [
-              "canonical p3"
-            ],
-            "emptyPages": [],
-            "thinnestPageLines": 10,
-            "routeKeyOnlyPages": 0,
-            "hardSplitTokens": 0,
-            "trailerDrawnOnLastPageOfEveryComponent": true,
-            "nonOrderSignaturePagesObserved": []
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",

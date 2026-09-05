@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "edc5430cd6cc6299588e9d05995a3c40545f33d9",
+  "generatedAtCommit": "b23dc9672b87c0f49aba66a7838ad77ee7aa392e",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3884,21 +3884,6 @@
       "operation": "packet-build",
       "lane": "PF16",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "il-prostitution-j-vacate-set",
-      "familyId": "il-prostitution-j-vacate-set",
-      "itemId": null,
-      "familyIds": [
-        "il-prostitution-j-vacate-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -13213,7 +13198,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "2b0ffeb42998e23f7a28e1235ea4fc00df364a3b627763673c6b908c05d987ec",
+  "claimsDigest": "301c9978833e12ef73c58694db9d2257e8ce5a9a39356e453fa7ea40b5f8af4f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43367,6 +43352,14 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "withdrawnAt": "2026-09-05T15:01:23Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "il-prostitution-j-vacate-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-05T15:25:28Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

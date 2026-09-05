@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `edc5430cd6cc6299588e9d05995a3c40545f33d9`
+**Minimum required ancestor:** `b23dc9672b87c0f49aba66a7838ad77ee7aa392e`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -72,7 +72,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/canonical.pdf` — `de86d7e42feb083f9b96ab9a76d4d819a754b30dbac739909ad1dea39c9850e9`
 - boundary `data/rcap-all50/overlays/census-v1/ny/composed-treatment:obligation:research-decision-route:ny:ny-160-55-violation:sentencing-court-transmission-correction-request--custom-pleading/fixtures/boundary.pdf` — `6bc300bff357cda42ba34c9717f58c9bc364874aeca8f663ea3c68fd064a8e93`
 - expected pages 4 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF05
 
 ### composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route
 
@@ -205,7 +205,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf` — `e9ca98c502347a0743447ec0c00acc77e40ae3fd47538a1d550a3aa2ca229f51`
 - boundary `data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf` — `b483d29cffb0eee94a813ada8e5b1568c2fc755194ff18dbb9dd468b5103585e`
 - expected pages 8 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF06
 
 ### ne-expunge-le-error-set
 
