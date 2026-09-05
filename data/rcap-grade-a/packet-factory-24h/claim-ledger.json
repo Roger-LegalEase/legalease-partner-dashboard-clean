@@ -1018,10 +1018,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF06",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Lane label VF01 is occupied by the Mississippi read; the Arizona read moves to VF06 so one worker holds one lane label."
     },
     {
       "subjectType": "packet-family",
@@ -5391,7 +5392,9 @@
       "operation": "rapid-repair",
       "lane": "FIX05",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T16:58:42.733Z",
+      "releaseReason": "Dispatch-reissued grant released: the repair-b-cluster lane's commit 71efffe22 (captain 8fb5af183) is recorded as the completion row in data/rcap-grade-a/packet-factory-24h/repair-clusters/rows.json; no repair is in flight and the family awaits its independent re-read."
     },
     {
       "subjectType": "packet-family",
@@ -5433,10 +5436,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF07",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Lane label VF02 is occupied by the Michigan read; the North Carolina 146 read moves to VF07 so one worker holds one lane label."
     },
     {
       "subjectType": "packet-family",
@@ -7850,9 +7854,9 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Lane label VF01 is occupied by the Louisiana read; the Virginia read moves to VF03 so one worker holds one lane label."
+      "released": true,
+      "releasedAt": "2026-09-05T16:58:42.633Z",
+      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at c708dff4d: FEE_AND_WAIVER — the track registry states three times that Va. Code 19.2-392.2(A) requires no court fees or costs and carries it as a packetInstruction, while page 6 and participant-instructions.md say the fee is unestablished and to ask the clerk, naming no waiver route; thirteen others pass on the FIX46 bytes (canonical be8bd437, boundary de2b0b59, RASTER_PASS run 33977742636) except CLIPPING_AND_OVERLAP, BLOCKED_LEGAL_INPUT on the shared-flattening synthesized checkbox square (FIX50 in flight). Return at data/rcap-grade-a/packet-factory-24h/vf03/rows.json (Captain release after integrating VF03 commit 2a17e1cd3)."
     },
     {
       "subjectType": "packet-family",
@@ -13069,7 +13073,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "b67bbb5b4876a074c929eb2bbcd2b0e139768e73ce1770c8173cbdd89faf3ba3",
+  "claimsDigest": "c970e0282d8a4d73660823450c20f44aad9f149bad832287451dd64afa97d0fc",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28438,6 +28442,42 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T16:49:17.388Z",
       "reason": "Lane label VF02 is occupied by the Michigan read; the Texas no-supervision read moves to VF05 so one worker holds one lane label."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T16:58:42.633Z",
+      "reason": "VF03 FAIL_REPAIR_REQUIRED at c708dff4d: FEE_AND_WAIVER — the track registry states three times that Va. Code 19.2-392.2(A) requires no court fees or costs and carries it as a packetInstruction, while page 6 and participant-instructions.md say the fee is unestablished and to ask the clerk, naming no waiver route; thirteen others pass on the FIX46 bytes (canonical be8bd437, boundary de2b0b59, RASTER_PASS run 33977742636) except CLIPPING_AND_OVERLAP, BLOCKED_LEGAL_INPUT on the shared-flattening synthesized checkbox square (FIX50 in flight). Return at data/rcap-grade-a/packet-factory-24h/vf03/rows.json (Captain release after integrating VF03 commit 2a17e1cd3)."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T16:58:42.733Z",
+      "reason": "Dispatch-reissued grant released: the repair-b-cluster lane's commit 71efffe22 (captain 8fb5af183) is recorded as the completion row in data/rcap-grade-a/packet-factory-24h/repair-clusters/rows.json; no repair is in flight and the family awaits its independent re-read."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T16:58:42.822Z",
+      "reason": "Lane label VF01 is occupied by the Mississippi read; the Arizona read moves to VF06 so one worker holds one lane label."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_acquittal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T16:58:42.987Z",
+      "reason": "Lane label VF02 is occupied by the Michigan read; the North Carolina 146 read moves to VF07 so one worker holds one lane label."
     }
   ],
   "reissues": [
@@ -40235,6 +40275,28 @@
       "previouslyReleasedAt": "2026-09-05T15:29:35.882Z",
       "transferredAt": "2026-09-05T16:50:20.527Z",
       "reason": "Shared-flattening repair: the flattening step in scripts/rcap-official-forms/rcap-active-content.mjs lets pdf-lib synthesize a black-bordered square for every unwritten check-box widget whose /AS state has no /AP /N entry (VF02 BLOCKED_LEGAL_INPUT at a71d69523, vf02/rows.json). Opt-in fix, Vermont rebuild, read-only corpus scan for the affected cohort."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF06",
+      "previouslyReleasedAt": "2026-09-05T16:58:42.822Z",
+      "transferredAt": "2026-09-05T16:58:42.907Z",
+      "reason": "Arizona limited-jurisdiction read dealt to VF06 (VF01 busy on Mississippi); the FIX48-measured SELF_HELP_STOP repair from repair-b-cluster; RASTER_PASS receipt live."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_acquittal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF07",
+      "previouslyReleasedAt": "2026-09-05T16:58:42.987Z",
+      "transferredAt": "2026-09-05T16:58:43.068Z",
+      "reason": "North Carolina 146 acquittal read dealt to VF07 (VF02 busy on Michigan); the FIX48-measured ROUTE_IDENTITY repair from repair-a-cluster; RASTER_PASS receipt live."
     }
   ],
   "withdrawals": [
