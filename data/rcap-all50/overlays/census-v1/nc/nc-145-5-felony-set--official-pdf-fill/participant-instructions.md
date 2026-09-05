@@ -102,7 +102,7 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 | Name Of Other Agency (if any) - first | the name of any other State or local government agency with a record of your case. Do NOT list the courts, the SBI, the Department of Adult Correction, the DMV, or any private entity |
 | Name Of Other Agency (if any) - second | the name of a further agency, if there is one; use AOC-CR-285 if there are more than the form has room for |
 | Offense Description - conviction table, row 1 | the offence description and its CLASS, copied from the official record - paragraph 1 certifies that no offence listed is more serious than a Class H felony |
-| Address Of Petitioner - Zip | your ZIP code |
+| Address Of Petitioner - Zip | your ZIP code. On this form the platform writes it only on AOC-CV-226 |
 | Race | your race, as the form asks |
 | Sex | your sex, as the form asks |
 | Full Social Security No. | your Social Security number, as the form asks |
@@ -205,4 +205,4 @@ Each is a labelled blank on the page named beside it. Fill every one that belong
 
 This is a prepared set of official North Carolina Administrative Office of the Courts forms, delivered as the AOC publishes them. It is not legal advice, it is not filed for you, and it does not decide whether any conviction of yours is a nonviolent felony eligible under G.S. 15A-145.5. It is not AOC-CR-298, the nonviolent MISDEMEANOR petition under the same section; it is not AOC-CR-285, the continuation sheet for extra agencies or charges; and it contains none of the good-character affidavits G.S. 15A-145.5(c1) requires.
 
-_Route(s): obligation:track-only:NC:nc_145_5_felony_
+_Route(s): obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5_

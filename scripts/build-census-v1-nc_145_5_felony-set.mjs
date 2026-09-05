@@ -7,7 +7,14 @@
  *
  * One census-v1 family, one strategy, one route:
  *
- *   obligation:track-only:NC:nc_145_5_felony
+ *   obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5
+ *
+ * That is the key the canonical route universe carries for this track. The
+ * family was built and stamped obligation:track-only:NC:nc_145_5_felony, which
+ * is not one of the 708 canonical obligations at all, while the family's own
+ * product-wiring.json already named the canonical key -- so the receipt, the
+ * field map and the participant instructions disagreed with the wiring beside
+ * them.
  *
  * WHAT KIND OF FAMILY THIS IS
  *
@@ -93,7 +100,7 @@ const SPEC = {
   legalName: "Petition and Order of Expunction of Nonviolent Felony Convictions Under G.S. 15A-145.5",
   routeName: "expunging one, two or three North Carolina nonviolent felony convictions under G.S. 15A-145.5",
   statutes: ["G.S. 15A-145.5", "G.S. 15A-145.5(c)", "G.S. 15A-145.5(c1)", "G.S. 15A-145.5(c4)", "G.S. 15A-145.5(c5)", "G.S. 15A-150", "G.S. 15A-151"],
-  routes: [{ routeKey: "obligation:track-only:NC:nc_145_5_felony" }],
+  routes: [{ routeKey: "obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5" }],
 
   records: [
     {
@@ -542,8 +549,8 @@ const SPEC = {
         h.optional("PetitionerMailAddress", "Address Of Petitioner - second street line",
           "used only if your address needs a second line; the platform holds one street address and writes it on the first", 1),
         h.rbf("PetitionerZip", "Address Of Petitioner - Zip",
-          "your ZIP code",
-          "the shared caption capture reads this crowded row one blank out of step and returns the printed word \"Race\" for this blank, so the shared semantics refuse it as a protected personal descriptor; the refusal withholds rather than mis-writes, but the reason is wrong and the participant is told so", 1),
+          "your ZIP code. On this form the platform writes it only on AOC-CV-226",
+          "the shared caption capture reads this crowded identifier row one blank out of step and returns the printed word \"Race\" for this blank, so the blank is withheld rather than risk writing a ZIP into the neighbouring printed field; the platform holds the ZIP and writes it on AOC-CV-226, so this is a capture defect and not a protected personal descriptor", 1),
         h.rbf("DLNo", "Drivers License No.",
           "your driver's licence number, from the licence itself",
           "the shared semantics refuse a government identifier on any form, and on this row the caption capture is out of step in any case", 1),
@@ -558,7 +565,7 @@ const SPEC = {
           "the platform does not hold or write a sex fact", 1),
         h.rbf("DOB", "Date Of Birth on the petition",
           "your date of birth. On this form the platform writes it only on AOC-CV-226",
-          "the caption capture returns the run \"Date Of BirthFull Social Security No\" for this blank, so the shared semantics refuse it as a government identifier; the fact is held and the refusal is a capture defect", 1),
+          "the caption capture returns the run \"Date Of BirthFull Social Security No\" for this blank, so the blank is withheld rather than risk binding a date of birth to the Social Security blank, which is the mis-write the sibling family recorded on AOC-CR-288; the platform holds the date of birth and writes it on AOC-CV-226, so this is a capture defect and not a government identifier", 1),
         h.rbf("SSN", "Full Social Security No.",
           "your Social Security number, as the form asks",
           "the shared semantics refuse a Social Security number on any form", 1),
