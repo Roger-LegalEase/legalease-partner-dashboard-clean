@@ -5055,9 +5055,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX69",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX69 so one worker holds one lane label; no work was done on FIX04."
     },
     {
       "subjectType": "packet-family",
@@ -13594,7 +13596,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "f41dea9278f4b410c7b65f42ed1b57d1b292a9d52274ab31384b4213abfcf827",
+  "claimsDigest": "9e5d1c54a2083fcb9c60bc36f6050013b31baf9bd3d478e235ce6569b5c268ea",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30106,6 +30108,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T21:35:11.588Z",
       "reason": "VF05 re-read at d3312169e on the FIX51 bytes: FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS, the MC 227b caption field dinfo is left empty while the builder holds the defendant name, address and telephone and the trafficking family composes the same facts into the same caption; SELF_HELP_STOP disclosure landed; rows.json committed at 562ee39be"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T21:36:33.862Z",
+      "reason": "Consolidated onto FIX69 so one worker holds one lane label; no work was done on FIX04."
     }
   ],
   "reissues": [
@@ -43076,6 +43087,17 @@
       "previouslyReleasedAt": "2026-09-05T17:50:13.033Z",
       "transferredAt": "2026-09-05T21:22:11.216Z",
       "reason": "Independent read owed after FIX63 (the Virginia host opts each family into suppressSynthesizedAppearances and fitAppearancesToRect) and the central raster receipt from run 33992024555 on d3312169e; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX69",
+      "previouslyReleasedAt": "2026-09-05T21:36:33.862Z",
+      "transferredAt": "2026-09-05T21:36:33.979Z",
+      "reason": "VF05 FAIL KNOWN_PREFILLS at d3312169e: MC 227b dinfo (defendant name, address, telephone) left empty while the builder holds all three facts and the trafficking family composes them into the same caption; compose dinfo the way the trafficking builder does, rebuild, confirm the write, raster and re-read then owed."
     }
   ],
   "grants": [
