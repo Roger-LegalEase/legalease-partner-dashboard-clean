@@ -2,7 +2,7 @@
 
 This packet is SCAO form **MC 227b**, _Application for Human Trafficking Victim to Set Aside Conviction(s)_, prepared under MCL 780.621(3), MCL 780.621b, MCL 780.621d, MCL 780.622, MCL 780.623; SCAO form MC 227b (Rev. 7/24).
 
-The platform filled in what it holds about your case: the county and the case number. Everything else is yours, and every remaining participant blank is listed below by the part of the form it is in. Pages 1 through 3 are the application, notice, and proof of service; the last page is the court's own instruction sheet.
+The platform filled in what it holds about you and your case: the county, the case number, and the party box captioned "Defendant's name, address, and telephone no.", which carries your name, your address and your telephone number on three lines. **Read that box and correct it if anything in it is out of date** — it is the address the court and the prosecuting official will write to. Everything else is yours, and every remaining participant blank is listed below by the part of the form it is in. Pages 1 through 3 are the application, notice, and proof of service; the last page is the court's own instruction sheet.
 
 ## Check you are on the right form
 
@@ -44,7 +44,6 @@ The proof of service is a declaration under penalties of perjury. Its selections
 | Caption | Court address | the street address of the court where the conviction was entered |
 | Caption | Court telephone no. | that court's telephone number |
 | Parties | The People of — the named city, village or township | the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan |
-| Parties | Defendant's name, address, and telephone no. | your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs |
 | Parties | CTN/TCN | the CTN or TCN number from the court or police record |
 | Parties | SID | your SID number, from the court or police record |
 | 1. Convictions to be set aside | Conviction a — Crime | the crime you were convicted of, exactly as the court's record states it. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
@@ -107,19 +106,39 @@ The proof of service is a declaration under penalties of perjury. Its selections
 | 5. Deferred-and-dismissed convictions | Deferred-and-dismissed convictions - line 2 | continue the list of deferred-and-dismissed convictions |
 | Notice of hearing | Prosecuting official | the prosecuting official for the conviction |
 
-## The choices that are yours
+## Every box on this form, and what to do about it
 
-| Section | The choice | Why it is yours |
+MC 227b carries 14 boxes. None of them is ticked in this packet, and none is a choice the route makes for you. They are all listed here — the ones you tick before filing, and the ones nobody may tick until the thing they certify has actually happened — so that no box on a filed application goes unconsidered.
+
+### The 9 boxes you tick before you file
+
+| Section | What the form prints beside the box | What to do |
 | --- | --- | --- |
-| Caption | This application includes multiple case numbers as listed in item 1 (selection) | tick this if you are listing convictions from more than one case number in the table below — but note instruction 2: a separate application is needed for each COURT |
-| Parties | The People of the State of Michigan (selection) | tick this if the State of Michigan prosecuted the offence |
-| Parties | The People of a named city, village or township (selection) | tick this instead if a city, village or township prosecuted the offence under its own ordinance, and name it on the line beside |
-| 3. Earlier applications for item 1 convictions | No earlier application was filed for an item 1 conviction (selection) | select this only if no earlier application was filed for any conviction listed in item 1 |
-| 3. Earlier applications for item 1 convictions | An earlier application was filed for an item 1 conviction (selection) | select this if an earlier application was filed, then complete every cell of each used row below |
-| 4. Earlier applications for other convictions | No earlier application was filed for any other conviction (selection) | select this only if no earlier application was filed for any other conviction |
-| 4. Earlier applications for other convictions | An earlier application was filed for another conviction (selection) | select this if an earlier application was filed, then complete every cell of each used row below |
-| 5. Deferred-and-dismissed convictions | No convictions were deferred and dismissed (selection) | select this only if you have had no convictions deferred and dismissed |
-| 5. Deferred-and-dismissed convictions | Convictions were deferred and dismissed (selection) | select this if you have deferred-and-dismissed convictions, then list them |
+| Caption | This application includes multiple case numbers as listed in item 1. | tick this if you are listing convictions from more than one case number in the table below — but note instruction 2: a separate application is needed for each COURT |
+| Parties | THE PEOPLE OF — The State of Michigan | tick this if the State of Michigan prosecuted the offence |
+| Parties | THE PEOPLE OF — the unlabelled second box, on the blank rule beneath “The State of Michigan” | tick this instead if a city, village or township prosecuted the offence under its own ordinance, and name it on the line beside |
+| 3. Earlier applications for item 1 convictions | 3. a. No other application was previously filed to set aside a conviction listed in item 1. | select this only if no earlier application was filed for any conviction listed in item 1 |
+| 3. Earlier applications for item 1 convictions | 3. b. An application was previously filed in a court to set aside the following conviction(s) listed in item 1: | select this if an earlier application was filed, then complete every cell of each used row below |
+| 4. Earlier applications for other convictions | 4. a. No other application was previously filed in a court to set aside other conviction(s). | select this only if no earlier application was filed for any other conviction |
+| 4. Earlier applications for other convictions | 4. b. An application was previously filed in a court to set aside the following conviction(s): | select this if an earlier application was filed, then complete every cell of each used row below |
+| 5. Deferred-and-dismissed convictions | Select one — 5. I have not had any convictions deferred and dismissed. | select this only if you have had no convictions deferred and dismissed |
+| 5. Deferred-and-dismissed convictions | Select one — 5. I have had the following conviction(s) deferred and dismissed: | select this if you have deferred-and-dismissed convictions, then list them |
+
+### The 5 boxes that are not yours to tick now
+
+| Section | What the form prints beside the box | Who marks it, and when |
+| --- | --- | --- |
+| Applicant oath | Notary public, State of Michigan, County of ____. Acting in the County of ____. | the notary selects this if the act occurs in another county |
+| Applicant oath | This notarial act was performed using an electronic notarization system or a remote electronic notarization platform. | the notary selects this when the act used an electronic or remote notarization system |
+| Proof of service | I certify that copies of this application and certified record of conviction ☐ and notice of hearing were served on the | select this only after the notice actually traveled with the served packet |
+| Proof of service | Select one — ☐ prosecuting official on ____ by first-class mail addressed to the last-known address. | select this only after mailing the packet to the prosecuting official |
+| Proof of service | Select one — ☐ Attorney General on ____ by first-class mail addressed to the last-known address. | select this only after mailing the packet to the Attorney General |
+
+## What the platform filled in for you
+
+| Section | The box on the form | What the platform wrote there |
+| --- | --- | --- |
+| Parties | Defendant’s name, address, and telephone no. | the three facts the printed caption names, in the order it names them, one to a line, in the party block opposite THE PEOPLE OF |
 
 ## What the platform deliberately left blank
 

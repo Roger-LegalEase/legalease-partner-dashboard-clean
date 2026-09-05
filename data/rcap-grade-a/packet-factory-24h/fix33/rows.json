@@ -1,0 +1,335 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX33-MI-SETASIDE-TRAFFICKING",
+  "assignmentId": "FIX33",
+  "assignedBase": "cf6b9f05c",
+  "branch": "fix33-mi-trafficking",
+  "laneKind": "repair",
+  "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX33 mi_setaside_trafficking-set returned CLAIM_OK FIX33 mi_setaside_trafficking-set (repair, grant set 7a62980b10c40d3e), exit 0, before anything was read or written.",
+  "verdictRepaired": {
+    "lane": "VF01",
+    "verifier": "FABLE-VF01-4F",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
+    "failedObligationNames": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"]
+  },
+  "scope": "Exactly the two failed obligations. The fifteen obligations VF01 passed were not touched: the source binding, the component set, the page order, the fee, service, filing destination and self-help statements are byte-identical, and the local raster placement diff shows pages 2, 3 and 4 of both fixtures pixel-identical to the pre-repair bytes at 150 dpi.",
+  "preflight": {
+    "worktree": "/home/user/fix33-worktree, created from the Captain branch at cf6b9f05c on branch fix33-mi-trafficking",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "the Captain worktree holds no private/ directory, so MASTER_LIBRARY_SOURCE_DIR was pointed at the extracted Master Library already mounted on this host at /home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1. The bound source resolved from it by exact SHA-256 (1620aa79…, 370,315 bytes) and nothing in it was edited.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; pdf-lib importable; no tracked file changed by either step",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "rows": [
+    {
+      "itemId": "mi_setaside_trafficking-set",
+      "familyId": "mi_setaside_trafficking-set",
+      "jurisdiction": "MI",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "routeKeys": [
+        "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application"
+      ],
+      "obligationsRepaired": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+      "obligationsThisRowDoesNotDischarge": [
+        "The conviction table (item 1, sixteen cells) and the direct-result nexus statement (item 2, five lines) are still blank. VF01 named both under KNOWN_PREFILLS and its repair note asked for item 1 to be taken 'from the same screening record that supplied 2019-004217-FY to the caption'. This lane did not do that and says so plainly: the fixtures hold matter.case_number and matter.county and hold no crime, no charge code and no conviction date, the form's own instruction 4 directs the applicant to get the exact date and charge FROM THE COURT and to attach a certified copy of each conviction, and there is no held record in this worktree to take them from. Writing a crime with the conviction date beside it blank would produce a row that reads finished while missing the fact the application turns on. All twenty-one blanks stay declared REQUIRED_BEFORE_FILING and disclosed. If a screening record carrying charge rows exists, filling item 1 from it is a further repair and needs the record, not another pass over this field map.",
+        "Central raster is owed. RASTER_QUEUE.json and MASTER_QUEUE.json were not touched, the raster receipt bound to the previous digests is now void, and product-wiring binding.acceptanceReceipt is null.",
+        "Independent verification. This lane built these bytes and verifies none of them."
+      ],
+      "obligationsAddressed": {
+        "KNOWN_PREFILLS": {
+          "findingAsWritten": "The dinfo Parties box (page 1, rect 320/581.4, 253.3 x 46.8), printed caption \"Defendant's name, address, and telephone no.\", was blank on a field-map reason that said in one sentence both that the participant supplies it and that \"The platform holds all three but has no way to compose them into a single block for this form\". Two of 102 fields carried ink and the delivered MC 227b named the applicant nowhere.",
+          "whyThatReasonFailsTheContract": "POLICY_SHAPED_REASONS: 'A case fact does not stop being required because the build declines to write it.' The operative clause described the build's own capability, and REQUIRED_BEFORE_FILING_CONDITIONS requires GENUINELY UNAVAILABLE — 'the platform holds no value for the fact'. The row itself said the platform holds all three.",
+          "repaired": true,
+          "whatIsWrittenNow": {
+            "field": "MC-227B/dinfo",
+            "page": 1,
+            "rect": { "x": 320, "y": 581.4, "width": 253.3, "height": 46.8 },
+            "printedCaption": "Defendant’s name, address, and telephone no.",
+            "printedNeighbourhood": "the party block on the right of the caption, opposite \"THE PEOPLE OF … v\", with CTN/TCN and SID in the cell below",
+            "composedFrom": ["participant.full_legal_name", "participant.street_address", "participant.phone"],
+            "order": "the order the printed caption names them in — name, address, telephone — one fact to a line, which is the shape a Michigan party block is read in",
+            "canonicalDrawn": ["Jordan Avery Reyes", "412 Woodward Avenue, Detroit, MI 48226", "313-555-0142"],
+            "boundaryDrawn": [
+              "Maria-Alejandra O’Shaughnessy-Whitfield",
+              "1188 Upper Notch Crossing Road, Apartment 14B, Grand ",
+              "Rapids, Michigan 49503-2214",
+              "(616) 555-0199 ext. 4417"
+            ],
+            "fontSizeDrawn": 9,
+            "whyNineAndNotTheLadderDefault": "The box's printed caption is drawn inside the top of its own widget rectangle and the CTN/TCN rule closes it at the foot, leaving about 39pt of clear height. Left on the family ceiling of 11 the fitter lands the boundary block on 9.5pt, whose fourth line draws the parenthesis descenders of the telephone number across that printed rule — measured on a 600 dpi local raster of a probe render. 9pt is the largest size whose lowest ink clears the rule, and it is declared as this field's ceiling for that reason rather than chosen."
+          },
+          "howItIsWritten": {
+            "channel": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs, new opt-in option composedFieldValues, default {}",
+            "whyANewChannelWasNeeded": "decideBinding binds ONE descriptor to one field and the shared registry has no composed contact descriptor. On this caption the address descriptor matches, so the only outcomes reachable before were to write the street address alone — a third of the answer in the box the court reads for contact details — or to write nothing. That was measured, not assumed: the first build after the repair, before the composed pass was routed around the single-fact channel, drew exactly the street address and nothing else.",
+            "noCallerTextReachesThePage": "The option takes FACT IDS, not text. The finalizer resolves each id against the same facts set every other write is resolved from and joins them with newlines. A named fact that is absent, empty or not a string refuses the whole box rather than composing a partial one, so a sentence, a caption or an invented value cannot be passed through it.",
+            "sameGatesAsAnyOtherWrite": "role gate, protectCategoryOf on both the label and the field name, text-field type guard, the form's own maxLength, and the shared fitter against the widget's own geometry."
+          },
+          "appearanceProof": {
+            "method": "flattened widget appearances read back from the finalized bytes at every measured /Rect, plus each appearance stream's own /BBox, clip path, /Tf size and per-line /Tm origins, plus a local 150 dpi raster of all four pages of both fixtures and 300/600 dpi crops of the Parties box",
+            "inkedAppearancesPerFixture": 5,
+            "canonicalInk": [
+              "p1 @410.4,698 2019-004217-FY",
+              "p1 @36,672 Wayne",
+              "p1 @320,581.4 the composed contact block",
+              "p2 @472.5,714.18 2019-004217-FY",
+              "p3 @472.5,714.18 2019-004217-FY"
+            ],
+            "everyComposedFactFoundInTheInk": true,
+            "howEachFactWasChecked": "the appearance's show-text runs joined and whitespace-collapsed, then each held value searched in it; a wrapped line keeps its own trailing space so the word boundary survives the join. The build refuses if any named fact is missing from the ink.",
+            "boxFit": "one appearance, three lines canonical and four boundary, widest line 166.0pt canonical in 249.3pt of usable width; every line's ink extent inside the widget /BBox 0..46.8; linesBelowTheAppearanceClip 0",
+            "placementDiffAgainstThePreRepairBytes": "150 dpi, page by page: canonical page 1 differs over x 322.1..489.6, y 596.2..623.0; boundary page 1 differs over x 322.1..551.5, y 584.6..623.0 — both wholly inside the dinfo rect. Pages 2, 3 and 4 pixel-identical in both fixtures.",
+            "apostropheCorrection": "This family's build-findings previously recorded, as an advisory, that the boundary participant's typographic apostrophe (U+2019) does not survive into the finalized bytes. That was a reading error, not a defect: the finalizer encodes it as WinAnsi 0x92 and the read-back decoded the appearance as Latin-1, which turns 0x92 into an invisible control character. The read-back now translates the WinAnsi 0x80-0x9F block, the apostrophe is present in the bytes and legible at 300 dpi, and the finding is corrected in build-findings.json."
+          },
+          "excuseAudit": {
+            "question": "Is any other blank on this family excused by a reason that describes the build rather than the filing?",
+            "method": "every reason string on all 99 remaining blank rows — 85 canonicalRefusals and 14 selectionControls — tested against the contract's POLICY_SHAPED_REASONS patterns, and separately against a hand pattern for build-describing language (no way / the build / not supported / allowlist / fact map). Then every fact the fixtures hold was checked against every blank.",
+            "policyShapedBeforeTheRepair": 1,
+            "policyShapedAfterTheRepair": 0,
+            "theOneThatWasPolicyShaped": "MC-227B/dinfo — repaired above. It matched no POLICY_SHAPED_REASONS regex, which is why the counters read zero over it; it is policy-shaped in substance, and the contract's own GENUINELY UNAVAILABLE condition is what it fails.",
+            "factsThePlatformHolds": [
+              "participant.full_legal_name", "participant.date_of_birth", "participant.street_address",
+              "participant.phone", "participant.email", "matter.county", "matter.case_number"
+            ],
+            "heldFactsStillUnwritten": "none. county and case_number were already written; name, address and telephone are now written in the Parties box. MC 227b carries no date-of-birth field and no e-mail field, so those two held facts have nowhere to go on this form.",
+            "refusalsJudgedLEGITIMATE": [
+              {
+                "group": "the conviction table, item 1 — 16 cells (c1..c4, ch1..ch4, cdate1..cdate4, cno1..cno4)",
+                "count": 16,
+                "why": "the crime, the charge code, the conviction date and the case number of each conviction come from the court's own record. The fixtures hold one case number and no charge row of any kind. The form's instruction 4 says to get the exact date and charge from the court and to attach a certified copy of each conviction."
+              },
+              {
+                "group": "the item 2 nexus statement — explain1..explain3, Explain4, Explain5",
+                "count": 5,
+                "why": "the applicant's own sworn facts supporting that the conviction was a direct result of being a victim of a human-trafficking violation. Nobody but the applicant can state them, and a platform that composed them would be swearing for them."
+              },
+              {
+                "group": "the item 3 and item 4 earlier-application tables and the item 5 deferred list",
+                "count": 37,
+                "why": "each cell is a fact about applications the applicant has filed before, and the disposition each received. The platform holds no application history."
+              },
+              {
+                "group": "court and agency identifiers — district, circuit, ctaddress, cttelno, ori, prno, ctntcn, sid, proofficial, peopleof",
+                "count": 10,
+                "why": "the judicial district and circuit number, the convicting court's street address and telephone, the ORI, the police report number, the CTN/TCN, the SID, the prosecuting official for the conviction, and the name of the city, village or township that prosecuted if it was not the State. Every one comes off the applicant's own court or police paperwork; none is a fact the platform holds, and none is written anywhere else in this packet."
+              },
+              {
+                "group": "protected — signature, oath, notarization, hearing, proof of service",
+                "count": 21,
+                "why": "the applicant's signature, the subscribed-and-sworn date, the whole notary block, the court's hearing date, location and judge, and the proof-of-service dates and signature. The proof of service certifies mailings that have not happened when the packet is prepared."
+              },
+              {
+                "group": "attorney — dattyinfo",
+                "count": 1,
+                "why": "attorney-only; no attorney-representation fact is held for this participant, and the packet is prepared for a self-represented applicant."
+              },
+              {
+                "group": "the nine participant elections",
+                "count": 9,
+                "why": "see REQUIRED_BEFORE_FILING below. None is settled by the route."
+              }
+            ]
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "findingAsWritten": "VF01: 'all fourteen checkbox fields on MC 227b are absent from the field map, so fourteen blanks on the delivered pages have no disposition from the closed vocabulary and unclassifiedBlanks reads 0 over a map that never saw them.' Also: the dinfo declaration did not meet GENUINELY UNAVAILABLE, so a required known fact was being carried as a participant item.",
+          "repaired": true,
+          "whereTheFindingWasRightAndWhereItWasNot": "The dinfo half is exactly right and is repaired under KNOWN_PREFILLS: requiredBeforeFiling for that field is gone, and the declared count falls 69 -> 68. The checkbox half is right about the substance and wrong about the location, and this lane reports the difference rather than restating the verdict. The fourteen were NOT absent from the field map: they sit in maps[].selectionControls, which readFieldRows in verify-packet-completeness.mjs does read — the verifier counted 102 terminal fields both before and after this repair, which is why 2/102 rather than 2/88 was reported. What was actually missing is what a filer and an auditor need: each of the fourteen carried a disposition of \"explicit_refusal\", a word outside the closed vocabulary; each carried an authored label rather than the words printed beside the box; and the five that are not the participant's to mark appeared in no participant inventory at all, so nothing in the packet named them as boxes a filed application must have considered.",
+          "whatWasDeclaredForEachOfTheFourteen": {
+            "printedCaption": "transcribed from the printed page text of the pinned MC 227b binary, checked against a word-box extraction that puts each checkbox rectangle against the words on its own printed line, and against 300 and 600 dpi rasters of pages 1, 2 and 3",
+            "oneBoxCarriesNoPrintedWords": "peoplecheck, the second box under THE PEOPLE OF, sits on the blank rule that peopleof fills and has no caption of its own. It is declared by its printed POSITION, with printedCaptionBasis saying so, rather than given an invented caption.",
+            "disposition": "from the closed vocabulary — 9 PARTICIPANT_ELECTION_GENUINE, 5 PROTECTED_FIELD",
+            "alsoRecordedPerBox": ["markedByThisBuild: false", "whoMarksIt", "instruction", "routeDetermined: false with its basis", "rect and page"],
+            "boxes": [
+              { "field": "MC-227B/multcaseno", "page": 1, "printedCaption": "This application includes multiple case numbers as listed in item 1.", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/somcheck", "page": 1, "printedCaption": "THE PEOPLE OF — The State of Michigan", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/peoplecheck", "page": 1, "printedCaption": "THE PEOPLE OF — the unlabelled second box, on the blank rule beneath “The State of Michigan”", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/noappcheck", "page": 2, "printedCaption": "3. a. No other application was previously filed to set aside a conviction listed in item 1.", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/prevappcheck", "page": 2, "printedCaption": "3. b. An application was previously filed in a court to set aside the following conviction(s) listed in item 1:", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/noappcheck2", "page": 2, "printedCaption": "4. a. No other application was previously filed in a court to set aside other conviction(s).", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/prevappcheck2", "page": 2, "printedCaption": "4. b. An application was previously filed in a court to set aside the following conviction(s):", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/anycheck", "page": 2, "printedCaption": "Select one — 5. I have not had any convictions deferred and dismissed.", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/defercheck", "page": 2, "printedCaption": "Select one — 5. I have had the following conviction(s) deferred and dismissed:", "disposition": "PARTICIPANT_ELECTION_GENUINE" },
+              { "field": "MC-227B/actcountycheck", "page": 2, "printedCaption": "Notary public, State of Michigan, County of ____. Acting in the County of ____.", "disposition": "PROTECTED_FIELD" },
+              { "field": "MC-227B/electcheck", "page": 2, "printedCaption": "This notarial act was performed using an electronic notarization system or a remote electronic notarization platform.", "disposition": "PROTECTED_FIELD" },
+              { "field": "MC-227B/posnoticecheck", "page": 3, "printedCaption": "I certify that copies of this application and certified record of conviction ☐ and notice of hearing were served on the", "disposition": "PROTECTED_FIELD" },
+              { "field": "MC-227B/posofficialcheck", "page": 3, "printedCaption": "Select one — ☐ prosecuting official on ____ by first-class mail addressed to the last-known address.", "disposition": "PROTECTED_FIELD" },
+              { "field": "MC-227B/posattygencheck", "page": 3, "printedCaption": "Select one — ☐ Attorney General on ____ by first-class mail addressed to the last-known address.", "disposition": "PROTECTED_FIELD" }
+            ]
+          },
+          "routeDeterminedMarksTheBuildMakes": {
+            "count": 0,
+            "why": "No box on MC 227b is settled by this route, and the build therefore marks none. Whether the State of Michigan or a named city, village or township prosecuted is a fact about the participant's own case, not a property of the trafficking-victim route; the multiple-case-numbers box says how many cases the applicant's own item 1 table lists, and item 1 is entirely participant-supplied; items 3, 4 and 5 are the applicant's own sworn statements; and the notary and proof-of-service boxes certify acts that have not happened when the packet is prepared. This agrees with VF01's ROUTE_OPTIONS finding, which passed for the same reason.",
+            "selectionControlsMarkedByThisBuild": 0
+          },
+          "participantInventory": {
+            "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/participant-instructions.md",
+            "section": "\"Every box on this form, and what to do about it\", which states the count, then a table of the nine the filer ticks before filing and a table of the five that are not theirs to tick now, each row carrying the words the form prints beside the box and what to do about it",
+            "boxesNamed": 14,
+            "boxesNamedBefore": 9,
+            "alsoAdded": "a \"What the platform filled in for you\" table naming the Parties box and telling the filer to read it and correct anything out of date, because it is the address the court and the prosecuting official will write to",
+            "enforced": "the builder's self-test asserts that participant-instructions.md contains the printed caption of every one of the fourteen, so a box that loses its line fails the build"
+          },
+          "requiredBeforeFilingCountBefore": 69,
+          "requiredBeforeFilingCountAfter": 68,
+          "terminalFieldCoverage": {
+            "acroFormFieldsInTheBoundBinary": 102,
+            "rowsInTheFieldMap": 102,
+            "writes": 3,
+            "composedWrites": 1,
+            "refusals": 85,
+            "selectionControls": 14,
+            "assertedInTheSelfTest": "writes + refusals + selectionControls must equal the corpus index's declared AcroForm field count"
+          }
+        }
+      },
+      "whatChanged": {
+        "files": [
+          "scripts/rcap-official-forms/rcap-official-form-finalize.mjs — one new opt-in option, composedFieldValues, defaulting to {}; a one-line guard that routes a composed field past the single-fact decide loop; and a composed pass after the ordinary writes. Every caller that does not pass the option is byte-unaffected, and that was measured rather than argued: see sharedFinalizerByteNeutrality below.",
+          "scripts/build-census-v1-mi_setaside_trafficking-set.mjs — a COMPOSE policy and the dinfo entry; printed captions on all fourteen checkboxes; printed caption and composition carried through the census; the composed channel wired in renderDocument; appearanceGeometry rewritten to measure a multi-line appearance run by run and to record each line's ink extent against the widget /BBox and the appearance clip; byteProof extended to prove a composed box fact by fact and to read the appearance back as WinAnsi rather than Latin-1; mapFor emitting the composed write and the enriched selection controls; the participant inventory; new self-test assertions; the new artifact digests; and three build-findings entries rewritten. This script is this family's exclusive host: no other script writes this overlay directory.",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf — rebuilt; the Parties box only",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf — rebuilt; the Parties box only",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/production-field-map.json — dinfo moved from canonicalRefusals to canonicalWrites as a composed write; fourteen selection controls given printed captions, closed-vocabulary dispositions and instructions; new terminalFieldCoverage block; requiredBeforeFilingCount 69 to 68",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/participant-instructions.md — the fourteen-box inventory, the composed-box disclosure, and the dinfo row removed from the items-you-must-supply table",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/field-census.census-v1.json — printedCaption, printedCaptionBasis and composedFrom per field",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/actual-writes.json — the composed write with its per-fact appearance proof and per-line geometry",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/blanks-left-for-the-participant.json — a selectionControlsOnTheForm inventory of all fourteen",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/completeness-counters.json — regenerated; nine zeros; blankDispositions REQUIRED_BEFORE_FILING 68, PROTECTED_FIELD 21, PARTICIPANT_ELECTION_GENUINE 9, NOT_APPLICABLE_ON_THIS_ROUTE 1",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/rendered-artifacts.json — new artifact digests",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/reports/independent-visual-review.json — the page-1 instruction now names the composed box and what to look at",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/build-findings.json — the dinfo finding rewritten as repaired, a new finding for the fourteen boxes, the apostrophe advisory corrected",
+          "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/product-wiring.json — refreshed by its own generator; acceptanceReceipt null, the canonical component digest re-pinned 5adcf133… -> e05db917…",
+          "data/rcap-grade-a/packet-factory-24h/fix33/rows.json — this return",
+          "data/rcap-grade-a/packet-factory-24h/claim-ledger.json — written by claim.mjs on assert and release"
+        ],
+        "unchangedInTheFamilyDirectory": [
+          "source-receipt.json",
+          "build-status.json",
+          "approval-request.json",
+          "reports/caption-evidence.json"
+        ],
+        "centralRecordsNotTouched": [
+          "RASTER_QUEUE.json",
+          "MASTER_QUEUE.json",
+          "the census candidate",
+          "the track registry",
+          "the specifications",
+          "every other family directory",
+          "every other build script"
+        ],
+        "sharedScriptsChanged": 1,
+        "buildScriptsChanged": 1,
+        "otherFamiliesTouched": 0
+      },
+      "sharedFinalizerByteNeutrality": {
+        "why": "The finalizer is shared by forty-odd families under other workers' claims, so an opt-in default is a claim that has to be measured.",
+        "argument": "The three edits are inert without the option: a destructured parameter defaulting to {}, a guard over an empty Set, and a loop over Object.entries({}).",
+        "measured": [
+          {
+            "family": "wi_nc_doj_challenge-set",
+            "method": "rebuilt with the FIX33 finalizer and compared with the committed fixtures",
+            "canonical": "edb7338200e12436a22390b6857b54bb0b44d074abc745b5c02c158f85457b4f, unchanged",
+            "boundary": "365d25ebf98bc23dba12805e97f985d6f39fc2403cec591b9646a6be8f35596e, unchanged",
+            "rebuildReverted": true
+          },
+          {
+            "family": "mi_setaside_marihuana-set",
+            "method": "rebuilt twice with the same builder, once with the HEAD finalizer and once with the FIX33 finalizer, and the two compared",
+            "canonical": "3db619bfe92cf022bef8eceed5391cb3d26a042d42ea5545d561e098e0bcac58 under both",
+            "boundary": "0cd742adf07eda692e74e56854a32824f03ea9102a92c79d3076a0761d020f97 under both",
+            "note": "Both differ from the bytes committed for that family, and the HEAD-finalizer run proves that difference is not this lane's. It is a pre-existing disagreement between the two builders that write that one directory — scripts/build-census-v1-mi_setaside_marihuana-set.mjs and scripts/build-census-v1-mi-setaside-marihuana-set.mjs. This lane reports it and changed nothing there: the rebuild was reverted with git checkout and that family is untouched in the commit.",
+            "rebuildReverted": true
+          }
+        ],
+        "sharedFittersAndContractsUnchanged": [
+          "scripts/rcap-official-forms/rcap-text-fitting.mjs",
+          "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+          "scripts/rcap-official-forms/pdf-flattened-widgets.mjs",
+          "scripts/rcap-packet-completeness/completeness-contract.mjs",
+          "scripts/rcap-packet-completeness/verify-packet-completeness.mjs"
+        ]
+      },
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-mi_setaside_trafficking-set.mjs --no-raster",
+        "runs": 2,
+        "bothFixturesByteIdenticalAcrossBuilds": true,
+        "howChecked": "the whole family directory was copied after the first build and diff -r against it after the second returned no differences at all — both PDFs and all eleven records",
+        "returnedStatus": "COMPLETED, nine counters zero, writes 3, requiredBeforeFiling 68, participantElections 14",
+        "selfTest": "node scripts/build-census-v1-mi_setaside_trafficking-set.mjs --self-test → SELF_TEST_OK mi_setaside_trafficking-set"
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65",
+          "oldByteLength": 378568,
+          "newSha256": "e05db91780c8a17066b86f5bbb130ac6a6957c4c48d02e34203f9a439a156382",
+          "newByteLength": 378665,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd",
+          "oldByteLength": 378609,
+          "newSha256": "23f2acdd397cf53494d02bd9c81366bed47c35e60d38bff0f55923980b9d3aea",
+          "newByteLength": 378792,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "sourceBinaryUnchanged": {
+          "sourceId": "official-form:MC-227B",
+          "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+          "byteLength": 370315,
+          "note": "the issuer's bytes are loaded, verified by digest and never written; source-receipt.json is byte-identical to the pre-repair record"
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersDidNotMoveAndWhyThatIsTheWholePoint": "Both readings are nine zeros, measured with the repository's own verifier at this base before and after. VF01 said so in advance: 'the counters read zero for two reasons that are both measurable here.' The counters could not see the dinfo excuse because it matches no POLICY_SHAPED_REASONS pattern, and they read the fourteen checkboxes through refusal classes that are honoured whatever the caption says. What moved is what the packet delivers: fields written 2 -> 3, held facts on the paper 2 -> 5, boxes named to the filer 9 -> 14, dispositions outside the closed vocabulary 14 -> 0.",
+      "verifierResults": {
+        "verifyPacketCompleteness_family": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set → PASS_COMPLETE, 3/102 written, nine counters zero (before this repair: PASS_COMPLETE, 2/102 written, nine counters zero)",
+        "verifyPacketCompleteness_corpus": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs → 241 families audited, 240 PASS_COMPLETE, 1 FAIL_MISSING_PREFILLS, unclassifiedBlanks 6, every other counter 0. Identical to the reading taken at this base before any edit: the one failing family is not this one and this repair did not move a single corpus counter.",
+        "verifyIdentityRefreshSurvivesRebuild": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs → EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 52 carrying an identityRefresh",
+        "verifySourceCarriedValuesAreDispositioned": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs → EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 7 families carrying a non-null source value, 21 examined, 21 dispositioned, 0 undispositioned — corpus-green and unchanged",
+        "flattenedAppearanceCheck": "every flattened widget appearance of both fixtures read back from the finalized bytes: 104 appearances per fixture, 5 inked, and the five are the county, three case numbers and the composed Parties box. No refused field carries ink; no protected field carries ink; the source AcroForm carries no default value, so nothing source-shipped survives into the output.",
+        "localRaster": "pdftoppm at 150 dpi for all four pages of both fixtures into the scratchpad, plus 300 and 600 dpi crops of the Parties box and of the probe renders used to choose the 9pt ceiling. Poppler was used only for this local inspection; the build ran --no-raster and wrote no raster page, and the family's own rasterizer remains the calibrated Chromium one."
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterOwed": "central raster. The RASTER_PASS receipt in RASTER_QUEUE.json is bound to canonical 5adcf133… and boundary 8f24ca2a…, which are no longer the bytes on disk. RASTER_QUEUE.json was not touched, as instructed.",
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "regeneratedBy": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family mi_setaside_trafficking-set",
+        "componentDigestsRePinned": 1,
+        "noHashHandEdited": true
+      },
+      "selfVerification": "none. This lane built these bytes and verifies none of them. Every number here is read from the committed tree or from a command run against it, and the verdict remains an independent lane's to give.",
+      "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route and promotes no status."
+    }
+  ]
+}

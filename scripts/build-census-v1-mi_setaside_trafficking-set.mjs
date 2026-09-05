@@ -25,13 +25,26 @@
  * as a finished row while missing the fact the application turns on.
  *
  * Third, `dinfo` -- the box captioned "Defendant's name, address, and telephone
- * no." -- asks for three facts in one free-text block. The platform holds all
- * three, separately, and the shared semantic registry has no composed fact for a
- * name-address-telephone block; a field takes one fact. Writing only the name
- * would put a third of an answer in a box the court reads as the applicant's
- * contact details. It is left to the participant, the reason is stated in the
- * disclosure rather than implied, and the gap is raised in build-findings for
- * whoever owns the descriptor list.
+ * no." -- asks for three facts in one free-text block, and the platform holds
+ * all three. This family shipped it BLANK, on the reason that the build "has no
+ * way to compose them into a single block for this form". That is a sentence
+ * about the build, and the completeness contract classes a blank excused that
+ * way as a missing known fact rather than an unavailable one: a case fact does
+ * not stop being required because the build declines to write it. The box is now
+ * composed from the three held facts through the finalizer's `composedFieldValues`
+ * channel -- name, then address, then telephone, one per line, which is the order
+ * the printed caption names them in and the shape a Michigan party block is read
+ * in. No caller text reaches the page: the channel takes fact IDS and resolves
+ * them itself, so a fact the packet does not hold refuses the box instead of
+ * composing a partial one.
+ *
+ * The size ceiling on that box is measured rather than chosen. Its printed
+ * caption is drawn inside the top of the widget rectangle and the CTN/TCN rule
+ * closes it at the foot, so the block has about 39pt of clear height. Left on
+ * the family ceiling of 11 the fitter lands the boundary block on 9.5pt, whose
+ * fourth line draws the parenthesis descenders of the telephone number across
+ * that printed rule. 9pt is the largest size whose lowest ink clears it, and it
+ * is declared as this field's ceiling for that reason.
  *
  * A NOTE ON THE OTHER BUILDER. scripts/build-census-v1-mi-setaside-trafficking-set.mjs
  * (hyphenated) also writes this family's overlay directory and predates this
@@ -102,6 +115,21 @@ const SOURCE_PIN = Object.freeze({
 });
 
 /*
+ * Both fixtures moved again in the FIX33 repair -- the Parties box is now
+ * composed and written -- and the raster receipt they were pinned under is
+ * void a second time.
+ *
+ *   canonical  5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65
+ *           -> e05db91780c8a17066b86f5bbb130ac6a6957c4c48d02e34203f9a439a156382
+ *   boundary   8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd
+ *           -> 23f2acdd397cf53494d02bd9c81366bed47c35e60d38bff0f55923980b9d3aea
+ *
+ * Nothing else on any page moved: page 1 gains three lines of contact block in
+ * the canonical fixture and four in the boundary fixture, and the only other
+ * ink on either document is the county and the case number, unchanged.
+ *
+ * THE HISTORY BELOW IS THE PREVIOUS MOVE, KEPT.
+ *
  * Both fixtures moved in the per-widget-fitting repair, and the raster receipt
  * they were pinned under is void.
  *
@@ -125,12 +153,12 @@ const SOURCE_PIN = Object.freeze({
  */
 const EXPECTED_ARTIFACTS = Object.freeze({
   canonical: Object.freeze({
-    sha256: "5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65",
-    byteLength: 378568
+    sha256: "e05db91780c8a17066b86f5bbb130ac6a6957c4c48d02e34203f9a439a156382",
+    byteLength: 378665
   }),
   boundary: Object.freeze({
-    sha256: "8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd",
-    byteLength: 378609
+    sha256: "23f2acdd397cf53494d02bd9c81366bed47c35e60d38bff0f55923980b9d3aea",
+    byteLength: 378792
   })
 });
 
@@ -143,6 +171,9 @@ function corpusRoot() {
 
 const SUPPLY = (what) => ({ policy: "supply", what });
 const WRITE = (fact) => ({ policy: "write", fact });
+/* One printed box, several held facts, one line each, in the order the printed
+ * caption names them. `maxFontSize` is the ceiling measured for that box. */
+const COMPOSE = (factIds, maxFontSize, how) => ({ policy: "compose", factIds, maxFontSize, how });
 const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
 const ELECTION = (why) => ({ policy: "election", why });
 const ATTORNEY = (why) => ({ policy: "attorney", why });
@@ -191,6 +222,7 @@ const FORM_FIELDS = {
     multcaseno: {
       section: "Caption", selection: true,
       label: "This application includes multiple case numbers as listed in item 1 (selection)",
+      printedCaption: "This application includes multiple case numbers as listed in item 1.",
       ...ELECTION("tick this if you are listing convictions from more than one case number in the table below — but note instruction 2: a separate application is needed for each COURT")
     },
     ori: { section: "Caption", label: "ORI", ...AGENCY("the ORI number of the agency, which begins MI- and appears on your court and police paperwork") },
@@ -201,10 +233,20 @@ const FORM_FIELDS = {
     /* --- the parties ----------------------------------------------------- */
     somcheck: {
       section: "Parties", selection: true, label: "The People of the State of Michigan (selection)",
+      printedCaption: "THE PEOPLE OF — The State of Michigan",
       ...ELECTION("tick this if the State of Michigan prosecuted the offence")
     },
+    /*
+     * This box carries NO printed words of its own. It sits under
+     * "The State of Michigan" on the blank rule that `peopleof` fills, and it is
+     * identified here by its printed position rather than by a caption it does
+     * not have — the alternative would be to invent one, which is worse on a
+     * form the participant reads beside this inventory.
+     */
     peoplecheck: {
       section: "Parties", selection: true, label: "The People of a named city, village or township (selection)",
+      printedCaption: "THE PEOPLE OF — the unlabelled second box, on the blank rule beneath “The State of Michigan”",
+      printedCaptionBasis: "position, because the box carries no printed words; the rule beside it is the peopleof blank",
       ...ELECTION("tick this instead if a city, village or township prosecuted the offence under its own ordinance, and name it on the line beside")
     },
     peopleof: {
@@ -212,18 +254,17 @@ const FORM_FIELDS = {
       ...SUPPLY("the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan")
     },
     /*
-     * Three facts, one box, and no composed fact to bind. See the header
-     * comment: the platform holds the name, the address and the telephone
-     * number separately, a field takes one fact, and a third of an answer in
-     * the applicant's contact block is worse than an empty one the participant
-     * fills.
+     * Three facts, one box, and the platform holds all three. See the header
+     * comment for why this box used to be blank and why that reason was a
+     * statement about the build rather than about the filing.
      */
     dinfo: {
       section: "Parties", label: "Defendant's name, address, and telephone no.",
-      ...SUPPLY(
-        "your name, your address and your telephone number, together in this one box. The platform holds all three but "
-        + "has no way to compose them into a single block for this form, and writing only one of the three would leave "
-        + "the court without the contact details it needs"
+      printedCaption: "Defendant’s name, address, and telephone no.",
+      ...COMPOSE(
+        ["participant.full_legal_name", "participant.street_address", "participant.phone"], 9,
+        "the three facts the printed caption names, in the order it names them, one to a line, in the party block "
+        + "opposite THE PEOPLE OF"
       )
     },
     ctntcn: { section: "Parties", label: "CTN/TCN", ...AGENCY("the CTN or TCN number from the court or police record") },
@@ -243,10 +284,10 @@ const FORM_FIELDS = {
     Explain5: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 5", ...SUPPLY("finish the facts supporting the direct-result nexus; attach additional pages if needed") },
 
     /* --- page 2: earlier applications and deferred convictions ------------ */
-    noappcheck: { section: "3. Earlier applications for item 1 convictions", selection: true, label: "No earlier application was filed for an item 1 conviction (selection)", ...ELECTION("select this only if no earlier application was filed for any conviction listed in item 1") },
-    prevappcheck: { section: "3. Earlier applications for item 1 convictions", selection: true, label: "An earlier application was filed for an item 1 conviction (selection)", ...ELECTION("select this if an earlier application was filed, then complete every cell of each used row below") },
-    noappcheck2: { section: "4. Earlier applications for other convictions", selection: true, label: "No earlier application was filed for any other conviction (selection)", ...ELECTION("select this only if no earlier application was filed for any other conviction") },
-    prevappcheck2: { section: "4. Earlier applications for other convictions", selection: true, label: "An earlier application was filed for another conviction (selection)", ...ELECTION("select this if an earlier application was filed, then complete every cell of each used row below") },
+    noappcheck: { section: "3. Earlier applications for item 1 convictions", selection: true, label: "No earlier application was filed for an item 1 conviction (selection)", printedCaption: "3. a. No other application was previously filed to set aside a conviction listed in item 1.", ...ELECTION("select this only if no earlier application was filed for any conviction listed in item 1") },
+    prevappcheck: { section: "3. Earlier applications for item 1 convictions", selection: true, label: "An earlier application was filed for an item 1 conviction (selection)", printedCaption: "3. b. An application was previously filed in a court to set aside the following conviction(s) listed in item 1:", ...ELECTION("select this if an earlier application was filed, then complete every cell of each used row below") },
+    noappcheck2: { section: "4. Earlier applications for other convictions", selection: true, label: "No earlier application was filed for any other conviction (selection)", printedCaption: "4. a. No other application was previously filed in a court to set aside other conviction(s).", ...ELECTION("select this only if no earlier application was filed for any other conviction") },
+    prevappcheck2: { section: "4. Earlier applications for other convictions", selection: true, label: "An earlier application was filed for another conviction (selection)", printedCaption: "4. b. An application was previously filed in a court to set aside the following conviction(s):", ...ELECTION("select this if an earlier application was filed, then complete every cell of each used row below") },
     ...Object.fromEntries([1, 2, 3, 4].flatMap((n) => [
       [`prevc${n}`, { section: "3. Earlier applications for item 1 convictions", label: `Earlier application row ${n} - crime`, ...SUPPLY("the crime identified in the earlier application") }],
       [`prevch${n}`, { section: "3. Earlier applications for item 1 convictions", label: `Earlier application row ${n} - charge code`, ...SUPPLY("the MCL citation or PACC charge code from the earlier application and court record") }],
@@ -261,8 +302,8 @@ const FORM_FIELDS = {
       [`4prevcno${n}`, { section: "4. Earlier applications for other convictions", label: `Other earlier application row ${n} - case number`, ...SUPPLY("the case number from the earlier application") }],
       [`4prevdispo${n}`, { section: "4. Earlier applications for other convictions", label: `Other earlier application row ${n} - disposition`, ...SUPPLY("the court's disposition of the earlier application") }]
     ])),
-    anycheck: { section: "5. Deferred-and-dismissed convictions", selection: true, label: "No convictions were deferred and dismissed (selection)", ...ELECTION("select this only if you have had no convictions deferred and dismissed") },
-    defercheck: { section: "5. Deferred-and-dismissed convictions", selection: true, label: "Convictions were deferred and dismissed (selection)", ...ELECTION("select this if you have deferred-and-dismissed convictions, then list them") },
+    anycheck: { section: "5. Deferred-and-dismissed convictions", selection: true, label: "No convictions were deferred and dismissed (selection)", printedCaption: "Select one — 5. I have not had any convictions deferred and dismissed.", ...ELECTION("select this only if you have had no convictions deferred and dismissed") },
+    defercheck: { section: "5. Deferred-and-dismissed convictions", selection: true, label: "Convictions were deferred and dismissed (selection)", printedCaption: "Select one — 5. I have had the following conviction(s) deferred and dismissed:", ...ELECTION("select this if you have deferred-and-dismissed convictions, then list them") },
     deferlist1: { section: "5. Deferred-and-dismissed convictions", label: "Deferred-and-dismissed convictions - line 1", ...SUPPLY("each deferred-and-dismissed conviction and its case number") },
     deferlist2: { section: "5. Deferred-and-dismissed convictions", label: "Deferred-and-dismissed convictions - line 2", ...SUPPLY("continue the list of deferred-and-dismissed convictions") },
 
@@ -273,19 +314,19 @@ const FORM_FIELDS = {
     name: { section: "Applicant oath", label: "Deputy clerk or notary name", ...PROTECT(COURT_OWNED, "the deputy clerk or notary prints their name") },
     expcom: { section: "Applicant oath", label: "Notary commission expiration", ...PROTECT(COURT_OWNED, "the notary supplies the commission expiration") },
     notcounty: { section: "Applicant oath", label: "Notary public county", ...PROTECT(COURT_OWNED, "the notary supplies the county of commission") },
-    actcountycheck: { section: "Applicant oath", selection: true, label: "Acting in another county (selection)", ...PROTECT(COURT_OWNED, "the notary selects this if the act occurs in another county") },
+    actcountycheck: { section: "Applicant oath", selection: true, label: "Acting in another county (selection)", printedCaption: "Notary public, State of Michigan, County of ____. Acting in the County of ____.", ...PROTECT(COURT_OWNED, "the notary selects this if the act occurs in another county") },
     actcounty: { section: "Applicant oath", label: "County where notarial act occurred", ...PROTECT(COURT_OWNED, "the notary supplies the county where the act occurred") },
-    electcheck: { section: "Applicant oath", selection: true, label: "Electronic or remote notarization (selection)", ...PROTECT(COURT_OWNED, "the notary selects this when the act used an electronic or remote notarization system") },
+    electcheck: { section: "Applicant oath", selection: true, label: "Electronic or remote notarization (selection)", printedCaption: "This notarial act was performed using an electronic notarization system or a remote electronic notarization platform.", ...PROTECT(COURT_OWNED, "the notary selects this when the act used an electronic or remote notarization system") },
 
     /* --- page 3: hearing and proof of service ----------------------------- */
     proofficial: { section: "Notice of hearing", label: "Prosecuting official", ...SUPPLY("the prosecuting official for the conviction") },
     hdate: { section: "Notice of hearing", label: "Hearing date and time", ...PROTECT(COURT_OWNED, "the court sets the hearing date and time") },
     hloc: { section: "Notice of hearing", label: "Hearing location", ...PROTECT(COURT_OWNED, "the court sets the hearing location") },
     hjudge: { section: "Notice of hearing", label: "Hearing judge", ...PROTECT(COURT_OWNED, "the court identifies the judge") },
-    posnoticecheck: { section: "Proof of service", selection: true, label: "Notice of hearing included (selection)", ...PROTECT(SIGNATURE, "select this only after the notice actually traveled with the served packet") },
-    posofficialcheck: { section: "Proof of service", selection: true, label: "Prosecuting official served (selection)", ...PROTECT(SIGNATURE, "select this only after mailing the packet to the prosecuting official") },
+    posnoticecheck: { section: "Proof of service", selection: true, label: "Notice of hearing included (selection)", printedCaption: "I certify that copies of this application and certified record of conviction ☐ and notice of hearing were served on the", ...PROTECT(SIGNATURE, "select this only after the notice actually traveled with the served packet") },
+    posofficialcheck: { section: "Proof of service", selection: true, label: "Prosecuting official served (selection)", printedCaption: "Select one — ☐ prosecuting official on ____ by first-class mail addressed to the last-known address.", ...PROTECT(SIGNATURE, "select this only after mailing the packet to the prosecuting official") },
     posofficialdate: { section: "Proof of service", label: "Date prosecuting official was served", ...PROTECT(SIGNATURE, "enter this only after the mailing occurred") },
-    posattygencheck: { section: "Proof of service", selection: true, label: "Attorney General served (selection)", ...PROTECT(SIGNATURE, "select this only after mailing the packet to the Attorney General") },
+    posattygencheck: { section: "Proof of service", selection: true, label: "Attorney General served (selection)", printedCaption: "Select one — ☐ Attorney General on ____ by first-class mail addressed to the last-known address.", ...PROTECT(SIGNATURE, "select this only after mailing the packet to the Attorney General") },
     posattygendate: { section: "Proof of service", label: "Date Attorney General was served", ...PROTECT(SIGNATURE, "enter this only after the mailing occurred") },
     posmspdate: { section: "Proof of service", label: "Date Michigan State Police was served", ...PROTECT(SIGNATURE, "enter this only after mailing the packet, fingerprint card, and required fee") },
     sigdate: { section: "Proof of service", label: "Proof-of-service signature date", ...PROTECT(SIGNATURE, "date this only when signing the completed proof of service") },
@@ -416,7 +457,18 @@ async function censusOf(source) {
       maxLength: typeof field.getMaxLength === "function" ? (field.getMaxLength() ?? null) : null,
       section: entry.section, effectiveLabel: entry.label,
       bindingLabel: entry.bindingLabel ?? entry.label,
+      // The words the FORM prints beside this control, transcribed from the
+      // pinned binary's own page text. Recorded separately from the authored
+      // label because the two are different claims: the label is what this
+      // build calls the field, the caption is what the filer reads on paper.
+      printedCaption: entry.printedCaption ?? null,
+      printedCaptionBasis: entry.printedCaption
+        ? (entry.printedCaptionBasis ?? "transcribed from the printed page text of the pinned MC 227b binary")
+        : null,
       policy: entry.policy, fact: entry.fact ?? null,
+      composedFrom: entry.factIds ?? null,
+      composedMaxFontSize: entry.maxFontSize ?? null,
+      composedHow: entry.how ?? null,
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
       // The scrambled extraction at this widget's own coordinate, kept as
       // evidence of WHY the printed-caption check is unavailable on this form.
@@ -437,7 +489,14 @@ async function renderDocument(source, census, fixtureName) {
   const facts = FIXTURES[fixtureName];
   const writable = census.rows.filter((r) => r.policy === "write");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
-  const writableNames = new Set(writable.map((r) => r.name));
+  /* A composed box is a write, so it may not be handed to the finalizer as
+   * unwritable-by-role: that gate is not overridable, and naming the field in
+   * both places would refuse the box while the map claimed it was filled. */
+  const composed = census.rows.filter((r) => r.policy === "compose");
+  const composedFieldValues = Object.fromEntries(composed.map((r) => [
+    r.name, { factIds: r.composedFrom, maxFontSize: r.composedMaxFontSize ?? undefined }
+  ]));
+  const writableNames = new Set([...writable, ...composed].map((r) => r.name));
   const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
 
   const { bytes, report } = await finalizeOfficialForm({
@@ -452,7 +511,7 @@ async function renderDocument(source, census, fixtureName) {
       widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })),
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
-    facts, explicitMappings, unwritableFields,
+    facts, explicitMappings, unwritableFields, composedFieldValues,
     /*
      * MEASURE EVERY WIDGET, NOT JUST THE FIRST ONE.
      *
@@ -522,12 +581,40 @@ const FIT_TOLERANCE_PT = 0.01;
  * the box. Helvetica is measured with the same standard font the finalizer
  * embeds, so this is the width that will be drawn rather than an estimate.
  */
+/*
+ * A PDF string drawn in a standard font is WinAnsi, not Latin-1.
+ *
+ * The two agree everywhere except 0x80-0x9F, and that block is where the
+ * typographic punctuation lives. It matters here for the first time: the
+ * boundary participant's surname carries U+2019, which the finalizer encodes as
+ * 0x92, and reading the appearance back as Latin-1 yields U+0092 -- a control
+ * character that is not the apostrophe on the page, cannot be measured (pdf-lib
+ * throws "WinAnsi cannot encode"), and would not match the held fact if it
+ * could. The block is translated back so the read-back is the text the page
+ * actually draws.
+ */
+const WIN_ANSI_HIGH = {
+  0x80: "\u20AC", 0x82: "\u201A", 0x83: "\u0192", 0x84: "\u201E", 0x85: "\u2026",
+  0x86: "\u2020", 0x87: "\u2021", 0x88: "\u02C6", 0x89: "\u2030", 0x8A: "\u0160",
+  0x8B: "\u2039", 0x8C: "\u0152", 0x8E: "\u017D", 0x91: "\u2018", 0x92: "\u2019",
+  0x93: "\u201C", 0x94: "\u201D", 0x95: "\u2022", 0x96: "\u2013", 0x97: "\u2014",
+  0x98: "\u02DC", 0x99: "\u2122", 0x9A: "\u0161", 0x9B: "\u203A", 0x9C: "\u0153",
+  0x9E: "\u017E", 0x9F: "\u0178"
+};
+const fromWinAnsi = (text) => String(text ?? "")
+  .replace(/[\u0080-\u009F]/g, (c) => WIN_ANSI_HIGH[c.charCodeAt(0)] ?? c);
+
 async function appearanceGeometry(artifactBytes) {
   const inflate = (buf) => { try { return zlib.inflateSync(buf); } catch { return buf; } };
   const doc = await PDFDocument.load(artifactBytes, { ignoreEncryption: true, updateMetadata: false });
   const helvetica = await (await PDFDocument.create()).embedFont(StandardFonts.Helvetica);
   const ctx = doc.context;
   const rows = new Map();
+  const decode = (token) => {
+    if (token.startsWith("(")) return fromWinAnsi(token.slice(1, -1));
+    const digits = token.slice(1, -1).replace(/\s+/g, "");
+    return digits.length % 2 === 0 ? fromWinAnsi(Buffer.from(digits, "hex").toString("latin1")) : "";
+  };
   doc.getPages().forEach((page, index) => {
     const resources = page.node.get(PDFName.of("Resources"));
     const xObjects = resources && ctx.lookup(resources).get(PDFName.of("XObject"));
@@ -538,10 +625,23 @@ async function appearanceGeometry(artifactBytes) {
       const stream = inflate(Buffer.from(obj.contents)).toString("latin1");
       let text = "";
       for (const token of stream.match(/\((?:[^()\\]|\\.)*\)|<[0-9A-Fa-f\s]{2,}>/g) ?? []) {
-        if (token.startsWith("(")) { text += token.slice(1, -1); continue; }
-        const digits = token.slice(1, -1).replace(/\s+/g, "");
-        if (digits.length % 2 === 0) text += Buffer.from(digits, "hex").toString("latin1");
+        text += decode(token);
       }
+      /*
+       * ONE APPEARANCE, SEVERAL LINES.
+       *
+       * A multiline appearance emits its own `Tm` before each line's `Tj`, and
+       * measuring the concatenation of all of them against one box is a
+       * measurement of a string that is never drawn: the composed contact block
+       * is four lines of about 200pt each, and read as one run it is 800pt wide
+       * in a 249pt box. Every run is therefore captured with the origin it is
+       * actually drawn at, and the box is measured against the WIDEST of them.
+       * A single-line appearance has exactly one run and measures identically to
+       * the way this function measured before.
+       */
+      const runs = [...stream.matchAll(
+        /([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+Tm\s*\n?\s*(\((?:[^()\\]|\\.)*\)|<[0-9A-Fa-f\s]*>)\s*Tj/g
+      )].map((m) => ({ x: Number(m[5]), y: Number(m[6]), text: decode(m[7]) }));
       const boxRef = obj.dict.get(PDFName.of("BBox"));
       const box = boxRef ? ctx.lookup(boxRef).asArray().map((n) => n.asNumber()) : null;
       const tf = stream.match(/\/(\S+)\s+([\d.]+)\s+Tf/);
@@ -549,24 +649,73 @@ async function appearanceGeometry(artifactBytes) {
       // The clip actually in force is the LAST path closed by `W n`. The first
       // is the widget border, which is drawn and then discarded.
       const clips = [...stream.matchAll(/((?:-?[\d.]+\s+-?[\d.]+\s+(?:m|l)\s+)+)h\s*\n?W\s*\n?n/g)];
-      const clipMaxX = clips.length
-        ? Math.max(...[...clips[clips.length - 1][1].matchAll(/(-?[\d.]+)\s+(-?[\d.]+)\s+(?:m|l)/g)]
-          .map((point) => Number(point[1])))
-        : null;
+      const clipPoints = clips.length
+        ? [...clips[clips.length - 1][1].matchAll(/(-?[\d.]+)\s+(-?[\d.]+)\s+(?:m|l)/g)]
+          .map((point) => ({ x: Number(point[1]), y: Number(point[2]) }))
+        : [];
+      const clipMaxX = clipPoints.length ? Math.max(...clipPoints.map((c) => c.x)) : null;
+      const clipMinY = clipPoints.length ? Math.min(...clipPoints.map((c) => c.y)) : null;
+      const clipMaxY = clipPoints.length ? Math.max(...clipPoints.map((c) => c.y)) : null;
       const drawnText = text.trim();
       const fontSizePt = tf ? Number(tf[2]) : null;
       const textOriginXPt = tm ? Number(tm[5]) : 0;
       const limitX = clipMaxX ?? (box ? box[2] : null);
+      const availableWidthPt = limitX == null ? null : Number((limitX - textOriginXPt).toFixed(3));
+      const drawnLines = runs.map((run) => ({
+        text: run.text,
+        originXPt: run.x,
+        baselineYPt: run.y,
+        widthPt: fontSizePt ? Number(helvetica.widthOfTextAtSize(run.text, fontSizePt).toFixed(3)) : null,
+        availableWidthPt: limitX == null ? null : Number((limitX - run.x).toFixed(3)),
+        // Helvetica's own ascender and descender, so the ink a line actually
+        // occupies is compared with the clip the viewer obeys rather than with
+        // the baseline alone.
+        inkTopPt: fontSizePt ? Number((run.y + fontSizePt * 0.718).toFixed(3)) : null,
+        inkBottomPt: fontSizePt ? Number((run.y - fontSizePt * 0.207).toFixed(3)) : null
+      }));
+      const widestLinePt = drawnLines.length
+        ? Math.max(...drawnLines.map((l) => l.widthPt ?? 0))
+        : (fontSizePt && drawnText ? Number(helvetica.widthOfTextAtSize(drawnText, fontSizePt).toFixed(3)) : null);
       const key = name.asString().replace(/^\//, "");
       rows.set(`${index + 1} ${key}`, {
         page: index + 1, appearance: key, drawnText,
         bboxWidthPt: box ? Number((box[2] - box[0]).toFixed(3)) : null,
         clipMaxXPt: clipMaxX == null ? null : Number(clipMaxX.toFixed(3)),
-        textOriginXPt, fontSizePt,
-        availableWidthPt: limitX == null ? null : Number((limitX - textOriginXPt).toFixed(3)),
-        drawnWidthPt: fontSizePt && drawnText
-          ? Number(helvetica.widthOfTextAtSize(drawnText, fontSizePt).toFixed(3))
-          : null
+        clipMinYPt: clipMinY == null ? null : Number(clipMinY.toFixed(3)),
+        clipMaxYPt: clipMaxY == null ? null : Number(clipMaxY.toFixed(3)),
+        bboxMinYPt: box ? Number(box[1].toFixed(3)) : null,
+        bboxMaxYPt: box ? Number(box[3].toFixed(3)) : null,
+        textOriginXPt, fontSizePt, availableWidthPt,
+        // Null on a blank box, exactly as before: a widget with no ink has no
+        // drawn width, and a zero would read as a measured one.
+        drawnWidthPt: drawnText ? widestLinePt : null,
+        drawnLines,
+        // The narrowest margin any one line leaves.
+        tightestLineMarginPt: drawnLines.length && availableWidthPt != null
+          ? Number(Math.min(...drawnLines.map((l) => (l.availableWidthPt ?? 0) - (l.widthPt ?? 0))).toFixed(3))
+          : null,
+        /*
+         * VERTICAL EXTENT, MEASURED TWICE, GATED ONCE.
+         *
+         * `linesOutsideTheBox` is the gate: a line whose ink leaves the widget's
+         * own /BBox is drawing on whatever the form printed next to the box, and
+         * on a multiline block that is a real risk, because each further line is
+         * laid out lower than the last.
+         *
+         * `linesBelowTheAppearanceClip` is recorded and NOT gated, because the
+         * figure it uses is the FONT's descender box rather than the glyphs
+         * actually drawn, and gating on it fails four writes that are correct on
+         * paper: `Wayne` in the county box measures 1.66pt below its clip floor
+         * on that arithmetic and renders its `y` tail complete at 600 dpi, which
+         * is also what the independent read of this family found. A measurement
+         * that condemns a correct page is not a gate; it is recorded here so the
+         * reviewer can see the margin rather than be told a number that is not
+         * the glyph.
+         */
+        linesOutsideTheBox: !box ? [] : drawnLines.filter((l) =>
+          l.inkBottomPt != null && (l.inkBottomPt < box[1] - 0.01 || l.inkTopPt > box[3] + 0.01)),
+        linesBelowTheAppearanceClip: clipMinY == null ? [] : drawnLines.filter((l) =>
+          l.inkBottomPt != null && l.inkBottomPt < clipMinY - 0.01)
       });
     }
   });
@@ -591,7 +740,7 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
       const text = drawn.map((d) => d.text).filter(Boolean);
       const ink = text.join("").trim();
-      if (written.has(r.name) && r.policy === "write") {
+      if (written.has(r.name) && (r.policy === "write" || r.policy === "compose")) {
         glyphs += ink.length;
         /*
          * Every appearance drawn at this widget is measured against the box it
@@ -601,12 +750,38 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
         const boxes = drawn
           .map((d) => geometry.get(`${d.page} ${d.appearance}`))
           .filter((g) => g && g.drawnWidthPt != null && g.availableWidthPt != null);
-        const overflowing = boxes.filter((g) => g.drawnWidthPt > g.availableWidthPt + FIT_TOLERANCE_PT);
+        const overflowing = boxes.filter((g) => (g.drawnLines ?? []).some((l) =>
+          l.widthPt != null && l.availableWidthPt != null && l.widthPt > l.availableWidthPt + FIT_TOLERANCE_PT));
+        const outsideVertically = boxes.flatMap((g) => (g.linesOutsideTheBox ?? [])
+          .map((l) => ({ appearance: g.appearance, page: g.page, ...l,
+            boxMinYPt: g.bboxMinYPt, boxMaxYPt: g.bboxMaxYPt })));
+        /*
+         * A COMPOSED BOX IS PROVED FACT BY FACT.
+         *
+         * `matchesExpected` compares one string with one fact and there is no
+         * one fact here. The proof that matters is that each fact the caption
+         * names is legible in the box, so each held value is looked for in the
+         * ink the page actually carries. Line breaks carry no character, so the
+         * appearance is read as its runs joined with nothing and the wrapped
+         * line's own trailing space restores the word boundary; whitespace is
+         * then collapsed on both sides before the comparison.
+         */
+        const collapse = (x) => fromWinAnsi(x).replace(/\s+/g, " ").trim();
+        const composedFacts = (r.composedFrom ?? []).map((factId) => {
+          const held = String(FIXTURES[fixtureName][factId] ?? "");
+          return { factId, expected: held, presentOnThePage: collapse(ink).includes(collapse(held)) && held !== "" };
+        });
         const row = {
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
+          printedCaption: r.printedCaption ?? null,
           drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
-          matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim(),
+          ...(r.policy === "compose"
+            ? { composedFrom: r.composedFrom, composedFacts, composedMaxFontSize: r.composedMaxFontSize }
+            : {}),
+          matchesExpected: r.policy === "compose"
+            ? composedFacts.length > 0 && composedFacts.every((f) => f.presentOnThePage)
+            : ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim(),
           // The geometry the finished page draws with, read back from its own
           // appearance streams rather than from anything this build reported.
           appearanceBoxes: boxes.map((g) => ({
@@ -614,21 +789,46 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
             bboxWidthPt: g.bboxWidthPt, clipMaxXPt: g.clipMaxXPt,
             textOriginXPt: g.textOriginXPt, fontSizePt: g.fontSizePt,
             availableWidthPt: g.availableWidthPt, drawnWidthPt: g.drawnWidthPt,
+            clipMinYPt: g.clipMinYPt, clipMaxYPt: g.clipMaxYPt,
+            bboxMinYPt: g.bboxMinYPt, bboxMaxYPt: g.bboxMaxYPt,
+            lineInkExtentsPt: (g.drawnLines ?? []).map((l) => ({ topPt: l.inkTopPt, bottomPt: l.inkBottomPt })),
+            linesBelowTheAppearanceClip: (g.linesBelowTheAppearanceClip ?? []).length,
+            lines: (g.drawnLines ?? []).length,
+            tightestLineMarginPt: g.tightestLineMarginPt,
             marginPt: Number((g.availableWidthPt - g.drawnWidthPt).toFixed(3)),
-            fits: g.drawnWidthPt <= g.availableWidthPt + FIT_TOLERANCE_PT
+            fits: (g.drawnLines ?? []).every((l) =>
+              l.widthPt == null || l.availableWidthPt == null || l.widthPt <= l.availableWidthPt + FIT_TOLERANCE_PT)
+              && (g.linesOutsideTheBox ?? []).length === 0
           })),
-          fitsBox: boxes.length > 0 && overflowing.length === 0,
+          fitsBox: boxes.length > 0 && overflowing.length === 0 && outsideVertically.length === 0,
           fitMeasured: boxes.length > 0
         };
         actualWrites.push(row);
+        for (const line of outsideVertically) {
+          clippedOrOverlapping.push({
+            field: r.key, factId: r.fact ?? null, appearance: line.appearance, page: line.page,
+            drawnText: [line.text], fontSizePt: null,
+            why: "a written line's ink leaves the widget box its appearance stream draws inside, vertically",
+            baselineYPt: line.baselineYPt, inkTopPt: line.inkTopPt, inkBottomPt: line.inkBottomPt,
+            boxMinYPt: line.boxMinYPt, boxMaxYPt: line.boxMaxYPt,
+            availableWidthPt: null, drawnWidthPt: null, overflowPt: null
+          });
+        }
         for (const g of overflowing) {
+          const worst = (g.drawnLines ?? [])
+            .filter((l) => l.widthPt != null && l.availableWidthPt != null
+              && l.widthPt > l.availableWidthPt + FIT_TOLERANCE_PT)
+            .sort((a, b) => (b.widthPt - b.availableWidthPt) - (a.widthPt - a.availableWidthPt))[0];
           clippedOrOverlapping.push({
             field: r.key, factId: r.fact, appearance: g.appearance, page: g.page,
-            drawnText: g.drawnText, fontSizePt: g.fontSizePt,
+            drawnText: worst ? [worst.text] : g.drawnText, fontSizePt: g.fontSizePt,
             bboxWidthPt: g.bboxWidthPt, clipMaxXPt: g.clipMaxXPt,
-            textOriginXPt: g.textOriginXPt,
-            availableWidthPt: g.availableWidthPt, drawnWidthPt: g.drawnWidthPt,
-            overflowPt: Number((g.drawnWidthPt - g.availableWidthPt).toFixed(3))
+            textOriginXPt: worst ? worst.originXPt : g.textOriginXPt,
+            availableWidthPt: worst ? worst.availableWidthPt : g.availableWidthPt,
+            drawnWidthPt: worst ? worst.widthPt : g.drawnWidthPt,
+            overflowPt: worst
+              ? Number((worst.widthPt - worst.availableWidthPt).toFixed(3))
+              : Number((g.drawnWidthPt - g.availableWidthPt).toFixed(3))
           });
         }
         continue;
@@ -655,7 +855,17 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
    */
   assert.equal(clippedOrOverlapping.length, 0,
     `${source.formNumber}/${fixtureName}: ${clippedOrOverlapping.length} written value(s) do not fit the box they are drawn in: `
-    + clippedOrOverlapping.map((c) => `${c.field}@p${c.page} needs ${c.drawnWidthPt}pt at ${c.fontSizePt}pt in ${c.availableWidthPt}pt (over by ${c.overflowPt}pt)`).join("; "));
+    + clippedOrOverlapping.map((c) => c.overflowPt == null
+      ? `${c.field}@p${c.page} draws ink from ${c.inkBottomPt} to ${c.inkTopPt} outside the box ${c.boxMinYPt}..${c.boxMaxYPt}`
+      : `${c.field}@p${c.page} needs ${c.drawnWidthPt}pt at ${c.fontSizePt}pt in ${c.availableWidthPt}pt (over by ${c.overflowPt}pt)`).join("; "));
+  /* Every fact a composed box claims must be legible in that box. A block that
+   * draws two of the three facts its caption names is the partial answer this
+   * repair replaced, arriving through the renderer instead of the field map. */
+  const composedShort = actualWrites.filter((w) => w.composedFacts && !w.matchesExpected);
+  assert.equal(composedShort.length, 0,
+    `${source.formNumber}/${fixtureName}: a composed box does not carry every fact it names: `
+    + composedShort.map((w) => `${w.field} missing `
+      + w.composedFacts.filter((f) => !f.presentOnThePage).map((f) => f.factId).join(", ")).join("; "));
   return { actualWrites, refusedFieldsWithInk, documentAuthoredAppearances, clippedOrOverlapping,
     glyphs, appearances: widgets.length };
 }
@@ -673,13 +883,34 @@ function mapFor(source, census, report) {
       fieldName: `${source.formNumber}/${r.key}`.replace(/\[\d+\]/g, ""),
       acroFieldName: r.name,
       page: r.page, rect: r.rect, rectBasis: r.rectBasis,
-      printedLabel: r.effectiveLabel, printedLine: r.effectiveLabel,
+      printedLabel: r.effectiveLabel, printedLine: r.printedCaption ?? r.effectiveLabel,
+      printedCaption: r.printedCaption, printedCaptionBasis: r.printedCaptionBasis,
       sectionHeading: r.section, regionHeading: r.effectiveLabel,
       effectiveLabel: r.effectiveLabel,
       captionBasis: "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
       printedTextAtCoordinate: r.printedTextAtCoordinate,
       document: source.formNumber
     };
+
+    if (r.policy === "compose") {
+      if (writtenNames.has(r.name)) {
+        const drawn = (report.composedWrites ?? []).find((c) => c.field === r.name) ?? null;
+        canonicalWrites.push({
+          ...base, factId: null, kind: r.type, composed: true, composedFrom: r.composedFrom,
+          composedMaxFontSize: r.composedMaxFontSize, composedHow: r.composedHow,
+          fontSizeDrawn: drawn?.fontSize ?? null, linesDrawn: drawn?.lines ?? null,
+          why: `the printed caption asks for ${r.composedFrom.length} facts in one box and the platform holds all `
+            + `${r.composedFrom.length}; they are written ${r.composedHow}`
+        });
+      } else {
+        canonicalRefusals.push({
+          ...base, reason: "the finalizer refused this composed write; the packet does not claim a value it did not draw",
+          category: null, completenessClass: null, class: null,
+          requiredBeforeFiling: false, why: "reported rather than claimed, so the defect is visible to the audit"
+        });
+      }
+      continue;
+    }
 
     if (r.policy === "write") {
       if (writtenNames.has(r.name)) canonicalWrites.push({ ...base, factId: r.fact, kind: r.type });
@@ -693,13 +924,40 @@ function mapFor(source, census, report) {
       continue;
     }
 
+    /*
+     * EVERY BOX ON THE FORM, WITH ITS PRINTED CAPTION AND ITS DISPOSITION.
+     *
+     * These fourteen rows carried a disposition of "explicit_refusal" -- a word
+     * outside the closed vocabulary -- an authored label rather than the words
+     * printed beside the box, and, for the five that are not the participant's
+     * to mark, no line in the participant inventory at all. So a filer reading
+     * this packet could not find out from it which boxes a filed MC 227b must
+     * have considered. Each row now states the caption the filer reads on
+     * paper, a disposition from the closed vocabulary, and what the filer does
+     * about it.
+     *
+     * None of them is route-determined and none is written. Whether the State
+     * of Michigan or a named city prosecuted is a fact about the participant's
+     * own case rather than a property of the trafficking-victim route; items 3,
+     * 4 and 5 are the applicant's own sworn statements; and the notary and
+     * proof-of-service boxes are not the platform's to mark before the acts
+     * they certify have happened.
+     */
     if (r.isSelectionControl) {
       const cls = r.policy === "protect" ? r.refusalClass : r.policy === "attorney" ? null : PARTICIPANT_ELECTION;
+      const disposition = r.policy === "protect" ? "PROTECTED_FIELD" : "PARTICIPANT_ELECTION_GENUINE";
       selectionControls.push({
         ...base, selectionId: base.field, kind: "selection_control", type: r.type,
-        widgets: r.widgets, disposition: "explicit_refusal",
+        widgets: r.widgets,
+        disposition, completenessDisposition: disposition,
+        markedByThisBuild: false,
+        whoMarksIt: r.policy === "protect"
+          ? "nobody, until the act it certifies has happened; then the person the form names"
+          : "the participant, before filing",
+        instruction: r.why,
         reason: r.why, category: cls, completenessClass: cls, class: cls,
-        requiredBeforeFiling: false, routeDetermined: false
+        requiredBeforeFiling: false, routeDetermined: false,
+        routeDeterminedBasis: "the route settles no election on this form; see routeSelectionNote"
       });
       continue;
     }
@@ -752,7 +1010,7 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
   const row = (r, selection = false) => ({
     id: r.field, name: r.fieldName ?? r.field, label: r.effectiveLabel ?? "", reason: r.reason ?? "",
     refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
-    factId: r.factId ?? null, isSelectionControl: selection,
+    factId: r.factId ?? null, composedFrom: r.composedFrom ?? null, isSelectionControl: selection,
     declared: {
       disposition: r.completenessDisposition ?? null,
       ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
@@ -767,7 +1025,10 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
     ...m.selectionControls.map((c) => row(c, true))
   ]);
 
-  const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean));
+  /* A fact a composed box draws is a fact the platform holds, so it counts as
+   * available exactly as a single-fact write does; otherwise a blank elsewhere
+   * could still be excused on a fact this packet writes. */
+  const availableFacts = new Set(writes.flatMap((w) => [w.factId, ...(w.composedFrom ?? [])]).filter(Boolean));
   for (const p of writeProofs) {
     for (const w of p.actualWrites) if (w.factId && String(w.drawnText.join("")).trim()) availableFacts.add(String(w.factId));
   }
@@ -878,9 +1139,12 @@ function requiredBeforeFilingItems(maps) {
 function participantInstructions(maps, rbf) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
-  const elections = maps.flatMap((m) => m.selectionControls
-    .filter((c) => c.category === PARTICIPANT_ELECTION)
-    .map((c) => ({ document: m.formNumber, ...c })));
+  const allBoxes = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
+  const elections = allBoxes.filter((c) => c.category === PARTICIPANT_ELECTION);
+  const boxesNotYoursToMark = allBoxes.filter((c) => c.category !== PARTICIPANT_ELECTION);
+  const composedBoxes = maps.flatMap((m) => m.canonicalWrites
+    .filter((w) => w.composed === true)
+    .map((w) => ({ document: m.formNumber, ...w })));
 
   const out = [];
   out.push(`# Filing instructions \u2014 ${ROUTE.publicLabel}`, "");
@@ -889,9 +1153,12 @@ function participantInstructions(maps, rbf) {
     + `under ${ROUTE.authority}.`, ""
   );
   out.push(
-    "The platform filled in what it holds about your case: the county and the case number. Everything else is yours, "
-    + "and every remaining participant blank is listed below by the part of the form it is in. Pages 1 through 3 are "
-    + "the application, notice, and proof of service; the last page is the court's own instruction sheet.", ""
+    "The platform filled in what it holds about you and your case: the county, the case number, and the party box "
+    + "captioned \"Defendant's name, address, and telephone no.\", which carries your name, your address and your "
+    + "telephone number on three lines. **Read that box and correct it if anything in it is out of date** \u2014 it is "
+    + "the address the court and the prosecuting official will write to. Everything else is yours, and every remaining "
+    + "participant blank is listed below by the part of the form it is in. Pages 1 through 3 are the application, "
+    + "notice, and proof of service; the last page is the court's own instruction sheet.", ""
   );
 
   out.push("## Check you are on the right form", "");
@@ -937,10 +1204,34 @@ function participantInstructions(maps, rbf) {
     out.push("");
   }
 
-  out.push("## The choices that are yours", "");
-  out.push("| Section | The choice | Why it is yours |", "| --- | --- | --- |");
-  for (const c of elections) out.push(`| ${c.sectionHeading} | ${c.effectiveLabel} | ${c.reason} |`);
+  out.push("## Every box on this form, and what to do about it", "");
+  out.push(
+    `MC 227b carries ${allBoxes.length} boxes. None of them is ticked in this packet, and none is a choice the route `
+    + "makes for you. They are all listed here \u2014 the ones you tick before filing, and the ones nobody may tick "
+    + "until the thing they certify has actually happened \u2014 so that no box on a filed application goes "
+    + "unconsidered.", ""
+  );
+  out.push(`### The ${elections.length} boxes you tick before you file`, "");
+  out.push("| Section | What the form prints beside the box | What to do |", "| --- | --- | --- |");
+  for (const c of elections) {
+    out.push(`| ${c.sectionHeading} | ${c.printedCaption ?? c.effectiveLabel} | ${c.instruction ?? c.reason} |`);
+  }
   out.push("");
+  out.push(`### The ${boxesNotYoursToMark.length} boxes that are not yours to tick now`, "");
+  out.push("| Section | What the form prints beside the box | Who marks it, and when |", "| --- | --- | --- |");
+  for (const c of boxesNotYoursToMark) {
+    out.push(`| ${c.sectionHeading} | ${c.printedCaption ?? c.effectiveLabel} | ${c.instruction ?? c.reason} |`);
+  }
+  out.push("");
+
+  if (composedBoxes.length > 0) {
+    out.push("## What the platform filled in for you", "");
+    out.push("| Section | The box on the form | What the platform wrote there |", "| --- | --- | --- |");
+    for (const w of composedBoxes) {
+      out.push(`| ${w.sectionHeading} | ${w.printedCaption ?? w.effectiveLabel} | ${w.composedHow} |`);
+    }
+    out.push("");
+  }
 
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Your signature and its date.**");
@@ -992,10 +1283,28 @@ function selfTest() {
   const spec = FORM_FIELDS[SOURCE_PIN.formNumber];
   assert.equal(Object.keys(spec).length, SOURCE_PIN.acroFieldCount,
     "the MC-227B field dictionary must cover every indexed AcroForm field");
-  const allowedPolicies = new Set(["write", "supply", "election", "protect", "attorney"]);
+  const allowedPolicies = new Set(["write", "supply", "election", "protect", "attorney", "compose"]);
   assert.ok(Object.values(spec).every((row) => allowedPolicies.has(row.policy)));
   assert.ok(Object.values(spec).filter((row) => row.policy === "write")
     .every((row) => Object.values(FIXTURES).every((fixture) => String(fixture[row.fact] ?? "").length > 0)));
+  /* A composed box may only name facts BOTH fixtures hold: the channel refuses
+   * a partial block, so a fact one fixture lacks is a box that ships blank in
+   * that fixture while the map says it is written. */
+  assert.ok(Object.values(spec).filter((row) => row.policy === "compose")
+    .every((row) => row.factIds.length >= 2
+      && Object.values(FIXTURES).every((fixture) => row.factIds.every((f) => String(fixture[f] ?? "").trim().length > 0))));
+  assert.deepEqual(spec.dinfo.factIds,
+    ["participant.full_legal_name", "participant.street_address", "participant.phone"],
+    "the Parties box carries the three facts its printed caption names, in the order it names them");
+  /* Every checkbox on the form carries the words printed beside it. The five
+   * that could not be transcribed as printed words would have to be identified
+   * by position, and exactly one is: `peoplecheck` carries none. */
+  const selections = Object.entries(spec).filter(([, row]) => row.selection === true);
+  assert.equal(selections.length, 14, "MC 227b carries fourteen checkboxes and every one must be declared");
+  for (const [name, row] of selections) {
+    assert.ok(typeof row.printedCaption === "string" && row.printedCaption.trim().length > 0,
+      `selection control ${name} carries no printed caption`);
+  }
   assert.equal(CONVICTION_ROWS.flatMap((n) => CONVICTION_COLUMNS.map(([prefix]) => `${prefix}${n}`))
     .filter((name) => spec[name]?.policy === "supply").length, 16,
   "all sixteen conviction-table cells must stay participant-supplied");
@@ -1024,11 +1333,28 @@ function selfTest() {
   const fieldMap = readJson(`${OUT}/production-field-map.json`);
   assert.deepEqual(fieldMap.routeKeys, [ROUTE.routeKey]);
   assert.equal(fieldMap.requiredBeforeFiling.length, fieldMap.requiredBeforeFilingCount);
+  const map0 = fieldMap.maps[0];
+  assert.equal(map0.selectionControls.length, 14);
+  assert.equal(map0.canonicalWrites.length + map0.canonicalRefusals.length + map0.selectionControls.length,
+    SOURCE_PIN.acroFieldCount, "every AcroForm field of MC 227b must carry a row in the field map");
+  for (const c of map0.selectionControls) {
+    assert.ok(["PROTECTED_FIELD", "PARTICIPANT_ELECTION_GENUINE"].includes(c.completenessDisposition),
+      `${c.field} carries a disposition outside the closed vocabulary`);
+    assert.ok(typeof c.printedCaption === "string" && c.printedCaption.trim().length > 0);
+    assert.equal(c.markedByThisBuild, false);
+  }
+  const dinfo = map0.canonicalWrites.find((w) => w.acroFieldName === "dinfo");
+  assert.ok(dinfo && dinfo.composed === true, "the Parties box must be a composed write, not a refusal");
+  assert.equal(map0.canonicalRefusals.some((r) => r.acroFieldName === "dinfo"), false);
   assert.equal(fieldMap.generationAllowed, false);
   assert.equal(fieldMap.runtimeSelectable, false);
   assert.equal(fieldMap.commercialRoutesOpened, 0);
 
   const instructionsText = fs.readFileSync(path.join(ROOT, OUT, "participant-instructions.md"), "utf8");
+  for (const c of readJson(`${OUT}/production-field-map.json`).maps[0].selectionControls) {
+    assert.ok(instructionsText.includes(c.printedCaption),
+      `participant-instructions.md names no box for ${c.field}`);
+  }
   for (const phrase of [
     "File in the district or circuit court where the conviction happened",
     "$50 payment to the State of Michigan",
@@ -1108,6 +1434,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
       documents: censuses.map(({ source, census }) => ({
         formNumber: source.formNumber, sha256: source.sha256, fields: census.rows.length,
         writes: census.rows.filter((r) => r.policy === "write").length,
+        composed: census.rows.filter((r) => r.policy === "compose").length,
         supply: census.rows.filter((r) => r.policy === "supply").length,
         elections: census.rows.filter((r) => r.policy === "election").length,
         protected: census.rows.filter((r) => r.policy === "protect").length,
@@ -1223,7 +1550,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
       fields: census.rows.map((r) => ({
         field: r.key, page: r.page, rect: r.rect, rectBasis: r.rectBasis, pdfType: r.type,
         isSelectionControl: r.isSelectionControl, multiline: r.multiline, maxLength: r.maxLength,
-        section: r.section, effectiveLabel: r.effectiveLabel, policy: r.policy, factId: r.fact,
+        section: r.section, effectiveLabel: r.effectiveLabel,
+        printedCaption: r.printedCaption, printedCaptionBasis: r.printedCaptionBasis,
+        policy: r.policy, factId: r.fact, composedFrom: r.composedFrom,
         printedTextAtCoordinate: r.printedTextAtCoordinate
       }))
     }))
@@ -1254,6 +1583,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeKeys: [ROUTE.routeKey], routeSelectionId: ROUTE.routeSelectionId, renderStrategy: "acroform_fill",
     captionBasis: "authored AcroForm field names plus printed section headings; see reports/caption-evidence.json",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
+    completenessDispositionsUsed: ["REQUIRED_BEFORE_FILING", "PROTECTED_FIELD", "PARTICIPANT_ELECTION_GENUINE"],
     routeDeterminedSelections: [],
     routeSelectionNote:
       "MCL 780.621(3) and MCL 780.621d is one section and MC 227b is its form. Nothing on it is a route election: the two People-of boxes "
@@ -1265,6 +1595,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
       + "form's instruction 4 says the exact date and charge come from the court and that a certified copy of each "
       + "conviction must be attached; the platform holds neither.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
+    /* Stated so the count can be checked against the binary rather than
+     * inferred from the arrays: every AcroForm field of MC 227b carries exactly
+     * one row here, and the fourteen checkboxes are rows like any other. */
+    terminalFieldCoverage: {
+      acroFormFieldsInTheBoundBinary: SOURCE_PIN.acroFieldCount,
+      rowsInThisMap: maps.reduce((n, m) =>
+        n + m.canonicalWrites.length + m.canonicalRefusals.length + m.selectionControls.length, 0),
+      writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
+      composedWrites: maps.reduce((n, m) => n + m.canonicalWrites.filter((w) => w.composed === true).length, 0),
+      refusals: maps.reduce((n, m) => n + m.canonicalRefusals.length, 0),
+      selectionControls: maps.reduce((n, m) => n + m.selectionControls.length, 0),
+      selectionControlsByDisposition: maps.flatMap((m) => m.selectionControls).reduce((acc, c) => {
+        acc[c.completenessDisposition] = (acc[c.completenessDisposition] ?? 0) + 1; return acc;
+      }, {}),
+      selectionControlsMarkedByThisBuild: 0
+    },
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });
 
@@ -1297,9 +1643,22 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
     schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling: rbf,
-    participantElections: maps.flatMap((m) => m.selectionControls.map((c) => ({
-      document: m.formNumber, field: c.field, page: c.page, section: c.sectionHeading, label: c.effectiveLabel, why: c.reason
+    /* Every checkbox on the form, with the words printed beside it, the
+     * disposition it carries and who marks it. Split so a filer can see at a
+     * glance which boxes are theirs. */
+    selectionControlsOnTheForm: maps.flatMap((m) => m.selectionControls.map((c) => ({
+      document: m.formNumber, field: c.field, page: c.page, rect: c.rect, section: c.sectionHeading,
+      printedCaption: c.printedCaption, printedCaptionBasis: c.printedCaptionBasis,
+      label: c.effectiveLabel, disposition: c.completenessDisposition,
+      markedByThisBuild: c.markedByThisBuild, whoMarksIt: c.whoMarksIt, instruction: c.instruction,
+      routeDetermined: c.routeDetermined, why: c.reason
     }))),
+    participantElections: maps.flatMap((m) => m.selectionControls
+      .filter((c) => c.completenessDisposition === "PARTICIPANT_ELECTION_GENUINE")
+      .map((c) => ({
+        document: m.formNumber, field: c.field, page: c.page, section: c.sectionHeading,
+        printedCaption: c.printedCaption, label: c.effectiveLabel, why: c.reason
+      }))),
     protectedBlanks: maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling !== true).map((r) => ({
       document: m.formNumber, field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why
     }))),
@@ -1317,8 +1676,11 @@ export async function runFamily(argv = process.argv.slice(2)) {
     whatToLookAt: [
       "Page 1, the caption block: the county and the case number written, each under the heading it belongs to, and the "
         + "judicial district, circuit, ORI, court address, court telephone and police report number blank.",
-      "Page 1, the parties block: neither People-of box ticked, and the defendant's name-address-telephone box blank. "
-        + "Confirm the empty contact box reads as a blank the applicant fills, not as a form that lost a value.",
+      "Page 1, the parties block: neither People-of box ticked, and the box captioned \"Defendant's name, address, and "
+        + "telephone no.\" carrying the applicant's name, street address and telephone on three lines (four in the "
+        + "boundary fixture, where the address wraps). This is the placement to look hardest at on page 1: the printed "
+        + "caption is drawn inside the top of that widget and the CTN/TCN rule closes it at the foot, so confirm the "
+        + "first line clears the caption and the last line clears the rule.",
       "Page 1, the conviction table: all four lines blank, all four columns.",
       "Page 2, the applicant oath and notarization: participant signature and all notary-owned fields blank.",
       "Page 3, the notice of hearing: court-owned hearing date, location, and judge blank.",
@@ -1380,14 +1742,27 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding:
-          "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" \u2014 three facts in one free-text box. "
-          + "The platform holds all three separately and the shared semantic registry has no composed fact for a "
-          + "name-address-telephone block, so a field, which takes one fact, can bind at most one of them.",
+          "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" \u2014 three facts in one free-text box, "
+          + "and the platform holds all three. This family shipped it blank on the reason that the build \"has no way to "
+          + "compose them into a single block for this form\".",
         consequence:
-          "The box is left to the participant and the reason is stated in the disclosure rather than implied. Writing "
-          + "only the name would put a third of an answer in the box the court reads for the applicant's contact "
-          + "details. The gap is a shared-registry one: a composed participant contact fact would let this box be "
-          + "filled, and that list is outside this family's owned paths."
+          "Repaired. That reason described the build rather than the filing, which is what the completeness contract "
+          + "classes as policy-shaped, and it left a sworn application naming the applicant nowhere. The box is now "
+          + "composed from participant.full_legal_name, participant.street_address and participant.phone through the "
+          + "finalizer's opt-in composedFieldValues channel, which takes fact ids rather than text and refuses the whole "
+          + "box if any named fact is not held, so a partial contact block cannot be drawn."
+      },
+      {
+        finding:
+          "All fourteen checkboxes on MC 227b carried a disposition of \"explicit_refusal\" \u2014 a word outside the "
+          + "closed vocabulary \u2014 an authored label rather than the words printed beside the box, and, for the five "
+          + "that are not the participant's to mark, no line in the participant inventory.",
+        consequence:
+          "Repaired. Each of the fourteen now carries its printed caption, a disposition from the closed vocabulary "
+          + "(nine PARTICIPANT_ELECTION_GENUINE, five PROTECTED_FIELD), who marks it and when, and a line in "
+          + "participant-instructions.md, so no box on a filed application goes unconsidered. They were not, as an "
+          + "independent read recorded, absent from the field map: they sit in maps[].selectionControls, which the "
+          + "completeness verifier does read \u2014 what was missing was the caption, the vocabulary and the disclosure."
       },
       {
         finding:
@@ -1400,11 +1775,15 @@ export async function runFamily(argv = process.argv.slice(2)) {
       {
         severity: "advisory",
         finding:
-          "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the "
-          + "name without it.",
+          "The boundary participant's name carries a typographic apostrophe (U+2019). This family previously recorded "
+          + "that the finalized bytes carry the name WITHOUT it. That was a reading error rather than a defect: the "
+          + "finalizer encodes it as WinAnsi 0x92 and the read-back decoded the appearance as Latin-1, which turns 0x92 "
+          + "into an invisible control character.",
         consequence:
-          "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in "
-          + "vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+          "The apostrophe is on the page, and it now reaches the page for the first time, in the composed Parties box "
+          + "of the boundary fixture. The read-back translates the WinAnsi 0x80-0x9F block before comparing, and the "
+          + "byte proof requires each of the three held facts to be present in the ink, so a character the encoding "
+          + "really did drop would fail the build rather than ship."
       }
     ]
   });

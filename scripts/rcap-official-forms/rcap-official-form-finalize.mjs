@@ -8,7 +8,7 @@
 // one, because an intermediate is not what gets filed.
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
-import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt } from "./rcap-field-semantics.mjs";
+import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt, protectCategoryOf } from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
 import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
@@ -709,7 +709,42 @@ export async function finalizeOfficialForm({
    * CAPTAIN DECISION: this is the fifth flag with that paragraph. The corpus
    * needs one rebuild-everything moment, after which these defaults flip.
    */
-  printedDateOrderByField = {}
+  printedDateOrderByField = {},
+  /*
+   * TEXT fields whose printed caption asks for SEVERAL held facts in ONE box.
+   *
+   * `decideBinding` binds one descriptor to one field, which is right for a box
+   * captioned "Telephone no." and wrong for a box captioned "Defendant's name,
+   * address, and telephone no." -- a single free-text block the court reads as
+   * the party's contact details. The registry has no descriptor for a composed
+   * block, so on such a box the only reachable outcomes were to write a third
+   * of the answer or to write nothing, and Michigan MC 227b took the second:
+   * its `dinfo` box shipped blank on the reason that the platform "holds all
+   * three but has no way to compose them into a single block for this form".
+   * That sentence is about the build, and the completeness contract classes a
+   * blank excused that way as a missing known fact rather than an unavailable
+   * one. This is the channel that removes the excuse.
+   *
+   *   composedFieldValues: { dinfo: { factIds: [...], maxFontSize: 9 } }
+   *
+   * NO CALLER TEXT REACHES THE PAGE. The caller names FACT IDS and their order;
+   * this module resolves each one against the same `facts` set every other
+   * write is resolved from and joins them with newlines, one fact per line. A
+   * fact that is absent, empty or not a string refuses the whole field rather
+   * than composing a partial block, because a third of a contact block in the
+   * box a court reads for contact details is the same defect arriving from the
+   * other side. There is no way to pass a sentence, a caption or an invented
+   * value through this channel: the value is a function of held facts alone.
+   *
+   * A composed field is otherwise an ordinary write. It passes the same role
+   * and protect gates, it is refused if the field was already written or is not
+   * a text field, and it is fitted by the same fitter against the same widget
+   * geometry, so an unfittable block is refused rather than clipped.
+   *
+   * Opt-in, on the same reasoning as the five flags above. Every caller that
+   * does not pass this map is byte-unaffected.
+   */
+  composedFieldValues = {}
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -751,8 +786,22 @@ export async function finalizeOfficialForm({
   // carries the value.
   const unwritableByRole = new Set((unwritableFields ?? []).map((f) => String(f?.field ?? f?.name ?? f)));
 
+  const composedFields = new Set(Object.keys(composedFieldValues ?? {}));
+
   const allowed = [];
   for (const field of census) {
+    /*
+     * A composed box is decided by the composed pass and by nothing else.
+     *
+     * Without this the single-fact channel reaches it first and wins: MC 227b's
+     * `dinfo` is captioned "Defendant's name, address, and telephone no.", the
+     * address descriptor matches that caption, and the box was filled with the
+     * street address alone -- a third of the answer, which is exactly the
+     * outcome the composed channel exists to prevent. The composed pass then
+     * found the field already written and refused, so the map claimed three
+     * facts and the page carried one.
+     */
+    if (composedFields.has(field.name)) continue;
     // Role first, and it is not overridable. The name channel can only ever
     // widen what binds; a class the classifier declined to call participant is
     // the caller's finding about the whole field, and no pattern match on its
@@ -918,6 +967,101 @@ export async function finalizeOfficialForm({
       ...(widgetsAligned.length ? { widgetFontSizeAligned: widgetsAligned.length } : {})
     });
     report.expectedValues.push(text);
+  }
+
+  /*
+   * The composed pass. See `composedFieldValues` above for why it exists.
+   *
+   * It runs after every ordinary write, so "already written" is knowable, and
+   * it refuses rather than throws on everything a caller can get wrong -- with
+   * one exception. A caller that names a fact this packet does not hold has
+   * asked for a block it cannot honestly compose, and the refusal is recorded
+   * with the fact that was missing so the family's own report says which one.
+   */
+  report.composedWrites = [];
+  const alreadyWritten = new Set(report.written.map((w) => w.field));
+  for (const [fieldName, spec] of Object.entries(composedFieldValues ?? {})) {
+    const composedFrom = Array.isArray(spec?.factIds) ? spec.factIds.map(String) : [];
+    const refuse = (reason, extra = {}) => {
+      report.refused.push({ field: fieldName, reason, category: "composed", composedFrom, ...extra });
+    };
+    if (composedFrom.length < 2) { refuse("composed_field_needs_at_least_two_facts"); continue; }
+    if (alreadyWritten.has(fieldName)) { refuse("composed_field_already_written"); continue; }
+    if (unwritableByRole.has(fieldName)) {
+      refuse("classified_unwritable_by_role");
+      report.protectedFields.push({ field: fieldName, category: "role" });
+      continue;
+    }
+    const entry = census.find((f) => f.name === fieldName);
+    if (!entry) { refuse("composed_field_absent_from_census"); continue; }
+    const protectedCategory = protectCategoryOf(entry.effectiveLabel ?? fieldName) ?? protectCategoryOf(fieldName);
+    if (protectedCategory) {
+      refuse("protected_category", { category: protectedCategory });
+      report.protectedFields.push({ field: fieldName, category: protectedCategory });
+      continue;
+    }
+    const values = composedFrom.map((factId) => resolveFact(facts, factId));
+    const missing = composedFrom.filter((factId, i) => typeof values[i] !== "string" || values[i].trim() === "");
+    if (missing.length > 0) { refuse("composed_fact_not_held", { missingFactIds: missing }); continue; }
+    const composedText = values.map((v) => String(v).trim()).join("\n");
+
+    let handle;
+    try { handle = form.getField(fieldName); } catch {
+      refuse("field_not_present_in_form"); continue;
+    }
+    if (!(handle instanceof PDFTextField)) { refuse("non_text_field_type", { category: "type_guard" }); continue; }
+    const declaredMax = entry.maxLength ?? null;
+    if (declaredMax && composedText.length > declaredMax) {
+      refuse("value_exceeds_form_max_length", { maxLength: declaredMax, valueLength: composedText.length });
+      continue;
+    }
+
+    const ceiling = Number.isFinite(spec?.maxFontSize) ? spec.maxFontSize : maxFontSize;
+    const composedRects = fitTextPerWidget
+      ? (entry.widgets ?? []).map((w) => w?.rect).filter((r) => r)
+      : [];
+    const composedFits = composedRects.map((widgetRect) => fitTextToWidget({
+      font: helvetica, text: composedText, rect: widgetRect, multiline: entry.multiline === true,
+      maxFontSize: ceiling, minFontSize, evaluateDeclaredMinimumSize
+    }));
+    const fit = composedFits.length > 0
+      ? (composedFits.find((f) => f.outcome === "refused")
+        ?? composedFits.reduce((tightest, candidate) => (candidate.fontSize < tightest.fontSize ? candidate : tightest)))
+      : fitTextToWidget({
+        font: helvetica, text: composedText, rect: entry.widgets?.[0]?.rect ?? null,
+        multiline: entry.multiline === true, maxFontSize: ceiling, minFontSize, evaluateDeclaredMinimumSize
+      });
+    if (fit.outcome === "refused") {
+      report.unfittable.push({ field: fieldName, composedFrom, ...fit });
+      refuse(fit.reason, { category: "unfittable" });
+      continue;
+    }
+
+    applyFitToTextField(handle, fit);
+    const composedSizes = composedFits.map((f) => f.fontSize);
+    const composedIndividually = composedFits.length > 1
+      ? applyPerWidgetDefaultAppearanceSizes(handle, composedSizes,
+        (() => { try { return handle.acroField.getDefaultAppearance(); } catch { return null; } })())
+      : [];
+    const composedAligned = (alignWidgetFontSizeToFit && composedIndividually.length === 0)
+      ? alignWidgetDefaultAppearanceSizes(handle, fit.fontSize)
+      : [];
+    alreadyWritten.add(fieldName);
+    const record = {
+      field: fieldName, kind: "text_composed", factId: null, composedFrom,
+      composedValues: values.map((v) => String(v).trim()),
+      fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length,
+      maxFontSizeCeiling: ceiling
+    };
+    report.written.push(record);
+    report.composedWrites.push({ ...record, drawnLines: fit.lines.map((l) => l.trimEnd()) });
+    report.expectedValues.push(composedText);
+    if (composedIndividually.length) {
+      report.widgetFittedIndividually.push({ field: fieldName, fontSizes: composedSizes, widgets: composedIndividually });
+    }
+    if (composedAligned.length) {
+      report.widgetFontSizeAligned.push({ field: fieldName, fontSize: fit.fontSize, widgets: composedAligned });
+    }
   }
 
   // A choice field nobody selected still carries the source document's own
