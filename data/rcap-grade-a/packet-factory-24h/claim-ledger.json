@@ -5516,8 +5516,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:03:09.028Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5637,10 +5637,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T17:50:10.874Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5728,10 +5728,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T17:50:11.042Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5982,10 +5982,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T17:50:11.197Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13592,7 +13592,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c5b7ba32114e615359c7e667ef5c7195ba96831a7a261ee1bea88d83a267d977",
+  "claimsDigest": "1bd234b2913efbbd3eb24200a10fed9c5b47082d78e25b2077a304a8fad8af28",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37186,6 +37186,16 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T21:35:37Z",
       "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-05T21:03:09.028Z",
+      "reissuedAt": "2026-09-05T21:47:00.011Z",
+      "reason": "Independent read owed after FIX66 (the applicant's street address now written on AOC-CV-226) and the central raster receipt from run 33993431924 on a8f99a33a; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
     }
   ],
   "transfers": [
@@ -43139,6 +43149,39 @@
       "previouslyReleasedAt": "2026-09-05T21:36:33.862Z",
       "transferredAt": "2026-09-05T21:36:33.979Z",
       "reason": "VF05 FAIL KNOWN_PREFILLS at d3312169e: MC 227b dinfo (defendant name, address, telephone) left empty while the builder holds all three facts and the trafficking family composes them into the same caption; compose dinfo the way the trafficking builder does, rebuild, confirm the write, raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-05T17:50:10.874Z",
+      "transferredAt": "2026-09-05T21:47:00.121Z",
+      "reason": "Independent read owed after FIX65 (suppressSynthesizedAppearances opt-in at the builder's finalizeOfficialForm call) and the central raster receipt from run 33993241558 on 0d4d1d5a1; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nd-nonconviction-close-petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-05T17:50:11.042Z",
+      "transferredAt": "2026-09-05T21:47:00.235Z",
+      "reason": "Independent read owed after FIX65 (suppressSynthesizedAppearances opt-in at the builder's finalizeOfficialForm call) and the central raster receipt from run 33993241558 on 0d4d1d5a1; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF01",
+      "previouslyReleasedAt": "2026-09-05T17:50:11.197Z",
+      "transferredAt": "2026-09-05T21:47:00.343Z",
+      "reason": "Independent read owed after FIX65 (suppressSynthesizedAppearances opt-in at the builder's finalizeOfficialForm call) and the central raster receipt from run 33993241558 on 0d4d1d5a1; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
     }
   ],
   "grants": [
