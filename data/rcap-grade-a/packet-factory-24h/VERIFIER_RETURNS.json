@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 874,
+    "rows": 877,
     "independentVerdicts": 240,
     "failRepairRequired": 62,
     "passIndependent": 160
@@ -79,9 +79,9 @@
     "nm_conviction-set",
     "nm_identity_theft-set",
     "nm_release_without_conviction-set",
-    "nv_seal_probation_family-set",
     "oh_marijuana_expungement-set",
     "pa_490_nonconviction-set",
+    "pa_790_nonconviction-set",
     "pa_pardon_expungement-set",
     "rcap-nv-custom-pleading",
     "rcap-wi-custom-pleading",
@@ -9567,7 +9567,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ma-bmc-multi-set",
@@ -9582,6 +9582,47 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
       "superseded": true
+    },
+    {
+      "familyId": "ma-bmc-multi-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3a2f1cf3d",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "No source binds by exact SHA-256. The defect is independent of the legal block and does not clear when the block clears; a repair lane can fix it now.",
+          "evidence": "THE TWO RECORDS THIS BUILD IS GROUNDED ON CARRY NO DIGEST AT ALL. source-receipt.json codifiedGrounds holds exactly two entries and each has only 'record' and 'what' -- no sha256, no byteLength, no exactObject, nothing to recompute against. The receipt's own bindingMethod says so rather than claiming otherwise: 'grounded on two committed records, verified present and un-drifted before anything is composed'. The builder confirms it: scripts/build-census-v1-ma-bmc-multi-set.mjs computes sha256 only over its own output packet bytes and over its raster PNGs, and never over MA.memo.json or legal-design-packet-set-manifests.json; the only record digest it prints anywhere is TC0057's, in prose. So nothing in this family binds its authority by exact SHA-256, and a reader cannot tell which bytes of either record the packet was composed from. For the record, the current digests are MA.memo.json c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a (105439) and legal-design-packet-set-manifests.json 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec (3683419), recomputed here -- but recomputing a digest the receipt does not carry proves nothing about the build. This is the same defect this lane raised on Nevada and that the FIX08 cluster commit repaired there by adding sha256 and byteLength to both codified-ground records; the identical repair is available here and is not a legal question."
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "COMPONENT_SET",
+        "ROUTE_IDENTITY"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": "The governing registry still refuses to identify the custom pleading as the controlling single petition, and the sentence that refuses it names that pleading expressly. This obligation cannot be ruled on the bytes; it waits on the issuing court.",
+          "evidence": "The route key itself agrees everywhere and occurs exactly once in the census: obligation:track-only:MA:ma-bmc-multi, in source-receipt.json, production-field-map.json, the MASTER_QUEUE row and route-obligation-candidate.json, and printed at the foot of both delivered components. What is blocked is the identity of the controlling petition, and the governing registry still refuses it in terms. data/record-clearing/legal-design-track-registry.json, track ma-bmc-multi, carries formIdentityInvestigation with status STOPPED_AMBIGUOUS, reviewedOn 2026-09-04, and this hardStop, quoted exactly: 'Do not assign TC0057, TC0059, or the existing custom pleading as the controlling single petition until the issuing court identifies the petition form referenced by the current Standing Order or confirms that no dedicated form is published.' That sentence names the existing custom pleading -- the very component this packet renders as primary_filing -- and forbids assigning it as the controlling single petition. The record reviewed both official candidates and rejected each: TC0057 as NOT_ESTABLISHED_AS_CONSOLIDATED_BMC_PETITION because 'The form expressly directs the filer to use a separate form for each case and carries one docket-number caption', and TC0059 as NOT_IDENTIFIED_BY_ISSUER_AS_BMC_MULTI_RECORD_PETITION. WHAT THE QUEUE SETTLED IS A DIFFERENT QUESTION. The MASTER_QUEUE row's legalInputStatus is SETTLED and its executionReclassification's nextExecutableAction reads 'Use the existing codified-text custom-pleading treatment and proceed through current raster and independent-verification gates', but the ownerDecision beside it is 'CUSTOM_PLEADING_FROM_CODIFIED_TEXT is not external source-acquisition work. Do not research or reacquire this family.' That settles the SOURCE-ACQUISITION question, and the same row still carries the laneReturnLegalHold from VF05 naming ROUTE_IDENTITY and COMPONENT_SET. The packet-set manifest names primary_filing with officialFormId null, which is consistent with the pleading being rendered but says nothing about it being controlling; the registry entry that does speak to that is the hard stop above, and it is the later record (reviewedOn 2026-09-04)."
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Every component the record names is rendered and present, and whether that set is the controlling one cannot be decided until the one form-identity question is answered.",
+          "evidence": "Physically the set is whole and I checked it on the bytes: the packet-set manifest names two components, primary_filing (order 1) and instructions (order 2), both required and both outputStrategy custom_pleading; both reach a page in both fixtures; the page manifest maps pages 1-2 to primary_filing and 3-4 to instructions; and the first printed line of each page confirms it (CONSOLIDATED PETITION TO SEAL MULTIPLE CRIMINAL RECORDS ... / the petition's paragraph-3 continuation / THRESHOLD, VENUE AND WHAT FOLLOWS FILING / WHEN TO STOP AND GET HELP INSTEAD OF FILING). What cannot be ruled is whether that is the CORRECT controlling set, and for the same reason as ROUTE_IDENTITY: the registry's hard stop forbids assigning the existing custom pleading as the controlling single petition, and it also leaves open whether TC0057 belongs in the file alongside it. The packet is candid about exactly this: its own receipt says 'that TC0057 is or is not additionally required in the file alongside this consolidated petition' is something the receipt does not establish, and step 7 of participant-instructions.md tells the participant 'Ask before you file; do not assume this petition alone is the whole filing.' A packet that has to tell the participant it may not be the whole filing is a packet whose component set the record has not closed."
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "COMPONENT_SET",
+        "ROUTE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set",
+      "superseded": false
     },
     {
       "familyId": "ma-expunge-mj-set",
@@ -13572,6 +13613,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nv_seal_probation_family-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3a2f1cf3d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nv_seal_probation_family-set",
       "superseded": false
     },
     {
@@ -14853,6 +14908,76 @@
     },
     {
       "familyId": "pa_790_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "3a2f1cf3d",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "A required component the route names is neither rendered nor declared as not generated. requiredComponentsMissing reads 0 because the counter measures the components the family declares, not the components the manifest names.",
+          "evidence": "The record names FOUR components and the packet delivers TWO, and the missing one is required rather than conditional. data/record-clearing/legal-design-packet-set-manifests.json packetSetId pa_790_nonconviction-set and the identical packetSet in the track registry both list: primary-filing-1 (required, PA-RCRIM-P-790-PETITION), proposed-order-2 (required, PA-RCRIM-P-790-ORDER), CERTIFICATE-OF-SERVICE-3 (requirement 'required', conditionDescription null, outputStrategy custom_pleading, officialFormId null, order 3), and fee-waiver-4 (conditional, PA-IFP-CCP, 'Applies only where the participant seeks to proceed in forma pauperis'). reports/rendered-artifacts.json renders the first two, and its componentsNotGenerated block declares exactly one absence -- PA-IFP-CCP, with a stated reason. The certificate of service reaches no page, appears in no fixture, and is named NOWHERE in reports/rendered-artifacts.json, in componentsNotGenerated, or in production-field-map.json's documents. It is not refused; it is simply missing. The MASTER_QUEUE row's packetComponents field carries the same gap, listing three of the four and omitting the certificate of service. This matters on this route rather than being bookkeeping: the record's serve_party action is 'Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790' and the petition's own printed page says 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth' -- so the component the packet omits is the one that evidences the service the rule requires."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Eight known required facts are not written and not visible on the pages they belong to, in the boundary fixtures of both documents. Every one of the 32 writes that IS made lands correctly, which is recorded under CLIPPING_AND_OVERLAP; the failure is the writes that were owed and refused.",
+          "evidence": "THE BOUNDARY FIXTURES SILENTLY DROP EIGHT PLATFORM-HELD FACTS, INCLUDING THE PETITIONER'S OWN NAME. reports/actual-writes.json records 13 writes on the petition canonical and 7 on the petition boundary; 7 on the order canonical and 5 on the order boundary. The eight that vanish are all in finalizerRefused with one reason, 'value_exceeds_widget_width_at_minimum_font': on the petition boundary, Full Name, Defendant, CountyOf, Addr1, AddrCity and AddrZip; on the order boundary, County and Defendant. Confirmed on the bytes rather than from the report -- pdftotext -layout of rule-790-petition-boundary.pdf prints 'Full Name:' with nothing after it, 'Address:' with nothing after it, an empty county line and an empty caption where the canonical fixture prints 'Jordan Avery Reyes', 'Dauphin County' and '118 Maple Street'; and the boundary Defendant widget's flattened appearance stream is '/Tx BMC EMC' with no text operator at all, adding zero dark pixels. The boundary persona is not exotic: participant.full_legal_name 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III' and matter.county 'Saint Bartholomew and the Northern Reaches Dauphin County' are the shared east-family boundary values, and the same host builds NJ, NY and RI from them. THIS IS AN ALREADY-ADJUDICATED DEFECT CLASS, NOT A JUDGEMENT CALL. data/rcap-grade-a/packet-factory-24h/blitz03-boundary-long-values/rows.json records exactly this shape as the red evidence for a KNOWN_PREFILLS repair on ca-851-91-set -- 'absent from finalizerWritten and present in finalizerRefused with reason value_exceeds_widget_width_at_minimum_font' -- and repaired it with a measured horizontal-scale floor rather than accepting the drop; that lane also states in terms that 'the focused completeness reader reports all nine counters at zero' and 'those counters do not detect either assigned boundary-length defect'. A Rule 790 petition delivered with no petitioner name in the caption and no name in the PETITIONER INFORMATION block identifies nobody."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Two declared required-before-filing items, both of them attachments Rule 790 turns on, are not named in participant-instructions.md.",
+          "evidence": "The record declares ten required-before-filing items for this packet set and two of them -- both of them documents the participant cannot file without -- are named nowhere in participant-instructions.md. The manifest's requiredBeforeFiling list opens with 'Obtain Pennsylvania State Police criminal history report obtained within 60 days before filing ... Rule 790 requires a current copy obtained within 60 days before filing to be attached, unless the attorney for the Commonwealth agrees to waive it' and includes 'Obtain Complete docket sheet for the case ... showing every charge, the OTN, and the disposition of each count.' Checked against the file rather than against a count: a case-insensitive search of the 107-line participant-instructions.md returns 0 occurrences of 'State Police', 0 of 'docket sheet' and 0 of '60 days'. The guide's only list is a table of form-field blanks. The petition's own printed page carries the checkbox 'I have attached a copy of my Pennsylvania State Police Criminal History which I have obtained within 60 days before filing this petition', so the form asks for the attachment and the packet's instructions never tell the participant to get it."
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "Three court-only controls carry packet-added stroke ink, 177 dark pixels per order fixture. The ink is a box outline rather than a selection mark, which is recorded here so the repair lane can weigh it; the same defect is scored decisively under CLIPPING_AND_OVERLAP.",
+          "evidence": "No signature, signature date or verification block carries ink -- I checked that first and it holds: the petition's 'Signature of Petitioner' and 'Date' lines, the order's 'AND NOW, this ____ day of ____________, 20___', its 'BY THE COURT: ______' block and its Disposition blank all carry zero added dark pixels in every fixture, and both documents carry 0 annotations and 0 AcroForm fields so nothing is hidden in a widget. THE FAILURE IS ELSEWHERE AND IT IS INK THE PACKET ADDED AT COURT-ONLY CONTROLS. Order page 1 carries the court's three alternative relief paragraphs, each preceded by a printed box; the widgets over them are Checkbox1 /Rect [66.5,511.5,9.2,7.9], Checkbox2 [66.1,450.2,9.2,8.2] and Checkbox3 [66.6,388.9,9.1,8.1], each with /AS /Off and an /AP /N dictionary whose only state is /On -- so a conforming viewer draws nothing for them. pdf-lib's updateFieldAppearances synthesized an appearance for the missing /Off state and flatten stamped it, and at 300 dpi the delivered order adds 68, 39 and 70 dark pixels at those three rects, 177 per fixture, in BOTH order fixtures. Attributed rather than assumed: the pinned order was also rendered with its /Annots and /AcroForm removed, and none of those 177 pixels is in the form's own page content -- they are the packet's. The synthesized square is drawn to the widget /Rect at x[66.48,75.60] while the form's own printed box occupies x[66.72,75.36], so what a filer sees is the court's box thickened by about a quarter of a point on its outer edge. It answers no election and marks no box, and I say so plainly; it is still ink the packet put on a control that belongs to the judge, on a document the packet's own instructions tell the participant to 'submit blank'."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Five synthesized squares, 286 packet-added dark pixels per fixture pair, all of it outside every declared write box, on two documents including three of the judge's own election boxes. The writes themselves are clean; the flatten step is not.",
+          "evidence": "ALL SIX PAGES OF ALL FOUR FIXTURES RENDERED AT 300 DPI AND DIFFERENCED TWICE: once against the pinned form as published, and once against the pinned form with its /Annots and /AcroForm stripped, so that every added pixel could be attributed to the packet or to the form's own page content instead of guessed at. THE FAILURE: THE PACKET DRAWS FIVE SQUARES THE OFFICIAL FORMS DO NOT DRAW. The builder does not pass suppressSynthesizedAppearances, so pdf-lib regenerates an appearance for every check-box widget whose current /AS has no entry in /AP /N and its default provider paints a stroked square the size of the widget rectangle, which flatten stamps onto the page. Five such widgets are rendered by this family: on the petition, Checkbox2 in its two states (the criminal-history attachment pair, /Rect 8.8 x 8.1 and 8.8 x 9.1 at x 47.5), adding 31 and 78 dark pixels; on the order, Checkbox1, Checkbox2 and Checkbox3 (the court's relief paragraphs), adding 68, 39 and 70. Every one of those 109 + 177 = 286 pixels per fixture pair is proved to be the PACKET'S OWN: none of them appears in the pinned form rendered with its annotations removed. They are the only added ink anywhere outside a declared write box, and they are outside every declared write box, because none of those five widgets is a declared write. The family is in the FIX50 cohort for exactly this, at data/rcap-grade-a/packet-factory-24h/fix50/SYNTHESIZED_OFF_APPEARANCE_COHORT.json: pa_790_nonconviction-set, optsIn false, 'does not pass suppressSynthesizedAppearances', widgetsWithNoAppearanceForCurrentState 6 across its three documents -- 2 on the petition, 3 on the order and 1 on the un-rendered IFP -- which is the count this raster reproduces exactly. WHAT IS SOUND, MEASURED AND NOT SCORED AGAINST THE PACKET. Zero source pixels are missing on any page of any fixture, so nothing is overpainted. Every one of the 32 write placements across the four fixtures was isolated (its own added ink, with every other declared rect masked out) and measured against its own /Rect: 30 have positive margins on all four sides and the two apparent negatives are the order's DocketNumber at -0.11pt left and -0.06pt top, which is under half a pixel at 300 dpi and is the antialiased edge of the glyph stroke rather than an overflow. The four 'shrunk' boundary writes remain legible at 8.203, 10, 7 and 7.5 points. And the two 'Check Box1' widgets on the petition (the fee-paid Yes/No pair) show a doubled box adding 298 and 384 pixels -- but 100 per cent of that ink is the FORM'S OWN printed box, revealed because those widgets ship an /Off appearance that opens with an opaque white fill and the shared background neutralization strips it. That is the same doubling VF02 disclosed and did not score on Vermont's 600-00228, and it is not scored here either; it is recorded so the owner who takes it sees that this read reproduces it exactly."
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The instructions do not name the court the route names; they tell the participant to work the filing destination out themselves, and the one court they do name is specified differently from the record's.",
+          "evidence": "The record states the destination and the packet does not. The track registry's rules.filing and the manifest's file action both read: 'File the verified Rule 790 petition, the blank expungement order and the attached Pennsylvania State Police criminal history report with the clerk of the courts of the judicial district in which the charges were disposed.' participant-instructions.md has no 'where you file' section at all. Its only sentence about the destination defers it -- 'Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing' -- and the only court it names, twice, is named as the body that answers questions rather than as the place to file: 'Ask the clerk of the court where the charges were filed' and 'The clerk of the court where the charges were filed answers procedural questions'. Those are also not the same court the record names: the record keys the destination to the judicial district in which the charges were DISPOSED, the packet to the court where they were FILED. And the record's filing sentence names three things to file together, of which the packet mentions only two -- the criminal history attachment is absent from the guide entirely, which is the same gap REQUIRED_BEFORE_FILING records."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The record settles the fee and waiver treatment and the packet contradicts it. This is a packet defect a repair lane can fix, not an open legal input -- which is the answer this read was sent to get, and it resolves the wave-2 block in the direction of repair rather than of approval.",
+          "evidence": "THE RECORD SETTLES THIS AND THE PACKET DENIES IT. THE RECORD SENTENCES, from the track registry rules and the packet-set manifest's participantActionRequired, identical in both: pay_fee -- 'County filing fees vary and are not established by statute. The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.' apply_fee_waiver -- 'In forma pauperis relief is available; the Court of Common Pleas Motion to Proceed In Forma Pauperis is published statewide', with conditionDescription 'Applies only when the participant cannot pay the filing fee.' THE DELIVERED SENTENCE, participant-instructions.md line 89, quoted whole: 'The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.' And line 105: 'The fee-waiver motion (PA-IFP-CCP) is held as exact source evidence only. It is not generated into your packet and nothing on it is a blank on this filing. If you need a fee waiver, ask the clerk for the current form.' SIDE BY SIDE: the record says in forma pauperis relief IS available and the statewide motion IS published; the packet says whether the fee can be waived is 'not established in this repository' and sends the participant to the clerk for 'the current form' -- while this repository holds that exact statewide form, bound by exact SHA-256 in this family's own source-receipt.json at b1255ef0...(760989 bytes) and resolved by content hash in this container. The record's caution about the AMOUNT ('no confirmed statewide schedule exists', 'roughly $132 to $215') is a reason to name no figure, which the packet's last sentence defends well; it is not a reason to tell a participant that the availability of a waiver is unknown when the controlling record says it is available. WHETHER THE RECORD IS OPEN: it is not. The wave-2 return at 677700997 blocked this obligation as MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT on the finding 'County filing fees vary, no confirmed statewide schedule exists, and conditional use of the IFP motion requires participant/local confirmation. The exact fee/waiver branch cannot be resolved from the controlling record.' On the record as it now stands that premise does not hold: the branch is resolved and its condition is the participant's own election, stated in the manifest as 'Applies only where the participant seeks to proceed in forma pauperis.' A branch conditioned on a participant's choice is a settled treatment, not an open legal question."
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Who must be served and how is stated by the record and by the form, and the packet's instructions deny that it is established. This is the second half of the same defective sentence.",
+          "evidence": "The same delivered sentence denies the same settled record. THE RECORD: rules.service 'Service on the attorney for the Commonwealth concurrently with filing, per Pa.R.Crim.P. 790'; serve_party the same words; rules.notice 'A copy of the petition is served on the attorney for the Commonwealth concurrently with filing. Within 60 days after service the attorney for the Commonwealth shall file a consent or objection to the petition or take no action.' THE PINNED FORM ITSELF prints, on the delivered petition page in every fixture: 'When this petition is filed with the Clerk of Courts, the petitioner shall serve a copy upon the attorney for the Commonwealth.' THE PACKET: participant-instructions.md line 89 says 'who must be served and by what method, and the addresses the petition is served on are not established in this repository'. A case-insensitive search of the whole guide returns 0 occurrences of 'Commonwealth'. The only service words in the file are two instructions not to fill service certificates until service has occurred. So the packet tells the participant that who must be served is unknown, on a page whose own printed text names the person to be served, and the record names the method (concurrently with filing) and the consequence (a 60-day consent-or-objection window) as well."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Four of the seven recorded self-help boundaries are stated nowhere in the packet, and one more is stated only in part.",
+          "evidence": "The registry records seven selfHelpBoundaries for track pa_790_nonconviction and the guide carries three. Carried: eligibility as a legal judgment the packet does not make (boundary 1's mixed-case case is not named, but eligibility is), any blank the participant cannot complete, and anything the attorney for the Commonwealth objects to plus any hearing the court schedules (boundaries 2 and 7). Not carried anywhere in participant-instructions.md, each checked case-insensitively against the file: boundary 3, unpaid fines, costs or restitution -- 0 occurrences of 'restitution'; boundary 4, limited access already attached and the choice between sealing and expungement -- 0 occurrences of 'limited access'; boundary 5, immigration exposure -- 0 occurrences of 'immigration'; boundary 6, federal, military, tribal or out-of-state records -- 0 occurrences of 'federal', 'tribal', 'military' or 'out-of-state'. Boundary 1's own terms, a conviction on any charge in the case making it a mixed case, are also absent: 'conviction' occurs once in the whole file and not in that sense. This is the same defect class this lane raised on Nevada, where one limb of one condition was dropped; here four whole conditions are, including immigration exposure, which is the condition the factory's other guides carry as a matter of course."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "pa_790_nonconviction-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf12",
       "isIndependentVerification": true,
@@ -14863,7 +14988,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "pa_9122_1_limited_access-set",
