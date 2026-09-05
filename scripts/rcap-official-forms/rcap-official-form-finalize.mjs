@@ -798,7 +798,39 @@ export async function finalizeOfficialForm({
    *
    * Opt-in; an empty map is byte-neutral.
    */
-  selectionsFromHeldFacts = {}
+  selectionsFromHeldFacts = {},
+  /*
+   * TABLE CELLS WHOSE HELD VALUE IS WRITTEN ON MORE THAN ONE LINE INSIDE THE
+   * ISSUER'S OWN BOX.
+   *
+   * The fitter refuses a value that cannot be shown at a readable size on one
+   * line, and that refusal is right for a ruled blank: a line is one line. It
+   * is not right for a TABLE CELL that is an open box several lines tall. MC
+   * 227b's conviction table gives each cell 21pt of height with no interior
+   * rule, and its case-number column is 96pt wide; a 28-character case number
+   * needs 97.7pt at the 6pt readable floor, so the cell refuses, the row is
+   * withheld whole under the caller's own row-atomicity rule, and a conviction
+   * the platform holds is absent from a table the court reads as complete.
+   *
+   *   wrapInCellFields: { cno1: { maxFontSize: 6 } }
+   *
+   * A named field is fitted as multiline against its own rectangle with the
+   * ceiling the caller gives, and -- because pdf-lib lays a value out on one
+   * line unless the FIELD says otherwise, so a wrapped fit applied to a
+   * single-line field would draw one overflowing line while the report called
+   * it wrapped -- the multiline flag is set on the working copy of that field
+   * before the value is applied. The issuer's bytes are never written; the
+   * artifact is flattened, so no form field of any kind survives into it.
+   *
+   * The caller decides which cells qualify and on what evidence, and it is the
+   * caller that must check the resulting line breaks: this module will break a
+   * token that cannot fit a line on its own, and an identifier broken mid-token
+   * is a legibility defect of its own. `report.wrappedInCell` carries each
+   * field's drawn lines and size back for exactly that check.
+   *
+   * Opt-in; an empty map is byte-neutral, and no other caller passes one.
+   */
+  wrapInCellFields = {}
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -840,6 +872,10 @@ export async function finalizeOfficialForm({
   // carries the value.
   const unwritableByRole = new Set((unwritableFields ?? []).map((f) => String(f?.field ?? f?.name ?? f)));
 
+  /* The key is added only when a caller actually asks for a wrap, so a report
+   * serialized whole by another family gains no field on account of this. */
+  const wrapInCell = wrapInCellFields ?? {};
+  if (Object.keys(wrapInCell).length > 0) report.wrappedInCell = [];
   const composedFields = new Set(Object.keys(composedFieldValues ?? {}));
   const narrativeFields = new Set((narrativeAcrossFields ?? []).flatMap((n) => n.fields ?? []));
   const selectionFields = new Set(Object.keys(selectionsFromHeldFacts ?? {}));
@@ -951,6 +987,12 @@ export async function finalizeOfficialForm({
       continue;
     }
 
+    /* See `wrapInCellFields`. A named cell is fitted as multiline whatever the
+     * issuer's flag says, under the ceiling the caller gives. */
+    const wrapSpec = Object.hasOwn(wrapInCell, field.name) ? (wrapInCell[field.name] ?? {}) : null;
+    const wrapMultiline = field.multiline === true || wrapSpec !== null;
+    const wrapCeiling = wrapSpec?.maxFontSize ?? maxFontSize;
+
     const rects = fitTextPerWidget
       ? (field.widgets ?? []).map((w) => w?.rect).filter((r) => r)
       : [];
@@ -958,8 +1000,8 @@ export async function finalizeOfficialForm({
       font: helvetica,
       text,
       rect: widgetRect,
-      multiline: field.multiline === true,
-      maxFontSize,
+      multiline: wrapMultiline,
+      maxFontSize: wrapCeiling,
       minFontSize,
       evaluateDeclaredMinimumSize
     }));
@@ -973,8 +1015,8 @@ export async function finalizeOfficialForm({
         font: helvetica,
         text,
         rect,
-        multiline: field.multiline === true,
-        maxFontSize,
+        multiline: wrapMultiline,
+        maxFontSize: wrapCeiling,
         minFontSize,
         evaluateDeclaredMinimumSize
       });
@@ -992,7 +1034,23 @@ export async function finalizeOfficialForm({
       continue;
     }
 
+    /* pdf-lib lays a value out on one line unless the FIELD is multiline, so a
+     * wrapped fit applied to a single-line field would draw one overflowing
+     * line while the report called it wrapped. The flag goes onto the working
+     * copy; the issuer's bytes are untouched and the artifact is flattened. */
+    const issuerFlaggedMultiline = typeof handle.isMultiline === "function" ? handle.isMultiline() === true : null;
+    if (wrapSpec !== null && issuerFlaggedMultiline === false) handle.enableMultiline();
     applyFitToTextField(handle, fit);
+    if (wrapSpec !== null) {
+      report.wrappedInCell.push({
+        field: field.name, factId: decision.factId, value: text,
+        fontSize: fit.fontSize, lines: fit.lines,
+        maxFontSize: wrapCeiling,
+        rect: fit.rect ?? rect,
+        issuerFlaggedMultiline,
+        multilineFlagSetByThisRun: issuerFlaggedMultiline === false
+      });
+    }
     const perWidgetSizes = perWidgetFits.map((f) => f.fontSize);
     const fittedIndividually = perWidgetFits.length > 1
       ? applyPerWidgetDefaultAppearanceSizes(handle, perWidgetSizes,
