@@ -14664,6 +14664,200 @@
     "notThisLanesToMake": true
    },
    "grantsNothing": "This row is a reading. A FAIL is a verdict and a repair assignment, never an edit. It promotes nothing, approves no output, sets no price and opens no commercial route, and the claim it was taken under is left held for Captain to release."
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+   "lane": "VF01",
+   "verifier": "VF01 independent-verification, Claude Opus 5 (this lane built and repaired nothing in this family)",
+   "verdict": "BLOCKED_LEGAL_INPUT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+   "verifiedAtBase": "628589374",
+   "claim": "CLAIM_OK VF01 composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief (independent-verification, grant set ae75400dc37ef564), exit 0, asserted before any family artifact was read. The grant is not released in this return and the claim ledger is not committed.",
+   "canonicalSha256": "096fd953c32443ccc03be6197b269724af835cde8fca9c651bc40da2abee4bb9",
+   "boundarySha256": "890349f6d33f0bf838c39a68307b8698664fefbd746c549e7fb59b625187cb6b",
+   "digestsRecomputedHere": "sha256sum over the two files on disk in this worktree returns exactly those two values, at 12334 and 12514 bytes, 4 pages each parsed with pdf-lib 1.17.1. That was confirmed before anything else was measured, and before the receipt below was read.",
+   "rasterState": "RASTER_PASS",
+   "rasterReceipt": {
+    "workflowRunId": "33963861144",
+    "jobId": 101300684033,
+    "renderedCommitSha": "6de99244d31f3549dcc127c7d7ad65e25641d4b6",
+    "jobConclusion": "success",
+    "boundToCanonicalSha256": "096fd953c32443ccc03be6197b269724af835cde8fca9c651bc40da2abee4bb9",
+    "boundToBoundarySha256": "890349f6d33f0bf838c39a68307b8698664fefbd746c549e7fb59b625187cb6b",
+    "boundToTheBytesOnDisk": true,
+    "documentsCovered": [
+     "canonical.pdf"
+    ],
+    "whatItDidNotRender": "boundary.pdf. The queue row's own coverage block says the gate renders the one assembled canonical document and that boundary.pdf is bound by hash but not rendered here, so a defect visible only in the boundary fixture is not something this RASTER_PASS excludes. I therefore read all four boundary pages myself as well as all four canonical pages.",
+    "supersededReceiptsCorrectlyMarked": "Two: run 33605354695 bound e9b1fc14/8b91a6ab and run 33923497915 bound bc36eb38/dea9f7fe. Neither digest is the digest of any file now on disk, and the queue marks both superseded. A third pair, afff7ed0/325d43e4, is the pre-repair pair VF02 measured; it is likewise not on disk.",
+    "receiptArtifactsNotReadHere": "This lane did not download the workflow artifact. The binding rests on the queue's pinned digest pair (equal to the bytes on disk), the recorded job conclusion, and the canary precondition job 101300353847 recorded in the same run."
+   },
+   "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief'",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "runOnce": true,
+    "theTwoFailures": [
+     "private_is_git_ignored: private/ is a symlink to the main clone's corpus and is NOT git-ignored in this repository. It was never staged and is not in this lane's commit. Pre-existing; FIX30 recorded the same at its own base.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry was identified here by reproducing the sampler against data/rcap-all50/local-source-corpus-index.json: 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', custody master_library. It is Alabama, it is not this family's source, and this family binds no corpus binary at all."
+    ],
+    "whatDidPass": "family_sources_bind (this family is a zero-source composition, CUSTOM_PLEADING_FROM_CODIFIED_TEXT, binding committed repository records by hash rather than document bytes); master_library_mounted and master_library_complete at 499 files / 329 PDFs / 51 jurisdictions; worktree_clean; repo_identity vf01-ok-trafficking-read at 62858937; clone_is_complete; node 22.22.2; pdf-lib 1.17.1; absent_is_not_empty; stale_artifact_block_consulted with 0 artifacts under this family held; master_library_not_at_operational_path.",
+    "environment": "git worktree at /home/user/vf01b-worktree on branch vf01-ok-trafficking-read cut from 628589374, core.sparseCheckout false and zero skip-worktree bits. private/ symlinked read-only from /home/user/legalease-partner-dashboard-clean/private, node_modules symlinked to the Captain install, MASTER_LIBRARY_SOURCE_DIR exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1."
+   },
+   "custodiesMountedHere": {
+    "mounted": [
+     "master_library (350 indexed binaries)",
+     "human_source_returns (1 indexed binary)"
+    ],
+    "notMounted": [
+     "d_source_packs (253 indexed)",
+     "nationwide_recovery_pool_2026_09_02 (380 indexed)"
+    ],
+    "howSourcesWereResolved": "By content hash, never by declared path. All 501 files under the two mounted custody roots were hashed and each of this family's declared digests searched for among them. None of the five (three committed records, two fixtures) resolves to a custody file, which is the correct answer for a zero-source composition and matches what source-receipt.json declares. Nothing was absent-by-hash that the family claims from a custody, so no obligation is NOT_MEASURABLE_HERE."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family '<id>', run read-only (no --write, no --mutations) in this worktree at this base: PASS_COMPLETE, 6/15 written, exit 0.",
+    "andAlsoMeasuredOnTheBytes": "visualDefects was re-measured on the delivered bytes rather than read from the script, because the script reads the field map and the byte proof of what the build WROTE and not the composed content stream for what the page SHOWS. That is how VF02's defect escaped it. Measured on the bytes here, visualDefects is 0: see CLIPPING_AND_OVERLAP.",
+    "whatTheNineDidNotSee": "The blocking finding in this row is not a counter and never could be. It is an open legal input recorded outside the family directory, in data/record-clearing/legal-design-intake/OK.memo.json."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "finding": "One route key, obligation:runtime-only:OK:human-trafficking-survivor-relief, and it is the same key in source-receipt.json, production-field-map.json routeKeys and routeSelectionsMade, reports/rendered-artifacts.json componentRoutes and the RASTER_QUEUE row that carries this family. The statute is 22 O.S. Sec. 19c in every one of them, and the legal-design intake memo names the same statute and the same legal name for the same matter (track ok-ls-1, 'Human-Trafficking Survivor Relief (22 O.S. Sec. 19c)'). The route is stated on the delivered pages three times: the petition title, the body line 'This petition is brought on the route the committed route contract records as \"Human-trafficking survivor relief\", under 22 O.S. Sec. 19c', and the footer of pages 2 and 4. The packet is built for the route the record names. Whether that route may be delivered as a packet at all is a different question and it is ruled on under FILING_DESTINATION, FEE_AND_WAIVER and SERVICE below.",
+     "evidence": "set comparison of routeKeys across source-receipt.json, production-field-map.json, rendered-artifacts.json and RASTER_QUEUE.json; OK.memo.json track ok-ls-1; pdftotext -layout and 150dpi rasters of all four delivered pages of both fixtures"
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "finding": "Three committed records are bound and all three rehash exactly from their repository bytes here: src/lib/legal-authority/routes/route-splits.json c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df at 127996 bytes, src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json 741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1 at 227605 bytes, and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json 4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f at 2625273 bytes. Byte lengths match the receipt as well as the digests. No official form is claimed and none is invented: source-receipt.json states in terms that no committed record names an official Oklahoma participant form for this route, and the 501-file hash sweep of both mounted custodies confirms the family resolves nothing from either. The census pin carries a declared identityRefresh from 9816a479 to 4d0eb74b; the bytes on disk carry the new pin, and FIX30 records the same re-pin as generator-driven.",
+     "evidence": "sha256sum of the three repository records; SHA-256 sweep of all 501 files under the two mounted custody roots; source-receipt.json committedRecords"
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "finding": "The committed route contract names two packet components for this route, 'Petition under Sec. 19c' and 'Trafficking nexus evidence', and both are accounted for on the delivered pages. Two composed components are rendered and present: ok-trafficking-survivor-19c-primary-filing-1 on packet pages 1-2 and ok-trafficking-survivor-19c-filing-instructions-2 on packet pages 3-4, in both fixtures, confirmed by reading the pages rather than the manifest. The nexus evidence is a RECORD rather than a pleading and page 3 says so in terms, and participant-instructions.md carries it under 'Documents you must obtain before filing'. requiredComponentsMissing is zero, measured here. Recorded and not argued away: the legal-design intake memo for this same matter carries components: [] and packetIdentity 'unresolved', because it asserts no output strategy at all; that is part of the open legal input ruled on below rather than a missing component here.",
+     "evidence": "reports/rendered-artifacts.json componentSet and both pageManifests; delivered page text of all eight pages; participant-instructions.md; OK.memo.json track ok-ls-1"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "finding": "Six values are written per fixture and every one is visible on the page it belongs to, read off a 150dpi raster by eye rather than off the write report. Canonical: 'Jordan Avery Reyes' in the page-1 caption ('IN RE: Jordan Avery Reyes, PETITIONER.'), again in section B, again on the page-2 PRINTED NAME line and again on page 3 ('This page is for Jordan Avery Reyes.'); date of birth 1991-04-17 in section B; mailing address, telephone and e-mail in the page-2 contact block. Boundary: the same six with the stress values, and the 86-character address wraps onto a second line inside the column instead of running off it, while the 58-character e-mail fits on one. No held fact is left off a page. The six court-record and counsel-advised facts (C1-C6) are facts the platform has never seen and are declared and disclosed, not silently dropped.",
+     "evidence": "pdftoppm -r 150 rasters of all eight delivered pages read as images; reports/actual-writes.json cross-checked against them; pdftotext -layout"
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "finding": "Six items are declared required-before-filing in production-field-map.json and all six are named in participant-instructions.md by the same printed labels the pages carry, Item C1 through Item C6, each with what to write and where to get it. Checked against the file rather than against the count. Each of the six is also printed on the petition itself as a labelled dotted blank, which I confirmed on the raster: '[C1 - existing court and county]' through '[C6 - trafficking nexus evidence]', each followed by two empty dotted rules, in both fixtures. The disclosure splits them correctly and repeats the safety boundary: copy C1-C4 from the existing court file, complete C5-C6 only as legal aid or an attorney advises, and identify the evidence without writing a survivor narrative.",
+     "evidence": "production-field-map.json requiredBeforeFiling (6); participant-instructions.md 'The items you must supply' table; 150dpi rasters of pages 1 and 2 of both fixtures"
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "finding": "No election control exists on any composed page of either fixture, which is the right answer for a one-route composed pleading: the petition states its statutory ground in its title, its body and its footer instead of printing a box to tick. I looked for selection controls on the pages, not only in the field map: there is no checkbox, no radio and no bracketed election anywhere in the four pages. The field map states the same discipline, that where a neighbouring section of the same statute is a different route the packet says so and tells the participant to stop, and page 3 does exactly that about the ordinary Title 22 sections 18 and 19. requiredOptionsMissing is zero, measured here.",
+     "evidence": "production-field-map.json selectionControls (empty) and routeSelectionNote; the eight delivered pages read as images; the completeness verifier run here"
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "finding": "The packet has no repeating table and no row structure at all. The six case-fact items are single labelled blocks, each with two dotted rules, and every rule is empty in both fixtures. No row carries a written cell beside a required cell left blank because there is no row that carries a written cell. incompleteRows is zero, measured here.",
+     "evidence": "150dpi rasters of pages 1 and 2 of both fixtures; content-stream line extraction of all four pages"
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink, measured on the page rather than in the report. Page 2 of both fixtures draws 'DATE .............................. SIGNATURE OF PETITIONER ....................................' with both rules empty, followed by '(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)'. Page 1 draws 'Case number, if the court assigns one at filing:' above an empty rule. PRINTED NAME carries the name, which is correct: a printed-name line is not a signature, and the signature rule beside it is empty, so the block is not misleading. There is no source binary and therefore no source-shipped default to strip, and I confirmed that structurally rather than assuming it: both fixtures carry no /AcroForm and no widget appearance streams at all, so nothing is written into a form field invisibly. Every drawn run in both fixtures is filled 0 0 0 rg with no text rendering mode 3 anywhere, so there is no white or invisible ink on any page.",
+     "evidence": "150dpi rasters of page 1 and page 2 of both fixtures; raw PDF scan for /AcroForm, /Annots and appearance streams; every content stream inflated and scanned for 'Tr' and fill-colour operators"
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "finding": "Canonical hashes to 096fd953c32443ccc03be6197b269724af835cde8fca9c651bc40da2abee4bb9 at 12334 bytes and boundary to 890349f6d33f0bf838c39a68307b8698664fefbd746c549e7fb59b625187cb6b at 12514 bytes, four pages each. Those are exactly the digests, byte lengths and page counts reports/rendered-artifacts.json records, exactly the pair the RASTER_QUEUE row pins, and exactly the pair the live receipt for run 33963861144 / job 101300684033 declares itself bound to. Three older pairs appear in the record and none is on disk; the queue marks two of them superseded and the third, afff7ed0/325d43e4, is the pre-repair pair VF02 measured.",
+     "evidence": "sha256sum and wc -c of both fixtures; pdf-lib page counts; reports/rendered-artifacts.json; RASTER_QUEUE.json row and its rasterReceipt"
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "finding": "The four-entry page manifest matches the delivered artifact page for page and component for component in both fixtures: packet pages 1-2 are ok-trafficking-survivor-19c-primary-filing-1 source pages 1-2, packet pages 3-4 are ok-trafficking-survivor-19c-filing-instructions-2 source pages 1-2. The delivered order really is petition then instructions, read off the pages. The manifest's own drawn-run counts, 31/33/34/20 canonical and 31/34/34/20 boundary, equal the per-page line counts I extracted independently from the content streams, so the manifest describes these bytes and not an earlier build.",
+     "evidence": "reports/rendered-artifacts.json pageManifest and drawnRunsPerPage; independent per-page content-stream extraction; the eight rasters read in order"
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "finding": "VF02's defect is repaired on these bytes and I measured that rather than accepting FIX30's report of it. NO RAW MARKDOWN REMAINS ON ANY DELIVERED PAGE: every drawn run of all four pages of both fixtures was recovered from the content stream and scanned for asterisks, underscores, backticks, pound signs, pipe tables and inline links, and the only character that matches at all is the single underscore inside the quoted machine value \"participant_packet\" on page 3, which is not an emphasis delimiter and is dealt with in the observations below. The line VF02 failed, on page 4 under 'WHEN TO STOP AND GET HELP INSTEAD', now draws as '- this is the first thing the committed record says about this route: Oklahoma has a special expungement' with no delimiter pair; the paragraph re-wrapped from four rows to three and everything below it rose one 14.5pt line, exactly as FIX30 said it would, and the Route footer now sits at y=343.00. Note that the SOURCE strings in production-field-map.json participantFacingObligations still carry the ** pairs; the renderer strips them, so the page is clean while the record is not, which is worth knowing but is not a delivered-page defect. THE REST OF THE STANDARD, measured on the bytes: no hard-split token anywhere (the only wrapped long token is the profile URL on page 1, which breaks after a hyphen it already contains and reassembles to the exact URL, inventing no character); no route-key-only page and no fragment page (page 4 is the shortest and still carries three complete sections plus its footer); no machine text inside a court's block (the page-1 caption block carries only the court line, the IN RE line and the case-number line, and the route key appears only as a page footer at the foot of pages 2 and 4); no overlap; nothing clipped. Rasterised here at 150dpi, all eight pages are 1275x1650 with ink confined to x 150-1121 and y 135-1483, and zero dark pixels in the 37px (18pt) edge band of every one of the eight.",
+     "evidence": "per-page content-stream text extraction of both fixtures with the repository's own extractTextItems/groupIntoLines; a guarded markup scan over every drawn run; pdftotext -layout; pdftoppm -r 150 rasters of all eight delivered pages, each read as an image, plus a per-pixel ink-bounds and edge-band measurement of all eight"
+    },
+    "FILING_DESTINATION": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "The controlling legal-design record for this exact matter leaves the destination undetermined, so the obligation cannot be discharged here and I will not score the packet's own inference as a pass. data/record-clearing/legal-design-intake/OK.memo.json, track ok-ls-1 'Human-Trafficking Survivor Relief (22 O.S. Sec. 19c)', records destination.kind 'court' but destination.name 'Not determined', rules.filing 'Not determined.', geography.venue 'Not stated by the review for this matter.', and destination.detail that the review 'routes the matter to legal aid or a survivor clinic rather than to a packet'. Its one unresolvedQuestion carries impact 'build_blocker' and affectedElement 'governing_mechanism' and asks for the full text of 22 O.S. Sec. 19c including 'whether relief comes by motion or petition' - which is the instrument this family composes. What the packet does is honest and is not the defect: it says the census records the destination as not recorded, and it names the office of the court clerk of the Oklahoma district court for the county in which the case was filed as the office to ask, printing that same description in the caption line rather than inventing a courthouse. But the obligation is that the instructions name the court the route names, and the route names none.",
+     "evidence": "data/record-clearing/legal-design-intake/OK.memo.json track ok-ls-1 (destination, rules.filing, geography.venue, unresolvedQuestions[0], legalDesignDecision); delivered pages 1 and 4; production-field-map.json participantFacingObligations FILING_DESTINATION"
+    },
+    "FEE_AND_WAIVER": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "Unsettled by the same record and named exactly: OK.memo.json track ok-ls-1 carries rules.fees 'Not determined.' and rules.feeWaiver 'Not determined.', and no Oklahoma entry exists anywhere in data/record-clearing/legal-decisions/ to resolve either (the 2026-08-28 national decisions carry zero OK rows, and the route-ratification-registry carries no Oklahoma route at all). The packet states the absence rather than inventing a figure, and it imports nothing from the neighbouring Title 22 sections 18 and 19, which is the discipline that matters most on this route; page 4 names the court clerk's office as the authority that answers both. That is the right behaviour on an open input, and it is still not the obligation being met: the fee and any waiver route are not stated because no record states them.",
+     "evidence": "OK.memo.json track ok-ls-1 rules.fees and rules.feeWaiver; data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json (0 OK entries); route-ratification-registry.json (0 Oklahoma routes); delivered page 4"
+    },
+    "SERVICE": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "finding": "Unsettled by the same record and named exactly: OK.memo.json track ok-ls-1 carries rules.service 'Not determined.' and rules.notice 'Not determined.', alongside rules.participantSignature 'Not determined.' and rules.notarization 'Not determined.'. The packet does not invent a service rule for a statute whose form of process the compiled record leaves open between motion and petition; page 4 says no committed record states who must be served or how, and names the court clerk's office to ask. Who must be served, and how, is therefore not stated on this packet because it is not settled anywhere.",
+     "evidence": "OK.memo.json track ok-ls-1 rules.service, rules.notice, rules.participantSignature, rules.notarization; delivered page 4"
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "finding": "Present, complete and, on this route, the strongest thing the packet does. 'WHEN TO STOP AND GET HELP INSTEAD' on page 4 carries five stops and the first of them is the compiled record's own routing instruction, that this route goes to legal aid or an attorney because the petition needs sensitive facts and supporting proof. That is the same stop the legal-design memo records as its single selfHelpStopCondition for this track ('Every trafficking-survivor matter. The review routes it to legal aid or a survivor clinic'), so the packet carries the controlling record's own stop rather than a weaker paraphrase, which I checked against the memo directly. The survivor-safety boundary is repeated in three separate places on the delivered pages: 'Do not write a survivor narrative on this petition' on page 1, 'Do not write an account of what was done to you on any page of this packet' on page 3, and 'the facts that establish the connection are yours to tell and yours alone' on page 4. Item C6 asks the participant to IDENTIFY the nexus evidence by type, title or date and issuer, expressly not to narrate it. All five stops render as clean prose now that the delimiters are gone.",
+     "evidence": "150dpi rasters of delivered pages 1, 3 and 4 of both fixtures; OK.memo.json track ok-ls-1 selfHelpStopConditions; production-field-map.json SELF_HELP_STOP answer"
+    }
+   },
+   "failedObligationNames": [],
+   "blockedObligationNames": [
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE"
+   ],
+   "openLegalQuestion": {
+    "record": "data/record-clearing/legal-design-intake/OK.memo.json",
+    "track": "ok-ls-1",
+    "legalName": "Human-Trafficking Survivor Relief (22 O.S. Sec. 19c)",
+    "whatIsUnsettled": [
+     "outputStrategyStatus: 'unresolved' and packetIdentity: 'unresolved' - the delivery type for this matter is not decided, which is the open owner question this lane was told to look for on trafficking families.",
+     "legalDesignDecision.status: 'legal_research_required', with the rationale that 'No output strategy is asserted because the review determined none and because establishing trafficking victimisation is advocacy rather than packet work.'",
+     "unresolvedQuestions[0]: impact 'build_blocker', affectedElement 'governing_mechanism' - the full text of 22 O.S. Sec. 19c, what must be shown, and whether relief comes by motion or petition. This family composes a PETITION and its own instructions concede the form of process is open.",
+     "legalDesignLimitations[0]: 'Recorded by the review under LISTED SEPARATELY, NOT PART OF THE ORDINARY ADULT SCOPE. Not a proposed LegalEase track in this review.'",
+     "destination.name, rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, rules.participantSignature and rules.notarization are each 'Not determined.'"
+    ],
+    "corroboration": "ok-ls-1 appears in no other controlling record: data/record-clearing/legal-design-track-registry.json holds no track with this trackId and no route key of this name, data/record-clearing/legal-decisions/ carries zero Oklahoma entries, and route-ratification-registry.json carries no Oklahoma route. A separate Oklahoma track in the registry independently carries a build_blocker whose sourceStatement is 'Read Sec. Sec. 18a, 19a, 19c, 60.18, 991c | Legal-design blocker', so Sec. 19c is recorded twice over as a section not yet read at source.",
+    "whyThisIsNotAFail": "Nothing on the delivered pages is wrong. The packet states each unsettled item as unsettled and names an office to ask, and it never invents a court, a fee, a waiver or a service rule. The obligation is blocked by an input the packet cannot supply, which is BLOCKED_LEGAL_INPUT and is neither a PASS nor a FAIL.",
+    "whoResolvesIt": "counsel / the owner question on trafficking-family delivery type. Reading 22 O.S. Sec. 19c at source and deciding whether this matter is delivered as a participant packet or as a referral to legal aid or a survivor clinic settles all three blocked obligations at once."
+   },
+   "vf02DefectRecheckedHere": {
+    "vf02Verdict": "FAIL_REPAIR_REQUIRED at base c9bbb6ecd on CLIPPING_AND_OVERLAP, over canonical afff7ed0 / boundary 325d43e4",
+    "state": "REPAIRED ON THESE BYTES",
+    "howIConfirmedIt": "Not by reading FIX30's report. The line at page 4, x=72, is drawn without delimiters on the current bytes; a guarded markup scan over every drawn run of all eight delivered pages returns no emphasis pair; and page 4 of both fixtures was rasterised at 150dpi and read as an image, where the five stop conditions read as prose and no asterisk appears anywhere.",
+    "theOtherFourteen": "VF02's other fourteen obligations were not copied. Each was re-measured here on the current bytes, and three of them now come back BLOCKED_LEGAL_INPUT on a record VF02 did not reach: VF02 measured SELF_HELP_STOP against legal-design-track-registry.json, found no track for this route key, and stopped there; the intake memo under the same data/record-clearing/ tree does carry the track, as ok-ls-1."
+   },
+   "observationsThatFailNoObligation": [
+    {
+     "what": "Page 3 of both fixtures prints the machine enum inside quotation marks: 'with outcome mode \"participant_packet\"'.",
+     "whyItIsNotAFailure": "It is on the participant instructions page, not inside a court's block, it is quoted and attributed to the committed contract, and the underscore is part of a quoted identifier rather than a markdown delimiter. It is the only underscore on any delivered page. Worth rewording for a participant reader; it fails no obligation."
+    },
+    {
+     "what": "The route key 'Route: obligation:runtime-only:OK:human-trafficking-survivor-relief' is printed as a footer at the foot of page 2 (a page filed with the court) and page 4.",
+     "whyItIsNotAFailure": "A footer on a full, self-describing page is not a route-key-only page and is not inside the court's caption block, which on page 1 carries only the court line, the IN RE line and the case-number line. The same convention appears on composed pages across this factory."
+    },
+    {
+     "what": "Page 3 prints the component title 'FILING INSTRUCTIONS - OKLAHOMA TRAFFICKING-SURVIVOR RELIEF PETITION UNDER Sec. 19C' twice, once as the page header and once again below 'This page is for <name>.'",
+     "whyItIsNotAFailure": "A duplicated heading is cosmetic. Nothing is clipped, overlapped or made unreadable by it, and no obligation in the fifteen reaches it. Recorded because a reader will notice it."
+    },
+    {
+     "what": "Page 3 prints 'the ordinary Title 22 Sec. Sec. 18 and 19 expungement rules', the expansion of the double section sign.",
+     "whyItIsNotAFailure": "It reads oddly but it is unambiguous and it is not markup rendered literally; the same normalisation writes 'Sec. 19c' correctly everywhere else. Repair-actionable in the composer's section-sign normalisation if anyone wants it; it fails no obligation."
+    }
+   ],
+   "independence": "This lane did not build, repair or edit this family. No overlay directory, build script, shared record or claim ledger was written. The only file this lane commits is data/rcap-grade-a/packet-factory-24h/vf01/rows.json, and only by appending this row.",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "A BLOCKED_LEGAL_INPUT row proves nothing about eligibility and promotes nothing. Eleven obligations pass on these bytes and the visible defect VF02 found is gone, but the family is not complete while the controlling legal-design record leaves its destination, its fee and waiver, its service rule and its delivery type undetermined."
   }
  ],
  "supersededLaneMembership": {

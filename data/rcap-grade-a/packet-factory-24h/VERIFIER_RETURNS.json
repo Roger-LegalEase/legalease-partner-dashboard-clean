@@ -35,12 +35,13 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 730,
+    "rows": 762,
     "independentVerdicts": 240,
-    "failRepairRequired": 61,
-    "passIndependent": 170
+    "failRepairRequired": 77,
+    "passIndependent": 153
   },
   "failRepairRequiredFamilies": [
+    "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
     "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "al-diversion-set",
@@ -54,17 +55,24 @@
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
     "az_marijuana_expungement_limited_jurisdiction-set",
+    "az_wrongful_arrest_clearance-set",
     "co_motion_seal_conviction-set",
     "co_petition_seal_arrest-set",
-    "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+    "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+    "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+    "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+    "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+    "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
     "de_mandatory_expungement-set",
     "fl-early-juvenile-set",
+    "ga-fugitive-j5-set",
     "il-cannabis-vacate-set",
     "il-exp-nonconv-set",
     "il-exp-pardon-set",
     "il-exp-precompletion-set",
     "il-exp-qualprob-set",
+    "il-prostitution-j-vacate-set",
     "il-seal-2yr-set",
     "il-seal-3yr-set",
     "il-seal-edu-set",
@@ -72,7 +80,11 @@
     "in_infraction_nondisclosure-set",
     "la-987-set-aside-and-dismiss-set",
     "mi_setaside_trafficking-set",
+    "ms-fel-set",
     "ms-misd-1st-set",
+    "ms-misd-addl-set",
+    "ms-nonadj-set",
+    "ms-nonconv-set",
     "nc_145_5_felony-set",
     "nc_146_acquittal_petition-set",
     "nh_petition_nonconviction_pre2019-set",
@@ -88,20 +100,24 @@
     "rcap-tx-custom-pleading",
     "rcap-wi-custom-pleading",
     "rcap-wv-custom-pleading",
+    "ri_decriminalized-set",
     "ri_deferred_sentence-set",
     "ri_first_offender_felony-set",
     "ri_first_offender_misdemeanor-set",
     "ri_multiple_misdemeanors-set",
     "ri_nonconviction_sealing-set",
     "sd_arrest_expungement-set",
+    "tx_nd_conviction_no_supervision-set",
     "tx_nd_dwi_deferred-set",
     "ut_pet_dismissed_with_prejudice-set",
     "ut_pet_dismissed_without_prejudice-set",
     "ut_pet_limitations-set",
     "ut_pet_no_charges-set",
+    "va_exp_nonconviction-set",
     "va_seal_petition_misdemeanor-set",
     "vt_exp_decriminalized-set",
-    "vt_seal_nonconviction-set"
+    "vt_seal_nonconviction-set",
+    "wv_dui_deferral_expungement-set"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -191,6 +207,44 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the agency request (page 2) and on the agency route sheet (page 4), under the line \"Route:\", the machine route key prints broken mid-word across two lines: line one ends \"obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and\" at 464.63pt and line two begins \"_finding_request\". The break is not on one of the token’s own separators — line one carries no terminating separator and line two opens on an orphan underscore — which is the same fault VF06 failed for ri_multiple_misdemeanors-set, and the opposite of the WA case this lane passed, where the key broke after its own hyphen (\"…-under-rcw-10-97-\" / \"060\"). Read from the composed content stream and confirmed on a local raster of canonical page 2 into /tmp: the participant sees \"participant_investigation_and\" on the last line of the request, directly under \"ATTACHED: the identity evidence and any no-charge record listed at paragraphs 3 and 5.\", with \"_finding_request\" dangling beneath it. Fixed-width char-by-char splitting is what does it: the fragment is exactly 100 characters, as the CO petition, NY, DE and MS fragments are.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 8,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p2"
+            ],
+            "scan02Class": "a",
+            "scan02Pages": [
+              2,
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
       "superseded": false
     },
@@ -2082,7 +2136,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
@@ -2199,6 +2253,44 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
       "superseded": true
+    },
+    {
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the composed petition (page 2) and the filing instructions (page 4) the route key breaks BEFORE its own separator, not on it: line one ends \"…notation-of-clearance-after-a-wrongful-arrest\" with no terminating hyphen and line two opens on an orphan hyphen, \"-under-13-4051\". This is the distinction this lane already drew for Washington, where the key broke AFTER its own hyphen (\"…-under-rcw-10-97-\" / \"060\") and was passed: there the separator ends the line and the eye carries the token forward; here the line ends on a complete word and the next line starts with a stray punctuation mark, so it reads as two tokens. Confirmed on a local raster of canonical page 2. The fragment is exactly 102 characters, a fixed measure taken with no regard to the token’s structure.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 8,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p2"
+            ],
+            "scan02Class": "a",
+            "scan02Pages": [
+              2,
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
+      "superseded": false
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
@@ -3632,6 +3724,45 @@
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON THREE DELIVERED PAGES, in canonical and in boundary. On the petition (page 2), the proposed order (page 3) and the filing instructions (page 5), the route key prints as \"…participant_court_petition_aft\" on one line and \"er_90_days\" on the next — the word \"after\" is severed between \"aft\" and \"er\". Nothing separates the two fragments; the break is a fixed 100-character measure, not the token’s own separator. Read from the composed content stream and confirmed on a local raster of canonical page 2. Recorded as an additional observation, not scored here: on page 3 the same broken key prints below \"DATED ……\" and below the court’s empty signature rule and its parenthetical \"(The court signs here if, and only if, it grants the petition.)\", so the machine text sits inside the block the court alone completes.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 10,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p2"
+            ],
+            "scan02Class": "a",
+            "scan02Pages": [
+              2,
+              3,
+              5
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf10",
       "isIndependentVerification": true,
@@ -3642,7 +3773,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
@@ -3688,6 +3819,44 @@
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the sentencing-court correction request (page 2) and the process-guidance page (page 4), the route key breaks inside the word \"request\": line one ends \"…sentencing_court_transmission_correction_r\" and line two reads \"equest\". On page 2 that lands immediately below the page’s own words, \"(The person named above signs and dates this request personally. Nothing on this page is signed or dated for them.)\", so the last thing on the participant’s request page is a severed machine token. Read from the composed content stream and confirmed on a local raster of canonical page 2.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 8,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p2"
+            ],
+            "scan02Class": "a",
+            "scan02Pages": [
+              2,
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -3698,7 +3867,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
@@ -3794,6 +3963,44 @@
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the agency request (page 2) and the process-guidance page (page 4), the statutory section number itself is torn in half: line one ends \"…-1017-1019-1017a:section_1\" and line two begins \"017a_automatic_failure_correction\". A reader looking for the section reads \"section_1\" and then \"017a\". Read from the composed content stream and confirmed on a local raster of canonical page 2, where the fragment sits directly beneath \"(The person named above signs and dates this request personally. Nothing on this page is signed or dated for them.)\".",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 8,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p2"
+            ],
+            "scan02Class": "a",
+            "scan02Pages": [
+              2,
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf10",
       "isIndependentVerification": true,
@@ -3804,7 +4011,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
@@ -3878,6 +4085,44 @@
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the petition (page 2) and the filing instructions (page 4), the key breaks inside the section number: \"…:section_1\" then \"018_discretionary_petition\". On page 2 it prints under the petitioner’s contact block, four lines below \"DATE …… SIGNATURE OF PETITIONER ……\". The severed token is the same 100-character fixed measure the sibling 1017A family shows. Read from the composed content stream and confirmed on a local raster of canonical page 2.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 8,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p2"
+            ],
+            "scan02Class": "a",
+            "scan02Pages": [
+              2,
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf11",
       "isIndependentVerification": true,
@@ -3888,7 +4133,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
@@ -4689,6 +4934,46 @@
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "628589374",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "The controlling legal-design record for this exact matter leaves the destination undetermined, so the obligation cannot be discharged here and I will not score the packet's own inference as a pass. data/record-clearing/legal-design-intake/OK.memo.json, track ok-ls-1 'Human-Trafficking Survivor Relief (22 O.S. Sec. 19c)', records destination.kind 'court' but destination.name 'Not determined', rules.filing 'Not determined.', geography.venue 'Not stated by the review for this matter.', and destination.detail that the review 'routes the matter to legal aid or a survivor clinic rather than to a packet'. Its one unresolvedQuestion carries impact 'build_blocker' and affectedElement 'governing_mechanism' and asks for the full text of 22 O.S. Sec. 19c including 'whether relief comes by motion or petition' - which is the instrument this family composes. What the packet does is honest and is not the defect: it says the census records the destination as not recorded, and it names the office of the court clerk of the Oklahoma district court for the county in which the case was filed as the office to ask, printing that same description in the caption line rather than inventing a courthouse. But the obligation is that the instructions name the court the route names, and the route names none.",
+          "evidence": "data/record-clearing/legal-design-intake/OK.memo.json track ok-ls-1 (destination, rules.filing, geography.venue, unresolvedQuestions[0], legalDesignDecision); delivered pages 1 and 4; production-field-map.json participantFacingObligations FILING_DESTINATION"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Unsettled by the same record and named exactly: OK.memo.json track ok-ls-1 carries rules.fees 'Not determined.' and rules.feeWaiver 'Not determined.', and no Oklahoma entry exists anywhere in data/record-clearing/legal-decisions/ to resolve either (the 2026-08-28 national decisions carry zero OK rows, and the route-ratification-registry carries no Oklahoma route at all). The packet states the absence rather than inventing a figure, and it imports nothing from the neighbouring Title 22 sections 18 and 19, which is the discipline that matters most on this route; page 4 names the court clerk's office as the authority that answers both. That is the right behaviour on an open input, and it is still not the obligation being met: the fee and any waiver route are not stated because no record states them.",
+          "evidence": "OK.memo.json track ok-ls-1 rules.fees and rules.feeWaiver; data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json (0 OK entries); route-ratification-registry.json (0 Oklahoma routes); delivered page 4"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Unsettled by the same record and named exactly: OK.memo.json track ok-ls-1 carries rules.service 'Not determined.' and rules.notice 'Not determined.', alongside rules.participantSignature 'Not determined.' and rules.notarization 'Not determined.'. The packet does not invent a service rule for a statute whose form of process the compiled record leaves open between motion and petition; page 4 says no committed record states who must be served or how, and names the court clerk's office to ask. Who must be served, and how, is therefore not stated on this packet because it is not settled anywhere.",
+          "evidence": "OK.memo.json track ok-ls-1 rules.service, rules.notice, rules.participantSignature, rules.notarization; delivered page 4"
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -4745,7 +5030,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
@@ -5211,7 +5496,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
@@ -5226,6 +5511,43 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the filing-instructions page (4), under the heading \"WHEN TO STOP AND GET HELP INSTEAD\", the first bullet prints its markdown source verbatim: \"- **this is the first thing the committed record says about this route:** the compiled Wyoming profile’s own handling rule…\". The four asterisks print as body text at 11pt, opening at x 83 and closing at x 473.5, with no bold applied — the local raster of canonical page 4 into /tmp shows the same weight as the surrounding text, so the delimiters buy nothing and only appear as stray characters. This is the identical defect VF02 failed under CLIPPING_AND_OVERLAP for the Oklahoma human-trafficking family, on the Captain’s standard that CLIPPING_AND_OVERLAP owns the appearance of the delivered page. It is worse placed than most: it is the first words of the passage that tells a trafficking survivor when to stop and get help.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 8,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p4"
+            ],
+            "scan02Class": "d",
+            "scan02Pages": [
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "superseded": false
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
@@ -6008,6 +6330,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
+      "superseded": true
+    },
+    {
+      "familyId": "fl-trafficking-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-trafficking-set",
       "superseded": false
     },
     {
@@ -6027,6 +6363,20 @@
     {
       "familyId": "ga-felony-j1-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-felony-j1-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-felony-j1-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
       "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
@@ -6036,7 +6386,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-felony-j1-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ga-fo-active-pre2026-set",
@@ -6049,6 +6399,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-active-pre2026-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-active-pre2026-set",
       "superseded": false
     },
@@ -6080,6 +6444,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-discharged-pre2026-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fo-discharged-pre2026-set",
       "superseded": false
     },
     {
@@ -6100,6 +6478,45 @@
     },
     {
       "familyId": "ga-fugitive-j5-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "TWO DEFECTS VISIBLE ON DELIVERED PAGES, in canonical and in boundary. (1) A ROUTE-KEY-ONLY PAGE: page 5 of six, declared as the certificate of service, carries one line of ink and nothing else — \"Route: obligation:track-only:GA:ga-fugitive-j5\". The certificate of service itself is on page 4, which ends \"This page is not proof of service and does not say that anything has been served…\"; page 5 is its orphaned trailer. The local raster of canonical page 5 into /tmp shows a blank sheet with that single line near the top. A participant is handed a page that carries nothing a participant or a court needs, and a clerk is handed a page of the filing that says only a machine key. (2) MACHINE TEXT IN THE COURT’S SIGNATURE BLOCK: on the proposed order (page 3) the same line prints below \"JUDGE, SUPERIOR COURT\" and below \"(The judge’s signature block is a third-party block. It is never prefilled, and the court dates its own order.)\".",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 12,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p5",
+              "canonical p3"
+            ],
+            "scan02Class": "b, c",
+            "scan02Pages": [
+              5,
+              3
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fugitive-j5-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ga-fugitive-j5-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf12",
       "isIndependentVerification": true,
@@ -6110,7 +6527,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-fugitive-j5-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ga-jail-k2-set",
@@ -6152,6 +6569,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-misd-j4-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-misd-j4-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-misd-j4-set",
       "superseded": false
     },
     {
@@ -6180,6 +6611,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-pardon-j7-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-pardon-j7-set",
       "superseded": false
     },
     {
@@ -6194,6 +6639,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-seal-m-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-seal-m-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-seal-m-set",
       "superseded": false
     },
     {
@@ -6207,6 +6666,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-vacated-j2-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ga-vacated-j2-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ga-vacated-j2-set",
       "superseded": false
     },
@@ -6878,7 +7351,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prostitution-j-vacate-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "il-prostitution-j-vacate-set",
@@ -6893,6 +7366,48 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prostitution-j-vacate-set",
       "superseded": true
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL. NOTHING is drawn between the judge's signature caption and the trailer. The page reads 'ENTERED this ...... day of .................., 20......', the signature rule, 'JUDGE', and then, as the next drawn line, 'Route: obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief'. The order is tendered to a circuit judge for signature and the machine identifier is the next mark under the caption where the judge signs and the clerk enters — exactly the RI placement VF04 and VF06 ruled a CLIPPING_AND_OVERLAP failure. Every other family in this read that I passed carries a preparer-voice line in that gap; this one carries none. Measured fresh on both fixtures: no page is empty, no page carries only route keys, and no route key is split — every printed key reconstructs whole from the content stream, so classes a, b and d are absent here and only SCAN02's class c was in question.",
+          "evidence": {
+            "measuredHere": true,
+            "instrument": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs extractTextItems + groupIntoLines over the composed content stream of every page of both fixtures, plus a local 110dpi pdftoppm raster of the cited page into /tmp/vf07-raster",
+            "pagesReadCanonical": 3,
+            "pagesReadBoundary": 3,
+            "citedPage": 3,
+            "component": "proposed_order",
+            "signatureOrCertificationLineVerbatim": "JUDGE",
+            "linesDrawnBetweenSignatureLineAndTrailer": [],
+            "trailerVerbatim": "Route: obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+            "trailerPresentInBothFixtures": true,
+            "rasterInspected": [
+              "canonical p3"
+            ],
+            "emptyPages": [],
+            "thinnestPageLines": 10,
+            "routeKeyOnlyPages": 0,
+            "hardSplitTokens": 0,
+            "trailerDrawnOnLastPageOfEveryComponent": true,
+            "nonOrderSignaturePagesObserved": []
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-prostitution-j-vacate-set",
+      "superseded": false
     },
     {
       "familyId": "il-seal-2yr-set",
@@ -8330,6 +8845,20 @@
     {
       "familyId": "ms-diversion-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-diversion-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ms-diversion-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf11",
       "isIndependentVerification": true,
       "verifiedAtBase": "d210669f0e10c2b7e9ed97fafba7971e33e99557",
@@ -8339,7 +8868,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-diversion-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ms-fel-set",
@@ -8352,6 +8881,43 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/codex-cloud/c28-independent-verification-ms-fel-sc-summary/rows.json",
       "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-fel-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-fel-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 5 of ten, attributed to the component ms-fel-proposed-order-2, carries exactly one line of ink — \"Route: obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71\" — and nothing else. Read from the composed content stream, which returns that single line and a form feed for the page, and confirmed on a local raster into /tmp. This is a page inside a proposed order the court is asked to sign that says nothing to the court; on the precedent of VF06’s route-key-only page it is a visible defect on a delivered page.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 20,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p5"
+            ],
+            "scan02Class": "b",
+            "scan02Pages": [
+              5
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-fel-set",
       "superseded": false
     },
@@ -8616,6 +9182,47 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-misd-1st-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "TWO DEFECTS VISIBLE ON DELIVERED PAGES, in canonical and in boundary, read from committed bytes even though FIX36 holds a live repair grant on this family. (1) HARD SPLIT, five pages per fixture — the petition (2), the proposed order (4), the certificate of service (5), the attachment page (6) and the instructions (8) each print \"…first-offender-nontraffic-misdemeanor-conviction-expungemen\" then \"t-99-19-71-1\", severing the word \"expungement\" between \"expungemen\" and \"t\". (2) MACHINE TEXT INSIDE THE COURT’S AND THE PROSECUTOR’S BLOCK — on the proposed order (page 4) the \"Route:\" label and the broken key print below \"JUDICIAL OFFICER OF THE COURT ……\", below \"(the Court alone completes, signs and enters this order)\", and below \"APPROVED AS TO FORM, for the prosecuting authority:\" with its own empty rule; the local raster of canonical page 4 shows the trailer as the last ink on a page whose every other line belongs to the judge or the prosecutor.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 16,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p4"
+            ],
+            "scan02Class": "a, c",
+            "scan02Pages": [
+              2,
+              4,
+              5,
+              6,
+              8
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set",
       "superseded": false
     },
     {
@@ -8629,6 +9236,43 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-misd-addl-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 4 of eight, attributed to ms-misd-addl-proposed-order-2, carries only the two-line machine trailer: \"Route: obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3\" and, on the second line beginning with a semicolon, \"; obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6\". Nothing else prints on the page. Read from the composed content stream and confirmed on a local raster of canonical page 4 into /tmp. Two route keys are the entire content of a page inside a proposed order.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 16,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p4"
+            ],
+            "scan02Class": "b",
+            "scan02Pages": [
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set",
       "superseded": false
     },
@@ -8644,6 +9288,48 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonadj-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-nonadj-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL. Page 4 of the proposed order carries six drawn lines and nothing else: 'JUDGE', 'APPROVED AS TO FORM (completed, if the prosecuting authority approves, by that authority; never pre-signed and never pre-filled):', the prosecutor's signature rule, 'PROSECUTING AUTHORITY', and then the trailer. Nothing is drawn between the prosecutor's caption and the machine text. The page's own words say that block is 'completed, if the prosecuting authority approves, by that authority' and is 'never pre-signed and never pre-filled' — and machine ink is printed inside it. The whole delivered page is the judge's and the prosecutor's execution blocks plus a route key. The repair is the line the family's own sibling ms-diversion-set already prints. Measured fresh on both fixtures: no page is empty, no page carries only route keys, and no route key is split — every printed key reconstructs whole from the content stream, so classes a, b and d are absent here and only SCAN02's class c was in question.",
+          "evidence": {
+            "measuredHere": true,
+            "instrument": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs extractTextItems + groupIntoLines over the composed content stream of every page of both fixtures, plus a local 110dpi pdftoppm raster of the cited page into /tmp/vf07-raster",
+            "pagesReadCanonical": 8,
+            "pagesReadBoundary": 8,
+            "citedPage": 4,
+            "component": "proposed_order",
+            "signatureOrCertificationLineVerbatim": "PROSECUTING AUTHORITY",
+            "linesDrawnBetweenSignatureLineAndTrailer": [],
+            "trailerVerbatim": "Route: obligation:track-only:MS:ms-nonadj",
+            "trailerPresentInBothFixtures": true,
+            "rasterInspected": [
+              "canonical p4"
+            ],
+            "emptyPages": [],
+            "thinnestPageLines": 6,
+            "routeKeyOnlyPages": 0,
+            "hardSplitTokens": 0,
+            "trailerDrawnOnLastPageOfEveryComponent": true,
+            "nonOrderSignaturePagesObserved": []
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonadj-set",
       "superseded": false
     },
     {
@@ -8657,6 +9343,47 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "TWO DEFECTS VISIBLE ON DELIVERED PAGES, in canonical and in boundary. (1) HARD SPLIT on five pages per fixture: \"…non-conviction-expungement-for-dismissal-no-disposition-or-a\" then \"cquittal\", severing the word \"acquittal\" — the very word that names this route’s eligibility ground — between \"a\" and \"cquittal\". (2) MACHINE TEXT INSIDE THE COURT’S AND THE PROSECUTOR’S BLOCK: on the proposed order (page 4) the trailer prints beneath \"JUDICIAL OFFICER OF THE COURT ……\", \"(the Court alone completes, signs and enters this order)\" and \"APPROVED AS TO FORM, for the prosecuting authority:\". Read from the composed content stream and confirmed on a local raster of canonical page 4.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 16,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p4"
+            ],
+            "scan02Class": "a, c",
+            "scan02Pages": [
+              2,
+              4,
+              5,
+              6,
+              8
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
       "superseded": false
     },
@@ -15236,6 +15963,48 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ri_decriminalized-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL. Squarely the precedent. Page 5 of the same proposed order prints, in the page's own words, 'EVERYTHING BELOW THIS LINE IS THE COURT'S. It is left blank on purpose. No finding, no grant, no denial, no condition, no signature, no date of entry, no certification and no seal is written here by the moving party or by LegalEase.' Page 6 is entirely that declared block — the Court's findings, the grant/deny marks, the relief marks, 'Entered as an order of the Court:', 'Justice / Judge', 'Certification or attestation by the Clerk:' — and directly beneath the clerk's certification line LegalEase writes 'Route: obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement', with its 'Composed by LegalEase for Jordan Avery Reyes' disclaimer set as the continuation of that same paragraph, AFTER the machine key rather than before it. The page's declaration that nothing there is written by LegalEase is falsified on its own face. This is the identical defect VF04 recorded for ri_first_offender_felony-set and VF06 for ri_multiple_misdemeanors-set, on the identical Rhode Island order shape, and OWN-RI-PROPOSED-ORDER-2026-09-05 lists 'certification' among what stays blank. Measured fresh on both fixtures: no page is empty, no page carries only route keys, and no route key is split — every printed key reconstructs whole from the content stream, so classes a, b and d are absent here and only SCAN02's class c was in question.",
+          "evidence": {
+            "measuredHere": true,
+            "instrument": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs extractTextItems + groupIntoLines over the composed content stream of every page of both fixtures, plus a local 110dpi pdftoppm raster of the cited page into /tmp/vf07-raster",
+            "pagesReadCanonical": 10,
+            "pagesReadBoundary": 10,
+            "citedPage": 6,
+            "component": "ri_decriminalized-proposed-order-2",
+            "signatureOrCertificationLineVerbatim": "Certification or attestation by the Clerk: ............................................",
+            "linesDrawnBetweenSignatureLineAndTrailer": [],
+            "trailerVerbatim": "Route: obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement",
+            "trailerPresentInBothFixtures": true,
+            "rasterInspected": [
+              "canonical p6"
+            ],
+            "emptyPages": [],
+            "thinnestPageLines": 21,
+            "routeKeyOnlyPages": 0,
+            "hardSplitTokens": 0,
+            "trailerDrawnOnLastPageOfEveryComponent": true,
+            "nonOrderSignaturePagesObserved": []
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set",
       "superseded": false
     },
     {
@@ -15842,6 +16611,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_exp_acquittal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_exp_acquittal-set",
       "superseded": false
     },
     {
@@ -15943,6 +16726,44 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
+      "superseded": true
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the proof-of-delivery-to-prosecutor page (9) and the filing-and-after-order instructions (24), the key breaks inside the word \"conviction\": \"…petitioned-nondisclosure-for-an-eligible-c\" then \"onviction-411-0735\". On page 9 the broken token is the last ink under the participant’s own signature and the parenthetical \"(You sign and date this when the copy has actually been delivered. Nothing on this page is signed or dated for you, and no district attorney’s name or address is printed here…)\". Read from the composed content stream and confirmed on a local raster of canonical page 9.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 48,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p9"
+            ],
+            "scan02Class": "a",
+            "scan02Pages": [
+              9,
+              24
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
       "superseded": false
     },
@@ -18487,6 +19308,43 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+      "superseded": true
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 7 of seven — the last page the participant is handed, attributed to filing_instructions — carries one line and nothing else: \"Route: obligation:track-only:VA:va_exp_nonconviction\". The local raster into /tmp shows a blank sheet with that line near the top. The packet ends on a page that tells the participant nothing about filing. This lane recorded a PASS for this family at base f1cb31429 on the other fourteen obligations; that reading stands and is carried, but the delivered-page appearance does not.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 18,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p7"
+            ],
+            "scan02Class": "b",
+            "scan02Pages": [
+              7
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
       "superseded": false
     },
     {
@@ -19579,6 +20437,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_crop_certificate_of_restoration-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wa_crop_certificate_of_restoration-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_crop_certificate_of_restoration-set",
       "superseded": false
     },
     {
@@ -20649,7 +21521,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_nc_doj_fingerprint_removal-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wi_nc_doj_fingerprint_removal-set",
@@ -20687,6 +21559,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_nc_doj_fingerprint_removal-set",
       "superseded": true
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wi_nc_doj_fingerprint_removal-set",
+      "superseded": false
     },
     {
       "familyId": "wi_nc_doj_fingerprint_removal-set",
@@ -21338,6 +22224,57 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "wv_dui_deferral_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 4 of eleven, attributed to supporting_affidavit, carries one line of ink — \"obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge\" — with no \"Route:\" label and nothing else on the sheet, so what prints is a bare machine identifier with nothing to tell a reader what it is. Read from the composed content stream and confirmed on a local raster of canonical page 4 into /tmp. This lane’s own earlier PASS at base ebc44031e covered the other fourteen obligations; the delivered page fails this one.",
+          "evidence": {
+            "measuredHere": true,
+            "fixturesRead": 2,
+            "pagesRead": 22,
+            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
+            "rasteredLocally": [
+              "canonical p4"
+            ],
+            "scan02Class": "b",
+            "scan02Pages": [
+              4
+            ],
+            "presentInCanonical": true,
+            "presentInBoundary": true,
+            "countersSayZero": true
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wy_fel_1502-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "aefd46f7c",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wy_fel_1502-set",
       "superseded": false
     },
     {
@@ -21352,7 +22289,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wy_fel_1502-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "zip code mailed to",
@@ -21372,7 +22309,7 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 33,
+  "rowsRefused": 17,
   "refusedRows": [
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
@@ -21386,22 +22323,6 @@
     "vf06/ri_marijuana-set: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): ROUTE_OPTIONS",
     "vf07/vt_exp_deferred_sentence-set: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): ROUTE_OPTIONS",
     "vf08/rcap-ga-guidance-implementation: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): REPEATING_ROWS",
-    "vf08/agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/az_wrongful_arrest_clearance-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/ms-misd-1st-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/ms-nonconv-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/tx_nd_conviction_no_supervision-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/ga-fugitive-j5-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/ms-fel-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/ms-misd-addl-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/va_exp_nonconviction-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/wv_dui_deferral_expungement-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
-    "vf08/wi_nc_doj_fingerprint_removal-set: unreadable obligation result \"PASS_CARRIED_FROM_STANDING_PASS\"; the vocabulary is \"PASS\"/\"FAIL\"/\"NOT_MEASURABLE_HERE\"/\"BLOCKED_LEGAL_INPUT\" or a boolean and nothing else",
     "vf09/rcap-sc-custom-pleading: undeclared verdict WRONG_DELIVERY_TYPE",
     "vf10/pa_pardon_expungement-set: undeclared verdict FAIL",
     "vf11/in_arrest_no_charges-set: undeclared verdict FAIL",
