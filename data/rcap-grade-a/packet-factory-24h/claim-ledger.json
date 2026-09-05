@@ -2706,8 +2706,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T17:35:48.522Z",
+      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 71b369461: REQUIRED_BEFORE_FILING — the certified Delaware criminal history, declared required before filing in four places in DE.memo.json tracks[1] and first in the packet-set manifest, is named on no delivered page and nowhere in participant-instructions.md; the guide defers required materials to SBI. FEE_AND_WAIVER passes (the $75 and the 4372(l) waive-or-convert limb verbatim; no payee or waiver form invented) and thirteen others pass (canonical fa51ea79, boundary c7c80a2a, RASTER_PASS run 33979005853 job 101341001031). Repair from legalDesignDecision.limitations[0]; keep the IdentoGo code and its fee out. Return at data/rcap-grade-a/packet-factory-24h/vf01/rows.json (Captain release after integrating VF01 commit 99cc41fb3)."
     },
     {
       "subjectType": "packet-family",
@@ -2734,10 +2735,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX48",
+      "lane": "FIX54",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T16:38:00.288Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "FEE_AND_WAIVER discharged at 67caa7d56 and verified from the delivered bytes; rebuilt on the repaired composed-family host in 2c904639b, route-key break moved to the separator, SCAN01 hard splits 4 -> 0. Raster and independent verification owed. (Replayed by Captain from FIX48 commit 1b6c20391.)"
     },
     {
@@ -8518,10 +8519,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T17:10:05.127Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12925,7 +12926,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "8890305410af9f82ebb52641e93713564c448d5675ac1afa10cb9373b9d98000",
+  "claimsDigest": "66782905fa7da2b666e31aebd51e965806e83f5d510be1ecb0e14af871672008",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28429,6 +28430,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T17:34:26.900Z",
       "reason": "VF02 PASS_COMPLETE_INDEPENDENT at 61a898123: all fifteen obligations pass on the FIX37 bytes (canonical c9937525, boundary 01a9b1ad, RASTER_PASS run 33979005853 job 101341001081); nine counters zero; pages 9 and 24 print the census key; no synthesized-checkbox question (33/33 button widgets ship an /Off appearance; eleven Rule 145 radio controls differ only by the shared background strip uncovering the form's own printed glyph, answered by RI-OFF-APPEARANCE). Return at data/rcap-grade-a/packet-factory-24h/vf02/rows.json (Captain release after integrating VF02 commit 875dda61a)."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T17:35:48.522Z",
+      "reason": "VF01 FAIL_REPAIR_REQUIRED at 71b369461: REQUIRED_BEFORE_FILING — the certified Delaware criminal history, declared required before filing in four places in DE.memo.json tracks[1] and first in the packet-set manifest, is named on no delivered page and nowhere in participant-instructions.md; the guide defers required materials to SBI. FEE_AND_WAIVER passes (the $75 and the 4372(l) waive-or-convert limb verbatim; no payee or waiver form invented) and thirteen others pass (canonical fa51ea79, boundary c7c80a2a, RASTER_PASS run 33979005853 job 101341001031). Repair from legalDesignDecision.limitations[0]; keep the IdentoGo code and its fee out. Return at data/rcap-grade-a/packet-factory-24h/vf01/rows.json (Captain release after integrating VF01 commit 99cc41fb3)."
     }
   ],
   "reissues": [
@@ -40521,6 +40531,28 @@
       "previouslyReleasedAt": "2026-09-05T16:38:00.212Z",
       "transferredAt": "2026-09-05T17:24:32.888Z",
       "reason": "VF06 FAIL CLIPPING_AND_OVERLAP at 369884e64: the builder's render() paints an opaque white rectangle (x-1,y-1,w+2,h+2) under each write and redraws its own rule, erasing the AOC's printed rules and cutting the caption table; stop painting the rectangle and draw no rule the form does not print."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF04",
+      "previouslyReleasedAt": "2026-09-05T17:10:05.127Z",
+      "transferredAt": "2026-09-05T17:35:47.752Z",
+      "reason": "West Virginia DUI deferral re-read dealt to VF04 (VF03 busy on North Carolina 145.5): FIX52 removed the stale raster PNGs that VF04 failed under ARTIFACTS; fourteen obligations held; RASTER_PASS run 33977742636 job 101337729588 still binds the unchanged bytes."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX48",
+      "toLane": "FIX54",
+      "previouslyReleasedAt": "2026-09-05T16:38:00.288Z",
+      "transferredAt": "2026-09-05T17:36:10.208Z",
+      "reason": "VF01 FAIL REQUIRED_BEFORE_FILING at 71b369461: name the certified Delaware criminal history, declared required before filing in DE.memo.json tracks[1] and first in the packet-set manifest, on the delivered guide page and in participant-instructions.md, from legalDesignDecision.limitations[0]; keep the IdentoGo code and its fee out."
     }
   ],
   "withdrawals": [
