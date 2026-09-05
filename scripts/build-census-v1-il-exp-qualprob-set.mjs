@@ -55,10 +55,43 @@
 //      objection is filed the court shall enter an order granting or denying under
 //      § 5.2(d)(6)(B)."
 //
-// NOT YET RUN. The EXP-AD Case List source (sha256 b72d30d2...) lives in the
-// nationwide_recovery_pool_2026_09_02 custody, which is not mounted in this container
-// and is published in no release. This builder therefore could not be executed here and
-// the delivered fixtures under this family's directory are still the defective ones.
+// WHAT FIX07 CHANGED ON TOP OF THAT CARVE-OUT. Three faults survived it, all
+// measured against this family's own 424-field inventory:
+//
+//   5. The five row-1 predicates in knownValue were not gated on a page. The
+//      sealing table on Request page 4 spells its captions "4 - Arresting Agency
+//      - 1" and so on, and every one of them still ended in the row-1 suffix the
+//      predicates matched -- so a complete five-cell row was written into the
+//      SEALING table by a route that elects EXPUNGEMENT. That is the second half
+//      of VF01's KNOWN_PREFILLS: "the inactive sealing table is populated".
+//      Each predicate is now anchored and gated on page 2, the active table.
+//
+//   6. optionalUnusedSlot treated only rows 2-10 as unused, so row 1 of the
+//      inactive table was not classified as an unused slot either -- it was
+//      simply written. The whole page 4 table is now an unused slot for this
+//      route, row 1 included, and is refused with an inactive-relief reason.
+//
+//   7. The Outcome cell printed the shared Illinois fixture word "Dismissed" on a
+//      QUALIFIED PROBATION expungement, contradicting the item 8 election made on
+//      the same document. See ROUTE_OUTCOME: the outcome is now taken from the
+//      route and written as QP, the abbreviation the Request's own legend prints.
+//
+// And SERVICE is now dispositioned in the field map as well as in the prose --
+// see SERVICE_DISCLOSURE -- because a disclosure only a reader of prose can audit
+// is the state VF01 failed. The one element the record does not settle, the manner
+// in which the clerk transmits notice, is declared BLOCKED_LEGAL_INPUT rather than
+// guessed.
+//
+// The classifier differential over the real 424-field inventory changes exactly
+// six fields per fixture (five page 4 cells to UNUSED_SLOT, one outcome value)
+// and leaves 418 untouched; writes fall 41 -> 36.
+//
+// NOT YET RUN -- STILL. The EXP-AD Case List source (sha256 b72d30d2...) lives in
+// the nationwide_recovery_pool_2026_09_02 custody, which is not mounted in this
+// container, is published in no release, and whose publisher URL the egress policy
+// refuses. resolveSources() therefore refuses, this builder cannot be executed
+// here, and the delivered fixtures under this family's directory are STILL the
+// defective ones VF01 read. Nothing in this file has produced a byte.
 // `--self-test` reads the delivered artifacts rather than the sources, so it runs
 // without the corpus: against the current bytes it FAILS, naming each defect above.
 // Mount the corpus, run the builder, then run `--self-test`.
@@ -87,9 +120,34 @@ const SOURCES = [
   { documentId: "FW-CIV-APPLICATION", sourceId: "official-form:FW-CIV-APPLICATION", path: "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf", sha256: "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5", componentKinds: ["fee_waiver"] }
 ];
 
+// The Outcome column is route-determined, not fixture-determined.
+//
+// The delivered bytes printed the shared Illinois fixture word "Dismissed" in
+// the Outcome cell of a QUALIFIED PROBATION expungement, contradicting the
+// route election this same page makes: item 8, "received a sentence of
+// Qualified Probation and at least 5 years have passed since my Qualified
+// Probation ended successfully". A disposition of "Dismissed" and a completed
+// qualified probation are different outcomes, and the packet asserted both.
+//
+// The Request prints its own legend directly beneath the table -- "Outcome
+// Abbreviations for Expungement ... QP  Qualified Probation Successfully
+// Completed" -- and instructs "Use the shortened version of the outcome from
+// the Outcome Abbreviations for Expungement section below". So the outcome this
+// route determines is QP, it is written from the route rather than from a
+// fixture word, and it is the same in both fixtures because the route is.
+const ROUTE_OUTCOME = {
+  text: "QP",
+  factId: "matter.outcome",
+  meaning: "Qualified Probation Successfully Completed",
+  derivedFrom: "route.qualified_probation_successfully_completed",
+  printedLegend: "Outcome Abbreviations for Expungement, EXP-AD Request page 2 (ATJ 2901.9, 06/26)"
+};
+
+// `outcome` is deliberately absent from these fixtures: see ROUTE_OUTCOME above.
+// Re-adding it is how the contradiction returns.
 const FIXTURES = {
-  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Charge exactly as shown on the court disposition", arrestDate: "03/12/2021", outcome: "Dismissed", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
-  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Complete charge exactly as printed on the certified disposition", arrestDate: "11/29/2023", outcome: "Acquitted or dismissed as certified", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
+  canonical: { full: "Jordan Avery Reyes", other: "None", county: "Cook", dob: "06/14/1988", race: "Hispanic", gender: "Nonbinary", caseNumber: "2021-CF-004217", arrestAgency: "Chicago Police Department", charge: "Charge exactly as shown on the court disposition", arrestDate: "03/12/2021", phone: "312-555-0142", email: "jordan.reyes@example.org", street: "412 West Madison Street, Chicago, IL 60606" },
+  boundary: { full: "Alexandria Catherine Montgomery-Washington", other: "Alexandria Catherine Washington-Montgomery", county: "Sangamon", dob: "12/31/1979", race: "Black or African American", gender: "Female", caseNumber: "2024-CF-000001-99", arrestAgency: "Springfield Police Department Records Division", charge: "Complete charge exactly as printed on the certified disposition", arrestDate: "11/29/2023", phone: "217-555-0199", email: "alexandria.montgomery.washington@example.org", street: "1188 Martin Luther King Jr. Drive, Apartment 1407, Springfield, IL 62703" }
 };
 
 function resolveSources() {
@@ -124,13 +182,20 @@ function requestTableField(name) {
   return match ? Number(match[1]) : null;
 }
 
-function knownValue(documentId, name, fixture) {
+function knownValue(documentId, name, page, fixture) {
   const key = name.toLowerCase();
-  if (documentId === "EXP-AD Request" && /arrest or case number - 1$/i.test(name)) return [fixture.caseNumber, "matter.case_number"];
-  if (documentId === "EXP-AD Request" && /arresting agency - 1$/i.test(name)) return [fixture.arrestAgency, "matter.arresting_agency"];
-  if (documentId === "EXP-AD Request" && /list all charges.* - 1$/i.test(name)) return [fixture.charge, "matter.charge"];
-  if (documentId === "EXP-AD Request" && /date of arrest - 1$/i.test(name)) return [fixture.arrestDate, "matter.arrest_date"];
-  if (documentId === "EXP-AD Request" && /(?:outcome.*|4 - outcome) - 1$/i.test(name)) return [fixture.outcome, "matter.outcome"];
+  // The Request carries TWO case tables. Page 2 is the EXPUNGEMENT table (bare
+  // captions) and page 4 is the SEALING table (captions prefixed "4 - "). This
+  // route elects expungement on page 1, so only the page 2 table is the active
+  // one. The unpaged predicates these five replaced matched both tables --
+  // "4 - List all charges for each case number - 1" ends in "charges ... - 1"
+  // just as its page 2 twin does -- and wrote a complete row into the relief the
+  // route does not select. Every one of them is now gated on the active page.
+  if (documentId === "EXP-AD Request" && page === 2 && /^arrest or case number - 1$/i.test(name)) return [fixture.caseNumber, "matter.case_number"];
+  if (documentId === "EXP-AD Request" && page === 2 && /^arresting agency - 1$/i.test(name)) return [fixture.arrestAgency, "matter.arresting_agency"];
+  if (documentId === "EXP-AD Request" && page === 2 && /^list all charges.* - 1$/i.test(name)) return [fixture.charge, "matter.charge"];
+  if (documentId === "EXP-AD Request" && page === 2 && /^date of arrest - 1$/i.test(name)) return [fixture.arrestDate, "matter.arrest_date"];
+  if (documentId === "EXP-AD Request" && page === 2 && /^outcome.* - 1$/i.test(name)) return [ROUTE_OUTCOME.text, ROUTE_OUTCOME.factId, { routeDetermined: true, derivedFrom: ROUTE_OUTCOME.derivedFrom, meaning: ROUTE_OUTCOME.meaning, printedLegend: ROUTE_OUTCOME.printedLegend }];
   if (documentId === "EXP-AD Case List" && name === "arrest1") return [fixture.caseNumber, "matter.case_number"];
   if (documentId === "EXP-AD Order Granting" && name === "arrest/case number 1") return [fixture.caseNumber, "matter.case_number"];
   if (/county/.test(key) && name === "1 - County") return [fixture.county, "matter.filing_county"];
@@ -168,7 +233,12 @@ function participantSelfControl(documentId, name) {
     || (documentId === "FW-CIV-APPLICATION" && name === "Last - Completing this form myself checkbox");
 }
 
-function optionalUnusedSlot(documentId, name) {
+function optionalUnusedSlot(documentId, name, page) {
+  // Page 4 is the sealing table. This route seeks expungement, so EVERY row of
+  // it -- row 1 included -- is an unused slot for this route and stays wholly
+  // blank. Page 2 is the active expungement table, where only rows 2-10 are
+  // unused because this fixture carries one complete record.
+  if (documentId === "EXP-AD Request" && page === 4) return requestTableField(name) !== null;
   if (documentId === "EXP-AD Request") return (requestTableField(name) ?? 0) > 1;
   if (documentId === "EXP-AD Case List") return /^arrest(?:[2-9]|[1-5]\d)$/.test(name);
   return false;
@@ -225,11 +295,13 @@ async function fillDocument(source, fixtureName, fixture) {
       refusals.push({ ...base, effectiveLabel: `Court or later-completion field: ${name}`, reason: clerkCaseNumber(name) ? "The form reserves this case number for the Circuit Clerk" : "Signature, judge, clerk, or post-filing field; never prefilled", refusalClass: clerkCaseNumber(name) ? "court_prosecutor_clerk_or_agency_owned" : "signature_or_date_participant_completion", role: clerkCaseNumber(name) ? "court" : "protected" });
       continue;
     }
-    const known = knownValue(source.documentId, name, fixture);
+    const known = knownValue(source.documentId, name, page, fixture);
     if (known) {
-      writes.push({ ...base, effectiveLabel: name, factId: known[1], ...setComplete(field, known[0], font) });
-    } else if (optionalUnusedSlot(source.documentId, name)) {
-      refusals.push({ ...base, effectiveLabel: `Unused additional-record slot: ${name}`, reason: "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.", completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT", factAvailable: false, routeDetermined: false, role: "participant" });
+      writes.push({ ...base, effectiveLabel: name, factId: known[1], ...(known[2] ?? {}), ...setComplete(field, known[0], font) });
+    } else if (optionalUnusedSlot(source.documentId, name, page)) {
+      refusals.push({ ...base, effectiveLabel: `Unused additional-record slot: ${name}`, reason: page === 4 && source.documentId === "EXP-AD Request"
+          ? "Inactive-relief table: this route elects expungement, so no cell of the sealing table on page 4 is written and the whole table remains wholly blank."
+          : "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.", completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT", factAvailable: false, routeDetermined: false, role: "participant" });
     } else if (attorneyField(name)) {
       refusals.push({ ...base, effectiveLabel: `Attorney field: ${name}`, reason: "Attorney-only; the fixture is self-represented", role: "attorney" });
     } else {
@@ -268,8 +340,42 @@ async function buildPacket(sources, fixtureName, fixture) {
   return { bytes, pageCount: 13, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
+// The SERVICE disclosure, dispositioned on the record rather than only in prose.
+//
+// VF01 failed SERVICE because participant-instructions.md said only that the
+// clerk performs statutory service. The guide now quotes the record, and this
+// block puts the same answer in the field map so the disclosure is auditable
+// without reading prose -- the shape ut-pet-*-set already uses.
+//
+// The record settles who serves, who is served, and the objection window. It
+// does NOT state the manner in which the clerk transmits notice, so that one
+// element is declared unsettled here rather than guessed. It is not a
+// participant step either way: the participant serves no one.
+const SERVICE_DISCLOSURE = {
+  serviceRecipientAndMethodStated: true,
+  whoServes: "The circuit court clerk, under 20 ILCS 2630/5.2(d)(4). The participant serves no one.",
+  whoIsServed: "The State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer.",
+  objectionWindow: "60 days from service, under 20 ILCS 2630/5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under 20 ILCS 2630/5.2(d)(6)(B).",
+  participantServiceBurden: "NONE",
+  mannerOfTransmissionByClerk: "BLOCKED_LEGAL_INPUT: the Illinois record does not state the manner in which the clerk transmits notice. It is not invented here, and it is not a participant step.",
+  statedIn: "participant-instructions.md, sections 'Who serves, and how.' and 'Who is served.'",
+  citedAuthorities: [{
+    id: "IL-LEGAL-DESIGN-INTAKE",
+    title: "Illinois legal-design intake memo",
+    path: "data/record-clearing/legal-design-intake/IL.memo.json",
+    sha256: "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106",
+    readAt: "tracks[trackId=il-exp-qualprob].rules.service and .rules.notice",
+    supports: ["service", "notice"],
+    verifiedBy: "re-hashed on this build against the committed record"
+  }]
+};
+
 async function build() {
   const sources = resolveSources();
+  for (const authority of SERVICE_DISCLOSURE.citedAuthorities) {
+    const observed = sha256(fs.readFileSync(path.join(ROOT, authority.path)));
+    assert.equal(observed, authority.sha256, `service authority drifted: ${authority.path}`);
+  }
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === FAMILY_ID);
   assert.ok(family, `family absent from worklist: ${FAMILY_ID}`);
@@ -279,7 +385,7 @@ async function build() {
   fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
   for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(OUT, "fixtures", `${fixtureName}.pdf`), packet.bytes);
   const routeSummary = "Expungement after eligible qualified probation and the printed five-year condition. Confirm from the certified disposition that the qualified probation ended successfully and that at least five years have passed.";
-  writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
+  writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, serviceDisclosure: SERVICE_DISCLOSURE, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
   writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
   writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: [] })) });
   const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
@@ -298,10 +404,31 @@ function selfTest() {
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
   assert.equal(writes.filter((row) => /List all charges/i.test(row.fieldName) && row.factId === "matter.case_number").length, 0,
     "charge cells must never receive the case number");
-  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && /List all charges.* - 1$/i.test(row.fieldName) && row.factId === "matter.charge").length, 2,
-    "the first complete row on each Request table must receive the charge");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && /^List all charges.* - 1$/i.test(row.fieldName) && row.factId === "matter.charge").length, 1,
+    "the one complete row on the ACTIVE expungement table must receive the charge");
   assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && / - (?:[2-9]|10)$/.test(row.fieldName) && /Arrest|charges|Outcome/i.test(row.fieldName)).length, 0,
     "unused Request rows must remain wholly blank");
+  // The inactive relief. This route elects expungement, so no cell of the page 4
+  // sealing table is written -- row 1 included. Its captions all begin "4 - ".
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && /^4 - /.test(row.fieldName) && row.page === 4).length, 0,
+    "the inactive sealing table must remain wholly blank, row 1 included");
+  assert.equal(writes.filter((row) => row.documentId === "EXP-AD Request" && row.page === 4).length, 0,
+    "nothing on Request page 4 is written by this expungement route");
+  // Every write that lands in a table row must land in a COMPLETE row: a written
+  // cell with blank companions is the partial row VF01 counted eighteen of.
+  const activeRow = writes.filter((row) => row.documentId === "EXP-AD Request" && row.page === 2 && /- 1$/.test(row.fieldName));
+  assert.equal(activeRow.length, 5, "the active expungement row must be complete: case number, agency, charge, date, outcome");
+  assert.deepEqual([...new Set(activeRow.map((row) => row.factId))].sort(),
+    ["matter.arrest_date", "matter.arresting_agency", "matter.case_number", "matter.charge", "matter.outcome"],
+    "each active-row cell must carry its own fact, never a repeat of the case number");
+  // The Outcome cell is route-determined, not a fixture word.
+  const outcome = writes.filter((row) => row.factId === "matter.outcome");
+  assert.equal(outcome.length, 1, "exactly one outcome cell is written");
+  assert.equal(outcome[0].drawnText, "QP", "the outcome must be the route's own disposition (QP), not a fixed word");
+  assert.equal(outcome[0].derivedFrom, "route.qualified_probation_successfully_completed",
+    "the outcome must declare that the route determined it");
+  assert.equal(writes.filter((row) => String(row.drawnText ?? "") === "Dismissed").length, 0,
+    "the contradicting fixture disposition must not reach any cell");
   assert.equal(writes.filter((row) => row.documentId === "EXP-AD Case List" && /^arrest[2-5]$/.test(row.fieldName)).length, 0,
     "unused Case List number slots must remain wholly blank");
   assert.equal(writes.filter((row) => /^\d+ - Case Number$/i.test(row.fieldName)).length, 0,
@@ -323,6 +450,20 @@ function selfTest() {
   const fieldMap = JSON.parse(fs.readFileSync(path.join(OUT, "production-field-map.json"), "utf8"));
   assert.equal(fieldMap.refusals.filter((row) => /^\d+ - Case Number$/.test(row.fieldName) && row.refusalClass === "court_prosecutor_clerk_or_agency_owned").length, 4,
     "all four clerk-assigned case-number captions must be declared protected");
+  // SERVICE is dispositioned in the field map, not only in prose.
+  assert.ok(fieldMap.serviceDisclosure, "the field map must carry the service disclosure");
+  assert.equal(fieldMap.serviceDisclosure.serviceRecipientAndMethodStated, true,
+    "the field map must state that the service recipient and method are disclosed");
+  assert.equal(fieldMap.serviceDisclosure.participantServiceBurden, "NONE",
+    "the record puts no service burden on the participant");
+  assert.match(fieldMap.serviceDisclosure.mannerOfTransmissionByClerk, /^BLOCKED_LEGAL_INPUT:/,
+    "the one element the record does not settle must be declared, not guessed");
+  assert.equal(fieldMap.serviceDisclosure.citedAuthorities[0].sha256,
+    "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106",
+    "the service disclosure must cite the Illinois record by hash");
+  // The delivered page 4 must draw nothing: read from the artifact, not the report.
+  assert.equal(fieldMap.writes.filter((row) => row.documentId === "EXP-AD Request" && row.page === 4).length, 0,
+    "the field map must declare no write on the inactive sealing page");
   console.log("il-exp-qualprob-set self-test passed");
 }
 
