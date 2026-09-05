@@ -134,7 +134,8 @@ function participantInstructions({ rbf, controls, inapplicable }) {
     + "time to arrive:", "",
     "1. **Your DPS Record of Arrest and Prosecution (RAP) sheet.** The New Mexico Department of Public Safety charges "
     + "**$15.00** per record check. The DPS Authorization for Release of Information must carry your **original "
-    + "signature and be notarized** — this is the only document in the whole process that needs a notary.",
+    + "signature and be notarized**. **None of the court filings needs a notary** — only this authorisation does, and the "
+    + "notary block on page 4 of Form 4-222 if you file that.",
     "2. **Your FBI Identity History Summary.** The FBI charges its own fee and takes longer than DPS.",
     "3. **Both RAP sheets must be dated no more than ninety (90) days before you file**, so do not order them and then "
     + "wait months to file.",
