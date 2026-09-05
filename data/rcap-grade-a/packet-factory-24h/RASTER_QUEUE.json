@@ -20,13 +20,13 @@
     "whoDecides": "merging workflow changes to the default branch is Roger's decision"
   },
   "lastBatch": {
-    "workflowRunId": "33936105425",
-    "renderedCommitSha": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
-    "familyJobs": 5,
+    "workflowRunId": "33939441038",
+    "renderedCommitSha": "9f98bcfb5397ce1f84d910b699caf12e62ef476f",
+    "familyJobs": 2,
     "allGreen": true,
-    "liveReceipts": 5,
+    "liveReceipts": 2,
     "supersededReceipts": 0,
-    "ingestedOn": "2026-09-05T02:00:47Z"
+    "ingestedOn": "2026-09-05T02:55:00.788Z"
   },
   "whatRasterPassDoesNotMean": "RASTER_PASS is one gate. It does not make a family PASS_COMPLETE, does not promote it, does not open a commercial route, and does not substitute for an independent read by a worker that did not build it.",
   "grantsNothing": "A RASTER_PASS proves the pages render as measured. It is one gate of several, it promotes nothing, and it opens no commercial route.",
@@ -10931,7 +10931,7 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
+      "currentRasterState": "RASTER_PASS",
       "nextOwner": "RAS01",
       "supersededReceipts": [
         {
@@ -10958,7 +10958,26 @@
           "supersededBecause": "the row now renders a different set of documents",
           "supersededAt": "2026-09-05T02:29:29Z"
         }
-      ]
+      ],
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33939441038",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "9f98bcfb5397ce1f84d910b699caf12e62ef476f",
+        "jobId": 101234254209,
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65",
+        "boundToBoundarySha256": "8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd",
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "whatThisGateDidNotRender": [],
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101233828370); the family matrix depends on that job, so no family verdict exists without it",
+        "ingestedOn": "2026-09-05T02:55:00.784Z"
+      }
     },
     {
       "familyId": "mn_prosecutor_agreed-set",
@@ -14608,8 +14627,27 @@
       },
       "requestedScale": 2.5,
       "builderAssignment": null,
-      "currentRasterState": "RASTER_PENDING",
-      "nextOwner": "RAS02"
+      "currentRasterState": "RASTER_PASS",
+      "nextOwner": "RAS02",
+      "rasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33939441038",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "renderedCommitSha": "9f98bcfb5397ce1f84d910b699caf12e62ef476f",
+        "jobId": 101234254176,
+        "jobConclusion": "success",
+        "boundToCanonicalSha256": "4a5d3bec8d9a3261df8bb20965aea7ae133a46edb09165a40ab3089199849e28",
+        "boundToBoundarySha256": "5a24261a37f2fc801ae6361075c8573b0bf45af94adca766a38dcbc48a36d3ed",
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "coversTheWholeFamily": true,
+        "whatThisGateDidNotRender": [],
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101233828370); the family matrix depends on that job, so no family verdict exists without it",
+        "ingestedOn": "2026-09-05T02:55:00.788Z"
+      }
     },
     {
       "familyId": "ut_pet_acquittal-set",
