@@ -45,6 +45,7 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -72,7 +73,7 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, PDFName, PDFRawStream, StandardFonts } = require("pdf-lib");
 
 const FAMILY_ID = "mi_setaside_trafficking-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -100,14 +101,36 @@ const SOURCE_PIN = Object.freeze({
   acroFieldCount: 102
 });
 
+/*
+ * Both fixtures moved in the per-widget-fitting repair, and the raster receipt
+ * they were pinned under is void.
+ *
+ *   canonical  4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361
+ *           -> 5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65
+ *   boundary   eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9
+ *           -> 8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd
+ *
+ * The boundary fixture moved because the defect was there: `caseno` is now
+ * drawn at 8.36pt on page 1 and 6pt on pages 2 and 3 instead of 10pt in all
+ * three, so the case number is inside its box everywhere instead of overrunning
+ * one and being clipped by two.
+ *
+ * The canonical fixture moved for a quieter reason worth stating plainly: page
+ * 1's caseno widget is 10.36pt high, so the fit for that box has always been
+ * 8.36pt -- the fitter measured it and the bytes ignored it, because the widget
+ * carries a /DA of its own that said 10. The canonical value fitted at 10 as
+ * well, so nothing was ever wrong on that page; what changed is that the size
+ * the family measures is now the size it draws. Pages 2 and 3 of canonical are
+ * unchanged at 10pt.
+ */
 const EXPECTED_ARTIFACTS = Object.freeze({
   canonical: Object.freeze({
-    sha256: "4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361",
-    byteLength: 378569
+    sha256: "5adcf1335b6fbedb01880c9559f2a0d06b5fbfab8ae36e54e0a3eae3df358e65",
+    byteLength: 378568
   }),
   boundary: Object.freeze({
-    sha256: "eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9",
-    byteLength: 378604
+    sha256: "8f24ca2af0e6b6d04f5e19f5a68455285e44100b9431690ba8d19806c17f44dd",
+    byteLength: 378609
   })
 });
 
@@ -430,6 +453,38 @@ async function renderDocument(source, census, fixtureName) {
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, unwritableFields,
+    /*
+     * MEASURE EVERY WIDGET, NOT JUST THE FIRST ONE.
+     *
+     * `caseno` is one field printed in three places on MC 227b: the caption box
+     * on page 1 is 160.44pt wide, and the case-number blanks on the notice of
+     * hearing and the proof of service are 103pt. Without this opt-in the
+     * finalizer fits the value against `widgets[0]` alone, so the two 103pt
+     * boxes were never measured at all -- and because each widget carries a /DA
+     * of its own, the size the fitter did choose never reached the bytes
+     * either. The boundary case number `2024-0011882-SUPPLEMENTAL-FY` was drawn
+     * at 10pt in all three. It needs 162.75pt at that size, so it ran 6.31pt
+     * past the page-1 box onto the form's own printed ink, and on pages 2 and 3
+     * the appearance stream's own clip -- `2 2 m ... 101 2 l h W n`, 99pt of
+     * usable width -- cut it to "2024-0011882-SUPPLEMENTA". The value was
+     * complete in the content stream and unreadable on paper.
+     *
+     * `fitTextPerWidget` is the finalizer's documented per-family opt-in for
+     * exactly this shape -- one value, several places, different widths. It
+     * writes each widget's own measured size into that widget's own /DA and
+     * leaves the field /DA at the smallest of them, so a widget carrying no /DA
+     * inherits a size that is safe everywhere. Nothing in the shared finalizer
+     * or the shared fitter changes: the defaults every other family rebuilds
+     * under are untouched.
+     *
+     * `evaluateDeclaredMinimumSize` is the fitter's own per-family opt-in, and
+     * this family takes it because a repaired family carries the opt-in the
+     * host asks for. Measured here it decides nothing: every ladder on this
+     * form lands on its floor exactly, so it can neither move a size nor turn a
+     * refusal into a write.
+     */
+    fitTextPerWidget: true,
+    evaluateDeclaredMinimumSize: true,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
@@ -440,16 +495,96 @@ async function renderDocument(source, census, fixtureName) {
   return { bytes, report };
 }
 
+/* ---- what the finished page can actually show ------------------------------- */
+/*
+ * Float noise only. Both widths below come from the same Helvetica metrics
+ * rounded to three decimals, so anything wider than this is a real overrun
+ * rather than rounding.
+ */
+const FIT_TOLERANCE_PT = 0.01;
+
+/*
+ * A STRING IN THE BYTES IS NOT A VALUE ON THE PAGE.
+ *
+ * The proof below used to end at `matchesExpected`: it read the text back out
+ * of the flattened appearance stream and compared it to the fact. That is true
+ * of an unreadable page. `2024-0011882-SUPPLEMENTAL-FY` read back exactly, and
+ * `unfittable` was empty, while the page-1 caption box was overrun by 6.31pt
+ * onto the form's own printed rule and pages 2 and 3 clipped the value to
+ * `2024-0011882-SUPPLEMENTA`. Both counters were telling the truth about the
+ * string and nothing about the paper, so the defect shipped behind nine zeros.
+ *
+ * This reads the geometry the page actually draws with: the appearance's own
+ * /BBox, the clip path in force when the text is shown (the last `W n`), the
+ * size in its /Tf and the origin in its /Tm. The width a value may occupy is
+ * measured from the text origin to the clip -- not to the widget rectangle,
+ * because the clip is what a viewer obeys and on this form it sits 2pt inside
+ * the box. Helvetica is measured with the same standard font the finalizer
+ * embeds, so this is the width that will be drawn rather than an estimate.
+ */
+async function appearanceGeometry(artifactBytes) {
+  const inflate = (buf) => { try { return zlib.inflateSync(buf); } catch { return buf; } };
+  const doc = await PDFDocument.load(artifactBytes, { ignoreEncryption: true, updateMetadata: false });
+  const helvetica = await (await PDFDocument.create()).embedFont(StandardFonts.Helvetica);
+  const ctx = doc.context;
+  const rows = new Map();
+  doc.getPages().forEach((page, index) => {
+    const resources = page.node.get(PDFName.of("Resources"));
+    const xObjects = resources && ctx.lookup(resources).get(PDFName.of("XObject"));
+    if (!xObjects) return;
+    for (const [name, ref] of ctx.lookup(xObjects).entries()) {
+      const obj = ctx.lookup(ref);
+      if (!(obj instanceof PDFRawStream)) continue;
+      const stream = inflate(Buffer.from(obj.contents)).toString("latin1");
+      let text = "";
+      for (const token of stream.match(/\((?:[^()\\]|\\.)*\)|<[0-9A-Fa-f\s]{2,}>/g) ?? []) {
+        if (token.startsWith("(")) { text += token.slice(1, -1); continue; }
+        const digits = token.slice(1, -1).replace(/\s+/g, "");
+        if (digits.length % 2 === 0) text += Buffer.from(digits, "hex").toString("latin1");
+      }
+      const boxRef = obj.dict.get(PDFName.of("BBox"));
+      const box = boxRef ? ctx.lookup(boxRef).asArray().map((n) => n.asNumber()) : null;
+      const tf = stream.match(/\/(\S+)\s+([\d.]+)\s+Tf/);
+      const tm = stream.match(/([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+([\d.-]+)\s+Tm/);
+      // The clip actually in force is the LAST path closed by `W n`. The first
+      // is the widget border, which is drawn and then discarded.
+      const clips = [...stream.matchAll(/((?:-?[\d.]+\s+-?[\d.]+\s+(?:m|l)\s+)+)h\s*\n?W\s*\n?n/g)];
+      const clipMaxX = clips.length
+        ? Math.max(...[...clips[clips.length - 1][1].matchAll(/(-?[\d.]+)\s+(-?[\d.]+)\s+(?:m|l)/g)]
+          .map((point) => Number(point[1])))
+        : null;
+      const drawnText = text.trim();
+      const fontSizePt = tf ? Number(tf[2]) : null;
+      const textOriginXPt = tm ? Number(tm[5]) : 0;
+      const limitX = clipMaxX ?? (box ? box[2] : null);
+      const key = name.asString().replace(/^\//, "");
+      rows.set(`${index + 1} ${key}`, {
+        page: index + 1, appearance: key, drawnText,
+        bboxWidthPt: box ? Number((box[2] - box[0]).toFixed(3)) : null,
+        clipMaxXPt: clipMaxX == null ? null : Number(clipMaxX.toFixed(3)),
+        textOriginXPt, fontSizePt,
+        availableWidthPt: limitX == null ? null : Number((limitX - textOriginXPt).toFixed(3)),
+        drawnWidthPt: fontSizePt && drawnText
+          ? Number(helvetica.widthOfTextAtSize(drawnText, fontSizePt).toFixed(3))
+          : null
+      });
+    }
+  });
+  return rows;
+}
+
 /* ---- byte proof ------------------------------------------------------------ */
 async function byteProof(source, census, artifactBytes, report, fixtureName) {
   const tmp = path.join(ROOT, `.mi-227b-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
   let widgets = [];
   try { widgets = await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
+  const geometry = await appearanceGeometry(artifactBytes);
   const written = new Map(report.written.map((w) => [w.field, w]));
   const actualWrites = [];
   const refusedFieldsWithInk = [];
   const documentAuthoredAppearances = [];
+  const clippedOrOverlapping = [];
   let glyphs = 0;
   for (const r of census.rows) {
     for (const wdg of r.widgets) {
@@ -458,12 +593,44 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       const ink = text.join("").trim();
       if (written.has(r.name) && r.policy === "write") {
         glyphs += ink.length;
-        actualWrites.push({
+        /*
+         * Every appearance drawn at this widget is measured against the box it
+         * is drawn into. `matchesExpected` says the string survived; `fitsBox`
+         * says the paper can show it. A write is only whole when both hold.
+         */
+        const boxes = drawn
+          .map((d) => geometry.get(`${d.page} ${d.appearance}`))
+          .filter((g) => g && g.drawnWidthPt != null && g.availableWidthPt != null);
+        const overflowing = boxes.filter((g) => g.drawnWidthPt > g.availableWidthPt + FIT_TOLERANCE_PT);
+        const row = {
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
           drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
-          matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
-        });
+          matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim(),
+          // The geometry the finished page draws with, read back from its own
+          // appearance streams rather than from anything this build reported.
+          appearanceBoxes: boxes.map((g) => ({
+            appearance: g.appearance, page: g.page,
+            bboxWidthPt: g.bboxWidthPt, clipMaxXPt: g.clipMaxXPt,
+            textOriginXPt: g.textOriginXPt, fontSizePt: g.fontSizePt,
+            availableWidthPt: g.availableWidthPt, drawnWidthPt: g.drawnWidthPt,
+            marginPt: Number((g.availableWidthPt - g.drawnWidthPt).toFixed(3)),
+            fits: g.drawnWidthPt <= g.availableWidthPt + FIT_TOLERANCE_PT
+          })),
+          fitsBox: boxes.length > 0 && overflowing.length === 0,
+          fitMeasured: boxes.length > 0
+        };
+        actualWrites.push(row);
+        for (const g of overflowing) {
+          clippedOrOverlapping.push({
+            field: r.key, factId: r.fact, appearance: g.appearance, page: g.page,
+            drawnText: g.drawnText, fontSizePt: g.fontSizePt,
+            bboxWidthPt: g.bboxWidthPt, clipMaxXPt: g.clipMaxXPt,
+            textOriginXPt: g.textOriginXPt,
+            availableWidthPt: g.availableWidthPt, drawnWidthPt: g.drawnWidthPt,
+            overflowPt: Number((g.drawnWidthPt - g.availableWidthPt).toFixed(3))
+          });
+        }
         continue;
       }
       if (ink.length === 0) continue;
@@ -481,7 +648,16 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       refusedFieldsWithInk.push({ fieldId: r.key, page: wdg.page, drawnText: text });
     }
   }
-  return { actualWrites, refusedFieldsWithInk, documentAuthoredAppearances, glyphs, appearances: widgets.length };
+  /*
+   * Fail closed. A value the page cannot show is not a written value, and this
+   * family has already shipped one behind a green counter; the build stops here
+   * rather than recording the overflow in a report nobody gates on.
+   */
+  assert.equal(clippedOrOverlapping.length, 0,
+    `${source.formNumber}/${fixtureName}: ${clippedOrOverlapping.length} written value(s) do not fit the box they are drawn in: `
+    + clippedOrOverlapping.map((c) => `${c.field}@p${c.page} needs ${c.drawnWidthPt}pt at ${c.fontSizePt}pt in ${c.availableWidthPt}pt (over by ${c.overflowPt}pt)`).join("; "));
+  return { actualWrites, refusedFieldsWithInk, documentAuthoredAppearances, clippedOrOverlapping,
+    glyphs, appearances: widgets.length };
 }
 
 /* ---- field map ------------------------------------------------------------- */
@@ -646,6 +822,22 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
       note("invisibleWrites", { fixture: p.fixture, why: "the finalizer reported values and the output bytes carry no glyph and no flattened appearance" });
     }
     if ((p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: p.fixture, why: "ink landed outside every measured write box" });
+    /*
+     * A value wider than the box it is drawn in is a visual defect whether the
+     * viewer clips it or lets it run over the form's printed ink, and it is one
+     * this family shipped: three appearances of the boundary case number, two
+     * clipped to `2024-0011882-SUPPLEMENTA` and one overrunning its caption box
+     * by 6.31pt, while every counter here read zero. The number below is read
+     * off the finished appearance streams.
+     */
+    for (const clipped of p.clippedOrOverlappingWrites ?? []) {
+      note("visualDefects", {
+        fixture: p.fixture, field: clipped.field, page: clipped.page,
+        fontSizePt: clipped.fontSizePt, availableWidthPt: clipped.availableWidthPt,
+        drawnWidthPt: clipped.drawnWidthPt, overflowPt: clipped.overflowPt,
+        why: "a written value is wider than the box its appearance stream draws it in"
+      });
+    }
     for (const refused of p.refusedFieldsWithInk ?? []) {
       note("protectedWrites", { fixture: p.fixture, field: refused.fieldId, why: "a field the map refused carries ink in the output" });
     }
@@ -950,6 +1142,9 @@ export async function runFamily(argv = process.argv.slice(2)) {
         refusedFieldsWithInk: proof.refusedFieldsWithInk,
         documentAuthoredAppearances: proof.documentAuthoredAppearances,
         unfittable: report.unfittable,
+        // Written values measured against the box they are drawn in, so
+        // `visualDefects` is counted from the artifact rather than declared.
+        clippedOrOverlappingWrites: proof.clippedOrOverlapping,
         actualWrites: proof.actualWrites
       });
       const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
@@ -1091,7 +1286,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
       addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
       flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
-      refusedFieldsWithInk: p.refusedFieldsWithInk
+      refusedFieldsWithInk: p.refusedFieldsWithInk,
+      clippedOrOverlappingWrites: p.clippedOrOverlappingWrites
     })),
     blockingFindings: writeProofs.flatMap((p) => p.refusedFieldsWithInk.map((r) => ({
       fixture: p.fixture, field: r.fieldId, finding: "a field the map refused carries ink in the output"
