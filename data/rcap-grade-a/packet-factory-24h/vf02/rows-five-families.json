@@ -920,7 +920,7 @@
   {
    "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
    "lane": "VF02",
-   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verdict": "FAIL_REPAIR_REQUIRED",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
    "verifier": "VF02 (independent — this lane built and repaired none of these packets)",
    "verifiedAtBase": "c9bbb6ecd",
@@ -1039,11 +1039,46 @@
     },
     "CLIPPING_AND_OVERLAP": {
      "measured": true,
-     "result": "PASS",
-     "finding": "Rasterised here at 100 dpi: all four pages 850x1100 px, zero dark pixels in the 18-point edge band on every page of BOTH fixtures, with the ink box on every page inside x 100-746 and y 90-985 of 850x1100. No line is broken mid-token and no value overruns its dotted rule.",
+     "result": "FAIL",
+     "finding": "RAW MARKDOWN EMPHASIS DELIMITERS ARE PRINTED AS BODY TEXT ON A DELIVERED PAGE, IN BOTH FIXTURES. Re-ruled at the Captain's direction under the factory standard that CLIPPING_AND_OVERLAP owns the visual appearance of the delivered page and visualDefects is its counterpart counter. My first row recorded this defect but scored it against no named obligation, on VF09's precedent for the identical defect in the WV sibling; that precedent decided only that it is not a SELF_HELP_STOP failure, which I still think is right, and it did not reach the obligation that actually owns delivered-page appearance. Under the standard as the Captain states it this is a visible defect on a delivered page and it fails here. WHAT IS ON THE PAGE: packet page 4 of 4 (612 x 792), component ok-trafficking-survivor-19c-filing-instructions-2, its own source page 2, under the heading 'WHEN TO STOP AND GET HELP INSTEAD'. The first stop-condition bullet is drawn as a single Tj at x=72.0, baseline y=517.0, Times-Roman 11pt, black, and reads in full: '- **this is the first thing the committed record says about this route:** Oklahoma has a special'. The two delimiter pairs occupy x 78.41-89.41 and x 369.99-380.99 on that baseline. Rasterised here at 150 dpi they are plainly legible black asterisks at full body size, not faint and not marginal: the line reads '- **this is the first thing the committed record says about this route:** Oklahoma has a special'. Byte-identical in the boundary fixture at the same page, coordinates and size. pdftotext -layout returns exactly one line containing '**' in each fixture, canonical line 148 and boundary line 149. WHERE IT COMES FROM: the same string carries the same delimiters in production-field-map.json, participantFacingObligations, the SELF_HELP_STOP answer, and in participant-instructions.md, where it IS markdown and renders as emphasis correctly. The composer that writes those answers onto a composed PDF page carried the markdown source string through unrendered. WHAT THE GEOMETRY STILL PROVES, and should survive the repair: the page geometry itself is clean. Rasterised at 100 dpi, all four pages are 850x1100 px with zero dark pixels in the 18-point edge band in BOTH fixtures, ink confined to x 100-746 and y 90-985 of 850x1100, no line broken mid-token and no value overrunning its dotted rule. Nothing is clipped and nothing overlaps; what fails is that ink which should not be on the page is on it.",
      "evidence": {
+      "defectClass": "source markup rendered literally onto a delivered page",
+      "page": 4,
+      "pageOf": 4,
+      "pageSize": "612 x 792",
+      "component": "ok-trafficking-survivor-19c-filing-instructions-2",
+      "componentSourcePage": 2,
+      "sectionHeading": "WHEN TO STOP AND GET HELP INSTEAD",
+      "textOnThePage": "- **this is the first thing the committed record says about this route:** Oklahoma has a special",
+      "lineOrigin": {
+       "x": 72.0,
+       "y": 517.0
+      },
+      "font": "Times-Roman",
+      "sizePt": 11.0,
+      "fill": "black",
+      "openingDelimiterX": [
+       78.41,
+       89.41
+      ],
+      "closingDelimiterX": [
+       369.99,
+       380.99
+      ],
+      "fixturesAffected": [
+       "canonical",
+       "boundary"
+      ],
+      "canonicalSha256": "afff7ed0744c57b2473d17378d0dcf601d33b82ad98a0ae0fe7d6380bc7dc328",
+      "boundarySha256": "325d43e40884a0c55b1e25efa63cb29d5e8c1d9cfe0e8cf2bd265304c1aca97b",
+      "pdftotextLine": {
+       "canonical": 148,
+       "boundary": 149
+      },
       "edgeInkPixels": 0,
-      "clippedWrites": 0
+      "clippedWrites": 0,
+      "glyphsOutsideAMeasuredWriteBox": 0,
+      "howMeasured": "content stream of page 4 decoded from the delivered bytes and the Tj recovered with its text matrix; delimiter offsets computed from Times-Roman metrics at 11pt from the line origin; page 4 rasterised here at 150 dpi and the crop read; 100 dpi edge-band raster over every page of both fixtures"
      }
     },
     "FILING_DESTINATION": {
@@ -1085,29 +1120,39 @@
      }
     }
    },
-   "failedObligationNames": [],
-   "defectFoundThatFailsNoObligationByName": {
-    "what": "RAW MARKDOWN IS RENDERED LITERALLY INTO THE DELIVERED PLEADING. The filing-instructions page of BOTH fixtures prints, as body text under 'WHEN TO STOP AND GET HELP INSTEAD': '- **this is the first thing the committed record says about this route:** Oklahoma has a special expungement pathway for certain prostitution-related records connected to human trafficking victimization.' The asterisk pairs are markdown emphasis delimiters that were never rendered. pdftotext -layout of fixtures/canonical.pdf and of fixtures/boundary.pdf each return exactly one line containing '**' — canonical line 148, boundary line 149. The same string carries the same delimiters in participant-instructions.md, where it IS markdown and renders correctly, and in production-field-map.json's participantFacingObligations SELF_HELP_STOP answer, which is where the composer read it from: the composer carried a markdown source string onto a PDF page that does not render markdown.",
-    "whyItIsNotScoredAsASelfHelpStopFailure": "Every recorded stop condition is present, complete and legible; the delimiters are cosmetic and change no meaning. Failing SELF_HELP_STOP on it would be inventing a defect class the obligation does not carry. This is the same call VF09 recorded at base 09b741ad on the identical defect in composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement, and it is followed here for consistency rather than reasoned afresh.",
-    "location": {
-     "page": 4,
-     "component": "ok-trafficking-survivor-19c-filing-instructions-2",
-     "sourcePage": 2,
-     "line": "- **this is the first thing the committed record says about this route:**",
-     "fixtures": [
-      "canonical",
-      "boundary"
-     ]
-    },
-    "repair": "strip or render markdown emphasis in the composer that writes participantFacingObligations answers onto a composed page; the same composer produces the WV instance, so the repair is shared and not this family's alone.",
-    "consequenceForPromotion": "this row is a PASS on the fifteen named obligations. It is not a recommendation to promote the family while a filed page prints raw markup."
-   },
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
    "observationsThatFailNoObligation": [
     {
      "what": "The petition (page 2) and the instructions page (page 4) each print the internal route key 'Route: obligation:runtime-only:OK:human-trafficking-survivor-relief' as a footer.",
      "whyItIsNotAFailure": "a footer on a full, self-describing page, not a route-key-only or fragment page; the same convention appears on composed pages across this factory."
     }
-   ]
+   ],
+   "nineCountersMeasuredOnDeliveredBytes": {
+    "whatDiffers": "visualDefects",
+    "scriptSays": 0,
+    "measuredHereOnTheBytes": 1,
+    "why": "the completeness script measures the field map and the byte proof of what this build WROTE; it does not read the composed content stream for what the page SHOWS. One visible defect is on the delivered page and both fixtures carry it. See CLIPPING_AND_OVERLAP."
+   },
+   "repairAssignment": {
+    "familyId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+    "decisiveDefect": "Packet page 4 of 4, component ok-trafficking-survivor-19c-filing-instructions-2 (its own source page 2), section 'WHEN TO STOP AND GET HELP INSTEAD': the first stop-condition bullet is drawn at x=72.0, baseline y=517.0, Times-Roman 11pt black, and prints '- **this is the first thing the committed record says about this route:** Oklahoma has a special'. The two markdown emphasis delimiter pairs sit at x 78.41-89.41 and x 369.99-380.99 on that baseline and are visible black ink at full body size. Identical in the boundary fixture.",
+    "requirement": "A delivered page carries no markup. Emphasis delimiters that render as emphasis in participant-instructions.md must be rendered or stripped before the string is drawn onto a PDF page, which does not render markdown.",
+    "whereToFixIt": "the composer that writes production-field-map.json participantFacingObligations answers onto a composed page. The SELF_HELP_STOP answer for this family carries the delimiters at source, so a per-family text edit would leave the composer able to reproduce it on the next family.",
+    "sharedWithAnotherFamily": "VF09 recorded the identical defect at base 09b741ad in composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement, on the same section of the same kind of composed page. The repair is shared and should be made in the composer, not twice in two families.",
+    "failedProofObligations": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "whatSurvivesTheRepair": "every other one of the fifteen obligations passes and none of them depends on this line. The stop conditions themselves are complete and correct; only the delimiters are wrong.",
+    "repairOwner": "the composed-pleading composer lane; this lane wrote nothing"
+   },
+   "rulingHistory": {
+    "firstRuling": "PASS_COMPLETE_INDEPENDENT with the defect recorded as failing no obligation by name, following VF09's precedent on the WV sibling, together with the note that it was not a recommendation to promote the family while a filed page prints raw markup.",
+    "captainDirection": "CLIPPING_AND_OVERLAP owns the visual appearance of the delivered page and visualDefects is its counterpart counter; a defect visible on a delivered page is an output defect even when the counters are green, and PASS_COMPLETE_INDEPENDENT makes the family COMPLETE_PACKET_PROVEN with no repair owed.",
+    "reRuling": "FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP. Measured again before re-ruling rather than re-scored on paper: the line was re-extracted from both fixtures' content streams and page 4 was rasterised at 150 dpi to confirm the delimiters are visible black ink at full body size. VF09's precedent is not disturbed — it decided that this defect is not a SELF_HELP_STOP failure, and it is not one here either; the obligation it fails is the one that owns delivered-page appearance.",
+    "nothingElseChanged": "No other row, no other obligation and no other file was touched. The other fourteen obligations on this family keep the results and evidence they were first measured with."
+   }
   }
  ],
  "summary": {
@@ -1115,11 +1160,11 @@
   "PASS_COMPLETE_INDEPENDENT": [
    "in_arrest_no_charges-set",
    "ri_decriminalized-set",
-   "tx_nd_veterans_court-set",
-   "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief"
+   "tx_nd_veterans_court-set"
   ],
   "FAIL_REPAIR_REQUIRED": [
-   "nh_petition_nonconviction_pre2019-set"
+   "nh_petition_nonconviction_pre2019-set",
+   "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief"
   ],
   "BLOCKED_LEGAL_INPUT": [],
   "NOT_MEASURABLE_HERE": [],
@@ -1132,7 +1177,20 @@
    "nh_petition_nonconviction_pre2019-set": "FAIL — the Signature of Filer box on the fee-waiver motion carries the source's grey placeholder 'Enter /s/ before name' in both fixtures; three sworn financial totals carry an invisible source '0.00' that pdftotext returns; and none of the eight self-help stop conditions the committed registry holds for this track reaches the participant.",
    "ri_decriminalized-set": "PASS — both route-determined elections are actually marked on the page (confirmed against the pinned source at the same crop), every sworn affidavit box is unmarked, and the composed order keeps everything below 'EVERYTHING BELOW THIS LINE IS THE COURT'S' blank.",
    "tx_nd_veterans_court-set": "PASS — all three values the enclosed Statement of Inability ships (two sworn zeros and a 2022 date) are absent from the delivered pages, the OCA petition's own 'is not' dropdown default never reaches page 1, and the one appearance-semantics entry this family needs is present and demonstrably effective.",
-   "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief": "PASS on the fifteen — but the filing-instructions page of both fixtures prints raw markdown emphasis delimiters as body text, recorded as a defect that fails no named obligation, on VF09's precedent for the identical defect in the WV sibling."
-  }
+   "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief": "FAIL — re-ruled at the Captain's direction. Page 4 of both fixtures prints raw markdown emphasis delimiters as visible black body text on the first stop-condition bullet, at x=72.0 y=517.0, Times-Roman 11pt; under the standard that CLIPPING_AND_OVERLAP owns delivered-page appearance that is an output defect, and the other fourteen obligations still pass."
+  },
+  "summaryAmendedFor": "only composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief, so the derived index does not contradict the row it indexes. No other family's entry changed."
+ },
+ "amendment": {
+  "amendedAtBase": "c9bbb6ecd",
+  "priorCommit": "79d8b71e81e86a984bf3f0de27f52b9065a66db1",
+  "what": "One family re-ruled at the Captain's direction: composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief moves from PASS_COMPLETE_INDEPENDENT to FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP.",
+  "scope": "that family's row, and the two summary entries and the one summary line that name it. No other row, obligation, family or file was touched.",
+  "verdictsUnchanged": [
+   "in_arrest_no_charges-set",
+   "nh_petition_nonconviction_pre2019-set",
+   "ri_decriminalized-set",
+   "tx_nd_veterans_court-set"
+  ]
  }
 }
