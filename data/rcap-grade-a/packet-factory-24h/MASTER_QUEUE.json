@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "427afe41315454f7d72f21eef0a5a7a0b691631c",
+  "minimumCaptainSha": "b7c9035a9fd056e34d7530416d5ffa1c06e24f41",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,13 +72,13 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 4,
-    "repairRequired": 51,
+    "verifyPending": 1,
+    "repairRequired": 53,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 150,
-    "FAIL_REPAIR_REQUIRED": 60,
+    "COMPLETE_PACKET_PROVEN": 151,
+    "FAIL_REPAIR_REQUIRED": 62,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -86,8 +86,8 @@
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 4,
-    "WRONG_DELIVERY_TYPE": 1
+    "WRONG_DELIVERY_TYPE": 1,
+    "VERIFY_PENDING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -19112,10 +19112,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -19146,19 +19146,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": "See defects INS1-A and INS1-B in repair-assignments.json. participant-instructions.md makes two statements about the delivered artifact that its own bytes contradict, and both would misdirect a participant: (A) lines 42 and 46 state that 'only the Appearance on pages 1-2 carries form boxes for the participant's own details', that the petition's caption, its 'Comes now the Petitioner' line and its paragraph 1 full-name blank 'carry no form boxes at all', 'nor does the proposed order's caption; nor does the Confidential Information Form's cause number or name', that the packet filled in 'on the Appearance only', and instruct the participant to 'Copy the caption across every document' — while cap-PetitionerFullName is ONE shared field spanning source pages 1,3,5,7,8,9,13 and IS filled on all seven, cap-COUNTY spans pp.1,3,7,9 and is filled on all four, and Address spans pp.1,13 and is filled on both. The build's own reports/participant-name-placement.json records the same 16 placements, so the packet's two artifacts contradict each other and the bytes side with the placement report. (B) the instructions direct the participant to complete named PDF form fields and interactive controls — line 54 'The Appearance's caption has a dropdown for the court type', line 90 'a dropdown; inside the PDF, DD-cap-CourtType', line 100 'the two election boxes (Check Box9, Check Box10) | tick the relief', line 103 'PetFullSSN', and the whole insert table at lines 114-119 — but BOTH delivered fixtures are fully flattened: 0 AcroForm fields and 0 widget annotations on every one of the 15 + 4 pages. There is no dropdown to open and no box to tick."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
@@ -39248,11 +39240,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "current-byte-independent-verification-il-tx-batch-018",
-        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
-        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -39282,30 +39276,35 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REQUIRED_BEFORE_FILING"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture.",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The instructions say nothing financial is filled in and assign signature and date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate.",
-          "evidence": null
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map.",
-          "evidence": null
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A PARTICIPANT-FACING PAGE PRINTS AN INTERNAL ROUTE KEY THAT THE CENSUS DOES NOT CARRY, in both fixtures, on two pages. WHAT IS ON THE PAGE: packet page 9 (composed proof-of-delivery page) and packet page 24 (last instructions page) each end with the line 'Route: obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure'. Drawn as body text, not a faint watermark: page 9 at xMin 104.09 yMin 629.99 xMax 466.40 yMax 639.89, page 24 at xMin 104.09 yMin 296.49 xMax 466.40 yMax 306.39, byte-identical coordinates in the boundary fixture. Rasterised here at 100 dpi, page 9 shows it plainly legible at full body size beneath the parenthetical. WHY IT IS A DEFECT: that exact string exists nowhere in this repository except this family's own builder (scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs) and this family's own outputs (source-receipt.json, production-field-map.json, participant-instructions.md). The route-obligation census v1 carries this family under obligation:track-only:TX:tx_nd_dwi_deferred - in category-a-implementation-waves.json, identity-resolution/batch-2/resolved.json, source-custody-reconciliation.json and source-queue-reconciliation.json - and the family's own product-wiring.json, which is generated from the census, declares obligation:track-only:TX:tx_nd_dwi_deferred too. src/lib/legal-authority/routes/route-splits.json does not mention tx_nd_dwi_deferred at all. THE SIBLINGS SETTLE IT: all four other Texas nondisclosure families have a source-receipt routeKey identical to their product-wiring routeKey and present in the census - tx_nd_veterans_court and tx_nd_probation_misdemeanor on track-only keys, tx_nd_dwi_probation on obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure and tx_nd_conviction_no_supervision on its own track-pathway key, each with census hits. This family is the only one of the five whose printed key has none, and the suffix it prints ('first-offense-dwi-nondisclosure') is the DWI-PROBATION sibling's pathway suffix carried onto the deferred-adjudication track. EVERYTHING ELSE ON THE PAGES IS CLEAN, and should survive the repair: zero words fall outside the 612x792 mediabox in either fixture, zero written values collide with printed text anywhere in the 24 pages (a positional scan over all fifteen writes finds none; the only geometric overlap on page 20 is between two of the form's own printed label lines), no markdown delimiter or template token reaches any page, no orphaned signature page, no fragment page, no hard-split token, and the composed pages are full self-describing pages rather than route-key-only leaves.",
+          "evidence": {
+            "pagesCarryingThePrintedKey": [
+              9,
+              24
+            ],
+            "fixturesAffected": [
+              "canonical",
+              "boundary"
+            ],
+            "printedKey": "obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure",
+            "censusKey": "obligation:track-only:TX:tx_nd_dwi_deferred",
+            "censusHitsForPrintedKey": 0,
+            "filesCarryingPrintedKeyRepoWide": 4,
+            "wordsOutsideMediabox": 0,
+            "valueOnPrintedTextCollisions": 0,
+            "markupTokensOnPage": 0,
+            "pagesRasterisedAndRead": 3
+          }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
@@ -41344,11 +41343,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "current-byte-independent-verification-ut-pet-limitations",
-        "verifiedAtBase": "c28d49571e86efb3dee1fa46d45369ed8f7528fa",
-        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ut-pet-limitations/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -41391,24 +41392,54 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "PAGE_ORDER",
-        "SELF_HELP_STOP"
+        "CLIPPING_AND_OVERLAP",
+        "SERVICE"
       ],
       "failedObligations": [
         {
-          "obligation": "PAGE_ORDER",
-          "finding": "The rendered page manifest does not match the controlling packet-set component order. The packet-set manifest orders BCI application (1), optional third-party release (2), cover sheet (3), petition (4), order (5), acceptance (6), consent (7), victim statement (8), reply (9), then guidance (10). Both rendered PDFs instead place petition and order on pages 1-5, cover sheet on 6-7, forms 6-9 on 8-16, and the BCI components last on 17-19.",
-          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json packetSetId ut_pet_limitations-set versus reports/rendered-artifacts.json pageManifest"
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "EVERY SELECTION MARK THIS PACKET WRITES COLLIDES WITH THE PRINTED BRACKET IT IS MEANT TO SIT INSIDE, on five delivered pages, in both fixtures. WHAT IS ON THE PAGE: the family writes eight 'X' marks into printed bracket pairs, on packet pages 4 (two), 5, 6 (two), 8 and 9 (two). Each mark is drawn at the LEFT BRACKET'S OWN x-origin plus 1.50pt, so the X's glyph box overlaps the printed '[' by 1.27 to 1.84pt over the full 6.3 to 9.1pt height of the bracket. Worked example, packet page 5, the 1044XX cover sheet's Expungement Petition - Criminal row: the printed '[' occupies x 355.98-358.77, the interior gap between the brackets is 358.77-364.26 (5.49pt), the X is 5.35pt wide and would fit the gap exactly if centred, and it is drawn at 357.48-362.83 instead. Rasterised here at 400 dpi the row reads as a mark fused to the bracket rather than a mark inside it, and the unmarked '[ ]' rows directly above and below it show the difference plainly; page 8's 'In the [x] District' and page 6's 'I am the [x] Petitioner' are the same. THE BUILD'S OWN BYTE PROOF SAYS THIS DOES NOT HAPPEN AND IT DOES: reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures, but three of the eight marks run past the right edge of their OWN committed write box - page 4 box x 76.50 width 5.43 with the X ending at 83.35 (1.42pt out), page 5 box x 355.98 width 5.45 with the X ending at 362.83 (1.40pt out), page 8 box x 226.80 width 6.70 with the X ending at 234.97 (1.47pt out). The write box has been anchored on the bracket glyph rather than on the gap between the brackets, which is both the cause of the overlap and the cause of the overrun. THIS IS THE CLASS THIS LANE HAS ALREADY FAILED ONCE IN THIS JURISDICTION: the ut_pet_acquittal sibling was failed on a 2.24 x 3.41pt (7.65 sq pt) collision between a written name and the printed 'I' of a declaration line. Six of the eight collisions here are larger than that, up to 1.84 x 9.08pt (16.7 sq pt). EVERYTHING ELSE IS CLEAN and should survive the repair: zero words outside the 612x792 mediabox on all 19 pages of both fixtures; a positional scan over all thirty-eight writes finds these eight and nothing else - no written text value collides with any printed word anywhere in the packet, including on the long-value boundary fixture; no markdown delimiter, template token or route key reaches any page; no orphaned signature page, no fragment page, no hard-split token.",
+          "evidence": {
+            "collidingMarks": 8,
+            "pagesAffected": [
+              4,
+              5,
+              6,
+              8,
+              9
+            ],
+            "fixturesAffected": [
+              "canonical",
+              "boundary"
+            ],
+            "overlapRangePt": "1.27x6.32 to 1.84x9.12",
+            "marksOverrunningTheirOwnWriteBox": 3,
+            "maxOverrunPt": 1.47,
+            "buildReportsGlyphsOutsideBoxes": 0,
+            "measuredHereGlyphsOutsideBoxes": 3,
+            "otherValueOnPrintedTextCollisions": 0,
+            "wordsOutsideMediabox": 0,
+            "pagesRasterisedAndRead": 5
+          }
         },
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet does not state where self-help ends. The route's current committed track has eight stop conditions, including a hard stop for non-US citizens and a stop when a prosecutor or victim objects or the court schedules a hearing. None is presented as a stop; the instructions instead say that if a hearing is scheduled the participant should attend it, directing continued self-help at the exact event the route record says ends it.",
-          "evidence": "data/record-clearing/legal-design-track-registry.json track ut_pet_limitations selfHelpStopConditions versus participant-instructions.md sections 'Who must receive a copy, and how' and 'What this packet is not'"
+          "obligation": "SERVICE",
+          "finding": "THE PACKET PUTS A SERVICE OBLIGATION ON THE PARTICIPANT THAT THE CONTROLLING RECORD SAYS DOES NOT ARISE, AND OMITS THE RULE THE RECORD ACTUALLY STATES. THE RECORD, in three places and in terms: legal-design-track-registry.json track ut_pet_limitations rules.service reads 'The petitioner does not effect service in the ordinary case: the court sends the filing to the prosecuting attorney. The Proof of Service form appears in the published packet only as an optional form, used where the prosecutor's office will not accept service. The Utah Courts general service-of-process page governs first papers in a new civil case and must not be wired to this track; doing so would import a summons, a process server and a 120-day deadline this track does not have.' rules.notice reads 'The court sends a copy of the filing to the prosecuting attorney.' destination.detail reads 'The court sends the filing to the prosecuting attorney; the petitioner does not serve.' THE PACKET: participant-instructions.md heads its section 'Who must receive a copy, and how' and opens 'The prosecutor must receive a copy of what you file, by mail or by email.' It then cites the enclosed BCI Expungement Applicant Instructions - 'after filing with the court, \"Mail or email the prosecutor copies of what you file\"' - and offers form 1146XX for the prosecutor to acknowledge receipt. It adds 'Fill in the service method, the address you used and the date only after service has actually happened.' Nowhere in the file does it say that the court sends the filing to the prosecuting attorney, or that the petitioner does not effect service; a search for 'the court sends', 'does not serve' and 'optional' finds the rule stated nowhere. THE DEFECT IS NOT THAT THE BCI SENTENCE IS INVENTED - it is a genuine quotation from a source this family binds by hash (UT-BCI-EXP-INSTRUCTIONS 9e03980f) - it is that the record's primary rule is missing and its secondary, conditional route has been promoted to a flat participant duty. The consequence for a participant is real in both directions: they may believe their filing is defective until they have mailed the prosecutor, and they are given no way to know that formal service is the court's job. The Indiana sibling in this same return shows the shape that works, and shows it is available: its record says in terms 'the CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form', and its guide carries both limbs in the record's order. The Utah record contains no such authorisation and instead contains an express warning against importing a service regime this track does not have.",
+          "evidence": {
+            "recordRule": "the court sends the filing to the prosecuting attorney; the petitioner does not effect service in the ordinary case",
+            "guideRule": "the prosecutor must receive a copy of what you file, by mail or by email",
+            "recordRuleStatedInTheGuide": false,
+            "recordCitations": [
+              "rules.service",
+              "rules.notice",
+              "destination.detail"
+            ]
+          }
         }
       ],
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",

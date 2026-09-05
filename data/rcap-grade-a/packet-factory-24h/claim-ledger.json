@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "427afe41315454f7d72f21eef0a5a7a0b691631c",
+  "generatedAtCommit": "b7c9035a9fd056e34d7530416d5ffa1c06e24f41",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4133,8 +4133,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:28:12.288Z",
+      "releaseReason": "VF02 PASS_COMPLETE_INDEPENDENT at ff3ee6858 on f3cfeb32/a7b34ccf; FIX18's repair holds: four flattened fixtures, 65/65 declared items, five values in 26 places. Verdict extracted."
     },
     {
       "subjectType": "packet-family",
@@ -7484,9 +7485,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "The generator's verification deal shrank to the lanes it emits and named VF02 for this family; no worker was executing on VF09. Captain moves the grant to the dealt lane."
+      "released": true,
+      "releasedAt": "2026-09-05T11:28:12.418Z",
+      "releaseReason": "VF02 FAIL_REPAIR_REQUIRED at ff3ee6858: CLIPPING_AND_OVERLAP -- pages 9 and 24 print Route: obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure while the census and the family's product-wiring carry obligation:track-only:TX:tx_nd_dwi_deferred; the four Texas siblings agree with their census key. Statement of Inability clean. Verdict extracted; to repair."
     },
     {
       "subjectType": "packet-family",
@@ -7513,7 +7514,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX19",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T06:02:03.545Z"
@@ -7788,8 +7789,9 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:28:12.545Z",
+      "releaseReason": "VF02 FAIL_REPAIR_REQUIRED at ff3ee6858: CLIPPING_AND_OVERLAP (eight selection marks anchored on the printed [ overlap it by 1.27-1.84pt on pages 4, 5, 6, 8, 9; three overrun their write box ~1.4pt while the build reports zero) and SERVICE (guide says the prosecutor must receive a copy; the record says the court sends the filing). FILING_DESTINATION BLOCKED_LEGAL_INPUT: district versus justice court unresolved yet District pre-marked on pages 6, 8, 9. Owner correction Q4 ruled SATISFIED. Verdict extracted; to repair at the Utah host."
     },
     {
       "subjectType": "packet-family",
@@ -7801,11 +7803,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX27",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T10:09:31.182Z",
-      "releaseReason": "Applied owner correction Q4: removed the BCI FAQ '$65 per case' sentence, which no enclosed form prints, and replaced it with the controlling UT.memo refusal plus the direction to BCI; kept the $150 (form 1044XX rev 2026-05-06) and $65.00 (enclosed BCI application) figures only as descriptions of what those enclosed forms print, with clerk/BCI direction. Isolated to this family via the certificateIssuanceFeeNotEstablished + ownerFeeCorrection switches on the shared Utah host; the other six UT families are byte-identical. PAGE_ORDER and SELF_HELP_STOP confirmed absent on rebuilt bytes (test-ut-pet-limitations-order-and-stops.mjs exit 0; 8/8 stop conditions verbatim), not changed here. Fixtures did not move: canonical b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5, boundary 9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4. participant-instructions.md b22035f2 -> 4acffada. Nine counters zero before and after. Central whole-family raster still owed on b6614145/9a3c2721 from the earlier reorder; this lane neither created nor discharged it and committed no local raster. (Replayed by Captain from FIX27 commit 31ba0016c.)"
+      "releasedAt": "2026-09-05T10:09:31.182Z"
     },
     {
       "subjectType": "packet-family",
@@ -13110,7 +13111,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d4865183e75dd8129bc007d1b8be78b208368ea80169aa61fc66e73b6d33e72e",
+  "claimsDigest": "caee39aba1d3b728f1dac3a01fc2d4e19d53d8458617ec26f4e8dd745b1893fd",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27687,6 +27688,33 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T11:24:43.208Z",
       "reason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: CLIPPING_AND_OVERLAP -- pages 8 and 13 carry only the three-line route key (overflow pages of the notice package and filing instructions). Order conforms to the owner decision. Verdict extracted; joins the FIX35 host cohort."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "in_section1_petition-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:28:12.288Z",
+      "reason": "VF02 PASS_COMPLETE_INDEPENDENT at ff3ee6858 on f3cfeb32/a7b34ccf; FIX18's repair holds: four flattened fixtures, 65/65 declared items, five values in 26 places. Verdict extracted."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_deferred-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:28:12.418Z",
+      "reason": "VF02 FAIL_REPAIR_REQUIRED at ff3ee6858: CLIPPING_AND_OVERLAP -- pages 9 and 24 print Route: obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure while the census and the family's product-wiring carry obligation:track-only:TX:tx_nd_dwi_deferred; the four Texas siblings agree with their census key. Statement of Inability clean. Verdict extracted; to repair."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:28:12.545Z",
+      "reason": "VF02 FAIL_REPAIR_REQUIRED at ff3ee6858: CLIPPING_AND_OVERLAP (eight selection marks anchored on the printed [ overlap it by 1.27-1.84pt on pages 4, 5, 6, 8, 9; three overrun their write box ~1.4pt while the build reports zero) and SERVICE (guide says the prosecutor must receive a copy; the record says the court sends the filing). FILING_DESTINATION BLOCKED_LEGAL_INPUT: district versus justice court unresolved yet District pre-marked on pages 6, 8, 9. Owner correction Q4 ruled SATISFIED. Verdict extracted; to repair at the Utah host."
     }
   ],
   "reissues": [

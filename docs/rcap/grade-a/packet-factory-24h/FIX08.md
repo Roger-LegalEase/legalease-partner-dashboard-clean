@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `427afe41315454f7d72f21eef0a5a7a0b691631c` (or the newer dispatch base)
+**Minimum required ancestor:** `b7c9035a9fd056e34d7530416d5ffa1c06e24f41` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ar-drug-court-set' \
   --codex-cloud \
-  --minimum-captain-sha 427afe41315454f7d72f21eef0a5a7a0b691631c
+  --minimum-captain-sha b7c9035a9fd056e34d7530416d5ffa1c06e24f41
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,7 +38,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 7 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ar-drug-court-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-seal-3yr-set'`
@@ -46,6 +46,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'vt_exp_decriminalized-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-qualprob-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ut_pet_limitations-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,7 +64,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 8 families
 
 - `ar-drug-court-set`
 - `il-exp-precompletion-set`
@@ -72,6 +73,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `sd_arrest_expungement-set`
 - `vt_exp_decriminalized-set`
 - `il-exp-qualprob-set`
+- `ut_pet_limitations-set`
 
 ## What you receive
 
@@ -91,6 +93,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ar-drug-court-set.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
@@ -98,6 +101,7 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 - `scripts/build-census-v1-il-exp-qualprob-set.mjs`
+- `scripts/build-census-v1-ut_pet_limitations-set.mjs`
 
 ## Never write here
 
