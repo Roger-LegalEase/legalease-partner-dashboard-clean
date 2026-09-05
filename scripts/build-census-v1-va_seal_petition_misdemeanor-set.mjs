@@ -491,6 +491,29 @@ const COMPONENTS = [
  * and re-asserted against the sentence it relies on, so the build stops rather
  * than printing a fee posture the record no longer supports.
  */
+/*
+ * SYNTHESIZED SELECTION APPEARANCES, per family.
+ *
+ * CC-1201 carries 63 check-box widgets and CC-1203 carries 76, and on both
+ * forms every one of them sits at /AS /Off while /AP /N ships /1 alone. Under
+ * ISO 32000-1 12.5.5 a viewer draws the stream named by /AS, so where there is
+ * none it paints nothing and the court's own paper carries no square there.
+ * sanitizeAndFlatten's form.updateFieldAppearances() call makes pdf-lib
+ * synthesize one anyway and flatten() stamps it onto the delivered page.
+ * FIX50 added an opt-in for exactly that, suppressSynthesizedAppearances, which
+ * installs an EMPTY appearance for the missing state instead.
+ *
+ * It is set HERE, on the family, and not on the host, because this host builds
+ * four families and only three of them are in this lane's grant. A family that
+ * does not carry the flag passes false and is byte-unaffected.
+ *
+ * This host hands finalizeOfficialForm the PINNED SOURCE BYTES: there is no
+ * intermediate sourceDoc.save() between reading the form and the finalizer, so
+ * the square is born inside sanitizeAndFlatten where the opt-in reaches it.
+ * That is the difference from the East host FIX57 measured, where pdf-lib's
+ * default updateFieldAppearances on a pre-finalize save had already baked the
+ * square in and the option installed nothing.
+ */
 export const FAMILY_CONFIGS = Object.freeze({
   "va_seal_petition_misdemeanor-set": {
     jurisdiction: "VA",
@@ -514,6 +537,8 @@ export const FAMILY_CONFIGS = Object.freeze({
     }
   },
   "va_seal_petition_felony-set": {
+    /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
+    suppressSynthesizedAppearances: true,
     jurisdiction: "VA",
     routeKey: "obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing",
     routeSelectionId: "va-seal-petition-felony-cc-1201-complete-set",
@@ -539,6 +564,8 @@ export const FAMILY_CONFIGS = Object.freeze({
     }
   },
   "va_seal_enumerated_seven_year-set": {
+    /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
+    suppressSynthesizedAppearances: true,
     jurisdiction: "VA",
     routeKey: "obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing",
     routeSelectionId: "va-seal-enumerated-seven-year-cc-1203-complete-set",
@@ -558,6 +585,8 @@ export const FAMILY_CONFIGS = Object.freeze({
     }
   },
   "va_seal_ancillary_matter_only-set": {
+    /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
+    suppressSynthesizedAppearances: true,
     jurisdiction: "VA",
     routeKey: "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing",
     routeSelectionId: "va-seal-ancillary-matter-only-cc-1203-complete-set",
@@ -752,7 +781,7 @@ async function censusOf(source, config) {
 }
 
 /* ---- render one official form -------------------------------------------- */
-async function renderDocument(source, census, fixtureName) {
+async function renderDocument(source, census, fixtureName, config) {
   const facts = FIXTURES[fixtureName];
   // The finalizer works by field NAME, so the census it receives carries one
   // entry per name. A name that hosts several boxes hosts only elections on
@@ -778,7 +807,12 @@ async function renderDocument(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
-    title: FORMS[source.formNumber].title
+    title: FORMS[source.formNumber].title,
+    // Per FAMILY, never per host. See suppressSynthesizedAppearances on
+    // FAMILY_CONFIGS: a family that does not set it is byte-unaffected, which
+    // is what keeps va_seal_petition_misdemeanor-set -- not in this lane's
+    // grant -- producing exactly the bytes it produces today.
+    suppressSynthesizedAppearances: config.suppressSynthesizedAppearances === true
   });
   if (process.env.VA_DEBUG_RENDER) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
@@ -1671,7 +1705,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const facts = FIXTURES[fixtureName];
-    const { bytes: filled, report } = await renderDocument(source, census, fixtureName);
+    const { bytes: filled, report } = await renderDocument(source, census, fixtureName, config);
     const selections = census.rows.filter((r) => r.policy === "select")
       .map((r) => ({ key: r.key, name: r.name, page: r.page, rect: r.rect, routeReason: r.routeReason }));
     const { bytes: marked, marks } = await markRouteSelections(filled, selections);
