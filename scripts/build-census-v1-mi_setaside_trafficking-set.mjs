@@ -153,12 +153,12 @@ const SOURCE_PIN = Object.freeze({
  */
 const EXPECTED_ARTIFACTS = Object.freeze({
   canonical: Object.freeze({
-    sha256: "e05db91780c8a17066b86f5bbb130ac6a6957c4c48d02e34203f9a439a156382",
-    byteLength: 378665
+    sha256: "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+    byteLength: 379008
   }),
   boundary: Object.freeze({
-    sha256: "23f2acdd397cf53494d02bd9c81366bed47c35e60d38bff0f55923980b9d3aea",
-    byteLength: 378792
+    sha256: "08551383a970f6bb2b53719980beb7277094518b8fc807a77018d3e48aa5735d",
+    byteLength: 379757
   })
 });
 
@@ -174,6 +174,18 @@ const WRITE = (fact) => ({ policy: "write", fact });
 /* One printed box, several held facts, one line each, in the order the printed
  * caption names them. `maxFontSize` is the ceiling measured for that box. */
 const COMPOSE = (factIds, maxFontSize, how) => ({ policy: "compose", factIds, maxFontSize, how });
+/* One cell of a repeating table. Written when the platform holds an Nth
+ * conviction, declared required-before-filing when it does not: the row index
+ * comes off the field name and the finalizer refuses a row the facts do not
+ * reach. `bindingLabel` is what the shared descriptor list is asked about,
+ * because this form's own column headings do not name the facts in the words
+ * the registry knows them by; the PRINTED label is unchanged and is what the
+ * field map and the participant see. */
+const ROW = (fact, bindingLabel, what) => ({ policy: "row", fact, bindingLabel, what });
+/* One ruled line of a statement the platform holds whole. */
+const NARRATIVE = (fact, lineIndex, what) => ({ policy: "narrative", fact, lineIndex, what });
+/* A box the build can settle from facts it writes elsewhere on the page. */
+const SETTLED = (decide, label, why) => ({ policy: "settled_selection", selection: true, decide, label, why });
 const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
 const ELECTION = (why) => ({ policy: "election", why });
 const ATTORNEY = (why) => ({ policy: "attorney", why });
@@ -188,23 +200,65 @@ const AGENCY = (what) => SUPPLY(what);
  * record, which the platform does not hold. */
 const CONVICTION_ROWS = ["1", "2", "3", "4"];
 const CONVICTION_LETTERS = { 1: "a", 2: "b", 3: "c", 4: "d" };
+/*
+ * THREE OF THE FOUR COLUMNS ARE FACTS THE PLATFORM CAN HOLD.
+ *
+ * The shared registry has carried a repeating charge row from the beginning --
+ * matter.charges[n].charge, .conviction_date, .case_number and four more -- and
+ * twenty builders supply it, including the sibling Michigan set-aside family on
+ * the neighbouring SCAO form, whose conviction listing has the same four
+ * columns and the same field names. This family held none, so its whole table
+ * shipped blank and was declared participant-supplied.
+ *
+ * The fourth column has no held fact and is not given one. It is headed "CHARGE
+ * CODE(S) / MCL citation/PACC Code", and neither the MCL citation nor the PACC
+ * code is a fact in the registry; matter.citation_number is a citation number,
+ * which is a different thing, and printing it in the citation column would be
+ * the defect the sibling family refused by role. That column stays a declared,
+ * disclosed blank.
+ */
 const CONVICTION_COLUMNS = [
-  ["c", "Crime", "the crime you were convicted of, exactly as the court's record states it"],
-  ["ch", "Charge code(s) — MCL citation / PACC Code", "the charge code, the MCL citation or PACC code, from the court's record"],
-  ["cdate", "Date of conviction", "the exact date of the conviction, which instruction 4 tells you to get from the court"],
-  ["cno", "Case number", "the case number for that conviction"]
+  ["c", "Crime", "matter.charge", "Charge",
+    "the crime you were convicted of, exactly as the court's record states it"],
+  ["ch", "Charge code(s) — MCL citation / PACC Code", null, null,
+    "the charge code, the MCL citation or PACC code, from the court's record"],
+  /*
+   * THE CONVICTION DATE IS UNREACHABLE THROUGH THE SHARED SEMANTICS, AND THAT
+   * IS RECORDED RATHER THAN WORKED AROUND.
+   *
+   * `matter.conviction_date` is a descriptor in the shared registry, flagged
+   * requiresExplicitMapping so a caller must name it deliberately. It cannot be
+   * reached: decideBinding consults protectCategoryOf BEFORE it matches any
+   * descriptor, and the protect vocabulary holds /\bconvict(ed|ion)\b/ under
+   * `disposition_or_hearing`. So every caption that names a conviction date --
+   * including this column's own printed heading, "DATE OF CONVICTION" -- is
+   * protected, and the descriptor written for exactly this fact is reachable
+   * from nowhere. Measured here: protectCategoryOf("Conviction date") returns
+   * disposition_or_hearing and protectCategoryOf("Date of conviction") does
+   * too.
+   *
+   * The way to write it would be to word this column's binding label until the
+   * protect rule stops firing, and that is the same move as wording a refusal
+   * until an approved-reason regex accepts it. This family does not make it.
+   * The column stays a declared, disclosed blank, this build holds no
+   * conviction date, and the unreachable descriptor is raised in
+   * build-findings for whoever owns the shared registry.
+   */
+  ["cdate", "Date of conviction", null, null,
+    "the exact date of the conviction, which instruction 4 tells you to get from the court"],
+  ["cno", "Case number", "matter.case_number", "Case number",
+    "the case number for that conviction"]
 ];
 const convictionRows = () => {
   const rows = {};
   for (const n of CONVICTION_ROWS) {
-    for (const [prefix, heading, what] of CONVICTION_COLUMNS) {
+    for (const [prefix, heading, fact, bindingLabel, what] of CONVICTION_COLUMNS) {
+      const tail = `. This is line ${CONVICTION_LETTERS[n]} of the four the table has room for; the form says to use `
+        + "additional sheets if you need more, and to attach a certified copy of each conviction";
       rows[`${prefix}${n}`] = {
         section: "1. Convictions to be set aside",
         label: `Conviction ${CONVICTION_LETTERS[n]} — ${heading}`,
-        ...SUPPLY(
-          `${what}. This is line ${CONVICTION_LETTERS[n]} of the four the table has room for; the form says to use `
-          + "additional sheets if you need more, and to attach a certified copy of each conviction"
-        )
+        ...(fact ? ROW(fact, bindingLabel, `${what}${tail}`) : SUPPLY(`${what}${tail}`))
       };
     }
   }
@@ -219,11 +273,37 @@ const FORM_FIELDS = {
     county: { section: "Caption", label: "County", ...WRITE("matter.county") },
     caseno: { section: "Caption", label: "Case No.", ...WRITE("matter.case_number") },
     judge: { section: "Caption", label: "Judge", ...PROTECT(COURT_OWNED, "the judge assigned to the application is the court's to name") },
+    /*
+     * The one box on this form the build can answer.
+     *
+     * It asks whether the application includes multiple case numbers AS LISTED
+     * IN ITEM 1, and this build now writes item 1 from the convictions the
+     * platform holds. Counting the distinct case numbers it just wrote is not
+     * a guess about the participant's record; it is a reading of the table on
+     * the page beside the box. Leaving it to the participant, next to a table
+     * the platform filled in, would be asking them to re-derive a fact the
+     * packet already carries -- and if they missed it the caption would
+     * misstate the application to the clerk who reads it first.
+     *
+     * It is answered only in the affirmative: an unticked box is the negative
+     * answer this form provides, so a single-case application needs no mark.
+     */
     multcaseno: {
-      section: "Caption", selection: true,
-      label: "This application includes multiple case numbers as listed in item 1 (selection)",
+      section: "Caption",
       printedCaption: "This application includes multiple case numbers as listed in item 1.",
-      ...ELECTION("tick this if you are listing convictions from more than one case number in the table below — but note instruction 2: a separate application is needed for each COURT")
+      ...SETTLED(
+        (facts) => {
+          const rows = Array.isArray(facts["matter.charges"]) ? facts["matter.charges"] : [];
+          const distinct = new Set(rows.map((r) => String(r?.case_number ?? "").trim()).filter(Boolean));
+          return {
+            checked: distinct.size > 1,
+            basis: `item 1 as delivered by this build lists ${rows.length} conviction(s) under `
+              + `${distinct.size} distinct case number(s)`
+          };
+        },
+        "This application includes multiple case numbers as listed in item 1 (selection)",
+        "the build settles this from the case numbers it writes into item 1; an unticked box is this form's negative answer"
+      )
     },
     ori: { section: "Caption", label: "ORI", ...AGENCY("the ORI number of the agency, which begins MI- and appears on your court and police paperwork") },
     ctaddress: { section: "Caption", label: "Court address", ...SUPPLY("the street address of the court where the conviction was entered") },
@@ -277,11 +357,18 @@ const FORM_FIELDS = {
     ...convictionRows(),
 
     /* --- the sworn nexus statement ---------------------------------------- */
-    explain1: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 1", ...SUPPLY("the facts, in your own words, supporting that this conviction was a direct result of being a victim of a human-trafficking violation") },
-    explain2: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 2", ...SUPPLY("continue the facts supporting the direct-result nexus") },
-    explain3: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 3", ...SUPPLY("continue the facts supporting the direct-result nexus") },
-    Explain4: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 4", ...SUPPLY("continue the facts supporting the direct-result nexus") },
-    Explain5: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 5", ...SUPPLY("finish the facts supporting the direct-result nexus; attach additional pages if needed") },
+    /*
+     * Item 2 is ONE statement printed on five ruled lines, and the platform
+     * holds it whole or not at all. The build lays out the participant's own
+     * words; it composes none of them, and a fact that is not held leaves all
+     * five lines blank for the participant rather than putting words nobody
+     * said onto an application sworn under penalty of perjury.
+     */
+    explain1: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 1", ...NARRATIVE("matter.trafficking_nexus_statement", 1, "the facts, in your own words, supporting that this conviction was a direct result of being a victim of a human-trafficking violation") },
+    explain2: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 2", ...NARRATIVE("matter.trafficking_nexus_statement", 2, "continue the facts supporting the direct-result nexus") },
+    explain3: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 3", ...NARRATIVE("matter.trafficking_nexus_statement", 3, "continue the facts supporting the direct-result nexus") },
+    Explain4: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 4", ...NARRATIVE("matter.trafficking_nexus_statement", 4, "continue the facts supporting the direct-result nexus") },
+    Explain5: { section: "2. Human-trafficking nexus", label: "Facts supporting the direct-result nexus - line 5", ...NARRATIVE("matter.trafficking_nexus_statement", 5, "finish the facts supporting the direct-result nexus; attach additional pages if needed") },
 
     /* --- page 2: earlier applications and deferred convictions ------------ */
     noappcheck: { section: "3. Earlier applications for item 1 convictions", selection: true, label: "No earlier application was filed for an item 1 conviction (selection)", printedCaption: "3. a. No other application was previously filed to set aside a conviction listed in item 1.", ...ELECTION("select this only if no earlier application was filed for any conviction listed in item 1") },
@@ -335,6 +422,39 @@ const FORM_FIELDS = {
 };
 
 /* ---- fixtures ------------------------------------------------------------ */
+/*
+ * THE CONVICTIONS AND THE NEXUS STATEMENT ARE HELD FACTS HERE.
+ *
+ * They were not before, and their absence was the whole of what the delivered
+ * application was missing: a sworn MC 227b that named neither the convictions
+ * it asks the court to set aside nor the statutory ground for asking.
+ *
+ * `matter.charges` is the shared repeating charge row -- the same shape the
+ * sibling Michigan set-aside family holds for MC 227a, whose conviction listing
+ * has the same four columns and the same field names. The crimes are drawn from
+ * the statutes this form's own footnote names, MCL 750.448, 750.449 and
+ * 750.450, because an application under MCL 780.621(3) that lists a conviction
+ * outside them is not a fixture for this route.
+ *
+ * Each row carries the two facts this form can actually take: the crime and the
+ * case number. It deliberately carries NO conviction_date, even though the
+ * shared row schema has a slot for one, because the shared protect vocabulary
+ * makes that slot unwritable on this form -- see the comment on the cdate
+ * column. Holding a fact the build may not write, while telling the participant
+ * the platform holds no value for it, would be a false declaration, and the
+ * declaration is the thing this repair is about.
+ *
+ * `matter.trafficking_nexus_statement` is the participant's own words for item
+ * 2. It is held as ONE string and laid out across the five ruled lines the form
+ * prints; nothing here composes or infers it, and a fixture without it would
+ * leave those five lines blank rather than invent a statement.
+ *
+ * The boundary fixture lists FOUR convictions -- the table's printed capacity --
+ * across TWO case numbers, so the caption's multiple-case-numbers box is
+ * settled true there and false in the canonical fixture. That is the whole
+ * reason the boundary record carries two cases rather than four: a fixture in
+ * which the settled box never fires would leave that path unexercised.
+ */
 const FIXTURES = {
   canonical: {
     "participant.full_legal_name": "Jordan Avery Reyes",
@@ -343,7 +463,17 @@ const FIXTURES = {
     "participant.phone": "313-555-0142",
     "participant.email": "jordan.reyes@example.org",
     "matter.county": "Wayne",
-    "matter.case_number": "2019-004217-FY"
+    "matter.case_number": "2019-004217-FY",
+    "matter.charges": [
+      {
+        charge: "Accosting or soliciting to commit prostitution",
+        case_number: "2019-004217-FY"
+      }
+    ],
+    "matter.trafficking_nexus_statement":
+      "I was seventeen when the man who controlled me began driving me to the addresses where I was arrested. He kept "
+      + "my identification and my phone, he took every dollar, and he told me what to say if the police stopped me. "
+      + "Every offence listed above happened while he was controlling me and because he was."
   },
   boundary: {
     "participant.full_legal_name": "Maria-Alejandra O’Shaughnessy-Whitfield",
@@ -352,7 +482,43 @@ const FIXTURES = {
     "participant.phone": "(616) 555-0199 ext. 4417",
     "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
     "matter.county": "Kent",
-    "matter.case_number": "2024-0011882-SUPPLEMENTAL-FY"
+    "matter.case_number": "2024-0011882-SUPPLEMENTAL-FY",
+    /*
+     * Four rows, chosen to exercise every path this table has.
+     *
+     * Row a repeats the caption's own case number, which is 28 characters and
+     * needs 92.4pt in 92pt of usable width in the narrow case-number column: the
+     * fitter refuses it, and the whole row is withheld rather than delivered
+     * with a crime and no case number. Rows b, c and d fit, and they carry TWO
+     * distinct case numbers between them, so the caption's multiple-case-numbers
+     * box is settled true from what the build actually writes. The canonical
+     * record has one conviction under one case number and settles it false.
+     */
+    "matter.charges": [
+      {
+        charge: "Accosting, soliciting, or inviting another to commit prostitution or an immoral act",
+        case_number: "2024-0011882-SUPPLEMENTAL-FY"
+      },
+      {
+        charge: "Receiving the earnings of a prostitute",
+        case_number: "2021-0007431-FH"
+      },
+      {
+        charge: "Keeping a house of ill fame",
+        case_number: "2022-0009118-FH"
+      },
+      {
+        charge: "Engaging the services of a prostitute",
+        case_number: "2022-0009118-FH"
+      }
+    ],
+    "matter.trafficking_nexus_statement":
+      "Between 2018 and 2022 I was held and moved between three cities by the two people named in the police reports "
+      + "attached to this application, who took my passport on the first night and never returned it. They set the "
+      + "quotas, they chose the addresses, they answered the advertisements in my name, and they collected every "
+      + "payment. I was beaten twice for refusing and once for keeping money. Each conviction listed in item 1 "
+      + "happened in the course of that arrangement and as a direct result of it, and I have attached the certified "
+      + "record of each together with the trafficking investigation report."
   }
 };
 
@@ -469,6 +635,8 @@ async function censusOf(source) {
       composedFrom: entry.factIds ?? null,
       composedMaxFontSize: entry.maxFontSize ?? null,
       composedHow: entry.how ?? null,
+      narrativeLineIndex: entry.lineIndex ?? null,
+      settle: typeof entry.decide === "function" ? entry.decide : null,
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
       // The scrambled extraction at this widget's own coordinate, kept as
       // evidence of WHY the printed-caption check is unavailable on this form.
@@ -487,7 +655,10 @@ async function censusOf(source) {
 /* ---- render ---------------------------------------------------------------- */
 async function renderDocument(source, census, fixtureName) {
   const facts = FIXTURES[fixtureName];
-  const writable = census.rows.filter((r) => r.policy === "write");
+  /* A repeating-table cell binds exactly as an ordinary write does: the shared
+   * registry already carries the row facts, the row index comes off the field
+   * name, and the finalizer refuses a row the facts do not reach. */
+  const writable = census.rows.filter((r) => r.policy === "write" || r.policy === "row");
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
   /* A composed box is a write, so it may not be handed to the finalizer as
    * unwritable-by-role: that gate is not overridable, and naming the field in
@@ -496,22 +667,108 @@ async function renderDocument(source, census, fixtureName) {
   const composedFieldValues = Object.fromEntries(composed.map((r) => [
     r.name, { factIds: r.composedFrom, maxFontSize: r.composedMaxFontSize ?? undefined }
   ]));
-  const writableNames = new Set([...writable, ...composed].map((r) => r.name));
+  /* One held statement, laid out across the ruled lines the form prints for it,
+   * in the order the form prints them. */
+  const narrativeRows = census.rows.filter((r) => r.policy === "narrative")
+    .sort((a, b) => (a.narrativeLineIndex ?? 0) - (b.narrativeLineIndex ?? 0));
+  const narrativeAcrossFields = [...new Set(narrativeRows.map((r) => r.fact))].map((factId) => ({
+    factId, fields: narrativeRows.filter((r) => r.fact === factId).map((r) => r.name)
+  }));
+  /* The boxes the build settles are settled below, from the rows that survive
+   * the measurement render -- never from the facts alone. The printed caption
+   * says "as listed in item 1", and item 1 as DELIVERED is what a clerk reads. */
+  const settledRows = census.rows.filter((r) => r.policy === "settled_selection");
+  const writableNames = new Set([...writable, ...composed, ...narrativeRows, ...settledRows].map((r) => r.name));
   const unwritableFields = census.rows.filter((r) => !writableNames.has(r.name)).map((r) => ({ field: r.name }));
+
+  /*
+   * A CONVICTION ROW IS ALL OR NOTHING.
+   *
+   * The header of this file says why: a line with the crime filled and the rest
+   * of it blank reads as a finished line while missing the fact the application
+   * turns on. The fitter refuses a value the issuer's box cannot show -- the
+   * boundary record's longest crime needs 252pt in a 168pt column and its case
+   * number needs 92.4pt in 92pt of usable width -- and those refusals are
+   * correct one cell at a time and wrong one ROW at a time, because they leave
+   * rows a and c of item 1 empty while rows b and d are filled. No counter can
+   * see that: rowKeyOf reads a row number out of a field name or a printed
+   * label and this form numbers its lines a to d, so the table is not measured
+   * as rows at all.
+   *
+   * So the document is rendered twice. The first render is a measurement: it
+   * asks the shared fitter, through the same code path that will draw them,
+   * which cells fit. Any conviction row with a refused cell then goes to the
+   * second render as unwritable-by-role, whole, and is declared and disclosed
+   * like a row the platform never held. The second render produces the bytes.
+   */
+  /* One census shape, used by the measurement render and by the render that
+   * produces the bytes, so the two cannot measure different documents.
+   * The BINDING label goes to the finalizer; the printed label goes to the
+   * field map and the participant. They are the same string unless a form's
+   * own wording defeats the shared descriptor, and the dictionary says so
+   * where they differ. */
+  const censusForFinalizer = census.rows.map((r) => ({
+    name: r.name, type: r.type, effectiveLabel: r.bindingLabel, regionHeading: r.section,
+    widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })),
+    multiline: r.multiline === true, maxLength: r.maxLength ?? null
+  }));
+
+  const rowCellsByRow = new Map();
+  for (const r of census.rows.filter((x) => x.policy === "row")) {
+    const n = /(\d{1,2})$/.exec(r.name)?.[1];
+    if (!n) continue;
+    if (!rowCellsByRow.has(n)) rowCellsByRow.set(n, []);
+    rowCellsByRow.get(n).push(r.name);
+  }
+  const measure = await finalizeOfficialForm({
+    sourceBytes: source.bytes, expectedSha256: source.sha256,
+    census: censusForFinalizer, facts, explicitMappings, unwritableFields, composedFieldValues,
+    narrativeAcrossFields,
+    /* No selections in the measurement render: what to settle is decided FROM
+     * this render's result, so asking it here would be circular. */
+    selectionsFromHeldFacts: {},
+    fitTextPerWidget: true, evaluateDeclaredMinimumSize: true,
+    documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    title: source.title
+  });
+  const refusedCells = new Set(measure.report.refused.map((x) => x.field));
+  /* A row is DELIVERED only when every writable cell of it is written. A row
+   * with one refused cell is withheld whole, and a row with all of them refused
+   * was never going to be delivered either: both are treated the same, because
+   * the question the settled caption box asks is what item 1 actually lists. */
+  const rowsRefusedWhole = [...rowCellsByRow]
+    .filter(([, cells]) => cells.some((c) => refusedCells.has(c)))
+    .map(([n]) => n);
+  const withheldRowCells = rowsRefusedWhole.flatMap((n) => rowCellsByRow.get(n));
+  const unwritableWithPartialRowsWithheld = [
+    ...unwritableFields,
+    ...withheldRowCells.filter((name) => !unwritableFields.some((u) => u.field === name)).map((field) => ({ field }))
+  ];
+
+  /*
+   * The settled boxes, decided on the rows that will actually be delivered.
+   *
+   * Deciding them from `facts` would state something the page does not show:
+   * the boundary record holds four convictions under three case numbers, and
+   * one of those rows is withheld whole because its case number will not fit
+   * the column. The caption box asks what item 1 LISTS, so it is answered from
+   * the list, after the measurement render has said what the list will be.
+   */
+  const withheldRowNumbers = new Set(rowsRefusedWhole);
+  const deliveredCharges = (Array.isArray(facts["matter.charges"]) ? facts["matter.charges"] : [])
+    .filter((_, i) => !withheldRowNumbers.has(String(i + 1)));
+  const settlements = new Map(settledRows.map((r) => [r.name, r.settle({ ...facts, "matter.charges": deliveredCharges })]));
+  const selectionsFromHeldFacts = Object.fromEntries(
+    [...settlements].filter(([, v]) => v?.checked === true)
+  );
 
   const { bytes, report } = await finalizeOfficialForm({
     sourceBytes: source.bytes,
     expectedSha256: source.sha256,
-    census: census.rows.map((r) => ({
-      // The BINDING label goes to the finalizer; the printed label goes to the
-      // field map and the participant. They are the same string unless a form's
-      // own wording defeats the shared descriptor, and the dictionary says so
-      // where they differ.
-      name: r.name, type: r.type, effectiveLabel: r.bindingLabel, regionHeading: r.section,
-      widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })),
-      multiline: r.multiline === true, maxLength: r.maxLength ?? null
-    })),
-    facts, explicitMappings, unwritableFields, composedFieldValues,
+    census: censusForFinalizer,
+    facts, explicitMappings, composedFieldValues,
+    unwritableFields: unwritableWithPartialRowsWithheld,
+    narrativeAcrossFields, selectionsFromHeldFacts,
     /*
      * MEASURE EVERY WIDGET, NOT JUST THE FIRST ONE.
      *
@@ -551,7 +808,12 @@ async function renderDocument(source, census, fixtureName) {
     console.log(`-- ${source.formNumber} ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
     for (const r of report.refused) console.log(`   ${r.field ?? r.anchor}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
   }
-  return { bytes, report };
+  report.convictionRowsWithheldWhole = rowsRefusedWhole.map((n) => ({
+    row: CONVICTION_LETTERS[n], cells: rowCellsByRow.get(n),
+    why: "at least one cell of this conviction row could not be drawn inside the box the form prints for it, and a "
+      + "partly written row reads as a finished one"
+  }));
+  return { bytes, report, settlements };
 }
 
 /* ---- what the finished page can actually show ------------------------------- */
@@ -656,6 +918,19 @@ async function appearanceGeometry(artifactBytes) {
       const clipMaxX = clipPoints.length ? Math.max(...clipPoints.map((c) => c.x)) : null;
       const clipMinY = clipPoints.length ? Math.min(...clipPoints.map((c) => c.y)) : null;
       const clipMaxY = clipPoints.length ? Math.max(...clipPoints.map((c) => c.y)) : null;
+      /*
+       * A TICK IS NOT TEXT.
+       *
+       * MC 227b's checkboxes carry the issuer's own check glyph as a Bezier
+       * path, so a read-back that looks for show-text operators sees an empty
+       * appearance and reports a marked box as unmarked -- which is the worst
+       * direction for a caption election to be wrong in. A checkbox appearance
+       * draws its box with `re` and carries no clip path, so every `m` in it is
+       * glyph ink; a text appearance's only `m` operators are the clip path's.
+       * Counting moveto operators against clip paths therefore separates a mark
+       * from a border on both kinds of widget without guessing.
+       */
+      const moveToOps = [...stream.matchAll(/(?:^|[\s\n])-?[\d.]+\s+-?[\d.]+\s+m(?=[\s\n])/g)].length;
       const drawnText = text.trim();
       const fontSizePt = tf ? Number(tf[2]) : null;
       const textOriginXPt = tm ? Number(tm[5]) : 0;
@@ -690,6 +965,8 @@ async function appearanceGeometry(artifactBytes) {
         // drawn width, and a zero would read as a measured one.
         drawnWidthPt: drawnText ? widestLinePt : null,
         drawnLines,
+        vectorMarkDrawn: moveToOps > clips.length,
+        moveToOps, clipPaths: clips.length,
         // The narrowest margin any one line leaves.
         tightestLineMarginPt: drawnLines.length && availableWidthPt != null
           ? Number(Math.min(...drawnLines.map((l) => (l.availableWidthPt ?? 0) - (l.widthPt ?? 0))).toFixed(3))
@@ -723,6 +1000,17 @@ async function appearanceGeometry(artifactBytes) {
 }
 
 /* ---- byte proof ------------------------------------------------------------ */
+/* The value a repeating-row cell should carry, resolved the way the shared
+ * semantics resolves it: the row index off the field name, the leaf off the
+ * row fact. */
+function expectedRowValue(facts, row) {
+  const m = /(\d{1,2})$/.exec(String(row.name));
+  if (!m || !row.fact) return null;
+  const index = Number(m[1]) - 1;
+  const leaf = String(row.fact).replace(/^matter\./, "");
+  return facts["matter.charges"]?.[index]?.[leaf] ?? null;
+}
+
 async function byteProof(source, census, artifactBytes, report, fixtureName) {
   const tmp = path.join(ROOT, `.mi-227b-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
@@ -740,7 +1028,34 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
       const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
       const text = drawn.map((d) => d.text).filter(Boolean);
       const ink = text.join("").trim();
-      if (written.has(r.name) && (r.policy === "write" || r.policy === "compose")) {
+      /*
+       * A settled checkbox carries a tick rather than text. It is a write and
+       * must not be read as ink on a refused field, and its proof is that the
+       * appearance is non-empty exactly when the build marked it.
+       */
+      if (r.policy === "settled_selection") {
+        const marked = (report.selectionsMarked ?? []).some((m) => m.field === r.name);
+        const markOnThePage = drawn.some((d) => geometry.get(`${d.page} ${d.appearance}`)?.vectorMarkDrawn === true);
+        glyphs += ink.length;
+        actualWrites.push({
+          field: r.key, factId: null, page: wdg.page, rect: wdg.rect,
+          section: r.section, effectiveLabel: r.effectiveLabel,
+          printedCaption: r.printedCaption ?? null,
+          kind: "selection_settled_from_held_facts",
+          markedByThisBuild: marked,
+          settlementBasis: (report.selectionsMarked ?? []).find((m) => m.field === r.name)?.basis ?? null,
+          drawnText: text,
+          markOnThePage,
+          markBasis: "the flattened appearance's own path operators: a checkbox appearance carries no clip path, so a "
+            + "moveto in it is the issuer's check glyph rather than the widget border, which is drawn with `re`",
+          expected: marked ? "a mark" : "no mark",
+          matchesExpected: marked === markOnThePage,
+          fitsBox: true, fitMeasured: false
+        });
+        continue;
+      }
+      if (written.has(r.name) && (r.policy === "write" || r.policy === "compose"
+        || r.policy === "row" || r.policy === "narrative")) {
         glyphs += ink.length;
         /*
          * Every appearance drawn at this widget is measured against the box it
@@ -767,6 +1082,11 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
          * then collapsed on both sides before the comparison.
          */
         const collapse = (x) => fromWinAnsi(x).replace(/\s+/g, " ").trim();
+        const narrativeLine = r.policy === "narrative"
+          ? ((report.narrativesWritten ?? []).find((n) => n.factId === r.fact)?.written ?? [])
+            .find((w) => w.field === r.name)?.text ?? null
+          : null;
+        const rowValue = r.policy === "row" ? expectedRowValue(FIXTURES[fixtureName], r) : null;
         const composedFacts = (r.composedFrom ?? []).map((factId) => {
           const held = String(FIXTURES[fixtureName][factId] ?? "");
           return { factId, expected: held, presentOnThePage: collapse(ink).includes(collapse(held)) && held !== "" };
@@ -775,13 +1095,22 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
           field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
           section: r.section, effectiveLabel: r.effectiveLabel,
           printedCaption: r.printedCaption ?? null,
-          drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
+          drawnText: text,
+          expected: r.policy === "narrative" ? narrativeLine
+            : r.policy === "row" ? rowValue
+              : FIXTURES[fixtureName][r.fact] ?? null,
           ...(r.policy === "compose"
             ? { composedFrom: r.composedFrom, composedFacts, composedMaxFontSize: r.composedMaxFontSize }
             : {}),
+          ...(r.policy === "row" ? { rowFact: r.fact, rowValue } : {}),
+          ...(r.policy === "narrative" ? { narrativeFactId: r.fact, narrativeLine: r.narrativeLineIndex } : {}),
           matchesExpected: r.policy === "compose"
             ? composedFacts.length > 0 && composedFacts.every((f) => f.presentOnThePage)
-            : ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim(),
+            : r.policy === "narrative"
+              ? collapse(ink) === collapse(narrativeLine)
+              : r.policy === "row"
+                ? collapse(ink) === collapse(rowValue)
+                : ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim(),
           // The geometry the finished page draws with, read back from its own
           // appearance streams rather than from anything this build reported.
           appearanceBoxes: boxes.map((g) => ({
@@ -871,7 +1200,7 @@ async function byteProof(source, census, artifactBytes, report, fixtureName) {
 }
 
 /* ---- field map ------------------------------------------------------------- */
-function mapFor(source, census, report) {
+function mapFor(source, census, report, settlements = new Map()) {
   const writtenNames = new Set(report.written.map((w) => w.field));
   const canonicalWrites = [];
   const canonicalRefusals = [];
@@ -891,6 +1220,105 @@ function mapFor(source, census, report) {
       printedTextAtCoordinate: r.printedTextAtCoordinate,
       document: source.formNumber
     };
+
+    /*
+     * A settled box is a MARK, not a blank, and it travels in selectionControls
+     * with a disposition the completeness reader treats as a write. An unticked
+     * one is the negative answer this form provides, and it says so: the basis
+     * the build computed is recorded either way, so a reviewer can see WHY the
+     * box is in the state it is in rather than only that it is empty.
+     */
+    if (r.policy === "settled_selection") {
+      const settled = settlements.get(r.name) ?? { checked: false, basis: "not evaluated" };
+      selectionControls.push({
+        ...base, selectionId: base.field, kind: "selection_control", type: r.type,
+        widgets: r.widgets,
+        disposition: settled.checked ? "selected_from_held_facts" : "PARTICIPANT_ELECTION_GENUINE",
+        ...(settled.checked ? {} : { completenessDisposition: "PARTICIPANT_ELECTION_GENUINE" }),
+        markedByThisBuild: settled.checked === true,
+        settledFromHeldFacts: true,
+        settlementBasis: settled.basis,
+        whoMarksIt: settled.checked
+          ? "the build, from the case numbers it writes into item 1"
+          : "the build read item 1 and the answer is no, so the box is left unticked, which is this form's negative "
+            + "answer. It stays the participant's to review: if they add a conviction from another case on an "
+            + "additional sheet, they tick it.",
+        instruction: settled.checked
+          ? `already ticked for you: ${settled.basis}. Leave it as it is unless you change item 1.`
+          : `left unticked for you: ${settled.basis}, so the answer is no. Tick it only if you add a conviction from `
+            + "another case number on an additional sheet.",
+        reason: settled.checked ? r.why : `${r.why}; ${settled.basis}`,
+        /* An unticked settled box is still a box the participant may have to
+         * tick if they extend item 1, so it keeps the election class that says
+         * so. A ticked one is a write and carries no refusal class at all. */
+        category: settled.checked ? null : PARTICIPANT_ELECTION,
+        completenessClass: settled.checked ? null : PARTICIPANT_ELECTION,
+        class: settled.checked ? null : PARTICIPANT_ELECTION,
+        requiredBeforeFiling: false, routeDetermined: false,
+        routeDeterminedBasis: "settled by the case facts this build writes, not by the route"
+      });
+      continue;
+    }
+
+    if (r.policy === "narrative") {
+      const laid = (report.narrativesWritten ?? []).find((n) => n.factId === r.fact) ?? null;
+      const line = laid?.written?.find((w) => w.field === r.name) ?? null;
+      if (writtenNames.has(r.name) && line) {
+        canonicalWrites.push({
+          ...base, factId: r.fact, kind: r.type, narrativeLine: line.line,
+          narrativeLinesUsed: laid.linesUsed, narrativeLinesAvailable: laid.linesAvailable,
+          fontSizeDrawn: laid.fontSize,
+          why: "one ruled line of the statement the platform holds whole for item 2, laid out in the participant's own words"
+        });
+      } else if (laid) {
+        /* The statement ended before this line. Nothing is required here and
+         * nothing is missing: it is spare ruled space the participant may use,
+         * and the platform does not invent words to fill it. */
+        canonicalRefusals.push({
+          ...base,
+          reason: `the statement the platform holds for item 2 ends on line ${laid.linesUsed}; this is a spare ruled `
+            + "line the participant may continue on, and the platform does not invent it",
+          category: null, completenessClass: null, class: null,
+          disposition: "OPTIONAL_PARTICIPANT_CONTENT", completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT",
+          requiredBeforeFiling: false, routeDetermined: false,
+          why: "spare ruled space after the held statement ends"
+        });
+      } else {
+        canonicalRefusals.push({
+          ...base,
+          reason: `the participant supplies this before filing: ${r.what}`,
+          category: null, completenessClass: null, class: null,
+          disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
+          requiredBeforeFiling: true, identity: `${source.formNumber} field ${r.key}`,
+          factId: null, routeDetermined: false,
+          why: `the platform holds no value for this and the participant supplies it before filing: ${r.what}`,
+          participantMustSupply: r.what
+        });
+      }
+      continue;
+    }
+
+    if (r.policy === "row") {
+      if (writtenNames.has(r.name)) {
+        const w = (report.written ?? []).find((x) => x.field === r.name) ?? null;
+        canonicalWrites.push({
+          ...base, factId: w?.factId ?? r.fact, kind: r.type, rowFact: r.fact,
+          why: "a cell of item 1, written from the conviction the platform holds for that row"
+        });
+      } else {
+        canonicalRefusals.push({
+          ...base,
+          reason: `the participant supplies this before filing: ${r.what}`,
+          category: null, completenessClass: null, class: null,
+          disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
+          requiredBeforeFiling: true, identity: `${source.formNumber} field ${r.key}`,
+          factId: null, routeDetermined: false,
+          why: `the platform holds no conviction for this row, so the participant supplies it before filing: ${r.what}`,
+          participantMustSupply: r.what
+        });
+      }
+      continue;
+    }
 
     if (r.policy === "compose") {
       if (writtenNames.has(r.name)) {
@@ -1145,6 +1573,8 @@ function participantInstructions(maps, rbf) {
   const composedBoxes = maps.flatMap((m) => m.canonicalWrites
     .filter((w) => w.composed === true)
     .map((w) => ({ document: m.formNumber, ...w })));
+  const convictionCellsWritten = maps.flatMap((m) => m.canonicalWrites.filter((w) => w.rowFact));
+  const nexusLinesWritten = maps.flatMap((m) => m.canonicalWrites.filter((w) => w.narrativeLine));
 
   const out = [];
   out.push(`# Filing instructions \u2014 ${ROUTE.publicLabel}`, "");
@@ -1153,12 +1583,16 @@ function participantInstructions(maps, rbf) {
     + `under ${ROUTE.authority}.`, ""
   );
   out.push(
-    "The platform filled in what it holds about you and your case: the county, the case number, and the party box "
-    + "captioned \"Defendant's name, address, and telephone no.\", which carries your name, your address and your "
-    + "telephone number on three lines. **Read that box and correct it if anything in it is out of date** \u2014 it is "
-    + "the address the court and the prosecuting official will write to. Everything else is yours, and every remaining "
-    + "participant blank is listed below by the part of the form it is in. Pages 1 through 3 are the application, "
-    + "notice, and proof of service; the last page is the court's own instruction sheet.", ""
+    "The platform filled in what it holds about you and your case: the county, the case number, the party box "
+    + "captioned \"Defendant's name, address, and telephone no.\", the convictions in item 1, and your statement in "
+    + "item 2. Everything else is yours, and every remaining participant blank is listed below by the part of the form "
+    + "it is in. Pages 1 through 3 are the application, notice, and proof of service; the last page is the court's own "
+    + "instruction sheet.", ""
+  );
+  out.push(
+    "**Read every line the platform filled in before you sign.** This application is sworn: you sign it in front of a "
+    + "deputy clerk or a notary, and the oath is yours, not the platform's. If anything in item 1 or item 2 is wrong, "
+    + "out of date, or not how you would put it, correct it on the form before you go.", ""
   );
 
   out.push("## Check you are on the right form", "");
@@ -1190,7 +1624,13 @@ function participantInstructions(maps, rbf) {
 
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in every item in the table below.**");
-  out.push("2. **Complete the conviction table.** Every line you use, all four columns \u2014 instruction 4 tells you to get the exact date and charge from the court.");
+  out.push(
+    "2. **Finish the conviction table.** The platform wrote the crime and the case number for each conviction it "
+    + "holds. It did not write the charge code or the date of conviction for any of them: instruction 4 tells you to "
+    + "get the exact date and charge **from the court** and to attach a certified copy of each conviction, and those "
+    + "are the two columns you complete. If a line you need is blank, or a conviction is missing, add it \u2014 the "
+    + "form says to use additional sheets if you need more room."
+  );
   out.push("3. **Make the choices listed under _The choices that are yours_.**");
   out.push("4. **Attach the certified conviction records and direct-result nexus evidence required by the form.**");
   out.push("5. **Follow the four steps above, in that order.**");
@@ -1224,14 +1664,28 @@ function participantInstructions(maps, rbf) {
   }
   out.push("");
 
-  if (composedBoxes.length > 0) {
-    out.push("## What the platform filled in for you", "");
-    out.push("| Section | The box on the form | What the platform wrote there |", "| --- | --- | --- |");
-    for (const w of composedBoxes) {
-      out.push(`| ${w.sectionHeading} | ${w.printedCaption ?? w.effectiveLabel} | ${w.composedHow} |`);
-    }
-    out.push("");
+  out.push("## What the platform filled in for you", "");
+  out.push("| Section | The box on the form | What the platform wrote there |", "| --- | --- | --- |");
+  for (const w of composedBoxes) {
+    out.push(`| ${w.sectionHeading} | ${w.printedCaption ?? w.effectiveLabel} | ${w.composedHow} |`);
   }
+  if (convictionCellsWritten.length > 0) {
+    out.push(
+      `| 1. Convictions to be set aside | The CRIME and CASE NUMBER columns, ${convictionCellsWritten.length} cells |`
+      + " each written from a conviction the platform holds. A line is written whole or not at all: if the platform"
+      + " could not fit every cell of a line inside the boxes this form prints, it left that whole line for you rather"
+      + " than delivering half of it. |"
+    );
+  }
+  if (nexusLinesWritten.length > 0) {
+    out.push(
+      `| 2. Human-trafficking nexus | The ${nexusLinesWritten.length} ruled lines of item 2 | your own statement of the`
+      + " facts supporting the direct-result connection, as you gave it, laid out across the lines the form prints."
+      + " The platform wrote none of these words itself. **This is the sworn part of the application: read it and"
+      + " change anything that is not right before you sign.** |"
+    );
+  }
+  out.push("");
 
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Your signature and its date.**");
@@ -1283,7 +1737,9 @@ function selfTest() {
   const spec = FORM_FIELDS[SOURCE_PIN.formNumber];
   assert.equal(Object.keys(spec).length, SOURCE_PIN.acroFieldCount,
     "the MC-227B field dictionary must cover every indexed AcroForm field");
-  const allowedPolicies = new Set(["write", "supply", "election", "protect", "attorney", "compose"]);
+  const allowedPolicies = new Set([
+    "write", "supply", "election", "protect", "attorney", "compose", "row", "narrative", "settled_selection"
+  ]);
   assert.ok(Object.values(spec).every((row) => allowedPolicies.has(row.policy)));
   assert.ok(Object.values(spec).filter((row) => row.policy === "write")
     .every((row) => Object.values(FIXTURES).every((fixture) => String(fixture[row.fact] ?? "").length > 0)));
@@ -1301,13 +1757,45 @@ function selfTest() {
    * by position, and exactly one is: `peoplecheck` carries none. */
   const selections = Object.entries(spec).filter(([, row]) => row.selection === true);
   assert.equal(selections.length, 14, "MC 227b carries fourteen checkboxes and every one must be declared");
+  /* Item 1's crime and case-number columns bind the shared repeating charge row;
+   * its charge-code column and its conviction-date column do not, and the
+   * comments on both say why. A change that quietly gives either of them a fact
+   * has to change this line too. */
+  assert.deepEqual(
+    CONVICTION_COLUMNS.map(([prefix, , fact]) => [prefix, fact]),
+    [["c", "matter.charge"], ["ch", null], ["cdate", null], ["cno", "matter.case_number"]]);
+  assert.equal(CONVICTION_ROWS.flatMap((n) => ["c", "cno"].map((k) => `${k}${n}`))
+    .filter((name) => spec[name]?.policy === "row").length, 8);
+  assert.equal(CONVICTION_ROWS.flatMap((n) => ["ch", "cdate"].map((k) => `${k}${n}`))
+    .filter((name) => spec[name]?.policy === "supply").length, 8);
+  assert.equal(["explain1", "explain2", "explain3", "Explain4", "Explain5"]
+    .filter((name) => spec[name]?.policy === "narrative"
+      && spec[name].fact === "matter.trafficking_nexus_statement").length, 5);
+  assert.equal(spec.multcaseno.policy, "settled_selection");
+  /* Both fixtures hold the item-1 convictions and the item-2 statement, or the
+   * family is claiming a repair it does not deliver in one of them. */
+  for (const [name, fixture] of Object.entries(FIXTURES)) {
+    assert.ok(Array.isArray(fixture["matter.charges"]) && fixture["matter.charges"].length > 0,
+      `${name} holds no conviction for item 1`);
+    assert.ok(fixture["matter.charges"].every((row) => row.charge && row.case_number),
+      `${name} holds a conviction row missing the crime or the case number`);
+    assert.equal(fixture["matter.charges"].some((row) => row.conviction_date), false,
+      `${name} holds a conviction date, which the shared protect vocabulary forbids this build from writing`);
+    assert.ok(typeof fixture["matter.trafficking_nexus_statement"] === "string"
+      && fixture["matter.trafficking_nexus_statement"].trim().length > 0,
+    `${name} holds no item 2 statement`);
+  }
   for (const [name, row] of selections) {
     assert.ok(typeof row.printedCaption === "string" && row.printedCaption.trim().length > 0,
       `selection control ${name} carries no printed caption`);
   }
+  /* Eight of the sixteen conviction-table cells are written from held
+   * convictions and eight stay participant-supplied. The stale form of this
+   * assertion required all sixteen to stay blank, which is the state the
+   * independent read failed this family for. */
   assert.equal(CONVICTION_ROWS.flatMap((n) => CONVICTION_COLUMNS.map(([prefix]) => `${prefix}${n}`))
-    .filter((name) => spec[name]?.policy === "supply").length, 16,
-  "all sixteen conviction-table cells must stay participant-supplied");
+    .filter((name) => spec[name]?.policy === "supply").length, 8,
+  "the charge-code and conviction-date columns stay participant-supplied");
   for (const field of [
     "posnoticecheck", "posofficialcheck", "posofficialdate", "posattygencheck",
     "posattygendate", "posmspdate", "sigdate", "sig"
@@ -1346,6 +1834,23 @@ function selfTest() {
   const dinfo = map0.canonicalWrites.find((w) => w.acroFieldName === "dinfo");
   assert.ok(dinfo && dinfo.composed === true, "the Parties box must be a composed write, not a refusal");
   assert.equal(map0.canonicalRefusals.some((r) => r.acroFieldName === "dinfo"), false);
+  /* Item 1 and item 2 are written in the canonical map, or the two obligations
+   * this family was repaired for are not discharged. */
+  assert.ok(map0.canonicalWrites.some((w) => w.acroFieldName === "c1"),
+    "item 1 row a's crime must be written from the held conviction");
+  assert.ok(map0.canonicalWrites.some((w) => w.acroFieldName === "cno1"),
+    "item 1 row a's case number must be written from the held conviction");
+  assert.ok(map0.canonicalWrites.filter((w) => w.narrativeLine).length >= 1,
+    "item 2 must carry the held statement");
+  /* A conviction row is all or nothing: no row may have one cell written and
+   * another of its writable cells declared. */
+  const writtenCells = new Set(map0.canonicalWrites.map((w) => w.acroFieldName));
+  for (const n of CONVICTION_ROWS) {
+    const cells = ["c", "cno"].map((k) => `${k}${n}`);
+    const written = cells.filter((name) => writtenCells.has(name));
+    assert.ok(written.length === 0 || written.length === cells.length,
+      `conviction row ${CONVICTION_LETTERS[n]} is partly written: ${written.join(", ")}`);
+  }
   assert.equal(fieldMap.generationAllowed, false);
   assert.equal(fieldMap.runtimeSelectable, false);
   assert.equal(fieldMap.commercialRoutesOpened, 0);
@@ -1457,7 +1962,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     stampDeterministic(packet);
     const pageManifest = [];
     for (const { source, census } of censuses) {
-      const { bytes, report } = await renderDocument(source, census, fixtureName);
+      const { bytes, report, settlements } = await renderDocument(source, census, fixtureName);
       const proof = await byteProof(source, census, bytes, report, fixtureName);
       writeProofs.push({
         fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
@@ -1480,7 +1985,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
         packet.addPage(p);
         pageManifest.push({ packetPage: packet.getPageCount(), formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
       }
-      if (fixtureName === "canonical") maps.push(mapFor(source, census, report));
+      if (fixtureName === "canonical") maps.push(mapFor(source, census, report, settlements));
     }
 
     const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
@@ -1681,7 +2186,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
         + "boundary fixture, where the address wraps). This is the placement to look hardest at on page 1: the printed "
         + "caption is drawn inside the top of that widget and the CTN/TCN rule closes it at the foot, so confirm the "
         + "first line clears the caption and the last line clears the rule.",
-      "Page 1, the conviction table: all four lines blank, all four columns.",
+      "Page 1, the conviction table: in the canonical fixture line a carries a crime and a case number and lines b to "
+        + "d are blank; in the boundary fixture lines b, c and d carry them and line a is blank because its case "
+        + "number does not fit the column. The charge-code and date-of-conviction columns are blank in every line of "
+        + "both. Confirm each written cell sits inside its column and under the heading it belongs to.",
+      "Page 1, the caption: the multiple-case-numbers box is ticked in the boundary fixture and not in the canonical "
+        + "one. Confirm the tick is inside its box and that the boundary table really does list more than one case "
+        + "number.",
+      "Page 1, item 2: five ruled lines carrying the applicant's own statement in the boundary fixture and three in "
+        + "the canonical one. Confirm no line runs past the right margin and that the statement reads continuously "
+        + "across the line breaks.",
       "Page 2, the applicant oath and notarization: participant signature and all notary-owned fields blank.",
       "Page 3, the notice of hearing: court-owned hearing date, location, and judge blank.",
       "Page 3, the Proof of Service: selections, service dates, signature date, and signature blank. This is the one to "
@@ -1733,12 +2247,65 @@ export async function runFamily(argv = process.argv.slice(2)) {
       },
       {
         finding:
-          "The conviction table asks for the crime, the charge code, the date of conviction and the case number, and "
-          + "instruction 4 says to get the exact date and charge FROM THE COURT and to attach a certified copy of each.",
+          "The conviction table shipped wholly blank on the reason that the platform holds no conviction record. The "
+          + "shared registry has carried a repeating charge row from the beginning -- matter.charges[n].charge and "
+          + ".case_number among them -- and twenty builders supply it, including the sibling Michigan set-aside family "
+          + "on the neighbouring SCAO form, whose listing has the same four columns and the same field names. This "
+          + "family held none.",
         consequence:
-          "No cell of it is written. That record is not one the platform holds, and a line with the crime filled and the "
-          + "conviction date blank would read as finished while missing the fact the application turns on. All sixteen "
-          + "cells are declared and disclosed."
+          "Repaired for the two columns the form can take. The crime and the case number of each conviction the "
+          + "platform holds are written; the charge-code and conviction-date columns are not, for the two separate "
+          + "reasons below. A conviction line is written whole or withheld whole: the boundary record's row a carries "
+          + "a 28-character case number needing 92.4pt in 92pt of usable column, the fitter refuses it, and the whole "
+          + "row is withheld rather than delivered as a crime with no case number beside it."
+      },
+      {
+        finding:
+          "The CHARGE CODE(S) / MCL citation/PACC Code column has no fact behind it. The shared registry holds no MCL "
+          + "citation and no PACC code; matter.citation_number is a citation number, which is a different thing.",
+        consequence:
+          "The column stays a declared, disclosed blank in every row. Printing a citation number in the MCL-citation "
+          + "column is the defect the sibling Michigan family refused by role, and this family does not make it either."
+      },
+      {
+        severity: "shared-registry",
+        finding:
+          "matter.conviction_date is a descriptor in the shared registry, flagged requiresExplicitMapping, and it is "
+          + "reachable from nowhere. decideBinding consults protectCategoryOf before it matches any descriptor, and the "
+          + "protect vocabulary holds /\\bconvict(ed|ion)\\b/ under `disposition_or_hearing`, so every caption that "
+          + "names a conviction date is protected -- including this column's own printed heading, DATE OF CONVICTION. "
+          + "Measured here: protectCategoryOf(\"Conviction date\") and protectCategoryOf(\"Date of conviction\") both "
+          + "return disposition_or_hearing.",
+        consequence:
+          "This family does not work around it. Wording a binding label until a protect rule stops firing is the same "
+          + "move as wording a refusal until an approved-reason regex accepts it, and this build makes neither. The "
+          + "conviction-date column stays declared and disclosed, this family deliberately holds NO conviction_date in "
+          + "its charge rows so that its declaration is true, and the unreachable descriptor is raised here for whoever "
+          + "owns the shared registry."
+      },
+      {
+        finding:
+          "Item 2, the sworn direct-result nexus, shipped blank. It is one statement printed across five ruled lines, "
+          + "and no single-field channel could write it without truncating it at the first line.",
+        consequence:
+          "Repaired. The statement is held whole as matter.trafficking_nexus_statement and laid out across the five "
+          + "printed lines through the finalizer's opt-in narrativeAcrossFields channel, which takes a fact id and "
+          + "nothing else: it composes no words, and a statement the platform does not hold leaves all five lines "
+          + "blank rather than putting words nobody said onto an application sworn under penalty of perjury. A "
+          + "statement that will not fit the printed lines at a readable size is refused whole, never truncated. The "
+          + "participant instructions tell the filer in bold to read item 2 and correct it before signing."
+      },
+      {
+        finding:
+          "The caption box \"This application includes multiple case numbers as listed in item 1\" was left to the "
+          + "participant beside a table the platform now fills in.",
+        consequence:
+          "Repaired. The build settles it from the case numbers it actually DELIVERS into item 1 -- not from the facts "
+          + "it holds, because a withheld row is not a listed one -- and marks it only in the affirmative, an unticked "
+          + "box being this form's negative answer. The boundary fixture delivers three convictions under two case "
+          + "numbers and the box is ticked; the canonical fixture delivers one and it is not. The mark is proved on "
+          + "the page from its own path operators rather than from text, because the issuer draws its tick as a Bezier "
+          + "glyph and a text-only read-back reports a marked box as unmarked."
       },
       {
         finding:

@@ -9,12 +9,13 @@
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
 import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt, protectCategoryOf } from "./rcap-field-semantics.mjs";
-import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
+import { fitTextToWidget, applyFitToTextField, wrapToWidth, usableWidthOf, MIN_READABLE_FONT_SIZE, DEFAULT_MAX_FONT_SIZE }
+  from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
 import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown, PDFName, PDFString, PDFHexString, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, PDFCheckBox, PDFName, PDFString, PDFHexString, StandardFonts, rgb } = require("pdf-lib");
 
 // A fixed instant: a fresh document otherwise stamps the wall clock into its
 // info dictionary, and every render of the same facts would differ.
@@ -744,7 +745,60 @@ export async function finalizeOfficialForm({
    * Opt-in, on the same reasoning as the five flags above. Every caller that
    * does not pass this map is byte-unaffected.
    */
-  composedFieldValues = {}
+  composedFieldValues = {},
+  /*
+   * ONE HELD NARRATIVE, LAID OUT ACROSS THE RULED LINES A FORM PRINTS FOR IT.
+   *
+   * The mirror image of composedFieldValues: there, several facts share one
+   * box; here, one fact spans several boxes. A form that asks for a statement
+   * gives it ruled lines, and each line is its own single-line AcroForm field —
+   * MC 227b's item 2, the sworn direct-result nexus, is five of them. No
+   * descriptor binds a narrative, and no single-field channel can write one
+   * without truncating it at the first line, so the statement stayed blank on
+   * every such form.
+   *
+   *   narrativeAcrossFields: [{ factId, fields: ["explain1", ... ] }]
+   *
+   * THE PLATFORM'S WORDS ARE NEVER THE PARTICIPANT'S. The caller names a fact
+   * id and nothing else; this module resolves it and lays out the string it
+   * finds. It composes nothing, infers nothing and abbreviates nothing. A fact
+   * that is not held refuses every line, so a form whose statement the platform
+   * does not have ships with those lines blank for the participant rather than
+   * with words nobody said — which matters most exactly where this is used, on
+   * an application sworn under penalty of perjury.
+   *
+   * A statement that will not fit the lines the form printed is REFUSED whole,
+   * never truncated: half a sworn statement reads as the whole of one.
+   *
+   * Opt-in; an empty list is byte-neutral.
+   */
+  narrativeAcrossFields = [],
+  /*
+   * CHECKBOXES THE BUILD CAN SETTLE FROM THE FACTS IT JUST WROTE.
+   *
+   * Almost every box on a form is the participant's, and this module refuses a
+   * checkbox as a non-text field for that reason. A few are not: MC 227b's
+   * caption box reads "This application includes multiple case numbers as
+   * listed in item 1", and once the build writes item 1 from held convictions
+   * it knows the answer. Leaving that box to the participant, beside a table
+   * the platform filled in, is leaving them to re-derive a fact the packet
+   * already holds — and if they miss it the caption misstates the application.
+   *
+   *   selectionsFromHeldFacts: { multcaseno: { checked: true, basis: "..." } }
+   *
+   * Only a TRUE is honoured, because the forms this serves have no negative
+   * box: not ticking is the negative answer, and a channel that could also
+   * un-tick would be a way to erase a mark rather than to make one. The caller
+   * states the basis in the same call, so the mark and the reason for it travel
+   * together into the report and from there into the family's field map.
+   *
+   * The protect gates apply unchanged: a signature, court, clerk or
+   * prosecutor-owned box is refused here exactly as it is everywhere else, so
+   * this cannot be used to certify service or complete a notarization.
+   *
+   * Opt-in; an empty map is byte-neutral.
+   */
+  selectionsFromHeldFacts = {}
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -787,6 +841,8 @@ export async function finalizeOfficialForm({
   const unwritableByRole = new Set((unwritableFields ?? []).map((f) => String(f?.field ?? f?.name ?? f)));
 
   const composedFields = new Set(Object.keys(composedFieldValues ?? {}));
+  const narrativeFields = new Set((narrativeAcrossFields ?? []).flatMap((n) => n.fields ?? []));
+  const selectionFields = new Set(Object.keys(selectionsFromHeldFacts ?? {}));
 
   const allowed = [];
   for (const field of census) {
@@ -801,7 +857,7 @@ export async function finalizeOfficialForm({
      * found the field already written and refused, so the map claimed three
      * facts and the page carried one.
      */
-    if (composedFields.has(field.name)) continue;
+    if (composedFields.has(field.name) || narrativeFields.has(field.name) || selectionFields.has(field.name)) continue;
     // Role first, and it is not overridable. The name channel can only ever
     // widen what binds; a class the classifier declined to call participant is
     // the caller's finding about the whole field, and no pattern match on its
@@ -1062,6 +1118,121 @@ export async function finalizeOfficialForm({
     if (composedAligned.length) {
       report.widgetFontSizeAligned.push({ field: fieldName, fontSize: fit.fontSize, widgets: composedAligned });
     }
+  }
+
+  /*
+   * The narrative pass. See `narrativeAcrossFields` above.
+   *
+   * The size is chosen against the NARROWEST and SHORTEST of the named boxes,
+   * because one statement is laid out across all of them and a line that fits
+   * four of five boxes is not laid out.
+   */
+  report.narrativesWritten = [];
+  for (const narrative of narrativeAcrossFields ?? []) {
+    const factId = String(narrative?.factId ?? "");
+    const names = Array.isArray(narrative?.fields) ? narrative.fields.map(String) : [];
+    const refuseAll = (reason, extra = {}) => {
+      for (const name of names) report.refused.push({ field: name, reason, category: "narrative", factId, ...extra });
+    };
+    if (!factId || names.length === 0) { refuseAll("narrative_needs_a_fact_and_at_least_one_line"); continue; }
+    const value = resolveFact(facts, factId);
+    if (typeof value !== "string" || value.trim() === "") { refuseAll("narrative_fact_not_held"); continue; }
+
+    const entries = names.map((name) => census.find((f) => f.name === name) ?? null);
+    if (entries.some((e) => !e)) { refuseAll("narrative_line_absent_from_census"); continue; }
+    const protectedLine = names.find((name, i) =>
+      protectCategoryOf(entries[i].effectiveLabel ?? name) ?? protectCategoryOf(name));
+    if (protectedLine) { refuseAll("protected_category", { protectedLine }); continue; }
+    if (names.some((name) => alreadyWritten.has(name) || unwritableByRole.has(name))) {
+      refuseAll("narrative_line_already_written_or_unwritable"); continue;
+    }
+    const rects = entries.map((e) => e.widgets?.[0]?.rect).filter((r) => r);
+    if (rects.length !== names.length) { refuseAll("narrative_line_has_no_usable_rectangle"); continue; }
+    const usable = Math.min(...rects.map((r) => usableWidthOf(r)));
+    const shortest = Math.min(...rects.map((r) => r.height));
+    const ceiling = Math.min(
+      Number.isFinite(narrative?.maxFontSize) ? narrative.maxFontSize : (maxFontSize ?? DEFAULT_MAX_FONT_SIZE),
+      Math.max(minFontSize, shortest - 2)
+    );
+    let laidOut = null;
+    for (let size = ceiling; size >= minFontSize; size -= 0.5) {
+      const lines = wrapToWidth(helvetica, value, size, usable);
+      if (lines.length <= names.length) { laidOut = { size, lines }; break; }
+    }
+    if (!laidOut) {
+      /* Never truncated. The form printed a fixed number of lines and the
+       * statement does not fit them at a readable size; that is a fact about
+       * the statement, and the participant is the one who may shorten it. */
+      report.unfittable.push({
+        factId, fields: names, reason: "narrative_exceeds_the_printed_lines_at_minimum_font",
+        linesAvailable: names.length, minFontSize,
+        linesNeededAtMin: wrapToWidth(helvetica, value, minFontSize, usable).length
+      });
+      refuseAll("narrative_exceeds_the_printed_lines_at_minimum_font", { category: "unfittable" });
+      continue;
+    }
+    const written = [];
+    for (const [i, name] of names.entries()) {
+      const line = laidOut.lines[i];
+      if (line === undefined) continue;
+      let handle;
+      try { handle = form.getField(name); } catch {
+        report.refused.push({ field: name, reason: "field_not_present_in_form", category: "narrative", factId });
+        continue;
+      }
+      if (!(handle instanceof PDFTextField)) {
+        report.refused.push({ field: name, reason: "non_text_field_type", category: "type_guard", factId });
+        continue;
+      }
+      applyFitToTextField(handle, { outcome: "fit", fontSize: laidOut.size, lines: [line] });
+      alreadyWritten.add(name);
+      report.written.push({
+        field: name, factId, kind: "text_narrative_line",
+        narrativeLine: i + 1, narrativeLines: laidOut.lines.length,
+        fontSize: laidOut.size, outcome: "fit", lines: 1
+      });
+      report.expectedValues.push(line);
+      written.push({ field: name, line: i + 1, text: line.trimEnd() });
+    }
+    report.narrativesWritten.push({
+      factId, fields: names, fontSize: laidOut.size,
+      linesUsed: laidOut.lines.length, linesAvailable: names.length,
+      linesLeftForTheParticipant: names.slice(laidOut.lines.length),
+      written
+    });
+  }
+
+  /*
+   * The settled-selection pass. See `selectionsFromHeldFacts` above.
+   */
+  report.selectionsMarked = [];
+  for (const [name, spec] of Object.entries(selectionsFromHeldFacts ?? {})) {
+    const basis = String(spec?.basis ?? "").trim();
+    const refuse = (reason, extra = {}) => {
+      report.refused.push({ field: name, reason, category: "settled_selection", ...extra });
+    };
+    if (spec?.checked !== true) { refuse("selection_not_settled_true"); continue; }
+    if (basis.length === 0) { refuse("settled_selection_needs_a_basis"); continue; }
+    if (unwritableByRole.has(name)) {
+      refuse("classified_unwritable_by_role");
+      report.protectedFields.push({ field: name, category: "role" });
+      continue;
+    }
+    const entry = census.find((f) => f.name === name);
+    if (!entry) { refuse("selection_absent_from_census"); continue; }
+    const protectedCategory = protectCategoryOf(entry.effectiveLabel ?? name) ?? protectCategoryOf(name);
+    if (protectedCategory) {
+      refuse("protected_category", { category: protectedCategory });
+      report.protectedFields.push({ field: name, category: protectedCategory });
+      continue;
+    }
+    let handle;
+    try { handle = form.getField(name); } catch { refuse("field_not_present_in_form"); continue; }
+    if (!(handle instanceof PDFCheckBox)) { refuse("not_a_checkbox", { category: "type_guard" }); continue; }
+    handle.check();
+    alreadyWritten.add(name);
+    report.written.push({ field: name, kind: "selection_settled_from_held_facts", factId: null, basis });
+    report.selectionsMarked.push({ field: name, basis });
   }
 
   // A choice field nobody selected still carries the source document's own

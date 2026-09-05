@@ -8,8 +8,25 @@
       "consequence": "Its selections, mailing dates, signature date, and signature remain blank until the service statements are true. The participant instructions carry the official sequence through filing, mailing, and returning the completed proof to the court."
     },
     {
-      "finding": "The conviction table asks for the crime, the charge code, the date of conviction and the case number, and instruction 4 says to get the exact date and charge FROM THE COURT and to attach a certified copy of each.",
-      "consequence": "No cell of it is written. That record is not one the platform holds, and a line with the crime filled and the conviction date blank would read as finished while missing the fact the application turns on. All sixteen cells are declared and disclosed."
+      "finding": "The conviction table shipped wholly blank on the reason that the platform holds no conviction record. The shared registry has carried a repeating charge row from the beginning -- matter.charges[n].charge and .case_number among them -- and twenty builders supply it, including the sibling Michigan set-aside family on the neighbouring SCAO form, whose listing has the same four columns and the same field names. This family held none.",
+      "consequence": "Repaired for the two columns the form can take. The crime and the case number of each conviction the platform holds are written; the charge-code and conviction-date columns are not, for the two separate reasons below. A conviction line is written whole or withheld whole: the boundary record's row a carries a 28-character case number needing 92.4pt in 92pt of usable column, the fitter refuses it, and the whole row is withheld rather than delivered as a crime with no case number beside it."
+    },
+    {
+      "finding": "The CHARGE CODE(S) / MCL citation/PACC Code column has no fact behind it. The shared registry holds no MCL citation and no PACC code; matter.citation_number is a citation number, which is a different thing.",
+      "consequence": "The column stays a declared, disclosed blank in every row. Printing a citation number in the MCL-citation column is the defect the sibling Michigan family refused by role, and this family does not make it either."
+    },
+    {
+      "severity": "shared-registry",
+      "finding": "matter.conviction_date is a descriptor in the shared registry, flagged requiresExplicitMapping, and it is reachable from nowhere. decideBinding consults protectCategoryOf before it matches any descriptor, and the protect vocabulary holds /\\bconvict(ed|ion)\\b/ under `disposition_or_hearing`, so every caption that names a conviction date is protected -- including this column's own printed heading, DATE OF CONVICTION. Measured here: protectCategoryOf(\"Conviction date\") and protectCategoryOf(\"Date of conviction\") both return disposition_or_hearing.",
+      "consequence": "This family does not work around it. Wording a binding label until a protect rule stops firing is the same move as wording a refusal until an approved-reason regex accepts it, and this build makes neither. The conviction-date column stays declared and disclosed, this family deliberately holds NO conviction_date in its charge rows so that its declaration is true, and the unreachable descriptor is raised here for whoever owns the shared registry."
+    },
+    {
+      "finding": "Item 2, the sworn direct-result nexus, shipped blank. It is one statement printed across five ruled lines, and no single-field channel could write it without truncating it at the first line.",
+      "consequence": "Repaired. The statement is held whole as matter.trafficking_nexus_statement and laid out across the five printed lines through the finalizer's opt-in narrativeAcrossFields channel, which takes a fact id and nothing else: it composes no words, and a statement the platform does not hold leaves all five lines blank rather than putting words nobody said onto an application sworn under penalty of perjury. A statement that will not fit the printed lines at a readable size is refused whole, never truncated. The participant instructions tell the filer in bold to read item 2 and correct it before signing."
+    },
+    {
+      "finding": "The caption box \"This application includes multiple case numbers as listed in item 1\" was left to the participant beside a table the platform now fills in.",
+      "consequence": "Repaired. The build settles it from the case numbers it actually DELIVERS into item 1 -- not from the facts it holds, because a withheld row is not a listed one -- and marks it only in the affirmative, an unticked box being this form's negative answer. The boundary fixture delivers three convictions under two case numbers and the box is ticked; the canonical fixture delivers one and it is not. The mark is proved on the page from its own path operators rather than from text, because the issuer draws its tick as a Bezier glyph and a text-only read-back reports a marked box as unmarked."
     },
     {
       "finding": "`dinfo` is captioned \"Defendant's name, address, and telephone no.\" — three facts in one free-text box, and the platform holds all three. This family shipped it blank on the reason that the build \"has no way to compose them into a single block for this form\".",
