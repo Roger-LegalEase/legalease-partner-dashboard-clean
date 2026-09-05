@@ -1,0 +1,403 @@
+{
+  "schemaVersion": "rcap-independent-verification-superlane/v1",
+  "assignmentId": "IV-B",
+  "baseSha": "995b9088b543fd1d4ae179cf1fc0d697abdd2eaa",
+  "rows": [
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "attemptOrdinal": 1,
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+      "rasterBinding": {
+        "queuePath": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "currentRasterState": "RASTER_PASS",
+        "packetCommitSha": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "jobConclusion": "success",
+        "canaryDependencySuccessful": true,
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "recomputedSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "pageCount": 19
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "recomputedSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "pageCount": 19
+        },
+        "expectedPages": 19,
+        "receiptArtifact": {
+          "id": "9793199803",
+          "name": "rcap-raster-ut_pet_acquittal-set-33488713831",
+          "zipSha256": "sha256:d2bfffffb059eefb7746c374bff15137fc0d7d97e03d2c30edc50efb8fac4018",
+          "expiresAt": "2026-09-15T08:56:46Z"
+        }
+      },
+      "componentSet": {
+        "result": "PASS",
+        "count": 9,
+        "components": [
+          "1000EX",
+          "1020EX",
+          "1044XX",
+          "1146XX",
+          "1148XX",
+          "1149XX",
+          "1169XX",
+          "UT-BCI-EXP-APPLICATION",
+          "UT-BCI-THIRD-PARTY-RELEASE"
+        ],
+        "finding": "Source receipt, field map, field census, and both 19-page rendered manifests agree on all nine components."
+      },
+      "sourceAndDecisionReceipts": {
+        "result": "PASS",
+        "finding": "All nine mounted source bytes were independently rehashed and matched receipt SHA-256 and byte length; preflight bound 9/9. No open legal input is recorded.",
+        "evidencePaths": [
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/source-receipt.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/local-source-corpus-index.json"
+        ]
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+        "result": "PASS_COMPLETE",
+        "writtenFields": "38/444",
+        "countersForFamilyAllZero": true
+      },
+      "obligations": {
+        "participantInstructions": {
+          "result": "FAIL",
+          "finding": "The only participant guidance is a required-before-filing fact list and protected-field warning; it supplies no filing sequence, timing/deadline guidance, fee/waiver procedure, service/notice procedure, filing destination, or explicit self-help stop.",
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md"
+        },
+        "filingInstructions": {
+          "result": "FAIL",
+          "finding": "No filing-and-timing guidance deliverable or step-by-step filing procedure exists."
+        },
+        "feeAndWaiverTreatment": {
+          "result": "FAIL",
+          "finding": "Instructions merely require a BCI payment or fee-waiver election; they do not explain the fee, waiver path, submission, or court-fee treatment."
+        },
+        "serviceAndNotice": {
+          "result": "FAIL",
+          "finding": "Instructions identify facts to complete after service but do not state who must receive service/notice, when, or how."
+        },
+        "destination": {
+          "result": "FAIL",
+          "finding": "Instructions request a court address but do not direct the participant where to submit the BCI application or court packet."
+        },
+        "deadlineAndTiming": {
+          "result": "FAIL",
+          "finding": "No filing, response, service, or order timing guidance is stated."
+        },
+        "selfHelpStop": {
+          "result": "FAIL",
+          "finding": "No explicit boundary states when the participant must stop and seek court clerk, self-help center, or licensed-attorney assistance."
+        },
+        "requiredBeforeFilingFacts": {
+          "result": "PASS",
+          "finding": "Ten missing facts/acts are expressly listed before filing."
+        },
+        "repeatingRows": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports incompleteRows=0 for this family."
+        },
+        "routeDeterminedOptions": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports requiredOptionsMissing=0."
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports protectedWrites=0; signatures, service certifications, and actor-restricted fields remain reserved."
+        },
+        "laterCompletionFields": {
+          "result": "PASS",
+          "finding": "Service method/address/date/certification and other event-dependent fields are explicitly reserved for later completion."
+        },
+        "proposedOrders": {
+          "result": "PASS",
+          "finding": "Official proposed order 1020EX is present, and court-only completion fields remain protected."
+        }
+      },
+      "decisiveFailure": "The packet component set omits usable filing-and-timing guidance; participant-instructions.md is only a data-completion checklist.",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ]
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "attemptOrdinal": 1,
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+      "rasterBinding": {
+        "queuePath": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "currentRasterState": "RASTER_PASS",
+        "packetCommitSha": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "jobConclusion": "success",
+        "canaryDependencySuccessful": true,
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "recomputedSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "pageCount": 19
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "recomputedSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "pageCount": 19
+        },
+        "expectedPages": 19,
+        "receiptArtifact": {
+          "id": "9793209485",
+          "name": "rcap-raster-ut_pet_conviction-set-33488713831",
+          "zipSha256": "sha256:87fbe47b70b12d656a0f7f493ad5b9f80c52aeec9d2cffb5a5ff582a43cd16ce",
+          "expiresAt": "2026-09-15T08:57:04Z"
+        }
+      },
+      "componentSet": {
+        "result": "PASS",
+        "count": 9,
+        "components": [
+          "1000EX",
+          "1020EX",
+          "1044XX",
+          "1146XX",
+          "1148XX",
+          "1149XX",
+          "1169XX",
+          "UT-BCI-EXP-APPLICATION",
+          "UT-BCI-THIRD-PARTY-RELEASE"
+        ],
+        "finding": "Source receipt, field map, field census, and both 19-page rendered manifests agree on all nine components."
+      },
+      "sourceAndDecisionReceipts": {
+        "result": "PASS",
+        "finding": "All nine mounted source bytes were independently rehashed and matched receipt SHA-256 and byte length; preflight bound 9/9. No open legal input is recorded.",
+        "evidencePaths": [
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/source-receipt.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/local-source-corpus-index.json"
+        ]
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+        "result": "PASS_COMPLETE",
+        "writtenFields": "38/444",
+        "countersForFamilyAllZero": true
+      },
+      "obligations": {
+        "participantInstructions": {
+          "result": "FAIL",
+          "finding": "The only participant guidance is a required-before-filing fact list and protected-field warning; it supplies no filing sequence, timing/deadline guidance, fee/waiver procedure, service/notice procedure, filing destination, or explicit self-help stop.",
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md"
+        },
+        "filingInstructions": {
+          "result": "FAIL",
+          "finding": "No filing-and-timing guidance deliverable or step-by-step filing procedure exists."
+        },
+        "feeAndWaiverTreatment": {
+          "result": "FAIL",
+          "finding": "Instructions merely require a BCI payment or fee-waiver election; they do not explain the fee, waiver path, submission, or court-fee treatment."
+        },
+        "serviceAndNotice": {
+          "result": "FAIL",
+          "finding": "Instructions identify facts to complete after service but do not state who must receive service/notice, when, or how."
+        },
+        "destination": {
+          "result": "FAIL",
+          "finding": "Instructions request a court address but do not direct the participant where to submit the BCI application or court packet."
+        },
+        "deadlineAndTiming": {
+          "result": "FAIL",
+          "finding": "No filing, response, service, or order timing guidance is stated."
+        },
+        "selfHelpStop": {
+          "result": "FAIL",
+          "finding": "No explicit boundary states when the participant must stop and seek court clerk, self-help center, or licensed-attorney assistance."
+        },
+        "requiredBeforeFilingFacts": {
+          "result": "PASS",
+          "finding": "Ten missing facts/acts are expressly listed before filing."
+        },
+        "repeatingRows": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports incompleteRows=0 for this family."
+        },
+        "routeDeterminedOptions": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports requiredOptionsMissing=0."
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports protectedWrites=0; signatures, service certifications, and actor-restricted fields remain reserved."
+        },
+        "laterCompletionFields": {
+          "result": "PASS",
+          "finding": "Service method/address/date/certification and other event-dependent fields are explicitly reserved for later completion."
+        },
+        "proposedOrders": {
+          "result": "PASS",
+          "finding": "Official proposed order 1020EX is present, and court-only completion fields remain protected."
+        }
+      },
+      "decisiveFailure": "The packet component set omits usable filing-and-timing guidance; participant-instructions.md is only a data-completion checklist.",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ]
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "attemptOrdinal": 1,
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+      "rasterBinding": {
+        "queuePath": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "currentRasterState": "RASTER_PASS",
+        "packetCommitSha": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+        "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+        "jobConclusion": "success",
+        "canaryDependencySuccessful": true,
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "recomputedSha256": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+          "pageCount": 19
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "recomputedSha256": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+          "pageCount": 19
+        },
+        "expectedPages": 19,
+        "receiptArtifact": {
+          "id": "9793199826",
+          "name": "rcap-raster-ut_pet_limitations-set-33488713831",
+          "zipSha256": "sha256:01aa5bdd4f74ac5f3c56cbf4cdbc45a70767c8ecab49cef0e877b672906ca94c",
+          "expiresAt": "2026-09-15T08:56:46Z"
+        }
+      },
+      "componentSet": {
+        "result": "PASS",
+        "count": 9,
+        "components": [
+          "1000EX",
+          "1020EX",
+          "1044XX",
+          "1146XX",
+          "1148XX",
+          "1149XX",
+          "1169XX",
+          "UT-BCI-EXP-APPLICATION",
+          "UT-BCI-THIRD-PARTY-RELEASE"
+        ],
+        "finding": "Source receipt, field map, field census, and both 19-page rendered manifests agree on all nine components."
+      },
+      "sourceAndDecisionReceipts": {
+        "result": "PASS",
+        "finding": "All nine mounted source bytes were independently rehashed and matched receipt SHA-256 and byte length; preflight bound 9/9. No open legal input is recorded.",
+        "evidencePaths": [
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/source-receipt.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/approval-request.json",
+          "data/rcap-all50/local-source-corpus-index.json"
+        ]
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+        "result": "PASS_COMPLETE",
+        "writtenFields": "38/444",
+        "countersForFamilyAllZero": true
+      },
+      "obligations": {
+        "participantInstructions": {
+          "result": "FAIL",
+          "finding": "The only participant guidance is a required-before-filing fact list and protected-field warning; it supplies no filing sequence, timing/deadline guidance, fee/waiver procedure, service/notice procedure, filing destination, or explicit self-help stop.",
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md"
+        },
+        "filingInstructions": {
+          "result": "FAIL",
+          "finding": "No filing-and-timing guidance deliverable or step-by-step filing procedure exists."
+        },
+        "feeAndWaiverTreatment": {
+          "result": "FAIL",
+          "finding": "Instructions merely require a BCI payment or fee-waiver election; they do not explain the fee, waiver path, submission, or court-fee treatment."
+        },
+        "serviceAndNotice": {
+          "result": "FAIL",
+          "finding": "Instructions identify facts to complete after service but do not state who must receive service/notice, when, or how."
+        },
+        "destination": {
+          "result": "FAIL",
+          "finding": "Instructions request a court address but do not direct the participant where to submit the BCI application or court packet."
+        },
+        "deadlineAndTiming": {
+          "result": "FAIL",
+          "finding": "No filing, response, service, or order timing guidance is stated."
+        },
+        "selfHelpStop": {
+          "result": "FAIL",
+          "finding": "No explicit boundary states when the participant must stop and seek court clerk, self-help center, or licensed-attorney assistance."
+        },
+        "requiredBeforeFilingFacts": {
+          "result": "PASS",
+          "finding": "Ten missing facts/acts are expressly listed before filing."
+        },
+        "repeatingRows": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports incompleteRows=0 for this family."
+        },
+        "routeDeterminedOptions": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports requiredOptionsMissing=0."
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Independent completeness verifier reports protectedWrites=0; signatures, service certifications, and actor-restricted fields remain reserved."
+        },
+        "laterCompletionFields": {
+          "result": "PASS",
+          "finding": "Service method/address/date/certification and other event-dependent fields are explicitly reserved for later completion."
+        },
+        "proposedOrders": {
+          "result": "PASS",
+          "finding": "Official proposed order 1020EX is present, and court-only completion fields remain protected."
+        }
+      },
+      "decisiveFailure": "The packet component set omits usable filing-and-timing guidance; participant-instructions.md is only a data-completion checklist.",
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ]
+    }
+  ]
+}
