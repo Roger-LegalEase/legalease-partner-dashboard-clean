@@ -15,9 +15,14 @@
   "sourceBinariesRequired": 0,
   "sourceBinaryCommitted": false,
   "sourceBinarySha256": null,
-  "allSourcesExact": false,
-  "allSourcesExactNote": "Authority-only composition: the assigned family requires zero source binaries, so no binary source hash exists or is owed.",
-  "bindingMethod": "the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record relied on by the build are re-read and SHA-256-bound at build time",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "Authority-only composition: the assigned family requires zero source binaries, so no binary source hash exists or is owed, and every record this packet is grounded in binds. This flag was lowered by hand to false in an earlier pin sweep, correctly, because one grounding record did not bind: MASTER_QUEUE.json, whose pin that sweep held rather than refreshed. The flag reads true again because the reason it was lowered is gone -- the queue is no longer a grounding record at all -- and because this value is written by the builder from the binding it just performed rather than edited into the receipt afterwards.",
+  "bindingMethod": "the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record carrying legal content this build relies on are re-read at build time and bound twice by SHA-256: the whole file, and this family's own entry inside it over a key-ordered canonical form",
+  "notGroundedIn": {
+    "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "why": "The queue is a generated file describing this packet's own build state, so binding it proves nothing about the packet's legal content and goes stale on every regeneration. It was pinned here at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B and hashed 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B when a verifier read it. The Louisiana node had also changed meaning, not just position, so no identity-refresh note could honestly cure the pin and none was written. Every assertion this build made against the queue is now made against a record that carries legal content.",
+    "recoveredPinnedBlobAtCommit": "b45f5131"
+  },
   "authorityDecision": {
     "id": "LA-STATUTORY-FORMS",
     "decision": "COMPOSE_FROM_AUTHORITY",
@@ -31,7 +36,8 @@
     "reviewedAsOf": "2026-08-03",
     "effectiveFrom": "2014-08-01",
     "effectiveTo": null,
-    "legalInputStatus": "SETTLED"
+    "legalInputStatus": "SETTLED",
+    "legalInputStatusBasis": "derived from the track registry's own dating for this track -- an effectiveFrom, a null effectiveTo, and no blocker raised against the governing mechanism -- and no longer copied from the generated build queue"
   },
   "officialForm": {
     "officialFormId": "LA-CCRP-ART-987",
@@ -45,54 +51,79 @@
     {
       "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
       "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
-      "byteLength": 11095
-    },
-    {
-      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
-      "sha256": "484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078",
-      "byteLength": 2010084
+      "byteLength": 11095,
+      "boundEntry": {
+        "pointer": "determinations[id=LA-STATUTORY-FORMS]",
+        "sha256": "df2f2bab29664be16cc6aa9a3f7d3a38fd336417699656adea04e81d7d3add29",
+        "canonicalByteLength": 2790,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      }
     },
     {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
       "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-      "byteLength": 2607149
+      "byteLength": 2607149,
+      "boundEntry": {
+        "pointer": "routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss]",
+        "sha256": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349",
+        "canonicalByteLength": 3071,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      }
     },
     {
       "path": "data/record-clearing/legal-design-intake/LA.memo.json",
       "sha256": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
-      "byteLength": 364706
+      "byteLength": 364706,
+      "boundEntry": {
+        "pointer": "tracks[trackId=la-987-set-aside-and-dismiss]",
+        "sha256": "ca14592386024bc340eb6b41ba7073206190c66989f59b4a3d13afaa12e4c677",
+        "canonicalByteLength": 21036,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      }
     },
     {
       "path": "data/record-clearing/legal-design-track-registry.json",
       "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
-      "byteLength": 16586150
+      "byteLength": 16586150,
+      "boundEntry": {
+        "pointer": "tracks[trackId=la-987-set-aside-and-dismiss]",
+        "sha256": "786aa38aca5880024a901b47d0215372cfb4c0ea23e949b2670739a54bbac67f",
+        "canonicalByteLength": 32990,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      }
     },
     {
       "path": "data/record-clearing/legal-design-specifications.json",
       "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
-      "byteLength": 16829391
+      "byteLength": 16829391,
+      "boundEntry": {
+        "pointer": "officialFormAssignments[trackId=la-987-set-aside-and-dismiss]",
+        "sha256": "a58d9bf9f8ea947aa83b38fc2100b5e6a89f04ecb89fae5e3010d707ec8e1453",
+        "canonicalByteLength": 11790,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      }
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
       "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
       "byteLength": 3683419,
-      "identityRefresh": {
-        "refreshedOn": "2026-09-05",
-        "was": {
-          "sha256": "713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572",
-          "byteLength": 3677644
-        },
-        "why": "The shared record was rewritten around this receipt's anchors by unrelated work. Every entry this family binds was recovered from the historical blob carrying the previous pin and is byte-identical on disk, so the bound content is unchanged and only the containing file's identity moved.",
-        "anchorsCompared": 2,
-        "anchorsIdentical": 2,
-        "previousPinLastSeenAtCommit": "0be1fee76",
-        "allSourcesExactRederivedOver": "Authority-only composition: the assigned family requires zero source binaries, so no binary source hash exists or is owed."
+      "boundEntry": {
+        "pointer": "packetSets[packetSetId=la-987-set-aside-and-dismiss-set]",
+        "sha256": "fb0fd26e9c2cb1aadeb33496a72adfaa5cfeaaf5f67292b1b40b954debc78222",
+        "canonicalByteLength": 8247,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
       }
     },
     {
       "path": "data/record-clearing/legal-design-track-source-relationships.json",
       "sha256": "c24c9cf4edc2336f2560497324737cc361aef5dcdae0bda60cec77488d4bf591",
-      "byteLength": 254078
+      "byteLength": 254078,
+      "boundEntry": {
+        "pointer": "relationships[trackId=la-987-set-aside-and-dismiss]",
+        "sha256": "5581ac2c6f25614e5082a31bee26c145d70cee88c0129e2e3892be53535f4402",
+        "canonicalByteLength": 270,
+        "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      }
     }
   ],
   "composedComponentsAuthoredByThisBuild": [

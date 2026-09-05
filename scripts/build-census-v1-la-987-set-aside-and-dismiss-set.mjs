@@ -50,9 +50,36 @@ const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
 const DOTS = (count = 74) => ".".repeat(count);
 const PAGE_BREAK = "[[RCAP_PAGE_BREAK]]";
 
+/*
+ * THE RECORDS THIS PACKET IS GROUNDED IN.
+ *
+ * Each one carries legal content this build relies on: the owner determination
+ * it composes under, the route census that assigns the route to this packet
+ * set, the Louisiana legal-design memo and the track registry that carry the
+ * article's dating and its limitations, the specification that assigns the
+ * official form to the primary filing component, the packet-set manifest that
+ * fixes the component set, and the component-source relationship.
+ *
+ * MASTER_QUEUE.json IS DELIBERATELY NOT AMONG THEM, AND MUST NOT BE ADDED BACK.
+ *
+ * It was, and it was the one pin that would not re-bind. The receipt pinned it
+ * at 484a8944.../2010084 B; by the time a verifier looked it hashed
+ * 3a37b3f9.../2016844 B, and by the time this repair ran it hashed
+ * 36f98da3.../2027801 B. No refresh note could have cured that, and one was
+ * correctly withheld: the queue's Louisiana node did not merely move inside a
+ * rewritten file, it changed meaning -- SOURCE_READY/NOT_RENDERED/NOT_BUILT at
+ * the pinned hash, VERIFY_PENDING/RENDERED/FAIL_VISIBLE_APPEARANCE afterwards.
+ *
+ * The deeper reason is that the queue is a GENERATED FILE DESCRIBING THIS
+ * PACKET'S OWN BUILD STATE. A record that binds its own output proves nothing:
+ * every assertion the build made against the queue -- the route keys, the
+ * strategy, the custody class, the empty source hashes, its own output
+ * directory -- is either restated by a record that actually carries legal
+ * content, or is the build describing itself. So the queue is read by nobody
+ * here, and the assertions that used it are made against the records below.
+ */
 const RECORDS = Object.freeze({
   owner: "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
-  queue: "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
   census: "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
   memo: "data/record-clearing/legal-design-intake/LA.memo.json",
   registry: "data/record-clearing/legal-design-track-registry.json",
@@ -60,6 +87,46 @@ const RECORDS = Object.freeze({
   manifest: "data/record-clearing/legal-design-packet-set-manifests.json",
   relationships: "data/record-clearing/legal-design-track-source-relationships.json"
 });
+
+const TRACK_ID = "la-987-set-aside-and-dismiss";
+
+/*
+ * Every record above is a shared national or statewide file that many families
+ * write into, so a whole-file hash alone is a pin on other people's edits: it
+ * moved once already on legal-design-packet-set-manifests.json and had to be
+ * argued back with a hand-written refresh note. Each record therefore carries
+ * TWO pins -- the whole file, and the family's own entry inside it, hashed over
+ * a key-ordered canonical form so the hash follows the content and not the
+ * serializer. A whole-file move with the entry pin intact is a rewrite around
+ * this family; an entry move is a change to what this family is built on, and
+ * only the second one is this family's problem.
+ */
+const BOUND_ENTRY = Object.freeze({
+  owner: { pointer: `determinations[id=${OWNER_DECISION}]`,
+    of: (data) => data.determinations.find((row) => row.id === OWNER_DECISION) },
+  census: { pointer: `routes[routeKey=${ROUTE_KEY}]`,
+    of: (data) => data.routes.find((row) => row.routeKey === ROUTE_KEY) },
+  memo: { pointer: `tracks[trackId=${TRACK_ID}]`,
+    of: (data) => data.tracks.find((row) => row.trackId === TRACK_ID) },
+  registry: { pointer: `tracks[trackId=${TRACK_ID}]`,
+    of: (data) => data.tracks.find((row) => row.trackId === TRACK_ID) },
+  specifications: { pointer: `officialFormAssignments[trackId=${TRACK_ID}]`,
+    of: (data) => data.officialFormAssignments.find((row) => row.trackId === TRACK_ID) },
+  manifest: { pointer: `packetSets[packetSetId=${FAMILY_ID}]`,
+    of: (data) => data.packetSets.find((row) => row.packetSetId === FAMILY_ID) },
+  relationships: { pointer: `relationships[trackId=${TRACK_ID}]`,
+    of: (data) => data.relationships.find((row) => row.trackId === TRACK_ID) }
+});
+
+/** Key-ordered JSON, so an entry hash depends on content and not on key order. */
+function canonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value).sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
+  }
+  return JSON.stringify(value ?? null);
+}
 
 const FACTS = Object.freeze({
   canonical: {
@@ -125,15 +192,21 @@ function loadAuthorityBinding() {
     remainOfficialAndMustBeHeld: []
   });
 
-  const queueFamily = loaded.queue.data.families.find((row) => row.familyId === FAMILY_ID);
-  assert.ok(queueFamily, `MASTER_QUEUE family is missing: ${FAMILY_ID}`);
-  assert.deepEqual(queueFamily.routeKeys, [ROUTE_KEY]);
-  assert.equal(queueFamily.implementationStrategy, STRATEGY);
-  assert.equal(queueFamily.sourceStatus, CUSTODY_CLASS);
-  assert.equal(queueFamily.sourceReadiness?.ready, true);
-  assert.equal(queueFamily.sourceReadiness?.composedFromAuthority, OWNER_DECISION);
-  assert.deepEqual(queueFamily.sourceHashes, []);
-  assert.equal(queueFamily.directory, OUT);
+  /*
+   * What the queue used to be asked, asked of the records that can answer it.
+   *
+   * `routeKeys`, `implementationStrategy`, `sourceStatus`, `sourceReadiness`
+   * and `sourceHashes` were all read off this family's MASTER_QUEUE node. Every
+   * one of them is settled below by a record carrying legal content: the route
+   * census assigns the route to this packet set, the memo and the track
+   * registry both declare the output strategy, and the owner determination plus
+   * the component-source relationship together establish that this is an
+   * authority-only composition owing no binary. The one assertion with no
+   * replacement was `queueFamily.directory === OUT`, which asked the build to
+   * confirm its own output path against a file generated from that same build.
+   */
+  assert.deepEqual(ownerFamily.remainOfficialAndMustBeHeld, [],
+    "an authority-only composition may hold no official binary obligation");
 
   const route = loaded.census.data.routes.find((row) => row.routeKey === ROUTE_KEY);
   assert.ok(route, `route census row is missing: ${ROUTE_KEY}`);
@@ -165,22 +238,63 @@ function loadAuthorityBinding() {
   assert.equal(relationship.componentId, PRIMARY);
   assert.equal(relationship.officialFormId, FORM_ID);
   assert.equal(relationship.sha256, null);
+  /*
+   * The custody class, established from legal content rather than from the
+   * queue: the owner decided this form is composed from codified text, and the
+   * component-source relationship holds no binary hash for it. Those two
+   * together are what CUSTOM_PLEADING_FROM_CODIFIED_TEXT means.
+   */
+  assert.equal(CUSTODY_CLASS, "CUSTOM_PLEADING_FROM_CODIFIED_TEXT");
+  assert.equal(owner.decision, "COMPOSE_FROM_AUTHORITY");
+  assert.deepEqual(ownerFamily.composedFromAuthority, [FORM_ID]);
+
+  /*
+   * `legalInputStatus` also came off the queue node. The legal INPUT is the
+   * codified article, not the packet's review state, and the track registry
+   * carries what settles it: the article is in force -- the registry gives an
+   * `effectiveFrom` and a null `effectiveTo` -- and nothing raised against the
+   * governing mechanism blocks its text. Release blockers about which parish
+   * charges what, and the standing note that Title XXXIV wants annual
+   * re-verification, are recorded elsewhere in this packet and do not make the
+   * article's current text unsettled. Review state stays in the review records;
+   * this field says only whether the authority this packet composes from is
+   * settled law today.
+   */
+  const unsettling = [...(registryTrack.openLegalQuestions ?? []), ...(registryTrack.buildBlockers ?? [])]
+    .filter((row) => row.affectedElement === "governing_mechanism" && String(row.impact ?? "").endsWith("_blocker"));
+  const legalInputStatus = registryTrack.effectiveFrom && registryTrack.effectiveTo === null && unsettling.length === 0
+    ? "SETTLED" : "UNSETTLED";
+  assert.equal(legalInputStatus, "SETTLED",
+    `the Article 987 text is no longer settled: ${JSON.stringify(unsettling.map((row) => row.question))}`);
 
   return {
     owner,
     ownerFamily,
-    queueFamily,
+    legalInputStatus,
     route,
     memoTrack,
     registryTrack,
     assignment,
     packetSet,
     relationship,
-    records: Object.values(loaded).map((row) => ({
-      path: row.relative,
-      sha256: row.sha256,
-      byteLength: row.bytes.length
-    }))
+    records: Object.entries(loaded).map(([key, row]) => {
+      const entry = BOUND_ENTRY[key].of(row.data);
+      assert.ok(entry, `${row.relative}: this family has no ${BOUND_ENTRY[key].pointer} entry`);
+      const canonical = canonicalJson(entry);
+      return {
+        path: row.relative,
+        sha256: row.sha256,
+        byteLength: row.bytes.length,
+        // The family's own entry, pinned independently of the shared file
+        // around it. `boundEntry.sha256` is the hash of `canonicalJson(entry)`.
+        boundEntry: {
+          pointer: BOUND_ENTRY[key].pointer,
+          sha256: crypto.createHash("sha256").update(canonical).digest("hex"),
+          canonicalByteLength: Buffer.byteLength(canonical),
+          canonicalisation: "JSON with object keys sorted at every depth, no whitespace"
+        }
+      };
+    })
   };
 }
 
@@ -879,8 +993,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
     sourceBinaryCommitted: false,
     sourceBinarySha256: null,
     allSourcesExact: true,
-    allSourcesExactNote: "Authority-only composition: the assigned family requires zero source binaries, so no binary source hash exists or is owed.",
-    bindingMethod: "the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record relied on by the build are re-read and SHA-256-bound at build time",
+    allSourcesExactNote: "Authority-only composition: the assigned family requires zero source binaries, so no binary source hash exists or is owed, and every record this packet is grounded in binds. This flag was lowered by hand to false in an earlier pin sweep, correctly, because one grounding record did not bind: MASTER_QUEUE.json, whose pin that sweep held rather than refreshed. The flag reads true again because the reason it was lowered is gone -- the queue is no longer a grounding record at all -- and because this value is written by the builder from the binding it just performed rather than edited into the receipt afterwards.",
+    bindingMethod: "the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record carrying legal content this build relies on are re-read at build time and bound twice by SHA-256: the whole file, and this family's own entry inside it over a key-ordered canonical form",
+    notGroundedIn: {
+      path: "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      why: "The queue is a generated file describing this packet's own build state, so binding it proves nothing about the packet's legal content and goes stale on every regeneration. It was pinned here at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B and hashed 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B when a verifier read it. The Louisiana node had also changed meaning, not just position, so no identity-refresh note could honestly cure the pin and none was written. Every assertion this build made against the queue is now made against a record that carries legal content.",
+      recoveredPinnedBlobAtCommit: "b45f5131"
+    },
     authorityDecision: {
       id: binding.owner.id,
       decision: binding.owner.decision,
@@ -892,7 +1011,8 @@ export async function runFamily(argv = process.argv.slice(2)) {
       reviewedAsOf: binding.registryTrack.reviewedAsOf,
       effectiveFrom: binding.registryTrack.effectiveFrom,
       effectiveTo: binding.registryTrack.effectiveTo,
-      legalInputStatus: binding.queueFamily.legalInputStatus
+      legalInputStatus: binding.legalInputStatus,
+      legalInputStatusBasis: "derived from the track registry's own dating for this track -- an effectiveFrom, a null effectiveTo, and no blocker raised against the governing mechanism -- and no longer copied from the generated build queue"
     },
     officialForm: {
       officialFormId: FORM_ID,
