@@ -15,7 +15,7 @@
   "routeDeterminedSelections": [],
   "routeSelectionNote": "MCL 780.621e is one section and MC 227a is its form. Nothing on it is a route election: the two People-of boxes say who prosecuted the offence and the multiple-case-numbers box says how many cases the table lists, both facts about the participant's own record. The form itself routes the two neighbouring applications elsewhere, to MC 227b and MC 227, and the instructions carry that in the form's own words.",
   "convictionTableNote": "All sixteen cells of the four-row conviction table are declared required-before-filing and none is written. The form's instruction 4 says the exact date and charge come from the court and that a certified copy of each conviction must be attached; the platform holds neither.",
-  "requiredBeforeFilingCount": 26,
+  "requiredBeforeFilingCount": 25,
   "requiredBeforeFiling": [
     {
       "document": "MC-227A",
@@ -86,16 +86,6 @@
       "identity": "MC-227A field peopleof",
       "why": "the platform holds no value for this and the participant supplies it before filing: the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan",
       "participantMustSupply": "the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan"
-    },
-    {
-      "document": "MC-227A",
-      "field": "MC-227A/dinfo",
-      "page": 1,
-      "section": "Parties",
-      "disclosureLabel": "Defendant's name, address, and telephone no.",
-      "identity": "MC-227A field dinfo",
-      "why": "the platform holds no value for this and the participant supplies it before filing: your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs",
-      "participantMustSupply": "your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs"
     },
     {
       "document": "MC-227A",
@@ -292,6 +282,7 @@
       "structuralClass": "acroform",
       "explicitMappings": {
         "MC-227A/caseno": "matter.case_number",
+        "MC-227A/dinfo": null,
         "MC-227A/county ": "matter.county"
       },
       "roleRefusals": [],
@@ -485,6 +476,49 @@
           "document": "MC-227A",
           "factId": "matter.case_number",
           "kind": "text"
+        },
+        {
+          "field": "MC-227A/dinfo",
+          "fieldName": "MC-227A/dinfo",
+          "acroFieldName": "dinfo",
+          "page": 1,
+          "rect": {
+            "x": 318.6,
+            "y": 580.66,
+            "width": 257.4,
+            "height": 48
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant's name, address, and telephone no.",
+          "printedLine": "Defendant's name, address, and telephone no.",
+          "sectionHeading": "Parties",
+          "regionHeading": "Defendant's name, address, and telephone no.",
+          "effectiveLabel": "Defendant's name, address, and telephone no.",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 575,
+              "extracted": "CTN/TCNSID"
+            },
+            {
+              "y": 591,
+              "extracted": "v"
+            }
+          ],
+          "document": "MC-227A",
+          "factId": null,
+          "kind": "text",
+          "composed": true,
+          "composedFrom": [
+            "participant.full_legal_name",
+            "participant.street_address",
+            "participant.phone"
+          ],
+          "composedMaxFontSize": 9,
+          "composedHow": "the three facts the printed caption names, in the order it names them, one to a line, in the party block opposite THE PEOPLE OF",
+          "fontSizeDrawn": 9,
+          "linesDrawn": 3,
+          "why": "the printed caption asks for 3 facts in one box and the platform holds all 3; they are written the three facts the printed caption names, in the order it names them, one to a line, in the party block opposite THE PEOPLE OF"
         },
         {
           "field": "MC-227A/county ",
@@ -849,48 +883,6 @@
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan",
           "participantMustSupply": "the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan"
-        },
-        {
-          "field": "MC-227A/dinfo",
-          "fieldName": "MC-227A/dinfo",
-          "acroFieldName": "dinfo",
-          "page": 1,
-          "rect": {
-            "x": 318.6,
-            "y": 580.66,
-            "width": 257.4,
-            "height": 48
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Defendant's name, address, and telephone no.",
-          "printedLine": "Defendant's name, address, and telephone no.",
-          "sectionHeading": "Parties",
-          "regionHeading": "Defendant's name, address, and telephone no.",
-          "effectiveLabel": "Defendant's name, address, and telephone no.",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 575,
-              "extracted": "CTN/TCNSID"
-            },
-            {
-              "y": 591,
-              "extracted": "v"
-            }
-          ],
-          "document": "MC-227A",
-          "reason": "the participant supplies this before filing: your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "MC-227A field dinfo",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs",
-          "participantMustSupply": "your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs"
         },
         {
           "field": "MC-227A/ctntcn",
@@ -1783,6 +1775,49 @@
           "kind": "text"
         },
         {
+          "field": "MC-227A/dinfo",
+          "fieldName": "MC-227A/dinfo",
+          "acroFieldName": "dinfo",
+          "page": 1,
+          "rect": {
+            "x": 318.6,
+            "y": 580.66,
+            "width": 257.4,
+            "height": 48
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Defendant's name, address, and telephone no.",
+          "printedLine": "Defendant's name, address, and telephone no.",
+          "sectionHeading": "Parties",
+          "regionHeading": "Defendant's name, address, and telephone no.",
+          "effectiveLabel": "Defendant's name, address, and telephone no.",
+          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+          "printedTextAtCoordinate": [
+            {
+              "y": 575,
+              "extracted": "CTN/TCNSID"
+            },
+            {
+              "y": 591,
+              "extracted": "v"
+            }
+          ],
+          "document": "MC-227A",
+          "factId": null,
+          "kind": "text",
+          "composed": true,
+          "composedFrom": [
+            "participant.full_legal_name",
+            "participant.street_address",
+            "participant.phone"
+          ],
+          "composedMaxFontSize": 9,
+          "composedHow": "the three facts the printed caption names, in the order it names them, one to a line, in the party block opposite THE PEOPLE OF",
+          "fontSizeDrawn": 9,
+          "linesDrawn": 3,
+          "why": "the printed caption asks for 3 facts in one box and the platform holds all 3; they are written the three facts the printed caption names, in the order it names them, one to a line, in the party block opposite THE PEOPLE OF"
+        },
+        {
           "field": "MC-227A/county ",
           "fieldName": "MC-227A/county ",
           "acroFieldName": "county ",
@@ -2145,48 +2180,6 @@
           "routeDetermined": false,
           "why": "the platform holds no value for this and the participant supplies it before filing: the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan",
           "participantMustSupply": "the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan"
-        },
-        {
-          "field": "MC-227A/dinfo",
-          "fieldName": "MC-227A/dinfo",
-          "acroFieldName": "dinfo",
-          "page": 1,
-          "rect": {
-            "x": 318.6,
-            "y": 580.66,
-            "width": 257.4,
-            "height": 48
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "printedLabel": "Defendant's name, address, and telephone no.",
-          "printedLine": "Defendant's name, address, and telephone no.",
-          "sectionHeading": "Parties",
-          "regionHeading": "Defendant's name, address, and telephone no.",
-          "effectiveLabel": "Defendant's name, address, and telephone no.",
-          "captionBasis": "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
-          "printedTextAtCoordinate": [
-            {
-              "y": 575,
-              "extracted": "CTN/TCNSID"
-            },
-            {
-              "y": 591,
-              "extracted": "v"
-            }
-          ],
-          "document": "MC-227A",
-          "reason": "the participant supplies this before filing: your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs",
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "disposition": "REQUIRED_BEFORE_FILING",
-          "completenessDisposition": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
-          "identity": "MC-227A field dinfo",
-          "factId": null,
-          "routeDetermined": false,
-          "why": "the platform holds no value for this and the participant supplies it before filing: your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs",
-          "participantMustSupply": "your name, your address and your telephone number, together in this one box. The platform holds all three but has no way to compose them into a single block for this form, and writing only one of the three would leave the court without the contact details it needs"
         },
         {
           "field": "MC-227A/ctntcn",
