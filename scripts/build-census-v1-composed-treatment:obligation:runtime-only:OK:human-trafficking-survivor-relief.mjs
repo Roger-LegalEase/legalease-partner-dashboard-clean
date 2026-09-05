@@ -509,13 +509,7 @@ async function renderComposedPdf(fullText, title) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
-  let page = pdf.addPage([width, height]);
-  let y = height - margin;
-  const draw = (line) => {
-    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
-    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-    y -= lineHeight;
-  };
+  const pageTop = height - margin;
   const splitToken = (token) => {
     const chunks = []; let current = "";
     for (const ch of token) {
@@ -537,7 +531,70 @@ async function renderComposedPdf(fullText, title) {
     if (current) rows.push(current);
     return rows;
   };
-  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  /*
+   * No page may carry a single drawn line.
+   *
+   * The renderer tested its page break before drawing, one line at a time, with
+   * no knowledge of what came next, so a blank separator sitting in the last
+   * slot of a page spent that slot and pushed the following line onto a page of
+   * its own. On the boundary fixture the following line was the document's last
+   * -- the route footer -- so the packet shipped a page whose only ink was that
+   * footer, drawn at the TOP of the page because a fresh page resets the cursor
+   * to `height - margin`. Canonical, one wrapped line shorter, ended at four
+   * pages, so the two fixtures disagreed on how long the same document is.
+   *
+   * The layout is now simulated first. Where a page comes out carrying exactly
+   * one drawn line, the blank separators immediately in front of that line are
+   * collapsed -- a blank line separates two blocks on the same page, and there
+   * is nothing for it to separate when it is the last thing on one -- and the
+   * layout is simulated again, up to a bounded number of times.
+   *
+   * Every other page break is left exactly where the old renderer put it. That
+   * matters: collapsing blanks unconditionally, or paginating by block, moves
+   * content that was never stranded and merely relocates the defect -- it left
+   * the heading "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS" alone at the foot
+   * of a page with its paragraph overleaf. Here the canonical fixture is
+   * byte-identical after the repair, because nothing on it was stranded.
+   */
+  const rows = sanitizePdfText(fullText).split("\n").flatMap((raw) => wrap(raw));
+
+  const simulate = (collapsed) => {
+    const placement = [];
+    const drawnPerPage = [];
+    let y = pageTop, pageIndex = 0;
+    for (let i = 0; i < rows.length; i += 1) {
+      if (collapsed.has(i)) continue;
+      if (y < margin) { pageIndex += 1; y = pageTop; }
+      if (rows[i]) {
+        placement.push({ row: i, page: pageIndex, y });
+        drawnPerPage[pageIndex] = (drawnPerPage[pageIndex] ?? 0) + 1;
+      }
+      y -= lineHeight;
+    }
+    return { placement, drawnPerPage };
+  };
+
+  const collapsed = new Set();
+  let plan = simulate(collapsed);
+  for (let pass = 0; pass < 8; pass += 1) {
+    const lonely = plan.drawnPerPage.findIndex((count, index) => index > 0 && count === 1);
+    if (lonely < 0) break;
+    const first = plan.placement.find((entry) => entry.page === lonely);
+    let before = first.row - 1;
+    let collapsedAny = false;
+    while (before >= 0 && rows[before] === "") {
+      if (!collapsed.has(before)) { collapsed.add(before); collapsedAny = true; }
+      before -= 1;
+    }
+    if (!collapsedAny) break;   // the line genuinely does not fit; a long block is not an orphan
+    plan = simulate(collapsed);
+  }
+
+  const pages = [pdf.addPage([width, height])];
+  for (const entry of plan.placement) {
+    while (pages.length <= entry.page) pages.push(pdf.addPage([width, height]));
+    pages[entry.page].drawText(rows[entry.row], { x: margin, y: entry.y, size: fontSize, font, color: rgb(0, 0, 0) });
+  }
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
@@ -920,9 +977,21 @@ export async function runFamily(argv = process.argv.slice(2)) {
     });
 
     const sha256 = crypto.createHash("sha256").update(packetBytes).digest("hex");
+    /*
+     * Per-page ink, read from the saved packet bytes.
+     *
+     * This is what the orphan-page defect is measured on: a page carrying one
+     * drawn run and 66 glyphs is a page whose only ink is the route footer, and
+     * counting components or trusting the page total says nothing about it.
+     */
+    const pageInk = (await PDFDocument.load(packetBytes, { updateMetadata: false })).getPages()
+      .map((pg) => extractTextItems(pg).filter((it) => /\S/.test(it.text)).length);
+    assert.ok(pageInk.every((count) => count > 1),
+      `${fixtureName}: page(s) ${pageInk.map((c, i) => (c > 1 ? null : i + 1)).filter(Boolean).join(", ")} carry a single drawn line`);
     artifacts.push({
       fixture: fixtureName, file, sha256,
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+      drawnRunsPerPage: pageInk,
       documents, components: COMPONENT_IDS
     });
     pdfsDeclared.push({
@@ -1078,7 +1147,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   writeJson(`${OUT}/build-findings.json`, {
     schemaVersion: "rcap-family-build-findings/v1", familyId: SPEC.familyId, blocking: [],
-    findings: SPEC.buildFindings
+    findings: [...SPEC.buildFindings,
+      "boundary.pdf carried a fifth page whose only ink was the route footer, drawn at the top of the page: a blank separator sitting in the last slot of page 2 spent that slot and pushed the document's final line onto a page of its own. The renderer now simulates its own layout and collapses the blank separators in front of any line that would otherwise sit alone on a page, leaving every other page break where it was. Boundary is 4 pages and matches canonical; canonical is byte-identical, because nothing on it was stranded.",
+      "boundary.pdf moved in that repair, so the family's RASTER_PASS receipt no longer covers the family and a fresh whole-family raster is required before any further read."],
+    orphanPages: Object.fromEntries(artifacts.map((artifact) => [artifact.fixture,
+      artifact.drawnRunsPerPage.filter((count) => count <= 1).length])),
+    drawnRunsPerPage: Object.fromEntries(artifacts.map((artifact) => [artifact.fixture, artifact.drawnRunsPerPage]))
   });
 
   writeJson(`${OUT}/approval-request.json`, {
