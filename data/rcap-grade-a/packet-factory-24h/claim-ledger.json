@@ -7278,10 +7278,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX47",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T15:09:22.580Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12952,7 +12952,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "9530fd70639e02aaa88f01b6963da07e492454aa1623c947d2f81fe5c05c1f2f",
+  "claimsDigest": "f1b0ecddbbc5dd4782fbd7bddab1ada5fbcf2dc34b93403185d06b704d7d5fa1",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39762,6 +39762,17 @@
       "previouslyReleasedAt": "2026-09-05T15:54:08.428Z",
       "transferredAt": "2026-09-05T15:54:08.513Z",
       "reason": "VF07 at a0fbceb30 (79f387e37) fails CLIPPING_AND_OVERLAP after the FIX07 pull-down: a split block with room left behind, or a notary execution line pulled under the trailer. FIX46 refines the pull-down at the builder."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_conviction_no_supervision-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX47",
+      "previouslyReleasedAt": "2026-09-05T15:09:22.580Z",
+      "transferredAt": "2026-09-05T16:04:51.414Z",
+      "reason": "VF04 at a0fbceb30 (9cf0c64fa) fails KNOWN_PREFILLS: delivered page 20 prints the date-of-birth caption and leaves it blank while page 11 writes the held 1994-04-17, because the field map relabels those three cells as the sworn-declaration date and refuses them as a signing date; a protected class hides a held fact. FIX47 corrects the field map at the cause."
     }
   ],
   "withdrawals": [
