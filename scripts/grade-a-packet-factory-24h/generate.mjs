@@ -4463,6 +4463,11 @@ const claimLedgerRecord = {
    * after this generator was last touched, so without this line the first
    * regeneration after any transfer would erase the record of it. */
   transfers: priorLedger.transfers ?? [],
+  /* The grant log is the Captain's record of a claim minted for a subject the
+   * dispatch names for nothing. Without this line the first regeneration
+   * erased it, and the next one withdrew the grant it had proven — two of the
+   * seventeen scale-cohort reads went that way before this landed. */
+  grants: priorLedger.grants ?? [],
   withdrawals: [...(priorLedger.withdrawals ?? []), ...withdrawnNow]
 };
 
