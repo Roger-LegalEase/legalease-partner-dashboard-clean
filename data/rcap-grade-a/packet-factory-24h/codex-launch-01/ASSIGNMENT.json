@@ -9,14 +9,18 @@
   "recordedOn": "2026-09-05",
   "status": "PREPARED_NOT_LAUNCHED",
   "whyNotLaunchedFromHere": "This container has no Codex CLI, API credential or Codex Cloud session control. The only launch path is the owner starting a Codex Cloud task from the prompt in ASSIGNMENT.md on the branch named below. Nothing here waits on that: every packet track continues.",
-  "necessaryOwnerAction": "Start one Codex Cloud task on Roger-LegalEase/legalease-partner-dashboard-clean, branch codex/launch-01-il-delivery created from the current tip of claude/legalease-sprint-captain-utucnw, with data/rcap-grade-a/packet-factory-24h/codex-launch-01/ASSIGNMENT.md as the whole prompt.",
+  "necessaryOwnerAction": "Start one Codex Cloud task on Roger-LegalEase/legalease-partner-dashboard-clean with branch codex/launch-01-il-delivery created from the current tip of claude/legalease-sprint-captain-utucnw (not main), with data/rcap-grade-a/packet-factory-24h/codex-launch-01/ASSIGNMENT.md as the whole prompt.",
   "codeBase": "d7e293f81 on claude/legalease-sprint-captain-utucnw (Codex branches from the current captain tip, which carries this record and is a descendant of that commit)",
   "route": {
     "runtimeRouteId": "IL:felony-prostitution-relief",
     "obligationRouteKey": "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
     "registryTrackId": "il-prostitution-j-vacate",
     "packetFamilyId": "il-prostitution-j-vacate-set",
-    "automaticSibling": { "trackId": "il-prostitution-j-auto", "admitted": false, "mustStayClosed": true },
+    "automaticSibling": {
+      "trackId": "il-prostitution-j-auto",
+      "admitted": false,
+      "mustStayClosed": true
+    },
     "fulfillmentRecordId": "grade-a-il-felony-prostitution-relief-v1",
     "commercialStatus": "commercially_eligible",
     "whyChosen": "The owner named it. It holds a Grade-A fulfillment record, an owner-bound v2 specification (bc9050e0...), a current-byte independent PASS, a hash-bound RASTER_PASS (run 33574304514), and a productization return (data/rcap-grade-a/codex-cloud/cs2-productize-il-prostitution-1293/RETURN.json, status READY_FOR_GRADE_A_FULFILLMENT_RECORD_GENERATION). No Claude worker owns it."
@@ -62,14 +66,30 @@
     ],
     "mustBeTrueAfter": [
       "launch-graph row IL:felony-prostitution-relief: renderer.routeKind factory_v2 for the productized track, artifactResult.rendered true, artifactResult.deterministic true, operationalGates.deterministicArtifactProven true",
-      "launch-graph: every row keeps operationallySellable false and paymentAllowed false; no availability changes except the IL row's unmetOperationalGates shrinking by deterministicArtifactProven",
+      "no payment permission or commercial-enablement flag changes anywhere: for every launch-graph row, paymentAllowed, operationallySellable, sellable and creditConsumable read exactly what they read at the base (the committed baseline counts 28 paymentAllowed=true rows and 0 operationallySellable=true rows; both counts and every per-row value are unchanged), and the assigned Illinois route and its automatic sibling stay closed as specified",
+      "unrelated route values and behaviour are preserved: every other launch-graph row is unchanged except where a generator-only output legitimately re-derives it from the renderer/artifact-resolution change, and any such change is listed in the return with the row and the field",
       "resolver: IL:felony-prostitution-relief with trackId il-prostitution-j-auto resolves to no factory route and no checkout; with trackId il-prostitution-j-vacate resolves factory_v2 with sellable false and creditConsumable false",
       "a focused delivery test proves a consumer job and a sponsored entitlement for the exact route bind to family il-prostitution-j-vacate-set and refuse the automatic sibling, a wrong family, and a wildcard route scope",
-      "no packet byte, receipt, ledger, queue, legal record or specification changed (git diff --stat against the base must show only the writable paths)"
+      "Production delivery stays disabled; only the assigned renderer/artifact-resolution improvements are made",
+      "no packet byte, receipt, claim ledger, queue, legal record or specification changed (git diff --stat against the base shows only the writable paths); the generator-only outputs listed under writablePaths are the sole exception to that sentence and are regenerated with their generators, never hand-edited"
     ],
     "notAcceptance": "A green verifier is not the outcome; the outcome is that the delivery core serves this exact route from the factory_v2 renderer with commercial authority still fail-closed. Say plainly what remains (the hosted consumer and sponsored canaries need credentials only the owner holds; paymentAllowed opens only through the fulfillment record and launch gates)."
   },
   "returnLocation": "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN.json on branch codex/launch-01-il-delivery: {schemaVersion 'rcap-launch-engineering-return/v1', lane, base, branch, commit, changedPaths, verifiersBefore, verifiersAfter (command and exit code), launchGraphRowBefore/After for the IL route, resolutionOutcomesChanged (list), routesOpened 0, paymentTouched false, productionTouched false, whatRemains}",
   "integration": "The Captain reads the return, re-runs the acceptance list on the captain branch, treats any change to worker inputs (resolver, renderer, delivery core) as requiring the existing publication/equivalence process before any worker digest is reused, and integrates by copying the exact commit's files or merging; Codex never pushes to the captain branch or main.",
-  "ownership": "This record is the ownership record: the writable paths above are owned by CODEX-LAUNCH-01 until its return is integrated or the assignment is withdrawn; no Claude lane is dispatched onto them meanwhile. No packet-family claim is minted because no packet family is written."
+  "ownership": "This record is the ownership record: the writable paths above are owned by CODEX-LAUNCH-01 until its return is integrated or the assignment is withdrawn; no Claude lane is dispatched onto them meanwhile. No packet-family claim is minted because no packet family is written.",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "branchFrom": "the current tip of claude/legalease-sprint-captain-utucnw (never main); the Codex branch codex/launch-01-il-delivery is created from that tip and its return is integrated by the Captain into that branch",
+  "clarifications": [
+    {
+      "on": "2026-09-05",
+      "by": "owner instruction, recorded by the Captain",
+      "what": [
+        "The assignment branches from and returns to the canonical Captain branch claude/legalease-sprint-captain-utucnw, never main.",
+        "The earlier acceptance sentence requiring every launch-graph row to read paymentAllowed=false was wrong: the committed baseline counts 28 paymentAllowed=true rows. The constraint is: change no payment permission or commercial-enablement flag; preserve unrelated route values and behaviour; keep the assigned Illinois route and its automatic sibling closed as specified; keep Production delivery disabled; permit only the assigned renderer/artifact-resolution improvements.",
+        "The generator-only outputs listed under writablePaths (data/rcap-ledger/launch-graph.json, data/rcap-ledger/public-witness-*.json, data/record-clearing/factory-v2-route-registry.json) are the exceptions to the generic no-ledger-changes sentence; those exceptions are not broadened. The claim ledger, queues, receipts, legal records and specifications stay prohibited.",
+        "One assignment only: no second Codex assignment is created for this route."
+      ]
+    }
+  ]
 }

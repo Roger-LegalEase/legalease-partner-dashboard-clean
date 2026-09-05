@@ -11956,6 +11956,494 @@
     "CCA-XP-0220-7010 and the CCA Section 1 bundle resolved by content hash"
    ],
    "method": "Independent read at base 553966ea in a private worktree. Method: sha256 over every fixture on disk compared with reports/rendered-artifacts.json and RASTER_QUEUE.json; every declared hash resolved by CONTENT against a 500-entry index of the two mounted corpora (master_library 499 files / human-source-returns 1) and, where a repository path was named, against the git blob at HEAD, never by declared path; per-page word geometry via pdftotext -bbox with each packet page diffed against its own source page (resolved by content hash + sourcePage) to isolate added glyphs; a CTM-tracking content-stream walker that recurses into Form XObjects to classify checkbox ink by stroke/fill colour; boundary fixtures read directly, not inferred from the raster gate."
+  },
+  {
+   "itemId": "il-seal-edu-set",
+   "lane": "VF03",
+   "verifier": "VF03 independent-verification (wave three)",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+   "verifiedAtBase": "d7e293f81",
+   "canonicalSha256": "3863ab5409c5b95420f2dbaf7c4ac0c6d72dce7247ef7858158c4fad309d89e5",
+   "boundarySha256": "9ed754037a2ec668375ef45cdb7b81599fabb37ee99c3fd55c3a38c739eef494",
+   "rasterState": "RASTER_PASS",
+   "rasterReceiptRun": "33950997948",
+   "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY 12/14 (3 not applicable, replaced-not-waived cloud checks all ok). The two failures are custody-reach, not integrity: corpus_matches_committed_index reports 1 absent of 24 sampled (LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf) and family_sources_bind reports 1 of 4 for il-seal-edu-set (official-form:EXP-AD Case List, b72d30d2...). d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here; the two custodies that are (master_library, human_source_returns) were re-indexed by content hash over 500 files by this lane, and every other pinned digest of all four families resolved byte-exact.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "product-wiring.json, approval-request.json, source-receipt.json and production-field-map.json all carry obligation:track-only:IL:il-seal-edu; the key is still carried by data/rcap-grade-a/route-obligation-census-v1/category-a-implementation-waves.json.",
+     "finding": "The packet is built for the route the record names."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "NOT_MEASURABLE_HERE",
+     "evidence": "Recomputed over a content-hash index of the two mounted custodies (500 files). EXP-AD Request 44792bea..., EXP-AD Order Granting 52e06b58..., FW-CIV-APPLICATION b2da395f... each resolve byte-exact in master_library. EXP-AD Case List b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c resolves to no file by hash in either mounted custody; its declared path 'LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf' is in a custody this container does not mount.",
+     "finding": "3 of 4 sources bind byte-exact. The fourth is absent by hash here, so it is unmeasured rather than failed."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "The packet-set manifest names 4 components; the 13-page canonical carries EXP-AD Request pp.1-6, EXP-AD Case List p.7, EXP-AD Order Granting pp.8-9, FW-CIV-APPLICATION pp.10-13, read from the bytes.",
+     "finding": "Every component the route names is rendered."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "FAIL",
+     "evidence": "Two findings read off the delivered pages. (1) Canonical/boundary page 9 (EXP-AD Order Granting page 2) item 3, 'Enter the name and contact information of the person who should receive the signed Order', is wholly blank - Name, Address, Email and Telephone - while the same four facts are printed by this packet on Request page 6 and FW-CIV-APPLICATION page 4 (Jordan Avery Reyes / 412 West Madison Street, Chicago, IL 60606 / jordan.reyes@example.org / 312-555-0142). production-field-map.json classifies all four with refusalClass 'signature_or_date_participant_completion' and effectiveLabel 'Court or later-completion field: 3 - Name|Address|Telephone|Email'. None of the four is a signature, a signature date or a court field; the class is trusted by completeness-contract.mjs with no notForFieldClasses, so the counter cannot see it. (2) Canonical page 4 row 1, column 'Charge (list all charges for each case number)', prints 'Charge exactly as shown on the court disposition' - a direction to the participant standing where the charge goes, on a page signed under 735 ILCS 5/1-109. Boundary prints the same shape ('Complete charge exactly as printed on the certified disposition').",
+     "finding": "Four participant-contact facts this packet already holds and prints elsewhere are left blank on the proposed Order's delivery block behind a signature refusal class they do not belong to, and the charge cell carries an instruction rather than a charge."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "124 refusals in production-field-map.json declare requiredBeforeFiling true; each one's effectiveLabel appears verbatim under '## Required before filing' in participant-instructions.md (checked line by line against the file).",
+     "finding": "Every declared item is named in the instructions. Observation, not scored here: the disclosures name interior field ids ('Complete arrest60 on EXP-AD Case List page 1') rather than a printed label a participant can find on the page."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing=0 measured here. On the bytes: page 4 item 12 'I am requesting to seal records - Yes' is ticked, page 8 section 2 (SEALING) carries 2021-CF-004217 and section 1 (EXPUNGEMENT) is empty.",
+     "finding": "The sealing route is stated on the filing rather than left to the participant."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows=0 measured here, and confirmed on the pages: page 4 row 1 carries case number, arresting agency, charge, arrest date and outcome in their own printed columns, rows 2-10 empty; Case List cell 1 and Order section 2 cell 1 carry only the case number. The earlier catch-all defect (twenty charge cells holding 2021-CF-004217, and five successive Case List rows holding column values) is not present in these bytes.",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "All 40 flattened widget appearances in each fixture were decoded and read against their printed labels. No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. The '/s/' on Request page 6 is the official form's own page content (present in source 44792bea... page 6, absent from any widget), not a write.",
+     "finding": "No protected field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum of the files on disk equals the record: canonical 3863ab54..., boundary 9ed75403..., matching approval-request.json, reports/rendered-artifacts.json and RASTER_QUEUE.json (receipt run 33950997948).",
+     "finding": "Both artifacts hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "Page-by-page text and widget read of the bytes gives Request(6), Case List(1), Order Granting(2), FW-CIV-APPLICATION(4) = 13 pages, the order approval-request.json declares.",
+     "finding": "Rendered page order matches the manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "Every page of both fixtures rastered locally at 100 dpi into /tmp and inspected. Boundary long values wrap inside their cells ('Springfield Police Department Records / Division', 'Acquitted or dismissed as / certified') with no overflow, no truncation and no ellipsis; smallest ink is 5.5pt and legible. No orphaned signature page, no route-key-only page, no ink outside a write box.",
+     "finding": "No visible rendering artefact. Structural observation, not scored: both fixtures carry an xref whose /Size is 954 while its subsections cover 808 objects, so 146 object numbers are undeclared and 39 of them are still referenced from page /Annots arrays; poppler must reconstruct the xref to open either file. NH, RI and TX open clean, so this is specific to the Illinois assembler."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md: 'File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case.'",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md: 'Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application', and FW-CIV-APPLICATION is enclosed as pages 10-13.",
+     "finding": "The fee and the waiver route are stated and the waiver form ships."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md: 'The circuit court clerk serves, under Sec. 5.2(d)(4). The participant serves no one.' and 'Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer.'",
+     "finding": "Who must be served, and how, is stated."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "All eight selfHelpStopConditions the track registry records for il-seal-edu are restated under '## Stop and get help' in participant-instructions.md (objection, contested hearing, ambiguous disposition, unrecognised case/identity theft, federal or out-of-state records, motion to vacate/modify/reconsider, denial, immigration).",
+     "finding": "The packet states where self-help ends."
+    }
+   },
+   "failedObligationNames": [
+    "KNOWN_PREFILLS"
+   ],
+   "notMeasurableHere": [
+    "SOURCE_IDENTITY"
+   ],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/approval-request.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+   ],
+   "whatThisDoesNotEstablish": "No output is approved and no commercial route is opened by this row."
+  },
+  {
+   "itemId": "nh_petition_vacated-set",
+   "lane": "VF03",
+   "verifier": "VF03 independent-verification (wave three)",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill",
+   "verifiedAtBase": "d7e293f81",
+   "canonicalSha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+   "boundarySha256": "b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f",
+   "rasterState": "RASTER_PASS",
+   "rasterReceiptRun": "33931424370",
+   "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY 12/14 (3 not applicable, replaced-not-waived cloud checks all ok). The two failures are custody-reach, not integrity: corpus_matches_committed_index reports 1 absent of 24 sampled (LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf) and family_sources_bind reports 1 of 4 for il-seal-edu-set (official-form:EXP-AD Case List, b72d30d2...). d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here; the two custodies that are (master_library, human_source_returns) were re-indexed by content hash over 500 files by this lane, and every other pinned digest of all four families resolved byte-exact.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json, production-field-map.json and build-status.json all carry obligation:track-only:NH:nh_petition_vacated with routeSelectionId nh-petition-vacated-set-nhjb-2317-2311-2328-2956; the track is carried in data/record-clearing/legal-design-track-registry.json.",
+     "finding": "The packet is built for the route the record names."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Re-resolved by content hash across the two mounted custodies: NHJB-2317 2fc2e1ed..., NHJB-2311 f8b5df13..., NHJB-2328 b4384b41..., NHJB-2956 c8e5e9fe... each resolve byte-exact in master_library.",
+     "finding": "All four sources bind by exact SHA-256 recomputed from the bytes."
+    },
+    "COMPONENT_SET": {
+     "result": "FAIL",
+     "evidence": "legal-design-packet-set-manifests.json names six components for nh_petition_vacated-set, four official_pdf_fill and two required process_guidance components - nh_petition_vacated-post-filing-instructions-5 and nh_petition_vacated-effect-and-limits-disclosure-6. The delivered 9-page canonical is NHJB-2317 pp.1-3, NHJB-2311 pp.4-5, NHJB-2328 pp.6-8, NHJB-2956 p.9 and nothing else; no rendered artifact names either guidance component. data/rcap-grade-a/component-set-sweep/COMPONENT_NAME_SWEEP.json independently records 'NO_FAMILY_RENDERS_THIS_TRACK' for every declared component name of this track. Its two peers in this checkpoint do render their required process_guidance components as packet pages (RI pages 7-14, TX pages 22-24).",
+     "finding": "Four of six named components are rendered; the two required process_guidance components reach no page of the packet."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "knownRequiredFieldsMissing=0 measured here; the 17 writes were read out of the flattened widget XObjects of the delivered bytes and each sits under its own printed label (name, address, state, zip, phone, e-mail, DOB and case number 473-2016-CR-00218 across pages 1,2,3,4,6,7,8,9).",
+     "finding": "Every fact the platform holds is written and visible where it belongs."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "All 87 requiredBeforeFiling items in reports/blanks-left-for-the-participant.json were matched against participant-instructions.md by disclosure label; none is missing.",
+     "finding": "Every declared item is named in the instructions."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing=0 measured here; the certification and hearing elections on NHJB-2317 page 2 are sworn participant statements, not route elections, and the packet states the route in its own heading.",
+     "finding": "No route-determined election is left unmade."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows=0 measured here; NHJB-2328's income and expense tables are wholly unwritten, so no row carries a written cell beside a blank required cell.",
+     "finding": "No partially written row."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "FAIL",
+     "evidence": "Canonical and boundary page 4 (NHJB-2311 page 1) draw XObject FlatWidget-735569487, text 'Enter /s/ before name', /TiBo 12pt at 0.75 g, directly on the line printed 'Signature of Filer'. It is visible in a 110 dpi local raster of both fixtures. It is not the court's printed form text: the source's own page-4 content stream carries no such string, and the string lives in the /AP of NHJB-2311 field sig.8 (DA '/TiBo 12 Tf 0.75 g') in the pinned source f8b5df13..., i.e. it is the interactive form's placeholder hint, which disappears in the live form the moment anything is typed and which flattening has made permanent. build-findings.json records the same fact and reclassifies it as a documentAuthoredAppearance so the counter stays zero. data/rcap-all50/shared/field-appearance-semantics.json - the registry that exists for exactly this class, and that carries the Texas Statement of Inability's three shipped values - holds no entry for any New Hampshire family, so the default preserve_source_appearance applies and the hint reaches the filing.",
+     "finding": "A delivered court filing's signature line carries permanent grey ink reading 'Enter /s/ before name'. Repair: add nh_petition_vacated-set:NHJB-2311 field sig.8 to field-appearance-semantics.json with disposition render_participant_value_only_when_written."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum on disk: canonical baca3acf..., boundary b983b717..., equal to reports/rendered-artifacts.json and to the RASTER_QUEUE receipt for run 33931424370.",
+     "finding": "Both artifacts hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "Page-by-page read of the bytes reproduces the nine-entry pageManifest exactly (2317 pp.1-3, 2311 pp.1-2, 2328 pp.1-3, 2956 p.1).",
+     "finding": "Page order matches the manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "FAIL",
+     "evidence": "Every page of both fixtures rastered locally at 110 dpi. Two appearance defects. (1) The visible grey placeholder on page 4 described under PROTECTED_FIELDS. (2) Pages 6 and 7 carry three flattened widget appearances drawing '0.00' in /TiBo 12pt at 1 g - white on white - in the Total boxes of the sworn Statement of Assets and Liabilities (FlatWidget-7845208436, FlatWidget-3800713913, FlatWidget-8937889778, from source fields 12.total, money.total and monthly.total whose /V is '0'). pdftotext reads 'Total $ 0.00' off all three; the raster shows nothing there. Item 6 of participant-instructions.md tells the participant 'The form prints Total $ 0.00 under each column ... Cross the 0.00 out and write the real total' - which the delivered bytes contradict, because there is nothing visible to cross out.",
+     "finding": "One visible source-placeholder write on a signature line and three invisible financial writes on a sworn statement, with instructions that describe a page the delivered bytes do not produce."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md '## Where you file this': 'File the petition with the clerk of the New Hampshire court that handled the matter', matching the track registry destination 'Clerk of the court whose conviction was vacated'.",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md quotes the committed memo: $125.00 per court location, the open question about the RSA 651:5 IX and X(d) exemptions, and the waiver route (NHJB-2311 with NHJB-2328), both of which ship in the packet.",
+     "finding": "The fee and the waiver route are stated."
+    },
+    "SERVICE": {
+     "result": "BLOCKED_LEGAL_INPUT",
+     "evidence": "The packet encloses NHJB-2328, whose Certificate of Service the participant must complete, and participant-instructions.md leaves it to them ('the certificate states what you did on the day you signed') without naming a recipient or a method. data/record-clearing/legal-design-track-registry.json for nh_petition_vacated records a destination (the clerk) and no service requirement, and data/record-clearing/legal-design-intake/NH.memo.json records none for this track.",
+     "finding": "No record under data/record-clearing/ settles who must be served with the NHJB-2328 fee-waiver papers on an RSA 651:5 annulment petition, or how, so the packet cannot state it and this lane cannot measure it as satisfied."
+    },
+    "SELF_HELP_STOP": {
+     "result": "FAIL",
+     "evidence": "The track registry records ten selfHelpStopConditions for nh_petition_vacated. None reaches the packet, verbatim or in substance: participant-instructions.md and every composed page were searched for each of them and for their distinguishing terms - 'firearm', 'immigration', 'background check', 'three years'/'3 years', 'tribal', 'military', 'out-of-state', prosecutor opposition, obtaining the vacatur itself - and none appears. The nearest section, 'What annulment does, and what it does not do', describes the effect of the order and names no point at which self-help ends.",
+     "finding": "Zero of ten registry stop conditions reach the packet - the same class the sibling nh_petition_nonconviction_pre2019-set failed on."
+    }
+   },
+   "failedObligationNames": [
+    "COMPONENT_SET",
+    "PROTECTED_FIELDS",
+    "CLIPPING_AND_OVERLAP",
+    "SELF_HELP_STOP"
+   ],
+   "blockedObligationNames": [
+    "SERVICE"
+   ],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+    "data/rcap-all50/shared/field-appearance-semantics.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/rcap-grade-a/component-set-sweep/COMPONENT_NAME_SWEEP.json"
+   ],
+   "whatThisDoesNotEstablish": "No output is approved and no commercial route is opened by this row."
+  },
+  {
+   "itemId": "ri_deferred_sentence-set",
+   "lane": "VF03",
+   "verifier": "VF03 independent-verification (wave three)",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+   "verifiedAtBase": "d7e293f81",
+   "canonicalSha256": "757582d8721aa4ed71a6e94e95418328effc80877121367d5f054290af28242a",
+   "boundarySha256": "e2ba9a57686a32f9cc1d9be2c55872aa59d8043002658482f3c12f2166787dd6",
+   "rasterState": "RASTER_PASS",
+   "rasterReceiptRun": "33943027165",
+   "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY 12/14 (3 not applicable, replaced-not-waived cloud checks all ok). The two failures are custody-reach, not integrity: corpus_matches_committed_index reports 1 absent of 24 sampled (LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf) and family_sources_bind reports 1 of 4 for il-seal-edu-set (official-form:EXP-AD Case List, b72d30d2...). d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here; the two custodies that are (master_library, human_source_returns) were re-indexed by content hash over 500 files by this lane, and every other pinned digest of all four families resolved byte-exact.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json, production-field-map.json and rendered-artifacts.json all carry the three obligation:unit:RI:ri_deferred_sentence stage keys with routeSelectionId ri_deferred_sentence-set-superior-court-part-three; all three keys are still carried by the census (category-a-implementation-waves.json, category-b-audit.json, legal-review-triage.json). The affidavit branch delivered is Part Three: Deferred Sentence, and the proposed order names the same Part.",
+     "finding": "The packet is built for the Superior Court deferred-sentence branch the record names."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Superior-55 e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca resolves byte-exact by content hash in master_library. official-form:DC-33-ORDER and official-form:Superior-55-ORDER are retired obligations under OWNER_RI_PROPOSED_ORDER_2026-09-05 (recordId OWN-RI-PROPOSED-ORDER-2026-09-05), and source-receipt.json lists them under retiredSourceIdentitiesThisFamilyDoesNotBind, so their absence is not a source failure.",
+     "finding": "Every source this family binds binds by exact SHA-256 recomputed from the bytes."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "All five components the packet-set manifest names appear in the bytes: primary-filing pp.1-4, proposed-order pp.5-6, notice-package pp.7-8, filing-instructions pp.9-13, certified-copy-delivery-checklist p.14.",
+     "finding": "Every component the route names is rendered."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "knownRequiredFieldsMissing=0 measured here. On the pages: the participant's name and date of birth are written in the caption of the motion (p.2), the affidavit (p.3) and the proposed order (p.5), which is what the family declares it holds. The case number and BCI number are absent from the platform and are disclosed as required before filing.",
+     "finding": "Every fact the platform holds is written where it belongs."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "All 25 requiredBeforeFiling items in reports/blanks-left-for-the-participant.json match a disclosure label in participant-instructions.md; everyRequiredBeforeFilingItemIsDisclosed is independently true on the file.",
+     "finding": "Every declared item is named in the instructions."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing=0 measured here and confirmed on page 2 of both fixtures: 'expunged' is marked and 'sealed' is not, and of the two relief bullets the Sec. 12-1.3-3(c)/(e) expungement bullet is marked and the Sec. 12-1-12 destruction bullet is not. The affidavit's Part Three statements are sworn participant attestations and are correctly unmarked.",
+     "finding": "Every route-determined election is made."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows=0 measured here; the four Count/Charge/Disposition rows on page 2 are wholly unwritten and disclosed as required before filing.",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "Read against OWNER_RI_PROPOSED_ORDER_2026-09-05. On pages 5-6 of both fixtures the Court's findings, the GRANTED and DENIED boxes, both relief boxes, the further terms and conditions, the Justice/Judge signature line, the date of entry and the Clerk's certification are all blank; there is no seal. On the official Superior-55 the notarial certificate, the hearing date, the courtroom, the certification date, the Bar number and the signature line are blank; the '/s/' on page 2 is the official form's own printed content.",
+     "finding": "Nothing the court, the clerk or the notary owns carries ink, and the participant-prepared order stays within the owner decision."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum on disk: canonical 757582d8..., boundary e2ba9a57..., equal to reports/rendered-artifacts.json and the RASTER_QUEUE receipt for run 33943027165.",
+     "finding": "Both artifacts hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "The fourteen-entry pageManifest was reproduced page by page from the bytes and agrees, including that page 8 is declared notice-package page 2 and page 13 filing-instructions page 5.",
+     "finding": "Page order matches the manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "FAIL",
+     "evidence": "Every page of both fixtures rastered locally at 100 dpi. Pages 8 and 13 are blank apart from the three-line machine footer 'Route: obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket ; ...stage-2-court-motion-and-affidavit ; ...stage-3-notice-hearing-and-certified-copies'. Measured: 291 characters of text on each of those pages against 1,200-2,600 on every other page, in canonical and in boundary alike. They are the overflow pages of the composed notice package and the composed filing instructions, and each carries only the route key.",
+     "finding": "Two of fourteen delivered pages carry nothing but an internal route key. Repair: fix the pagination of ri_deferred_sentence-notice-package-3 and ri_deferred_sentence-filing-instructions-4 so a component that ends on a page boundary does not emit a footer-only page."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md step 5: 'File the motion, the affidavit and the proposed order with the clerk of the court where the case was heard', and the motion's own court-location block names the four Superior Court judicial complexes.",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "The composed filing instructions state the fee position in the committed record's own words - 'No filing fee for a Chapter 12-1.3 motion is stated in the controlling review or located in the Judiciary materials. Do not quote a price until it is confirmed' - and direct the participant to ask the clerk; the separate obligation to satisfy or obtain waiver or reduction of court-imposed financial obligations is stated with it.",
+     "finding": "The fee position and the waiver route are stated, on the terms the committed record permits."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Component ri_deferred_sentence-notice-package-3 (pages 7-8) is headed 'NOTICE TO THE OFFICE OF THE ATTORNEY GENERAL AND THE CHARGING POLICE' and states who must be told, in what order, and that the certification line is completed only after notice has been given at least ten days before the hearing under G.L. 1956 Sec. 12-1-12.1(b)(1) or Sec. 12-1.3-3(a).",
+     "finding": "Who must be served, and how, is stated."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "All twelve selfHelpStopConditions the track registry records for ri_deferred_sentence appear verbatim under '## When to stop and get help instead' in participant-instructions.md.",
+     "finding": "The packet states where self-help ends."
+    }
+   },
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "ownerDecisionApplied": "OWN-RI-PROPOSED-ORDER-2026-09-05 (CUSTOM_PARTICIPANT_PREPARED_PROPOSED_ORDER)",
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "whatThisDoesNotEstablish": "No output is approved and no commercial route is opened by this row. Counsel review of the exact generated proposed orders remains owed under OWN-RI-PROPOSED-ORDER-2026-09-05."
+  },
+  {
+   "itemId": "tx_nd_dwi_probation-set",
+   "lane": "VF03",
+   "verifier": "VF03 independent-verification (wave three)",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill",
+   "verifiedAtBase": "d7e293f81",
+   "canonicalSha256": "cdc69309ffb76513095877b6da16b92942786a3426ea80ff8809c20eb68ae80b",
+   "boundarySha256": "19467b262ffa7837fbb2c9c70cd34315b58319197dcf5f6a34994a9fcbf85ad8",
+   "rasterState": "RASTER_PASS",
+   "rasterReceiptRun": "33950997948",
+   "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY 12/14 (3 not applicable, replaced-not-waived cloud checks all ok). The two failures are custody-reach, not integrity: corpus_matches_committed_index reports 1 absent of 24 sampled (LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf) and family_sources_bind reports 1 of 4 for il-seal-edu-set (official-form:EXP-AD Case List, b72d30d2...). d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here; the two custodies that are (master_library, human_source_returns) were re-indexed by content hash over 500 files by this lane, and every other pinned digest of all four families resolved byte-exact.",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "source-receipt.json, production-field-map.json and rendered-artifacts.json all carry obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure with routeSelectionId tx_nd_dwi_probation-official-set; the key is still carried by the census (category-a-implementation-waves.json and identity-resolution/batch-2/resolved.json). The forms delivered are the OCA models for Sec. 411.0731, the section the route names.",
+     "finding": "The packet is built for the route the record names."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Re-resolved by content hash across the two mounted custodies: petition 51f747e2... and order f085cd5c... in master_library, Statement of Inability bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d in human_source_returns. All three byte-exact.",
+     "finding": "Every source binds by exact SHA-256 recomputed from the bytes."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "All five components the packet-set manifest names appear in the bytes: petition pp.1-5, proposed order pp.6-8, proof of delivery to the prosecutor p.9, Statement of Inability pp.10-21, filing and after-order instructions pp.22-24.",
+     "finding": "Every component the route names is rendered, including both conditional components."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "knownRequiredFieldsMissing=0 measured here, and each of the 15 writes was decoded from the flattened widget XObjects and read against its printed label. Observation, not a failure: the petition's foot-of-page Address (15) and City, State, Zip (16) are blank while the packet prints the one-line address on Statement pages 11 and 20. The field map declares both required before filing because the platform holds the address as a single string and the block asks for it split, and both are disclosed; the split values themselves are written nowhere in the packet, so this is a reasoned declaration rather than a fact refused.",
+     "finding": "Every fact the platform holds is written and visible where it belongs."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "All 113 requiredBeforeFiling items in reports/blanks-left-for-the-participant.json match a disclosure label in participant-instructions.md.",
+     "finding": "Every declared item is named in the instructions."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing=0 measured here; the petition's Dropdown11, whose source appearance ships the word 'is not', contributes nothing to either flattened fixture, and the three participant controls (evidence of completion, waiting period, fee or Statement of Inability) are disclosed as the participant's under item 4 of 'What you do, in order'.",
+     "finding": "No route-determined election is left unmade and no unanswered chooser leaks its source text."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows=0 measured here; the Statement of Inability's dependant, property, income and expense tables are wholly unwritten in both fixtures.",
+     "finding": "No partially written row."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "All flattened widget appearances of all 24 pages of both fixtures decoded and read. Petition page 5 carries the printed name and telephone with the Signature line blank; proposed order page 8 leaves 'Signed on', 'Judge Presiding' and 'Court/County' blank; the proof-of-delivery page prints the participant's name below, not on, the signature rule and leaves the date blank.",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "sha256sum on disk: canonical cdc69309..., boundary 19467b26..., equal to reports/rendered-artifacts.json and the RASTER_QUEUE receipt for run 33950997948.",
+     "finding": "Both artifacts hash to what the record names."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "The 24-entry pageManifest was reproduced page by page from the bytes and agrees.",
+     "finding": "Page order matches the manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "Every page of both fixtures rastered locally at 100 dpi and inspected. The FIX22 repair holds on these bytes: the Statement of Inability ships exactly three source-set values - 'Value / Valor 11' = '0', 'Amount Cantidad 15' = '0' and 'Today' = '12/15/2022', read from the pinned source bd17a3fe... - and data/rcap-all50/shared/field-appearance-semantics.json carries an entry for tx_nd_dwi_probation-set:tx_nd_dwi_probation-fee-waiver-statement-4 classifying all three render_participant_value_only_when_written. None of the three reaches either fixture: packet pages 16, 17 and 20 carry no ink in those boxes, and a byte-level search of every page content stream and every XObject in both fixtures finds no occurrence of '12/15/2022'. No source-shipped ink, no invisible write, no orphaned signature page, no route-key-only page, no truncation; the boundary fixture's longest values reflow to 7.5pt inside their rules.",
+     "finding": "No visible rendering artefact and no source-carried value on any flattened page."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md step 7: 'File the petition with the clerk of the court that sentenced you, in person, electronically or by mail, with the proposed order'.",
+     "finding": "The instructions name the court the route names."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md steps 5 and 6 state that Sec. 411.0745(b) sets the type of fee and not an amount, that the county schedule governs and OCA describes the total as typically about $280, and that the Rule 145 Statement of Inability is the waiver route; the Statement ships as pages 10-21.",
+     "finding": "The fee and the waiver route are stated and the waiver form ships."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "participant-instructions.md and the conditional proof-of-delivery page both state that Sec. 411.0745(e) makes the COURT responsible for notifying the State, that OCA instructions nonetheless direct proof that the district attorney received a copy, and that the participant should ask the clerk which applies in that county; the page records name, office, address, method and date of delivery.",
+     "finding": "Who must be served, and how, is stated, with the conditionality named."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "All eight selfHelpStopConditions the track registry records for tx_nd_dwi_probation appear verbatim under '## When to stop and get help instead', and the composed instructions page adds five more drawn from the assertions the forms make.",
+     "finding": "The packet states where self-help ends."
+    }
+   },
+   "failedObligationNames": [],
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/shared/field-appearance-semantics.json",
+    "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "whatThisDoesNotEstablish": "An independent PASS proves the packet complete. It approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
@@ -12749,5 +13237,24 @@
   "rowsAppended": [
    "in_conviction_felony-set"
   ]
+ },
+ "vf03WaveThreeRead20260905": {
+  "base": "d7e293f81",
+  "lane": "VF03",
+  "familiesClaimed": [
+   "il-seal-edu-set",
+   "nh_petition_vacated-set",
+   "ri_deferred_sentence-set",
+   "tx_nd_dwi_probation-set"
+  ],
+  "claimAsserted": "all four returned CLAIM_OK on grant set 322805812600aacc before any family artifact was read",
+  "preflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY 12/14 (3 not applicable, replaced-not-waived cloud checks all ok). The two failures are custody-reach, not integrity: corpus_matches_committed_index reports 1 absent of 24 sampled (LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf) and family_sources_bind reports 1 of 4 for il-seal-edu-set (official-form:EXP-AD Case List, b72d30d2...). d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here; the two custodies that are (master_library, human_source_returns) were re-indexed by content hash over 500 files by this lane, and every other pinned digest of all four families resolved byte-exact.",
+  "method": "canonical and boundary SHA-256 recomputed from the files on disk before anything else; sources resolved by content hash over a 500-file index of the two mounted custodies rather than by declared path; nine counters measured here with scripts/rcap-packet-completeness/verify-packet-completeness.mjs; every page of every fixture rastered locally into /tmp and inspected, and every flattened widget appearance XObject decoded and read against its printed label",
+  "overlayDirectoriesModified": 0,
+  "buildScriptsModified": 0,
+  "sharedRecordsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsReleased": 0
  }
 }

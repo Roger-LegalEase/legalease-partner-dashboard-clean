@@ -259,6 +259,29 @@
       ],
       "determination": "Remove the dependency on a published FDLE application form. ACQUIRE_EXACT_SOURCE -> COMPOSE_FROM_AUTHORITY, composing the written application and, where the applicant submits it, the written endorsement that Rule 11C-7.008 requires.",
       "whatThisDoesNotEstablish": "It sets the treatment and copies no rule text into a packet. It approves no output and opens no route. The family's separate EXACT_EXTERNAL_SOURCE_HOLD entry is untouched."
+    },
+    {
+      "id": "DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY",
+      "jurisdiction": "NM",
+      "families": [
+        "nm_conviction-set",
+        "nm_identity_theft-set",
+        "nm_release_without_conviction-set"
+      ],
+      "obligations": [
+        "official-form:4-222"
+      ],
+      "determination": "SOURCE_UNRESOLVED. The held binary bound as official-form:4-222 (sha256 809c66a7b7b6..., NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf) prints SIXTH JUDICIAL DISTRICT COURT as static caption text, so it is the Sixth Judicial District's copy of the statewide Application for Free Process and Affidavit of Indigency, not the statewide form: a participant in the Second (Bernalillo) or Seventh (Sierra) district would file a caption naming the wrong court. The held 4-953 petition (2ee3d41243e0...) prints a blank JUDICIAL DISTRICT COURT line and is not affected. A district-local copy may not be promoted statewide. ACQUIRE_EXACT_SOURCE: the statewide 4-222 with its printed district line blank, placed in governed custody by content hash.",
+      "evidence": [
+        "pdftotext of the held 809c66a7 bytes, page 1 lines 3-5: STATE OF NEW MEXICO / COUNTY OF___________________ / SIXTH JUDICIAL DISTRICT COURT",
+        "VF01 at 48449fe39 (nm_release_without_conviction-set): pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under written counties in the Second and Seventh",
+        "VF04 at a667d6de0 (nm_conviction-set): page 20 and 24 deliver COUNTY OF Bernalillo directly above source-printed SIXTH JUDICIAL DISTRICT COURT; VF05 (nm_identity_theft-set): the same on page 11"
+      ],
+      "recordedOn": "2026-09-05",
+      "recordedBy": "Claude Code Captain",
+      "whatThisDoesNotEstablish": "It does not establish that the Sixth District's copy differs from the statewide form in any other respect, or that the statewide form is published with the district line blank; it establishes only that the held bytes name one district and are bound to three statewide routes. The three families also carry repair verdicts on their host (item-2 branch writes, case number not written) that are independent of this source question and are held with their repair lanes.",
+      "ownerAction": "Acquire the statewide 4-222 binary (the official New Mexico courts site is refused by this container's proxy) and place it in governed custody; the three families then rebuild against it and re-enter raster and verification.",
+      "affectedProofs": "None of the three families is COMPLETE_PACKET_PROVEN; each is FAIL_REPAIR_REQUIRED on other findings. No proven family binds this obligation."
     }
   ],
   "reconciliation42": {
@@ -1259,6 +1282,42 @@
         "disposition": "SOURCE_READY",
         "relationshipNote": "The current SCA-C907 identity binds SHA-256 2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222.",
         "exactNextAction": "Build from the exact current SCA-C907 source."
+      },
+      {
+        "familyId": "nm_conviction-set",
+        "group": "LATER",
+        "disposition": "SOURCE_BLOCKED",
+        "previousDisposition": "SOURCE_READY",
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
+        "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
+        "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY.",
+        "determinedBy": "DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY"
+      },
+      {
+        "familyId": "nm_identity_theft-set",
+        "group": "LATER",
+        "disposition": "SOURCE_BLOCKED",
+        "previousDisposition": "SOURCE_READY",
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
+        "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
+        "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY.",
+        "determinedBy": "DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY"
+      },
+      {
+        "familyId": "nm_release_without_conviction-set",
+        "group": "LATER",
+        "disposition": "SOURCE_BLOCKED",
+        "previousDisposition": "SOURCE_READY",
+        "unresolvedObligations": [
+          "official-form:4-222"
+        ],
+        "exactNextAction": "Acquire the statewide New Mexico 4-222 (district line blank) into governed custody by content hash; the held 809c66a7 bytes are the Sixth Judicial District's copy.",
+        "exactResidual": "official-form:4-222 is bound to a district-local copy; see DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY.",
+        "determinedBy": "DET-NM-4-222-HELD-BINARY-IS-A-SIXTH-DISTRICT-COPY"
       }
     ],
     "rhodeIslandProposedOrder": {

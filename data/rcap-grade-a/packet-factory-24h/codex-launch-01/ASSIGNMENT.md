@@ -1,6 +1,6 @@
 # CODEX-LAUNCH-01 — complete the consumer/sponsored delivery path for IL:felony-prostitution-relief
 
-You are a Codex Cloud task working for the LegalEase RCAP Grade-A launch. You are not the Captain and you integrate nothing: you work on branch `codex/launch-01-il-delivery` (created from the current tip of `claude/legalease-sprint-captain-utucnw`), push bounded implementation commits there, and write one return file. Never push to `main` or to the captain branch, never force-push, never open a pull request, never touch Production, Vercel, Supabase auth/RLS/session code, Stripe, `.env*`, `.github/workflows/**`, migrations, any packet family under `data/rcap-all50/**`, any legal record, specification, ledger, queue or receipt.
+You are a Codex Cloud task working for the LegalEase RCAP Grade-A launch. You are not the Captain and you integrate nothing: you work on branch `codex/launch-01-il-delivery`, created from the current tip of the canonical Captain branch `claude/legalease-sprint-captain-utucnw` (never from `main`; the Captain integrates your return into that branch), push bounded implementation commits there, and write one return file. Never push to `main` or to the captain branch, never force-push, never open a pull request, never touch Production, Vercel, Supabase auth/RLS/session code, Stripe, `.env*`, `.github/workflows/**`, migrations, any packet family under `data/rcap-all50/**`, any legal record, specification, ledger, queue or receipt.
 
 The full contract — route, measured starting state, writable and prohibited paths, acceptance commands and the return shape — is `data/rcap-grade-a/packet-factory-24h/codex-launch-01/ASSIGNMENT.json` at your base. Read it first, then `AGENTS.md` and `docs/PRODUCT_CONTRACT.md`.
 
@@ -17,7 +17,7 @@ A participant whose screening lands on registry track `il-prostitution-j-vacate`
 3. consumer checkout → render job → authorized download, and the sponsored (partner/clinic) entitlement path, bind to that exact route and family through the existing delivery core (`authorizePacketDownload` / `streamAuthorizedPacket`, `runWorkerCycle`, `commercial-admission.ts`, `consumer-delivery-control.ts`);
 4. every delivery verifier in the acceptance list covers the exact route, and a focused test proves the binding refuses the automatic sibling, a wrong family and a wildcard route scope.
 
-`paymentAllowed`, `sellable` and `creditConsumable` stay **false** at the resolver and the evaluator. Commercial authority comes only from the fulfillment record and the launch gates; you open nothing.
+Change no payment permission or commercial-enablement flag anywhere: every launch-graph row's `paymentAllowed`, `operationallySellable`, `sellable` and `creditConsumable` must read exactly what it read at your base (the baseline counts 28 `paymentAllowed=true` rows and 0 `operationallySellable=true`; both counts and every per-row value stay unchanged). Preserve unrelated route values and behaviour. Keep the assigned Illinois route and its automatic sibling closed as specified. Keep Production delivery disabled. Only the assigned renderer/artifact-resolution improvements are permitted. Commercial authority comes only from the fulfillment record and the launch gates; you open nothing.
 
 ## How to work
 
@@ -25,8 +25,14 @@ A participant whose screening lands on registry track `il-prostitution-j-vacate`
 - Make the smallest change at the cause. Do not add a router, framework or abstraction; do not refactor beyond the branch you touch; never weaken a verifier assertion.
 - Regenerate `data/rcap-ledger/launch-graph.json`, `data/record-clearing/factory-v2-route-registry.json` and the public-witness files only with their generators.
 - Run every command in `acceptance.mustPass` and record each exit code before and after.
-- `git diff --stat <base>` must show only the writable paths.
+- `git diff --stat <base>` must show only the writable paths. The generator-only outputs listed in ASSIGNMENT.json (`data/rcap-ledger/launch-graph.json`, `data/rcap-ledger/public-witness-*.json`, `data/record-clearing/factory-v2-route-registry.json`) are the one exception to the no-ledger-changes rule above; the claim ledger, queues, receipts, legal records and specifications remain off limits.
 
 ## Return
 
 Write `data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN.json` (shape in ASSIGNMENT.json `returnLocation`), commit it with your implementation on `codex/launch-01-il-delivery`, and push. In the return say plainly what remains: the hosted consumer and sponsored canaries need credentials only the owner holds, and `paymentAllowed` opens only through the fulfillment record and launch gates.
+
+## Clarification recorded 2026-09-05
+
+- Branch from and return to the canonical Captain branch `claude/legalease-sprint-captain-utucnw`, never `main`.
+- The earlier acceptance wording "every row keeps paymentAllowed false" was wrong (the baseline has 28 true rows). The constraint is: change no payment permission or commercial-enablement flag; preserve unrelated route values and behaviour; keep the assigned Illinois route and automatic sibling closed as specified; keep Production delivery disabled; permit only the assigned renderer/artifact-resolution improvements.
+- The listed generator-only outputs are the sole exceptions to the no-ledger-changes sentence; they are not broadened.

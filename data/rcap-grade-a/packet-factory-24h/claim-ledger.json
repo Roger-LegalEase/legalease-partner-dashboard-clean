@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "b2e3d2aa2190a4f16677e714104331598e9987ef",
+  "generatedAtCommit": "427afe41315454f7d72f21eef0a5a7a0b691631c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3923,7 +3923,9 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T11:24:42.958Z",
+      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: KNOWN_PREFILLS -- order page 9 item 3 (who receives the signed order) blank for name/address/email/telephone while the packet prints all four on request p.6 and FW p.4, excused by signature_or_date_participant_completion; charge cell prints a placeholder sentence. SOURCE_IDENTITY not measurable (EXP-AD case list b72d30d2 absent by hash). Verdict extracted; to repair."
     },
     {
       "subjectType": "packet-family",
@@ -3950,7 +3952,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX20",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:56:49.905Z"
@@ -5183,6 +5185,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ms-misd-1st-set",
+      "familyId": "ms-misd-1st-set",
+      "itemId": null,
+      "familyIds": [
+        "ms-misd-1st-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ms-misd-addl-set",
       "familyId": "ms-misd-addl-set",
       "itemId": null,
@@ -5804,8 +5821,9 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:24:43.086Z",
+      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: COMPONENT_SET (two required process_guidance components render nowhere), PROTECTED_FIELDS (sig.8 Enter /s/ before name at 0.75 g on page 4; three 0.00 at 1 g on pages 6-7), CLIPPING_AND_OVERLAP, SELF_HELP_STOP (0 of 10 registry stops); SERVICE BLOCKED_LEGAL_INPUT. Same classes as its sibling; one NH host repair. Verdict extracted."
     },
     {
       "subjectType": "packet-family",
@@ -5834,8 +5852,7 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T02:26:38.078Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5863,7 +5880,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T10:08:55.685Z"
@@ -6152,7 +6169,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6287,7 +6304,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6452,7 +6469,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6964,7 +6981,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7057,8 +7074,9 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:24:43.208Z",
+      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: CLIPPING_AND_OVERLAP -- pages 8 and 13 carry only the three-line route key (overflow pages of the notice package and filing instructions). Order conforms to the owner decision. Verdict extracted; joins the FIX35 host cohort."
     },
     {
       "subjectType": "packet-family",
@@ -7074,6 +7092,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-05T03:38:38.917Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "familyId": "ri_deferred_sentence-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_deferred_sentence-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7497,9 +7530,9 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "The generator's verification deal shrank to the lanes it emits and named VF03 for this family; no worker was executing on VF10. Captain moves the grant to the dealt lane."
+      "released": true,
+      "releasedAt": "2026-09-05T11:24:42.837Z",
+      "releaseReason": "VF03 PASS_COMPLETE_INDEPENDENT at 458cab82f on cdc69309/19467b26: FIX22 verified on the bytes; no 12/15/2022 in any content stream. Verdict extracted."
     },
     {
       "subjectType": "packet-family",
@@ -13077,7 +13110,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "93a534c8d0053e56d2a3651e9407e2693157b5eb67a5424248e08abd17bffd22",
+  "claimsDigest": "d4865183e75dd8129bc007d1b8be78b208368ea80169aa61fc66e73b6d33e72e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27618,6 +27651,42 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T11:21:26.982Z",
       "reason": "Dealt and never launched; moving to FIX35."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:24:42.837Z",
+      "reason": "VF03 PASS_COMPLETE_INDEPENDENT at 458cab82f on cdc69309/19467b26: FIX22 verified on the bytes; no 12/15/2022 in any content stream. Verdict extracted."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "il-seal-edu-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:24:42.958Z",
+      "reason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: KNOWN_PREFILLS -- order page 9 item 3 (who receives the signed order) blank for name/address/email/telephone while the packet prints all four on request p.6 and FW p.4, excused by signature_or_date_participant_completion; charge cell prints a placeholder sentence. SOURCE_IDENTITY not measurable (EXP-AD case list b72d30d2 absent by hash). Verdict extracted; to repair."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_vacated-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:24:43.086Z",
+      "reason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: COMPONENT_SET (two required process_guidance components render nowhere), PROTECTED_FIELDS (sig.8 Enter /s/ before name at 0.75 g on page 4; three 0.00 at 1 g on pages 6-7), CLIPPING_AND_OVERLAP, SELF_HELP_STOP (0 of 10 registry stops); SERVICE BLOCKED_LEGAL_INPUT. Same classes as its sibling; one NH host repair. Verdict extracted."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:24:43.208Z",
+      "reason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: CLIPPING_AND_OVERLAP -- pages 8 and 13 carry only the three-line route key (overflow pages of the notice package and filing instructions). Order conforms to the owner decision. Verdict extracted; joins the FIX35 host cohort."
     }
   ],
   "reissues": [
@@ -34206,6 +34275,16 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T10:39:40Z",
       "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_vacated-set",
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "dispatchNames": "FIX03",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T11:24:59Z",
+      "reason": "the current dispatch names FIX03 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [

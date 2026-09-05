@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 721,
-    "independentVerdicts": 239,
-    "failRepairRequired": 60,
-    "passIndependent": 170
+    "rows": 726,
+    "independentVerdicts": 240,
+    "failRepairRequired": 62,
+    "passIndependent": 169
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -73,6 +73,7 @@
     "in_section1_petition-set",
     "la-987-set-aside-and-dismiss-set",
     "mi_setaside_trafficking-set",
+    "ms-misd-1st-set",
     "nc_145_5_felony-set",
     "nc_146_acquittal_petition-set",
     "nh_petition_nonconviction_pre2019-set",
@@ -88,6 +89,7 @@
     "rcap-tx-custom-pleading",
     "rcap-wi-custom-pleading",
     "rcap-wv-custom-pleading",
+    "ri_deferred_sentence-set",
     "ri_first_offender_felony-set",
     "ri_first_offender_misdemeanor-set",
     "ri_multiple_misdemeanors-set",
@@ -7041,6 +7043,30 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
+      "superseded": true
+    },
+    {
+      "familyId": "il-seal-edu-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Four participant-contact facts this packet already holds and prints elsewhere are left blank on the proposed Order's delivery block behind a signature refusal class they do not belong to, and the charge cell carries an instruction rather than a charge.",
+          "evidence": "Two findings read off the delivered pages. (1) Canonical/boundary page 9 (EXP-AD Order Granting page 2) item 3, 'Enter the name and contact information of the person who should receive the signed Order', is wholly blank - Name, Address, Email and Telephone - while the same four facts are printed by this packet on Request page 6 and FW-CIV-APPLICATION page 4 (Jordan Avery Reyes / 412 West Madison Street, Chicago, IL 60606 / jordan.reyes@example.org / 312-555-0142). production-field-map.json classifies all four with refusalClass 'signature_or_date_participant_completion' and effectiveLabel 'Court or later-completion field: 3 - Name|Address|Telephone|Email'. None of the four is a signature, a signature date or a court field; the class is trusted by completeness-contract.mjs with no notForFieldClasses, so the counter cannot see it. (2) Canonical page 4 row 1, column 'Charge (list all charges for each case number)', prints 'Charge exactly as shown on the court disposition' - a direction to the participant standing where the charge goes, on a page signed under 735 ILCS 5/1-109. Boundary prints the same shape ('Complete charge exactly as printed on the certified disposition')."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set",
       "superseded": false
     },
     {
@@ -8342,6 +8368,241 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-misd-1st-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A hard-split internal route key printed on five of the eight delivered pages of both fixtures. Each block is the word 'Route:' on one line, then the route key broken mid-token across the next two lines with no hyphen, so the page prints the fragment 'expungemen' and then 't-99-19-71-1'. The affected pages are 2 (the sworn petition), 4 (the proposed order, where the broken identifier sits directly beneath the JUDICIAL OFFICER OF THE COURT signature line and the prosecuting authority's APPROVED AS TO FORM block), 5 (the certificate of service), 6 (the exhibit checklist) and 8 (the filing instructions). Every coordinate is in the splitCoordinates evidence below, in PDF points, given both as pdftotext yMin/yMax measured from the top of a 792 pt page and as the equivalent y from the bottom, so a repair lane can locate each one without re-measuring. Confirmed at appearance level by rendering canonical page 4 at 110 dpi and reading the image, not only from the text layer. Everything else in this class is clean: 0 words fall outside the MediaBox on any of the 16 pages across both fixtures, no text render mode 3 or 7, no zero-size font, no white-on-white write, no orphaned signature page, no route-key-only or fragment page, no source-shipped ink (this family binds no source binary), no catch-all field match, no clipped or overrun value, and my overlapping-word scan returned zero pairs on both fixtures.",
+          "evidence": {
+            "splitCoordinates": [
+              {
+                "fixture": "canonical",
+                "page": 2,
+                "component": "primary_filing (the sworn petition)",
+                "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+                "fragmentOneBox": {
+                  "xMin": 72,
+                  "xMax": 540.64,
+                  "yMinFromTop": 513.99,
+                  "yMaxFromTop": 523.89,
+                  "yFromBottom": 268.11
+                },
+                "fragmentTwo": "t-99-19-71-1",
+                "fragmentTwoBox": {
+                  "xMin": 72,
+                  "xMax": 128.21,
+                  "yMinFromTop": 528.49,
+                  "yMaxFromTop": 538.39,
+                  "yFromBottom": 253.61
+                },
+                "labelWord": "Route:",
+                "labelBox": {
+                  "xMin": 72,
+                  "xMax": 101.34,
+                  "yMinFromTop": 499.49,
+                  "yFromBottom": 282.61
+                }
+              },
+              {
+                "fixture": "canonical",
+                "page": 4,
+                "component": "proposed_order (beneath JUDICIAL OFFICER OF THE COURT and APPROVED AS TO FORM)",
+                "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+                "fragmentOneBox": {
+                  "xMin": 72,
+                  "xMax": 540.64,
+                  "yMinFromTop": 252.99,
+                  "yMaxFromTop": 262.89,
+                  "yFromBottom": 529.11
+                },
+                "fragmentTwo": "t-99-19-71-1",
+                "fragmentTwoBox": {
+                  "xMin": 72,
+                  "xMax": 128.21,
+                  "yMinFromTop": 267.49,
+                  "yMaxFromTop": 277.39,
+                  "yFromBottom": 514.61
+                },
+                "labelWord": "Route:",
+                "labelBox": {
+                  "xMin": 72,
+                  "xMax": 101.34,
+                  "yMinFromTop": 238.49,
+                  "yFromBottom": 543.61
+                }
+              },
+              {
+                "fixture": "canonical",
+                "page": 5,
+                "component": "certificate_of_service",
+                "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+                "fragmentOneBox": {
+                  "xMin": 72,
+                  "xMax": 540.64,
+                  "yMinFromTop": 658.99,
+                  "yMaxFromTop": 668.89,
+                  "yFromBottom": 123.11
+                },
+                "fragmentTwo": "t-99-19-71-1",
+                "fragmentTwoBox": {
+                  "xMin": 72,
+                  "xMax": 128.21,
+                  "yMinFromTop": 673.49,
+                  "yMaxFromTop": 683.39,
+                  "yFromBottom": 108.61
+                },
+                "labelWord": "Route:",
+                "labelBox": {
+                  "xMin": 72,
+                  "xMax": 101.34,
+                  "yMinFromTop": 644.49,
+                  "yFromBottom": 137.61
+                }
+              },
+              {
+                "fixture": "canonical",
+                "page": 6,
+                "component": "attachment (exhibit checklist)",
+                "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+                "fragmentOneBox": {
+                  "xMin": 72,
+                  "xMax": 540.64,
+                  "yMinFromTop": 412.49,
+                  "yMaxFromTop": 422.39,
+                  "yFromBottom": 369.61
+                },
+                "fragmentTwo": "t-99-19-71-1",
+                "fragmentTwoBox": {
+                  "xMin": 72,
+                  "xMax": 128.21,
+                  "yMinFromTop": 426.99,
+                  "yMaxFromTop": 436.89,
+                  "yFromBottom": 355.11
+                },
+                "labelWord": "Route:",
+                "labelBox": {
+                  "xMin": 72,
+                  "xMax": 101.34,
+                  "yMinFromTop": 397.99,
+                  "yFromBottom": 384.11
+                }
+              },
+              {
+                "fixture": "canonical",
+                "page": 8,
+                "component": "instructions (filing instructions page 2)",
+                "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+                "fragmentOneBox": {
+                  "xMin": 72,
+                  "xMax": 540.64,
+                  "yMinFromTop": 441.49,
+                  "yMaxFromTop": 451.39,
+                  "yFromBottom": 340.61
+                },
+                "fragmentTwo": "t-99-19-71-1",
+                "fragmentTwoBox": {
+                  "xMin": 72,
+                  "xMax": 128.21,
+                  "yMinFromTop": 455.99,
+                  "yMaxFromTop": 465.89,
+                  "yFromBottom": 326.11
+                },
+                "labelWord": "Route:",
+                "labelBox": {
+                  "xMin": 72,
+                  "xMax": 101.34,
+                  "yMinFromTop": 426.99,
+                  "yFromBottom": 355.11
+                }
+              },
+              {
+                "fixture": "boundary",
+                "page": 2,
+                "component": "primary_filing (the sworn petition)",
+                "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+                "fragmentOneBox": {
+                  "xMin": 72,
+                  "xMax": 540.64,
+                  "yMinFromTop": 528.49,
+                  "yMaxFromTop": 538.39,
+                  "yFromBottom": 253.61
+                },
+                "fragmentTwo": "t-99-19-71-1",
+                "fragmentTwoBox": {
+                  "xMin": 72,
+                  "xMax": 128.21,
+                  "yMinFromTop": 542.99,
+                  "yMaxFromTop": 552.89,
+                  "yFromBottom": 239.11
+                },
+                "labelWord": "Route:",
+                "labelBox": {
+                  "xMin": 72,
+                  "xMax": 101.34,
+                  "yMinFromTop": 513.99,
+                  "yFromBottom": 268.11
+                },
+                "note": "one line (14.5 pt) lower than the canonical because the boundary's longer participant values push the block down; pages 4, 5, 6 and 8 are at identical coordinates in both fixtures"
+              },
+              {
+                "fixture": "boundary",
+                "page": 4,
+                "component": "proposed_order",
+                "sameCoordinatesAsCanonical": true
+              },
+              {
+                "fixture": "boundary",
+                "page": 5,
+                "component": "certificate_of_service",
+                "sameCoordinatesAsCanonical": true
+              },
+              {
+                "fixture": "boundary",
+                "page": 6,
+                "component": "attachment (exhibit checklist)",
+                "sameCoordinatesAsCanonical": true
+              },
+              {
+                "fixture": "boundary",
+                "page": 8,
+                "component": "instructions",
+                "sameCoordinatesAsCanonical": true
+              }
+            ],
+            "coordinateSystem": "PDF points on a 612 x 792 MediaBox. yMinFromTop/yMaxFromTop are pdftotext -bbox-layout values measured downward from the top edge; yFromBottom is the same baseline expressed upward from the bottom edge, which is the origin the composer draws in.",
+            "pagesAffected": [
+              2,
+              4,
+              5,
+              6,
+              8
+            ],
+            "pagesTotal": 8,
+            "bothFixtures": true,
+            "fullKeyThatShouldPrintUnbroken": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+            "wordsOutsidePageBox": 0,
+            "overlapPairs": 0,
+            "invisibleWriteConstructs": 0,
+            "rasterInspected": [
+              "canonical page 4 at 110 dpi"
+            ]
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set",
       "superseded": false
     },
     {
@@ -8960,6 +9221,48 @@
     {
       "familyId": "nh_petition_vacated-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Four of six named components are rendered; the two required process_guidance components reach no page of the packet.",
+          "evidence": "legal-design-packet-set-manifests.json names six components for nh_petition_vacated-set, four official_pdf_fill and two required process_guidance components - nh_petition_vacated-post-filing-instructions-5 and nh_petition_vacated-effect-and-limits-disclosure-6. The delivered 9-page canonical is NHJB-2317 pp.1-3, NHJB-2311 pp.4-5, NHJB-2328 pp.6-8, NHJB-2956 p.9 and nothing else; no rendered artifact names either guidance component. data/rcap-grade-a/component-set-sweep/COMPONENT_NAME_SWEEP.json independently records 'NO_FAMILY_RENDERS_THIS_TRACK' for every declared component name of this track. Its two peers in this checkpoint do render their required process_guidance components as packet pages (RI pages 7-14, TX pages 22-24)."
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "A delivered court filing's signature line carries permanent grey ink reading 'Enter /s/ before name'. Repair: add nh_petition_vacated-set:NHJB-2311 field sig.8 to field-appearance-semantics.json with disposition render_participant_value_only_when_written.",
+          "evidence": "Canonical and boundary page 4 (NHJB-2311 page 1) draw XObject FlatWidget-735569487, text 'Enter /s/ before name', /TiBo 12pt at 0.75 g, directly on the line printed 'Signature of Filer'. It is visible in a 110 dpi local raster of both fixtures. It is not the court's printed form text: the source's own page-4 content stream carries no such string, and the string lives in the /AP of NHJB-2311 field sig.8 (DA '/TiBo 12 Tf 0.75 g') in the pinned source f8b5df13..., i.e. it is the interactive form's placeholder hint, which disappears in the live form the moment anything is typed and which flattening has made permanent. build-findings.json records the same fact and reclassifies it as a documentAuthoredAppearance so the counter stays zero. data/rcap-all50/shared/field-appearance-semantics.json - the registry that exists for exactly this class, and that carries the Texas Statement of Inability's three shipped values - holds no entry for any New Hampshire family, so the default preserve_source_appearance applies and the hint reaches the filing."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "One visible source-placeholder write on a signature line and three invisible financial writes on a sworn statement, with instructions that describe a page the delivered bytes do not produce.",
+          "evidence": "Every page of both fixtures rastered locally at 110 dpi. Two appearance defects. (1) The visible grey placeholder on page 4 described under PROTECTED_FIELDS. (2) Pages 6 and 7 carry three flattened widget appearances drawing '0.00' in /TiBo 12pt at 1 g - white on white - in the Total boxes of the sworn Statement of Assets and Liabilities (FlatWidget-7845208436, FlatWidget-3800713913, FlatWidget-8937889778, from source fields 12.total, money.total and monthly.total whose /V is '0'). pdftotext reads 'Total $ 0.00' off all three; the raster shows nothing there. Item 6 of participant-instructions.md tells the participant 'The form prints Total $ 0.00 under each column ... Cross the 0.00 out and write the real total' - which the delivered bytes contradict, because there is nothing visible to cross out."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "Zero of ten registry stop conditions reach the packet - the same class the sibling nh_petition_nonconviction_pre2019-set failed on.",
+          "evidence": "The track registry records ten selfHelpStopConditions for nh_petition_vacated. None reaches the packet, verbatim or in substance: participant-instructions.md and every composed page were searched for each of them and for their distinguishing terms - 'firearm', 'immigration', 'background check', 'three years'/'3 years', 'tribal', 'military', 'out-of-state', prosecutor opposition, obtaining the vacatur itself - and none appears. The nearest section, 'What annulment does, and what it does not do', describes the effect of the order and names no point at which self-help ends."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "COMPONENT_SET",
+        "PROTECTED_FIELDS",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [
+        "SERVICE"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_vacated-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_petition_vacated-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
       "isIndependentVerification": true,
       "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
@@ -8983,7 +9286,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_vacated-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nj_arrest_no_conviction-set",
@@ -14901,6 +15204,28 @@
       "superseded": false
     },
     {
+      "familyId": "ri_deferred_sentence-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Two of fourteen delivered pages carry nothing but an internal route key. Repair: fix the pagination of ri_deferred_sentence-notice-package-3 and ri_deferred_sentence-filing-instructions-4 so a component that ends on a page boundary does not emit a footer-only page.",
+          "evidence": "Every page of both fixtures rastered locally at 100 dpi. Pages 8 and 13 are blank apart from the three-line machine footer 'Route: obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket ; ...stage-2-court-motion-and-affidavit ; ...stage-3-notice-hearing-and-certified-copies'. Measured: 291 characters of text on each of those pages against 1,200-2,600 on every other page, in canonical and in boundary alike. They are the overflow pages of the composed notice package and the composed filing instructions, and each carries only the route key."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set",
+      "superseded": false
+    },
+    {
       "familyId": "ri_first_offender_felony-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf04",
@@ -15666,6 +15991,20 @@
     {
       "familyId": "tx_nd_dwi_probation-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_probation-set",
+      "superseded": false
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf10",
       "isIndependentVerification": true,
       "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
@@ -15675,7 +16014,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_probation-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "tx_nd_dwi_probation-set",
