@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "689b386583306bbbab68de6fcd482631cc8b14bf",
+  "minimumCaptainSha": "0ac01093266c1c4e6baf3f761681812d87f48ef1",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,12 +72,12 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 8,
-    "verifyPending": 8,
+    "verifyPending": 4,
     "repairRequired": 63,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 134,
+    "COMPLETE_PACKET_PROVEN": 138,
     "FAIL_REPAIR_REQUIRED": 68,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
@@ -87,7 +87,7 @@
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "BUILT_RASTER_PENDING": 3,
-    "VERIFY_PENDING": 8,
+    "VERIFY_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -37329,10 +37329,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "d7e293f81",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "4dd482867",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -37363,19 +37363,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Two of fourteen delivered pages carry nothing but an internal route key. Repair: fix the pagination of ri_deferred_sentence-notice-package-3 and ri_deferred_sentence-filing-instructions-4 so a component that ends on a page boundary does not emit a footer-only page.",
-          "evidence": "Every page of both fixtures rastered locally at 100 dpi. Pages 8 and 13 are blank apart from the three-line machine footer 'Route: obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket ; ...stage-2-court-motion-and-affidavit ; ...stage-3-notice-hearing-and-certified-copies'. Measured: 291 characters of text on each of those pages against 1,200-2,600 on every other page, in canonical and in boundary alike. They are the overflow pages of the composed notice package and the composed filing instructions, and each carries only the route key."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
@@ -37466,9 +37458,9 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf04",
-        "verifiedAtBase": "d7e293f81",
+        "verifiedAtBase": "4dd482867",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -37500,35 +37492,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "Route-key-only pages and a hard-split token on delivered pages. A four-line block beginning 'Route: obligation:unit:RI:ri_first_offender_felony:...' is printed at the foot of composed pages 6 and 14, and packet pages 8 and 13 of 14 contain NOTHING BUT that block - page 8 is notice-package page 2 and page 13 is filing-instructions page 5, both otherwise blank. The third key is split mid-token across a line break so the page prints '...stage-3-notice-hearing-and-certified-co' / 'pies'. Page 6 is the proposed order, so a Rhode Island Superior Court justice is handed internal machine route identifiers directly beneath the clerk's certification line. Confirmed by 110 dpi raster of page 8 and by full text extraction of every page in both fixtures. Otherwise clean: 0 words outside the MediaBox on any of the 28 pages, no invisible-write construct, no source-shipped ink, no unfittable value.",
-          "evidence": {
-            "routeKeyOnlyPages": [
-              8,
-              13
-            ],
-            "routeKeyFooterPages": [
-              6,
-              8,
-              13,
-              14
-            ],
-            "hardSplitToken": "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies",
-            "rasterInspected": [
-              8
-            ],
-            "wordsOutsidePageBox": 0
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
@@ -37619,10 +37587,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf05",
-        "verifiedAtBase": "d7e293f81",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "4dd482867",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -37653,30 +37621,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "A route-key-only page and hard-split tokens on delivered pages. Packet page 8 of 13 - notice-package page 2 - contains nothing but the block 'Route: obligation:unit:RI:ri_first_offender_misdemeanor:...stage-1... ; ...stage-2... ; ...stage-3...', and the same block prints at the foot of composed pages 6 and 12. Page 6 is the proposed order, so the internal identifiers appear directly beneath the clerk's certification line on the document handed to a District Court judge. Two of the three keys are split mid-token across a line break, printing as 'court-motion-an' / 'd-affidavit' and 'notice-hearing-a' / 'nd-certified-copies'. Otherwise clean: 0 words outside the MediaBox on any of the 26 pages, no invisible-write construct, no source-shipped ink, no unfittable value.",
-          "evidence": {
-            "routeKeyOnlyPages": [
-              8
-            ],
-            "routeKeyFooterPages": [
-              6,
-              8,
-              12
-            ],
-            "hardSplitTokens": 2,
-            "wordsOutsidePageBox": 0
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
@@ -37857,10 +37806,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf06",
-        "verifiedAtBase": "d7e293f81",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "4dd482867",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -37891,52 +37840,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "TWO DEFECTS VISIBLE ON THE DELIVERED PAGES, both present in canonical and in boundary. (1) HARD-SPLIT ROUTE KEYS, 8 instances per fixture, on pages 6, 12 and 13 and twice on page 8. The route trailer prints 'obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-affidav' at 467.3pt against the 468pt column and resumes 'it ;' on the next line, and 'obligation:unit:RI:…-stage-3-notice-hearing-and-certif' at 466.2pt resuming 'ied-copies'. Both land inside SCAN01's hard-split band (457.6, 468] and neither break is on one of the token's own separators. The shared separator-aware splitter at scripts/rcap-custom-pleading/split-token.mjs breaks the same two tokens at their hyphens instead — '…-court-motion-and-' / 'affidavit' and '…-notice-hearing-and-' / 'certified-copies' — with hardSplits 0, which I ran against these exact tokens at the composer's own metrics to confirm. The cause is the private character-accumulating splitToken still in the build host at scripts/build-census-v1-ri_decriminalized-set.mjs lines 1764-1772 (build-status.json names that file as this family's buildHost); it accumulates one character at a time and cuts at whichever character first reaches the margin, which is the pre-FIX16 behaviour the shared module was extracted to replace. (2) A ROUTE-KEY-ONLY PAGE at page 8 of each fixture: five drawn lines at x=72, y=720 down to y=662, all of them the machine route trailer — the tail of the notice-package component whose body ends on page 7 — with no heading, no route name in words, no prose and nothing to say what the page is. Rastered locally at 110dpi into /tmp and confirmed by eye: the participant is handed a whole page of internal identifiers, two of them broken mid-word. Neither defect is seen by any of the nine counters, which read zero throughout, nor by the corpus SCAN01 sweep, which classifies this family as official-pdf-fill and does not visit it. WHAT IS REQUIRED: replace the private splitToken in the build host with createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs under a fitsByFontMetrics(font, fontSize, maxWidth) predicate, and keep the trailer with the block it closes so no page is delivered carrying only a route key — the trailer pull-down that Oklahoma's and Washington's composers already carry. Neither is this lane's to write.",
-          "evidence": {
-            "defectClasses": [
-              "A_token_integrity/hard_split",
-              "B_page_content/route_key_only_page"
-            ],
-            "hardSplitInstancesPerFixture": 8,
-            "hardSplitPages": [
-              6,
-              8,
-              12,
-              13
-            ],
-            "hardSplitMeasuredWidthsPt": [
-              467.3,
-              466.2
-            ],
-            "columnPt": 468,
-            "band": "(457.6, 468]",
-            "routeKeyOnlyPages": [
-              8
-            ],
-            "routeKeyOnlyPageLineCount": 5,
-            "rasteredLocally": [
-              "canonical p6",
-              "canonical p8"
-            ],
-            "sharedSplitterWouldProduce": [
-              "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-2-court-motion-and-|affidavit",
-              "obligation:unit:RI:ri_multiple_misdemeanors:ri-multiple-misdemeanors-stage-3-notice-hearing-and-|certified-copies"
-            ],
-            "component": "renderComposedPdf splitToken in scripts/build-census-v1-ri_decriminalized-set.mjs:1764-1772 (declared buildHost for this family)",
-            "countersSawIt": false,
-            "scan01SawIt": false
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",

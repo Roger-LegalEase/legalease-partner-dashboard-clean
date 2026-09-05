@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `689b386583306bbbab68de6fcd482631cc8b14bf`
+**Minimum required ancestor:** `0ac01093266c1c4e6baf3f761681812d87f48ef1`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -240,14 +240,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf` — `bdf2b866505b59c1f54d625edae2234009ce19e655cc0fe67a7fe68b4221d0e8`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf` — `aadb8704b19ff95121f7d2eaaa92b1299b61e106f22330710c8497e7d6b932e4`
 - expected pages 14 · requested scale 2.5
-- built by VF04
+- built by (no builder lane recorded)
 
 ### ri_multiple_misdemeanors-set
 
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf` — `6670d92fc8eb8b61ea95d10f9cb5f8b5c901273f743ddf02952ec2922ff2e46b`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf` — `aaccc906b4703f13e98d4049059c1b5ad849f23f27ca33a2badfd20e283f2c87`
 - expected pages 13 · requested scale 2.5
-- built by VF04
+- built by (no builder lane recorded)
 
 ### tx_nd_probation_misdemeanor-set
 
