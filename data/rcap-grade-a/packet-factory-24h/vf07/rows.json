@@ -14442,6 +14442,572 @@
           "finding": "PASS. The packet states where self-help ends, states it first rather than last, and the passage the repair touched is intact and now readable — which was the whole point of stripping the delimiters from it."
         }
       }
+    },
+    {
+      "itemId": "nc_146_acquittal_petition-set",
+      "lane": "VF07",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill",
+      "verifier": "CLAUDE-VF07-NC146-READ (independent — built none of this packet, repaired none of it, rendered none of it, and edited no overlay directory, build script or shared record)",
+      "verifiedAtBase": "ff4dee3ab",
+      "canonicalSha256": "f3859799a675bf55b98239d0f2c9128ce0a003d4dc1fb9b7c787897549741151",
+      "boundarySha256": "e13fb2da03898b7e54f04263112160cb827afb9eafe92fa595e4c4965e300b09",
+      "priorVerdictReRead": {
+        "lane": "VF02",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "21d53521f",
+        "failedObligationNames": [
+          "ROUTE_IDENTITY"
+        ],
+        "repairCited": "repair-clusters/rows.json transcribes lane commit 3dfdd41d0 (captain 7f707619f): build-findings.json, participant-instructions.md, production-field-map.json and source-receipt.json moved to the canonical track-pathway key; FIX48 (fix48/rows.json, lane commit 1b6c20391) measured the whole directory rebuilding byte-identical.",
+        "measuredAgainHere": "ROUTE_IDENTITY discharged. Every declared route key in the family is the canonical one and no route-key field carries the track-only string.",
+        "oneCorrectionToTheRepairRecord": "FIX48 states the track-only string 'appears in no file at all'. Measured here it appears exactly once, in build-findings.json findings[0].finding, inside the narrative sentence that describes the defect being corrected. No routeKey, routeKeys, binding.routeKeys or documentPolicy.routeKey field carries it, and it is absent from participant-instructions.md and from both fixtures, so the obligation is discharged; the record's wording is one occurrence too absolute."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family nc_146_acquittal_petition-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+        "recordedRatherThanArguedWith": true,
+        "failure1": "private_is_git_ignored. The check runs `git check-ignore -q 'private/'`; private is a read-only SYMLINK in this container, so git answers `fatal: pathspec 'private/' is beyond a symbolic link` (exit 128) and the check reads it as not ignored. `git check-ignore private` without the trailing slash exits 0 and `git ls-files private/` returns 0 paths, so private/ is ignored and tracks nothing. A container artefact of the mount, not a property of this family.",
+        "failure2": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' (874e738a…), an Alabama file. Neither NC source is in the absent set and both rehash exact.",
+        "checkThatMattersHere": "family_sources_bind ok — 4/4 sources bind by exact SHA-256; 3 found by content hash because the declared path is in a custody (d_source_packs) not mounted here. VF02 saw this as '3 of 4 do not bind'; resolved by hash it binds 4/4."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_acquittal_petition-set",
+        "output": "ok nc_146_acquittal_petition-set PASS_COMPLETE 6/128 written",
+        "countersAreNotAVerdict": "All nine read zero and the finding recorded under CLIPPING_AND_OVERLAP is one no counter can see: it is measured against the pinned source, not against the build's own write boxes."
+      },
+      "rasterState": "RASTER_PASS",
+      "rasterStateEvidence": "RASTER_QUEUE.json rows[108]: currentRasterState RASTER_PASS, rasterReceipt workflowRunId 33927262022, jobId 101199158302, jobConclusion success, renderedCommitSha 46caf9354c58c8ebce4004354fef5b237f391d3f. boundToCanonicalSha256 f3859799… and boundToBoundarySha256 e13fb2da… both recompute byte-exact from the fixtures on disk at this base, so the receipt STILL BINDS: the repair moved no fixture byte, exactly as FIX48 recorded. Coverage is honest about its own limit — the receipt covers canonical.pdf only and its own note says a defect appearing only in boundary.pdf is not something a RASTER_PASS has excluded, so boundary.pdf was rastered and read here independently.",
+      "openQuestionBlockingThisRow": {
+        "what": "whether a border SYNTHESIZED at a checkbox widget whose current /AS state has NO appearance stream is source-owned form structure, or ink the packet must not add",
+        "namedExactly": "RI-OFF-APPEARANCE, data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json. Its text: 'A protected widget's unchanged /Off appearance is source-owned form structure where a zero-write normalized baseline proves it unchanged.' It settles the case where the source SHIPS an /Off appearance. It does not reach this case, where the pinned source ships none for the state the widget is in and the shared flattening step invents one.",
+        "whyItIsNotThisFamilysToDecide": "Both halves of that determination's own test point opposite ways here, exactly as VF02 recorded for Vermont: the zero-write baseline proves this family added nothing, and the pinned binary proves the official form paints nothing.",
+        "sameQuestionAlreadyOpen": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json, vt_seal_nonconviction-set, verdict BLOCKED_LEGAL_INPUT, CLIPPING_AND_OVERLAP BLOCKED_LEGAL_INPUT on 14 widgets of VT 200-00130/200-00132. This is the same structural condition on a different form; recorded the same way and not decided here.",
+        "notRepairActionableInsideThisFamily": "The zero-write baseline shows the squares come from the shared flattening step, scripts/rcap-official-forms/rcap-active-content.mjs. That module already carries the remedy — suppressSynthesizedSelectionAppearances installs an EMPTY form XObject for the missing state — behind the opt-in flag suppressSynthesizedAppearances, which sanitizeAndFlatten and finalizeOfficialForm both default to false and this family's builder does not pass. The module's own CAPTAIN DECISION comment says that default 'should flip to true once every family can be rebuilt together. A border the official form does not print is ink the packet added, wherever it occurs.' Any repair belongs to that step and to every family sharing it. No route or family may be whitelisted for it.",
+        "whatWouldSettleItInOneLine": "Whether a synthesized border at a widget whose /AS state has no appearance stream is source-owned form structure like an unchanged /Off appearance, or ink the packet must not add."
+      },
+      "failedObligationNames": [],
+      "blockedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Every route key in the family equals the canonical universe's key for this track. Seven route-key fields carry obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146 and nothing else: production-field-map.json routeKeys[0] and both maps[].documentPolicy.routeKey, source-receipt.json routeKeys[0], product-wiring.json routeKey / routeKeys[0] / binding.routeKeys[0]. participant-instructions.md prints the same key unwrapped on its last line. canonical-route-universe.json (708 keys, 8 for NC) carries exactly that key for this track and carries no track-only key for it. MASTER_QUEUE.json names the same single key. The packet the route names is the packet delivered: the registry track is 'Petition and Order of Expunction of a Finding of Not Guilty or Not Responsible under G.S. 15A-146(a2)' and the delivered binary's printed caption is PETITION AND ORDER OF EXPUNCTION UNDER G.S. 15A-146(a2) (NOT GUILTY OR NOT RESPONSIBLE), AOC-CR-288 Rev. 3/25.",
+          "evidence": {
+            "canonicalKey": "obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+            "routeKeyFieldsCarryingIt": 7,
+            "routeKeyFieldsCarryingAnythingElse": 0,
+            "trackOnlyStringOccurrencesInTheFamily": 1,
+            "whereThatOneOccurrenceIs": "build-findings.json findings[0].finding, narrative prose describing the corrected defect; not a declared key",
+            "inCanonicalUniverse": true,
+            "agreesWithMasterQueue": true,
+            "printedRouteLine": "participant-instructions.md final line, one line, unwrapped"
+          }
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both official documents and both committed records rebind by exact SHA-256 recomputed from bytes. Sources were resolved BY CONTENT HASH across the whole mounted corpus (501 files walked under private/) rather than by declared path, which matters here: MASTER_QUEUE declares three of the four source entries under private/source-imports/rcap-d-source-packs-2026-08-12/D1/…, a custody not mounted in this container, and each resolves by hash into the Master Library at the path source-receipt.json declares. Nothing is NOT_MEASURABLE_HERE.",
+          "evidence": [
+            {
+              "documentId": "AOC-CR-288",
+              "recordedSha": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+              "byteLength": 243887,
+              "rehashedFromBytes": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+              "rehashMatches": true,
+              "byteLenMatches": true,
+              "resolvedBy": "content_hash_scan_of_the_mounted_corpus",
+              "foundAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+              "uniqueMatchesInCorpus": 1
+            },
+            {
+              "documentId": "AOC-CR-288-INSTRUCTIONS",
+              "recordedSha": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+              "byteLength": 217013,
+              "rehashedFromBytes": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+              "rehashMatches": true,
+              "byteLenMatches": true,
+              "resolvedBy": "content_hash_scan_of_the_mounted_corpus",
+              "foundAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+              "uniqueMatchesInCorpus": 1
+            },
+            {
+              "committedRecord": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "recordedSha": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+              "rehashedFromPathInThisTree": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+              "byteLength": 3683419,
+              "matches": true
+            },
+            {
+              "committedRecord": "data/record-clearing/legal-design-track-registry.json",
+              "recordedSha": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+              "rehashedFromPathInThisTree": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+              "byteLength": 16586150,
+              "matches": true
+            }
+          ],
+          "pageManifestBinding": "every sourceSha256 in both fixtures' pageManifest is one of the two official digests above"
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredComponentsMissing 0. legal-design-packet-set-manifests.json names four components for this packet set. The two official_pdf_fill components are rendered — AOC-CR-288 on packet pages 1-2 and AOC-CR-288-INSTRUCTIONS on page 3, read from the delivered bytes, not from the manifest. The participant_instructions component is participant-instructions.md. The fourth, the conditional district_attorney_alternative_filing on AOC-CR-296, is a process_guidance component whose condition ('where the district attorney petitions rather than the participant') this route does not take, and the instructions name it at three separate points and say it is not in this packet and why.",
+          "evidence": {
+            "declaredComponents": 4,
+            "officialPdfFillDeclared": [
+              "AOC-CR-288",
+              "AOC-CR-288-INSTRUCTIONS"
+            ],
+            "officialPdfFillRendered": [
+              "AOC-CR-288",
+              "AOC-CR-288-INSTRUCTIONS"
+            ],
+            "processGuidanceCarriedByInstructions": [
+              "participant_instructions",
+              "district_attorney_alternative_filing (AOC-CR-296, conditional, disclosed as absent)"
+            ],
+            "packetPages": 3
+          }
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing 0 and requiredFactsNotCollected 0 on my own verifier run, and every one of the six facts the platform holds for this family is written and VISIBLE on the page it belongs to, proven by rastering the pinned source and the delivered page at 200 dpi and differencing them: added ink appears inside exactly six widget rectangles — NamePetitioner (+1692 px), StreetAddr (+1491), City (+780), State (+296), County (+552), ConsJdgmntFileNum (+1196) — and inside no other. Nothing is asserted by the finalizer alone. The address-block State is the correct State: the write lands at the rect x233.7 y642.0 beside Raleigh, not at DLState (x177.7 y617.8), which carries zero added ink. Both fixtures carry the same six facts and no more.",
+          "evidence": {
+            "factsHeldByThisFamilyCanonical": 6,
+            "factsWritten": 6,
+            "writesProvenInDeliveredRaster": 6,
+            "invisibleWrites": 0,
+            "noHeldFactWrittenOnOneComponentAndDemandedOnAnother": true,
+            "oneDiscrepancyRecordedNotScored": "production-field-map.json's petition.DOB row says in its own why-text 'the fact is held and the refusal is a capture defect', and build-findings.json says 'The platform does hold the ZIP code in its fact set'. Measured against what this family actually holds, neither is a withheld known fact: the canonical fact set is {full_legal_name, street_address, city, state, case_number, county} and the boundary fact set is the same six keys — no date_of_birth and no ZIP value exists in either, and neither is written anywhere else in the packet, so the contract's GENUINELY UNAVAILABLE condition is met on the bytes. The prose overstates what the platform holds for this family; it is a wording defect in a record, not a missing prefill, and it is flagged so a repair lane can align the two."
+          }
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "unclassifiedBlanks 0, and all 20 declared required-before-filing items are named in participant-instructions.md, checked against the file rather than against the builder's claim: for each of the 20, BOTH its disclosureLabel AND its participantMustSupply text were matched into the instructions with whitespace collapsed — 20 of 20 on both halves. The instructions carry them as a labelled table ('The items you must supply') keyed to the document.",
+          "evidence": {
+            "declaredItems": 20,
+            "disclosedByLabel": 20,
+            "disclosedByWhatToWrite": 20,
+            "notDisclosed": 0,
+            "manifestLevelItemsAlsoChecked": 9,
+            "manifestItemsCoveredSubstantively": 8,
+            "theOneNotNamed": "the manifest's notarize entry, whose own text is 'none stated by the review for this form. Confirm against the current AOC-CR-288 before release.' Its first half states that nothing is required and its second half is an instruction to the reviewer before release, not an item a participant can supply. Nothing is owed to the participant here and nothing is hidden from them.",
+            "oneClassifierQuirkRecordedNotScored": "the builder's counters report 19 REQUIRED_BEFORE_FILING dispositions against 20 declared items. The 20th is petition.Age, whose printed label 'Age At Time Of Offense' matches the contract's COURT_ASSIGNED label pattern on the word 'Time' and classifies LATER_COMPLETION. Both dispositions are allowed, the field is still disclosed to the participant in the table and in step 5, and nothing on the page changes. It is a shared label-pattern quirk in completeness-contract.mjs FIELD_CLASSES, not a defect of this family."
+          }
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing 0 and no route-determined election is left to the participant. The route is stated by the instrument rather than by a mark: AOC-CR-288 is the AOC's form for a G.S. 15A-146(a2) petition and prints that on its own face, which the delivered page 1 shows. The field map records two route selections made — the instrument set (AOC-CR-288 plus the AOC's instructions, no fee-waiver form) and the statutory subsection — each with the committed record that determines it. Of the form's four elections, none is route-determined: District/Superior follows the court the charge was brought in, the paragraph-4 civil-revocation box is a fact about the participant's own driving record, the AOC-CR-285 attachment box depends on their own agency and charge count, and Petitioner / Petitioner's Attorney is their own election about who signs. No refusal row carries routeDetermined true. Measured on the delivered bytes, not one of the 14 checkbox widgets is delivered in a selected state: no /Yes appearance is flattened onto either petition page in either fixture.",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "routeSelectionsMade": 2,
+            "routeDeterminedRefusals": 0,
+            "selectionMarksDrawn": 0,
+            "checkboxWidgets": 14,
+            "checkboxWidgetsDeliveredSelected": 0
+          }
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows 0. The offence table is grouped into 11 row indices of exactly 6 cells each (File No.(s), Date Of Arrest, Offense Description, Date Of Offense, Disposition, Date Of Disposition), counted under a trailing ':N' parser. No row carries a written cell at all: all six writes are caption and petitioner-block fields outside the table, so no row can carry written cells beside required cells left blank. Row 1's six cells are all declared required-before-filing together and all six are disclosed together in the instructions; rows 2-11 are uniformly blank. The instructions state the reason on the page: five of the six columns are facts no held record establishes and the sixth is a per-charge file number rather than the caption's case number, so a part-filled row that reads as finished is refused in favour of an empty one.",
+          "evidence": {
+            "rowGroups": 11,
+            "cellsPerRow": 6,
+            "rowsCarryingAnyWrittenCell": 0,
+            "row1CellsDeclaredRequiredBeforeFiling": 6,
+            "row1CellsDisclosed": 6
+          }
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites 0, refusedFieldsWithInk empty in both fixtures, and — the check that matters on this form — the mis-write the sibling record cites is NOT present on the delivered pages. data/rcap-grade-a/packet-safety/MIS_WRITE_CLASS_CENSUS_2026-09-04.json reproduces first hand on this exact source binary (776210116d…) that AOC-CR-288's widget SNN, the Full Social Security No. blank, captures the caption 'Date Of Birth' and that the shared binder would write participant.date_of_birth into it, with identifier protection missing it because the field is named SNN. Measured on the delivered bytes: the SNN rectangle (x110.6 y593.5 w111.0 h16.4) carries ZERO added ink against the pinned source, as do DOB (+0) and Age (+0). Nothing is bound to a neighbouring printed field anywhere: the six writes land in their own boxes and in no other. Side Two of AOC-CR-288 — FINDINGS OF FACT, ORDER, the judge's name, signature and date, and the CERTIFICATION BY CLERK — carries no packet write of any kind; the whole-page difference on packet page 2 resolves entirely to widget-border strokes and contains no glyph.",
+          "evidence": {
+            "protectedWrites": 0,
+            "refusedFieldsWithInkCanonical": [],
+            "refusedFieldsWithInkBoundary": [],
+            "addedInkInSNNRect": 0,
+            "addedInkInDOBRect": 0,
+            "addedInkInAgeRect": 0,
+            "addedInkInDLNoRect": 0,
+            "addedInkInDLStateRect": 0,
+            "addedInkInRaceRect": 0,
+            "addedInkInSexRect": 0,
+            "addedInkInZipCodeRect": 0,
+            "addedGlyphsOnSideTwo": 0,
+            "signatureDateAndCertificationBlocksInked": false,
+            "howTheRefusalIsRecorded": "the field map declares petition.SNN unwritable by role and states the true reason, and participant-instructions.md warns the participant in terms to check twice that what they write there is a Social Security number and not a date of birth"
+          }
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both artifacts rehash to exactly the digest and byte length every record names. canonical.pdf sha256 f3859799a675bf55b98239d0f2c9128ce0a003d4dc1fb9b7c787897549741151, 487245 bytes, 3 pages; boundary.pdf sha256 e13fb2da03898b7e54f04263112160cb827afb9eafe92fa595e4c4965e300b09, 487337 bytes, 3 pages. reports/rendered-artifacts.json, the repair-clusters transcription, FIX48's before/after pair and the RASTER_QUEUE receipt all name the same two digests, so the receipt binds the bytes on disk at this base.",
+          "evidence": {
+            "canonicalRehashMatches": true,
+            "boundaryRehashMatches": true,
+            "canonicalByteLength": 487245,
+            "boundaryByteLength": 487337,
+            "rasterQueueBindsTheseBytes": true
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The rendered page order matches the packet manifest and the manifest matches the packet-set order. Both fixtures parse to 3 pages and the manifest runs packetPage 1..3 with no gap: 1 petition AOC-CR-288 sourcePage 1, 2 petition AOC-CR-288 sourcePage 2, 3 instructions AOC-CR-288-INSTRUCTIONS sourcePage 1. Read from the delivered text rather than from the manifest, page 1 is the petition face, page 2 is FINDINGS OF FACT / ORDER, and page 3 opens 'INSTRUCTIONS FOR PETITION AND ORDER OF EXPUNCTION UNDER G.S. 15A-146(a2)… FORM AOC-CR-288, Rev. 3/25'. That is the manifest's own component order, primary_filing before instructions.",
+          "evidence": {
+            "pageCountCanonical": 3,
+            "pageCountBoundary": 3,
+            "manifestPages": 3,
+            "orderMatches": true,
+            "page3IsTheInstructionsSheet": true
+          }
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "BLOCKED_LEGAL_INPUT",
+          "finding": "OPEN QUESTION, named exactly, for an owner rather than for this family — the same one VF02 recorded for Vermont, on a different form. WHAT PASSES. Every measurable half of this obligation holds. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and visualDefects 0 in both fixtures; no glyph is unfittable or refused. Rastered locally at 200 dpi into /tmp and differenced pixel-for-pixel against the pinned source, the canonical petition pages carry 6281 added pixels on page 1 and 600 on page 2, and every one of them falls inside a write box or a checkbox rect — 0 unexplained, 0 removed. Packet page 3 is pixel-identical to the pinned instructions binary (0 added, 0 removed). No value crosses a printed line or another value. On the boundary fixture, with a 39-character name, a 52-character street address and a 20-character case number, 13532 added pixels are again 0 unexplained and every long value clears its box: tightest right clearances 12.38pt (street address), 4.66pt (case number), 4.50pt (State). No invisible writes anywhere: 0 live widgets, 0 annotations, no AcroForm, no OCProperties, no JavaScript, no XFA, 0 text render mode 3 and 0 white-fill-before-text across all 386 streams of each fixture. WHAT IS NOT SETTLED. All 14 checkbox widgets of AOC-CR-288 are delivered with a stroked black border the pinned source does not paint. Read from the pinned binary: every one of the 14 has /AS /Off, an /AP /N dictionary whose only state is /Yes, and no /MK /BC, so under PDF 32000-1 12.5.5 a conforming viewer paints nothing there. In the delivered bytes each is a flattened form XObject placed at the widget's own rect whose whole content is '0 0 0 RG 0 w [] 0 d … h S' — a black stroke of the full widget rectangle. It is visible: at 200 dpi each of the 14 regions gains between 27 and 136 dark pixels over the pinned source, and magnified the form's own thin printed box is delivered as a visibly heavier double-struck one. A ZERO-WRITE BASELINE was built here by running the repository's own scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned AOC-CR-288 with writtenFields empty; rastered at the same 200 dpi, all 14 checkbox regions are PIXEL-IDENTICAL to the delivered packet (0 differing pixels at every one of the 14). So the squares are not a mark this family makes; they are what the shared normalization produces for a widget whose current appearance state has no appearance stream. Both halves of RI-OFF-APPEARANCE's own test therefore point opposite ways, which is why this is recorded as blocked rather than passed or failed, and why it is not decided here.",
+          "evidence": {
+            "measuredHere": true,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "visualDefects": 0,
+            "rasterDpi": 200,
+            "rastersDeletedAfterMeasuring": true,
+            "canonicalPage1AddedPixels": 6281,
+            "canonicalPage1UnexplainedPixels": 0,
+            "canonicalPage2AddedPixels": 600,
+            "canonicalPage2UnexplainedPixels": 0,
+            "canonicalPage3DiffAgainstPinnedInstructions": {
+              "added": 0,
+              "removed": 0
+            },
+            "boundaryPage1AddedPixels": 13532,
+            "boundaryPage1UnexplainedPixels": 0,
+            "boundaryTightestRightClearancePt": {
+              "streetAddress": 12.38,
+              "caseNumber": 4.66,
+              "state": 4.5
+            },
+            "invisibleWriteScan": {
+              "liveWidgets": 0,
+              "annotations": 0,
+              "acroForm": false,
+              "ocProperties": false,
+              "javaScript": false,
+              "xfa": false,
+              "textRenderMode3": 0,
+              "whiteFillBeforeText": 0,
+              "streamsScannedPerFixture": 386
+            },
+            "checkboxWidgets": 14,
+            "everyOneHasAsOffWithNoOffAppearance": true,
+            "sourceMkBorderColour": null,
+            "deliveredStreamPerWidget": "1 0 0 1 0 0 cm q 0 0 0 RG 0 w [] 0 d … 0 0 m 0 H l W H l W 0 l h S Q",
+            "zeroWriteBaseline": {
+              "howItWasBuilt": "node: PDFDocument.load(pinned AOC-CR-288) then sanitizeAndFlatten(doc, { writtenFields: new Set() }) from scripts/rcap-official-forms/rcap-active-content.mjs, saved and rastered at 200 dpi",
+              "checkboxRectsPixelIdenticalToDelivered": 14,
+              "checkboxRectsDiffering": 0,
+              "whatThatProves": "this family added none of the 14 squares; the shared flattening step produces them"
+            },
+            "perWidget": [
+              {
+                "widget": "District",
+                "page": "p1",
+                "rectPt": {
+                  "x": 369.04,
+                  "y": 715.738,
+                  "size": 9.48
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "Superior",
+                "page": "p1",
+                "rectPt": {
+                  "x": 425.8,
+                  "y": 715.738,
+                  "size": 9.48
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "CkBox_Attchmt",
+                "page": "p1",
+                "rectPt": {
+                  "x": 41.5,
+                  "y": 472.789,
+                  "size": 9.48
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "SeekingExpunge15A-146Cbx",
+                "page": "p1",
+                "rectPt": {
+                  "x": 56.0,
+                  "y": 213.787,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerCbx",
+                "page": "p1",
+                "rectPt": {
+                  "x": 502.93,
+                  "y": 175.566,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerAttorneyCbx",
+                "page": "p1",
+                "rectPt": {
+                  "x": 502.93,
+                  "y": 164.932,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerNotConvictedFelonyMisdemeanorCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 41.43,
+                  "y": 701.232,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerIsEligibleCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 116.4,
+                  "y": 689.979,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerIsNotEligibleCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 144.99,
+                  "y": 689.979,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionGrantedCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 41.7,
+                  "y": 617.636,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionDeniedCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 41.33,
+                  "y": 545.817,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "DeputyCSCCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 435.23,
+                  "y": 433.069,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "AssistantCSCCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 487.8,
+                  "y": 432.898,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "ClerkOfSuperiorCourtCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 435.23,
+                  "y": 421.416,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              }
+            ],
+            "extraDarkPixelsAt200dpiVsPinnedSource": {
+              "District": 27,
+              "Superior": 29,
+              "CkBox_Attchmt": 27,
+              "SeekingExpunge15A-146Cbx": 57,
+              "PetitionerCbx": 84,
+              "PetitionerAttorneyCbx": 108,
+              "PetitionerNotConvictedFelonyMisdemeanorCbx": 54,
+              "PetitionerIsEligibleCbx": 55,
+              "PetitionerIsNotEligibleCbx": 82,
+              "PetitionGrantedCbx": 82,
+              "PetitionDeniedCbx": 57,
+              "DeputyCSCCbx": 136,
+              "AssistantCSCCbx": 54,
+              "ClerkOfSuperiorCourtCbx": 108
+            },
+            "whereTheRepairBelongs": "scripts/rcap-official-forms/rcap-active-content.mjs — suppressSynthesizedSelectionAppearances exists and installs an empty form XObject for the missing state, but sanitizeAndFlatten and finalizeOfficialForm both default suppressSynthesizedAppearances to false and scripts/build-census-v1-nc_146_acquittal_petition-set.mjs does not pass it. Not this family's to change and not whitelistable per family."
+          }
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "participant-instructions.md names the office the route names, word for word with the records: 'File with the clerk of superior court in the county where the charge was brought.' The track registry's destination is {kind clerk, name 'Clerk of superior court, county where the charge was brought'} and its venue is 'Superior Court of the county where the charge was brought'; the packet-set manifest's file entry says the same and adds the reason the form may not be substituted, G.S. 15A-146(c). The packet also tells the participant to check the county the platform wrote into the caption against the county the charge was brought in, and that the District/Superior division boxes follow that court and can be confirmed with that clerk's office — which is the honest treatment of a registry that names Superior Court while the form prints both division boxes and leaves them unmarked.",
+          "evidence": {
+            "instructionsDestination": "clerk of superior court in the county where the charge was brought",
+            "registryDestinationKind": "clerk",
+            "registryVenue": "Superior Court of the county where the charge was brought.",
+            "manifestFileEntryAgrees": true
+          }
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both are stated, and both are quoted from the committed record rather than asserted. Fee: 'There is no filing fee. The committed packet-set manifest states it for this packet: \"none for a true acquittal.\"' Waiver: 'There is no waiver form in this packet, and none is missing… \"none needed, because no filing fee applies to a true acquittal.\"' The manifest's pay_fee and apply_fee_waiver entries carry exactly those words. The packet goes further in two ways that are correct and worth recording: it states that the G.S. 15A-150 costs of carrying the order out are expressly not taxed against the petitioner, and it names the office to ask — the clerk of superior court of the county where the charge was brought — if that clerk asks for money anyway, rather than telling the participant to refuse.",
+          "evidence": {
+            "manifestPayFee": "none for a true acquittal. The costs of expunging the records required under G.S. 15A-150 are not taxed against the petitioner.",
+            "manifestApplyFeeWaiver": "none needed, because no filing fee applies to a true acquittal.",
+            "bothQuotedInInstructions": true,
+            "contrastWithSiblingRouteExplained": true
+          }
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states who must be served and how, which on this route is nobody, and it states it as the record's position rather than as its own: 'Nobody is served on this route. The committed packet-set manifest records it in terms: \"none required by the AOC form.\" There is no certificate of service on AOC-CR-288 and none is needed.' The manifest's serve_party entry is exactly 'none required by the AOC form.' The packet then answers the question a participant would ask next — the distribution after the order is the clerk's, not theirs — and names the agencies the clerk notifies automatically and which the participant must therefore not list, which is the form's own NOTE TO PETITIONER.",
+          "evidence": {
+            "manifestServeParty": "none required by the AOC form.",
+            "statedInInstructions": true,
+            "certificateOfServiceOnTheForm": false,
+            "postOrderDistributionExplained": true
+          }
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The packet states where self-help ends, under the heading 'When to stop and get help', and it carries all three of the track registry's selfHelpStopConditions: related charges not all at final disposition (named against paragraph 3 of the petition, which certifies the opposite), anyone who may later need G.S. 15A-145.4 or 15A-145.6 relief because sequencing matters, and any immigration matter. It adds three more that the record supports: the charge was dismissed rather than tried and found not guilty, which is AOC-CR-287 and a rejection risk in the other direction; an out-of-state or federal charge, which the registry's exclusions put outside this relief; and not yet having obtained and kept permanent copies of the record. The packet also states plainly what it is not — not legal advice, not filed for the participant, and not a decision on eligibility.",
+          "evidence": {
+            "registryStopConditions": 3,
+            "stopConditionsPresent": 3,
+            "additionalStopsStated": 3,
+            "selfHelpBoundaryStated": true
+          }
+        }
+      },
+      "whatThisRowDoesNotDo": [
+        "It approves no output, promotes no family and opens no commercial route.",
+        "It does not retire the open question it records. CLIPPING_AND_OVERLAP is blocked on RI-OFF-APPEARANCE's reach, which is an owner's to settle and not a verifier's.",
+        "It releases no grant. The claim on nc_146_acquittal_petition-set stays with VF07 for the Captain to release centrally."
+      ],
+      "independenceStatement": "Measured in this container from the packet bytes, the pinned source binaries resolved by content hash, the committed records and my own raster. No builder self-report, no repair-lane summary and no earlier verifier row was accepted as proof; VF02's, the repair cluster's and FIX48's records were read as history and re-measured, and one of FIX48's statements is corrected above. No overlay directory, build script or shared record was edited by this lane."
     }
   ],
   "obligationSet": [
@@ -15113,5 +15679,25 @@
       "A content-stream scan of every stream in each canonical fixture for text render mode 3 and for a 1 1 1 rg/RG fill, the two shapes an invisible write takes.",
       "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, read-only, run here at a0fbceb30."
     ]
+  },
+  "vf07Nc146ReadAppend20260905": {
+    "lane": "VF07",
+    "branch": "vf07-nc146-read",
+    "base": "ff4dee3ab",
+    "verifier": "CLAUDE-VF07-NC146-READ",
+    "readsBeforeMeasuring": [
+      "AGENTS.md; docs/rcap/grade-a/packet-factory-24h/VF07.md; scripts/rcap-packet-completeness/completeness-contract.mjs; one row of this file for shape.",
+      "History read fresh and not copied: VF02's FAIL row for nc_146_acquittal_petition-set at 21d53521f (ROUTE_IDENTITY); the repair-clusters transcription of lane commit 3dfdd41d0 / captain 7f707619f; FIX48's measurement at lane commit 1b6c20391; the sibling nc_145_5_felony-set cluster row and the caption-capture defect it cites, traced to data/rcap-grade-a/packet-safety/MIS_WRITE_CLASS_CENSUS_2026-09-04.json where it is reproduced first hand on AOC-CR-288 (widget SNN captures the caption 'Date Of Birth').",
+      "The North Carolina packet-set manifest entry and track record under data/record-clearing/ for G.S. 15A-146 (AOC-CR-288)."
+    ],
+    "rowsAppended": 1,
+    "earlierRowsAltered": 0,
+    "overlayDirectoriesModified": 0,
+    "buildScriptsModified": 0,
+    "sharedRecordsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": "NO",
+    "grantReleased": false,
+    "rastersWrittenTo": "/tmp only, deleted after measuring"
   }
 }
