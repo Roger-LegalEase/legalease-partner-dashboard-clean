@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF19",
+  "workerId": "BUILD-A",
+  "lane": "packet-build",
+  "engine": "Claude Code",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "whyThisFileIsNotRowsJson": "this lane directory held no return before this shift, so this is BUILD-A's return for the one pf19 family in the official_pdf_fill cohort, ar-misdemeanor-seal-set. It is named for the lane rather than rows.json so a later cohort can return alongside it without overwriting.",
+  "familiesAssigned": [
+    "ar-misdemeanor-seal-set"
+  ],
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF19 'ar-misdemeanor-seal-set' returned CLAIM_OK before any read of family content",
+  "selfVerification": "none",
+  "rows": [
+    {
+      "itemId": "ar-misdemeanor-seal-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "AR",
+      "routeKeys": [
+        "obligation:track-only:AR:ar-misdemeanor-seal"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-seal-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "does not exist; nothing was written and no builder was authored",
+      "theSourceThatDidNotBind": {
+        "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+        "digest": null,
+        "whyNoDigestIsNamed": "none was ever pinned. The custody reconciliation records absence 'label_does_not_identify_a_document' and custodyClass SOURCE_IDENTITY_UNRESOLVED: the label is generic where the corpus is specific.",
+        "whatTheCorpusActuallyHolds": "twenty-two ACIC forms, in matched petition-and-order pairs, each named for its statute and offence class. The pair this family needs is split: AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460 (REV-2019-08-01) is held and binds, and there is NO corresponding AR-ACIC-PETITION-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460. The corpus holds PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 and PETITION-TO-SEAL-FELONY-UNDER-ACT-1460 but not the misdemeanor one, in either mounted custody and in neither absent custody's index entries.",
+        "whyASiblingPetitionIsNotSubstituted": "the arrest petition and the felony petition are different documents for different relief. Binding either to a misdemeanor conviction route would be substituting a source, which is the one thing exact-hash binding exists to prevent, and it would put a participant's sworn signature on a petition for relief they are not seeking."
+      },
+      "whatDoesBind": [
+        {
+          "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+          "sha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+          "pages": 3,
+          "acroFields": 37,
+          "hiddenWidgets": 0
+        }
+      ],
+      "whyAnOrderAloneIsNotAPacket": "the order is what the court signs. Without the petition there is nothing for the participant to file and nothing for the court to rule on, so a one-document packet here is not a partial packet, it is not a packet.",
+      "sameGateFindingAsPF08": "the row gate reports  ok  family_sources_bind  1/1 source(s) bind for this family, because the unresolved petition is filtered out of the denominator rather than failing the check. See the PF08 return for the mechanism.",
+      "counters": null,
+      "allNineCountersZero": false,
+      "rasterState": "NOT_APPLICABLE_NOTHING_RENDERED",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

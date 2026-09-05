@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF08",
+  "workerId": "BUILD-A",
+  "lane": "packet-build",
+  "engine": "Claude Code",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "whyThisFileIsNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf08/ already holds an earlier cohort's return for this lane and it is not overwritten. This file is BUILD-A's return for the one pf08 family in the official_pdf_fill cohort, az_record_sealing_conviction-set, which that return does not mention. The two cover disjoint families and do not disagree.",
+  "familiesAssigned": [
+    "az_record_sealing_conviction-set"
+  ],
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF08 'az_record_sealing_conviction-set' returned CLAIM_OK before any read of family content",
+  "selfVerification": "none",
+  "rows": [
+    {
+      "itemId": "az_record_sealing_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "AZ",
+      "routeKeys": [
+        "obligation:track-only:AZ:az_record_sealing_conviction"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-conviction-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "does not exist; nothing was written and no builder was authored",
+      "theSourceThatDidNotBind": {
+        "sourceId": "official-form:AOCCRSL1F-050825-CONT",
+        "declaredAs": "component:az_record_sealing_conviction-continuation-3, one of the three packet components MASTER_QUEUE names for this family",
+        "digest": null,
+        "whyNoDigestIsNamed": "there is none to name. The custody reconciliation records this source as resolved:false with absence 'named_form_number_not_in_corpus' and heldAs:null. This is a stronger absence than bytes missing from a mount: the identity was never resolved to any bytes, in any custody, so no hash was ever pinned for it. Searched by form number across all four custodies in the committed corpus index and by content across both mounted custodies; the index carries exactly two AOCCRSL binaries, the petition and the order, and no continuation.",
+        "whatDoesBind": [
+          {
+            "sourceId": "official-form:AOCCRSL1F-050625",
+            "formNumber": "AOCCRSL1F-050825",
+            "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+            "pages": 5,
+            "acroFields": 71,
+            "hiddenWidgets": 0
+          },
+          {
+            "sourceId": "official-form:AOCCRSL2F-050625",
+            "formNumber": "AOCCRSL2F-050825",
+            "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+            "pages": 3,
+            "acroFields": 41,
+            "hiddenWidgets": 0
+          }
+        ]
+      },
+      "whyThisStopsTheFamilyRatherThanShippingTwoOfThree": "the builder contract requires every component the route names, and states that a document mapped and not rendered is a missing companion form. Shipping the petition and the order as COMPLETED would deliver a packet the queue itself says has three components, with the third silently absent. The continuation is the overflow page the petition points at -- page 2 prints 'Additional counts continue on a separate page' -- so a participant with more than four counts has nowhere to put them.",
+      "aGateFindingWorthCaptainsAttention": {
+        "what": "the per-family row gate reports this family's sources as binding when one declared component does not resolve at all",
+        "observed": "node scripts/verify-packet-build-environment.mjs --family 'az_record_sealing_conviction-set' returns  ok  family_sources_bind  2/2 source(s) bind by exact SHA-256 (custody_reconciliation)",
+        "why": "familySources() in scripts/verify-packet-build-environment.mjs builds the custody tier as documentSources.filter(s => s.resolved && s.heldAs?.sha256) and then hardcodes unresolvable: []. A source the reconciliation marked resolved:false is dropped from the denominator instead of failing the check, so 2 of 3 reads as 2 of 2.",
+        "consequence": "a family missing a declared component passes the row gate. This is not specific to Arizona: ar-misdemeanor-seal-set reports 1/1 with its petition unresolved by the same mechanism.",
+        "notFixedHere": "scripts/verify-packet-build-environment.mjs is shared gate machinery owned outside this lane, and a change to how the denominator is built moves the gate result for every family in the factory."
+      },
+      "counters": null,
+      "allNineCountersZero": false,
+      "rasterState": "NOT_APPLICABLE_NOTHING_RENDERED",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

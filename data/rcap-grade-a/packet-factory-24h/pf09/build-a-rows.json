@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF09",
+  "workerId": "BUILD-A",
+  "lane": "packet-build",
+  "engine": "Claude Code",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "whyThisFileIsNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf09/ already holds an earlier cohort's return for this lane and it is not overwritten. This file is BUILD-A's return for the one pf09 family in the official_pdf_fill cohort, nh_marijuana_annulment-set, which that return does not mention. The two cover disjoint families and do not disagree.",
+  "familiesAssigned": [
+    "nh_marijuana_annulment-set"
+  ],
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF09 'nh_marijuana_annulment-set' returned CLAIM_OK before any read of family content",
+  "selfVerification": "none",
+  "rows": [
+    {
+      "itemId": "nh_marijuana_annulment-set",
+      "status": "STOPPED",
+      "stopClass": "NOT_REACHED_IN_THIS_SHIFT",
+      "jurisdiction": "NH",
+      "routeKeys": [
+        "obligation:track-only:NH:nh_marijuana_annulment"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-marijuana-annulment-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "does not exist; nothing was written and no builder was authored",
+      "honestStatement": "this family was claimed and pre-screened but not built. It is reported STOPPED rather than left unreturned, because a lane that returns fewer rows than it was assigned families has lost work silently. Nothing here is a finding against the family.",
+      "whatThePrescreenFound": {
+        "sourcesBind": true,
+        "documents": [
+          {
+            "formNumber": "NHJB-3124",
+            "sha256": "eee788220b7e624f0294d00b01024bff251d5d1dbfe61062c9a8f78fab58529c",
+            "pages": 2,
+            "acroFields": 28,
+            "hiddenWidgets": 0,
+            "role": "petition of eligibility for annulment"
+          },
+          {
+            "formNumber": "NHJB-2311",
+            "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+            "pages": 2,
+            "acroFields": 20,
+            "hiddenWidgets": 0,
+            "role": "motion for waiver of filing fee"
+          },
+          {
+            "formNumber": "NHJB-2328",
+            "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+            "pages": 3,
+            "acroFields": 90,
+            "hiddenWidgets": 0,
+            "role": "statement of assets and liabilities"
+          }
+        ],
+        "nonFilingHold": false,
+        "totalFieldsToClassify": 138
+      },
+      "twoNearMissesTheNextBuilderMustRefuse": [
+        {
+          "document": "NHJB-3124",
+          "field": "DefDate",
+          "wouldBind": "participant.full_legal_name",
+          "harm": "a field whose name says it holds a date binds the participant's NAME, because the descriptor for full_legal_name matches on \\bdef\\b and the date-component guard keys off names like DAY, MONTH and YEAR rather than this one. Left alone the participant's name is written where a date belongs."
+        },
+        {
+          "document": "NHJB-3124",
+          "field": "Mailing Address.2",
+          "wouldBind": "participant.street_address",
+          "harm": "the form carries two mailing-address fields and both bind the participant's own address. Only one of them is the participant's; the second must be labelled and checked before anything is written to it."
+        }
+      ],
+      "whatTheNextBuilderShouldExpect": "NHJB-2328 is a 90-field statement of assets and liabilities carrying employer, income and household detail. Only one of its fields binds a fact the platform holds, so the work there is 89 classifications rather than 89 writes, and several of its blanks are a spouse's or an employer's rather than the participant's -- the class this cohort treats as a refusal on sight.",
+      "counters": null,
+      "allNineCountersZero": false,
+      "rasterState": "NOT_APPLICABLE_NOTHING_RENDERED",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
