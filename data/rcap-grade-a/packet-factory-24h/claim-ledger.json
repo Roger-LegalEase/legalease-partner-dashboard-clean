@@ -5480,7 +5480,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T21:03:09.028Z",
+      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 408674aaa: KNOWN_PREFILLS — fee_waiver.ApplicantStreetNumberAndStreetNameLine1 refuses the street address the packet holds and writes on AOC-CR-297, so delivered page 4 shows city, state and ZIP with no street (GENUINELY UNAVAILABLE fails). The ZIP cell ruling is settled on the form (the AOC names the widget PetitionerZip in the City/State/Zip row) and the date of birth lands under its own caption 43.8pt clear of the SSN rect; CLIPPING_AND_OVERLAP passes with 120 checkbox rects pixel-identical to source; fourteen obligations pass (canonical 7dc8d18f, boundary a6c8cb3a, RASTER_PASS run 33984155760). Return at data/rcap-grade-a/packet-factory-24h/vf01/rows.json (Captain release after integrating VF01 commit 13fab002f)."
     },
     {
       "subjectType": "packet-family",
@@ -5507,10 +5509,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX56",
+      "lane": "FIX66",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T18:27:12.586Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Repaired KNOWN_PREFILLS by writing the participant's ZIP and date of birth onto AOC-CR-297 after a 300 dpi caption proof, corrected the participant-instructions class statement, and repaired CLIPPING_AND_OVERLAP by opting into suppressSynthesizedAppearances so the 60 synthesized checkbox squares are gone; a central raster on the new bytes and independent verification are both still owed; return at data/rcap-grade-a/packet-factory-24h/fix56/rows.json (Replayed by Captain from FIX56 commit f4eeea3fd.)"
     },
     {
@@ -13549,7 +13551,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5896bd82a3d12320fce03893f76ba21dfc44e21d85295967c00384a094ad429c",
+  "claimsDigest": "036b9ea04af479661f028648a259541da6798f9f23fb2aeda94e59f8e155b718",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -29719,6 +29721,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T21:01:38.578Z",
       "reason": "VF03 BLOCKED_LEGAL_INPUT at 5727d573f: fourteen obligations pass on the FIX59 bytes (RASTER_PASS run 33983515494; CLIPPING_AND_OVERLAP passes, synthesized square gone, own-/Off widgets unchanged, FIX61 sweep clean with 0 px outside any Rect); FEE_AND_WAIVER blocks because the track registry classes the Chapter 12-1.3 filing fee an unresolved release blocker, so no figure exists to state; counsel item, no repair owed. Return at data/rcap-grade-a/packet-factory-24h/vf03/rows.json (Captain release after integrating VF03 commit 3ca274df5)."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T21:03:09.028Z",
+      "reason": "VF01 FAIL_REPAIR_REQUIRED at 408674aaa: KNOWN_PREFILLS — fee_waiver.ApplicantStreetNumberAndStreetNameLine1 refuses the street address the packet holds and writes on AOC-CR-297, so delivered page 4 shows city, state and ZIP with no street (GENUINELY UNAVAILABLE fails). The ZIP cell ruling is settled on the form (the AOC names the widget PetitionerZip in the City/State/Zip row) and the date of birth lands under its own caption 43.8pt clear of the SSN rect; CLIPPING_AND_OVERLAP passes with 120 checkbox rects pixel-identical to source; fourteen obligations pass (canonical 7dc8d18f, boundary a6c8cb3a, RASTER_PASS run 33984155760). Return at data/rcap-grade-a/packet-factory-24h/vf01/rows.json (Captain release after integrating VF01 commit 13fab002f)."
     }
   ],
   "reissues": [
@@ -42432,6 +42443,17 @@
       "previouslyReleasedAt": "2026-09-05T10:36:30.395Z",
       "transferredAt": "2026-09-05T18:46:36.515Z",
       "reason": "Scale-cohort measurement read: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place (measured on Vermont 600-00228 field 15 by VF02). VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP; a known defect may not stay counted as proven."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX56",
+      "toLane": "FIX66",
+      "previouslyReleasedAt": "2026-09-05T18:27:12.586Z",
+      "transferredAt": "2026-09-05T21:03:09.137Z",
+      "reason": "VF01 FAIL KNOWN_PREFILLS at 408674aaa: write the applicant street address into fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CR-297 page 4, the fact the packet already writes elsewhere, by the builder's ordinary write path after proving the widget rect sits on its own printed caption; raster and re-read then owed."
     }
   ],
   "grants": [
