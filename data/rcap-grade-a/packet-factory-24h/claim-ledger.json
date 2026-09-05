@@ -5306,9 +5306,9 @@
       "operation": "rapid-repair",
       "lane": "FIX36",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Dealt by the generator and never launched; moving to FIX36 for dispatch."
+      "released": true,
+      "releasedAt": "2026-09-05T15:06:42.126Z",
+      "releaseReason": "CLIPPING_AND_OVERLAP repaired at the shared composed host and in this family's order trailer placement; bytes rebuilt, returned in fix36/rows.json; central raster, independent verification and owner re-review still owed (Replayed by Captain from FIX36 commit 174e37bb5.)"
     },
     {
       "subjectType": "packet-family",
@@ -5444,9 +5444,9 @@
       "operation": "rapid-repair",
       "lane": "FIX36",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain consolidation: ms-nonconv-set and ms-misd-1st-set fail on the same shared host (scripts/rcap-custom-pleading/composed-family-host.mjs: hard-split keys and the trailer under the prosecuting-authority line); one writer per shared host, so the repair moves to FIX36, which already holds ms-misd-1st-set. No lane asserted this grant."
+      "released": true,
+      "releasedAt": "2026-09-05T15:06:42.207Z",
+      "releaseReason": "CLIPPING_AND_OVERLAP repaired at the shared composed host and in this family's order trailer placement; bytes rebuilt, returned in fix36/rows.json; central raster, independent verification and owner re-review still owed (Replayed by Captain from FIX36 commit 174e37bb5.)"
     },
     {
       "subjectType": "packet-family",
@@ -13208,7 +13208,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d4fa0f8e2adcf300038344fbafe77b927e387f5a117afb2f70757308cc4dec7f",
+  "claimsDigest": "42465b00cc4cfc22aecad7ba90f30a48dd03016cc199d66a25d7eb8252ef168f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28172,6 +28172,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T15:04:11.417Z",
       "reason": "CLIPPING_AND_OVERLAP repaired: private splitToken replaced by the shared separator-aware splitter, hardSplits 0 asserted, SCAN01 hard_split_token 4 -> 0, rebuilt byte-identical, central raster owed. (Replayed by Captain from FIX03 commit 7574ba574.)"
+    },
+    {
+      "lane": "FIX36",
+      "subjectType": "packet-family",
+      "subjectId": "ms-misd-1st-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T15:06:42.126Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired at the shared composed host and in this family's order trailer placement; bytes rebuilt, returned in fix36/rows.json; central raster, independent verification and owner re-review still owed (Replayed by Captain from FIX36 commit 174e37bb5.)"
+    },
+    {
+      "lane": "FIX36",
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T15:06:42.207Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired at the shared composed host and in this family's order trailer placement; bytes rebuilt, returned in fix36/rows.json; central raster, independent verification and owner re-review still owed (Replayed by Captain from FIX36 commit 174e37bb5.)"
     }
   ],
   "reissues": [

@@ -147,6 +147,16 @@ function composedBody(componentId, facts) {
     L.push("Any other person or agency keeping an official record of the case:");
     L.push(DOTS(), "");
     L.push("PROVIDED that the existing records of fingerprints are excepted from this order, as Miss. Code Ann. Sec. 99-19-71 provides; that the Mississippi Criminal Information Center shall retain a nonpublic record solely for the purpose of determining, in subsequent proceedings, whether the person is a first offender; and that upon entry of this order the petitioner is restored, in contemplation of law, to the status the petitioner occupied before the arrest, and shall not be held thereafter guilty of perjury for failure to recite the arrest, except as Sec. 99-19-71(3) provides for first-offender determinations.", "");
+    /* The machine trailer closes the preparer's half of the order here, above
+     * the execution and approval band, instead of printing after it. It used to
+     * be the last ink on the order's second page, below "JUDICIAL OFFICER OF THE
+     * COURT", below "(the Court alone completes, signs and enters this order)" and
+     * below "APPROVED AS TO FORM, for the prosecuting authority:" -- machine text
+     * inside a band the page itself assigns to the Court. Placement only: the line
+     * is the same line, and no word of the decretal block, the findings, the entry
+     * date or either signature block is touched. FIX35 made the same move on the
+     * Rhode Island host. */
+    L.push(`Route: ${ROUTE.routeKeys[0]}`, "");
     L.push("SO ORDERED.", "");
     L.push("ENTERED, this the " + DOTS(12) + " day of " + DOTS(20) + ", " + DOTS(8), "");
     L.push("JUDICIAL OFFICER OF THE COURT " + DOTS(44));
@@ -212,7 +222,7 @@ function composedBody(componentId, facts) {
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of composed pleadings and process pages. Mississippi publishes no statewide expungement form, which is why these pages are composed. It is not legal advice, it is not filed for you, and it does not decide the classification of an ambiguous docket entry.");
   }
-  L.push("", `Route: ${ROUTE.routeKeys[0]}`);
+  if (componentId !== "proposed_order") L.push("", `Route: ${ROUTE.routeKeys[0]}`);
   return L.join("\n");
 }
 

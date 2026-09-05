@@ -46,6 +46,7 @@ import { stampDeterministic } from "../rcap-official-forms/rcap-deterministic-pd
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "../rcap-packet-completeness/completeness-contract.mjs";
 import { preserveIdentityRefresh } from "../rcap-packet-completeness/identity-refresh.mjs";
 import { stripMarkdownEmphasis, assertNoMarkdownDelimitersOnDeliveredPages } from "./composed-page-markdown.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./split-token.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 export const ROOT = path.resolve(path.dirname(thisFile), "../..");
@@ -150,15 +151,16 @@ async function renderComposedPdf(fullText, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /* A token too wide for the 468pt column breaks at its OWN separators -- the
+   * colons and hyphens a route key is built from -- and never mid-word. The
+   * private character-accumulating splitter this replaces printed
+   * "...-conviction-expungemen" / "t-99-19-71-1" on five delivered pages per
+   * fixture, severing the word the route is named for. The shared module is
+   * scripts/rcap-custom-pleading/split-token.mjs; the same move FIX21 made for
+   * the Georgia and Kentucky hosts and FIX35 for Rhode Island. hardSplits is
+   * asserted zero per composed document below, so a future key with no
+   * separator to break on fails the build rather than shipping chopped. */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -172,6 +174,8 @@ async function renderComposedPdf(fullText, title) {
     return rows;
   };
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  assert.equal(splitToken.hardSplits, 0,
+    `${title}: a token was chopped mid-word to fit the column; it has no separator to break on and must not ship broken`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
