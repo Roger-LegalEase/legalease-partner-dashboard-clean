@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "97eff7484a5d9fbee0619204235b72153cab2de9",
+  "minimumCaptainSha": "1bf7118ba43892e0ed9cd5bf5df2b9ce8b263d97",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 6,
+    "activeFamiliesExcluded": 4,
     "guidanceOnly": 0,
-    "remaining": 340,
+    "remaining": 342,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 8,
@@ -78,8 +78,8 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 140,
-    "BUILT_RASTER_PENDING": 5,
-    "FAIL_REPAIR_REQUIRED": 64,
+    "BUILT_RASTER_PENDING": 7,
+    "FAIL_REPAIR_REQUIRED": 62,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -110,8 +110,6 @@
     ],
     "families": [
       "il-seal-edu-set",
-      "ms-misd-1st-set",
-      "ms-nonconv-set",
       "tx_nd_dwi_deferred-set",
       "ut_pet_limitations-set",
       "vt_seal_nonconviction-set"
@@ -26900,9 +26898,7 @@
         "verifiedAtBase": "aefd46f7c",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -26962,9 +26958,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX36",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-misd-1st-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -26975,8 +26971,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "ms-misd-addl-set",
@@ -27255,9 +27250,7 @@
         "verifiedAtBase": "aefd46f7c",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27317,9 +27310,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX36",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -27330,8 +27323,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "mt_deferred_dismissal-set",
