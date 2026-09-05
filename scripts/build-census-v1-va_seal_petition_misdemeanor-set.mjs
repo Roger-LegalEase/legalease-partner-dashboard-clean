@@ -85,6 +85,16 @@ const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const ROUTE_CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
+/*
+ * The three committed legal-design records this host reads at build time, in
+ * addition to the census. FIX73 reads them because a packet that refuses to
+ * answer a question the repository has already answered is a defect in the
+ * packet, not a caution: the fee position and the points where self-help ends
+ * are held here, per track, and the participant never saw either.
+ */
+const TRACK_REGISTRY = "data/record-clearing/legal-design-track-registry.json";
+const LEGAL_DESIGN_MEMO = "data/record-clearing/legal-design-intake/VA.memo.json";
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
 const OVERLAY_ROOT = "data/rcap-all50/overlays/census-v1/va";
 const FIXED_DATE = "2026-01-01T00:00:00.000Z";
 
@@ -516,6 +526,16 @@ const COMPONENTS = [
  */
 export const FAMILY_CONFIGS = Object.freeze({
   "va_seal_petition_misdemeanor-set": {
+    /*
+     * FIX73 / VF02 PAGE_ORDER, for this family only. The registry packet set
+     * orders the CCRE forwarding request second and the Commonwealth's copy
+     * third; this host emitted them the other way round. The other three
+     * families this host builds are not in FIX73's PAGE_ORDER assignment and
+     * do not carry the flag, so their assembly is untouched -- and their own
+     * registry packet sets prescribe the same swap, which is returned as a
+     * finding rather than swept in here.
+     */
+    registryComponentOrder: true,
     jurisdiction: "VA",
     routeKey: "obligation:track-only:VA:va_seal_petition_misdemeanor",
     routeLabel: "Misdemeanour conviction or deferred dismissal sealing - Va. Code 19.2-392.12",
@@ -540,7 +560,18 @@ export const FAMILY_CONFIGS = Object.freeze({
     /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
     suppressSynthesizedAppearances: true,
     jurisdiction: "VA",
-    routeKey: "obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing",
+    /*
+     * FIX73 ROUTE_IDENTITY. This family printed, on four participant-facing
+     * pages of each fixture,
+     * obligation:track-pathway:VA:va_seal_petition_felony:petition-based-sealing,
+     * a key that occurs zero times in the route obligation census, while its own
+     * product-wiring.json binds obligation:track-only:VA:va_seal_petition_felony,
+     * which the census carries exactly once for packetSetId
+     * va_seal_petition_felony-set. The field map and the printed line now carry
+     * the census key. No key is added to the census.
+     */
+    routeKey: "obligation:track-only:VA:va_seal_petition_felony",
+    feeAnchor: "no court fees or costs",
     routeSelectionId: "va-seal-petition-felony-cc-1201-complete-set",
     legalName: "Petition to Seal a Class 5 or 6 Felony or an 18.2-95 Larceny Felony, Va. Code § 19.2-392.12",
     routeName: "sealing a Class 5 or 6 felony, or a felony punished as larceny under § 18.2-95, pursuant to Va. Code § 19.2-392.12",
@@ -567,7 +598,11 @@ export const FAMILY_CONFIGS = Object.freeze({
     /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
     suppressSynthesizedAppearances: true,
     jurisdiction: "VA",
-    routeKey: "obligation:track-pathway:VA:va_seal_enumerated_seven_year:petition-based-sealing",
+    /* FIX73 ROUTE_IDENTITY: the printed and mapped key is now the one the
+     * census carries once for this packet set and the one product-wiring.json
+     * already bound. The fabricated :petition-based-sealing suffix is gone. */
+    routeKey: "obligation:track-only:VA:va_seal_enumerated_seven_year",
+    feeAnchor: "no court fees or costs",
     routeSelectionId: "va-seal-enumerated-seven-year-cc-1203-complete-set",
     legalName: "Petition to Seal an Enumerated Offence After Seven Clean Years, Va. Code § 19.2-392.12:1(A)",
     routeName: "sealing one of the enumerated offences under Va. Code § 19.2-392.12:1(A)",
@@ -588,7 +623,10 @@ export const FAMILY_CONFIGS = Object.freeze({
     /* FIX63: CC-1203/CC-1201 ship no /Off appearance; see the note above FAMILY_CONFIGS. */
     suppressSynthesizedAppearances: true,
     jurisdiction: "VA",
+    /* This family's printed key is the key the census carries for it, and both
+     * of its route records already agreed; FIX73 confirmed it and left it. */
     routeKey: "obligation:track-pathway:VA:va_seal_ancillary_matter_only:petition-based-sealing",
+    feeAnchor: "no court fees or costs",
     routeSelectionId: "va-seal-ancillary-matter-only-cc-1203-complete-set",
     legalName: "Petition to Seal an Ancillary Matter Left Behind by Automatic Sealing, Va. Code § 19.2-392.12:1(B) and (J)",
     routeName: "sealing an ancillary matter left behind by automatic sealing, under Va. Code § 19.2-392.12:1(B)",
@@ -951,7 +989,7 @@ const COMPOSED_TITLES = {
   filing_instructions: "Filing Instructions"
 };
 
-function composedBody(componentId, config, facts, form, feePosture) {
+function composedBody(componentId, config, facts, form, feePosture, stopConditions) {
   const name = facts["participant.full_legal_name"];
   const court = facts["matter.court"];
   const caseNo = facts["matter.case_number"];
@@ -1018,14 +1056,22 @@ function composedBody(componentId, config, facts, form, feePosture) {
     L.push("4. Give or mail a copy to the Attorney for the Commonwealth, using the page in this packet headed for that purpose.");
     L.push("5. After filing, ask the Central Criminal Records Exchange to forward your Virginia and national criminal history record to that circuit court, using the page in this packet headed for that purpose.", "");
     if (feePosture) {
-      L.push("WHAT THIS COSTS", "");
-      L.push(`Nothing, at the courthouse. The committed record for this route states it: "${feePosture.feeClause}." There is no filing fee on this petition, so there is no fee for you to pay and none for you to ask to have waived. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it.`, "");
+      L.push("WHAT THIS COSTS, AND WHY THERE IS NOTHING TO WAIVE", "");
+      L.push(`Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: "${feePosture.feeStatement}"`, "");
+      L.push(`Those two sections are ${feePosture.citedAs}. The route record this packet is built on says the same thing in its own words: "${feePosture.feeClause}."`, "");
+      L.push(`On a waiver, the same two records say: "${feePosture.feeWaiverStatement}" So there is no filing fee for you to pay on this petition, and there is nothing for you to ask the court to waive. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.`, "");
       L.push("ONE THING THIS PACKET DOES NOT TELL YOU", "");
     } else {
       L.push("TWO THINGS THIS PACKET DOES NOT TELL YOU", "");
       L.push("- The filing fee, and whether it can be waived. Ask the circuit court clerk. No amount is stated here because none is established by the petition, and an unsourced figure in a filing instruction is worse than no figure.");
     }
     L.push("- How long you have, and exactly how service must be made. The petition's own acknowledgment says a copy goes to the Attorney for the Commonwealth by delivery or by first-class mail with postage prepaid; it does not set a deadline, and neither does this page. Ask the clerk.", "");
+    if (stopConditions) {
+      L.push("WHEN TO STOP AND GET A LAWYER", "");
+      L.push("The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:", "");
+      for (const condition of stopConditions.conditions) L.push(`- ${condition}`);
+      L.push("");
+    }
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of official Virginia forms and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.");
   }
@@ -1085,26 +1131,163 @@ function feeClauseOf(detail, anchor) {
   return detail.slice(0, detail.indexOf(anchor) + anchor.length).trim();
 }
 
-function boundFeePosture(config) {
-  if (!config.feeAnchor) return null;
-  const abs = path.join(ROOT, ROUTE_CENSUS);
-  assert.ok(fs.existsSync(abs),
-    `the committed route-obligation census is not at ${ROUTE_CENSUS}, and the packet prints its fee posture from it`);
+/* A committed record, read once, kept with the bytes it was read from. */
+function readBoundRecord(rel) {
+  const abs = path.join(ROOT, rel);
+  assert.ok(fs.existsSync(abs), `the committed record ${rel} is not in this tree, and this packet prints from it`);
   const bytes = fs.readFileSync(abs);
-  const route = (JSON.parse(bytes.toString("utf8")).routes ?? []).find((r) => r.routeKey === config.routeKey);
+  return {
+    path: rel,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    json: JSON.parse(bytes.toString("utf8"))
+  };
+}
+
+/** The track id behind a packet-set id: `va_seal_petition_felony-set` -> `va_seal_petition_felony`. */
+const trackIdOf = (familyId) => familyId.replace(/-set$/, "");
+
+function registryTrack(record, familyId) {
+  const tracks = Array.isArray(record.json.tracks) ? record.json.tracks : Object.values(record.json.tracks ?? {});
+  const track = tracks.find((t) => t.trackId === trackIdOf(familyId));
+  assert.ok(track, `${familyId}: no track ${trackIdOf(familyId)} in ${record.path}`);
+  return track;
+}
+
+function packetSetManifest(record, familyId) {
+  const sets = record.json.packetSets ?? [];
+  const set = sets.find((x) => x.packetSetId === familyId);
+  assert.ok(set, `${familyId}: no packet set by that id in ${record.path}`);
+  return set;
+}
+
+function boundFeePosture(config, familyId) {
+  if (!config.feeAnchor) return null;
+  const census = readBoundRecord(ROUTE_CENSUS);
+  const route = (census.json.routes ?? []).find((r) => r.routeKey === config.routeKey);
   assert.ok(route, `${config.routeKey}: the committed census carries no route by this key`);
   const detail = route.destination?.detail;
   assert.ok(typeof detail === "string" && detail.includes(config.feeAnchor),
     `${config.routeKey}: the census destination detail no longer states "${config.feeAnchor}", so the packet may not print that posture`);
+
+  /*
+   * FIX73. The census settles that no court fee is charged; it does not carry
+   * the AUTHORITY for that, and a fee statement with no citation is a claim the
+   * participant cannot check. The controlling legal-design memo and the
+   * committed packet-set manifest both carry the statement WITH its two
+   * sections, in identical words, per track. Both are read and required to
+   * agree: where two records that should say the same thing do not, this build
+   * stops rather than choosing one of them.
+   */
+  const memo = readBoundRecord(LEGAL_DESIGN_MEMO);
+  const manifests = readBoundRecord(PACKET_SET_MANIFESTS);
+  const track = registryTrack(memo, familyId);
+  const set = packetSetManifest(manifests, familyId);
+  const actionOf = (kind) => {
+    const found = (set.participantActionRequired ?? []).filter((a) => a.kind === kind);
+    assert.equal(found.length, 1, `${familyId}: the packet-set manifest carries ${found.length} ${kind} actions, and the packet prints from exactly one`);
+    return found[0].description;
+  };
+  const feeStatement = track.rules?.fees;
+  const feeWaiverStatement = track.rules?.feeWaiver;
+  assert.ok(typeof feeStatement === "string" && feeStatement.trim().length > 0,
+    `${familyId}: the legal-design memo carries no rules.fees for this track`);
+  assert.ok(typeof feeWaiverStatement === "string" && feeWaiverStatement.trim().length > 0,
+    `${familyId}: the legal-design memo carries no rules.feeWaiver for this track`);
+  assert.equal(feeStatement, actionOf("pay_fee"),
+    `${familyId}: the memo's rules.fees and the manifest's pay_fee action disagree, and the packet may not choose between them`);
+  assert.equal(feeWaiverStatement, actionOf("apply_fee_waiver"),
+    `${familyId}: the memo's rules.feeWaiver and the manifest's apply_fee_waiver action disagree, and the packet may not choose between them`);
+
+  // The two sections the statement rests on must be IN the statement the packet
+  // prints, and no fee AMOUNT may be: the records carry neither a figure nor a
+  // currency symbol, and this packet never writes one they do not carry.
+  const citations = ["19.2-392.12(B)", "19.2-392.12:1(C)"];
+  for (const cite of citations) {
+    assert.ok(feeStatement.includes(cite),
+      `${familyId}: the committed fee statement no longer cites ${cite}, so the packet may not cite it`);
+  }
+  for (const statement of [feeStatement, feeWaiverStatement]) {
+    assert.ok(!/[$\u00a3\u20ac]|\bdollars?\b/i.test(statement),
+      `${familyId}: a committed fee statement now carries a currency amount, and this packet prints no figure the records do not carry`);
+  }
+
   return {
-    path: ROUTE_CENSUS,
-    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
-    byteLength: bytes.length,
+    path: census.path, sha256: census.sha256, byteLength: census.byteLength,
     routeKey: config.routeKey,
     anchorStatementVerified: config.feeAnchor,
     destinationName: route.destination?.name ?? null,
     destinationDetail: detail,
-    feeClause: feeClauseOf(detail, config.feeAnchor)
+    feeClause: feeClauseOf(detail, config.feeAnchor),
+    feeStatement,
+    feeWaiverStatement,
+    citations,
+    citedAs: "Va. Code \u00a7 19.2-392.12(B) and \u00a7 19.2-392.12:1(C)",
+    records: [
+      { path: census.path, sha256: census.sha256, byteLength: census.byteLength, field: `routes[routeKey=${config.routeKey}].destination.detail`, role: "the committed route-obligation census: this route's canonical key and the destination detail the packet quotes" },
+      { path: memo.path, sha256: memo.sha256, byteLength: memo.byteLength, field: `tracks[${trackIdOf(familyId)}].rules.fees and .rules.feeWaiver`, role: "the controlling legal-design memo: the fee statement the packet quotes, with its two sections" },
+      { path: manifests.path, sha256: manifests.sha256, byteLength: manifests.byteLength, field: `packetSets[${familyId}].participantActionRequired pay_fee and apply_fee_waiver`, role: "the committed packet-set manifest: the same two statements, required here to agree word for word" }
+    ]
+  };
+}
+
+/*
+ * Where self-help ends on this route, in the registry's own words.
+ *
+ * FIX73. Every one of these four tracks holds selfHelpStopConditions and not
+ * one of them reached a participant: the packet stated where the PRODUCT's
+ * responsibility ends, which is a different sentence. They are quoted, never
+ * restated, never abridged and never softened -- so the count the registry
+ * holds is asserted to be the count the packet prints, and the memo is required
+ * to hold the identical list before either is printed.
+ */
+function boundStopConditions(familyId) {
+  const registry = readBoundRecord(TRACK_REGISTRY);
+  const memo = readBoundRecord(LEGAL_DESIGN_MEMO);
+  const conditions = registryTrack(registry, familyId).selfHelpStopConditions ?? [];
+  assert.ok(Array.isArray(conditions) && conditions.length > 0,
+    `${familyId}: the committed track registry holds no selfHelpStopConditions, and this packet prints them from it`);
+  assert.deepEqual(conditions, registryTrack(memo, familyId).selfHelpStopConditions ?? [],
+    `${familyId}: the track registry and the legal-design memo hold different stop conditions, and the packet may not choose between them`);
+  return {
+    conditions,
+    count: conditions.length,
+    records: [
+      { path: registry.path, sha256: registry.sha256, byteLength: registry.byteLength, field: `tracks[${trackIdOf(familyId)}].selfHelpStopConditions`, role: "the committed track registry: the authority for where self-help ends, quoted verbatim on the filing-instructions page and in participant-instructions.md" },
+      { path: memo.path, sha256: memo.sha256, byteLength: memo.byteLength, field: `tracks[${trackIdOf(familyId)}].selfHelpStopConditions`, role: "the controlling legal-design memo: required here to hold the identical list" }
+    ]
+  };
+}
+
+/*
+ * The component order this family's packet is assembled in.
+ *
+ * FIX73 / VF02. This host emitted its own COMPONENTS order for every family it
+ * builds, which put the copy for the Attorney for the Commonwealth ahead of the
+ * CCRE forwarding request. The authoritative packet set in the track registry
+ * orders them the other way. A family opts in with `registryComponentOrder`, so
+ * a family that does not carry the flag assembles exactly as it did and is
+ * byte-unaffected; the opted-in family's order is read from the registry rather
+ * than retyped here, and the two lists are required to hold the same members.
+ */
+function boundComponentOrder(familyId, config) {
+  if (config.registryComponentOrder !== true) return { components: COMPONENTS, boundTo: null };
+  const registry = readBoundRecord(TRACK_REGISTRY);
+  const set = registryTrack(registry, familyId).packetSet;
+  assert.ok(set && Array.isArray(set.components), `${familyId}: the track registry holds no packetSet components`);
+  assert.equal(set.packetSetId, familyId, `${familyId}: the registry packet set is ${set.packetSetId}`);
+  const ordered = [...set.components].sort((a, b) => a.order - b.order).map((c) => c.role);
+  assert.deepEqual([...ordered].sort(), [...COMPONENTS].sort(),
+    `${familyId}: the registry packet set and this host name different components: ${JSON.stringify(ordered)}`);
+  assert.equal(ordered[0], "primary_filing", `${familyId}: the registry packet set does not open on the primary filing`);
+  return {
+    components: ordered,
+    boundTo: {
+      path: registry.path, sha256: registry.sha256, byteLength: registry.byteLength,
+      field: `tracks[${trackIdOf(familyId)}].packetSet.components[].order`,
+      role: "the authoritative packet set: the order the delivered pages are assembled in",
+      order: ordered
+    }
   };
 }
 
@@ -1430,7 +1613,7 @@ function requiredBeforeFilingItems(maps) {
     .sort((a, b) => (a.page - b.page) || ((b.y ?? 0) - (a.y ?? 0)));
 }
 
-function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture) {
+function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture, stopConditions, components) {
   const form = resolved[0];
   const byDoc = new Map();
   for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
@@ -1447,8 +1630,10 @@ function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, 
   out.push(`File the completed packet with the **Circuit Court** for the city or county printed in the caption of the petition. ${form.formNumber} prints \`Circuit Court\` across the top of page 1 and the city-or-county line beside it is where that goes; the platform has filled it in.`, "");
   out.push("If your case was decided in a General District Court or in a Juvenile and Domestic Relations District Court, the petition still goes to the **Circuit Court** for that city or county. The petition asks separately which court decided the case, and that is a different question from where the petition is filed.", "");
   if (feePosture) {
-    out.push("## What this costs", "");
-    out.push(`Nothing, at the courthouse. The committed record for this route states it: *"${feePosture.feeClause}."* There is **no filing fee** on this petition, so there is no fee for you to pay and none for you to ask to have waived. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it.`, "");
+    out.push("## What this costs, and why there is nothing to waive", "");
+    out.push(`Nothing, at the courthouse. The controlling legal-design record for this track and the committed packet-set manifest state the fee position for this petition in the same words: *"${feePosture.feeStatement}"*`, "");
+    out.push(`Those two sections are **${feePosture.citedAs}**. The route record this packet is built on says the same thing in its own words: *"${feePosture.feeClause}."*`, "");
+    out.push(`On a waiver, the same two records say: *"${feePosture.feeWaiverStatement}"* So there is **no filing fee** for you to pay on this petition, and there is **nothing for you to ask the court to waive**. If a clerk asks you for a filing fee on this petition, that is worth questioning before you pay it. The charge the Central Criminal Records Exchange makes for your own copy of your own record is a separate cost and is not a court fee.`, "");
     out.push("One thing this packet does **not** tell you, because it is not established by the petition and an unsourced figure in a filing instruction is worse than none:", "");
   } else {
     out.push("Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:", "");
@@ -1458,11 +1643,16 @@ function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, 
 
   out.push("## What is in this packet", "");
   out.push(`| Component | What it is |`, `| --- | --- |`);
-  out.push(`| \`primary_filing\` | ${form.formNumber}, the petition itself |`);
-  out.push("| `commonwealth_service_and_stipulation_request` | the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position |");
-  out.push("| `ccre_forwarding_request` | the request that the Central Criminal Records Exchange forward your criminal history record to the court, made after filing |");
-  out.push("| `records_checklist` | the records you need in front of you to complete the petition |");
-  out.push("| `filing_instructions` | where the packet goes and in what order |");
+  // Listed in the order the packet is actually assembled in, so the table and
+  // the paper agree for every family this host builds.
+  const componentBlurb = {
+    primary_filing: `${form.formNumber}, the petition itself`,
+    commonwealth_service_and_stipulation_request: "the copy that goes to the Attorney for the Commonwealth, with a request that they state the Commonwealth's position",
+    ccre_forwarding_request: "the request that the Central Criminal Records Exchange forward your criminal history record to the court, made after filing",
+    records_checklist: "the records you need in front of you to complete the petition",
+    filing_instructions: "where the packet goes and in what order"
+  };
+  for (const componentId of components) out.push(`| \`${componentId}\` | ${componentBlurb[componentId]} |`);
   out.push("");
 
   out.push("## What you must do", "");
@@ -1507,6 +1697,13 @@ function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, 
   out.push("- **Your Social Security number.** The platform does not store it and will not write it for you.");
   out.push("");
 
+  if (stopConditions) {
+    out.push("## When to stop and get a lawyer", "");
+    out.push("The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:", "");
+    for (const condition of stopConditions.conditions) out.push(`- ${condition}`);
+    out.push("");
+    out.push("This list is the registry's, quoted and not summarised. It is not shortened for length and no condition on it is softer than it reads.", "");
+  }
   out.push("## What this packet is not", "");
   out.push("This is a prepared set of official Virginia forms and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.", "");
   out.push(`_Route: ${config.routeLabel ?? config.routeKey}_`);
@@ -1516,7 +1713,7 @@ function instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, 
 /* ---- artifacts ------------------------------------------------------------ */
 function writeArtifacts(ctx) {
   const { familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages, rbf, instructions, audit,
-    rasterSkipped, feePosture } = ctx;
+    rasterSkipped, feePosture, stopConditions, components, componentOrderBinding } = ctx;
   const form = resolved[0];
   const W = (rel, body) => fs.writeFileSync(path.join(ROOT, outDir, rel), body);
 
@@ -1528,7 +1725,7 @@ function writeArtifacts(ctx) {
     assignedOfficialForm: config.assignedOfficialForm,
     officialFormMatchesAssignment: config.formMatchesAssignment,
     ...(config.formFinding ? { officialFormFinding: config.formFinding } : {}),
-    componentSet: COMPONENTS,
+    componentSet: components,
     captionBasis: "every printed caption in this map was read from the official form's own content stream at the widget's normalized coordinates; captionReadAt records where, and the build refuses if a caption is no longer there",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, ELECTION_CLASS],
     routeSelectionsMade: maps.flatMap((m) => (m.selectionControls ?? []).filter((c) => c.disposition === "selected_by_route").map((c) => ({ document: m.formNumber, field: c.field, page: c.page, printedLabel: c.printedLabel, why: c.why }))),
@@ -1549,21 +1746,28 @@ function writeArtifacts(ctx) {
       sourceIds: [r.sourceId], formNumber: r.formNumber, revision: r.revision,
       pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength
     })),
-    ...(feePosture ? { committedRecordsBound: [{
-      recordId: `route-obligation-census:${feePosture.routeKey}`,
-      path: feePosture.path, sha256: feePosture.sha256, byteLength: feePosture.byteLength,
-      role: "the committed route-obligation census: this route's canonical key, and the destination detail the packet prints its fee posture from",
+    committedRecordsBound: [
+      ...(feePosture ? feePosture.records.map((r) => ({ recordId: `fee-and-waiver:${r.path}`, ...r })) : []),
+      ...stopConditions.records.map((r) => ({ recordId: `self-help-stop:${r.path}`, ...r })),
+      ...(componentOrderBinding ? [{ recordId: `page-order:${componentOrderBinding.path}`, ...componentOrderBinding }] : [])
+    ],
+    ...(feePosture ? { feeAndWaiverAsDelivered: {
+      routeKey: feePosture.routeKey,
       anchorStatementVerified: feePosture.anchorStatementVerified,
       destinationName: feePosture.destinationName,
-      destinationDetail: feePosture.destinationDetail
-    }] } : {}),
-    composedComponentsAuthoredByThisBuild: COMPONENTS.filter((c) => c !== "primary_filing"),
+      destinationDetail: feePosture.destinationDetail,
+      feeStatement: feePosture.feeStatement,
+      feeWaiverStatement: feePosture.feeWaiverStatement,
+      citedAs: feePosture.citedAs
+    } } : {}),
+    selfHelpStopConditionsAsDelivered: stopConditions.conditions,
+    composedComponentsAuthoredByThisBuild: components.filter((c) => c !== "primary_filing"),
     commercialRoutesOpened: 0
   }, null, 2)}\n`);
 
   W("reports/rendered-artifacts.json", `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
-    componentSet: COMPONENTS,
+    componentSet: components,
     artifacts,
     packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
     rasterEngine: rasterSkipped ? null : "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
@@ -1652,7 +1856,9 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
   const config = FAMILY_CONFIGS[familyId];
   assert.ok(config, `unknown family ${familyId}`);
   await assertRouteLabel(config);
-  const feePosture = boundFeePosture(config);
+  const feePosture = boundFeePosture(config, familyId);
+  const stopConditions = boundStopConditions(familyId);
+  const { components, boundTo: componentOrderBinding } = boundComponentOrder(familyId, config);
   const checkOnly = argv.includes("--check");
   const skipRaster = argv.includes("--no-raster");
   const { resolved, failures } = resolveSources(familyId);
@@ -1733,8 +1939,8 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     }
     documents.push("primary_filing", source.formNumber);
 
-    for (const componentId of COMPONENTS.filter((c) => c !== "primary_filing")) {
-      const body = composedBody(componentId, config, facts, source, feePosture);
+    for (const componentId of components.filter((c) => c !== "primary_filing")) {
+      const body = composedBody(componentId, config, facts, source, feePosture, stopConditions);
       const composedBytes = await renderComposedPdf(body, COMPOSED_TITLES[componentId]);
       const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true });
       for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
@@ -1777,7 +1983,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
       sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
       primaryFilingSha256: crypto.createHash("sha256").update(marked).digest("hex"),
       byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
-      documents, components: COMPONENTS
+      documents, components
     });
 
     if (!skipRaster) {
@@ -1812,7 +2018,7 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     .filter((c) => c.disposition === "selected_by_route")
     .map((c) => ({ field: c.field, page: c.page, printedLabel: c.effectiveLabel, why: c.why }))
     .sort((a, b) => (a.page - b.page) || a.printedLabel.localeCompare(b.printedLabel));
-  const instructions = instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture);
+  const instructions = instructionsMarkdown(familyId, config, resolved, rbf, routeSelections, feePosture, stopConditions, components);
   const audit = builderCounters(mapDoc, {
     artifacts: writeProofs.map((p) => ({
       fixture: p.fixture,
@@ -1825,7 +2031,8 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
 
   writeArtifacts({
     familyId, config, outDir, resolved, maps, artifacts, writeProofs, rasterPages,
-    rbf, instructions, audit, rasterSkipped: skipRaster, feePosture
+    rbf, instructions, audit, rasterSkipped: skipRaster, feePosture, stopConditions,
+    components, componentOrderBinding
   });
 
   const allZero = PASS_COUNTERS.every((c) => audit.counters[c] === 0);
@@ -1842,8 +2049,10 @@ export async function runFamilyById(familyId, argv = process.argv.slice(2)) {
     officialFormAssigned: config.assignedOfficialForm,
     officialFormMatchesAssignment: config.formMatchesAssignment,
     sourceSha256: source.sha256,
-    components: COMPONENTS,
-    documents: [source.formNumber, ...COMPONENTS.filter((c) => c !== "primary_filing")],
+    components,
+    componentOrderBoundToRegistry: componentOrderBinding !== null,
+    documents: [source.formNumber, ...components.filter((c) => c !== "primary_filing")],
+    selfHelpStopConditionsCarried: stopConditions.count,
     terminalFields: audit.terminalFields,
     written: audit.written,
     requiredBeforeFiling: rbf.length,
