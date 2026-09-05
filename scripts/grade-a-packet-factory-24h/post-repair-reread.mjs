@@ -22,6 +22,39 @@ const pinsMatch = (pins, current, requiredArtifacts) => Array.isArray(pins)
  * The exception compares declared pins with hashes recomputed from the files.
  * A caller cannot establish it with a broad "wiring is current" assertion.
  */
+/**
+ * Does a completed repair row discharge every obligation a verdict failed?
+ *
+ * A repair return may name the obligations it did NOT repair, and an honest
+ * row does exactly that -- FIX24 closed the sworn-zero class on
+ * rcap-tx-custom-pleading and wrote that KNOWN_PREFILLS and SELF_HELP_STOP
+ * "remain open". The old test was string inclusion over the whole row, so a
+ * row that named an obligation as still open was read as having repaired it,
+ * and the family moved out of FAIL with seventeen stop conditions missing.
+ *
+ * Where the row states what it repaired (obligationsRepaired, or the older
+ * obligationRepaired as a string or array), that statement decides: every
+ * failed name must be in it, and nothing the row lists as not discharged may
+ * be among the failed names. Only a row with no such statement falls back to
+ * text inclusion, which is what every earlier return relied on.
+ */
+export function repairRowDischargesFailure(row, failedObligationNames) {
+  const failed = Array.isArray(failedObligationNames) ? failedObligationNames : [];
+  if (!row || failed.length === 0) return false;
+  /* An array holds exact names. The older singular form is sometimes prose
+   * that opens with the name ("REQUIRED_BEFORE_FILING. The guide said ..."),
+   * so a string contributes every obligation-shaped token it carries: in the
+   * field that states what was repaired, naming an obligation is the claim. */
+  const NAME = /\b[A-Z][A-Z_]{2,}\b/g;
+  const namesIn = (v) => Array.isArray(v) ? v.flatMap(namesIn) : typeof v === "string" ? (v.match(NAME) ?? []) : [];
+  const notDischarged = namesIn(row.obligationsThisRowDoesNotDischarge ?? row.obligationsNotRepaired ?? row.obligationsStillOpen);
+  if (failed.some((name) => notDischarged.includes(name))) return false;
+  const repaired = namesIn(row.obligationsRepaired ?? row.obligationRepaired);
+  if (repaired.length > 0) return failed.every((name) => repaired.includes(name));
+  const text = JSON.stringify(row);
+  return failed.every((name) => text.includes(name));
+}
+
 export function artifactsOnlyBookkeepingRepairsFailure(evidence) {
   const failed = evidence?.failedObligationNames;
   const bookkeeping = evidence?.artifactBookkeeping;

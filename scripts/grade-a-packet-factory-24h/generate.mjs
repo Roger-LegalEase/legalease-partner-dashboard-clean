@@ -27,6 +27,7 @@ import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-f
 import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
 import { pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
 import {
+  repairRowDischargesFailure,
   artifactsOnlyBookkeepingRepairsFailure,
   canRereadAfterRepair,
   repairSupersedesFailedVerdict
@@ -1639,8 +1640,7 @@ function repairCompletionAfterVerdict(independentReturn) {
   try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
   catch { return null; }
   for (const candidate of repairCompletionsByFamily.get(familyId) ?? []) {
-    const evidence = JSON.stringify(candidate.row);
-    if (!failed.every((name) => evidence.includes(name))) continue;
+    if (!repairRowDischargesFailure(candidate.row, failed)) continue;
     if (!candidate.row.countersAfter
       || !Object.values(candidate.row.countersAfter).every((value) => Number(value) === 0)) continue;
     let priorDocument = null;

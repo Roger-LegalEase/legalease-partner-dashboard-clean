@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nm_release_without_conviction-set",
+  "blocking": [
+    {
+      "severity": "blocking_for_release",
+      "finding": "Form 4-222's caption, and the caption of Form 4-223 bound with it on pages 6 and 7, print \"SIXTH JUDICIAL DISTRICT COURT\" as page content. No AcroForm widget covers those coordinates -- the field list was read first hand from the pinned binary and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 -- so the district cannot be set, cleared or corrected by filling the form. Every other form in this packet prints \"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank.",
+      "consequence": "A participant filing outside the Sixth Judicial District (Grant, Hidalgo and Luna counties) would receive a fee-waiver application and a proposed order captioned for a court that is not theirs, on a document sworn under oath. The build does not alter the court's PDF and does not hide the defect: it is recorded here, listed for visual review, and stated to the participant in participant-instructions.md, which tells them to strike the printed line and write their own district or to obtain their district's copy of Form 4-222 NMRA. Counsel should decide whether the fee-waiver component may ship statewide on this binary at all, or whether it must be conditioned on the Sixth Judicial District the way the retained local order is conditioned on the district that published it.",
+      "measuredFrom": "the pinned binary at 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a"
+    }
+  ],
+  "findings": [
+    {
+      "finding": "TWO PARTIES ARE SERVED ON THIS TRACK, NOT THREE. Rule 1-077.1(E)(1) NMRA and the committed track record name the district attorney for the judicial district where the charge originated and the New Mexico Department of Public Safety; the arresting agency is not served. Forms 4-955 and 4-959 print exactly two service lines.",
+      "consequence": "The instructions say two parties in terms, and Form 4-960.1's page-2 service blocks are REQUIRED_BEFORE_FILING here -- an objector can exist because somebody is served -- through the same shared dictionary that gives the identity-theft family NOT_APPLICABLE_ON_THIS_ROUTE for the same twenty blanks."
+    },
+    {
+      "finding": "THE CASE NUMBER IS HELD AND NOT WRITTEN. Form 4-952 paragraph 4 asks for it by the court it was in -- a District Court line and a Metropolitan/Magistrate/Municipal Court line -- and the track's intake collects the originating court as a required answer because cases on this track commonly originated in a lower court while the petition is always filed in district court. The shared host's dictionary is static: one blank, one fact.",
+      "consequence": "Writing the held number on the District Court line would assert, on a petition affirmed under penalty of perjury, that the case was a district court case; for the boundary fixture, a magistrate-court case, it would be false. Both lines are declared required-before-filing with the reason on the row, the participant is told which line to use under a heading of its own, and the fixtures carry the held number so the record shows it was held and not written. This diverges from nm_conviction-set, which writes matter.case_number on the District Court line. Reported for the owner of the registry: a fact-conditional write keyed to the originating court would close this."
+    },
+    {
+      "finding": "THE PROPOSED-ORDER COMPONENT IS BOUND BY CONTENT HASH AND NOT RENDERED. The manifest conditions it on filing in San Juan County and neither fixture does. The bound binary (d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638) is the Eleventh Judicial District's whole 31-page self-help packet rather than an order: instructions, a county petition, a certificate, an objection, a non-objection, a notice of completion, an affirmation, a notice of hearing, and the order on its last five pages. Its caption prints \"COUNTY OF SAN JUAN\" and \"ELEVENTH JUDICIAL DISTRICT COURT\" as page content, its case-number template is \"D-1116-EX-____\", it is dated January 28, 2022, and the order recites \"NMSA 1978 Sections 29-3A-4 to -7 (2019)\" -- the statute before the 2021 amendment this track's eligibility list is taken from. The track's record already carries the currency of the district packets as a release blocker.",
+      "consequence": "The shared host renders whole pinned binaries and this lane may not change it, so the order pages cannot be rendered alone; rendering all thirty-one would put a county-captioned, pre-amendment petition into a statewide family. The component is reconciled against the manifest as a conditional component whose condition is not met, the digest is recorded in source-receipt.json under referenceSourcesBoundByHashNotRendered, and the participant is told to take the order from their own district's current packet. A later lane could render the order pages alone if the host gains a page-range capability and the district packet is confirmed current."
+    },
+    {
+      "finding": "THE HEARING IS CONDITIONAL. Relief is mandatory on the findings, and where no objection is filed the court may decide on the pleadings and the affirmation. The manifest marks Form 4-960.1 conditional here where the conviction family marks it required.",
+      "consequence": "The form is rendered so the participant has it if the court sets a hearing, with every hearing detail, the judge's name and the TCAA signature block left to the court, and the instructions say a hearing may not happen."
+    },
+    {
+      "finding": "Form 4-959 page 1 carries four short stroked rules with no printed text ON them that are STRIKE-THROUGHS, not blanks: the 2025 amendments mark deleted words -- \"[Attorney]\", \"[Has]\", \"[Safety]\", \"[Has]\" -- by bracketing and striking them, and a strike sits through the word rather than under it, so the underline reader (which looks for glyphs above a stroke) does not classify it. The same page prints an empty bracket pair around the Department of Public Safety response heading's tick glyph.",
+      "consequence": "All five are recorded as printed rules that are not blanks, with the struck word named, and carried in the field census rather than in the field map. Nothing is written on any of them."
+    },
+    {
+      "finding": "Form 4-952 page 3 prints five short 15pt rules in the left margin on baselines that carry no text, and a full-width divider at the foot of the page immediately before the SIGNATURE SECTION heading that opens page 4.",
+      "consequence": "All six are recorded as printed rules that are not blanks. Nothing is written on any of them."
+    },
+    {
+      "finding": "Forms 4-955 and 4-959 carry a certificate of service. Everything below the caption of Form 4-955, and the certificate at the foot of Form 4-959, is the petitioner certifying under penalty of perjury when they posted a document and to whom.",
+      "consequence": "The caption is written and nothing else is. Service has not happened when this packet is prepared and the platform has no knowledge of it; the shared field semantics protect a service block for the same reason."
+    },
+    {
+      "finding": "Every glyph on Form 4-222 reports inexact metrics, and one blank on Form 4-959 page 1 -- the judicial district on the district attorney line -- sits to the right of a symbol-font tick glyph on its own baseline and so carries fallback-advance drift.",
+      "consequence": "Measurability is decided per baseline. Nothing on Form 4-222 is positioned from text geometry; only its exact AcroForm widget rectangles are used. The one drifting blank on Form 4-959 is a district-attorney line the shared semantics protect from being written in any case, so it is recorded with no write box and no value is placed there."
+    },
+    {
+      "finding": "The shared fact registry has no descriptor for other names or aliases and no one-line mailing-address fact. Form 4-952 asks for aliases on one line, and four blanks in this packet -- Form 4-952 page 4, Form 4-959 page 2, Form 4-960.2 page 1 and Form 4-960.1 page 1 -- give a single line for a whole mailing address.",
+      "consequence": "Those five are left to the participant with the reason stated. Reported for the owner of the registry alongside the case-number gap."
+    },
+    {
+      "finding": "Form 4-222's caption prints a judicial district that no field covers. See the blocking finding above.",
+      "consequence": "Recorded as blocking, named for visual review, and stated to the participant. The same finding is carried by every New Mexico family that binds this fee-waiver component."
+    }
+  ]
+}

@@ -120,11 +120,33 @@
       }
     },
     "rcap-tx-custom-pleading:tx-expunction-fee-waiver-statement": {
-      "measuredAt": "2f9b289d8815cf11b498958c98a885f7800faf71",
+      "measuredAt": "79f886f26a16cde736a830c842bb7ea06b14f174",
       "whyThisFamilyNeededClassifying": "The Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) ships with three of its own AcroForm values already set: /V \"0\" on \"Value / Valor 11\" (page 7), /V \"0\" on \"Amount Cantidad 15\" (page 8), and /V \"12/15/2022\" on \"Today\", the date line of the Option 1 sworn declaration on page 11. All three are /Tx text fields, so the structural rule calls every one of them the court's own ink and preserves it. It is not the court's ink: each is a participant input, and the one on the declaration date line is delivered on a document sworn under penalty of perjury, beside a signature rule the packet leaves blank.",
-      "howMeasured": "Each /V was read first-hand from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d), and each surviving flattened appearance was read from the Form XObject it became in fixtures/canonical.pdf and matched to its widget /Rect.",
-      "onlyTheDeclarationDateIsClassifiedHere": "The two page-7 and page-8 zeros survive into the delivered packet as well - they are drawn in Form XObjects FlatWidget-1812800957 and FlatWidget-4855138939 with /Arial, a font pdftotext cannot map, which is why a text extraction of those pages does not show them. They are participant financial entries, not protected fields, and no verdict has failed this family on them. Classifying them is a separate question and is deliberately not answered here.",
+      "howMeasured": "Retaken first-hand by this lane at the commit above, not copied from a sibling entry. Each /V, each widget /Rect and each annotation flag was read from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, 6667524 bytes, 12 pages, 132 fields, 141 widgets) on source pages 7, 8 and 11. Exactly three of the 132 fields carry a non-empty /V and these are they; every other field ships empty. All three widgets carry /F 4 - Print set, Hidden (bit 2) and NoView (bit 6) both clear - and each carries an /AP with an /N stream, so none is suppressed by the annotation flags and each really does draw. The delivered appearances were then read back from fixtures/canonical.pdf and fixtures/boundary.pdf with flattenedWidgets() from scripts/rcap-official-forms/pdf-flattened-widgets.mjs, which is the only reader that settles this: pdftotext returns a clean reading of these pages because the glyphs are drawn with an unsubsetted /Arial it cannot map. Value / Valor 11 drew at packet page 7 (313.44, 131.32) as FlatWidget-1812800957 and Amount Cantidad 15 at packet page 8 (318.22, 91.2) as FlatWidget-4855138939, each landing on its own source /Rect lower-left corner.",
+      "theTwoFinancialZerosAreNowClassifiedToo": "This entry originally classified Today alone and recorded in terms that the two page-7 and page-8 zeros were a separate question, deliberately not answered. This lane answered it, and the answer is that they are the same kind of thing as Today: a participant input the source ships pre-answered, which this build never writes and which the structural rule preserved anyway. Nothing about them was inherited from a sibling - the rectangles and flags above were re-measured from the pinned binary, and they agree with the four sibling families that enclose this same form because it is the same binary, not because the numbers were copied across.",
       "fields": {
+        "Value / Valor 11": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            313.44,
+            131.32,
+            538.685,
+            160.12
+          ],
+          "because": "This family's own production-field-map.json refuses this field with completenessDisposition REQUIRED_BEFORE_FILING and requiredBeforeFiling true, for the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\", and it tells the participant to supply \"the entry and the amount, from your own records - this is sworn under penalty of perjury\". So this build never writes the field, and the only way a value reaches the page is the /V \"0\" the official source ships, which the structural rule read as the court's own ink and flattened. It is not the court's ink and it is not a confirmed answer: the zero is present in the blank issuer-original form before any participant sees it. A zero on a sworn statement of inability to pay is an answer the participant never gave, on the line where the value of a listed item of property is sworn."
+        },
+        "Amount Cantidad 15": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            318.218,
+            91.2,
+            538.68,
+            120
+          ],
+          "because": "This family's own production-field-map.json refuses this field with completenessDisposition REQUIRED_BEFORE_FILING and requiredBeforeFiling true, for the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\", and it tells the participant to supply \"the entry and the amount, from your own records - this is sworn under penalty of perjury\". So this build never writes the field, and the only way a value reaches the page is the /V \"0\" the official source ships, which the structural rule read as the court's own ink and flattened. It is not the court's ink and it is not a confirmed answer: the zero is present in the blank issuer-original form before any participant sees it. A zero on a sworn statement of inability to pay is an answer the participant never gave, on the line where the amount of a listed expense or debt is sworn."
+        },
         "Today": {
           "disposition": "render_participant_value_only_when_written",
           "sourceAppearanceWhenUnwritten": "12/15/2022",

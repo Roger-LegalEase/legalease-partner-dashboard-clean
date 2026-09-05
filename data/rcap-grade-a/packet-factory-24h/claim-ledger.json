@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e5408a1a9c2c706c699308fc506bf9230299c0c2",
+  "generatedAtCommit": "aa866d1657a84bf7779d946ee34ca812990fdf63",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4008,7 +4008,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
@@ -4038,7 +4038,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX18",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:26:12.789Z"
@@ -4127,7 +4127,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF02",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
@@ -4157,7 +4157,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX18",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:26:20.880Z"
@@ -4395,10 +4395,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF28",
+      "lane": "PF03",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T09:49:13.073Z"
     },
     {
       "subjectType": "packet-family",
@@ -6008,8 +6008,9 @@
       "operation": "packet-build",
       "lane": "PF28",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T09:49:12.945Z",
+      "releaseReason": "PF28 built the family at 6a435d4ad: canonical 318378ba / boundary ae38969c, 21 pages, nine counters zero, 7/7 sources by hash, San Juan county packet bound but not rendered (conditional on a county neither fixture meets). BUILT_RASTER_PENDING; central raster and independent verification owed. Captain release at integration."
     },
     {
       "subjectType": "packet-family",
@@ -6785,11 +6786,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX24",
+      "lane": "FIX02",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "FIX05 exited long ago and this grant was left live, holding the family against reassignment. Released by Captain."
+      "released": true,
+      "releasedAt": "2026-09-05T09:48:44.935Z"
     },
     {
       "subjectType": "packet-family",
@@ -6861,7 +6861,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -12901,7 +12901,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "ac91ea469946a395397b23f463486ec2442cab44ed660268185a566e24f80e8b",
+  "claimsDigest": "fe0455cab2939b2150917fa3e864980907f7a2b82fad3ef439398f8d3a515a41",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27091,6 +27091,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T09:45:22.788Z",
       "reason": "Dealt by the generator at e5408a1a9 and never launched; moving to a lane the Captain will actually dispatch."
+    },
+    {
+      "lane": "FIX24",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T09:48:44.935Z",
+      "reason": "Repair complete and committed at 94cf4ee6e: the two source-carried zeros on Value / Valor 11 and Amount Cantidad 15 are dispositioned in the appearance registry, both fixtures rebuilt, verify-source-carried-values-are-dispositioned.mjs passes corpus-wide 21/21. A fresh central raster and independent verification are owed; KNOWN_PREFILLS and SELF_HELP_STOP remain open. (Replayed by Captain from FIX24 commit 104c74935.)"
+    },
+    {
+      "lane": "PF28",
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-05T09:49:12.945Z",
+      "reason": "PF28 built the family at 6a435d4ad: canonical 318378ba / boundary ae38969c, 21 pages, nine counters zero, 7/7 sources by hash, San Juan county packet bound but not rendered (conditional on a county neither fixture meets). BUILT_RASTER_PENDING; central raster and independent verification owed. Captain release at integration."
+    },
+    {
+      "lane": "PF28",
+      "subjectType": "packet-family",
+      "subjectId": "la-985-1-interim-expungement-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-05T09:49:13.073Z",
+      "reason": "PF28 STOPPED: art. 994 (required primary filing) and art. 988 text are held in no mounted custody, expectedSha256 null; identical to PF27's stop. Nothing was built. Captain release at integration; the family is not SOURCE_READY until art. 994 bytes are held."
     }
   ],
   "reissues": [
@@ -41356,6 +41383,22 @@
       "operation": "independent-verification",
       "lane": "VF12",
       "withdrawnAt": "2026-09-05T09:40:00Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_arrest_no_charges-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-05T09:52:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "in_section1_petition-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "withdrawnAt": "2026-09-05T09:52:33Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

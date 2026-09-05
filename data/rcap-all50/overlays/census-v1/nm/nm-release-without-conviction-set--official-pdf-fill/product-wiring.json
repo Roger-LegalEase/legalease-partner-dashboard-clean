@@ -1,0 +1,169 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "nm_release_without_conviction-set",
+  "routeKey": "obligation:track-pathway:NM:nm_release_without_conviction:no-conviction-released-without-conviction",
+  "routeKeys": [
+    "obligation:track-pathway:NM:nm_release_without_conviction:no-conviction-released-without-conviction"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "nm_release_without_conviction-set",
+    "jurisdiction": "NM",
+    "routeKeys": [
+      "obligation:track-pathway:NM:nm_release_without_conviction:no-conviction-released-without-conviction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "fee_waiver_application",
+      "local_order_form_instructions",
+      "notice_of_hearing",
+      "primary_filing",
+      "proposed_order",
+      "record_gathering_instructions",
+      "second_stage_affirmation",
+      "second_stage_notice",
+      "sequencing_instructions"
+    ],
+    "packetComponents": [
+      "component:nm_release_without_conviction-certificate-of-service-2",
+      "component:nm_release_without_conviction-fee-waiver-application-8",
+      "component:nm_release_without_conviction-notice-of-hearing-5",
+      "component:nm_release_without_conviction-primary-filing-1",
+      "component:nm_release_without_conviction-proposed-order-6",
+      "component:nm_release_without_conviction-second-stage-affirmation-4",
+      "component:nm_release_without_conviction-second-stage-notice-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
+        "sha256": "d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:4-222",
+        "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-952",
+        "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-955",
+        "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-959",
+        "sha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-960.1",
+        "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-960.2",
+        "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nm_release_without_conviction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "nm_release_without_conviction-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "nm_release_without_conviction-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "NM-4-952",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_release_without_conviction-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "NM-4-955",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_release_without_conviction-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "NM-4-959",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_release_without_conviction-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "NM-4-960.2",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_release_without_conviction-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "NM-4-960.1",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_release_without_conviction-set-component-6",
+        "role": "companion_document",
+        "order": 6,
+        "documentId": "NM-4-222",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+        "requirement": "required"
+      }
+    ]
+  }
+}

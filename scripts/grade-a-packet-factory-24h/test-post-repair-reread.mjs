@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
 import {
+  repairRowDischargesFailure,
   artifactsOnlyBookkeepingRepairsFailure,
   canRereadAfterRepair,
   repairSupersedesFailedVerdict
@@ -139,4 +140,39 @@ for (const substantiveObligation of [
   }), false, `${substantiveObligation} must retain the packet-byte-movement requirement`);
 }
 
-console.log("OK post-repair reread preserves byte movement and admits only exact ARTIFACTS bookkeeping evidence");
+/* A row that names what it did NOT repair must not be read as having repaired it. */
+const threeFailed = ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"];
+const fix24Shaped = {
+  itemId: "rcap-tx-custom-pleading", status: "COMPLETED", laneKind: "repair", repairedByThisLane: true,
+  obligationRepaired: ["SOURCE_CARRIED_VALUE_ON_A_SWORN_DOCUMENT"],
+  theThreeNamedObligations: "VF10 failed KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SELF_HELP_STOP; this repair closes a defect none of them named.",
+  obligationsThisRowDoesNotDischarge: ["KNOWN_PREFILLS", "SELF_HELP_STOP"],
+  countersAfter: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: 0 }
+};
+assert.equal(repairRowDischargesFailure(fix24Shaped, threeFailed), false,
+  "a row whose prose names every failed obligation but whose repaired list does not must not supersede the FAIL");
+assert.equal(repairRowDischargesFailure({ ...fix24Shaped, obligationsThisRowDoesNotDischarge: undefined }, threeFailed), false,
+  "the structured repaired list decides even without an explicit not-discharged list");
+assert.equal(repairRowDischargesFailure({ ...fix24Shaped, obligationRepaired: threeFailed, obligationsThisRowDoesNotDischarge: undefined }, threeFailed), true,
+  "a row whose repaired list covers every failed obligation supersedes");
+assert.equal(repairRowDischargesFailure({ ...fix24Shaped, obligationsRepaired: threeFailed, obligationRepaired: undefined, obligationsThisRowDoesNotDischarge: undefined }, threeFailed), true,
+  "obligationsRepaired (plural) is honoured the same way");
+assert.equal(repairRowDischargesFailure({ ...fix24Shaped, obligationsRepaired: threeFailed, obligationRepaired: undefined }, threeFailed), false,
+  "a not-discharged list naming a failed obligation wins over a repaired list that also names it");
+assert.equal(repairRowDischargesFailure({ ...fix24Shaped, obligationRepaired: "KNOWN_PREFILLS", obligationsThisRowDoesNotDischarge: undefined }, ["KNOWN_PREFILLS"]), true,
+  "the older singular string form is honoured");
+const legacyRow = { itemId: "x", status: "COMPLETED", repairedByThisLane: true, whatChanged: "Repaired KNOWN_PREFILLS, REQUIRED_BEFORE_FILING and SELF_HELP_STOP on both fixtures", countersAfter: fix24Shaped.countersAfter };
+assert.equal(repairRowDischargesFailure(legacyRow, threeFailed), true,
+  "a row with no structured repaired list still falls back to text inclusion, as every earlier return relied on");
+assert.equal(repairRowDischargesFailure(legacyRow, [...threeFailed, "PAGE_ORDER"]), false,
+  "text inclusion still requires every failed name");
+assert.equal(repairRowDischargesFailure(legacyRow, []), false, "no failed names means nothing to discharge");
+const fix18Shaped = { ...legacyRow, obligationRepaired: "REQUIRED_BEFORE_FILING. participant-instructions.md said three times that the packet filled the caption on the Appearance only; Form ACR and the pages stamped NOT FOR PUBLIC RECORD are named. assertRepairInvariants() re-runs after every build." };
+assert.equal(repairRowDischargesFailure(fix18Shaped, ["REQUIRED_BEFORE_FILING"]), true,
+  "a singular prose field that opens with the obligation name states a repair of it");
+assert.equal(repairRowDischargesFailure(fix18Shaped, ["REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"]), false,
+  "prose in the repaired field does not discharge an obligation it never names, even if the rest of the row does");
+assert.equal(repairRowDischargesFailure({ ...fix18Shaped, whatChanged: "SELF_HELP_STOP remains open" }, ["REQUIRED_BEFORE_FILING", "SELF_HELP_STOP"]), false,
+  "an obligation named only outside the repaired field is not repaired");
+
+console.log("OK post-repair reread preserves byte movement, admits only exact ARTIFACTS bookkeeping evidence, and reads what a repair row says it repaired");

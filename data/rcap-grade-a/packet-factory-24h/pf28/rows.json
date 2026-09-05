@@ -1,0 +1,528 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "assignmentId": "pf28-la-nm-builds",
+  "lane": "PF28",
+  "laneName": "packet build lane, Louisiana interim expungement and New Mexico release without conviction",
+  "baseSha": "79f886f26a16cde736a830c842bb7ea06b14f174",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "workedOnBranch": "pf28-la-nm-builds",
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": 1,
+  "familiesStopped": 1,
+  "familiesNotGranted": 0,
+  "howEveryFamilyWasClaimed": "Both families' packet-build grants were already held by PF28 in the committed claim ledger at the base commit; each was confirmed with claim.mjs --assert (CLAIM_OK, grant set 024f8d9cb00aa301) before any work. No grant was taken, transferred, minted or released, and claim-ledger.json was not written.",
+  "howEverySourceWasResolved": "By content hash across the two mounted custodies (master_library, human_source_returns), never by declared path. Of 9 declared bindings across the two families, 9 resolve by hash; the Louisiana stop is not a binding failure but the absence of two composition inputs the family's own determination requires and no custody holds.",
+  "environmentPreflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs [--family <id>]",
+    "resultBare": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable",
+    "resultForEachFamily": "12/13 passed, 1 failed, 4 not applicable; family_sources_bind ok for both (LA 2/2, NM 7/7, every binding found by content hash because the declared d_source_packs custody is not mounted)",
+    "theOneFailure": {
+      "check": "corpus_matches_committed_index",
+      "detail": "1 absent, 0 mismatched of 24 sampled",
+      "absentEntry": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf, an entry the committed index files under the master_library custody with a Nationwide-style path; it is not a Master Library path and is absent in the pinned release. It is an index oddity unrelated to either family: no Louisiana or New Mexico entry is affected, all 499 Master Library files verify (329 PDFs, 51 jurisdictions), and both families' own pinned digests bind by hash.",
+      "howEstablished": "the sampler was re-run outside the preflight to name the absent entry rather than only count it"
+    },
+    "custodiesMounted": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "custodiesNotMounted": [
+      "d_source_packs",
+      "nationwide_recovery_pool_2026_09_02"
+    ],
+    "howMounted": "private/ is git-ignored and absent in a fresh worktree; the Master Library and human-source-returns trees were copied from the sibling checkout's git-ignored private/ (byte-identical, as the corpus checks confirm) and node_modules linked to that checkout's install. Nothing in the other worktree was edited.",
+    "initialFailuresBeforeMounting": [
+      "pdf_lib_importable (node_modules absent)",
+      "master_library_mounted",
+      "master_library_complete",
+      "corpus_matches_committed_index"
+    ]
+  },
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "neverSelfVerify": "This lane issues no verdict on its own packet. The completeness run recorded on the New Mexico row is the repository's own contract functions over that family's field map, byte proof and instructions; it is not an independent verification and no PASS was written by this lane anywhere.",
+  "rasterRule": "Built with --no-raster. The built family returns BUILT_RASTER_PENDING with its canonical and boundary SHA-256 and every non-visual obligation finished; rendering is central.",
+  "centralFilesTouched": {
+    "committed": "none. data/rcap-all50/shared/field-appearance-semantics.json was not changed (no entry was needed: the packet's only AcroForm ships no value). claim-ledger.json was not written.",
+    "touchedAndReverted": "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json was rewritten by the instructed --family --write completeness run to a one-family denominator (240 -> 1); it was restored with git checkout and is not in this lane's commit."
+  },
+  "filesCommitted": [
+    "scripts/build-census-v1-nm_release_without_conviction-set.mjs",
+    "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/ (15 files)",
+    "data/rcap-grade-a/packet-factory-24h/pf28/rows.json"
+  ],
+  "rows": [
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "status": "COMPLETED",
+      "jurisdiction": "NM",
+      "trackId": "nm_release_without_conviction",
+      "implementationStrategy": "official_pdf_fill",
+      "claim": "CLAIM_OK PF28 nm_release_without_conviction-set (packet-build, grant set 024f8d9cb00aa301), asserted with claim.mjs --assert before any work; not released",
+      "environmentPreflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs [--family <id>]",
+        "resultBare": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable",
+        "resultForEachFamily": "12/13 passed, 1 failed, 4 not applicable; family_sources_bind ok for both (LA 2/2, NM 7/7, every binding found by content hash because the declared d_source_packs custody is not mounted)",
+        "theOneFailure": {
+          "check": "corpus_matches_committed_index",
+          "detail": "1 absent, 0 mismatched of 24 sampled",
+          "absentEntry": "LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf, an entry the committed index files under the master_library custody with a Nationwide-style path; it is not a Master Library path and is absent in the pinned release. It is an index oddity unrelated to either family: no Louisiana or New Mexico entry is affected, all 499 Master Library files verify (329 PDFs, 51 jurisdictions), and both families' own pinned digests bind by hash.",
+          "howEstablished": "the sampler was re-run outside the preflight to name the absent entry rather than only count it"
+        },
+        "custodiesMounted": [
+          "master_library",
+          "human_source_returns"
+        ],
+        "custodiesNotMounted": [
+          "d_source_packs",
+          "nationwide_recovery_pool_2026_09_02"
+        ],
+        "howMounted": "private/ is git-ignored and absent in a fresh worktree; the Master Library and human-source-returns trees were copied from the sibling checkout's git-ignored private/ (byte-identical, as the corpus checks confirm) and node_modules linked to that checkout's install. Nothing in the other worktree was edited.",
+        "initialFailuresBeforeMounting": [
+          "pdf_lib_importable (node_modules absent)",
+          "master_library_mounted",
+          "master_library_complete",
+          "corpus_matches_committed_index"
+        ]
+      },
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nm_release_without_conviction-set.mjs",
+      "buildCommand": "node scripts/build-census-v1-nm_release_without_conviction-set.mjs --no-raster",
+      "sharedBuildHost": "scripts/rcap-nm-flat-forms/nm-packet-host.mjs (unchanged; the host already named this family)",
+      "routeKeys": [
+        "obligation:track-pathway:NM:nm_release_without_conviction:no-conviction-released-without-conviction"
+      ],
+      "componentSet": [
+        "nm_release_without_conviction-primary-filing-1",
+        "nm_release_without_conviction-certificate-of-service-2",
+        "nm_release_without_conviction-second-stage-notice-3",
+        "nm_release_without_conviction-second-stage-affirmation-4",
+        "nm_release_without_conviction-notice-of-hearing-5",
+        "nm_release_without_conviction-proposed-order-6",
+        "nm_release_without_conviction-local-order-form-instructions-7",
+        "nm_release_without_conviction-fee-waiver-application-8",
+        "nm_release_without_conviction-record-gathering-instructions-9",
+        "nm_release_without_conviction-sequencing-instructions-10"
+      ],
+      "componentCount": 10,
+      "componentDelivery": [
+        {
+          "componentId": "nm_release_without_conviction-primary-filing-1",
+          "requirement": "required",
+          "officialFormId": "4-952",
+          "deliveredAs": "official_pdf_fill",
+          "deliveredBy": "NM-4-952, the first four pages of both fixtures",
+          "section": null,
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-certificate-of-service-2",
+          "requirement": "required",
+          "officialFormId": "4-955",
+          "deliveredAs": "official_pdf_fill",
+          "deliveredBy": "NM-4-955, two pages",
+          "section": null,
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-second-stage-notice-3",
+          "requirement": "required",
+          "officialFormId": "4-959",
+          "deliveredAs": "official_pdf_fill",
+          "deliveredBy": "NM-4-959, three pages",
+          "section": null,
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-second-stage-affirmation-4",
+          "requirement": "required",
+          "officialFormId": "4-960.2",
+          "deliveredAs": "official_pdf_fill",
+          "deliveredBy": "NM-4-960.2, two pages",
+          "section": null,
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-notice-of-hearing-5",
+          "requirement": "conditional",
+          "officialFormId": "4-960.1",
+          "deliveredAs": "official_pdf_fill",
+          "deliveredBy": "NM-4-960.1, three pages",
+          "section": null,
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-proposed-order-6",
+          "requirement": "conditional",
+          "officialFormId": "NM-SAN-JUAN-NONCONVICTION-PACKET",
+          "deliveredAs": "not_generated_conditional_component_condition_not_met",
+          "deliveredBy": "nothing. The bound binary NM-SAN-JUAN-NONCONVICTION-PACKET is resolved by content hash and recorded in source-receipt.json as a reference that was not rendered",
+          "section": "## Which district's order form you need",
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-local-order-form-instructions-7",
+          "requirement": "required",
+          "officialFormId": null,
+          "deliveredAs": "process_guidance",
+          "deliveredBy": "participant-instructions.md",
+          "section": "## Which district's order form you need",
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-fee-waiver-application-8",
+          "requirement": "conditional",
+          "officialFormId": "4-222",
+          "deliveredAs": "official_pdf_fill",
+          "deliveredBy": "NM-4-222 with Form 4-223, seven pages",
+          "section": null,
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-record-gathering-instructions-9",
+          "requirement": "required",
+          "officialFormId": null,
+          "deliveredAs": "process_guidance",
+          "deliveredBy": "participant-instructions.md",
+          "section": "## How to gather your records first",
+          "accountedFor": true
+        },
+        {
+          "componentId": "nm_release_without_conviction-sequencing-instructions-10",
+          "requirement": "required",
+          "officialFormId": null,
+          "deliveredAs": "process_guidance",
+          "deliveredBy": "participant-instructions.md",
+          "section": "## The sixty-day wait, and the two stages",
+          "accountedFor": true
+        }
+      ],
+      "everyRequiredComponentAccountedFor": true,
+      "boundSources": [
+        {
+          "sourceId": "official-form:4-952",
+          "documentId": "NM-4-952",
+          "formNumber": "4-952",
+          "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
+          "byteLength": 186242,
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "pages": 4,
+          "acroFields": 0,
+          "strategy": "measured_flat_overlay",
+          "rendered": true
+        },
+        {
+          "sourceId": "official-form:4-955",
+          "documentId": "NM-4-955",
+          "formNumber": "4-955",
+          "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+          "byteLength": 12711,
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "pages": 2,
+          "acroFields": 0,
+          "strategy": "measured_flat_overlay",
+          "rendered": true
+        },
+        {
+          "sourceId": "official-form:4-959",
+          "documentId": "NM-4-959",
+          "formNumber": "4-959",
+          "sha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148",
+          "byteLength": 158985,
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "pages": 3,
+          "acroFields": 0,
+          "strategy": "measured_flat_overlay",
+          "rendered": true
+        },
+        {
+          "sourceId": "official-form:4-960.2",
+          "documentId": "NM-4-960.2",
+          "formNumber": "4-960.2",
+          "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+          "byteLength": 9831,
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "pages": 2,
+          "acroFields": 0,
+          "strategy": "measured_flat_overlay",
+          "rendered": true
+        },
+        {
+          "sourceId": "official-form:4-960.1",
+          "documentId": "NM-4-960.1",
+          "formNumber": "4-960.1",
+          "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+          "byteLength": 16762,
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "pages": 3,
+          "acroFields": 0,
+          "strategy": "measured_flat_overlay",
+          "rendered": true
+        },
+        {
+          "sourceId": "official-form:4-222",
+          "documentId": "NM-4-222",
+          "formNumber": "4-222",
+          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+          "byteLength": 1088817,
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "pages": 7,
+          "acroFields": 158,
+          "strategy": "acroform_fill",
+          "rendered": true
+        },
+        {
+          "sourceId": "official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
+          "documentId": "NM-SAN-JUAN-NONCONVICTION-PACKET",
+          "formNumber": "NM-SAN-JUAN-NONCONVICTION-PACKET",
+          "sha256": "d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638",
+          "byteLength": 1675405,
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-SAN-JUAN-NONCONVICTION-PACKET__petition-to-expunge__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "pages": 31,
+          "acroFields": 0,
+          "strategy": "bound_by_hash_not_rendered",
+          "rendered": false,
+          "whyNotRendered": "Neither fixture files in San Juan County, so the manifest's condition is not met. The binary is the Eleventh Judicial District's whole 31-page self-help packet, county-captioned as page content, dated January 28, 2022, citing the pre-2021 statute; the shared host renders whole pinned binaries, so the order pages cannot be rendered alone, and rendering all of it would promote a county-local, pre-amendment packet statewide. Not substituted, not edited, not rendered."
+        }
+      ],
+      "sourceResolution": {
+        "method": "content hash. Every digest the MASTER_QUEUE row pins was looked up in the committed corpus index across every custody, and the first mounted custody whose bytes re-hash to the pinned digest bound. All seven declare paths under rcap-d-source-packs-2026-08-12, which is not mounted; all seven resolved in the Master Library by hash. No declared path was trusted, no document substituted, no source edited.",
+        "sourcesDeclared": 7,
+        "sourcesResolvedByHash": 7,
+        "sourcesAbsentByHash": 0,
+        "sourcesRendered": 6,
+        "sourcesBoundNotRendered": 1
+      },
+      "canonicalSha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+      "boundarySha256": "ae38969cccd6defd1d87ecb308f9338bc5557f811bfa42914c31f0bbfac177a4",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "318378ba712915646513d90bfe083011a44927f47b1e2f5a76583e8283a84b66",
+          "byteLength": 1419956,
+          "pages": 21
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ae38969cccd6defd1d87ecb308f9338bc5557f811bfa42914c31f0bbfac177a4",
+          "byteLength": 1420209,
+          "pages": 21
+        }
+      ],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasured": true,
+      "allNineCountersZero": true,
+      "completenessRun": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set --write",
+        "result": "PASS_COMPLETE 35/392 written",
+        "isAVerdict": false,
+        "note": "A completeness run is the repository's own contract functions over this family's field map, byte proof and instructions. This lane issues no verdict on its own packet and wrote no PASS anywhere.",
+        "sharedMatrixSideEffect": "The --family --write combination rewrote data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json to a one-family denominator (familiesAudited 240 -> 1, 8,231 deletions). That file was restored with git checkout and is NOT committed by this lane; the Captain's full-corpus regeneration on integration will carry this family's row."
+      },
+      "sourceCarriedInkCheck": {
+        "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family nm_release_without_conviction-set --allow-empty",
+        "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED (0 source-carried values examined)",
+        "byHand": "Form 4-222 is the only AcroForm in the packet; its census records sourceAuthoredValues [] and hiddenOrNoViewWidgets [] read first hand from the pinned binary (158 fields, 161 widgets). The five flat forms have no field to carry a value. --allow-empty was passed only after that was confirmed, as the tool asks. The repository-wide run names rcap-tx-custom-pleading and not this family.",
+        "fieldAppearanceSemanticsTouched": false
+      },
+      "fieldNameCatchAllCheck": "Not applicable to the five flat forms, which have no AcroForm field names: every blank is keyed by its measured position and disposed from the printed line it sits on and the words printed immediately before it, both recorded on the row. On Form 4-222 the shared dictionary binds by authored field name; every write was checked against the printed line at the widget rectangle in the byte proof (actual-writes.json) and the two Form 4-223 caption fields whose authored names contradict their blanks are left to the participant, as the shared dictionary already does.",
+      "writes": 35,
+      "terminalFields": 392,
+      "requiredBeforeFiling": 175,
+      "handMarkedControlsDisclosed": 113,
+      "notApplicableOnThisRoute": 3,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 173,
+        "OPTIONAL_PARTICIPANT_CONTENT": 2,
+        "LATER_COMPLETION": 2,
+        "PROTECTED_FIELD": 61,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 19,
+        "PARTICIPANT_ELECTION_GENUINE": 100
+      },
+      "byteProof": "every write on both fixtures read back from the finalized bytes matches its expected value; 0 glyphs outside a measured write box; 0 refused fields carrying ink; 0 unfittable values; Form 4-222's 161 flattened widget appearances read back.",
+      "determinism": {
+        "method": "built twice from unchanged inputs with --no-raster and the whole family directory compared with diff -r",
+        "result": "BYTE_IDENTICAL",
+        "filesCompared": 15
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "whyRasterPending": "Built with --no-raster as instructed. This container has a browser; a plain rebuild would have emitted local raster pages and advanced build-status, which is not permitted. reports/rendered-artifacts.json records everyPageRastered false and zero raster pages; build-status.json records rasterEngine 'not rendered in this run'. Rendering is central.",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "decisionsTheCaptainShouldKnow": [
+        "The proposed-order component (NM-SAN-JUAN-NONCONVICTION-PACKET) is bound by hash and NOT rendered. The manifest conditions it on filing in San Juan County; neither fixture does; the binary is the Eleventh Judicial District's whole 31-page packet, county-captioned as page content, dated 2022-01-28, citing the 2019 statute; the shared host renders whole binaries and this lane may not change it. Rendering it would promote a county-local, pre-amendment packet statewide. Recorded in source-receipt.json, the manifest reconciliation, build-findings.json and the instructions.",
+        "The held case number is NOT written. Form 4-952 paragraph 4 asks for it by the court it was in (District, or Metropolitan/Magistrate/Municipal) and the intake collects the originating court because cases on this track commonly originated in a lower court; the host's dictionary is static, so a write on the District Court line would assert on a sworn petition that the case was a district court case. Both lines are required-before-filing with the reason on the row; the boundary fixture is a magistrate-court case. This diverges from nm_conviction-set deliberately and is raised for the reviewer.",
+        "Two parties are served on this track (district attorney and DPS), not three; Form 4-960.1's twenty page-2 blanks are required-before-filing on that ground, through the shared serviceBlocksOf parameter."
+      ],
+      "filesOutsideTheFamilyDirectoryTouched": [
+        "scripts/build-census-v1-nm_release_without_conviction-set.mjs (new, the family's own build script named in its MASTER_QUEUE ownedPaths)"
+      ],
+      "whatWasNotDone": [
+        "No raster pages (by instruction).",
+        "The San Juan order pages were not rendered (see above); a later lane could render pages 27 to 31 alone if the shared host gains a page-range capability and the district packet is confirmed current.",
+        "No entry was added to field-appearance-semantics.json; none was needed.",
+        "The shared completeness matrix was not updated (its --family --write rewrite was reverted).",
+        "No independent verification and no visual review; none is this lane's to give."
+      ],
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "la-985-1-interim-expungement-set",
+      "status": "STOPPED",
+      "verdict": "SOURCE_CANNOT_BE_RESOLVED_TO_HELD_BYTES",
+      "stopClass": "SOURCE_CANNOT_BE_RESOLVED_TO_HELD_BYTES",
+      "jurisdiction": "LA",
+      "trackId": "la-985-1-interim-expungement",
+      "implementationStrategy": "custom_pleading",
+      "claim": "CLAIM_OK PF28 la-985-1-interim-expungement-set (packet-build, grant set 024f8d9cb00aa301), asserted with claim.mjs --assert before any work; not released",
+      "environmentPreflight": {
+        "sameAsTheNewMexicoRow": true,
+        "familySourcesBind": "2/2 source(s) bind by exact SHA-256; both found by content hash because the declared d_source_packs custody is not mounted"
+      },
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-985-1-interim-expungement:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction"
+      ],
+      "directory": null,
+      "buildScript": null,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
+      "overlayDirectoryTouched": false,
+      "artifactsWritten": "none. No overlay directory was created, no build script was written and no byte was rendered.",
+      "canonicalSha256": null,
+      "boundarySha256": null,
+      "nineCounters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "rasterState": null,
+      "stopReason": "The codified text of La. C.Cr.P. art. 994 -- the Motion for Interim Expungement, which the committed packet-set manifest marks as this family's REQUIRED primary filing and which the owner determination LA-STATUTORY-FORMS says to 'generate faithfully from the current codified article text' -- is held nowhere in this container, and neither is art. 988 for the conditional fee exemption. Nothing has changed since lane PF27 stopped this family on the same ground at base 1cc823b6: the acquisition target la-ccrp-art-994-statutory-form-print-view still carries expectedSha256 null and status BLOCKED_NOT_ACQUIRED, no commit since PF27's base touches the Louisiana legal-design records, the source-acquisition records or the owner determinations, and the two owner questions PF27 raised about art. 995 remain unanswered.",
+      "howTheAbsenceWasEstablished": [
+        "Every Louisiana entry in the committed corpus index resolves to six documents -- arts. 984, 990, 993, 995, 998 and 999.1 -- in three custodies; none is art. 994 or art. 988.",
+        "Every file under STATES/LA in the mounted Master Library and every file in human-source-returns was searched, the PDFs through pdftotext, for 'Art. 994', 'Art. 988' and the caption 'MOTION FOR INTERIM EXPUNGEMENT'. Zero hits in any PDF; the only file mentioning interim expungement is the Louisiana legal review, which DESCRIBES the form and does not print its wording.",
+        "git grep over HEAD for the form's caption returns only records ABOUT the obligation (acquisition manifests, census records, PF27's own return) and no codified text; the compiled LA profile carries the pathway's label and summary and no article text; src/lib/rcap/state-packs/la does not exist.",
+        "data/rcap-grade-a/source-acquisition/wave-1/acquired.json ordinal 17 (this family's art. 994) is BLOCKED_NOT_ACQUIRED with sha256 null; SOURCE_ACQUISITION_MANIFEST.json still lists la-ccrp-art-994-statutory-form-print-view with expectedSha256 null."
+      ],
+      "sourcesThatBoundByHash": [
+        {
+          "sourceId": "source-sha256:b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+          "article": "LA-CCRP-ART-995",
+          "role": "the Article 995 Order of Expungement of Interim Arrest Record, this family's REQUIRED proposed order",
+          "sha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+          "resolvedBy": "sha256 re-hashed from the mounted bytes; the declared d_source_packs path is not mounted"
+        },
+        {
+          "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+          "article": "LA-CCRP-ART-990",
+          "role": "authority reference only; the responding agency's own affidavit, never printed in a participant packet",
+          "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+          "custody": "master_library",
+          "resolvedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+          "resolvedBy": "sha256 re-hashed from the mounted bytes; the declared d_source_packs path is not mounted"
+        }
+      ],
+      "sourcesNotHeld": [
+        {
+          "article": "LA-CCRP-ART-994",
+          "role": "REQUIRED primary filing",
+          "heldAnywhereInThisContainer": false,
+          "acquisitionTarget": "la-ccrp-art-994-statutory-form-print-view",
+          "expectedSha256": null,
+          "officialUrl": "https://www.legis.la.gov/legis/LawPrint.aspx?d=919690"
+        },
+        {
+          "article": "LA-CCRP-ART-988",
+          "role": "conditional fee exemption",
+          "heldAnywhereInThisContainer": false,
+          "acquisitionTarget": "la-ccrp-art-988-statutory-form-print-view",
+          "expectedSha256": null,
+          "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919681"
+        }
+      ],
+      "whyNotComposedFromTheDescription": "La. C.Cr.P. art. 986(A) makes the statutory forms exclusive and the committed LA.memo.json note says the rendering must reproduce the Legislature's own words rather than paraphrase them, with the court name the only authorised variation under art. 986(C). The assignment forbids inventing statutory content and requires every sentence to be grounded in the legal-design records; those records describe art. 994 and do not carry its text. A motion composed from a description would put words in the Legislature's mouth on a form the Code makes exclusive.",
+      "whyNotFetchedFromLegisLaGov": "Source acquisition is its own lane kind in the claim ledger with its own manifest, custody and receipt machinery. This lane holds a packet-build grant only; fetching and pinning a new source would be minting work outside the grant.",
+      "whyNotShippedWithoutThePrimaryFiling": "The route's own filing rule (LA.memo.json rules.filing) is to file the Article 994 motion with the proposed Article 995 order. A packet without the motion is not a filing. The held art. 995 text was not composed either: PF27's two unanswered owner questions -- whether this family's composedFromAuthority grant (exactly ART-988 and ART-994) reaches art. 995, and whether the memo's standing 'no implementation is authorized here' on the art. 995 template still holds -- are not this lane's to settle.",
+      "whatWouldReleaseThisFamily": [
+        "A source-acquisition lane acquiring the codified text of art. 994 at the LawPrint URL above with the heading check and a recorded SHA-256 (the target already exists with expectedSha256 null), and art. 988 for the conditional fee exemption.",
+        "An owner answer to PF27's two art. 995 questions, so the required proposed order can be composed under a grant that names it."
+      ],
+      "splitterAndPageChecks": "not reached; nothing was composed, so the shared splitter was not exercised and no page exists to check for an orphaned execution block or a route-key-only page.",
+      "whatWasNotDone": [
+        "No composition, no overlay directory, no build script, no fetch, no substitution, no edit to any record."
+      ],
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

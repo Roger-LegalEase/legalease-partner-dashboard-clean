@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `e5408a1a9c2c706c699308fc506bf9230299c0c2` (or the newer dispatch base)
+**Minimum required ancestor:** `aa866d1657a84bf7779d946ee34ca812990fdf63` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'de_mandatory_expungement-set' \
   --codex-cloud \
-  --minimum-captain-sha e5408a1a9c2c706c699308fc506bf9230299c0c2
+  --minimum-captain-sha aa866d1657a84bf7779d946ee34ca812990fdf63
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -41,7 +41,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'de_mandatory_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-wi-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-tx-custom-pleading'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,7 +63,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `de_mandatory_expungement-set`
 - `al-diversion-set`
-- `rcap-wi-custom-pleading`
+- `rcap-tx-custom-pleading`
 
 ## What you receive
 
@@ -78,9 +78,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/**`
 - `scripts/build-census-v1-de_mandatory_expungement-set.mjs`
-- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
+- `scripts/build-census-v1-rcap-tx-custom-pleading.mjs`
 
 ## Never write here
 
