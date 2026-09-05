@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "fc0cf0ae0433eac4463a5301e815da931ee3b401",
+  "generatedAtCommit": "567b0b8102cd2ce3cd2740619ea550f37744182b",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -937,6 +937,21 @@
       "lane": "PF05",
       "laneKind": "packet-build",
       "released": false
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ar-nonconviction-seal-set",
+      "itemId": null,
+      "familyId": "ar-nonconviction-seal-set",
+      "familyIds": [
+        "ar-nonconviction-seal-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -9054,6 +9069,21 @@
     {
       "subjectType": "packet-family",
       "subjectId": "wv_conv_single_misdemeanor-set",
+      "itemId": null,
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "familyIds": [
+        "wv_conv_single_misdemeanor-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_conv_single_misdemeanor-set",
       "familyId": "wv_conv_single_misdemeanor-set",
       "itemId": null,
       "familyIds": [
@@ -13482,69 +13512,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ar-nonconviction-seal-set",
-      "itemId": null,
-      "familyId": "ar-nonconviction-seal-set",
-      "familyIds": [
-        "ar-nonconviction-seal-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-tx-custom-pleading",
-      "itemId": null,
-      "familyId": "rcap-tx-custom-pleading",
-      "familyIds": [
-        "rcap-tx-custom-pleading"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_conv_multiple_misdemeanors-set",
-      "itemId": null,
-      "familyId": "wv_conv_multiple_misdemeanors-set",
-      "familyIds": [
-        "wv_conv_multiple_misdemeanors-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_conv_single_misdemeanor-set",
-      "itemId": null,
-      "familyId": "wv_conv_single_misdemeanor-set",
-      "familyIds": [
-        "wv_conv_single_misdemeanor-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "cc34a86f23518e5d470e1ab0d63a8cb8a768e53aa7d8107a537285533d9babfb",
+  "claimsDigest": "636f0ace7c555f57805afd6938fb3b86b8716ff341f77c231f991cb3c302b603",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -46261,52 +46231,22 @@
       "lane": "VF02",
       "withdrawnAt": "2026-09-05T17:45:34Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    }
-  ],
-  "grants": [
-    {
-      "lane": "VF08",
-      "subjectType": "packet-family",
-      "subjectId": "ar-nonconviction-seal-set",
-      "operation": "independent-verification",
-      "laneKind": "independent-verification",
-      "grantedAt": "2026-09-05T18:46:35.194Z",
-      "grantedBy": "Captain",
-      "reason": "Scale-cohort measurement read: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place (measured on Vermont 600-00228 field 15 by VF02). VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP; a known defect may not stay counted as proven.",
-      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     },
     {
-      "lane": "VF08",
       "subjectType": "packet-family",
       "subjectId": "rcap-tx-custom-pleading",
       "operation": "independent-verification",
-      "laneKind": "independent-verification",
-      "grantedAt": "2026-09-05T18:46:35.959Z",
-      "grantedBy": "Captain",
-      "reason": "Scale-cohort measurement read: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place (measured on Vermont 600-00228 field 15 by VF02). VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP; a known defect may not stay counted as proven.",
-      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+      "lane": "VF08",
+      "withdrawnAt": "2026-09-05T18:47:15Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     },
     {
-      "lane": "VF08",
       "subjectType": "packet-family",
       "subjectId": "wv_conv_multiple_misdemeanors-set",
       "operation": "independent-verification",
-      "laneKind": "independent-verification",
-      "grantedAt": "2026-09-05T18:46:36.616Z",
-      "grantedBy": "Captain",
-      "reason": "Scale-cohort measurement read: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place (measured on Vermont 600-00228 field 15 by VF02). VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP; a known defect may not stay counted as proven.",
-      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
-    },
-    {
       "lane": "VF08",
-      "subjectType": "packet-family",
-      "subjectId": "wv_conv_single_misdemeanor-set",
-      "operation": "independent-verification",
-      "laneKind": "independent-verification",
-      "grantedAt": "2026-09-05T18:46:36.699Z",
-      "grantedBy": "Captain",
-      "reason": "Scale-cohort measurement read: FIX61's read-only scan (fix61/APPEARANCE_SCALE_COHORT.json) finds this proven family binds a form with widgets whose appearance BBox differs from the /Rect, so pdf-lib's translation-only flatten may stamp them at the wrong size or place (measured on Vermont 600-00228 field 15 by VF02). VF08 measures the delivered pages and re-scores CLIPPING_AND_OVERLAP; a known defect may not stay counted as proven.",
-      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+      "withdrawnAt": "2026-09-05T18:47:15Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
 }
