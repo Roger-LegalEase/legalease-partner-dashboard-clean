@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9f98bcfb5397ce1f84d910b699caf12e62ef476f",
+  "generatedAtCommit": "6738bf5272c490cd25067732658da8258ea510ce",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6212,7 +6212,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF18",
+      "lane": "PF04",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T06:01:24.574Z"
@@ -6227,7 +6227,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF18",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T22:52:11.335Z"
@@ -7185,7 +7185,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF18",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -7200,7 +7200,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF09",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -7215,7 +7215,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF19",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
@@ -13089,7 +13089,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "bb6e4fc8468325e93087613bd9380ee169d6b13afc13fb060785db61b7053673",
+  "claimsDigest": "181519d059aa4f36a8573a265f6f629d342c2741bcfba182b770e50cb62dad9e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26825,6 +26825,30 @@
       "operation": "rapid-repair",
       "laneKind": "repair",
       "releasedAt": "2026-09-05T02:26:38.203Z"
+    },
+    {
+      "lane": "PF09",
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-05T02:40:16.977Z"
+    },
+    {
+      "lane": "PF18",
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-05T02:40:17.207Z"
+    },
+    {
+      "lane": "PF19",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "releasedAt": "2026-09-05T02:40:17.441Z"
     }
   ],
   "reissues": [
@@ -36945,6 +36969,39 @@
       "previouslyReleasedAt": "2026-09-03T19:00:40.583Z",
       "transferredAt": "2026-09-05T02:02:14.581Z",
       "reason": "The family passed the visual gate after the read that last described it, and its bytes are unchanged since. This lane neither built nor repaired it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF09",
+      "toLane": "PF02",
+      "previouslyReleasedAt": "2026-09-05T02:40:16.977Z",
+      "transferredAt": "2026-09-05T02:40:17.095Z",
+      "reason": "Consolidating the five Rhode Island families onto PF02 under OWN-RI-PROPOSED-ORDER-2026-09-05. All five need the same three court-specific composed proposed orders; split across four lanes they would be composed three times over and could diverge. No lane is executing this grant: it was minted by the generated dispatch and never taken."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF18",
+      "toLane": "PF02",
+      "previouslyReleasedAt": "2026-09-05T02:40:17.207Z",
+      "transferredAt": "2026-09-05T02:40:17.323Z",
+      "reason": "Consolidating the five Rhode Island families onto PF02 under OWN-RI-PROPOSED-ORDER-2026-09-05. All five need the same three court-specific composed proposed orders; split across four lanes they would be composed three times over and could diverge. No lane is executing this grant: it was minted by the generated dispatch and never taken."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "packet-build",
+      "laneKind": "packet-build",
+      "fromLane": "PF19",
+      "toLane": "PF02",
+      "previouslyReleasedAt": "2026-09-05T02:40:17.441Z",
+      "transferredAt": "2026-09-05T02:40:17.559Z",
+      "reason": "Consolidating the five Rhode Island families onto PF02 under OWN-RI-PROPOSED-ORDER-2026-09-05. All five need the same three court-specific composed proposed orders; split across four lanes they would be composed three times over and could diverge. No lane is executing this grant: it was minted by the generated dispatch and never taken."
     }
   ],
   "withdrawals": [
