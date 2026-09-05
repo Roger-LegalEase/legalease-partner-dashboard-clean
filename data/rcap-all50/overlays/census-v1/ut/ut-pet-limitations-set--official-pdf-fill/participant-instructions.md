@@ -31,7 +31,7 @@ The caption on the petition and the order is already marked **District Court**, 
 
 **The certificate itself may carry a further BCI charge, and no held source states an amount for this route.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to "pay all associated fees as indicated in the BCI letter" — that letter is where your own certificate price appears.
 
-This packet has checked, and says what it found rather than guessing. The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that "eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations". Your route is a charge ended by the limitations period. That is not a conviction, a plea in abeyance or a special certificate, and it is not a dismissal, an acquittal or a declination either, so neither half of that sentence is about your case and this packet will not read it across to you.
+This packet has checked what this repository holds, and it will not put a figure in front of you that no form in this packet prints. Utah sets BCI's amounts through the Utah Code 63J-1-504 process rather than by a number in the expungement statute, and the controlling Utah design records the current BCI application and issuance amounts as an open, release-blocking question. Nothing enclosed here prints a certificate issuance amount for a charge ended by the limitations period, and a secondary figure is not something this packet will pass on to you as a price. The Bureau of Criminal Identification is the office that states the current amount.
 
 Ask the Bureau of Criminal Identification what a certificate will cost on your case, at bci.utah.gov/expungements, and ask at the same time whether its indigency waiver covers the issuance fee as well as the application fee. Do not assume the court's fee waiver covers either BCI amount: the court and BCI are two different offices with two different waivers.
 
@@ -93,5 +93,5 @@ Every direction above is quoted from a publication held in this repository and r
 - **1044XX** — District Court Cover Sheet for Civil Actions (Utah State Courts); SHA-256 `b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52` (filingDestination, feeAndWaiver)
 - **1305GE** — Motion to Waive Fees for Expungement - Criminal (Utah State Courts); SHA-256 `c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597` (feeAndWaiver)
 - **1146XX** — Acceptance of Service - Expungement (Prosecutor) (Utah State Courts); SHA-256 `39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad` (service)
-- **UT-COMPILED-STATE-PROFILE** — Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository); SHA-256 `73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d` (feeAndWaiver)
+- **UT-COMPILED-STATE-PROFILE** — Compiled Utah state profile (BCI expungement FAQ, as compiled into this repository); SHA-256 `8d5cf4015c48ae25b9e0161ea929be95b7df2c58ef4ff0a3975e94770eff9965` (feeAndWaiver)
 

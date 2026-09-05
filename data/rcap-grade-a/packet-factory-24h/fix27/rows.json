@@ -1,0 +1,302 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX27-UT-LIMITATIONS-Q4",
+  "assignmentId": "FIX27",
+  "assignedBase": "aa866d165",
+  "branch": "fix27-ut-limitations-q4",
+  "laneKind": "repair",
+  "selfVerificationPerformed": 0,
+  "notAPass": "This lane repaired a family it holds a grant over. Nothing here is a PASS. Independent verification is owed at this tip.",
+  "buildEnvironment": {
+    "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "privateCorpus": "captain-worktree carries no private/ directory at this base; the git-ignored corpus was copied from /home/user/legalease-partner-dashboard-clean/private and nothing outside this worktree was edited.",
+    "nodeModules": "symlink to /home/user/captain-worktree/node_modules",
+    "sparseCheckout": "core.sparseCheckout false; git ls-files -v reports 0 skip-worktree entries"
+  },
+  "rows": [
+    {
+      "itemId": "ut_pet_limitations-set",
+      "familyId": "ut_pet_limitations-set",
+      "jurisdiction": "UT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill",
+      "routeKeys": [
+        "obligation:unit:UT:ut_pet_limitations:ut_pet_limitations-bci-certificate",
+        "obligation:unit:UT:ut_pet_limitations:ut_pet_limitations-court-petition"
+      ],
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "OWNER_CORRECTION_Q4"
+      ],
+      "obligationsConfirmedAbsentButNotChangedByThisLane": [
+        "PAGE_ORDER",
+        "SELF_HELP_STOP"
+      ],
+      "obligationsRepairedOrConfirmed": {
+        "OWNER_CORRECTION_Q4": {
+          "action": "CHANGED",
+          "by": "this lane"
+        },
+        "PAGE_ORDER": {
+          "action": "CONFIRMED",
+          "by": "ancestor e621bb5a1; re-measured here on the bytes this lane delivers"
+        },
+        "SELF_HELP_STOP": {
+          "action": "CONFIRMED",
+          "by": "ancestor e621bb5a1; re-measured here on the bytes this lane delivers"
+        }
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "ARTIFACTS (a central whole-family raster is still owed on canonical b6614145 and boundary 9a3c2721 from the earlier reorder commit; this lane neither created nor discharges that debt)",
+        "every other proof obligation, which belongs to independent verification and not to a repair lane"
+      ],
+      "ownerCorrectionQ4": {
+        "correctionId": "OWNER_CORRECTION_Q4",
+        "fromQuestion": "Q4-publishing-a-filing-fee-the-design-declines-to-publish",
+        "live": true,
+        "ruleAsApplied": "A figure the enclosed official form itself prints may stay, but only as a description of what that form says, framed as not this packet's certification of the current amount, and paired with the clerk/agency direction. A figure no enclosed form prints must go, replaced by the controlling design's own refusal and the direction to the agency for the current amount. No figure was invented and none was added.",
+        "threeFiguresAudited": [
+          {
+            "figure": "$150",
+            "source": "the row `$150 [ ] Expungement Petition - Criminal (E)' printed on page 2 of the enclosed cover sheet, Utah form 1044XX rev 2026-05-06, which this packet delivers with that row already marked",
+            "enclosedFormPrintsIt": true,
+            "disposition": "KEPT, unchanged",
+            "why": "The participant is holding the sheet that carries the figure. The paragraph already describes it as what the form says on the revision held, expressly disclaims certifying that the amount is current, and names the clerk of the district court where the case was heard as the office that states it. That is exactly the owner's permitted form of words, so nothing was edited."
+          },
+          {
+            "figure": "$65.00",
+            "source": "the enclosed BCI Application for Certificate of Eligibility, in its own printed text and again on its payment block",
+            "enclosedFormPrintsIt": true,
+            "disposition": "KEPT, unchanged",
+            "why": "Same basis. The paragraph attributes the figure to the enclosed application, states that the held copy carries no revision date, refuses it as a confirmed current price, and directs the participant to the Bureau of Criminal Identification at bci.utah.gov/expungements before mailing anything."
+          },
+          {
+            "figure": "$65 per case",
+            "source": "BCI's published expungement FAQ, quoted through the compiled Utah state profile src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+            "enclosedFormPrintsIt": false,
+            "disposition": "REMOVED",
+            "why": "No form in this packet prints it, and the same paragraph went on to say the sentence does not reach this route. It was a figure in front of the participant that the packet itself disclaimed. The owner's rule requires it to go, replaced by the design's own refusal and the direction to BCI."
+          }
+        ],
+        "sentenceRemovedVerbatim": "This packet has checked, and says what it found rather than guessing. The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations\". Your route is a charge ended by the limitations period. That is not a conviction, a plea in abeyance or a special certificate, and it is not a dismissal, an acquittal or a declination either, so neither half of that sentence is about your case and this packet will not read it across to you.",
+        "sentenceAddedVerbatim": "This packet has checked what this repository holds, and it will not put a figure in front of you that no form in this packet prints. Utah sets BCI's amounts through the Utah Code 63J-1-504 process rather than by a number in the expungement statute, and the controlling Utah design records the current BCI application and issuance amounts as an open, release-blocking question. Nothing enclosed here prints a certificate issuance amount for a charge ended by the limitations period, and a secondary figure is not something this packet will pass on to you as a price. The Bureau of Criminal Identification is the office that states the current amount.",
+        "theRefusalIsTheDesignsOwn": "data/record-clearing/legal-design-intake/UT.memo.json track ut_pet_limitations records the current BCI application and issuance amounts as an unresolved question at impact release_blocker, because 'the statute sets them through the Section 63J-1-504 process rather than by number, and the secondary figures of 65 dollars each are unconfirmed'. The added sentence carries that refusal and names BCI as the office that states the amount.",
+        "noFigureInvented": true,
+        "noFigureAdded": true,
+        "figuresRemainingInTheGuide": [
+          "$150, attributed to enclosed form 1044XX rev 2026-05-06",
+          "$65.00, attributed to the enclosed BCI application"
+        ],
+        "figuresRemainingThatNoEnclosedFormPrints": []
+      },
+      "isolationFromTheOtherFiveFamilies": {
+        "sharedHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs, which builds all seven Utah families on this host",
+        "isolationMechanism": "Both edited strings are inside the certificateIssuanceFeeNotEstablished branch and are further switched on config.ownerFeeCorrection. certificateIssuanceFeeNotEstablished is declared by exactly one config in the host - slug ut-pet-limitations-set at line 322 - so no other family reaches either string. The pre-correction wording is preserved as the else limb rather than deleted, so a future family taking that branch without the owner correction still renders what it rendered before.",
+        "otherFamiliesRebuilt": false,
+        "otherFamiliesBeforeAndAfter": {
+          "ut_pet_acquittal-set": {
+            "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill",
+            "canonicalBefore": "b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5",
+            "canonicalAfter": "b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5",
+            "boundaryBefore": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4",
+            "boundaryAfter": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4",
+            "participantInstructionsBefore": "bfac504e78213babcc31be9efa1e96953d0f6e6d8293e6e70c41287c30e53f8d",
+            "participantInstructionsAfter": "bfac504e78213babcc31be9efa1e96953d0f6e6d8293e6e70c41287c30e53f8d",
+            "unchanged": true
+          },
+          "ut_pet_conviction-set": {
+            "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+            "canonicalBefore": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+            "canonicalAfter": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+            "boundaryBefore": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+            "boundaryAfter": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+            "participantInstructionsBefore": "cc3942145ffc0db08590fd1157d204dfba55c3ae5796c1406d674ff40ca9f467",
+            "participantInstructionsAfter": "cc3942145ffc0db08590fd1157d204dfba55c3ae5796c1406d674ff40ca9f467",
+            "unchanged": true
+          },
+          "ut_pet_dismissed_with_prejudice-set": {
+            "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+            "canonicalBefore": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+            "canonicalAfter": "ad594f0a40750195b67e36916f3628df5b96d337e4955c9063b415747d6e36d6",
+            "boundaryBefore": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+            "boundaryAfter": "b3ba83a65754f96fe58083de62a3ce879654d6362170e11bae2f043e4c39a765",
+            "participantInstructionsBefore": "605e0c45235c1a8788f61735156ef1f143a8edc43c01e733a4f8c000ba63fa13",
+            "participantInstructionsAfter": "605e0c45235c1a8788f61735156ef1f143a8edc43c01e733a4f8c000ba63fa13",
+            "unchanged": true
+          },
+          "ut_pet_dismissed_without_prejudice-set": {
+            "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill",
+            "canonicalBefore": "c29dec5d606bdb248e7f00f07a76eb0d846b5fa1896bac7b711e08283fe93952",
+            "canonicalAfter": "c29dec5d606bdb248e7f00f07a76eb0d846b5fa1896bac7b711e08283fe93952",
+            "boundaryBefore": "682f7b6d42bcc670d936e14d637ed9dfff3854f56a3c6f9e1684f2d43f86cdf7",
+            "boundaryAfter": "682f7b6d42bcc670d936e14d637ed9dfff3854f56a3c6f9e1684f2d43f86cdf7",
+            "participantInstructionsBefore": "ecaf12c00e43d76361d83ba92840647d0af43558447216e6759a4377bd69a20c",
+            "participantInstructionsAfter": "ecaf12c00e43d76361d83ba92840647d0af43558447216e6759a4377bd69a20c",
+            "unchanged": true
+          },
+          "ut_pet_no_charges-set": {
+            "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill",
+            "canonicalBefore": "1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143",
+            "canonicalAfter": "1ee8fad3cd777f6f476b159be35dea893a47477d91ca70e3518e53bcbfffe143",
+            "boundaryBefore": "3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485",
+            "boundaryAfter": "3686f4f02146dc1e0e5ea105d219e1f9497dcb514a4345fce76f029f7f1c6485",
+            "participantInstructionsBefore": "5583e979eaf25c1d0ec57fff4c3f42c2adcded90363253c4df9f8dc9c9e091fe",
+            "participantInstructionsAfter": "5583e979eaf25c1d0ec57fff4c3f42c2adcded90363253c4df9f8dc9c9e091fe",
+            "unchanged": true
+          },
+          "ut_pet_traffic-set": {
+            "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-traffic-set--official-pdf-fill",
+            "canonicalBefore": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+            "canonicalAfter": "b5fcdd1601c823f3ebc6b18f74f5b639789220ec9e8363202c6e1492f9d90909",
+            "boundaryBefore": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+            "boundaryAfter": "ef8b488fe1f78f87a47419ddf2123ad9909b88612931a8c031ade0299a8d6e03",
+            "participantInstructionsBefore": "8e1591b9afdf586394982e30e385b3efc3b51f6511746dd0441da837a08ef82e",
+            "participantInstructionsAfter": "8e1591b9afdf586394982e30e385b3efc3b51f6511746dd0441da837a08ef82e",
+            "unchanged": true
+          }
+        },
+        "allSixOtherFamiliesByteIdentical": true,
+        "note": "Six other families live on this host: acquittal, conviction, dismissed-with-prejudice, dismissed-without-prejudice, no-charges and traffic. The brief names five; the host declares six besides limitations, and all six are reported."
+      },
+      "pageOrder": {
+        "obligation": "PAGE_ORDER",
+        "changedByThisLane": false,
+        "confirmedOnTheBytesDelivered": true,
+        "how": "node scripts/test-ut-pet-limitations-order-and-stops.mjs, run on this worktree after the two rebuilds. It derives the expected page sequence from data/record-clearing/legal-design-packet-set-manifests.json packetSetId ut_pet_limitations-set ordered by component order, expands it by the source-receipt page counts, and asserts deepEqual against the pageManifest of both rendered artifacts. Exit 0.",
+        "deliveredSequence": "pages 1-2 UT-BCI-EXP-APPLICATION (component 1), page 3 UT-BCI-THIRD-PARTY-RELEASE (2), pages 4-5 1044XX cover sheet (3), pages 6-7 1000EX petition (4), pages 8-10 1020EX proposed order (5), page 11 1146XX acceptance of service (6), pages 12-13 1148XX consent and waiver (7), pages 14-16 1149XX victim's or prosecutor's statement (8), pages 17-19 1169XX reply (9). Component 10, filing_and_timing_instructions, is the separately delivered participant-instructions.md. Identical in both fixtures.",
+        "repairedBy": "ancestor commit e621bb5a1, confirmed by FIX26 and re-measured here"
+      },
+      "selfHelpStop": {
+        "obligation": "SELF_HELP_STOP",
+        "changedByThisLane": false,
+        "confirmedOnTheBytesDelivered": true,
+        "recordConsulted": "data/record-clearing/legal-design-track-registry.json track ut_pet_limitations selfHelpStopConditions",
+        "conditionsInRecord": 8,
+        "conditionsCarriedVerbatim": 8,
+        "missing": 0,
+        "how": "Each of the eight registry strings was tested as an exact substring of the rebuilt participant-instructions.md: 8 verbatim, 0 missing. The same test script additionally asserts that the eight bullets under '## When to stop and get a lawyer' deepEqual the registry array in order, and that the retired sentence 'if the court schedules a hearing, attend it' is absent. Exit 0.",
+        "noStopConditionInvented": true,
+        "repairedBy": "ancestor commit e621bb5a1, confirmed by FIX26 and re-measured here"
+      },
+      "whatChanged": [
+        {
+          "path": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "change": "In the certificateIssuanceFeeNotEstablished branch of the fee section, the single paragraph that quoted the compiled profile's FAQ sentence was turned into a config.ownerFeeCorrection ternary. The ownerFeeCorrection limb is the new refusal; the other limb is the previous wording, unchanged. An OWNER CORRECTION Q4 comment block records the reasoning above it.",
+          "removedSentence": "This packet has checked, and says what it found rather than guessing. The compiled Utah state profile in this repository records BCI's published expungement FAQ as saying that \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations\". Your route is a charge ended by the limitations period. That is not a conviction, a plea in abeyance or a special certificate, and it is not a dismissal, an acquittal or a declination either, so neither half of that sentence is about your case and this packet will not read it across to you.",
+          "addedSentence": "This packet has checked what this repository holds, and it will not put a figure in front of you that no form in this packet prints. Utah sets BCI's amounts through the Utah Code 63J-1-504 process rather than by a number in the expungement statute, and the controlling Utah design records the current BCI application and issuance amounts as an open, release-blocking question. Nothing enclosed here prints a certificate issuance amount for a charge ended by the limitations period, and a secondary figure is not something this packet will pass on to you as a price. The Bureau of Criminal Identification is the office that states the current amount."
+        },
+        {
+          "path": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+          "change": "The certificateIssuanceFeeNotEstablished build-finding line was likewise made a config.ownerFeeCorrection ternary, because the old finding asserted that the refusal is 'reasoned on the packet's face' by the profile sentence, which stopped being true once the quotation was removed. The corrected finding keeps the reasoning in the build record and says why it is no longer on the packet's face.",
+          "removedSentence": "The certificate issuance fee is refused on this route and the refusal is reasoned on the packet's face: the compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and a charge ended by the limitations period is neither. Reading the exemption across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids, so the packet names BCI as the authority instead.",
+          "addedSentence": "The certificate issuance fee is refused on this route, and per OWNER_CORRECTIONS_REQUIRED.json Q4 the refusal no longer quotes a figure to make its point. The compiled Utah profile's certificate sentence names conviction, plea-in-abeyance and special certificates on one side and dismissals, acquittals and declinations on the other, and a charge ended by the limitations period is neither, so reading either limb across to this route would be the sibling-route inference DET-FEE-AND-WAIVER-001 amendment A3 forbids. That reasoning is recorded here rather than on the packet's face, because the figure it turns on - an amount from BCI's published FAQ that NO FORM ENCLOSED IN THIS PACKET PRINTS - is exactly what the owner directed be removed. The instructions now carry the controlling design's own refusal (UT.memo rules.fees records the current BCI amounts as an open release-blocking question, Utah setting them through the Utah Code 63J-1-504 process rather than by number) and name the Bureau of Criminal Identification as the office that states the current amount."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md",
+          "change": "Rebuilt. Two hunks: the fee paragraph above, and the cited-authority line for UT-COMPILED-STATE-PROFILE, whose SHA-256 refreshed from 73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d (345529 bytes) to 8d5cf4015c48ae25b9e0161ea929be95b7df2c58ef4ff0a3975e94770eff9965 (346575 bytes). That refresh is not this lane's edit: it is the stale-digest drift FIX26 recorded, cleared for this one family by the act of rebuilding. The builder asserts the sentences it relies on are still present in the profile before it will cite it, and that assertion passed on both builds."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/build-findings.json",
+          "change": "Rebuilt. The certificate-fee finding above, and the same UT-COMPILED-STATE-PROFILE digest refresh."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/production-field-map.json",
+          "change": "Rebuilt. The only difference is the same UT-COMPILED-STATE-PROFILE digest and byteLength refresh."
+        }
+      ],
+      "whatWasDeliberatelyNotCommitted": {
+        "raster": "The Utah host rejects --no-raster: runUtahCompletenessRepair throws 'unsupported option' on any argv entry beginning with -- except --check, which itself throws. The family was therefore built normally and the locally emitted raster discarded with git checkout -- <family>/raster <family>/build-status.json <family>/reports/rendered-artifacts.json. 22 of the 38 page PNGs had been re-rendered by this container's browser at rasterEngineVersion 24.02.0 against the committed 26.05.0; none of that is central acceptance and none of it is committed. git status shows no raster, no build-status.json and no rendered-artifacts.json change.",
+        "whyRenderedArtifactsJsonWasAlsoRestored": "Its entire diff was raster evidence - 38 engineVersion fields, 2 rasterEngineVersion fields and the 22 changed page hashes with their byte lengths. Every non-raster field, including both fixture hashes, was byte-identical, verified by structural comparison after stripping rasterPages and rasterEngineVersion. Committing it would have left the recorded page hashes pointing at PNGs this lane had just discarded.",
+        "centralQueues": "RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing and are unchanged."
+      },
+      "rebuiltTwice": true,
+      "determinism": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-ut_pet_limitations-set.mjs, run twice",
+        "fixturesByteIdenticalAcrossBuilds": true,
+        "alsoByteIdenticalAcrossBuilds": [
+          "participant-instructions.md",
+          "build-findings.json",
+          "production-field-map.json"
+        ],
+        "nonDeterministicOutputs": "Only the raster PNGs and the raster fields of reports/rendered-artifacts.json, which is why they were discarded rather than committed."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5",
+          "newSha256": "b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5",
+          "byteLength": 3024894,
+          "moved": false
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4",
+          "newSha256": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4",
+          "byteLength": 3025534,
+          "moved": false
+        },
+        "whyTheFixturesDidNotMove": "The owner correction reaches only the guidance. participant-instructions.md is component 10 of the packet-set manifest and is delivered as its own file rather than rendered into the PDFs, so rewriting one of its paragraphs cannot move a fixture byte. Both PDFs rebuilt to exactly the bytes committed at the assigned base."
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md",
+        "oldSha256": "b22035f20f14a9effd7b7e12fde86ac0b86d04a96635980b8676e2808d9bdc8c",
+        "newSha256": "4acffada4ac351076204e6ddd83d49e26d40a35c803a454b5094a395f6e1375b",
+        "byteLength": 12561
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHow": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_limitations-set, run before the edit and again on the delivered bytes. PASS_COMPLETE at 38/444 written both times, nine zeros both times.",
+      "verifiers": {
+        "verifyPacketCompleteness": "PASS_COMPLETE, 38/444 written, all nine counters zero, before and after.",
+        "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED - 248 receipts compared against HEAD, 52 carrying an identityRefresh, nothing to restore.",
+        "testUtPetLimitationsOrderAndStops": "PASS, exit 0: 'ut_pet_limitations-set: manifest order and eight registry stop conditions OK'."
+      },
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "changedByThisLane": false,
+        "why": "It was already null at the assigned base and the fixtures did not move, so there was nothing to clear."
+      },
+      "rasterOwed": true,
+      "rasterNote": "A central whole-family raster is still owed on canonical b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5 and boundary 9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4. That debt predates this lane - it was created when e621bb5a1 reordered the pages away from the bytes the last receipt bound - and this lane neither adds to it nor discharges it, because no fixture byte moved here. RASTER_QUEUE.json already pins those digests at RASTER_PENDING with no receipt, which is the correct posture, and was not touched.",
+      "whatIsOwedNext": "An independent verification at this tip, and the central raster above. This lane self-verified nothing.",
+      "claimReleased": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "changedPaths": [
+    "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-grade-a/packet-factory-24h/fix27/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  ],
+  "packetPdfBytesChanged": 0,
+  "rasterBytesCommitted": 0,
+  "centralQueuesTouched": 0,
+  "selfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
