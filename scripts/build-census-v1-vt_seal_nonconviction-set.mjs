@@ -848,6 +848,24 @@ async function renderDocument(source, census, fixtureName) {
      * its own /Off appearance and is untouched by this: its six boxes are the
      * court's own and stay, which is what RI-OFF-APPEARANCE settles. */
     suppressSynthesizedAppearances: true,
+    /* FIX61. 600-00228 field 15 ships an appearance whose /BBox is [0 0 18 18]
+     * against a /Rect of 14.4 x 14.4. ISO 32000-1 12.5.5 requires the
+     * transformed BBox to be fitted to the /Rect -- here a scale of 0.8 --
+     * and pdf-lib's flatten() emits a translation only, so the fit never
+     * happened: a 17pt stroked square was stamped on packet page 5 where the
+     * Judiciary's own form draws a 13.6pt one, about 3.4pt of stroke outside
+     * the widget's own box and 670 dark pixels at 300 dpi that the official
+     * form carries neither in its page content nor in its own /Off stream.
+     * VF02 measured it, and its sweep over all 161 flattened placements in
+     * this packet found 160 correct and this one wrong.
+     *
+     * Opting in pre-composes the 12.5.5 mapping into that appearance's own
+     * /Matrix. The other 160 placements map to the identity within the shared
+     * tolerance and are not touched -- including field 16 on the same page,
+     * whose /Rect is 14.401 rather than 14.400. This is the shared step's
+     * defect, not Vermont's; the option is default-off and no other family's
+     * bytes move because this family passes it. */
+    fitAppearancesToRect: true,
     title: FORMS[source.formNumber].title
   });
   if (process.env.VT_DEBUG_RENDER) {
