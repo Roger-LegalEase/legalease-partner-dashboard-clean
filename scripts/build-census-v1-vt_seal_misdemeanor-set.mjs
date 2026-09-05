@@ -357,25 +357,85 @@ export const FAMILY_CONFIGS = Object.freeze({
     jurisdiction: "VT", routeKey: "obligation:track-pathway:VT:vt_seal_misdemeanor:adult-misdemeanor-conviction-sealing",
     routeSelectionId: "vt-seal-misdemeanor-200-00130-complete-set",
     routeName: "sealing an adult misdemeanour conviction under 13 V.S.A. § 7602",
-    convicted: true, documents: ROUTE_DOCUMENTS
+    convicted: true, documents: ROUTE_DOCUMENTS,
+    /*
+     * FIX75. The one word, now that this family's repair is claimed.
+     *
+     * VF05 measured this family's participant-instructions.md against its own
+     * committed registry track and found 0 of its declared selfHelpStopConditions
+     * carried: zero occurrences of "lawyer", "legal aid", "self-help",
+     * "immigration", "victim" or "pending", and the one passage that reached a
+     * stop condition told the participant to attend the contested hearing alone.
+     * The sibling vt_seal_pardon-set, built by this same host from this same
+     * registry field, carried all ten of its own. Setting the track id here
+     * makes this family read ITS OWN track: its own stop conditions, its own
+     * waiting periods and its own exclusions, quoted rather than restated, in
+     * the shape the pardon family already delivers.
+     */
+    registryGuidanceTrackId: "vt_seal_misdemeanor"
   },
   "vt_seal_felony-set": {
     jurisdiction: "VT", routeKey: "obligation:track-pathway:VT:vt_seal_felony:adult-felony-conviction-sealing",
     routeSelectionId: "vt-seal-felony-200-00130-complete-set",
     routeName: "sealing an adult felony conviction under 13 V.S.A. § 7602",
-    convicted: true, documents: ROUTE_DOCUMENTS
+    convicted: true, documents: ROUTE_DOCUMENTS,
+    /*
+     * FIX75. The one word, now that this family's repair is claimed.
+     *
+     * VF05 measured this family's participant-instructions.md against its own
+     * committed registry track and found 0 of its declared selfHelpStopConditions
+     * carried: zero occurrences of "lawyer", "legal aid", "self-help",
+     * "immigration", "victim" or "pending", and the one passage that reached a
+     * stop condition told the participant to attend the contested hearing alone.
+     * The sibling vt_seal_pardon-set, built by this same host from this same
+     * registry field, carried all ten of its own. Setting the track id here
+     * makes this family read ITS OWN track: its own stop conditions, its own
+     * waiting periods and its own exclusions, quoted rather than restated, in
+     * the shape the pardon family already delivers.
+     */
+    registryGuidanceTrackId: "vt_seal_felony"
   },
   "vt_seal_dui-set": {
     jurisdiction: "VT", routeKey: "obligation:track-pathway:VT:vt_seal_dui:dui-sealing",
     routeSelectionId: "vt-seal-dui-200-00130-complete-set",
     routeName: "sealing a DUI conviction under 13 V.S.A. § 7602",
-    convicted: true, documents: ROUTE_DOCUMENTS
+    convicted: true, documents: ROUTE_DOCUMENTS,
+    /*
+     * FIX75. The one word, now that this family's repair is claimed.
+     *
+     * VF05 measured this family's participant-instructions.md against its own
+     * committed registry track and found 0 of its declared selfHelpStopConditions
+     * carried: zero occurrences of "lawyer", "legal aid", "self-help",
+     * "immigration", "victim" or "pending", and the one passage that reached a
+     * stop condition told the participant to attend the contested hearing alone.
+     * The sibling vt_seal_pardon-set, built by this same host from this same
+     * registry field, carried all ten of its own. Setting the track id here
+     * makes this family read ITS OWN track: its own stop conditions, its own
+     * waiting periods and its own exclusions, quoted rather than restated, in
+     * the shape the pardon family already delivers.
+     */
+    registryGuidanceTrackId: "vt_seal_dui"
   },
   "vt_seal_18_to_21-set": {
     jurisdiction: "VT", routeKey: "obligation:track-pathway:VT:vt_seal_18_to_21:young-adult-sealing-for-offenses-committed-at-ages-18-21",
     routeSelectionId: "vt-seal-18-to-21-200-00130-complete-set",
     routeName: "sealing an offence committed between the ages of 18 and 21 under 13 V.S.A. § 7602",
-    convicted: true, documents: ROUTE_DOCUMENTS
+    convicted: true, documents: ROUTE_DOCUMENTS,
+    /*
+     * FIX75. The one word, now that this family's repair is claimed.
+     *
+     * VF05 measured this family's participant-instructions.md against its own
+     * committed registry track and found 0 of its declared selfHelpStopConditions
+     * carried: zero occurrences of "lawyer", "legal aid", "self-help",
+     * "immigration", "victim" or "pending", and the one passage that reached a
+     * stop condition told the participant to attend the contested hearing alone.
+     * The sibling vt_seal_pardon-set, built by this same host from this same
+     * registry field, carried all ten of its own. Setting the track id here
+     * makes this family read ITS OWN track: its own stop conditions, its own
+     * waiting periods and its own exclusions, quoted rather than restated, in
+     * the shape the pardon family already delivers.
+     */
+    registryGuidanceTrackId: "vt_seal_18_to_21"
   },
   "vt_seal_pardon-set": {
     jurisdiction: "VT", routeKey: "obligation:track-only:VT:vt_seal_pardon",
@@ -554,6 +614,52 @@ async function renderDocument(source, census, fixtureName) {
      * the platform holds, which is the opposite of the fix.
      */
     evaluateDeclaredMinimumSize: true,
+    /*
+     * FIX75. The fitted size is written onto the WIDGET as well as the field.
+     *
+     * VF05 read the delivered boundary bytes and found one defect visible on a
+     * delivered page: 200-00132 field 34d, packet page 3, the DEFENDANT's
+     * "Printed Name" in the stipulation's signature block. Its flattened
+     * appearance draws the whole of "Maria-Alejandra O’Shaughnessy-Whitfield"
+     * at /Helvetica 11 -- 203.88pt of text -- inside its own clip path, which
+     * stops at 173.743pt. The last eight characters never reach the paper, and
+     * nothing sees it: pdftotext returns the whole string because the Tj
+     * operator carries it, actual-writes.json correctly reports no glyph
+     * outside a measured write box because the clip removed them, and all nine
+     * counters are zero.
+     *
+     * The cause is the one alignWidgetFontSizeToFit exists for, and it is
+     * measurable in the pinned source. applyFitToTextField sets the size on the
+     * FIELD's /DA, and pdf-lib's text appearance provider prefers the WIDGET's
+     * /DA size where the widget has one of its own. On 200-00132 exactly one
+     * written field is affected. 34e, 34f and 34h each carry
+     * `/Calibri 11 Tf 0 g`, but their widget annotation IS the field
+     * dictionary -- the ordinary merged single-widget shape -- so writing the
+     * field's size writes the widget's and the fit reaches the paper. 34i
+     * carries a separate widget with no /DA of its own, so it follows the field
+     * too, which is why its boundary email drew at the 6pt the fitter measured.
+     * 34d is the one field on this form whose widget is a SEPARATE dictionary
+     * carrying its own `/Calibri 11 Tf 0 g`: the field was set to the fit and
+     * the widget kept 11, so the appearance drew 11. The fit for the boundary
+     * name is 8.96pt -- four rungs down from the 10.96 this 12.96pt-high box
+     * starts at, on a ladder whose floor is MIN_READABLE_FONT_SIZE 6 -- and the
+     * report said "shrunk" while the bytes drew 11. A report true about the fit
+     * and false about the ink is the worst shape a report can take, which is
+     * the finalizer's own reasoning for the flag.
+     *
+     * The alignment rewrites only the size token inside each widget's existing
+     * /DA and leaves its font resource and colour operators alone, so a value
+     * whose fit is already its widget's declared size is a no-op. No size is
+     * hand-set here: every size is the one the shared fitter measured against
+     * that widget's own rectangle, so the canonical name is not made smaller
+     * than it needs to be. fitTextPerWidget is NOT the repair for this: every
+     * field this host declares carries exactly one widget, so per-widget
+     * fitting measures the identical rectangle and changes nothing.
+     *
+     * Opt-in at this one call site, for the five families this host builds. No
+     * other family's bytes move because these five pass it.
+     */
+    alignWidgetFontSizeToFit: true,
     /* FIX58. The same shared-flattening defect FIX50 measured on the sibling
      * vt_seal_nonconviction-set, and the same repair, taken here for the five
      * families this host builds. 200-00130 ships 12 check-box widgets and
@@ -1060,7 +1166,18 @@ function instructionsMarkdown(familyId, config, resolved, rbf, filingInstruction
     out.push("And these are the exclusions the registry records for this route. If one of them describes your case, this petition is not the route:", "");
     for (const exclusion of track.exclusions) out.push(`- ${String(exclusion).replace(/\s*$/, "")}`);
     out.push("");
-    out.push("The first exclusion is this family's own: this packet is built for a pardoned conviction, and § 7601(4)(B)(iv) reaches an **unconditional** pardon only. If your pardon carried conditions, it does not open this route.", "");
+    /*
+     * FIX75. This sentence is ABOUT THE PARDON TRACK'S first exclusion -- a
+     * conditional pardon under § 7601(4)(B)(iv) -- and the other four tracks’
+     * first exclusions are different things entirely (a listed crime, a felony
+     * off the § 7601(4)(B) list, a commercial licence, a mixed record).
+     * Printing it for them would assert of their exclusion list something the
+     * registry does not say about it, so it stays where it belongs. The pardon
+     * family's own text is unchanged.
+     */
+    if (config.registryGuidanceTrackId === "vt_seal_pardon") {
+      out.push("The first exclusion is this family's own: this packet is built for a pardoned conviction, and § 7601(4)(B)(iv) reaches an **unconditional** pardon only. If your pardon carried conditions, it does not open this route.", "");
+    }
   }
   out.push("## The items you must supply", "");
   for (const [doc, items] of byDoc) {
@@ -1088,7 +1205,15 @@ function instructionsMarkdown(familyId, config, resolved, rbf, filingInstruction
     out.push("The committed track registry records these as the points where self-help ends on this route, in its own words. If any of them describes your case, stop here and take it to a lawyer or a legal-aid office rather than filing:", "");
     for (const condition of track.selfHelpStopConditions) out.push(`- ${String(condition).replace(/\s*$/, "")}`);
     out.push("");
-    out.push("The last of these is an open question rather than a rule, and the registry says so: for a pardoned **misdemeanour**, whether the three-year or the seven-year clock applies is something the statute does not resolve. This packet does not resolve it either, and you should not read the seven-year figure above as a settled answer for a misdemeanour.", "");
+    /*
+     * FIX75. Same reason as the exclusion note above: this describes the
+     * PARDON track's tenth stop condition, which is the only one of the five
+     * that records an unresolved clock. The other four tracks end on their own
+     * conditions and this sentence would be false of them.
+     */
+    if (config.registryGuidanceTrackId === "vt_seal_pardon") {
+      out.push("The last of these is an open question rather than a rule, and the registry says so: for a pardoned **misdemeanour**, whether the three-year or the seven-year clock applies is something the statute does not resolve. This packet does not resolve it either, and you should not read the seven-year figure above as a settled answer for a misdemeanour.", "");
+    }
   }
 
   out.push("## What this packet is not", "");
