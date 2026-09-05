@@ -84,11 +84,16 @@ function assertClaim(ledgerPath, lane, subjectId) {
   if (grant.released) die(9, `ALREADY_RELEASED: ${subjectId} at ${grant.releasedAt}`);
   console.log(`CLAIM_OK ${lane} ${subjectId} (${grant.laneKind}, grant set ${digest.slice(0, 16)})`);
 }
-function release(ledgerPath, lane, subjectId) {
+/* --reason is parsed off argv for every operation and was discarded here alone,
+ * so a release -- the operation that ENDS a lane's ownership and is the one a
+ * later reader most wants explained -- recorded no why at all. reissue,
+ * transfer and grant all keep theirs. */
+function release(ledgerPath, lane, subjectId, reason = null) {
   const { absolute, ledger } = read(ledgerPath); validate(ledger); const grant = locate(ledger, lane, subjectId);
   if (grant.released) die(9, `ALREADY_RELEASED: ${subjectId}`);
   grant.released = true; grant.releasedAt = new Date().toISOString();
-  ledger.releases = [...(ledger.releases ?? []), { lane, subjectType: grant.subjectType, subjectId, operation: grant.operation, laneKind: grant.laneKind, releasedAt: grant.releasedAt }];
+  if (reason) grant.releaseReason = reason;
+  ledger.releases = [...(ledger.releases ?? []), { lane, subjectType: grant.subjectType, subjectId, operation: grant.operation, laneKind: grant.laneKind, releasedAt: grant.releasedAt, ...(reason ? { reason } : {}) }];
   ledger.claimsDigest = claimsDigest(ledger.claims);
   fs.writeFileSync(absolute, `${JSON.stringify(ledger, null, 2)}\n`);
   console.log(`RELEASED ${lane} ${subjectId}`);
@@ -260,7 +265,7 @@ const ri = args.indexOf("--reason"); let reason = null;
 if (ri >= 0) { reason = args[ri + 1] ?? null; args.splice(ri, 2); }
 const [mode, lane, subjectId] = args;
 if (mode === "--assert" && lane && subjectId) assertClaim(ledgerPath, lane, subjectId);
-else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, subjectId);
+else if (mode === "--release" && lane && subjectId) release(ledgerPath, lane, subjectId, reason);
 else if (mode === "--reissue" && lane && subjectId) reissue(ledgerPath, lane, subjectId, reason);
 else if (mode === "--transfer" && lane && subjectId && args[3]) transfer(ledgerPath, lane, subjectId, args[3], reason);
 else if (mode === "--grant" && lane && subjectId) grant(ledgerPath, lane, subjectId, reason);

@@ -1298,6 +1298,7 @@ const sourceDriftCache = new Map();
 function boundSourceDriftedSinceVerdict(directory) {
   if (sourceDriftCache.has(directory)) return sourceDriftCache.get(directory);
   let drifted = null;
+  const all = [];
   try {
     const receipt = JSON.parse(fs.readFileSync(path.join(ROOT, directory, "source-receipt.json"), "utf8"));
     for (const rec of receipt.committedRecords ?? []) {
@@ -1306,10 +1307,21 @@ function boundSourceDriftedSinceVerdict(directory) {
       const now = hashOnDisk(rel);
       /* A record that is GONE is a different failure -- the conveyor reports a
        * missing source -- and must not be read here as "unchanged". */
-      if (now === null) { drifted = { path: rel, pinned: rec.sha256, now: "MISSING" }; break; }
-      if (now !== rec.sha256) { drifted = { path: rel, pinned: rec.sha256, now }; break; }
+      /* Every drifted record, not the first. Breaking here made
+       * verificationLapsedBecause a FIRST-FAILURE report that reads like a
+       * census, and a repair driven off it left three families half-repaired
+       * and re-lapsing on the next run -- with an identityRefresh block on the
+       * receipt asserting they were done. The dispatch that found this was
+       * miscounted for the same reason: eighteen families, twenty-one stale
+       * pins, because three carry two. */
+      if (now === null) { all.push({ path: rel, pinned: rec.sha256, now: "MISSING" }); continue; }
+      if (now !== rec.sha256) { all.push({ path: rel, pinned: rec.sha256, now }); continue; }
     }
-  } catch { drifted = null; /* no receipt to check; other gates cover that */ }
+  } catch { sourceDriftCache.set(directory, null); return null; /* no receipt to check; other gates cover that */ }
+  /* The shape stays what every reader expects -- the first drifted record at
+   * the top level -- with the full set beside it, so a repair lane can see the
+   * whole job rather than one record of it. */
+  drifted = all.length ? { ...all[0], allDriftedRecords: all, driftedRecordCount: all.length } : null;
   sourceDriftCache.set(directory, drifted);
   return drifted;
 }
