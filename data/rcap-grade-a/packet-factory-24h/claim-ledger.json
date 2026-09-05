@@ -1509,10 +1509,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:56:21.911Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6602,8 +6602,8 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T22:33:48.996Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13629,7 +13629,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d05baa168a7313418a5ca790b8b572655f2ae226044de44c03dae024e75b35d2",
+  "claimsDigest": "c62cda966f727dfb31cca765285f75e53c4b872b10111f35d4498134e7f370ab",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37785,6 +37785,16 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T23:20:22Z",
       "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-05T22:33:48.996Z",
+      "reissuedAt": "2026-09-05T23:28:17.704Z",
+      "reason": "Independent read owed after FIX77 (certificate of service rendered as the manifest's composed component; order item 10 and item 3 written from held facts) and the central raster receipt from run 33998288235 on 7e2d40bd0 covering all three documents; fifteen obligations on the delivered bytes, nine counters measured, no score carried from VF03's pre-repair read."
     }
   ],
   "transfers": [
@@ -44178,6 +44188,17 @@
       "previouslyReleasedAt": "2026-09-05T22:37:22.970Z",
       "transferredAt": "2026-09-05T23:23:29.197Z",
       "reason": "VF03 FAIL CLIPPING_AND_OVERLAP at e80c4a759 on the FIX74 bytes: the shared flatten synthesizes a black square at 17 unmarked CC-1473 check boxes (2299 added dark pixels per fixture) and the reader proved a suppressSynthesizedAppearances rebuild pixel-identical to the pinned form at all 17 rects; add the opt-in at the builder's finalize call; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-05T21:56:21.911Z",
+      "transferredAt": "2026-09-05T23:28:17.812Z",
+      "reason": "Independent read owed after FIX70 (fitAppearancesToRect opt-in; the five JDF-477 radio bevels scaled to their Rects, sweep 75/75) and the central raster receipt from run 33995415457 on a6a9b99bb; fifteen obligations on the delivered bytes, nine counters measured, no score carried from VF02's pre-repair read; consolidated with the Pennsylvania 490 read on one lane."
     }
   ],
   "grants": [
