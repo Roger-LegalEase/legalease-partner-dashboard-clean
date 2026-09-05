@@ -140,7 +140,7 @@ function authBriefcaseFlowViolations(input) {
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "DTC auth handoff must not bypass packet information and final review.");
   require(!handoff.includes('/expungement-ai/packet-ready"'), "DTC result action must not bypass review and payment to packet-ready.");
 
-  require(input.signIn.includes("emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)"), "DTC sign-up must carry the claim token through email verification.");
+  require(input.signIn.includes("emailRedirectTo: expungementAuthRedirectTo(requestContext)"), "DTC sign-up must carry the validated continuation through email verification.");
   require(input.signIn.includes("absoluteExpungementAiUrl"), "DTC auth redirect must retain the Expungement.ai base URL fallback.");
   require(input.signIn.includes("submitClaim(requestContext.claimToken)"), "Authenticated sign-in must claim the pending result before navigation.");
   // Comments may name browser storage; calls into it are the violation.

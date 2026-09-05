@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     mode: status.mode,
     checkoutSessionId: status.checkoutSessionId,
     paymentIntentId: status.paymentIntentId,
-    receiptUrl: status.receiptUrl,
+    receiptAvailable: status.paid && status.mode === "stripe",
     amountCents: status.amountCents,
     packetStatus: updatedItem?.packetStatus ?? item.packetStatus,
     briefcaseItemId

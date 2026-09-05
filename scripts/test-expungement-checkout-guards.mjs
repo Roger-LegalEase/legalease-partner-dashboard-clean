@@ -14,7 +14,11 @@ const ts = require("typescript");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 function loadTsWithMocks(relPath, mocks) {
-  const resolved = path.join(rootDir, relPath);
+  return loadResolvedTsModule(path.join(rootDir, relPath), mocks, new Map());
+}
+
+function loadResolvedTsModule(resolved, mocks, cache) {
+  if (cache.has(resolved)) return cache.get(resolved).exports;
   const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
     compilerOptions: {
       esModuleInterop: true,
@@ -24,13 +28,36 @@ function loadTsWithMocks(relPath, mocks) {
   }).outputText;
 
   const mod = new Module(resolved);
+  cache.set(resolved, mod);
   const compiledFilename = `${resolved}.cjs`;
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
-  mod.require = (specifier) => (specifier in mocks ? mocks[specifier] : require(specifier));
+  mod.require = (specifier) => {
+    if (Object.hasOwn(mocks, specifier)) return mocks[specifier];
+    if (!specifier.startsWith("@/")) return require(specifier);
+    const candidate = resolveRepositoryAlias(specifier);
+    if (/\.tsx?$/.test(candidate)) return loadResolvedTsModule(candidate, mocks, cache);
+    return require(candidate);
+  };
   mod._compile(transpiled, compiledFilename);
   return mod.exports;
 }
+
+function resolveRepositoryAlias(specifier) {
+  const aliasBase = path.join(rootDir, "src", specifier.slice(2));
+  const candidate = [aliasBase, `${aliasBase}.ts`, `${aliasBase}.tsx`, `${aliasBase}.js`, path.join(aliasBase, "index.ts")]
+    .find((file) => fs.existsSync(file) && fs.statSync(file).isFile());
+  if (!candidate) {
+    throw new Error(`Unresolved repository alias in checkout fixture loader: ${specifier}`);
+  }
+  return candidate;
+}
+
+assert.throws(
+  () => resolveRepositoryAlias("@/lib/expungement-ai/definitely-missing-checkout-fixture"),
+  /Unresolved repository alias in checkout fixture loader/,
+  "future unresolved aliases must fail with an explicit fixture-loader error"
+);
 
 function read(relPath) {
   return fs.readFileSync(path.join(rootDir, relPath), "utf8");
@@ -267,6 +294,21 @@ function buildPaymentAdapter({
         return { kind: "factory_v2", canRender: true };
       }
     },
+    "@/lib/expungement-ai/packet-fulfillment-authority": {
+      assertPacketFulfillmentProven: () => ({ proven: true })
+    },
+    "@/lib/rcap/render/commercial-admission": {
+      commercialRouteIdentity: ({ jurisdiction, pathwayId }) => ({
+        routeId: `${jurisdiction}:${pathwayId}`,
+        jurisdiction,
+        pathwayId,
+        packetFamilyId: "fixture-family"
+      }),
+      finalVerificationSnapshotFrom: (input) => input,
+      fulfillmentRequestContext: (input) => input,
+      governCommercialAdmission: () => ({ admitted: true }),
+      isOperationallySellable: () => true
+    },
     "@/lib/expungement-ai/briefcase": {
       getBriefcaseItem: async () => null
     },
@@ -365,6 +407,15 @@ async function checkoutBehavior() {
       (error) => error?.name === "ConsumerCheckoutNotAllowedError"
     );
     assert.equal(h.createCalls.length, 0, "a mutated payment boolean cannot make a guidance matter purchasable");
+  }
+
+  {
+    const h = buildPaymentAdapter({ verificationSnapshotOverrides: { pathwayId: null } });
+    await assert.rejects(
+      h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
+      (error) => error?.name === "ConsumerPacketNotDeliverableError"
+    );
+    assert.equal(h.createCalls.length, 0, "missing canonical pathway identity must fail before Checkout exists");
   }
 
   {
@@ -766,6 +817,9 @@ function buildReconciliation({
     "@/lib/expungement-ai/checkout-analytics": {
       scheduleConsumerCheckoutCompleted: () => undefined
     },
+    "@/lib/expungement-ai/consumer-payment-receipt": {
+      stripeReceiptUrlForCheckoutSession: async () => "https://pay.stripe.com/receipts/fixture"
+    },
     "@/lib/expungement-ai/consumer-identity": {
       resolveConsumerPersonId: async () => ({ ok: true, personId: PERSON }),
       consumerMatterIdForItem: () => MATTER
@@ -817,8 +871,9 @@ async function webhookBehavior() {
       }
     );
     assert.equal(h.paymentCalls[0].expectedVerificationHash, "a".repeat(64), "payment entitlement carries the Checkout-bound verification hash");
+    assert.equal(h.paymentCalls[0].receiptUrl, "https://pay.stripe.com/receipts/fixture", "verified Stripe authority records the provider receipt");
     assert.equal(h.renderCalls.length, 1, "signed payment must enqueue one durable render request");
-    assert.equal(h.statusCalls[0].packetStatus, "pending");
+    assert.equal(h.statusCalls[0].packetStatus, "pending", "webhook status remains pending until artifact completion");
   }
 
   {
@@ -837,6 +892,7 @@ async function webhookBehavior() {
     const outcome = await h.reconciliation.reconcileExpungementAiCheckoutEvent(completedEvent());
     assert.equal(outcome, "recovered", "writable packet_status Ready cannot suppress protected recovery");
     assert.equal(h.renderCalls.length, 1);
+    assert.equal(h.statusCalls[0].packetStatus, "pending", "ready is forbidden until protected artifact completion");
   }
 
   {
@@ -1020,6 +1076,19 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
     },
     "@/lib/rcap/render/consumer-delivery-control": {
       resolveConsumerDeliveryAccess: () => ({ allowed: true })
+    },
+    "@/lib/rcap/render/commercial-admission": {
+      CommercialAdmissionDeniedError: class CommercialAdmissionDeniedError extends Error {},
+      commercialRouteIdentity: ({ jurisdiction, pathwayId }) => ({
+        routeId: `${jurisdiction}:${pathwayId}`,
+        jurisdiction,
+        pathwayId,
+        packetFamilyId: "fixture-family"
+      }),
+      entitlementContext: (input) => input,
+      finalVerificationSnapshotFrom: (input) => input,
+      fulfillmentRequestContext: (input) => input,
+      governCommercialAdmission: () => ({ admitted: true })
     },
     "@/lib/supabase/server": {
       getSupabaseAdminClient: () => supabase

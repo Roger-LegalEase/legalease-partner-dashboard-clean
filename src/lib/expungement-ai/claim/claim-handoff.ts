@@ -43,24 +43,32 @@ export function stripClaimTokenFromUrl(): void {
 }
 
 /** The authentication handoff URL that carries the token through sign-in. */
-export function claimHandoffPath(claimToken: string, mode: "create" | "signin" = "create"): string {
+export function claimHandoffPath(
+  claimToken: string,
+  mode: "create" | "signin" = "create",
+  locale?: string | null
+): string {
   const params = new URLSearchParams({ mode });
   if (isWellFormedClaimTokenValue(claimToken)) params.set(CLAIM_TOKEN_PARAM, claimToken);
+  if (locale === "en" || locale === "es") params.set("locale", locale);
   return `/expungement-ai/sign-in?${params.toString()}`;
 }
 
 export type ClaimAttempt =
   | { ok: true; redirectTo: string }
-  | { ok: false; status: number };
+  | { ok: false; status: number; retryable: boolean };
+
+export function isRetryableClaimStatus(status: number): boolean {
+  return status === 0 || status === 401 || status === 403 || status === 409 || status >= 500;
+}
 
 /**
- * Submits the claim. Successful and definitive client-error attempts remove
- * the token. A network or server failure keeps it for an explicit retry: the
- * participant must not have to repeat screening because our claim service was
- * temporarily unavailable.
+ * Submits the claim. Success and definitive denials strip the token. Auth,
+ * verification, conflict, transport and server failures retain it only in the
+ * URL so the participant can retry without repeating the screening.
  */
 export async function submitClaim(claimToken: string): Promise<ClaimAttempt> {
-  if (!isWellFormedClaimTokenValue(claimToken)) return { ok: false, status: 400 };
+  if (!isWellFormedClaimTokenValue(claimToken)) return { ok: false, status: 400, retryable: false };
 
   let status = 0;
   try {
@@ -71,18 +79,16 @@ export async function submitClaim(claimToken: string): Promise<ClaimAttempt> {
     });
     status = response.status;
     const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-    if (!response.ok || !payload?.redirectTo) return { ok: false, status };
+    if (!response.ok || !payload?.redirectTo) return { ok: false, status, retryable: isRetryableClaimStatus(status) };
 
     // The server produced this path with exactMatterPath(). Validate it with the
     // same predicate before navigating, so a redirect can never leave the app.
     const redirectTo = safeAppRedirectPath(payload.redirectTo, "");
-    if (!isExactMatterPath(redirectTo)) return { ok: false, status };
+    if (!isExactMatterPath(redirectTo)) return { ok: false, status, retryable: false };
     return { ok: true, redirectTo };
   } catch {
-    return { ok: false, status: status || 0 };
+    return { ok: false, status: status || 0, retryable: true };
   } finally {
-    if ((status >= 200 && status < 300) || (status >= 400 && status < 500 && status !== 401)) {
-      stripClaimTokenFromUrl();
-    }
+    if (!isRetryableClaimStatus(status)) stripClaimTokenFromUrl();
   }
 }

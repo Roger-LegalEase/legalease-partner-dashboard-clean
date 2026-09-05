@@ -7,10 +7,10 @@ import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationPr
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import {
-  decorateBriefcaseItemForPresentation,
   type BriefcasePresentationArtifact,
   type BriefcasePresentationItem
 } from "@/lib/expungement-ai/briefcase-presentation-authority";
+import { decorateConsumerBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-consumer-presentation";
 import { humanMatterState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +23,7 @@ export default async function BriefcasePacketPage({
   const { packetId } = await params;
   const auth = await requireConsumerBriefcaseSession();
   const storedItem = await getBriefcaseItem(auth.userId, packetId);
-  const item = storedItem ? await decorateBriefcaseItemForPresentation({
+  const item = storedItem ? await decorateConsumerBriefcaseItemForPresentation({
     consumerAuthUserId: auth.userId,
     item: storedItem
   }) : null;
@@ -75,6 +75,16 @@ export default async function BriefcasePacketPage({
                   <>
                     <p className="mt-2 text-sm leading-6 text-[#5A6275]">Your Briefcase is free. Complete your packet information and pay only when you&apos;re ready to generate your packet.</p>
                     {item.paymentState !== "paid" ? <p className="mt-3 text-sm font-bold text-[#0B1320]">$50 one time when you are ready to generate this packet</p> : null}
+                    {item.paymentReceipt ? (
+                      <a
+                        className="mt-3 inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]"
+                        href={item.paymentReceipt.actionPath}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        View payment receipt<span className="sr-only"> (opens in a new tab)</span>
+                      </a>
+                    ) : null}
                   </>
                 )}
 

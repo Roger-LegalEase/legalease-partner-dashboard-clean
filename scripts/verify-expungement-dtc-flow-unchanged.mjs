@@ -196,7 +196,7 @@ function approvedCommercialFlowViolations(input) {
   // anonymous session, so a DTC browser cannot assert partner authority at all.
   require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "DTC saves must not carry partner session authority.");
   require(handoff.includes("submitClaim(pending.claimToken)"), "Completed results must be claimed through the single-use token.");
-  require(handoff.includes('claimHandoffPath(pending.claimToken, "create")'), "Anonymous results must carry the claim through authentication.");
+  require(handoff.includes('claimHandoffPath(pending.claimToken, "create", locale)'), "Anonymous results must carry the claim and locale through authentication.");
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "The result action must reach the free Briefcase before payment or Checkout.");
   require(!handoff.includes("/expungement-ai/packet-ready"), "The result action must not bypass review and payment to packet-ready.");
 
@@ -208,7 +208,7 @@ function approvedCommercialFlowViolations(input) {
 
   require(!input.signInForm.includes("partner_slug") && !input.signInForm.includes("programUpdatesConsent"), "Consumer sign-in must not collect or infer partner attribution.");
   require(input.signInForm.includes("save this result in your free Briefcase, complete packet information, and return later"), "DTC account creation must describe the free Briefcase handoff.");
-  require(input.signInForm.includes("expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)"), "DTC email verification must preserve the pending exact-result handoff.");
+  require(input.signInForm.includes("expungementAuthRedirectTo(requestContext)"), "DTC email verification must preserve the validated claim, locale, and exact-result handoff.");
   require(input.claimHandoff.includes("isExactMatterPath(redirectTo)"), "A claimed pending result must accept only an exact matter redirect.");
 
   require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result storage must derive the product from server-resolved attribution.");

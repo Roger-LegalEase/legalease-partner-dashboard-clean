@@ -1,4 +1,4 @@
-import { requireConsumerBriefcaseApiSession } from "@/lib/expungement-ai/privacy/api-session";
+import { requireParticipantPrivacyApiSession } from "@/lib/expungement-ai/privacy/api-session";
 import { privacyJson } from "@/lib/expungement-ai/privacy/request-security";
 import {
   listPrivacyRequests,
@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
  * names internal systems.
  */
 export async function GET() {
-  const session = await requireConsumerBriefcaseApiSession();
+  const session = await requireParticipantPrivacyApiSession();
   if (!session.ok) return session.response;
 
   let supabase;

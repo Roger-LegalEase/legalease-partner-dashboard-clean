@@ -1,3 +1,8 @@
+import {
+  consumerAuthCallbackPath,
+  type ConsumerAuthContinuation
+} from "@/lib/expungement-ai/auth-continuation";
+
 export const productionPartnerAppUrl = "https://legaleasepartner.com";
 export const productionExpungementAiUrl = "https://expungement.ai";
 export const productionLegalEaseUrl = "https://legalease.com";
@@ -67,12 +72,15 @@ export function isExpungementAiHostname(hostname: string | null | undefined) {
 export function passwordResetRedirectUrl(context: {
   product?: string | null;
   hostname?: string | null;
-  continuationQuery?: string | null;
+  continuation?: ConsumerAuthContinuation | null;
 }) {
   const isExpungement = context.product === "expungement" || isExpungementAiHostname(context.hostname);
   if (isExpungement) {
-    const query = context.continuationQuery?.trim() || "next=%2Fbriefcase";
-    return absoluteExpungementAiUrl(`/auth/set-password?${query}`);
+    return absoluteExpungementAiUrl(
+      context.continuation
+        ? consumerAuthCallbackPath(context.continuation, "password_recovery")
+        : "/auth/set-password?next=/briefcase"
+    );
   }
   return absolutePartnerAppUrl("/auth/set-password?next=/partner/dashboard");
 }

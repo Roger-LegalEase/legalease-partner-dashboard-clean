@@ -5,7 +5,7 @@ import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
 import { PacketInformationBuilder } from "@/components/expungement-ai/PacketInformationBuilder";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
-import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";
+import { decorateConsumerBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-consumer-presentation";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +19,7 @@ export default async function PacketInformationPage({
   const { packetId } = await params;
   const auth = await requireConsumerBriefcaseSession(`/briefcase/${packetId}/packet-information`);
   const storedItem = await getBriefcaseItem(auth.userId, packetId);
-  const item = storedItem ? await decorateBriefcaseItemForPresentation({
+  const item = storedItem ? await decorateConsumerBriefcaseItemForPresentation({
     consumerAuthUserId: auth.userId,
     item: storedItem
   }) : null;
