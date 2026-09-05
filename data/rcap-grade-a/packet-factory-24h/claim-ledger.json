@@ -6074,10 +6074,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX76",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T20:52:21.943Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6135,10 +6135,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX76",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T20:52:22.067Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6166,10 +6166,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX76",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T20:52:22.197Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6197,10 +6197,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX76",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T20:52:22.433Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6594,10 +6594,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX77",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T20:52:22.648Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8499,10 +8499,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX75",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:41:54.497Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8530,10 +8530,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX75",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:41:54.609Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8561,10 +8561,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX75",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:41:54.723Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8592,9 +8592,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX75",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX75 so the shared Vermont host has one writer; no work was done on FIX04."
     },
     {
       "subjectType": "packet-family",
@@ -8669,10 +8671,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX75",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:41:54.938Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13589,7 +13591,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "21583f32d1c9d56055d17199426796ab45da8c088f64f1e5f74a3fad7fa7f7cc",
+  "claimsDigest": "a2bba26e25b8c21f8c28e136121af30e3c21c23bb7eda774ca60b60f711c617c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30425,6 +30427,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T22:33:48.996Z",
       "reason": "VF03 read at 0d4d1d5a1 on the FIX62 bytes: FAIL_REPAIR_REQUIRED on COMPONENT_SET (the certificate of service rendered nowhere and not recorded in componentsNotGenerated) and KNOWN_PREFILLS (arrest date, citation date, agency and charge description declared required-before-filing while the same packet prints them on its other component); synthesized squares discharged 10/10, sweep 78/78; rows.json at 6b77c2521"
+    },
+    {
+      "lane": "FIX04",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T22:35:23.715Z",
+      "reason": "Consolidated onto FIX75 so the shared Vermont host has one writer; no work was done on FIX04."
     }
   ],
   "reissues": [
@@ -43717,6 +43728,116 @@
       "previouslyReleasedAt": "2026-09-05T16:21:43.145Z",
       "transferredAt": "2026-09-05T22:27:13.979Z",
       "reason": "VF03 FAIL FEE_AND_WAIVER at c708dff4d: the packet says the filing fee and waiver are not established and sends the participant to the clerk, while the track registry, the packet-set manifest's pay_fee and apply_fee_waiver entries and the track's own packetInstruction state that Va. Code 19.2-392.2(A) requires no court fees or costs for this petition and there is nothing to waive; print the record's own answer on the filing-instructions page and in participant-instructions.md; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_18_to_21-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX75",
+      "previouslyReleasedAt": "2026-09-05T21:41:54.497Z",
+      "transferredAt": "2026-09-05T22:35:23.271Z",
+      "reason": "VF05 FAIL at 581cce1d0 on the FIX67 bytes: KNOWN_PREFILLS (200-00132 field 34d on boundary page 3 draws the name at Helvetica 11 into a 173.74pt clip and loses eight characters) on all five, and SELF_HELP_STOP (0 of 9 declared stop conditions carried; the pardon sibling carries 10 of 10) on 18_to_21, dui, felony and misdemeanor; repair both together through the shared Vermont host with the finalizer's existing per-widget text-fit opt-in and the pardon family's stop-guidance pattern; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX75",
+      "previouslyReleasedAt": "2026-09-05T21:41:54.609Z",
+      "transferredAt": "2026-09-05T22:35:23.379Z",
+      "reason": "VF05 FAIL at 581cce1d0 on the FIX67 bytes: KNOWN_PREFILLS (200-00132 field 34d on boundary page 3 draws the name at Helvetica 11 into a 173.74pt clip and loses eight characters) on all five, and SELF_HELP_STOP (0 of 9 declared stop conditions carried; the pardon sibling carries 10 of 10) on 18_to_21, dui, felony and misdemeanor; repair both together through the shared Vermont host with the finalizer's existing per-widget text-fit opt-in and the pardon family's stop-guidance pattern; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX75",
+      "previouslyReleasedAt": "2026-09-05T21:41:54.723Z",
+      "transferredAt": "2026-09-05T22:35:23.488Z",
+      "reason": "VF05 FAIL at 581cce1d0 on the FIX67 bytes: KNOWN_PREFILLS (200-00132 field 34d on boundary page 3 draws the name at Helvetica 11 into a 173.74pt clip and loses eight characters) on all five, and SELF_HELP_STOP (0 of 9 declared stop conditions carried; the pardon sibling carries 10 of 10) on 18_to_21, dui, felony and misdemeanor; repair both together through the shared Vermont host with the finalizer's existing per-widget text-fit opt-in and the pardon family's stop-guidance pattern; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_pardon-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX75",
+      "previouslyReleasedAt": "2026-09-05T21:41:54.938Z",
+      "transferredAt": "2026-09-05T22:35:23.604Z",
+      "reason": "VF05 FAIL at 581cce1d0 on the FIX67 bytes: KNOWN_PREFILLS (200-00132 field 34d on boundary page 3 draws the name at Helvetica 11 into a 173.74pt clip and loses eight characters) on all five, and SELF_HELP_STOP (0 of 9 declared stop conditions carried; the pardon sibling carries 10 of 10) on 18_to_21, dui, felony and misdemeanor; repair both together through the shared Vermont host with the finalizer's existing per-widget text-fit opt-in and the pardon family's stop-guidance pattern; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX75",
+      "previouslyReleasedAt": "2026-09-05T22:35:23.715Z",
+      "transferredAt": "2026-09-05T22:35:23.825Z",
+      "reason": "VF05 FAIL at 581cce1d0 on the FIX67 bytes: KNOWN_PREFILLS (200-00132 field 34d on boundary page 3 draws the name at Helvetica 11 into a 173.74pt clip and loses eight characters) on all five, and SELF_HELP_STOP (0 of 9 declared stop conditions carried; the pardon sibling carries 10 of 10) on 18_to_21, dui, felony and misdemeanor; repair both together through the shared Vermont host with the finalizer's existing per-widget text-fit opt-in and the pardon family's stop-guidance pattern; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_disorderly_persons-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX76",
+      "previouslyReleasedAt": "2026-09-05T20:52:22.067Z",
+      "transferredAt": "2026-09-05T22:35:23.933Z",
+      "reason": "VF03 FAIL at 0d4d1d5a1 on the FIX62 bytes: COMPONENT_SET (a required component rendered nowhere and disclosed nowhere), KNOWN_PREFILLS (the phone written into the state/zip caption box on every caption block; map DefAddr2 to city and DefAddr3 to state plus zip or refuse both and disclose), REPEATING_ROWS (order row 1 written beside a blank required statute cell), and on indictable and ordinance CLIPPING_AND_OVERLAP (the boundary name truncated at the widget clip on 20 widgets); repair all together through the shared New Jersey host with one writer; the host family nj_arrest_no_conviction-set carries the same defects and is held so the host has one writer; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_indictable_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX76",
+      "previouslyReleasedAt": "2026-09-05T20:52:22.197Z",
+      "transferredAt": "2026-09-05T22:35:24.043Z",
+      "reason": "VF03 FAIL at 0d4d1d5a1 on the FIX62 bytes: COMPONENT_SET (a required component rendered nowhere and disclosed nowhere), KNOWN_PREFILLS (the phone written into the state/zip caption box on every caption block; map DefAddr2 to city and DefAddr3 to state plus zip or refuse both and disclose), REPEATING_ROWS (order row 1 written beside a blank required statute cell), and on indictable and ordinance CLIPPING_AND_OVERLAP (the boundary name truncated at the widget clip on 20 widgets); repair all together through the shared New Jersey host with one writer; the host family nj_arrest_no_conviction-set carries the same defects and is held so the host has one writer; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_ordinance-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX76",
+      "previouslyReleasedAt": "2026-09-05T20:52:22.433Z",
+      "transferredAt": "2026-09-05T22:35:24.149Z",
+      "reason": "VF03 FAIL at 0d4d1d5a1 on the FIX62 bytes: COMPONENT_SET (a required component rendered nowhere and disclosed nowhere), KNOWN_PREFILLS (the phone written into the state/zip caption box on every caption block; map DefAddr2 to city and DefAddr3 to state plus zip or refuse both and disclose), REPEATING_ROWS (order row 1 written beside a blank required statute cell), and on indictable and ordinance CLIPPING_AND_OVERLAP (the boundary name truncated at the widget clip on 20 widgets); repair all together through the shared New Jersey host with one writer; the host family nj_arrest_no_conviction-set carries the same defects and is held so the host has one writer; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX76",
+      "previouslyReleasedAt": "2026-09-05T20:52:21.943Z",
+      "transferredAt": "2026-09-05T22:35:24.260Z",
+      "reason": "VF03 FAIL at 0d4d1d5a1 on the FIX62 bytes: COMPONENT_SET (a required component rendered nowhere and disclosed nowhere), KNOWN_PREFILLS (the phone written into the state/zip caption box on every caption block; map DefAddr2 to city and DefAddr3 to state plus zip or refuse both and disclose), REPEATING_ROWS (order row 1 written beside a blank required statute cell), and on indictable and ordinance CLIPPING_AND_OVERLAP (the boundary name truncated at the widget clip on 20 widgets); repair all together through the shared New Jersey host with one writer; the host family nj_arrest_no_conviction-set carries the same defects and is held so the host has one writer; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_490_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX77",
+      "previouslyReleasedAt": "2026-09-05T20:52:22.648Z",
+      "transferredAt": "2026-09-05T22:35:24.364Z",
+      "reason": "VF03 FAIL at 0d4d1d5a1 on the FIX62 bytes: COMPONENT_SET (the certificate of service rendered nowhere and not recorded in componentsNotGenerated) and KNOWN_PREFILLS (arrest date, citation date, arresting agency and charge description declared required-before-filing while the same packet prints them on its other component; write them into order item 10 and the petition's first statute description cell or reclassify honestly); repair both together; raster and re-read then owed."
     }
   ],
   "grants": [
