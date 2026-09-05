@@ -12344,6 +12344,176 @@
    "sharedRecordsModified": 0,
    "claimLedgerModified": false,
    "selfVerified": false
+  },
+  {
+   "itemId": "wv_dui_deferral_expungement-set",
+   "lane": "VF04",
+   "wave": "VF04-WV-REREAD-20260905 (independent re-read of one family after the FIX52 bookkeeping repair)",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading",
+   "verifier": "CLAUDE-VF04-WV-REREAD (independent: built none of this packet, repaired none of it, rendered and rastered none of it, and edited no overlay directory, build script or shared record. This lane also did not perform the FIX52 deletion it is re-reading.)",
+   "verifiedAtBase": "4447f8683",
+   "canonicalSha256": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+   "boundarySha256": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+   "pageCount": 11,
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family wv_dui_deferral_expungement-set, run once for this lane at base 4447f8683 and recorded here: PACKET_BUILD_ENVIRONMENT_NOT_READY, 12/13 registered checks passing, 4 not applicable, 1 failing. The single failure is corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled, and the absent entry was named by replaying the check's own resolver here -- 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' in the master_library custody. That is Alabama, not this family, and it is the same pre-existing corpus gap FIX08, FIX41, FIX46, FIX52 and this lane's earlier read each recorded at their own bases. This family binds zero source binaries, so no source of its own is implicated. Two custodies named by the committed index are not mounted here (d_source_packs, nationwide_recovery_pool_2026_09_02) and nothing this family declares lives in either. private/ is mounted as a real directory whose children are symlinks into the read-only corpus, which is what the checker's git check-ignore test needs -- a bare symlink at private/ makes git answer 'pathspec is beyond a symbolic link' and fails the check for the mount rather than for the repository -- and private_is_git_ignored passes here. repo_identity, clone_is_complete, worktree_clean, node_toolchain, pdf_lib_importable, master_library_mounted, master_library_complete (499 files / 329 PDFs / 51 jurisdictions), family_sources_bind (zero-source composition, CUSTOM_PLEADING_FROM_CODIFIED_TEXT), master_library_not_at_operational_path, absent_is_not_empty and stale_artifact_block_consulted all pass; the stale-artifact block (12 hashes, 6 families) names 0 artifact under this family. MASTER_LIBRARY_SOURCE_DIR was exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 as the checker resolves it. Sparse checkout off, 0 skip-worktree bits.",
+   "method": "Claim asserted before any family artifact was read. Preflight recorded once (above). The live receipt's digests were confirmed against the fixture bytes on disk BEFORE any obligation was measured: RASTER_QUEUE.json rows[179] carries canonicalPdfSha256 d3fd5538.. and boundaryPdfSha256 776a7006.., its rasterReceipt (run 33977742636, job 101337729588, conclusion success) binds the same two, and both equal the SHA-256 recomputed here from fixtures/canonical.pdf and fixtures/boundary.pdf. Sources resolved BY CONTENT HASH rather than by declared path: this family binds zero document sources, and its grounding records were re-hashed from the bytes on disk and matched against the central register. Nine counters measured here with the read-only completeness verifier (no --write); the worktree was clean before and after. Appearance read from the delivered bytes of BOTH fixtures: every page's content stream inflated and tokenised with the repository's own walker (extractPageGeometry over pdf-lib 1.17.1), every text-showing operator recovered with its position and size, every line's drawn width recomputed from Times-Roman metrics, and fill colour, text render mode, ExtGState, clipping operators, Form XObjects and annotations enumerated per page. Canonical pages 3 and 4 and boundary pages 3 and 4 rastered locally with pdftoppm -r 100 under /tmp/vf04d and read by eye; the rasters were deleted after measuring. The whole committed family directory was enumerated file by file for the ARTIFACTS obligation, and a repository-wide grep confirmed no live record points at the deleted raster tree. This lane wrote into no overlay directory, no build script and no shared record.",
+   "claim": {
+    "assertedBeforeFamilyContent": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 wv_dui_deferral_expungement-set",
+    "result": "CLAIM_OK VF04 wv_dui_deferral_expungement-set (independent-verification, grant set 66782905fa7da2b6)",
+    "exitCode": 0,
+    "claimLedgerModified": false,
+    "grantReleased": false,
+    "whyNotReleased": "A worker never releases a grant. Captain releases it centrally after integrating this bounded return."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredWith": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set (read-only, run in this worktree at 4447f8683)",
+    "focusedVerifierResult": "PASS_COMPLETE 15/46 written, exit 0",
+    "whatTheCountersDoNotSee": "The counters read the two fixture PDFs and the field map. They opened no page image at 30a8b3b71 and there is none to open now. Nine green counters were the starting condition of this family's earlier FAIL, not an answer to it; the ARTIFACTS obligation below is measured over the directory, not from the counters."
+   },
+   "rasterState": {
+    "state": "RASTER_PASS",
+    "workflowRunId": "33977742636",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "jobId": 101337729588,
+    "jobConclusion": "success",
+    "renderedCommitSha": "b35fbc6edad561b60e6b078d1fd965d5c343bf06",
+    "digestsConfirmedAgainstDiskHere": true,
+    "confirmedBeforeAnyObligationWasMeasured": true,
+    "boundToCanonicalSha256": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+    "boundToBoundarySha256": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+    "committedPageImagesInTheFamilyDirectory": 0,
+    "whatTheCentralGateRendered": [
+     "canonical.pdf"
+    ],
+    "whatTheCentralGateDidNotRender": [
+     "boundary.pdf"
+    ],
+    "howBoundaryWasCovered": "boundary.pdf is bound by hash in the receipt but was not rendered by the gate. This lane read all 11 of its pages at appearance level and rastered its pages 3 and 4 locally; boundary page 4's inflated content stream is the same length as canonical page 4's (1525) and its local raster is byte-identical to canonical page 4's, so the repaired execution page is the same page in both fixtures.",
+    "supersededReceiptsSeen": "run 33574304514 (bound to 07da2172../69d9be37..) and run 33974355600 (bound to the pre-FIX46 pair a0cc3dfc../dc0caf43..). Neither binds the bytes on disk; the current receipt does."
+   },
+   "repairRead": {
+    "repairLane": "FIX52",
+    "repairCommit": "646e8b762",
+    "whatItClaimed": "Deletion only, 22 files, one tree: raster/canonical/page-01..11/page.png and raster/boundary/page-01..11/page.png removed with git rm; rendered-artifacts.json not edited; no PDF byte moved.",
+    "verifiedFromTheCommittedTree": "Confirmed independently. `git show --stat 646e8b762` is 22 PNG deletions plus this factory's own lane files (fix52/rows.json, claim-ledger.json) and nothing else -- no fixture, field map, instructions or report in the family was touched. The two fixture digests at this base equal the two this lane read at 30a8b3b71 and the two the live receipt binds. The family directory now holds 13 tracked files and no untracked ones. reports/rendered-artifacts.json's rasterSkipped true / rasterPages [] / everyPageRastered false / rasterEngine null, and build-status.json's rasterPages 0, are now true of the directory.",
+    "whatThisRowDoesNotAdoptFromTheRepairReturn": "Nothing was carried from FIX52's report as fact. Its claim that 74 of 96 sibling custom-pleading directories ship no raster tree was not needed for this verdict and is not the basis of the ARTIFACTS PASS; the basis is that the directory's own committed files now describe the bytes it ships."
+   },
+   "ownerPinned": true,
+   "ownerRereviewOwed": "YES. FIX07 recorded this family ownerPinned with ownerRereviewOwed true and FIX46 moved the pinned bytes a second time (canonical a0cc3dfc.. -> d3fd5538.., boundary dc0caf43.. -> 776a7006..). This PASS does not discharge it. It is now owed on the current digests, and the family holds no local page images for a reviewer to open: a reviewer opens the fixtures themselves, or the central gate's render of them from run 33977742636.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Read from the delivered pages here, not from the builder's report. Both declared routeKeys print whole -- obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-1-motion-to-dismiss and obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge -- on pages 2, 3, 6, 7, 8, 9 and 11 of both fixtures, each pair breaking only at the ' ;' between the keys and never inside a key. The same pair is character-for-character equal in MASTER_QUEUE.json families[wv_dui_deferral_expungement-set] (state VERIFY_PENDING), RASTER_QUEUE.json rows[179], source-receipt.json, production-field-map.json, product-wiring.json, reports/rendered-artifacts.json and packetSets[492] of the packet-set manifest. The statute is pleaded on the paper: page 1 titles the motion 'UNDER W. VA. CODE SEC. 17C-5-2B(C)', page 5 the application 'UNDER W. VA. CODE SEC. 17C-5-2B(G)'. Bytes unchanged since this lane's own read at 30a8b3b71 (canonical d3fd5538.., boundary 776a7006.. on both dates; the only commit touching this family since is 646e8b762, a 22-file PNG deletion, and bfba2a25e, which rewrote product-wiring.json's lastIndependentVerification stamp). The carry is stated; the result below is freshly asserted on the bytes read here.",
+     "finding": "The packet is built for the route the record names, in both units. The track record data/record-clearing/legal-design-track-registry.json trackId wv_dui_deferral_expungement was re-read here and describes exactly this mechanism -- a subsection (c) motion to dismiss supported by the defendant's affidavit and the DMV completion certification, then a subsection (g) application no sooner than one year after the probation term expires, each served on the prosecuting attorney with its own 30-day objection window -- and the packet renders both stages in that order with both windows stated."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Resolved BY CONTENT HASH across the mounted custodies, never by declared path. The family binds zero document sources and the zero is recorded three times: the MASTER_QUEUE row (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE, forms [], boundCount 0), source-receipt.json documents [], rendered-artifacts.json boundSources []. Its grounding records were re-hashed here from the bytes on disk: data/record-clearing/legal-design-intake/WV.memo.json = fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f, equal to the memoSha256 that data/record-clearing/all51-current-legal-questions.json cites for all eight West Virginia questions; data/record-clearing/legal-design-packet-set-manifests.json = 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec. 0 digests absent by hash, 0 mismatched. Two custodies named by the committed index are not mounted here (d_source_packs, nationwide_recovery_pool_2026_09_02) and nothing this family declares lives in either, so no digest of this family is unmeasurable here.",
+     "finding": "Every source this family binds binds by exact SHA-256 recomputed here. The reason it declares no official form was read at source rather than accepted: the West Virginia Judiciary Court Forms index publishes five expungement forms (SCA-C900, C903, C906, C907, C912) and none is a section 17C-5-2b filing, so both units are composed. No form was substituted and none was invented."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "Seven components are declared required in packetSets[492] (orders 1-7) -- primary_filing, supporting_affidavit, secondary_filing, supporting_timeline, certificate_of_service, records_checklist, filing_instructions -- and all seven were identified on the delivered pages here by their own headings: pages 1-2 the section 17C-5-2b(c) motion, 3-4 the defendant's affidavit, 5-6 the section 17C-5-2b(g) application, 7 the supporting timeline, 8 the certificate of service, 9 the records checklist, 10-11 the filing instructions. Same in both fixtures. requiredComponentsMissing = 0, measured here.",
+     "finding": "Every component the route names is rendered and present. The three conditional components carry their conditions on the page and in participant-instructions.md, not only in the manifest."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "15 writes are declared on the field map (five per identity block plus one name on each of the other five components) and all 15 were located here on the component's OWN pages, by walking each page's content stream and matching the value: canonical 15 of 15 (Jordan Avery Reyes; DATE OF BIRTH 1991-04-17; 42 Maple Street, Charleston, WV 25301; 304-555-0142; jordan.reyes@example.org, on pages 1, 2, 3, 5, 6, 7, 8, 9 and 10). Boundary 15 of 15 with the stress identity Maria-Alejandra O'Shaughnessy-Whitfield / 1968-12-31: a first pass reported the long mailing address absent on pages 2 and 6, and reading the page proved it is a line wrap, not a missing write -- '1188 Upper Notch Crossing Road, Apartment 14B, Morgantown, West Virginia' at y 546.0/589.5 continues '26501-2214' at y 531.5/575.0 at the same x 72.0 margin, whole and on the same page. knownRequiredFieldsMissing = 0, requiredFactsNotCollected = 0, measured here.",
+     "finding": "Every known required fact is written and visible on the page it belongs to. The failure mode of a fact held and written on one component but refused on another was looked for specifically and is absent: the participant's name appears on all six components that carry one, in both fixtures."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "22 items are declared on the field map (requiredBeforeFilingCount 22) and each disclosureLabel was checked against the file here: 22 of 22 appear verbatim in participant-instructions.md, 0 missing, in a per-component table naming each blank and what to write in it, plus a 'Documents you must obtain first' table naming the DMV completion certification, the certified deferral order, the certified dismissal-and-discharge order and the written probation-expiry confirmation, each with the office that issues it. 22 required-before-filing blanks plus 9 protected blanks account for all 31 refusals the field map carries across its seven maps (9+7+6+5+4). requiredFactsNotCollected = 0.",
+     "finding": "Every declared item is named in participant-instructions.md, checked against the file. One manifest-side discrepancy is recorded again rather than passed over: packetSets[492].requiredBeforeFiling carries the generic string 'Hearing date -- Unit 2 application, notice line', and this packet prints no notice line and no hearing-date blank. That is right on the law and wrong in the manifest -- section 17C-5-2b(g) sets a hearing only if objections are filed within 30 days of service, so there is nothing to notice at filing, and both page 6 and the instructions say so. The declared channel the completeness contract reads, the field map, does not declare the item. Repair-actionable against the shared manifest record, not against the packet, and this lane edits neither."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing = 0, and independently: there is no election control anywhere in the packet -- 0 widget annotations on all 22 pages of the two fixtures, 0 Form XObjects (0 Do operators), 0 selection controls in any of the seven field maps, routeSelectionsMade []. The two statutory subsections are stated rather than asked: the motion is titled under 17C-5-2b(c) and pleads it, the application is titled under 17C-5-2b(g) and pleads it.",
+     "finding": "Every route-determined election is selected. The one participant-facing decision the packet leaves open is the felony bar, correctly: page 5 prints 'Sign this application only if that is true: Sec. 17C-5-2b(g)(1) bars this motion outright to any person previously convicted of a felony' -- a case fact the platform has not seen, not a route election."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows = 0. Independently: the composed pleadings use labelled single dotted rules, not tables. The only multi-line structures are the affidavit's three-rule first-hand narrative block on page 3 (y 299.5, 285.0, 270.5) and the timeline's five labelled rules on page 7 (y 589.5, 546.0, 502.5, 459.0, 415.5); all three and all five are empty in both fixtures, and no cell beside any of them carries a write.",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "protectedWrites = 0, and every protected line was inspected by name on the delivered page in both fixtures: p2 'DATE .... SIGNATURE OF DEFENDANT ....'; p4 'SIGNATURE OF AFFIANT ....' (y 720.0) and 'DATE ....' (705.5); p4 jurat 'Taken, subscribed and sworn to before me this ...... day of .................., 20......' (633.0); p4 'Officer authorized to administer oaths ....' (618.5); p6 'DATE .... SIGNATURE OF APPLICANT ....'; p8 'DATE OF SERVICE ....' and 'SIGNATURE ....'; and the four 'Case No. ....' caption rules on pages 1, 3, 5 and 8. 12 protected lines per fixture, each carrying its dotted rule and its printed label and not one glyph beyond it. There are no widget annotations and no flattened appearance XObjects in either file, so there is no second surface an invisible write could hide on: the only fill colour on any page is '0 0 0 rg', no page sets a text render mode, no page carries an ExtGState and no page draws a clipping path.",
+     "finding": "No signature, signature date, jurat, officer's rule, certificate-of-mailing field or court-assigned field carries ink, in canonical or boundary."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "This is the obligation the assignment rules explicitly, and it was measured file by file over the whole committed family directory, which now holds 13 tracked files and no untracked ones (git ls-files and a filesystem walk return the same 13 paths; the raster/ tree is gone from both). (1) The two fixtures hash to what the record names: fixtures/canonical.pdf = d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e (25,304 bytes, 11 pages) and fixtures/boundary.pdf = 776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782 (25,786 bytes, 11 pages), recomputed here with sha256sum and pdf-lib 1.17.1. Those digests were confirmed against the live receipt BEFORE any obligation was measured: RASTER_QUEUE.json rows[179] carries canonicalPdfSha256 and boundaryPdfSha256 equal to them, and its rasterReceipt (verdict RASTER_PASS, workflowRunId 33977742636, jobId 101337729588, jobConclusion success, renderedCommitSha b35fbc6edad561b60e6b078d1fd965d5c343bf06) carries boundToCanonicalSha256 and boundToBoundarySha256 equal to them; all four equal the bytes on disk. (2) Every 64-hex digest committed anywhere in the family directory was enumerated: there are exactly six occurrences, in reports/rendered-artifacts.json (four) and product-wiring.json (two), and every one is d3fd5538.. or 776a7006.. -- no digest in this directory names bytes that are not here. (3) No stale image: the directory ships zero page images, and reports/rendered-artifacts.json declares rasterSkipped true, rasterPages [], everyPageRastered false, rasterEngine null, which is now a true description of it. The 22 PNGs this lane failed at 30a8b3b71 were removed by git rm at 646e8b762 (22 deletions, no other file in the family touched, and `git show --stat` confirms no fixture byte moved). Nothing in the repository still points at them: a repository-wide grep for the family's raster path returns only two lane-return files, this rows.json and fix52/rows.json, where it is history rather than a live reference. (4) No stale report: reports/actual-writes.json's 15 expected values were each read back here from the component's own pages, its nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 matches this lane's own measurement of 0 of 230 canonical and 0 of 233 boundary text items, and its refusedFieldsWithInk [] matches the protected-line read; reports/completeness-counters.json's nine zeros equal the nine this lane measured, and its blankDispositions (21 REQUIRED_BEFORE_FILING + 9 PROTECTED_FIELD + 1 NOT_APPLICABLE_ON_THIS_ROUTE) account for the same 31 blanks the field map carries; reports/rendered-artifacts.json's two 11-entry pageManifests match the pages delivered; build-status.json's rasterPages 0, rasterEngine 'not rendered in this run' and renderedArtifacts 2 now describe the directory exactly, and its rasterState BUILT_RASTER_PENDING is the repository-wide convention for a build that rendered no pages, not a claim about the central gate -- no build-status.json in any of the 194 census-v1 families carries a RASTER_PASS. (5) No stale receipt: product-wiring.json's acceptanceReceipt names run 33977742636 / job 101337729588 and binds d3fd5538.., the bytes on disk, and its lastIndependentVerification (FAIL_REPAIR_REQUIRED, lane vf04, base 30a8b3b71) is a true statement of the last verification of record as this row is written; the two superseded receipts, run 33574304514 (07da2172../69d9be37..) and run 33974355600 (a0cc3dfc../dc0caf43..), are held in RASTER_QUEUE.json's supersededReceipts and bind nothing here.",
+     "finding": "PASS. Canonical and boundary hash to what the record names, and every committed file in the family directory now describes the current bytes: no stale image, no stale report, no stale receipt. The single defect this lane recorded at 30a8b3b71 -- 22 committed PNGs two repairs out of date, contradicting a record that declared the family owns none -- is gone by deletion, which is this family's own convention rather than an invented one: the last build ran with --no-raster, which is why the record already said rasterSkipped true, and 74 of the 96 sibling custom-pleading directories ship no raster tree at all. The authoritative page images remain central, from workflow run 33977742636. One thing the repair does not do, and this row does not either: the owner re-review this family has owed since FIX07 is still owed, now on bytes that have moved twice, and there are no local page images for a reviewer to open -- a reviewer opens the fixtures or the central gate's render of them."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "reports/rendered-artifacts.json carries an 11-entry pageManifest for each fixture and both were checked entry for entry against the pages read here: 1-2 primary_filing, 3-4 supporting_affidavit, 5-6 secondary_filing, 7 supporting_timeline, 8 certificate_of_service, 9 records_checklist, 10-11 filing_instructions. That order is the component order declared in packetSets[492] (orders 1 through 7). pdf-lib reports 11 pages in each file, and the queue's expectedPages is 11.",
+     "finding": "The rendered page order matches the packet manifest, in canonical and in boundary."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "Measured here on all 22 delivered pages. Every drawn line starts at x = 72.0 and every line's width was recomputed from Times-Roman AFM metrics through pdf-lib's own font metrics rather than trusting the walker's advance estimate (Times-Roman is the only font in either file and the pages carry no /Widths): the widest line on any page ends at x = 538.6, inside the 540.0 right edge of the 468pt column, so 0 of 230 canonical and 0 of 233 boundary text items carry ink outside a measured write box. 0 pairs of items share a baseline with intersecting x-ranges and 0 pairs of baselines sit closer than the 14.5pt line pitch. No page draws a clipping path (0 W/W* operators), carries an ExtGState (0 gs) or a Form XObject (0 Do). Canonical pages 3 and 4 and boundary pages 3 and 4 were rastered locally with pdftoppm -r 100 into /tmp/vf04d and read by eye; boundary page 4's raster is byte-identical to canonical page 4's (md5 92ceb05e19bb63b9dd3358b847c7f544) and the two page-4 content streams are the same length (1525 bytes inflated) in both fixtures. The local rasters were deleted after measuring. Bytes unchanged since this lane's own read at 30a8b3b71 (canonical d3fd5538.., boundary 776a7006.. on both dates; the only commit touching this family since is 646e8b762, a 22-file PNG deletion, and bfba2a25e, which rewrote product-wiring.json's lastIndependentVerification stamp). The carry is stated; the result below is freshly asserted on the bytes read here.",
+     "finding": "No ink outside a measured write box, and the FIX46 repair still holds on these bytes, read again rather than carried: page 3 ends on the whole two-row machine trailer standing under 'I swear or affirm that the statements above are true.' at y 241.5/212.5/198.0, and page 4 carries the entire execution unit -- SIGNATURE OF AFFIANT (720.0), DATE (705.5), the sentence reserving the block below to the officer (676.5, 662.0), the jurat (633.0) and the officer's rule (618.5) -- with no ink of any kind beneath y 618.5: no trailer, no route key, nothing. Six text items on page 4, in both fixtures."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "The instructions name the forum and it is the forum the route names. participant-instructions.md step 3: 'file with the court that deferred the proceedings'; step 4: 'file with the same court'. Page 10: 'This route has two stages, filed in the same court - the court that deferred the proceedings and imposed probation'. The caption block on pages 1, 3, 5 and 8 prints 'IN THE ...... OF ......' over the legend '(NAME OF THE COURT THAT DEFERRED THE PROCEEDINGS AND IMPOSED PROBATION, AND ITS COUNTY)', and that court is a declared required-before-filing blank whose disclosure names the office that can confirm it. The track record's venue and destination fields, re-read here, name 'the clerk of the court that deferred proceedings and imposed probation under Sec. 17C-5-2b' for both units.",
+     "finding": "The instructions name the court the route names, and where the packet cannot know which court that is it says so and names who can confirm it rather than guessing."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "Stated on the paper and in the instructions in the same terms. Page 10: 'Sec. 17C-5-2b charges no fee for either motion. Whether the court's office collects any filing cost on these papers is not stated by any record this packet is built from - ask the office of the court that deferred the proceedings before filing', and above it 'Under Sec. 17C-5-2b(h), a person whose case is disposed of under the section must pay the court costs that could be assessed against a person convicted of the offence, and payment may have been made a condition of probation.' participant-instructions.md step 5 ('Money.') repeats both. The manifest's own fee-waiver entries read 'Section 17C-5-2b charges no fee for either motion...' and 'none stated in Sec. 17C-5-2b', which is what the packet says.",
+     "finding": "The fee and the waiver route are stated, including the honest negative: the statute charges no fee, subsection (h) court costs are payable as though on conviction, no waiver route is stated in the section, and whether the clerk collects anything on these papers is declared unknown to the record rather than guessed."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Who and how, on the paper and in the instructions. The prosecuting attorney is served with each unit: page 2, 'the prosecuting attorney has 30 days after service of this motion to advise the judge of any objections'; page 5 the same for the application; page 8 is a CERTIFICATE OF SERVICE ON THE PROSECUTING ATTORNEY carrying blanks for the filing served, the prosecutor's name and office mailing address, and the date of service, and stating that it is completed and signed only when the copy actually goes out. participant-instructions.md steps 3 and 4 direct a separate certificate for each stage, because each unit's 30-day objection window runs from its own service, and the componentConditions in the field map and rendered-artifacts.json say the same. The track record's destination detail names the same service on the prosecuting attorney for both units.",
+     "finding": "Who must be served, and how, is stated: the prosecuting attorney of the county, by a copy of the filing with its supporting papers, evidenced by a certificate of service completed per unit."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "Pages 10-11 carry the heading 'WHEN TO STOP AND GET A LAWYER INSTEAD OF FILING' followed by eleven stop conditions, and participant-instructions.md's 'When to stop and get help instead' carries the same eleven. They track the ten selfHelpStopConditions in the track record one for one and add the stale-file case. Page 10 also states the hard limit that no Division of Motor Vehicles record is ever reached, and the instructions' 'What this packet is not' states that the packet is not an official form, is not legal advice, is not filed for the participant and decides nothing.",
+     "finding": "The packet states where self-help ends. The open questions were read and none leaves an obligation unmeasurable here: the stale-file question is printed as a stop condition in the participant's own words, the unpublished-local-form question is recorded in source-receipt.json's whatThisReceiptDoesNotEstablish, and all four travel to counsel in approval-request.json (status PENDING_INDEPENDENT_VERIFICATION, approvedForLive false). build-findings.json declares blocking [], the MASTER_QUEUE row carries legalInputStatus SETTLED, and all eight West Virginia entries in all51-current-legal-questions.json are RESOLVED and none is on this track. So this row is not a BLOCKED_LEGAL_INPUT."
+    }
+   },
+   "failedObligationNames": [],
+   "notMeasurableHere": [],
+   "blockedLegalInput": {
+    "blocked": false,
+    "whyNotBlocked": "Four counsel questions travel in approval-request.json and none made an obligation unmeasurable: the stale-file question is printed as a stop condition on the delivered page, the unpublished-local-form question is recorded in source-receipt.json's whatThisReceiptDoesNotEstablish, the section 61-11-26(o) interaction and the subsection (g)(1) felony-bar scope are carried to counsel and asserted nowhere in the packet. build-findings.json blocking is [], the MASTER_QUEUE row carries legalInputStatus SETTLED, and all eight West Virginia entries in all51-current-legal-questions.json are RESOLVED with none on trackId wv_dui_deferral_expungement. The track registry's own legalStatus is legal_review_pending and it carries a release_blocker on correct_form; that gates approved_for_live, which this row does not grant, and it gated no measurement here."
+   },
+   "supersedes": {
+    "lane": "VF04",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "30a8b3b71",
+    "failedObligationNames": [
+     "ARTIFACTS"
+    ],
+    "whatItFound": "22 committed page images under raster/ were two repairs stale and contradicted reports/rendered-artifacts.json, which declared the family owns none; raster/canonical/page-04/page.png depicted a sheet whose only ink was a bare route key, a page the fixtures no longer contain.",
+    "repairedBy": "FIX52 (the 22 PNGs removed by git rm; no PDF byte moved; the record left standing as written).",
+    "isThatDefectGone": "YES, confirmed here on the committed tree at 4447f8683: no page image is committed under this family, no committed file in the directory names bytes that are not here, and no live record points at the deleted tree.",
+    "theOtherFourteen": "Re-measured on the current bytes rather than carried. The bytes are unchanged since the earlier row, and where that is so the carry is stated inside the evidence; every result above is freshly asserted here."
+   },
+   "grantsNothing": "This row is an independent measurement of one family's completeness on these bytes. It approves no output, opens no commercial route, creates no fulfillment record, and discharges neither the owner re-review nor the counsel questions in approval-request.json.",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "claimLedgerModified": false,
+   "selfVerified": false
   }
  ],
  "supersededLaneMembership": {
@@ -12906,5 +13076,6 @@
    "NOT_MEASURABLE_HERE": []
   }
  },
- "vf04WvReadAppend20260905": "VF04-WV-READ-20260905. One family read: wv_dui_deferral_expungement-set, at base 30a8b3b71, after FIX46. Appended as one row; no earlier row was altered. Verdict FAIL_REPAIR_REQUIRED on ARTIFACTS alone. The repair FIX46 was assigned holds: the CLIPPING_AND_OVERLAP defect VF07 recorded at a0cc3dfc.. is gone in both fixtures, the notary's execution unit is whole on page 4 with no ink beneath it, and the preparer's trailer closes page 3 above it. The FAIL is elsewhere and was not visible to any existing instrument: the family's 22 committed raster page images are two repairs stale and contradict reports/rendered-artifacts.json, which declares that the family owns none. Nine counters all zero, measured here."
+ "vf04WvReadAppend20260905": "VF04-WV-READ-20260905. One family read: wv_dui_deferral_expungement-set, at base 30a8b3b71, after FIX46. Appended as one row; no earlier row was altered. Verdict FAIL_REPAIR_REQUIRED on ARTIFACTS alone. The repair FIX46 was assigned holds: the CLIPPING_AND_OVERLAP defect VF07 recorded at a0cc3dfc.. is gone in both fixtures, the notary's execution unit is whole on page 4 with no ink beneath it, and the preparer's trailer closes page 3 above it. The FAIL is elsewhere and was not visible to any existing instrument: the family's 22 committed raster page images are two repairs stale and contradict reports/rendered-artifacts.json, which declares that the family owns none. Nine counters all zero, measured here.",
+ "vf04WvRereadAppend20260905": "VF04-WV-REREAD-20260905. One family re-read after the FIX52 bookkeeping repair: wv_dui_deferral_expungement-set, at base 4447f8683. Appended as one row; no earlier row was altered. Verdict PASS_COMPLETE_INDEPENDENT. ARTIFACTS, the obligation this re-read was ruled on, was measured file by file over the whole committed family directory: the two fixtures hash to what the record names (canonical d3fd5538.., boundary 776a7006.., equal to the live receipt for run 33977742636 / job 101337729588, confirmed against disk before anything else was measured), every one of the six digests committed anywhere in the directory names bytes that are here, no page image is committed, and rendered-artifacts.json's rasterSkipped true / rasterPages [] now describes the directory. The other fourteen obligations were re-measured on the current bytes and all pass. Nine counters zero, measured here. The owner re-review this family has owed since FIX07 is not discharged by this row."
 }
