@@ -2,6 +2,8 @@
 // entitlement is created. Imported by the existing delivery acceptance gates.
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { createHash } from "node:crypto";
+import { PDFDocument, StandardFonts } from "pdf-lib";
 import { withIllinoisRegistry } from "./test-rcap-il-authority-fixture.mjs";
 import { register } from "node:module";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -11,6 +13,7 @@ const { buildRenderJobSpec } = await import("../src/lib/rcap/render/job-contract
 const { packetSpecificationFor, specificationContentSha256 } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 const lane = await import("../src/lib/rcap/render/commercial-admission.ts");
 const { resolveConsumerDeliveryAccess } = await import("../src/lib/rcap/render/consumer-delivery-control.ts");
+const { authorizePacketDownload, streamAuthorizedPacket } = await import("../src/lib/rcap/render/packet-delivery.ts");
 
 export const IL_ROUTE = "IL:felony-prostitution-relief";
 export const IL_TRACK = "il-prostitution-j-vacate";
@@ -105,6 +108,43 @@ for (const kind of ["consumer_payment", "sponsored_credit"]) {
       `${kind}: ${trackId ?? "trackless"} verification must not inherit the vacatur family`);
   }
 }
+
+// Delivery-binding unit fixture only: completed-job/accounting, identity and
+// storage are doubles. This PDF is not an Illinois packet or a render proof.
+const pdf = await PDFDocument.create();
+pdf.addPage([612, 792]).drawText("SYNTHETIC DELIVERY BINDING ONLY", { font: await pdf.embedFont(StandardFonts.Helvetica) });
+const bytes = Buffer.from(await pdf.save());
+const digest = createHash("sha256").update(bytes).digest("hex");
+const jobId = "11111111-1111-4111-8111-111111111111";
+const job = {
+  id: jobId, packetId: "unit-packet", routeId: IL_ROUTE, briefcaseItemId: "unit-item",
+  consumerBriefcaseItemId: "unit-item", consumerAuthUserId: "unit-owner", matterId: "unit-matter",
+  consumerVerificationHash: "unit-verification", status: "artifact_validated", deliveryEligibility: "eligible", accountingResult: "zero_charge",
+  outputStoragePath: `unit/${jobId}/${digest}.pdf`, outputSha256: digest,
+  personalizedBinding: { trackId: IL_TRACK, packetFamilyId: IL_FAMILY, specificationSha256: specificationContentSha256(IL_SPECIFICATION),
+    specificationFileSha256: createHash("sha256").update(fs.readFileSync("data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json")).digest("hex") }
+};
+const current = { snapshot: IL_SNAPSHOT, hash: "unit-verification", ownerUserId: "unit-owner", matterId: "unit-matter", alreadyDownloaded: false };
+const events = [];
+const ports = { getJob: async () => job, userOwnsBriefcaseItem: async (user) => user === "unit-owner",
+  getCurrentVerification: async () => current, storage: { read: async () => bytes }, recordEvent: async (event) => { events.push(event); return "unit-event"; } };
+for (const repeat of [false, true]) {
+  current.alreadyDownloaded = repeat;
+  const decision = await authorizePacketDownload(ports, { jobId, userId: "unit-owner" });
+  assert.equal(decision.ok, true, JSON.stringify(decision));
+  const response = await streamAuthorizedPacket(ports, decision, { userId: "unit-owner" });
+  assert.deepEqual(Buffer.from(await response.arrayBuffer()), bytes);
+}
+assert.equal(events.filter((e) => e.eventType === "transmission_completed").length, 2);
+for (const userId of [null, "other-user"]) assert.equal((await authorizePacketDownload(ports, { jobId, userId })).ok, false);
+for (const changes of [
+  { hash: "stale-verification" }, { matterId: "wrong-matter" },
+  { snapshot: { ...IL_SNAPSHOT, selectedTrackId: "il-prostitution-j-auto" } }
+]) assert.equal((await authorizePacketDownload({ ...ports, getCurrentVerification: async () => ({ ...current, ...changes }) }, { jobId, userId: "unit-owner" })).ok, false);
+for (const changes of [
+  { packetFamilyId: "wrong-family" }, { trackId: "*" },
+  { specificationFileSha256: "f".repeat(64) }, { specificationSha256: "f".repeat(64) }
+]) assert.equal((await authorizePacketDownload({ ...ports, getJob: async () => ({ ...job, personalizedBinding: { ...job.personalizedBinding, ...changes } }) }, { jobId, userId: "unit-owner" })).ok, false);
 });
 assert.equal(resolveConsumerDeliveryAccess({ subjectId: null }).allowed, false,
   "this local verifier must run with consumer delivery disabled");

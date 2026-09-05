@@ -99,6 +99,8 @@ export type PacketFulfillmentRecord = {
   packetSpecificationVersion: string;
   packetSpecificationPath: string;
   packetSpecificationSha256: string;
+  /** Canonical authority pins the whole source file, including its metadata. */
+  packetSpecificationFileSha256?: string;
 
   packetComponents: string[];
   sourceIdentities: PacketFulfillmentSourceIdentity[];
@@ -295,6 +297,7 @@ export function packetFulfillmentAuthority(
     packetSpecificationVersion: specification.specificationVersion,
     packetSpecificationPath: specificationPath,
     packetSpecificationSha256: specification.specificationSha256 ?? canonical.packetSpecification.sha256,
+    packetSpecificationFileSha256: canonical.packetSpecification.sha256,
     packetComponents: [...REQUIRED_PACKET_COMPONENTS], sourceIdentities: specification.sourceIdentities,
     artifactProvider: "rcap_grade_a_composer_v1", artifactProviderVersion: canonical.provider.rendererVersion,
     renderer: canonical.provider.rendererKind, rendererVersion: canonical.provider.rendererVersion,

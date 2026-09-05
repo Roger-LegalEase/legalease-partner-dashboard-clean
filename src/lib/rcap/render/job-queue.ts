@@ -56,7 +56,7 @@ export type RenderJobRow = {
   consumerBriefcaseItemId: string | null;
   consumerAuthUserId: string | null;
   consumerVerificationHash?: string | null;
-  personalizedBinding?: { trackId: string; packetFamilyId: string; specificationSha256: string } | null;
+  personalizedBinding?: { trackId: string; packetFamilyId: string; specificationSha256: string; specificationFileSha256: string } | null;
 };
 
 function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
@@ -426,7 +426,7 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
     const payload = input?.input_payload;
     if (payload?.schemaVersion === "rcap-personalized-render/v1") {
       job.personalizedBinding = { trackId: payload.trackId, packetFamilyId: payload.packetFamilyId,
-        specificationSha256: payload.specificationSha256 };
+        specificationSha256: payload.specificationSha256, specificationFileSha256: payload.specificationFileSha256 };
     }
   }
   return job;
