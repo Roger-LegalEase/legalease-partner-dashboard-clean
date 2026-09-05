@@ -7219,8 +7219,8 @@
       "operation": "rapid-repair",
       "lane": "FIX19",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T06:02:03.545Z"
     },
     {
       "subjectType": "packet-family",
@@ -7294,8 +7294,8 @@
       "operation": "rapid-repair",
       "lane": "FIX19",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T06:02:12.850Z"
     },
     {
       "subjectType": "packet-family",
@@ -12778,7 +12778,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4dbfc580a5a0528ed28c97b951eae15c3756b9602c3b1cc49c8511efc7ac9b55",
+  "claimsDigest": "63e8e6f35d1ef9717da6ac60a6475b2a5c7dc73627c0ec71e306d017ab2a1032",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26878,6 +26878,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T05:57:01.413Z",
       "reason": "STOPPED_BLOCKED_SOURCE, still FAIL_REPAIR_REQUIRED. All four obligations reproduced in the family's own delivered bytes and their causes located in the shared host; the family is carved out into its own builder at 0f31e0914 with all four faults repaired, proven not to be a no-op by a 28-of-424 classifier differential and by a self-test that passes on the COMPLETE_PACKET_PROVEN sibling and fails 14 checks here. The rebuild could NOT be run: the EXP-AD Case List, sha256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c, is absent by content hash from every mounted custody and is in no published release. Delivered fixtures unchanged and still defective: canonical 24ae04d5, boundary 21731bad. Also found and unrepaired elsewhere: four non-case-number values written into a court's case-number grid, previously unreported by any counter or verifier. Return: data/rcap-grade-a/packet-factory-24h/fix20/illinois-shared-root-and-carveout-return.json"
+    },
+    {
+      "lane": "FIX19",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_deferred-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T06:02:03.545Z",
+      "reason": "FIX19 COMPLETED. One root defect, two carve-outs: the shared Misc. Docket No. 22-9090 Statement of Inability ships three /V values that the structural rule preserved. All three obligations (KNOWN_PREFILLS, PROTECTED_FIELDS, REQUIRED_BEFORE_FILING) satisfied and re-measured on the bytes with a negative control. Closed the open half of PROTECTED_FIELDS: the production field map now records sourceValuePresentInBlankForm and sourceValueDisposition on all six refusal rows. Fixtures did NOT move (canonical 7cb3e892.., boundary 2ccf4e37..); standing raster receipt survives. Committed e6dcb188b."
+    },
+    {
+      "lane": "FIX19",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_probation_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T06:02:12.850Z",
+      "reason": "FIX19 COMPLETED. Same single root as tx_nd_dwi_deferred-set. All three obligations (KNOWN_PREFILLS, PROTECTED_FIELDS, REQUIRED_BEFORE_FILING) re-measured first-hand on the delivered bytes with a negative control and found satisfied; the family needed no change and deliberately received none. Its remedy is the finalizer's clearSourceCarriedTextValues, which deletes /V and every widget /AP before flatten, so a field-appearance-semantics.json entry would classify an appearance that no longer exists; the registry's silence here is correct, not an omission. Full rebuild reproduces both fixtures exactly and diff -r of the family directory reports no differences. Fixtures did NOT move (canonical 4cbe29ec.., boundary 9b905898..); standing raster receipt survives. Committed e6dcb188b."
     }
   ],
   "reissues": [
