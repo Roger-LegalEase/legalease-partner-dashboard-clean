@@ -4,12 +4,12 @@
   "blocking": [],
   "findings": [
     {
-      "finding": "SIX WRITES ON A 110-FIELD FORM, and the ratio is the finding rather than a gap. An entire side of AOC-CR-297 belongs to the SBI, the AOC records officer, the court and the clerk; Side One carries a certificate of service that would be untrue if completed before service and a REQUEST BY JUDGE block that is the judge's. Of the remainder, the substance is conviction facts — offence class, disposition, sentence completion, restitution, prior expunctions — that no held record establishes for any participant.",
-      "consequence": "104 blanks are classified rather than written: protected where the field is the court's, the clerk's, the SBI's or a certificate of service; attorney-only where it is counsel's; a genuine participant election where the form offers a choice this route does not make; and required-before-filing, with the record it is copied from named, for every conviction fact. Each of the manifest's own obtain_document and confirm_answer items is carried into participant-instructions.md."
+      "finding": "EIGHT WRITES ON A 110-FIELD FORM, and the ratio is the finding rather than a gap. An entire side of AOC-CR-297 belongs to the SBI, the AOC records officer, the court and the clerk; Side One carries a certificate of service that would be untrue if completed before service and a REQUEST BY JUDGE block that is the judge's. Of the remainder, the substance is conviction facts — offence class, disposition, sentence completion, restitution, prior expunctions — that no held record establishes for any participant.",
+      "consequence": "102 blanks are classified rather than written: protected where the field is the court's, the clerk's, the SBI's or a certificate of service; attorney-only where it is counsel's; a genuine participant election where the form offers a choice this route does not make; and required-before-filing, with the record it is copied from named, for every conviction fact. Each of the manifest's own obtain_document and confirm_answer items is carried into participant-instructions.md."
     },
     {
       "finding": "CAPTION-CAPTURE DEFECT on Side One's identifier row, the same shared-host defect this jurisdiction's other families report. PetitionerZip is captured as \"Race\"; DLNo and DLState as \"Drivers License No.StateRaceSex\"; Race as \"State\"; Sex and AttorneyMailAddress and AttorneyCity as \"Full Social Security No\"; DOB as \"Date Of BirthFull Social Security No\"; SSN as \"NOTE TO PETITIONER\"; and AttorneyState as the whole NOTE TO PETITIONER paragraph.",
-      "consequence": "On THIS form the defect produces no mis-write — every affected blank is refused rather than filled, which is the safe direction — but each is refused for the wrong reason. All are declared required-before-filing or attorney-only with the true reason stated. Reported for the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs. The sibling family nc_146_acquittal_petition-set records the same defect producing an actual mis-write on AOC-CR-288, where a date of birth was bound to the Full Social Security No. blank."
+      "consequence": "On THIS form the defect produces no mis-write. It cannot: finalizeOfficialForm resolves a field by NAME through form.getField() and fits the value to that field's own widget /Rect, so a captured caption selects a fact and tests a protected category but never positions ink. TWO of the affected blanks are therefore WRITTEN rather than refused — PetitionerZip and DOB, both facts the platform holds and both also written on AOC-CV-226 — after the pinned AOC-CR-297 was rastered at 300 dpi and each rect was proved to sit in its own printed cell: DOB under the printed caption \"Date Of Birth\" and 1.91pt clear of the SSN rect across the cell divider at x=175.2; PetitionerZip in the bottom-right cell of the address block captioned \"Name And Address Of Petitioner\", bounded by that block's own rules at x=315.0 and y=633.0, with Race and Sex in the next printed row below it. The remaining affected blanks stay refused, each declared required-before-filing or attorney-only with the true reason stated. Reported for the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs. The sibling family nc_146_acquittal_petition-set records the same defect producing an actual mis-write on AOC-CR-288, where a date of birth was bound to the Full Social Security No. blank — by binding the wrong FACT to a field named SNN, not by moving a rect, which is why an explicit mapping by name is not exposed to it."
     },
     {
       "finding": "THE CERTIFICATE OF SERVICE. AOC-CR-297 carries one on Side One, with four method boxes, the district attorney's email address of record, a date served, a signature of the person serving, and an acceptance block for the district attorney.",
@@ -38,6 +38,22 @@
     {
       "finding": "SOURCE RESOLUTION. All three of this family's binaries appear TWICE in the committed corpus index at the same SHA-256 — once under master_library and once under d_source_packs, a pinned release this container does not carry.",
       "consequence": "This build resolves an index entry by preferring one whose bytes are present AND hash to the pinned digest, rather than taking the first entry that carries the hash. The binding is still exact SHA-256 and the receipt records which custody supplied the bytes."
+    }
+  ],
+  "captionCorrectionsApplied": [
+    {
+      "document": "AOC-CR-297",
+      "field": "PetitionerZip",
+      "capturedLabel": "Race",
+      "measuredLabel": null,
+      "measuredAt": "page 1 rect x[255.81,315.08] y[633.38,646.63]; 300 dpi raster of the pinned form shows no printed caption inside the rect, which lies in the block captioned \"Name And Address Of Petitioner (type or print full name)\"; the printed \"Race\" is at x[224.3,240.6] y 623-628, in the next row down, below the block's closing rule at y=633.0"
+    },
+    {
+      "document": "AOC-CR-297",
+      "field": "DOB",
+      "capturedLabel": "Date Of BirthFull Social Security No",
+      "measuredLabel": "Date Of Birth",
+      "measuredAt": "page 1 rect x[36.63,175.30] y[585.07,600.65]; 300 dpi raster of the pinned form shows \"Date Of Birth\" printed at y 601.7-606.7 inside the same cell, and \"Full Social Security No.\" beginning at x=177.8 on the far side of the cell divider at x=175.2, inside SSN's own rect"
     }
   ]
 }

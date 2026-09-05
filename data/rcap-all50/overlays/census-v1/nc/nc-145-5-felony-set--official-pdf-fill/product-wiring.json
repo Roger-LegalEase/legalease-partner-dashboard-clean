@@ -80,14 +80,7 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33927262022",
-      "jobId": "101199158345",
-      "artifactId": "9957403809",
-      "boundToCanonicalSha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
@@ -101,7 +94,8 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "whyTheAcceptanceReceiptIsNull": "Nulled by lane FIX56. The RASTER_PASS receipt it carried (workflow run 33927262022, job 101199158345, artifact 9957403809) was bound to canonical 04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2 and boundary 88dc2fd4d9eebad4d6136409ed6dcc831d0cf14025f43e4b08716f7fe52694d5. This repair supersedes both digests, so the receipt stops binding and a fresh central raster is owed on canonical 7dc8d18fdfad3b9a5470865c5b5ba630d0ad00919cb438370edffc20678bfbfe and boundary a6c8cb3ab06d6a72fbba9138a42c33b47c312d2a7abf8f03afe473a975317509. A receipt left in place over bytes nobody rendered is a signature block asserting something untrue, which is why it is removed rather than updated."
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -114,7 +108,7 @@
         "order": 1,
         "documentId": "AOC-CR-297",
         "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+        "sha256": "7dc8d18fdfad3b9a5470865c5b5ba630d0ad00919cb438370edffc20678bfbfe",
         "requirement": "required"
       },
       {
@@ -123,7 +117,7 @@
         "order": 2,
         "documentId": "AOC-CR-297-INSTRUCTIONS",
         "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+        "sha256": "7dc8d18fdfad3b9a5470865c5b5ba630d0ad00919cb438370edffc20678bfbfe",
         "requirement": "required"
       },
       {
@@ -132,7 +126,7 @@
         "order": 3,
         "documentId": "AOC-CV-226",
         "file": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "04557c4100281bef2b1d1475e06cf4514f831e9bf45212fbb5fcf2f4e440ebd2",
+        "sha256": "7dc8d18fdfad3b9a5470865c5b5ba630d0ad00919cb438370edffc20678bfbfe",
         "requirement": "required"
       }
     ]
