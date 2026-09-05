@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0ac01093266c1c4e6baf3f761681812d87f48ef1",
+  "generatedAtCommit": "f7eb842833f3ba81a6814edc7b4e430faff7246f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5032,9 +5032,7 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T10:31:58.366Z",
-      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 7a1e2c417 (KNOWN_PREFILLS: Parties box blank though all three facts are held; REQUIRED_BEFORE_FILING: 14 checkboxes absent from the field map). Verdict extracted; to repair."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13252,7 +13250,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "f2801259919cbadf79d604a912718dfe1d4ee774e1ecdbb0b798046700a0c792",
+  "claimsDigest": "812dd166de5902382389b8fcb2a77e4f4350151b2563ada2b9dbe7a9bafc3ce3",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34871,6 +34869,16 @@
       "previouslyReleasedAt": "2026-09-05T10:02:23.063Z",
       "reissuedAt": "2026-09-05T14:45:19.145Z",
       "reason": "SCAN02 splitter cohort: VF08 FAIL at aefd46f7c (line two opens on an orphan hyphen); FIX08 repairs the private builder onto the shared splitter."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_trafficking-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T14:54:01Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
