@@ -4577,10 +4577,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF09",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-04T15:23:13.076Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6625,10 +6625,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF12",
+      "lane": "VF09",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T00:05:26.038Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13608,7 +13608,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "25ad1cbd322cd4c1670156169a2e0054dd7a412ebaf12a99b4c4b59a341c33bf",
+  "claimsDigest": "d36a248c566d057c1e96bfda862bb22a8687a717f31f4db0fc50817837b97c8a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43895,6 +43895,28 @@
       "previouslyReleasedAt": "2026-09-05T22:39:11.462Z",
       "transferredAt": "2026-09-05T22:39:29.438Z",
       "reason": "Independent read owed after FIX72 (the twelfth stop condition carried whole at both builder sites) and the FIX08 cluster SOURCE_IDENTITY repair, with the central raster receipt from run 33995915835 on 1f919dc11; fifteen obligations on the delivered bytes, nine counters measured, no score carried from VF09's earlier read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ma-bmc-multi-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF05",
+      "toLane": "VF09",
+      "previouslyReleasedAt": "2026-09-04T15:23:13.076Z",
+      "transferredAt": "2026-09-05T22:42:03.757Z",
+      "reason": "Independent read owed: the legal hold is recorded SETTLED and the family's next executable action is the raster and independent-verification gates; the raster queue refuses a LEGAL_BLOCKED family, so this read rules the fifteen obligations on the current bytes with rasterState stated as refused-while-blocked, and a passing read lifts the hold so the raster can follow; no score carried from VF05's blocked read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "pa_790_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF12",
+      "toLane": "VF09",
+      "previouslyReleasedAt": "2026-09-02T00:05:26.038Z",
+      "transferredAt": "2026-09-05T22:42:03.860Z",
+      "reason": "Independent read owed with a declared base: the wave-2 legal block on fee and waiver treatment stands because the later vf12 PASS declares no review base; this read rules the fifteen obligations on the current bytes at a stated base, FEE_AND_WAIVER against the committed record, and states rasterState as refused-while-blocked; a passing read lifts the hold so the raster can follow."
     }
   ],
   "grants": [
