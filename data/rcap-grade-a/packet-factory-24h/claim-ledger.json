@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "79f886f26a16cde736a830c842bb7ea06b14f174",
+  "generatedAtCommit": "041da0a55d03aa8fb804832d2d6f6e13084e55a8",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7577,10 +7577,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX26",
+      "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T09:34:51.937Z"
     },
     {
       "subjectType": "packet-family",
@@ -8012,10 +8012,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX26",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T09:34:51.808Z"
     },
     {
       "subjectType": "packet-family",
@@ -12884,7 +12884,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "287390affb8a333727238664667d71f3e7878f27d21bf4ef2a503aaff91279dc",
+  "claimsDigest": "7fdf7251dadcb2d585991c7e9dc60a89691994e6600a53aff86c144ba2b88ee1",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27038,6 +27038,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T09:12:57.402Z",
       "reason": "FIX05 exited long ago and this grant was left live, holding the family against reassignment. Released by Captain."
+    },
+    {
+      "lane": "FIX26",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T09:34:51.808Z",
+      "reason": "ARTIFACTS does not reproduce at 79f886f26: product-wiring.json now pins canonical 8e4c9321 and carries the RASTER_PASS acceptance receipt from run 33836771479 bound to those exact bytes; all 18 declared artifacts rehash and no fixture byte moved since vf35's base. Stale finding, no repair owed. (Replayed by Captain from FIX26 commit 3fe996ed7.)"
+    },
+    {
+      "lane": "FIX26",
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T09:34:51.937Z",
+      "reason": "PAGE_ORDER and SELF_HELP_STOP both already repaired at 79f886f26 by ancestor commit e621bb5a1: delivered sequence is the packet-set manifest's 1..9 and all eight committed stop conditions are carried verbatim. Reorder proven a pure permutation with byte-identical per-page text. No repair owed; a fresh central raster is owed on b6614145/9a3c2721. (Replayed by Captain from FIX26 commit 3fe996ed7.)"
     }
   ],
   "reissues": [
