@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "8dd6de25f71288c35ef48a27a10a66bbe5bb2785",
+  "generatedAtCommit": "3cc2f939779088a93181d46caca85a6ce2a6000f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5669,10 +5669,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX78",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:27:52.713Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6014,10 +6014,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX78",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T21:27:52.946Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6551,7 +6551,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6732,7 +6732,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6973,7 +6973,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:48:45.224Z"
@@ -7246,7 +7246,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -8208,11 +8208,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null,
-      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at c708dff4d: FEE_AND_WAIVER — the track registry states three times that Va. Code 19.2-392.2(A) requires no court fees or costs and carries it as a packetInstruction, while page 6 and participant-instructions.md say the fee is unestablished and to ask the clerk, naming no waiver route; thirteen others pass on the FIX46 bytes (canonical be8bd437, boundary de2b0b59, RASTER_PASS run 33977742636) except CLIPPING_AND_OVERLAP, BLOCKED_LEGAL_INPUT on the shared-flattening synthesized checkbox square (FIX50 in flight). Return at data/rcap-grade-a/packet-factory-24h/vf03/rows.json (Captain release after integrating VF03 commit 2a17e1cd3)."
+      "releaseReason": "Bookkeeping: the dispatch generator packs reads only onto the VF01 to VF08 roster; the read moves to VF03, where its worker is dispatched; no work was done here."
     },
     {
       "subjectType": "packet-family",
@@ -13610,7 +13610,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "f4705942f094e6184466a8fca5ee9f57d4310845ab34fdbf49ce37a1dcb6baed",
+  "claimsDigest": "0da342dba2a4035ccd4c52023c9b3c9e2966635f86c588d01e44da42b8a98cfa",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30518,6 +30518,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T22:45:36.555Z",
       "reason": "Bookkeeping: the dispatch generator packs VERIFY_PENDING reads only onto the VF01 to VF08 roster and refuses a claim held on VF09; the read itself continues on the VF09 worker already asserted and running, and its row lands in vf09/rows.json; the claim moves to VF02, the lane the dispatch names, so the dispatch can regenerate. No work was done or undone by this move."
+    },
+    {
+      "lane": "VF09",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T22:47:58.079Z",
+      "reason": "Bookkeeping: the dispatch generator packs reads only onto the VF01 to VF08 roster; the read moves to VF03, where its worker is dispatched; no work was done here."
     }
   ],
   "reissues": [
@@ -43975,6 +43984,39 @@
       "previouslyReleasedAt": "2026-09-05T22:45:36.555Z",
       "transferredAt": "2026-09-05T22:45:36.681Z",
       "reason": "Held on the dispatch's roster lane while the VF09 worker completes the read after FIX72 and the FIX08 cluster SOURCE_IDENTITY repair, with the central raster receipt from run 33995915835 on 1f919dc11; the return is integrated from vf09/rows.json and this claim is released on that verdict."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF09",
+      "toLane": "VF03",
+      "previouslyReleasedAt": "2026-09-05T22:47:58.079Z",
+      "transferredAt": "2026-09-05T22:47:58.186Z",
+      "reason": "Independent read owed after FIX74 (the record's own no-fee answer under Va. Code 19.2-392.2(A) on page 6 and in the instructions) and the central raster receipt from run 33996518424 on 35a889af7; fifteen obligations on the delivered bytes, nine counters measured, no score carried from VF03's pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_dismissal_petition-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX78",
+      "previouslyReleasedAt": "2026-09-05T21:27:52.713Z",
+      "transferredAt": "2026-09-05T22:47:58.294Z",
+      "reason": "VF01 FAIL KNOWN_PREFILLS at 5326f747d on the FIX65 bytes: held facts refused on the official form while written elsewhere in the packet; NC 146 dismissal: write participant.date_of_birth into AOC-CR-287 DateOfBirth, participant.zip into PetitionerZip and participant.street_address into AOC-CV-226 ApplicantStreetNumberAndStreetNameLine1 at each widget's own Rect (the FIX56 caption-correction and FIX66 named-fact channels); NH pre-2019: bind participant.city to NHJB-2317 'Mailing Address.2', last/first/middle name to NHJB-2956 name.1/name.3/name.4 and the composed street-city-state-zip line to NHJB-2956 'Mailing Address1', leaving name.2 (maiden or alias) to the participant; remove the repaired rows from requiredBeforeFiling and the disclosure tables; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX78",
+      "previouslyReleasedAt": "2026-09-05T21:27:52.946Z",
+      "transferredAt": "2026-09-05T22:47:58.397Z",
+      "reason": "VF01 FAIL KNOWN_PREFILLS at 5326f747d on the FIX65 bytes: held facts refused on the official form while written elsewhere in the packet; NC 146 dismissal: write participant.date_of_birth into AOC-CR-287 DateOfBirth, participant.zip into PetitionerZip and participant.street_address into AOC-CV-226 ApplicantStreetNumberAndStreetNameLine1 at each widget's own Rect (the FIX56 caption-correction and FIX66 named-fact channels); NH pre-2019: bind participant.city to NHJB-2317 'Mailing Address.2', last/first/middle name to NHJB-2956 name.1/name.3/name.4 and the composed street-city-state-zip line to NHJB-2956 'Mailing Address1', leaving name.2 (maiden or alias) to the participant; remove the repaired rows from requiredBeforeFiling and the disclosure tables; raster and re-read then owed."
     }
   ],
   "grants": [
