@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "db04544b770c4863478eb487cd6f499584a1619d",
+  "minimumCaptainSha": "11a5deefc267d7db71de5c33f0f9f648407ecbbf",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,27 +66,27 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 4,
+    "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
-    "remaining": 342,
+    "remaining": 340,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 10,
-    "verifyPending": 6,
-    "repairRequired": 51,
+    "verifyPending": 2,
+    "repairRequired": 50,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 149,
-    "FAIL_REPAIR_REQUIRED": 55,
+    "COMPLETE_PACKET_PROVEN": 152,
+    "FAIL_REPAIR_REQUIRED": 56,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 6,
     "LEGAL_BLOCKED": 10,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "VERIFY_PENDING": 2,
     "BUILT_RASTER_PENDING": 1,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -112,7 +112,9 @@
       "il-seal-edu-set",
       "mi_setaside_trafficking-set",
       "tx_nd_dwi_deferred-set",
-      "ut_pet_limitations-set"
+      "ut_pet_limitations-set",
+      "va_exp_nonconviction-set",
+      "wv_dui_deferral_expungement-set"
     ],
     "staleRosterFamilies": [
       {
@@ -5327,10 +5329,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "a0fbceb30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -5361,35 +5363,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the composed petition (page 2) and the filing instructions (page 4) the route key breaks BEFORE its own separator, not on it: line one ends \"…notation-of-clearance-after-a-wrongful-arrest\" with no terminating hyphen and line two opens on an orphan hyphen, \"-under-13-4051\". This is the distinction this lane already drew for Washington, where the key broke AFTER its own hyphen (\"…-under-rcw-10-97-\" / \"060\") and was passed: there the separator ends the line and the eye carries the token forward; here the line ends on a complete word and the next line starts with a stray punctuation mark, so it reads as two tokens. Confirmed on a local raster of canonical page 2. The fragment is exactly 102 characters, a fixed measure taken with no regard to the token’s structure.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 8,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p2"
-            ],
-            "scan02Class": "a",
-            "scan02Pages": [
-              2,
-              4
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
@@ -26534,10 +26512,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "a0fbceb30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -26581,34 +26559,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 5 of ten, attributed to the component ms-fel-proposed-order-2, carries exactly one line of ink — \"Route: obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71\" — and nothing else. Read from the composed content stream, which returns that single line and a form feed for the page, and confirmed on a local raster into /tmp. This is a page inside a proposed order the court is asked to sign that says nothing to the court; on the precedent of VF06’s route-key-only page it is a visible defect on a delivered page.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 20,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p5"
-            ],
-            "scan02Class": "b",
-            "scan02Pages": [
-              5
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-fel-set.mjs",
@@ -26748,10 +26703,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "a0fbceb30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -26782,34 +26737,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 4 of eight, attributed to ms-misd-addl-proposed-order-2, carries only the two-line machine trailer: \"Route: obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3\" and, on the second line beginning with a semicolon, \"; obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6\". Nothing else prints on the page. Read from the composed content stream and confirmed on a local raster of canonical page 4 into /tmp. Two route keys are the entire content of a page inside a proposed order.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 16,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p4"
-            ],
-            "scan02Class": "b",
-            "scan02Pages": [
-              4
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-misd-addl-set.mjs",
@@ -38320,11 +38252,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf04",
+        "verifiedAtBase": "a0fbceb30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -38354,34 +38288,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the proof-of-delivery-to-prosecutor page (9) and the filing-and-after-order instructions (24), the key breaks inside the word \"conviction\": \"…petitioned-nondisclosure-for-an-eligible-c\" then \"onviction-411-0735\". On page 9 the broken token is the last ink under the participant’s own signature and the parenthetical \"(You sign and date this when the copy has actually been delivered. Nothing on this page is signed or dated for you, and no district attorney’s name or address is printed here…)\". Read from the composed content stream and confirmed on a local raster of canonical page 9.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 48,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p9"
-            ],
-            "scan02Class": "a",
-            "scan02Pages": [
-              9,
-              24
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "A known required fact -- the participant's date of birth, which the platform holds and this same packet prints -- is not written on the page it belongs to, and the blank is excused by a protected-field refusal class describing a field it is not. This is exactly the shape the completeness contract names in REQUIRED_BEFORE_FILING_CONDITIONS: 'a fact written anywhere else in the same packet is available, and refusing it here is a missing known fact', and the shape REFUSAL_CLASSES warns of where a protected class lets a required fact hide inside it. REPAIR, and it is narrow: in scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs, relabel those three fields from 'Date part of the sworn declaration' to the caption the form actually prints, and either write the held date of birth into Month / Day / Year as it is already written on source page 2, or -- if the build declines to split a date it holds whole -- declare them REQUIRED_BEFORE_FILING with a named reason and disclose them in participant-instructions.md, where they are named nowhere today. The signing-date field 'Today' and the notary's 'Year' on source page 12 must stay refused; nothing else on either page moves.",
+          "evidence": "DELIVERED PAGE 20 of 24 (Statement of Inability, source page 11 of 12, Option 1 / Opcion 1, the sworn Declaration). The page prints three captions in this order and this lane read them off the delivered bytes: 'My name is / Mi nombre es', then 'My date of birth is / Mi fecha de nacimiento es' above three rules, then 'My address is / Mi domicilio es'. The packet writes the FIRST and the THIRD -- 'Jordan Avery Reyes' and '42 Live Oak Street, Austin, TX 78702' in canonical, the stress values in boundary -- and leaves the SECOND entirely blank. The same fact is held and written nine pages earlier: delivered page 11 (source page 2) carries '1994-04-17' in the field the source form names 'My date of birth / Mi fecha de nacimiento es' (boundary: '1972-12-31'). So one official document writes the participant's date of birth on one of its pages and refuses it on another. The refusal is recorded in production-field-map.json maps[3].canonicalRefusals for the three fields 'Month / Mes' (rect 79.73,495.56), 'Day / Dia' (134.54,495.51) and 'Year / Ano' (193.40,495.61) on page 11 of that document, all three carrying printedLabel 'Date part of the sworn declaration (...)', category signature_or_date_participant_completion, requiredBeforeFiling false, and why 'a date written before the Statement is actually sworn would be false'. That reason is true of a different field: the signing date on this same page is the separate widget 'Today' at (97.75,302.31) under the printed caption 'Date (month, day, year) / Fecha (mes, dia, ano)', and it is correctly refused. Confirmed by eye on a local raster of canonical page 20 at 100 dpi: a half-completed sworn declaration with name and address filled and the date-of-birth rules empty."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
@@ -42164,8 +42082,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX46",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -42176,7 +42094,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "va_seal_ancillary_matter_only-set",
@@ -46480,8 +46399,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX46",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -46492,7 +46411,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "wv_nc_acquittal_dismissal-set",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "db04544b770c4863478eb487cd6f499584a1619d",
+  "generatedAtCommit": "11a5deefc267d7db71de5c33f0f9f648407ecbbf",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1096,21 +1096,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-05T05:55:39.347Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "az_wrongful_arrest_clearance-set",
-      "familyId": "az_wrongful_arrest_clearance-set",
-      "itemId": null,
-      "familyIds": [
-        "az_wrongful_arrest_clearance-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5122,22 +5107,6 @@
         "ms-fel-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-fel-set",
-      "familyId": "ms-fel-set",
-      "itemId": null,
-      "familyIds": [
-        "ms-fel-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -5190,20 +5159,6 @@
       "released": true,
       "releasedAt": "2026-09-05T15:06:42.126Z",
       "releaseReason": "CLIPPING_AND_OVERLAP repaired at the shared composed host and in this family's order trailer placement; bytes rebuilt, returned in fix36/rows.json; central raster, independent verification and owner re-review still owed (Replayed by Captain from FIX36 commit 174e37bb5.)"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-misd-addl-set",
-      "familyId": "ms-misd-addl-set",
-      "itemId": null,
-      "familyIds": [
-        "ms-misd-addl-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7307,21 +7262,6 @@
         "tx_nd_conviction_no_supervision-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "tx_nd_conviction_no_supervision-set",
-      "familyId": "tx_nd_conviction_no_supervision-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_conviction_no_supervision-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF08",
       "laneKind": "packet-build",
@@ -7338,11 +7278,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T15:09:22.580Z",
-      "releaseReason": "CLIPPING_AND_OVERLAP repaired: private char-accumulating splitToken replaced by the shared separator-aware splitter, hardSplits 0 asserted; scan01 hard_split_token 4 -> 0 (Replayed by Captain from FIX08 commit 81530009f.)"
+      "releasedAt": "2026-09-05T15:09:22.580Z"
     },
     {
       "subjectType": "packet-family",
@@ -13013,7 +12952,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "efde5ab871cfd14c1bcddb5877a87377b91dacb88a11301bb63b416763f71fce",
+  "claimsDigest": "9530fd70639e02aaa88f01b6963da07e492454aa1623c947d2f81fe5c05c1f2f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43560,6 +43499,38 @@
       "operation": "independent-verification",
       "lane": "VF07",
       "withdrawnAt": "2026-09-05T15:53:43Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-05T16:04:03Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-fel-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-05T16:04:03Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-misd-addl-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-05T16:04:03Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_conviction_no_supervision-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-09-05T16:04:03Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

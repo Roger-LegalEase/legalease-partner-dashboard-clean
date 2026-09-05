@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 785,
+    "rows": 789,
     "independentVerdicts": 240,
-    "failRepairRequired": 60,
-    "passIndependent": 168
+    "failRepairRequired": 57,
+    "passIndependent": 171
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -54,7 +54,6 @@
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
     "az_marijuana_expungement_limited_jurisdiction-set",
-    "az_wrongful_arrest_clearance-set",
     "co_motion_seal_conviction-set",
     "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
@@ -73,8 +72,6 @@
     "in_infraction_nondisclosure-set",
     "la-987-set-aside-and-dismiss-set",
     "mi_setaside_trafficking-set",
-    "ms-fel-set",
-    "ms-misd-addl-set",
     "ms-nonconv-set",
     "nc_145_5_felony-set",
     "nc_146_acquittal_petition-set",
@@ -2226,6 +2223,20 @@
     {
       "familyId": "az_wrongful_arrest_clearance-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a0fbceb30",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf06",
       "isIndependentVerification": true,
       "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
@@ -2287,7 +2298,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
@@ -9090,6 +9101,20 @@
     },
     {
       "familyId": "ms-fel-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a0fbceb30",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-fel-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ms-fel-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
@@ -9123,7 +9148,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-fel-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ms-fel-set",
@@ -9459,6 +9484,20 @@
     },
     {
       "familyId": "ms-misd-addl-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a0fbceb30",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ms-misd-addl-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
@@ -9492,7 +9531,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ms-nonadj-set",
@@ -17096,6 +17135,28 @@
     },
     {
       "familyId": "tx_nd_conviction_no_supervision-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a0fbceb30",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "A known required fact -- the participant's date of birth, which the platform holds and this same packet prints -- is not written on the page it belongs to, and the blank is excused by a protected-field refusal class describing a field it is not. This is exactly the shape the completeness contract names in REQUIRED_BEFORE_FILING_CONDITIONS: 'a fact written anywhere else in the same packet is available, and refusing it here is a missing known fact', and the shape REFUSAL_CLASSES warns of where a protected class lets a required fact hide inside it. REPAIR, and it is narrow: in scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs, relabel those three fields from 'Date part of the sworn declaration' to the caption the form actually prints, and either write the held date of birth into Month / Day / Year as it is already written on source page 2, or -- if the build declines to split a date it holds whole -- declare them REQUIRED_BEFORE_FILING with a named reason and disclose them in participant-instructions.md, where they are named nowhere today. The signing-date field 'Today' and the notary's 'Year' on source page 12 must stay refused; nothing else on either page moves.",
+          "evidence": "DELIVERED PAGE 20 of 24 (Statement of Inability, source page 11 of 12, Option 1 / Opcion 1, the sworn Declaration). The page prints three captions in this order and this lane read them off the delivered bytes: 'My name is / Mi nombre es', then 'My date of birth is / Mi fecha de nacimiento es' above three rules, then 'My address is / Mi domicilio es'. The packet writes the FIRST and the THIRD -- 'Jordan Avery Reyes' and '42 Live Oak Street, Austin, TX 78702' in canonical, the stress values in boundary -- and leaves the SECOND entirely blank. The same fact is held and written nine pages earlier: delivered page 11 (source page 2) carries '1994-04-17' in the field the source form names 'My date of birth / Mi fecha de nacimiento es' (boundary: '1972-12-31'). So one official document writes the participant's date of birth on one of its pages and refuses it on another. The refusal is recorded in production-field-map.json maps[3].canonicalRefusals for the three fields 'Month / Mes' (rect 79.73,495.56), 'Day / Dia' (134.54,495.51) and 'Year / Ano' (193.40,495.61) on page 11 of that document, all three carrying printedLabel 'Date part of the sworn declaration (...)', category signature_or_date_participant_completion, requiredBeforeFiling false, and why 'a date written before the Statement is actually sworn would be false'. That reason is true of a different field: the signing date on this same page is the separate widget 'Today' at (97.75,302.31) under the printed caption 'Date (month, day, year) / Fecha (mes, dia, ano)', and it is correctly refused. Confirmed by eye on a local raster of canonical page 20 at 100 dpi: a half-completed sworn declaration with name and address filled and the date-of-birth rules empty."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
+      "superseded": false
+    },
+    {
+      "familyId": "tx_nd_conviction_no_supervision-set",
       "verdict": "BLOCKED_SOURCE",
       "lane": "vf05",
       "isIndependentVerification": true,
@@ -17180,7 +17241,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "tx_nd_conviction_no_supervision-set",
