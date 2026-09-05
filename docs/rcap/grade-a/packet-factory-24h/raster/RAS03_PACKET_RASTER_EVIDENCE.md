@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `557bda1b34f035a7594e4282b0313e12f401d389`
+**Minimum required ancestor:** `fd226f92a42ac00c9dde6df5c26406ee47ff385d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -247,14 +247,14 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf` — `dc91e5dce2448db8d95354f2c0f58e84bdf0490a596bc079b69752309b6d3f9d`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf` — `9cbeb6adeb7e138a393beed18ad9008323f566d28b6db743bbb16abf2c88e16a`
 - expected pages 14 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF04
 
 ### ri_multiple_misdemeanors-set
 
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf` — `626459e1e8c041254ff4540ef939f5bdb7bdf25ed10c4e5b91968fb78b601708`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf` — `8b1c4fb17096980cdaeaf7b5ca36c55be96b0266e0217afb9bdf07fe24c16998`
 - expected pages 13 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF07
 
 ### tx_nd_dwi_deferred-set
 
@@ -282,7 +282,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/canonical.pdf` — `b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094`
 - boundary `data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill/fixtures/boundary.pdf` — `3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a`
 - expected pages 6 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF02
 
 ### wa_crop_certificate_of_restoration-set
 
