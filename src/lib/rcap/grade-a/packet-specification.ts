@@ -11,6 +11,11 @@ import mississippiAdditionalMisdemeanorRelief from "@/../data/record-clearing/pa
 import wyomingFelonyConvictionExpungement from "@/../data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json";
 import connecticutCleanSlatePetition from "@/../data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json";
 import dcCorrectMisattributedArrest from "@/../data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json";
+import mississippiFirstOffenderMisdemeanor from "@/../data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json";
+import illinoisMistakenIdentityRelief from "@/../data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json";
+import georgiaSb288MisdemeanorRestriction from "@/../data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json";
+import georgiaPardonedFelonyRestriction from "@/../data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json";
+import southDakotaSisSealing from "@/../data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json";
 
 /**
  * A packet specification is the exact statement of what one packet family
@@ -298,7 +303,22 @@ const SPECIFICATIONS: ReadonlyMap<string, RegisteredSpecification> = new Map<str
   ["MS:additional-municipal-court-misdemeanor-relief-21-23-7-6", mississippiAdditionalMisdemeanorRelief as unknown as PacketSpecification],
   [(wyomingFelonyConvictionExpungement as unknown as PacketSpecification).routeKey, wyomingFelonyConvictionExpungement as unknown as PacketSpecification],
   [(connecticutCleanSlatePetition as unknown as DerivedPacketSpecification).routeKey, connecticutCleanSlatePetition as unknown as DerivedPacketSpecification],
-  [(dcCorrectMisattributedArrest as unknown as DerivedPacketSpecification).routeKey, dcCorrectMisattributedArrest as unknown as DerivedPacketSpecification]
+  [(dcCorrectMisattributedArrest as unknown as DerivedPacketSpecification).routeKey, dcCorrectMisattributedArrest as unknown as DerivedPacketSpecification],
+  // Five proven families given a route-scoped specification by the PROD-D
+  // route-productization lane. Each binds one exact runtime route to one exact
+  // family and the shipping digests OWN-ADOPT-2026-09-02-BATCH-53 adopted. All
+  // carry legalSectionsBoundBy.postApprovalAuditVerdict =
+  // NO_POST_APPROVAL_CHANGE_AUDIT_ROW_YET, so the fulfillment-authority
+  // generator and the factory-v2 migration path, which require
+  // COVERED_BY_EXISTING_APPROVAL, still refuse them. Registration creates no
+  // fulfillment record and opens no route. The two Georgia routes are each
+  // also claimed by the ga-seal-m obligation; this map admits one family per
+  // route, so ga-seal-m-set is deliberately not registered here.
+  [(mississippiFirstOffenderMisdemeanor as unknown as PacketSpecification).routeKey, mississippiFirstOffenderMisdemeanor as unknown as PacketSpecification],
+  [(illinoisMistakenIdentityRelief as unknown as PacketSpecification).routeKey, illinoisMistakenIdentityRelief as unknown as PacketSpecification],
+  [(georgiaSb288MisdemeanorRestriction as unknown as PacketSpecification).routeKey, georgiaSb288MisdemeanorRestriction as unknown as PacketSpecification],
+  [(georgiaPardonedFelonyRestriction as unknown as PacketSpecification).routeKey, georgiaPardonedFelonyRestriction as unknown as PacketSpecification],
+  [(southDakotaSisSealing as unknown as PacketSpecification).routeKey, southDakotaSisSealing as unknown as PacketSpecification]
 ]);
 
 /**
