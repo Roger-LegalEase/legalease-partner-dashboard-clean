@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c4af131a54a39251d09bc07da26cf2f0eecf62b1",
+  "minimumCaptainSha": "942cab9b57bf1dcc27209443f4f0e1dac630aceb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,21 +72,21 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 7,
-    "repairRequired": 45,
+    "verifyPending": 6,
+    "repairRequired": 46,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 153,
-    "FAIL_REPAIR_REQUIRED": 48,
+    "FAIL_REPAIR_REQUIRED": 49,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
-    "VERIFY_PENDING": 7,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "VERIFY_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -4561,11 +4561,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "9e7582a9d1cec2bf96aad25d8071b10603282f0b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "lane": "vf06",
+        "verifiedAtBase": "369884e64",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -4595,42 +4597,35 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "SELF_HELP_STOP"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet states one narrow handoff sentence and omits five of the eight recorded stop conditions. Two of the five are hard eligibility boundaries the registry also records as exclusions — conduct on or after 12 July 2021, and a sale or any other non-listed marijuana offence — which a self-represented petitioner cannot be expected to know and which decide whether the petition is eligible at all. A third is the immigration warning that every other family in this cohort carries. Searched the whole family directory, not just the instructions: no file in it contains 'July 12', 'immigration', 'sale', 'appeal' or 'challenge the underlying', and the family carries no self-help-stop structure of any kind, while all four composed-pleading families in this cohort carry a SELF_HELP_STOP participant-facing obligation plus a full stop list.",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "FAIL, and repair-actionable inside this family. On a court form the delivered page shows the official caption table broken in three places, a rule crossing out of the cell it belongs to and through the printed title, and printed rules erased and replaced by longer ones the AOC does not print. None of it is legally ambiguous and none of it needs an owner determination: the packet is not delivering the official form as published. The nine counters are all zero over exactly these bytes, which is the point - no counter asks what the packet erased, and glyph-outside-box arithmetic passes because every mark is inside a declared write box. The repair is in the builder's render(), not in the field map: the opaque white drawRectangle(x-1,y-1,width+2,height+2) should not be painted at all on a form whose write boxes sit on printed rules and cross printed cell borders, and if a rule is wanted it must be drawn where the form prints one and no longer than the form prints it. Fixing it moves both fixture digests, so a fresh central raster is owed after the repair and the standing receipt for run 33923497915 will no longer bind.",
           "evidence": {
-            "registryStopConditionsRecorded": 8,
-            "carriedByPacket": 3,
-            "omitted": 5,
-            "omittedConditions": [
-              "Conduct date is on or after July 12, 2021.",
-              "The offense is a sale or any other non-listed marijuana offense.",
-              "The petitioner wants to challenge the underlying conviction rather than expunge it.",
-              "A denial the petitioner wants to appeal.",
-              "Immigration consequences are in play."
-            ],
-            "alsoRecordedAsRegistryExclusions": [
-              "Any conduct occurring on or after July 12, 2021.",
-              "Any marijuana offense outside the three statutory descriptions, including sale."
-            ],
-            "theOnlyStopSentenceInThePacket": "Opposition, disputed evidence, or a contested hearing requires a post-generation handoff.",
-            "wholeFamilyGrep": {
-              "July 12": 0,
-              "immigration": 0,
-              "sale": 0,
-              "appeal": 0,
-              "challenge the underlying": 0
+            "instrument": "zero-write baseline: the pinned source loaded with pdf-lib and stampDeterministic applied, saved with NO writes, then baseline and both fixtures rastered at 150 dpi with pdftoppm into /tmp and diffed pixel-for-pixel. Rasters deleted after measuring. Nothing in the family directory, no build script and no shared record was written.",
+            "whyThisInstrument": "pdftotext -bbox word boxes, which the earlier read used, can only see glyphs the packet ADDS. It cannot see official ink the packet ERASES, and it cannot see rule ink drawn inside a declared box. Both are what is wrong here.",
+            "theMeasurableHalfThatPasses": "Every changed pixel on every page of both fixtures lies inside one of the twelve declared write boxes (x-1..x+w+1, y-1..y+h+1). Zero pixels changed outside a declared box, on any page, in either fixture. Page 2 is unchanged entirely. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and visualDefects is 0.",
+            "whatTheBuilderDoesPerWrite": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs render(), the three statements after 'const { x, y, width, height } = row.rect': drawRectangle(x-1, y-1, width+2, height+2) filled rgb(1,1,1); drawLine from (x,y) to (x+width,y) at 0.6pt black; drawText at (x+2, y+2).",
+            "officialInkErasedByTheWhiteFill": {
+              "canonicalPixels": 9246,
+              "boundaryPixels": 8627,
+              "perBoxCanonical": "p1-person-filing 929, p1-mailing-address 864, p1-city-state-zip 812, p1-email 411, p1-phone 831, p1-caption-case 265, p1-defendant 747, p1-date-of-birth 1086, p1-item3-case 640, p3-mailing-address 894, p3-phone 894, p3-email 873"
             },
-            "selfHelpStopStructureInFamily": "none — no file in the family directory carries selfHelpStop, stopCondition or SELF_HELP"
+            "theFormsOwnRuleIsErasedAndRedrawnLower": "11 of the 12 boxes. Source rule y vs delivered line y, in points: person-filing 682.32 -> 678.96; mailing-address 666.96 -> 663.12; city-state-zip 651.12 -> 647.28; email 635.76 -> 630.96; phone 618.96 -> 615.12; defendant 458.16 -> 453.84; date-of-birth 418.32/416.40 -> 414.96; item3-case 101.52 -> 97.20; p3 mailing 708.72 -> 707.28; p3 phone 671.28 -> 669.84; p3 email 632.40 -> 630.96. The official rule survives OUTSIDE the white box at its original height, so each line is delivered as a short orphan stub, a white gap, then a step down of 1.4 to 4.5 pt.",
+            "addedRuleInkPastWhereTheOfficialRuleEnds": "p1-defendant: official rule x[78.2,239.5], delivered line x[79.2,378.7] - 139.2 pt of new rule. p1-caption-case: delivered line x[360.0,574.6] where the source paints no rule at that y at all. p1-item3-case: official dashed leader ends x 537.6, delivered solid line runs to x 569.8 - 32.2 pt beyond, and the dashes are replaced by a solid rule. p3 mailing/phone/email: official rule ends x 502.6, delivered line runs to x 569.8 - 67.2 pt beyond, on all three.",
+            "officialCellBordersCutThrough": "The white fill severs the caption table's vertical double rules where a write box crosses them, identically in both fixtures. p1-defendant cuts the two verticals at x 259.2-261.1 and 272.6-274.6 for 30 raster rows (~14.4 pt) each. p1-date-of-birth cuts the same two for 27 and 25 rows and additionally erases 289 px of printed cell-bottom border between x 179 and 253. p1-caption-case cuts three verticals - the CASE Number cell's right border at x 430.6/432.0-432.5, the title cell's left border at x 444.0-445.9, and its right border at x 574.6 - 30 rows each.",
+            "whatThatLooksLikeOnTheDeliveredPage": "Read as images at 150 dpi. Page 1 caption: the redrawn CASE-number rule leaves the CASE Number cell through the gap it made in that cell's right border, crosses the gutter, enters the 'Petition to Expunge' title cell through the gap it made in ITS left border, runs the full width of that cell clipping the top of the title text, and exits through its right border. Page 1 'Date of Birth:' cell: the cell's bottom border and right double border are broken and the new rule runs out of the cell into the empty cell beside it. Page 1 defendant line: the same two caption verticals are cut and the rule runs past them. Page 1 paragraph 3: the form's dashed leader and its sentence-ending period are covered and a longer solid rule is drawn instead. Page 3: all three petitioner-contact rules are erased and redrawn 67 pt longer than the form prints them.",
+            "bothFixtures": true,
+            "zeroWriteBaselineProvesAuthorship": "The baseline is the pinned source with no writes. Every one of these differences appears only in the fixtures, so this is a mark THIS family's own render loop makes. It is not shared flattening, not source-owned structure, and no widget appearance is involved - the form carries no AcroForm at all.",
+            "rastersWrittenTo": "/tmp/vf06/raster, deleted after measuring"
           }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
