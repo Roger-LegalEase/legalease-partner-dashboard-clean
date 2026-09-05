@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 837,
+    "rows": 842,
     "independentVerdicts": 240,
     "failRepairRequired": 67,
     "passIndependent": 155
@@ -22376,6 +22376,50 @@
     {
       "familyId": "vt_seal_18_to_21-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "88c1bd403",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Packet page 5, 600-00228 field 15: the flattened widget appearance is placed with a bare translation and no scale, so a 17pt stroked square is stamped where the Judiciary's form draws 13.6pt, and its top and right rules land 3.1pt OUTSIDE the widget's own /Rect. Measured at 300 dpi in the annulus between the /Rect and the appearance's BBox clip, the delivered canonical and boundary each paint 672 dark pixels there where the pinned 600-00228 paints 6. That is ink outside a measured write box which the official form does not print. The fourteen synthesized squares VF08 failed on are GONE — all 28 exposed-widget readings now equal the pinned form's own ink, count for count — so FIX58's repair holds; this is the second, separate defect VF02 found on the sibling family, and this family carries the same form and the same oversized stamp. It is not this family's ink: the zero-write baseline over the same pinned bytes paints the identical 672 with the option ON and with it OFF. REPAIR: rebuild these five against the shared host as repaired by FIX61 (fitAppearancesToRect, captain commit 408674aaa, later than this base) and re-raster the new bytes through the central acceptance workflow. Nine counters are all zero and were zero before: the counters do not see this, which is why it needs the appearance read.",
+          "evidence": {
+            "whatWasMeasured": "Three things, all on the committed bytes at 88c1bd403: (1) a zero-write baseline over each pinned source with suppressSynthesizedAppearances ON and OFF, read at every widget rect VF08 counted; (2) the BBox-to-Rect placement check VF02 made, swept over every flattened widget placement in both fixtures; (3) the whole standard on every page of both fixtures.",
+            "zeroWriteBaseline": {
+              "method": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten run over each pinned binary with writtenFields empty, once with suppressSynthesizedAppearances true and once false; rastered with poppler pdftoppm at 300 dpi greyscale into /tmp and deleted after measuring.",
+              "installedByTheOptionOn": "12 on 200-00130 and 2 on 200-00132 = the 14 exposed widgets; 600-00228's 6 were skippedStateAlreadyDrawn, which is the 14 + 6 = 20 widgets and 28 + 12 = 40 readings across two fixtures.",
+              "theFourteen": "CONFIRMED. At all 14 exposed widget rects the delivered dark-pixel count equals the pinned form's own, count for count, in BOTH fixtures — 313/313, 307/307, 344/344, 362/362, 344/344, 344/344, 313/313, 313/313, 344/344, 527/527, 313/313, 454/454 on 200-00130 and 445/445, 454/454 on 200-00132. That is 28 of 28 readings carrying the form's own ink, which is FIX58's claim, independently reproduced. With the option OFF the same baseline paints 492, 421, 463, 476, 463, 523, 432, 395, 523, 643, 432, 573, 685, 633 — the synthesized square VF08 measured.",
+              "everyWidgetRect": "All 165 source widget rects were then compared, delivered against the option-ON zero-write baseline, in both fixtures. Exactly the 24 written fields differ; 141 unwritten fields differ by zero pixels. No signature, signature date, certificate-of-mailing, court-only or prosecutor-only widget carries any ink the form does not print."
+            },
+            "bboxToRect": {
+              "method": "For every flattened widget placement in each fixture, the page-content cm operators were composed, the placed XObject's /BBox and /Matrix read, and the placement matched to the source widget whose /Rect origin it translates to; ISO 32000-1 12.5.5 requires the transformed BBox to be mapped onto the /Rect.",
+              "result": "161 placements per fixture. 160 correct. ONE is not, identically in canonical and boundary and identically in all five families: packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s', against a /Rect of 14.400 x 14.400 read from the pinned binary. The required 0.8 scale is never applied.",
+              "reproducesFix61": "This is FIX61's own recorded 'before' count — 160/161 pass, 1 fail, product 0.800 in both axes, in EACH fixture — reproduced here independently at this base.",
+              "doesItPaintInkOutsideItsOwnRect": "YES, and that is the test this fails. The appearance's own BBox clip lands at x[131.309,149.309] y[438.449,456.449], which does NOT stop at the /Rect, so the 17pt stroked square is stamped out to x=148.809 and y=455.949 — 3.1pt beyond the /Rect's right and top edges. Measured at 300 dpi over the annulus (inside the clip, outside the /Rect): the delivered canonical paints 672 dark pixels there and the delivered boundary 672, where the pinned 600-00228 as a conforming viewer paints it carries 6. The delivered box is 17pt on a side where the Judiciary's form draws 13.6pt.",
+              "notThisFamilysInk": "The zero-write baseline over the pinned 600-00228 paints the same 672 with the option ON and with it OFF. The defect is the shared flattening step's, it is untouched by FIX58's option, and no single family may be whitelisted for it.",
+              "repairAlreadyExistsDownstream": "FIX61 (captain commit 408674aaa, later than this base) adds fitAppearancesToRect to the shared sanitizer and records the sweep going to 161/161 for the sibling vt_seal_nonconviction-set. What these five are owed is therefore a rebuild against that repaired host and a fresh central raster, not a new repair."
+            },
+            "wholeStandard": {
+              "wordsOutsidePageBox": "0 of 1406 words in canonical and 0 of 1423 in boundary, on all 6 pages, every word rectangle from pdftotext -bbox-layout compared against that page's own MediaBox. Identical for all five families.",
+              "addedInkOutsideDeclaredWriteBoxes": "0 at ZERO tolerance, in both fixtures, comparing the delivered pages pixel-for-pixel against the option-ON zero-write baseline and testing every added dark pixel for containment in a write box declared in production-field-map.json.",
+              "glyphsOutsideMeasuredWriteBoxes": "reports/actual-writes.json is derivedFromArtifactBytes true and records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and mappedWritesNotInTheBytes [] on every document of both fixtures; re-read here rather than taken on trust."
+            },
+            "alsoObservedNotScoredAsThisFailure": "At 600-00228's six widgets that ship their own /Off appearance (fields 15, 16, 21, 22, 72, 73) the delivered page shows TWO nested squares where a conforming viewer of the pinned form shows one: the documented background strip removes the widget's opaque white fill, which un-hides the form's OWN printed checkbox underneath. The extra ink is the official form's own printed ink revealed, not ink the packet drew, and it lies inside the widget /Rect. Recorded as an appearance-fidelity observation for the owner, not as this obligation's failure, which turns on ink outside the /Rect that the form does not paint."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf08",
       "isIndependentVerification": true,
       "verifiedAtBase": "942cab9b5",
@@ -22442,7 +22486,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_18_to_21-set",
@@ -22566,6 +22610,52 @@
     },
     {
       "familyId": "vt_seal_dui-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "88c1bd403",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Packet page 5, 600-00228 field 15: the flattened widget appearance is placed with a bare translation and no scale, so a 17pt stroked square is stamped where the Judiciary's form draws 13.6pt, and its top and right rules land 3.1pt OUTSIDE the widget's own /Rect. Measured at 300 dpi in the annulus between the /Rect and the appearance's BBox clip, the delivered canonical and boundary each paint 672 dark pixels there where the pinned 600-00228 paints 6. That is ink outside a measured write box which the official form does not print. The fourteen synthesized squares VF08 failed on are GONE — all 28 exposed-widget readings now equal the pinned form's own ink, count for count — so FIX58's repair holds; this is the second, separate defect VF02 found on the sibling family, and this family carries the same form and the same oversized stamp. It is not this family's ink: the zero-write baseline over the same pinned bytes paints the identical 672 with the option ON and with it OFF. REPAIR: rebuild these five against the shared host as repaired by FIX61 (fitAppearancesToRect, captain commit 408674aaa, later than this base) and re-raster the new bytes through the central acceptance workflow. Nine counters are all zero and were zero before: the counters do not see this, which is why it needs the appearance read.",
+          "evidence": {
+            "whatWasMeasured": "Three things, all on the committed bytes at 88c1bd403: (1) a zero-write baseline over each pinned source with suppressSynthesizedAppearances ON and OFF, read at every widget rect VF08 counted; (2) the BBox-to-Rect placement check VF02 made, swept over every flattened widget placement in both fixtures; (3) the whole standard on every page of both fixtures.",
+            "zeroWriteBaseline": {
+              "method": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten run over each pinned binary with writtenFields empty, once with suppressSynthesizedAppearances true and once false; rastered with poppler pdftoppm at 300 dpi greyscale into /tmp and deleted after measuring.",
+              "installedByTheOptionOn": "12 on 200-00130 and 2 on 200-00132 = the 14 exposed widgets; 600-00228's 6 were skippedStateAlreadyDrawn, which is the 14 + 6 = 20 widgets and 28 + 12 = 40 readings across two fixtures.",
+              "theFourteen": "CONFIRMED. At all 14 exposed widget rects the delivered dark-pixel count equals the pinned form's own, count for count, in BOTH fixtures — 313/313, 307/307, 344/344, 362/362, 344/344, 344/344, 313/313, 313/313, 344/344, 527/527, 313/313, 454/454 on 200-00130 and 445/445, 454/454 on 200-00132. That is 28 of 28 readings carrying the form's own ink, which is FIX58's claim, independently reproduced. With the option OFF the same baseline paints 492, 421, 463, 476, 463, 523, 432, 395, 523, 643, 432, 573, 685, 633 — the synthesized square VF08 measured.",
+              "everyWidgetRect": "All 165 source widget rects were then compared, delivered against the option-ON zero-write baseline, in both fixtures. Exactly the 24 written fields differ; 141 unwritten fields differ by zero pixels. No signature, signature date, certificate-of-mailing, court-only or prosecutor-only widget carries any ink the form does not print."
+            },
+            "bboxToRect": {
+              "method": "For every flattened widget placement in each fixture, the page-content cm operators were composed, the placed XObject's /BBox and /Matrix read, and the placement matched to the source widget whose /Rect origin it translates to; ISO 32000-1 12.5.5 requires the transformed BBox to be mapped onto the /Rect.",
+              "result": "161 placements per fixture. 160 correct. ONE is not, identically in canonical and boundary and identically in all five families: packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s', against a /Rect of 14.400 x 14.400 read from the pinned binary. The required 0.8 scale is never applied.",
+              "reproducesFix61": "This is FIX61's own recorded 'before' count — 160/161 pass, 1 fail, product 0.800 in both axes, in EACH fixture — reproduced here independently at this base.",
+              "doesItPaintInkOutsideItsOwnRect": "YES, and that is the test this fails. The appearance's own BBox clip lands at x[131.309,149.309] y[438.449,456.449], which does NOT stop at the /Rect, so the 17pt stroked square is stamped out to x=148.809 and y=455.949 — 3.1pt beyond the /Rect's right and top edges. Measured at 300 dpi over the annulus (inside the clip, outside the /Rect): the delivered canonical paints 672 dark pixels there and the delivered boundary 672, where the pinned 600-00228 as a conforming viewer paints it carries 6. The delivered box is 17pt on a side where the Judiciary's form draws 13.6pt.",
+              "notThisFamilysInk": "The zero-write baseline over the pinned 600-00228 paints the same 672 with the option ON and with it OFF. The defect is the shared flattening step's, it is untouched by FIX58's option, and no single family may be whitelisted for it.",
+              "repairAlreadyExistsDownstream": "FIX61 (captain commit 408674aaa, later than this base) adds fitAppearancesToRect to the shared sanitizer and records the sweep going to 161/161 for the sibling vt_seal_nonconviction-set. What these five are owed is therefore a rebuild against that repaired host and a fresh central raster, not a new repair."
+            },
+            "wholeStandard": {
+              "wordsOutsidePageBox": "0 of 1406 words in canonical and 0 of 1423 in boundary, on all 6 pages, every word rectangle from pdftotext -bbox-layout compared against that page's own MediaBox. Identical for all five families.",
+              "addedInkOutsideDeclaredWriteBoxes": "0 at ZERO tolerance, in both fixtures, comparing the delivered pages pixel-for-pixel against the option-ON zero-write baseline and testing every added dark pixel for containment in a write box declared in production-field-map.json.",
+              "glyphsOutsideMeasuredWriteBoxes": "reports/actual-writes.json is derivedFromArtifactBytes true and records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and mappedWritesNotInTheBytes [] on every document of both fixtures; re-read here rather than taken on trust."
+            },
+            "alsoObservedNotScoredAsThisFailure": "At 600-00228's six widgets that ship their own /Off appearance (fields 15, 16, 21, 22, 72, 73) the delivered page shows TWO nested squares where a conforming viewer of the pinned form shows one: the documented background strip removes the widget's opaque white fill, which un-hides the form's OWN printed checkbox underneath. The extra ink is the official form's own printed ink revealed, not ink the packet drew, and it lies inside the widget /Rect. Recorded as an appearance-fidelity observation for the owner, not as this obligation's failure, which turns on ink outside the /Rect that the form does not paint."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_dui-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf05",
       "isIndependentVerification": true,
@@ -22647,7 +22737,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_dui-set",
@@ -22786,6 +22876,50 @@
     {
       "familyId": "vt_seal_felony-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "88c1bd403",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Packet page 5, 600-00228 field 15: the flattened widget appearance is placed with a bare translation and no scale, so a 17pt stroked square is stamped where the Judiciary's form draws 13.6pt, and its top and right rules land 3.1pt OUTSIDE the widget's own /Rect. Measured at 300 dpi in the annulus between the /Rect and the appearance's BBox clip, the delivered canonical and boundary each paint 672 dark pixels there where the pinned 600-00228 paints 6. That is ink outside a measured write box which the official form does not print. The fourteen synthesized squares VF08 failed on are GONE — all 28 exposed-widget readings now equal the pinned form's own ink, count for count — so FIX58's repair holds; this is the second, separate defect VF02 found on the sibling family, and this family carries the same form and the same oversized stamp. It is not this family's ink: the zero-write baseline over the same pinned bytes paints the identical 672 with the option ON and with it OFF. REPAIR: rebuild these five against the shared host as repaired by FIX61 (fitAppearancesToRect, captain commit 408674aaa, later than this base) and re-raster the new bytes through the central acceptance workflow. Nine counters are all zero and were zero before: the counters do not see this, which is why it needs the appearance read.",
+          "evidence": {
+            "whatWasMeasured": "Three things, all on the committed bytes at 88c1bd403: (1) a zero-write baseline over each pinned source with suppressSynthesizedAppearances ON and OFF, read at every widget rect VF08 counted; (2) the BBox-to-Rect placement check VF02 made, swept over every flattened widget placement in both fixtures; (3) the whole standard on every page of both fixtures.",
+            "zeroWriteBaseline": {
+              "method": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten run over each pinned binary with writtenFields empty, once with suppressSynthesizedAppearances true and once false; rastered with poppler pdftoppm at 300 dpi greyscale into /tmp and deleted after measuring.",
+              "installedByTheOptionOn": "12 on 200-00130 and 2 on 200-00132 = the 14 exposed widgets; 600-00228's 6 were skippedStateAlreadyDrawn, which is the 14 + 6 = 20 widgets and 28 + 12 = 40 readings across two fixtures.",
+              "theFourteen": "CONFIRMED. At all 14 exposed widget rects the delivered dark-pixel count equals the pinned form's own, count for count, in BOTH fixtures — 313/313, 307/307, 344/344, 362/362, 344/344, 344/344, 313/313, 313/313, 344/344, 527/527, 313/313, 454/454 on 200-00130 and 445/445, 454/454 on 200-00132. That is 28 of 28 readings carrying the form's own ink, which is FIX58's claim, independently reproduced. With the option OFF the same baseline paints 492, 421, 463, 476, 463, 523, 432, 395, 523, 643, 432, 573, 685, 633 — the synthesized square VF08 measured.",
+              "everyWidgetRect": "All 165 source widget rects were then compared, delivered against the option-ON zero-write baseline, in both fixtures. Exactly the 24 written fields differ; 141 unwritten fields differ by zero pixels. No signature, signature date, certificate-of-mailing, court-only or prosecutor-only widget carries any ink the form does not print."
+            },
+            "bboxToRect": {
+              "method": "For every flattened widget placement in each fixture, the page-content cm operators were composed, the placed XObject's /BBox and /Matrix read, and the placement matched to the source widget whose /Rect origin it translates to; ISO 32000-1 12.5.5 requires the transformed BBox to be mapped onto the /Rect.",
+              "result": "161 placements per fixture. 160 correct. ONE is not, identically in canonical and boundary and identically in all five families: packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s', against a /Rect of 14.400 x 14.400 read from the pinned binary. The required 0.8 scale is never applied.",
+              "reproducesFix61": "This is FIX61's own recorded 'before' count — 160/161 pass, 1 fail, product 0.800 in both axes, in EACH fixture — reproduced here independently at this base.",
+              "doesItPaintInkOutsideItsOwnRect": "YES, and that is the test this fails. The appearance's own BBox clip lands at x[131.309,149.309] y[438.449,456.449], which does NOT stop at the /Rect, so the 17pt stroked square is stamped out to x=148.809 and y=455.949 — 3.1pt beyond the /Rect's right and top edges. Measured at 300 dpi over the annulus (inside the clip, outside the /Rect): the delivered canonical paints 672 dark pixels there and the delivered boundary 672, where the pinned 600-00228 as a conforming viewer paints it carries 6. The delivered box is 17pt on a side where the Judiciary's form draws 13.6pt.",
+              "notThisFamilysInk": "The zero-write baseline over the pinned 600-00228 paints the same 672 with the option ON and with it OFF. The defect is the shared flattening step's, it is untouched by FIX58's option, and no single family may be whitelisted for it.",
+              "repairAlreadyExistsDownstream": "FIX61 (captain commit 408674aaa, later than this base) adds fitAppearancesToRect to the shared sanitizer and records the sweep going to 161/161 for the sibling vt_seal_nonconviction-set. What these five are owed is therefore a rebuild against that repaired host and a fresh central raster, not a new repair."
+            },
+            "wholeStandard": {
+              "wordsOutsidePageBox": "0 of 1406 words in canonical and 0 of 1423 in boundary, on all 6 pages, every word rectangle from pdftotext -bbox-layout compared against that page's own MediaBox. Identical for all five families.",
+              "addedInkOutsideDeclaredWriteBoxes": "0 at ZERO tolerance, in both fixtures, comparing the delivered pages pixel-for-pixel against the option-ON zero-write baseline and testing every added dark pixel for containment in a write box declared in production-field-map.json.",
+              "glyphsOutsideMeasuredWriteBoxes": "reports/actual-writes.json is derivedFromArtifactBytes true and records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and mappedWritesNotInTheBytes [] on every document of both fixtures; re-read here rather than taken on trust."
+            },
+            "alsoObservedNotScoredAsThisFailure": "At 600-00228's six widgets that ship their own /Off appearance (fields 15, 16, 21, 22, 72, 73) the delivered page shows TWO nested squares where a conforming viewer of the pinned form shows one: the documented background strip removes the widget's opaque white fill, which un-hides the form's OWN printed checkbox underneath. The extra ink is the official form's own printed ink revealed, not ink the packet drew, and it lies inside the widget /Rect. Recorded as an appearance-fidelity observation for the owner, not as this obligation's failure, which turns on ink outside the /Rect that the form does not paint."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf06",
       "isIndependentVerification": true,
       "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
@@ -22886,7 +23020,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
@@ -22917,6 +23051,50 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
       "superseded": true
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "88c1bd403",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Packet page 5, 600-00228 field 15: the flattened widget appearance is placed with a bare translation and no scale, so a 17pt stroked square is stamped where the Judiciary's form draws 13.6pt, and its top and right rules land 3.1pt OUTSIDE the widget's own /Rect. Measured at 300 dpi in the annulus between the /Rect and the appearance's BBox clip, the delivered canonical and boundary each paint 672 dark pixels there where the pinned 600-00228 paints 6. That is ink outside a measured write box which the official form does not print. The fourteen synthesized squares VF08 failed on are GONE — all 28 exposed-widget readings now equal the pinned form's own ink, count for count — so FIX58's repair holds; this is the second, separate defect VF02 found on the sibling family, and this family carries the same form and the same oversized stamp. It is not this family's ink: the zero-write baseline over the same pinned bytes paints the identical 672 with the option ON and with it OFF. REPAIR: rebuild these five against the shared host as repaired by FIX61 (fitAppearancesToRect, captain commit 408674aaa, later than this base) and re-raster the new bytes through the central acceptance workflow. Nine counters are all zero and were zero before: the counters do not see this, which is why it needs the appearance read.",
+          "evidence": {
+            "whatWasMeasured": "Three things, all on the committed bytes at 88c1bd403: (1) a zero-write baseline over each pinned source with suppressSynthesizedAppearances ON and OFF, read at every widget rect VF08 counted; (2) the BBox-to-Rect placement check VF02 made, swept over every flattened widget placement in both fixtures; (3) the whole standard on every page of both fixtures.",
+            "zeroWriteBaseline": {
+              "method": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten run over each pinned binary with writtenFields empty, once with suppressSynthesizedAppearances true and once false; rastered with poppler pdftoppm at 300 dpi greyscale into /tmp and deleted after measuring.",
+              "installedByTheOptionOn": "12 on 200-00130 and 2 on 200-00132 = the 14 exposed widgets; 600-00228's 6 were skippedStateAlreadyDrawn, which is the 14 + 6 = 20 widgets and 28 + 12 = 40 readings across two fixtures.",
+              "theFourteen": "CONFIRMED. At all 14 exposed widget rects the delivered dark-pixel count equals the pinned form's own, count for count, in BOTH fixtures — 313/313, 307/307, 344/344, 362/362, 344/344, 344/344, 313/313, 313/313, 344/344, 527/527, 313/313, 454/454 on 200-00130 and 445/445, 454/454 on 200-00132. That is 28 of 28 readings carrying the form's own ink, which is FIX58's claim, independently reproduced. With the option OFF the same baseline paints 492, 421, 463, 476, 463, 523, 432, 395, 523, 643, 432, 573, 685, 633 — the synthesized square VF08 measured.",
+              "everyWidgetRect": "All 165 source widget rects were then compared, delivered against the option-ON zero-write baseline, in both fixtures. Exactly the 24 written fields differ; 141 unwritten fields differ by zero pixels. No signature, signature date, certificate-of-mailing, court-only or prosecutor-only widget carries any ink the form does not print."
+            },
+            "bboxToRect": {
+              "method": "For every flattened widget placement in each fixture, the page-content cm operators were composed, the placed XObject's /BBox and /Matrix read, and the placement matched to the source widget whose /Rect origin it translates to; ISO 32000-1 12.5.5 requires the transformed BBox to be mapped onto the /Rect.",
+              "result": "161 placements per fixture. 160 correct. ONE is not, identically in canonical and boundary and identically in all five families: packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s', against a /Rect of 14.400 x 14.400 read from the pinned binary. The required 0.8 scale is never applied.",
+              "reproducesFix61": "This is FIX61's own recorded 'before' count — 160/161 pass, 1 fail, product 0.800 in both axes, in EACH fixture — reproduced here independently at this base.",
+              "doesItPaintInkOutsideItsOwnRect": "YES, and that is the test this fails. The appearance's own BBox clip lands at x[131.309,149.309] y[438.449,456.449], which does NOT stop at the /Rect, so the 17pt stroked square is stamped out to x=148.809 and y=455.949 — 3.1pt beyond the /Rect's right and top edges. Measured at 300 dpi over the annulus (inside the clip, outside the /Rect): the delivered canonical paints 672 dark pixels there and the delivered boundary 672, where the pinned 600-00228 as a conforming viewer paints it carries 6. The delivered box is 17pt on a side where the Judiciary's form draws 13.6pt.",
+              "notThisFamilysInk": "The zero-write baseline over the pinned 600-00228 paints the same 672 with the option ON and with it OFF. The defect is the shared flattening step's, it is untouched by FIX58's option, and no single family may be whitelisted for it.",
+              "repairAlreadyExistsDownstream": "FIX61 (captain commit 408674aaa, later than this base) adds fitAppearancesToRect to the shared sanitizer and records the sweep going to 161/161 for the sibling vt_seal_nonconviction-set. What these five are owed is therefore a rebuild against that repaired host and a fresh central raster, not a new repair."
+            },
+            "wholeStandard": {
+              "wordsOutsidePageBox": "0 of 1406 words in canonical and 0 of 1423 in boundary, on all 6 pages, every word rectangle from pdftotext -bbox-layout compared against that page's own MediaBox. Identical for all five families.",
+              "addedInkOutsideDeclaredWriteBoxes": "0 at ZERO tolerance, in both fixtures, comparing the delivered pages pixel-for-pixel against the option-ON zero-write baseline and testing every added dark pixel for containment in a write box declared in production-field-map.json.",
+              "glyphsOutsideMeasuredWriteBoxes": "reports/actual-writes.json is derivedFromArtifactBytes true and records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and mappedWritesNotInTheBytes [] on every document of both fixtures; re-read here rather than taken on trust."
+            },
+            "alsoObservedNotScoredAsThisFailure": "At 600-00228's six widgets that ship their own /Off appearance (fields 15, 16, 21, 22, 72, 73) the delivered page shows TWO nested squares where a conforming viewer of the pinned form shows one: the documented background strip removes the widget's opaque white fill, which un-hides the form's OWN printed checkbox underneath. The extra ink is the official form's own printed ink revealed, not ink the packet drew, and it lies inside the widget /Rect. Recorded as an appearance-fidelity observation for the owner, not as this obligation's failure, which turns on ink outside the /Rect that the form does not paint."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+      "superseded": false
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
@@ -23001,7 +23179,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_nonconviction-set",
@@ -23262,6 +23440,50 @@
     },
     {
       "familyId": "vt_seal_pardon-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "88c1bd403",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Packet page 5, 600-00228 field 15: the flattened widget appearance is placed with a bare translation and no scale, so a 17pt stroked square is stamped where the Judiciary's form draws 13.6pt, and its top and right rules land 3.1pt OUTSIDE the widget's own /Rect. Measured at 300 dpi in the annulus between the /Rect and the appearance's BBox clip, the delivered canonical and boundary each paint 672 dark pixels there where the pinned 600-00228 paints 6. That is ink outside a measured write box which the official form does not print. The fourteen synthesized squares VF08 failed on are GONE — all 28 exposed-widget readings now equal the pinned form's own ink, count for count — so FIX58's repair holds; this is the second, separate defect VF02 found on the sibling family, and this family carries the same form and the same oversized stamp. It is not this family's ink: the zero-write baseline over the same pinned bytes paints the identical 672 with the option ON and with it OFF. REPAIR: rebuild these five against the shared host as repaired by FIX61 (fitAppearancesToRect, captain commit 408674aaa, later than this base) and re-raster the new bytes through the central acceptance workflow. Nine counters are all zero and were zero before: the counters do not see this, which is why it needs the appearance read.",
+          "evidence": {
+            "whatWasMeasured": "Three things, all on the committed bytes at 88c1bd403: (1) a zero-write baseline over each pinned source with suppressSynthesizedAppearances ON and OFF, read at every widget rect VF08 counted; (2) the BBox-to-Rect placement check VF02 made, swept over every flattened widget placement in both fixtures; (3) the whole standard on every page of both fixtures.",
+            "zeroWriteBaseline": {
+              "method": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten run over each pinned binary with writtenFields empty, once with suppressSynthesizedAppearances true and once false; rastered with poppler pdftoppm at 300 dpi greyscale into /tmp and deleted after measuring.",
+              "installedByTheOptionOn": "12 on 200-00130 and 2 on 200-00132 = the 14 exposed widgets; 600-00228's 6 were skippedStateAlreadyDrawn, which is the 14 + 6 = 20 widgets and 28 + 12 = 40 readings across two fixtures.",
+              "theFourteen": "CONFIRMED. At all 14 exposed widget rects the delivered dark-pixel count equals the pinned form's own, count for count, in BOTH fixtures — 313/313, 307/307, 344/344, 362/362, 344/344, 344/344, 313/313, 313/313, 344/344, 527/527, 313/313, 454/454 on 200-00130 and 445/445, 454/454 on 200-00132. That is 28 of 28 readings carrying the form's own ink, which is FIX58's claim, independently reproduced. With the option OFF the same baseline paints 492, 421, 463, 476, 463, 523, 432, 395, 523, 643, 432, 573, 685, 633 — the synthesized square VF08 measured.",
+              "everyWidgetRect": "All 165 source widget rects were then compared, delivered against the option-ON zero-write baseline, in both fixtures. Exactly the 24 written fields differ; 141 unwritten fields differ by zero pixels. No signature, signature date, certificate-of-mailing, court-only or prosecutor-only widget carries any ink the form does not print."
+            },
+            "bboxToRect": {
+              "method": "For every flattened widget placement in each fixture, the page-content cm operators were composed, the placed XObject's /BBox and /Matrix read, and the placement matched to the source widget whose /Rect origin it translates to; ISO 32000-1 12.5.5 requires the transformed BBox to be mapped onto the /Rect.",
+              "result": "161 placements per fixture. 160 correct. ONE is not, identically in canonical and boundary and identically in all five families: packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s', against a /Rect of 14.400 x 14.400 read from the pinned binary. The required 0.8 scale is never applied.",
+              "reproducesFix61": "This is FIX61's own recorded 'before' count — 160/161 pass, 1 fail, product 0.800 in both axes, in EACH fixture — reproduced here independently at this base.",
+              "doesItPaintInkOutsideItsOwnRect": "YES, and that is the test this fails. The appearance's own BBox clip lands at x[131.309,149.309] y[438.449,456.449], which does NOT stop at the /Rect, so the 17pt stroked square is stamped out to x=148.809 and y=455.949 — 3.1pt beyond the /Rect's right and top edges. Measured at 300 dpi over the annulus (inside the clip, outside the /Rect): the delivered canonical paints 672 dark pixels there and the delivered boundary 672, where the pinned 600-00228 as a conforming viewer paints it carries 6. The delivered box is 17pt on a side where the Judiciary's form draws 13.6pt.",
+              "notThisFamilysInk": "The zero-write baseline over the pinned 600-00228 paints the same 672 with the option ON and with it OFF. The defect is the shared flattening step's, it is untouched by FIX58's option, and no single family may be whitelisted for it.",
+              "repairAlreadyExistsDownstream": "FIX61 (captain commit 408674aaa, later than this base) adds fitAppearancesToRect to the shared sanitizer and records the sweep going to 161/161 for the sibling vt_seal_nonconviction-set. What these five are owed is therefore a rebuild against that repaired host and a fresh central raster, not a new repair."
+            },
+            "wholeStandard": {
+              "wordsOutsidePageBox": "0 of 1406 words in canonical and 0 of 1423 in boundary, on all 6 pages, every word rectangle from pdftotext -bbox-layout compared against that page's own MediaBox. Identical for all five families.",
+              "addedInkOutsideDeclaredWriteBoxes": "0 at ZERO tolerance, in both fixtures, comparing the delivered pages pixel-for-pixel against the option-ON zero-write baseline and testing every added dark pixel for containment in a write box declared in production-field-map.json.",
+              "glyphsOutsideMeasuredWriteBoxes": "reports/actual-writes.json is derivedFromArtifactBytes true and records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and mappedWritesNotInTheBytes [] on every document of both fixtures; re-read here rather than taken on trust."
+            },
+            "alsoObservedNotScoredAsThisFailure": "At 600-00228's six widgets that ship their own /Off appearance (fields 15, 16, 21, 22, 72, 73) the delivered page shows TWO nested squares where a conforming viewer of the pinned form shows one: the documented background strip removes the widget's opaque white fill, which un-hides the form's OWN printed checkbox underneath. The extra ink is the official form's own printed ink revealed, not ink the packet drew, and it lies inside the widget /Rect. Recorded as an appearance-fidelity observation for the owner, not as this obligation's failure, which turns on ink outside the /Rect that the form does not paint."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
       "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf05",
       "isIndependentVerification": true,
@@ -23442,7 +23664,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_pardon-set",
