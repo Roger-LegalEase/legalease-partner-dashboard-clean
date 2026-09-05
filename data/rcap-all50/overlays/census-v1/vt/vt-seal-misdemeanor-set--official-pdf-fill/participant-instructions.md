@@ -10,17 +10,32 @@ File the completed packet with the **Vermont Superior Court, Criminal Division**
 
 Both the petition (200-00130) and the stipulation (200-00132) print `SUPERIOR COURT CRIMINAL DIVISION` across the top of page 1, and the `Unit` box beside it is where that unit goes. If you do not know which unit decided your case, the docket number on your paperwork identifies it, and the clerk of any Superior Court unit can tell you from the docket number.
 
-Two things this packet does **not** tell you, because they are not established here and writing an unsourced figure into a filing instruction would be worse than leaving it out:
+## What it costs, and how to ask for a waiver
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the unit above what the fee is for a petition to seal under 13 V.S.A. § 7602, and whether the fee-waiver application in this packet applies. The waiver form is included; the amount it waives is not stated here.
-- **Who must be served, and how.** Ask the same clerk who must receive a copy of the petition and by what method. The stipulation route needs the State’s Attorney’s signature, which is not the same thing as service and does not substitute for it.
+The Vermont Judiciary's own filing instructions (form 200-00130A, *Filing a Petition to Expunge or Seal a Criminal Record*, 07/2025) state the fee rule:
+
+> There are no fees to file a petition to seal or expunge except for a $90 filing fee to seal convictions of violations of 23 V.S.A. Sec. 1201(a). If you are unable to pay this fee, you may complete and file an Application to Waive Filing fees.
+
+So: **filing this petition is free unless you are sealing a conviction under 23 V.S.A. § 1201(a), in which case the fee is $90.** That section is Vermont's driving-under-the-influence offence. Whether your own conviction is one is a fact about your docket rather than about this packet, and the clerk of the unit above will tell you from the docket number.
+
+**The waiver is a form already in this packet.** 600-00228, the *Application to Waive Filing Fees and Service Costs*, is the "Application to Waive Filing fees" those instructions name. It is included here and filled with what the platform knows about you; the financial figures it asks for are listed below and are yours to supply.
+
+## Who must receive a copy, and how
+
+**You do not serve the petition yourself. The court does.** The same judiciary instructions state:
+
+> Once you file your petition, the court will provide a copy to the prosecutor who brough the criminal case. If your petition is already stipulated (or agreed to) by the prosecutor then the court will skip this step.
+
+So the recipient is **the prosecutor who brought the criminal case**, and the method is **the court providing them a copy once you have filed**. The prosecutor is then entitled to file a response. If they agree with your request your petition may be granted without a hearing; if they oppose it the court will schedule one, and you must attend any hearing scheduled in your case, because failing to attend could result in your petition being dismissed.
+
+The State’s Attorney’s signature on the stipulation (200-00132) is not service and does not substitute for it. It is the prosecutor agreeing to the sealing in advance, which is what lets the court skip the step above.
 
 ## What you must do before you file
 
 1. **Fill in every item listed below.** Each one names the form, the page and the printed words next to the blank.
 2. **Sign and date each form yourself.** The platform never signs for you and never dates a signature. Blank signature and date lines are deliberate.
 3. **Get the State's Attorney to sign the stipulation (200-00132).** The court cannot act on a stipulation the prosecutor has not agreed to. If the State's Attorney will not sign, file the petition (200-00130) on its own and ask the court to set a hearing.
-4. **File the fee waiver (600-00228) only if you cannot pay.** If you receive public assistance you may stop after Section 1 and go straight to the signature block.
+4. **File the fee waiver (600-00228) only if there is a fee AND you cannot pay it.** Read *What it costs* above first: for most routes there is no fee to waive, and filing a waiver you do not need is wasted effort rather than a safeguard. If the fee does apply to you and you cannot pay it, complete 600-00228 - and if you receive public assistance you may stop after Section 1 and go straight to the signature block.
 
 ## The items you must supply
 
@@ -161,5 +176,9 @@ Two things this packet does **not** tell you, because they are not established h
 ## What this packet is not
 
 This is a prepared set of official Vermont forms. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant sealing.
+
+## Where the fee and service directions come from
+
+Both are quoted from **200-00130A**, *Filing a Petition to Expunge or Seal a Criminal Record* (07/2025), published by the Vermont Judiciary and held in this repository; SHA-256 `8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078`, re-hashed on this build against the committed corpus index. Nothing about the fee or about service is inferred here.
 
 _Route: obligation:track-pathway:VT:vt_seal_misdemeanor:adult-misdemeanor-conviction-sealing_
