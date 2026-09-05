@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "workerId": "FIX14",
+  "laneKind": "repair",
+  "assignmentId": "FIX14-indiana-guide-says-what-the-bytes-deny",
+  "assignedBase": "dc9fac7e67b64307cde23869c77cc84988b9da03",
+  "measuredAtBase": "dc9fac7e67b64307cde23869c77cc84988b9da03",
+  "branch": "fix14-indiana-guides",
+  "everyRowStopped": true,
+  "noFamilyWasWritten": true,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesModified": [],
+  "packetsModified": [],
+
+  "whyEveryRowIsStopped": "FIX14 holds no grant on either family, and holds no grant on anything: the ledger contains zero claims whose lane is FIX14. `claim.mjs --assert FIX14 in_arrest_no_charges-set` returned exit 8 GRANTED_ELSEWHERE (granted to FIX04) and `--assert FIX14 in_section1_petition-set` returned exit 8 GRANTED_ELSEWHERE (granted to FIX05). The dispatch forbids transferring a GRANTED_ELSEWHERE subject onto this lane because choosing a released grant's destination is a dispatch act, and instructs the lane to work the other family instead -- but BOTH of this lane's two families collided, so there is no other. Both rows are therefore STOPPED and the analysis below is offered as evidence for whoever does hold these families.",
+
+  "bothCollidingGrantsAreAlreadyReleased": {
+    "note": "This is the collision-with-a-grant-no-lane-is-executing case the dispatch warned about, and it is worth resolving centrally rather than by any lane. claim.mjs's locate() tests lane identity BEFORE it tests released-state, so exit 8 GRANTED_ELSEWHERE fires ahead of exit 9 ALREADY_RELEASED and the release is invisible at the call site. Both Indiana rapid-repair grants are released.",
+    "in_arrest_no_charges-set": { "operation": "rapid-repair", "lane": "FIX04", "released": true, "releasedAt": "2026-09-04T23:59:22.547Z" },
+    "in_section1_petition-set": { "operation": "rapid-repair", "lane": "FIX05", "released": true, "releasedAt": "2026-09-04T23:59:41.123Z" },
+    "grantsHeldByFIX14": 0,
+    "ledgerGeneratedAtCommit": "73c81c5ea888279df7388834318683d8642d889d"
+  },
+
+  "theSsnFindingTheBriefRankedAboveEverythingElse": {
+    "verdict": "NOT A PARTICIPANT-SAFETY DEFECT. The mechanism is real and was measured correctly by vf05; the safety conclusion drawn from it rests on a misclassification of page 9 and does not survive contact with the source document.",
+    "whatIsTrue": "In IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE (sha256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5, 15 pages, 68 AcroForm fields, 105 widget annotations) `PetFullSSN` is ONE text field carrying TWO widgets: page 8 at rect (353.17, 591.38, 189.38 x 17.53) and page 9 at rect (73.24, 125.49, 138.88 x 14.56). One field name holds one value, so on a fillable delivery the number typed on page 8 does print on page 9 as well. Read from the source PDF bytes with pdf-lib, not from the field map.",
+    "whyItIsNotAsafetyDefect": "Page 9 is not a public record. It is the first page of CCA-XP-0120-7006 FINDINGS AND ORDER, and the Coalition for Court Access stamps it 'NOT FOR PUBLIC RECORD' as its header and 'NOT PUBLIC RECORD' as its footer, on the page's own printed face. Pages 12, 13 and 14 -- the rest of the order body -- carry the same two stamps. Pages 10, 11 and 15 are placeholder/instruction leaves and carry no order text. So the whole proposed order is designated non-public, exactly as an order expunging arrest records would have to be.",
+    "theDecisiveMeasurement": "Classifying pages 8, 9, 12, 13 and 14 as non-public (from their own printed stamps) and pages 1-7 as the public filings, `PetFullSSN` has pages=[8,9] and public=[] -- neither of its widgets touches a public page. The only SSN-bearing field anywhere on a public page is `PetSSN-Last4`, page 3, the petition's paragraph 2 'XXX-XX-____' blank, which is the last four digits only. That is the correct design and the packet honours it.",
+    "andTheFormIntendsIt": "Page 9 paragraph 2 reads 'Petitioner's date of birth is _____; Petitioner's Social Security Number is ________________________; and Petitioner's driver's license number is _____.' The page-9 widget sits on that blank -- the label 'Petitioner's Social Security Number is' occupies y 641.00-651.80 from the page top and the widget spans y 651.95-666.51 from the page top, immediately beneath it. The court needs the number in its findings for the order to be executable against state police and BMV records, which is why the order is non-public. The shared field is the form's deliberate fill-once behaviour, not a leak.",
+    "whatIsStillWrongWithLine78": "Instruction line 78 -- 'Put the full number nowhere else.' -- remains an inaccurate description of a fillable delivery, because the number would also appear at the order's paragraph 2. That is an accuracy defect of the same class as INS1-A and INS1-B and belongs in the same repair. It is NOT a safety defect: no Social Security number reaches a public record on any delivery, fillable or flattened.",
+    "asShippedItCannotBiteAtAll": "All four delivered fixtures are fully flattened -- 0 AcroForm fields and 0 widget annotations on every one of the 15 + 4 pages, read from the fixture bytes.",
+    "reportedImmediatelyAndPrecisely": true
+  },
+
+  "elevenOtherSharedFieldsStraddlePublicAndNonPublicPages": {
+    "note": "Recorded because it is the same class the SSN question was really asking about, and unlike the SSN it does have public-page reach. 14 field names in the bundle carry widgets on more than one page; 13 of those straddle the public/non-public boundary. None is an identifier as sensitive as a full SSN, but each means a value typed on a public filing also prints inside the non-public order, and vice versa.",
+    "straddling": {
+      "cap-PetitionerFullName": { "widgets": 14, "pages": [1,3,5,7,8,9,13], "public": [1,3,5,7], "nonPublic": [8,9,13] },
+      "cap-COUNTY": { "widgets": 8, "pages": [1,3,7,9], "public": [1,3,7], "nonPublic": [9] },
+      "DD-cap-CourtType": { "widgets": 4, "pages": [1,3,7,9], "public": [1,3,7], "nonPublic": [9] },
+      "County": { "widgets": 5, "pages": [5,12,13,14], "public": [5], "nonPublic": [12,13,14] },
+      "Address": { "widgets": 2, "pages": [1,13], "public": [1], "nonPublic": [13] },
+      "PetDOB": { "widgets": 2, "pages": [3,9], "public": [3], "nonPublic": [9] },
+      "PetDLorStateID#": { "widgets": 2, "pages": [3,9], "public": [3], "nonPublic": [9] },
+      "PetitionerAliases": { "widgets": 2, "pages": [3,9], "public": [3], "nonPublic": [9] },
+      "RelatedCriminalCauseNumbers": { "widgets": 2, "pages": [3,9], "public": [3], "nonPublic": [9] },
+      "AppellateCauseNumbers": { "widgets": 2, "pages": [5,12], "public": [5], "nonPublic": [12] },
+      "LEA1": { "widgets": 2, "pages": [5,12], "public": [5], "nonPublic": [12] },
+      "LEA2": { "widgets": 2, "pages": [5,12], "public": [5], "nonPublic": [12] },
+      "LEA3": { "widgets": 2, "pages": [5,12], "public": [5], "nonPublic": [12] }
+    },
+    "nonStraddling": { "PetFullSSN": { "widgets": 2, "pages": [8,9], "public": [] } }
+  },
+
+  "didTheTwoFamiliesReallyShareOneRoot": {
+    "answer": "They share one root defect but NOT one shared builder. The brief's phrase 'the same jurisdiction's shared builder' is half right and the other half matters for the repair.",
+    "whatIsShared": "One published source bundle. Both families bind the SAME five source ids to the SAME binary at the SAME sha256 b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5, plus the same insert form 65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707. Three of their four delivered fixtures are byte-identical across the two families (both inserts fixtures f493e35f..., and packet-boundary-filled a7b34ccf...); only packet-canonical-filled differs, because the canonical participant values differ.",
+    "whatIsNotShared": "There is no shared builder module. There are TWO standalone builders -- scripts/build-census-v1-in_section1_petition-set.mjs (1717 lines) and scripts/build-census-v1-in_arrest_no_charges-set.mjs (1705 lines) -- that are roughly 96% identical: a normalised diff is 122 lines out of 3422, and every one of those 122 lines is route, statute citation, eligibility text or stop-condition list. The defective guide prose is not shared code; it is copy-pasted, and each of the five defective sentences occurs exactly once in each of the two files.",
+    "whyThatMatters": "Two independent verifiers found the same defect in the same jurisdiction because the wrong sentences were duplicated, not because one module emitted them twice. A repair that fixes one builder leaves the other wrong. Any assertRepairInvariants() of the Alabama shape has to be installed in BOTH builders, or -- better -- the duplicated prose and the invariant should be lifted into one Indiana module that both builders import, so the next copy-paste cannot fork them again.",
+    "theDuplicatedDefectiveSentences": [
+      "'Of its fifteen pages, only the Appearance on pages 1-2 carries form boxes for the participant's own details.'",
+      "'The petition's caption, its \"Comes now the Petitioner ______\" line and its paragraph 1 full-name blank carry **no form boxes at all**; nor does the proposed order's caption; nor does the Confidential Information Form's cause number or name.'",
+      "'So this packet filled in, on the **Appearance** only: ...'",
+      "'**Copy the caption across every document.** ... The petition, Form ACR, the Confidential Information Form and the proposed order all carry the same caption and none of them has boxes for it.'",
+      "'This family writes nothing below the proposed order's caption anywhere ...'"
+    ]
+  },
+
+  "whatTheDeliveredBytesActuallySay": {
+    "method": "Read from the delivered PDFs and the pinned source PDF with pdf-lib (fields, widget /Rect, widget /P page binding) and pdftotext -layout / -bbox (page text and label geometry). Not read from production-field-map.json.",
+    "captionsAreAlreadyPrinted": "cap-PetitionerFullName is ONE field with 14 widgets on pages 1, 3, 5, 7, 8, 9 and 13. cap-COUNTY is ONE field with 8 widgets on pages 1, 3, 7 and 9. Address is ONE field with 2 widgets on pages 1 and 13. The packet writes 5 values and those 5 names flatten to appearances across the whole bundle, so the caption IS already printed on the petition, Form ACR, the Confidential Information Form and the proposed order. Following the guide's 'copy the caption across every document' would mean hand-writing over printed text on four filed documents.",
+    "theOrderIsWrittenBelowItsCaption": "The guide's 'writes nothing below the proposed order's caption anywhere' is contradicted on page 13, the order's SO ORDERED / PROOF OF NOTICE / Distribution leaf: cap-PetitionerFullName is printed at rect (51.47, 300.17) -- 478.75pt from the page top, on the PROOF OF NOTICE 'Petitioner: ____' line -- and Address at rect (36.00, 244.71) -- 500.11pt from the page top, in the Distribution block. Both are far below the order's caption on page 9.",
+    "theBuildsOwnReportAgrees": "reports/participant-name-placement.json records placementsFound: 16 with placementsOutsideTheAllowlist: 0, across pages 1, 3, 5, 7, 8, 9 and 13. build-findings.json reports findingCount: 0. The build measured the placements correctly and the guide describes a different packet.",
+    "theFixturesAreFlattened": "0 AcroForm fields and 0 widget annotations on all 15 pages of packet-canonical-filled.pdf and packet-boundary-filled.pdf and all 4 pages of both inserts fixtures. Every guide instruction naming a field identifier, a dropdown or a tick box -- DD-cap-CourtType, Check Box9, Check Box10, PetFullSSN, and the whole insert table -- names something that does not exist in the delivered artifact.",
+    "theBuilderAlreadyUnderstandsTheMechanism": "The same guide explains shared-field behaviour correctly for the insert: 'A PDF form field with several boxes holds one value, so anything this packet typed as your allegation would print, in the same breath, as the court's own finding.' The identical mechanism operates on the bundle and the guide denies it there. That is the whole defect in one sentence."
+  },
+
+  "rebuiltDeterministicallyFromUnchangedInputs": {
+    "how": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1, both builders run at base dc9fac7e, whole family directory compared recursively against HEAD, then run a second time to separate drift from non-determinism.",
+    "result": "Deterministic. The second run reproduced the first exactly. Both family directories rebuild byte-for-byte identical to HEAD except ONE line in each field-census.census-v1.json.",
+    "theOneDrift": "AliasNamesDOBsSSNs on the insert form (document IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS, page 4, Exhibit A -- 'any other names, dates of birth or numbers you have used') has protectCategory null as checked in and rebuilds as 'government_identifier'. Identical in both families. This is a stale checked-in census, not builder non-determinism: the artifact predates a field-classifier change. Reported as a separate finding, not folded into anything. This lane restored both files to HEAD and left the tree clean.",
+    "participantFacingPdfBytesMoved": false,
+    "freshRasterOwed": false,
+    "standingReceiptsStand": true
+  },
+
+  "fixtureDigestsUnchangedByRebuild": {
+    "in_section1_petition-set": {
+      "fixtures/packet-canonical-filled.pdf": "f3cfeb3257e31a90b8f29f5bc264e9da1ad0e390f53e1d3c5950b20b4cbc0241",
+      "fixtures/packet-boundary-filled.pdf": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d",
+      "fixtures/inserts-canonical-filled.pdf": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+      "fixtures/inserts-boundary-filled.pdf": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+      "participant-instructions.md": "0d68c1045ad3cb53487e9333ebab95a284b8262ca4e373c87ef7ff4c6f879a84"
+    },
+    "in_arrest_no_charges-set": {
+      "fixtures/packet-canonical-filled.pdf": "2f14e1a7c0e0bf6f162b0385e310a2ce12b9872e13b4bb6b85e21ff139bb9112",
+      "fixtures/packet-boundary-filled.pdf": "a7b34ccf21175518b5deb609818af3b04feda9c3280d0aaa3862b24714d9df3d",
+      "fixtures/inserts-canonical-filled.pdf": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+      "fixtures/inserts-boundary-filled.pdf": "f493e35fedb1125dd2eb3b84d0d08c6e717401a5f628ce853b49beebd46900f9",
+      "participant-instructions.md": "373060646990d024063c50128b704690f9e4ab343ec0763262c205a2e81daa15"
+    },
+    "everyOneOfTheseIsIdenticalBeforeAndAfterTheRebuild": true
+  },
+
+  "sparseCheckoutPrecondition": {
+    "inheritedCone": "The worktree inherited core.sparseCheckout=true with a cone excluding /data/* except /data/rcap-grade-a/, so data/rcap-all50/ and data/record-clearing/ were both absent on disk while tracked in HEAD -- the exact trap that burned two earlier lanes.",
+    "remedy": "git sparse-checkout disable before any measurement.",
+    "verifiedBeforeMeasuring": { "trackedFiles": 15642, "trackedFilesMissingOnDisk": 0, "data/rcap-all50": "8773 tracked / 8773 on disk", "data/record-clearing": "150 tracked / 150 on disk", "data/rcap-grade-a": "762 tracked / 762 on disk" }
+  },
+
+  "rows": [
+    {
+      "itemId": "in_arrest_no_charges-set",
+      "familyId": "in_arrest_no_charges-set",
+      "lane": "FIX14",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "stoppedReason": "GRANTED_ELSEWHERE. `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX14 in_arrest_no_charges-set` exited 8: 'in_arrest_no_charges-set is granted to FIX04, not FIX14'. The dispatch forbids this lane from transferring a GRANTED_ELSEWHERE subject onto itself, and this lane's only other family collided the same way, so there was no other family to work. Nothing in this family was changed. The grant is additionally already released (FIX04, released 2026-09-04T23:59:22.547Z), which claim.mjs cannot surface because locate() tests lane identity before released-state; Captain to resolve centrally.",
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING"],
+      "obligationNotRepaired": "REQUIRED_BEFORE_FILING remains FAIL. This lane did not repair REQUIRED_BEFORE_FILING and makes no claim to have done so. The vf02 finding is confirmed on the delivered bytes: participant-instructions.md states three times that the packet filled the caption on the Appearance only and instructs 'Copy the caption across every document ... none of them has boxes for it', while cap-PetitionerFullName carries 14 widgets on pages 1, 3, 5, 7, 8, 9 and 13, cap-COUNTY 8 widgets on pages 1, 3, 7 and 9, and Address 2 widgets on pages 1 and 13 -- so the caption is already printed on the petition, Form ACR, the Confidential Information Form and the order, and following the instruction means hand-writing over printed text on four filed documents. The guide's 'writes nothing below the proposed order's caption anywhere' is contradicted on page 13, where the name prints at (51.47, 300.17) on the PROOF OF NOTICE Petitioner line and the address at (36.00, 244.71) in the Distribution block. reports/participant-name-placement.json records 16 placements while build-findings.json reports findingCount 0.",
+      "verifierBeingConfirmed": "VF02",
+      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersAreNotEvidenceHere": "verify-packet-completeness.mjs --family in_arrest_no_charges-set returns PASS_COMPLETE with all nine counters at zero, both before and after, and that is the starting condition rather than evidence of anything. No completeness counter reaches a guide-versus-bytes correspondence defect, which is exactly why this survived. The evidence is the correspondence between the guide's sentences and the delivered pages, set out above.",
+      "fixturesMoved": false,
+      "artifactsChanged": false
+    },
+    {
+      "itemId": "in_section1_petition-set",
+      "familyId": "in_section1_petition-set",
+      "lane": "FIX14",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "stoppedReason": "GRANTED_ELSEWHERE. `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX14 in_section1_petition-set` exited 8: 'in_section1_petition-set is granted to FIX05, not FIX14'. The dispatch forbids this lane from transferring a GRANTED_ELSEWHERE subject onto itself, and this lane's only other family collided the same way, so there was no other family to work. Nothing in this family was changed. The grant is additionally already released (FIX05, released 2026-09-04T23:59:41.123Z), which claim.mjs cannot surface because locate() tests lane identity before released-state; Captain to resolve centrally.",
+      "failedObligationNames": ["REQUIRED_BEFORE_FILING"],
+      "obligationNotRepaired": "REQUIRED_BEFORE_FILING remains FAIL, on both findings INS1-A and INS1-B. This lane did not repair REQUIRED_BEFORE_FILING and makes no claim to have done so. Both vf05 findings are confirmed on the delivered bytes. INS1-A: the guide says the packet filled in 'on the Appearance only' and that the petition, Form ACR, the Confidential Information Form and the order 'carry no form boxes at all', then tells the participant to copy the caption onto each; cap-PetitionerFullName is one shared field over pages 1, 3, 5, 7, 8, 9 and 13 and is filled on all seven. INS1-B: the guide directs the participant to named fields, a dropdown and tick boxes, but all four delivered fixtures are fully flattened -- 0 AcroForm fields and 0 widget annotations on every one of the 15 + 4 pages, so there is no dropdown to open and no box to tick.",
+      "verifierBeingConfirmed": "VF05",
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersAreNotEvidenceHere": "verify-packet-completeness.mjs --family in_section1_petition-set returns PASS_COMPLETE with all nine counters at zero, both before and after, and that is the starting condition rather than evidence of anything. No completeness counter reaches a guide-versus-bytes correspondence defect. The evidence is the correspondence between the guide's sentences and the delivered pages, set out above.",
+      "ssnObservationResolved": "The unscored PetFullSSN p8/p9 observation is answered in theSsnFindingTheBriefRankedAboveEverythingElse: the shared field is real, the safety conclusion is not. Page 9 is stamped NOT FOR PUBLIC RECORD on its own face, so PetFullSSN's widgets are pages=[8,9] with public=[]. Line 78's 'Put the full number nowhere else' is still an accuracy defect for a fillable delivery and belongs with INS1-B, but no Social Security number reaches a public record.",
+      "fixturesMoved": false,
+      "artifactsChanged": false
+    }
+  ]
+}
