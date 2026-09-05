@@ -2,7 +2,9 @@
 
 This packet is SCAO form **MC 227b**, _Application for Human Trafficking Victim to Set Aside Conviction(s)_, prepared under MCL 780.621(3), MCL 780.621b, MCL 780.621d, MCL 780.622, MCL 780.623; SCAO form MC 227b (Rev. 7/24).
 
-The platform filled in what it holds about you and your case: the county, the case number, and the party box captioned "Defendant's name, address, and telephone no.", which carries your name, your address and your telephone number on three lines. **Read that box and correct it if anything in it is out of date** — it is the address the court and the prosecuting official will write to. Everything else is yours, and every remaining participant blank is listed below by the part of the form it is in. Pages 1 through 3 are the application, notice, and proof of service; the last page is the court's own instruction sheet.
+The platform filled in what it holds about you and your case: the county, the case number, the party box captioned "Defendant's name, address, and telephone no.", the convictions in item 1, and your statement in item 2. Everything else is yours, and every remaining participant blank is listed below by the part of the form it is in. Pages 1 through 3 are the application, notice, and proof of service; the last page is the court's own instruction sheet.
+
+**Read every line the platform filled in before you sign.** This application is sworn: you sign it in front of a deputy clerk or a notary, and the oath is yours, not the platform's. If anything in item 1 or item 2 is wrong, out of date, or not how you would put it, correct it on the form before you go.
 
 ## Check you are on the right form
 
@@ -28,7 +30,7 @@ The proof of service is a declaration under penalties of perjury. Its selections
 ## What you must do before you file
 
 1. **Fill in every item in the table below.**
-2. **Complete the conviction table.** Every line you use, all four columns — instruction 4 tells you to get the exact date and charge from the court.
+2. **Finish the conviction table.** The platform wrote the crime and the case number for each conviction it holds. It did not write the charge code or the date of conviction for any of them: instruction 4 tells you to get the exact date and charge **from the court** and to attach a certified copy of each conviction, and those are the two columns you complete. If a line you need is blank, or a conviction is missing, add it — the form says to use additional sheets if you need more room.
 3. **Make the choices listed under _The choices that are yours_.**
 4. **Attach the certified conviction records and direct-result nexus evidence required by the form.**
 5. **Follow the four steps above, in that order.**
@@ -46,10 +48,8 @@ The proof of service is a declaration under penalties of perjury. Its selections
 | Parties | The People of — the named city, village or township | the name of the city, village or township that prosecuted the offence, if it was not the State of Michigan |
 | Parties | CTN/TCN | the CTN or TCN number from the court or police record |
 | Parties | SID | your SID number, from the court or police record |
-| 1. Convictions to be set aside | Conviction a — Crime | the crime you were convicted of, exactly as the court's record states it. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
 | 1. Convictions to be set aside | Conviction a — Charge code(s) — MCL citation / PACC Code | the charge code, the MCL citation or PACC code, from the court's record. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
 | 1. Convictions to be set aside | Conviction a — Date of conviction | the exact date of the conviction, which instruction 4 tells you to get from the court. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
-| 1. Convictions to be set aside | Conviction a — Case number | the case number for that conviction. This is line a of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
 | 1. Convictions to be set aside | Conviction b — Crime | the crime you were convicted of, exactly as the court's record states it. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
 | 1. Convictions to be set aside | Conviction b — Charge code(s) — MCL citation / PACC Code | the charge code, the MCL citation or PACC code, from the court's record. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
 | 1. Convictions to be set aside | Conviction b — Date of conviction | the exact date of the conviction, which instruction 4 tells you to get from the court. This is line b of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
@@ -62,11 +62,6 @@ The proof of service is a declaration under penalties of perjury. Its selections
 | 1. Convictions to be set aside | Conviction d — Charge code(s) — MCL citation / PACC Code | the charge code, the MCL citation or PACC code, from the court's record. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
 | 1. Convictions to be set aside | Conviction d — Date of conviction | the exact date of the conviction, which instruction 4 tells you to get from the court. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
 | 1. Convictions to be set aside | Conviction d — Case number | the case number for that conviction. This is line d of the four the table has room for; the form says to use additional sheets if you need more, and to attach a certified copy of each conviction |
-| 2. Human-trafficking nexus | Facts supporting the direct-result nexus - line 1 | the facts, in your own words, supporting that this conviction was a direct result of being a victim of a human-trafficking violation |
-| 2. Human-trafficking nexus | Facts supporting the direct-result nexus - line 2 | continue the facts supporting the direct-result nexus |
-| 2. Human-trafficking nexus | Facts supporting the direct-result nexus - line 3 | continue the facts supporting the direct-result nexus |
-| 2. Human-trafficking nexus | Facts supporting the direct-result nexus - line 4 | continue the facts supporting the direct-result nexus |
-| 2. Human-trafficking nexus | Facts supporting the direct-result nexus - line 5 | finish the facts supporting the direct-result nexus; attach additional pages if needed |
 | 3. Earlier applications for item 1 convictions | Earlier application row 1 - crime | the crime identified in the earlier application |
 | 3. Earlier applications for item 1 convictions | Earlier application row 1 - charge code | the MCL citation or PACC charge code from the earlier application and court record |
 | 3. Earlier applications for item 1 convictions | Earlier application row 1 - conviction date | the conviction date from the court record |
@@ -114,7 +109,7 @@ MC 227b carries 14 boxes. None of them is ticked in this packet, and none is a c
 
 | Section | What the form prints beside the box | What to do |
 | --- | --- | --- |
-| Caption | This application includes multiple case numbers as listed in item 1. | tick this if you are listing convictions from more than one case number in the table below — but note instruction 2: a separate application is needed for each COURT |
+| Caption | This application includes multiple case numbers as listed in item 1. | left unticked for you: item 1 as delivered by this build lists 1 conviction(s) under 1 distinct case number(s), so the answer is no. Tick it only if you add a conviction from another case number on an additional sheet. |
 | Parties | THE PEOPLE OF — The State of Michigan | tick this if the State of Michigan prosecuted the offence |
 | Parties | THE PEOPLE OF — the unlabelled second box, on the blank rule beneath “The State of Michigan” | tick this instead if a city, village or township prosecuted the offence under its own ordinance, and name it on the line beside |
 | 3. Earlier applications for item 1 convictions | 3. a. No other application was previously filed to set aside a conviction listed in item 1. | select this only if no earlier application was filed for any conviction listed in item 1 |
@@ -139,6 +134,8 @@ MC 227b carries 14 boxes. None of them is ticked in this packet, and none is a c
 | Section | The box on the form | What the platform wrote there |
 | --- | --- | --- |
 | Parties | Defendant’s name, address, and telephone no. | the three facts the printed caption names, in the order it names them, one to a line, in the party block opposite THE PEOPLE OF |
+| 1. Convictions to be set aside | The CRIME and CASE NUMBER columns, 2 cells | each written from a conviction the platform holds. A line is written whole or not at all: if the platform could not fit every cell of a line inside the boxes this form prints, it left that whole line for you rather than delivering half of it. |
+| 2. Human-trafficking nexus | The 3 ruled lines of item 2 | your own statement of the facts supporting the direct-result connection, as you gave it, laid out across the lines the form prints. The platform wrote none of these words itself. **This is the sworn part of the application: read it and change anything that is not right before you sign.** |
 
 ## What the platform deliberately left blank
 
