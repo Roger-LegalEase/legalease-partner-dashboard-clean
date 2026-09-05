@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1c64819aa81abd0a5d8a804f87a4555571676bf9",
+  "generatedAtCommit": "a8a42767c8db15574a239acce89e3836e080fa06",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -6877,21 +6877,6 @@
         "rcap-tx-custom-pleading"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "rcap-tx-custom-pleading",
-      "familyId": "rcap-tx-custom-pleading",
-      "itemId": null,
-      "familyIds": [
-        "rcap-tx-custom-pleading"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF10",
       "laneKind": "packet-build",
@@ -6908,7 +6893,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T10:59:57.851Z"
@@ -6984,7 +6969,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7154,7 +7139,9 @@
       "operation": "rapid-repair",
       "lane": "FIX07",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T11:59:44.891Z",
+      "releaseReason": "Captain release: this grant was re-opened by the dispatch at 2026-09-05T11:51:56Z, two minutes after FIX35 released the family with CLIPPING_AND_OVERLAP repaired at the shared Rhode Island host and before that repair was committed (a8a42767c), so the generator still read the family as owing repair. No lane asserted it and no byte was written under it. The repair on record is FIX35's (05151bc8c, integrated at a8a42767c); the family owes a fresh raster and an independent read, not a second repair."
     },
     {
       "subjectType": "packet-family",
@@ -7199,7 +7186,9 @@
       "operation": "rapid-repair",
       "lane": "FIX08",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T11:59:45.014Z",
+      "releaseReason": "Captain release: this grant was re-opened by the dispatch at 2026-09-05T11:51:56Z, two minutes after FIX35 released the family with CLIPPING_AND_OVERLAP repaired at the shared Rhode Island host and before that repair was committed (a8a42767c), so the generator still read the family as owing repair. No lane asserted it and no byte was written under it. The repair on record is FIX35's (05151bc8c, integrated at a8a42767c); the family owes a fresh raster and an independent read, not a second repair."
     },
     {
       "subjectType": "packet-family",
@@ -7259,7 +7248,9 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "laneKind": "repair",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-09-05T11:59:44.772Z",
+      "releaseReason": "Captain release: this grant was re-opened by the dispatch at 2026-09-05T11:51:56Z, two minutes after FIX35 released the family with CLIPPING_AND_OVERLAP repaired at the shared Rhode Island host and before that repair was committed (a8a42767c), so the generator still read the family as owing repair. No lane asserted it and no byte was written under it. The repair on record is FIX35's (05151bc8c, integrated at a8a42767c); the family owes a fresh raster and an independent read, not a second repair."
     },
     {
       "subjectType": "packet-family",
@@ -13107,7 +13098,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c4e3e28b8b4552e22a21121cd7d13de8468e995c9d676f336f8cd9b86dff54f0",
+  "claimsDigest": "46ef1561cb392391838f7fc9dc14690eeb28d1d25c22e326f3804e77879cd4d6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27792,6 +27783,33 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T11:49:56.732Z",
       "reason": "CLIPPING_AND_OVERLAP repaired at the shared host on fix35-ri-host-splitter; rebuilt twice byte-identical; raster owed; independent verification owed (Replayed by Captain from FIX35 commit 05151bc8c.)"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:59:44.772Z",
+      "reason": "Captain release: this grant was re-opened by the dispatch at 2026-09-05T11:51:56Z, two minutes after FIX35 released the family with CLIPPING_AND_OVERLAP repaired at the shared Rhode Island host and before that repair was committed (a8a42767c), so the generator still read the family as owing repair. No lane asserted it and no byte was written under it. The repair on record is FIX35's (05151bc8c, integrated at a8a42767c); the family owes a fresh raster and an independent read, not a second repair."
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:59:44.891Z",
+      "reason": "Captain release: this grant was re-opened by the dispatch at 2026-09-05T11:51:56Z, two minutes after FIX35 released the family with CLIPPING_AND_OVERLAP repaired at the shared Rhode Island host and before that repair was committed (a8a42767c), so the generator still read the family as owing repair. No lane asserted it and no byte was written under it. The repair on record is FIX35's (05151bc8c, integrated at a8a42767c); the family owes a fresh raster and an independent read, not a second repair."
+    },
+    {
+      "lane": "FIX08",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:59:45.014Z",
+      "reason": "Captain release: this grant was re-opened by the dispatch at 2026-09-05T11:51:56Z, two minutes after FIX35 released the family with CLIPPING_AND_OVERLAP repaired at the shared Rhode Island host and before that repair was committed (a8a42767c), so the generator still read the family as owing repair. No lane asserted it and no byte was written under it. The repair on record is FIX35's (05151bc8c, integrated at a8a42767c); the family owes a fresh raster and an independent read, not a second repair."
     }
   ],
   "reissues": [
@@ -42343,6 +42361,14 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "withdrawnAt": "2026-09-05T09:52:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-05T11:55:41Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

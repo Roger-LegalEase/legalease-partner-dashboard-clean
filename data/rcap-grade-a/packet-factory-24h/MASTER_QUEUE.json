@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1c64819aa81abd0a5d8a804f87a4555571676bf9",
+  "minimumCaptainSha": "a8a42767c8db15574a239acce89e3836e080fa06",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,23 +72,22 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 1,
-    "repairRequired": 52,
+    "verifyPending": 0,
+    "repairRequired": 50,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 151,
-    "FAIL_REPAIR_REQUIRED": 59,
+    "FAIL_REPAIR_REQUIRED": 57,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 3,
+    "BUILT_RASTER_PENDING": 6,
     "GUIDANCE_READY": 9,
-    "WRONG_DELIVERY_TYPE": 1,
-    "VERIFY_PENDING": 1
+    "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -36626,11 +36625,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf10",
-        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "9efb77c08",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36660,59 +36661,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "REQUIRED_BEFORE_FILING",
-        "SELF_HELP_STOP"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Both exact PDFs mishandle the known date of birth twice. On page 2 the packet prints the raw ISO values 1994-04-17 and 1972-12-31 on a line whose face explicitly labels the three positions Month, Day, Year; those values therefore present year-month-day against the form's requested month-day-year order. On page 11, Option 1 asks again for 'My date of birth is / Mi fecha de nacimiento es' and displays a three-part blank line, but it stays empty in both fixtures even though the family holds the DOB. The map inventories only the page-2 AcroForm widget, so its nine claimed writes per fixture and the zero counter miss both visible defects.",
-          "evidence": {
-            "mappedWritesPerFixture": 9,
-            "dobValueOccurrencesPerFixture": 1,
-            "page2PrintedOrder": "Month Day Year",
-            "page2CanonicalInk": "1994-04-17",
-            "page2BoundaryInk": "1972-12-31",
-            "page11Option1DobBlankCanonical": true,
-            "page11Option1DobBlankBoundary": true,
-            "knownRequiredFieldsMissingCounter": 0,
-            "counterBlindSpot": "page 11's printed DOB line is not an AcroForm field and is absent from the field census"
-          }
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The 96 inventoried REQUIRED_BEFORE_FILING refusals are disclosed and the machine counters are zero, but the inventory is incomplete. If the participant uses Option 1 on page 11, its date-of-birth line must be completed before signing; the packet leaves it blank, omits it from requiredBeforeFiling and from 'The items you must supply,' and instead tells the participant the date of birth was already filled. The participant-facing list therefore cannot close every required blank on the delivered form.",
-          "evidence": {
-            "inventoriedRequiredBeforeFiling": 96,
-            "inventoriedItemsDisclosed": 96,
-            "uninventoriedRequiredBlank": "packet page 11, Option 1, My date of birth is / Mi fecha de nacimiento es",
-            "instructionsIncorrectlySayDobFilled": true,
-            "requiredFactsNotCollectedCounter": 0,
-            "unclassifiedBlanksCounter": 0
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The eight authoritative track records contain 26 unique self-help stop conditions. The shared instruction component carries six common conditions in substance and substitutes the narrower 'you are not a United States citizen' for the registry's broader 'Immigration consequences.' It omits three common stops (unclear venue across counties, immigration consequences generally, and trying to attack the underlying case) and all 17 route-specific stops. Those omissions include live prosecution and the Class C carve-out on no-charge; dismissal reason, deferred adjudication and authorised diversion on dismissed; limitations tolling; pardon wording/status/type; offence date/subsection for unlawful carry; applicant identity, prosecutor verification and authenticated fingerprints for mistaken identity; and state consent, the 30-day window and prior specialty-court expunction for specialty court. A participant on any served route can therefore reach a registry-defined stop that this packet never tells them to recognize.",
-          "evidence": {
-            "tracksCompared": 8,
-            "uniqueRegistryStopConditions": 26,
-            "commonRegistryConditions": 9,
-            "routeSpecificRegistryConditions": 17,
-            "conditionsCarriedInSubstance": 6,
-            "conditionsMissingOrMateriallyNarrowed": 20,
-            "missingCommon": [
-              "Venue is unclear because the arrest and the alleged offence occurred in different counties.",
-              "Immigration consequences.",
-              "The participant wants to attack the underlying case rather than clear it."
-            ]
-          }
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Three route keys are hard-split mid-word on delivered page 16 of BOTH fixtures. The footer prints 'obligation:track-pathway:TX:tx_exp_limitations:expunction-for-arrest-with-no-charge-filed-after-the-limi' and continues 'tations-period' on the next line; 'obligation:track-pathway:TX:tx_exp_no_charge:expunction-for-arrest-with-no-charge-filed-after-the-limit' continues 'ations-period'; and 'obligation:track-pathway:TX:tx_exp_pardon_innocence:expunction-after-pardon-or-actual-innocence-reli' continues 'ef'. None of the three breaks falls on one of the token's own separators; each is a cut at whichever character first reached the margin. The cause is in the builder and is exact: scripts/build-census-v1-rcap-tx-custom-pleading.mjs still defines its own character-accumulating splitToken at lines 1099 to 1106, the original faulty variant, and has not been migrated onto the shared separator-aware splitter at scripts/rcap-custom-pleading/split-token.mjs. I proved the repair works rather than assuming it: running the shared splitter over the same three keys with the same Times-Roman 11pt / 468pt column predicate breaks them at 'after-the-' and 'innocence-' and reports hardSplits 0, while the builder's private copy reproduces the three chopped fragments exactly. SCAN01's own sweep already classifies this family as 'G0 original row-by-row, original splitter', splitTokenVariant 'char-by-char (fault 1 present)', with 6 hard_split_token defects across the two fixtures, and it is still unrepaired at this base. No other defect of this kind exists in the family: a width-band scan of every composed line in both fixtures finds these three and nothing else, no ink lands outside a measured write box, no field value is clipped or truncated, and the boundary fixture's over-long name, address and e-mail all fit inside their rules.",
+          "evidence": "pdftotext -layout page 16 of canonical.pdf and boundary.pdf; scripts/build-census-v1-rcap-tx-custom-pleading.mjs lines 1090-1120; a side-by-side run of the private splitToken against createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs; data/rcap-grade-a/packet-factory-24h/scan01/composed-pdf-text-integrity-sweep.json; 150dpi rasters of all 32 delivered pages"
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
@@ -37410,9 +37370,7 @@
         "verifiedAtBase": "d7e293f81",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37469,7 +37427,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
@@ -37565,9 +37523,7 @@
         "verifiedAtBase": "d7e293f81",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37619,7 +37575,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
@@ -37805,9 +37761,7 @@
         "verifiedAtBase": "d7e293f81",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37881,7 +37835,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",

@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 729,
+    "rows": 730,
     "independentVerdicts": 240,
     "failRepairRequired": 61,
     "passIndependent": 170
@@ -14539,6 +14539,28 @@
     },
     {
       "familyId": "rcap-tx-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "9efb77c08",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Three route keys are hard-split mid-word on delivered page 16 of BOTH fixtures. The footer prints 'obligation:track-pathway:TX:tx_exp_limitations:expunction-for-arrest-with-no-charge-filed-after-the-limi' and continues 'tations-period' on the next line; 'obligation:track-pathway:TX:tx_exp_no_charge:expunction-for-arrest-with-no-charge-filed-after-the-limit' continues 'ations-period'; and 'obligation:track-pathway:TX:tx_exp_pardon_innocence:expunction-after-pardon-or-actual-innocence-reli' continues 'ef'. None of the three breaks falls on one of the token's own separators; each is a cut at whichever character first reached the margin. The cause is in the builder and is exact: scripts/build-census-v1-rcap-tx-custom-pleading.mjs still defines its own character-accumulating splitToken at lines 1099 to 1106, the original faulty variant, and has not been migrated onto the shared separator-aware splitter at scripts/rcap-custom-pleading/split-token.mjs. I proved the repair works rather than assuming it: running the shared splitter over the same three keys with the same Times-Roman 11pt / 468pt column predicate breaks them at 'after-the-' and 'innocence-' and reports hardSplits 0, while the builder's private copy reproduces the three chopped fragments exactly. SCAN01's own sweep already classifies this family as 'G0 original row-by-row, original splitter', splitTokenVariant 'char-by-char (fault 1 present)', with 6 hard_split_token defects across the two fixtures, and it is still unrepaired at this base. No other defect of this kind exists in the family: a width-band scan of every composed line in both fixtures finds these three and nothing else, no ink lands outside a measured write box, no field value is clipped or truncated, and the boundary fixture's over-long name, address and e-mail all fit inside their rules.",
+          "evidence": "pdftotext -layout page 16 of canonical.pdf and boundary.pdf; scripts/build-census-v1-rcap-tx-custom-pleading.mjs lines 1090-1120; a side-by-side run of the private splitToken against createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs; data/rcap-grade-a/packet-factory-24h/scan01/composed-pdf-text-integrity-sweep.json; 150dpi rasters of all 32 delivered pages"
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-tx-custom-pleading",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf04",
       "isIndependentVerification": true,
@@ -14655,7 +14677,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf10/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-tx-custom-pleading",
