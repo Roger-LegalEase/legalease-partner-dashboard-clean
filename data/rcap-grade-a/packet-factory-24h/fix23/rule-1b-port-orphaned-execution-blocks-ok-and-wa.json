@@ -1,0 +1,251 @@
+{
+ "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+ "workerId": "CLAUDE-FIX23-RULE-1B-PORT",
+ "assignmentId": "FIX23",
+ "assignedBase": "87b7ebc440add8fd633d5e0f5afae68d1ad34c63",
+ "branch": "fix23-rule-1b-port",
+ "laneKind": "repair",
+ "summary": "Both families were reported repaired for CLIPPING_AND_OVERLAP by FIX16 and were not. FIX16 fixed a real fault - the petitioner's contact run was being torn in half across a page break - and fixed it by gathering the four contact lines into one block that Rule 1 then pushed whole onto a fresh page. That fresh page is the defect this lane repairs: it opens on 'PRINTED NAME:' and carries a mailing address, a telephone number, an email address and the route footer, while the 'DATE ... SIGNATURE OF PETITIONER' line those details execute sits on the page before. FIX16's own row read that page and reported it as the repair, recording contactBlockIntactAfter: true for exactly the page that is wrong. Ten such pages shipped: Oklahoma canonical and boundary pages 15, 27, 39 and 51, and Washington canonical and boundary page 12. All ten are repaired by porting FIX17's Rule 1b - the closing execution unit is one block across the blank separators that divide it - into these two composers, which are byte-identical to each other and structurally unlike North Dakota's. Nothing was dropped to make anything fit: the whitespace-stripped character stream of all four fixtures is byte-identical before and after, and no packet grew a page.",
+ "whatWasWrongWithTheEarlierReport": {
+  "reportedBy": "fix16/composer-clipping-ok-and-wa-return.json, rows rcap-ok-custom-pleading and rcap-wa-custom-pleading-clean-tracks, at c3b839a70.",
+  "whatItClaimed": "CLIPPING_AND_OVERLAP repaired in both families; proof.contactBlockSplitPageBefore 28 (OK) and 12 (WA), proof.contactBlockIntactAfter true, clippingFindingsAfter zero in all four fixtures.",
+  "whatWasActuallyOnTheDeliveredBytes": "The contact block was indeed intact - and alone. FIX16's WA row reads 'boundary p12 (the failed page) now opens PRINTED NAME: Maria-Alejandra O'Shaughnessy-Whitfield with MAILING ADDRESS, its wrapped postcode 39501-2214, TELEPHONE and EMAIL all on the same page'. A page that OPENS on PRINTED NAME is the orphaned execution block. The gather was the right repair for the fault FIX16 measured and it created the fault this lane measured, and the row did not distinguish the two because its instrument asked whether the contact run was whole, not whether the page said what the contact run belonged to.",
+  "whyItSurvivedTwoReads": "The nine completeness counters do not see it - they were nine zeros throughout - and a page-line census sees a legitimate 7-to-11-line page. SCAN01's C_block_integrity/orphaned_execution_block class does see it, and reported eight instances in Oklahoma and two in Washington on the bytes this lane inherited, before anything was changed.",
+  "measuredBeforeAnythingWasChanged": true
+ },
+ "whyRule1bHadToBePortedRatherThanReused": {
+  "whereRule1bLived": "scripts/build-census-v1-rcap-nd-custom-pleading.mjs, added by FIX17 at 6a44cf07d. North Dakota only.",
+  "whyFix16sOwnRepairsCouldNotReachIt": "Both of these builders already carry FIX16's separator-aware splitToken, its CONTACT_LINE gather and its soleOccupant trailer pull-down. soleOccupant requires a page whose every row is a trailer row or blank; these pages carry four participant-facing contact lines as well, so it matches none of them and the pull-down never fires. Rule 1 is what put the block there.",
+  "whyTheNorthDakotaCodeIsNotDropInnable": "North Dakota paginates a flat rows array against a floating-point cursor, with a Rule 2 pass that collapses blank separators and re-lays the plan up to eight times; Rule 1b there is a slotsLeft() test inside layoutPlan and its conditionality is decided by re-running settle(). These two composers paginate an array of blocks against an integer row budget (rowsPerPage = 45) with no collapse pass at all. The rule is the same rule; the code is not the same code. What was ported is the property, expressed in this host's own terms: executionStart is found by block rather than by row, the unit is measured in rows including its blank separator blocks, and the whole page-packing loop plus the trailer pull-down was lifted verbatim into a paginate(keepExecutionWhole) function so that paginate(false) is the pagination these families already shipped, statement for statement.",
+  "signatureLineRegex": "North Dakota matches /\\bSIGNATURE OF PETITIONER\\b/. Washington's non-conviction deletion route signs 'SIGNATURE OF REQUESTER', because the request goes to the Washington State Patrol and not to a court. The ported predicate is /\\bSIGNATURE OF\\b/, which matches both and matches the same line SCAN01's own detector looks for."
+ },
+ "isTheportedRuleGenuinelyConditional": {
+  "asked": "FIX17 made Rule 1b fire only where the settled layout actually divides the unit, after measuring that an unconditional version cost the North Dakota pardoned boundary packet an eighth page for nothing. This lane was told to carry that property and not to make the rule unconditional. It was carried, and then measured rather than asserted.",
+  "howItWasMeasured": "The shipped code path was instrumented with a temporary stderr trace emitting, for every composed render, the unit's block count and row count, the number of pages the SETTLED layout puts the unit on, whether the outer gate fires, and the page count of paginate(false) against paginate(true). Both families were built under the trace, the trace was then removed and both families rebuilt, and the resulting fixtures are byte-identical to the traced build's - so what was measured is what ships.",
+  "theGateDoesGate": {
+   "oklahoma": "106 composed renders. Rule 1b's outer gate evaluates TRUE on 8 and FALSE on 98. On those 98, paginate(true) is never called at all.",
+   "washington": "16 composed renders. TRUE on 2, FALSE on 14.",
+   "theEightAndTheTwoAreExactlyTheDefectivePages": "Every render where the gate fires is one of the ten pages SCAN01 named, and no other. On the delivered bytes this shows as 8 changed pages out of 160 in Oklahoma and 2 out of 34 in Washington; every other page's whitespace-stripped stream is unchanged."
+  },
+  "theHonestFinding": "In THESE two families the outer gate is not load-bearing. A variant built with the outer gate forced permanently open renders fixtures byte-identical to the shipped conditional build - c7340a2555e44e01 / cf302fc33576f54a for Oklahoma and 587838be98adfff4 / 78910c462040fbed for Washington, the same four digests. The FIX17 cost does not reproduce here, and the reason is structural: North Dakota's Rule 2 collapses a blank separator to buy back the slot the unit needs, so forcing the unit whole there overrides a page the layout had already recovered; these composers have no collapse pass, so the inner fit test (executionRows <= rowsPerPage && page.length + executionRows > rowsPerPage) already refuses to break a unit that fits, and the outer gate only spares it the call. The gate was kept because it was asked for, because it is what makes 98 of 106 renders provably untouched by the new code path rather than merely unchanged in their output, and because it is the guard that stops any future edit inside paginate from reaching a render that never had the defect. It was not kept on the strength of a page count it did not buy here, and this row does not claim one.",
+  "unconditionalWouldHaveAddedPagesInThisFamily": 0
+ },
+ "assertionInTheRenderer": "renderComposedPdf in both builders now asserts, after the layout is chosen and before anything is drawn, that every drawn row of the closing execution unit landed on one page, naming the offending row if not. A unit taller than a whole page is exempt and still flows, because there is no page it could fit on. No future build of either family can ship contact details severed from the signature line they execute without failing the build.",
+ "rasterOwed": true,
+ "rasterDecision": "Both families were BUILT_RASTER_PENDING with rasterPages 0 on digests that describe the defective bytes, and they are BUILT_RASTER_PENDING with rasterPages 0 on the repaired digests now. Every build in this lane was run --no-raster deliberately. This container has a browser and a plain rebuild would have emitted local raster pages and advanced build-status.json to RASTER_LOCAL_PENDING_CENTRAL; that would have moved the raster posture of two families onto bytes no raster has actually read centrally, so it was not done. build-status.json is unmodified in both families, which is the same posture FIX17 left North Dakota in. A fresh whole-family raster and an independent read are owed on the new bytes. This row claims no standing receipt and no verdict.",
+ "sourceReceiptNote": "The documented trap fired on both families, exactly as warned. A plain rebuild of either family erases every identityRefresh annotation from its source-receipt.json - three per receipt here, six in total, taking the nested was.byteLength fields with them - with no source change whatever: the rebuilt receipt is otherwise identical to HEAD's, key for key, and every outer source pin (sha256 and byteLength) is unchanged, so nothing had actually moved. verify-identity-refresh-survives-rebuild.mjs was run against the erased state first to confirm the instrument fires, and it reported ERASED BY A REBUILD naming this lane's WA receipt and all three lost pins. Both receipts were then restored verbatim from HEAD - not re-derived, not rewritten - and neither receipt pins a fixture digest, so the restore returns the annotations and nothing else. verify-identity-refresh-survives-rebuild.mjs then reported EVERY_IDENTITY_REFRESH_SURVIVED across 248 receipts, 52 of them carrying an identityRefresh. Anyone who rebuilds either family again must restore these six blocks verbatim.",
+ "changedPaths": [
+  "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
+  "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",
+  "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/",
+  "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/",
+  "data/rcap-grade-a/packet-factory-24h/fix23/rule-1b-port-orphaned-execution-blocks-ok-and-wa.json",
+  "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+ ],
+ "centralStateEdits": "claim-ledger.json only, through claim.mjs, to assert and then release the two grants this lane held. No manifest, queue, verdict, promotion record or build-status.json was edited.",
+ "claimsReleased": [
+  "rcap-ok-custom-pleading",
+  "rcap-wa-custom-pleading-clean-tracks"
+ ],
+ "scope": "renderComposedPdf is copy-pasted across the corpus and the copies have diverged; this lane holds grants for two families and changed only those two build scripts. Their two composers were byte-identical to each other before this change and are byte-identical to each other after it. No other family's bytes moved.",
+ "selfVerificationPerformed": 0,
+ "routesOpened": 0,
+ "productionTouched": false,
+ "rows": [
+  {
+   "itemId": "rcap-ok-custom-pleading",
+   "familyId": "rcap-ok-custom-pleading",
+   "routeKeys": [
+    "obligation:track-only:OK:ok_identity_theft",
+    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
+    "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
+    "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+    "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
+    "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
+    "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement",
+    "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+    "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+    "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"
+   ],
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "obligationRepaired": "CLIPPING_AND_OVERLAP",
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "verdictNote": "CLIPPING_AND_OVERLAP is repaired for rcap-ok-custom-pleading. It was the only obligation in this family's failedObligationNames at the standing verdict (vf09, base ba5dc7e5ac97cb6227e753970bd880e3cf373704) and it is the only one this row claims. The nine completeness counters do not see clipping: they were nine zeros before this lane touched the family and are nine zeros after, so they are the starting condition and not the evidence. The evidence is the rendered pages, read before and after and listed here page by page, and a corpus sweep that reports the defect class by family.",
+   "baseSha": "87b7ebc440add8fd633d5e0f5afae68d1ad34c63",
+   "branch": "fix23-rule-1b-port",
+   "claim": "CLAIM_OK FIX23 rcap-ok-custom-pleading (repair, grant set 5f696fd7d6e1dd7f)",
+   "factoryState": "BUILT_RASTER_PENDING",
+   "defectAsDelivered": "Eight orphaned execution blocks across the family's two fixtures, present on the bytes this lane inherited and not repaired by FIX16, which reported this family repaired. Canonical pages 15, 27, 39 and 51 and boundary pages 15, 27, 39 and 51 each opened on 'PRINTED NAME:' and carried a mailing address, a telephone number, an email address and the route footer - eleven to fifteen drawn lines - with nothing on the page to say what any of it belonged to. The 'DATE .............................. SIGNATURE OF PETITIONER ....................................' line those details execute, and the sentence 'The petitioner signs and dates this petition personally', were both at the foot of the page before. The four petition components that carry a signature block were affected: deferred-dismissal, felony conviction, misdemeanor conviction and non-conviction. The other twelve components in this family were clean and stayed clean.",
+   "whatWasDone": "Repaired in renderComposedPdf. FIX17's Rule 1b was ported from the North Dakota composer into this one and expressed in this host's terms: a block here is a source line and every row it wraps to, and the four blank separators between the signature line and the route footer divide the closing execution unit into four blocks, so no block rule could see it whole. Rule 1b now measures the unit whole - signature line, the instruction that governs it, the petitioner's contact details, and the route footer - blank separators included, before its first row is placed, and takes the page break before the signature line or not at all. The existing page-packing loop and the soleOccupant trailer pull-down were lifted verbatim into paginate(keepExecutionWhole) so that the layout without Rule 1b is the layout this family already shipped, statement for statement. Rule 1b is conditional: the layout is settled once, and Rule 1b is applied only if that settled layout divides the unit. Nothing was dropped, abbreviated or re-worded to make anything fit.",
+   "pagesRead": [
+    "fixtures/canonical.pdf page 14 - before, 29 drawn lines ending 'DATE .... SIGNATURE OF PETITIONER ....' and then the parenthetical about signing personally. After, 26 drawn lines ending cleanly on 'D. THE REQUEST' and its statutory paragraph ('...under 22 O.S. Sec. 18; ... Senate Bill 2030 (2026).'), which is where a page should end.",
+    "fixtures/canonical.pdf page 15 - before, 11 drawn lines opening 'PRINTED NAME: Jordan Avery Reyes' with no signature line anywhere on the page. After, 14 drawn lines opening 'DATE .............................. SIGNATURE OF PETITIONER ....................................', then '(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)', then PRINTED NAME, MAILING ADDRESS, TELEPHONE, EMAIL and the three deferred-dismissal route keys.",
+    "fixtures/canonical.pdf page 27 - before, opened on PRINTED NAME with the three felony-conviction route keys below it. After, 13 drawn lines opening on the signature line, the parenthetical, then the contact block and the same three route keys.",
+    "fixtures/canonical.pdf page 39 - before, opened on PRINTED NAME with the two misdemeanor-conviction route keys. After, 12 drawn lines opening on the signature line.",
+    "fixtures/canonical.pdf page 51 - before, opened on PRINTED NAME with the four non-conviction route keys. After, 12 drawn lines opening on the signature line.",
+    "fixtures/boundary.pdf page 15 - before, opened on 'PRINTED NAME: Maria-Alejandra O'Shaughnessy-Whitfield'. After, 15 drawn lines opening on the signature line, with the boundary participant's wrapped mailing address ('...Fort Saint Clairsville' / '39501-2214') sitting under its own label on the same page as the signature line that executes it.",
+    "fixtures/boundary.pdf pages 27, 39 and 51 - the same defect and the same repair, 14, 13 and 13 drawn lines respectively, each opening on the signature line.",
+    "fixtures/canonical.pdf pages 26, 38 and 50 and fixtures/boundary.pdf pages 14, 26, 38 and 50 - the pages the units were pulled from, re-read to confirm each now ends on 'D. THE REQUEST' and its statutory paragraph rather than mid-execution.",
+    "All 80 pages of each fixture re-measured after the rebuild. No empty page, no route-key-only page, no fragment page, no orphaned execution block. Four D_census thin pages remain at canonical and boundary 35 and 47; those are seven-line free-route-screen tails carrying a full sentence and their route footer, they are recorded by the sweep as census rather than as a defect, they are not execution blocks, and they were not touched."
+   ],
+   "proof": {
+    "instrument": "scripts/rcap-scan01-composed-pdf-text-integrity.mjs, the corpus sweep, run over this family before and after with SCAN01_ONLY.",
+    "sweepBefore": {
+     "totalDefects": 12,
+     "C_block_integrity_orphaned_execution_block": 8,
+     "D_census_thin_page": 4,
+     "builderGeneration": "G2 splitter repaired, no Rule 1b"
+    },
+    "sweepAfter": {
+     "totalDefects": 4,
+     "C_block_integrity_orphaned_execution_block": 0,
+     "D_census_thin_page": 4,
+     "builderGeneration": "G3 repaired incl. Rule 1b"
+    },
+    "theInstrumentFiredBeforeItWasTrusted": "The sweep was run on the delivered bytes first and reported all eight blocks, naming the page and quoting the first six lines of each, before any file was edited.",
+    "characterStreamInvariance": "The whitespace-stripped character stream of each fixture is byte-identical before and after. canonical 128263 chars, stream hash 3865ee92192f2d8d -> 3865ee92192f2d8d. boundary 130509 chars, stream hash c270b2e1af68efbe -> c270b2e1af68efbe. Extracted page by page and concatenated in reading order; only breaks moved.",
+    "whichPagesMoved": "8 of 160. Canonical pages 14, 15, 26, 27, 38, 39, 50, 51 and boundary pages 14, 15, 26, 27, 38, 39, 50, 51 differ in their per-page stripped stream; every other page is character-identical.",
+    "pageCounts": "canonical 80 -> 80, boundary 80 -> 80. No packet grew a page.",
+    "geometry": "2056 drawn lines in canonical and 2064 in boundary. Lowest baseline 82.00pt against a 72pt bottom margin; furthest right edge 539.99pt against a 540pt right margin; zero pairs of drawn lines sharing a baseline. No clipping and no overlap, before or after.",
+    "renderedArtifactsReport": "reports/rendered-artifacts.json differs from HEAD in sha256 and byteLength only - its pageManifest, component-to-page assignment and every other field are identical, verified by structural comparison with those two keys stripped."
+   },
+   "deterministicRebuild": "Two consecutive --no-raster builds, whole family directory compared recursively with diff -r over all 13 files: identical. The pre-repair build was checked the same way first, and reproduced the committed fixtures byte for byte, so the builder was known to be deterministic in this container before it was edited.",
+   "artifacts": {
+    "canonical": {
+     "sha256": "cf302fc33576f54acc1429516974642daefff7b0f854347498f81bb02344cb25",
+     "pages": 80,
+     "bytes": 206263,
+     "wasSha256": "dc46fce7aea8d092fd2789ac38e4df14fbf1c754edf57df8da6a42d4ca0c3803",
+     "wasBytes": 206201
+    },
+    "boundary": {
+     "sha256": "c7340a2555e44e011df445066cb91bee6be961959b74e97459a52c2613f068cf",
+     "pages": 80,
+     "bytes": 208785,
+     "wasSha256": "5aaf65f8810c061a8932cd59a6cb46870956f6de8ab4af5151ecad982a4e1fd9",
+     "wasBytes": 208726
+    }
+   },
+   "focusedEvidence": "verify-packet-completeness.mjs --family rcap-ok-custom-pleading: PASS_COMPLETE, 85/254 written, with nine zero counters before and after. That verifier does not see clipping and neither reading is evidence of this repair.",
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "rasterOwed": true,
+   "rasterNote": "Both fixtures moved. The family was BUILT_RASTER_PENDING on digests describing the defective bytes and is BUILT_RASTER_PENDING on the repaired digests; build-status.json is unmodified and rasterPages is still 0, because every build here was run --no-raster deliberately rather than letting this container's browser advance the state to RASTER_LOCAL_PENDING_CENTRAL. No standing raster receipt covers these bytes and this row claims none. A fresh whole-family raster and an independent read are owed.",
+   "claimReleased": true,
+   "selfVerified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  },
+  {
+   "itemId": "rcap-wa-custom-pleading-clean-tracks",
+   "familyId": "rcap-wa-custom-pleading-clean-tracks",
+   "routeKeys": [
+    "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+    "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+   ],
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "obligationRepaired": "CLIPPING_AND_OVERLAP",
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "verdictNote": "CLIPPING_AND_OVERLAP is repaired for rcap-wa-custom-pleading-clean-tracks. It was the only obligation in this family's failedObligationNames at the CLIPPING verdict (vf09, base ba5dc7e5ac97cb6227e753970bd880e3cf373704) and it is the only one this row claims. The nine completeness counters do not see clipping: they were nine zeros before this lane touched the family and are nine zeros after, so they are the starting condition and not the evidence. The evidence is the rendered pages, read before and after, and a corpus sweep that reports the defect class by family.",
+   "baseSha": "87b7ebc440add8fd633d5e0f5afae68d1ad34c63",
+   "branch": "fix23-rule-1b-port",
+   "claim": "CLAIM_OK FIX23 rcap-wa-custom-pleading-clean-tracks (repair, grant set 5f696fd7d6e1dd7f)",
+   "factoryState": "BUILT_RASTER_PENDING",
+   "defectAsDelivered": "Two orphaned execution blocks, one on page 12 of each fixture, present on the bytes this lane inherited and not repaired by FIX16, whose row named this exact page as the page it had fixed. Canonical page 12 carried seven drawn lines and boundary page 12 carried eight: a printed name, a mailing address (wrapping to two rows in the boundary fixture), a telephone number, an email address, and 'Route:' with the non-conviction deletion route key beneath it. The 'DATE .............................. SIGNATURE OF REQUESTER ....................................' line those details execute, and the sentence 'The requester signs and dates this request personally', were both at the foot of page 11. The RCW 10.97.060 non-conviction deletion request was the affected component; the RCW 9.95.240 vacation petition and its proposed order were clean and stayed clean.",
+   "whatWasDone": "Repaired in renderComposedPdf, with the same port applied - this composer and Oklahoma's were byte-identical to each other before the change and are byte-identical to each other after it. One difference of substance from North Dakota: this family's non-conviction route signs 'SIGNATURE OF REQUESTER', not 'SIGNATURE OF PETITIONER', because the request goes to the Washington State Patrol and no court is asked to decide anything. North Dakota's Rule 1b predicate is /\\bSIGNATURE OF PETITIONER\\b/ and would have found nothing on the page that was actually wrong here; the ported predicate is /\\bSIGNATURE OF\\b/. Nothing was dropped to make anything fit.",
+   "pagesRead": [
+    "fixtures/canonical.pdf page 11 - before, 31 drawn lines ending 'DATE .... SIGNATURE OF REQUESTER ....' and then the parenthetical about signing personally. After, 28 drawn lines ending on 'D. THE REQUEST' and its statutory paragraph ('...under RCW 10.97.060; RCW 10.97.030(2); RCW 10.97.040; RCW 10.97.110. No court is asked to decide anything and no court order is sought: the agency decides.').",
+    "fixtures/canonical.pdf page 12 - before, 7 drawn lines opening 'PRINTED NAME: Jordan Avery Reyes' with no signature line on the page. After, 10 drawn lines opening 'DATE .............................. SIGNATURE OF REQUESTER ....................................', then '(The requester signs and dates this request personally. Nothing on this page is signed or dated for the requester.)', then PRINTED NAME, MAILING ADDRESS, TELEPHONE, EMAIL and 'Route:' with its key.",
+    "fixtures/boundary.pdf page 11 - before, ended on the signature line and its parenthetical. After, 28 drawn lines ending on 'D. THE REQUEST' and its statutory paragraph.",
+    "fixtures/boundary.pdf page 12 - before, 8 drawn lines opening 'PRINTED NAME: Maria-Alejandra O'Shaughnessy-Whitfield'. After, 11 drawn lines opening on the signature line, with the wrapped mailing address ('...Fort Saint Clairsville' / '39501-2214') under its own label on the same page as what it executes.",
+    "All 17 pages of each fixture re-measured after the rebuild. No empty page, no route-key-only page, no orphaned execution block, and the canonical page-12 thin-page census entry is gone with it. Two B_page_content fragment pages remain at canonical and boundary page 9; see notRepairedHere."
+   ],
+   "notRepairedHere": {
+    "what": "fixtures/canonical.pdf and fixtures/boundary.pdf page 9 each carry five drawn lines: the last two entries of the RCW 9.95.240 component list ('- wa_vac_post_probation_9_95_240-records-checklist-3: the records you must obtain before you file...' and '- wa_vac_post_probation_9_95_240-filing-instructions-4: this page...') and the route footer.",
+    "class": "B_page_content/fragment_page. Present before this lane and present after, unchanged in both fixtures and unchanged in its stripped character stream.",
+    "why": "It is not an orphaned execution block - there is no signature line to sever it from - and it is not what this lane's grant names. It is the tail of a bulleted component list falling past a page boundary, and keeping it whole needs a different rule about list blocks, not the closing-execution-unit rule ported here. Applying Rule 1b to it would have done nothing; inventing a list rule and re-paginating this family for it is outside this lane's grant and would have moved content that no verdict has called wrong. It is reported so that the family's remaining sweep count is a stated residue rather than an unexplained one."
+   },
+   "proof": {
+    "instrument": "scripts/rcap-scan01-composed-pdf-text-integrity.mjs, the corpus sweep, run over this family before and after with SCAN01_ONLY.",
+    "sweepBefore": {
+     "totalDefects": 5,
+     "C_block_integrity_orphaned_execution_block": 2,
+     "B_page_content_fragment_page": 2,
+     "D_census_thin_page": 1,
+     "builderGeneration": "G2 splitter repaired, no Rule 1b"
+    },
+    "sweepAfter": {
+     "totalDefects": 2,
+     "C_block_integrity_orphaned_execution_block": 0,
+     "B_page_content_fragment_page": 2,
+     "D_census_thin_page": 0,
+     "builderGeneration": "G3 repaired incl. Rule 1b"
+    },
+    "theInstrumentFiredBeforeItWasTrusted": "The sweep was run on the delivered bytes first and reported both blocks, naming page 12 of each fixture and quoting its first six lines, before any file was edited.",
+    "characterStreamInvariance": "The whitespace-stripped character stream of each fixture is byte-identical before and after. canonical 28259 chars, stream hash a18d6744b4e1267d -> a18d6744b4e1267d. boundary 28749 chars, stream hash 62b20bcfc4a17edf -> 62b20bcfc4a17edf. Only breaks moved.",
+    "whichPagesMoved": "2 of 34. Canonical pages 11 and 12 and boundary pages 11 and 12 differ in their per-page stripped stream; every other page is character-identical.",
+    "pageCounts": "canonical 17 -> 17, boundary 17 -> 17. No packet grew a page.",
+    "geometry": "457 drawn lines in canonical and 459 in boundary. Lowest baseline 82.00pt against a 72pt bottom margin; furthest right edge 539.99pt against a 540pt right margin; zero pairs of drawn lines sharing a baseline. No clipping and no overlap, before or after.",
+    "renderedArtifactsReport": "reports/rendered-artifacts.json differs from HEAD in sha256 and byteLength only - its pageManifest and every other field are identical, verified by structural comparison with those two keys stripped."
+   },
+   "deterministicRebuild": "Two consecutive --no-raster builds, whole family directory compared recursively with diff -r over all 13 files: identical. The pre-repair build reproduced the committed fixtures byte for byte in this container before anything was edited.",
+   "artifacts": {
+    "canonical": {
+     "sha256": "78910c462040fbed6980384c0eb342b44eb8ec80d09eceb3ef97783ae119b050",
+     "pages": 17,
+     "bytes": 46258,
+     "wasSha256": "480ee39a4b05c3fc8440c0ca239c0b1cdda291a11572653b8eb83e2277a06dc1",
+     "wasBytes": 46225
+    },
+    "boundary": {
+     "sha256": "587838be98adfff4f4f0e4e91d56aab08897551380ee1411b9e528e1b3bad471",
+     "pages": 17,
+     "bytes": 46776,
+     "wasSha256": "dbf023bdbf496697549ab752237a237d95d79997b0b520ab48acb8560371ec8f",
+     "wasBytes": 46745
+    }
+   },
+   "focusedEvidence": "verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks: PASS_COMPLETE, 20/48 written, with nine zero counters before and after. That verifier does not see clipping and neither reading is evidence of this repair.",
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "rasterOwed": true,
+   "rasterNote": "Both fixtures moved. The family was BUILT_RASTER_PENDING on digests describing the defective bytes and is BUILT_RASTER_PENDING on the repaired digests; build-status.json is unmodified and rasterPages is still 0, because every build here was run --no-raster deliberately. No standing raster receipt covers these bytes and this row claims none. A fresh whole-family raster and an independent read are owed.",
+   "claimReleased": true,
+   "selfVerified": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ]
+}
