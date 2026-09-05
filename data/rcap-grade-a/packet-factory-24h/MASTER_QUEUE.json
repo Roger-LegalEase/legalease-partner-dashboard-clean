@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "5f0fadf57e1245c76aac00c07716f00200d87da2",
+  "minimumCaptainSha": "9b64960d8897c869da72a27c8ba928add52d03e8",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
@@ -72,19 +72,18 @@
     "sourceReady": 93,
     "sourceBlocked": 11,
     "legalBlocked": 7,
-    "verifyPending": 17,
-    "repairRequired": 55,
+    "verifyPending": 12,
+    "repairRequired": 60,
     "sumsToDenominator": true
   },
   "byState": {
-    "VERIFY_PENDING": 17,
-    "COMPLETE_PACKET_PROVEN": 121,
-    "FAIL_REPAIR_REQUIRED": 55,
+    "COMPLETE_PACKET_PROVEN": 126,
+    "FAIL_REPAIR_REQUIRED": 60,
+    "VERIFY_PENDING": 12,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 93,
     "SOURCE_BLOCKED": 11,
-    "BUILT_RASTER_PENDING": 5,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -197,7 +196,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -231,7 +235,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -472,7 +476,12 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -506,7 +515,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs",
@@ -556,10 +565,12 @@
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -589,18 +600,18 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "SOURCE_IDENTITY"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The governed current-hash renderer measured all four pages nonblank, cropped to 2040x2640 and free of machine problems; independent Poppler geometry found 0 of 752 words outside the page boxes and 0 word-box overlaps. Human inspection nevertheless found an avoidable split in both fixtures. Boundary page 1 ends with only the label 'Date the three-year destruction bar expires:'; its dotted response line and 'Check with: the case record and the clerk' begin page 2. Canonical leaves the dotted line on page 1 but orphans that same check instruction at the top of sparse page 2. This is two visual defects and machine RASTER_PASS does not cure them.",
-          "evidence": null
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "one of the four receipt-bound committed records no longer rehashes. source-receipt.json pins data/rcap-ledger/completed-output-counsel-manifest.json at 99e8029120d7...; the file in this tree rehashes to fbf9bfef239f.... Git history shows the pin was exact as of commit eab70f9265c837929c0b73fc208e6c5c1db80670 (2026-08-28) and that commit cb6cbf45eca2df8befa57905b51a658859b2323f (2026-09-04, 'chore(rcap): project Virginia pardon route mapping') changed the shared ledger without touching this packet. The other three records rebind exactly. This is a stale binding created by a shared file drifting underneath it, not a packet built on a wrong source - but the obligation is that every source binds by exact SHA-256 recomputed from the bytes, and this one does not."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs",
@@ -7411,7 +7422,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs",
@@ -7548,7 +7559,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
@@ -9019,9 +9030,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -9053,19 +9064,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "source-receipt.json pins route-obligation-candidate.json at 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2,599,752 bytes; current bytes rehash to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2,607,149 bytes. The exact Illinois route subset remains unchanged at cc640b55f38685ee948288e3d97314c92759ab2fd9323c718e00654f26c3d979, and the route split and compiled Illinois profile remain exact. This is stale receipt binding, not a source block.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
@@ -10559,9 +10562,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "4f73e89995c3ecfc01bf4e4b5fc39a14d339ecdb",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -10593,19 +10596,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-decriminalized-set.mjs",
@@ -11933,8 +11928,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -11963,11 +11965,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": "the packet-set manifest for track de_mandatory_expungement states a definite fee position and a definite waiver route, and participant-instructions.md states neither. pay_fee: 'The court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved.' apply_fee_waiver: the 11 Del. C. 4372(l) provision under which, where an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive or convert the fines or fees. The guide defers the whole fee question to 'any fee stated by SBI after its review'. Deferring the SBI's own fee is correct because the record marks it not source-approved; omitting the $75 and omitting 4372(l) is not, and the guide asks the participant about unpaid 'Fines, fees, and restitution status' without telling them the waiver exists."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
@@ -12192,9 +12202,21 @@
         "sourceReplacements": null,
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
-      "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "verifierSourceHold": {
+        "lane": "vf02",
+        "verdict": "BLOCKED_SOURCE",
+        "blockedObligations": [],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+      },
+      "selectedIndependentVerdict": {
+        "verdict": "BLOCKED_SOURCE",
+        "lane": "vf02",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -12227,7 +12249,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
@@ -12293,7 +12315,12 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
+      "selectedIndependentVerdict": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf03",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
@@ -12327,7 +12354,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-administrative-set.mjs",
@@ -24642,7 +24669,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
@@ -27492,8 +27519,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf01",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27522,11 +27556,25 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "ROUTE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": "the packet is stamped with a route key that names no route. production-field-map.json, source-receipt.json and the route line printed at the foot of participant-instructions.md all say 'obligation:track-only:NC:nc_145_5_felony'. MASTER_QUEUE.json, packet-family-build-worklist.json, route-obligation-candidate.json, category-a-implementation-waves.json and product-wiring.json all say 'obligation:track-pathway:NC:nc_145_5_felony:nonviolent-conviction-expunction-under-g-s-15a-145-5'. The key the packet uses appears nowhere in canonical-route-universe.json, which does carry the sibling keys obligation:track-only:NC:nc_145_5_misdemeanor and obligation:track-only:NC:nc_146_dismissal_petition - so the builder appears to have formed it by analogy with siblings that really are track-only. The track registry has no route key at all for this track, only trackId nc_145_5_felony."
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": null,
+          "evidence": "two facts the packet holds are written on one component of this packet and demanded from the participant on another. The fixture holds participant.date_of_birth and participant.zip; actual-writes.json writes both onto AOC-CV-226 (fee_waiver.ApplicantDateOfBirth, fee_waiver.ApplicantZip) and the delivered canonical PDF carries 1991 and 27601 on page 4. On page 1 the same two are left blank and listed as required-before-filing ('Date Of Birth on the petition', 'Address Of Petitioner - Zip'), and per-page text extraction confirms neither value appears on page 1. participant-instructions.md justifies this by saying these are 'Government identifiers and personal descriptors this build does not write onto any form' - which page 4 of the same packet falsifies."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
@@ -27995,8 +28043,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf02",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -28025,11 +28080,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "ROUTE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": "the same defect as nc_145_5_felony-set. production-field-map.json, source-receipt.json and the printed route line say 'obligation:track-only:NC:nc_146_acquittal_petition'; MASTER_QUEUE, the worklist, the census candidate and product-wiring.json all say 'obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146'. The packet's key is absent from canonical-route-universe.json, which carries the sibling obligation:track-only:NC:nc_146_dismissal_petition."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
@@ -30499,7 +30562,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
@@ -30661,7 +30724,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
@@ -35711,9 +35774,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "440d949ddeaab7a54d4ab57abaca075bd029a326",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -35745,25 +35808,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP",
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "At immutable packet commit ddec2dd658ba9f0884cd0376c113164e174c9588 the three full-file committed-record pins in source-receipt.json were exact. At verification base 440d949ddeaab7a54d4ab57abaca075bd029a326, authoritative regeneration changed all three full files without refreshing the receipt: track registry declares baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4 at 16,586,143 bytes but is now 232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee at 16,586,150; specifications declares cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5 at 16,829,383 but is now f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e at 16,829,391; route census declares 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f at 2,599,752 but is now 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 at 2,607,149. The Tennessee subsets are deep-identical across ddec and 440d: registry subset 71bba17eeeadef58150fa26be570630d363631e2229395b13ee088cf5757f213, specification subset 0a0c3e0e3837de852625ab58231093fbafb90ac8551aaef9411ced5cb6fb1ed0, and census subset 435555b3b61e97b640bac01b10384b84920f4c0cfddb59cace4fd789c703813a. This is an exact receipt-binding defect, not a missing-source block.",
-          "evidence": "source-receipt.json; SHA-256 and byte length recomputed from each record at ddec and at 440d; canonicalized Tennessee subsets compared across the two commits"
-        },
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "The 156 actual governed page PNGs were inspected, not merely their RASTER_PASS labels. No content is cropped or overlapping, but six pages are unacceptable near-empty pagination orphans: canonical and boundary page 7 of tn_pretrial_diversion (ink fraction 0.004089980689245395), tn_nonconviction_petition (0.0048029931669637555) and tn_judicial_diversion (0.005489639037433155). Each carries only the final one-item fragment of THE PAGES IN THIS SET plus the route line on an otherwise empty sheet. The old two-word footer-only page is gone, but its visual root class remains. The raster workflow's nonblank/crop checks correctly report those pages nonblank and uncropped; they do not prove useful pagination.",
-          "evidence": "original-resolution page-007 PNGs under /tmp/tn-raster-33879628067 for both personas of the three routes; matching receipt measurements; extracted page text"
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-tn-custom-pleading.mjs",
@@ -36812,7 +36861,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -36842,7 +36894,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_marijuana-set.mjs",
@@ -42351,7 +42403,10 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
+        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -42381,7 +42436,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_exp_deferred_sentence-set.mjs",
@@ -44015,10 +44070,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf04",
-        "verifiedAtBase": "a0d49e1ad49ad4397eac4b009225baf0b94bf03e",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf02",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -44049,19 +44104,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": null,
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wa_vac_felony-set.mjs",

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5f0fadf57e1245c76aac00c07716f00200d87da2` (or the newer dispatch base)
+**Minimum required ancestor:** `9b64960d8897c869da72a27c8ba928add52d03e8` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'az_marijuana_expungement_limited_jurisdiction-set' \
   --codex-cloud \
-  --minimum-captain-sha 5f0fadf57e1245c76aac00c07716f00200d87da2
+  --minimum-captain-sha 9b64960d8897c869da72a27c8ba928add52d03e8
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,12 +38,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
+- Assert only these 6 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'az_marijuana_expungement_limited_jurisdiction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'nc_145_5_felony-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'pa_pardon_expungement-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'tx_nd_probation_misdemeanor-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ar-nonconviction-seal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'oh_marijuana_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'tx_nd_dwi_deferred-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -61,13 +62,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 6 families
 
 - `az_marijuana_expungement_limited_jurisdiction-set`
+- `nc_145_5_felony-set`
 - `agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`
-- `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`
-- `pa_pardon_expungement-set`
-- `tx_nd_probation_misdemeanor-set`
+- `ar-nonconviction-seal-set`
+- `oh_marijuana_expungement-set`
+- `tx_nd_dwi_deferred-set`
 
 ## What you receive
 
@@ -81,15 +83,17 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/**`
 - `scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs`
+- `scripts/build-census-v1-nc_145_5_felony-set.mjs`
 - `scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs`
-- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
-- `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`
+- `scripts/build-census-v1-ar-nonconviction-seal-set.mjs`
+- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
+- `scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs`
 
 ## Never write here
 

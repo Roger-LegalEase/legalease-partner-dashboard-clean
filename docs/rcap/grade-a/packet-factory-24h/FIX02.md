@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `5f0fadf57e1245c76aac00c07716f00200d87da2` (or the newer dispatch base)
+**Minimum required ancestor:** `9b64960d8897c869da72a27c8ba928add52d03e8` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'al-diversion-set' \
+  --family 'nc_146_acquittal_petition-set' \
   --codex-cloud \
-  --minimum-captain-sha 5f0fadf57e1245c76aac00c07716f00200d87da2
+  --minimum-captain-sha 9b64960d8897c869da72a27c8ba928add52d03e8
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 4 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'il-exp-qualprob-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-nd-custom-pleading'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ut_pet_acquittal-set'`
+- Assert only these 5 exact families before reading or writing family content:
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nc_146_acquittal_petition-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'agency-application-treatment:obligation:track-only:CT:ct-destruction-request'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'pa_pardon_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'tx_nd_probation_misdemeanor-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -60,12 +61,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 5 families
 
-- `al-diversion-set`
-- `il-exp-qualprob-set`
-- `rcap-nd-custom-pleading`
-- `ut_pet_acquittal-set`
+- `nc_146_acquittal_petition-set`
+- `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`
+- `composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief`
+- `pa_pardon_expungement-set`
+- `tx_nd_probation_misdemeanor-set`
 
 ## What you receive
 
@@ -78,12 +80,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
-- `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/**`
-- `scripts/build-census-v1-il-exp-qualprob-set.mjs`
-- `scripts/build-census-v1-rcap-nd-custom-pleading.mjs`
+- `data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
+- `scripts/build-census-v1-nc_146_acquittal_petition-set.mjs`
+- `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-destruction-request.mjs`
+- `scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs`
+- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
+- `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`
 
 ## Never write here
 

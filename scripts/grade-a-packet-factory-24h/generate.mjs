@@ -1275,6 +1275,82 @@ function boundSourceDriftedSinceVerdict(directory) {
 }
 
 const movedSinceCache = new Map();
+/*
+ * A RE-PIN IS NOT A RE-BINDING.
+ *
+ * When a shared committed record is rewritten by unrelated work, every receipt
+ * pinning it by whole-file SHA-256 goes stale even though the entries that
+ * receipt actually binds are untouched. Refreshing those pins is a correction
+ * to the receipt's identity, not a change to what the packet rests on -- the
+ * refresh is only written after the blob carrying the old pin is recovered from
+ * history and the family's own entries are compared object-for-object and found
+ * identical, and each refreshed record carries that comparison in an
+ * identityRefresh block.
+ *
+ * Left unrecognised, the refresh reads as a moved family and asks a lane to
+ * re-read a packet nobody changed. So a receipt is treated as unmoved when the
+ * two versions are equal once the identityRefresh blocks -- and the sha256 and
+ * byteLength of exactly the records that carry one -- are normalised away. Any
+ * other edit to a receipt still moves the family, which is what keeps a genuine
+ * re-binding from slipping through here: binding a new source, dropping one, or
+ * changing a record's role all survive the normalisation and read as movement.
+ */
+function onlyChangeIsAnIdentityRefresh(base, directory) {
+  const receipt = `${directory}/source-receipt.json`;
+  const others = spawnSync("git", ["diff", "--name-only", base, "HEAD", "--",
+    directory, `:(exclude)${receipt}`,
+    ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT, encoding: "utf8" });
+  if (others.status !== 0 || others.stdout.trim().length > 0) return false;
+  /* Which records the refresh touched is read from the CURRENT receipt, then
+   * the same records are normalised on both sides. Reading it from each side
+   * separately is what an earlier attempt did, and it never matched: the
+   * pre-refresh receipt carries no identityRefresh to key on, so its sha256 and
+   * byteLength survived while the current one's were stripped. */
+  const refreshedPaths = (doc) => {
+    const out = new Set();
+    for (const list of [doc?.committedRecords, doc?.groundingRecords]) {
+      for (const rec of list ?? []) {
+        const r = rec?.identityRefresh;
+        if (!r) continue;
+        /* Only a record whose refresh RECORDED identical anchors may be
+         * normalised. A refresh written without that comparison proves nothing
+         * and must still read as movement. */
+        if (!(r.anchorsCompared > 0) || r.anchorsCompared !== r.anchorsIdentical) return null;
+        const key = rec.pathInRepository ?? rec.path;
+        if (!key) return null;
+        out.add(key);
+      }
+    }
+    return out;
+  };
+  const normalise = (text, paths) => {
+    let doc;
+    try { doc = JSON.parse(text); } catch { return null; }
+    for (const list of [doc.committedRecords, doc.groundingRecords]) {
+      for (const rec of list ?? []) {
+        const key = rec?.pathInRepository ?? rec?.path;
+        if (!key || !paths.has(key)) continue;
+        delete rec.identityRefresh;
+        delete rec.sha256;
+        delete rec.byteLength;
+      }
+    }
+    return JSON.stringify(doc);
+  };
+  let before;
+  try { before = execFileSync("git", ["show", `${base}:${receipt}`], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }); }
+  catch { return false; }
+  let after;
+  try { after = fs.readFileSync(path.join(ROOT, receipt), "utf8"); } catch { return false; }
+  let current;
+  try { current = JSON.parse(after); } catch { return false; }
+  const paths = refreshedPaths(current);
+  if (paths === null || paths.size === 0) return false;
+  const a = normalise(before, paths);
+  const b = normalise(after, paths);
+  return a !== null && b !== null && a === b;
+}
+
 function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
   const base = independentReturn?.verifiedAtBase;
   const pathsOf = () => [directory, buildScript, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)];
@@ -1330,6 +1406,7 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
       const dirOnly = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--",
         directory, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT });
       if (dirOnly.status === 0) moved = false;
+      else if (onlyChangeIsAnIdentityRefresh(base, directory)) moved = false;
     }
   } catch { moved = false; }
   movedSinceCache.set(key, moved);
