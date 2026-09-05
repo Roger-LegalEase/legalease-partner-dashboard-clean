@@ -1122,10 +1122,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:14:21.759Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -2251,10 +2251,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-04T15:55:47.184Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5230,10 +5230,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
     },
     {
       "subjectType": "packet-family",
@@ -5366,9 +5367,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
     },
     {
       "subjectType": "packet-family",
@@ -7491,10 +7494,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-03T19:00:40.745Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8816,9 +8819,11 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF08",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
     },
     {
       "subjectType": "packet-family",
@@ -13208,7 +13213,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "3c3876c1eba3cd0d33972f246d745b5fd6d37dd6ba9bbcf19993f9bac7c45a44",
+  "claimsDigest": "8df747727117fe329d5d4016ed37c8f29640d776310ddbb37443151dd3b6f519",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28280,6 +28285,33 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T15:19:00.806Z",
       "reason": "Captain consolidation: one reader for the two Mississippi orders FIX36 rebuilt, on VF06; no lane asserted this grant."
+    },
+    {
+      "lane": "VF08",
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T15:28:15.834Z",
+      "reason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonadj-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T15:28:16.081Z",
+      "reason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "ms-fel-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T15:28:16.235Z",
+      "reason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
     }
   ],
   "reissues": [
@@ -39785,6 +39817,72 @@
       "previouslyReleasedAt": "2026-09-05T15:19:00.806Z",
       "transferredAt": "2026-09-05T15:19:00.887Z",
       "reason": "Fresh independent read of FIX36's rebuild (live raster run 33973869055); VF06 neither built nor repaired it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF08",
+      "toLane": "VF07",
+      "previouslyReleasedAt": "2026-09-05T15:28:15.834Z",
+      "transferredAt": "2026-09-05T15:28:15.924Z",
+      "reason": "Fresh independent read after the FIX07/FIX08 repairs on a live raster receipt; the reading lane neither built nor repaired the family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF07",
+      "previouslyReleasedAt": "2026-09-04T15:55:47.184Z",
+      "transferredAt": "2026-09-05T15:28:16.008Z",
+      "reason": "Fresh independent read after the FIX07/FIX08 repairs on a live raster receipt; the reading lane neither built nor repaired the family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonadj-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF05",
+      "toLane": "VF07",
+      "previouslyReleasedAt": "2026-09-05T15:28:16.081Z",
+      "transferredAt": "2026-09-05T15:28:16.162Z",
+      "reason": "Fresh independent read after the FIX07/FIX08 repairs on a live raster receipt; the reading lane neither built nor repaired the family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-fel-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF04",
+      "previouslyReleasedAt": "2026-09-05T15:28:16.235Z",
+      "transferredAt": "2026-09-05T15:28:16.316Z",
+      "reason": "Fresh independent read after the FIX07/FIX08 repairs on a live raster receipt; the reading lane neither built nor repaired the family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF04",
+      "previouslyReleasedAt": "2026-09-05T11:14:21.759Z",
+      "transferredAt": "2026-09-05T15:28:16.386Z",
+      "reason": "Fresh independent read after the FIX07/FIX08 repairs on a live raster receipt; the reading lane neither built nor repaired the family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_conviction_no_supervision-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF06",
+      "toLane": "VF04",
+      "previouslyReleasedAt": "2026-09-03T19:00:40.745Z",
+      "transferredAt": "2026-09-05T15:28:16.464Z",
+      "reason": "Fresh independent read after the FIX07/FIX08 repairs on a live raster receipt; the reading lane neither built nor repaired the family."
     }
   ],
   "withdrawals": [
