@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `bf44b5ce122d042ad2093c6e61aae5689618f5fc` (or the newer dispatch base)
+**Minimum required ancestor:** `2106bac6e6cd00139c916dbf4a15951594547629` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ar-drug-court-set' \
   --codex-cloud \
-  --minimum-captain-sha bf44b5ce122d042ad2093c6e61aae5689618f5fc
+  --minimum-captain-sha 2106bac6e6cd00139c916dbf4a15951594547629
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -46,8 +46,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'vt_exp_decriminalized-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ar-nonconviction-seal-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'nj_arrest_no_conviction-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'tx_exp_acquittal-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'nv_seal_probation_family-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'tx_nd_conviction_no_supervision-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -74,8 +74,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `sd_arrest_expungement-set`
 - `vt_exp_decriminalized-set`
 - `ar-nonconviction-seal-set`
-- `nj_arrest_no_conviction-set`
-- `tx_exp_acquittal-set`
+- `nv_seal_probation_family-set`
+- `tx_nd_conviction_no_supervision-set`
 
 ## What you receive
 
@@ -95,8 +95,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ar-drug-court-set.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
@@ -104,7 +104,8 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 - `scripts/build-census-v1-ar-nonconviction-seal-set.mjs`
-- `scripts/build-census-v1-tx_exp_acquittal-set.mjs`
+- `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
+- `scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs`
 
 ## Never write here
 

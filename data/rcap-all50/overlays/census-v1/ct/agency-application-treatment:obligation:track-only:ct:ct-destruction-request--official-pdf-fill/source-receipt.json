@@ -34,8 +34,21 @@
     },
     {
       "path": "data/rcap-ledger/completed-output-counsel-manifest.json",
-      "sha256": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
-      "byteLength": 321161
+      "sha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+      "byteLength": 321306,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-05",
+        "was": {
+          "sha256": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c",
+          "byteLength": 321161
+        },
+        "why": "The shared ledger was rewritten around this receipt's anchor by a Virginia route-mapping commit that did not touch this packet. Across the drift the ledger holds 57 family rows before and after, one modified (a Kansas row gaining two unblocked pathways) and one counter changed; the only Connecticut row in it is byte-identical, recovered from the historical blob carrying the previous pin and compared here. The bound content is unchanged and only the whole-file identity moved.",
+        "anchorsCompared": 1,
+        "anchorsIdentical": 1,
+        "previousPinLastSeenAtCommit": "eab70f9265c837929c0b73fc208e6c5c1db80670",
+        "driftedBy": "cb6cbf45eca2df8befa57905b51a658859b2323f",
+        "diagnosedBy": "FIX12; applied by Captain because choosing a released grant's destination is a dispatch act and that lane held no grant"
+      }
     }
   ],
   "formIdentityNote": "No official form or accepted request format is bound. The output is a preparation guide and not a written destruction request.",
