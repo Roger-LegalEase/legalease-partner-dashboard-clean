@@ -4976,29 +4976,115 @@ async function renderComposedPdf(fullText, title) {
     }
     blocks.push({ index: blocks.length, rows: wrap(raw), trailer: TRAILER_LINE.test(raw) });
   }
-  const pages = [[]];
-  for (const block of blocks) {
-    let page = pages[pages.length - 1];
-    if (block.rows.length <= rowsPerPage && page.length + block.rows.length > rowsPerPage) {
-      pages.push([]);
-      page = pages[pages.length - 1];
-    }
-    for (const text of block.rows) {
-      if (page.length === rowsPerPage) { pages.push([]); page = pages[pages.length - 1]; }
-      page.push({ text, block: block.index, trailer: block.trailer });
-    }
-  }
+  /*
+   * Rule 1b: the closing execution unit is one block, blank separators and all.
+   *
+   * Rule 1 stopped the contact block being torn in half. It stopped it by
+   * pushing the whole run of four contact lines onto the next page, and that
+   * next page then held nothing to say what they belonged to. Oklahoma canonical
+   * and boundary pages 15, 27, 39 and 51, and Washington canonical and boundary
+   * page 12, each opened on "PRINTED NAME:" and carried a mailing address, a
+   * telephone number, an email address and the route footer, while the
+   * "DATE ... SIGNATURE OF PETITIONER" line those details execute -- and the
+   * sentence saying the petitioner signs personally -- were both on the page
+   * before.
+   *
+   * The signature line, the instruction that governs it, the petitioner's own
+   * contact details and the route footer that closes the document are one thing
+   * to a reader. They are now one unit: the page break falls before the
+   * signature line or not at all, and the participant meets a signature page
+   * that says on its own face what is being signed.
+   *
+   * Neither Rule 1 nor the trailer pull-down below could reach this. A block
+   * here is a run of consecutive non-empty source lines, and the blank
+   * separators divide this unit into four of them; and soleOccupant needs a page
+   * whose every row is a trailer row, which these pages are not, because they
+   * carry four participant-facing contact lines as well.
+   *
+   * Ported from the North Dakota composer, where the unit is the same and the
+   * pagination underneath it is not.
+   */
+  const EXECUTION_LINE = /\bSIGNATURE OF\b/;
+  const executionStart = blocks.findIndex((block) => block.rows.some((row) => EXECUTION_LINE.test(row)));
+  let executionEnd = blocks.length;
+  while (executionEnd > executionStart + 1 && blocks[executionEnd - 1].rows.every((row) => row === "")) executionEnd -= 1;
+  const executionRows = executionStart < 0
+    ? 0
+    : blocks.slice(executionStart, executionEnd).reduce((total, block) => total + block.rows.length, 0);
 
-  const soleOccupant = (page) => page.length > 0 && page.every((r) => r.trailer || r.text === "");
-  for (let guard = 0; guard < blocks.length && pages.length > 1 && soleOccupant(pages[pages.length - 1]); guard++) {
-    const last = pages[pages.length - 1];
-    const previous = pages[pages.length - 2];
-    const moving = previous[previous.length - 1].block;
-    const moved = [];
-    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
-    if (moved.length === 0 || moved.length + last.length > rowsPerPage) { previous.push(...moved); break; }
-    last.unshift(...moved);
-    if (previous.length === 0) pages.splice(pages.length - 2, 1);
+  const paginate = (keepExecutionWhole) => {
+    const pages = [[]];
+    for (const block of blocks) {
+      let page = pages[pages.length - 1];
+      /* Rule 1b: the closing execution unit is measured whole, blanks included,
+       * before its first row is placed. */
+      if (keepExecutionWhole && block.index === executionStart
+          && executionRows <= rowsPerPage && page.length + executionRows > rowsPerPage) {
+        pages.push([]);
+        page = pages[pages.length - 1];
+      }
+      if (block.rows.length <= rowsPerPage && page.length + block.rows.length > rowsPerPage) {
+        pages.push([]);
+        page = pages[pages.length - 1];
+      }
+      for (const text of block.rows) {
+        if (page.length === rowsPerPage) { pages.push([]); page = pages[pages.length - 1]; }
+        page.push({ text, block: block.index, trailer: block.trailer });
+      }
+    }
+
+    const soleOccupant = (page) => page.length > 0 && page.every((r) => r.trailer || r.text === "");
+    for (let guard = 0; guard < blocks.length && pages.length > 1 && soleOccupant(pages[pages.length - 1]); guard++) {
+      const last = pages[pages.length - 1];
+      const previous = pages[pages.length - 2];
+      const moving = previous[previous.length - 1].block;
+      const moved = [];
+      while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+      if (moved.length === 0 || moved.length + last.length > rowsPerPage) { previous.push(...moved); break; }
+      last.unshift(...moved);
+      if (previous.length === 0) pages.splice(pages.length - 2, 1);
+    }
+    return pages;
+  };
+
+  /*
+   * Rule 1b costs a page whenever it fires, so it fires only where the defect is.
+   *
+   * Most components close on the page they were already closing on: the
+   * signature line, the contact details and the footer sit together with room to
+   * spare, and forcing the unit onto a fresh page there would add a page to a
+   * component that never had the defect. FIX17 measured exactly that on North
+   * Dakota -- an unconditional first version added an eighth page to the pardoned
+   * boundary packet for nothing -- and made the rule conditional. That property is
+   * carried here rather than re-argued: the layout is settled once, exactly as
+   * before, and Rule 1b is applied only if that settled layout actually divides
+   * the unit across a page break. Where it does not, paginate(false) is the
+   * pagination this family already shipped, row for row.
+   */
+  const unitPageCount = (laid) => new Set(
+    laid.flatMap((rows, index) => rows
+      .filter((r) => r.text !== "" && r.block >= executionStart && r.block < executionEnd)
+      .map(() => index)),
+  ).size;
+  let pages = paginate(false);
+  if (executionStart >= 0 && unitPageCount(pages) > 1) pages = paginate(true);
+
+  /*
+   * Proof, not intention: every drawn row of the closing execution unit landed
+   * on one page. This is the assertion that no packet can ship a page of contact
+   * details severed from the signature line they execute. A unit taller than a
+   * whole page is exempt and still flows, because there is no page it could fit
+   * on.
+   */
+  if (executionStart >= 0 && executionRows <= rowsPerPage) {
+    const drawn = pages.flatMap((rows, index) => rows
+      .filter((r) => r.text !== "" && r.block >= executionStart && r.block < executionEnd)
+      .map((r) => ({ page: index, text: r.text })));
+    const first = drawn.length ? drawn[0].page : null;
+    for (const row of drawn) {
+      assert.equal(row.page, first,
+        `${title}: the closing execution unit was split across a page break at ${JSON.stringify(row.text.slice(0, 60))}`);
+    }
   }
 
   for (const rows of pages) {
