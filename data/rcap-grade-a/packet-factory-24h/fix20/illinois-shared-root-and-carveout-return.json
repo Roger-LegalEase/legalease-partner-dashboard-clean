@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "rcap-lane-return/v1",
+  "lane": "FIX20",
+  "laneKind": "repair",
+  "wave": "packet-factory-24h/2026-09-05",
+  "verifiedAtBase": "77848f5a74e9679fcf6d87860d7114b2a1a20e21",
+  "worker": "FIX20 repair lane; two Illinois families with an overlapping failed-obligation pair",
+  "questionAsked": "Is the shared KNOWN_PREFILLS + REPEATING_ROWS pair one root defect or two?",
+  "answer": "ONE root, in a shared ancestor, with one of the two families already carved out of it and repaired before this lane opened.",
+  "answerEvidence": {
+    "sharedAncestor": "scripts/build-census-v1-il-exp-pardon-set.mjs",
+    "theSingleLine": "knownValue: if (/case number/.test(key) && !/arrest/.test(key)) return [fixture.caseNumber, \"matter.case_number\"];",
+    "whyOneLineProducesBothObligations": "Every field named 'List all charges for each case number - N' lowercases to a string containing 'case number' and not containing 'arrest', so the catch-all claims all twenty charge cells on EXP-AD Request pages 2 and 4 and writes the CASE NUMBER into them. That is the KNOWN_PREFILLS failure. Because the same rule writes rows 2 through 10 while no companion rule writes their arrest-number, agency, date or outcome cells, the same line also leaves 18 rows carrying exactly one populated cell. That is the REPEATING_ROWS failure. VF01 independently counted '18 visibly partial rows per fixture'; the classifier differential in this return reproduces 18 exactly.",
+    "whyItIsNotTwoRoots": "il-seal-edu-set was carved out of this same host by FIX04 at commit f133e556ef1bc9fc041b0345ed5e395851b5a29d, which rewrote its knownValue and rebuilt its fixtures. That commit is NOT an ancestor of fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e, the base both verifiers measured at, so VF03's six findings were measured against superseded bytes. il-exp-qualprob-set was still a three-line wrapper on the unrepaired host, so it still carried the defect. One root; two different points on its repair history.",
+    "measurementNotInheritance": "Neither family's rectangles were inherited from a sibling. Both families' own delivered bytes were extracted and measured, and the two builders were read in full rather than diffed and assumed."
+  },
+  "rows": [
+    {
+      "itemId": "il-seal-edu-set",
+      "familyId": "il-seal-edu-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+      "claim": "CLAIM_OK FIX20 il-seal-edu-set (repair, grant set 4cd224519dc30d17)",
+      "failedObligationNamesAtIntake": ["KNOWN_PREFILLS", "REPEATING_ROWS", "REQUIRED_BEFORE_FILING", "ROUTE_IDENTITY", "ROUTE_OPTIONS", "SELF_HELP_STOP"],
+      "rowText": "All six failed obligations on il-seal-edu-set are satisfied in the family's current delivered bytes, and this lane measured each one first-hand rather than inheriting the verdict. ROUTE_IDENTITY and ROUTE_OPTIONS: the delivered field map now writes only the sealing table on Request page 4 and selects only '12 - Seal Records' and item 22; the expungement table carries no write and item 15 is not selected, so the two incompatible route elections VF03 saw are gone. KNOWN_PREFILLS: no 'List all charges' field carries matter.case_number; the one charge cell written carries matter.charge. REPEATING_ROWS: Request page 4 row 1 is complete across all five columns and rows 2-10 are wholly blank; the EXP-AD Case List writes only arrest1, which is correct because that grid's cells are all 'Arrest or Case Number' slots rather than five columns of one row. REQUIRED_BEFORE_FILING: the guide now states the ISP Access and Review transcript, verification against certified dispositions, the per-case expunge-or-seal election, the hearing date and the wet signature as actions. SELF_HELP_STOP: all eight registry stop conditions are stated, including the four VF03 found missing. Five of the six were closed by FIX04 before this lane opened; this lane verified them and additionally repaired the family's SERVICE prose, which no verifier had failed here but which VF01 failed on identical text in the sibling family.",
+      "obligationClosureAttribution": {
+        "closedByFix04AtCommit": {
+          "commit": "f133e556ef1bc9fc041b0345ed5e395851b5a29d",
+          "obligations": ["KNOWN_PREFILLS", "REPEATING_ROWS", "REQUIRED_BEFORE_FILING", "ROUTE_IDENTITY", "ROUTE_OPTIONS", "SELF_HELP_STOP"]
+        },
+        "verifiedByThisLane": ["KNOWN_PREFILLS", "REPEATING_ROWS", "REQUIRED_BEFORE_FILING", "ROUTE_IDENTITY", "ROUTE_OPTIONS", "SELF_HELP_STOP"],
+        "repairedByThisLane": ["SERVICE prose, from the record, in both the builder template and the delivered guide"],
+        "honestNote": "This lane did not close the six obligations. It proved they are closed, and it repaired a seventh exposure the verifiers had split on."
+      },
+      "countersBefore": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "countersAfter": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "countersMeanNothingOnTheirOwn": "Both families read PASS_COMPLETE with nine zeros before and after. The nine zeros did not see a case number in twenty charge cells, four non-case-number values written into a court's case-number grid, or eight ellipsized values. Every finding in this return came from the delivered bytes, not from the counters.",
+      "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-seal-edu-set -> PASS_COMPLETE 40/424 written, before and after",
+      "fixturesMoved": false,
+      "fixtureDigests": {
+        "canonical": {"sha256": "3863ab5409c5b95420f2dbaf7c4ac0c6d72dce7247ef7858158c4fad309d89e5", "byteLength": 1734388, "unchangedFromBase": true},
+        "boundary": {"sha256": "9ed754037a2ec668375ef45cdb7b81599fabb37ee99c3fd55c3a38c739eef494", "byteLength": 1734953, "unchangedFromBase": true}
+      },
+      "rasterConsequence": "The fixtures did not move, so no fresh raster is owed and any standing receipt for these exact hashes still stands. The only delivered file this lane changed is participant-instructions.md, which carries no rendered page.",
+      "supersededVerifierHashes": {
+        "note": "VF03 recorded canonical e995bd6d9ac45b010632f7329ccd9818bacf03b2b42f7a65e14748acabcd91a0 / 1735090 bytes and boundary 686de38584efa750545d03543757b872cc052e7c95eac14a91084e4353015b26 / 1735719 bytes. Neither hash exists in the tree any more; FIX04 replaced both. Any reader still measuring il-seal-edu-set against VF03's row is measuring bytes that were superseded before VF03's verdict was read."
+      },
+      "filesChanged": [
+        "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/participant-instructions.md",
+        "scripts/build-census-v1-il-seal-edu-set.mjs"
+      ],
+      "builderAndDeliveredGuideAgree": "The replaced 'Filing and notice' section is byte-identical in the builder template and the delivered guide (843 bytes each), so a rebuild reproduces the delivered file rather than diverging from it."
+    },
+    {
+      "itemId": "il-exp-qualprob-set",
+      "familyId": "il-exp-qualprob-set",
+      "status": "STOPPED_BLOCKED_SOURCE",
+      "repairedByThisLane": false,
+      "builderRepairedByThisLane": true,
+      "laneKind": "repair",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-qualprob-set--official-pdf-fill",
+      "claim": "CLAIM_OK FIX20 il-exp-qualprob-set (repair, grant set 4cd224519dc30d17)",
+      "failedObligationNamesAtIntake": ["CLIPPING_AND_OVERLAP", "KNOWN_PREFILLS", "REPEATING_ROWS", "SERVICE"],
+      "rowText": "All four failed obligations on il-exp-qualprob-set were reproduced in the family's own delivered bytes and their causes were located, and a repair was written and proven not to be a no-op, but the repair COULD NOT BE APPLIED because the family's EXP-AD Case List source is absent from every custody mounted in this container. KNOWN_PREFILLS and REPEATING_ROWS are one defect: the shared host's catch-all writes the case number into all twenty 'List all charges for each case number' cells on Request pages 2 and 4, which both states a non-fact in the charge column and leaves 18 rows with a single populated cell. CLIPPING_AND_OVERLAP is a second, independent defect in the same host: safeSet slices to maxLength, shrinks to 6pt, then chops characters and appends an ellipsis, which truncated 8 values across the two delivered fixtures. SERVICE is a third: the guide says only that the clerk performs statutory service, naming neither the recipients nor the method, while IL.memo.json states both plainly. A fourth defect that no verifier and no counter reported was also found and is described in newDefectFoundNotPreviouslyReported. The repaired builder is committed and its self-test discriminates; the delivered fixtures are still the defective ones and this family is not repaired until it is rebuilt with the corpus mounted.",
+      "blockerClass": "absent_source_bytes",
+      "blocker": "The EXP-AD Case List, one of this family's four declared components, is absent by content hash from every custody mounted in this container. Its declared custody, nationwide_recovery_pool_2026_09_02, is not installed here.",
+      "missingDigest": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+      "missingDigestFacts": {
+        "byteLength": 744328,
+        "pageCount": 1,
+        "acroFieldCount": 78,
+        "declaredPath": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+        "declaredCustody": "nationwide_recovery_pool_2026_09_02",
+        "declaredCustodyRoot": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+        "custodyReceipt": "data/rcap-all50/NATIONWIDE_PARTIAL_CUSTODY_2026-09-02.json"
+      },
+      "whatWasCheckedAndRejected": {
+        "mountedCustodiesSearched": ["private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"],
+        "hashScan": "Every PDF in the mounted Master Library was hashed; none matches b72d30d2. STATES/IL/02_PACKET_FORMS carries only the EXP-AD Request, the EXP-AD Order Granting and the FW-CIV-APPLICATION.",
+        "recoveryKit": "The custody receipt records the kit at /tmp/legalease-nationwide-recovery/Nationwide_Corpus_Recovery_Kit. That path does not exist on this host.",
+        "releaseAssets": "Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 carries only the Master Library zip, its .sha256, an Oregon pack and a recovery report. No asset carries the recovery pool or the operational Nationwide tree.",
+        "whatWasNotDone": "No substitute binary was bound to the obligation and no fixture was rendered from anything other than the exact declared bytes."
+      },
+      "whatWouldUnblockIt": "The exact 744,328 bytes hashing to b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c, mounted in a custody this container can read. Then: node scripts/build-census-v1-il-exp-qualprob-set.mjs && node scripts/build-census-v1-il-exp-qualprob-set.mjs --self-test",
+      "countersBefore": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "countersAfter": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "countersAfterAreNotAClaimOfRepair": "These nine zeros are the same nine zeros that were true while the packet stated four non-facts in a court's case-number grid. They are recorded because the contract asks for them, not as evidence that anything was fixed.",
+      "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family il-exp-qualprob-set -> PASS_COMPLETE 71/424 written, before and after",
+      "fixturesMoved": false,
+      "fixtureDigests": {
+        "canonical": {"sha256": "24ae04d570ecd6e796f30b580b68d22e8870e1ea2a321204c266fc55941e6fe3", "byteLength": 1735035, "unchangedFromBase": true, "matchesVf01": true},
+        "boundary": {"sha256": "21731bad31dd1cb7340d13bbdfae9d5ec3d3b914948ad25b16d1240fbf93f62e", "byteLength": 1735665, "unchangedFromBase": true, "matchesVf01": true}
+      },
+      "rasterConsequence": "The fixtures did not move. They are byte-identical to the ones VF01 measured, so VF01's row still describes the current bytes exactly and no fresh raster is owed for a change this lane made. They remain defective.",
+      "filesChanged": ["scripts/build-census-v1-il-exp-qualprob-set.mjs"],
+      "deliveredDirectoryUntouched": "No file under this family's directory was written. The delivered guide was deliberately NOT hand-edited: it is a generated artifact, and hand-writing a repair into it would have left a directory no builder produces."
+    }
+  ],
+  "theFourFaultsInTheSharedHost": [
+    {
+      "fault": "knownValue catch-all on 'case number'",
+      "obligations": ["KNOWN_PREFILLS", "REPEATING_ROWS"],
+      "measured": "20 charge cells carry matter.case_number; 18 rows carry exactly one populated cell",
+      "repairedFor": "il-exp-qualprob-set (carve-out); already repaired for il-seal-edu-set by FIX04"
+    },
+    {
+      "fault": "EXP-AD Case List arrest1..arrest5 treated as five COLUMNS of one row",
+      "obligations": ["previously unreported"],
+      "measured": "arrest2..arrest5 received the arresting agency, the charge, the arrest date and the outcome. They are not columns. The grid is headed 'Arrest or Case Numbers of all Eligible Criminal Offenses on your Record in this County' and those cells are the first cell of five SUCCESSIVE ROWS: in the delivered canonical fixture all five values share xMin 54.1 and sit at y 387, 410, 433, 454 and 477, a uniform 22.4pt row pitch. The delivered packet therefore tells the circuit court that this participant has five eligible criminal offenses whose case numbers are '2021-CF-004217', 'Chicago Police Department', 'Charge exactly as shown o…', '03/12/2021' and 'Dismissed'.",
+      "repairedFor": "il-exp-qualprob-set (carve-out); already repaired for il-seal-edu-set by FIX04"
+    },
+    {
+      "fault": "safeSet truncates",
+      "obligations": ["CLIPPING_AND_OVERLAP"],
+      "measured": "8 ellipsized values in the delivered bytes: canonical page 7 'Charge exactly as shown o…'; boundary pages 2 and 4 'Springfield Police Department Records…' and 'Acquitted or dismissed…' on each; boundary page 7 'Springfield Police Departm…', 'Complete charge exactly a…' and 'Acquitted or dismissed as c…'. Each loses the arresting agency, the charge or the outcome.",
+      "repairedFor": "il-exp-qualprob-set (carve-out, via the proven setComplete: remove maxLength, shrink to 5.5pt, enable multiline only where the widget is at least 24pt tall, then assert the value survived); already repaired for il-seal-edu-set by FIX04"
+    },
+    {
+      "fault": "clerk case-number captions written",
+      "obligations": ["latent PROTECTED_FIELDS"],
+      "measured": "4 fields matching /^\\d+ - Case Number$/ carry participant ink: '7 - Case Number' on the Request, the Case List and the Order Granting, and '4 - Case Number' on the FW-CIV-APPLICATION. Both already-repaired Illinois families classify these as court-owned and refuse them, and il-seal-3yr-set carries an open PROTECTED_FIELDS failure that this is the likely cause of. VF01 did not report it for this family.",
+      "repairedFor": "il-exp-qualprob-set (carve-out); already repaired for il-seal-edu-set by FIX04"
+    }
+  ],
+  "newDefectFoundNotPreviouslyReported": {
+    "family": "il-exp-qualprob-set",
+    "class": "miswrite_into_a_court_owned_grid",
+    "whyNoInstrumentSawIt": "The nine counters were all zero, every write landed inside its measured box, no refused field carried ink, and no page-line census or glyph count is disturbed by a correct-looking string in a wrong cell. VF01 looked at this page and reported only that one value was ellipsized. The defect is that the value should not be in that cell at all.",
+    "howItWasFound": "By reading the form's own column heading in the delivered bytes and then confirming the geometry with pdftotext -bbox-layout, rather than by trusting the field-name ordering the builder assumed.",
+    "generalLesson": "A field named arrestN is not evidence that arrestN is the Nth column of anything. Two Illinois families had already been repaired on the correct reading and the host was never corrected to match them."
+  },
+  "crossCuttingFindings": [
+    {
+      "finding": "The SERVICE gap is repository-wide on this Illinois form set, including in a family already marked COMPLETE_PACKET_PROVEN.",
+      "evidence": "il-exp-supervision-set is COMPLETE_PACKET_PROVEN and passes all seven structural checks of the shared instrument, yet its guide fails the same four service-disclosure checks that VF01 failed il-exp-qualprob-set on. VF01 failed this prose and VF03 passed word-for-word identical prose in the sibling family, so the two verifiers applied different standards to the same text.",
+      "recordThatSettlesIt": "data/record-clearing/legal-design-intake/IL.memo.json sha256 fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106; tracks[il-exp-qualprob].rules.service and .rules.notice state who serves, who is served and the 60-day objection period plainly. The guides denied a fact the repository holds.",
+      "notOwnedByThisLane": "il-exp-supervision-set was not touched. Its guide still under-states service."
+    },
+    {
+      "finding": "Seven Illinois families carry the KNOWN_PREFILLS + REPEATING_ROWS pair, and the root has two loci, not one.",
+      "sharedHostLocus": {
+        "file": "scripts/build-census-v1-il-exp-pardon-set.mjs",
+        "stillServes": ["il-exp-pardon-set", "il-exp-precompletion-set", "il-seal-nonconv-set"],
+        "note": "il-exp-qualprob-set was the fourth until this lane carved it out. The host was left byte-identical (sha256 7810cec386a39e7d7723c5aaea247e4eb900b8554cb03cfcdb9a12b85389477d, unchanged from HEAD) so the three families this lane does not own are untouched."
+      },
+      "independentCopyLocus": {
+        "file": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
+        "note": "Carries its own verbatim copy of all three faults despite having its own script. This is the copy-paste shape rather than the shared-host shape, and it will not be fixed by any repair to the host."
+      },
+      "familiesWithOwnScriptsAndNoneOfTheThreeFaults": ["il-seal-2yr-set", "il-seal-3yr-set"],
+      "consequence": "il-seal-2yr-set and il-seal-3yr-set carry the same failed obligation names but not the same code. Their fixtures are probably stale relative to already-cleaned builders, exactly as il-seal-edu-set's were when VF03 measured them. They should be rebuilt and re-measured before any lane is dispatched to repair code that is already correct."
+    },
+    {
+      "finding": "A verification base can go stale inside a single operation, and a stale base reads as a defect.",
+      "evidence": "VF03 verified il-seal-edu-set at fbd22ae2ce6688d5a721c3ecfc2d1d649ac6269e. FIX04's repair landed at f133e556e, which is not an ancestor of that base. Five of VF03's six findings were already fixed when the verdict was written, and the fixture hashes VF03 recorded no longer exist in the tree. MASTER_QUEUE still carries VF03's row as the selected independent verdict.",
+      "recommendation": "A verifier row should be treated as describing the bytes it hashed, not the family. Comparing the row's recorded artifact hashes against the current fixtures is a one-line check that would have caught this before a repair lane was dispatched."
+    },
+    {
+      "finding": "The dispatch under-counted one family's obligations.",
+      "evidence": "The FIX20 assignment named four failed obligations for il-seal-edu-set. MASTER_QUEUE.json and VF03 both carry six: ROUTE_OPTIONS and SELF_HELP_STOP were omitted from the dispatch. Both were measured here and both are satisfied."
+    }
+  ],
+  "howTheRepairWasProvenWithoutBeingAbleToRun": {
+    "problem": "The repaired builder could not be executed because a declared source is absent, so the ordinary proof - rebuild and compare the directory - was unavailable. FIX16 was sent at a known patch that would have been a silent no-op, so shipping an unexercised patch is not acceptable.",
+    "instrumentOne": {
+      "name": "classifier differential over the family's real 424-field inventory",
+      "method": "The shared host's knownValue and protectedField were copied verbatim and run beside the proven builder's, over the complete field inventory reconstructed from production-field-map.json writes plus refusals (424 fields, matching the corpus index's own acroFieldCount for each of the four documents).",
+      "result": "28 of 424 fields change classification and 396 are untouched. 2 charge cells move from case number to charge, 18 charge cells in rows 2-10 become blank, 4 Case List cells become blank, and 4 clerk case-number captions become protected. The 18 reproduces VF01's independently counted '18 visibly partial rows per fixture' exactly.",
+      "whatItProves": "The repair is neither a no-op nor over-broad, and it changes exactly the fields the measured defects sit in."
+    },
+    "instrumentTwo": {
+      "name": "self-test against delivered artifacts, with a green baseline and a negative case",
+      "method": "The proven builder's --self-test reads the delivered artifacts rather than the sources, so it runs without the missing corpus.",
+      "greenBaseline": "node scripts/build-census-v1-il-exp-supervision-set.mjs --self-test -> passes on the COMPLETE_PACKET_PROVEN family, so the instrument can pass.",
+      "negativeCase": "The same assertions evaluated against il-exp-qualprob-set's current delivered artifacts fail 14 checks, naming each measured defect: 20 charge cells with the case number, 0 of 2 expected charge writes, 18 partial rows, 4 miswritten Case List cells, 4 written clerk captions, 1 ellipsized value, 0 of 4 protected clerk captions, and 7 missing guide disclosures.",
+      "whatItProves": "The instrument discriminates rather than passing everything, and every defect this lane claims is independently reproducible from the committed bytes by anyone who runs it."
+    },
+    "whatIsStillUnproven": "That the repaired builder produces a correct packet. That cannot be established without the Case List bytes, and this return does not claim it."
+  },
+  "nonNegotiablesObserved": {
+    "verifierBeforeAndAfter": "Run for both families before and after. Both PASS_COMPLETE with nine zeros in both directions, which is recorded as an instrument limitation rather than as evidence of health.",
+    "legalRecordCheckedBeforeAcceptingADenial": "IL.memo.json was read before any prose was written. It contradicted the guides on service, so the record was bound by digest and quoted verbatim rather than paraphrased.",
+    "noWriteOnHiddenOrProtectedFields": "No widget was written by this lane at all; no fixture was rendered.",
+    "noDateOnASwornDocument": "No date was written. The Request's verification block is sworn under penalty of perjury and remains a refusal.",
+    "fitOrRefuseNeverTruncate": "The carve-out replaces the ellipsizing safeSet with the proven setComplete, which asserts field.getText() equals the value it was given and refuses when a value cannot fit safely.",
+    "characterStreamProof": "No fixture byte changed, so the whitespace-stripped character stream of all 26 pages across both families is trivially identical before and after; the four fixture digests are recorded above and are unchanged.",
+    "identityRefreshSurvives": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED; 245 receipts compared against HEAD, 52 carrying an identityRefresh, none erased. No rebuild occurred, so no annotation was at risk.",
+    "recursiveDirectoryComparison": "git diff HEAD over both family directories reports one changed file, il-seal-edu-set/participant-instructions.md, 5 insertions and 1 deletion. Nothing else under either directory moved.",
+    "worktreeIntegrity": "Sparse-checkout was disabled before anything was measured. 15731 tracked files, 15731 on disk, and every file's on-disk size compared against its blob size in the tree with zero mismatches, so no file was truncated."
+  },
+  "grantsNothing": "This return repairs code and one guide. It promotes no family, opens no commercial route, sets no price, enrols no raster, and grants no production authority. il-exp-qualprob-set remains FAIL_REPAIR_REQUIRED and its delivered fixtures remain defective."
+}
