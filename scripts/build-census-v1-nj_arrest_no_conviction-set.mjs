@@ -274,6 +274,15 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
     "participant.state": location.state,
     "participant.zip": zip,
     "participant.city_state_zip": `${city}, ${location.state} ${zip}`,
+    /*
+     * FIX76: the two facts a "(state, zip code)" line asks for, composed in the
+     * order that line prints them. It is derived from the same two held facts
+     * this build already writes into DefAddrSt and DefAddrZip, so it adds no
+     * knowledge -- it only lets one box carry the pair the box is labelled for.
+     * Read by NJ-CN-10557's DefAddr3 alone; every other family on this host is
+     * byte-unaffected by its existence.
+     */
+    "participant.state_zip": `${location.state} ${zip}`,
     "participant.phone": boundary ? `${location.phone} extension 44821` : location.phone,
     "matter.county": county,
     ...(jurisdiction === "PA" ? {
@@ -343,11 +352,51 @@ const { "Statute DescriptionRow1": _paRow1ChargeCell, ...PA_PETITION_ALLOW_TABLE
 // source field name opens one known fact and no unknown field can match it.
 // Route-specific charges and elections remain in each FAMILY entry below.
 const SHARED_EXACT_FACT_ALLOWLIST = Object.freeze({
+  /*
+   * FIX76, KNOWN_PREFILLS: the caption block, read off the form's own printed
+   * labels instead of off the field names.
+   *
+   * CN-10557 prints the petitioner's caption block as five ruled lines, each
+   * labelled at its left margin: "(your name)", "(your address)", "(city)",
+   * "(state, zip code)" and -- on the Petition page only -- "(your telephone
+   * number)". The five AcroForm widgets that sit on those lines are DefName,
+   * DefAddrStr, DefAddr2, DefAddr3 and DefPhone, in that order down the block.
+   *
+   * This table used to write participant.city_state_zip into DefAddr2 and
+   * participant.phone into DefAddr3. The first is a compression -- three facts
+   * in the box the form printed for one -- and the second is a substitution:
+   * the delivered page read "(state, zip code) 973-555-0142". DefAddr3 carries
+   * SEVEN widgets and every one of them sits on a "(state, zip code)" line:
+   * the Form A petition caption, the Form B order-for-hearing caption, the
+   * Form C proposed-order caption and the Form D, E and G cover letters --
+   * every filed and served document in the set. The participant's state and
+   * ZIP are facts this build already holds and already writes elsewhere on the
+   * same page (DefAddrSt, DefAddrZip in the residing-at block), so this was
+   * never an unavailable fact: it was a held fact displaced by a different one.
+   *
+   * The repair is the mapping the printed labels ask for. DefAddr2 takes the
+   * city alone. DefAddr3 takes the state and the ZIP, composed as
+   * participant.state_zip -- one string for one box, in the order the caption
+   * names them.
+   *
+   * THE TELEPHONE. The form labels exactly one box for it, DefPhone on the
+   * Petition caption, and NJ_CONTACT_ALLOW already writes participant.phone
+   * there; that write is unchanged. On the other six caption blocks the form
+   * prints no telephone line at all, so the number is not written there. It is
+   * not refused for want of a fact -- it is not asked for, and a fact nobody
+   * asked for does not get a box belonging to another fact.
+   *
+   * Document-scoped rather than family-scoped on purpose: the printed labels
+   * are a property of CN-10557, not of a route, so the same correction is owed
+   * to every family that renders this kit. nj_clean_slate-set renders it too
+   * and is not in this lane's grant; its bytes move for exactly this reason and
+   * the lane record says so rather than committing them.
+   */
   "NJ-CN-10557": Object.freeze({
     DefName: "participant.full_legal_name",
     DefAddrStr: "participant.street_address",
-    DefAddr2: "participant.city_state_zip",
-    DefAddr3: "participant.phone",
+    DefAddr2: "participant.city",
+    DefAddr3: "participant.state_zip",
     ExpungeCntyName: "matter.county",
     DefBirthDt: "participant.date_of_birth",
     origCaseNums: "matter.case_number",
@@ -590,6 +639,54 @@ const PA_6308_SERVICE_CERTIFICATE = Object.freeze({
   ]),
 });
 
+/*
+ * FIX76, REPEATING_ROWS: the one arrest row this kit's proposed order writes.
+ *
+ * Page 31 of CN-10557 prints five numbered rows, each reading "(n) (date) ___
+ * arrest/custody on the charge of violating N.J.S.A. (statute) ___ under
+ * (original indictment/accusation/summons/warrant/complaint/FJ or FO docket
+ * number) ___". Rows (2) to (5) are wholly blank on every fixture and are not
+ * at issue. Row (1) carried a date and a docket number with the statute cell
+ * between them left blank, on the order a judge signs.
+ *
+ * All three cells are named here, including arrest1Statute, which no fact
+ * mapping opens: the platform holds `matter.charge`, a charge DESCRIPTION, and
+ * an N.J.S.A. citation is not derivable from a description. Naming it makes it
+ * a permanent break in the row, so the row is delivered untouched and every
+ * withheld cell is disclosed to the participant by its printed caption. The
+ * same three cells are the same row on every New Jersey family that renders
+ * this kit, so the group is declared once and shared by the four families this
+ * lane holds; nj_clean_slate-set is not one of them and does not take it.
+ */
+/*
+ * FIX76, COMPONENT_SET: where the four official-form components of every New
+ * Jersey kit family land on the delivered paper.
+ *
+ * Read off the delivered fixture with pdftotext rather than assumed from the
+ * source: each page below prints the form letter named beside it in its own
+ * heading. The four families that share this table render the same 43-page kit
+ * in the same order, so the page numbers are the same on each.
+ */
+const NJ_KIT_OFFICIAL_COMPONENTS = Object.freeze({
+  primary_filing: Object.freeze({
+    deliveredIn: "CN-10557 delivered pages 18 and 19 — Petition for Expungement (Form A), the caption block and the numbered petition items.",
+  }),
+  statements_accompanying_petition: Object.freeze({
+    deliveredIn: "CN-10557 delivered pages 20 to 24 — Form A – Addendum Page (page 20), Form A – Continued (pages 21 to 23) and the Verification, Form A - Continued (page 24).",
+  }),
+  order_for_hearing: Object.freeze({
+    deliveredIn: "CN-10557 delivered page 27 — Order for Hearing (Form B), with the Judiciary's own instructions for completing it at delivered pages 25 and 26.",
+  }),
+  proposed_order: Object.freeze({
+    deliveredIn: "CN-10557 delivered pages 30 to 33 — Expungement Order (Form C) and Form C - Continued, with the Judiciary's own instructions for it at delivered pages 28 and 29.",
+  }),
+});
+
+const NJ_ORDER_ARREST_ROW_1 = Object.freeze({
+  row: "Expungement Order (Form C), arrest table row 1, delivered page 31",
+  fields: ["arrest1Dt", "arrest1Statute", "arrest1CaseNum"],
+});
+
 const NJ_CONTACT_ALLOW = {
   DefPhone: "participant.phone", DefAddrStr2: "participant.street_address",
   DefAddrCity: "participant.city", DefAddrSt: "participant.state", DefAddrZip: "participant.zip",
@@ -715,6 +812,59 @@ Object.assign(FAMILY, {
         "- Any Title 39 motor vehicle matter, including DWI, which N.J.S.A. 2C:52-28 puts outside the chapter entirely.",
         "**If you are not a United States citizen, the immigration condition above is a hard stop, not a caveat.** Ask a New Jersey immigration attorney before you sign or file. A New Jersey expungement has no federal immigration effect, and this packet does not tell you what any immigration authority already holds or will do.",
         "**Where to ask, and for what.** The kit's own page 3 says it plainly: the court system can be confusing and it is a good idea to get a lawyer. If you cannot afford one, contact the legal services programme in your county to see whether you qualify for free legal services — their number is listed online under Legal Aid or Legal Services. If you do not qualify and need help finding an attorney, your county bar association's lawyer referral service can give you names, and some of those attorneys will consult at a reduced fee. The Criminal Case Management Office can explain how the court works, what the filing requirements are, and what its deadlines are; the kit states in the same place that court staff **cannot** give you legal advice. Only a lawyer can.",
+      ],
+      /*
+       * FIX76, COMPONENT_SET. The route declares eight components. The four
+       * official-form ones are the kit's own pages; of the four process-guidance
+       * ones, this family already answered two in its own declared sections and
+       * answered neither of the other two anywhere. Both are rendered here from
+       * this route's own committed track record.
+       */
+      registryGuidance: {
+        trackId: "nj_arrest_no_conviction",
+        sections: ["record_gathering_instructions", "post_order_service_checklist"],
+      },
+      componentDelivery: {
+        ...NJ_KIT_OFFICIAL_COMPONENTS,
+        record_gathering_instructions: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed participantFilingRequirements.",
+          heading: "## Records to gather before you file",
+        },
+        efiling_instructions: {
+          deliveredIn: "participant-instructions.md, which names the eCourts Expungement System as the alternative route, the kit-forms route this packet is, and the rule against filing the same petition both ways.",
+          heading: "## Where to file",
+        },
+        service_and_objection_instructions: {
+          deliveredIn: "participant-instructions.md, which names every recipient the kit lists, the certified-mail method, the five-day period from the signing of the Order for Hearing, and records that no held source establishes an objection period.",
+          heading: "## Who must be served",
+        },
+        post_order_service_checklist: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed manualCompletionItems and packetInstructions.",
+          heading: "## After the order is signed",
+        },
+      },
+      /*
+       * FIX76, REQUIRED_BEFORE_FILING. Independent verification measured the
+       * fifty declared items as correct and found one blank missing from them:
+       * paragraph 1 of the sworn Petition, delivered page 18. It carries no
+       * AcroForm widget, so it can reach no field map and no widget-derived
+       * list; the packet nevertheless HOLDS the arrest date and prints it on
+       * the proposed order at page 31, so a participant filing this petition
+       * would swear to a paragraph whose own date line is empty. The plea
+       * bargain pair on page 19 is the same class: a printed participant
+       * election, delivered unmarked, disclosed nowhere.
+       */
+      unwidgetedParticipantBlanks: [
+        {
+          page: 18,
+          printed: "\u201cI was arrested/taken into custody on (date) ______\u201d \u2014 Petition for Expungement (Form A), paragraph 1",
+          whatGoesThere: "The arrest or custody date. This packet holds it and prints it on the proposed Expungement Order at delivered page 31; copy the same date onto this line by hand. There is no fill-in box on this line for any build to write into.",
+        },
+        {
+          page: 19,
+          printed: "\u201cWas the dismissal a result of a plea bargain? [ ] Yes [ ] No\u201d \u2014 Petition for Expungement (Form A), item a",
+          whatGoesThere: "Your own answer. This is an election about your case, not a fact the platform holds, and it is delivered unmarked; mark the box that is true before you sign.",
+        },
       ],
     },
     {
@@ -1046,10 +1196,7 @@ Object.assign(FAMILY, {
        * kit for the other four New Jersey families and they are not in this
        * lane's grant.
        */
-      repeatingRowGroups: [{
-        row: "Expungement Order (Form C), arrest table row 1, delivered page 31",
-        fields: ["arrest1Dt", "arrest1CaseNum"],
-      }],
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
     }
   ),
   "nj_clean_slate-set": njFamily(
@@ -1063,23 +1210,180 @@ Object.assign(FAMILY, {
     ["guilty"], { guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge",
       guiltyCrt: "matter.court" },
     "The measured conviction control is marked; no clean-slate or marijuana election is made.",
-    {},
+    {
+      registryGuidance: {
+        trackId: "nj_disorderly_persons",
+        sections: [
+          "record_gathering_instructions",
+          "post_order_service_checklist",
+          "transcript_protection_disclosure",
+        ],
+      },
+      /*
+       * FIX76, COMPONENT_SET. Ten declared components. Four are the kit's own
+       * pages. Four of the six process-guidance ones this family's own
+       * entrypoint script already writes into the guide after this host runs,
+       * and those are recorded here as delivered BY that entrypoint and checked
+       * there rather than here. The two nothing carried are rendered above from
+       * this route's own committed record: the records to gather, and the
+       * statutory transcript protection, which the registry states word for
+       * word and no delivered page of this packet said.
+       */
+      componentDelivery: {
+        ...NJ_KIT_OFFICIAL_COMPONENTS,
+        record_gathering_instructions: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed participantFilingRequirements.",
+          heading: "## Records to gather before you file",
+        },
+        efiling_instructions: {
+          deliveredIn: "participant-instructions.md, which names the eCourts Expungement System and the kit-forms route and forbids filing the same petition both ways.",
+          heading: "## Where to file",
+          byEntrypoint: true,
+        },
+        service_and_objection_instructions: {
+          deliveredIn: "participant-instructions.md, which carries this route's held notice list and keeps the rule that a service certificate is completed only after service occurs.",
+          heading: "## Who must be served",
+          byEntrypoint: true,
+        },
+        post_order_service_checklist: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed manualCompletionItems and packetInstructions.",
+          heading: "## After the order is signed",
+        },
+        transcript_protection_disclosure: {
+          deliveredIn: "participant-instructions.md, carrying the statutory transcript protection word for word from this route's committed packetInstructions.",
+          heading: "## Transcripts you are not required to produce",
+        },
+        counting_disclosure: {
+          deliveredIn: "participant-instructions.md, the held self-help lists, which name \u201cCounting disputes at the five-offence line.\u201d and \u201cMarijuana regrading analysis.\u201d as points where self-help ends.",
+          heading: "## Where self-help ends",
+          byEntrypoint: true,
+        },
+      },
+    },
     {
       fitTextPerWidget: true,
       deny: ["ExpungeCntyName"],
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
     }
   ),
   "nj_indictable_conviction-set": njFamily(
     "obligation:track-only:NJ:nj_indictable_conviction", ["guilty"], {
       guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
     },
-    "The measured conviction control is marked; degree and statutory eligibility remain unselected."
+    "The measured conviction control is marked; degree and statutory eligibility remain unselected.",
+    {
+      /*
+       * FIX76, COMPONENT_SET. The route declares nine components. This family
+       * bound the four official-form ones and delivered none of the five
+       * process-guidance ones: its guide named no court, no fee, no service
+       * list, no e-filing route and no record-gathering step. All five are
+       * rendered from this route's own committed track record and from the
+       * delivered pages of the enclosed kit, carried rather than composed, and
+       * each is bound to a heading the build then checks is present.
+       */
+      registryGuidance: {
+        trackId: "nj_indictable_conviction",
+        sections: [
+          "record_gathering_instructions",
+          "efiling_instructions",
+          "service_and_objection_instructions",
+          "post_order_service_checklist",
+          "eligibility_analysis_disclosure",
+        ],
+      },
+      componentDelivery: {
+        ...NJ_KIT_OFFICIAL_COMPONENTS,
+        record_gathering_instructions: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed participantFilingRequirements.",
+          heading: "## Records to gather before you file",
+        },
+        efiling_instructions: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed venue, destination and eCourts manualCompletionItems entry, together with the office the enclosed kit names on its own delivered pages 10 and 11.",
+          heading: "## Where to file, and the e-filing route",
+        },
+        service_and_objection_instructions: {
+          deliveredIn: "participant-instructions.md, which points to the enclosed kit's own delivered pages 10 and 11 for the recipients, the certified-mail method and the five-day period, carries this route's committed statement on serving the signed order, and records that no held source establishes an objection period.",
+          heading: "## Who must be served, and what an objection is",
+        },
+        post_order_service_checklist: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed manualCompletionItems and packetInstructions.",
+          heading: "## After the order is signed",
+        },
+        eligibility_analysis_disclosure: {
+          deliveredIn: "participant-instructions.md, which states that this packet performs no eligibility analysis and carries this route's committed selfHelpStopConditions and the analyses its own record still lists as unencoded.",
+          heading: "## What this packet does not decide about your eligibility",
+        },
+      },
+    },
+    {
+      /*
+       * FIX76, CLIPPING_AND_OVERLAP. `DefName` carries twenty widgets on this
+       * kit, from 208.2 to 366.2 points wide, and without this flag the shared
+       * finalizer measures the fit on widgets[0] alone and stamps that one size
+       * into all twenty. On the boundary persona the 70-character petitioner
+       * name then fitted at 6.5pt on the widest box and was CUT at the clip
+       * edge of the narrower ones -- the caption of the Form A petition, the
+       * Form B order for hearing, the Form C proposed order and the Form D, E
+       * and G cover letters all named a shorter, different person, while the
+       * build's own report called the write "shrunk". The sibling family
+       * nj_disorderly_persons-set has carried this flag since FIX01 and clips
+       * nothing; this is that setting, not a new one.
+       */
+      fitTextPerWidget: true,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+    }
   ),
   "nj_ordinance-set": njFamily(
     "obligation:track-only:NJ:nj_ordinance", ["guilty"], {
       guiltyDt: "matter.conviction_date", guiltyOff1: "matter.charge", guiltyCrt: "matter.court",
     },
-    "The measured conviction control is marked; the ordinance characterization is not inferred into another control."
+    "The measured conviction control is marked; the ordinance characterization is not inferred into another control.",
+    {
+      /*
+       * FIX76, COMPONENT_SET. Eight declared components, four bound and four
+       * process-guidance ones delivered nowhere; see the note on
+       * nj_indictable_conviction-set above. The same four are rendered here
+       * from THIS route's own committed record, not from that one's: the
+       * ordinance track carries its own venue, destination, filing
+       * requirements and completion items, and they are what is quoted.
+       */
+      registryGuidance: {
+        trackId: "nj_ordinance",
+        sections: [
+          "record_gathering_instructions",
+          "efiling_instructions",
+          "service_and_objection_instructions",
+          "post_order_service_checklist",
+        ],
+      },
+      componentDelivery: {
+        ...NJ_KIT_OFFICIAL_COMPONENTS,
+        record_gathering_instructions: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed participantFilingRequirements.",
+          heading: "## Records to gather before you file",
+        },
+        efiling_instructions: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed venue, destination and eCourts manualCompletionItems entry, together with the office the enclosed kit names on its own delivered pages 10 and 11.",
+          heading: "## Where to file, and the e-filing route",
+        },
+        service_and_objection_instructions: {
+          deliveredIn: "participant-instructions.md, which points to the enclosed kit's own delivered pages 10 and 11 for the recipients, the certified-mail method and the five-day period, carries this route's committed statement on serving the signed order, and records that no held source establishes an objection period.",
+          heading: "## Who must be served, and what an objection is",
+        },
+        post_order_service_checklist: {
+          deliveredIn: "participant-instructions.md, the section rendered from this route's committed manualCompletionItems and packetInstructions.",
+          heading: "## After the order is signed",
+        },
+      },
+    },
+    {
+      // FIX76, CLIPPING_AND_OVERLAP: see nj_indictable_conviction-set above.
+      // This family renders the same kit from the same twenty DefName widgets
+      // and carried the same truncated boundary name on the same fourteen
+      // delivered pages.
+      fitTextPerWidget: true,
+      repeatingRowGroups: [NJ_ORDER_ARREST_ROW_1],
+    }
   ),
   "ny_160_59_petition-set": {
     jurisdiction: "NY",
@@ -3026,6 +3330,18 @@ function confirmBeforeFilingLine(config) {
     if (item === "fees" && config.feeAndWaiver?.length) { answered.push("Cost"); return false; }
     if (item === "filing destination" && config.filingDestination?.length) { answered.push("Where to file"); return false; }
     if (item === "service" && config.service?.length) { answered.push("Who must be served"); return false; }
+    // FIX76: a section rendered from the committed track record answers the
+    // same question a declared section does, so the catch-all drops the item
+    // either way. A sentence that tells the participant to go and confirm
+    // something the packet answers three headings below is the defect this
+    // function exists to stop, whichever section supplies the answer.
+    const rendered = new Set(config.registryGuidance?.sections ?? []);
+    if (item === "filing destination" && rendered.has("efiling_instructions")) {
+      answered.push("Where to file"); return false;
+    }
+    if (item === "service" && rendered.has("service_and_objection_instructions")) {
+      answered.push("Who must be served"); return false;
+    }
     return true;
   });
   const list = `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
@@ -3069,6 +3385,231 @@ function heldButNotPrintedSection(rows) {
     + `${lines.join("\n")}\n`;
 }
 
+/*
+ * FIX76, COMPONENT_SET and REQUIRED_BEFORE_FILING: the two sections below, and
+ * why they are rendered from the committed record rather than written here.
+ *
+ * The route's packet-set manifest names components this build was delivering
+ * nowhere and disclosing nowhere: record gathering, e-filing, service and
+ * objection, the post-order checklist, and one disclosure per route. A
+ * component that is neither rendered nor recorded as deliberately not generated
+ * is a gap the packet's own records do not show, which is the thing the
+ * manifest exists to prevent.
+ *
+ * Everything these sections say is CARRIED, not composed. The text comes from
+ * two places and each sentence names which: this route's own committed track
+ * record in data/record-clearing/legal-design-track-registry.json, quoted word
+ * for word, and the delivered pages of the Judiciary's own kit, cited by the
+ * page number they occupy in this packet. Nothing is inferred from either, no
+ * figure, period or recipient appears that neither establishes, and where a
+ * fact is open the section says it is open rather than filling it.
+ */
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+
+/*
+ * FIX76, COMPONENT_SET: the route's own component list, and one disposition for
+ * every entry on it.
+ *
+ * The completeness verifier asks whether every documentId the field map or the
+ * source receipt names reaches a rendered artifact. It never opens the packet-
+ * set manifest, so a component the ROUTE declares and the family never binds is
+ * invisible to it: nine counters read zero while five required components of a
+ * nine-component route were rendered nowhere, mapped to no page, named in no
+ * section and disclosed nowhere.
+ *
+ * This closes that by making the manifest the list and requiring the family to
+ * answer it entry by entry. Each component is either DELIVERED -- naming the
+ * delivered pages of the fixture, or the heading of the section of
+ * participant-instructions.md that carries it -- or NOT GENERATED with a stated
+ * reason, recorded in reports/rendered-artifacts.json componentsNotGenerated
+ * the way pa_490_nonconviction-set records PA-IFP-MDJ. A role the manifest
+ * declares and the family does not answer fails the build; there is no third
+ * outcome and no silence.
+ *
+ * `byEntrypoint` marks a section a family's own entrypoint script writes after
+ * this host has run, so the host records the claim and the entrypoint checks
+ * it. Everything else is checked here, against the guide this build just wrote.
+ */
+function packetSetManifestFor(familyId) {
+  const manifests = readJson(PACKET_SET_MANIFESTS);
+  const set = (manifests.packetSets ?? []).find((row) => row.packetSetId === familyId);
+  assert.ok(set, `${familyId}: no packet-set manifest declares this route's components`);
+  return set;
+}
+
+function manifestComponentDelivery(familyId, config) {
+  if (!config.componentDelivery) return null;
+  const set = packetSetManifestFor(familyId);
+  const components = set.components.map((component) => {
+    const disposition = config.componentDelivery[component.role];
+    assert.ok(disposition,
+      `${familyId}/${component.componentId}: the route declares this component and the family answers it nowhere`);
+    assert.ok(disposition.deliveredIn || disposition.notGenerated,
+      `${familyId}/${component.componentId}: a disposition must deliver the component or say why it is not generated`);
+    return {
+      componentId: component.componentId,
+      role: component.role,
+      requirement: component.requirement,
+      outputStrategy: component.outputStrategy,
+      officialFormId: component.officialFormId,
+      disposition: disposition.notGenerated ? "not_generated" : "rendered",
+      ...(disposition.deliveredIn ? { deliveredIn: disposition.deliveredIn } : {}),
+      ...(disposition.heading ? { participantInstructionsHeading: disposition.heading } : {}),
+      ...(disposition.byEntrypoint ? { writtenBy: `family entrypoint scripts/build-census-v1-${familyId}.mjs` } : {}),
+      ...(disposition.notGenerated ? { why: disposition.notGenerated } : {}),
+    };
+  });
+  return {
+    manifest: PACKET_SET_MANIFESTS,
+    packetSetId: set.packetSetId,
+    manifestVersion: set.version ?? null,
+    declaredComponents: components.length,
+    rendered: components.filter((row) => row.disposition === "rendered").length,
+    notGenerated: components.filter((row) => row.disposition === "not_generated").length,
+    measuredAgainst: "the route's own component list, entry by entry; a role the manifest declares and this family answers nowhere fails the build",
+    components,
+  };
+}
+
+function assertComponentDeliverySections(config, delivery, instructions, familyId) {
+  if (!delivery) return;
+  for (const component of delivery.components) {
+    const heading = component.participantInstructionsHeading;
+    if (!heading || component.writtenBy) continue;
+    assert.ok(instructions.includes(`\n${heading}\n`),
+      `${familyId}/${component.componentId}: the guide does not carry the section "${heading}" this component is recorded as delivered in`);
+  }
+}
+
+function njRegistryTrackRecord(trackId) {
+  const registry = readJson("data/record-clearing/legal-design-track-registry.json");
+  const track = (registry.tracks ?? []).find((row) => row.trackId === trackId);
+  assert.ok(track, `${trackId}: committed legal-design track record is absent`);
+  return track;
+}
+
+function registryGuidanceSections(config) {
+  const spec = config.registryGuidance;
+  if (!spec) return "";
+  const track = njRegistryTrackRecord(spec.trackId);
+  const cite = "`data/record-clearing/legal-design-track-registry.json`, track "
+    + `\`${spec.trackId}\``;
+  const manual = (prefix) => {
+    const row = (track.manualCompletionItems ?? []).find((item) => item.item.startsWith(prefix));
+    assert.ok(row, `${spec.trackId}: manualCompletionItems has no entry starting "${prefix}"`);
+    return row;
+  };
+  const want = new Set(spec.sections);
+  const out = [];
+
+  if (want.has("record_gathering_instructions")) {
+    const rows = (track.participantFilingRequirements ?? []).map((row) => {
+      const need = row.requirement === "required" ? "Required" : "Conditional";
+      // The registry writes some condition descriptions with a full stop and
+      // some without; the sentence supplies its own, so a carried one is not
+      // doubled.
+      const when = row.conditionDescription
+        ? ` — ${row.conditionDescription.replace(/\.\s*$/, "")}` : "";
+      return `- **${row.name}** — obtained from ${row.obtainedFrom}. ${need}${when}. ${row.howToObtain}`;
+    });
+    assert.ok(rows.length > 0, `${spec.trackId}: no participantFilingRequirements to render`);
+    out.push(`\n## Records to gather before you file\n\n`
+      + `Every line below is carried word for word from this route's own committed record — ${cite}, \`participantFilingRequirements\`. None of them is a statutory attachment to the petition; they are what the petition's own facts are checked against, and the agency list the signed order is later served on comes out of the first one.\n\n`
+      + `${rows.join("\n")}\n\n`
+      + `The State Police fee named above is a charge for the record. It is not the court's filing fee: the enclosed kit states the court's own position in a running footer on four of its delivered pages — *Kit updated 06/2020 to remove the filing fee, CN 10557*.\n`);
+  }
+
+  if (want.has("efiling_instructions")) {
+    const ecourts = manual("Filing through the eCourts");
+    out.push(`\n## Where to file, and the e-filing route\n\n`
+      + `**Venue.** ${track.venue}\n\n`
+      + `**Destination.** ${track.destination.name}. ${track.destination.detail}\n\n`
+      + `**The e-filing route.** The Judiciary's eCourts Expungement System is the other way to file, and this route's committed record describes it in its own words: "${ecourts.why}" It is recorded there as an item the participant completes. This packet is the kit-forms route; it submits nothing for you, and you do not file the same petition both ways.\n\n`
+      + `**On paper.** The enclosed kit names the office that receives a mailed package on its own delivered pages 10 and 11 — the Criminal Case Management Office of the county you are filing in, whose list and telephone numbers the kit prints at its end.\n\n`
+      + `Venue, destination and the e-filing item are carried from ${cite}, \`venue\`, \`destination\` and \`manualCompletionItems\`.\n`);
+  }
+
+  if (want.has("service_and_objection_instructions")) {
+    const served = manual("Serving a certified copy of the signed order");
+    out.push(`\n## Who must be served, and what an objection is\n\n`
+      + `**Nobody is served until the court hands filed copies back.** The enclosed kit sets the whole service step out on its own delivered pages 10 and 11: who receives a copy, that each is mailed by certified mail return receipt requested, and that mailing happens within five (5) days from the date the Order for Hearing was signed. Those pages are bound into this packet; read the list there rather than from any summary of it.\n\n`
+      + `**Serving the signed order is a second, later step.** This route's committed record states why it matters, word for word: "${served.why}" — ${cite}, \`manualCompletionItems\`.\n\n`
+      + `**Objections.** This route's committed record names prosecutor objection among the points where self-help ends — ${cite}, \`selfHelpStopConditions\`. No objection period is stated in this packet, because no held record establishes one. The Criminal Case Management Office that holds your expungement docket number is the office that can tell you.\n`);
+  }
+
+  if (want.has("post_order_service_checklist")) {
+    const served = manual("Serving a certified copy of the signed order");
+    const notes = (track.packetInstructions ?? [])
+      .filter((note) => !/transcripts or presentence reports/i.test(note))
+      .map((note) => `- ${note}`);
+    out.push(`\n## After the order is signed\n\n`
+      + `- **${served.item}** — ${served.whereInPacket}. ${served.why}\n`
+      + `- **Use the letter the kit provides for that mailing.** Cover Letter — Notice Expungement Granted (Form G) is bound into this packet at delivered pages 41 to 43, and the Proof of Notice (Form F) at pages 39 and 40 is where the kit puts proof of the earlier mailing.\n`
+      + `- **Leave the docket number and the signature to their owners.** The kit captions the Expungement Docket Number "(leave blank - clerk will fill in)", and the judge signs the order.\n\n`
+      + (notes.length
+        ? `This route's own recorded notes on what follows, carried word for word from ${cite}, \`packetInstructions\`:\n\n${notes.join("\n")}\n`
+        : "")
+      + `\nThe first item is carried from ${cite}, \`manualCompletionItems\`.\n`);
+  }
+
+  if (want.has("transcript_protection_disclosure")) {
+    const note = (track.packetInstructions ?? [])
+      .find((row) => /transcripts or presentence reports/i.test(row));
+    assert.ok(note, `${spec.trackId}: no committed transcript-protection statement to carry`);
+    out.push(`\n## Transcripts you are not required to produce\n\n`
+      + `${note}\n\n`
+      + `Carried word for word from ${cite}, \`packetInstructions\`. Nothing is added to it here: if a court or an office asks you for something this statement covers, that is a question to raise rather than a document to go and buy.\n`);
+  }
+
+  if (want.has("eligibility_analysis_disclosure")) {
+    const stops = (track.selfHelpStopConditions ?? []).map((row) => `- ${row}`);
+    const open = (track.legalDesignLimitations ?? [])
+      .map((row) => row.statement)
+      .filter((row) => /^(Encode|Read and encode|Compelling-circumstances narratives)/.test(row))
+      .map((row) => `- ${row}`);
+    assert.ok(stops.length > 0, `${spec.trackId}: no committed self-help stop conditions to carry`);
+    out.push(`\n## What this packet does not decide about your eligibility\n\n`
+      + `This packet fills the Judiciary's own kit from facts you supply. **It performs no eligibility analysis**, it makes no statutory characterisation of your record, and nothing in it is a finding that you qualify. This route's committed record names the questions that are open, and each line below is carried from it word for word.\n\n`
+      + `Points where self-help ends — ${cite}, \`selfHelpStopConditions\`:\n\n${stops.join("\n")}\n\n`
+      + (open.length
+        ? `Analyses this route's own record still lists as unencoded — ${cite}, \`legalDesignLimitations\`:\n\n${open.join("\n")}\n\n`
+        : "")
+      + `If any of these reaches your case, ask a lawyer or a legal-services office before you sign or file.\n`);
+  }
+
+  assert.equal(out.length, spec.sections.length,
+    `${spec.trackId}: a declared guidance section rendered nothing`);
+  return out.join("");
+}
+
+/*
+ * FIX76, REQUIRED_BEFORE_FILING: a participant blank that carries no AcroForm
+ * widget at all.
+ *
+ * Every list of blanks this host produces is derived from the field map, and
+ * the field map is derived from the census of the form's own widgets. A blank
+ * the form PRINTS but gives no widget therefore cannot appear in either, and
+ * the participant is told nothing about it. On CN-10557 that is not
+ * hypothetical: paragraph 1 of the sworn Petition, delivered page 18, prints
+ * "I was arrested/taken into custody on (date) ______" over a ruled line with
+ * no widget on it, so the packet delivers the verified petition with its own
+ * arrest date blank while printing the same held date on the proposed order at
+ * page 31.
+ *
+ * A family declares such blanks here, by the caption the form prints, and they
+ * are rendered into the guide in their own section rather than mixed into the
+ * widget-derived list, because they are not the same kind of thing: nothing
+ * can ever be written into them by any build.
+ */
+function unwidgetedBlanksSection(config) {
+  const rows = config.unwidgetedParticipantBlanks ?? [];
+  if (!rows.length) return "";
+  return `\n## Blanks the form prints with no fill-in box\n\n`
+    + `The lines below are printed on delivered pages of this packet and there is no form field over them, so no build can put anything on them and none of them appears in the list above. **Write each one in by hand before you file.**\n\n`
+    + `| Delivered page | What the form prints | What goes there |\n| --- | --- | --- |\n`
+    + `${rows.map((row) => `| ${row.page} | ${row.printed} | ${row.whatGoesThere} |`).join("\n")}\n`;
+}
+
 function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
   if (config.guidance) return guidedParticipantInstructions(config, fieldMaps);
   const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
@@ -3094,9 +3635,11 @@ function participantInstructions(config, fieldMaps, heldButNotPrinted = []) {
     + whereToFile
     + whoIsServed
     + heldButNotPrintedSection(heldButNotPrinted)
+    + registryGuidanceSections(config)
     + (requiredBeforeFiling
       ? `\n## Exact facts still required before filing\n\nThe platform does not hold the facts below. Supply and verify each applicable item before filing; the build does not guess them.\n\n${requiredBeforeFiling}\n`
       : "")
+    + unwidgetedBlanksSection(config)
     + selfHelpEnds
     + `${notes}\n`;
 }
@@ -3286,9 +3829,32 @@ async function buildOfficial(familyId, config) {
         const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
         if (declared.length === 0) continue;
         const refusedInRow = new Set(finalized.report.refused.map((row) => row.field));
-        const broken = declared.filter((field) => refusedInRow.has(field));
-        if (broken.length === 0 || broken.length === declared.length) continue;
-        for (const field of declared.filter((field) => !refusedInRow.has(field))) {
+        /*
+         * FIX76, REPEATING_ROWS: a cell the platform holds NO fact for breaks
+         * the row exactly as a refused cell does.
+         *
+         * The test above asked only which DECLARED cells the fitter refused, so
+         * a group member with no fact mapping at all was filtered out of
+         * `declared` and could never break anything. On the New Jersey proposed
+         * order that is the whole defect: arrest1Statute is not in the fact
+         * allowlist -- the platform holds a charge DESCRIPTION and no N.J.S.A.
+         * citation for it, and a statute is not something a packet may infer
+         * from a description -- so the row was delivered with a date, a docket
+         * number, and the blank between them that identifies the offence the
+         * judge is being asked to expunge. A row that looks finished and is not
+         * is worse than a row that is plainly empty.
+         *
+         * An unmapped member is therefore permanently broken, on every fixture,
+         * and the whole row is withheld and disclosed. The alternative -- write
+         * the statute -- is closed here because no held fact answers it; if the
+         * platform ever holds one, mapping it removes the break and the row
+         * prints whole with no other change.
+         */
+        const unmapped = group.fields.filter((field) => !Object.hasOwn(mappings, field));
+        const broken = [...declared.filter((field) => refusedInRow.has(field)), ...unmapped];
+        const printable = declared.filter((field) => !refusedInRow.has(field));
+        if (broken.length === 0 || printable.length === 0) continue;
+        for (const field of printable) {
           rowIntegrityWithheld.push({
             field, factId: mappings[field], row: group.row,
             valueHeld: facts[mappings[field]] ?? null,
@@ -3549,6 +4115,7 @@ async function buildOfficial(familyId, config) {
       proof: row.proof,
     })),
   });
+  const componentDelivery = manifestComponentDelivery(familyId, config);
   writeJson(`${out}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId,
     derivedFromBytes: true,
@@ -3565,7 +4132,17 @@ async function buildOfficial(familyId, config) {
         why: "This companion is held as exact source evidence and is not a generated participant artifact, so no fixture is rendered for it.",
       })),
       ...(config.unbuiltComponents ?? []),
+      // FIX76: every manifest component this family answers with a reason
+      // rather than with a page, recorded here in the same place and the same
+      // shape as a source-only companion.
+      ...(componentDelivery?.components ?? [])
+        .filter((component) => component.disposition === "not_generated")
+        .map((component) => ({
+          componentId: component.componentId, documentRole: component.role,
+          generatedParticipantArtifact: false, why: component.why,
+        })),
     ],
+    ...(componentDelivery ? { manifestComponentDelivery: componentDelivery } : {}),
   });
   if (config.routeVehicle) {
     writeJson(`${out}/route-vehicle-map.json`, {
@@ -3650,6 +4227,7 @@ async function buildOfficial(familyId, config) {
       .map((row) => ({ ...row, documentId: artifact.documentId, fixture: artifact.fixture }))));
   writeText(`${out}/participant-instructions.md`, instructionsText);
   assertPrintedCaptionInvariants(config, fieldMaps, instructionsText, familyId);
+  assertComponentDeliverySections(config, componentDelivery, instructionsText, familyId);
   console.log(`\n${familyId}: BUILD PASS (${artifactReports.length} PDFs; ${rasterReports.reduce((n, row) => n + row.pages.length, 0)} page rasters)`);
 }
 
@@ -3900,9 +4478,13 @@ async function checkOfficial(familyId, config) {
       const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
       if (declared.length === 0) continue;
       const refusedInRow = new Set(finalized.report.refused.map((row) => row.field));
-      const broken = declared.filter((field) => refusedInRow.has(field));
-      if (broken.length === 0 || broken.length === declared.length) continue;
-      for (const field of declared.filter((field) => !refusedInRow.has(field))) recomputedWithheld.push(field);
+      // FIX76: the same rule the build applies -- an unmapped cell of the group
+      // is permanently broken, so --check recomputes the same withheld set.
+      const unmapped = group.fields.filter((field) => !Object.hasOwn(mappings, field));
+      const broken = [...declared.filter((field) => refusedInRow.has(field)), ...unmapped];
+      const printable = declared.filter((field) => !refusedInRow.has(field));
+      if (broken.length === 0 || printable.length === 0) continue;
+      for (const field of printable) recomputedWithheld.push(field);
     }
     if (recomputedWithheld.length) {
       const withheldNames = new Set(recomputedWithheld);
