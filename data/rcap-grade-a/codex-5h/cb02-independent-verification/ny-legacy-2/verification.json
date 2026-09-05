@@ -1,0 +1,266 @@
+{
+  "schemaVersion": "cb02-independent-candidate-verification/v1",
+  "assignment": "CB02V-NY2",
+  "candidate": "cb02-ny-160-55-legacy-2",
+  "verdict": "CANDIDATE_BLOCKED_MISSING_EVIDENCE",
+  "commercialAuthority": false,
+  "baseSha": "e6fb360f41f621abcc904419e8f750afa404a84e",
+  "requiredMinimumAncestor": "34ca308af92db091f0e702aff43f7b69de47652a",
+  "selectedBranch": "codex/execute-cb02-custom-pleading-candidate-factory",
+  "checkedOutBranch": "work",
+  "summary": {
+    "pass": 1,
+    "fail": 32,
+    "packetComponentsPass": 0,
+    "protectedFieldCheck": "FAIL",
+    "twoRunDeterminism": "FAIL",
+    "expectedHashesMatch": "FAIL",
+    "nonvisualCountersZero": "FAIL"
+  },
+  "missingEvidence": [
+    "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/binary-artifact-manifest.json",
+    "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"
+  ],
+  "obligations": [
+    {
+      "id": "exact-route-and-branch-identity",
+      "status": "FAIL",
+      "evidence": [
+        "data/rcap-grade-a/launch-control/next-waves/CB02_CANDIDATE_VERIFICATION_WAVE.json",
+        "docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md"
+      ],
+      "finding": "The checkout is the Codex Cloud local branch work, but the assigned candidate tree that would prove the selected branch's route identity is absent and the required minimum ancestor object is unavailable in this checkout.",
+      "smallestRepair": "Provide a Codex Cloud checkout of the selected branch that contains minimum ancestor 34ca308af92db091f0e702aff43f7b69de47652a and the committed candidate tree."
+    },
+    {
+      "id": "controlling-decision-and-status",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/candidate-spec.json"],
+      "finding": "candidate-spec.json is absent, so the exact controlling legal-decision record cannot be identified or read.",
+      "smallestRepair": "Supply the committed candidate-spec.json and the exact decision and cited records it names."
+    },
+    {
+      "id": "qualifying-cohort",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No candidate text exists to verify the September 1, 1980 through October 31, 1991 cohort.",
+      "smallestRepair": "Supply the committed candidate text artifacts."
+    },
+    {
+      "id": "participant-filing-actor",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No candidate text exists to verify the filing actor.",
+      "smallestRepair": "Supply the committed candidate text artifacts."
+    },
+    {
+      "id": "destination",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No candidate text exists to verify the filing destination.",
+      "smallestRepair": "Supply the committed candidate text artifacts and cited route records."
+    },
+    {
+      "id": "trigger",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No candidate text exists to verify the trigger.",
+      "smallestRepair": "Supply the committed candidate text artifacts."
+    },
+    {
+      "id": "deadline-and-notice-requirements",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No candidate text exists to verify deadlines, notice, or the required local confirmation stops.",
+      "smallestRepair": "Supply the committed candidate text artifacts and controlling sources."
+    },
+    {
+      "id": "pleading-theory",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The pleading is absent.",
+      "smallestRepair": "Supply the committed pleading."
+    },
+    {
+      "id": "required-allegations",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The pleading is absent, so its allegations cannot be checked.",
+      "smallestRepair": "Supply the committed pleading and candidate specification."
+    },
+    {
+      "id": "required-attachments",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The candidate specification, pleading, and checklist are absent.",
+      "smallestRepair": "Supply the committed candidate specification, pleading, and checklist."
+    },
+    {
+      "id": "service-or-notice",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The instructions and checklist are absent.",
+      "smallestRepair": "Supply the committed instructions and checklist with their cited authority."
+    },
+    {
+      "id": "fee-or-waiver-treatment",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The instructions and checklist are absent.",
+      "smallestRepair": "Supply the committed instructions and checklist."
+    },
+    {
+      "id": "packet-components",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No packet component inventory or candidate components are present.",
+      "smallestRepair": "Supply the complete committed candidate directory."
+    },
+    {
+      "id": "self-help-stop",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No candidate instructions exist to verify the self-help stop.",
+      "smallestRepair": "Supply the committed instructions and checklist."
+    },
+    {
+      "id": "protected-fields",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No specification, field map, generator, or rendered output exists to audit protected fields.",
+      "smallestRepair": "Supply all committed candidate source artifacts and generator."
+    },
+    {
+      "id": "participant-completed-later-fields",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No specification, field map, generator, or rendered output exists to audit participant-completed-later fields.",
+      "smallestRepair": "Supply all committed candidate source artifacts and generator."
+    },
+    {
+      "id": "platform-does-not-write-protected-actor-fields",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "Absent generator and outputs prevent verification that court, clerk, prosecutor, notary, and signature fields remain unwritten.",
+      "smallestRepair": "Supply the committed generator, canonical and boundary inputs, and manifest so outputs can be regenerated and inspected."
+    },
+    {
+      "id": "no-placeholder-legal-conclusion",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No pleading text exists to audit placeholder conclusions.",
+      "smallestRepair": "Supply the committed pleading."
+    },
+    {
+      "id": "no-unsupported-statewide-form-claim",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "No title or instructions exist to audit statewide-form claims.",
+      "smallestRepair": "Supply the committed pleading and instructions."
+    },
+    {
+      "id": "canonical-and-boundary-inputs",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "Canonical and boundary generator inputs are absent.",
+      "smallestRepair": "Supply the committed canonical and boundary inputs."
+    },
+    {
+      "id": "nonvisual-nine-counter-report",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The nonvisual nine-counter report is absent.",
+      "smallestRepair": "Supply the committed report or the committed checker and inputs needed to reproduce it."
+    },
+    {
+      "id": "commercial-authority-false",
+      "status": "PASS",
+      "evidence": [
+        "AGENTS.md",
+        "data/rcap-grade-a/launch-control/next-waves/CB02_CANDIDATE_VERIFICATION_WAVE.json"
+      ],
+      "finding": "This verification records commercialAuthority=false and opens no route.",
+      "smallestRepair": null
+    },
+    {
+      "id": "no-current-160-55-3-express-governance-claim",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "Candidate text is absent, so the prohibited claim cannot be excluded.",
+      "smallestRepair": "Supply every committed candidate text artifact."
+    },
+    {
+      "id": "no-20-day-statutory-notice-claim",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "Candidate text is absent, so treatment of 20 days cannot be verified.",
+      "smallestRepair": "Supply every committed candidate text artifact and cited sources."
+    },
+    {
+      "id": "descriptive-not-fictitious-statewide-title",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The pleading title is absent.",
+      "smallestRepair": "Supply the committed pleading."
+    },
+    {
+      "id": "historical-failure-allegation",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The pleading is absent, so the allegation of historical failure to enter or transmit the sealing order cannot be verified.",
+      "smallestRepair": "Supply the committed pleading and candidate specification."
+    },
+    {
+      "id": "local-return-date-and-service-confirmation-stop",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The instructions and checklist are absent.",
+      "smallestRepair": "Supply the committed instructions and checklist."
+    },
+    {
+      "id": "successor-court-stop",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The instructions and checklist are absent.",
+      "smallestRepair": "Supply the committed instructions and checklist."
+    },
+    {
+      "id": "two-run-determinism",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/"],
+      "finding": "The committed generator and inputs are absent, so two clean-directory runs cannot be performed.",
+      "smallestRepair": "Supply the committed generator and canonical and boundary inputs."
+    },
+    {
+      "id": "manifest-intended-path",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/binary-artifact-manifest.json"],
+      "finding": "The binary-artifact manifest is absent.",
+      "smallestRepair": "Supply the committed binary-artifact manifest."
+    },
+    {
+      "id": "manifest-sha256-and-byte-length",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/binary-artifact-manifest.json"],
+      "finding": "The manifest and generated outputs are unavailable, so hashes and lengths cannot be recomputed.",
+      "smallestRepair": "Supply the committed manifest, generator, and inputs."
+    },
+    {
+      "id": "manifest-page-count",
+      "status": "FAIL",
+      "evidence": ["data/rcap-grade-a/codex-5h/cb02-custom-pleadings/binary-artifact-manifest.json"],
+      "finding": "The manifest and generated outputs are unavailable, so page counts cannot be recomputed.",
+      "smallestRepair": "Supply the committed manifest, generator, and inputs."
+    },
+    {
+      "id": "complete-required-read-set",
+      "status": "FAIL",
+      "evidence": [
+        "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/binary-artifact-manifest.json",
+        "data/rcap-grade-a/codex-5h/cb02-custom-pleadings/cb02-ny-160-55-legacy-2/candidate-spec.json"
+      ],
+      "finding": "Two mandatory read roots are absent; consequently the decision and downstream cited records cannot be identified.",
+      "smallestRepair": "Provide the assigned branch checkout with all committed candidate evidence."
+    }
+  ]
+}
