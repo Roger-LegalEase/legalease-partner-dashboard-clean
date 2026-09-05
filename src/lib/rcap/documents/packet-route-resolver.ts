@@ -12,7 +12,9 @@ import path from "node:path";
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
 import { legalRouteContract, routeCheckoutIsClosed } from "@/lib/legal-authority/index";
 import {
-  factoryV2RouteFor
+  factoryV2RouteFor,
+  factoryV2RouteMigrationFor,
+  factoryV2RouteProductizationFor
 } from "@/lib/rcap/documents/factory-v2-registry";
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 import {
@@ -726,9 +728,14 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   // against its packet-set manifest and registered specification. A missing,
   // malformed or mismatched crosswalk therefore falls back to the retired
   // renderer, never to a sibling or jurisdiction-wide factory grant.
-  const exactFactoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId);
-  const retiredLegacyRouteMigration = exactFactoryRoute?.retiredLegacyRouteMigration ?? null;
-  const retiredLegacyExactProductization = exactFactoryRoute?.exactRouteProductization ?? null;
+  //
+  // The fence is evaluated through the two exact accessors rather than by
+  // looking the factory route up here, so the factory_v2 lookup itself stays
+  // below every suppression and below this fence. Both accessors resolve the
+  // same admissible registry row on the same inputs, so nothing about which
+  // route passes the fence changes.
+  const retiredLegacyRouteMigration = factoryV2RouteMigrationFor(jurisdiction, pathwayId, input.trackId);
+  const retiredLegacyExactProductization = factoryV2RouteProductizationFor(jurisdiction, pathwayId, input.trackId);
   if (LEGACY_VERIFIED.has(jurisdiction) && !retiredLegacyRouteMigration && !retiredLegacyExactProductization) {
     return {
       routeKind: "legacy_retired",
@@ -778,7 +785,7 @@ function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolut
   // live elsewhere and are recorded per route in the registry; a later change
   // that wants to sell one of these routes has to satisfy them explicitly rather
   // than inherit permission from the fact that the factory can build it.
-  const factoryRoute = exactFactoryRoute;
+  const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId);
   if (factoryRoute) {
     const exactProductization = factoryRoute.exactRouteProductization;
     return {
