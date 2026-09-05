@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "049b6d61587f348034c2b6d082fb89f5038844a6",
+  "generatedAtCommit": "edc5430cd6cc6299588e9d05995a3c40545f33d9",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1632,10 +1632,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF10",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T03:04:09.438Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -1678,7 +1677,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF03",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:14:05.382Z"
@@ -1724,7 +1723,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF04",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:10:40.391Z"
@@ -1770,7 +1769,7 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-05T00:10:40.505Z"
@@ -5276,10 +5275,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T23:59:37.663Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -5414,10 +5412,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-01T23:59:40.337Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13212,7 +13209,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6bf4f383b594e54c118b3daa0e5c584ee6daf9ead0ceb3550cf2f4183ca41cbd",
+  "claimsDigest": "d0f4d201328d681bd012047aaf714e8b45a50205f24c7c725b6f5e7207f1f4e4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35014,6 +35011,36 @@
       "previouslyReleasedAt": "2026-09-04T17:16:18.041Z",
       "reissuedAt": "2026-09-05T15:04:10.600Z",
       "reason": "Fresh independent read of FIX02's rebuild (d4cb7659/ea728bba, live raster run 33972727725); VF01 neither built nor repaired it; the FAIL was VF07's. This read is one of the three conditions for reinstating the revoked Grade-A record."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:18:26Z",
+      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-misd-1st-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "dispatchNames": "VF06",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:18:26Z",
+      "reason": "the current dispatch names VF06 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "dispatchNames": "VF07",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T15:18:26Z",
+      "reason": "the current dispatch names VF07 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
