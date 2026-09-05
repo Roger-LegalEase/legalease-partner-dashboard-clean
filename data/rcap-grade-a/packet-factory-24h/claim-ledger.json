@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "844719474b04640a26a7034d90fb321e73972939",
+  "generatedAtCommit": "cc86b1609bdb84c74da8d241b197d8b81699cb06",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2036,10 +2036,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX30",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T05:23:25.696Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3741,7 +3741,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:57:01.413Z"
@@ -4443,7 +4443,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T02:10:19.032Z"
@@ -4951,7 +4951,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T02:10:18.916Z"
@@ -6102,7 +6102,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6237,7 +6237,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6402,7 +6402,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6896,7 +6896,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -8086,7 +8086,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T09:34:51.808Z"
@@ -12958,7 +12958,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d85e38666cdf6f79662ef4f76b74fa12d9ba015f2eee4265446ef0859e045d58",
+  "claimsDigest": "f544bc2debe7582b505d5fe1c2420f93df9484d82f41df2c7ef8002a04654a86",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -38202,6 +38202,17 @@
       "previouslyReleasedAt": "2026-09-05T11:05:11.394Z",
       "transferredAt": "2026-09-05T11:05:11.527Z",
       "reason": "CLIPPING_AND_OVERLAP: the composer writes participantFacingObligations with literal markdown delimiters onto a delivered page (OK page 4 baseline y=517; WV sibling per vf03/vf09). One repair at the composer, one writer for both families."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX30",
+      "previouslyReleasedAt": "2026-09-05T05:23:25.696Z",
+      "transferredAt": "2026-09-05T11:05:54.645Z",
+      "reason": "CLIPPING_AND_OVERLAP: the composer writes participantFacingObligations with literal markdown delimiters onto page 4 (baseline y=517); one repair at the shared composer with the WV sibling, one writer."
     }
   ],
   "withdrawals": [
