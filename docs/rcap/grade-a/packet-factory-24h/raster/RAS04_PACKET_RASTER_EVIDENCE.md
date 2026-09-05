@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `6f3925d8e2e9d56615ba806fcd0ea48193c82e86`
+**Minimum required ancestor:** `9700d99f890d34b64460e976cf3a5aaa71120639`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -65,7 +65,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf` — `9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577`
 - boundary `data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf` — `d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18`
 - expected pages 5 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request
 
