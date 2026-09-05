@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "0b512b9924f4ca99380b579866bc22a23f8d28e6",
+  "minimumCaptainSha": "fcf0930c8a07eca34ba7b629346687b085559178",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 9,
+    "activeFamiliesExcluded": 6,
     "guidanceOnly": 0,
-    "remaining": 337,
+    "remaining": 340,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 11,
     "verifyPending": 4,
-    "repairRequired": 42,
+    "repairRequired": 44,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 153,
-    "FAIL_REPAIR_REQUIRED": 51,
+    "FAIL_REPAIR_REQUIRED": 50,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -86,8 +86,8 @@
     "LEGAL_BLOCKED": 11,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
+    "BUILT_RASTER_PENDING": 3,
     "VERIFY_PENDING": 4,
-    "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -110,11 +110,8 @@
     ],
     "families": [
       "ar-drug-court-set",
-      "az_marijuana_expungement_limited_jurisdiction-set",
-      "de_mandatory_expungement-set",
       "fl-early-juvenile-set",
       "il-seal-edu-set",
-      "nc_146_acquittal_petition-set",
       "rcap-nv-custom-pleading",
       "tx_nd_dwi_deferred-set",
       "ut_pet_limitations-set"
@@ -4641,8 +4638,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX48",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4653,8 +4650,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "az_marijuana_expungement_superior_court-set",
@@ -12039,9 +12035,7 @@
         "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -12082,9 +12076,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX48",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -12095,8 +12089,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "de_pardon_expungement-set",
@@ -28315,8 +28308,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX48",
-      "activeOwnerLane": "rapid-repair",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -28327,8 +28320,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
