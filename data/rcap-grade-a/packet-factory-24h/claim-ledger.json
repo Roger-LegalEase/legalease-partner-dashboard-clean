@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "4c3843d0cec3a8dac32478be7f928b9e0e3be581",
+  "generatedAtCommit": "67c754cca8d7a70b7d134a557b18c9d539afaa53",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7254,21 +7254,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "tx_nd_dwi_probation-set",
-      "familyId": "tx_nd_dwi_probation-set",
-      "itemId": null,
-      "familyIds": [
-        "tx_nd_dwi_probation-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX01",
-      "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T16:29:08.351Z"
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "tx_nd_probation_misdemeanor-set",
       "familyId": "tx_nd_probation_misdemeanor-set",
       "itemId": null,
@@ -12778,7 +12763,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "63e8e6f35d1ef9717da6ac60a6475b2a5c7dc73627c0ec71e306d017ab2a1032",
+  "claimsDigest": "92ff35dae61663642b66ecb8d3ea0e10d4dcbb8b02c1bbaca6f25b4f12e141a0",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37451,6 +37436,17 @@
       "previouslyReleasedAt": "2026-09-04T22:31:50.368Z",
       "transferredAt": "2026-09-05T05:27:34.715Z",
       "reason": "Captain moves this released grant to FIX20 before dispatch. Two Illinois families with overlapping failed obligations, a shared-root candidate. Moved centrally because a family with a standing FAIL necessarily has a released grant on the lane that issued the verdict."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX22",
+      "previouslyReleasedAt": "2026-09-02T16:29:08.351Z",
+      "transferredAt": "2026-09-05T06:06:39.173Z",
+      "reason": "Captain moves this released grant to FIX22 before dispatch. A terminal COMPLETE_PACKET_PROVEN family is shipping two zeros on a sworn Statement of Inability to Afford Payment of Court Costs, confirmed with the repository's own appearance reader against two byte-clean siblings."
     }
   ],
   "withdrawals": [
@@ -40932,6 +40928,14 @@
       "operation": "rapid-repair",
       "lane": "FIX15",
       "withdrawnAt": "2026-09-05T04:16:53Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "operation": "rapid-repair",
+      "lane": "FIX22",
+      "withdrawnAt": "2026-09-05T06:07:34Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
