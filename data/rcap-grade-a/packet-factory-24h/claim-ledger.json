@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0800540885bdc02a36b84122a6d157161011d6fd",
+  "generatedAtCommit": "6caf13f8502b91b78c466d437fe885e87cb50fdc",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5772,11 +5772,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T10:36:30.135Z",
-      "releaseReason": "VF02 FAIL_REPAIR_REQUIRED at bd36dba5d: PROTECTED_FIELDS (NHJB-2311 sig.8 carries the source placeholder text Enter /s/ before name; NHJB-2328 total fields carry source (0.00) at white fill) and SELF_HELP_STOP (eight registry stop conditions, none reach the packet). Verdict extracted; to repair."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -6875,6 +6873,21 @@
         "rcap-tx-custom-pleading"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "familyId": "rcap-tx-custom-pleading",
+      "itemId": null,
+      "familyIds": [
+        "rcap-tx-custom-pleading"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF10",
       "laneKind": "packet-build",
@@ -7028,11 +7041,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T10:36:30.264Z",
-      "releaseReason": "VF02 PASS_COMPLETE_INDEPENDENT at bd36dba5d on 912b6c38/e2afb606. Verdict extracted."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7059,11 +7070,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:24:43.208Z",
-      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at 458cab82f: CLIPPING_AND_OVERLAP -- pages 8 and 13 carry only the three-line route key (overflow pages of the notice package and filing instructions). Order conforms to the owner decision. Verdict extracted; joins the FIX35 host cohort."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7106,11 +7115,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:21:09.761Z",
-      "releaseReason": "VF04 FAIL_REPAIR_REQUIRED at a667d6de0: CLIPPING_AND_OVERLAP -- pages 8 and 13 carry nothing but an obligation:unit:RI block, it prints under the clerk certification line of the proposed order, and a key splits certified-co / pies; the RI host's private splitter. Order matches the owner decision. Verdict extracted; to repair at the host."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7153,11 +7160,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF05",
+      "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:21:10.160Z",
-      "releaseReason": "VF05 FAIL_REPAIR_REQUIRED at a667d6de0: CLIPPING_AND_OVERLAP -- page 8 route-key-only, two keys split mid-token; the RI host's private splitter. Verdict extracted; to repair at the host."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7215,11 +7220,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF06",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:12:06.013Z",
-      "releaseReason": "VF06 FAIL_REPAIR_REQUIRED at f7f114c51: CLIPPING_AND_OVERLAP -- eight hard-split route keys per fixture on pp. 6, 8, 12, 13 from the private character-accumulating splitToken in build-census-v1-ri_decriminalized-set.mjs (the RI host), and p. 8 is a route-key-only page. Proposed order satisfies the owner decision. Verdict extracted; to repair at the host splitter."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -8195,11 +8198,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF08",
       "laneKind": "independent-verification",
       "released": true,
-      "releasedAt": "2026-09-05T10:31:58.491Z",
-      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 7a1e2c417 (REQUIRED_BEFORE_FILING: 20 AcroForm checkboxes across the three bound forms carry no field-map row; 600-00228 generated and prefilled though its condition is unmet). vf35's ARTIFACTS failure is cured. Verdict extracted; to repair."
+      "releasedAt": "2026-09-05T10:31:58.491Z"
     },
     {
       "subjectType": "packet-family",
@@ -13099,7 +13101,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "6c951e1f4953e67ed939500015fd7bcf7850a1b9f2a5a0e38c4cf1abd145329a",
+  "claimsDigest": "8f1895e69d5fe712db396af7fed1791a3763ee545df7c69540ffce898c390860",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34504,6 +34506,66 @@
       "previouslyReleasedAt": "2026-09-05T10:31:58.237Z",
       "reissuedAt": "2026-09-05T12:07:40.841Z",
       "reason": "Fresh independent read owed: FIX32 repaired the placeholder prose VF01 failed at aa866d165, and run 33964023600 (job 101301118940) rastered the repaired bytes at 8b377c517 with a live receipt. VF02 neither built nor repaired this family."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T14:17:05Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "dispatchNames": "VF03",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T14:17:05Z",
+      "reason": "the current dispatch names VF03 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "dispatchNames": "VF04",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T14:17:05Z",
+      "reason": "the current dispatch names VF04 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "dispatchNames": "VF05",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T14:17:05Z",
+      "reason": "the current dispatch names VF05 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "dispatchNames": "VF06",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T14:17:05Z",
+      "reason": "the current dispatch names VF06 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "dispatchNames": "VF07",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T14:17:05Z",
+      "reason": "the current dispatch names VF07 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
