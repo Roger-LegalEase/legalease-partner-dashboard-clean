@@ -428,8 +428,9 @@ const FAMILY = {
         + "everything after it on its own line and nothing else. The bullets sit on the five lines of the statutory "
         + "exclusions list, which carry no blanks, so Form 4-953 measures cleanly; every line of Form 4-222 is affected, "
         + "so nothing on it is positioned from text geometry and only its exact AcroForm widget rectangles are used. The "
-        + "retained conviction order draws its tick boxes as a symbol-font glyph, so blanks to the right of one on the "
-        + "same baseline are recorded with no coordinate at all -- and none of them is a place this build writes."
+        + "retained conviction order draws all thirty-six of its tick boxes as a symbol-font glyph, so the twenty-one "
+        + "blanks that sit to the right of one on their own baseline are recorded with no coordinate at all -- and none "
+        + "of them is a place this build writes."
     },
     {
       finding:

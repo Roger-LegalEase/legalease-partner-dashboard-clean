@@ -11,7 +11,7 @@
  * NMRA a stroke reader finds 15 rules where the form has 71 blanks, and 10 of
  * those 15 strokes are not blanks at all.
  *
- * So three kinds of blank are measured here, all in one coordinate space, from
+ * So four kinds of blank are measured here, all in one coordinate space, from
  * the same walker the rest of the factory uses:
  *
  *   underscore_run  contiguous U+005F glyphs on one baseline, taken from the
@@ -28,6 +28,15 @@
  *                   finds no stroked box for them and there is no path
  *                   geometry to mark. They are located so they can be NAMED,
  *                   never so a mark can be invented on top of them.
+ *   glyph_selection_control
+ *                   a selection control drawn as a single symbol-font character
+ *                   whose ToUnicode map yields a private-use codepoint. The
+ *                   retained local orders draw every one of their tick boxes
+ *                   this way -- twenty-eight on the identity-theft order and
+ *                   thirty-six on the conviction order -- and neither the
+ *                   bracket reader nor the stroked-box reader can see any of
+ *                   them. Only the glyph's own origin is trustworthy, so no
+ *                   width is claimed and no write box is ever derived from one.
  *
  * AND WHY AN UNDERLINE IS NOT A BLANK
  *
