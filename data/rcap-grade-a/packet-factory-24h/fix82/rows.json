@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX82",
+  "laneKind": "repair",
+  "generatedBy": "FIX82, opting one Virginia family into shared machinery that already exists",
+  "rows": [
+    {
+      "itemId": "va_exp_nonconviction-set",
+      "familyId": "va_exp_nonconviction-set",
+      "jurisdiction": "VA",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) and scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten). Neither was edited here. FIX50 built the option and this lane only turns it on for one family.",
+      "branch": "fix82-va-exp-suppress",
+      "baseSha": "432af667f",
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX82 va_exp_nonconviction-set -> CLAIM_OK FIX82 va_exp_nonconviction-set (repair, grant set f506eaefa1b174c0), exit 0. Asserted before any family artifact was opened.",
+      "directoryConfirmedFirst": "sha256sum over fixtures/ on disk, run before the builder was edited: canonical.pdf 829c2fabfefbedbc5854fe77c40afdda410ffc1b7f656c7a2f425f2ca7334126 (126955 bytes, 7 pages), boundary.pdf bba39493d38e44f4ffe016b174c39090cc24aaa1dec03794a8f405ea3f5bbbc1 (127195 bytes, 7 pages). Both equal the pair the assignment names and the pair VF03 read at e80c4a759.",
+
+      "verdictRepaired": {
+        "lane": "VF03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "e80c4a759",
+        "failedObligationNames": ["CLIPPING_AND_OVERLAP"],
+        "asVF03PutIt": "Both fixtures deliver a black stroked square at seventeen check-box widgets that the official form does not print - fourteen on page 1 and the three page-2 checklist boxes, the clerk's own CBCertify among them - 2299 added dark pixels per fixture standing outside every declared write box. VF03's zero-write baseline showed the shared flatten adds all of it, and the same baseline rebuilt with suppressSynthesizedAppearances was pixel-identical to the pinned CC-1473 at all seventeen rects.",
+        "namedRemedy": "rebuild this family with suppressSynthesizedAppearances passed to finalizeOfficialForm"
+      },
+      "obligationsRepaired": ["CLIPPING_AND_OVERLAP"],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. product-wiring.json binding.acceptanceReceipt still records RASTER_PASS from workflow run 33996518424 job 101388233160, bound to canonical 829c2fabfefbedbc5854fe77c40afdda410ffc1b7f656c7a2f425f2ca7334126, which this rebuild supersedes. It stops binding and a fresh central raster on the new bytes is owed. product-wiring.json, RASTER_QUEUE.json and MASTER_QUEUE.json were read and never opened for writing, and the local rasters below are measurement only and were deleted.",
+        "INDEPENDENT VERIFICATION. This lane opted the family in and built these bytes, so it verifies none of them. No verdict was written or replaced and no obligation is scored here.",
+        "THE REST OF THE COHORT. FIX50 measured 47 families exposed to the same shared behaviour. This lane opted in exactly one and rebuilt exactly one. The other exposed families are untouched, unmeasured here and uncleared by this row.",
+        "THE FOUR CASES THE OPTION DELIBERATELY LEAVES ALONE, as FIX50's record sets them out: a widget that ships its own appearance for its current state, a widget with no /AS, a widget whose /AP /N is a bare stream, and any widget of a field this run wrote. CC-1473 presents none of the first three - all seventeen of its button widgets are the missing-state case - so this row says nothing about them.",
+        "THE COMPOSED PAGES' OWN THIN-PAGE FINDING. SCAN01 classes packet page 7 as fragment_page at 4 composed lines against its benchmark of 8. VF03 recorded that as describing the page VF07 asked for rather than a defect. Nothing here changes those pages: packet pages 3, 4, 5, 6 and 7 are pixel-identical before and after.",
+        "THE PREFLIGHT'S ONE STANDING FAILURE, corpus_matches_committed_index, recorded under preflight below. It is an absent Alabama entry in the mounted corpus and is neither introduced nor repaired here."
+      ],
+
+      "whatChanged": {
+        "theEdit": "One option, at the single finalizeOfficialForm call in scripts/build-census-v1-va_exp_nonconviction-set.mjs: suppressSynthesizedAppearances: true, with a comment naming VF03's measurement and naming why the route marks are not reached by it. Nothing else in the builder changed - not a line of composed text, not the fee block FIX74 wrote, not a field map, not a caption, not a route.",
+        "whyItIsTheWholeRepair": "CC-1473 ships seventeen check-box widgets whose current /AS state (/Off) has no stream in /AP /N. Under ISO 32000-1 12.5.5 a conforming viewer paints nothing there, and poppler rendering the pinned binary paints nothing. pdf-lib's updateFieldAppearances inside the shared sanitizeAndFlatten answers that missing state with a stroked square the size of the widget, and flatten stamps it. FIX50's opt-in installs an EMPTY appearance for the missing state instead, so nothing is synthesized and nothing is flattened there.",
+        "theSeventeenAreAllOfThem": "Read first-hand from the pinned CC-1473 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219: the form carries exactly 17 non-pushbutton button widgets, and all 17 are /AS /Off with only an on-state (/1 or /2) in /AP /N. 14 on form page 1, 3 on form page 2. There is no widget of any other class for the option to reach and none it declines to reach.",
+        "doesTheMARKWRITINGRELYONASYNTHESIZEDAPPEARANCE": "No, and the bytes say so rather than the reading. This builder's four route marks are not appearances at all: markRouteSelections loads the already-flattened bytes and draws two diagonal strokes as PAGE CONTENT inside each court box (drewANewBox false, redrewTheCourtsBox false, paintedStrokesInsideTheBox 2, unchanged in reports/actual-writes.json). Separately, the option never touches a widget of a field the run wrote, and on this form no written field is a selection control: all six CC-1473 writes are kind text (User.Title, User.DOB, User.PrintName, User.AddressOf, User.PetetionerPhoneNumber, User.PetetionerEmail), identically in canonical and boundary. CONFIRMED ON THE RASTER: each of the four marked boxes lost exactly the square and kept its mark - CheckPetitioner 618 -> 460 dark pixels, CheckPetitionerContact 689 -> 525, CheckPetitionerPhone 617 -> 461, CheckPetitionerEmail 617 -> 459, in both fixtures - and each loss equals to the pixel the loss at its unmarked twin on the same printed row (158/158, 164/164, 156/156, 158/158). Zero dark pixels were ADDED anywhere in either fixture.",
+        "whatDidNotChange": "No shared module, no default anywhere, no other builder, no other family's bytes, no field map, no product-wiring, no queue, no legal record, no route. MASTER_QUEUE.json and RASTER_QUEUE.json were read and never opened for writing."
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-va_exp_nonconviction-set.mjs - the single opt-in and its comment",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical--CC-1473-primary-filing.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary--CC-1473-primary-filing.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/independent-visual-review.json",
+        "data/rcap-grade-a/packet-factory-24h/fix82/rows.json - this row"
+      ],
+
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library Edition 1> node scripts/build-census-v1-va_exp_nonconviction-set.mjs --no-raster",
+        "exit": 0,
+        "runTwice": "The whole family directory was copied aside after the first build and diffed with diff -r against the directory the second build left. Zero differences across every file, fixtures included: the rebuild is byte-identical run to run.",
+        "pageCount": "7 -> 7 in both fixtures. Nothing was added to or removed from the packet."
+      },
+      "digests": {
+        "before": {
+          "canonical.pdf": { "sha256": "829c2fabfefbedbc5854fe77c40afdda410ffc1b7f656c7a2f425f2ca7334126", "bytes": 126955, "pages": 7 },
+          "boundary.pdf": { "sha256": "bba39493d38e44f4ffe016b174c39090cc24aaa1dec03794a8f405ea3f5bbbc1", "bytes": 127195, "pages": 7 },
+          "canonical--CC-1473-primary-filing.pdf": { "sha256": "fec0c22338cd5c0bd0c08ae9f4e65ed0ec052b968cb9db0f1fd882d6e08c60c9", "bytes": 115313 },
+          "boundary--CC-1473-primary-filing.pdf": { "sha256": "81c567b6cece7780b3f8f6a9015ace596e6e43b7dee15df419de1454d8145c33", "bytes": 115459 }
+        },
+        "after": {
+          "canonical.pdf": { "sha256": "5bd8aa7b89bdddafae1f672ae7e000a0f1ad9fdee005e75770e740b8ed734b25", "bytes": 126075, "pages": 7 },
+          "boundary.pdf": { "sha256": "24b8dbc14d95649898808ca2841a6f4bbd40cfb36303cf6559c2a0fdd87e456d", "bytes": 126315, "pages": 7 },
+          "canonical--CC-1473-primary-filing.pdf": { "sha256": "fb78335106929880be467eef37be576a6e46be0a2bdc3fff99f78b47763ee58e", "bytes": 114433 },
+          "boundary--CC-1473-primary-filing.pdf": { "sha256": "e7bc916a98af2288158914c89d8dafb52a41e59352d93fe691d3856b8f6cccbe", "bytes": 114579 }
+        },
+        "whyTheFilesGotSMALLER": "An empty appearance stream replaces a generated one carrying a rectangle path, a stroke and a graphics-state block, seventeen times: canonical -880 bytes, boundary -880 bytes."
+      },
+
+      "pixelMeasurements": {
+        "method": "Every page of both fixtures rastered with pdftoppm at 300 dpi, greyscale, before the edit and after the rebuild, and the pinned CC-1473 pages 1-2 rastered at the same settings. All rasters written under /tmp and deleted after measuring; no raster PNG is committed. Widget rectangles read first-hand from the pinned binary with pdf-lib and mapped to packet pages by reports/rendered-artifacts.json pageManifest (packet page 1 = form page 1, packet page 2 = form page 2). Rect crops are padded 3px to include the stroke.",
+        "theSeventeenRectsAgainstThePinnedForm": "BEFORE, differing pixels against the pinned CC-1473 at the seventeen rects, canonical and boundary identically: Check0 249 and 249, Check5 196 and 194, Check7 194, CheckAttorney 164, CheckAttorneyContact 164, CheckAttorneyPhone 156, CheckAttorneyEmail 158, CBCertify 194, CB1 194, CB2 194, CB3 194 - and at the four route-mark boxes 552, 577, 546, 547, every one of them added dark ink. AFTER: thirteen of the seventeen are PIXEL-IDENTICAL to the pinned form, 0 differing pixels each - the ten unmarked petition boxes, the clerk's CBCertify and the three page-2 checklist boxes CB1, CB2, CB3. The remaining four are the route-mark boxes, which differ from the pinned form by 394, 413, 390 and 389 pixels: that residue is the packet's own two diagonal strokes and nothing else, since every pixel that changed there was a REMOVAL.",
+        "wholePageBeforeVersusAfter": "canonical page 1: 2446 pixels changed, 2446 of them dark pixels REMOVED, 0 dark pixels added, 0 changed pixels outside the seventeen rects. canonical page 2: 582 changed, 582 removed, 0 added, 0 outside. Boundary: identical numbers, 2446 and 582. Packet pages 3, 4, 5, 6 and 7 are PIXEL-IDENTICAL in both fixtures. 2446 + 582 = 3028 dark pixels removed per fixture, all of it inside the seventeen widget rects.",
+        "addedInkOutsideEveryDeclaredWriteBox": "Measured as dark in the delivered page and not dark in the pinned form, against the twenty declared write boxes (the six value rects in each fixture and the four route-mark boxes from reports/actual-writes.json), 2px pad. BEFORE: page 1 1810 and page 2 582, in canonical and identically in boundary - 2392 per fixture. AFTER: 0 on page 1 and 0 on page 2, in canonical and in boundary. Every remaining added pixel on page 1 lies inside a declared write box. VF03 measured the same defect at 1717 + 582 = 2299 per fixture; the difference is padding around the declared boxes, not a different finding.",
+        "theFEE74BLOCK": "Packet page 6 is PIXEL-IDENTICAL before and after in both fixtures, so FIX74's fee block is untouched in position, wording and ink. pdftotext -layout over all 7 pages of both fixtures is CHARACTER-IDENTICAL before and after, so every written value, every composed sentence and the fee answer with its citation are unchanged.",
+        "rastersDeleted": true
+      },
+
+      "placementSweep": {
+        "method": "Over the DELIVERED bytes, reproducing VF03's method: for every flattened widget appearance in each fixture the page-content cm operators were composed (the content streams inflated first), the placed XObject's /BBox and /Matrix read, the transformed BBox computed per ISO 32000-1 12.5.5, matched to the source widget whose /Rect origin it lands on, and the placed size required to equal the /Rect size within 0.05pt.",
+        "before": "canonical 41 of 41 pass, boundary 41 of 41 pass. 0 fail, 0 unmatched, maximum origin error 0.0000pt, 38 appearances on packet page 1 and 3 on page 2 in each fixture.",
+        "after": "canonical 41 of 41 pass, boundary 41 of 41 pass. 0 fail, 0 unmatched, maximum origin error 0.0000pt, the same 38 and 3 distribution. The appearance count is unchanged: the option replaces seventeen streams' CONTENT, it removes no appearance.",
+        "provedSensitive": "A negative control, on a copy of the delivered canonical written to /tmp: FlatWidget-7098480789, the CaseNumber appearance on page 1, had its /Matrix rewritten from the identity to [0.8 0 0 0.8 0 0]. The sweep returns 40 of 41 on that copy and names it - placed 125.480 x 12.608 against a /Rect of 156.850 x 15.760 - which is exactly the reading VF03 recorded for the same mutation. A sweep that passes the delivered bytes and fails a one-matrix mutation of them is a live control, not an assertion."
+      },
+
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "All nine were zero before and are zero after, and that is not what makes this a repair. The square was never a declared write and it is painted PATHS, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 over it and no counter in the contract could ever have seen it. The evidence is the raster and the sweep, not the counters. Both runs report PASS_COMPLETE, 15/56 written.",
+
+      "verifiers": {
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set": { "before": "PASS_COMPLETE, 15/56 written, nine counters zero", "after": "PASS_COMPLETE, 15/56 written, nine counters zero", "exit": 0 },
+        "scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": { "after": "EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh", "exit": 0 },
+        "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": { "after": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 3 by clearSourceCarriedTextValues", "exit": 0 }
+      },
+
+      "everyOtherFamilyDirectory": {
+        "method": "sha256 of every file under data/rcap-all50/overlays/census-v1 taken before the builder was edited and again after the second rebuild, and diffed. 5444 files both times.",
+        "familyDirectories": 249,
+        "directoriesWithAnyChangedFile": 1,
+        "theOneDirectory": "va/va-exp-nonconviction-set--official-pdf-fill",
+        "filesChangedInIt": ["fixtures/canonical.pdf", "fixtures/boundary.pdf", "fixtures/canonical--CC-1473-primary-filing.pdf", "fixtures/boundary--CC-1473-primary-filing.pdf", "reports/rendered-artifacts.json", "reports/independent-visual-review.json"],
+        "result": "248 of 249 family directories are BYTE-IDENTICAL, which is what a default-off option opted into by one builder is supposed to mean. git status showed exactly these six paths plus the builder and nothing else."
+      },
+
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library Edition 1> node scripts/verify-packet-build-environment.mjs --family va_exp_nonconviction-set, run on the clean tree before the builder was edited.",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable.",
+        "theOneFailure": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry was resolved and named: LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf, a directory the mounted Master Library does not carry. It is not a Virginia entry. family_sources_bind passed 1/1 by exact SHA-256, and this lane separately resolved CC-1473 by hashing the mounted custodies and found 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219 at the declared path. The same failure stands in VF03's row at e80c4a759.",
+        "theFailureVF03SAWANDTHISLANEDIDNOT": "private_is_git_ignored. VF03 recorded it failing because that worktree mounted private/ as a single symlink and git refuses `check-ignore private/` beyond a symbolic link. Here private/ is a real directory of read-only symlinks into the corpus, so the check exits 0 on its own terms: private/ is ignored by .gitignore line 53 and tracks nothing.",
+        "notApplicable": "The three rasterizer and browser checks and the assigned-branch check. This lane renders nothing centrally; its rasters are local measurement only.",
+        "worktree": "/home/user/fix82-worktree, branch fix82-va-exp-suppress cut from 432af667f on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits (git ls-files -v | grep -c '^S' = 0). node_modules symlinked to the captain worktree. node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext/pdfinfo, Pillow 12.3.0."
+      },
+
+      "queuesTouched": "none. MASTER_QUEUE.json and RASTER_QUEUE.json were read and never opened for writing.",
+      "legalRecordsTouched": "none. No determination is asserted or extended here. The repair applies an option this repository already carries, on the reasoning FIX50 recorded and VF03 re-measured.",
+      "claimLedgerTouched": "this lane's own FIX82 grant only, asserted at the start and released at the end, committed separately from the repair.",
+      "productWiringTouched": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Not run and not requested. The pdftoppm rasters in this row are local measurement in this container only and they were deleted. The family's standing RASTER_PASS receipt is bound to canonical 829c2fab... which this rebuild supersedes, so it no longer binds and a fresh central raster is owed.",
+        "INDEPENDENT VERIFICATION. None. This lane opted the family in and built the bytes, so it is disqualified from verifying any of them. VF03's CLIPPING_AND_OVERLAP finding is answered on the bytes here, but it is answered by the lane that made the change, and that is not a verdict."
+      ],
+      "grantsNothing": "This row repairs one measured defect on one family. It promotes nothing, opens no route, changes no default and authorizes no rebuild of any other family."
+    }
+  ]
+}
