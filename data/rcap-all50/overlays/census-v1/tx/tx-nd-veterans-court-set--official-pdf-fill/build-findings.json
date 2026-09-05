@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "tx_nd_veterans_court-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Three sources bind, in TWO different custodies: the OCA model petition and order are Master Library assets, and the Statement of Inability is held in human_source_returns, a custody carried by no release and writing its paths relative to the repository root rather than a corpus root.",
+      "consequence": "Custody roots are resolved through the shared resolver, which follows what the corpus index declares rather than the shape of the path. Each source binds by exact SHA-256 against the index entry, the mounted bytes and this family's own pin, and any disagreement is a source stop that writes nothing."
+    },
+    {
+      "finding": "Gov't Code § 411.0745(b) requires a fee that generally applies to the filing of a CIVIL CASE. Read at source, the subsection sets the TYPE of fee and not an amount: there is no flat statutory figure for a petition-based nondisclosure and county civil filing fee schedules govern. OCA instructions describe the total as typically about $280, varying by county.",
+      "consequence": "The packet states exactly that — that the statute fixes the kind of fee and not the number, that OCA describes about $280 varying by county, and that the clerk of the court being filed in is the authority who answers it. No figure is published as though it were the fee."
+    },
+    {
+      "finding": "The committed record warns in terms that the $28 figure belongs ONLY to the no-petition route under Gov't Code § 411.072(c) and is not a filing fee. This is a petition route under § 411.0727.",
+      "consequence": "The guidance names the $28 explicitly in order to tell the participant it is not theirs. Staying silent about a widely-circulated wrong number is not neutrality: a participant who has read it elsewhere arrives at the clerk's window with the wrong money, and the packet is the only thing that could have told them."
+    },
+    {
+      "finding": "Section 411.0745(e) makes the COURT responsible for giving the State notice and an opportunity for a hearing, and the committed record states the filer should not be charged for it. OCA instructions separately direct the petitioner to show proof that the district attorney received a copy of the petition.",
+      "consequence": "The packet states that the court gives notice and that the participant serves nobody, and ships the proof-of-delivery page as a CONDITIONAL component whose own first paragraph tells the participant to ask the clerk whether that county wants it. Making it unconditional would invent an obligation the statute assigns to the court; omitting it would fail the counties that expect it."
+    },
+    {
+      "finding": "Section 411.0727 uses ONE waiting period and one running condition: the second anniversary of the date of SUCCESSFUL COMPLETION of the veterans treatment court programme, and no felony conviction at any time during those two years. The record of completion, and the criminal history that answers the felony question, are records the platform has not seen.",
+      "consequence": "The completion date and the evidence-attachment control stay for the participant to complete from that record, and the guidance names the two-year rule measured from completion together with the felony condition that runs through it, rather than importing a waiting period from a sibling section. The guidance names the DPS criminal history record as the document the felony question is answered from."
+    },
+    {
+      "finding": "The Statement of Inability carries 132 AcroForm fields, almost all of them sworn financial and household facts, and it is sworn under penalty of perjury.",
+      "consequence": "It is classified by an ordered rule table with an exhaustiveness assertion in both directions: a field no rule reaches fails the build, and a rule no field matches fails it too. Nothing financial is prefilled anywhere on it — only the participant's own name, date of birth, address, telephone number and email — because a wrong figure on a sworn affidavit is a far worse defect than a blank one. The form's own face says the Clerk fills in the cause number, so that field is refused as court-owned rather than asked of the participant."
+    },
+    {
+      "finding": "The address is written on the Statement, which asks for the whole address in one blank, and withheld on the petition, whose signature block splits it across Address and City/State/Zip.",
+      "consequence": "The rule applied is the SHAPE OF THE BLANK, not the document. The platform holds one line; where a form wants one line it gets it, and where a form wants parts the participant writes the parts. The sibling Massachusetts family in this lane established the failure mode this avoids — a long address the fitter refuses is silently dropped for one participant and written for another — and this build asserts both fixtures write the same set of fields so it cannot recur unnoticed."
+    },
+    {
+      "finding": "The petition SHIPS WITH THE FORM'S OWN INK. Read first-hand from the pinned binary, Dropdown6 on page 1 carries the value \"is not\" as published by OCA — the is/is-not control recording whether evidence of completing the programme is attached. That is the FORM's value, not a write by this build.",
+      "consequence": "It is classified in the field map as the participant's own election and cleared before flatten, so no rendered artifact asserts on the participant's behalf that they attached nothing. Structurally it is a choice field, so the appearance rule already renders a chooser's value only when this run wrote it; the classification states the intent rather than relying on that alone. Each pinned source was additionally flattened UNWRITTEN and compared, so a source-authored value cannot be counted as a write by this build."
+    },
+    {
+      "finding": "Every widget on all three pinned sources was read for the annotation Hidden flag and NONE carries it: 0 of 14 on the petition, 0 of 15 on the order, 0 of 132 on the Statement. The flags were read from the pinned binaries rather than assumed from field type.",
+      "consequence": "No write in this family lands in a widget that would carry no ink. The assertion is recorded because a write into a hidden widget has been reported elsewhere as written while carrying nothing."
+    },
+    {
+      "finding": "The Statement of Inability is a SHARED NATIONAL RECORD: the same binary, by SHA-256, that three sibling Texas nondisclosure families and the Texas custom-pleading family enclose. Its three source-authored values (Value / Valor 11 = \"0\", Amount Cantidad 15 = \"0\", Today = \"12/15/2022\") were measured first-hand here rather than copied from a sibling's entry.",
+      "consequence": "This family pins the whole file by SHA-256 in SOURCES and carries its OWN entry in the appearance-semantics registry under its own family key, so the two sworn zeroes and the 2022 declaration date contribute nothing unless this run wrote them — which it never does. No other family's entry is changed."
+    },
+    {
+      "finding": "The committed record treats the EXPUNCTION OVERLAP as decisive routing logic rather than an optimisation: a veterans treatment court dismissal may also support expunction under Code Crim. Proc. art. 55A.053(a)(2)(A), with the streamlined 30-day order under art. 55A.203 and NO FEE, and the registry carries the untested expunction route as a self-help stop condition.",
+      "consequence": "The packet says so before it says anything about filing this petition, in both the participant instructions and the filing guide, because expunction destroys the record where this route only seals it and the fee difference runs the wrong way for the weaker remedy."
+    }
+  ]
+}
