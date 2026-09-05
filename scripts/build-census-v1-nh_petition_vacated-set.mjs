@@ -97,6 +97,39 @@ const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const OUT = "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-nh_petition_vacated-set.mjs";
 
+/*
+ * THE ONE FACT THAT MAKES THIS TRACK A SEPARATE TRACK.
+ *
+ * This family and nh_petition_nonconviction_pre2019-set file the same four
+ * forms, and their fixtures are byte-identical because the legal design directs
+ * that. The legal design ALSO says why they are nevertheless two tracks and not
+ * one, and it is a cost fact: the RSA 651:5, IX and X(d) fee exemptions are
+ * written around not-guilty, dismissed and not-prosecuted cases, and on the face
+ * of the statute they do not reach a vacated conviction — "a real cost
+ * difference the participant must be told about before filing".
+ *
+ * The fee paragraph in this packet used to be byte-identical to the sibling's,
+ * and what it said was that no source the packet held established a fee at all.
+ * So the single fact the controlling record says must be disclosed before filing
+ * on this route was the one fact the packet did not carry, and the participant
+ * most exposed to the agency fees was reading the words written for the one
+ * family that is exempt from them.
+ *
+ * The memo is therefore bound here as a grounding record by its own SHA-256, and
+ * the cost sentences are read out of this track's entry at build time and quoted
+ * — including the open question about whether the exemptions reach a vacated
+ * conviction, which stays open and is stated as open. Nothing about the fee is
+ * authored by this file.
+ */
+const GROUNDING_RECORDS = Object.freeze({
+  memo: "data/record-clearing/legal-design-intake/NH.memo.json"
+});
+const MEMO_TRACK_ID = "nh_petition_vacated";
+/* The schedule the memo names in its own officialSources list. */
+const FEE_SCHEDULE_TITLE_PREFIX = "Circuit Court Filing Fees";
+/* The memo's own open question about the agency fees, matched on its subject. */
+const FEE_QUESTION_MARKER = "fee exemptions in RSA 651:5, IX and X(d)";
+
 const ROUTE = Object.freeze({
   jurisdiction: "NH",
   routeKey: "obligation:track-only:NH:nh_petition_vacated",
@@ -126,6 +159,58 @@ function corpusRoot() {
     ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
   assert.ok(fs.existsSync(configured), `the Master Library is not mounted at ${configured}`);
   return configured;
+}
+
+/*
+ * Read a committed record, hash the bytes that were read, and keep both.
+ *
+ * The hash is taken from the same buffer the build parses, so the digest in the
+ * receipt is a digest of what was used and not of a second read of the file.
+ */
+function readGroundingRecord(relative) {
+  const bytes = fs.readFileSync(path.join(ROOT, relative));
+  return {
+    path: relative,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    data: JSON.parse(bytes.toString("utf8"))
+  };
+}
+
+/*
+ * The cost sentences this route is charged with disclosing before filing, taken
+ * verbatim from the memo's own track entry.
+ *
+ * The open question is loaded as well, and it is loaded as an ASSERTION: the
+ * memo's own rules.fees sentence ends "is unresolved and is recorded below", and
+ * a packet that quoted that half-sentence without the question it points at
+ * would be citing a record against itself. If the question is ever resolved and
+ * removed, this build stops rather than printing a dangling reference.
+ */
+function loadFeeGrounding() {
+  const memo = readGroundingRecord(GROUNDING_RECORDS.memo);
+  const track = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  assert.ok(track, `${GROUNDING_RECORDS.memo} holds no track ${MEMO_TRACK_ID}`);
+  assert.equal(track.legalName,
+    "Petition to Annul the Record of a Vacated Conviction Outside the Automatic Route (RSA 651:5, II, second sentence)");
+
+  const fees = track.rules?.fees;
+  const feeWaiver = track.rules?.feeWaiver;
+  const sharedFee = track.destination?.detail;
+  for (const [name, value] of [["rules.fees", fees], ["rules.feeWaiver", feeWaiver], ["destination.detail", sharedFee]]) {
+    assert.ok(typeof value === "string" && value.trim().length > 0,
+      `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} carries no ${name}, so the packet cannot state one`);
+  }
+
+  const schedule = (track.officialSources ?? []).find((row) => String(row.title ?? "").startsWith(FEE_SCHEDULE_TITLE_PREFIX));
+  assert.ok(schedule, `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} names no ${FEE_SCHEDULE_TITLE_PREFIX} source`);
+
+  const openQuestion = (track.unresolvedQuestions ?? []).find((row) => String(row.question ?? "").includes(FEE_QUESTION_MARKER));
+  assert.ok(openQuestion,
+    `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} no longer records the agency-fee question, but rules.fees still `
+    + "refers to it as recorded below");
+
+  return { record: memo, track, fees, feeWaiver, sharedFee, schedule, openQuestion };
 }
 
 const SUPPLY = (what) => ({ policy: "supply", what });
@@ -896,7 +981,7 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf) {
+function participantInstructions(maps, rbf, fee) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -937,9 +1022,40 @@ function participantInstructions(maps, rbf) {
     + "This packet does not state a courthouse address, because the platform holds no court directory and an unsourced "
     + "address in a filing instruction is worse than none.", ""
   );
+  out.push("## What it costs, and why this route costs more than it looks", "");
   out.push(
-    "**Ask the clerk what fee applies.** The fee for a petition to annul is not established in any source this packet "
-    + "holds, so it is not stated here. If you cannot pay it, file NHJB-2311 and NHJB-2328 with the petition.", ""
+    "**The filing fee is stated in the record this packet is built on.** That record — the committed New Hampshire "
+    + "legal-design memo for this exact track, bound in source-receipt.json by SHA-256 — states the cost of this route "
+    + `in its own words: “${fee.fees}”`, ""
+  );
+  out.push(
+    `The schedule it names is ${fee.schedule.title}, read at ${fee.schedule.url} on ${fee.schedule.retrievedOn}.`, ""
+  );
+  out.push(
+    "**Read that twice, because it is the thing that separates this route from the one it shares a form with.** Where "
+    + "a case ended in a finding of not guilty, a dismissal or a decision not to prosecute, RSA 651:5, IX and X(d) "
+    + "exempt the person from the Department of Corrections investigation fee and from the Department of Safety and "
+    + "state police fees. A conviction that was later vacated is not one of those cases on the face of the statute, and "
+    + "the record's instruction to this packet is that it \"should assume they are payable\" — so plan for them on top "
+    + "of the $125.00 rather than assume they are waived.", ""
+  );
+  out.push(
+    `**Whether they in fact apply is an open question, and the record records it as open:** “${fee.openQuestion.question}” `
+    + "That is not a question this packet answers, and nobody should treat the sentence above as a ruling. Ask the "
+    + "clerk of the court, and ask the Department of Corrections, what each of them will charge you before you file.", ""
+  );
+  out.push(
+    "**One fee per court location, not one fee per petition.** The same record states how petitions filed together are "
+    + `charged: “${fee.sharedFee}”`, ""
+  );
+  out.push(
+    "This packet does not take payment and cannot confirm what a particular clerk or agency will charge on the day you "
+    + "file. Every figure above is the one the record holds.", ""
+  );
+  out.push(
+    `**If you cannot pay.** The record names the papers to file instead: “${fee.feeWaiver}” Both papers are prepared in `
+    + "this packet, and both are filed with the petition. Note the second sentence of that quote: on this route the "
+    + "indigency showing is doing double work, because it reaches the agency fees as well as the filing fee.", ""
   );
   out.push(
     "**A note about the fee-waiver form's court list.** NHJB-2311's only court control is a list of SUPERIOR courts. If "
@@ -1012,6 +1128,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
       overlayDirectoryTouched: false
     };
   }
+
+  /* Bound before anything is rendered, so a memo that stopped stating the cost
+   * difference stops the build rather than producing the sibling's paragraph. */
+  const fee = loadFeeGrounding();
 
   const censuses = [];
   for (const source of resolved) {
@@ -1127,7 +1247,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf);
+  const instructionsText = participantInstructions(maps, rbf, fee);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1148,6 +1268,27 @@ export async function runFamily(argv = process.argv.slice(2)) {
       sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
       pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
     })),
+    /*
+     * The four binaries above are what the packet is RENDERED from, and they are
+     * the same four the sibling pre-2019 family renders, because the legal
+     * design directs that. This record is what the packet's cost sentences are
+     * QUOTED from, and it is the reason the two families are not the same
+     * packet: the fee position differs, and this is the record that says so.
+     */
+    groundingRecords: [
+      {
+        path: fee.record.path, sha256: fee.record.sha256, byteLength: fee.record.byteLength,
+        trackId: MEMO_TRACK_ID,
+        fieldsQuotedOnParticipantSurfaces: [
+          "rules.fees", "rules.feeWaiver", "destination.detail", "unresolvedQuestions[].question"
+        ],
+        whyItIsBound:
+          "participant-instructions.md quotes this track's fee, its agency-fee exposure, its still-open question about "
+          + "whether the RSA 651:5, IX and X(d) exemptions reach a vacated conviction, and its waiver papers, verbatim. "
+          + "Before this binding the packet printed the sibling non-conviction family's fee paragraph, which denied "
+          + "that any held source established a fee and omitted the one cost fact this track exists to disclose."
+      }
+    ],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
   });
 
@@ -1204,13 +1345,21 @@ export async function runFamily(argv = process.argv.slice(2)) {
     captionBasis: "authored AcroForm field names plus printed section headings; see reports/caption-evidence.json",
     dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
     routeDeterminedSelections: [],
+    /*
+     * This sentence used to be the sibling family's, word for word, and it named
+     * the sibling's route. The FORM is shared and that is the legal design; the
+     * ROUTE is not, and a field map that states the wrong one is stating that
+     * the packet was built for a case it was not built for.
+     */
     routeSelectionNote:
-      "The packet states the route it was built for: a petition to annul the record of a matter resolved before 1 "
-      + "January 2019, on the Judicial Branch's own pre-2019 form, under RSA 651:5. Nothing on the certification page "
-      + "is a route election: each box there is a statement the applicant swears to under penalties of law about their "
-      + "own record, several of them legal characterisations of their own matters, and a packet that ticked one would "
-      + "be swearing for them. Which court, whether to ask for a hearing, and every financial answer on the waiver "
-      + "papers are the participant's too, and each is disclosed by name.",
+      `The packet states the route it was built for: ${fee.track.legalName} — in plain words, ${fee.track.publicName}. `
+      + "It is prepared on the Judicial Branch's own pre-2019 form, NHJB-2317-DSe, because the legal design directs "
+      + "this track to that form family; the form is shared with the pre-2019 non-conviction petition and the route is "
+      + "not, and the two differ on cost, which participant-instructions.md states from the same record. Nothing on the "
+      + "certification page is a route election: each box there is a statement the applicant swears to under penalties "
+      + "of law about their own record, several of them legal characterisations of their own matters, and a packet "
+      + "that ticked one would be swearing for them. Which court, whether to ask for a hearing, and every financial "
+      + "answer on the waiver papers are the participant's too, and each is disclosed by name.",
     requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   });

@@ -23,7 +23,21 @@ The petition in this packet prints its own sub-heading: **Offenses Resolved Prio
 
 File the petition with the **clerk of the New Hampshire court that handled the matter** — the court you pick from the list at the top of NHJB-2317, which carries every circuit-court district division and every superior court. This packet does not state a courthouse address, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.
 
-**Ask the clerk what fee applies.** The fee for a petition to annul is not established in any source this packet holds, so it is not stated here. If you cannot pay it, file NHJB-2311 and NHJB-2328 with the petition.
+## What it costs, and why this route costs more than it looks
+
+**The filing fee is stated in the record this packet is built on.** That record — the committed New Hampshire legal-design memo for this exact track, bound in source-receipt.json by SHA-256 — states the cost of this route in its own words: “$125.00 per court location. Whether the RSA 651:5, IX $100 Department of Corrections investigation fee and the Department of Safety and state police fees apply is unresolved and is recorded below; on the face of the statute the exemptions do not reach a vacated conviction, so the packet should assume they are payable.”
+
+The schedule it names is Circuit Court Filing Fees, New Hampshire Judicial Branch — "Petition to Annul Criminal Record (per court location) $125.00", read at https://www.courts.nh.gov/sites/g/files/ehbemt471/files/documents/2021-06/filing_fees.pdf on 2026-08-06.
+
+**Read that twice, because it is the thing that separates this route from the one it shares a form with.** Where a case ended in a finding of not guilty, a dismissal or a decision not to prosecute, RSA 651:5, IX and X(d) exempt the person from the Department of Corrections investigation fee and from the Department of Safety and state police fees. A conviction that was later vacated is not one of those cases on the face of the statute, and the record's instruction to this packet is that it "should assume they are payable" — so plan for them on top of the $125.00 rather than assume they are waived.
+
+**Whether they in fact apply is an open question, and the record records it as open:** “Whether the fee exemptions in RSA 651:5, IX and X(d), which are written around not-guilty, dismissed and not-prosecuted cases under paragraph II, reach a vacated conviction. On the face of the statute they do not, and paragraph IX was read at gc.nh.gov on 2026-08-06 without resolving it.” That is not a question this packet answers, and nobody should treat the sentence above as a ruling. Ask the clerk of the court, and ask the Department of Corrections, what each of them will charge you before you file.
+
+**One fee per court location, not one fee per petition.** The same record states how petitions filed together are charged: “As on the pre-2019 non-conviction petition: unified statewide system, one petition per charge, petitions filed together in one court location share a single filing fee.”
+
+This packet does not take payment and cannot confirm what a particular clerk or agency will charge on the day you file. Every figure above is the one the record holds.
+
+**If you cannot pay.** The record names the papers to file instead: “Motion for Waiver of Filing Fee, NHJB-2311, with the Statement of Assets and Liabilities, NHJB-2328. Indigency also exempts the Department of Corrections and Department of Safety fees under RSA 651:5, IX.” Both papers are prepared in this packet, and both are filed with the petition. Note the second sentence of that quote: on this route the indigency showing is doing double work, because it reaches the agency fees as well as the filing fee.
 
 **A note about the fee-waiver form's court list.** NHJB-2311's only court control is a list of SUPERIOR courts. If your case is in a circuit court district division — which is where most pre-2019 annulment petitions go — that list cannot name your court, so write the court's name on the form by hand. This packet will not choose a superior court you are not in.
 
