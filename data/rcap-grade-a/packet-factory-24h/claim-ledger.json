@@ -6590,10 +6590,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX16",
+      "lane": "FIX23",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T04:52:27.326Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6739,10 +6739,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX16",
+      "lane": "FIX23",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T04:52:39.096Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12763,7 +12763,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "92ff35dae61663642b66ecb8d3ea0e10d4dcbb8b02c1bbaca6f25b4f12e141a0",
+  "claimsDigest": "5f696fd7d6e1dd7fbe81fb4bdfe290aaff2e76cae7dfea6dca1a44c9478cf323",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37447,6 +37447,28 @@
       "previouslyReleasedAt": "2026-09-02T16:29:08.351Z",
       "transferredAt": "2026-09-05T06:06:39.173Z",
       "reason": "Captain moves this released grant to FIX22 before dispatch. A terminal COMPLETE_PACKET_PROVEN family is shipping two zeros on a sworn Statement of Inability to Afford Payment of Court Costs, confirmed with the repository's own appearance reader against two byte-clean siblings."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ok-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX16",
+      "toLane": "FIX23",
+      "previouslyReleasedAt": "2026-09-05T04:52:27.326Z",
+      "transferredAt": "2026-09-05T06:26:52.435Z",
+      "reason": "Captain moves this released grant to FIX23 before dispatch. FIX21 established both families still ship orphaned execution blocks -- Oklahoma 8, Washington 2 -- because Rule 1b went to North Dakota only, and correctly refused both to transfer onto itself and to edit a builder it could not rebuild."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wa-custom-pleading-clean-tracks",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX16",
+      "toLane": "FIX23",
+      "previouslyReleasedAt": "2026-09-05T04:52:39.096Z",
+      "transferredAt": "2026-09-05T06:26:52.557Z",
+      "reason": "Captain moves this released grant to FIX23 before dispatch. FIX21 established both families still ship orphaned execution blocks -- Oklahoma 8, Washington 2 -- because Rule 1b went to North Dakota only, and correctly refused both to transfer onto itself and to edit a builder it could not rebuild."
     }
   ],
   "withdrawals": [
