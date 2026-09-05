@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 771,
+    "rows": 773,
     "independentVerdicts": 240,
-    "failRepairRequired": 70,
-    "passIndependent": 160
+    "failRepairRequired": 69,
+    "passIndependent": 161
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
@@ -95,7 +95,6 @@
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
     "rcap-nv-custom-pleading",
-    "rcap-tx-custom-pleading",
     "rcap-wi-custom-pleading",
     "rcap-wv-custom-pleading",
     "ri_nonconviction_sealing-set",
@@ -8845,6 +8844,34 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": true
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "321938c38",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "A court receiving the boundary application reads a conviction table whose first line is empty and which lists three of the four convictions the platform holds, and no declaration artifact in the family says so. The withholding itself is defensible — the fitter cannot show a 28-character case number in 92pt of usable column, and a row with a crime and no case number beside it would read as finished — and participant-instructions.md does disclose the rule in general terms ('A line is written whole or not at all'). What fails is that the boundary side of production-field-map.json is a copy of the canonical side, so two blanks on a delivered page carry no disposition at all while eight inked fields are declared as required-before-filing blanks. REPAIR: generate maps[].boundaryWrites, maps[].boundaryRefusals and the selectionControls settlement from the BOUNDARY render, the way reports/actual-writes.json already is; then either fit row a (the same string renders at 6pt on pages 2 and 3) or carry the withheld row as an explicit, named declaration rather than as a claim that it was written.",
+          "evidence": "Flattened widget appearances read back from the finalized bytes: canonical 10 inked of 104, boundary 16 of 104. Canonical writes the Parties box (dinfo, page 1, 320/581.4, three lines at 9pt inside a clip of 2..251.3 x 2..44.8), item 1 row a CRIME and CASE NUMBER, item 2 across three ruled lines, the county and the caption case number. Boundary writes the Parties box over four lines, item 1 rows b, c and d, item 2 across five lines, and ticks multcaseno with a filled Bezier glyph (moveto + 9 curveto after the border `re`), which a text-only read-back cannot see. DEFECT, on the boundary artifact: item 1 row a is WHOLLY BLANK although the platform holds that conviction — matter.charges[0] = 'Accosting, soliciting, or inviting another to commit prostitution or an immoral act' / case number 2024-0011882-SUPPLEMENTAL-FY — and that same case number IS written three times in the same packet, in the page-1 caption at 8.36pt and in the page-2 and page-3 headers at 6pt. The contract's own words: 'A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The record that should declare the withholding declares the opposite: production-field-map.json maps[0].boundaryWrites is BYTE-IDENTICAL to canonicalWrites and boundaryRefusals is byte-identical to canonicalRefusals, so the map claims c1 and cno1 carry ink on the boundary page (they are blank) and claims c2, c3, c4, cno2, cno3, cno4, Explain4 and Explain5 are blanks (they carry ink). The same row says multcaseno is markedByThisBuild false on a basis of '1 conviction(s) under 1 distinct case number(s)', while the boundary page ticks it over three convictions under two case numbers. reports/actual-writes.json is correct per fixture, so the divergence is in the field map alone; and 37 other maps in this corpus do carry divergent canonical/boundary write lists, so a per-fixture map is the schema's normal use rather than something this family could not have produced."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The disclosure test passes for the canonical delivery, 61 of 61. The declaration SET does not describe the boundary artifact, so on that fixture the disposition is claimed for eight facts the build wrote and withheld from the two blanks that actually need it. Same root cause and same repair as KNOWN_PREFILLS.",
+          "evidence": "61 rows declare requiredBeforeFiling true and all 61 effective labels appear in participant-instructions.md, checked one at a time against the file with whitespace normalised: 0 undisclosed. All fourteen AcroForm checkboxes now carry a row in maps[0].selectionControls with a printed caption, a closed-vocabulary completenessDisposition (9 PARTICIPANT_ELECTION_GENUINE, 5 PROTECTED_FIELD), a whoMarksIt line and a line in the participant inventory: VF01's fourteen-undeclared finding is discharged, and they were in selectionControls rather than absent. The failure is on the boundary side: because boundaryRefusals is a copy of canonicalRefusals, eight fields the build actually INKS on boundary.pdf (c2, c3, c4, cno2, cno3, cno4, Explain4, Explain5) are declared REQUIRED_BEFORE_FILING there, which fails the contract's GENUINELY UNAVAILABLE condition on its own terms — a fact written in the same packet is available — and the two boundary blanks that would need the disposition carry none."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
       "superseded": false
     },
     {
@@ -15366,6 +15393,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading",
+      "superseded": true
+    },
+    {
+      "familyId": "rcap-tx-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "321938c38",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading",
       "superseded": false
     },
