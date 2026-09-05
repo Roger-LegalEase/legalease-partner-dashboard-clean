@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "c6ffb92517e5a6764171b9d74eb004e308d40cba",
+  "minimumCaptainSha": "a8725cf9436a2760cea619aca02597fe3c45ea0d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 8,
+    "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
-    "remaining": 338,
+    "remaining": 337,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
-    "verifyPending": 9,
+    "verifyPending": 8,
     "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 135,
-    "FAIL_REPAIR_REQUIRED": 53,
+    "FAIL_REPAIR_REQUIRED": 54,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "BUILT_RASTER_PENDING": 8,
@@ -87,7 +87,7 @@
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 9,
+    "VERIFY_PENDING": 8,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -110,6 +110,7 @@
     ],
     "families": [
       "il-seal-edu-set",
+      "nc_145_5_felony-set",
       "nc_146_dismissal_petition-set",
       "nd-nonconviction-close-petition-set",
       "nh_petition_nonconviction_pre2019-set",
@@ -27829,11 +27830,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "ff4dee3ab",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "408674aaa",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27868,15 +27871,15 @@
       "failedObligations": [
         {
           "obligation": "KNOWN_PREFILLS",
-          "finding": "Two known facts the packet writes on AOC-CV-226 are refused on AOC-CR-297. The refusal is honest and disclosed, and the contract still counts it as a missing known fact because the fact is available. The caption-capture defect the refusal rests on cannot reach the write, which is placed by field name into the widget's own rectangle, so the repair is to write both facts. Separately, the participant-facing justification at participant-instructions.md line 177 is still the falsified class statement and contradicts line 11 of the same document.",
-          "evidence": "THIS IS THE RULING THE READ WAS FOR, and it is made on the contract and on the bytes. The packet holds participant.date_of_birth and participant.zip, writes both on AOC-CV-226 (fee_waiver.ApplicantDateOfBirth, fee_waiver.ApplicantZip) and leaves both blank on AOC-CR-297 (petition.DOB, petition.PetitionerZip), each declared requiredBeforeFiling. Read back from the delivered bytes: canonical page 4 carries 1991-04-17 and 27601, boundary page 4 carries 1968-12-31 and 27101-2214, and per-page extraction confirms neither value appears on page 1 of either fixture. The FIX01 repair changed the reason, not the disposition, and disclosed the AOC-CV-226 write in three places (participant-instructions.md lines 11, 99 and 105). REQUIRED_BEFORE_FILING_CONDITIONS says every condition must hold and its third is: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' Both rows now say in their own words that the platform holds the fact and writes it on AOC-CV-226, so they state the condition's own disqualifier. A disclosed, reasoned refusal of a fact the packet writes elsewhere therefore does NOT discharge KNOWN_PREFILLS: the disposition turns on availability, not on the honesty of the reason. DISCLOSED and IDENTIFIED are now satisfied; GENUINELY UNAVAILABLE is not, and the conditions are conjunctive. Each of the two is a KNOWN_FACT_NOT_WRITTEN, defect class FAIL_MISSING_REQUIRED_FACTS. AND THE ANSWER DOES TURN ON A CAPTION-CAPTURE DEFECT A REPAIR CAN REMOVE, which is why this is repair-actionable rather than blocked. The stated risk is 'binding the value to the neighbouring printed field'. Measured from the pinned AOC-CR-297 bytes, that risk does not exist in the write path. (a) GEOMETRY: PetitionerZip is page 1 x[255.8,315.1] y[633.4,646.6]; the neighbour the reason names, Race, is x[222.9,267.9] y[609.2,624.8], a different row 8.6pt below with no overlap. DOB is x[36.6,175.3] y[585.1,600.7]; SSN is x[177.2,315.1] on the same row, 1.9pt clear to the right and disjoint. (b) MECHANISM: writes are applied by AcroForm field NAME -- rcap-official-form-finalize.mjs does form.getField(fieldName) and fits the text to entry.widgets[].rect -- and the captured caption (entry.effectiveLabel) is used only for the protected-category test and for the disclosure label. The caption capture does not position a write. (c) PROOF ON THIS VERY ROW: PetitionerCity x[37.3,233.8] and PetitionerState x[233.3,256.1] sit on the identical y=633.4 line, immediately left of PetitionerZip; build-findings.json records the same capture defect over that whole row; both are written by name and both land correctly on the delivered page. THE REPAIR, EXACTLY: in scripts/build-census-v1-nc_145_5_felony-set.mjs replace the two h.rbf declarations at lines 551 and 566 with h.write(\"PetitionerZip\", \"Address Of Petitioner - Zip\", \"participant.zip\", 1) and h.write(\"DOB\", \"Date Of Birth on the petition\", \"participant.date_of_birth\", 1), the same call shape already used for the six petition writes; then fixtures move and a re-raster is owed. A SECOND, SEPARATE DEFECT IN THE SAME OBLIGATION SURVIVED THE REPAIR ON THE DELIVERED PAGE: participant-instructions.md line 177 still reads 'Your ZIP code, your driver's licence number and state, your race, your sex, your date of birth and your Social Security number. Government identifiers and personal descriptors this build does not write onto any form, on a row whose printed captions the shared rules cannot read reliably in any case.' That is the exact sentence VF01 recorded as falsified by page 4, it is still false, and it now contradicts line 11 of the same file, which tells the participant the packet wrote the date of birth and the ZIP on AOC-CV-226. Step 7 at line 162 likewise tells them to write both facts themselves with no mention of the write. The repair commit repaired the field-map rows and left the participant-facing prose carrying the class it set out to remove."
+          "finding": "Date of birth and ZIP are repaired and both rulings are favourable on the form's own evidence: the DOB write is in the cell captioned Date Of Birth and nowhere near the Full Social Security No. blank, and the uncaptioned ZIP cell is established as the ZIP cell of the address block by the AOC's own row structure, its own field name and its own companion form's printed caption. KNOWN_PREFILLS still fails, on one remaining row of exactly the shape VF03 named: the participant's street address is held, written on AOC-CR-297, and refused on AOC-CV-226 where the affidavit asks for it. The repair is to write it there, by the same field-name channel that carries the other eight writes on that form; the nine counters cannot see it, so it must be repaired against this row rather than against the verifier.",
+          "evidence": "THE TWO RULINGS THE RE-READ WAS FOR ARE BOTH FAVOURABLE, AND A THIRD ROW OF THE SAME SHAPE FAILS. (a) DATE OF BIRTH: measured on the pinned AOC-CR-297 (99c17942..) rastered at 300 dpi. The DOB widget rect read from the pinned form is page 1 x[36.63,175.30] y[585.07,600.65]; the only printed words intersecting it are 'Date Of Birth' at x[38.50,78.96] y[599.29,608.55], and 'Full Social Security No.' begins at x=177.80, inside SSN's own rect x[177.21,315.08] on the far side of the cell divider. The delivered ink attributed to DOB occupies x[78.48,133.44] y[588.96,596.64] on both fixtures: strictly inside the DOB rect, 43.8pt clear of the SSN rect and 44.4pt clear of the SSN caption, with the SSN cell carrying zero added pixels. Delivered text reads 1991-04-17 (canonical) and 1968-12-31 (boundary) beneath the 'Date Of Birth' caption. (b) ZIP: ruled on the form's own layout. The AOC's AcroForm gives the petitioner block four rows -- PetitionerName, PetitionerStreetAddress, PetitionerMailAddress, then a three-cell bottom row PetitionerCity x[37.32,233.79] / PetitionerState x[233.29,256.10] / PetitionerZip x[255.81,315.08] at y[633.38,646.63] -- and the same City/State/Zip three-cell row recurs in the attorney block and in all three agency blocks, none of them captioned. No printed word intersects the ZIP rect and the form prints no ZIP caption anywhere on page 1. Two independent facts settle it from the issuer rather than from the family's table: the AOC's own field name for that cell is PetitionerZip, and the AOC's companion form in this same packet, AOC-CV-226, prints the caption 'City, State And Zip Code' over an identically structured three-cell row whose widgets (ApplicantCity x[37.44,231.95], ApplicantState x[231.73,256.39], ApplicantZip x[256.10,315.38]) sit at the same x boundaries. The delivered ink lands inside that rect only -- canonical x[270.48,300.00], boundary x[259.20,311.52] -- and reads 'Raleigh  NC  27601' / 'Winston-Salem  NC  27101-2214' across the row. So the ZIP write is in the ZIP cell of the address block and is not a wrong write. (c) THE FAILURE, on a row this re-read measured rather than inherited: fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226 page 1 is declared requiredBeforeFiling with the reason 'your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption'. The packet holds participant.street_address and WRITES it in the same packet, on AOC-CR-297 page 1 ('42 Larkspur Street' canonical, '1188 Upper Yadkin River Crossing Road, Apartment 14B' boundary; per-page extraction finds it on delivered page 1 only and nowhere on page 4). REQUIRED_BEFORE_FILING_CONDITIONS requires every condition to hold and its third is 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The row states that disqualifier in its own words, and its stated reason is additionally of the POLICY_SHAPED_REASONS shape -- the build's descriptor list offering nothing says nothing about whether the filing needs the value. The consequence is visible on the paper: the affidavit's applicant block carries the City, State and Zip cells written and the street line blank, so the delivered AOC-CV-226 shows an address with no street."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX66",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -27887,7 +27890,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nc_145_5_misdemeanor-set",

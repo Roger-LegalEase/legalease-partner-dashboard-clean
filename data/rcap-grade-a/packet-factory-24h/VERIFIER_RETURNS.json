@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 836,
+    "rows": 837,
     "independentVerdicts": 240,
     "failRepairRequired": 67,
     "passIndependent": 155
@@ -10254,6 +10254,28 @@
     {
       "familyId": "nc_145_5_felony-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "408674aaa",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Date of birth and ZIP are repaired and both rulings are favourable on the form's own evidence: the DOB write is in the cell captioned Date Of Birth and nowhere near the Full Social Security No. blank, and the uncaptioned ZIP cell is established as the ZIP cell of the address block by the AOC's own row structure, its own field name and its own companion form's printed caption. KNOWN_PREFILLS still fails, on one remaining row of exactly the shape VF03 named: the participant's street address is held, written on AOC-CR-297, and refused on AOC-CV-226 where the affidavit asks for it. The repair is to write it there, by the same field-name channel that carries the other eight writes on that form; the nine counters cannot see it, so it must be repaired against this row rather than against the verifier.",
+          "evidence": "THE TWO RULINGS THE RE-READ WAS FOR ARE BOTH FAVOURABLE, AND A THIRD ROW OF THE SAME SHAPE FAILS. (a) DATE OF BIRTH: measured on the pinned AOC-CR-297 (99c17942..) rastered at 300 dpi. The DOB widget rect read from the pinned form is page 1 x[36.63,175.30] y[585.07,600.65]; the only printed words intersecting it are 'Date Of Birth' at x[38.50,78.96] y[599.29,608.55], and 'Full Social Security No.' begins at x=177.80, inside SSN's own rect x[177.21,315.08] on the far side of the cell divider. The delivered ink attributed to DOB occupies x[78.48,133.44] y[588.96,596.64] on both fixtures: strictly inside the DOB rect, 43.8pt clear of the SSN rect and 44.4pt clear of the SSN caption, with the SSN cell carrying zero added pixels. Delivered text reads 1991-04-17 (canonical) and 1968-12-31 (boundary) beneath the 'Date Of Birth' caption. (b) ZIP: ruled on the form's own layout. The AOC's AcroForm gives the petitioner block four rows -- PetitionerName, PetitionerStreetAddress, PetitionerMailAddress, then a three-cell bottom row PetitionerCity x[37.32,233.79] / PetitionerState x[233.29,256.10] / PetitionerZip x[255.81,315.08] at y[633.38,646.63] -- and the same City/State/Zip three-cell row recurs in the attorney block and in all three agency blocks, none of them captioned. No printed word intersects the ZIP rect and the form prints no ZIP caption anywhere on page 1. Two independent facts settle it from the issuer rather than from the family's table: the AOC's own field name for that cell is PetitionerZip, and the AOC's companion form in this same packet, AOC-CV-226, prints the caption 'City, State And Zip Code' over an identically structured three-cell row whose widgets (ApplicantCity x[37.44,231.95], ApplicantState x[231.73,256.39], ApplicantZip x[256.10,315.38]) sit at the same x boundaries. The delivered ink lands inside that rect only -- canonical x[270.48,300.00], boundary x[259.20,311.52] -- and reads 'Raleigh  NC  27601' / 'Winston-Salem  NC  27101-2214' across the row. So the ZIP write is in the ZIP cell of the address block and is not a wrong write. (c) THE FAILURE, on a row this re-read measured rather than inherited: fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226 page 1 is declared requiredBeforeFiling with the reason 'your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption'. The packet holds participant.street_address and WRITES it in the same packet, on AOC-CR-297 page 1 ('42 Larkspur Street' canonical, '1188 Upper Yadkin River Crossing Road, Apartment 14B' boundary; per-page extraction finds it on delivered page 1 only and nowhere on page 4). REQUIRED_BEFORE_FILING_CONDITIONS requires every condition to hold and its third is 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The row states that disqualifier in its own words, and its stated reason is additionally of the POLICY_SHAPED_REASONS shape -- the build's descriptor list offering nothing says nothing about whether the filing needs the value. The consequence is visible on the paper: the affidavit's applicant block carries the City, State and Zip cells written and the street line blank, so the delivered AOC-CV-226 shows an address with no street."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_145_5_felony-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nc_145_5_felony-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
       "verifiedAtBase": "ff4dee3ab",
@@ -10273,7 +10295,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_145_5_felony-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nc_146_acquittal_petition-set",
