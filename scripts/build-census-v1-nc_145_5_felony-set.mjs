@@ -179,7 +179,7 @@ const SPEC = {
       explicitMappings: {},
       unwritable: [
         { field: "ApplicantFullPermanentMailingAddressAddr1", class: "if_different_than_above_block",
-          why: "The form marks this whole block \"Full Permanent Mailing Address Of Applicant (if different than above)\". The shared descriptors refuse an if-different block, but the ligature in this form's printed caption comes through as \"di(uerent\", so the refusal does not fire and the block BINDS participant.street_address — writing the participant's only address into the block that exists for a DIFFERENT one, while the Street Number And Street Name line above it stays empty." },
+          why: "The form marks this whole block \"Full Permanent Mailing Address Of Applicant (if different than above)\". The shared descriptors refuse an if-different block, but the ligature in this form's printed caption comes through as \"di(uerent\", so the refusal does not fire and the block BINDS participant.street_address — writing the participant's only address into the block that exists for a DIFFERENT one. The Street Number And Street Name line above it is where that address belongs, and this build now writes it there through the narrativeLines channel below." },
         { field: "ApplicantFullPermanentMailingAddressAddr2", class: "if_different_than_above_block",
           why: "The second line of the same if-different block, on the same reasoning." },
         { field: "ApplicantFullPermanentMailingAddressCity", class: "if_different_than_above_block",
@@ -188,6 +188,77 @@ const SPEC = {
           why: "The state of the same if-different block." },
         { field: "ApplicantFullPermanentMailingAddressZip", class: "if_different_than_above_block",
           why: "The ZIP of the same if-different block." }
+      ],
+      /*
+       * THE APPLICANT'S STREET ADDRESS, WRITTEN ON THE LINE THE FORM PRINTS FOR
+       * IT, AND WHY IT TAKES A NAMED CHANNEL TO GET THERE.
+       *
+       * WHAT WAS WRONG. The platform holds participant.street_address and
+       * writes it on AOC-CR-297 page 1. On AOC-CV-226 the same fact was
+       * declared required-before-filing, so the delivered affidavit's applicant
+       * block carried City, State and Zip with the street line empty: an
+       * address with no street, on a document sworn under G.S. 7A-450 et seq.
+       * The completeness contract's REQUIRED_BEFORE_FILING_CONDITIONS names
+       * that exact case -- "A fact written anywhere else in the same packet is
+       * available, and refusing it here is a missing known fact" -- and VF01
+       * scored it as the family's one failing obligation.
+       *
+       * WHY THE ORDINARY DESCRIPTOR CHANNEL REFUSES IT, measured here against
+       * the live rules rather than inferred. decideBinding tries the field NAME
+       * and then, only if the name matches nothing, the printed LABEL:
+       *
+       *   name  "ApplicantStreetNumberAndStreetNameLine1"
+       *         -> descriptorsMatching() returns [] . participant.street_address
+       *            requires one of street addr | mailing addr | addr line N |
+       *            ^addr | address, and this name carries none of them;
+       *            participant.full_legal_name would match on "Applicant"/"Name"
+       *            and is refused by its own \bstreet\b clause, correctly.
+       *   label as CAPTURED  "Street Number And Street Name, Including Apartment
+       *            Or Unit N"  -> [] .
+       *   label as PRINTED   "Street Number And Street Name, Including Apartment
+       *            Or Unit Number If Applicable"  -> [] .
+       *
+       * so the decision is { writable: false, reason: "no_allowlisted_fact_
+       * matches" } on all three, and an explicitMappings entry cannot reach it
+       * either: decideBinding returns on the empty match set BEFORE it consults
+       * explicitMappings, which was confirmed by running it both ways. The
+       * defect is therefore NOT this family's caption capture. It is that the
+       * shared descriptor list has no pattern for a street-address caption
+       * written the way the AOC writes this one, and the sibling family
+       * nc-146-dismissal-petition-set records the same finding against the same
+       * binary. scripts/rcap-official-forms/rcap-field-semantics.mjs is shared
+       * by every builder in the corpus and this lane does not open it; the gap
+       * stays reported in build-findings.json for the lane that owns it.
+       *
+       * THE CHANNEL USED INSTEAD, and its limits. narrativeAcrossFields is the
+       * finalizer's own opt-in channel for one held fact laid out on the ruled
+       * line or lines a form prints for it. Its guard admits a single line by
+       * name ("narrative_needs_a_fact_and_at_least_one_line"). The caller names
+       * a FACT ID and a FIELD and nothing else: the module resolves the fact
+       * from the same facts set every other write is resolved from, runs the
+       * same protect test on the caption and on the field name, refuses if the
+       * field is already written or classified unwritable by role, fits the
+       * value to that field's own widget rectangle, and REFUSES IT WHOLE rather
+       * than truncating if it will not fit at a readable size. No caller text
+       * can reach the page through it. It is named here for ONE field and one
+       * fact; ApplicantStreetNumberAndStreetNameLine2 is not named and stays
+       * optional, and the whole "if different than above" block stays refused
+       * by role above, so the address cannot land in the block that exists for
+       * a different one.
+       *
+       * WHERE THE INK GOES, measured on the pinned form at 300 dpi before the
+       * write was made. The widget rect is page 1 x[37.24,315.01]
+       * y[659.06,675.41]. Its cell prints exactly one caption, "Street Number
+       * And Street Name, Including Apartment Or Unit Number If Applicable", at
+       * y 677.4-686.0 across x[38.50,303.60], directly above it; the rect's
+       * interior holds no printed word at all (68 dark pixels at 300 dpi, all
+       * of them the cell's own left and right rules). The one widget rect that
+       * touches it is line two of this same block, sharing the cell hairline
+       * over 0.330pt. See CAPTION_CORRECTIONS for the same measurement and for
+       * the truncation the shared capture returns for this caption.
+       */
+      narrativeLines: [
+        { factId: "participant.street_address", fields: ["ApplicantStreetNumberAndStreetNameLine1"] }
       ]
     }
   },
@@ -283,7 +354,7 @@ const SPEC = {
     "This packet is the Administrative Office of the Courts' own **AOC-CR-297, Petition and Order of Expunction Under G.S. 15A-145.5 (Nonviolent Felony(ies))**, the AOC's own instruction sheet for that form, and — only if you cannot pay the filing fee — **AOC-CV-226, the Civil Affidavit of Indigency**.",
     "**This is the FELONY form.** AOC-CR-297's own caption says that for expunction of nonviolent MISDEMEANORS under the same section the form is AOC-CR-298. If what you want cleared is a misdemeanor, this is the wrong form.",
     "**Most of this form is not yours, and that is why so little of it is filled in.** Side One carries the petition, but it also carries a CERTIFICATE OF SERVICE that is only true once the district attorney has actually been served, and a REQUEST BY JUDGE block addressed to the State Bureau of Investigation. The whole of Side Two is the SBI's certification, the AOC records officer's report, thirteen FINDINGS OF FACT, the ORDER and the CERTIFICATION BY CLERK. This packet writes nothing on any of them, and neither should you.",
-    "The platform filled what it holds and nothing else: your name, your street address, your city, your state, your ZIP code and your date of birth in the petitioner block on Side One, the county in the caption, and the file number in the caption's File No. box. On AOC-CV-226 it filled your name, your city, state and ZIP, your telephone number and your date of birth.",
+    "The platform filled what it holds and nothing else: your name, your street address, your city, your state, your ZIP code and your date of birth in the petitioner block on Side One, the county in the caption, and the file number in the caption's File No. box. On AOC-CV-226 it filled your name, your street address, your city, state and ZIP, your telephone number and your date of birth.",
     "**The offence table on Side One is left entirely to you.** Its six columns — File No.(s), Date Of Arrest, Offense Description, Date Of Offense, Disposition, Date Of Disposition/Conviction — are conviction facts about your own record, and paragraph 1 asks you to certify that no offence listed is more serious than a Class H felony and that none is on the statute's exclusion list. Those are characterizations of the official record, not of your memory, and the table below tells you which record each column comes from.",
     "**This packet does not contain the affidavits paragraph 3 certifies you have attached.** G.S. 15A-145.5(c1) requires affidavits of good character, and they are other people's sworn statements about you rather than your own. You obtain them; nothing in this packet is one."
   ],
@@ -471,9 +542,42 @@ const SPEC = {
         + "shared if-different refusal therefore does not fire.",
       consequence:
         "The whole block is refused by role, so the address is never written into the block that exists for a "
-        + "DIFFERENT one. That leaves the Street Number And Street Name line above it to the participant: it "
-        + "binds nothing either, since no descriptor matches its printed caption. Identical to the finding the "
-        + "dismissal family records against the same binary."
+        + "DIFFERENT one. The Street Number And Street Name line above it is where the address belongs, and it "
+        + "binds nothing either -- see the next finding, which is why this build no longer leaves it empty."
+    },
+    {
+      finding:
+        "THE SHARED DESCRIPTOR LIST DOES NOT REACH A STREET-ADDRESS CAPTION WRITTEN THE WAY THE AOC WRITES THIS "
+        + "ONE, and that, rather than a caption misread, is why AOC-CV-226's street line was blank on a packet "
+        + "that writes the same fact on AOC-CR-297. Measured against the live rules: descriptorsMatching returns "
+        + "[] for the field name \"ApplicantStreetNumberAndStreetNameLine1\", for the captured caption \"Street "
+        + "Number And Street Name, Including Apartment Or Unit N\" and for the caption the form actually prints, "
+        + "\"Street Number And Street Name, Including Apartment Or Unit Number If Applicable\", because "
+        + "participant.street_address requires one of street addr | mailing addr | addr line N | ^addr | address "
+        + "and none of the three carries any of them. decideBinding therefore returns "
+        + "no_allowlisted_fact_matches, and an explicitMappings entry cannot reach it: the function returns on "
+        + "the empty match set before it consults explicitMappings, confirmed by running it both ways. The "
+        + "sibling family nc-146-dismissal-petition-set records the same finding against the same binary.",
+      consequence:
+        "Reported for the lane that owns scripts/rcap-official-forms/rcap-field-semantics.mjs, which every "
+        + "builder in the corpus shares and this family does not open. In this family the fact is now written "
+        + "through the finalizer's own opt-in narrativeAcrossFields channel, naming one fact id and one field: "
+        + "the module resolves participant.street_address from the same facts set as every other write, runs the "
+        + "same protect test on the caption and on the field name, fits it to that widget's own rectangle and "
+        + "refuses it whole rather than truncating. The write is recorded in reports/actual-writes.json with "
+        + "kind text_narrative_line, which is the shared module's word for a fact laid out on a form's own ruled "
+        + "line and not a claim that a street address is a narrative."
+    },
+    {
+      finding:
+        "CAPTION-CAPTURE TRUNCATION on AOC-CV-226. The shared capture caps an effective label at "
+        + "CAPTION_MAX_CHARS = 60; this form's street caption is 78 characters, so the capture returned it cut "
+        + "mid-word at \"Unit N\", a caption the form does not print. Nothing bound to it either way, but the "
+        + "family's field map, disclosure table and refusal records all quote the effective label.",
+      consequence:
+        "Corrected in this family's own CAPTION_CORRECTIONS table from the pinned form's 300 dpi raster and "
+        + "recorded under captionCorrectionsApplied, exactly as the two AOC-CR-297 corrections are. The shared "
+        + "capture is untouched."
     },
     {
       finding:
@@ -525,6 +629,7 @@ const SPEC = {
     "Side Two of AOC-CR-297 and the REQUEST BY JUDGE block on Side One are deliberately untouched in full. Please check on the raster that nothing has landed in the SBI certification, the AOC report, the FINDINGS OF FACT, the ORDER or the CERTIFICATION BY CLERK.",
     "The CERTIFICATE OF SERVICE is entirely blank by design, including the district attorney's email address of record.",
     "AOC-CV-226 is a sworn financial statement. Every money figure on it is blank by design.",
+    "The applicant's street address is now written on AOC-CV-226's \"Street Number And Street Name\" line, which earlier builds left blank while filling the City, State and Zip cells beside it -- an address with no street on a sworn affidavit. It is written through the finalizer's narrativeAcrossFields channel because no shared descriptor matches that printed caption; build-findings.json carries the measurement, the refusal and the caption correction. Please check on the raster that the street line carries the address, that the second line and the whole \"if different than above\" block below it are still empty, and that nothing else on delivered page 4 moved.",
     "This packet does not contain the G.S. 15A-145.5(c1) good-character affidavits, and says so."
   ],
 
@@ -788,6 +893,17 @@ const SPEC = {
     } else if (componentId === "fee_waiver") {
       writes.push(
         h.write("ApplicantName", "Name Of Applicant", "participant.full_legal_name", 1),
+        /*
+         * The street line of the applicant's address block, written on the line
+         * the form prints for it. The fact is the one AOC-CR-297 page 1 already
+         * carries; the caption above the rect is quoted here as the pinned form
+         * prints it rather than as the capture truncates it; and the channel
+         * that carries the write, with the measurement and the refusal it
+         * answers, is the narrativeLines note on the fee_waiver document above.
+         */
+        h.write("ApplicantStreetNumberAndStreetNameLine1",
+          "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+          "participant.street_address", 1),
         h.write("ApplicantCity", "City of the applicant", "participant.city", 1),
         h.write("ApplicantState", "State of the applicant", "participant.state", 1),
         h.write("ApplicantZip", "Zip Code of the applicant", "participant.zip", 1),
@@ -797,9 +913,6 @@ const SPEC = {
         h.write("FileNumber", "File No. in the caption of the affidavit", "matter.case_number", 1)
       );
       refusals.push(
-        h.rbf("ApplicantStreetNumberAndStreetNameLine1", "Street Number And Street Name, Including Apartment Or Unit No.",
-          "your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption, and the block below it exists for a DIFFERENT address rather than this one",
-          "no descriptor in the shared list matches \"Street Number And Street Name\", and the if-different block beneath it is refused by role so the address is never written into the wrong one of the two", 1),
         h.optional("ApplicantStreetNumberAndStreetNameLine2", "Street Number And Street Name - second line",
           "used only if your street address needs a second line", 1),
         h.optional("ApplicantFullPermanentMailingAddressAddr1", "Full Permanent Mailing Address Of Applicant (if different than above) - street line",
@@ -1343,6 +1456,44 @@ const CAPTION_CORRECTIONS = {
       capturedLabel: "Date Of BirthFull Social Security No",
       measuredLabel: "Date Of Birth",
       measuredAt: "page 1 rect x[36.63,175.30] y[585.07,600.65]; 300 dpi raster of the pinned form shows \"Date Of Birth\" printed at y 601.7-606.7 inside the same cell, and \"Full Social Security No.\" beginning at x=177.8 on the far side of the cell divider at x=175.2, inside SSN's own rect"
+    }
+  },
+  /*
+   * A THIRD CORRECTION, ON THE OTHER FORM, AND OF A DIFFERENT KIND.
+   *
+   * The two above are WRONG captions -- a neighbour's word, and two captions
+   * run together across a cell divider. This one is a TRUNCATED caption. The
+   * shared capture caps an effective label at CAPTION_MAX_CHARS = 60 and
+   * AOC-CV-226's street caption is 78 characters, so the capture returns it cut
+   * mid-word at "Unit N", which is a caption the form does not print. It is
+   * corrected for the same reason as the other two: this family's field map,
+   * its disclosure table and its refusal records all quote the effective label,
+   * and a truncated quotation of an official form's printed caption is a false
+   * statement about the paper.
+   *
+   * MEASURED on the pinned AOC-CV-226 (sha256 74057a13..) rastered at 300 dpi:
+   * the caption is printed ONCE, in italic bold, at y 677.4-686.0 spanning
+   * x[38.50,303.60], directly above and inside the same ruled cell as the
+   * ApplicantStreetNumberAndStreetNameLine1 widget rect x[37.24,315.01]
+   * y[659.06,675.41]. The rect's own interior carries 68 dark pixels at 300
+   * dpi, every one of them the cell's left and right rules at its edges: no
+   * caption and no other printed word lies inside it. The only widget rect that
+   * touches it is ApplicantStreetNumberAndStreetNameLine2 x[37.24,315.01]
+   * y[643.03,659.39] -- the second line of this same captioned block, sharing
+   * the cell's hairline over 0.330pt, which is two stacked lines of one address
+   * block rather than a different blank.
+   *
+   * THIS CORRECTION DOES NOT BY ITSELF MAKE THE WRITE POSSIBLE, and saying so
+   * is the point. Measured against the live rules with the corrected caption in
+   * place, decideBinding still returns no_allowlisted_fact_matches. The rule
+   * that refuses it, and the channel the write is made through instead, are on
+   * the fee_waiver document's narrativeLines note above.
+   */
+  "AOC-CV-226": {
+    ApplicantStreetNumberAndStreetNameLine1: {
+      capturedLabel: "Street Number And Street Name, Including Apartment Or Unit N",
+      measuredLabel: "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+      measuredAt: "page 1 rect x[37.24,315.01] y[659.06,675.41]; 300 dpi raster of the pinned form shows the caption printed once at y 677.4-686.0 spanning x[38.50,303.60], directly above the rect and inside the same ruled cell, and shows no printed word inside the rect itself. The capture cut that caption at 60 characters, which is CAPTION_MAX_CHARS in scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
     }
   }
 };
@@ -2002,6 +2153,12 @@ export async function runFamily(argv = process.argv.slice(2)) {
             census: census.fields,
             facts,
             explicitMappings: b.doc.explicitMappings ?? {},
+            /* One held fact on the ruled line the form prints for it, where no
+             * shared descriptor reaches the printed caption. Named per document
+             * and empty for every document that does not name it, so the
+             * petition is byte-unaffected. See the fee_waiver document's
+             * narrativeLines note for the refusal it answers. */
+            narrativeAcrossFields: b.doc.narrativeLines ?? [],
             unwritableFields: (b.doc.unwritable ?? []).map((u) => ({ field: u.field, class: u.class })),
             captionOnly: b.doc.captionOnly === true,
             documentTextLines: census.documentTextLines,

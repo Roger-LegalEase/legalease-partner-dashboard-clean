@@ -25,7 +25,15 @@
     },
     {
       "finding": "AOC-CV-226's \"Full Permanent Mailing Address Of Applicant (if different than above)\" block binds the participant's address, because the form's printed ligature comes through as \"di(uerent\" and the shared if-different refusal therefore does not fire.",
-      "consequence": "The whole block is refused by role, so the address is never written into the block that exists for a DIFFERENT one. That leaves the Street Number And Street Name line above it to the participant: it binds nothing either, since no descriptor matches its printed caption. Identical to the finding the dismissal family records against the same binary."
+      "consequence": "The whole block is refused by role, so the address is never written into the block that exists for a DIFFERENT one. The Street Number And Street Name line above it is where the address belongs, and it binds nothing either -- see the next finding, which is why this build no longer leaves it empty."
+    },
+    {
+      "finding": "THE SHARED DESCRIPTOR LIST DOES NOT REACH A STREET-ADDRESS CAPTION WRITTEN THE WAY THE AOC WRITES THIS ONE, and that, rather than a caption misread, is why AOC-CV-226's street line was blank on a packet that writes the same fact on AOC-CR-297. Measured against the live rules: descriptorsMatching returns [] for the field name \"ApplicantStreetNumberAndStreetNameLine1\", for the captured caption \"Street Number And Street Name, Including Apartment Or Unit N\" and for the caption the form actually prints, \"Street Number And Street Name, Including Apartment Or Unit Number If Applicable\", because participant.street_address requires one of street addr | mailing addr | addr line N | ^addr | address and none of the three carries any of them. decideBinding therefore returns no_allowlisted_fact_matches, and an explicitMappings entry cannot reach it: the function returns on the empty match set before it consults explicitMappings, confirmed by running it both ways. The sibling family nc-146-dismissal-petition-set records the same finding against the same binary.",
+      "consequence": "Reported for the lane that owns scripts/rcap-official-forms/rcap-field-semantics.mjs, which every builder in the corpus shares and this family does not open. In this family the fact is now written through the finalizer's own opt-in narrativeAcrossFields channel, naming one fact id and one field: the module resolves participant.street_address from the same facts set as every other write, runs the same protect test on the caption and on the field name, fits it to that widget's own rectangle and refuses it whole rather than truncating. The write is recorded in reports/actual-writes.json with kind text_narrative_line, which is the shared module's word for a fact laid out on a form's own ruled line and not a claim that a street address is a narrative."
+    },
+    {
+      "finding": "CAPTION-CAPTURE TRUNCATION on AOC-CV-226. The shared capture caps an effective label at CAPTION_MAX_CHARS = 60; this form's street caption is 78 characters, so the capture returned it cut mid-word at \"Unit N\", a caption the form does not print. Nothing bound to it either way, but the family's field map, disclosure table and refusal records all quote the effective label.",
+      "consequence": "Corrected in this family's own CAPTION_CORRECTIONS table from the pinned form's 300 dpi raster and recorded under captionCorrectionsApplied, exactly as the two AOC-CR-297 corrections are. The shared capture is untouched."
     },
     {
       "finding": "FEE_AND_WAIVER, tested against A1-A4. The committed packet-set manifest is a held source under A2 and answers with a figure: \"$175 per petition\", with the indigency waiver on AOC-CV-226. The form's own caption carries the same warning.",
@@ -54,6 +62,13 @@
       "capturedLabel": "Date Of BirthFull Social Security No",
       "measuredLabel": "Date Of Birth",
       "measuredAt": "page 1 rect x[36.63,175.30] y[585.07,600.65]; 300 dpi raster of the pinned form shows \"Date Of Birth\" printed at y 601.7-606.7 inside the same cell, and \"Full Social Security No.\" beginning at x=177.8 on the far side of the cell divider at x=175.2, inside SSN's own rect"
+    },
+    {
+      "document": "AOC-CV-226",
+      "field": "ApplicantStreetNumberAndStreetNameLine1",
+      "capturedLabel": "Street Number And Street Name, Including Apartment Or Unit N",
+      "measuredLabel": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+      "measuredAt": "page 1 rect x[37.24,315.01] y[659.06,675.41]; 300 dpi raster of the pinned form shows the caption printed once at y 677.4-686.0 spanning x[38.50,303.60], directly above the rect and inside the same ruled cell, and shows no printed word inside the rect itself. The capture cut that caption at 60 characters, which is CAPTION_MAX_CHARS in scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
     }
   ]
 }
