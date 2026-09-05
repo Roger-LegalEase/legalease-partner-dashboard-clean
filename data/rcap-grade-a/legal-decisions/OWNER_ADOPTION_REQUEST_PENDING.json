@@ -5,7 +5,7 @@
   "isAnApproval": false,
   "whatThisIs": "A request assembled for the decision owner. It adopts nothing, approves nothing, opens no route and grants no runtime, payment, sponsorship or production authority. Reading it changes no state; only the owner's own returned decision does.",
   "producedBy": "scripts/rcap-route-productization/generate-owner-adoption-request.mjs",
-  "producedAtCommit": "e8079978db30ca94921b19f5bdfaa529253fd93f",
+  "producedAtCommit": "3a324027e29a2c25928e7ccc04e8f479d820377c",
   "precedent": {
     "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
     "decidedOn": "2026-09-02",
@@ -16,11 +16,11 @@
   "whyItIsOneDecisionAndNotMany": "Every family here is blocked at the same first unmet chain link and every one names the same single next action. Split into separate asks it is the same work for the owner performed dozens of times over.",
   "whyTheseAreNotAlreadyCovered": "Fifty-three families sit inside an owner approval and six have a current one. An adoption names exact digests, so when a packet is rebuilt or repaired the adoption stops describing what would ship. These families have moved since they were last adopted, or were never adopted.",
   "counts": {
-    "provenFamilies": 121,
-    "blockedAtCurrentLegalApproval": 48,
-    "adoptionWouldUnblock": 41,
+    "provenFamilies": 142,
+    "blockedAtCurrentLegalApproval": 58,
+    "adoptionWouldUnblock": 48,
     "notReadyToAskAbout": 0,
-    "aDifferentOwnerAsk": 7
+    "aDifferentOwnerAsk": 10
   },
   "families": [
     {
@@ -900,6 +900,358 @@
       ]
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "jurisdiction": "GA",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "3c7ea1d4d7a4f492d64623e0b23bbf89b30a1de3651de68f84ba7c679e27a705",
+          "byteLength": 10708
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "61ebc64377ad224630a7a20ced780cc0f6437054614cbe1001d8aab2a0799b61",
+          "byteLength": 10525
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdiction": "MS",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d",
+          "byteLength": 14002
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d",
+          "byteLength": 13798
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "jurisdiction": "MS",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90",
+          "byteLength": 13627
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2",
+          "byteLength": 13425
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e",
+          "byteLength": 12273
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac",
+          "byteLength": 12066
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
       "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "jurisdiction": "MS",
       "implementationStrategy": "custom_pleading",
@@ -991,6 +1343,188 @@
           "work": "leave exactly one current PASS_COMPLETE_INDEPENDENT row over the current bytes",
           "closesPreconditions": [
             "P16"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jurisdiction": "OK",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "7ec9bdeb42a3fb3657aed1d6d1e8eeb01a2ee98935d08f7541174b1a31008359",
+          "byteLength": 13607
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179",
+          "byteLength": 13424
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "implementationStrategy": "custom_pleading",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "61dc959c94e8669b1b7844c1adca0353e66719a822cd97a3af26b8a612538241",
+          "byteLength": 12478
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "6d6e3190303b0aec3a12c009f2e1f3fea579e70a9739c7916536f9119a6b9ecf",
+          "byteLength": 12283
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
           ]
         }
       ],
@@ -2873,6 +3407,117 @@
       ]
     },
     {
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "jurisdiction": "TX",
+      "implementationStrategy": "official_pdf_fill",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "directory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "routes": [],
+      "shippingArtifacts": [
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "5c9bbb5d9293206b4aa1c9a0d546453bc634a6489e76eabd57101ce5ab056b66",
+          "byteLength": 664827
+        },
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "0ae0d995fe3e9a0be3076111882758d7f55a14707d9c9adb69457dd4883fafa1",
+          "byteLength": 664451
+        }
+      ],
+      "shippingArtifactCount": 2,
+      "fixtureLayout": "one canonical and one boundary",
+      "whatRemainsAfterAdoption": [
+        {
+          "stepId": "S2_authorPacketSpecification",
+          "preconditions": [
+            "P02"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "author the route's packet specification under data/record-clearing/packet-specifications/",
+          "closesPreconditions": [
+            "P02"
+          ]
+        },
+        {
+          "stepId": "S3_bindSpecificationToTheOwnerDecision",
+          "preconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ],
+          "owner": "engineering, only once an owner decision covers the family",
+          "onlyRogerCanDoThis": false,
+          "work": "set legalSectionsBound, legalSectionsBoundBy and approvedArtifacts on the specification, citing the owner decision that already covers the family",
+          "closesPreconditions": [
+            "P03",
+            "P04",
+            "P05"
+          ]
+        },
+        {
+          "stepId": "S4_obtainCompletedOutputOwnerApproval",
+          "preconditions": [
+            "P08"
+          ],
+          "owner": "Roger",
+          "onlyRogerCanDoThis": true,
+          "work": "adopt the family's completed output and pin its exact shipping-artifact digests",
+          "closesPreconditions": [
+            "P08"
+          ]
+        },
+        {
+          "stepId": "S6_expandThePostApprovalChangeAuditRow",
+          "preconditions": [
+            "P10",
+            "P12",
+            "P13",
+            "P14",
+            "P15"
+          ],
+          "owner": "a Captain audit lane reading diffs",
+          "onlyRogerCanDoThis": false,
+          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
+          "closesPreconditions": [
+            "P10"
+          ]
+        },
+        {
+          "stepId": "S8_produceOneCurrentIndependentPass",
+          "preconditions": [
+            "P16",
+            "P17",
+            "P18"
+          ],
+          "owner": "an independent verifier lane",
+          "onlyRogerCanDoThis": false,
+          "work": "leave exactly one current PASS_COMPLETE_INDEPENDENT row over the current bytes",
+          "closesPreconditions": [
+            "P16"
+          ]
+        },
+        {
+          "stepId": "S12_addTheCodifiedTrackAuthorityInput",
+          "preconditions": [
+            "P22"
+          ],
+          "owner": "engineering",
+          "onlyRogerCanDoThis": false,
+          "work": "add the jurisdiction's codified track-authority memo input to the generator, pinned by digest",
+          "closesPreconditions": [
+            "P22"
+          ]
+        }
+      ],
+      "stepsOnlyTheOwnerCanTake": [
+        "S4_obtainCompletedOutputOwnerApproval"
+      ]
+    },
+    {
       "familyId": "tx_nd_dwi_probation-set",
       "jurisdiction": "TX",
       "implementationStrategy": "official_pdf_fill",
@@ -4585,6 +5230,11 @@
       "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "singleNextAction": "Bind the packet specification's legal sections to an owner decision. legalSectionsBoundBy names an owner decision record and a post-approval audit verdict, so the binding is a legal act: Roger must first cover this family's completed output under OWN-ADOPT-2026-09-02-BATCH-53 or a successor, and only then can the specification carry the binding.",
+      "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
+    },
+    {
       "familyId": "ms-misd-1st-set",
       "singleNextAction": "Bind the packet specification's legal sections to an owner decision. legalSectionsBoundBy names an owner decision record and a post-approval audit verdict, so the binding is a legal act: Roger must first cover this family's completed output under OWN-ADOPT-2026-09-02-BATCH-53 or a successor, and only then can the specification carry the binding.",
       "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
@@ -4600,6 +5250,11 @@
       "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
     },
     {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "singleNextAction": "Roger must re-review family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition: its approved shipping-artifact digest no longer matches the bytes on disk.",
+      "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
+    },
+    {
       "familyId": "ct-cannabis-petition-set",
       "singleNextAction": "Bind the packet specification's legal sections to an owner decision. legalSectionsBoundBy names an owner decision record and a post-approval audit verdict, so the binding is a legal act: Roger must first cover this family's completed output under OWN-ADOPT-2026-09-02-BATCH-53 or a successor, and only then can the specification carry the binding.",
       "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
@@ -4612,6 +5267,11 @@
     {
       "familyId": "nv_repository_removal-set",
       "singleNextAction": "Bind the packet specification's legal sections to an owner decision. legalSectionsBoundBy names an owner decision record and a post-approval audit verdict, so the binding is a legal act: Roger must first cover this family's completed output under OWN-ADOPT-2026-09-02-BATCH-53 or a successor, and only then can the specification carry the binding.",
+      "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "singleNextAction": "Roger must re-review family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction: its approved shipping-artifact digest no longer matches the bytes on disk.",
       "whyItIsSeparate": "This family needs something other than adoption at the completed-output level, so folding it into a batch adoption would ask the owner to grant one thing while a different thing is what is missing."
     }
   ],

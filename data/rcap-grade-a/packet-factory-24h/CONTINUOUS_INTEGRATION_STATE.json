@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-09-05T03:55:11.279Z",
-  "captainHead": "e8079978db30ca94921b19f5bdfaa529253fd93f",
+  "generatedAt": "2026-09-05T04:24:56.101Z",
+  "captainHead": "3a324027e29a2c25928e7ccc04e8f479d820377c",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-09-05T04:15:11.279Z",
-    "nextSourceReleaseDeadline": "2026-09-05T04:25:11.279Z",
+    "nextIntegrationDeadline": "2026-09-05T04:44:56.101Z",
+    "nextSourceReleaseDeadline": "2026-09-05T04:54:56.101Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,9 +34,9 @@
           "VF11",
           "VF12"
         ],
-        "measured": 23,
+        "measured": 11,
         "threshold": 20,
-        "triggered": true
+        "triggered": false
       },
       {
         "when": "FAIL_REPAIR_REQUIRED > 20",
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 59,
+        "measured": 57,
         "threshold": 20,
         "triggered": true
       },
@@ -81,21 +81,21 @@
     "sourceReady": 86,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 23,
-    "repairRequired": 59,
+    "verifyPending": 11,
+    "repairRequired": 57,
     "byState": {
-      "COMPLETE_PACKET_PROVEN": 121,
-      "FAIL_REPAIR_REQUIRED": 59,
+      "COMPLETE_PACKET_PROVEN": 140,
+      "FAIL_REPAIR_REQUIRED": 57,
       "PRODUCT_PATH_PENDING": 20,
       "OUT_OF_SCOPE": 5,
       "SOURCE_READY": 86,
+      "BUILT_RASTER_PENDING": 2,
       "SOURCE_BLOCKED": 6,
-      "VERIFY_PENDING": 23,
+      "VERIFY_PENDING": 11,
       "LEGAL_BLOCKED": 7,
       "HANDOFF_READY": 2,
       "GUIDANCE_READY": 9,
-      "WRONG_DELIVERY_TYPE": 1,
-      "BUILT_RASTER_PENDING": 7
+      "WRONG_DELIVERY_TYPE": 1
     }
   },
   "commercialRoutesOpened": 0,

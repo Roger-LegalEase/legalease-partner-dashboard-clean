@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "420b1e7e4c629a894d477a4416b0fe82c4211152",
+  "generatedAtCommit": "3a324027e29a2c25928e7ccc04e8f479d820377c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1075,11 +1075,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF06",
       "laneKind": "packet-build",
       "released": true,
-      "releasedAt": "2026-09-05T04:22:37.566Z",
-      "releaseReason": "PF02 finished and its return is integrated; this grant was left live. Released by Captain so the family is not held by a lane that has exited."
+      "releasedAt": "2026-09-05T04:22:37.566Z"
     },
     {
       "subjectType": "packet-family",
@@ -4319,11 +4318,10 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF02",
+      "lane": "PF18",
       "laneKind": "packet-build",
       "released": true,
-      "releasedAt": "2026-09-05T04:22:37.692Z",
-      "releaseReason": "PF02 finished and its return is integrated; this grant was left live. Released by Captain so the family is not held by a lane that has exited."
+      "releasedAt": "2026-09-05T04:22:37.692Z"
     },
     {
       "subjectType": "packet-family",
@@ -5871,7 +5869,7 @@
       ],
       "sourceId": null,
       "operation": "packet-build",
-      "lane": "PF18",
+      "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T06:01:24.574Z"
@@ -6798,11 +6796,41 @@
         "ri_decriminalized-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "familyId": "ri_decriminalized-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_decriminalized-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-05T03:38:38.510Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "familyId": "ri_deferred_sentence-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_deferred_sentence-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6828,11 +6856,41 @@
         "ri_first_offender_felony-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "familyId": "ri_first_offender_felony-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_first_offender_felony-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF02",
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-05T03:38:39.042Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_first_offender_misdemeanor-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6863,6 +6921,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:05:06.867Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "familyId": "ri_multiple_misdemeanors-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_multiple_misdemeanors-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12673,7 +12746,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "dcd0f59514b348eb1e6795b40bce35868c82ccbca51fb02b462658ee5e5f37a5",
+  "claimsDigest": "a0c6a99d5e4e9b98ec38915da33708bd09e72860973ea03af35587adf7b97f25",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
