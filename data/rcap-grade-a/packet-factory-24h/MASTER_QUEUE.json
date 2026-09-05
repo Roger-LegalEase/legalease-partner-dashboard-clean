@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "d7a77209d840e3ceac75d365e504713e25bf3ec3",
+  "minimumCaptainSha": "c62b49a9b35468fa215d0951dfacfdce68f74de3",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -71,8 +71,8 @@
     "remaining": 337,
     "sourceReady": 82,
     "sourceBlocked": 6,
-    "legalBlocked": 10,
-    "verifyPending": 3,
+    "legalBlocked": 11,
+    "verifyPending": 2,
     "repairRequired": 43,
     "sumsToDenominator": true
   },
@@ -83,10 +83,10 @@
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 10,
+    "LEGAL_BLOCKED": 11,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 3,
+    "VERIFY_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1,
     "BUILT_RASTER_PENDING": 3
   },
@@ -170,7 +170,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 9 source obligations across 16 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 9 source obligations across 17 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -43494,21 +43494,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf03",
-        "verifiedAtBase": "4dd482867",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf02",
+        "verifiedAtBase": "a71d69523",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "vt_seal_nonconviction-set",
+        "foundBy": [
+          "vf02 (current independent verification)"
+        ],
+        "why": "CLIPPING_AND_OVERLAP: OPEN QUESTION, named exactly, for an owner rather than for this family: RI-OFF-APPEARANCE (data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json) settles that a widget's UNCHANGED /Off appearance is source-owned form structure where a zero-write normalized baseline proves it unchanged. It does not reach the case here, where the source ships NO appearance for the current /Off state and the normalization SYNTHESIZES a visible border the official form never prints. Both halves of that determination's test point opposite ways: the zero-write baseline proves this family added nothing, and the pinned binary proves the official form paints nothing. Until that is settled the delivered petition and stipulation cannot be called faithful or unfaithful on this point, so this is recorded as blocked rather than passed or failed. It is not repair-actionable inside this family: the same zero-write baseline shows the squares come from the shared flattening step, so any repair belongs to that step and to whatever families share it, and no route or family may be whitelisted for it. What would settle it in one line: whether a synthesized border at a widget whose /AS state has no appearance stream is source-owned form structure like an unchanged /Off appearance, or ink the packet must not add.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -43528,19 +43537,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "COMPONENT_SET"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "COMPONENT_SET",
-          "finding": "A component the route names is not rendered and not dispositioned. REPAIR: on the Sec. 7603(g) route either render interests_of_justice_prompts as the manifest and registry describe it - participant-authored prompts, never generated argument - or add a componentRequirements entry for vt_seal_nonconviction-interests-of-justice-prompts-4 stating the condition and why it is not met, the same treatment the fee waiver already receives. Separately, bring the guidance page's automatic-route section into line with the record it renders: the 60-day clock from final disposition, the three Sec. 7603(a)(1) triggers, and Form 200-00331 as how the participant checks.",
-          "evidence": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set] names FIVE components: automatic-sealing-verification-guidance-1 (requirement required, outputStrategy process_guidance), petition-2 (200-00130), stipulation-and-proposed-order-3 (200-00132), interests-of-justice-prompts-4 (requirement conditional, conditionDescription 'Only on the Sec. 7603(g) ordinary petition route, where the petitioner carries the affirmative burden', outputStrategy process_guidance) and fee-waiver-application-5 (600-00228). The packet declares FOUR: production-field-map.json componentSet is [petition, stipulation_and_proposed_order, fee_waiver_application, process_guidance] and documentOfComponent maps process_guidance to itself; no file in the family names interests_of_justice_prompts or automatic_sealing_verification_guidance. Measured on the delivered pages: the composed guidance, packet pages 7-8, discharges component 1 in substance under its heading '3. THE ROUTE THAT FILES NOTHING'. Component 4 is rendered nowhere. pdftotext over pages 7-8 of both fixtures returns zero occurrences of 'interest' or 'justice'; participant-instructions.md carries the phrase three times, none of them a prompt - one blanks-table row ('your own statement of why sealing is in the interests of justice - this is yours to write and the platform never writes it for you') and two self-help stop conditions. The condition on component 4 is MET on these bytes: the guidance page names the route as '1. THE CONTESTED PETITION ... 13 V.S.A. Sec. 7603(g)' and product-wiring binding.instrumentKinds carries 'Ordinary contested petition at any time, Sec. 7603(g)'. legal-design-track-registry.json, unit vt-nonconviction-ordinary-petition, states the requirement in terms: 'The interests-of-justice statement is a participant-authored field with prompts and never generated argument, because on this route the burden is affirmative on the petitioner rather than on the State.' The packet supplies the field and the disclaimer and supplies no prompts. Unlike fee_waiver_application, which carries a componentRequirements entry recording conditionMetOnThisTrack false, filingDispositionForThisTrack do_not_file and deliveryTreatment delivered_unfilled, component 4 carries no componentRequirements entry at all: it is absent silently rather than dispositioned. Recorded as evidence under the same obligation rather than as a second failure: the registry assigns component 1 the job of confirming 'the disposition is one of the three triggers, confirms 60 days have run, and explains how to check whether the record still appears', while the delivered guidance page says 'This page states no timetable and no criterion for that, because neither is established by the forms this packet is built from' - true of the three bound PDFs, but the manifest and registry do establish both (Sec. 7603(a)(1)'s 60 days after final disposition, the three triggers, and Form 200-00331 as the record-search route), so the required component tells the participant no timetable exists where the record supplies one."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",

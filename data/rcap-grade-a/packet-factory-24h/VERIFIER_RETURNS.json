@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 790,
+    "rows": 791,
     "independentVerdicts": 240,
-    "failRepairRequired": 56,
+    "failRepairRequired": 55,
     "passIndependent": 172
   },
   "failRepairRequiredFamilies": [
@@ -95,7 +95,6 @@
     "va_exp_nonconviction-set",
     "va_seal_petition_misdemeanor-set",
     "vt_exp_decriminalized-set",
-    "vt_seal_nonconviction-set",
     "wv_dui_deferral_expungement-set"
   ],
   "refusedAtTheClaimGate": {
@@ -20673,6 +20672,32 @@
     },
     {
       "familyId": "vt_seal_nonconviction-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a71d69523",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "OPEN QUESTION, named exactly, for an owner rather than for this family: RI-OFF-APPEARANCE (data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json) settles that a widget's UNCHANGED /Off appearance is source-owned form structure where a zero-write normalized baseline proves it unchanged. It does not reach the case here, where the source ships NO appearance for the current /Off state and the normalization SYNTHESIZES a visible border the official form never prints. Both halves of that determination's test point opposite ways: the zero-write baseline proves this family added nothing, and the pinned binary proves the official form paints nothing. Until that is settled the delivered petition and stipulation cannot be called faithful or unfaithful on this point, so this is recorded as blocked rather than passed or failed. It is not repair-actionable inside this family: the same zero-write baseline shows the squares come from the shared flattening step, so any repair belongs to that step and to whatever families share it, and no route or family may be whitelisted for it. What would settle it in one line: whether a synthesized border at a widget whose /AS state has no appearance stream is source-owned form structure like an unchanged /Off appearance, or ink the packet must not add.",
+          "evidence": "The measurable half of the standard passes on all nine pages of both fixtures. Every value write is clipped by its own flattened appearance ('1 1 m ... W n' one point inside the BBox) and none reaches its clip edge: the tightest right margins in the boundary fixture are 6.26pt (200-00132 email), 6.72pt (200-00132 printed name), 7.61pt (mailing address) and 8.25pt (petition address), so nothing is cut. No added word overlaps printed source ink other than sitting on the form's own ruled line. The three composed pages hold x[72.0,541.6] and y[64.5,712.4] inside a 612x792 page with zero self-overlap, no opaque re-fill and no text below the bottom margin. No invisible writes anywhere: 0 annotations, 0 live fields, no OCProperties, no text render mode 3, no white-filled text in any page stream or any XObject of either fixture. WHAT IS NOT SETTLED. Rendered locally at 110 dpi into /tmp and compared pixel-for-pixel against the pinned sources, the delivered petition and stipulation carry a black 14.4pt stroked square at each of their 14 checkbox widget rects (10 on packet page 1, 2 on page 2, 2 on page 3, in both fixtures) that the official forms do not print. Read from the pinned binaries: all 12 button widgets of 200-00130 and both of 200-00132 have AS /Off, an AP/N dictionary whose only state is /Yes, and MK << /CA (4) >> with no /BC - so under PDF 32000-1 12.5.5 a conforming viewer paints nothing there, and the square is synthesized by the shared flattening step. The 6 squares on 600-00228 are a different case and are NOT this question: those widgets do ship an /Off appearance ('1 g 0 0 14.4 14.4 re f 0.5 0.5 13.4 13.4 re s') and the packet reproduces it, which is what VF03 measured and what RI-OFF-APPEARANCE covers. Applying that determination's own test to the 14: a zero-write baseline was built here by running the repository's own scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned 200-00130 with no writes at all, and packet page 1 differs from it by 1884 pixels which resolve to exactly the three participant text writes and the route mark - the 14 squares are pixel-identical to the zero-write baseline. So the squares are not a mark this family makes; they are what the shared normalization produces for a widget whose current appearance state has no appearance stream. The consequence on the page is that every unmarked checkbox on the petition and the stipulation is delivered as two nested squares where the official form prints one, and the one route mark, drawn to the 14.4pt widget rect, overhangs the form's own smaller printed checkbox by about 3.6pt to the right and 1.7pt above (measured at field 18: printed box x[55.6,63.9] y[295.0,303.1], X strokes x[57.1,67.5] y[294.3,304.7])."
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf03",
       "isIndependentVerification": true,
@@ -20691,7 +20716,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "vt_seal_nonconviction-set",
