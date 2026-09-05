@@ -207,8 +207,8 @@ const REGISTRY_STOP_CONDITIONS = (() => {
 
 const ROUTE = Object.freeze({
   jurisdiction: "TX",
-  routeKeys: ["obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure"],
-  primaryRouteKey: "obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure",
+  routeKeys: ["obligation:track-only:TX:tx_nd_dwi_deferred"],
+  primaryRouteKey: "obligation:track-only:TX:tx_nd_dwi_deferred",
   routeSelectionId: "tx_nd_dwi_deferred-official-set",
   legalName: "Petition for an Order of Nondisclosure under Tex. Gov't Code § 411.0726 (DWI or BWI after deferred adjudication)",
   routeName: "asking the Texas court that placed you on deferred adjudication for DWI or BWI to seal that record from public disclosure under Government Code § 411.0726",

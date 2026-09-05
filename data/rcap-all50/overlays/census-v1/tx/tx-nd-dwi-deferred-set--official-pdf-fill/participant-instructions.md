@@ -218,4 +218,4 @@ This is the state's own petition and order, a conditional proof of delivery, the
 
 **An order covers one offence.** If more than one offence is on your record, sealing them takes more than one order.
 
-_Route: obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure_
+_Route: obligation:track-only:TX:tx_nd_dwi_deferred_
