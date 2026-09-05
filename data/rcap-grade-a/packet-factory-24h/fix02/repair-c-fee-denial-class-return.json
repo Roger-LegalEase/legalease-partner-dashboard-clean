@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "REPAIR-C-FEE-DENIAL-CLASS",
+  "assignmentId": "FIX02-FIX03",
+  "laneKind": "repair",
+  "branch": "repair-c-fee-denial",
+  "assignedBase": "6351836b1f53cb143cc6afb08a4bf0bc28dde7b1",
+  "measuredAtBase": "9a7df10b5e7275be39c8760e8fb1129caf25fa19",
+  "writtenBy": "Claude Code Captain, from the lane's own measured return, after the lane exited",
+  "whyCaptainWroteIt": "REPAIR-C repaired three families and released its three grants but wrote no lane-return rows. Without a row carrying repairedByThisLane and countersAfter the state machine reads finished work as work not done, and the three families would have stayed at FAIL_REPAIR_REQUIRED behind their own completed repairs. The rows below restate what the lane measured; every counter and every fixture digest in them was measured again here at this base rather than copied from the report.",
+  "countersRemeasuredHere": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <each>, all three PASS_COMPLETE: nh_petition_nonconviction_pre2019-set 17/168, nh_petition_vacated-set 17/168, co_motion_seal_conviction-set 15/86.",
+  "participantFacingBytes": {
+    "moved": false,
+    "whatChanged": "participant-instructions.md on each family, and each family's build script and source-receipt.json.",
+    "fixtureDigestsVerifiedUnchangedAtThisBase": {
+      "nh_petition_nonconviction_pre2019-set": {
+        "canonical": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+        "boundary": "b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f"
+      },
+      "nh_petition_vacated-set": {
+        "canonical": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+        "boundary": "b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f"
+      },
+      "co_motion_seal_conviction-set": {
+        "canonical": "cea9d35a0711ee76b65b8391fb4120793cb673741fc8e074e165a24307550534",
+        "boundary": "1f8232b813de3adfc8c58c2ca367ea8b169e7305cf80f5bc686a0c95a612e556"
+      }
+    },
+    "rasterConsequence": "No fresh raster is owed. Every bound PDF byte is identical to the bytes the standing receipts were issued against, and the two New Hampshire families share one pair of fixtures by design. The changed bytes are the guides, which the raster gate does not render and which the independent read covers.",
+    "whatIsStillOwed": "One independent substantive review of the three changed guides."
+  },
+  "rows": [
+    {
+      "itemId": "nh_petition_nonconviction_pre2019-set",
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "result": "REPAIRED_BYTES_UNCHANGED",
+      "lane": "FIX02",
+      "directory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "failedObligationRepaired": "FEE_AND_WAIVER",
+      "whatWasWrong": "FEE_AND_WAIVER: the guide said \"The fee for a petition to annul is not established in any source this packet holds\". True of its four NHJB bindings, false of the repository. data/record-clearing/legal-design-intake/NH.memo.json, track nh_petition_nonconviction_pre2019, holds rules.fees \"$125.00 per court location, confirmed on the current Circuit Court Filing Fees schedule\", the RSA 651:5 IX and X(d) exemptions from the Department of Corrections investigation fee and the Department of Safety and state police fees, rules.feeWaiver naming NHJB-2311 with NHJB-2328, and destination.detail on petitions filed together sharing one $125.00 fee.",
+      "whatWasDone": "The memo is bound as a groundingRecord by digest 6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0 and all three passages are quoted verbatim, read out of the memo at build time so a silent memo stops the build. The denial is gone; the true residue is kept -- no payment is taken and the packet cannot confirm today's counter charge -- and the favourable exemption is passed on.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "itemId": "nh_petition_vacated-set",
+      "familyId": "nh_petition_vacated-set",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "result": "REPAIRED_BYTES_UNCHANGED",
+      "lane": "FIX03",
+      "directory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill",
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "ROUTE_IDENTITY"
+      ],
+      "failedObligationsRepaired": [
+        "FEE_AND_WAIVER",
+        "ROUTE_IDENTITY"
+      ],
+      "whatWasWrong": "FEE_AND_WAIVER: the fee paragraph was byte-identical to the sibling's -- the words written for the one family the RSA 651:5 IX and X(d) exemptions do cover. On a vacated conviction the memo says the opposite: \"on the face of the statute the exemptions do not reach a vacated conviction, so the packet should assume they are payable\", and whether the $100 Department of Corrections investigation fee and the Department of Safety and state police fees apply is recorded as unresolved. ROUTE_IDENTITY: routeSelectionNote named the pre-2019 route, not this one.",
+      "whatWasDone": "Both obligations are answered from the same digest-bound memo, track nh_petition_vacated. rules.fees, rules.feeWaiver, the unresolvedQuestions entry and the legalDesignDecision rationale -- \"a real cost difference the participant must be told about before filing\" -- are quoted verbatim, and the open question is quoted as open rather than resolved. routeSelectionNote now states this track's own legalName and publicName read from the memo, and explains that the form is shared by design while the route is not.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "familyId": "co_motion_seal_conviction-set",
+      "laneKind": "repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "result": "REPAIRED_BYTES_UNCHANGED",
+      "lane": "FIX02",
+      "directory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+      "failedObligationNames": [],
+      "failedObligationRepaired": "COMPONENT_SET",
+      "whatWasWrong": "COMPONENT_SET: four required components, two delivered, and the instructions opened \"This packet is two Colorado Judicial Department forms\" without ever disclosing the gap. data/record-clearing/legal-design-packet-set-manifests.json records packetSetCompleteness.state \"incomplete\" with a basis and a sourceStatusBasis for each missing component.",
+      "whatWasDone": "Disclosure only, and the blockage is not lifted. The manifest is bound as a groundingRecord by digest 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec; a new section states four required and two contained, quotes the basis and both per-component reasons, refuses to print or infer a JDF number, and points to the clerk for the JDF-611 guide. The counts are derived from a digest match against the resolved forms. Colorado's fee sentence was checked and deliberately left alone: CO.memo.json genuinely says the source review does not state a filing fee for this motion.",
+      "whyThisOneMattersBeyondItself": "requiredComponentsMissing read 0 before the repair and 0 after, on a packet the manifest itself calls incomplete. Nine counters at zero is not proof that a packet is whole.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    }
+  ]
+}
