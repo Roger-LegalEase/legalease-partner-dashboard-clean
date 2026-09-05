@@ -428,220 +428,290 @@
     "do not convert the education route into a multi-route packet",
     "do not edit artifacts merely so a receipt matches them",
     "this verification opens no commercial route and grants no approval"
-  ]
- },
- {
-  "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
-  "lane": "VF03",
-  "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "The latest repair changed both fixture hashes, but product-wiring.json still advertises the superseded canonical hash and superseded raster receipt. RASTER_QUEUE correctly marks the current fixture pair RASTER_PENDING, so the current bytes lack a hash-bound central visual acceptance receipt.",
-  "failedProofObligations": ["ARTIFACTS", "CLIPPING_AND_OVERLAP"],
-  "perObligation": {
-   "ARTIFACTS": {
-    "measuredDetail": "Current canonical is 58487688e22fdb3d5d1566899add22a2489253462a91f7c056cfc67ea748f282 and current boundary is d041ae07adbeccc2c54a8f46a73df01e10f5769295a792ea4420190c52a9d9e6. product-wiring.json still names canonical 704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492 in acceptanceReceipt and proposedRepresentation.",
-    "whatRepairMustDo": "After central raster acceptance is earned for the current pair, regenerate the family-scoped product-wiring record from current rendered artifacts so no field names a superseded hash or receipt. Do not alter fixture bytes merely to recover the old hash."
-   },
-   "CLIPPING_AND_OVERLAP": {
-    "measuredDetail": "All eight current pages were freshly rastered locally and visually inspected with no problem, but the only central receipt binds the former bytes and is explicitly superseded in RASTER_QUEUE.",
-    "whatRepairMustDo": "Run the existing central raster workflow against the exact current canonical and boundary hashes, ingest its complete-family receipt, and require a new independent review after the current hash-bound RASTER_PASS exists."
-   }
+   ]
   },
-  "repairMustNotDo": [
-   "do not change packet content merely to match a stale receipt",
-   "do not reuse or relabel the superseded raster receipt",
-   "this verification opens no commercial route and grants no approval"
-  ]
- },
- {
-  "itemId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
-  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "The route-obligation census record pinned by source-receipt.json no longer rehashes: 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 bytes is stale; current is 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149 bytes. The exact route entry did not change.",
-  "failedProofObligations": ["SOURCE_IDENTITY"],
-  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The other two committed records remain exact. The old and current route-specific census objects are byte-for-byte equivalent at digest bb9ac36e00bb9c691523aedabd231cacafe6a56314e88fde74f6767030062086; only the whole-file receipt pin drifted.", "whatRepairMustDo": "Re-read the exact current route object, then update only this family's source-receipt.json route-obligation-census record to SHA-256 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 and byte length 2607149. Deterministically rebuild canonical and boundary twice. If both remain 112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d / 13798 and 9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d / 14002, retain the exact current raster receipt; if either byte changes, reraster. Require a different independent verifier."}},
-  "repairMustNotDo": ["do not edit the national census", "do not change packet content merely to make a receipt match", "do not release or verify your own repair", "this assignment opens no route and grants no production authority"]
- },
- {
-  "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
-  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "source-receipt.json pins the prior whole-census digest/length instead of current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
-  "failedProofObligations": ["SOURCE_IDENTITY"],
-  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The other two committed records rehash exactly and the route entry is unchanged at digest 7366a757ae8d7837e7ade8ea05ffe0749f56c7f2e671c05c8dabb262a2bb99db.", "whatRepairMustDo": "Re-read the exact current route object and update only this source receipt's census record from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve current canonical b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2 / 13425 and boundary c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90 / 13627 when deterministic output is unchanged; reraster only changed bytes and send to a different verifier."}},
-  "repairMustNotDo": ["do not edit the national census", "do not alter route meaning", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
- },
- {
-  "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
-  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "source-receipt.json pins the prior whole-census digest/length rather than current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
-  "failedProofObligations": ["SOURCE_IDENTITY"],
-  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The other two committed records are exact; the route entry is unchanged at digest 04fb4d7adea1525b00f32e4ecbb4bce8d999182291dcb45559bffaf4d5527678.", "whatRepairMustDo": "Re-read this route object and re-pin only the census record in the family source receipt from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve current canonical 606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac / 12066 and boundary ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e / 12273 when unchanged; reraster only changed bytes and use a different verifier."}},
-  "repairMustNotDo": ["do not edit the national census", "do not import the twelve-month branch", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
- },
- {
-  "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
-  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "The source receipt's whole-census pin is stale; current census is 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
-  "failedProofObligations": ["SOURCE_IDENTITY"],
-  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The route contract and compiled profile remain exact. The relevant census entry is unchanged at digest 52aa7e980428b3fee5ed7a5bdb4a30492ff09b1e3a7118c98402e0bacf2c8e59.", "whatRepairMustDo": "Re-read the exact § 19c route object and update only the family receipt's census pin from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice without weakening the legal-aid stop. Preserve canonical e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101 / 13001 and boundary 8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17 / 13181 if unchanged; reraster only changed bytes and use another verifier."}},
-  "repairMustNotDo": ["do not edit the national census", "do not weaken the legal-aid or safety stops", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
- },
- {
-  "itemId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
-  "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "The source receipt still names the old whole-census digest/length instead of current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
-  "failedProofObligations": ["SOURCE_IDENTITY"],
-  "perObligation": {"SOURCE_IDENTITY": {"measuredDetail": "The route contract and compiled profile are exact. The current and prior juvenile route entries are identical at digest db225b0ade88cb2debb373dddaa8f81ad6d1cdd4ac15b5ce49cc85ff375d8d1f.", "whatRepairMustDo": "Re-read the juvenile route object and update only the census record in source-receipt.json from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve canonical b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179 / 13424 and boundary 7ec9bdeb42a3fb3657aed1d6d1e8eeb01a2ee98935d08f7541174b1a31008359 / 13607 if unchanged; reraster only changed bytes and assign another verifier."}},
-  "repairMustNotDo": ["do not edit the national census", "do not alter the juvenile-route scope", "do not self-verify or release the claim", "this assignment opens no route and grants no production authority"]
- },
- {
-  "wave": "packet-factory-24h/VF03/current-source-reread (2026-09-04)",
-  "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-CURRENT",
-  "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "The § 19c petition prints the shared eleven-route Oklahoma analyst checklist as fourteen participant facts. Only C11 ('Trafficking nexus?') is specific to this route; the remaining questions belong to sibling routes or to route selection. The filing does not collect basic § 19c matter facts such as the existing court/county and case number, the prostitution-related offense and disposition, and a usable identification of the trafficking-nexus evidence. requiredFactsNotCollected=0 is a false comfort because the verifier compares the output against the same contaminated declaration.",
-  "failedProofObligations": ["REQUIRED_BEFORE_FILING"],
-  "perObligation": {
-   "REQUIRED_BEFORE_FILING": {
-    "measuredDetail": "Current src/lib/legal-authority/routes/route-splits.json rehashes exactly at c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df. Under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP, all eleven Oklahoma routes carry the same requiredFacts array at digest 94779ab948a79c4c735bd59ff19bd0e875a9adcd39036b24ea6e156ce53e31bd. The delivered canonical and boundary PDFs at e9b1fc14... and 8b91a6ab... print all fourteen questions on the petition: exact route, arrest/charge limitations, prosecutor declination, reversal/dismissal, DNA innocence, pardon, deferred order and dismissal, full-record versus court-record relief, reclassification date, fine amount/payment, trafficking nexus, juvenile completion, VPO hearing/vacatur/death, and portal/automatic status. The compiled § 19c pathway instead describes prostitution-related records committed as a result of trafficking and says the supporting proof is sensitive and should be handled through legal aid or counsel. The packet's own participantMustSupply text merely repeats each vague label plus 'copied from the record itself', so it does not turn the checklist into actionable filing facts.",
-    "whatRepairMustDo": "Apply the already-established juvenile repair pattern to this exact family: stop treating the shared eleven-route requiredFacts array as a participant fact set. Replace C1-C14 with § 19c matter-identification facts supported by the bound compiled pathway, including the existing court/county and case number, the prostitution-related offense and disposition, the relief requested, and a safe identification of the trafficking-nexus evidence without soliciting a survivor narrative in the self-help packet. Update production-field-map.json, blanks-left-for-the-participant.json, participant-instructions.md, completeness evidence and the generator together; rebuild deterministically. Any changed canonical or boundary byte invalidates run 33605354695 and must receive a fresh central RASTER_PASS before a different independent verifier reads it. Preserve the current legal-aid, sensitive-facts and personal-safety stops. Do not modify the shared eleven-route source record in this one-family repair unless separately assigned authority over all affected routes."
-   }
-  },
-  "repairMustNotDo": [
-   "do not delete or weaken the legal-aid, sensitive-narrative, safety or immigration stops",
-   "do not put a survivor's narrative on a self-help filing page",
-   "do not change the shared eleven-route route contract without a separately authorized cross-route repair",
-   "do not retain the current raster receipt after any fixture byte changes",
-   "do not self-verify or release the claim",
-   "this assignment opens no route and grants no production authority"
-  ]
- },
- {
-  "wave": "packet-factory-24h/VF03/CT-FL exact-base verification (2026-09-04)",
-  "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
-  "routeKey": "obligation:track-only:CT:ct-destruction-request",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-CT-FL",
-  "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "Both current exact-hash fixtures split the required three-year-bar-expiration fact from its completion guidance onto a sparse second page. In boundary, page 1 ends with only the label and page 2 begins with its dotted response line and 'Check with' instruction; in canonical, the line remains on page 1 but the instruction alone begins page 2. The governed renderer reports both pages technically nonblank and uncropped, but human inspection finds two pagination defects.",
-  "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
-  "perObligation": {
-   "CLIPPING_AND_OVERLAP": {
-    "measuredDetail": "Canonical f7104a55fed4eaa9e5055778f0970fb0a6f6806af31b9e81ff8f110c1bcfd221 / 5593 / 2 and boundary a26db59d0e573f3bba2b38e7e45fb91fe9f08e56ef40472159a9813ae44990c1 / 5710 / 2 rehash exactly. The current governed scale-2.5 receipt at packet commit 706dbbd reports 4/4 pages nonblank, cropped to 2040x2640, residual 0 and machineProblems 0. Independent bbox geometry reports 0/752 outside words and 0 substantive overlaps. Original-resolution page inspection identifies the two field/control pagination splits described above; sparse page-2 ink fractions are 0.010295417409387997 canonical and 0.010611445335710042 boundary.",
-    "whatRepairMustDo": "Reflow both fixtures so the 'Date the three-year destruction bar expires' label, response line and associated 'Check with: the case record and the clerk' instruction stay together. Rebuild deterministically, rerun focused completeness and reraster every changed exact hash through the governed whole-family renderer. A verifier other than CODEX-CS1-VF03-CT-FL and the repairer must inspect the new page evidence."
-   }
-  },
-  "repairMustNotDo": [
-   "do not alter the route's post-erasure-only scope or three-year rule",
-   "do not turn the preparation guide into an unverified official form or court petition",
-   "do not reuse the current raster receipt after fixture bytes change",
-   "do not self-verify or release the claim",
-   "this assignment opens no route and grants no production authority"
-  ]
- },
- {
-  "wave": "packet-factory-24h/VF03/CT-FL exact-base verification (2026-09-04)",
-  "itemId": "fl-trafficking-set",
-  "routeKey": "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583",
-  "lane": "VF03",
-  "assignedByVerifier": "CODEX-CS1-VF03-CT-FL",
-  "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading",
-  "verdict": "FAIL_REPAIR_REQUIRED",
-  "decisiveDefect": "The family silently reduces its own receipt-named authoritative five-component packet contract to three components, omitting the required certificate-of-service and instruction component identities. Both current fixtures also orphan the sworn statement's six-line notary block and route footer onto a near-empty page 4.",
-  "failedProofObligations": ["COMPONENT_SET", "CLIPPING_AND_OVERLAP"],
-  "perObligation": {
-   "COMPONENT_SET": {
-    "measuredDetail": "data/record-clearing/legal-design-packet-set-manifests.json at current SHA-256 713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572 defines five required components for fl-trafficking-set: primary filing, affidavit, proposed order, fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5. The family source receipt names that record as the source for packet roles. MASTER_QUEUE, packet-set-manifest.json, production-field-map.json and both PDFs bind only the first three. participant-instructions.md and filing-instructions.md contain guidance but are not bound as the required instruction component; no certificate-of-service component exists. Independent requiredComponentsMissing is 2, overriding the declaration-relative focused zero.",
-    "whatRepairMustDo": "Reconcile the family to the authoritative five-component contract. Include and bind fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5 in declared order across the local packet manifest, field map, artifact manifest and packet output. Preserve the existing honest statement that held source review does not establish a service recipient or method; do not invent service law. If legal owners instead intend either component not to be required, they must first make that change in the authoritative packet-set source, not silently in this family."
-   },
-   "CLIPPING_AND_OVERLAP": {
-    "measuredDetail": "Canonical dca3cd333f061c7b80176b5a815fd6266e8882ea51e6aa8e7e8e8ec7f6084570 / 13255 / 5 and boundary 0ca00f36b857d97471e0ed2b5372c5501c796729aa9315a30e002b3801012e6a / 13527 / 5 rehash exactly. The current governed scale-2.5 receipt at packet commit 706dbbd reports 10/10 pages nonblank, cropped to 2040x2640, residual 0 and machineProblems 0. Independent bbox geometry reports 0/1801 outside words and 0 substantive overlaps. Human inspection finds page 4 in each fixture carries only the notary jurat continuation and route footer, with ink fractions 0.006045937314319667 canonical and 0.007214237967914439 boundary, while the preceding page has sufficient space to keep the jurat with the signature/date block.",
-    "whatRepairMustDo": "Keep the sworn statement's notary jurat with its signature/date block instead of emitting the current sparse page 4. Rebuild both personas deterministically, rerun focused completeness against the authoritative component list and reraster every changed exact hash through the governed whole-family renderer. A verifier other than CODEX-CS1-VF03-CT-FL and the repairer must inspect the new page evidence."
-   }
-  },
-  "repairMustNotDo": [
-   "do not invent a service recipient, service method or legal rule that the held source does not establish",
-   "do not weaken the survivor-safety, evidentiary-hearing, excluded-offense or immigration stops",
-   "do not prefill participant signatures, notary fields, judge findings, order fields or clerk fields",
-   "do not reuse the current raster receipt after fixture bytes change",
-   "do not self-verify or release the claim",
-   "this assignment opens no route and grants no production authority"
-  ]
- },
- {
-  "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
-  "lane": "VF03",
-  "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
-  "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
-  "decisiveDefect": "source-receipt.json pins data/rcap-ledger/completed-output-counsel-manifest.json at 99e8029120d7... and the file now rehashes to fbf9bfef239f...; commit cb6cbf45e (2026-09-04) changed the shared ledger after the pin was taken",
-  "failedProofObligations": [
-   "SOURCE_IDENTITY"
-  ],
-  "perObligation": {
-   "SOURCE_IDENTITY": {
-    "measuredDetail": "3 of 4 committed records rebind; the counsel manifest does not. The pin was exact at commit eab70f926 (2026-08-28).",
-    "whatRepairMustDo": "re-derive the source receipt against the current bytes so the pin rebinds, and confirm nothing the packet relies on inside that manifest changed in substance between 99e8029120d7 and fbf9bfef239f. Treat this as one instance of a systemic problem: six Connecticut packets pin the same stale digest (see the shared-tooling finding), so fix them together rather than one at a time."
-   }
-  },
-  "repairMustNotDo": [
-   "do not edit an artifact merely so a receipt matches it",
-   "do not repin without checking what changed in the manifest",
-   "this verification opens no commercial route and grants no approval"
-  ]
- },
   {
-    "itemId": "mi_setaside_trafficking-set",
-    "lane": "VF03",
-    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
-    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
-    "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
-    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
-    "verdict": "FAIL_REPAIR_REQUIRED",
-    "fixturesMoved": false,
-    "decisiveDefect": "In the BOUNDARY fixture the case number 2024-0011882-SUPPLEMENTAL-FY is drawn at Helvetica 10 into caption widgets narrower than the string, and the appearance stream clips it. On packet pages 2 and 3 only about 99pt of a 163.95pt string can render, so the printed case number reads '2024-0011882-SUPPLEMENTA' - it stops mid-token and loses 'L-FY'.",
-    "failedProofObligations": [
-      "CLIPPING_AND_OVERLAP"
-    ],
-    "perObligation": {
-      "CLIPPING_AND_OVERLAP": {
-        "measuredDetail": "Value complete in the byte stream (hex 323032342D303031313838322D535550504C454D454E54414C2D4659 in the /Tx BMC block), so this is not a data-truncation defect - the write is correct and cannot be displayed. Text origin Tm x=2.00; required width 163.95pt by Helvetica AFM metrics at 10pt. Page 1 FlatWidget-6857870938 /BBox [0 0 160.437 10.36], overflow 5.51pt. Page 2 FlatWidget-9538628408 /BBox [0 0 103 12], overflow 62.95pt. Page 3 FlatWidget-1316047934 /BBox [0 0 103 12], overflow 62.95pt. Pages 2 and 3 also carry an explicit clip '2 2 m 2 10 l 101 10 l 101 2 l h W n'. Cross-checked against the MediaBox: on boundary pages 2 and 3 the word extends to x=616.8 on a 612pt page. The canonical fixture is clean; its 14-character case number fits. reports/actual-writes.json for the boundary fixture is wrong on this: it reports unfittable [], nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and matchesExpected true for all three writes, because the readback reads the string in the appearance stream and never measures it against the box.",
-        "whatRepairMustDo": "Make the caption writer fit the value to the box - shrink-to-fit down to the form's minimum legible size, or classify the value as unfittable and refuse the write with a disclosure - and make the same decision for all three widgets, since page 1 overflows too by 5.51pt. Then fix the readback so a value that does not fit its /BBox raises unfittable and increments visualDefects instead of reporting matchesExpected true; this instrument gap is not MI-specific and any family with a long boundary value in a narrow caption box can hide the same defect. MI has no raster directory, so no raster receipt covers these bytes."
-      }
+   "itemId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+   "lane": "VF03",
+   "verifiedAtBase": "03ff12bf93408e971b8cec0bbc5ecdf8ba78692a",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "The latest repair changed both fixture hashes, but product-wiring.json still advertises the superseded canonical hash and superseded raster receipt. RASTER_QUEUE correctly marks the current fixture pair RASTER_PENDING, so the current bytes lack a hash-bound central visual acceptance receipt.",
+   "failedProofObligations": [
+    "ARTIFACTS",
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "perObligation": {
+    "ARTIFACTS": {
+     "measuredDetail": "Current canonical is 58487688e22fdb3d5d1566899add22a2489253462a91f7c056cfc67ea748f282 and current boundary is d041ae07adbeccc2c54a8f46a73df01e10f5769295a792ea4420190c52a9d9e6. product-wiring.json still names canonical 704b326392672a2aed2014438273a0d8be0fe0effee2a9494e0f0960357ef492 in acceptanceReceipt and proposedRepresentation.",
+     "whatRepairMustDo": "After central raster acceptance is earned for the current pair, regenerate the family-scoped product-wiring record from current rendered artifacts so no field names a superseded hash or receipt. Do not alter fixture bytes merely to recover the old hash."
     },
-    "repairMustNotDo": [
-      "do not widen the official form's field rectangles - the /Rect values are read first-hand from the pinned MC-227B binary",
-      "do not change the canonical fixture, which is clean",
-      "do not shorten the boundary fixture's case number; the long value is the point of a boundary fixture",
-      "this verification opens no commercial route, approves no output and promotes nothing"
-    ]
+    "CLIPPING_AND_OVERLAP": {
+     "measuredDetail": "All eight current pages were freshly rastered locally and visually inspected with no problem, but the only central receipt binds the former bytes and is explicitly superseded in RASTER_QUEUE.",
+     "whatRepairMustDo": "Run the existing central raster workflow against the exact current canonical and boundary hashes, ingest its complete-family receipt, and require a new independent review after the current hash-bound RASTER_PASS exists."
+    }
+   },
+   "repairMustNotDo": [
+    "do not change packet content merely to match a stale receipt",
+    "do not reuse or relabel the superseded raster receipt",
+    "this verification opens no commercial route and grants no approval"
+   ]
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+   "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "The route-obligation census record pinned by source-receipt.json no longer rehashes: 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 bytes is stale; current is 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149 bytes. The exact route entry did not change.",
+   "failedProofObligations": [
+    "SOURCE_IDENTITY"
+   ],
+   "perObligation": {
+    "SOURCE_IDENTITY": {
+     "measuredDetail": "The other two committed records remain exact. The old and current route-specific census objects are byte-for-byte equivalent at digest bb9ac36e00bb9c691523aedabd231cacafe6a56314e88fde74f6767030062086; only the whole-file receipt pin drifted.",
+     "whatRepairMustDo": "Re-read the exact current route object, then update only this family's source-receipt.json route-obligation-census record to SHA-256 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 and byte length 2607149. Deterministically rebuild canonical and boundary twice. If both remain 112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d / 13798 and 9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d / 14002, retain the exact current raster receipt; if either byte changes, reraster. Require a different independent verifier."
+    }
+   },
+   "repairMustNotDo": [
+    "do not edit the national census",
+    "do not change packet content merely to make a receipt match",
+    "do not release or verify your own repair",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+   "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "source-receipt.json pins the prior whole-census digest/length instead of current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+   "failedProofObligations": [
+    "SOURCE_IDENTITY"
+   ],
+   "perObligation": {
+    "SOURCE_IDENTITY": {
+     "measuredDetail": "The other two committed records rehash exactly and the route entry is unchanged at digest 7366a757ae8d7837e7ade8ea05ffe0749f56c7f2e671c05c8dabb262a2bb99db.",
+     "whatRepairMustDo": "Re-read the exact current route object and update only this source receipt's census record from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve current canonical b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2 / 13425 and boundary c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90 / 13627 when deterministic output is unchanged; reraster only changed bytes and send to a different verifier."
+    }
+   },
+   "repairMustNotDo": [
+    "do not edit the national census",
+    "do not alter route meaning",
+    "do not self-verify or release the claim",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+   "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "source-receipt.json pins the prior whole-census digest/length rather than current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+   "failedProofObligations": [
+    "SOURCE_IDENTITY"
+   ],
+   "perObligation": {
+    "SOURCE_IDENTITY": {
+     "measuredDetail": "The other two committed records are exact; the route entry is unchanged at digest 04fb4d7adea1525b00f32e4ecbb4bce8d999182291dcb45559bffaf4d5527678.",
+     "whatRepairMustDo": "Re-read this route object and re-pin only the census record in the family source receipt from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve current canonical 606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac / 12066 and boundary ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e / 12273 when unchanged; reraster only changed bytes and use a different verifier."
+    }
+   },
+   "repairMustNotDo": [
+    "do not edit the national census",
+    "do not import the twelve-month branch",
+    "do not self-verify or release the claim",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+   "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "The source receipt's whole-census pin is stale; current census is 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+   "failedProofObligations": [
+    "SOURCE_IDENTITY"
+   ],
+   "perObligation": {
+    "SOURCE_IDENTITY": {
+     "measuredDetail": "The route contract and compiled profile remain exact. The relevant census entry is unchanged at digest 52aa7e980428b3fee5ed7a5bdb4a30492ff09b1e3a7118c98402e0bacf2c8e59.",
+     "whatRepairMustDo": "Re-read the exact § 19c route object and update only the family receipt's census pin from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice without weakening the legal-aid stop. Preserve canonical e9b1fc1415fd36617490519b7e3b10200d2d0486fc6f13bce37518ebf1ebe101 / 13001 and boundary 8b91a6ab9335e30b73fda34c0ab767692137ad58711860e3a96f7b47803c5f17 / 13181 if unchanged; reraster only changed bytes and use another verifier."
+    }
+   },
+   "repairMustNotDo": [
+    "do not edit the national census",
+    "do not weaken the legal-aid or safety stops",
+    "do not self-verify or release the claim",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "itemId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-NATIONAL",
+   "verifiedAtBase": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:juvenile-record-expungement--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "The source receipt still names the old whole-census digest/length instead of current 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149.",
+   "failedProofObligations": [
+    "SOURCE_IDENTITY"
+   ],
+   "perObligation": {
+    "SOURCE_IDENTITY": {
+     "measuredDetail": "The route contract and compiled profile are exact. The current and prior juvenile route entries are identical at digest db225b0ade88cb2debb373dddaa8f81ad6d1cdd4ac15b5ce49cc85ff375d8d1f.",
+     "whatRepairMustDo": "Re-read the juvenile route object and update only the census record in source-receipt.json from 0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f / 2599752 to 9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149. Rebuild twice. Preserve canonical b126807ef7de8f9c35945d926612bf6b116e99045b307bc9d7535307b9ef3179 / 13424 and boundary 7ec9bdeb42a3fb3657aed1d6d1e8eeb01a2ee98935d08f7541174b1a31008359 / 13607 if unchanged; reraster only changed bytes and assign another verifier."
+    }
+   },
+   "repairMustNotDo": [
+    "do not edit the national census",
+    "do not alter the juvenile-route scope",
+    "do not self-verify or release the claim",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "wave": "packet-factory-24h/VF03/current-source-reread (2026-09-04)",
+   "itemId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-CURRENT",
+   "verifiedAtBase": "e10890c114ef6f46907efa9fa660493700ecead1",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/composed-treatment:obligation:runtime-only:ok:human-trafficking-survivor-relief--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "The § 19c petition prints the shared eleven-route Oklahoma analyst checklist as fourteen participant facts. Only C11 ('Trafficking nexus?') is specific to this route; the remaining questions belong to sibling routes or to route selection. The filing does not collect basic § 19c matter facts such as the existing court/county and case number, the prostitution-related offense and disposition, and a usable identification of the trafficking-nexus evidence. requiredFactsNotCollected=0 is a false comfort because the verifier compares the output against the same contaminated declaration.",
+   "failedProofObligations": [
+    "REQUIRED_BEFORE_FILING"
+   ],
+   "perObligation": {
+    "REQUIRED_BEFORE_FILING": {
+     "measuredDetail": "Current src/lib/legal-authority/routes/route-splits.json rehashes exactly at c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df. Under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP, all eleven Oklahoma routes carry the same requiredFacts array at digest 94779ab948a79c4c735bd59ff19bd0e875a9adcd39036b24ea6e156ce53e31bd. The delivered canonical and boundary PDFs at e9b1fc14... and 8b91a6ab... print all fourteen questions on the petition: exact route, arrest/charge limitations, prosecutor declination, reversal/dismissal, DNA innocence, pardon, deferred order and dismissal, full-record versus court-record relief, reclassification date, fine amount/payment, trafficking nexus, juvenile completion, VPO hearing/vacatur/death, and portal/automatic status. The compiled § 19c pathway instead describes prostitution-related records committed as a result of trafficking and says the supporting proof is sensitive and should be handled through legal aid or counsel. The packet's own participantMustSupply text merely repeats each vague label plus 'copied from the record itself', so it does not turn the checklist into actionable filing facts.",
+     "whatRepairMustDo": "Apply the already-established juvenile repair pattern to this exact family: stop treating the shared eleven-route requiredFacts array as a participant fact set. Replace C1-C14 with § 19c matter-identification facts supported by the bound compiled pathway, including the existing court/county and case number, the prostitution-related offense and disposition, the relief requested, and a safe identification of the trafficking-nexus evidence without soliciting a survivor narrative in the self-help packet. Update production-field-map.json, blanks-left-for-the-participant.json, participant-instructions.md, completeness evidence and the generator together; rebuild deterministically. Any changed canonical or boundary byte invalidates run 33605354695 and must receive a fresh central RASTER_PASS before a different independent verifier reads it. Preserve the current legal-aid, sensitive-facts and personal-safety stops. Do not modify the shared eleven-route source record in this one-family repair unless separately assigned authority over all affected routes."
+    }
+   },
+   "repairMustNotDo": [
+    "do not delete or weaken the legal-aid, sensitive-narrative, safety or immigration stops",
+    "do not put a survivor's narrative on a self-help filing page",
+    "do not change the shared eleven-route route contract without a separately authorized cross-route repair",
+    "do not retain the current raster receipt after any fixture byte changes",
+    "do not self-verify or release the claim",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "wave": "packet-factory-24h/VF03/CT-FL exact-base verification (2026-09-04)",
+   "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+   "routeKey": "obligation:track-only:CT:ct-destruction-request",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-CT-FL",
+   "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "Both current exact-hash fixtures split the required three-year-bar-expiration fact from its completion guidance onto a sparse second page. In boundary, page 1 ends with only the label and page 2 begins with its dotted response line and 'Check with' instruction; in canonical, the line remains on page 1 but the instruction alone begins page 2. The governed renderer reports both pages technically nonblank and uncropped, but human inspection finds two pagination defects.",
+   "failedProofObligations": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "perObligation": {
+    "CLIPPING_AND_OVERLAP": {
+     "measuredDetail": "Canonical f7104a55fed4eaa9e5055778f0970fb0a6f6806af31b9e81ff8f110c1bcfd221 / 5593 / 2 and boundary a26db59d0e573f3bba2b38e7e45fb91fe9f08e56ef40472159a9813ae44990c1 / 5710 / 2 rehash exactly. The current governed scale-2.5 receipt at packet commit 706dbbd reports 4/4 pages nonblank, cropped to 2040x2640, residual 0 and machineProblems 0. Independent bbox geometry reports 0/752 outside words and 0 substantive overlaps. Original-resolution page inspection identifies the two field/control pagination splits described above; sparse page-2 ink fractions are 0.010295417409387997 canonical and 0.010611445335710042 boundary.",
+     "whatRepairMustDo": "Reflow both fixtures so the 'Date the three-year destruction bar expires' label, response line and associated 'Check with: the case record and the clerk' instruction stay together. Rebuild deterministically, rerun focused completeness and reraster every changed exact hash through the governed whole-family renderer. A verifier other than CODEX-CS1-VF03-CT-FL and the repairer must inspect the new page evidence."
+    }
+   },
+   "repairMustNotDo": [
+    "do not alter the route's post-erasure-only scope or three-year rule",
+    "do not turn the preparation guide into an unverified official form or court petition",
+    "do not reuse the current raster receipt after fixture bytes change",
+    "do not self-verify or release the claim",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "wave": "packet-factory-24h/VF03/CT-FL exact-base verification (2026-09-04)",
+   "itemId": "fl-trafficking-set",
+   "routeKey": "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583",
+   "lane": "VF03",
+   "assignedByVerifier": "CODEX-CS1-VF03-CT-FL",
+   "verifiedAtBase": "706dbbd2439b2fdd8f5580cef46f7cc448b5c5da",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "decisiveDefect": "The family silently reduces its own receipt-named authoritative five-component packet contract to three components, omitting the required certificate-of-service and instruction component identities. Both current fixtures also orphan the sworn statement's six-line notary block and route footer onto a near-empty page 4.",
+   "failedProofObligations": [
+    "COMPONENT_SET",
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "perObligation": {
+    "COMPONENT_SET": {
+     "measuredDetail": "data/record-clearing/legal-design-packet-set-manifests.json at current SHA-256 713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572 defines five required components for fl-trafficking-set: primary filing, affidavit, proposed order, fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5. The family source receipt names that record as the source for packet roles. MASTER_QUEUE, packet-set-manifest.json, production-field-map.json and both PDFs bind only the first three. participant-instructions.md and filing-instructions.md contain guidance but are not bound as the required instruction component; no certificate-of-service component exists. Independent requiredComponentsMissing is 2, overriding the declaration-relative focused zero.",
+     "whatRepairMustDo": "Reconcile the family to the authoritative five-component contract. Include and bind fl-trafficking-certificate-of-service-4 and fl-trafficking-instructions-5 in declared order across the local packet manifest, field map, artifact manifest and packet output. Preserve the existing honest statement that held source review does not establish a service recipient or method; do not invent service law. If legal owners instead intend either component not to be required, they must first make that change in the authoritative packet-set source, not silently in this family."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measuredDetail": "Canonical dca3cd333f061c7b80176b5a815fd6266e8882ea51e6aa8e7e8e8ec7f6084570 / 13255 / 5 and boundary 0ca00f36b857d97471e0ed2b5372c5501c796729aa9315a30e002b3801012e6a / 13527 / 5 rehash exactly. The current governed scale-2.5 receipt at packet commit 706dbbd reports 10/10 pages nonblank, cropped to 2040x2640, residual 0 and machineProblems 0. Independent bbox geometry reports 0/1801 outside words and 0 substantive overlaps. Human inspection finds page 4 in each fixture carries only the notary jurat continuation and route footer, with ink fractions 0.006045937314319667 canonical and 0.007214237967914439 boundary, while the preceding page has sufficient space to keep the jurat with the signature/date block.",
+     "whatRepairMustDo": "Keep the sworn statement's notary jurat with its signature/date block instead of emitting the current sparse page 4. Rebuild both personas deterministically, rerun focused completeness against the authoritative component list and reraster every changed exact hash through the governed whole-family renderer. A verifier other than CODEX-CS1-VF03-CT-FL and the repairer must inspect the new page evidence."
+    }
+   },
+   "repairMustNotDo": [
+    "do not invent a service recipient, service method or legal rule that the held source does not establish",
+    "do not weaken the survivor-safety, evidentiary-hearing, excluded-offense or immigration stops",
+    "do not prefill participant signatures, notary fields, judge findings, order fields or clerk fields",
+    "do not reuse the current raster receipt after fixture bytes change",
+    "do not self-verify or release the claim",
+    "this assignment opens no route and grants no production authority"
+   ]
+  },
+  {
+   "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+   "lane": "VF03",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+   "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+   "decisiveDefect": "source-receipt.json pins data/rcap-ledger/completed-output-counsel-manifest.json at 99e8029120d7... and the file now rehashes to fbf9bfef239f...; commit cb6cbf45e (2026-09-04) changed the shared ledger after the pin was taken",
+   "failedProofObligations": [
+    "SOURCE_IDENTITY"
+   ],
+   "perObligation": {
+    "SOURCE_IDENTITY": {
+     "measuredDetail": "3 of 4 committed records rebind; the counsel manifest does not. The pin was exact at commit eab70f926 (2026-08-28).",
+     "whatRepairMustDo": "re-derive the source receipt against the current bytes so the pin rebinds, and confirm nothing the packet relies on inside that manifest changed in substance between 99e8029120d7 and fbf9bfef239f. Treat this as one instance of a systemic problem: six Connecticut packets pin the same stale digest (see the shared-tooling finding), so fix them together rather than one at a time."
+    }
+   },
+   "repairMustNotDo": [
+    "do not edit an artifact merely so a receipt matches it",
+    "do not repin without checking what changed in the manifest",
+    "this verification opens no commercial route and grants no approval"
+   ]
+  },
+  {
+   "itemId": "mi_setaside_trafficking-set",
+   "lane": "VF03",
+   "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+   "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+   "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "fixturesMoved": false,
+   "decisiveDefect": "In the BOUNDARY fixture the case number 2024-0011882-SUPPLEMENTAL-FY is drawn at Helvetica 10 into caption widgets narrower than the string, and the appearance stream clips it. On packet pages 2 and 3 only about 99pt of a 163.95pt string can render, so the printed case number reads '2024-0011882-SUPPLEMENTA' - it stops mid-token and loses 'L-FY'.",
+   "failedProofObligations": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "perObligation": {
+    "CLIPPING_AND_OVERLAP": {
+     "measuredDetail": "Value complete in the byte stream (hex 323032342D303031313838322D535550504C454D454E54414C2D4659 in the /Tx BMC block), so this is not a data-truncation defect - the write is correct and cannot be displayed. Text origin Tm x=2.00; required width 163.95pt by Helvetica AFM metrics at 10pt. Page 1 FlatWidget-6857870938 /BBox [0 0 160.437 10.36], overflow 5.51pt. Page 2 FlatWidget-9538628408 /BBox [0 0 103 12], overflow 62.95pt. Page 3 FlatWidget-1316047934 /BBox [0 0 103 12], overflow 62.95pt. Pages 2 and 3 also carry an explicit clip '2 2 m 2 10 l 101 10 l 101 2 l h W n'. Cross-checked against the MediaBox: on boundary pages 2 and 3 the word extends to x=616.8 on a 612pt page. The canonical fixture is clean; its 14-character case number fits. reports/actual-writes.json for the boundary fixture is wrong on this: it reports unfittable [], nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and matchesExpected true for all three writes, because the readback reads the string in the appearance stream and never measures it against the box.",
+     "whatRepairMustDo": "Make the caption writer fit the value to the box - shrink-to-fit down to the form's minimum legible size, or classify the value as unfittable and refuse the write with a disclosure - and make the same decision for all three widgets, since page 1 overflows too by 5.51pt. Then fix the readback so a value that does not fit its /BBox raises unfittable and increments visualDefects instead of reporting matchesExpected true; this instrument gap is not MI-specific and any family with a long boundary value in a narrow caption box can hide the same defect. MI has no raster directory, so no raster receipt covers these bytes."
+    }
+   },
+   "repairMustNotDo": [
+    "do not widen the official form's field rectangles - the /Rect values are read first-hand from the pinned MC-227B binary",
+    "do not change the canonical fixture, which is clean",
+    "do not shorten the boundary fixture's case number; the long value is the point of a boundary fixture",
+    "this verification opens no commercial route, approves no output and promotes nothing"
+   ]
   }
-],
+ ],
  "supersededLaneMembership": {
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF03",
@@ -727,11 +797,17 @@
   "added": 1
  },
  "vfEIndependentRead20260905": {
-   "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
-   "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
-   "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
-   "assignmentsAdded": [
-     "mi_setaside_trafficking-set"
-   ]
+  "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+  "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+  "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+  "assignmentsAdded": [
+   "mi_setaside_trafficking-set"
+  ]
+ },
+ "vfFIndependentRead20260905": {
+  "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
+  "worker": "VF-F independent verification cohort",
+  "assignmentsAppended": [],
+  "note": "in_conviction_felony-set was read at this base and returned PASS_COMPLETE_INDEPENDENT with all nine counters zero measured here, so this read adds no repair assignment."
  }
 }
