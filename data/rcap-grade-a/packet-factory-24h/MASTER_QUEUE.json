@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "42defabe4705fb2d8afc0fc5bd9700ab621d71ee",
+  "minimumCaptainSha": "689b386583306bbbab68de6fcd482631cc8b14bf",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,9 +66,9 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 6,
+    "activeFamiliesExcluded": 5,
     "guidanceOnly": 0,
-    "remaining": 340,
+    "remaining": 341,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 8,
@@ -78,7 +78,7 @@
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 134,
-    "FAIL_REPAIR_REQUIRED": 69,
+    "FAIL_REPAIR_REQUIRED": 68,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -86,7 +86,7 @@
     "LEGAL_BLOCKED": 8,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 2,
+    "BUILT_RASTER_PENDING": 3,
     "VERIFY_PENDING": 8,
     "WRONG_DELIVERY_TYPE": 1
   },
@@ -112,7 +112,6 @@
       "il-seal-edu-set",
       "ms-misd-1st-set",
       "ms-nonconv-set",
-      "nh_petition_vacated-set",
       "tx_nd_dwi_deferred-set",
       "ut_pet_limitations-set"
     ],
@@ -31386,9 +31385,7 @@
         "verifiedAtBase": "d7e293f81",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31447,9 +31444,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX40",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31460,8 +31457,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nj_arrest_no_conviction-set",
