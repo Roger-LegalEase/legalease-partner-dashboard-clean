@@ -10418,6 +10418,389 @@
    "failedObligationNames": [],
    "notMeasurableHere": [],
    "openRepairItemThatIsNotAnObligationFailure": "data/rcap-all50/shared/field-appearance-semantics.json needs an entry keyed tx_nd_probation_misdemeanor-set:tx_nd_probation_misdemeanor-fee-waiver-statement-4 classifying 'Value / Valor 11', 'Amount Cantidad 15' and 'Today' as render_participant_value_only_when_written, matching the six sibling entries for the same binary. The delivered bytes are clean today because this family's own field map clears all three before flatten, not because the shared registry says to; a finalizer that consults the registry alone would preserve them, and that is the exact defect the sibling entries were written to close."
+  },
+  {
+   "itemId": "ms-misd-1st-set",
+   "lane": "VF04",
+   "wave": "packet-factory-24h/VF04-VF05/wave-three (2026-09-05)",
+   "verdict": "FAIL_REPAIR_REQUIRED",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading",
+   "verifier": "CLAUDE-VF04-VF05-WAVE-THREE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "d7e293f81",
+   "canonicalSha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+   "boundarySha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredWith": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set (read-only)",
+    "focusedVerifierResult": "PASS_COMPLETE 9/37 written",
+    "whyTheCountersAreGreenAndTheVerdictIsNot": "None of the nine counters can see a machine identifier the composer prints in its own body text. They measure blanks, writes and write boxes; the route footer is neither a blank nor a write on a measured box, so it is invisible to every one of them."
+   },
+   "rasterState": "RASTER_PASS",
+   "rasterReceipt": {
+    "workflowRunId": "33547709781",
+    "jobId": "99990088798",
+    "artifactId": "9816392798",
+    "renderedCommitSha": "9401de4f2aea6c99f0661458c525ab6e6a9d522b",
+    "boundToCanonicalSha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+    "boundToBoundarySha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+    "documentsCovered": [
+     "canonical.pdf"
+    ],
+    "coversTheWholeFamily": true,
+    "whyARasterPassCoexistsWithThisFail": "The raster gate renders pages and finds no rendering fault; the route key renders perfectly well. What is wrong is that it is printed at all, and printed broken. That is a reading of the page, not a rendering failure."
+   },
+   "claim": {
+    "assertedBeforeFamilyContent": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 ms-misd-1st-set",
+    "result": "GRANTED_ELSEWHERE_BUT_RELEASED: ms-misd-1st-set is recorded on VF02, not VF04, and VF02 RELEASED it at 2026-09-01T23:59:37.663Z. No lane is executing it.",
+    "noIndependentVerificationGrantExistedForThisProvenFamily": true,
+    "grantMinted": false,
+    "grantTransferred": false,
+    "grantTaken": false,
+    "claimsReleased": 0,
+    "claimLedgerModified": false,
+    "whyThisRowExistsWithoutAGrant": "This row is the Captain's productization current-byte read of a COMPLETE_PACKET_PROVEN family, assigned directly and performed under that assignment rather than under a packet grant. The assert reported the released VF02 grant and stated that choosing a released grant's destination is a dispatch act; I did not transfer it to myself and I minted nothing. The Captain asked for the finding as a factory verdict row because the state machine reads verdicts only from a lane's rows.json, and the family would otherwise stay counted as proven with a known visible defect."
+   },
+   "method": "Fixture bytes re-hashed from disk first. Nine counters measured here with the read-only completeness verifier. Appearance read from the delivered bytes: inflated content streams checked for text render mode 3/7, zero-size fonts and white-on-white text; per-word boxes from pdftotext -bbox-layout against each MediaBox; pdftoppm raster of canonical page 4 into /tmp.",
+   "supersedes": {
+    "standingVerdict": "PASS_COMPLETE_INDEPENDENT",
+    "standingVerdictLane": "vf02",
+    "standingVerdictDeclaresNoBase": true,
+    "standingRowUntouched": true,
+    "whatChanged": "Not the bytes. Both fixtures re-hash to the digests the owner pinned in OWN-ADOPT-2026-09-02-BATCH-53 and to the raster receipt, so the delivered packet is exactly what vf02 read. What differs is the appearance-level inspection of the delivered pages, applied here on the current bytes. The Captain decides which reading governs."
+   },
+   "approval": {
+    "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "postApprovalAuditVerdict": "COVERED_BY_EXISTING_APPROVAL",
+    "exactArtifactPinsMatch": true,
+    "approvalCreatedOrAlteredHere": false,
+    "consequenceOfTheRepair": "Removing the footer moves both fixture digests, so the owner pins must be re-taken and the family re-rastered and re-verified by a lane that did not perform the repair."
+   },
+   "companionRecord": "data/rcap-grade-a/packet-factory-24h/vf04/ms-misd-1st-set-current-return.json — the full current-byte return this row is drawn from, sha256 704f0a4661b43f33379dd137779dd89ee29e3dac57eb0f0f73cefa91523aefe4 as committed at a667d6de0.",
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "One route key, obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1, identical in the source receipt, the field map and product-wiring, and still carried by the census. The packet is built for s 99-19-71(1), the first-offender nontraffic misdemeanour conviction route, and its own pages say so - including the point that the offence must not be a traffic violation and must not be a DUI, which has a separate route.",
+     "evidence": null
+    },
+    "SOURCE_IDENTITY": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT: Mississippi publishes no statewide expungement form, the worklist row binds no corpus bytes, and no official-form digest is claimed, so there is none to rehash. The two grounding records the receipt pins re-hash byte-exact from disk: data/record-clearing/legal-design-intake/MS.memo.json 6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2 and data/record-clearing/legal-design-packet-set-manifests.json 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec. The receipt's identityRefresh block explains the second pin's move (was 80d88d69) as the shared file being rewritten around a byte-identical anchor, and the post-approval audit reaches the same conclusion independently.",
+     "evidence": null
+    },
+    "COMPONENT_SET": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredComponentsMissing 0; five composed components over 8 pages in both fixtures - petition (1-2), proposed order (3-4), certificate of service (5), exhibit checklist (6), filing instructions (7-8) - contiguous and in filing order.",
+     "evidence": null
+    },
+    "KNOWN_PREFILLS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "knownRequiredFieldsMissing 0, requiredFactsNotCollected 0 and invisibleWrites 0 on my own run. I read all nine declared writes back out of the extracted text of the delivered canonical bytes myself rather than trusting the report: 'Marcus Deshawn Whitfield' appears 9 times, the date of birth, the mailing address, the telephone number and the email once each, and every value lands on the component page its field names.",
+     "evidence": null
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "19 declared items; I matched every disclosureLabel verbatim against participant-instructions.md and found 0 undisclosed. unclassifiedBlanks 0. The petition even declines to initial the two first-offender statements for the participant and says so on its face: 'nothing is initialled for the petitioner'.",
+     "evidence": null
+    },
+    "ROUTE_OPTIONS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "requiredOptionsMissing 0. The one selection control on a delivered page is the manner of delivery on the certificate of service - by United States mail or by hand delivery - which is a fact about what the participant did, not an election the route determines. Nothing is pre-marked.",
+     "evidence": null
+    },
+    "REPEATING_ROWS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "incompleteRows 0; there is no repeating row group and no partly populated row. The order's agency lines are carried whole to the participant rather than partly filled.",
+     "evidence": null
+    },
+    "PROTECTED_FIELDS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "protectedWrites 0. I cross-checked all 9 protected blanks against every write in both fixtures: none is written. The petition's signature and date lines, the proposed order's ENTERED date, its JUDICIAL OFFICER OF THE COURT line and its APPROVED AS TO FORM block, and the certificate of service's delivery date and signature are all blank in the delivered bytes, each with a printed sentence saying why. The order's findings are framed as proposals - 'the Court, having considered the petition, would find' - so nothing on it asserts a finding for the court.",
+     "evidence": null
+    },
+    "ARTIFACTS": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Both fixtures re-hash from disk to exactly the digests the owner pinned and the raster receipt bound: canonical e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897, 21939 bytes, 8 pages; boundary 90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5, 22118 bytes, 8 pages.",
+     "evidence": null
+    },
+    "PAGE_ORDER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "8 pages in the bytes, 8 declared, 8 manifest entries, packetPage strictly 1..8, every component contiguous, both fixtures.",
+     "evidence": null
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": true,
+     "result": "FAIL",
+     "finding": "A hard-split internal route key printed on five of the eight delivered pages of both fixtures. Each block is the word 'Route:' on one line, then the route key broken mid-token across the next two lines with no hyphen, so the page prints the fragment 'expungemen' and then 't-99-19-71-1'. The affected pages are 2 (the sworn petition), 4 (the proposed order, where the broken identifier sits directly beneath the JUDICIAL OFFICER OF THE COURT signature line and the prosecuting authority's APPROVED AS TO FORM block), 5 (the certificate of service), 6 (the exhibit checklist) and 8 (the filing instructions). Every coordinate is in the splitCoordinates evidence below, in PDF points, given both as pdftotext yMin/yMax measured from the top of a 792 pt page and as the equivalent y from the bottom, so a repair lane can locate each one without re-measuring. Confirmed at appearance level by rendering canonical page 4 at 110 dpi and reading the image, not only from the text layer. Everything else in this class is clean: 0 words fall outside the MediaBox on any of the 16 pages across both fixtures, no text render mode 3 or 7, no zero-size font, no white-on-white write, no orphaned signature page, no route-key-only or fragment page, no source-shipped ink (this family binds no source binary), no catch-all field match, no clipped or overrun value, and my overlapping-word scan returned zero pairs on both fixtures.",
+     "evidence": {
+      "splitCoordinates": [
+       {
+        "fixture": "canonical",
+        "page": 2,
+        "component": "primary_filing (the sworn petition)",
+        "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+        "fragmentOneBox": {
+         "xMin": 72,
+         "xMax": 540.64,
+         "yMinFromTop": 513.99,
+         "yMaxFromTop": 523.89,
+         "yFromBottom": 268.11
+        },
+        "fragmentTwo": "t-99-19-71-1",
+        "fragmentTwoBox": {
+         "xMin": 72,
+         "xMax": 128.21,
+         "yMinFromTop": 528.49,
+         "yMaxFromTop": 538.39,
+         "yFromBottom": 253.61
+        },
+        "labelWord": "Route:",
+        "labelBox": {
+         "xMin": 72,
+         "xMax": 101.34,
+         "yMinFromTop": 499.49,
+         "yFromBottom": 282.61
+        }
+       },
+       {
+        "fixture": "canonical",
+        "page": 4,
+        "component": "proposed_order (beneath JUDICIAL OFFICER OF THE COURT and APPROVED AS TO FORM)",
+        "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+        "fragmentOneBox": {
+         "xMin": 72,
+         "xMax": 540.64,
+         "yMinFromTop": 252.99,
+         "yMaxFromTop": 262.89,
+         "yFromBottom": 529.11
+        },
+        "fragmentTwo": "t-99-19-71-1",
+        "fragmentTwoBox": {
+         "xMin": 72,
+         "xMax": 128.21,
+         "yMinFromTop": 267.49,
+         "yMaxFromTop": 277.39,
+         "yFromBottom": 514.61
+        },
+        "labelWord": "Route:",
+        "labelBox": {
+         "xMin": 72,
+         "xMax": 101.34,
+         "yMinFromTop": 238.49,
+         "yFromBottom": 543.61
+        }
+       },
+       {
+        "fixture": "canonical",
+        "page": 5,
+        "component": "certificate_of_service",
+        "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+        "fragmentOneBox": {
+         "xMin": 72,
+         "xMax": 540.64,
+         "yMinFromTop": 658.99,
+         "yMaxFromTop": 668.89,
+         "yFromBottom": 123.11
+        },
+        "fragmentTwo": "t-99-19-71-1",
+        "fragmentTwoBox": {
+         "xMin": 72,
+         "xMax": 128.21,
+         "yMinFromTop": 673.49,
+         "yMaxFromTop": 683.39,
+         "yFromBottom": 108.61
+        },
+        "labelWord": "Route:",
+        "labelBox": {
+         "xMin": 72,
+         "xMax": 101.34,
+         "yMinFromTop": 644.49,
+         "yFromBottom": 137.61
+        }
+       },
+       {
+        "fixture": "canonical",
+        "page": 6,
+        "component": "attachment (exhibit checklist)",
+        "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+        "fragmentOneBox": {
+         "xMin": 72,
+         "xMax": 540.64,
+         "yMinFromTop": 412.49,
+         "yMaxFromTop": 422.39,
+         "yFromBottom": 369.61
+        },
+        "fragmentTwo": "t-99-19-71-1",
+        "fragmentTwoBox": {
+         "xMin": 72,
+         "xMax": 128.21,
+         "yMinFromTop": 426.99,
+         "yMaxFromTop": 436.89,
+         "yFromBottom": 355.11
+        },
+        "labelWord": "Route:",
+        "labelBox": {
+         "xMin": 72,
+         "xMax": 101.34,
+         "yMinFromTop": 397.99,
+         "yFromBottom": 384.11
+        }
+       },
+       {
+        "fixture": "canonical",
+        "page": 8,
+        "component": "instructions (filing instructions page 2)",
+        "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+        "fragmentOneBox": {
+         "xMin": 72,
+         "xMax": 540.64,
+         "yMinFromTop": 441.49,
+         "yMaxFromTop": 451.39,
+         "yFromBottom": 340.61
+        },
+        "fragmentTwo": "t-99-19-71-1",
+        "fragmentTwoBox": {
+         "xMin": 72,
+         "xMax": 128.21,
+         "yMinFromTop": 455.99,
+         "yMaxFromTop": 465.89,
+         "yFromBottom": 326.11
+        },
+        "labelWord": "Route:",
+        "labelBox": {
+         "xMin": 72,
+         "xMax": 101.34,
+         "yMinFromTop": 426.99,
+         "yFromBottom": 355.11
+        }
+       },
+       {
+        "fixture": "boundary",
+        "page": 2,
+        "component": "primary_filing (the sworn petition)",
+        "fragmentOne": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen",
+        "fragmentOneBox": {
+         "xMin": 72,
+         "xMax": 540.64,
+         "yMinFromTop": 528.49,
+         "yMaxFromTop": 538.39,
+         "yFromBottom": 253.61
+        },
+        "fragmentTwo": "t-99-19-71-1",
+        "fragmentTwoBox": {
+         "xMin": 72,
+         "xMax": 128.21,
+         "yMinFromTop": 542.99,
+         "yMaxFromTop": 552.89,
+         "yFromBottom": 239.11
+        },
+        "labelWord": "Route:",
+        "labelBox": {
+         "xMin": 72,
+         "xMax": 101.34,
+         "yMinFromTop": 513.99,
+         "yFromBottom": 268.11
+        },
+        "note": "one line (14.5 pt) lower than the canonical because the boundary's longer participant values push the block down; pages 4, 5, 6 and 8 are at identical coordinates in both fixtures"
+       },
+       {
+        "fixture": "boundary",
+        "page": 4,
+        "component": "proposed_order",
+        "sameCoordinatesAsCanonical": true
+       },
+       {
+        "fixture": "boundary",
+        "page": 5,
+        "component": "certificate_of_service",
+        "sameCoordinatesAsCanonical": true
+       },
+       {
+        "fixture": "boundary",
+        "page": 6,
+        "component": "attachment (exhibit checklist)",
+        "sameCoordinatesAsCanonical": true
+       },
+       {
+        "fixture": "boundary",
+        "page": 8,
+        "component": "instructions",
+        "sameCoordinatesAsCanonical": true
+       }
+      ],
+      "coordinateSystem": "PDF points on a 612 x 792 MediaBox. yMinFromTop/yMaxFromTop are pdftotext -bbox-layout values measured downward from the top edge; yFromBottom is the same baseline expressed upward from the bottom edge, which is the origin the composer draws in.",
+      "pagesAffected": [
+       2,
+       4,
+       5,
+       6,
+       8
+      ],
+      "pagesTotal": 8,
+      "bothFixtures": true,
+      "fullKeyThatShouldPrintUnbroken": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+      "wordsOutsidePageBox": 0,
+      "overlapPairs": 0,
+      "invisibleWriteConstructs": 0,
+      "rasterInspected": [
+       "canonical page 4 at 110 dpi"
+      ]
+     }
+    },
+    "FILING_DESTINATION": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "'File the petition, with the proposed order and the certificate of service, with the court in which the conviction was had' - and the packet leads with the reason that is hard: Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case, so step one is to have the records office confirm it. The caption prints the instruction to write the court and its county, or for a municipal court its city, rather than guessing one.",
+     "evidence": null
+    },
+    "FEE_AND_WAIVER": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Answered with its uncertainty stated rather than papered over: no amount is published, because s 99-19-72 levies a fee on petitions to expunge under s 99-19-71 but 'its reach and its collection in lower courts are recorded open questions'. The participant is told to confirm the amount and any pauper's-affidavit route with the court's records office before filing, and the same open question is repeated in the 'What this packet does not tell you' section.",
+     "evidence": null
+    },
+    "SERVICE": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "Deliver a copy of the petition and the proposed order to the prosecuting authority - for a circuit court case the district attorney for the circuit district, for a county, justice or municipal court case the county or municipal prosecuting attorney, and for a municipal court case the city prosecutor rather than the district attorney - by United States mail or hand delivery, with the certificate of service completed only when the copy actually goes out. No prosecutor name or address is invented.",
+     "evidence": null
+    },
+    "SELF_HELP_STOP": {
+     "measured": true,
+     "result": "PASS",
+     "finding": "A named six-condition stop list on the delivered page: uncertain first-offender status or any prior conviction anywhere, any prior expunged case, an offence that may be a traffic violation, a DUI, a municipal-court conviction alongside justice-court convictions, and non-citizenship. The exhibit checklist adds its own refusal - do not attach an indictment on this track unless the case was actually indicted, because pleading one that does not exist would be false.",
+     "evidence": null
+    }
+   },
+   "failedObligationNames": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "notMeasurableHere": [],
+   "repairActions": [
+    "Stop emitting the 'Route: <route key>' block into the composed body of participant- and court-facing pages. The same composer prints the same block on ri_first_offender_felony-set and ri_first_offender_misdemeanor-set, where it additionally produces route-key-only pages, so this is one composer change rather than three packet edits.",
+    "If a provenance stamp is wanted on the page, it must not break a token across a line: shrink, wrap on a separator, or print a short identifier instead of the full obligation key.",
+    "Re-render, re-raster, re-take the owner pins, and have a lane that did not perform the repair verify the result."
+   ]
   }
  ],
  "supersededLaneMembership": {
@@ -10917,7 +11300,8 @@
   "familiesRead": [
    "nm_conviction-set",
    "ri_first_offender_felony-set",
-   "tx_nd_probation_misdemeanor-set"
+   "tx_nd_probation_misdemeanor-set",
+   "ms-misd-1st-set"
   ],
   "claimsAssertedBeforeFamilyRead": 3,
   "claimGrantSet": "322805812600aacc",
@@ -10944,7 +11328,9 @@
   "verdicts": {
    "nm_conviction-set": "FAIL_REPAIR_REQUIRED",
    "ri_first_offender_felony-set": "FAIL_REPAIR_REQUIRED",
-   "tx_nd_probation_misdemeanor-set": "PASS_COMPLETE_INDEPENDENT"
-  }
+   "tx_nd_probation_misdemeanor-set": "PASS_COMPLETE_INDEPENDENT",
+   "ms-misd-1st-set": "FAIL_REPAIR_REQUIRED"
+  },
+  "msMisd1stRowAddedOnCaptainInstruction": "The ms-misd-1st-set row was appended after the first push, on the Captain's instruction, so the state machine sees the defect: it reads verdicts only from a lane's rows.json, and a COMPLETE_PACKET_PROVEN family would otherwise stay counted as proven with a known visible defect. No independent-verification grant existed for this family and none was minted; the read was the Captain's assigned productization current-byte read. claimsAssertedBeforeFamilyRead below counts the five granted families only."
  }
 }
