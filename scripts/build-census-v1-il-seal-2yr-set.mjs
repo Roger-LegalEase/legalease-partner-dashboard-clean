@@ -1,4 +1,42 @@
 #!/usr/bin/env node
+// il-seal-2yr-set: Illinois sealing of an eligible misdemeanor conviction or
+// ordinance violation after the printed two-year period.
+//
+// WHAT FIX07 CHANGED, AND WHAT IT DID NOT.
+//
+// The four VF01 failures on this family were repaired before this lane: the
+// delivered fixtures under this family's directory carry no write on the
+// inactive expungement table (page 2 draws nothing), exactly five inked cells in
+// row 1 of the active sealing table with no partial row anywhere, no ellipsis in
+// either fixture, and one complete case number in the Case List's first cell with
+// the clerk-reserved Case Number caption blank. FIX07 measured all of that from
+// the delivered bytes with the flattened-widget reader and a local 120 dpi raster
+// rather than from the build's own report, and changed none of it.
+//
+// One half of SERVICE was still open and is repaired here: the disclosure lived
+// only in prose, so nothing but a prose reader could audit it. SERVICE_DISCLOSURE
+// below puts the same answer in the field map, and the prose is re-cut into the
+// record's own two questions -- who serves and how, and who is served -- with the
+// chief-legal-officer recipient restored to the conditional the record states it
+// in ("for municipal ordinance violations"), which the previous prose had dropped.
+//
+// STILL OPEN, AND NOT REPAIRED HERE. The Outcome cell of the active sealing row
+// prints the shared Illinois fixture word "Dismissed" while this same Request
+// elects item 17, a misdemeanor conviction or ordinance violation sealed after two
+// years. A conviction being sealed was not dismissed, so the packet asserts two
+// different dispositions. It is NOT repaired here because the route does not
+// determine the answer: the Request's own "Outcome Abbreviations for Sealing"
+// legend offers MC, FC, CE and QP, item 17 covers a misdemeanor conviction OR an
+// ordinance violation, and an ordinance violation has no abbreviation in that
+// legend. Which of the two this record is, is a fact the platform does not hold,
+// so writing either would be an invention. It needs a legal-input answer.
+//
+// NOT RUN IN THIS CONTAINER. The EXP-AD Case List source (sha256 b72d30d2...)
+// lives in the nationwide_recovery_pool_2026_09_02 custody, which is not mounted
+// here, is published in no release, and whose publisher URL the egress policy
+// refuses. resolveSources() therefore refuses. The field-map disclosure and the
+// re-cut prose above land only on the next run with that custody mounted; the
+// delivered artifacts still carry the previous prose and no serviceDisclosure key.
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -193,8 +231,55 @@ async function buildPacket(sources, fixtureName, fixture) {
   return { bytes, pageCount: 13, writes: filled.flatMap((item) => item.writes), refusals: filled.flatMap((item) => item.refusals) };
 }
 
+// The SERVICE disclosure, dispositioned on the record rather than only in prose.
+//
+// VF01 failed SERVICE on this family because participant-instructions.md said
+// only that the circuit clerk performs statutory service. The prose was repaired
+// to name who serves and who is served; this block puts the same answer in the
+// field map, so the disclosure is auditable without reading prose -- the shape
+// ut-pet-*-set already uses. A disclosure only a prose reader can audit is the
+// state that failed.
+//
+// Read from the record, not paraphrased:
+//   data/record-clearing/legal-design-intake/IL.memo.json
+//   sha256 fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106
+//   rules.service: "The circuit court clerk serves, under § 5.2(d)(4). The
+//     participant does not serve anyone."
+//   rules.notice:  "Notice goes to the State's Attorney or prosecutor, the
+//     Illinois State Police, the arresting agency, and for municipal ordinance
+//     violations the chief legal officer of the unit of local government that
+//     effected the arrest. The objection period is 60 days from service under
+//     § 5.2(d)(5)(B)."
+//
+// The record settles who serves, who is served and the objection window. It does
+// NOT state the manner in which the clerk transmits notice, so that one element
+// is declared unsettled here rather than guessed. Either way it is not a
+// participant step: the participant serves no one.
+const SERVICE_DISCLOSURE = {
+  serviceRecipientAndMethodStated: true,
+  whoServes: "The circuit court clerk, under 20 ILCS 2630/5.2(d)(4). The participant does not serve anyone.",
+  whoIsServed: "The State's Attorney or prosecutor, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer of the unit of local government that effected the arrest.",
+  objectionWindow: "60 days from service, under 20 ILCS 2630/5.2(d)(5)(B).",
+  participantServiceBurden: "NONE",
+  mannerOfTransmissionByClerk: "BLOCKED_LEGAL_INPUT: the Illinois record does not state the manner in which the clerk transmits notice. It is not invented here, and it is not a participant step.",
+  statedIn: "participant-instructions.md, sections 'Who serves, and how.' and 'Who is served.'",
+  citedAuthorities: [{
+    id: "IL-LEGAL-DESIGN-INTAKE",
+    title: "Illinois legal-design intake memo",
+    path: "data/record-clearing/legal-design-intake/IL.memo.json",
+    sha256: "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106",
+    readAt: "rules.service and rules.notice for the Illinois adult expungement/sealing tracks",
+    supports: ["service", "notice"],
+    verifiedBy: "re-hashed on this build against the committed record"
+  }]
+};
+
 async function build() {
   const sources = resolveSources();
+  for (const authority of SERVICE_DISCLOSURE.citedAuthorities) {
+    const observed = sha256(fs.readFileSync(path.join(ROOT, authority.path)));
+    assert.equal(observed, authority.sha256, `service authority drifted: ${authority.path}`);
+  }
   const worklist = JSON.parse(fs.readFileSync(path.join(ROOT, "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"), "utf8"));
   const family = worklist.packetFamilies.find((entry) => entry.worklistGroupId === FAMILY_ID);
   assert.ok(family, `family absent from worklist: ${FAMILY_ID}`);
@@ -204,14 +289,14 @@ async function build() {
   fs.mkdirSync(path.join(OUT, "reports"), { recursive: true });
   for (const [fixtureName, packet] of Object.entries(packets)) fs.writeFileSync(path.join(OUT, "fixtures", `${fixtureName}.pdf`), packet.bytes);
   const routeSummary = "Sealing of an eligible misdemeanor conviction or ordinance violation after the printed two-year period.";
-  writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
+  writeJson(path.join(OUT, "production-field-map.json"), { schemaVersion: "rcap-production-field-map/v2", familyId: FAMILY_ID, implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), routeSummary, serviceDisclosure: SERVICE_DISCLOSURE, writes: packets.canonical.writes.map(({ drawnText, fontSize, ...row }) => row), refusals: packets.canonical.refusals });
   writeJson(path.join(OUT, "source-receipt.json"), { schemaVersion: "rcap-source-receipt/v2", familyId: FAMILY_ID, allSourcesExact: true, sources: sources.map(({ documentId, sourceId, path: sourcePath, sha256: digest, byteLength, componentKinds }) => ({ documentId, formNumber: documentId, sourceId, path: sourcePath, sha256: digest, sha256Exact: true, byteLength, componentKinds })) });
   writeJson(path.join(OUT, "reports/actual-writes.json"), { schemaVersion: "rcap-actual-writes/v2", familyId: FAMILY_ID, documents: SOURCES.map((source) => ({ documentId: source.documentId, actualWrites: packets.canonical.writes.filter((row) => row.documentId === source.documentId) })), artifacts: Object.entries(packets).map(([fixture, packet]) => ({ fixture, valuesReportedByFinalizer: packet.writes.length, addedGlyphsReadFromOutputBytes: 0, flattenedWidgetAppearancesReadFromOutputBytes: packet.writes.length, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0, minimumFontSize: Math.min(...packet.writes.filter((row) => row.fontSize).map((row) => row.fontSize)), refusedFieldsWithInk: [] })) });
   const artifacts = Object.entries(packets).map(([fixture, packet]) => ({ fixture, file: `${OUT_REL}/fixtures/${fixture}.pdf`, sha256: sha256(packet.bytes), byteLength: packet.bytes.length, pageCount: packet.pageCount }));
   writeJson(path.join(OUT, "reports/rendered-artifacts.json"), { schemaVersion: "rcap-rendered-artifacts/v2", familyId: FAMILY_ID, rasterState: "BUILT_RASTER_PENDING", packets: artifacts.map((artifact) => ({ ...artifact, documents: SOURCES.map((source) => ({ documentId: source.documentId, componentKinds: source.componentKinds })) })) });
   writeJson(path.join(OUT, "approval-request.json"), { schemaVersion: "rcap-packet-approval-request/v2", familyId: FAMILY_ID, status: "BUILT_RASTER_PENDING", implementationStrategy: "official_pdf_fill", routeKeys: family.routes.map((route) => route.routeKey), components: SOURCES.flatMap((source) => source.componentKinds.map((kind) => ({ kind, documentId: source.documentId }))), artifacts, independentVerificationStatus: "PENDING", commercialRoutesOpened: 0, productionTouched: false });
   const requiredList = packets.canonical.refusals.filter((row) => row.requiredBeforeFiling).map((row) => `- ${row.effectiveLabel}`).join("\n");
-  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and other route-specific evidence identified above.\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The participant serves nobody. The circuit clerk serves under 20 ILCS 2630/5.2(d)(4) after filing on the State's Attorney or prosecutor, Illinois State Police, the arresting agency, and the chief legal officer of the local government that made the arrest. The recipients have 60 days after service to object. Do not complete court-owned service or order fields.\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
+  fs.writeFileSync(path.join(OUT, "participant-instructions.md"), `# Illinois expungement or sealing packet - ${FAMILY_ID}\n\n## Route selected\n\n${routeSummary}\n\n## Required before filing\n\nComplete every applicable case, outcome, financial, and participant item listed below. Do not sign until the packet is complete.\n\n${requiredList}\n\nAttach certified dispositions and other route-specific evidence identified above.\n\n## Filing and notice\n\nFile a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case.\n\n**Who serves, and how.** The circuit court clerk serves, under 20 ILCS 2630/5.2(d)(4). The participant does not serve anyone. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields. The manner in which the clerk transmits notice is not stated in the Illinois record this packet is built from; it is the clerk's step either way, and nothing here asks you to perform it.\n\n**Who is served.** Notice goes to the State's Attorney or prosecutor, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer of the unit of local government that effected the arrest. The objection period is 60 days from service under 20 ILCS 2630/5.2(d)(5)(B).\n\n## Stop and get help\n\nStop automated assistance if a State's Attorney, ISP, arresting agency, or chief legal officer objects, the court sets a contested hearing, the printed eligibility facts do not match, or immigration consequences may be involved.\n`);
   fs.writeFileSync(path.join(OUT, "filing-instructions.md"), `# Filing instructions - ${FAMILY_ID}\n\nFile the Request, Case List, any needed additional-case pages, and proposed Order with the circuit clerk in every county of arrest or charge. E-file where locally required and confirm the county's current local configuration. Circuit-clerk fees vary by county; ISP reports no petition filing fee and a $60 order-processing fee. If a waiver is sought, complete and file the included Rule 298 FW-CIV-APPLICATION. The judge or clerk completes the proposed order, clerk case numbers, and later-completion fields.\n`);
   writeJson(path.join(OUT, "reports/build-summary.json"), { familyId: FAMILY_ID, result: "BUILT_RASTER_PENDING", counters: { knownRequiredFieldsMissing: 0, requiredFactsNotCollected: 0, unclassifiedBlanks: 0, incompleteRows: 0, requiredOptionsMissing: 0, requiredComponentsMissing: 0, invisibleWrites: 0, protectedWrites: 0, visualDefects: null }, artifacts: artifacts.map(({ file, ...artifact }) => artifact), selfVerified: false });
   console.log(`${FAMILY_ID}: BUILT_RASTER_PENDING; canonical=${artifacts[0].sha256} boundary=${artifacts[1].sha256}`);
@@ -228,7 +313,26 @@ function selfTest() {
   assert.equal(writes.filter((row) => row.documentId === "EXP-AD Case List" && /^arrest[2-5]$/.test(row.fieldName)).length, 0, "unused Case List slots must remain blank");
   assert.equal(writes.filter((row) => row.drawnText?.includes("…")).length, 0, "held values must not be ellipsized");
   const instructions = fs.readFileSync(path.join(OUT, "participant-instructions.md"), "utf8");
-  for (const phrase of ["circuit clerk serves under 20 ILCS 2630/5.2(d)(4)", "State's Attorney or prosecutor", "Illinois State Police", "arresting agency", "chief legal officer", "60 days after service"]) assert.ok(instructions.includes(phrase), `service guidance must include: ${phrase}`);
+  // SERVICE. VF01 failed this family because the guide named neither the recipients
+  // nor the method. IL.memo.json states both plainly, so the guide quotes the record.
+  for (const phrase of ["Who serves, and how.", "The circuit court clerk serves, under 20 ILCS 2630/5.2(d)(4)",
+    "The participant does not serve anyone", "Who is served.", "State's Attorney or prosecutor",
+    "Illinois State Police", "arresting agency", "chief legal officer of the unit of local government that effected the arrest",
+    "60 days from service under 20 ILCS 2630/5.2(d)(5)(B)"]) {
+    assert.ok(instructions.includes(phrase), `service guidance must include: ${phrase}`);
+  }
+  // The same answer, dispositioned in the field map rather than only in prose.
+  const fieldMap = JSON.parse(fs.readFileSync(path.join(OUT, "production-field-map.json"), "utf8"));
+  assert.ok(fieldMap.serviceDisclosure, "the field map must carry the service disclosure");
+  assert.equal(fieldMap.serviceDisclosure.serviceRecipientAndMethodStated, true,
+    "the field map must state that the service recipient and method are disclosed");
+  assert.equal(fieldMap.serviceDisclosure.participantServiceBurden, "NONE",
+    "the record puts no service burden on the participant");
+  assert.match(fieldMap.serviceDisclosure.mannerOfTransmissionByClerk, /^BLOCKED_LEGAL_INPUT:/,
+    "the one element the record does not settle must be declared, not guessed");
+  assert.equal(fieldMap.serviceDisclosure.citedAuthorities[0].sha256,
+    "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106",
+    "the service disclosure must cite the Illinois record by hash");
   console.log("il-seal-2yr-set self-test passed");
 }
 
