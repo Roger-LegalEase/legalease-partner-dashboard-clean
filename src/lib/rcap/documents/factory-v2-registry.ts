@@ -729,6 +729,21 @@ export function factoryV2RouteMigrationFor(
   return factoryV2RouteFor(jurisdiction, pathwayId, trackId)?.retiredLegacyRouteMigration ?? null;
 }
 
+/**
+ * The exact validated route productization, on exactly the same terms as the
+ * migration accessor above: it reports the productization only when the
+ * generated registry row is itself admissible. The resolver uses it at the
+ * retired-jurisdiction fence so that fence can be evaluated without the
+ * factory_v2 lookup running ahead of it.
+ */
+export function factoryV2RouteProductizationFor(
+  jurisdiction: string,
+  pathwayId: string,
+  trackId?: string | null
+): FactoryV2ExactRouteProductization | null {
+  return factoryV2RouteFor(jurisdiction, pathwayId, trackId)?.exactRouteProductization ?? null;
+}
+
 /** Test seam: forget the loaded registry so a fixture can be read fresh. */
 export function resetFactoryV2RegistryCache() {
   cache = null;

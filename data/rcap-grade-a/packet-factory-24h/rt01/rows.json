@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-runtime-repair-return/v1",
+  "lane": "RT01",
+  "laneKind": "runtime-repair",
+  "generatedAtBase": "085bbec84",
+  "rows": [
+    {
+      "itemId": "packet-route-resolver.factory_v2_branch",
+      "status": "COMPLETED",
+      "whatChanged": {
+        "src/lib/rcap/documents/packet-route-resolver.ts": [
+          "Import block: added factoryV2RouteMigrationFor and factoryV2RouteProductizationFor alongside the existing factoryV2RouteFor import.",
+          "Retired-jurisdiction fence: replaced the hoisted lookup `const exactFactoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId)` plus its two `exactFactoryRoute?.…` reads with the two exact accessors `factoryV2RouteMigrationFor(jurisdiction, pathwayId, input.trackId)` and `factoryV2RouteProductizationFor(jurisdiction, pathwayId, input.trackId)`, so the fence keeps its exact-migration and exact-productization escape hatches without the factory_v2 lookup running ahead of it. Comment added explaining why.",
+          "factory_v2 branch: `const factoryRoute = exactFactoryRoute` became `const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId, input.trackId)`, which is now the resolver's only factoryV2RouteFor call and sits after the component-deferral, exact-deferral, terminal-treatment, complete-guidance and LEGACY_VERIFIED checks. The branch body is untouched: it already set routeKind \"factory_v2\", sellable false, creditConsumable false and rendererKind packet_document_v1."
+        ],
+        "src/lib/rcap/documents/factory-v2-registry.ts": [
+          "Added factoryV2RouteProductizationFor(jurisdiction, pathwayId, trackId?), a three-line sibling of the existing factoryV2RouteMigrationFor that returns factoryV2RouteFor(...)?.exactRouteProductization ?? null. It exists because the fence needs the exact productization (DC misattributed arrest is a LEGACY_VERIFIED jurisdiction that passes the fence on a productization, not a migration) and the migration accessor alone could not supply it. No admission logic was changed; both accessors resolve the same admissible row."
+        ],
+        "scripts/verify-rcap-factory-v2-route.mjs": [
+          "Fixed one demonstrably wrong expectation, with evidence. The B-block located the branch with resolver.indexOf(\"factoryV2RouteFor(jurisdiction, pathwayId)\") — an exact two-argument call. Commit 07804aa68 (2026-09-04, 'Productize Illinois felony prostitution packet route') added the third argument the exact-track-selection contract requires, input.trackId, so from that commit the anchor never matched, indexOf returned -1 and slice(-1) made \"the branch\" the last character of the file. B-kind, B-sellable and B-credit were therefore reported against one character rather than against the branch, which sets all three. The argument is load-bearing: dropping it would both admit a route whose caller supplied a mismatched trackId and refuse a route whose registry row sets exactTrackSelectionRequired, i.e. it would change resolution outcomes, so the anchor cannot be satisfied as written. Re-anchored on \"factoryV2RouteFor(\" — the same prefix B-single and B-order already use — and made a missing call an empty branch rather than a one-character one, so B-branch can fire. No expectation was removed or loosened."
+        ]
+      },
+      "verifiersBefore": [
+        { "command": "node scripts/verify-route-resolution.mjs", "exitCode": 0, "note": "215 checks" },
+        { "command": "node scripts/generate-rcap-launch-graph.mjs --check", "exitCode": 1, "note": "pre-existing staleness at base 085bbec84, unrelated to this lane" },
+        { "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check", "exitCode": 1, "note": "pre-existing staleness at base 085bbec84, unrelated to this lane" },
+        { "command": "node scripts/verify-rcap-launch-graph.mjs", "exitCode": 0 },
+        { "command": "node scripts/verify-rcap-factory-v2-route.mjs", "exitCode": 1, "note": "B-kind, B-sellable, B-credit, B-order" },
+        { "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations", "exitCode": 0, "note": "12/12" },
+        { "command": "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs", "exitCode": 0 },
+        { "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only", "exitCode": 0 },
+        { "command": "npx tsc --noEmit -p .", "exitCode": 0 },
+        { "command": "npx eslint src/lib/rcap/documents/packet-route-resolver.ts", "exitCode": 0, "note": "one pre-existing unused-var warning at line 208" },
+        { "command": "node scripts/verify-route-kind-adjudications.mjs", "exitCode": 1, "note": "pre-existing at base; identical output before and after" }
+      ],
+      "verifiersAfter": [
+        { "command": "node scripts/verify-route-resolution.mjs", "exitCode": 0, "note": "215 checks, unchanged" },
+        { "command": "node scripts/generate-rcap-launch-graph.mjs --check", "exitCode": 1, "note": "same pre-existing staleness; the regenerated launch-graph.json is byte-identical to the one regenerated at base" },
+        { "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check", "exitCode": 1, "note": "same pre-existing staleness; the regenerated factory-v2-route-registry.json is byte-identical to the one regenerated at base" },
+        { "command": "node scripts/verify-rcap-launch-graph.mjs", "exitCode": 0, "note": "262 intended-paid, 0 operationally sellable" },
+        { "command": "node scripts/verify-rcap-factory-v2-route.mjs", "exitCode": 0 },
+        { "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations", "exitCode": 0, "note": "12/12" },
+        { "command": "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs", "exitCode": 0, "note": "702 checks, 447 live evaluations" },
+        { "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only", "exitCode": 0 },
+        { "command": "npx tsc --noEmit -p .", "exitCode": 0 },
+        { "command": "npx eslint src/lib/rcap/documents/packet-route-resolver.ts", "exitCode": 0, "note": "same single pre-existing warning" },
+        { "command": "node scripts/verify-rcap-launch-graph.mjs --mutations", "exitCode": 0, "note": "20/20" },
+        { "command": "node scripts/verify-rcap-first-route-cohort-productization.mjs", "exitCode": 0, "note": "7 routes" },
+        { "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs", "exitCode": 0 },
+        { "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs", "exitCode": 0, "note": "52/52" },
+        { "command": "node scripts/verify-route-presentation-conflicts.mjs", "exitCode": 0 },
+        { "command": "node scripts/verify-route-kind-adjudications.mjs", "exitCode": 1, "note": "pre-existing; output byte-identical to base" }
+      ],
+      "resolutionOutcomesChanged": 0,
+      "resolutionOutcomeEvidence": "Both generators resolve every intended-paid route through the real resolver. Regenerated at base and again after the change, data/rcap-ledger/launch-graph.json (262 rows) and data/record-clearing/factory-v2-route-registry.json are byte-identical, and every row keeps operationallySellable false, paymentAllowed false, sellable false and creditConsumable false. verify-route-resolution.mjs stays at 215 checks passing. Neither generated file is committed by this lane; both were restored with git checkout.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "observationNotForThisLane": "B-kind, B-sellable and B-credit slice from the branch call to end of file, so the guidance_only fallback that follows the branch also satisfies them. Their live counterparts L-sellable and L-credit resolve through the real resolver and do bite. Tightening the slice would need a second source anchor, which is the staleness failure mode just repaired, so it was left alone and is reported instead."
+    }
+  ]
+}

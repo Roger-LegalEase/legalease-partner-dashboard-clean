@@ -137,7 +137,17 @@ function failures(registry) {
 
   // B — the resolver branch itself.
   const resolver = strippedSource(RESOLVER_PATH);
-  const branch = resolver.slice(resolver.indexOf("factoryV2RouteFor(jurisdiction, pathwayId)"));
+  // The branch is located by the call the resolver actually makes. This anchor
+  // was written as the exact two-argument call factoryV2RouteFor(jurisdiction,
+  // pathwayId); 07804aa68 added the third argument the exact-track-selection
+  // contract requires (input.trackId), so the anchor stopped matching, indexOf
+  // returned -1, and slice(-1) made "the branch" the last character of the
+  // file — B-kind, B-sellable and B-credit were then measured against that one
+  // character rather than against the branch, which sets all three. Anchored
+  // now on the call prefix B-single and B-order already use, and a missing call
+  // is an empty branch rather than a one-character one, so B-branch can fire.
+  const branchAt = resolver.indexOf("factoryV2RouteFor(");
+  const branch = branchAt < 0 ? "" : resolver.slice(branchAt);
   fail(branch.length > 0, "B-branch: the resolver never calls the factory_v2 registry");
   fail(/routeKind:\s*``/.test(branch) || /routeKind/.test(branch), "B-kind: the factory_v2 branch sets no routeKind");
   fail(/sellable:\s*false/.test(branch), "B-sellable: the factory_v2 branch does not hard-code sellable false");
