@@ -139,11 +139,33 @@
       }
     },
     "tx_nd_dwi_probation-set:tx_nd_dwi_probation-fee-waiver-statement-4": {
-      "measuredAt": "2f9b289d8815cf11b498958c98a885f7800faf71",
-      "whyThisFamilyNeededClassifying": "The same Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) that rcap-tx-custom-pleading delivers, enclosed here as component 4 of the nondisclosure packet. Its Today field ships with /V \"12/15/2022\" set by the official source. Today is a /Tx text field, so the structural rule calls it the court's own ink and preserves it onto the sworn declaration date line at packet page 20.",
-      "howMeasured": "The /V was read first-hand from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d) and its flattened appearance was read from the Form XObject it became in fixtures/canonical.pdf, matched to widget /Rect [97.7522, 302.312, 247.752, 324.312] on source page 11.",
-      "theSameFieldOnTheSameFormIsClassifiedForRcapTxCustomPleading": "This is a per-family registry, so a form enclosed by two families is classified once per family. The disposition and the reason are the same because the field and the form are the same; neither entry was read across from the other, and each was measured against its own family's delivered bytes and its own family's field map.",
+      "measuredAt": "8f0ca32a18c9d6fd1d0802238360394951b3c288",
+      "whyThisFamilyNeededClassifying": "The same Texas Statement of Inability to Afford Payment of Court Costs (Misc. Docket No. 22-9090) that rcap-tx-custom-pleading delivers, enclosed here as component 4 of the nondisclosure packet. THREE of its fields ship with a /V set by the official source, not one: Value / Valor 11 = \"0\", Amount Cantidad 15 = \"0\" and Today = \"12/15/2022\". All three are /Tx text fields, so the structural rule calls each of them the court's own ink and preserves it. This entry originally classified Today alone. The two financial fields were left undispositioned and survived into both delivered fixtures as standalone zeros at packet pages 16 and 17, while the family stood at COMPLETE_PACKET_PROVEN with all nine completeness counters at zero -- none of those counters can see a value the build never wrote and the source carried through flatten. The four sibling families that enclose this same form classify all three.",
+      "howMeasured": "Retaken first-hand by this lane at the commit above, not copied from a sibling entry. Each /V and each widget /Rect was read from the pinned source at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, 6667524 bytes, 12 pages, 132 fields) on source pages 7, 8 and 11. Every widget for these three fields carries /F 4 -- Print set, Hidden and NoView clear -- so none is suppressed by the annotation flags. The delivered appearances were then read back from fixtures/canonical.pdf with flattenedWidgets() from scripts/rcap-official-forms/pdf-flattened-widgets.mjs, which is the only reader that settles this: pdftotext returns an identical clean reading on this family and on its byte-clean sibling because the glyphs are drawn with /Arial, which it cannot map. Value / Valor 11 was drawn at packet page 16 (313.44, 131.32) and Amount Cantidad 15 at packet page 17 (318.22, 91.2), each landing on its own source /Rect lower-left corner. Today was already suppressed by this entry's original classification and drew nothing.",
+      "theSameFieldOnTheSameFormIsClassifiedForRcapTxCustomPleading": "This is a per-family registry, so a form enclosed by several families is classified once per family. The dispositions and the reasons agree with rcap-tx-custom-pleading's Today entry and with the tx_nd_dwi_deferred-set, tx_exp_acquittal-set, tx_nd_conviction_no_supervision-set and tx_nd_veterans_court-set entries for all three fields, because the field and the form are the same binary. No entry was read across from another: each was measured against its own family's pinned source and its own family's field map, and this repair changes no other family's entry.",
       "fields": {
+        "Value / Valor 11": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            313.44,
+            131.32,
+            538.685,
+            160.12
+          ],
+          "because": "This family's production-field-map.json refuses tx_nd_dwi_probation-fee-waiver-statement-4.Value / Valor 11 as REQUIRED_BEFORE_FILING, with the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\". The refusal was honoured on the write path and defeated on the flatten path: the official source ships the field carrying /V \"0\", the structural rule read that as the court's own ink, and the finalizer drew it onto source page 7. Every other blank on that page flattens to an empty appearance, so this one is not a blank the participant may still fill -- it is a sworn zero on a financial line the participant never answered. A zero on a statement of inability to pay is an answer, not an empty space."
+        },
+        "Amount Cantidad 15": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "0",
+          "rect": [
+            318.218,
+            91.2,
+            538.68,
+            120.0
+          ],
+          "because": "This family's production-field-map.json refuses tx_nd_dwi_probation-fee-waiver-statement-4.Amount Cantidad 15 as REQUIRED_BEFORE_FILING, with the stated reason \"the platform holds no financial fact about any participant, and a guessed figure on a sworn affidavit is a worse defect than a blank one\". The refusal was honoured on the write path and defeated on the flatten path: the official source ships the field carrying /V \"0\", the structural rule read that as the court's own ink, and the finalizer drew it onto source page 8. Every other blank on that page flattens to an empty appearance, so this one is not a blank the participant may still fill -- it is a sworn zero on a financial line the participant never answered. A zero on a statement of inability to pay is an answer, not an empty space."
+        },
         "Today": {
           "disposition": "render_participant_value_only_when_written",
           "sourceAppearanceWhenUnwritten": "12/15/2022",
