@@ -25,7 +25,7 @@ const previousNodeEnv = process.env.NODE_ENV;
 process.env.NODE_ENV = 'test';
 const db = startEphemeralPg();
 const output = fs.mkdtempSync(path.join(os.tmpdir(), 'il-personalization-'));
-const hash = (v) => createHash('sha256').update(typeof v === 'string' ? v : JSON.stringify(v)).digest('hex');
+const hash = (v) => createHash('sha256').update(typeof v === 'string' || Buffer.isBuffer(v) ? v : JSON.stringify(v)).digest('hex');
 const storage = {
   async upload(relative, bytes) { const full = path.join(output, relative); fs.mkdirSync(path.dirname(full), { recursive: true });
     try { fs.writeFileSync(full, bytes, { flag: 'wx' }); return { ok: true }; } catch (e) { return { ok: false, reason: e.code === 'EEXIST' ? '409 exists' : e.message }; } },
