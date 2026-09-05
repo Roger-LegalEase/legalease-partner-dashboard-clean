@@ -61,13 +61,24 @@
     },
     {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-      "byteLength": 2607149,
+      "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+      "byteLength": 2625273,
       "boundEntry": {
         "pointer": "routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss]",
         "sha256": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349",
         "canonicalByteLength": 3071,
         "canonicalisation": "JSON with object keys sorted at every depth, no whitespace"
+      },
+      "identityRefresh": {
+        "refreshedOn": "2026-09-05",
+        "was": {
+          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "byteLength": 2607149
+        },
+        "why": "The shared route-obligation census was regenerated at the five-route runtime head (2d01b84f7), the only commit to touch the file since the previous pin, and it gave five other jurisdictions' routes a runtime identity of their own without touching the row this family binds. The anchor this receipt quotes -- routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss] -- was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk; it is present in the re-pinned record and identical, canonicalising to the same 3071 bytes and the same 0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349 the boundEntry beside this block records. The route count is 708 in both. Only the whole-file identity moved, so the pin is refreshed and the source is not rebuilt.",
+        "anchorsCompared": 1,
+        "anchorsIdentical": 1,
+        "previousPinLastSeenAtCommit": "ecd2bde79"
       }
     },
     {

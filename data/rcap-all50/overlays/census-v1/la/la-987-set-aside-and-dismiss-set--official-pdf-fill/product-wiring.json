@@ -43,14 +43,7 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692760",
-      "artifactId": "9956158929",
-      "boundToCanonicalSha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf01",
@@ -64,7 +57,8 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawnBecause": "The RASTER_PASS receipt bound canonical 9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450. This focused repair moved the delivered bytes to e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c, so the receipt no longer describes anything on disk. Artifact-bound acceptance never rides a byte change: the receipt is withdrawn and a fresh central raster over the current canonical and boundary is owed. This lane rastered nothing and touched neither RASTER_QUEUE.json nor MASTER_QUEUE.json."
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -77,7 +71,7 @@
         "order": 1,
         "documentId": "LA-CCRP-ART-987",
         "file": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450",
+        "sha256": "e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c",
         "requirement": "required"
       },
       {
@@ -86,7 +80,7 @@
         "order": 2,
         "documentId": "la-987-set-aside-and-dismiss-instructions-2",
         "file": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450",
+        "sha256": "e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c",
         "requirement": "required"
       }
     ]

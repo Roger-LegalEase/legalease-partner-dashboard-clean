@@ -13,10 +13,12 @@ This is not an expungement and does not itself clear any record. It is the predi
 
 ## Required before filing
 
-Check every prefilled neutral participant and case fact against the court record and correct the packet if it disagrees. The two assertions below remain yours alone and are intentionally blank.
+Check every prefilled neutral participant and case fact against the court record and correct the packet if it disagrees. Every item below remains yours alone and is intentionally left blank on the instrument.
 
 | Document | Blank on the document | What you must supply |
 | --- | --- | --- |
+| LA-CCRP-ART-987 | Conviction offense wording | write the offense exactly as it is worded on your court record, taken from the minute entry or sentencing order for this docket that the clerk of the sentencing court holds |
+| LA-CCRP-ART-987 | Conviction statute | write the statutory citation exactly as it appears on your court record, taken from the same minute entry or sentencing order |
 | LA-CCRP-ART-987 | Has the period of the deferred sentence run? [ ] YES [ ] NO | mark YES or NO from the sentencing record; this assertion is yours and the build does not make it |
 | LA-CCRP-ART-987 | Did you successfully complete the terms of your probation? [ ] YES [ ] NO | mark YES or NO only after checking your probation discharge or completion record; this assertion is yours |
 
