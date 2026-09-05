@@ -873,6 +873,17 @@ async function main() {
         ],
         captionOnly: doc.captionOnly,
         documentTextLines: census.documentTextLines,
+        /* VF08 read all 10 selection-widget rects across packet-canonical-filled.pdf
+         * and packet-boundary-filled.pdf as delivering a stroked square the pinned
+         * source does not print: each widget's current /AS state has no stream in
+         * /AP /N, so a conforming viewer paints nothing there. VF08's zero-write
+         * baseline over the same pinned bytes painted the identical pixels, so the
+         * ink comes from the shared flattening step and not from this family.
+         * Opting in supplies the missing state as an EMPTY appearance, so nothing
+         * is synthesized and nothing is flattened there. A widget of a field this
+         * run writes, and any widget whose /AS state ships its own appearance, are
+         * untouched by this. */
+        suppressSynthesizedAppearances: true,
         title: `ND ${doc.documentId}`
       });
 
