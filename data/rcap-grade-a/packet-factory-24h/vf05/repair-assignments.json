@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF05",
   "worker": "VF-SRC-A",
-  "assignmentCount": 13,
+  "assignmentCount": 15,
   "assignments": [
     {
       "itemId": "ar-misdemeanor-dwi-seal-set",
@@ -717,7 +717,38 @@
           "Fixture coverage, recorded but not scored: this builder's FIXTURES object holds seven facts (name, case number, date of birth, street, city, state, zip), so the family refuses 66 blanks with the reason 'the platform does not hold that exact fact'. That reason is true of this builder and false of the platform - the sibling ar-felony-seal-set writes court, county, division, arrest day/month/year, offence, class, statute section, race and sex onto the same ACIC form family from the same state pack. A build lane deciding what this family should prefill should look at that disparity.",
           "Graph derivation, recorded but not scored: MASTER_QUEUE.packetComponents for this family lists only the two official components and omits ar-drug-court-process-guidance-1, which the national packet-set manifest marks required and which the packet does render as page 1 of every assembly."
         ]
-      }
+      },
+    {
+      "itemId": "nh_petition_vacated-set",
+      "lane": "VF05",
+      "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+      "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill",
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "fixturesMoved": false,
+      "decisiveDefect": "Two defects. (1) ROUTE IDENTITY: production-field-map.json routeSelectionNote states the packet was built for 'a petition to annul the record of a matter resolved before 1 January 2019', which is the legalName of nh_petition_nonconviction_pre2019, not of this track. (2) FEE AND WAIVER: the packet states no fee and omits the vacated-route cost difference that NH.memo says the participant must be told about before filing.",
+      "failedProofObligations": [
+        "ROUTE_IDENTITY",
+        "FEE_AND_WAIVER"
+      ],
+      "perObligation": {
+        "ROUTE_IDENTITY": {
+          "measuredDetail": "routeKeys are correct (obligation:track-only:NH:nh_petition_vacated) and participant-instructions.md is correct in both its heading and its footer. Only the field map's route-statement prose is wrong. With family ids normalised, this family's production-field-map.json is byte-identical to nh_petition_nonconviction_pre2019-set's, which is how the sentence was carried across. This track's legalName is 'Petition to Annul the Record of a Vacated Conviction Outside the Automatic Route (RSA 651:5, II, second sentence)'. NOT a defect and must not be 'fixed': the two families' fixtures are byte-identical, which the legal design directs - it 'directs the pre-2019 petition form family, with packet components, filing, fees, notice, hearing and effect identical to the pre-2019 non-conviction petition'. The packet's 'Read the heading on the petition' disclosure is correct and should stay.",
+          "whatRepairMustDo": "Rewrite routeSelectionNote so it states this track's own route, keeping the rest of its reasoning about the certification page intact."
+        },
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "The fee paragraph is byte-identical to the non-conviction family's - the one family for which the RSA 651:5, IX and X(d) exemptions DO apply. NH.memo rules.fees for this track: '$125.00 per court location. Whether the RSA 651:5, IX $100 Department of Corrections investigation fee and the Department of Safety and state police fees apply is unresolved and is recorded below; on the face of the statute the exemptions do not reach a vacated conviction, so the packet should assume they are payable.' legalDesignDecision: the track is 'kept as a separate node rather than merged into that track because the fee position differs ... which is a real cost difference the participant must be told about before filing.' The single fact the controlling record says must be disclosed before filing on this route is the one fact the packet does not carry.",
+          "whatRepairMustDo": "State the $125.00 per court location fee, and add the vacated-route cost disclosure: that the RSA 651:5, IX and X(d) exemptions are written around not-guilty, dismissed and not-prosecuted cases and on the face of the statute do not reach a vacated conviction, so the $100 DOC investigation fee and the DOS/state police fees should be assumed payable, and that whether they apply is unresolved. Bind NH.memo.json as a grounding record so the statement is sourced. Keep the fee-waiver route (NHJB-2311 with NHJB-2328) as stated, and note the memo's point that indigency also exempts the DOC and DOS fees under RSA 651:5, IX."
+        }
+      },
+      "repairMustNotDo": [
+        "do not rebuild the fixtures and do not try to make this family's packet differ from the non-conviction family's - shared bytes are the legal design",
+        "do not remove the 'Read the heading on the petition' disclosure",
+        "do not resolve the open routing question (which form applies where the conviction is old and the vacatur recent); it is a recorded release blocker on this track and is not this repair's to close",
+        "this verification opens no commercial route, approves no output and promotes nothing"
+      ]
+    }
     ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
@@ -902,5 +933,13 @@
     "assignmentsAddedHere": 1,
     "assignmentCountFieldNotEditedHere": "The top-level assignmentCount field in this file was already stale before this append (vf04 read 1 against 17 assignments, vf06 read 1 against 13) and is a prior worker's field, so it was not edited here. assignmentsAddedHere is this reading's own count; assignments.length is the truth for the file.",
     "whatThisMarkerIs": "Assignments carrying \"wave\": \"packet-factory-24h/VF04-VF06/vf-b (2026-09-05)\" are this reading's. Every assignment already here is preserved byte for byte."
+  },
+  "vfEIndependentRead20260905": {
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "assignmentsAdded": [
+      "nh_petition_vacated-set"
+    ]
   }
 }

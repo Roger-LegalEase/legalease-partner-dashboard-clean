@@ -7996,6 +7996,114 @@
       },
       "failedProofObligations": [],
       "notMeasurableHere": []
+    },
+    {
+      "itemId": "vt_exp_deferred_sentence-set",
+      "lane": "VF07",
+      "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+      "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-exp-deferred-sentence-set--custom-pleading",
+      "buildStatus": "state_built",
+      "fixturesMoved": false,
+      "fixtureBinding": "canonical b4e5975feb1e5727502cf876d0265157e65b94b56769a3cf5a1ae9abd284f96d and boundary f8c1e0b0e58e3fd7f39f821ddf5dc7427c9f4b56202f881b97fae5a0f1b01f04 recomputed here and equal to reports/rendered-artifacts.json; 4 pp each.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "Each counter measured in this container at this base with the instruments named per obligation below, not read from the builder's reports. scripts/rcap-packet-completeness/verify-packet-completeness.mjs was also run for comparison; where my count differs from it the difference is stated on the counter.",
+        "whyNineZerosAreNotTheVerdict": "The nine counters are the completeness contract's own instrument and it has no counter for a wrong-but-present prose statement, a stale grounding pin, or a value that is correct in the byte stream but cannot render inside its box. Families below carry nine zeros and still fail."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Two routeKeys, obligation:unit:VT:vt_exp_deferred_sentence:vt-deferred-automatic-and-verification and ...:vt-deferred-written-request, consistent across the field map, receipt and wiring and matching trackId vt_exp_deferred_sentence. Both carried as footers in the rendered packet.",
+          "instrument": "routeKey equality across production-field-map.routeKeys, source-receipt.routeKey(s), product-wiring.routeKeys and every map's documentPolicy.routeKey; plus a whitespace-and-hyphen-insensitive scan of participant-instructions.md and of pdftotext output over both fixtures; plus the packet-set manifest trackId; plus a reading of the field map's own routeSelectionNote prose against the track's legalName in data/record-clearing/legal-design-intake/<ST>.memo.json"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "Authority-only composition: documents[] empty, no binary owed, allSourcesExact true. Both groundingRecords re-hash equal at this base: VT.memo.json 4bcd3fa1... (283822 B) and legal-design-packet-set-manifests.json 6076f734... (3683419 B). The identityRefresh on the shared manifest was verified independently - historical blob recovered at was.sha256 80d88d69... from commit 148382ab2, this family's packetSet entry vt_exp_deferred_sentence-set object-identical to the current one.",
+          "instrument": "every declared sha256 recomputed from bytes and resolved by CONTENT HASH against an index of all 500 files in the two mounted custodies (master_library, human_source_returns) built in this container, never by declared path; every groundingRecords[] pin re-hashed from the in-repo file; each identityRefresh block checked by recovering the historical blob carrying its `was.sha256` with git rev-list/cat-file and comparing the family's own entries object-for-object"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Three components - verification-and-eligibility-guidance-1 and handoff-instructions-3 required, written-request-to-court-2 conditional - and all three are rendered across 4 pages, matching the pageManifest.",
+          "instrument": "components declared in data/record-clearing/legal-design-packet-set-manifests.json for this packetSetId, each mapped by officialFormId or outputStrategy to the documents and components enumerated in reports/rendered-artifacts.json pageManifest, with process_guidance components resolved against participant-instructions.md section headings"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "6 declared writes per fixture; every value present in the packet and on its own component's pages in both canonical and boundary, measured by text readback.",
+          "instrument": "every reports/actual-writes.json actualWrites entry re-read from the rendered bytes: form-local page mapped to packet page through the pageManifest, then pdftotext -bbox-layout word boxes (converted to PDF bottom-left coords) intersected with the declared /Rect at >=60% word-area containment, and the recovered string compared to `expected`"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "4 declared rows; all 4 printed labels appear in participant-instructions.md, including the restitution-satisfied date tied to the Restitution Unit's balance statement.",
+          "instrument": "every field-map row declaring requiredBeforeFiling:true or completenessDisposition REQUIRED_BEFORE_FILING collected and its printed effectiveLabel matched against the normalised text of participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "NOT_MEASURABLE_HERE",
+          "evidence": "No route-determined selection is declared and the composed pages carry no selection control or AcroForm layer, so there is no election state in the bytes to read. Whether the request stage applies is conditioned on the three checks, which are the participant's to run and which the packet sets out in order.",
+          "instrument": "production-field-map.routeDeterminedSelections plus every row flagged routeDetermined:true; selection state read from the bytes by classifying each selection control's flattened appearance by FILL COLOUR - content-stream fill ops with q/Q colour state tracking across g, rg, k and scn/sc in named colour spaces - a dark inset fill being a real mark and a white fill with a stroked outline the source's own empty box"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "No repeating row group exists in this 12-field composed map.",
+          "instrument": "field-map rows grouped into rows by PAGE-QUALIFIED geometric alignment (same page, /Rect y within a 4pt band), never by trailing numerals in a field name; each row carrying a written cell checked for blank siblings that are neither protected nor declared REQUIRED_BEFORE_FILING"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "No widget-backed protected rect exists. Read as text: the request's signature and date are blank on both fixtures, and the packet states notarization is not required, matching VT.memo rules.notarization.",
+          "instrument": "every row whose class, label or reason marks it signature, signature-date, certificate/proof of service, court-only, clerk, prosecutor, judge, agency or notary; its /Rect on the mapped packet page checked for word ink in BOTH fixtures, and any ink found then checked against the pinned source binary to separate build writes from the form's own printed text"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "Both fixtures hash and measure exactly as reports/rendered-artifacts.json names them; page counts agree across three independent instruments.",
+          "instrument": "sha256 and byte length of canonical.pdf and boundary.pdf recomputed from disk and compared to reports/rendered-artifacts.json; page count cross-checked three ways (pdfinfo, an independent page-tree walk of the PDF object graph, and the pageManifest row count)"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "4 manifest rows in both fixtures, sequential, each naming its component, confirmed against each page's rendered text.",
+          "instrument": "each pageManifest row's declared formNumber/documentId matched whitespace-and-hyphen-insensitively against that page's extracted text in BOTH fixtures; any page missing its stamp then read by hand and compared against the pinned source binary before being called a defect"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "No flattened widget; measured by word extents against the MediaBox - 1056 words canonical, 1058 boundary, none outside the page.",
+          "instrument": "every flattened /FlatWidget-* Form XObject decoded from the content stream, its shown string measured with the declared base-14 font metrics at the declared Tf size and compared against the XObject's own /BBox width; cross-checked by pdftotext word extents against the page MediaBox to catch ink leaving the page"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "'Send it to the Criminal Division of the Superior Court that entered the deferred sentence, under the existing docket - it is not a new case', matching VT.memo rules.filing and destination exactly, including the existing-docket point.",
+          "instrument": "participant-instructions.md AND the full pdftotext text of the rendered packet (composed families carry an instructions component as packet pages) read for the court or agency named, then compared with the track's destination and rules.filing in the legal-design intake memo"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "'13 V.S.A. s 7041(e) requires the record expunged absent a finding of good cause, with no fee of any kind', and step 4 repeats 'nothing is paid'. Matches VT.memo rules.fees 'None' and rules.feeWaiver 'Not applicable - no fee is charged.'",
+          "instrument": "the packet's fee and waiver statements read from participant-instructions.md and the rendered packet, then compared against rules.fees and rules.feeWaiver for this trackId in data/record-clearing/legal-design-intake/<ST>.memo.json"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "The packet answers the question by stating the participant serves no one: 'After the order issues, the court sends copies to each agency, department or official named in it - not you.' Matches VT.memo rules.service 'None by the participant.'",
+          "instrument": "the packet's service statements read from both instruction surfaces and compared against rules.service and rules.notice for this trackId in the legal-design intake memo"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "'When to stop and get help instead' enumerates five conditions - a good-cause finding, sex-offender registration and the s 7041(h) VCIC index, no discharge or the adjudication not struck, outstanding restitution, and any immigration question - tracking the memo's own list.",
+          "instrument": "participant-instructions.md and the rendered packet read for a statement of where the packet's help ends, compared against the track's selfHelpStopConditions in the legal-design intake memo"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [
+        "ROUTE_OPTIONS"
+      ]
     }
   ],
   "obligationSet": [
@@ -8496,5 +8604,24 @@
     ],
     "grantsNothing": "A verification row is review evidence. It authorizes no fulfillment, opens no commercial route and promotes nothing.",
     "mississippiFeeBasisCorrection": "The coordinator's brief carried a premise — that the owner withdrew a Mississippi $150 figure on 2026-09-02 — and then withdrew it. This reader checked the records: the rescinded $150 is South Carolina's (CLD-2026-08-28-SC-PTI, sc_pti_17_22_150, $250 controls); Miss. Code Ann. § 99-19-72 is live statute with its $150 intact; and Q-018 blocks only the two ms-misd-addl pathway keys and says in terms it does not block any route outside ms-misd-addl. Neither Mississippi family in this lane set is ms-misd-addl. Both were scored PASS on FEE_AND_WAIVER before the correction and both remain PASS; only the stated basis is amended."
+  },
+  "vfEIndependentRead20260905": {
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "familiesRead": [
+      "vt_exp_deferred_sentence-set"
+    ],
+    "independence": "This lane read built none of these packets, repaired none of them, rendered none of them and rastered none of them. Every number below was measured in this container at the declared base with the instruments named per obligation.",
+    "whyNineZerosAreNotTheVerdict": "Three of the five non-passing families in this read carry nine zero counters. The counters cannot see a route-statement naming the wrong route, a fee the platform holds and the packet does not state, or a stale grounding pin.",
+    "instrumentCorrectionsMadeDuringThisRead": [
+      "Checkbox fill classification initially read MI's 13 empty boxes as black marks because the parser ignored `scn` in a named colour space; with scn handled the true count of marked selections cohort-wide is 0.",
+      "Write visibility initially reported false absences on multi-document packets because form-local page numbers were looked up in the assembled PDF; corrected by mapping through the pageManifest.",
+      "Write visibility initially reported all composed-family writes absent because it demanded widget geometry that composed pleadings do not have; corrected to text readback against the component's own pages.",
+      "Repeating-row grouping initially invented rows by pairing fields that share a trailing numeral (NHJB-2328 `1.1` Name with `yours.1` Salary and `money.1` Cash on hand); corrected to page-qualified geometric alignment.",
+      "SELF_HELP_STOP was initially called FAILED on both NH families; the keyword list had missed 'this packet does not decide whether you are eligible for one'. Finding withdrawn.",
+      "Instruction-content obligations were initially scanned in participant-instructions.md only, which produced false gaps on LA whose filing, fee, waiver and service statements are delivered on the packet's own instructions pages."
+    ],
+    "baseIsDeclaredForSupersession": "5b74dd31bc55c95b87fe46a840902d6772eb7068"
   }
 }

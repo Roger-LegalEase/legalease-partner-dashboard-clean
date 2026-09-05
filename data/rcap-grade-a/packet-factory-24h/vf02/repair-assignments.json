@@ -3,7 +3,7 @@
   "lane": "VF02",
   "worker": "VF-SRC-A",
   "baseSha": "09b741ad00be0d630bd73a72f66640294abab397",
-  "assignmentCount": 26,
+  "assignmentCount": 29,
   "assignments": [
     {
       "itemId": "oh_marijuana_expungement-set",
@@ -970,7 +970,29 @@
       "do not widen canonical-route-universe.json to accommodate the packet",
       "this verification opens no commercial route and grants no approval"
     ]
-  }
+  },
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "lane": "VF02",
+      "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+      "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill",
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "verdict": "BLOCKED_SOURCE",
+      "fixturesMoved": false,
+      "decisiveDefect": "The packet delivers 2 of 4 required components. The packet-set manifest names notice-3 and second-order-4 as `required`, both with officialFormId null and sourceStatus 'identity_unresolved', and its own packetSetCompleteness reads state 'incomplete'.",
+      "blockedBy": "SOURCE",
+      "failedProofObligations": [
+        "COMPONENT_SET"
+      ],
+      "whatWouldUnblockIt": "A current official source naming the notice and the second order, or an inspection of the JDF-611 guide as page images - the manifest records that the guide renders those digits as vector glyphs and that guessing a JDF number would be fabricating an official identity. Until then the component set cannot be completed and no repair lane can render the two missing documents.",
+      "repairableWithoutUnblocking": "participant-instructions.md should disclose the gap. It currently opens 'This packet is two Colorado Judicial Department forms, filed together' and never tells the participant that the official JDF-611 guide requires a notice and a second order as well. A participant filing this packet believes it is complete.",
+      "repairMustNotDo": [
+        "do not invent or infer a JDF number for either missing component",
+        "do not rebuild the two rendered forms, which are exact and measured clean",
+        "this verification opens no commercial route, approves no output and promotes nothing"
+      ]
+    }
  ],
   "va6Assignments": {
     "assignedBy": "FABLE-VA6",
@@ -1060,5 +1082,13 @@
     "verificationRun": "vf-a-2026-09-05",
     "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
     "added": 2
+  },
+  "vfEIndependentRead20260905": {
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "assignmentsAdded": [
+      "co_motion_seal_conviction-set"
+    ]
   }
 }

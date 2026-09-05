@@ -6025,7 +6025,116 @@
           "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
           "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
         ]
+      },
+  {
+    "itemId": "nh_petition_vacated-set",
+    "lane": "VF05",
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill",
+    "buildStatus": "state_built",
+    "fixturesMoved": false,
+    "fixtureBinding": "canonical baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae and boundary b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f recomputed here and equal to reports/rendered-artifacts.json; 9 pp each. NOTE: byte-identical to nh_petition_nonconviction_pre2019-set's fixtures; the legal design directs the same form family for both tracks, so shared bytes are by design.",
+    "nineCounters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0,
+      "allZero": true,
+      "measuredHere": true,
+      "howMeasured": "Each counter measured in this container at this base with the instruments named per obligation below, not read from the builder's reports. scripts/rcap-packet-completeness/verify-packet-completeness.mjs was also run for comparison; where my count differs from it the difference is stated on the counter.",
+      "whyNineZerosAreNotTheVerdict": "The nine counters are the completeness contract's own instrument and it has no counter for a wrong-but-present prose statement, a stale grounding pin, or a value that is correct in the byte stream but cannot render inside its box. Families below carry nine zeros and still fail."
+    },
+    "proofObligations": {
+      "ROUTE_IDENTITY": {
+        "result": "FAIL",
+        "evidence": "The routeKeys are correct - obligation:track-only:NH:nh_petition_vacated throughout, matching trackId nh_petition_vacated - and participant-instructions.md is correct, both in its heading ('Petition to annul the record of a matter that has been vacated') and its footer. But the field map's routeSelectionNote, the one field whose job is to state the route the packet was built for, names the OTHER family's route: 'The packet states the route it was built for: a petition to annul the record of a matter resolved before 1 January 2019, on the Judicial Branch's own pre-2019 form, under RSA 651:5.' That is the legalName of nh_petition_nonconviction_pre2019, not of this track, whose legalName is 'Petition to Annul the Record of a Vacated Conviction Outside the Automatic Route (RSA 651:5, II, second sentence)'. The cause is visible: with family ids normalised, this family's production-field-map.json is byte-identical to the non-conviction family's, so the prose was carried across unchanged. The record contradicts itself, and the contract's rule is that a packet built for one statutory route must state which route it is. NOTE, and this is NOT the defect: the two families' canonical and boundary fixtures are byte-identical, which is correct here - NH.memo's legalDesignDecision for this track 'directs the pre-2019 petition form family, with packet components, filing, fees, notice, hearing and effect identical to the pre-2019 non-conviction petition'. The packet also discloses the form's printed heading honestly in its 'Read the heading on the petition' section.",
+        "instrument": "routeKey equality across production-field-map.routeKeys, source-receipt.routeKey(s), product-wiring.routeKeys and every map's documentPolicy.routeKey; plus a whitespace-and-hyphen-insensitive scan of participant-instructions.md and of pdftotext output over both fixtures; plus the packet-set manifest trackId; plus a reading of the field map's own routeSelectionNote prose against the track's legalName in data/record-clearing/legal-design-intake/<ST>.memo.json"
+      },
+      "SOURCE_IDENTITY": {
+        "result": "PASS",
+        "evidence": "All four sources - NHJB-2317 2fc2e1ed..., NHJB-2311, NHJB-2328 and NHJB-2956 - resolved by CONTENT HASH in master_library and re-hashed equal, with byte lengths equal. This family is the case the content-hash rule was written for: the receipt states the custody the assignment names (d_source_packs and nationwide_recovery_pool_2026_09_02) is not mounted here, so the declared paths do not resolve; the digests do. groundingRecords is empty, so no in-repo pin was owed. Every declared source sha256 resolved by content hash inside the mounted Master Library and re-hashed equal, with byte length equal and the declared pathInArchive equal to where the bytes actually live. Two of five custodies are mounted; nothing this family declares needed the three that are not.",
+        "instrument": "every declared sha256 recomputed from bytes and resolved by CONTENT HASH against an index of all 500 files in the two mounted custodies (master_library, human_source_returns) built in this container, never by declared path; every groundingRecords[] pin re-hashed from the in-repo file; each identityRefresh block checked by recovering the historical blob carrying its `was.sha256` with git rev-list/cat-file and comparing the family's own entries object-for-object"
+      },
+      "COMPONENT_SET": {
+        "result": "PASS",
+        "evidence": "Manifest names six components. The four official_pdf_fill ones - primary-filing-1 -> NHJB-2317-DSe, fee-waiver-motion-2 -> NHJB-2311, fee-waiver-financial-statement-3 -> NHJB-2328, criminal-history-request-4 -> NHJB-2956 - are all rendered, at packet pages 1-3, 4-5, 6-8 and 9. The remaining two are outputStrategy process_guidance, not packet pages: post-filing-instructions-5 is delivered as the 'What happens after you file' passage and effect-and-limits-disclosure-6 as 'What annulment does, and what it does not do'. Both are present, so the set is complete.",
+        "instrument": "components declared in data/record-clearing/legal-design-packet-set-manifests.json for this packetSetId, each mapped by officialFormId or outputStrategy to the documents and components enumerated in reports/rendered-artifacts.json pageManifest, with process_guidance components resolved against participant-instructions.md section headings"
+      },
+      "KNOWN_PREFILLS": {
+        "result": "PASS",
+        "evidence": "19 declared writes in canonical and 11 in boundary, each recovered inside its declared /Rect on the correct packet page with the value equal to `expected`. The first pass reported 3 false absences on NHJB-2328 and NHJB-2956 because it looked up form-local page numbers in the assembled 9-page PDF; corrected by mapping through the pageManifest.",
+        "instrument": "every reports/actual-writes.json actualWrites entry re-read from the rendered bytes: form-local page mapped to packet page through the pageManifest, then pdftotext -bbox-layout word boxes (converted to PDF bottom-left coords) intersected with the declared /Rect at >=60% word-area containment, and the recovered string compared to `expected`"
+      },
+      "REQUIRED_BEFORE_FILING": {
+        "result": "PASS",
+        "evidence": "87 declared rows; all 87 printed labels appear in participant-instructions.md, form by form and section by section.",
+        "instrument": "every field-map row declaring requiredBeforeFiling:true or completenessDisposition REQUIRED_BEFORE_FILING collected and its printed effectiveLabel matched against the normalised text of participant-instructions.md"
+      },
+      "ROUTE_OPTIONS": {
+        "result": "PASS",
+        "evidence": "routeDeterminedSelections empty. The routeSelectionNote reasons that nothing on the certification page is a route election - each box is a sworn statement about the applicant's own record - and I agree on reading page 2 of NHJB-2317. All 18 selection controls unmarked in both fixtures. No selection control in either fixture carries a mark. Fill classification was corrected mid-read: the first pass read MI's checkbox appearances as 13 black fills because the parser tracked only g/rg/k and ignored `scn` in a named colour space. The appearances are `/CS0 cs 1 1 1 scn ... re f` followed by `0 0 0 SCN ... re S` - a WHITE fill with a black stroked outline, the source's own empty box. With scn handled, dark fills inside selection rects are 0 everywhere.",
+        "instrument": "production-field-map.routeDeterminedSelections plus every row flagged routeDetermined:true; selection state read from the bytes by classifying each selection control's flattened appearance by FILL COLOUR - content-stream fill ops with q/Q colour state tracking across g, rg, k and scn/sc in named colour spaces - a dark inset fill being a real mark and a white fill with a stroked outline the source's own empty box"
+      },
+      "REPEATING_ROWS": {
+        "result": "PASS",
+        "evidence": "Rows were grouped by page-qualified geometric alignment. A first pass grouping by trailing numerals invented rows - it paired NHJB-2328 `1.1` (Name, y=588.66) with `yours.1` (Salary or wages, y=331.94), `money.1` (Cash on hand, y=103.29) and `cb.1` (Marital status, y=542.83). Those are different sections of the form, not one row. Regrouped by y-band, no row anywhere in the cohort carries a written cell beside a blank sibling that is neither protected nor declared required-before-filing.",
+        "instrument": "field-map rows grouped into rows by PAGE-QUALIFIED geometric alignment (same page, /Rect y within a 4pt band), never by trailing numerals in a field name; each row carrying a written cell checked for blank siblings that are neither protected nor declared REQUIRED_BEFORE_FILING"
+      },
+      "PROTECTED_FIELDS": {
+        "result": "PASS",
+        "evidence": "27 protected rects checked per fixture. One carried text in both: NHJB-2311/sig.8, recovering 'Enter /s/ before name'. That is not a build write - I read the pinned source binary NHJB-2311 (REV-2018-01) and the same string is printed on its page 1. The packet's own instructions say so. No build ink on any protected field.",
+        "instrument": "every row whose class, label or reason marks it signature, signature-date, certificate/proof of service, court-only, clerk, prosecutor, judge, agency or notary; its /Rect on the mapped packet page checked for word ink in BOTH fixtures, and any ink found then checked against the pinned source binary to separate build writes from the form's own printed text"
+      },
+      "ARTIFACTS": {
+        "result": "PASS",
+        "evidence": "Both fixtures hash and measure exactly as reports/rendered-artifacts.json names them; page counts agree across three independent instruments.",
+        "instrument": "sha256 and byte length of canonical.pdf and boundary.pdf recomputed from disk and compared to reports/rendered-artifacts.json; page count cross-checked three ways (pdfinfo, an independent page-tree walk of the PDF object graph, and the pageManifest row count)"
+      },
+      "PAGE_ORDER": {
+        "result": "PASS",
+        "evidence": "All 9 manifest rows carry their declared form stamp on the matching page in both fixtures.",
+        "instrument": "each pageManifest row's declared formNumber/documentId matched whitespace-and-hyphen-insensitively against that page's extracted text in BOTH fixtures; any page missing its stamp then read by hand and compared against the pinned source binary before being called a defect"
+      },
+      "CLIPPING_AND_OVERLAP": {
+        "result": "PASS",
+        "evidence": "158 flattened widgets per fixture, 19 with text in canonical and 11 in boundary; every shown string fits its XObject /BBox. The longest boundary value, a 58-character e-mail, sits in a 341.2pt box. No word leaves the MediaBox in either fixture.",
+        "instrument": "every flattened /FlatWidget-* Form XObject decoded from the content stream, its shown string measured with the declared base-14 font metrics at the declared Tf size and compared against the XObject's own /BBox width; cross-checked by pdftotext word extents against the page MediaBox to catch ink leaving the page"
+      },
+      "FILING_DESTINATION": {
+        "result": "PASS",
+        "evidence": "'File the petition with the clerk of the New Hampshire court that handled the matter', matching NH.memo destination.kind 'clerk' and rules.filing. The packet declines to print a courthouse address and says why, and separately warns that NHJB-2311's court control lists only SUPERIOR courts so a circuit-court filer must write the court name by hand.",
+        "instrument": "participant-instructions.md AND the full pdftotext text of the rendered packet (composed families carry an instructions component as packet pages) read for the court or agency named, then compared with the track's destination and rules.filing in the legal-design intake memo"
+      },
+      "FEE_AND_WAIVER": {
+        "result": "FAIL",
+        "evidence": "The packet states: 'Ask the clerk what fee applies. The fee for a petition to annul is not established in any source this packet holds, so it is not stated here.' The waiver half is answered - NHJB-2311 with NHJB-2328 are named and prepared. The fee half is not, and the platform holds the figure: NH.memo.json rules.fees for this track states '$125.00 per court location', and destination.detail repeats 'petitions filed at the same time in one court location share a single $125.00 filing fee.' The packet's sentence is literally true of its OWN bindings - the NH source receipt binds only the four form binaries and carries no groundingRecords, and scripts/build-census-v1-nh_petition_vacated-set.mjs reads no legal-design record - but the obligation is that the fee is stated, and a filing packet sends the participant to the clerk for a number the platform already holds. Contrast CO in this same cohort, where the identical sentence is accurate because CO.memo records that the source review states no filing fee; the difference is why this is booked as a defect here and not there. On THIS track the omission is heavier, because the fee position is the entire reason the track exists as a separate node. NH.memo's legalDesignDecision says so: it is 'kept as a separate node rather than merged into that track because the fee position differs: the RSA 651:5, IX and X(d) exemptions are written around not-guilty, dismissed and not-prosecuted cases and on the face of the statute do not reach a vacated conviction, which is a real cost difference the participant must be told about before filing.' rules.fees adds that whether the $100 Department of Corrections investigation fee and the Department of Safety and state police fees apply is unresolved and 'on the face of the statute the exemptions do not reach a vacated conviction, so the packet should assume they are payable.' The packet tells the participant none of this: its fee paragraph is byte-identical to the non-conviction family's, which is the one family for which the exemptions DO apply. The single fact the controlling record says must be disclosed before filing on this route is the one fact the packet does not carry.",
+        "instrument": "the packet's fee and waiver statements read from participant-instructions.md and the rendered packet, then compared against rules.fees and rules.feeWaiver for this trackId in data/record-clearing/legal-design-intake/<ST>.memo.json"
+      },
+      "SERVICE": {
+        "result": "PASS",
+        "evidence": "'None by the participant' is the memo's rule and the packet is consistent with it: it explains that the court provides a copy of the petition to the prosecutor, and that the court sends copies of the decision to the list printed at the foot of page 3 - prosecutor, Department of Safety Criminal Records, DMV and Department of Corrections. NHJB-2956 is correctly routed to the State Police rather than the court, with the address and the $25.00 fee stated.",
+        "instrument": "the packet's service statements read from both instruction surfaces and compared against rules.service and rules.notice for this trackId in the legal-design intake memo"
+      },
+      "SELF_HELP_STOP": {
+        "result": "PASS",
+        "evidence": "'What annulment does, and what it does not do' states the boundary: 'It is a court order about a record, not a finding that the matter never happened, and this packet does not decide whether you are eligible for one ... Nothing in this packet is filed for you and nothing in it makes that decision.' An earlier pass in this read called this obligation FAILED on both NH families; that was my keyword list missing the phrase 'does not decide', and the finding is WITHDRAWN. Observation, not a defect: the memo lists 8 selfHelpStopConditions for the non-conviction track and 10 for the vacated track, and the packet states the scope limit rather than enumerating them.",
+        "instrument": "participant-instructions.md and the rendered packet read for a statement of where the packet's help ends, compared against the track's selfHelpStopConditions in the legal-design intake memo"
       }
+    },
+    "failedProofObligations": [
+      "FEE_AND_WAIVER",
+      "ROUTE_IDENTITY"
+    ],
+    "notMeasurableHere": []
+  }
     ],
  "supersededLaneMembership": {
   "note": "the earlier reading, when this lane covered other families",
@@ -6904,5 +7013,24 @@
       "reports/rendered-artifacts.json, reports/independent-visual-review.json and build-status.json in all six families still record rasterState BUILT_RASTER_PENDING and independentVerificationPending true, while RASTER_QUEUE.json records RASTER_PASS for each from run 33923497915. The queue is the authoritative record and the family-level files are stale relative to it. Not scored against any family."
     ],
     "claimsReleased": "none - the lane prompts say Captain releases centrally after integrating the bounded return, so no grant was released here"
-  }
+  },
+ "vfEIndependentRead20260905": {
+   "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+   "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+   "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+   "familiesRead": [
+     "nh_petition_vacated-set"
+   ],
+   "independence": "This lane read built none of these packets, repaired none of them, rendered none of them and rastered none of them. Every number below was measured in this container at the declared base with the instruments named per obligation.",
+   "whyNineZerosAreNotTheVerdict": "Three of the five non-passing families in this read carry nine zero counters. The counters cannot see a route-statement naming the wrong route, a fee the platform holds and the packet does not state, or a stale grounding pin.",
+   "instrumentCorrectionsMadeDuringThisRead": [
+     "Checkbox fill classification initially read MI's 13 empty boxes as black marks because the parser ignored `scn` in a named colour space; with scn handled the true count of marked selections cohort-wide is 0.",
+     "Write visibility initially reported false absences on multi-document packets because form-local page numbers were looked up in the assembled PDF; corrected by mapping through the pageManifest.",
+     "Write visibility initially reported all composed-family writes absent because it demanded widget geometry that composed pleadings do not have; corrected to text readback against the component's own pages.",
+     "Repeating-row grouping initially invented rows by pairing fields that share a trailing numeral (NHJB-2328 `1.1` Name with `yours.1` Salary and `money.1` Cash on hand); corrected to page-qualified geometric alignment.",
+     "SELF_HELP_STOP was initially called FAILED on both NH families; the keyword list had missed 'this packet does not decide whether you are eligible for one'. Finding withdrawn.",
+     "Instruction-content obligations were initially scanned in participant-instructions.md only, which produced false gaps on LA whose filing, fee, waiver and service statements are delivered on the packet's own instructions pages."
+   ],
+   "baseIsDeclaredForSupersession": "5b74dd31bc55c95b87fe46a840902d6772eb7068"
+ }
 }

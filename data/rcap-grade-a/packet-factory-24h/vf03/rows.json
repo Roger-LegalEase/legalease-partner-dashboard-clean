@@ -10074,7 +10074,115 @@
    "data/record-clearing/legal-design-track-registry.json",
    "data/rcap-all50/local-source-corpus-index.json"
   ]
- }
+ },
+  {
+    "itemId": "mi_setaside_trafficking-set",
+    "lane": "VF03",
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+    "buildStatus": "state_built",
+    "fixturesMoved": false,
+    "fixtureBinding": "canonical 4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361 and boundary eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9 recomputed here and equal to reports/rendered-artifacts.json; 4 pp each.",
+    "nineCounters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 3,
+      "allZero": false,
+      "measuredHere": true,
+      "howMeasured": "Each counter measured in this container at this base with the instruments named per obligation below, not read from the builder's reports. scripts/rcap-packet-completeness/verify-packet-completeness.mjs was also run for comparison; where my count differs from it the difference is stated on the counter.",
+      "whyNineZerosAreNotTheVerdict": "The nine counters are the completeness contract's own instrument and it has no counter for a wrong-but-present prose statement, a stale grounding pin, or a value that is correct in the byte stream but cannot render inside its box. Families below carry nine zeros and still fail."
+    },
+    "proofObligations": {
+      "ROUTE_IDENTITY": {
+        "result": "PASS",
+        "evidence": "obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application is the single routeKey throughout and matches trackId mi_setaside_trafficking. No packet footer: official-form-only assembly, proved against the cohort. The packet also opens with 'Check you are on the right form', which routes MC 227a and MC 227 elsewhere in the form's own words.",
+        "instrument": "routeKey equality across production-field-map.routeKeys, source-receipt.routeKey(s), product-wiring.routeKeys and every map's documentPolicy.routeKey; plus a whitespace-and-hyphen-insensitive scan of participant-instructions.md and of pdftotext output over both fixtures; plus the packet-set manifest trackId; plus a reading of the field map's own routeSelectionNote prose against the track's legalName in data/record-clearing/legal-design-intake/<ST>.memo.json"
+      },
+      "SOURCE_IDENTITY": {
+        "result": "PASS",
+        "evidence": "MC-227B 1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6 resolved by content hash in master_library, re-hashed equal, length equal, declared path equal to the real location. groundingRecords empty. Every declared source sha256 resolved by content hash inside the mounted Master Library and re-hashed equal, with byte length equal and the declared pathInArchive equal to where the bytes actually live. Two of five custodies are mounted; nothing this family declares needed the three that are not.",
+        "instrument": "every declared sha256 recomputed from bytes and resolved by CONTENT HASH against an index of all 500 files in the two mounted custodies (master_library, human_source_returns) built in this container, never by declared path; every groundingRecords[] pin re-hashed from the in-repo file; each identityRefresh block checked by recovering the historical blob carrying its `was.sha256` with git rev-list/cat-file and comparing the family's own entries object-for-object"
+      },
+      "COMPONENT_SET": {
+        "result": "PASS",
+        "evidence": "Manifest names two required components: primary-filing-1 -> 'MC 227b' and certificate-of-service-2 -> 'Proof of Service'. Both are delivered: MC-227B carries its sworn Proof of Service on page 3 of the same binary, which the packet's own build-findings names.",
+        "instrument": "components declared in data/record-clearing/legal-design-packet-set-manifests.json for this packetSetId, each mapped by officialFormId or outputStrategy to the documents and components enumerated in reports/rendered-artifacts.json pageManifest, with process_guidance components resolved against participant-instructions.md section headings"
+      },
+      "KNOWN_PREFILLS": {
+        "result": "PASS",
+        "evidence": "4 declared writes per fixture. In canonical all 4 recovered inside their /Rect with the value equal to `expected`. In boundary all 4 are present in the byte stream with the correct value - the defect on three of them is that the value cannot render, which is booked under CLIPPING_AND_OVERLAP, not here. The low write ratio (2 fields of 102) was examined and is NOT the CR-180 pattern: 69 blanks are declared REQUIRED_BEFORE_FILING and every one is disclosed, and all sixteen cells of the four-row conviction table are declared and left blank together rather than half-filled, which the build-findings ties to the form's own instruction 4 that the exact date and charge come from the court.",
+        "instrument": "every reports/actual-writes.json actualWrites entry re-read from the rendered bytes: form-local page mapped to packet page through the pageManifest, then pdftotext -bbox-layout word boxes (converted to PDF bottom-left coords) intersected with the declared /Rect at >=60% word-area containment, and the recovered string compared to `expected`"
+      },
+      "REQUIRED_BEFORE_FILING": {
+        "result": "PASS",
+        "evidence": "69 declared rows; all 69 printed labels appear in participant-instructions.md. Observation, not a defect: one refusal, MC-227B/dattyinfo ('Defendant's attorney, bar no., address, and telephone no.'), carries a reason - 'attorney-only; no attorney-representation fact is held for this participant' - but declares neither completenessDisposition nor completenessClass, so it earns its blank on prose rather than on a typed declaration.",
+        "instrument": "every field-map row declaring requiredBeforeFiling:true or completenessDisposition REQUIRED_BEFORE_FILING collected and its printed effectiveLabel matched against the normalised text of participant-instructions.md"
+      },
+      "ROUTE_OPTIONS": {
+        "result": "PASS",
+        "evidence": "routeDeterminedSelections empty; the routeSelectionNote reasons that nothing on MC 227b is a route election and I agree on reading the form. All 14 selection controls unmarked in both fixtures. No selection control in either fixture carries a mark. Fill classification was corrected mid-read: the first pass read MI's checkbox appearances as 13 black fills because the parser tracked only g/rg/k and ignored `scn` in a named colour space. The appearances are `/CS0 cs 1 1 1 scn ... re f` followed by `0 0 0 SCN ... re S` - a WHITE fill with a black stroked outline, the source's own empty box. With scn handled, dark fills inside selection rects are 0 everywhere.",
+        "instrument": "production-field-map.routeDeterminedSelections plus every row flagged routeDetermined:true; selection state read from the bytes by classifying each selection control's flattened appearance by FILL COLOUR - content-stream fill ops with q/Q colour state tracking across g, rg, k and scn/sc in named colour spaces - a dark inset fill being a real mark and a white fill with a stroked outline the source's own empty box"
+      },
+      "REPEATING_ROWS": {
+        "result": "PASS",
+        "evidence": "The real repeating structure here is the four-row conviction table (c#/ch#/cdate#/cno#) and the four-row previous-application table (prevc#/prevch#/prevcdate#/prevcno#). Every cell of both is blank, so no row carries a written cell beside a blank sibling. Rows were grouped by page-qualified geometric alignment. A first pass grouping by trailing numerals invented rows - it paired NHJB-2328 `1.1` (Name, y=588.66) with `yours.1` (Salary or wages, y=331.94), `money.1` (Cash on hand, y=103.29) and `cb.1` (Marital status, y=542.83). Those are different sections of the form, not one row. Regrouped by y-band, no row anywhere in the cohort carries a written cell beside a blank sibling that is neither protected nor declared required-before-filing.",
+        "instrument": "field-map rows grouped into rows by PAGE-QUALIFIED geometric alignment (same page, /Rect y within a 4pt band), never by trailing numerals in a field name; each row carrying a written cell checked for blank siblings that are neither protected nor declared REQUIRED_BEFORE_FILING"
+      },
+      "PROTECTED_FIELDS": {
+        "result": "PASS",
+        "evidence": "26 protected rects checked per fixture - the page 3 Proof of Service selections, mailing dates, signature and signature date, and the nine court/prosecutor/clerk-owned fields - no ink in any of them in either fixture.",
+        "instrument": "every row whose class, label or reason marks it signature, signature-date, certificate/proof of service, court-only, clerk, prosecutor, judge, agency or notary; its /Rect on the mapped packet page checked for word ink in BOTH fixtures, and any ink found then checked against the pinned source binary to separate build writes from the form's own printed text"
+      },
+      "ARTIFACTS": {
+        "result": "PASS",
+        "evidence": "Both fixtures hash and measure exactly as reports/rendered-artifacts.json names them; page counts agree across three independent instruments.",
+        "instrument": "sha256 and byte length of canonical.pdf and boundary.pdf recomputed from disk and compared to reports/rendered-artifacts.json; page count cross-checked three ways (pdfinfo, an independent page-tree walk of the PDF object graph, and the pageManifest row count)"
+      },
+      "PAGE_ORDER": {
+        "result": "PASS",
+        "evidence": "4 manifest rows, all MC-227B pages 1-4 in order, in both fixtures. Pages 2 and 3 do not carry the literal token 'MC-227B'; I read them rather than calling that a defect - they are the source's own continuation pages, headed 'Application for Human Trafficking Victim to Set Aside Conviction(s) (7/24)' with 'Page 2 of 3' and 'Page 3 of 3', and page 4 carries 'Form MC 227b'. Not a defect.",
+        "instrument": "each pageManifest row's declared formNumber/documentId matched whitespace-and-hyphen-insensitively against that page's extracted text in BOTH fixtures; any page missing its stamp then read by hand and compared against the pinned source binary before being called a defect"
+      },
+      "CLIPPING_AND_OVERLAP": {
+        "result": "FAIL",
+        "evidence": "In the BOUNDARY fixture the case number 2024-0011882-SUPPLEMENTAL-FY is drawn at Helvetica 10 into three caption widgets that are too small for it, and the appearance stream clips it. Measured from the bytes: the string is complete in the stream (hex 323032342D...2D4659 decoded from the /Tx BMC block), text origin Tm x=2.00, required width 163.95pt by Helvetica AFM metrics. Page 1, FlatWidget-6857870938, /BBox [0 0 160.437 10.36] - overflow 5.51pt. Page 2, FlatWidget-9538628408, /BBox [0 0 103 12] - overflow 62.95pt. Page 3, FlatWidget-1316047934, /BBox [0 0 103 12] - overflow 62.95pt. Pages 2 and 3 additionally carry an explicit clip path '2 2 m 2 10 l 101 10 l 101 2 l h W n', so only about 99pt of a 164pt string can appear: pdftotext recovers '2024-0011882-SUPPLEMENTA' on both pages, i.e. the printed case number stops mid-token and loses 'L-FY'. Independently confirmed by MediaBox containment - on boundary pages 2 and 3 the word extends to x=616.8 on a 612pt page. There is no auto-shrink and no unfittable handling: reports/actual-writes.json for the boundary fixture claims unfittable [], nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and matchesExpected true for all three, because the builder's readback reads the string in the appearance stream and never measures whether it fits its box. The canonical fixture is clean - its 14-character case number fits. This is boundary-only, and MI has no raster directory, so no raster receipt covers it.",
+        "instrument": "every flattened /FlatWidget-* Form XObject decoded from the content stream, its shown string measured with the declared base-14 font metrics at the declared Tf size and compared against the XObject's own /BBox width; cross-checked by pdftotext word extents against the page MediaBox to catch ink leaving the page"
+      },
+      "FILING_DESTINATION": {
+        "result": "PASS",
+        "evidence": "'Where you file, fees, and required copies' names the convicting court and the parallel mailings, matching MI.memo rules.filing and destination: clerk of the convicting court plus Michigan State Police, the Attorney General and the prosecuting official, each with the address the memo carries.",
+        "instrument": "participant-instructions.md AND the full pdftotext text of the rendered packet (composed families carry an instructions component as packet pages) read for the court or agency named, then compared with the track's destination and rules.filing in the legal-design intake memo"
+      },
+      "FEE_AND_WAIVER": {
+        "result": "PASS",
+        "evidence": "The $50 fee to the State of Michigan is stated, as are the certified-record and fingerprinting costs. No waiver is offered, which matches MI.memo rules.feeWaiver: 'None found in MCL 780.621d(9). Unresolved.'",
+        "instrument": "the packet's fee and waiver statements read from participant-instructions.md and the rendered packet, then compared against rules.fees and rules.feeWaiver for this trackId in data/record-clearing/legal-design-intake/<ST>.memo.json"
+      },
+      "SERVICE": {
+        "result": "PASS",
+        "evidence": "'The order of filing and service matters' carries the sequence and the recipients - MSP, the Attorney General and the correct prosecuting official - and directs the participant to complete the page 3 Proof of Service after serving. Matches MI.memo rules.service and rules.notice.",
+        "instrument": "the packet's service statements read from both instruction surfaces and compared against rules.service and rules.notice for this trackId in the legal-design intake memo"
+      },
+      "SELF_HELP_STOP": {
+        "result": "PASS",
+        "evidence": "'What this packet is not' plus 'What happens after you file' state the boundary and the contest rights of the Attorney General, the prosecutor and any victim.",
+        "instrument": "participant-instructions.md and the rendered packet read for a statement of where the packet's help ends, compared against the track's selfHelpStopConditions in the legal-design intake memo"
+      }
+    },
+    "failedProofObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ],
+    "notMeasurableHere": []
+  }
 ],
  "supersededLaneMembership": {
   "note": "the earlier reading, when this lane covered other families",
@@ -10826,5 +10934,24 @@
     "suggestedFix": "Have the raster ingest write back to the per-family build-status, or make the central queue the only place a lane is allowed to read raster state from."
    }
   ]
+ },
+ "vfEIndependentRead20260905": {
+   "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+   "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+   "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+   "familiesRead": [
+     "mi_setaside_trafficking-set"
+   ],
+   "independence": "This lane read built none of these packets, repaired none of them, rendered none of them and rastered none of them. Every number below was measured in this container at the declared base with the instruments named per obligation.",
+   "whyNineZerosAreNotTheVerdict": "Three of the five non-passing families in this read carry nine zero counters. The counters cannot see a route-statement naming the wrong route, a fee the platform holds and the packet does not state, or a stale grounding pin.",
+   "instrumentCorrectionsMadeDuringThisRead": [
+     "Checkbox fill classification initially read MI's 13 empty boxes as black marks because the parser ignored `scn` in a named colour space; with scn handled the true count of marked selections cohort-wide is 0.",
+     "Write visibility initially reported false absences on multi-document packets because form-local page numbers were looked up in the assembled PDF; corrected by mapping through the pageManifest.",
+     "Write visibility initially reported all composed-family writes absent because it demanded widget geometry that composed pleadings do not have; corrected to text readback against the component's own pages.",
+     "Repeating-row grouping initially invented rows by pairing fields that share a trailing numeral (NHJB-2328 `1.1` Name with `yours.1` Salary and `money.1` Cash on hand); corrected to page-qualified geometric alignment.",
+     "SELF_HELP_STOP was initially called FAILED on both NH families; the keyword list had missed 'this packet does not decide whether you are eligible for one'. Finding withdrawn.",
+     "Instruction-content obligations were initially scanned in participant-instructions.md only, which produced false gaps on LA whose filing, fee, waiver and service statements are delivered on the packet's own instructions pages."
+   ],
+   "baseIsDeclaredForSupersession": "5b74dd31bc55c95b87fe46a840902d6772eb7068"
  }
 }

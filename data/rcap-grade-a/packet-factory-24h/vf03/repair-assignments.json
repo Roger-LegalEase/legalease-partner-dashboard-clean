@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL",
- "assignmentCount": 22,
+ "assignmentCount": 24,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -614,7 +614,33 @@
    "do not repin without checking what changed in the manifest",
    "this verification opens no commercial route and grants no approval"
   ]
- }
+ },
+  {
+    "itemId": "mi_setaside_trafficking-set",
+    "lane": "VF03",
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "fixturesMoved": false,
+    "decisiveDefect": "In the BOUNDARY fixture the case number 2024-0011882-SUPPLEMENTAL-FY is drawn at Helvetica 10 into caption widgets narrower than the string, and the appearance stream clips it. On packet pages 2 and 3 only about 99pt of a 163.95pt string can render, so the printed case number reads '2024-0011882-SUPPLEMENTA' - it stops mid-token and loses 'L-FY'.",
+    "failedProofObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ],
+    "perObligation": {
+      "CLIPPING_AND_OVERLAP": {
+        "measuredDetail": "Value complete in the byte stream (hex 323032342D303031313838322D535550504C454D454E54414C2D4659 in the /Tx BMC block), so this is not a data-truncation defect - the write is correct and cannot be displayed. Text origin Tm x=2.00; required width 163.95pt by Helvetica AFM metrics at 10pt. Page 1 FlatWidget-6857870938 /BBox [0 0 160.437 10.36], overflow 5.51pt. Page 2 FlatWidget-9538628408 /BBox [0 0 103 12], overflow 62.95pt. Page 3 FlatWidget-1316047934 /BBox [0 0 103 12], overflow 62.95pt. Pages 2 and 3 also carry an explicit clip '2 2 m 2 10 l 101 10 l 101 2 l h W n'. Cross-checked against the MediaBox: on boundary pages 2 and 3 the word extends to x=616.8 on a 612pt page. The canonical fixture is clean; its 14-character case number fits. reports/actual-writes.json for the boundary fixture is wrong on this: it reports unfittable [], nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and matchesExpected true for all three writes, because the readback reads the string in the appearance stream and never measures it against the box.",
+        "whatRepairMustDo": "Make the caption writer fit the value to the box - shrink-to-fit down to the form's minimum legible size, or classify the value as unfittable and refuse the write with a disclosure - and make the same decision for all three widgets, since page 1 overflows too by 5.51pt. Then fix the readback so a value that does not fit its /BBox raises unfittable and increments visualDefects instead of reporting matchesExpected true; this instrument gap is not MI-specific and any family with a long boundary value in a narrow caption box can hide the same defect. MI has no raster directory, so no raster receipt covers these bytes."
+      }
+    },
+    "repairMustNotDo": [
+      "do not widen the official form's field rectangles - the /Rect values are read first-hand from the pinned MC-227B binary",
+      "do not change the canonical fixture, which is clean",
+      "do not shorten the boundary fixture's case number; the long value is the point of a boundary fixture",
+      "this verification opens no commercial route, approves no output and promotes nothing"
+    ]
+  }
 ],
  "supersededLaneMembership": {
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
@@ -699,5 +725,13 @@
   "verificationRun": "vf-a-2026-09-05",
   "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
   "added": 1
+ },
+ "vfEIndependentRead20260905": {
+   "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+   "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+   "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+   "assignmentsAdded": [
+     "mi_setaside_trafficking-set"
+   ]
  }
 }

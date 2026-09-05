@@ -85,7 +85,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF04",
   "worker": "VF-SRC-A",
-  "assignmentCount": 1,
+  "assignmentCount": 20,
   "assignments": [
   {
     "wave": "packet-factory-24h/VF04 (VT-D, 2026-09-02)",
@@ -874,7 +874,32 @@
           }
         },
         "alsoWorthKnowing": "Every other obligation passed except SOURCE_IDENTITY, which is NOT_MEASURABLE_HERE rather than failed: the bound FDLE40-028 source d9417ea382c9... is in neither custody this container mounts. That is an environment fact and must not be repaired as if it were a source defect. The FL owner determination lists this form under remainOfficialAndMustBeHeld, so the pin is the right shape."
+      },
+  {
+    "itemId": "nh_petition_nonconviction_pre2019-set",
+    "lane": "VF04",
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "fixturesMoved": false,
+    "decisiveDefect": "participant-instructions.md tells the participant 'The fee for a petition to annul is not established in any source this packet holds, so it is not stated here' and to ask the clerk. The platform holds the figure: NH.memo.json rules.fees for this track is '$125.00 per court location, confirmed on the current Circuit Court Filing Fees schedule.'",
+    "failedProofObligations": [
+      "FEE_AND_WAIVER"
+    ],
+    "perObligation": {
+      "FEE_AND_WAIVER": {
+        "measuredDetail": "The waiver half is satisfied - NHJB-2311 and NHJB-2328 are named, prepared and explained, including the warning that NHJB-2311's court control lists only SUPERIOR courts. The fee half is not stated at all. The packet's sentence is literally true of its own bindings: the NH source-receipt binds only the four official form binaries and carries no groundingRecords, and the build script reads no legal-design record. destination.detail in the same memo repeats the figure: 'petitions filed at the same time in one court location share a single $125.00 filing fee.' The memo also records a favourable fact the packet does not pass on - 'No Department of Corrections investigation fee and no Department of Safety or state police fee on this track: RSA 651:5, IX and X(d) exempt a person found not guilty or whose case was dismissed or not prosecuted.' Contrast CO in this cohort, where the same sentence is accurate because CO.memo records that the source review states no filing fee; that is why this is a defect here and not there.",
+        "whatRepairMustDo": "State the $125.00 per court location fee and the single-fee-per-location rule, and state that no DOC investigation fee and no DOS or state police fee apply on this track under RSA 651:5, IX and X(d). Bind NH.memo.json as a grounding record in the source receipt so the statement is sourced rather than asserted, the way la-987, ri_marijuana and vt_exp_deferred_sentence already bind their state memos."
       }
+    },
+    "repairMustNotDo": [
+      "do not rebuild the fixtures - canonical baca3acf... and boundary b983b717... are exact and clean",
+      "do not state a fee that the memo does not carry, and do not infer one from a neighbouring track",
+      "this verification opens no commercial route, approves no output and promotes nothing"
+    ]
+  }
     ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
@@ -1031,5 +1056,13 @@
     "assignmentsAddedHere": 2,
     "assignmentCountFieldNotEditedHere": "The top-level assignmentCount field in this file was already stale before this append (vf04 read 1 against 17 assignments, vf06 read 1 against 13) and is a prior worker's field, so it was not edited here. assignmentsAddedHere is this reading's own count; assignments.length is the truth for the file.",
     "whatThisMarkerIs": "Assignments carrying \"wave\": \"packet-factory-24h/VF04-VF06/vf-b (2026-09-05)\" are this reading's. Every assignment already here is preserved byte for byte."
+  },
+  "vfEIndependentRead20260905": {
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "assignmentsAdded": [
+      "nh_petition_nonconviction_pre2019-set"
+    ]
   }
 }

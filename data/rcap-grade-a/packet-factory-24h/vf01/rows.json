@@ -12218,7 +12218,224 @@
       "data/record-clearing/legal-design-track-registry.json",
       "data/rcap-all50/local-source-corpus-index.json"
     ]
-  }
+  },
+    {
+      "itemId": "co_decriminalized_conduct_seal-set",
+      "lane": "VF01",
+      "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+      "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "fixturesMoved": false,
+      "fixtureBinding": "canonical 961031d9a8c66aa6a3ff14db8c6ac38567e29b5d8b881e63f2d48f1cc7e5498e (328398 B, 5 pp) and boundary c12ce14f9849612ec53c3c58e3800a7ebac568c06143b9e0da80f7461daafcc2 (328706 B, 5 pp) recomputed here and equal to reports/rendered-artifacts.json.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "Each counter measured in this container at this base with the instruments named per obligation below, not read from the builder's reports. scripts/rcap-packet-completeness/verify-packet-completeness.mjs was also run for comparison; where my count differs from it the difference is stated on the counter.",
+        "whyNineZerosAreNotTheVerdict": "The nine counters are the completeness contract's own instrument and it has no counter for a wrong-but-present prose statement, a stale grounding pin, or a value that is correct in the byte stream but cannot render inside its box. Families below carry nine zeros and still fail."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "obligation:track-only:CO:co_decriminalized_conduct_seal is the single routeKey in the field map, the source receipt, product-wiring and both maps' documentPolicy, and matches trackId co_decriminalized_conduct_seal in the packet-set manifest. participant-instructions.md carries it as a footer. The packet itself carries no route-key footer: it is an official-form-only assembly of JDF-2371 and JDF-2374 and the build alters no official page. Absence of a footer was checked against the other official-form families in this cohort (CO motion-seal, MI, both NH) - none carries one, while all three composed families (LA, RI, VT) do - so absence here is the assembly class, not a defect. The routeSelectionNote prose names the same route as the key.",
+          "instrument": "routeKey equality across production-field-map.routeKeys, source-receipt.routeKey(s), product-wiring.routeKeys and every map's documentPolicy.routeKey; plus a whitespace-and-hyphen-insensitive scan of participant-instructions.md and of pdftotext output over both fixtures; plus the packet-set manifest trackId; plus a reading of the field map's own routeSelectionNote prose against the track's legalName in data/record-clearing/legal-design-intake/<ST>.memo.json"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "JDF-2371 642558b8...b6d6 (669287 B) and JDF-2374 36a7ad47...90a72 (1051131 B) both resolved by content hash in master_library, re-hashed equal, byte length equal, declared pathInArchive equal to the real location. groundingRecords is empty for this family so no in-repo pin was owed. Every declared source sha256 resolved by content hash inside the mounted Master Library and re-hashed equal, with byte length equal and the declared pathInArchive equal to where the bytes actually live. Two of five custodies are mounted; nothing this family declares needed the three that are not.",
+          "instrument": "every declared sha256 recomputed from bytes and resolved by CONTENT HASH against an index of all 500 files in the two mounted custodies (master_library, human_source_returns) built in this container, never by declared path; every groundingRecords[] pin re-hashed from the in-repo file; each identityRefresh block checked by recovering the historical blob carrying its `was.sha256` with git rev-list/cat-file and comparing the family's own entries object-for-object"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "The packet-set manifest names exactly two components, both `required`, both official_pdf_fill: primary-filing-1 -> JDF-2371 and proposed-order-2 -> JDF-2374. Both are rendered, at packet pages 1-3 and 4-5. packetSetCompleteness is absent, i.e. the set is not declared incomplete.",
+          "instrument": "components declared in data/record-clearing/legal-design-packet-set-manifests.json for this packetSetId, each mapped by officialFormId or outputStrategy to the documents and components enumerated in reports/rendered-artifacts.json pageManifest, with process_guidance components resolved against participant-instructions.md section headings"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "17 declared writes across both fixtures re-read from the bytes; all 17 recovered inside their declared /Rect on the correct packet page with the value equal to `expected`. The first pass reported 6 false absences on the second document because it looked up the form-local page number in the assembled PDF; corrected by mapping through the pageManifest.",
+          "instrument": "every reports/actual-writes.json actualWrites entry re-read from the rendered bytes: form-local page mapped to packet page through the pageManifest, then pdftotext -bbox-layout word boxes (converted to PDF bottom-left coords) intersected with the declared /Rect at >=60% word-area containment, and the recovered string compared to `expected`"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "22 rows declare requiredBeforeFiling; all 22 printed labels appear in participant-instructions.md.",
+          "instrument": "every field-map row declaring requiredBeforeFiling:true or completenessDisposition REQUIRED_BEFORE_FILING collected and its printed effectiveLabel matched against the normalised text of participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "routeDeterminedSelections is empty and no row is flagged routeDetermined. All 23 selection controls are unmarked in both fixtures. No selection control in either fixture carries a mark. Fill classification was corrected mid-read: the first pass read MI's checkbox appearances as 13 black fills because the parser tracked only g/rg/k and ignored `scn` in a named colour space. The appearances are `/CS0 cs 1 1 1 scn ... re f` followed by `0 0 0 SCN ... re S` - a WHITE fill with a black stroked outline, the source's own empty box. With scn handled, dark fills inside selection rects are 0 everywhere.",
+          "instrument": "production-field-map.routeDeterminedSelections plus every row flagged routeDetermined:true; selection state read from the bytes by classifying each selection control's flattened appearance by FILL COLOUR - content-stream fill ops with q/Q colour state tracking across g, rg, k and scn/sc in named colour spaces - a dark inset fill being a real mark and a white fill with a stroked outline the source's own empty box"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "Rows were grouped by page-qualified geometric alignment. A first pass grouping by trailing numerals invented rows - it paired NHJB-2328 `1.1` (Name, y=588.66) with `yours.1` (Salary or wages, y=331.94), `money.1` (Cash on hand, y=103.29) and `cb.1` (Marital status, y=542.83). Those are different sections of the form, not one row. Regrouped by y-band, no row anywhere in the cohort carries a written cell beside a blank sibling that is neither protected nor declared required-before-filing.",
+          "instrument": "field-map rows grouped into rows by PAGE-QUALIFIED geometric alignment (same page, /Rect y within a 4pt band), never by trailing numerals in a field name; each row carrying a written cell checked for blank siblings that are neither protected nor declared REQUIRED_BEFORE_FILING"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "38 protected rects checked per fixture; no ink in any of them in either canonical or boundary.",
+          "instrument": "every row whose class, label or reason marks it signature, signature-date, certificate/proof of service, court-only, clerk, prosecutor, judge, agency or notary; its /Rect on the mapped packet page checked for word ink in BOTH fixtures, and any ink found then checked against the pinned source binary to separate build writes from the form's own printed text"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "Both fixtures hash and measure exactly as reports/rendered-artifacts.json names them; page counts agree across three independent instruments.",
+          "instrument": "sha256 and byte length of canonical.pdf and boundary.pdf recomputed from disk and compared to reports/rendered-artifacts.json; page count cross-checked three ways (pdfinfo, an independent page-tree walk of the PDF object graph, and the pageManifest row count)"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "All 5 manifest rows carry their declared form stamp on the matching page in both fixtures.",
+          "instrument": "each pageManifest row's declared formNumber/documentId matched whitespace-and-hyphen-insensitively against that page's extracted text in BOTH fixtures; any page missing its stamp then read by hand and compared against the pinned source binary before being called a defect"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "81 flattened widgets per fixture, 17 carrying text; every shown string fits its XObject /BBox. The longest boundary value, a 58-character e-mail, sits in a 258.7pt box. No word in either fixture leaves the 612x792 MediaBox.",
+          "instrument": "every flattened /FlatWidget-* Form XObject decoded from the content stream, its shown string measured with the declared base-14 font metrics at the declared Tf size and compared against the XObject's own /BBox width; cross-checked by pdftotext word extents against the page MediaBox to catch ink leaving the page"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "'File both forms with the clerk of the Colorado court that entered the conviction'. The CO memo's rules.filing for this track is 'File in the existing criminal case in the court where the conviction records are located'; destination.kind is the convicting court. The packet declines to print a courthouse address and says why.",
+          "instrument": "participant-instructions.md AND the full pdftotext text of the rendered packet (composed families carry an instructions component as packet pages) read for the court or agency named, then compared with the track's destination and rules.filing in the legal-design intake memo"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "'Ask the clerk what fee applies, and what to do if you cannot pay it. The fee position ... is not established in any source this packet holds.' That is accurate against the controlling record: CO.memo.json rules.fees for this track reads 'The source review does not state a filing fee for this motion' and rules.feeWaiver 'The source review does not address a fee waiver.'",
+          "instrument": "the packet's fee and waiver statements read from participant-instructions.md and the rendered packet, then compared against rules.fees and rules.feeWaiver for this trackId in data/record-clearing/legal-design-intake/<ST>.memo.json"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "The packet states the CBI agency service requirement the form itself marks required, prints the CBI address as the form does, and explains that JDF-2374 directs the clerk to send the signed order to the CBI and every listed custodian. CO.memo rules.service records no separate participant service requirement and rules.notice records only the district attorney's opportunity to respond.",
+          "instrument": "the packet's service statements read from both instruction surfaces and compared against rules.service and rules.notice for this trackId in the legal-design intake memo"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "'What this packet is not' states the boundary: not legal advice, not filed for you, and it does not decide whether the conviction is eligible to be sealed. Observation, not a defect: the CO memo lists four selfHelpStopConditions (DA objects, contested hearing, category unclear, immigration/licensing/firearm consequences) and the packet states the scope limit rather than enumerating them.",
+          "instrument": "participant-instructions.md and the rendered packet read for a statement of where the packet's help ends, compared against the track's selfHelpStopConditions in the legal-design intake memo"
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": []
+    },
+    {
+      "itemId": "la-987-set-aside-and-dismiss-set",
+      "lane": "VF01",
+      "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+      "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+      "buildStatus": "state_built",
+      "fixturesMoved": false,
+      "fixtureBinding": "canonical 9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450 and boundary a8412820377682280b6646600860ec4a1cb3316143137331791d64997b79bc02 recomputed here and equal to reports/rendered-artifacts.json. These are the same bytes the VF06 read at base 5de917b3 cited, so the fixtures have not moved since that verdict.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 1,
+        "allZero": false,
+        "measuredHere": true,
+        "howMeasured": "Each counter measured in this container at this base with the instruments named per obligation below, not read from the builder's reports. scripts/rcap-packet-completeness/verify-packet-completeness.mjs was also run for comparison; where my count differs from it the difference is stated on the counter.",
+        "whyNineZerosAreNotTheVerdict": "The nine counters are the completeness contract's own instrument and it has no counter for a wrong-but-present prose statement, a stale grounding pin, or a value that is correct in the byte stream but cannot render inside its box. Families below carry nine zeros and still fail."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": "obligation:track-only:LA:la-987-set-aside-and-dismiss is the single routeKey throughout and matches trackId la-987-set-aside-and-dismiss. The rendered packet carries the route-key footer twice, on its instructions component pages.",
+          "instrument": "routeKey equality across production-field-map.routeKeys, source-receipt.routeKey(s), product-wiring.routeKeys and every map's documentPolicy.routeKey; plus a whitespace-and-hyphen-insensitive scan of participant-instructions.md and of pdftotext output over both fixtures; plus the packet-set manifest trackId; plus a reading of the field map's own routeSelectionNote prose against the track's legalName in data/record-clearing/legal-design-intake/<ST>.memo.json"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "evidence": "This is an authority-only composition: custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, sourceBinariesRequired 0, documents[] and sources[] both empty, so no binary hash is owed and none is missing. But the receipt's own bindingMethod claims 'the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record relied on by the build are re-read and SHA-256-bound at build time', and one of the eight groundingRecords does not bind. data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json is pinned at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B; the file at this base hashes 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B. The other seven pins all re-hash equal. This is NOT the AR-class false failure: I recovered the blob carrying the pinned hash (commit b45f513141cb796e806a4cd4c69c989647d1b190) and compared this family's own MASTER_QUEUE entry object-for-object. It is not byte-identical - at the pinned hash LA read state 'SOURCE_READY', artifactStatus 'NOT_RENDERED', buildScriptExists false, completenessStatus 'NOT_BUILT', counters null. The pin predates this family's own build, so no identityRefresh asserting an unchanged node can cure it. Two further points in the family's favour, both verified here: (a) the identityRefresh that IS present, on data/record-clearing/legal-design-packet-set-manifests.json, is sound - I recovered the historical blob at was.sha256 713ed7ab... from commit 0be1fee76 (exactly the previousPinLastSeenAtCommit it names) and this family's packetSet entry is object-identical to the current one; (b) the pin was ALREADY stale at base 5de917b3, where MASTER_QUEUE hashed 1f4c2f66..., so the earlier VF06 PASS did not catch it and this is a genuine miss rather than later drift. Also inconsistent: allSourcesExact is false here while RI and VT, authority-only compositions in the same posture with zero binaries owed, both declare true; the completeness contract reads that boolean directly and books it to visualDefects.",
+          "instrument": "every declared sha256 recomputed from bytes and resolved by CONTENT HASH against an index of all 500 files in the two mounted custodies (master_library, human_source_returns) built in this container, never by declared path; every groundingRecords[] pin re-hashed from the in-repo file; each identityRefresh block checked by recovering the historical blob carrying its `was.sha256` with git rev-list/cat-file and comparing the family's own entries object-for-object"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": "Manifest names primary-filing-1 (official_pdf_fill, LA-CCRP-ART-987) and instructions-2 (process_guidance), both required. Both are rendered as packet pages - 1-3 and 4-5 - and both appear as components in the pageManifest.",
+          "instrument": "components declared in data/record-clearing/legal-design-packet-set-manifests.json for this packetSetId, each mapped by officialFormId or outputStrategy to the documents and components enumerated in reports/rendered-artifacts.json pageManifest, with process_guidance components resolved against participant-instructions.md section headings"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "15 declared writes per fixture. These are composed pages with no widget geometry, so visibility was measured by text readback: every value is present in the packet and on its own component's pages, in both canonical and boundary. The first pass called all 15 invisible because it demanded a widget /Rect that composed pleadings do not have.",
+          "instrument": "every reports/actual-writes.json actualWrites entry re-read from the rendered bytes: form-local page mapped to packet page through the pageManifest, then pdftotext -bbox-layout word boxes (converted to PDF bottom-left coords) intersected with the declared /Rect at >=60% word-area containment, and the recovered string compared to `expected`"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "2 declared rows - the deferred-sentence-period assertion and the probation-completion assertion - both named in participant-instructions.md and in the packet's own 'Required before filing' table.",
+          "instrument": "every field-map row declaring requiredBeforeFiling:true or completenessDisposition REQUIRED_BEFORE_FILING collected and its printed effectiveLabel matched against the normalised text of participant-instructions.md"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "NOT_MEASURABLE_HERE",
+          "evidence": "The family declares no route-determined selection and carries no selection controls: it is a composed pleading with no AcroForm layer, so there is no election state in the bytes to read. The two YES/NO assertions on the instrument are printed as literal '[ ] YES [ ] NO' text and are expressly left to the participant, which the packet states.",
+          "instrument": "production-field-map.routeDeterminedSelections plus every row flagged routeDetermined:true; selection state read from the bytes by classifying each selection control's flattened appearance by FILL COLOUR - content-stream fill ops with q/Q colour state tracking across g, rg, k and scn/sc in named colour spaces - a dark inset fill being a real mark and a white fill with a stroked outline the source's own empty box"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "No repeating row group exists in this 33-field composed map; nothing to leave half-written.",
+          "instrument": "field-map rows grouped into rows by PAGE-QUALIFIED geometric alignment (same page, /Rect y within a 4pt band), never by trailing numerals in a field name; each row carrying a written cell checked for blank siblings that are neither protected nor declared REQUIRED_BEFORE_FILING"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "No widget-backed protected rect exists to carry ink. Read as text instead: the mover signature block, the Rule to Show Cause return date/time/place, the judge signature, every finding and granting/denying paragraph in the Order of Dismissal, and the district attorney's response are all blank on both fixtures, and the packet states each is left blank on purpose.",
+          "instrument": "every row whose class, label or reason marks it signature, signature-date, certificate/proof of service, court-only, clerk, prosecutor, judge, agency or notary; its /Rect on the mapped packet page checked for word ink in BOTH fixtures, and any ink found then checked against the pinned source binary to separate build writes from the form's own printed text"
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "Both fixtures hash and measure exactly as reports/rendered-artifacts.json names them; page counts agree across three independent instruments.",
+          "instrument": "sha256 and byte length of canonical.pdf and boundary.pdf recomputed from disk and compared to reports/rendered-artifacts.json; page count cross-checked three ways (pdfinfo, an independent page-tree walk of the PDF object graph, and the pageManifest row count)"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "5 manifest rows in both fixtures, sequential, each naming its component; page 1-3 the three-part instrument, 4-5 the instructions. Component identity confirmed from the rendered text of each page.",
+          "instrument": "each pageManifest row's declared formNumber/documentId matched whitespace-and-hyphen-insensitively against that page's extracted text in BOTH fixtures; any page missing its stamp then read by hand and compared against the pinned source binary before being called a defect"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "No flattened widget exists, so the BBox instrument does not apply; measured instead by word extents against the MediaBox - 1341 words canonical, 1366 boundary, none outside the page in either.",
+          "instrument": "every flattened /FlatWidget-* Form XObject decoded from the content stream, its shown string measured with the declared base-14 font metrics at the declared Tf size and compared against the XObject's own /BBox width; cross-checked by pdftotext word extents against the page MediaBox to catch ink leaving the page"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "Delivered on the packet's own page 5, not in participant-instructions.md: 'File the three-part Article 987 instrument - Motion, Rule to Show Cause, and Order of Dismissal - with the clerk of the court that imposed the deferred sentence, in the parish of conviction.'",
+          "instrument": "participant-instructions.md AND the full pdftotext text of the rendered packet (composed families carry an instructions component as packet pages) read for the court or agency named, then compared with the track's destination and rules.filing in the legal-design intake memo"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "Packet page 5: 'Ask that clerk for the filing cost before filing. Article 983 governs the cost of an expungement, not this Article 987 set-aside; ordinary motion costs may apply and vary by parish, and the committed record supplies no figure. Article 987 prescribes no fee waiver. The Article 988 fee exemption is an expungement instrument under Article 983(F) and does not reach this filing.' Both halves are answered, each with its authority.",
+          "instrument": "the packet's fee and waiver statements read from participant-instructions.md and the rendered packet, then compared against rules.fees and rules.feeWaiver for this trackId in data/record-clearing/legal-design-intake/<ST>.memo.json"
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "Packet page 5: 'The Rule to Show Cause is directed to the district attorney ... Service is on the district attorney and on the attorney for the defendant or the defendant.' It also states that no sixty-day objection window applies and why.",
+          "instrument": "the packet's service statements read from both instruction surfaces and compared against rules.service and rules.notice for this trackId in the legal-design intake memo"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "'Stop and get help' in participant-instructions.md and on the packet page: DA opposition at the contradictory hearing, any dispute about the deferred period or probation completion, a contested evidentiary hearing, or uncertainty whether the sentence was deferred under Article 893 or 894.",
+          "instrument": "participant-instructions.md and the rendered packet read for a statement of where the packet's help ends, compared against the track's selfHelpStopConditions in the legal-design intake memo"
+        }
+      },
+      "failedProofObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "notMeasurableHere": [
+        "ROUTE_OPTIONS"
+      ],
+      "counterNote": "visualDefects is recorded as 1 because that is the counter the completeness contract itself assigns when a receipt does not bind every source exactly (verify-packet-completeness.mjs line 397, driven by allSourcesExact). My own visual instruments - BBox fit, MediaBox containment, protected-rect ink - each measured zero on this family. The defect is a source-binding defect wearing a visual counter, and a repair lane should not go looking for a rendering problem."
+    }
  ],
   "supersededLaneMembership": {
     "note": "the earlier reading, when this lane covered other families",
@@ -12897,5 +13114,68 @@
         "suggestedFix": "Have the raster ingest write back to the per-family build-status, or make the central queue the only place a lane is allowed to read raster state from."
       }
     ]
+  },
+  "vfEIndependentRead20260905": {
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "familiesRead": [
+      "co_decriminalized_conduct_seal-set",
+      "la-987-set-aside-and-dismiss-set"
+    ],
+    "independence": "This lane read built none of these packets, repaired none of them, rendered none of them and rastered none of them. Every number below was measured in this container at the declared base with the instruments named per obligation.",
+    "whyNineZerosAreNotTheVerdict": "Three of the five non-passing families in this read carry nine zero counters. The counters cannot see a route-statement naming the wrong route, a fee the platform holds and the packet does not state, or a stale grounding pin.",
+    "instrumentCorrectionsMadeDuringThisRead": [
+      "Checkbox fill classification initially read MI's 13 empty boxes as black marks because the parser ignored `scn` in a named colour space; with scn handled the true count of marked selections cohort-wide is 0.",
+      "Write visibility initially reported false absences on multi-document packets because form-local page numbers were looked up in the assembled PDF; corrected by mapping through the pageManifest.",
+      "Write visibility initially reported all composed-family writes absent because it demanded widget geometry that composed pleadings do not have; corrected to text readback against the component's own pages.",
+      "Repeating-row grouping initially invented rows by pairing fields that share a trailing numeral (NHJB-2328 `1.1` Name with `yours.1` Salary and `money.1` Cash on hand); corrected to page-qualified geometric alignment.",
+      "SELF_HELP_STOP was initially called FAILED on both NH families; the keyword list had missed 'this packet does not decide whether you are eligible for one'. Finding withdrawn.",
+      "Instruction-content obligations were initially scanned in participant-instructions.md only, which produced false gaps on LA whose filing, fee, waiver and service statements are delivered on the packet's own instructions pages."
+    ],
+    "baseIsDeclaredForSupersession": "5b74dd31bc55c95b87fe46a840902d6772eb7068"
+  },
+  "vfEClaimGateRefusals20260905": {
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent)",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "rule": "The claim ledger is authoritative over the dispatch brief. A non-zero assert is a full stop: report BLOCKED_BEFORE_CLAIM naming the exact refusal and read none of the family's artifacts.",
+    "refusals": [
+      {
+        "itemId": "ar-felony-seal-set",
+        "status": "BLOCKED_BEFORE_CLAIM",
+        "refusal": "NOT_GRANTED: no independent-verification lane holds ar-felony-seal-set (claim.mjs exit 6)",
+        "assertedAcross": [
+          "VF01",
+          "VF02",
+          "VF03",
+          "VF04",
+          "VF05",
+          "VF06",
+          "VF07"
+        ],
+        "ledgerEvidence": "The only live claim on this subject is FIX03 rapid-repair (laneKind repair). Its last independent-verification grant, to VF06, was withdrawn at 2026-09-05T00:25:17Z with reason 'obligation dissolved: no current dispatch names this subject for this operation'.",
+        "artifactsRead": "none",
+        "note": "The dispatch brief asked for a re-read of the standing SOURCE_IDENTITY FAIL on this family. The ledger refuses the claim, so no re-read was performed and no verdict is offered. This lane did not self-reissue."
+      },
+      {
+        "itemId": "ar-nonconviction-seal-set",
+        "status": "BLOCKED_BEFORE_CLAIM",
+        "refusal": "ALREADY_RELEASED: ar-nonconviction-seal-set at 2026-09-04T19:10:22.630Z (claim.mjs exit 9); GRANTED_ELSEWHERE to VF01 for every other lane asserted (exit 8)",
+        "assertedAcross": [
+          "VF01",
+          "VF02",
+          "VF03",
+          "VF04",
+          "VF05",
+          "VF06",
+          "VF07"
+        ],
+        "ledgerEvidence": "The VF01 independent-verification claim on this subject carries released:true. No live independent-verification grant exists on it.",
+        "artifactsRead": "none",
+        "note": "Same as above: the brief asked for a re-read of the standing SOURCE_IDENTITY FAIL; the ledger refuses and this lane did not self-reissue."
+      }
+    ],
+    "whatWasVerifiedAnyway": "The refresh mechanism the AR brief describes was exercised on the three families in this cohort that carry an identityRefresh on the same shared national record (la-987-set-aside-and-dismiss-set, ri_marijuana-set, vt_exp_deferred_sentence-set). In each case the historical blob at was.sha256 was recovered from the exact commit the block names and the family's own entry compared object-for-object; all three are object-identical, so the refresh mechanism itself is sound where this lane could legitimately read it."
   }
 }

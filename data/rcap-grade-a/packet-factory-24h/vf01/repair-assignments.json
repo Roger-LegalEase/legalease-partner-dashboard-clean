@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
   "lane": "VF01",
   "worker": "VF-SRC-A",
-  "assignmentCount": 19,
+  "assignmentCount": 22,
   "assignments": [
     {
       "itemId": "ak-courtview-set",
@@ -633,7 +633,33 @@
       "do not widen canonical-route-universe.json to accommodate the packet",
       "this verification opens no commercial route and grants no approval"
     ]
-  }
+  },
+    {
+      "itemId": "la-987-set-aside-and-dismiss-set",
+      "lane": "VF01",
+      "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+      "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "fixturesMoved": false,
+      "decisiveDefect": "source-receipt.json groundingRecords pins data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B; at this base the file rehashes to 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B. The receipt's bindingMethod claims every committed record the build relied on is SHA-256-bound, so one of its eight grounding pins does not bind.",
+      "failedProofObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "perObligation": {
+        "SOURCE_IDENTITY": {
+          "measuredDetail": "7 of 8 grounding pins rebind exactly. Only MASTER_QUEUE.json does not. The pinned blob was recovered from history at commit b45f513141cb796e806a4cd4c69c989647d1b190 and this family's own node compared object-for-object against the current file: it is NOT byte-identical. At the pinned hash LA read state 'SOURCE_READY', artifactStatus 'NOT_RENDERED', buildScriptExists false, completenessStatus 'NOT_BUILT', counters null; it now reads VERIFY_PENDING / RENDERED / true / FAIL_VISIBLE_APPEARANCE. The pin therefore predates this family's own build. The pin was already stale at base 5de917b3574b6e27df362e13b86b4bfaac4915f8, where MASTER_QUEUE hashed 1f4c2f661f5c5b157d0f45db70b83bcbbeb725b385384600e0ca34a845067d29, so the earlier VF06 PASS on this family did not catch it. Separately verified as SOUND and needing no repair: the identityRefresh on data/record-clearing/legal-design-packet-set-manifests.json - historical blob recovered at was.sha256 713ed7abbd38a0faf32f4085eeefe55e6b14fd80879774604d0741cb1fd04572 from commit 0be1fee76, and this family's packetSet entry is object-identical to the current one.",
+          "whatRepairMustDo": "Decide whether MASTER_QUEUE.json belongs in groundingRecords at all. It is a lane-managed generated queue that Captain regenerates continuously, so any whole-file pin on it goes stale by design and will keep failing this obligation. Either drop it from groundingRecords, or re-pin it at current bytes AND record why a volatile generated file is treated as a committed grounding record. An identityRefresh block is NOT the right instrument here: unlike the shared packet-set manifest, this family's own node inside MASTER_QUEUE did change in substance, so a refresh asserting an unchanged node would be false. While there, reconcile allSourcesExact: this receipt says false for an authority-only composition owing zero binaries, while ri_marijuana-set and vt_exp_deferred_sentence-set - the same posture in the same cohort - both say true. verify-packet-completeness.mjs reads that boolean directly and books it to visualDefects, which is why the corpus instrument reports a visual defect on a family whose rendering I measured as clean."
+        }
+      },
+      "repairMustNotDo": [
+        "do not rebuild the packet - canonical 9e06893a... and boundary a8412820... are exact and must not move",
+        "do not repin without recording what changed inside the record",
+        "do not add an identityRefresh asserting the node is unchanged; it is not",
+        "this verification opens no commercial route, approves no output and promotes nothing"
+      ]
+    }
  ],
   "supersededLaneMembership": {
     "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
@@ -780,5 +806,13 @@
     "verificationRun": "vf-a-2026-09-05",
     "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
     "added": 2
+  },
+  "vfEIndependentRead20260905": {
+    "wave": "packet-factory-24h/VF01-VF07/vf-e (2026-09-05)",
+    "worker": "VF-E (independent; built, repaired, rendered and rastered none of these packets)",
+    "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+    "assignmentsAdded": [
+      "la-987-set-aside-and-dismiss-set"
+    ]
   }
 }
