@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `0f286b80ee876404dab07cc18ba152501693260e`
+**Minimum required ancestor:** `0b512b9924f4ca99380b579866bc22a23f8d28e6`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -289,7 +289,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf` — `be8bd4375526b04171d7d55ccdd4eb40958bc6ff2aa7559603110fb68c260fcb`
 - boundary `data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf` — `de2b0b59e205d053d77b0aaf090d373cc8af00c0e2fbdff2ed7a821c7cf2ff20`
 - expected pages 7 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF01
 
 ### vt_exp_deferred_sentence-set
 
@@ -331,7 +331,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf` — `d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e`
 - boundary `data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf` — `776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782`
 - expected pages 11 · requested scale 2.5
-- built by (no builder lane recorded)
+- built by VF02
 
 ## What you check, per family
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0f286b80ee876404dab07cc18ba152501693260e",
+  "generatedAtCommit": "0b512b9924f4ca99380b579866bc22a23f8d28e6",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -7791,6 +7791,21 @@
         "va_exp_nonconviction-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "familyId": "va_exp_nonconviction-set",
+      "itemId": null,
+      "familyIds": [
+        "va_exp_nonconviction-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF02",
       "laneKind": "packet-build",
@@ -8594,6 +8609,21 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:57.024Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "familyId": "wv_dui_deferral_expungement-set",
+      "itemId": null,
+      "familyIds": [
+        "wv_dui_deferral_expungement-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12983,7 +13013,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "20aca828ecd5ef5bc26144d4209d191df79c754f9710214c1fde93a4745360c5",
+  "claimsDigest": "b53494a0422a61200d9f66c8400781750b46d8863e32d6bc146c61f2eae9421c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
