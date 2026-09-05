@@ -70,6 +70,9 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
   from "./rcap-packet-completeness/completeness-contract.mjs";
 
@@ -90,7 +93,7 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
 
 const FAMILY_ID = "nh_petition_vacated-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -122,13 +125,56 @@ const BUILD_SCRIPT = "scripts/build-census-v1-nh_petition_vacated-set.mjs";
  * authored by this file.
  */
 const GROUNDING_RECORDS = Object.freeze({
-  memo: "data/record-clearing/legal-design-intake/NH.memo.json"
+  memo: "data/record-clearing/legal-design-intake/NH.memo.json",
+  /*
+   * Two more records are bound, because the packet now PRINTS out of both.
+   *
+   * The track registry carries the ten selfHelpStopConditions independent
+   * verification measured this family at zero of, and the packet-set manifest
+   * carries the six components it measured this family at four of. A packet
+   * that prints a record's sentences, or that is asserted against a record's
+   * component list, binds that record by SHA-256 the same way it binds a form
+   * binary — otherwise the reader cannot check the page against the bytes it
+   * came out of.
+   */
+  trackRegistry: "data/record-clearing/legal-design-track-registry.json",
+  packetSetManifests: "data/record-clearing/legal-design-packet-set-manifests.json"
 });
 const MEMO_TRACK_ID = "nh_petition_vacated";
 /* The schedule the memo names in its own officialSources list. */
 const FEE_SCHEDULE_TITLE_PREFIX = "Circuit Court Filing Fees";
 /* The memo's own open question about the agency fees, matched on its subject. */
 const FEE_QUESTION_MARKER = "fee exemptions in RSA 651:5, IX and X(d)";
+
+/*
+ * WHAT THE SOURCE ITSELF DRAWS INSIDE A FIELD, AND WHETHER IT MAY REACH THE FILING.
+ *
+ * Refusing to WRITE a field does not clear the appearance the source ships in
+ * it. Two of these four forms ship one:
+ *
+ *   NHJB-2311 sig.8      -- no /V at all, and a widget appearance drawing
+ *                           "Enter /s/ before name" in /TiBo 12 at 0.75 g. Grey,
+ *                           legible, sitting on the Signature of Filer rule of a
+ *                           motion nobody has signed.
+ *   NHJB-2328 12.total,  -- /V "0" and an appearance drawing "0.00" at 1 g,
+ *   money.total,            WHITE. Invisible on the page and present in the text
+ *   monthly.total           layer, on a sworn financial affidavit whose every
+ *                           contributing line is blank.
+ *
+ * All four are /Tx text fields, so the finalizer's structural default calls each
+ * of them the court's own ink and preserves it. It is not the court's ink: each
+ * is a participant input the source ships pre-answered or pre-prompted, and this
+ * build refuses to write all four in its own field map. What the appearance
+ * MEANS is recorded per family:component in the shared registry at
+ * data/rcap-all50/shared/field-appearance-semantics.json and handed to the
+ * finalizer here, which drops the value and every widget appearance of an
+ * unwritten field it is told is a participant input. Nothing is decided by field
+ * name, form or text in this file or in the finalizer: only by the disposition.
+ *
+ * A component with no registry entry is handed an empty map and keeps the
+ * structural default, so NHJB-2317 and NHJB-2956 are byte-unaffected by this.
+ */
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 
 const ROUTE = Object.freeze({
   jurisdiction: "NH",
@@ -211,6 +257,96 @@ function loadFeeGrounding() {
     + "refers to it as recorded below");
 
   return { record: memo, track, fees, feeWaiver, sharedFee, schedule, openQuestion };
+}
+
+/*
+ * WHERE SELF-HELP ENDS, IN THE RECORD'S OWN WORDS.
+ *
+ * The committed legal-design record holds ten selfHelpStopConditions for this
+ * track and the packet used to carry none of them — independent verification
+ * measured it at zero of ten, and searched the composed pages for each
+ * condition's own distinguishing terms before saying so. They are read here
+ * rather than restated, and every one of the ten is printed verbatim: a stop
+ * condition paraphrased is a stop condition weakened, and the two that carry a
+ * statute cite — RSA 651:5, IV and RSA 651:5, XVII — lose the cite in any
+ * paraphrase.
+ *
+ * TWO RECORDS, AND THEY MUST AGREE. The registry is the record independent
+ * verification named; the intake memo carries the same track and this family
+ * already binds it by SHA-256 for the fee. Both are read and asserted
+ * identical, so the packet cannot print ten sentences that only one of them
+ * holds. A count that is not ten, or a disagreement between the two, stops the
+ * build rather than shipping a shortened list.
+ */
+const SELF_HELP_STOP_CONDITIONS_EXPECTED = 10;
+
+function loadSelfHelpStops(memo) {
+  const registry = readGroundingRecord(GROUNDING_RECORDS.trackRegistry);
+  const track = (registry.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  assert.ok(track, `${GROUNDING_RECORDS.trackRegistry} holds no track ${MEMO_TRACK_ID}`);
+
+  const conditions = track.selfHelpStopConditions ?? [];
+  assert.equal(conditions.length, SELF_HELP_STOP_CONDITIONS_EXPECTED,
+    `${GROUNDING_RECORDS.trackRegistry} track ${MEMO_TRACK_ID} carries ${conditions.length} selfHelpStopConditions, `
+    + `not ${SELF_HELP_STOP_CONDITIONS_EXPECTED}; the packet prints every one of them and will not print a list it cannot account for`);
+  for (const c of conditions) {
+    assert.ok(typeof c === "string" && c.trim().length > 0, "a self-help stop condition is empty");
+  }
+
+  const fromMemo = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID)?.selfHelpStopConditions ?? [];
+  assert.deepEqual(fromMemo, conditions,
+    `${GROUNDING_RECORDS.memo} and ${GROUNDING_RECORDS.trackRegistry} disagree on this track's self-help stop conditions`);
+
+  return { record: registry, track, conditions, boundaries: track.selfHelpBoundaries ?? [] };
+}
+
+/*
+ * THE COMPONENT SET THE PACKET IS MEASURED AGAINST, READ OUT OF THE MANIFEST.
+ *
+ * legal-design-packet-set-manifests.json names six components for this packet
+ * set: four official_pdf_fill and two required process_guidance. The delivered
+ * packet rendered the four form slices and nothing else, so the two required
+ * guidance components reached no page — and because no rendered artifact of
+ * this track named a component at all, the corpus-wide component sweep could
+ * not even measure the family: it recorded NO_FAMILY_RENDERS_THIS_TRACK.
+ *
+ * The manifest is therefore read here, not restated. Every declared component
+ * is matched to something the packet renders — a form slice by its declared
+ * officialFormId, a process_guidance component by a composed page — and the
+ * build asserts at the end that every one of the six reaches at least one
+ * packet page of both fixtures. A component that stops reaching a page stops
+ * the build rather than quietly leaving the packet short again.
+ */
+function loadPacketSetComponents() {
+  const record = readGroundingRecord(GROUNDING_RECORDS.packetSetManifests);
+  const set = (record.data.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
+  assert.ok(set, `${GROUNDING_RECORDS.packetSetManifests} holds no packet set ${FAMILY_ID}`);
+  const components = set.components ?? [];
+  assert.ok(components.length > 0, `${GROUNDING_RECORDS.packetSetManifests} declares no components for ${FAMILY_ID}`);
+
+  const officialByForm = new Map();
+  const guidance = [];
+  for (const c of components) {
+    if (c.outputStrategy === "official_pdf_fill") {
+      const formNumber = String(c.officialFormId ?? "").replace(/-DSe$/, "");
+      assert.ok(ROUTE.documents.some((d) => d.formNumber === formNumber),
+        `the manifest declares component ${c.componentId} on form ${c.officialFormId}, which this route does not bind`);
+      officialByForm.set(formNumber, c);
+    } else if (c.outputStrategy === "process_guidance") {
+      guidance.push(c);
+    } else {
+      assert.fail(`component ${c.componentId} carries an output strategy this builder cannot render: ${c.outputStrategy}`);
+    }
+  }
+  assert.equal(officialByForm.size, ROUTE.documents.length,
+    "the manifest's official components and this route's bound forms are not the same set");
+  assert.equal(guidance.length, GUIDANCE_PAGES.length,
+    `the manifest declares ${guidance.length} process_guidance component(s) and this builder composes ${GUIDANCE_PAGES.length}`);
+  for (const g of guidance) {
+    assert.ok(GUIDANCE_PAGES.some((page) => page.componentId === g.componentId),
+      `${GROUNDING_RECORDS.packetSetManifests} declares process_guidance component ${g.componentId}, which this builder does not compose`);
+  }
+  return { record, set, components, officialByForm, guidance };
 }
 
 const SUPPLY = (what) => ({ policy: "supply", what });
@@ -684,6 +820,13 @@ async function renderDocument(source, census, fixtureName) {
       multiline: r.multiline === true, maxLength: r.maxLength ?? null
     })),
     facts, explicitMappings, unwritableFields,
+    /*
+     * Keyed family:component, so the finalizer is handed this form's four
+     * classified fields and nothing else, and cannot learn which family they
+     * came from. A form with no entry gets an empty map and the structural
+     * default.
+     */
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: source.title
   });
@@ -981,7 +1124,313 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf, fee) {
+/* ---- the two composed process_guidance components --------------------------- */
+/*
+ * WHY THE PACKET GAINS PAGES.
+ *
+ * The packet-set manifest declares six components. Four are official form
+ * slices and the packet rendered all four. The other two are declared
+ * `required` with outputStrategy `process_guidance`, and the delivered nine
+ * pages carried neither: independent verification read the bytes page by page
+ * and found NHJB-2317 pp.1-3, NHJB-2311 pp.4-5, NHJB-2328 pp.6-8, NHJB-2956
+ * p.9 "and nothing else". participant-instructions.md is a repository file, not
+ * a page of the filing, so a participant handed the packet received neither.
+ *
+ * They are composed here as ordinary text pages, appended after the four form
+ * slices, in the shape the Rhode Island families use for the same job: a
+ * heading, the participant's name, an explicit line saying the page is guidance
+ * and not a filing, sentences quoted out of the committed record rather than
+ * authored here, and the machine route key as a trailer. Nothing on either page
+ * is a court form, and neither page carries a field, a signature line or a
+ * blank for the participant to complete.
+ */
+function stopConditionLines(stops) {
+  const L = [];
+  L.push("WHERE SELF-HELP ENDS.", "");
+  L.push("This packet prepares four official forms and it decides nothing. The committed legal-design record for "
+    + `this route names ${stops.conditions.length} points where preparing your own papers stops being enough. They `
+    + "are set out below in that record's own words. If any one of them describes your case, stop here and get "
+    + "advice from a lawyer licensed in New Hampshire before you file.", "");
+  for (const condition of stops.conditions) L.push(`- ${condition}`);
+  L.push("");
+  L.push("The clerk of the court that handled your matter can tell you what the court requires procedurally, but a "
+    + "clerk cannot give you legal advice. This packet names no legal-aid organisation and no referral line, for "
+    + "the same reason it prints no courthouse address: the platform holds no sourced New Hampshire directory, and "
+    + "an invented one in a filing instruction is worse than none.", "");
+  return L;
+}
+
+function postFilingInstructionsBody({ facts, fee, stops }) {
+  const name = facts["participant.full_legal_name"];
+  const L = [];
+  L.push("WHAT HAPPENS AFTER YOU FILE", ROUTE.publicLabel, "");
+  L.push(`Prepared for: ${name}`, "");
+  L.push("This page is guidance. It is not a filing, it is not signed, and there is nothing on it to hand to a "
+    + "clerk.", "");
+  L.push("WHERE THE PETITION GOES.", "");
+  L.push(`The committed record states it in its own words: "${fee.track.rules.filing}" One offence, one petition; `
+    + "NHJB-2317 says so itself, in capitals, on its own face.", "");
+  L.push("WHAT THE COURT DOES NEXT, AND WHO ELSE SEES THE PETITION.", "");
+  L.push(`The record states who is told: "${fee.track.rules.notice}" You do not serve anybody. The record's own `
+    + `service rule for this route is: "${fee.track.rules.service}"`, "");
+  L.push("The petition's own text says the court considers an investigation and report prepared by the Department "
+    + "of Corrections and any response filed by the State, and that the court may decide the petition without a "
+    + "hearing unless you asked for one. If you want a hearing, you must tick the box on the petition that asks "
+    + "for it before you file - there is no box on this page and nothing here requests one for you.", "");
+  L.push("THE MONEY THAT MAY STILL BE OWED AFTER YOU FILE.", "");
+  L.push(`The record states the cost of this route: "${fee.fees}"`, "");
+  L.push(`It records the question about the agency fees as open, and it is still open: "${fee.openQuestion.question}" `
+    + "Nothing in this packet answers it. Ask the clerk, and ask the Department of Corrections, what each of them "
+    + "will charge you.", "");
+  L.push(`If you cannot pay, the record names the papers to file instead: "${fee.feeWaiver}" Both of those papers `
+    + "are in this packet, and both are filed with the petition rather than sent anywhere afterwards.", "");
+  L.push("IF THE COURT GRANTS THE PETITION.", "");
+  L.push("Page 3 of NHJB-2317 is the court's own page: it is marked FOR COURT USE ONLY, it is where the court "
+    + "records granting the annulment on one of the three grounds printed there, and it carries the list of who "
+    + "the court sends copies to - the prosecutor, the Department of Safety Criminal Records, the Division of "
+    + "Motor Vehicles and the Department of Corrections. That distribution is the court's to make. Nothing on it "
+    + "is yours to complete and nothing in this packet does it for you.", "");
+  L.push("IF THE COURT DENIES THE PETITION.", "");
+  L.push("The committed record lists among the exclusions from this route: \"A further petition within 3 years of "
+    + "a denial, barred by RSA 651:5, IV.\" A denial therefore has a cost beyond the fee you already paid: it "
+    + "closes the route for three years. That is a reason to read the certification on page 2 of the petition "
+    + "before you swear to it, not after.", "");
+  L.push("YOUR OWN CRIMINAL HISTORY RECORD, WHICH DOES NOT GO TO THE COURT.", "");
+  L.push("NHJB-2956 in this packet is a request to the State Police Criminal Records Unit for your own record. It "
+    + "is not filed with the petition and it is not sent to the clerk. The committed record calls it \"the only "
+    + "practical way to build the complete record list that RSA 651:5, VI makes decisive\" where you have other "
+    + "New Hampshire cases. Section II of that form releases your record to somebody else; leave it blank.", "");
+  L.push(...stopConditionLines(stops));
+  L.push(`Route: ${ROUTE.routeKey}`);
+  return L.join("\n");
+}
+
+function effectAndLimitsBody({ facts, fee, stops }) {
+  const name = facts["participant.full_legal_name"];
+  const track = stops.track;
+  const L = [];
+  L.push("WHAT AN ANNULMENT DOES, AND WHAT IT DOES NOT DO", ROUTE.publicLabel, "");
+  L.push(`Prepared for: ${name}`, "");
+  L.push("This page is guidance. It is not a filing, it is not signed, and there is nothing on it to hand to a "
+    + "clerk. It is here because the packet-set manifest requires this route to disclose the effect of the order "
+    + "and its limits before you file, and because several of the limits below cost money or mislead people who "
+    + "have not been told them.", "");
+  L.push("WHAT THE RECORD SAYS THE ORDER DOES. THIS IS THE COMMITTED RECORD'S OWN DESCRIPTION, QUOTED WHOLE:", "");
+  L.push(`"${track.mechanism}"`, "");
+  L.push("THE ONLY QUESTION YOU CAN BE ASKED, ONCE THE RECORD IS ANNULLED.", "");
+  for (const instruction of track.packetInstructions ?? []) {
+    if (instruction.includes("X(f)")) L.push(`The record states: "${instruction}"`, "");
+  }
+  L.push("So an annulment does not make it a lie to answer that question honestly. It changes what the honest "
+    + "answer is.", "");
+  L.push("WHAT IT DOES NOT DO. THE RECORD RECORDS THESE AS SCOPE RESTRICTIONS, IN ITS OWN WORDS:", "");
+  for (const restriction of track.scopeRestrictions ?? []) L.push(`- ${restriction}`);
+  L.push("");
+  L.push("Read the second of those twice. RSA 651:5, XVII is the statutory reason a private background-check "
+    + "company can keep showing a case a New Hampshire court has annulled, and the record says so in terms: no "
+    + "person or entity faces any penalty for publishing an annulled record or for not removing or correcting an "
+    + "earlier report. An annulment is a court order about the court's and the agencies' records. It is not a "
+    + "deletion, and the record lists among the same restrictions the claim \"That New Hampshire expunges, deletes "
+    + "or destroys records.\"", "");
+  L.push("WHO IS OUTSIDE THIS ROUTE ALTOGETHER. THE RECORD'S OWN EXCLUSIONS:", "");
+  for (const exclusion of track.exclusions ?? []) L.push(`- ${exclusion}`);
+  L.push("");
+  L.push("The first of those matters most on this route: where the vacated conviction falls INSIDE paragraph II-a "
+    + "it is annulled automatically, with no petition and no fee. If that is your case, filing this petition pays "
+    + "$125.00 for something the statute already gives you. Ask the clerk which side of paragraph II-a your "
+    + "offence falls on before you file.", "");
+  L.push("WHAT NOBODY WHO PREPARED THIS PACKET MAY ASSERT FOR YOU.", "");
+  for (const limitation of track.legalDesignLimitations ?? []) {
+    if (limitation.classification !== "self_help_boundary") continue;
+    L.push(`- ${limitation.statement}`);
+  }
+  L.push("");
+  L.push("Relief on this route is discretionary. Whether you are rehabilitated, and whether annulment is "
+    + "consistent with the public welfare, are findings the court makes under paragraph I. This packet asserts "
+    + "neither, and no sentence in it should be read as evidence of either.", "");
+  L.push(`Every sentence quoted on this page is quoted from ${GROUNDING_RECORDS.trackRegistry}, bound by SHA-256 `
+    + "in source-receipt.json, or from the New Hampshire legal-design memo bound beside it. Nothing on this page "
+    + "is legal advice and nothing on it decides whether you are eligible.", "");
+  L.push(`Route: ${ROUTE.routeKey}`);
+  return L.join("\n");
+}
+
+const GUIDANCE_PAGES = Object.freeze([
+  {
+    componentId: "nh_petition_vacated-post-filing-instructions-5",
+    role: "post_filing_instructions",
+    title: "What happens after you file",
+    body: postFilingInstructionsBody
+  },
+  {
+    componentId: "nh_petition_vacated-effect-and-limits-disclosure-6",
+    role: "effect_and_limits_disclosure",
+    title: "What an annulment does, and what it does not do",
+    body: effectAndLimitsBody
+  }
+]);
+
+/*
+ * The composed pages are drawn with the same block pagination the Rhode Island
+ * host uses, and with the same shared separator-aware token splitter, so a
+ * route key never breaks mid-word and no heading is stranded from the list it
+ * introduces. Nothing truncates: a long line wraps, a long token splits at its
+ * own separators, and a token with no separator to break on fails the build
+ * rather than shipping a page a reader cannot follow.
+ */
+function sanitizePdfText(text) {
+  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+    .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
+    .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
+    .replaceAll("§§", "Secs. ").replaceAll("§", "Sec. ")
+    .replaceAll("Secs.  ", "Secs. ").replaceAll("Sec.  ", "Sec. ").replaceAll("…", "...");
+}
+
+const MIN_ROWS_EITHER_SIDE = 2;
+
+async function renderComposedPdf(fullText, title) {
+  const pdf = await PDFDocument.create();
+  stampDeterministic(pdf);
+  pdf.setTitle(title);
+  pdf.setProducer("RCAP census-v1 artifact-only renderer");
+  pdf.setCreator("RCAP evidence build");
+  const font = await pdf.embedFont(StandardFonts.TimesRoman);
+  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const maxWidth = width - 2 * margin;
+
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
+  const wrap = (line) => {
+    if (!line) return [""];
+    const words = line.split(/\s+/).flatMap((w) => (font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]));
+    const out = []; let current = "";
+    for (const w of words) {
+      const candidate = current ? `${current} ${w}` : w;
+      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) current = candidate;
+      else { if (current) out.push(current); current = w; }
+    }
+    if (current) out.push(current);
+    return out;
+  };
+
+  const TRAILER_LINE = /^Route: /;
+  const rows = [];
+  for (const raw of sanitizePdfText(fullText).split("\n")) {
+    const trailer = TRAILER_LINE.test(raw);
+    for (const row of wrap(raw)) rows.push({ text: row, trailer });
+  }
+  let capacity = 0;
+  for (let y = height - margin; y >= margin; y -= lineHeight) capacity += 1;
+
+  const blocks = [];
+  for (const row of rows) {
+    const blank = row.text === "";
+    const last = blocks[blocks.length - 1];
+    if (blank) blocks.push({ blank: true, rows: [row] });
+    else if (last && !last.blank) last.rows.push(row);
+    else blocks.push({ blank: false, rows: [row] });
+  }
+  blocks.forEach((block, index) => { block.index = index; for (const row of block.rows) row.block = index; });
+
+  const pages = [[]];
+  const room = () => capacity - pages[pages.length - 1].length;
+  const newPage = () => { pages.push([]); };
+  for (const block of blocks) {
+    if (block.blank) {
+      if (pages[pages.length - 1].length === 0) continue;
+      if (room() <= 0) { newPage(); continue; }
+      pages[pages.length - 1].push({ text: "", trailer: false, block: block.index });
+      continue;
+    }
+    if (block.rows.length <= room()) { pages[pages.length - 1].push(...block.rows); continue; }
+    if (block.rows.length <= capacity) { newPage(); pages[pages.length - 1].push(...block.rows); continue; }
+    let rest = block.rows;
+    while (rest.length) {
+      let take = Math.min(room(), rest.length);
+      const leftOver = rest.length - take;
+      if (take < MIN_ROWS_EITHER_SIDE || (leftOver > 0 && leftOver < MIN_ROWS_EITHER_SIDE)) {
+        if (pages[pages.length - 1].length === 0) take = Math.max(MIN_ROWS_EITHER_SIDE, rest.length - MIN_ROWS_EITHER_SIDE);
+        else { newPage(); continue; }
+      }
+      pages[pages.length - 1].push(...rest.slice(0, take));
+      rest = rest.slice(take);
+      if (rest.length) newPage();
+    }
+  }
+
+  const trim = (rowsOnPage) => { const copy = [...rowsOnPage]; while (copy.length && copy[copy.length - 1].text === "") copy.pop(); return copy; };
+  const laid = pages.map(trim).filter((rowsOnPage) => rowsOnPage.some((r) => r.text !== ""));
+
+  /* A page whose every drawn row is the machine route trailer is not a page a
+   * participant can be handed, so the block that closed the page before is
+   * pulled down onto it. Whole blocks only, and never one that would not fit. */
+  const soleOccupant = (rowsOnPage) => rowsOnPage.length > 0 && rowsOnPage.every((r) => r.trailer || r.text === "");
+  for (let guard = 0; guard < blocks.length && laid.length > 1 && soleOccupant(laid[laid.length - 1]); guard++) {
+    const last = laid[laid.length - 1];
+    const previous = laid[laid.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    if (moved.length === 0 || moved.length + last.length > capacity) { previous.push(...moved); break; }
+    last.unshift(...moved);
+    const kept = trim(previous);
+    if (kept.length === 0) { laid.splice(laid.length - 2, 1); break; }
+    laid[laid.length - 2] = kept;
+  }
+
+  /*
+   * THE THIN LAST PAGE, PULLED BACK UP TO A PAGE.
+   *
+   * The pull-down above fires only when the final page holds NOTHING but the
+   * route trailer. It does not fire when the page holds a closing paragraph and
+   * the trailer, and that is what this packet produced on its first build: the
+   * post-filing guidance ran four lines and a trailer onto packet page 12.
+   * scripts/rcap-scan01-composed-pdf-text-integrity.mjs measured it and called
+   * it a fragment page - five drawn lines against its thinnest-legitimate-page
+   * benchmark of eight - and it is right that a participant handed a page with
+   * four lines on it has been handed a page break rather than a page.
+   *
+   * So the same whole-block pull-down runs until the last page reaches that
+   * benchmark. It moves complete blocks only, never splits one, refuses a move
+   * that would not fit, and refuses one that would leave the page it took from
+   * thinner than the page it was fixing. Where nothing can be moved it stops
+   * and leaves the layout alone rather than reflowing text to hit a number.
+   */
+  const THINNEST_LEGITIMATE_PAGE_ROWS = 8;
+  const drawnRows = (rowsOnPage) => rowsOnPage.filter((r) => r.text !== "").length;
+  for (let guard = 0; guard < blocks.length && laid.length > 1
+       && drawnRows(laid[laid.length - 1]) < THINNEST_LEGITIMATE_PAGE_ROWS; guard++) {
+    const last = laid[laid.length - 1];
+    const previous = laid[laid.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    const wouldStrandTheDonor = drawnRows(previous) > 0 && drawnRows(previous) < THINNEST_LEGITIMATE_PAGE_ROWS;
+    if (moved.length === 0 || moved.length + last.length > capacity || wouldStrandTheDonor) {
+      previous.push(...moved);
+      break;
+    }
+    last.unshift(...moved, { text: "", trailer: false, block: moving });
+    const kept = trim(previous);
+    if (kept.length === 0) { laid.splice(laid.length - 2, 1); break; }
+    laid[laid.length - 2] = kept;
+  }
+
+  for (const rowsOnPage of laid) {
+    const page = pdf.addPage([width, height]);
+    let y = height - margin;
+    for (const row of rowsOnPage) { if (row.text) page.drawText(row.text, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) }); y -= lineHeight; }
+  }
+  if (!laid.length) pdf.addPage([width, height]);
+  assert.equal(splitToken.hardSplits, 0,
+    `renderComposedPdf hard-split a token with no separator to break on in "${title}"`);
+  const drawnPerPage = laid.map((rowsOnPage) => rowsOnPage.filter((r) => r.text !== "").length);
+  return {
+    bytes: Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false })),
+    pageCount: Math.max(laid.length, 1), drawnPerPage
+  };
+}
+
+function participantInstructions(maps, rbf, fee, stops) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -994,7 +1443,11 @@ function participantInstructions(maps, rbf, fee) {
     "- **NHJB-2311**, _Motion for Waiver of Filing Fee_ — file it with the petition if you cannot pay the fee.",
     "- **NHJB-2328**, _Statement of Assets and Liabilities_ — the motion above says you have completed this, so it is filed with it.",
     "- **NHJB-2956**, _Criminal History Record Information Release Authorization_ — how you request your own record from the State Police.", "",
-    `All four are prepared for one route — **${ROUTE.publicLabel}** — under ${ROUTE.authority}.`, ""
+    `All four are prepared for one route — **${ROUTE.publicLabel}** — under ${ROUTE.authority}.`, "",
+    "It also carries two guidance pages, which the packet-set manifest requires and which are printed at the back "
+    + "of the packet itself rather than only in this file:", "",
+    ...GUIDANCE_PAGES.map((page) => `- **${page.title}** — guidance, not a filing. Nothing on it is handed to a clerk.`),
+    ""
   );
   out.push(
     "The platform filled in what it holds about you and your case: your name, your date of birth, your address, your "
@@ -1070,8 +1523,8 @@ function participantInstructions(maps, rbf, fee) {
   out.push("3. **Read the certification on page 2 before you tick anything.** Every box there is a statement you swear to under penalties of law, and several are legal characterisations of your own record — whether the time requirements of RSA 651:5, III are met, whether the matter is a violent crime or a felony crime of obstruction of justice, whether it carries an enhanced penalty for a second conviction. None of them is ticked for you, and none of them should be ticked until you know it is true.");
   out.push("4. **Decide whether to ask for a hearing.** The form says the court may decide your petition without one after reading the Department of Corrections report and any response from the State. If you want a hearing, tick the box that asks for it.");
   out.push("5. **Complete the signature blocks yourself.** On NHJB-2311 and NHJB-2328 the whole block — name, address, city, state, zip, telephone, e-mail, signature and date — is completed by the filer at the moment of signing, and New Hampshire names every box in it sig.N, so none of it is filled in for you.");
-  out.push("6. **If you fill NHJB-2328 in by hand, correct the printed totals.** The form prints **Total $ 0.00** under each column because that is the value it ships with, and a printed packet cannot add up what you write on it. Cross the 0.00 out and write the real total, or fill the form in on a computer before you print it.");
-  out.push("7. **The signature line on NHJB-2311 already reads \"Enter /s/ before name\".** That is the form's own instruction, printed in the box: New Hampshire wants your electronic signature written as /s/ followed by your name.");
+  out.push("6. **Add up the three totals on NHJB-2328 yourself.** Each of the three Total $ lines — weekly take-home in item 12, money presently available in item 13, and monthly household expenses in item 14 — is blank in this packet, and every line that feeds it is blank too. The blank form New Hampshire publishes ships those three totals already set to 0.00, in white ink, so that a person filling it in on a computer sees the running sum; this packet removes them, because a zero total for your income, your available money and your expenses is an answer, and it would be sworn in your name on a statement you sign under penalty of perjury. Write the real figures, and the real totals.");
+  out.push("7. **Sign NHJB-2311 by writing /s/ and then your name.** The blank form carries \"Enter /s/ before name\" inside the signature box as grey placeholder text for someone typing into it on a computer, and its own tooltip says so: \"If filing electronically, please type /s/ then your name to sign this document.  Ex.  /s/ John Doe\". This packet delivers that box empty, so the line is clear for your signature. If you are filing electronically, type /s/ followed by your name; if you are filing on paper, sign it.");
   out.push("8. **Send NHJB-2956 to the State Police, not to the court.** It goes to the Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305. The form states a $25.00 fee for each request and asks for a self-addressed envelope. Section II of that form is for releasing your record to somebody else; leave it blank, because this request is for your own record.");
   out.push("");
 
@@ -1112,6 +1565,31 @@ function participantInstructions(maps, rbf, fee) {
     + "the foot of that page, which includes the prosecutor, the Department of Safety Criminal Records, the DMV and the "
     + "Department of Corrections. Nothing in this packet is filed for you and nothing in it makes that decision.", ""
   );
+  out.push("## Where self-help ends", "");
+  out.push(
+    "This packet prepares four official forms; it decides nothing. The committed legal-design record for this route "
+    + "names the points where preparing your own papers stops being enough, and it names "
+    + `${stops.conditions.length} of them. They are set out below in that record's own words, and they are printed `
+    + "again on the guidance page at the back of the packet itself. If any one of them describes your case, stop "
+    + "here and get advice from a **lawyer licensed in New Hampshire** before you file. The clerk of the court that "
+    + "handled your matter can tell you what the court requires procedurally, but a clerk cannot give you legal "
+    + "advice. This packet does not name a legal-aid organisation or a referral line, for the same reason it prints "
+    + "no courthouse address: the platform holds no sourced New Hampshire directory, and an invented one in a filing "
+    + "instruction is worse than none.", ""
+  );
+  for (const condition of stops.conditions) out.push(`- ${condition}`);
+  out.push("");
+  out.push(
+    "Five of those are worth reading twice, because they cost money or they mislead. **Obtaining the vacatur itself "
+    + "is outside this route** — this packet assumes you already hold the order vacating the conviction, and getting "
+    + "one is post-conviction litigation. **Charges in more than one court mean more than one petition and more than "
+    + "one filing fee.** **RSA 651:5, IV bars a further petition more often than every three years** — if a petition "
+    + "to annul this matter was denied within the last three years, you are about to pay a filing fee for a petition "
+    + "the statute bars. **An annulment is a New Hampshire court order about a New Hampshire record**: it is not "
+    + "recognised federally and it does not resolve immigration consequences. And **RSA 651:5, XVII does not oblige a "
+    + "private background-check company to remove the record**, just as an annulment does not restore firearm rights.", ""
+  );
+
   out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
   return `${out.join("\n")}\n`;
 }
@@ -1132,6 +1610,13 @@ export async function runFamily(argv = process.argv.slice(2)) {
   /* Bound before anything is rendered, so a memo that stopped stating the cost
    * difference stops the build rather than producing the sibling's paragraph. */
   const fee = loadFeeGrounding();
+
+  /* Bound and asserted before anything is composed, for the same reason as the
+   * fee: a record that stopped holding the ten stop conditions, or a manifest
+   * that stopped declaring the two guidance components, stops the build rather
+   * than producing a packet that quietly omits them again. */
+  const stops = loadSelfHelpStops(fee.record);
+  const packetSet = loadPacketSetComponents();
 
   const censuses = [];
   for (const source of resolved) {
@@ -1184,6 +1669,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   const writeProofs = [];
   const rasterPages = [];
   const maps = [];
+  const composedPages = [];
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const packet = await PDFDocument.create();
@@ -1208,9 +1694,61 @@ export async function runFamily(argv = process.argv.slice(2)) {
       const copied = await packet.copyPages(doc, doc.getPageIndices());
       for (const [i, p] of copied.entries()) {
         packet.addPage(p);
-        pageManifest.push({ packetPage: packet.getPageCount(), formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256 });
+        pageManifest.push({
+          packetPage: packet.getPageCount(),
+          /*
+           * The component name the packet-set manifest declares, carried on
+           * every page. Without it no rendered artifact of this track named a
+           * component at all, and the corpus-wide component sweep recorded
+           * NO_FAMILY_RENDERS_THIS_TRACK -- unmeasured rather than clean.
+           */
+          component: packetSet.officialByForm.get(source.formNumber).componentId,
+          documentId: packetSet.officialByForm.get(source.formNumber).componentId,
+          formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256
+        });
       }
       if (fixtureName === "canonical") maps.push(mapFor(source, census, report));
+    }
+
+    /*
+     * The two required process_guidance components, composed and appended after
+     * the four form slices. They carry no widget, no signature line and no
+     * blank, so nothing here can be mistaken for a page of the filing; each
+     * says so on its own face.
+     */
+    for (const page of GUIDANCE_PAGES) {
+      const text = page.body({ facts: FIXTURES[fixtureName], fee, stops });
+      const composed = await renderComposedPdf(text, `${page.title} — ${ROUTE.publicLabel}`);
+      const doc = await PDFDocument.load(composed.bytes, { ignoreEncryption: true });
+      const copied = await packet.copyPages(doc, doc.getPageIndices());
+      for (const [i, pdfPage] of copied.entries()) {
+        packet.addPage(pdfPage);
+        pageManifest.push({
+          packetPage: packet.getPageCount(), component: page.componentId, documentId: page.componentId,
+          outputStrategy: "process_guidance", role: page.role,
+          formNumber: null, sourcePage: i + 1, sourceSha256: null
+        });
+      }
+      if (fixtureName === "canonical") {
+        composedPages.push({
+          componentId: page.componentId, role: page.role, title: page.title,
+          pages: composed.pageCount, drawnLinesPerPage: composed.drawnPerPage,
+          selfHelpStopConditionsPrintedVerbatim:
+            page.componentId === GUIDANCE_PAGES[0].componentId ? stops.conditions.length : 0
+        });
+      }
+    }
+
+    /*
+     * Every declared component reaches a page of THIS fixture, or the build
+     * stops. This is the obligation independent verification measured at four
+     * of six, and it is asserted on the assembled bytes rather than on an
+     * intention recorded elsewhere.
+     */
+    const renderedComponents = new Set(pageManifest.map((m) => m.component));
+    for (const declared of packetSet.components) {
+      assert.ok(renderedComponents.has(declared.componentId),
+        `${fixtureName}: declared component ${declared.componentId} (${declared.requirement}, ${declared.outputStrategy}) reaches no page of the packet`);
     }
 
     const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
@@ -1247,7 +1785,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf, fee);
+  const instructionsText = participantInstructions(maps, rbf, fee, stops);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -1287,6 +1825,36 @@ export async function runFamily(argv = process.argv.slice(2)) {
           + "whether the RSA 651:5, IX and X(d) exemptions reach a vacated conviction, and its waiver papers, verbatim. "
           + "Before this binding the packet printed the sibling non-conviction family's fee paragraph, which denied "
           + "that any held source established a fee and omitted the one cost fact this track exists to disclose."
+      },
+      {
+        path: stops.record.path, sha256: stops.record.sha256, byteLength: stops.record.byteLength,
+        trackId: MEMO_TRACK_ID,
+        fieldsQuotedOnParticipantSurfaces: [
+          "selfHelpStopConditions", "mechanism", "scopeRestrictions", "exclusions", "packetInstructions",
+          "legalDesignLimitations[].statement", "rules.filing", "rules.notice", "rules.service"
+        ],
+        selfHelpStopConditionsCarriedVerbatim: stops.conditions.length,
+        whyItIsBound:
+          "participant-instructions.md and the composed guidance page at the back of the packet print all "
+          + stops.conditions.length + " of this track's self-help stop conditions word for word, and the "
+          + "effect-and-limits page quotes this record's mechanism, scope restrictions, exclusions and the RSA "
+          + "651:5, X(f) inquiry wording. Independent verification measured the packet at 0 of 10 stop conditions "
+          + "carried while the record held all ten, so the record the sentences come from is bound by SHA-256 here "
+          + "and the build asserts it still holds exactly ten, and that the intake memo agrees with it, before "
+          + "printing any of them."
+      },
+      {
+        path: packetSet.record.path,
+        sha256: packetSet.record.sha256, byteLength: packetSet.record.byteLength,
+        packetSetId: FAMILY_ID,
+        fieldsQuotedOnParticipantSurfaces: [],
+        declaredComponents: packetSet.components.map((c) => c.componentId),
+        whyItIsBound:
+          "This record declares the six components of the packet set, and independent verification measured the "
+          + "delivered nine pages as rendering four of them: the two required process_guidance components reached "
+          + "no page. The manifest is now read at build time, every declared component is matched to pages of both "
+          + "fixtures, and a component that reaches no page stops the build. It is bound by SHA-256 because the "
+          + "assertion is only as good as the list it is made against."
       }
     ],
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
@@ -1312,7 +1880,78 @@ export async function runFamily(argv = process.argv.slice(2)) {
         isSelectionControl: r.isSelectionControl, multiline: r.multiline, maxLength: r.maxLength,
         section: r.section, effectiveLabel: r.effectiveLabel, policy: r.policy, factId: r.fact,
         printedTextAtCoordinate: r.printedTextAtCoordinate
-      }))
+      })),
+      /*
+       * WHAT THE BLANK OFFICIAL FORM ALREADY CARRIES IN EACH FIELD.
+       *
+       * The `fields` array above says what each field IS. This says what the
+       * source ships INSIDE it before any participant sees the form, which is a
+       * different question and the one the corpus-wide check
+       * scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs
+       * asks: every value an official source ships inside a field must be
+       * dispositioned by somebody, on the record, before the bytes go out. Until
+       * this family emitted it, that check could not see New Hampshire at all --
+       * it reads `documents[].rows[].sourceValuePresentInBlankForm`, this census
+       * carried no `rows`, and a family that is invisible to a checker is not a
+       * clean family.
+       *
+       * TWO PLACES A SOURCE CAN CARRY A VALUE, AND BOTH ARE READ. NHJB-2328's
+       * three totals carry theirs in /V. NHJB-2311's signature box carries no /V
+       * at all and carries its placeholder in the widget's own appearance
+       * stream, which flattens onto the page exactly the same way; a reader that
+       * looked only at /V would report that form as shipping nothing. So the
+       * value is taken from /V where there is one, and otherwise from the ink
+       * the PINNED SOURCE ITSELF draws at that widget's rectangle when flattened
+       * unwritten -- the same sourceInk measurement the byte proof uses, so the
+       * two cannot disagree.
+       *
+       * Whitespace is not a value. Three choice controls on these forms ship
+       * /V " ", a single space, which draws nothing and asserts nothing; they
+       * are recorded as carrying null rather than as carrying a space, because a
+       * checker asked to disposition a space would be asked to disposition
+       * nothing.
+       *
+       * A CONTROL THE STRUCTURAL RULE ALREADY ANSWERS IS NOT AN UNDISPOSITIONED
+       * VALUE, AND IT IS ALSO NOT HIDDEN. Sixteen of these fields are
+       * pushbuttons whose /MK caption -- "Clear Form", "Lock & Save Form", "Top
+       * of Page", "Instructions" -- the source draws, and one is a dropdown
+       * shipping a selected option on a section this route does not use. The
+       * finalizer removes a pushbutton as chrome and drops an unanswered
+       * chooser's prompt without consulting any registry, so neither can reach a
+       * filing and neither is the defect this check exists to catch. Recording
+       * them as source-carried values would ask a human to disposition, by name,
+       * seventeen appearances that are already gone -- seventeen manufactured
+       * findings. They are recorded instead under
+       * sourceAppearanceOnAControlTheStructuralRuleAlreadyAnswers, with the
+       * disposition that removes each one named, so the reader can see what was
+       * excluded and why rather than having to trust that nothing was.
+       */
+      rows: census.rows.map((r) => {
+        const declared = r.sourceValue === null || r.sourceValue === undefined
+          ? null : String(Array.isArray(r.sourceValue) ? r.sourceValue.join(" ") : r.sourceValue);
+        const declaredValue = declared !== null && declared.trim() !== "" ? declared : null;
+        const drawn = (r.widgets ?? [])
+          .flatMap((w) => drawnAt(sourceInkByForm.get(source.formNumber) ?? [], { page: w.page, rect: w.rect }))
+          .map((d) => d.text).filter(Boolean).join("").trim();
+        const drawnValue = drawn !== "" ? drawn : null;
+        const carried = declaredValue ?? drawnValue;
+        const structurallyAnswered = r.type === "button"
+          ? "suppress_control_appearance: a pushbutton is chrome and the finalizer removes it"
+          : r.isSelectionControl === true
+            ? "render_participant_value_only_when_written: an unanswered chooser's prompt is dropped by the finalizer"
+            : null;
+        return {
+          field: r.key, type: r.type, page: r.page, rect: r.rect, rectBasis: r.rectBasis,
+          isSelectionControl: r.isSelectionControl, policy: r.policy, factId: r.fact ?? null,
+          effectiveLabel: r.effectiveLabel, section: r.section,
+          sourceValuePresentInBlankForm: structurallyAnswered === null ? carried : null,
+          sourceValueCarriedIn: structurallyAnswered !== null || carried === null
+            ? null
+            : declaredValue !== null ? "acroform_field_value" : "widget_appearance_stream_the_source_ships",
+          sourceAppearanceOnAControlTheStructuralRuleAlreadyAnswers:
+            structurallyAnswered !== null && carried !== null ? { text: carried, removedBy: structurallyAnswered } : null
+        };
+      })
     }))
   });
 
@@ -1367,6 +2006,20 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/rendered-artifacts.json`, {
     schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
     artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    /*
+     * The declared component set, and where each of the six lands. This is the
+     * obligation independent verification measured at four of six, and the
+     * corpus-wide component sweep reads component names out of this file: with
+     * none recorded it could only report NO_FAMILY_RENDERS_THIS_TRACK.
+     */
+    declaredComponents: packetSet.components.map((c) => ({
+      componentId: c.componentId, role: c.role, requirement: c.requirement, outputStrategy: c.outputStrategy,
+      packetPages: Object.fromEntries(artifacts.map((a) => [
+        a.fixture, a.pageManifest.filter((m) => m.component === c.componentId).map((m) => m.packetPage)
+      ]))
+    })),
+    composedGuidanceComponents: composedPages,
+    everyDeclaredComponentReachesAPage: true,
     everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
     byteDerivedHashes: true, rasterEngine: RASTER_ENGINE, rasterPages,
     independentVerificationPending: true
