@@ -1,6 +1,10 @@
 import "server-only";
 
 import { createHash } from "node:crypto";
+import { requestConsumerPacketRender, requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
+import { getRenderJob } from "@/lib/rcap/render/job-queue";
+import { PERSONALIZED_DELIVERY_ROUTE } from "@/lib/rcap/render/personalized-packet";
+import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
 
 import {
   getBriefcaseItem,
@@ -51,6 +55,17 @@ import {
 } from "@/lib/expungement-ai/verification-cas";
 
 export type ConsumerPacketArtifactRefs = {
+  provider: "rcap_durable_render_v1";
+  source: "verified_render_job";
+  packetId: string;
+  renderJobId: string;
+  artifactSha256: string;
+  pageCount: number;
+  fileName: string;
+  contentType: "application/pdf";
+  generatedAt: string;
+  downloadPath: string;
+} | {
   provider: "rcap_source_engine";
   packetId: string;
   fileName: string;
@@ -117,6 +132,7 @@ export type ConsumerPacketStatus = {
   packetStatus: NonNullable<ConsumerBriefcaseItem["packetStatus"]>;
   artifactRefs?: ConsumerPacketArtifactRefs;
   canDownload: boolean;
+  renderJobId?: string;
   protectedSponsorship?: {
     sourceSessionId: string;
     expectedVerificationHash: string;
@@ -167,7 +183,9 @@ export async function generatePaidConsumerPacket({
   }
   const existing = readyPacketArtifactAccess(item, protectedArtifactRead.value);
   if (existing) {
-    return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
+    return existing.provider === "rcap_durable_render_v1"
+      ? getConsumerPacketStatus({ userId, briefcaseItemId })
+      : { packetStatus: "ready", artifactRefs: existing, canDownload: true };
   }
   const currentVerification = await requireCurrentPacketVerification(userId, item);
   const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
@@ -177,6 +195,25 @@ export async function generatePaidConsumerPacket({
     verification: currentVerification,
     entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
   });
+
+  if (`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}` === PERSONALIZED_DELIVERY_ROUTE) {
+    if (!resolveConsumerDeliveryAccess({ subjectId: userId }).allowed) {
+      throw new ConsumerPacketGenerationError("Consumer delivery is disabled.");
+    }
+    if (partnerSponsored) {
+      // The existing protected enqueue accepts consumer payment only. The
+      // protected sponsored finalizer is separately scoped to MS/mvl-demo.
+      // Do not bypass either transaction with application-side inserts or
+      // manufacture a consumer payment to reach the queue.
+      throw new ConsumerPacketGenerationError("Verified sponsored render enqueue is unavailable for this route.");
+    }
+    const result = await (webhookMode ? requestConsumerPacketRenderForWebhook : requestConsumerPacketRender)({
+      authUserId: userId, briefcaseItemId: item.id
+    });
+    if (result.status !== "queued") throw new ConsumerPacketGenerationError(`Render queue refused: ${result.status}`);
+    const job = await getRenderJob(result.jobId);
+    return { packetStatus: job?.status === "failed" ? "failed" : "generating", canDownload: false, renderJobId: result.jobId };
+  }
 
   if (!(await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
     packetStatus: "pending"
@@ -1102,6 +1139,14 @@ function artifactRefsFor(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRef
 }
 
 function artifactRefsForValue(refs: Record<string, unknown> | undefined | null): ConsumerPacketArtifactRefs | undefined {
+  if (refs?.provider === "rcap_durable_render_v1" && refs.source === "verified_render_job"
+    && typeof refs.packetId === "string" && typeof refs.renderJobId === "string"
+    && typeof refs.artifactSha256 === "string" && /^[a-f0-9]{64}$/.test(refs.artifactSha256)
+    && refs.contentType === "application/pdf" && typeof refs.fileName === "string"
+    && typeof refs.generatedAt === "string" && typeof refs.downloadPath === "string"
+    && typeof refs.pageCount === "number" && refs.pageCount > 0) {
+    return refs as ConsumerPacketArtifactRefs;
+  }
   if (
     refs?.provider === "rcap_source_engine" &&
     typeof refs.packetId === "string" &&

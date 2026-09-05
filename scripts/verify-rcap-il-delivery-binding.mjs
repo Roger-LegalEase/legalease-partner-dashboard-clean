@@ -86,6 +86,16 @@ for (const kind of ["consumer_payment", "sponsored_credit"]) {
   for (const routeId of ["IL:*", "*", "IL:il-prostitution-j-auto"]) {
     assert.throws(() => lane.governCommercialAdmission(point, { ...identity, routeId }, context), lane.CommercialAdmissionDeniedError);
   }
+  for (const finalVerification of [
+    null,
+    { ...context.finalVerification, invalidated: true },
+    { ...context.finalVerification, ownerUserId: "another-participant" },
+    { ...context.finalVerification, matterId: "another-matter" },
+    { ...context.finalVerification, boundRouteId: "IL:*" },
+    { ...context.finalVerification, boundPacketFamilyId: "il-prostitution-j-auto-set" }
+  ]) {
+    assert.throws(() => lane.governCommercialAdmission("provider_dispatch", identity, { ...context, finalVerification }), lane.CommercialAdmissionDeniedError);
+  }
   for (const trackId of [null, "*", "il-prostitution-j-auto"]) {
     const denied = buildRenderJobSpec({ ...jobInput, trackId });
     assert.equal(denied.spec, null);
