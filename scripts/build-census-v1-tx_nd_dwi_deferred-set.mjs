@@ -134,7 +134,7 @@ import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
-import { loadAppearanceSemantics, dispositionsForFamily }
+import { loadAppearanceSemantics, dispositionsForFamily, APPEARANCE_DISPOSITION }
   from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
@@ -1195,11 +1195,16 @@ async function renderDocument(source, census, fixtureName) {
      * default and what every other document here already gets. It matters for
      * the Statement of Inability because the structural rule calls every
      * unwritten /Tx appearance the court's own ink and preserves it, and that
-     * form ships its Option 1 declaration date field carrying 12/15/2022. This
-     * build's own field map refuses that field as
-     * signature_or_date_participant_completion, for the reason "a date written
-     * before the Statement is actually sworn would be false", so it must
-     * contribute nothing unless this run wrote it - which it never does.
+     * form ships three fields carrying a value of its own: Value / Valor 11
+     * "0" and Amount Cantidad 15 "0", two sworn totals, and Today
+     * "12/15/2022", the date of the declaration. This build's own field map
+     * refuses all three - the two totals as REQUIRED_BEFORE_FILING, for the
+     * reason "the platform holds no financial fact about any participant", and
+     * the date as signature_or_date_participant_completion, for the reason "a
+     * date written before the Statement is actually sworn would be false" - so
+     * each must contribute nothing unless this run wrote it, which it never
+     * does. What the blank form carries in them is recorded on their refusal
+     * rows in the field map; see sourceValuePresentInBlankForm there.
      */
     appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS,
       `${FAMILY_ID}:${source.componentId}`)
@@ -1430,6 +1435,12 @@ function mapsFrom(censusByForm, reports) {
   for (const [componentId, census] of censusByForm) {
     const report = reports.get(componentId);
     const written = new Set((report?.written ?? []).map((w) => w.field));
+    /*
+     * The same registry, read by the same family:component key the finalizer is
+     * handed at render time, so the field map and the rendered page can never
+     * disagree about what a classified appearance was allowed to contribute.
+     */
+    const appearance = dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${componentId}`);
     const canonicalWrites = [];
     const canonicalRefusals = [];
     const selectionControls = [];
@@ -1442,7 +1453,32 @@ function mapsFrom(censusByForm, reports) {
         printedLabel: r.caption ?? r.effectiveLabel, printedLine: r.caption ?? r.effectiveLabel,
         effectiveLabel: r.effectiveLabel, regionHeading: r.section ?? r.effectiveLabel,
         sectionHeading: r.section ?? null, rect: r.rect, rectBasis: r.rectBasis,
-        document: componentId, formNumber: r.formNumber
+        document: componentId, formNumber: r.formNumber,
+        /*
+         * FIX19, obligation PROTECTED_FIELDS. A value the SOURCE shipped is a
+         * fact about the blank form, and this map did not record it anywhere --
+         * so the three values the Statement of Inability carries were
+         * unclassified in the very document that classifies every field, which
+         * is what the obligation was measured on.
+         *
+         * Stopping them reaching the paper was the other half, and it is already
+         * done: they are classified
+         * render_participant_value_only_when_written in
+         * data/rcap-all50/shared/field-appearance-semantics.json, so the
+         * finalizer contributes their appearance only when this run wrote a
+         * value, and this run never does. That is a fact about the render, not
+         * about the blank form, and it left the blank form's own content
+         * unrecorded. Both are recorded here, on the row that refuses the field,
+         * so a reader can tell a suppressed source value from one carried
+         * through unchanged without opening the PDF.
+         */
+        ...(r.sourceValue === null || r.sourceValue === undefined ? {} : {
+          sourceValuePresentInBlankForm: r.sourceValue,
+          sourceValueDisposition:
+            appearance.get(r.name) === APPEARANCE_DISPOSITION.RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN
+              ? "not_rendered: classified render_participant_value_only_when_written, and this build writes no value here, so the source appearance never reaches the filing"
+              : "carried_from_the_source_unchanged"
+        })
       };
       if (r.policy === "write" && written.has(r.name)) {
         canonicalWrites.push({ ...base, factId: r.fact, kind: "acroform_text" });

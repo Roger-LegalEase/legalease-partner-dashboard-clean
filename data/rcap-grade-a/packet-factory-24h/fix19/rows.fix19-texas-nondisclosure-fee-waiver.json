@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "assignmentId": "FIX19",
+  "worker": "FIX19",
+  "workerBranch": "fix19-texas-nondisclosure",
+  "shiftBaseSha": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+  "laneKind": "repair",
+  "question": "Two Texas nondisclosure families carry the identical failed-obligation set KNOWN_PREFILLS, PROTECTED_FIELDS and REQUIRED_BEFORE_FILING. Is that one measured root defect or two coincidences, and what is still owed on each?",
+  "oneRootOrTwo": {
+    "answer": "ONE_ROOT_TWO_CARVE_OUTS",
+    "theRoot": "A single shared host defect, not two coincidences. Both families enclose the same official document - the statewide bilingual Statement of Inability to Afford Payment of Court Costs approved by the Supreme Court of Texas in Misc. Docket No. 22-9090, held at private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf, sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, 6667524 bytes, read and digested first-hand by this lane. That form ships three of its own AcroForm values: Value / Valor 11 = \"0\" on source page 7, Amount Cantidad 15 = \"0\" on source page 8, and Today = \"12/15/2022\" on source page 11. All three are /Tx text fields, so the shared structural rule in scripts/rcap-official-forms/rcap-appearance-semantics.mjs (structuralDisposition: a non-button, non-choice field is PRESERVE_SOURCE_APPEARANCE) read them as the court's own ink and the flatten drew them onto the delivered pages as ordinary ink. One rule, one enclosed form, one set of three fields, one set of three obligations, one verifier lane, one verification base. Two builders is how it reached two families; it is not why.",
+    "howMeasured": "Not inherited from a sibling. The verifier findings were read as bodies, not obligation names, from data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[534] and rows[538]. The source digest was recomputed from the held bytes. The delivered fixtures were then measured directly: each page's content streams and widget-appearance XObjects were decompressed and every text-showing operator (Tj, TJ, quote and doublequote, literal and hex strings) decoded, then the pre-repair fixture for each family was recovered from git and diffed against the delivered one token by token.",
+    "negativeControl": "The instrument was proved to fire before it was trusted. The pre-repair canonical.pdf of each family (git show e6ab2c784^ and d78173897^) yields exactly three extra tokens against the delivered one and no missing tokens: \"0\" on packet page 16, \"0\" on packet page 17 and \"12/15/2022\" on packet page 20, in both families identically. Nine zero counters were NOT accepted as proof of wholeness; the completeness verifier reports all nine zero on both families before and after, and does not measure flattened source /V at all."
+  },
+  "whatWasAlreadyDoneBeforeThisLane": {
+    "finding": "Both families were already repaired on the bytes, by two earlier lanes, using two DIFFERENT mechanisms, both landing after the verification base 018cd558455454ca44e7deac8efa7b0e881375d3 that measured the failures. Neither prior repair is superseded by this lane and neither fixture was re-cut.",
+    "tx_nd_dwi_deferred-set": "FIX05 at e6ab2c784 classified all three fields render_participant_value_only_when_written in data/rcap-all50/shared/field-appearance-semantics.json under the per-family key tx_nd_dwi_deferred-set:tx_nd_dwi_deferred-fee-waiver-statement-4, with each /V and each widget /Rect measured first-hand. The finalizer therefore contributes their appearance only when the run wrote a value, and this run never does.",
+    "tx_nd_probation_misdemeanor-set": "FIX06 at d78173897 added the clearSourceCarriedTextValues parameter to the shared finalizer and passes the three field names from the builder, deleting /V and every widget /AP before flatten. It has no entry in field-appearance-semantics.json and does not need one: with the value and its appearance deleted, there is no source appearance left for the registry to classify at flatten time.",
+    "theyAreMirrorImages": "Each prior repair satisfied the half the other left. PROTECTED_FIELDS was measured in the verifier's own words as \"these source values are not classified by the production field map\". FIX06 answered that literally, recording sourceValuePresentInBlankForm and sourceValueDisposition on all three refusal rows of tx_nd_probation_misdemeanor-set's production-field-map.json. FIX05 did not: it stopped the ink but left tx_nd_dwi_deferred-set's production field map - the document that classifies every field - silent about the fact that the blank form carries a value in those three at all. That silence is what this lane repaired."
+  },
+  "environment": {
+    "worktree": "Full checkout verified before anything was measured. core.sparseCheckout was disabled and sparse-checkout switched off; git ls-files counts 15725 tracked paths and the working tree holds 15726 files, the single difference being the linked worktree's own .git pointer file, confirmed by set difference rather than by count alone.",
+    "masterLibrary": "MASTER_LIBRARY_SOURCE_DIR exported to the installed Master Library Edition 1 root. Both builders ran to completion against the held sources.",
+    "diskNote": "The container filesystem was at 100 percent with 37 MB free when this lane started and git worktree add failed with ENOSPC mid-checkout, leaving a garbage tmp_pack in the object store which this lane removed. No other lane's worktree was deleted. The worktree was placed on the 16 GB tmpfs at /dev/shm instead; commits land in the real shared object store on disk.",
+    "rasterState": "BUILT_RASTER_PENDING. Nothing here is self-verified and visualDefects reads zero because nobody has looked."
+  },
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "selfVerified": false,
+  "rows": [
+    {
+      "itemId": "tx_nd_dwi_deferred-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification and central raster acceptance remain required.",
+      "baseSha": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+      "claim": "CLAIM_OK FIX19 tx_nd_dwi_deferred-set (repair, grant set 530f44cc15708984)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairedByThisLane": true,
+      "whatWasDone": "All three failed obligations - KNOWN_PREFILLS, PROTECTED_FIELDS and REQUIRED_BEFORE_FILING - are satisfied on this family at this base, and this lane closed the one that was still open. KNOWN_PREFILLS and REQUIRED_BEFORE_FILING were already satisfied on the bytes by FIX05 and were re-measured here rather than assumed: the delivered pages carry none of the three source values, so the completion directions that assign every financial fact and the declaration date to the participant are now accurate against the paper. PROTECTED_FIELDS was not satisfied as the verifier worded it. Its finding names the production field map, and tx_nd_dwi_deferred-set's production-field-map.json recorded nothing about the three source values - a reader of the family's own classification document could not tell that the blank form ships a sworn zero and a 2022 declaration date in those fields. This lane made the builder record it: scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs now carries sourceValuePresentInBlankForm and sourceValueDisposition on every refusal row for a field the source ships a value in, reading the disposition from the same field-appearance-semantics.json registry, by the same family:component key, that the finalizer is handed at render time, so the field map and the rendered page cannot disagree. Six rows now carry it - the three fields across the canonical and boundary refusal lists - each reading \"not_rendered: classified render_participant_value_only_when_written, and this build writes no value here, so the source appearance never reaches the filing\". The stale comment at the appearanceDispositions call site, which still described the date alone after FIX05 classified all three, was corrected to describe all three and to point at the new field-map rows. No ink was added, no date was written on a sworn document, no /V was flattened onto a line the participant must answer, and no hidden or no-view widget was written.",
+      "proof": "verify-packet-completeness.mjs --family tx_nd_dwi_deferred-set: PASS_COMPLETE 15/193 written, all nine counters zero, before and after. That green baseline is reported as instrument proof, not as wholeness. The load-bearing measurement is on the bytes: decoding every text-showing operator on the fee-waiver pages of both delivered fixtures finds no \"12/15/2022\" anywhere in the document and no glyph inside the measured /Rect of Value / Valor 11 or Amount Cantidad 15; the only ink inside the Today rect is the form's own blank signature rule. Token diff against the pre-repair fixture recovered from git show e6ab2c784^ isolates exactly the three removed values and nothing added.",
+      "deterministicRebuild": "Two consecutive full builds of scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs produced byte-identical production-field-map.json and identical canonical and boundary SHA-256 values. The whole family directory was compared recursively against a pre-repair snapshot: production-field-map.json is the only file that differs.",
+      "fixturesMoved": false,
+      "fixturesMovedNote": "The fixture PDFs did NOT move. Both digests are identical to the committed ones and to the pre-repair snapshot, so the standing raster receipt survives and no fresh raster is owed on this family. This lane's container does have a browser, so a plain rebuild also emitted 48 local raster pages and advanced build-status.json from BUILT_RASTER_PENDING to RASTER_LOCAL_PENDING_CENTRAL; that is an artefact of the environment and not a repair, so it was reverted and the family's raster state is left exactly as committed.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "7cb3e892bf15353ad55ac1b70b922fdc3c83e173017c0640512700f16bdbed2b",
+          "byteLength": 645057,
+          "pageCount": 24,
+          "movedThisLane": false
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "2ccf4e37ad72ce87502b3c6a9eb6c891c99ce2a6dbfaad9568d1117b35a560c7",
+          "byteLength": 645415,
+          "pageCount": 24,
+          "movedThisLane": false
+        }
+      ],
+      "focusedEvidence": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_dwi_deferred-set => PASS_COMPLETE 15/193 written, nine counters zero (before and after)",
+        "two consecutive executions of node scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs => identical canonical 7cb3e892.. and boundary 2ccf4e37.. and identical production-field-map.json",
+        "diff -r against pre-repair snapshot => production-field-map.json only; both fixture PDFs byte-identical",
+        "content-stream decode of both fixtures => no \"12/15/2022\"; no glyph in the /Rect of Value / Valor 11 (313.44,131.32,538.685,160.12) or Amount Cantidad 15 (318.218,91.2,538.68,120)",
+        "token diff vs git show e6ab2c784^:.../fixtures/canonical.pdf => removed exactly [\"0\"] p16, [\"0\"] p17, [\"12/15/2022\"] p20, added nothing",
+        "sha256sum of the held source => bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, matching the digest the registry entry records",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs => EVERY_IDENTITY_REFRESH_SURVIVED, 245 receipts compared, 50 carrying an identityRefresh"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "tx_nd_probation_misdemeanor-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "verdictNote": "Repair completion only; independent verification and central raster acceptance remain required.",
+      "baseSha": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+      "claim": "CLAIM_OK FIX19 tx_nd_probation_misdemeanor-set (repair, grant set 530f44cc15708984)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairedByThisLane": true,
+      "whatWasDone": "All three failed obligations - KNOWN_PREFILLS, PROTECTED_FIELDS and REQUIRED_BEFORE_FILING - are satisfied on this family at this base, and this lane re-measured every one of them first-hand rather than inheriting the sibling's answer or the earlier lane's word. KNOWN_PREFILLS: the delivered fixtures carry none of the three values the source ships. REQUIRED_BEFORE_FILING: with the pages blank, the completion directions that assign every financial fact and the declaration date to the participant are accurate against the paper. PROTECTED_FIELDS: the production field map records all three, with sourceValuePresentInBlankForm and a sourceValueDisposition of \"cleared_before_flatten: not a participant fact and not written by this build\" on six refusal rows. This family needed no new change, and this lane deliberately made none: its remedy is the finalizer's clearSourceCarriedTextValues, which deletes /V and every widget /AP before flatten, and adding a redundant field-appearance-semantics.json entry on top would classify an appearance that no longer exists by the time the finalizer decides. The registry's silence here is correct rather than an omission, and that asymmetry with its sibling is deliberate and recorded. The verified-unchanged result is the finding.",
+      "proof": "verify-packet-completeness.mjs --family tx_nd_probation_misdemeanor-set: PASS_COMPLETE 15/204 written, all nine counters zero, before and after - reported as instrument proof, not wholeness. The load-bearing measurement is on the bytes: no \"12/15/2022\" anywhere in either delivered fixture, and no glyph inside the measured /Rect of either sworn financial total. Token diff against the pre-repair fixture recovered from git show d78173897^ isolates exactly the three removed values and nothing added. A full rebuild reproduces both committed fixture digests exactly and leaves the entire family directory byte-identical.",
+      "deterministicRebuild": "A full build of scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs reproduced canonical 4cbe29ec.. and boundary 9b905898.. exactly, and diff -r of the whole family directory against a pre-build snapshot reports no differences at all.",
+      "fixturesMoved": false,
+      "fixturesMovedNote": "The fixture PDFs did NOT move and nothing in this family moved. The standing raster receipt survives and no fresh raster is owed. As with the sibling, a plain rebuild in this browser-bearing container also emitted 48 local raster pages and advanced build-status.json; that environmental side effect was reverted and the committed raster state left untouched.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "4cbe29eccdb297c6b578da29f7b32d8a5ed64c9d5647c51457fb7398a4543051",
+          "byteLength": 646456,
+          "pageCount": 24,
+          "movedThisLane": false
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "9b905898752d33843a13b1750632040edadaa65f7da8125ddf8c7330eda9bd07",
+          "byteLength": 646821,
+          "pageCount": 24,
+          "movedThisLane": false
+        }
+      ],
+      "focusedEvidence": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_probation_misdemeanor-set => PASS_COMPLETE 15/204 written, nine counters zero (before and after)",
+        "node scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs => canonical 4cbe29ec.. and boundary 9b905898.. reproduced exactly; diff -r of the family directory reports no differences",
+        "content-stream decode of both fixtures => no \"12/15/2022\"; no glyph in the /Rect of either sworn financial total",
+        "token diff vs git show d78173897^:.../fixtures/canonical.pdf => removed exactly [\"0\"] p16, [\"0\"] p17, [\"12/15/2022\"] p20, added nothing",
+        "production-field-map.json => six refusal rows carry sourceValuePresentInBlankForm with sourceValueDisposition cleared_before_flatten",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs => EVERY_IDENTITY_REFRESH_SURVIVED"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "claimReleased": true,
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "guideCheckAgainstTheHeldRecord": {
+    "whatWasChecked": "Every denial sentence in both participant-instructions.md was checked against the track's own record in data/record-clearing/legal-design-intake/TX.memo.json - rules.fees, rules.feeWaiver, rules.notice, rules.service, rules.filing and destination.detail - for tracks tx_nd_dwi_deferred and tx_nd_probation_misdemeanor.",
+    "result": "No guide denies a fact the held memo states. The only residue-shaped sentence in each guide is that the platform holds no financial fact about the participant, which is honest: the memo holds no participant financial facts and inventing one on a statement sworn under penalty of perjury is the defect this whole repair exists to prevent.",
+    "feeIsBoundNotDenied": "Both guides bind the memo's fee record rather than refusing it: that Gov't Code 411.0745(b) sets the type of fee and not an amount, that county civil filing fee schedules govern, that OCA describes the total as typically about $280 varying by county, and that the $28 figure belongs only to the no-petition route under Gov't Code 411.072(c) and is not a filing fee."
+  },
+  "counselQuestionsRaisedNotResolved": [
+    {
+      "what": "A self-help stop condition cites a section that is not the route's.",
+      "detail": "Both guides carry the stop condition \"Any question whether the offence was violent or sexual in nature, which is a court determination under Gov't Code 411.0735.\" The route for tx_nd_dwi_deferred-set is Gov't Code 411.0726 and for tx_nd_probation_misdemeanor-set it is 411.073. Neither builder mis-transcribed anything: the sentence is quoted verbatim from selfHelpStopConditions in TX.memo.json, where it appears identically on both tracks. So this is a record-level question about shared stop-condition text in the held memo, not a packet defect, and it matches the pattern already reported on a sibling Texas family (a stop condition citing 411.0735 where the route is 411.0727). For tx_nd_probation_misdemeanor-set it is at least adjacent - the OCA order form that family encloses covers 411.0725, 411.073 and 411.0735 together - but for tx_nd_dwi_deferred-set 411.0735 is a foreign section. Raised for counsel; deliberately not resolved here, because changing which statute a stop condition cites is a legal-design decision and not a build repair.",
+      "resolvedByThisLane": false
+    },
+    {
+      "what": "The $28 contradiction reported on a sibling family is NOT open on these two tracks.",
+      "detail": "The held record resolves it in terms on both tracks: rules.fees states plainly that the $28 figure belongs only to the no-petition route under Gov't Code 411.072(c) and is not a filing fee. Both guides carry that distinction. Recorded so the sibling's open question is not propagated onto these two by association.",
+      "resolvedByThisLane": false
+    }
+  ],
+  "whatOutlivesTheseTwoFamilies": [
+    {
+      "finding": "A THIRD Texas family still delivers both sworn zeros, and it is not claimed by this lane.",
+      "itemId": "tx_nd_dwi_probation-set",
+      "detail": "tx_nd_dwi_probation-set encloses the same Misc. Docket No. 22-9090 Statement, and its field-appearance-semantics.json entry (added 2026-09-02 at 9aa8ce1d2, before the two zeros were understood) classifies the field Today ALONE. Value / Valor 11 and Amount Cantidad 15 are unclassified there, so the structural rule still calls them the court's own ink. Measured on the delivered bytes, not inferred: a token diff of its canonical.pdf against the byte-clean tx_nd_dwi_deferred-set canonical.pdf yields exactly one extra token \"0\" on page 16 and exactly one extra token \"0\" on page 17, and nothing extra on page 20 because its Today classification works. Its delivered fixtures are canonical f4e76632fdd4e41ec7d36a635f30030c0cef37ce08a19980c3b82b9199869667 and boundary deb1c6505ee4ec2817bf4ce266adfdf2845f76ab4d217e37d9908210d94bbdfe. This is the same root defect in a third carve-out and it is live: the delivered packet asserts two zero totals on a statement sworn under penalty of perjury that the participant never answered. FIX19 holds no grant on this family and did not touch it. It needs a claimed repair lane.",
+      "severity": "live sworn-value defect on a delivered fixture"
+    },
+    {
+      "finding": "Two divergent remedies now exist for one root, and nothing enforces either.",
+      "detail": "The same defect is now fixed two ways in the same state: by registry classification (tx_nd_dwi_deferred-set, tx_exp_acquittal-set, tx_nd_conviction_no_supervision-set, tx_nd_veterans_court-set, and partially tx_nd_dwi_probation-set) and by the finalizer's clearSourceCarriedTextValues (tx_nd_probation_misdemeanor-set). Both are defensible and both produce correct bytes. But the two carry different failure modes: clearSourceCarriedTextValues THROWS when a named field carries nothing, so it is a tripwire on source drift, while a registry entry silently no-ops if the source stops shipping the value or the field is renamed. Nothing checks that a family enclosing a form with source-carried /V has covered every such field by one route or the other - which is exactly how tx_nd_dwi_probation-set has been shipping two sworn zeros since 2026-09-02 with all nine counters reading zero.",
+      "recommendation": "A cross-family check is owed: for every family whose census rows carry a non-null sourceValue, assert that each such field is either classified render_participant_value_only_when_written for that family:component or named in that build's clearSourceCarriedTextValues. It is cheap - both inputs are already on disk in field-census.census-v1.json and field-appearance-semantics.json - and it would have caught all three Texas carve-outs from one run. This lane did not add it, because it is fleet tooling rather than a repair to a claimed family."
+    },
+    {
+      "finding": "The nine completeness counters cannot see this class of defect at all.",
+      "detail": "Both families read nine zeros and PASS_COMPLETE before any repair and after, and so does tx_nd_dwi_probation-set while it is still delivering two sworn zeros. A flattened source /V is not a missing required field, an unclassified blank, an invisible write or a protected write; it is ink the packet added on the participant's behalf. Any lane treating nine zeros as evidence of wholeness on an official-pdf-fill family is measuring the wrong thing."
+    },
+    {
+      "finding": "A green completeness run does not prove a repair; a negative control does.",
+      "detail": "This lane's byte instrument was proved by recovering each family's pre-repair fixture from git and showing the instrument fires on it, before the clean post-repair reading was trusted. Recording the recipe here because it is reusable on any flatten-class obligation: recover the fixture at the parent of the repair commit, decode all text-showing operators, and diff token by token."
+    }
+  ]
+}
