@@ -1049,10 +1049,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX53",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T16:38:00.212Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8549,8 +8549,9 @@
       "operation": "rapid-repair",
       "lane": "FIX52",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T17:24:32.801Z",
+      "releaseReason": "Removed 22 stale committed page images under raster/ so the family directory matches reports/rendered-artifacts.json's rasterSkipped true / rasterPages []; no PDF byte moved (canonical d3fd5538.., boundary 776a7006.., 11 pages each, rebuilt byte-identically twice), nine counters zero before and after, independent verification and the WV owner re-review still owed; return at data/rcap-grade-a/packet-factory-24h/fix52/rows.json (Replayed by Captain from FIX52 commit 66963bea0.)"
     },
     {
       "subjectType": "packet-family",
@@ -12923,7 +12924,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "863ce6ae39e2fd563e3d08a595699c8c288b5b82b06c7ffc81cb653493046c2d",
+  "claimsDigest": "40e3e2ddc87f80a32ade5e697726b440fb65b97a1ed030b060e8ebaf552cf5c1",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28409,6 +28410,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T17:20:06.439Z",
       "reason": "Lane label VF01 is occupied by the Delaware read; the North Carolina 145.5 read moves to VF03 so one worker holds one lane label."
+    },
+    {
+      "lane": "FIX52",
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T17:24:32.801Z",
+      "reason": "Removed 22 stale committed page images under raster/ so the family directory matches reports/rendered-artifacts.json's rasterSkipped true / rasterPages []; no PDF byte moved (canonical d3fd5538.., boundary 776a7006.., 11 pages each, rebuilt byte-identically twice), nine counters zero before and after, independent verification and the WV owner re-review still owed; return at data/rcap-grade-a/packet-factory-24h/fix52/rows.json (Replayed by Captain from FIX52 commit 66963bea0.)"
     }
   ],
   "reissues": [
@@ -40490,6 +40500,17 @@
       "previouslyReleasedAt": "2026-09-02T16:09:05.404Z",
       "transferredAt": "2026-09-05T17:20:08.080Z",
       "reason": "Cohort measurement read: FIX50's read-only scan (fix50/SYNTHESIZED_OFF_APPEARANCE_COHORT.json) finds this proven family binds a form whose check-box or radio widgets lack an appearance for their current /Off state, so the shared flattening step may deliver a bordered square the form does not print (measured on Vermont by VF02 and Virginia by VF03). VF08 measures the delivered pages against a zero-write baseline and re-scores CLIPPING_AND_OVERLAP; a known defect may not stay counted as proven."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX53",
+      "previouslyReleasedAt": "2026-09-05T16:38:00.212Z",
+      "transferredAt": "2026-09-05T17:24:32.888Z",
+      "reason": "VF06 FAIL CLIPPING_AND_OVERLAP at 369884e64: the builder's render() paints an opaque white rectangle (x-1,y-1,w+2,h+2) under each write and redraws its own rule, erasing the AOC's printed rules and cutting the caption table; stop painting the rectangle and draw no rule the form does not print."
     }
   ],
   "withdrawals": [
