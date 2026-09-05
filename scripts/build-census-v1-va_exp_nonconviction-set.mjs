@@ -729,8 +729,8 @@ function composedBody(componentId, facts) {
     L.push("4. File the petition with the circuit court clerk.");
     L.push("5. Ask the Central Criminal Records Exchange to forward your Virginia criminal history record to that court, using the page in this packet headed for that purpose.");
     L.push("6. Have a copy of the petition served on the Attorney for the Commonwealth for that county or city, using the page in this packet headed for that purpose, in the manner the clerk directs.", "");
-    L.push("TWO THINGS THIS PACKET DOES NOT TELL YOU", "");
-    L.push("- The filing fee, and whether it can be waived. Ask the circuit court clerk. No amount is stated here because none is established by the petition, and an unsourced figure in a filing instruction is worse than no figure.");
+    L.push("THE FILING FEE, AND ONE THING THIS PACKET DOES NOT TELL YOU", "");
+    L.push("- The filing fee, and whether it can be waived. No court fees or costs are payable for filing this petition: Va. Code 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.");
     L.push("- How long you have, and exactly how service must be made. The petition sets no filing deadline and states no service mechanics; neither does this page. Ask the same clerk.", "");
     L.push("WHAT THIS PACKET IS NOT", "");
     L.push("This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.");
@@ -1185,8 +1185,8 @@ function participantInstructions(maps, rbf, routeSelections) {
 
   out.push("## Where you file this", "");
   out.push("File the completed packet with the **Circuit Court of the county or city in which the charge was disposed of** — the petition's own checklist on page 2 says so. Write that court's **city or county** and **street address** into the petition's caption; the clerk's office can confirm both. If the clerk requires it, include a completed **COVER SHEET FOR FILING CIVIL ACTIONS, circuit court form CC-1416**.", "");
-  out.push("Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:", "");
-  out.push("- **The filing fee, and whether it can be waived.** Ask the clerk of the circuit court above.");
+  out.push("**The filing fee, and whether it can be waived.** No court fees or costs are payable for filing this petition: Va. Code \u00a7 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.", "");
+  out.push("One thing this packet does **not** tell you, because it is not established by the petition:", "");
   out.push("- **How long you have, and exactly how the copy must be served.** The petition sets no filing deadline, and its checklist says a copy must be *served* on the Commonwealth's Attorney without saying how. Ask the same clerk.", "");
 
   out.push("## What is in this packet", "");

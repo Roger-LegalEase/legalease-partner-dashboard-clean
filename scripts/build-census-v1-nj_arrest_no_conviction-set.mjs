@@ -291,6 +291,28 @@ function factsForJurisdiction(jurisdiction, boundary = false) {
   };
 }
 
+/*
+ * The fixture facts one family builds with.
+ *
+ * A family may declare `derivedFacts`: values COMPOSED from facts the fixture
+ * already holds, for a blank whose printed question asks for more than one of
+ * them at once. They are computed here, in the one place every pass reads its
+ * facts from -- the build, the supplemental composer and --check -- so a
+ * composed value cannot exist on the paper and be absent from the re-derivation
+ * that proves the paper. A family that declares none gets exactly the object it
+ * got before, so no other family's bytes move.
+ */
+function familyFacts(config, boundary = false) {
+  const facts = factsForJurisdiction(config.jurisdiction, boundary);
+  for (const [factId, derive] of Object.entries(config.derivedFacts ?? {})) {
+    const value = derive(facts);
+    assert.equal(typeof value, "string", `${factId}: a derived fact must compose to a string`);
+    assert.notEqual(value.trim(), "", `${factId}: a derived fact must compose to a value`);
+    facts[factId] = value;
+  }
+  return facts;
+}
+
 function source({ key, id, role, title, revision, pathInArchive, hash, bytes, render = true,
   allow = {}, deny = [], selections = [], captions = null, alignWidgetFontSizeToFit = false,
   fitTextPerWidget = false, repeatingRowGroups = [] }) {
@@ -685,6 +707,183 @@ const NJ_KIT_OFFICIAL_COMPONENTS = Object.freeze({
 const NJ_ORDER_ARREST_ROW_1 = Object.freeze({
   row: "Expungement Order (Form C), arrest table row 1, delivered page 31",
   fields: ["arrest1Dt", "arrest1Statute", "arrest1CaseNum"],
+});
+
+/*
+ * FIX77 (COMPONENT_SET). The Rule 490 packet set names FOUR components and this
+ * family rendered three. The third -- certificate_of_service, requirement
+ * `required` -- reached no page, was named in no instruction section, and was
+ * not recorded in componentsNotGenerated either, so nothing in the packet said
+ * it was missing. product-wiring.json already named certificate_of_service in
+ * binding.instrumentKinds while binding.packetComponents omitted it.
+ *
+ * NO OFFICIAL FORM IS INVENTED. The manifest defines this component as COMPOSED
+ * -- outputStrategy custom_pleading, officialFormId null, officialSourceUrl
+ * null -- so there is no Pennsylvania form to bind by content hash and none is
+ * pretended into existence. It is composed from facts the packet already holds,
+ * on exactly the terms this host already composes the Rule 490/790 certificate
+ * for pa_6308_underage-set: the recipient and the timing are the governed ones
+ * the packet-set manifest itself states from Pa.R.Crim.P. 490 -- the attorney
+ * for the Commonwealth, concurrently with filing -- and every local-method and
+ * performed-service fact is left blank, because service has not occurred and
+ * the repository establishes no locally accepted method.
+ */
+const PA_490_CERTIFICATE_LINES = Object.freeze({
+  officeServed: "Office and address where the copy was served:",
+  method: "Service method accepted by the filing court:",
+  dateServed: "Date service actually occurred:",
+  signature: "Signature of petitioner after service:",
+  dateSigned: "Date signed:",
+});
+
+const PA_490_SERVICE_CERTIFICATE = Object.freeze({
+  documentId: "pa_490_nonconviction-certificate-of-service-3",
+  documentRole: "certificate_of_service",
+  key: "certificate-of-service",
+  renderText(facts) {
+    const L = PA_490_CERTIFICATE_LINES;
+    return [
+      "CERTIFICATE OF SERVICE",
+      "",
+      "Pennsylvania Rule of Criminal Procedure 490 expungement filing",
+      `Petitioner: ${facts["participant.full_legal_name"]}`,
+      `Docket number: ${facts["matter.case_number"]}`,
+      "",
+      "DO NOT SIGN OR DATE THIS CERTIFICATE UNTIL SERVICE HAS ACTUALLY OCCURRED.",
+      "",
+      "I certify that, concurrently with filing the attached verified petition and proposed order,",
+      "I served a copy on the attorney for the Commonwealth.",
+      "",
+      `${L.officeServed} ${".".repeat(31)}`,
+      `${".".repeat(84)}`,
+      `${L.method} ${".".repeat(31)}`,
+      "(The governed record establishes the recipient and the timing, but not a locally accepted method.)",
+      `${L.dateServed} ${".".repeat(45)}`,
+      "",
+      `${L.signature} ${".".repeat(38)}`,
+      `${L.dateSigned} ${".".repeat(62)}`,
+      `Printed name: ${facts["participant.full_legal_name"]}`,
+      "",
+      "This certificate records service performed by the participant. LegalEase does not serve anyone",
+      "and does not prefill the office served, the address, the service method, the service date, or",
+      "the signature.",
+    ].join("\n");
+  },
+  fields: Object.freeze([
+    Object.freeze({ field: "Printed name", decision: "candidate_write", factId: "participant.full_legal_name" }),
+    Object.freeze({ field: "Docket number", decision: "candidate_write", factId: "matter.case_number" }),
+    /*
+     * The three lines the participant fills in after service, on the declared
+     * channel the completeness contract reads -- requiredBeforeFiling as a
+     * boolean, an identity, the printed line as the label, and no refusal class,
+     * because "unmailed_or_unperformed_service" is not in the contract's closed
+     * vocabulary and a row that declares one outside it is an unclassified
+     * blank however true the sentence beside it is. Each is disclosed by name in
+     * participant-instructions.md, which is the condition that makes the blank
+     * permissible at all.
+     */
+    ...[["Office and address where the copy was served", PA_490_CERTIFICATE_LINES.officeServed],
+      ["Service method accepted by the filing court", PA_490_CERTIFICATE_LINES.method],
+      ["Date service actually occurred", PA_490_CERTIFICATE_LINES.dateServed]]
+      .map(([field, printed]) => Object.freeze({
+        field,
+        decision: "refuse",
+        factId: null,
+        blankTreatment: "REQUIRED_BEFORE_FILING",
+        requiredBeforeFiling: true,
+        routeDetermined: false,
+        identity: `pa_490_nonconviction-certificate-of-service-3 field ${field}`,
+        effectiveLabel: printed,
+        page: 1,
+        reason: "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this "
+          + "field; the participant completes it after service and does not guess.",
+        completesAfterService: true,
+        widgets: [],
+      })),
+    /* The signature and its date are the participant's own act and are never
+     * prefilled; they are protected rather than required-before-filing. */
+    ...[["Signature of petitioner after service", PA_490_CERTIFICATE_LINES.signature],
+      ["Date signed", PA_490_CERTIFICATE_LINES.dateSigned]]
+      .map(([field, printed]) => Object.freeze({
+        field,
+        decision: "refuse",
+        factId: null,
+        refusalClass: "signature_or_date_participant_completion",
+        requiredBeforeFiling: false,
+        effectiveLabel: printed,
+        page: 1,
+        reason: "Signature or date field; never prefilled, and signed only after service has actually occurred.",
+        completesAfterService: true,
+        widgets: [],
+      })),
+  ]),
+});
+
+/*
+ * FIX77 (KNOWN_PREFILLS), part 1: one blank that asks for three facts at once.
+ *
+ * Item 10 of the proposed order prints "The date on the citation or complaint,
+ * or the date of arrest, and if available, the criminal justice agency that
+ * made the arrest" over a single 427.9 x 28pt widget. It was declared
+ * required-before-filing on the ground that "the platform holds no exact fact
+ * for this field" and delivered blank -- beside a petition, in the same packet,
+ * that prints all three of those facts on its own page 1 from
+ * matter.offense_date, matter.arrest_date and matter.citing_or_arresting_agency.
+ * The completeness contract's own words: "A fact written anywhere else in the
+ * same packet is available, and refusing it here is a missing known fact."
+ *
+ * The three are composed into the one value the blank asks for, in the same
+ * form the petition prints them, and each is named in the sentence so the
+ * reader can see which fact is which. Item 3's single petitioner-address widget
+ * is the same defect: it printed participant.street_address alone while the
+ * petition printed the apartment, city, state and ZIP beside it, so it carries
+ * the one-line address the same packet holds. Nothing is invented: every
+ * component of both values is a held fact this packet already prints.
+ */
+const PA_490_COMPOSED_ORDER_FACTS = Object.freeze({
+  "matter.citation_or_arrest_date_and_arresting_agency": (facts) =>
+    `Date on citation or complaint ${facts["matter.offense_date"]}; date of arrest `
+    + `${facts["matter.arrest_date"]}; arresting agency ${facts["matter.citing_or_arresting_agency"]}`,
+  "participant.address_one_line": (facts) => [
+    facts["participant.street_address"],
+    facts["participant.address_line_2"],
+    facts["participant.city_state_zip"],
+  ].filter((part) => String(part ?? "").trim() !== "").join(", "),
+});
+
+const PA_490_ORDER_CARRIED_FACTS = Object.freeze({
+  DateAndArrestingAgency: "matter.citation_or_arrest_date_and_arresting_agency",
+  PetitionersAddress: "participant.address_one_line",
+});
+
+/*
+ * FIX77 (KNOWN_PREFILLS), part 2: the petition's first Statute Description cell.
+ *
+ * The same false reason stood on it -- "the platform holds no exact fact for
+ * this field" -- beside a proposed order, in the same packet, that prints
+ * matter.charge at item 11. The fact IS held. What is not held is the offence
+ * table ROW this cell belongs to: Title, Section, Subsection, Counts, Grade and
+ * Disposition are six cells the platform has no value for, and FIX11 measured
+ * what happens when the charge is written alone -- a finished-looking row that
+ * is not one, which is the defect incompleteRows counts. So the cell stays
+ * untouched and the REASON is corrected to the true one, with the held fact and
+ * the component that prints it named on the row rather than denied.
+ */
+const PA_490_PETITION_DECLARATIONS = Object.freeze({
+  "Statute DescriptionRow1": Object.freeze({
+    reason: "REQUIRED_BEFORE_FILING: this cell is one of the seven cells of row 1 of the petition's "
+      + "offence table -- Title, Section, Subsection, Statute Description, Counts, Grade, Disposition -- "
+      + "and the platform holds no value for the other six. A row is completed or it is left untouched, "
+      + "so row 1 is yours to complete from your own court records. This packet does hold a plain-language "
+      + "charge and prints it on the proposed order; it is not the statute row this table asks for and it "
+      + "is not written here.",
+    factHeldElsewhereInThisPacket: Object.freeze({
+      factId: "matter.charge",
+      printedOn: "PA-RCRIM-P-490-ORDER field SpecificCharges, item 11 of the proposed order",
+      whyNotWrittenHere: "row_integrity: the other six cells of offence-table row 1 have no held value, "
+        + "and a half-written row reads as a finished one",
+    }),
+  }),
 });
 
 const NJ_CONTACT_ALLOW = {
@@ -1736,16 +1935,28 @@ Object.assign(FAMILY, {
   },
   "pa_490_nonconviction-set": {
     jurisdiction: "PA", routeKeys: ["obligation:track-pathway:PA:pa_490_nonconviction:path-a-non-conviction-expungement"],
-    documents: [cloneDoc(PA_490_PETITION, { allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED }), cloneDoc(PA_490_ORDER, { allow: PA_ORDER_ALLOW }), PA_IFP_MDJ],
+    implementationStrategy: "official_pdf_fill_with_custom_service_certificate",
+    documents: [
+      cloneDoc(PA_490_PETITION, {
+        allow: PA_PETITION_ALLOW_TABLE_UNTOUCHED, declarations: PA_490_PETITION_DECLARATIONS,
+      }),
+      cloneDoc(PA_490_ORDER, { allow: { ...PA_ORDER_ALLOW, ...PA_490_ORDER_CARRIED_FACTS } }),
+      PA_IFP_MDJ,
+    ],
+    supplementalDocuments: [PA_490_SERVICE_CERTIFICATE],
+    derivedFacts: PA_490_COMPOSED_ORDER_FACTS,
     notes: ["The fee-waiver affidavit is retained only as conditional source evidence; no financial or sworn fact is filled.",
-      "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched."],
+      "The petition's offence table is left whole for the participant: its rows carry Section, Subsection, Counts, Grade and Disposition cells the platform holds no fact for, and a row is complete or it is untouched.",
+      "The required certificate of service is composed, not an official form: the manifest defines it as a custom pleading, so no Pennsylvania form is bound and none is invented. It states only the recipient and timing Pa.R.Crim.P. 490 governs and leaves every local-method and performed-service fact blank.",
+      "Item 10 of the proposed order carries the citation date, the arrest date and the arresting agency, and item 3 carries the one-line petitioner address, from the same held facts the petition prints on its own page."],
     guidance: {
       afterTheTable: [
         "Do not leave one of these blank because you are unsure. Ask the clerk of the court where the charges were filed.",
-        "The filing fee and whether it can be waived, who must be served and by what method, and the addresses the petition is served on are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+        "The filing fee and whether it can be waived, the method of service the filing court accepts, and the addresses the petition and the certificate of service are sent to are not established in this repository. Ask the same clerk. An unsourced figure in a filing instruction would be worse than none.",
+        "Who must be served, and when, is established and is not one of the open questions above: Pa.R.Crim.P. 490 requires service on the attorney for the Commonwealth concurrently with filing, and the certificate of service in this packet states exactly that and nothing more.",
       ],
       selfHelpEnds: [
-        "This packet prepares the Pennsylvania Rule of Criminal Procedure 490 petition and proposed order for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
+        "This packet prepares the Pennsylvania Rule of Criminal Procedure 490 petition, the proposed order and a certificate of service for you to review, complete, sign and file yourself. Self-help ends at any question this packet refuses to answer:",
         "- whether your charges are eligible for expungement — a legal judgment this packet does not make;",
         "- any blank listed above that you cannot complete from your own court records;",
         "- anything the prosecuting attorney objects to, and any hearing the court schedules.",
@@ -2070,8 +2281,16 @@ async function selfTest(familyId) {
           /signature|notary|sworn|service|served|prosecut|clerk|judge/i,
           `${officialFamilyId}/${doc.documentId}: protected field may not appear in the write allowlist`);
         if (/agency/i.test(field)) {
-          assert.equal(field, "Name of Arresting Agency",
-            `${officialFamilyId}/${doc.documentId}: only the exact participant-stated arresting-agency field may be mapped`);
+          /*
+           * FIX77: the guard is an exact-name allowlist, not a widened pattern.
+           * The Rule 490 proposed order asks item 10 for the citation or arrest
+           * date AND the arresting agency over one widget named
+           * DateAndArrestingAgency; it is the petitioner's own statement of the
+           * same facts the petition states on its page 1, and it is named here
+           * one field at a time so no other agency-shaped field can slip in.
+           */
+          assert.ok(["Name of Arresting Agency", "DateAndArrestingAgency"].includes(field),
+            `${officialFamilyId}/${doc.documentId}: only an exact participant-stated arresting-agency field may be mapped`);
         }
       }
     }
@@ -2409,6 +2628,19 @@ function fieldMapFor(doc, census, installed = new Map()) {
   const withCaption = (row) => (captions
     ? applyCaptionCorrection(row, captions[row.field], doc.documentId)
     : row);
+  /*
+   * FIX77: a document may state, in code, the TRUE reason one of its blanks is
+   * blank -- overriding both the generic reason this host derives and any stale
+   * one carried forward from the prior map, which is why it is applied last. It
+   * reaches refusals only: a declaration can never turn a write into a blank,
+   * and a field the allowlist now writes takes the fresh candidate-write row.
+   */
+  const declarations = doc.declarations ?? {};
+  const finish = (row) => {
+    const captioned = withCaption(row);
+    const declared = declarations[captioned.field];
+    return declared && captioned.decision === "refuse" ? { ...captioned, ...declared } : captioned;
+  };
   return census.fields.map((field) => {
     const factId = factMappings[field.name] ?? null;
     if (factId) {
@@ -2431,7 +2663,7 @@ function fieldMapFor(doc, census, installed = new Map()) {
         widgets: field.widgets };
     }
     const installedRow = installed.get(`${doc.documentId}::${field.name}`);
-    if (installedRow) return withCaption({ ...installedRow, widgets: field.widgets });
+    if (installedRow) return finish({ ...installedRow, widgets: field.widgets });
     const refusalClass = doc.render === false
       ? "source_only_not_generated"
       : classifyRefusal(field.name, field.effectiveLabel ?? "");
@@ -2445,7 +2677,7 @@ function fieldMapFor(doc, census, installed = new Map()) {
      */
     if (refusalClass === "required_before_filing" || refusalClass === "unmailed_or_unperformed_service") {
       const afterService = refusalClass === "unmailed_or_unperformed_service";
-      return withCaption({ field: field.name, decision: "refuse", factId: null,
+      return finish({ field: field.name, decision: "refuse", factId: null,
         blankTreatment: "REQUIRED_BEFORE_FILING",
         requiredBeforeFiling: true, routeDetermined: false,
         identity: `${doc.documentId} field ${field.name}`,
@@ -2456,7 +2688,7 @@ function fieldMapFor(doc, census, installed = new Map()) {
         completesAfterService: afterService,
         widgets: field.widgets });
     }
-    return withCaption({ field: field.name, decision: "refuse", factId: null, refusalClass,
+    return finish({ field: field.name, decision: "refuse", factId: null, refusalClass,
       blankTreatment: null,
       effectiveLabel: field.effectiveLabel ?? field.name,
       reason: refusalClass === "source_only_not_generated"
@@ -3660,6 +3892,16 @@ function guidedParticipantInstructions(config, fieldMaps) {
   const g = config.guidance;
   const routeLines = config.routeKeys.map((route) => `- Route scope: \`${route}\``).join("\n");
   const notes = (config.notes ?? []).map((note) => `- ${note}`).join("\n");
+  /*
+   * FIX77. The blanket sentence under this table -- "The platform holds no
+   * value for any of these" -- is the same claim the field map makes, so where
+   * a row says the packet DOES hold the value and names the component that
+   * prints it, the sentence has to say so too, and the row has to carry the
+   * disclosure. One false sentence about one cell is what the KNOWN_PREFILLS
+   * finding was.
+   */
+  const heldElsewhere = fieldMaps.flatMap((document) => document.fields
+    .filter((field) => field.requiredBeforeFiling === true && field.factHeldElsewhereInThisPacket));
   const tables = fieldMaps
     .filter((document) => document.generatedParticipantArtifact)
     .map((document) => {
@@ -3673,8 +3915,12 @@ function guidedParticipantInstructions(config, fieldMaps) {
             : `the form prints \`${label}\` beside it`;
           const serviceNote = field.completesAfterService === true
             ? " — complete this only after service has actually occurred" : "";
-          const page = field.widgets?.[0]?.page ?? "?";
-          return `| ${page} | \`${field.field}\` | ${caption}${serviceNote} |`;
+          const held = field.factHeldElsewhereInThisPacket;
+          const heldNote = held
+            ? ` — this packet holds \`${held.factId}\` and prints it on ${held.printedOn}; it is not written here (${held.whyNotWrittenHere})`
+            : "";
+          const page = field.widgets?.[0]?.page ?? field.page ?? "?";
+          return `| ${page} | \`${field.field}\` | ${caption}${serviceNote}${heldNote} |`;
         });
       if (rows.length === 0) return "";
       return `### ${document.documentId}\n\n| Page | Form field | What the form says |\n| --- | --- | --- |\n${rows.join("\n")}\n`;
@@ -3691,12 +3937,48 @@ function guidedParticipantInstructions(config, fieldMaps) {
     + (notes ? `${notes}\n` : "")
     + `\n## The blanks you must fill in before filing\n\n`
     + `The platform holds no value for any of these, and this packet never guesses at one. Each row names the page of the component, the form field as the source PDF names it, and the words the measurement read next to the blank. Where the measurement could reach no printed caption, read the printed page to see what the blank asks for.\n\n`
+    + (heldElsewhere.length
+      ? `${heldElsewhere.length === 1 ? "One row below is an exception and says so on its own line" : `${heldElsewhere.length} rows below are exceptions and say so on their own lines`}: the packet holds that value and prints it on another component of this same packet, and the row states why it is not written into this blank. Read the row, and complete the blank from your own court records.\n\n`
+      : "")
     + `${tables}\n`
     + `${g.afterTheTable.map((p) => `${p}\n`).join("\n")}\n`
     + `## Where self-help ends\n\n`
     + `${g.selfHelpEnds.map((p) => `${p}\n`).join("\n")}\n`
     + `## Blanks that are not yours to fill\n\n`
-    + `${g.notYours.map((p) => `- ${p}`).join("\n")}\n`;
+    + `${g.notYours.map((p) => `- ${p}`).join("\n")}\n`
+    + composedComponentSection(config);
+}
+
+/*
+ * FIX77 (COMPONENT_SET). A component the route calls REQUIRED has to reach the
+ * participant page as well as the fixtures directory: the disclosure is what
+ * turns two more PDFs into a component the reader knows is theirs to finish.
+ * It says what the certificate is, which parts this packet filled, and which
+ * parts nobody but the participant can fill -- and it does not name a service
+ * method, because the repository establishes none.
+ */
+function composedComponentSection(config) {
+  const documents = config.supplementalDocuments ?? [];
+  if (!documents.length) return "";
+  return `\n## The certificate of service in this packet\n\n`
+    + documents.map((document) => {
+      const blanks = document.fields.filter((field) => field.decision === "refuse")
+        .map((field) => `${field.field} (the certificate prints \`${field.effectiveLabel ?? field.field}\`)`)
+        .join("; ");
+      const filled = document.fields.filter((field) => field.decision === "candidate_write")
+        .map((field) => field.field).join(" and ");
+      return `- **What it is.** \`${document.key}-canonical.pdf\` and \`${document.key}-boundary.pdf\` are this packet's `
+        + `certificate of service (component \`${document.documentId}\`). Pennsylvania Rule of Criminal Procedure 490 `
+        + `requires the petition and the proposed order to be served on the attorney for the Commonwealth `
+        + `concurrently with filing, and the certificate is the paper that records that you did it. It is composed by `
+        + `this packet, not an official court form, so check the filing court's own local requirements before you file it.\n`
+        + `- **What this packet filled in.** ${filled}. Nothing else.\n`
+        + `- **What is yours to complete, and only after service has actually occurred.** ${blanks}. `
+        + `LegalEase does not serve anyone, does not know which office you served, and does not fill any of these in. `
+        + `The repository does not establish which method of service your filing court accepts, so the certificate `
+        + `leaves that blank rather than naming one; ask the clerk of the court where you file.\n`
+        + `- **Do not sign or date it in advance.** Sign and date the certificate after service has happened, not before.`;
+    }).join("\n") + "\n";
 }
 
 /*
@@ -3781,8 +4063,8 @@ async function buildOfficial(familyId, config) {
     console.log(`  source ${doc.sha256.slice(0, 16)}… ${sourceRow.bytes.length} bytes; ${census.pageGeometry.length} pages; ${census.fields.length} fields`);
     if (doc.render === false) continue;
 
-    for (const [fixture, facts] of [["canonical", factsForJurisdiction(config.jurisdiction)],
-      ["boundary", factsForJurisdiction(config.jurisdiction, true)]]) {
+    for (const [fixture, facts] of [["canonical", familyFacts(config)],
+      ["boundary", familyFacts(config, true)]]) {
       if (config.routeVehicle) {
         const selectedVehicle = config.routeVehicle.selector(facts);
         if (doc.routeVehicle !== selectedVehicle.vehicleId) continue;
@@ -3927,7 +4209,27 @@ async function buildOfficial(familyId, config) {
             + "and a row is completed or left untouched",
           reason: "withheld_for_row_integrity", row: row.row,
         })),
-      ].sort((a, b) => a.field.localeCompare(b.field));
+        /*
+         * FIX77. A mapped fact has TWO write paths and only one of them was
+         * disclosed here. Where the shared finalizer declines a mapping, the
+         * exact measured overlay writes it -- and where the overlay's own
+         * fitter then refuses the value for width, the refusal was recorded
+         * only inside report.fieldFinalizer.exactMappingOverlay and reached
+         * neither this list nor report.refused's unfittable rows, so a value
+         * the platform holds and could not print looked like a field nobody
+         * ever intended to write. Measured on the boundary proposed order,
+         * whose one-line petitioner address does not fit item 3.
+         */
+        ...(report.fieldFinalizer?.exactMappingOverlay?.refused ?? [])
+          .filter((row) => Object.hasOwn(mappings, row.field))
+          .map((row) => ({
+            field: row.field, factId: mappings[row.field],
+            valueHeld: facts[mappings[row.field]] ?? null,
+            why: "the value does not fit this box at a size a court could read",
+            reason: row.reason,
+          })),
+      ].filter((row, index, rows) => rows.findIndex((other) => other.field === row.field) === index)
+        .sort((a, b) => a.field.localeCompare(b.field));
       artifactReports.push({
         documentId: doc.documentId, documentKey: doc.key, fixture, file,
         sha256: sha256(bytes), byteLength: bytes.length, pageCount: census.pageGeometry.length,
@@ -3965,8 +4267,8 @@ async function buildOfficial(familyId, config) {
       generatedParticipantArtifact: true,
       fields: doc.fields,
     });
-    for (const [fixture, facts] of [["canonical", factsForJurisdiction(config.jurisdiction)],
-      ["boundary", factsForJurisdiction(config.jurisdiction, true)]]) {
+    for (const [fixture, facts] of [["canonical", familyFacts(config)],
+      ["boundary", familyFacts(config, true)]]) {
       const selectedVehicle = config.routeVehicle?.selector(facts) ?? null;
       const text = doc.renderText(facts, selectedVehicle);
       const bytes = await renderPleadingPdf(text, `${config.jurisdiction} ${doc.documentId} ${fixture}`);
@@ -4390,7 +4692,7 @@ async function checkOfficial(familyId, config) {
     const supplemental = (config.supplementalDocuments ?? [])
       .find((candidate) => candidate.documentId === artifact.documentId);
     if (supplemental) {
-      const fixtureFacts = factsForJurisdiction(config.jurisdiction, artifact.fixture === "boundary");
+      const fixtureFacts = familyFacts(config, artifact.fixture === "boundary");
       const selectedVehicle = config.routeVehicle?.selector(fixtureFacts) ?? null;
       const recomputedText = supplemental.renderText(fixtureFacts, selectedVehicle);
       const recomputedBytes = await renderPleadingPdf(recomputedText,
@@ -4432,7 +4734,7 @@ async function checkOfficial(familyId, config) {
       `${artifact.file}: live first-hand census drift`);
     assert.deepEqual(liveMap, documentMap.fields,
       `${artifact.file}: live field-map drift`);
-    const fixtureFacts = factsForJurisdiction(config.jurisdiction, artifact.fixture === "boundary");
+    const fixtureFacts = familyFacts(config, artifact.fixture === "boundary");
     const unwritableFields = liveMap.filter((row) => row.decision !== "candidate_write")
       .map((row) => ({ field: row.field, class: row.refusalClass ?? "route_selection_or_role" }));
     const mappings = factMappingsForDocument(doc);

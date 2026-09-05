@@ -10,9 +10,10 @@ The platform filled in what it holds about you: your name (in the caption and pr
 
 File the completed packet with the **Circuit Court of the county or city in which the charge was disposed of** — the petition's own checklist on page 2 says so. Write that court's **city or county** and **street address** into the petition's caption; the clerk's office can confirm both. If the clerk requires it, include a completed **COVER SHEET FOR FILING CIVIL ACTIONS, circuit court form CC-1416**.
 
-Two things this packet does **not** tell you, because neither is established by the petition and an unsourced figure in a filing instruction is worse than none:
+**The filing fee, and whether it can be waived.** No court fees or costs are payable for filing this petition: Va. Code § 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.
 
-- **The filing fee, and whether it can be waived.** Ask the clerk of the circuit court above.
+One thing this packet does **not** tell you, because it is not established by the petition:
+
 - **How long you have, and exactly how the copy must be served.** The petition sets no filing deadline, and its checklist says a copy must be *served* on the Commonwealth's Attorney without saying how. Ask the same clerk.
 
 ## What is in this packet

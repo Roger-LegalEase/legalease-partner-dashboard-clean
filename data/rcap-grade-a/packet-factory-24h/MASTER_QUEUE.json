@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "1a7a85dce0d51c5631b9493c921c268c8cf5efd2",
+  "minimumCaptainSha": "21ddabcb37d365310f786bfa305c8f2fdf6e0d0f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -15,7 +15,7 @@
     "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json": "af2176e82365396865a3405492b9d74d84237d0e78a921cd9251db90a075240e",
     "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json": "965a9e5bfee3994daa89b80f81bc79e3b4918ef75fd94288e9d31076bd74addf",
     "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json": "704f9483215b27314209f75b194784cad3cad437add5c21240dc8d4645020d5b",
-    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "b636ffbc00c0e75b7cb90268817f69633c1f2de281c534266450a26a244f3f93",
+    "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json": "593f13d6b2fba19d1bf212331e2cafd5937a4b4bf69d8547a152ec3ab198a16f",
     "data/rcap-grade-a/launch-control/S2_CONTINUATION.json": "88e88084418056466a7f7986c09661a56bee0e022f69fea86a3474c301526396",
     "data/rcap-grade-a/launch-control/CODEX_CLOUD_CONTINUATIONS.json": "da1f072a0848ce21152735108f543966c42b2091121f9e1a89d5e447e4c5cb98",
     "data/rcap-grade-a/launch-control/P2_WASHINGTON_VERIFICATION.json": "674616f7acc6a04f6496e3242ffb0579082a089abd897157d3d5d64fffeae5d5",
@@ -66,24 +66,24 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 7,
+    "activeFamiliesExcluded": 17,
     "guidanceOnly": 0,
-    "remaining": 339,
+    "remaining": 329,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
-    "verifyPending": 10,
-    "repairRequired": 51,
+    "verifyPending": 8,
+    "repairRequired": 41,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 136,
+    "COMPLETE_PACKET_PROVEN": 138,
     "FAIL_REPAIR_REQUIRED": 58,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 10,
+    "VERIFY_PENDING": 8,
     "LEGAL_BLOCKED": 16,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
@@ -110,12 +110,22 @@
     ],
     "families": [
       "il-seal-edu-set",
+      "nc_146_dismissal_petition-set",
+      "nh_petition_nonconviction_pre2019-set",
+      "nj_arrest_no_conviction-set",
+      "nj_disorderly_persons-set",
+      "nj_indictable_conviction-set",
+      "nj_ordinance-set",
       "ut_pet_limitations-set",
-      "va_exp_nonconviction-set",
       "va_seal_ancillary_matter_only-set",
       "va_seal_enumerated_seven_year-set",
       "va_seal_petition_felony-set",
-      "va_seal_petition_misdemeanor-set"
+      "va_seal_petition_misdemeanor-set",
+      "vt_seal_18_to_21-set",
+      "vt_seal_dui-set",
+      "vt_seal_felony-set",
+      "vt_seal_misdemeanor-set",
+      "vt_seal_pardon-set"
     ],
     "staleRosterFamilies": [
       {
@@ -28097,9 +28107,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "408674aaa",
+        "verifiedAtBase": "5326f747d",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -28131,19 +28141,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "Date of birth and ZIP are repaired and both rulings are favourable on the form's own evidence: the DOB write is in the cell captioned Date Of Birth and nowhere near the Full Social Security No. blank, and the uncaptioned ZIP cell is established as the ZIP cell of the address block by the AOC's own row structure, its own field name and its own companion form's printed caption. KNOWN_PREFILLS still fails, on one remaining row of exactly the shape VF03 named: the participant's street address is held, written on AOC-CR-297, and refused on AOC-CV-226 where the affidavit asks for it. The repair is to write it there, by the same field-name channel that carries the other eight writes on that form; the nine counters cannot see it, so it must be repaired against this row rather than against the verifier.",
-          "evidence": "THE TWO RULINGS THE RE-READ WAS FOR ARE BOTH FAVOURABLE, AND A THIRD ROW OF THE SAME SHAPE FAILS. (a) DATE OF BIRTH: measured on the pinned AOC-CR-297 (99c17942..) rastered at 300 dpi. The DOB widget rect read from the pinned form is page 1 x[36.63,175.30] y[585.07,600.65]; the only printed words intersecting it are 'Date Of Birth' at x[38.50,78.96] y[599.29,608.55], and 'Full Social Security No.' begins at x=177.80, inside SSN's own rect x[177.21,315.08] on the far side of the cell divider. The delivered ink attributed to DOB occupies x[78.48,133.44] y[588.96,596.64] on both fixtures: strictly inside the DOB rect, 43.8pt clear of the SSN rect and 44.4pt clear of the SSN caption, with the SSN cell carrying zero added pixels. Delivered text reads 1991-04-17 (canonical) and 1968-12-31 (boundary) beneath the 'Date Of Birth' caption. (b) ZIP: ruled on the form's own layout. The AOC's AcroForm gives the petitioner block four rows -- PetitionerName, PetitionerStreetAddress, PetitionerMailAddress, then a three-cell bottom row PetitionerCity x[37.32,233.79] / PetitionerState x[233.29,256.10] / PetitionerZip x[255.81,315.08] at y[633.38,646.63] -- and the same City/State/Zip three-cell row recurs in the attorney block and in all three agency blocks, none of them captioned. No printed word intersects the ZIP rect and the form prints no ZIP caption anywhere on page 1. Two independent facts settle it from the issuer rather than from the family's table: the AOC's own field name for that cell is PetitionerZip, and the AOC's companion form in this same packet, AOC-CV-226, prints the caption 'City, State And Zip Code' over an identically structured three-cell row whose widgets (ApplicantCity x[37.44,231.95], ApplicantState x[231.73,256.39], ApplicantZip x[256.10,315.38]) sit at the same x boundaries. The delivered ink lands inside that rect only -- canonical x[270.48,300.00], boundary x[259.20,311.52] -- and reads 'Raleigh  NC  27601' / 'Winston-Salem  NC  27101-2214' across the row. So the ZIP write is in the ZIP cell of the address block and is not a wrong write. (c) THE FAILURE, on a row this re-read measured rather than inherited: fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226 page 1 is declared requiredBeforeFiling with the reason 'your street address. The platform holds it and cannot write it here: no shared descriptor matches this blank's printed caption'. The packet holds participant.street_address and WRITES it in the same packet, on AOC-CR-297 page 1 ('42 Larkspur Street' canonical, '1188 Upper Yadkin River Crossing Road, Apartment 14B' boundary; per-page extraction finds it on delivered page 1 only and nowhere on page 4). REQUIRED_BEFORE_FILING_CONDITIONS requires every condition to hold and its third is 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The row states that disqualifier in its own words, and its stated reason is additionally of the POLICY_SHAPED_REASONS shape -- the build's descriptor list offering nothing says nothing about whether the filing needs the value. The consequence is visible on the paper: the affidavit's applicant block carries the City, State and Zip cells written and the street line blank, so the delivered AOC-CV-226 shows an address with no street."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
@@ -28802,11 +28804,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "5326f747d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -28836,71 +28840,20 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 74 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that AOC-CR-287, AOC-CV-226 does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "AOC-CR-287": 1056,
-              "AOC-CV-226": 830
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 76,
-            "widgetsDeliveringASynthesizedBorder": 74,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 2,
-            "perFixture": [
-              {
-                "fixture": "canonical.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  1,
-                  2,
-                  4,
-                  5
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "AOC-CR-287",
-                  "AOC-CV-226"
-                ]
-              },
-              {
-                "fixture": "boundary.pdf",
-                "widgetsDeliveringASynthesizedBorder": 37,
-                "deliveredPagesAffected": [
-                  1,
-                  2,
-                  4,
-                  5
-                ],
-                "distinctFieldsAffected": 37,
-                "forms": [
-                  "AOC-CR-287",
-                  "AOC-CV-226"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 0,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "KNOWN_PREFILLS fails on three fields of exactly the shape this lane raised against the sibling family nc_145_5_felony-set and that FIX56 and FIX66 repaired there. FIX66's own return names this family as already recording the same finding against the same AOC-CV-226 binary. THE REPAIR: write participant.date_of_birth into petition.DateOfBirth and participant.zip into petition.PetitionerZip on AOC-CR-287, and participant.street_address into fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226, each at that widget's own /Rect read from the pinned binary, and remove those three rows from requiredBeforeFiling and from the disclosure tables. FIX56 and FIX66 show two channels that work on these exact two binaries: a family-local caption correction where the capture returns a false caption, and the finalizer's opt-in named-fact channel where the shared descriptor list matches nothing. Leave ApplicantStreetNumberAndStreetNameLine2 and the whole 'if different than above' permanent-mailing block refused as they are. The nine counters cannot see this defect -- classifyBlank honours a declared requiredBeforeFiling row without executing its own GENUINELY UNAVAILABLE condition -- so it must be repaired against this row rather than against the verifier.",
+          "evidence": "RULED ON THE WHOLE PACKET AND ON AVAILABILITY, WHICH IS THE QUESTION THE NINE COUNTERS DO NOT ASK. The packet writes 14 facts per fixture, all read back from the delivered bytes and all present on their own component pages (14 of 14 canonical, 14 of 14 boundary): on AOC-CR-287 page 1 PetitionerName, PetitionerAddr1, PetitionerCity, PetitionerState, CountyName and FileNumber; on AOC-CV-226 page 4 ApplicantName, ApplicantCity, ApplicantState, ApplicantZip, ApplicantTelephoneNumber, ApplicantDateOfBirth, CountyName and FileNumber. Every one of the 62 requiredBeforeFiling rows and all 183 refusal rows was then tested against the facts this packet holds. THREE FIELDS FAIL THE CONTRACT'S GENUINELY UNAVAILABLE CONDITION, and two of them say so in their own disclosure text. (1) petition.DateOfBirth on AOC-CR-287 delivered page 1 is declared requiredBeforeFiling with the disclosure 'your date of birth. The platform holds it and writes it on AOC-CV-226' and the reason 'the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it'. participant.date_of_birth is written in this same packet, on delivered page 4, as 1991-04-17 (canonical) and 1968-12-31 (boundary). (2) petition.PetitionerZip on the same page is declared requiredBeforeFiling with the disclosure 'your ZIP code. The platform holds it and writes it on AOC-CV-226' and the reason 'a caption-capture defect returns the printed word Race for this blank'. participant.zip is written in this same packet, on delivered page 4, as 27601 and 27101-2214. (3) fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226 delivered page 4 is declared requiredBeforeFiling with the reason 'no descriptor in the shared list matches \"Street Number And Street Name\"'. participant.street_address is written in this same packet, on delivered page 1, as '42 Larkspur Street' and '1188 Upper Yadkin River Crossing Road, Apartment 14B'. REQUIRED_BEFORE_FILING_CONDITIONS states the disqualifier in terms: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' All three stated reasons are additionally of the POLICY_SHAPED_REASONS shape -- the shared capture returning a wrong caption and the shared descriptor list matching nothing are statements about the build, and neither says the filing does not need the value. THE CONSEQUENCE IS VISIBLE ON THE PAPER, read at 300 dpi. On delivered page 1 the petitioner block prints the name, the street and 'Raleigh   NC' with the ZIP cell empty, and the Date Of Birth cell beneath it is empty. On delivered page 4 the applicant block prints 'Jordan Avery Reyes', then an entirely empty street block, then 'Raleigh   NC   27601' under the caption City, State And Zip Code -- an address with no street, above a city and a ZIP. THE REST OF THE PACKET IS CLEAN: the other refusals that name something a held fact could be read into were each ruled and each is genuine -- PetitionerAddr2 and ApplicantStreetNumberAndStreetNameLine2 are the forms' own optional second address lines; DriversLicenseState is the state that issued a driver licence, which the platform does not hold; CkBox_Attchmt is a sworn election about an AOC-CR-285 continuation; FileNumber1..FileNumber10 are charge-table cells whose companion Date Of Dismissal cells no held record establishes and which REPEATING_ROWS forbids filling in part; JuratCountyWhereNotarized is the notary's own county; and the agency, employer and sworn-financial rows name facts the platform holds nowhere in this packet."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX78",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -28911,7 +28864,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nc_auto_146_a4_agency_followup-set",
@@ -29198,10 +29152,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "5326f747d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -29232,63 +29186,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 10 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that (unnamed) does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "21b3a790b35f": 742
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 10,
-            "widgetsDeliveringASynthesizedBorder": 10,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 0,
-            "perFixture": [
-              {
-                "fixture": "packet-canonical-filled.pdf",
-                "widgetsDeliveringASynthesizedBorder": 5,
-                "deliveredPagesAffected": [
-                  3,
-                  5
-                ],
-                "distinctFieldsAffected": 5,
-                "forms": [
-                  "(unnamed)"
-                ]
-              },
-              {
-                "fixture": "packet-boundary-filled.pdf",
-                "widgetsDeliveringASynthesizedBorder": 5,
-                "deliveredPagesAffected": [
-                  3,
-                  5
-                ],
-                "distinctFieldsAffected": 5,
-                "forms": [
-                  "(unnamed)"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 0,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs",
@@ -31329,11 +31231,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "942cab9b5",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "5326f747d",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31363,69 +31267,20 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "KNOWN_PREFILLS"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. 38 selection-widget reading(s) across 2 bound fixture(s) deliver a black-bordered square that NHJB-2317, NHJB-2328 does not print: at each of them the widget's current /AS state has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing, and the pinned source paints none of the pixels measured. The ink is not this family's: the zero-write baseline over the same pinned bytes, with no writes at all, paints exactly the same pixels, so it comes from the shared flattening step (form.updateFieldAppearances() before flatten(), pdf-lib's default check-box appearance provider). REPAIR: opt this family's builder into suppressSynthesizedAppearances at its sanitizeAndFlatten call site, rebuild the fixtures, re-raster them through the central acceptance workflow, and re-read this obligation. The repair belongs to the builder, not to the shared sanitizer's default, which VF08 does not touch and which no single family may flip on the others' behalf. Nine counters are all zero here and were zero before: the counters do not see this, which is why it needs the appearance read.",
-          "evidence": {
-            "measuredHere": true,
-            "method": "zero-write baseline over the pinned source, rasterised at 150 dpi and read pixel-for-pixel at every selection-widget rect against the delivered fixture page",
-            "dpi": 150,
-            "sourcesResolvedBy": "SHA-256 of the bytes against every mounted custody, never by the path a receipt declares",
-            "baseline": "scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned bytes, writtenFields empty, suppressSynthesizedAppearances false — the same construction as scripts/rcap-official-forms/test-synthesized-off-appearances.mjs case A",
-            "isolatingControl": "the same zero-write flatten with suppressSynthesizedAppearances true. The pixels the first paints and the second does not are the synthesized square itself, at this widget's own geometry, so a form that prints its own box underneath does not hide it and no pixel threshold has to stand in for the measurement.",
-            "negativeControlPerDocument": {
-              "NHJB-2317": 1122,
-              "NHJB-2328": 1086
-            },
-            "alignment": "each delivered page is matched to a source page by ink overlap and never by a declared page manifest; every widget rect is licensed separately by a local ink-coverage check at that rect",
-            "widgetsMeasured": 38,
-            "widgetsDeliveringASynthesizedBorder": 38,
-            "widgetsWhoseSynthesizedSquareFallsOnTheFormsOwnPrintedBoxAndAddsNoInk": 0,
-            "perFixture": [
-              {
-                "fixture": "canonical.pdf",
-                "widgetsDeliveringASynthesizedBorder": 19,
-                "deliveredPagesAffected": [
-                  2,
-                  6,
-                  8
-                ],
-                "distinctFieldsAffected": 14,
-                "forms": [
-                  "NHJB-2317",
-                  "NHJB-2328"
-                ]
-              },
-              {
-                "fixture": "boundary.pdf",
-                "widgetsDeliveringASynthesizedBorder": 19,
-                "deliveredPagesAffected": [
-                  2,
-                  6,
-                  8
-                ],
-                "distinctFieldsAffected": 14,
-                "forms": [
-                  "NHJB-2317",
-                  "NHJB-2328"
-                ]
-              }
-            ],
-            "ofThoseSquarePixelsPaintedByThePinnedSource": 0,
-            "widgetsShippingTheirOwnOffAppearanceExcluded": 0,
-            "whyThatExclusion": "RI-OFF-APPEARANCE: a widget's own /Off stream is source-owned form structure and the opt-in option does not touch it",
-            "rastersDeletedAfterMeasuring": true
-          }
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "KNOWN_PREFILLS fails on five fields the platform holds and the packet leaves blank, four of them on the two lines a reader looks at first: the applicant's town on the petition, and the applicant's name and address on the State Police release. THE REPAIR: bind participant.city to NHJB-2317/'Mailing Address.2', participant.last_name / first_name / middle_name to NHJB-2956/'name.1' / 'name.3' / 'name.4', and the composed street-city-state-zip line to NHJB-2956/'Mailing Address1', each at that widget's own /Rect read from the pinned binary, and remove those five rows from requiredBeforeFiling and from the disclosure tables. Where the shared binder cannot reach a box because New Hampshire's field name names a different line, the sibling repairs on the North Carolina families show two channels that work without touching shared machinery -- a family-local caption correction, and the finalizer's opt-in channel that names one fact and one field. NHJB-2956/'name.2' (maiden name or alias) is correctly left for the participant and must stay that way. The nine counters cannot see this defect -- classifyBlank honours a declared requiredBeforeFiling row without executing its own GENUINELY UNAVAILABLE condition -- so it must be repaired against this row rather than against the verifier.",
+          "evidence": "RULED ON THE WHOLE PACKET AND ON AVAILABILITY, WHICH IS THE QUESTION THE NINE COUNTERS DO NOT ASK AND WHICH THE EARLIER PASS ON THIS FAMILY DID NOT ASK EITHER. The packet writes 19 facts in canonical and 11 in boundary, every one read back from the delivered bytes and located on the component page it belongs to (19 of 19 and 11 of 11). Every one of the 87 requiredBeforeFiling rows and all 133 refusal rows was then tested against the facts this family actually holds, read from the fixture the builder itself supplies. FIVE FIELDS FAIL THE CONTRACT'S GENUINELY UNAVAILABLE CONDITION, and the builder names the constant that produces them HELD_BUT_UNWRITABLE. (1) NHJB-2317/'Mailing Address.2', delivered page 1, printed caption City/Town: participant.city is held -- 'Concord' in the canonical fixture and 'Portsmouth' in the boundary fixture -- and is written nowhere in this packet. (2), (3) and (4) NHJB-2956/'name.1', 'name.3' and 'name.4', delivered page 9, the LAST / FIRST / MI boxes of the State Police release: participant.last_name, first_name and middle_name are held ('Reyes', 'Jordan', 'A'; 'O’Shaughnessy-Whitfield', 'Maria-Alejandra', 'Q'), and participant.full_legal_name is written on three OTHER components of this same packet. (5) NHJB-2956/'Mailing Address1', the STREET/CITY/STATE/ZIP CODE line: its own disclosure says 'The platform holds those as separate facts', and street, state and zip are each written elsewhere in this packet. Every one of the five is disclosed to the participant with the sentence 'the platform holds no value for this and the participant supplies it before filing', which the builder's own fixture contradicts. The stated reasons are of the POLICY_SHAPED_REASONS shape: that New Hampshire named a city box 'Mailing Address.2' and named four name boxes name.1 to name.4 so 'the shared binder resolves the FULL legal name for each of them' describes what this build's binder does, not whether the filing needs the value; the risk of writing the wrong part into the wrong box is a reason to bind the box correctly, not a reason to leave a held fact off a filing. REQUIRED_BEFORE_FILING_CONDITIONS states the disqualifier in terms: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' THE CONSEQUENCE IS VISIBLE ON THE PAPER, read at 300 dpi. Delivered page 1's Applicant's Information block prints the full name, the date of birth, '412 Elm Street, Apartment 3', 'NH', '03301' and the telephone number, and the City/Town cell between the address and the State is EMPTY -- an address with a street, a state and a ZIP and no town. Delivered page 9's Section I prints only 'Date of birth: 1991-04-17'; the Name line above it (LAST (MAIDEN/ALIAS) FIRST MI) is entirely blank and the STREET/CITY/STATE/ZIP CODE line beneath it is entirely blank, so the State Police release the participant is told to send carries no name and no address at all. THE REST OF THE PACKET IS CLEAN: the other refusals that name something a held fact could be read into were each ruled and each is genuine -- NHJB-2328/monthly.12 is what the participant pays for a cell phone each month, not a telephone number; NHJB-2956/gender is the sex the State Police record holds, which the platform does not hold; NHJB-2956/'States/short' is the state that issued a driver licence, not the state of residence; NHJB-2956/address is the third-party recipient's address in Section II, which this route does not use and which the instructions tell the participant to leave blank; NHJB-2317/case is the case NAME as the court styles it; and the charge, sentence, financial and certification rows name facts no held record establishes."
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX78",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31436,7 +31291,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nh_petition_vacated-set",
@@ -31742,8 +31598,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX76",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31768,7 +31624,8 @@
         "rcap-oh-custom-pleading-clean-tracks",
         "ri_nonconviction_sealing-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_clean_slate-set",
@@ -32008,8 +31865,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX76",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -32020,7 +31877,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_indictable_conviction-set",
@@ -32158,8 +32016,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX76",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -32170,7 +32028,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_ordinance-set",
@@ -32307,8 +32166,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX76",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -32319,7 +32178,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nm_conviction-set",
@@ -33274,7 +33134,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
@@ -34393,9 +34253,7 @@
         "verifiedAtBase": "0d4d1d5a1",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -34442,7 +34300,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-pa_490_nonconviction-set.mjs",
@@ -42715,9 +42573,7 @@
         "verifiedAtBase": "c708dff4d",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42758,9 +42614,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX74",
-      "activeOwnerLane": "rapid-repair",
+      "state": "VERIFY_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -42771,8 +42627,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "va_seal_ancillary_matter_only-set",
@@ -43716,8 +43571,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX75",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_18_to_21-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -43728,7 +43583,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_dui-set",
@@ -43880,8 +43736,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX75",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_dui-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -43892,7 +43748,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_felony-set",
@@ -44044,8 +43901,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX75",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -44056,7 +43913,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_misdemeanor-set",
@@ -44208,8 +44066,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX75",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -44225,7 +44083,8 @@
         "vt_seal_felony-set",
         "vt_seal_pardon-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_nonconviction-set",
@@ -44520,8 +44379,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX75",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-vt_seal_pardon-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-vt_seal_misdemeanor-set.mjs",
@@ -44532,7 +44391,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "vt_seal_under_25-set",

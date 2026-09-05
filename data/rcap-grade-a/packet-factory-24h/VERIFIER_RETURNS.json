@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 864,
+    "rows": 868,
     "independentVerdicts": 240,
-    "failRepairRequired": 67,
-    "passIndependent": 155
+    "failRepairRequired": 65,
+    "passIndependent": 157
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -72,9 +72,7 @@
     "in_infraction_nondisclosure-set",
     "me-seal-prost-set",
     "mi_setaside_marihuana-set",
-    "nc_145_5_felony-set",
     "nc_146_dismissal_petition-set",
-    "nd-nonconviction-close-petition-set",
     "ne-setaside-custodial-set",
     "nh_petition_nonconviction_pre2019-set",
     "nj_arrest_no_conviction-set",
@@ -10875,6 +10873,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_145_5_felony-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_145_5_felony-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5326f747d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_145_5_felony-set",
       "superseded": false
     },
     {
@@ -11236,6 +11248,28 @@
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5326f747d",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "KNOWN_PREFILLS fails on three fields of exactly the shape this lane raised against the sibling family nc_145_5_felony-set and that FIX56 and FIX66 repaired there. FIX66's own return names this family as already recording the same finding against the same AOC-CV-226 binary. THE REPAIR: write participant.date_of_birth into petition.DateOfBirth and participant.zip into petition.PetitionerZip on AOC-CR-287, and participant.street_address into fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226, each at that widget's own /Rect read from the pinned binary, and remove those three rows from requiredBeforeFiling and from the disclosure tables. FIX56 and FIX66 show two channels that work on these exact two binaries: a family-local caption correction where the capture returns a false caption, and the finalizer's opt-in named-fact channel where the shared descriptor list matches nothing. Leave ApplicantStreetNumberAndStreetNameLine2 and the whole 'if different than above' permanent-mailing block refused as they are. The nine counters cannot see this defect -- classifyBlank honours a declared requiredBeforeFiling row without executing its own GENUINELY UNAVAILABLE condition -- so it must be repaired against this row rather than against the verifier.",
+          "evidence": "RULED ON THE WHOLE PACKET AND ON AVAILABILITY, WHICH IS THE QUESTION THE NINE COUNTERS DO NOT ASK. The packet writes 14 facts per fixture, all read back from the delivered bytes and all present on their own component pages (14 of 14 canonical, 14 of 14 boundary): on AOC-CR-287 page 1 PetitionerName, PetitionerAddr1, PetitionerCity, PetitionerState, CountyName and FileNumber; on AOC-CV-226 page 4 ApplicantName, ApplicantCity, ApplicantState, ApplicantZip, ApplicantTelephoneNumber, ApplicantDateOfBirth, CountyName and FileNumber. Every one of the 62 requiredBeforeFiling rows and all 183 refusal rows was then tested against the facts this packet holds. THREE FIELDS FAIL THE CONTRACT'S GENUINELY UNAVAILABLE CONDITION, and two of them say so in their own disclosure text. (1) petition.DateOfBirth on AOC-CR-287 delivered page 1 is declared requiredBeforeFiling with the disclosure 'your date of birth. The platform holds it and writes it on AOC-CV-226' and the reason 'the caption capture returns the blob \"Date Of BirthFull Social Security No.Age At Time Of Offense\" for this blank, so the shared semantics refuse it'. participant.date_of_birth is written in this same packet, on delivered page 4, as 1991-04-17 (canonical) and 1968-12-31 (boundary). (2) petition.PetitionerZip on the same page is declared requiredBeforeFiling with the disclosure 'your ZIP code. The platform holds it and writes it on AOC-CV-226' and the reason 'a caption-capture defect returns the printed word Race for this blank'. participant.zip is written in this same packet, on delivered page 4, as 27601 and 27101-2214. (3) fee_waiver.ApplicantStreetNumberAndStreetNameLine1 on AOC-CV-226 delivered page 4 is declared requiredBeforeFiling with the reason 'no descriptor in the shared list matches \"Street Number And Street Name\"'. participant.street_address is written in this same packet, on delivered page 1, as '42 Larkspur Street' and '1188 Upper Yadkin River Crossing Road, Apartment 14B'. REQUIRED_BEFORE_FILING_CONDITIONS states the disqualifier in terms: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' All three stated reasons are additionally of the POLICY_SHAPED_REASONS shape -- the shared capture returning a wrong caption and the shared descriptor list matching nothing are statements about the build, and neither says the filing does not need the value. THE CONSEQUENCE IS VISIBLE ON THE PAPER, read at 300 dpi. On delivered page 1 the petitioner block prints the name, the street and 'Raleigh   NC' with the ZIP cell empty, and the Date Of Birth cell beneath it is empty. On delivered page 4 the applicant block prints 'Jordan Avery Reyes', then an entirely empty street block, then 'Raleigh   NC   27601' under the caption City, State And Zip Code -- an address with no street, above a city and a ZIP. THE REST OF THE PACKET IS CLEAN: the other refusals that name something a held fact could be read into were each ruled and each is genuine -- PetitionerAddr2 and ApplicantStreetNumberAndStreetNameLine2 are the forms' own optional second address lines; DriversLicenseState is the state that issued a driver licence, which the platform does not hold; CkBox_Attchmt is a sworn election about an AOC-CR-285 continuation; FileNumber1..FileNumber10 are charge-table cells whose companion Date Of Dismissal cells no held record establishes and which REPEATING_ROWS forbids filling in part; JuratCountyWhereNotarized is the notary's own county; and the agency, employer and sworn-financial rows name facts the platform holds nowhere in this packet."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf04",
       "isIndependentVerification": true,
@@ -11393,7 +11427,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_dismissal_petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
@@ -11421,6 +11455,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-deferred-imposition-records-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nd-nonconviction-close-petition-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5326f747d",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-nonconviction-close-petition-set",
       "superseded": false
     },
     {
@@ -11520,7 +11568,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nd-nonconviction-close-petition-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nd-nonconviction-close-petition-set",
@@ -11924,6 +11972,28 @@
     {
       "familyId": "nh_petition_nonconviction_pre2019-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5326f747d",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "KNOWN_PREFILLS fails on five fields the platform holds and the packet leaves blank, four of them on the two lines a reader looks at first: the applicant's town on the petition, and the applicant's name and address on the State Police release. THE REPAIR: bind participant.city to NHJB-2317/'Mailing Address.2', participant.last_name / first_name / middle_name to NHJB-2956/'name.1' / 'name.3' / 'name.4', and the composed street-city-state-zip line to NHJB-2956/'Mailing Address1', each at that widget's own /Rect read from the pinned binary, and remove those five rows from requiredBeforeFiling and from the disclosure tables. Where the shared binder cannot reach a box because New Hampshire's field name names a different line, the sibling repairs on the North Carolina families show two channels that work without touching shared machinery -- a family-local caption correction, and the finalizer's opt-in channel that names one fact and one field. NHJB-2956/'name.2' (maiden name or alias) is correctly left for the participant and must stay that way. The nine counters cannot see this defect -- classifyBlank honours a declared requiredBeforeFiling row without executing its own GENUINELY UNAVAILABLE condition -- so it must be repaired against this row rather than against the verifier.",
+          "evidence": "RULED ON THE WHOLE PACKET AND ON AVAILABILITY, WHICH IS THE QUESTION THE NINE COUNTERS DO NOT ASK AND WHICH THE EARLIER PASS ON THIS FAMILY DID NOT ASK EITHER. The packet writes 19 facts in canonical and 11 in boundary, every one read back from the delivered bytes and located on the component page it belongs to (19 of 19 and 11 of 11). Every one of the 87 requiredBeforeFiling rows and all 133 refusal rows was then tested against the facts this family actually holds, read from the fixture the builder itself supplies. FIVE FIELDS FAIL THE CONTRACT'S GENUINELY UNAVAILABLE CONDITION, and the builder names the constant that produces them HELD_BUT_UNWRITABLE. (1) NHJB-2317/'Mailing Address.2', delivered page 1, printed caption City/Town: participant.city is held -- 'Concord' in the canonical fixture and 'Portsmouth' in the boundary fixture -- and is written nowhere in this packet. (2), (3) and (4) NHJB-2956/'name.1', 'name.3' and 'name.4', delivered page 9, the LAST / FIRST / MI boxes of the State Police release: participant.last_name, first_name and middle_name are held ('Reyes', 'Jordan', 'A'; 'O’Shaughnessy-Whitfield', 'Maria-Alejandra', 'Q'), and participant.full_legal_name is written on three OTHER components of this same packet. (5) NHJB-2956/'Mailing Address1', the STREET/CITY/STATE/ZIP CODE line: its own disclosure says 'The platform holds those as separate facts', and street, state and zip are each written elsewhere in this packet. Every one of the five is disclosed to the participant with the sentence 'the platform holds no value for this and the participant supplies it before filing', which the builder's own fixture contradicts. The stated reasons are of the POLICY_SHAPED_REASONS shape: that New Hampshire named a city box 'Mailing Address.2' and named four name boxes name.1 to name.4 so 'the shared binder resolves the FULL legal name for each of them' describes what this build's binder does, not whether the filing needs the value; the risk of writing the wrong part into the wrong box is a reason to bind the box correctly, not a reason to leave a held fact off a filing. REQUIRED_BEFORE_FILING_CONDITIONS states the disqualifier in terms: 'GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' THE CONSEQUENCE IS VISIBLE ON THE PAPER, read at 300 dpi. Delivered page 1's Applicant's Information block prints the full name, the date of birth, '412 Elm Street, Apartment 3', 'NH', '03301' and the telephone number, and the City/Town cell between the address and the State is EMPTY -- an address with a street, a state and a ZIP and no town. Delivered page 9's Section I prints only 'Date of birth: 1991-04-17'; the Name line above it (LAST (MAIDEN/ALIAS) FIRST MI) is entirely blank and the STREET/CITY/STATE/ZIP CODE line beneath it is entirely blank, so the State Police release the participant is told to send carries no name and no address at all. THE REST OF THE PACKET IS CLEAN: the other refusals that name something a held fact could be read into were each ruled and each is genuine -- NHJB-2328/monthly.12 is what the participant pays for a cell phone each month, not a telephone number; NHJB-2956/gender is the sex the State Police record holds, which the platform does not hold; NHJB-2956/'States/short' is the state that issued a driver licence, not the state of residence; NHJB-2956/address is the third-party recipient's address in Section II, which this route does not use and which the instructions tell the participant to leave blank; NHJB-2317/case is the case NAME as the court styles it; and the charge, sentence, financial and certification rows name facts no held record establishes."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "c9bbb6ecd",
@@ -12120,7 +12190,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nh_petition_vacated-set",
