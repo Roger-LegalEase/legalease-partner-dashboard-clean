@@ -1,3 +1,4 @@
+import { exerciseIllinoisDelivery } from "./test-rcap-il-delivery-ephemeral.mjs";
 // End-to-end verification of the render worker and the delivery layer against
 // a real ephemeral database and a real (filesystem-backed) storage adapter.
 //
@@ -251,6 +252,16 @@ try {
   db.sql(`create table public.partner_records (id uuid primary key, partner_slug text unique not null)`);
   db.sql(`create table public.rcap_persons (id uuid primary key, partner_slug text not null, match_key text not null)`);
   db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
+  // Local identity fixtures and the existing consumer schema; no hosted auth.
+  db.sql(`create role anon nologin`);
+  db.sql(`create role authenticated nologin`);
+  db.sql(`create schema auth`);
+  db.sql(`create table auth.users (id uuid primary key)`);
+  db.sql(`create function auth.uid() returns uuid language sql stable as $$ select null::uuid $$`);
+  db.sql(`insert into auth.users values ('${USER_OWNER}')`);
+  for (const migration of ["phase-26-consumer-briefcase-items.sql", "phase-27-consumer-checkout-metadata.sql", "phase-28-consumer-packet-generation-status.sql"]) {
+    db.applyFile(path.join(rootDir, "supabase", migration));
+  }
   db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
@@ -446,6 +457,7 @@ try {
   // Write-once: uploading over an existing object is refused by the adapter.
   const overwrite = await storage.upload(evidencePath, Buffer.from("evil"));
   assert(overwrite.ok === false, "storage: overwriting a validated object is refused");
+  await exerciseIllinoisDelivery({ db, deps: baseDeps(), deliveryPorts, userId: USER_OWNER, partnerId: P1, personId: PERSON_A });
 } finally {
   db.stop();
   fs.rmSync(storageRoot, { recursive: true, force: true });

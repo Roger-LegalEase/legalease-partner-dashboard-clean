@@ -54,6 +54,7 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { isOperationallySellable } = await import("../src/lib/rcap/render/commercial-admission.ts");
 
 const CHECK = process.argv.includes("--check");
+const JSON_ONLY = process.argv.includes("--json-only");
 const JSON_OUT = "data/rcap-ledger/launch-graph.json";
 const MD_OUT = "docs/record-clearing/LAUNCH_GRAPH.md";
 
@@ -83,6 +84,7 @@ const ownerDecision = readOwnerLegalDecision();
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { resolvePacketRoute, PACKET_ROUTE_AVAILABILITIES } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
 const { renderCustomPleading } = await import("../src/lib/record-clearing/renderers/custom-pleading-renderer.ts");
+const { packetSpecificationFor, specificationContentSha256 } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 
 // ---------------------------------------------------------------------------
 // One denominator. Every consumed ledger must be talking about the same set of
@@ -236,7 +238,14 @@ for (const pathway of intended) {
   const profile = getProfileByJurisdiction(pathway.jurisdiction);
   const compiledPathway = profile?.pathways?.find((candidate) => candidate.id === pathway.pathwayId);
 
-  const resolution = resolvePacketRoute({ state: pathway.jurisdiction, pathway: pathway.pathwayId });
+  // This aggregate includes an automatic sibling. Report the productized
+  // track from its server-owned specification, never infer aggregate admission
+  // or choose the first track in the legal join. Other pathways keep their
+  // existing resolution until separately assigned.
+  const specification = key === "IL:felony-prostitution-relief" ? packetSpecificationFor(key) : null;
+  const selectedTrackId = specification?.trackId && trackIds.includes(specification.trackId)
+    ? specification.trackId : null;
+  const resolution = resolvePacketRoute({ state: pathway.jurisdiction, pathway: pathway.pathwayId, trackId: selectedTrackId });
 
   // Source assets: which official forms the packet specification names, and
   // whether this repository actually holds them.
@@ -261,7 +270,18 @@ for (const pathway of intended) {
     : null;
 
   const factoryResolves = resolution.routeKind === "factory_v2";
-  const artifact = factoryResolves ? probeArtifact({ ...pathway, registryTrackIds: trackIds }, sets, witness) : null;
+  const artifactSets = selectedTrackId ? sets.filter((set) => set.trackId === selectedTrackId) : sets;
+  const artifact = factoryResolves ? probeArtifact(
+    { ...pathway, registryTrackIds: selectedTrackId ? [selectedTrackId] : trackIds }, artifactSets, witness
+  ) : null;
+  if (artifact && selectedTrackId) {
+    artifact.scope = {
+      routeId: key,
+      trackId: selectedTrackId,
+      packetFamilyId: resolution.factoryV2.packetFamilyId,
+      specificationSha256: specificationContentSha256(specification)
+    };
+  }
 
   const gates = {
     publicWitnessReachesThisPathway: witness?.landedOnThisPathway === true,
@@ -330,6 +350,7 @@ for (const pathway of intended) {
       hold: problemAssets.length > 0
     },
     renderer: {
+      ...(selectedTrackId ? { trackId: selectedTrackId } : {}),
       routeKind: resolution.routeKind,
       rendererKind: resolution.rendererKind,
       packetSetIds: resolution.factoryV2?.packetSetIds ?? [],
@@ -573,8 +594,8 @@ if (CHECK) {
 }
 
 fs.writeFileSync(path.join(rootDir, JSON_OUT), serialized);
-fs.writeFileSync(path.join(rootDir, MD_OUT), md);
-console.log(`wrote ${JSON_OUT} and ${MD_OUT}`);
+if (!JSON_ONLY) fs.writeFileSync(path.join(rootDir, MD_OUT), md);
+console.log(`wrote ${JSON_OUT}${JSON_ONLY ? " (Markdown unchanged; full --check still checks both outputs)" : ` and ${MD_OUT}`}`);
 console.log("");
 console.log(`INTENDED PAID:                      ${pad(counters.intendedPaid)}`);
 console.log(`CORRECT-PATHWAY PUBLIC WITNESSES:   ${pad(counters.correctPathwayPublicWitnesses)}`);

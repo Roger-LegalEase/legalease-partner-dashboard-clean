@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 // SELLABLE PATHWAY CLOSURE — canonical verifier.
 //
 //   node scripts/verify-rcap-sellable-pathway-closure.mjs                  # full closure gate

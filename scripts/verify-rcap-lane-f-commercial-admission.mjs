@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 /**
  * Lane F acceptance — every commercial admission point is governed, exactly once.
  *

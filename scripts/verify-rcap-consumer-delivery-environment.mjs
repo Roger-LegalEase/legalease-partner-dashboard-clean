@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 // The delivery control's environment classifier, proven by behaviour.
 //
 // This exists because the previous classifier was wrong in a way that no

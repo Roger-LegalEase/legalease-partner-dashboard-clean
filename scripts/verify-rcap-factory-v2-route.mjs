@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 // Focused gate on the factory_v2 resolver branch.
 //
 //   node scripts/verify-rcap-factory-v2-route.mjs

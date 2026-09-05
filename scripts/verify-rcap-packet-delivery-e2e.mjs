@@ -1,3 +1,4 @@
+import { exerciseIllinoisDelivery } from "./test-rcap-il-delivery-ephemeral.mjs";
 // Browser-level delivery proof: a mobile-viewport Chromium downloads a packet
 // over real HTTP from the identical delivery core the production route uses,
 // and the delivery events land in a real database.
@@ -105,12 +106,23 @@ const deliveryPorts = {
 
 let server;
 let browser;
+let illinoisDelivery;
 try {
   db.sql(`create role service_role nologin bypassrls`);
   db.sql(`alter default privileges in schema public grant all on tables to service_role`);
   db.sql(`create table public.partner_records (id uuid primary key, partner_slug text unique not null)`);
   db.sql(`create table public.rcap_persons (id uuid primary key, partner_slug text not null, match_key text not null)`);
   db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
+  // Local identity fixtures and the existing consumer schema; no hosted auth.
+  db.sql(`create role anon nologin`);
+  db.sql(`create role authenticated nologin`);
+  db.sql(`create schema auth`);
+  db.sql(`create table auth.users (id uuid primary key)`);
+  db.sql(`create function auth.uid() returns uuid language sql stable as $$ select null::uuid $$`);
+  db.sql(`insert into auth.users values ('${USER_OWNER}')`);
+  for (const migration of ["phase-26-consumer-briefcase-items.sql", "phase-27-consumer-checkout-metadata.sql", "phase-28-consumer-packet-generation-status.sql"]) {
+    db.applyFile(path.join(rootDir, "supabase", migration));
+  }
   db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
@@ -153,7 +165,7 @@ try {
     }
   };
 
-  const cycle = await runWorkerCycle({
+  const workerDeps = {
     queue: {
       claim: async (worker) => {
         const row = db.json(`select row_to_json(t) from (select * from claim_packet_render_job('${worker}', null, 60)) t`);
@@ -193,7 +205,8 @@ try {
     },
     workerId: "e2e-worker",
     containerDigest: "sha256:e2e-container"
-  });
+  };
+  const cycle = await runWorkerCycle(workerDeps);
   assert(cycle.outcome === "finalized" && cycle.accountingResult === "consumed", `e2e: worker produced a consumed artifact (${JSON.stringify(cycle)})`);
 
   // The HTTP wrapper: same decision core, session-cookie test identity.
@@ -209,13 +222,14 @@ try {
     );
     const userId = cookies[SESSION_COOKIE] === SESSION_VALUE ? USER_OWNER : null;
 
-    const decision = await authorizePacketDownload(deliveryPorts, { jobId: match[1], userId });
+    const activePorts = illinoisDelivery?.jobs.some((job) => job.jobId === match[1]) ? illinoisDelivery.ports : deliveryPorts;
+    const decision = await authorizePacketDownload(activePorts, { jobId: match[1], userId });
     if (!decision.ok) {
       res.writeHead(decision.status, { "content-type": "application/json" });
       res.end(JSON.stringify({ error: decision.message, code: decision.code }));
       return;
     }
-    const response = await streamAuthorizedPacket(deliveryPorts, decision, {
+    const response = await streamAuthorizedPacket(activePorts, decision, {
       userId,
       requestContext: { surface: "e2e", userAgentClass: "mobile" }
     });
@@ -304,6 +318,15 @@ try {
   await secondDownload;
   const after = db.scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`);
   assert(before === after, "e2e: a repeat mobile download consumes nothing");
+  illinoisDelivery = await exerciseIllinoisDelivery({ db, deps: workerDeps, deliveryPorts, userId: USER_OWNER, partnerId: P1, personId: PERSON_A });
+  for (const job of illinoisDelivery.jobs) {
+    const received = page.waitForEvent("download", { timeout: 15000 });
+    await page.goto(`http://127.0.0.1:${port}/api/rcap/packets/${job.jobId}/download`).catch(() => {});
+    const download = await received;
+    const target = path.join(storageRoot, `${job.kind}.pdf`);
+    await download.saveAs(target);
+    assert(fs.readFileSync(target).equals(illinoisDelivery.bytes), `Illinois ${job.kind}: mobile browser received the exact pinned fixture`);
+  }
 } finally {
   if (browser) await browser.close();
   if (server) server.close();

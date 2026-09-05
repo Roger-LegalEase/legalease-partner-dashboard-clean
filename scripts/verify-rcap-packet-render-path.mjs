@@ -1,3 +1,4 @@
+await import("./verify-rcap-il-delivery-binding.mjs");
 // Regression: the deployed packet serving path produces real, parseable PDF bytes.
 //
 // This exists because the previous request path launched Playwright per request.

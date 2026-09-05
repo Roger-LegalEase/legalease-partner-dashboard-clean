@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
 import { getPacketArtifactStorage } from "@/lib/rcap/render/artifact-storage";
 import { getRenderJob, recordDeliveryEvent } from "@/lib/rcap/render/job-queue";
 import { authorizePacketDownload, streamAuthorizedPacket, type DeliveryPorts } from "@/lib/rcap/render/packet-delivery";
@@ -30,7 +33,30 @@ export async function GET(
   }
 
   const ports: DeliveryPorts = {
-    getJob: (id) => getRenderJob(id),
+    getJob: async (id) => {
+      const job = await getRenderJob(id);
+      if (job?.routeId === "IL:felony-prostitution-relief") {
+        if (!resolveConsumerDeliveryAccess({ subjectId: auth.userId ?? null }).allowed) return null;
+        ports.getCurrentVerification = async (itemId) => {
+          if (!auth.userId) return null;
+          const item = await getBriefcaseItem(auth.userId, itemId);
+          if (!item) return null;
+          try {
+            const verification = await requireCurrentPacketVerification(auth.userId, item);
+            return {
+              snapshot: verification.snapshot,
+              hash: verification.hash,
+              ownerUserId: auth.userId,
+              matterId: consumerMatterIdForItem(item.id),
+              alreadyDownloaded: job.status === "delivered"
+            };
+          } catch {
+            return null;
+          }
+        };
+      }
+      return job;
+    },
     userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),
     storage,
     recordEvent: (input) => recordDeliveryEvent(input)

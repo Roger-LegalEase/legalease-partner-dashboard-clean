@@ -14,7 +14,7 @@ import type {
   FinalVerificationSnapshot,
   FulfillmentRequestContext
 } from "@/lib/rcap/fulfillment/grade-a-request-context";
-import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
+import { packetSpecificationFor, packetSpecificationForTrack } from "@/lib/rcap/grade-a/packet-specification";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 
 /**
@@ -207,13 +207,20 @@ export function finalVerificationSnapshotFrom(input: {
 }): FinalVerificationSnapshot {
   const { snapshot } = input;
   const jurisdiction = String(snapshot.jurisdiction ?? "").trim().toUpperCase();
+  const boundRouteId = routeIdFor(jurisdiction, String(snapshot.pathwayId ?? "").trim());
+  // Illinois shares this pathway with an automatic track. A route-level family
+  // lookup must not erase the exact track verified by the server. Keep a wrong
+  // or missing binding empty so the existing admission authority refuses it.
+  const boundPacketFamilyId = boundRouteId === "IL:felony-prostitution-relief"
+    && packetSpecificationForTrack(boundRouteId, snapshot.selectedTrackId ?? "")?.packetFamily !== input.packetFamilyId
+    ? null : input.packetFamilyId;
   return {
     snapshotId: input.verificationHash,
     outcome: "VERIFIED_PACKET_READY",
     matterId: input.matterId,
     ownerUserId: input.ownerUserId,
-    boundRouteId: routeIdFor(jurisdiction, String(snapshot.pathwayId ?? "").trim()),
-    boundPacketFamilyId: input.packetFamilyId,
+    boundRouteId,
+    boundPacketFamilyId,
     routeContractVersion: snapshot.profileVersion ?? "",
     legalRuleVersion: snapshot.profileAuthorityFingerprint ?? "",
     factSnapshotSha256: input.verificationHash,

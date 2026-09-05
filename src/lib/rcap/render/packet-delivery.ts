@@ -138,12 +138,15 @@ export async function authorizePacketDownload(
   // and specific, and reaching this point means the object is genuinely this
   // job's artifact; refusing here is then a statement about commercial
   // authority rather than about the file.
-  if (ports.getCurrentVerification) {
-    const consumerItemId = job.consumerBriefcaseItemId;
+  const exactIllinoisRoute = job.routeId === "IL:felony-prostitution-relief";
+  if (ports.getCurrentVerification || exactIllinoisRoute) {
+    // Sponsored enqueue deliberately has no consumer-payment binding. Its
+    // participant-owned Briefcase item still supplies the current verification.
+    const consumerItemId = job.consumerBriefcaseItemId ?? (exactIllinoisRoute ? job.briefcaseItemId : null);
     if (!consumerItemId) {
       return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
     }
-    const current = await ports.getCurrentVerification(consumerItemId);
+    const current = await ports.getCurrentVerification?.(consumerItemId);
     if (!current) {
       // No current verification is a denial, not a pass. "We cannot see the
       // current verification" and "the verification is current" are different
@@ -152,6 +155,10 @@ export async function authorizePacketDownload(
     }
     if (current.ownerUserId !== input.userId) {
       return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    }
+    if ((exactIllinoisRoute || `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` === "IL:felony-prostitution-relief")
+      && (job.routeId !== `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}` || job.matterId !== current.matterId)) {
+      return { ok: false, status: 403, code: "route_binding_mismatch", message: "This packet is not available for download." };
     }
     try {
       governPacketDownloadAdmission({
