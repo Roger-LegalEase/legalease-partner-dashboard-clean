@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 846,
+    "rows": 848,
     "independentVerdicts": 240,
     "failRepairRequired": 69,
     "passIndependent": 153
@@ -73,7 +73,7 @@
     "il-seal-nonconv-set",
     "in_infraction_nondisclosure-set",
     "me-seal-prost-set",
-    "mi_setaside_trafficking-set",
+    "mi_setaside_marihuana-set",
     "nc_145_5_felony-set",
     "nc_146_dismissal_petition-set",
     "nd-nonconviction-close-petition-set",
@@ -9769,6 +9769,28 @@
     },
     {
       "familyId": "mi_setaside_marihuana-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d3312169e",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "A court receiving this application reads a party block with no applicant name, no address and no telephone number, on a filing whose whole purpose is to identify the applicant, while the packet's own instructions tell that applicant the platform holds all three. The capability exists in this repository at this base and is not a shared-registry gap: the sibling family scripts/build-census-v1-mi_setaside_trafficking-set.mjs composes exactly these three facts into the identically captioned box on MC 227b through the SHARED finalizer channel composedFieldValues (scripts/rcap-official-forms/rcap-official-form-finalize.mjs), one fact per line at a measured 9pt ceiling, and its header comment records the ruling verbatim: 'This family shipped it BLANK, on the reason that the build has no way to compose them into a single block for this form. That is a sentence about the build, and the completeness contract classes a blank excused that way as a missing known fact rather than an unavailable one.' REPAIR: compose dinfo from participant.full_legal_name, street_address and phone through composedFieldValues, sized against this widget's own 48pt of clear height, and correct the dinfo row's reason and its disclosure line; if a size measurement shows the block genuinely cannot be fitted, the row must say THAT, with the measurement, rather than that the platform holds no value. No other field on this form is affected: the conviction table is genuinely unheld (the fixtures carry no matter.charges) and the conviction-date column is unreachable through the shared protect rule /\\bconvict(ed|ion)\\b/ in any case.",
+          "evidence": "Measured from the bytes: the whole packet adds TWO words of ink to each fixture - the county (Wayne / Kent) and the caption case number - and nothing else on either page. The box captioned 'Defendant's name, address, and telephone no.' (field dinfo, page 1, rect 318.6,580.66 257.4x48) is delivered EMPTY, and the platform holds all three facts it asks for: the builder's own FIXTURES table in scripts/build-census-v1-mi_setaside_marihuana-set.mjs carries participant.full_legal_name, participant.street_address and participant.phone for both the canonical and the boundary persona (the same two personas the trafficking family uses). The family says so itself in three places: build-findings.json - 'The platform holds all three separately and the shared semantic registry has no composed fact for a name-address-telephone block'; production-field-map.json's dinfo row, whose `why` reads 'the platform holds no value for this ... The platform holds all three but has no way to compose them into a single block for this form' in one sentence; and participant-instructions.md line 49, which prints that same sentence to the participant. The completeness contract classes the operative half of that reason - a statement of what the build can do - as KNOWN_FACT_NOT_WRITTEN, and the disposition it is filed under, REQUIRED_BEFORE_FILING, requires GENUINELY UNAVAILABLE: 'the platform holds no value for the fact'."
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
+      "superseded": false
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
@@ -9779,7 +9801,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "mi_setaside_marihuana-set",
@@ -9944,7 +9966,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "mi_setaside_trafficking-set",
@@ -9967,6 +9989,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
       "superseded": true
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d3312169e",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": false
     },
     {
       "familyId": "mi_setaside_trafficking-set",

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "99eb3d3b5b3a41b85d2e3969c2fa407e7f7dd7b6",
+  "minimumCaptainSha": "ecd6df3e96d42e074c96f5695eade4b5708d0d7c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,16 +72,16 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 16,
-    "verifyPending": 13,
-    "repairRequired": 45,
+    "verifyPending": 11,
+    "repairRequired": 46,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 133,
-    "FAIL_REPAIR_REQUIRED": 55,
+    "COMPLETE_PACKET_PROVEN": 134,
+    "FAIL_REPAIR_REQUIRED": 56,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
-    "VERIFY_PENDING": 13,
+    "VERIFY_PENDING": 11,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 16,
@@ -25267,18 +25267,17 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf09",
-        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf05",
+        "verifiedAtBase": "d3312169e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -25304,11 +25303,19 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "A court receiving this application reads a party block with no applicant name, no address and no telephone number, on a filing whose whole purpose is to identify the applicant, while the packet's own instructions tell that applicant the platform holds all three. The capability exists in this repository at this base and is not a shared-registry gap: the sibling family scripts/build-census-v1-mi_setaside_trafficking-set.mjs composes exactly these three facts into the identically captioned box on MC 227b through the SHARED finalizer channel composedFieldValues (scripts/rcap-official-forms/rcap-official-form-finalize.mjs), one fact per line at a measured 9pt ceiling, and its header comment records the ruling verbatim: 'This family shipped it BLANK, on the reason that the build has no way to compose them into a single block for this form. That is a sentence about the build, and the completeness contract classes a blank excused that way as a missing known fact rather than an unavailable one.' REPAIR: compose dinfo from participant.full_legal_name, street_address and phone through composedFieldValues, sized against this widget's own 48pt of clear height, and correct the dinfo row's reason and its disclosure line; if a size measurement shows the block genuinely cannot be fitted, the row must say THAT, with the measurement, rather than that the platform holds no value. No other field on this form is affected: the conviction table is genuinely unheld (the fixtures carry no matter.charges) and the conviction-date column is unreachable through the shared protect rule /\\bconvict(ed|ion)\\b/ in any case.",
+          "evidence": "Measured from the bytes: the whole packet adds TWO words of ink to each fixture - the county (Wayne / Kent) and the caption case number - and nothing else on either page. The box captioned 'Defendant's name, address, and telephone no.' (field dinfo, page 1, rect 318.6,580.66 257.4x48) is delivered EMPTY, and the platform holds all three facts it asks for: the builder's own FIXTURES table in scripts/build-census-v1-mi_setaside_marihuana-set.mjs carries participant.full_legal_name, participant.street_address and participant.phone for both the canonical and the boundary persona (the same two personas the trafficking family uses). The family says so itself in three places: build-findings.json - 'The platform holds all three separately and the shared semantic registry has no composed fact for a name-address-telephone block'; production-field-map.json's dinfo row, whose `why` reads 'the platform holds no value for this ... The platform holds all three but has no way to compose them into a single block for this form' in one sentence; and participant-instructions.md line 49, which prints that same sentence to the participant. The completeness contract classes the operative half of that reason - a statement of what the build can do - as KNOWN_FACT_NOT_WRITTEN, and the disposition it is filed under, REQUIRED_BEFORE_FILING, requires GENUINELY UNAVAILABLE: 'the platform holds no value for the fact'."
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
@@ -25398,10 +25405,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "c62b49a9b",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf05",
+        "verifiedAtBase": "d3312169e",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -25432,19 +25439,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "The packet does not state where self-help ends for the one thing this track exists to do. REPAIR, inside this family and inside participant-instructions.md alone: add the attorney-or-qualified-advocate review instruction for the item 2 narrative, in the adopted memo's own terms and with its own limits (it creates no upload requirement, no LegalEase staff review, no proof-of-review field, no staff-approval status and no generation blocker), and add the scope-of-relief paragraph naming the driving record, SORA, firearm rights, restitution and the non-return of money paid. Neither needs a legal input: both are quoted, adopted and provenanced in MI.memo.json today. The second item is shared with mi_setaside_application, mi_setaside_marihuana, mi_setaside_first_owi and mi_setaside_csc4_pre2015, and the only other built Michigan family, mi-setaside-marihuana-set, omits it too, so whoever repairs it should be told it is a Michigan-wide gap and not this family's invention. No packet byte and no field map needs to change for either.",
-          "evidence": "The four selfHelpStopConditions of MI.memo.json for this track ARE stated -- participant-instructions.md 'What happens after you file' names opposition, disputed victim status, an evidentiary or contested hearing and a request for individualized advocacy as requiring a post-generation handoff, and 'What this packet is not' says the packet is not legal advice, is not filed for the participant and does not decide eligibility. That is the ground three earlier lanes measured, and it holds. What no lane has measured, and what fails here, is the SAME MEMO'S legalDesignDecision.limitations, two of which are classified packet_instruction and neither of which reaches anything the participant reads. (1) THE DECISIVE ONE, and it is specific to this track and to no other Michigan track: 'The packet carries a participant-facing instruction that the trafficking-related factual narrative should be reviewed by an attorney or qualified advocate before filing' -- classificationBasis batch_decision_matrix, sourceFile LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md, sourceHeading 'Priority issue resolution matrix / 6. Michigan'. Measured across the ten MI relief tracks in the memo, mi_setaside_trafficking is the only one carrying it, and the track's own participantInputs asks wantsAdvocateReview, 'Would you like information about attorneys and advocates who review trafficking-related statements before filing?', requirement required. The words attorney-or-advocate review, advocate, lawyer and counsel appear nowhere in participant-instructions.md, nowhere in the four delivered pages of either fixture, nowhere in build-findings.json, production-field-map.json, product-wiring.json or reports/independent-visual-review.json, and nowhere in scripts/build-census-v1-mi_setaside_trafficking-set.mjs. The packet asks the participant to write, sign and swear the nexus statement that carries the whole burden of proof under MCL 780.621d(7)(g) -- delivered page 1 item 2, which the packet correctly refuses to draft -- and then never tells them the one thing the adopted memo requires it to tell them at that point. (2) The second, shared with four other Michigan tracks rather than invented here: 'State plainly what a set-aside does not reach: the Secretary of State driving record survives, SORA registration and reporting obligations continue for a listed offence, firearm rights are not restored, restitution obligations survive, and no fine, costs or other money paid is returned' -- classificationBasis explicit_state_addendum, sourceFile LegalEase-Michigan-Record-Clearing-Legal-Review.md, sourceHeading 'TRACK 1 / FILING AND POST-FILING PROCESS'. None of SORA, firearm, restitution, driving record or Secretary of State appears in participant-instructions.md or in the packet. Not a defect and checked because the same memo forbids it: the packet never uses the word expunge for this relief, which is the third packet_instruction and the only one it satisfies."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",

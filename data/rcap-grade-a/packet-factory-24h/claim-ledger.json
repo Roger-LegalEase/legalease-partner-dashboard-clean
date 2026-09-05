@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "99eb3d3b5b3a41b85d2e3969c2fa407e7f7dd7b6",
+  "generatedAtCommit": "ecd6df3e96d42e074c96f5695eade4b5708d0d7c",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5048,18 +5048,16 @@
     {
       "subjectType": "packet-family",
       "subjectId": "mi_setaside_marihuana-set",
-      "itemId": null,
       "familyId": "mi_setaside_marihuana-set",
+      "itemId": null,
       "familyIds": [
         "mi_setaside_marihuana-set"
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX51",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T17:18:44.844Z",
-      "releaseReason": "Added MI.memo.json's adopted scope-of-relief disclosure (driving record, SORA, firearm rights, restitution, no return of money paid) to participant-instructions.md; no packet byte moved; independent verification owed; return at data/rcap-grade-a/packet-factory-24h/fix51/rows.json (Replayed by Captain from FIX51 commit f9ecf9e17.)"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13596,7 +13594,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "83b752078058a7149083bca11811cc5e01f206f43223e75b387fe37bdc3f2e84",
+  "claimsDigest": "f41dea9278f4b410c7b65f42ed1b57d1b292a9d52274ab31384b4213abfcf827",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -37126,6 +37124,16 @@
       "previouslyReleasedAt": "2026-09-05T17:50:13.116Z",
       "reissuedAt": "2026-09-05T21:22:11.328Z",
       "reason": "Independent read owed after FIX63 (the Virginia host opts each family into suppressSynthesizedAppearances and fitAppearancesToRect) and the central raster receipt from run 33992024555 on d3312169e; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "dispatchNames": "FIX04",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T21:35:37Z",
+      "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
