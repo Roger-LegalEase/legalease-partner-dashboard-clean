@@ -94,6 +94,30 @@ const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const OUT = "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-co_motion_seal_conviction-set.mjs";
 
+/*
+ * TWO OF FOUR, AND THE PARTICIPANT USED TO BE THE LAST TO KNOW.
+ *
+ * The authoritative packet-set manifest names FOUR required components on this
+ * route -- the motion, the order, a notice and a second order -- and records
+ * that the last two are absent AND that their official form numbers are
+ * unresolved, because the JDF-611 guide renders those digits as vector glyphs
+ * and guessing a JDF number would be fabricating an official identity. The same
+ * manifest entry already reads packetSetCompleteness.state "incomplete".
+ *
+ * That blockage is a source problem and this builder cannot lift it. Rendering
+ * the two missing documents would mean inventing them, and it is not done here.
+ *
+ * But the participant was not told. The instructions opened "This packet is two
+ * Colorado Judicial Department forms, filed together" and stopped there, so a
+ * person filing this packet had every reason to believe it was the whole filing.
+ * The disclosure is repairable without lifting the blockage, and it is separate
+ * from it: what is owed is an accurate statement of what the packet is and what
+ * it is missing, in the manifest's own words, bound to the manifest by digest.
+ */
+const GROUNDING_RECORDS = Object.freeze({
+  packetSetManifest: "data/record-clearing/legal-design-packet-set-manifests.json"
+});
+
 const ROUTE = Object.freeze({
   jurisdiction: "CO",
   routeKey: "obligation:track-pathway:CO:co_motion_seal_conviction:petition-based-conviction-sealing-jdf-612-24-72-706",
@@ -112,6 +136,82 @@ function corpusRoot() {
   assert.ok(fs.existsSync(configured), `the Master Library is not mounted at ${configured}`);
   return configured;
 }
+
+/*
+ * Read a committed record, hash the bytes that were read, and keep both.
+ */
+function readGroundingRecord(relative) {
+  const bytes = fs.readFileSync(path.join(ROOT, relative));
+  return {
+    path: relative,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    data: JSON.parse(bytes.toString("utf8"))
+  };
+}
+
+/*
+ * What the authoritative manifest says this packet set is, and what it says is
+ * missing from it.
+ *
+ * Nothing here is inferred. The components this build renders are matched to the
+ * manifest by their official form id; the ones it cannot render are the ones the
+ * manifest itself marks sourceStatus "identity_unresolved", and their absence is
+ * reported in the manifest's own sourceStatusBasis wording. If the manifest ever
+ * resolves them the delivered count rises on its own and the disclosure below
+ * changes with it -- and if it ever marks this set complete while two components
+ * are still unrenderable, the build stops rather than printing a reassurance.
+ */
+function loadPacketSetGrounding(deliveredFormNumbers) {
+  const record = readGroundingRecord(GROUNDING_RECORDS.packetSetManifest);
+  const packetSet = (record.data.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
+  assert.ok(packetSet, `${GROUNDING_RECORDS.packetSetManifest} holds no packet set ${FAMILY_ID}`);
+
+  const required = (packetSet.components ?? []).filter((row) => row.requirement === "required");
+  assert.ok(required.length > 0, `${FAMILY_ID} declares no required components`);
+
+  const delivered = required.filter((row) => row.officialFormId
+    && deliveredFormNumbers.includes(String(row.officialFormId).replace(/\s+/g, "-")));
+  const undelivered = required.filter((row) => !delivered.includes(row));
+  const completeness = packetSet.packetSetCompleteness ?? null;
+
+  assert.ok(completeness && typeof completeness.state === "string",
+    `${FAMILY_ID} records no packetSetCompleteness.state`);
+  if (undelivered.length > 0) {
+    assert.notEqual(completeness.state, "complete",
+      `${FAMILY_ID} is marked complete while ${undelivered.length} required component(s) cannot be rendered`);
+    for (const row of undelivered) {
+      assert.ok(row.sourceStatusBasis,
+        `${FAMILY_ID} component ${row.componentId} is undelivered and states no sourceStatusBasis to disclose`);
+    }
+  }
+
+  return { record, packetSet, required, delivered, undelivered, completeness };
+}
+
+/*
+ * Plain-English names for the manifest's component roles.
+ *
+ * The manifest speaks in role identifiers and the participant should not have to.
+ * A role the manifest introduces later prints as its own identifier rather than
+ * as a guess, which is visible and correctable; a lookup that invented a name for
+ * an unknown role would not be.
+ *
+ * The ordinal matters here and is derived, not asserted: this route requires TWO
+ * orders and the packet renders one of them, so the missing one has to read as
+ * "a second order for the court to sign" or the participant will look at the
+ * JDF-615 in their hand and think the list is already satisfied. The manifest's
+ * own basis text calls it "a second order" for exactly that reason.
+ */
+const DOCUMENT_ROLE_NOUNS = Object.freeze({
+  primary_filing: "motion",
+  proposed_order: "order for the court to sign",
+  required_filing: "notice"
+});
+const missingComponentLabel = (row, delivered) => {
+  const noun = DOCUMENT_ROLE_NOUNS[row.role] ?? row.role;
+  return delivered.some((d) => d.role === row.role) ? `a second ${noun}` : `a ${noun}`;
+};
 
 const SUPPLY = (what) => ({ policy: "supply", what });
 const WRITE = (fact) => ({ policy: "write", fact });
@@ -733,7 +833,7 @@ function requiredBeforeFilingItems(maps) {
     })));
 }
 
-function participantInstructions(maps, rbf) {
+function participantInstructions(maps, rbf, packetSet) {
   const byDoc = new Map();
   for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
   const elections = maps.flatMap((m) => m.selectionControls.map((c) => ({ document: m.formNumber, ...c })));
@@ -751,6 +851,36 @@ function participantInstructions(maps, rbf) {
     + "phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of "
     + "those blanks is listed below by the section of the form it is in.", ""
   );
+
+  if (packetSet.undelivered.length > 0) {
+    out.push("## This packet is not the whole filing — read this before you file", "");
+    out.push(
+      `**Colorado's own guide for this route requires ${packetSet.required.length} documents, and this packet contains `
+      + `${packetSet.delivered.length} of them.** The authoritative packet-set record for this route says so in its own `
+      + `words: “${packetSet.completeness.basis}” It records the state of this packet set as `
+      + `**${packetSet.completeness.state}**.`, ""
+    );
+    out.push(
+      `The ${packetSet.undelivered.length} documents this packet does not contain are:`, ""
+    );
+    for (const row of packetSet.undelivered) {
+      out.push(`- **${missingComponentLabel(row, packetSet.delivered)}** — ${row.sourceStatusBasis}`);
+    }
+    out.push("");
+    out.push(
+      "**No form number is printed for either of them here, and none should be inferred from this packet.** The record "
+      + "is explicit that guessing a JDF number would be fabricating an official identity, and this packet will not do "
+      + "that. What that means for you is practical: ask the clerk of the court, or the Colorado Judicial Department's "
+      + "self-help centre, for the current JDF-611 guide and for the notice and the second order it requires, and get "
+      + "them from Colorado rather than from here. Do not assume the two forms in this packet are a complete filing, "
+      + "and do not assume the court will supply the missing two for you.", ""
+    );
+    out.push(
+      "Everything else in this packet — both forms, every blank named below and every choice left to you — is prepared "
+      + "and is accurate for the two documents it does contain. The gap above is about what is missing from the set, "
+      + "not about what is in it.", ""
+    );
+  }
 
   out.push("## Where you file this", "");
   out.push(
@@ -826,6 +956,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
       overlayDirectoryTouched: false
     };
   }
+
+  /* What the authoritative manifest says the whole set is, measured against the
+   * documents this build can actually render from held sources. */
+  const packetSet = loadPacketSetGrounding(resolved.map((r) => r.formNumber));
 
   const censuses = [];
   for (const source of resolved) {
@@ -938,7 +1072,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
   }
 
   const rbf = requiredBeforeFilingItems(maps);
-  const instructionsText = participantInstructions(maps, rbf);
+  const instructionsText = participantInstructions(maps, rbf, packetSet);
   fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
 
   writeJson(`${OUT}/source-receipt.json`, {
@@ -953,6 +1087,38 @@ export async function runFamily(argv = process.argv.slice(2)) {
       sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
       pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
     })),
+    /*
+     * The manifest is bound here because the packet now quotes it to the
+     * participant. It is the record that says the set is incomplete, and a
+     * disclosure of incompleteness is worth no more than the record behind it.
+     */
+    groundingRecords: [
+      {
+        path: packetSet.record.path, sha256: packetSet.record.sha256, byteLength: packetSet.record.byteLength,
+        packetSetId: FAMILY_ID,
+        fieldsQuotedOnParticipantSurfaces: [
+          "packetSetCompleteness.state", "packetSetCompleteness.basis", "components[].sourceStatusBasis"
+        ],
+        whyItIsBound:
+          "participant-instructions.md now states that this route requires "
+          + `${packetSet.required.length} required components and that this packet contains `
+          + `${packetSet.delivered.length}, quoting the manifest's own completeness basis and the per-component reason `
+          + "each missing identity is unresolved."
+      }
+    ],
+    componentSetDelivery: {
+      requiredComponents: packetSet.required.length,
+      deliveredComponents: packetSet.delivered.length,
+      packetSetCompletenessState: packetSet.completeness.state,
+      undelivered: packetSet.undelivered.map((row) => ({
+        componentId: row.componentId, role: row.role, officialFormId: row.officialFormId ?? null,
+        sourceStatus: row.sourceStatus ?? null, sourceStatusBasis: row.sourceStatusBasis ?? null
+      })),
+      disclosedToParticipant: packetSet.undelivered.length > 0,
+      whyTheyAreNotRendered:
+        "Their official identities are unresolved in the authoritative manifest. Rendering them would require "
+        + "inventing an official form identity, which this build refuses. The gap is disclosed, not filled."
+    },
     sourceBinaryCommitted: false, commercialRoutesOpened: 0
   });
 

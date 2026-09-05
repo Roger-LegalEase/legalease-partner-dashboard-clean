@@ -38,6 +38,43 @@
       "instrumentKind": "proposed_order"
     }
   ],
+  "groundingRecords": [
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "byteLength": 3683419,
+      "packetSetId": "co_motion_seal_conviction-set",
+      "fieldsQuotedOnParticipantSurfaces": [
+        "packetSetCompleteness.state",
+        "packetSetCompleteness.basis",
+        "components[].sourceStatusBasis"
+      ],
+      "whyItIsBound": "participant-instructions.md now states that this route requires 4 required components and that this packet contains 2, quoting the manifest's own completeness basis and the per-component reason each missing identity is unresolved."
+    }
+  ],
+  "componentSetDelivery": {
+    "requiredComponents": 4,
+    "deliveredComponents": 2,
+    "packetSetCompletenessState": "incomplete",
+    "undelivered": [
+      {
+        "componentId": "co_motion_seal_conviction-notice-3",
+        "role": "required_filing",
+        "officialFormId": null,
+        "sourceStatus": "identity_unresolved",
+        "sourceStatusBasis": "The official JDF-611 guide requires a notice. Its exact form number is NOT established: the guide renders those digits as vector glyphs, and guessing a JDF number would be fabricating an official identity. Resolving it requires inspecting the guide as page images or obtaining a current official source that names it."
+      },
+      {
+        "componentId": "co_motion_seal_conviction-second-order-4",
+        "role": "proposed_order",
+        "officialFormId": null,
+        "sourceStatus": "identity_unresolved",
+        "sourceStatusBasis": "The official JDF-611 guide requires a second order. Its exact form number is NOT established, for the same reason as the notice above, and is not inferred."
+      }
+    ],
+    "disclosedToParticipant": true,
+    "whyTheyAreNotRendered": "Their official identities are unresolved in the authoritative manifest. Rendering them would require inventing an official form identity, which this build refuses. The gap is disclosed, not filled."
+  },
   "sourceBinaryCommitted": false,
   "commercialRoutesOpened": 0
 }

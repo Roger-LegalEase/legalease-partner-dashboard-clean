@@ -9,6 +9,19 @@ Both are prepared for one route — **Motion to seal conviction records, the pet
 
 The platform filled in what it holds about you and your case: your name, your date of birth, your address, your phone, your e-mail, the county and the case number, on both forms. Everything else is yours, and every one of those blanks is listed below by the section of the form it is in.
 
+## This packet is not the whole filing — read this before you file
+
+**Colorado's own guide for this route requires 4 documents, and this packet contains 2 of them.** The authoritative packet-set record for this route says so in its own words: “The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.” It records the state of this packet set as **incomplete**.
+
+The 2 documents this packet does not contain are:
+
+- **a notice** — The official JDF-611 guide requires a notice. Its exact form number is NOT established: the guide renders those digits as vector glyphs, and guessing a JDF number would be fabricating an official identity. Resolving it requires inspecting the guide as page images or obtaining a current official source that names it.
+- **a second order for the court to sign** — The official JDF-611 guide requires a second order. Its exact form number is NOT established, for the same reason as the notice above, and is not inferred.
+
+**No form number is printed for either of them here, and none should be inferred from this packet.** The record is explicit that guessing a JDF number would be fabricating an official identity, and this packet will not do that. What that means for you is practical: ask the clerk of the court, or the Colorado Judicial Department's self-help centre, for the current JDF-611 guide and for the notice and the second order it requires, and get them from Colorado rather than from here. Do not assume the two forms in this packet are a complete filing, and do not assume the court will supply the missing two for you.
+
+Everything else in this packet — both forms, every blank named below and every choice left to you — is prepared and is accurate for the two documents it does contain. The gap above is about what is missing from the set, not about what is in it.
+
 ## Where you file this
 
 File both forms with the **clerk of the Colorado court that entered the conviction** — the District Court or the County Court named in section A of the motion, in the county already filled in for you. The Colorado Judicial Department publishes each courthouse's address; this packet does not state one, because the platform holds no court directory and an unsourced address in a filing instruction is worse than none.
