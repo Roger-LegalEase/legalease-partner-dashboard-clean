@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "77fe1d0f63fee83c3ddedec7898a58a7eb04d4ea",
+  "minimumCaptainSha": "26fe9a88b0c2f11e987cbbb7cca501611dccbdba",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 0,
+    "activeFamiliesExcluded": 4,
     "guidanceOnly": 0,
-    "remaining": 346,
+    "remaining": 342,
     "sourceReady": 86,
     "sourceBlocked": 6,
     "legalBlocked": 7,
     "verifyPending": 11,
-    "repairRequired": 55,
+    "repairRequired": 49,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 142,
-    "FAIL_REPAIR_REQUIRED": 55,
+    "FAIL_REPAIR_REQUIRED": 53,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 86,
@@ -86,8 +86,8 @@
     "VERIFY_PENDING": 11,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
+    "BUILT_RASTER_PENDING": 4,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -108,7 +108,12 @@
       "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION",
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
-    "families": [],
+    "families": [
+      "in_arrest_no_charges-set",
+      "in_section1_petition-set",
+      "tx_nd_dwi_deferred-set",
+      "tx_nd_probation_misdemeanor-set"
+    ],
     "staleRosterFamilies": [
       {
         "familyId": "sd_arrest_expungement-set",
@@ -155,13 +160,13 @@
     "rule": "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
   },
   "theHonestShape": {
-    "buildersProvisioned": 24,
+    "buildersProvisioned": 27,
     "sourceReadyFamilies": 86,
-    "familiesPerBuilder": 3.6,
+    "familiesPerBuilder": 3.2,
     "targetPerBuilder": "15 to 25",
-    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 86 do, so a full roster of 24 builders averages 3.6 families each rather than 15 to 25.",
+    "finding": "43 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 86 do, so a full roster of 27 builders averages 3.2 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 9 source obligations across 13 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
-    "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
+    "whyNotFewerBuilders": "The roster is kept at 27: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
   "families": [
@@ -9735,7 +9740,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs",
@@ -18244,8 +18249,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX18",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -18256,7 +18261,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "in_conviction_d6-set",
@@ -19169,8 +19175,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX18",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-in_section1_petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -19181,7 +19187,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ks-21-6614-conviction-set",
@@ -35306,7 +35313,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "BUILT_RASTER_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
@@ -35610,9 +35617,7 @@
         "verifiedAtBase": "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -36239,9 +36244,7 @@
         "verifiedAtBase": "ba5dc7e5ac97cb6227e753970bd880e3cf373704",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -38657,8 +38660,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX19",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -38669,7 +38672,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "tx_nd_dwi_probation-set",
@@ -38977,8 +38981,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX19",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -38989,7 +38993,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "tx_nd_veterans_court-set",
@@ -46509,8 +46514,8 @@
     }
   ],
   "totals": {
-    "lanes": 56,
-    "builders": 24,
+    "lanes": 59,
+    "builders": 27,
     "verifiers": 8,
     "sourceLanes": 16,
     "repairLanes": 8,
