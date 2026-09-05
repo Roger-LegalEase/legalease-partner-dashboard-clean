@@ -250,15 +250,15 @@
     "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-support-en/field-census.json"
   ],
   "familiesScanned": 242,
-  "totalFieldsScanned": 10813,
+  "totalFieldsScanned": 10827,
   "scanNote": "Every committed census is read, under either filename. The 156 flat censuses carry 5,286 blanks and ar-arrest-seal-set's census-v1 carries 66 more across its two documents, which the flat-filename walk used by the charge-caption guard does not see.",
-  "fieldsChanged": 63,
-  "fieldsExplained": 63,
+  "fieldsChanged": 64,
+  "fieldsExplained": 64,
   "fieldsUnexplained": 0,
   "byChangeClass": {
     "caption_naming_every_part_now_resolves_to_the_whole_name": 25,
     "date_component_no_longer_takes_the_participant_name": 22,
-    "identifier_blank_now_reaches_the_protect_rule": 5,
+    "identifier_blank_now_reaches_the_protect_rule": 6,
     "caption_naming_every_part_no_longer_offers_a_part": 6,
     "date_component_refusal_reason_now_states_the_real_reason": 5
   },
@@ -268,6 +268,7 @@
     "protectRulesWeakened": [],
     "fieldsWhoseProtectCategoryChanged": [
       "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill|IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS|AliasNamesDOBsSSNs",
+      "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill|IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS|AliasNamesDOBsSSNs",
       "data/rcap-all50/overlays/census-v1/wv/wv-conv-multiple-misdemeanors-set--official-pdf-fill|-|PetSocSecno",
       "data/rcap-all50/overlays/census-v1/wv/wv-conv-single-misdemeanor-set--official-pdf-fill|-|PetSocSecno",
       "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en|-|SNN",
@@ -294,7 +295,7 @@
   ],
   "latentWithoutTheRegionChannel": {
     "question": "With the printed-region channel withheld -- which is what a correct regionIsDocumentTitle flag would do to a heading that is only the form's own title -- which further blanks does this correction move?",
-    "totalMoved": 79,
+    "totalMoved": 80,
     "additionalBeyondThePrimaryDiff": 16,
     "keys": [
       "data/rcap-all50/overlays/census-v1/ar/ar-act531-set--official-pdf-fill|ACIC-ORDER-SEAL-ACT-531-ACT-1460|DAY 1",
@@ -327,6 +328,7 @@
     "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill|ACIC-ORDER-TO-SEAL-CS-POSSESSION|First Middle and Last name",
     "data/rcap-all50/overlays/census-v1/ar/ar-cs-possession-seal-set--official-pdf-fill|ACIC-PETITION-TO-SEAL-CS-POSSESSION|First Middle and Last name",
     "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill|IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS|AliasNamesDOBsSSNs",
+    "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill|IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS|AliasNamesDOBsSSNs",
     "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill|-|Physical Address - defendant",
     "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill|-|Physical Address - plaintiff",
     "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill|-|State - plaintiff physical address",
@@ -689,6 +691,39 @@
       "key": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill|IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS|AliasNamesDOBsSSNs",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill",
       "censusFile": "data/rcap-all50/overlays/census-v1/in/in-arrest-no-charges-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
+      "fieldName": "AliasNamesDOBsSSNs",
+      "effectiveLabel": "Full Name: _______________________________",
+      "defect": "C",
+      "changeClass": "identifier_blank_now_reaches_the_protect_rule",
+      "why": "An identifier blank the government_identifier rule did not spell. It is now protected, so the shared semantics refuse it rather than relying on each family's map to refuse it separately. Every family holding one of these blanks already refuses it in its committed map, so no packet byte moves; what changes is that the refusal no longer depends on the map.",
+      "from": {
+        "writable": true,
+        "factId": "participant.full_legal_name",
+        "reason": null,
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": "government_identifier"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill|IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS|AliasNamesDOBsSSNs",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/in/in-section1-petition-set--official-pdf-fill/field-census.census-v1.json",
       "documentId": "IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS",
       "fieldName": "AliasNamesDOBsSSNs",
       "effectiveLabel": "Full Name: _______________________________",

@@ -415,7 +415,7 @@ const SPEC = {
         "They are recorded as third-party blanks rather than as participant elections, because a participant "
         + "may not tick either one, and the requirement leads the instructions rather than sitting at the end "
         + "of them: an applicant who cannot obtain those signatures cannot complete this application."
-    }
+    },
     {
       finding:
         "THE BOUNDARY FIXTURE REFUSES THE MAILING ADDRESS, and that is the correct outcome rather than a "

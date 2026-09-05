@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `b55c62e0fde6c8c1785c7a0e69a84374a3e101d8` (or the newer dispatch base)
+**Minimum required ancestor:** `34fbef423163d287903d3a3908a3c6a4c901d990` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'il-exp-pardon-set' \
   --codex-cloud \
-  --minimum-captain-sha b55c62e0fde6c8c1785c7a0e69a84374a3e101d8
+  --minimum-captain-sha 34fbef423163d287903d3a3908a3c6a4c901d990
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,12 +38,14 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 5 exact families before reading or writing family content:
+- Assert only these 7 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-exp-pardon-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'il-seal-2yr-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'ri_nonconviction_sealing-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'va_seal_petition_misdemeanor-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'pa_pardon_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'al-pardoned-felony-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'oh_marijuana_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'tx_nd_probation_misdemeanor-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -61,13 +63,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 5 families
+## The 7 families
 
 - `il-exp-pardon-set`
 - `il-seal-2yr-set`
 - `ri_nonconviction_sealing-set`
 - `va_seal_petition_misdemeanor-set`
-- `pa_pardon_expungement-set`
+- `al-pardoned-felony-set`
+- `oh_marijuana_expungement-set`
+- `tx_nd_probation_misdemeanor-set`
 
 ## What you receive
 
@@ -84,10 +88,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill/**`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
 - `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
-- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
+- `scripts/build-census-v1-al-pardoned-felony-set.mjs`
+- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
+- `scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs`
 
 ## Never write here
 

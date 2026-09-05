@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `b55c62e0fde6c8c1785c7a0e69a84374a3e101d8` (or the newer dispatch base)
+**Minimum required ancestor:** `34fbef423163d287903d3a3908a3c6a4c901d990` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement' \
   --codex-cloud \
-  --minimum-captain-sha b55c62e0fde6c8c1785c7a0e69a84374a3e101d8
+  --minimum-captain-sha 34fbef423163d287903d3a3908a3c6a4c901d990
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,13 +38,15 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 6 exact families before reading or writing family content:
+- Assert only these 8 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-exp-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'il-seal-nonconv-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'rcap-wv-custom-pleading'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'ut_pet_no_charges-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'oh_marijuana_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'al-misd-dwop-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'nj_arrest_no_conviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 'tx_nd_dwi_deferred-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -62,14 +64,16 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 6 families
+## The 8 families
 
 - `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
 - `il-exp-nonconv-set`
 - `il-seal-nonconv-set`
 - `rcap-wv-custom-pleading`
 - `ut_pet_no_charges-set`
-- `oh_marijuana_expungement-set`
+- `al-misd-dwop-set`
+- `nj_arrest_no_conviction-set`
+- `tx_nd_dwi_deferred-set`
 
 ## What you receive
 
@@ -87,13 +91,16 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/il/il-seal-nonconv-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill/**`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`
 - `scripts/build-census-v1-il-exp-nonconv-set.mjs`
 - `scripts/build-census-v1-il-seal-nonconv-set.mjs`
 - `scripts/build-census-v1-rcap-wv-custom-pleading.mjs`
 - `scripts/build-census-v1-ut_pet_no_charges-set.mjs`
-- `scripts/build-census-v1-oh_marijuana_expungement-set.mjs`
+- `scripts/build-census-v1-al-misd-dwop-set.mjs`
+- `scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs`
 
 ## Never write here
 
