@@ -2,7 +2,7 @@
  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
  "lane": "VF03",
  "worker": "VF-SRC-A + Codex VF03 fbd22ae2 + CODEX-CS1-VF03-NATIONAL + CODEX-CS1-VF03-CURRENT + CODEX-CS1-VF03-CT-FL",
- "assignmentCount": 28,
+ "assignmentCount": 29,
  "assignments": [
   {
    "itemId": "ar-cs-possession-seal-set",
@@ -888,6 +888,42 @@
     "do not release the grant; the Captain releases on integration",
     "this verification opens no commercial route, promotes no build status and grants no approval",
     "every repair here moves the fixture digests, so the live RASTER_PASS receipt on run 33991442347 stops binding and a fresh central raster plus a fresh independent read are owed before anything reads these bytes as proven"
+   ]
+  },
+  {
+   "itemId": "va_exp_nonconviction-set",
+   "wave": "VF03-VA-EXP-POST-FIX74-READ-20260905",
+   "lane": "VF03",
+   "verifiedAtBase": "e80c4a759",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
+   "canonicalSha256": "829c2fabfefbedbc5854fe77c40afdda410ffc1b7f656c7a2f425f2ca7334126",
+   "boundarySha256": "bba39493d38e44f4ffe016b174c39090cc24aaa1dec03794a8f405ea3f5bbbc1",
+   "decisiveDefect": "Both fixtures deliver a black stroked square at seventeen checkbox widgets the official form does not print - the fourteen on CC-1473 page 1 and the three on its page-2 checklist. Every unmarked checkbox on the petition, the clerk's own certification box among them, is handed to the participant inside a border the Commonwealth's form never draws, and the four route marks are drawn inside one too. 2299 added dark pixels per fixture, measured at 300 dpi as dark-in-delivered and not-dark-in-pinned-source, lie outside every declared write box, and every cluster sits at one of the thirteen unmarked checkbox rects.",
+   "failedProofObligations": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "perObligation": {
+    "CLIPPING_AND_OVERLAP": {
+     "measuredDetail": "Read from the pinned binary 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219: each of the seventeen widgets has /AS /Off, an /AP /N whose only entry is the on-state (/1 or /2, no /Off), and /MK << /CA >> with no /BC, so under ISO 32000-1 12.5.5 a conforming viewer paints nothing there, and poppler rendering the pinned source at 300 dpi paints nothing there. In the delivered bytes each rect carries a flattened appearance that is a stroked rectangle. Per-rect added-ink counts at 300 dpi, identical in canonical and boundary: Check0 255 and 257, Check5 196 and 194, Check7 194, CheckAttorney 164, CheckAttorneyContact 116, CheckAttorneyPhone 111, CheckAttorneyEmail 158, CBCertify 194, and CB1/CB2/CB3 194 each. Outside those rects, 0 added pixels lie anywhere on pages 1 or 2.",
+     "whoseInkItIs": "Proved three ways with a zero-write baseline built in the verifying worktree from the pinned form through the repository's own scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten, writtenFields empty and no dispositions. (a) The delivered pages differ from that baseline by 0 pixels at all ten unmarked page-1 checkbox rects, at CBCertify and across the whole of page 2, and differ only at the four petitioner boxes, by 345/372/344/348 pixels, which is the route mark - so the square is not a mark this family makes. (b) The baseline differs from the pinned source by 156 to 269 pixels at every one of the seventeen - so the shared flattening step adds it. (c) The same baseline rebuilt with the shared module's own opt-in suppressSynthesizedAppearances (17 installed) is PIXEL-IDENTICAL to the pinned source at all seventeen rects, 0 differing pixels - so an exact remedy already exists in this repository.",
+     "whyNotBlockedLegalInput": "RI-OFF-APPEARANCE in data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json protects a protected widget's UNCHANGED /Off appearance where a zero-write baseline proves it unchanged. Nothing here is unchanged: the source ships no appearance for the /Off state at all and the normalization synthesizes a border the form never prints. The shared module already records the owner's position on exactly this ink, in the option's own contract: 'CAPTAIN DECISION: like those flags, this default should flip to true once every family can be rebuilt together. A border the official form does not print is ink the packet added, wherever it occurs.' The default is held back for rebuild coordination, which is scheduling and not an open legal question.",
+     "whyNoCounterSeesIt": "The border is painted PATHS, not glyphs, so reports/actual-writes.json nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reads 0 over it and the verifier's visualDefects reads 0. All nine counters are zero on these bytes and the defect is on the paper."
+    }
+   },
+   "exactRepair": "In scripts/build-census-v1-va_exp_nonconviction-set.mjs, pass suppressSynthesizedAppearances: true to the finalizeOfficialForm call at line 551, rebuild, and re-raster. Fourteen other build-census-v1 builders in this tree already pass it. The verifying lane proved on these exact bytes that the option restores the pinned form's own pixels at all seventeen rects with 0 differing pixels, so the repair is expected to leave page 2 and every checkbox on page 1 pixel-identical to the official form while the four route marks stay where they are. Nothing else in the family needs to move: the FIX74 fee block, the page 6-7 split and all six participant writes are correct and were re-measured as correct here.",
+   "alsoObservedNotScoredAsAFailure": [
+    "The record's postGenerationHandoffs and selfHelpBoundaries both carry 'If the attorney for the Commonwealth objects or answers, or the court sets a hearing, automated assistance ends. The initial packet still generates.' Neither that nor the twenty-one-day window rules.notice gives the Commonwealth's Attorney appears anywhere in the packet or in participant-instructions.md. Worth carrying into the same repair pass, since page 3 asks the Commonwealth to state a position without telling the participant what an objection means or how long it has.",
+    "Two of the record's packetInstructions are not carried: 'Sealing restricts access, expungement removes', and the fingerprint half of the fee instruction ('there is no fingerprint requirement on a subsection (A) petition'). FIX74 carried the fee half, which is all the FEE_AND_WAIVER obligation asks for.",
+    "The packet-set manifest declares ccre_forwarding_request at order 2 and commonwealth_service_and_stipulation_request at order 3; the packet delivers them the other way round. Each page states its own timing correctly and no participant step depends on the stacking order, so this is a record-to-packet ordering discrepancy and not a page defect.",
+    "build-status.json still records rasterState BUILT_RASTER_PENDING and independentVerificationStatus PENDING while RASTER_QUEUE.json holds a RASTER_PASS receipt bound to these exact digests.",
+    "SCAN01 classes page 7 of each fixture as fragment_page at 4 composed lines against a benchmark of 8. That page is exactly what VF07 prescribed - heading, the two closing rows, the trailer - and is not a defect this read re-issues."
+   ],
+   "repairMustNotDo": [
+    "do not whitelist this family or any field for the synthesized border; the remedy is the shared option, applied by rebuild",
+    "do not edit any artifact merely so a receipt or a report matches it",
+    "do not release the grant; the Captain releases on integration",
+    "this verification opens no commercial route, promotes no build status and grants no approval",
+    "the repair moves the fixture digests, so the live RASTER_PASS receipt on run 33996518424 job 101388233160 stops binding and a fresh central raster plus a fresh independent read are owed before anything reads these bytes as proven"
    ]
   }
  ],
