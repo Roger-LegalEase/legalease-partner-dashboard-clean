@@ -414,6 +414,23 @@ async function renderDocument(source, census, fixtureName) {
   const { bytes, report } = await finalizeOfficialForm({
     sourceBytes: source.bytes,
     suppressSynthesizedAppearances: true,
+    /* CLIPPING_AND_OVERLAP, measured by VF02 at 300 dpi on the delivered bytes and
+     * recorded in data/rcap-grade-a/packet-factory-24h/vf02/rows.json: the five
+     * Group_6_0 radios of JDF-477 section 6 each SHIP THEIR OWN /Off stream with
+     * /BBox [0 0 18 18] against a /Rect of 13.68 x 13.68. ISO 32000-1 12.5.5 fits
+     * that transformed BBox onto the /Rect, so a conforming viewer draws the
+     * Judiciary's grey bevel at 13.68pt; pdf-lib's flatten() emits a translation
+     * and no scale, so the packet stamped it at 18pt -- cmScale 1 x requiredScale
+     * 0.76, an error of 4.32pt on each axis, putting ink outside the widget's own
+     * box on packet page 1 of both fixtures. suppressSynthesizedAppearances does
+     * not reach these by design: it leaves alone a widget that ships its own
+     * stream for the state it is set to, which is exactly what these are.
+     *
+     * fitAppearancesToRect pre-composes the 12.5.5 mapping into each affected
+     * appearance's own /Matrix. It is geometric -- it reads only /Rect, /BBox and
+     * /Matrix, never a form, field, caption or route -- and the appearance content
+     * bytes are not touched and no value is written into any field. */
+    fitAppearancesToRect: true,
     expectedSha256: source.sha256,
     census: census.rows.map((r) => ({
       name: r.name, type: r.type, effectiveLabel: r.effectiveLabel, regionHeading: r.section,
