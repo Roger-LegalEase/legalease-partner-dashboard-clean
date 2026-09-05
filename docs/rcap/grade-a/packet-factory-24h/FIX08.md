@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `21a181ac23e743666e95c63549499d03a7443944` (or the newer dispatch base)
+**Minimum required ancestor:** `e8d4606c0cb9bee3dbb29de035543a91c1ea44ce` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -19,9 +19,9 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family 'ar-drug-court-set' \
+  --family 'il-exp-precompletion-set' \
   --codex-cloud \
-  --minimum-captain-sha 21a181ac23e743666e95c63549499d03a7443944
+  --minimum-captain-sha e8d4606c0cb9bee3dbb29de035543a91c1ea44ce
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 7 exact families before reading or writing family content:
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'ar-drug-court-set'`
+- Assert only these 5 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-exp-precompletion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'il-seal-3yr-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'nc_146_acquittal_petition-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'sd_arrest_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'vt_exp_decriminalized-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX08 'composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement'`
@@ -63,12 +61,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 5 families
 
-- `ar-drug-court-set`
 - `il-exp-precompletion-set`
 - `il-seal-3yr-set`
-- `nc_146_acquittal_petition-set`
 - `sd_arrest_expungement-set`
 - `vt_exp_decriminalized-set`
 - `composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement`
@@ -84,17 +80,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 ## Owned paths — write only here
 
 - `data/rcap-grade-a/packet-factory-24h/fix08/**`
-- `data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-exp-precompletion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/vt/vt-exp-decriminalized-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/composed-treatment:obligation:runtime-only:wv:sex-trafficking-victim-vacatur-and-expungement--custom-pleading/**`
-- `scripts/build-census-v1-ar-drug-court-set.mjs`
 - `scripts/build-census-v1-il-exp-precompletion-set.mjs`
 - `scripts/build-census-v1-il-seal-3yr-set.mjs`
-- `scripts/build-census-v1-nc_146_acquittal_petition-set.mjs`
 - `scripts/build-census-v1-sd_arrest_expungement-set.mjs`
 - `scripts/build-census-v1-vt_exp_decriminalized-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs`

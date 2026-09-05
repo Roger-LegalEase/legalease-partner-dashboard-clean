@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "21a181ac23e743666e95c63549499d03a7443944",
+  "minimumCaptainSha": "e8d4606c0cb9bee3dbb29de035543a91c1ea44ce",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,18 +66,18 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 6,
+    "activeFamiliesExcluded": 12,
     "guidanceOnly": 0,
-    "remaining": 340,
+    "remaining": 334,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 10,
-    "verifyPending": 2,
-    "repairRequired": 49,
+    "verifyPending": 1,
+    "repairRequired": 43,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 152,
+    "COMPLETE_PACKET_PROVEN": 153,
     "FAIL_REPAIR_REQUIRED": 55,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
@@ -86,9 +86,9 @@
     "LEGAL_BLOCKED": 10,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 2,
     "BUILT_RASTER_PENDING": 2,
-    "WRONG_DELIVERY_TYPE": 1
+    "WRONG_DELIVERY_TYPE": 1,
+    "VERIFY_PENDING": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -109,7 +109,13 @@
       "SDV01_SOUTH_DAKOTA_INDEPENDENT_VERIFICATION"
     ],
     "families": [
+      "ar-drug-court-set",
+      "az_marijuana_expungement_limited_jurisdiction-set",
+      "de_mandatory_expungement-set",
+      "fl-early-juvenile-set",
       "il-seal-edu-set",
+      "nc_146_acquittal_petition-set",
+      "rcap-nv-custom-pleading",
       "tx_nd_conviction_no_supervision-set",
       "tx_nd_dwi_deferred-set",
       "ut_pet_limitations-set",
@@ -3371,8 +3377,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX49",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ar-drug-court-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -3383,7 +3389,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ar-felony-seal-set",
@@ -4637,8 +4644,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX48",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -4649,7 +4656,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "az_marijuana_expungement_superior_court-set",
@@ -12078,8 +12086,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX48",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -12090,7 +12098,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "de_pardon_expungement-set",
@@ -12586,8 +12595,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX49",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -12598,7 +12607,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "fl-expunction-set",
@@ -13584,10 +13594,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "a71d69523",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -13618,36 +13628,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "TWO DEFECTS VISIBLE ON DELIVERED PAGES, in canonical and in boundary. (1) A ROUTE-KEY-ONLY PAGE: page 5 of six, declared as the certificate of service, carries one line of ink and nothing else — \"Route: obligation:track-only:GA:ga-fugitive-j5\". The certificate of service itself is on page 4, which ends \"This page is not proof of service and does not say that anything has been served…\"; page 5 is its orphaned trailer. The local raster of canonical page 5 into /tmp shows a blank sheet with that single line near the top. A participant is handed a page that carries nothing a participant or a court needs, and a clerk is handed a page of the filing that says only a machine key. (2) MACHINE TEXT IN THE COURT’S SIGNATURE BLOCK: on the proposed order (page 3) the same line prints below \"JUDGE, SUPERIOR COURT\" and below \"(The judge’s signature block is a third-party block. It is never prefilled, and the court dates its own order.)\".",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 12,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p5",
-              "canonical p3"
-            ],
-            "scan02Class": "b, c",
-            "scan02Pages": [
-              5,
-              3
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ga-fugitive-j5-set.mjs",
@@ -28335,8 +28320,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX48",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -28347,7 +28332,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nc_146_dismissal_petition-set",
@@ -35574,8 +35560,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX49",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -35586,7 +35572,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
