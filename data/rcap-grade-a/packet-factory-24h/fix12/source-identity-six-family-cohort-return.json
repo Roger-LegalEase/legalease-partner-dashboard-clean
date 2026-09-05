@@ -1,0 +1,302 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "FIX12-SOURCE-IDENTITY-SIX-FAMILY-COHORT",
+  "assignmentId": "FIX12",
+  "laneKind": "repair",
+  "assignedBase": "1dabf8cc671c96e24ce679e96fba60b6d1bcfdc9",
+  "measuredAtBase": "1dabf8cc671c96e24ce679e96fba60b6d1bcfdc9",
+  "branch": "fix12-source-identity",
+  "writtenAlongside": "this directory did not exist before this return; nothing here is overwritten. The FIX12 lane name was previously used for a different cohort (six AZ/CA families, released 2026-09-02T22:51Z) whose returns live elsewhere.",
+  "everyRowStopped": true,
+  "noFamilyWasWritten": "This lane changed no tracked file in any family directory. git status at return time shows no modification under data/rcap-all50/. Every digest below was measured read-only.",
+
+  "whyEveryRowIsStopped": {
+    "claimGate": "This lane holds no grant on any of the six. `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX12 <familyId>` exits 8 GRANTED_ELSEWHERE for all six: the repair grant for each is held by FIX01, FIX02, FIX03, FIX04, FIX06 or FIX08 respectively, each already released. No family content was written without a claim.",
+    "notADigestBlock": "Nothing here is stopped on a missing source. Every one of the 21 digests this cohort binds resolves. There is no BLOCKED_SOURCE in this cohort and none should be recorded for it.",
+    "dispatchPremiseWasWrong": "The dispatch directed this lane to resolve unmounted-custody form digests by content hash. That technique is inapplicable to all six: not one of these SOURCE_IDENTITY failures concerns a document binary in an absent custody. All six concern receipt pins over committed repository records that are present and readable in this container. The one place the technique did apply — five official binaries in AR and NC that carry a digest and no repository path — it was run, and all five resolved in mounted master_library.",
+    "statedBarCannotMeasureThisClass": "The dispatch's bar is `verify-packet-completeness.mjs` printing PASS_COMPLETE with nine counters at zero. All six already printed exactly that at the assigned base, before any change. That verifier does not measure SOURCE_IDENTITY, so a COMPLETED row carrying nine zero counters would have been true and meaningless for this cohort — it would assert a repair the named evidence cannot see."
+  },
+
+  "correctionToTheCohortPremise": {
+    "claimed": "six families failing SOURCE_IDENTITY, needing repair",
+    "measured": "one family carries a live SOURCE_IDENTITY defect. Five were already repaired and are held at FAIL_REPAIR_REQUIRED by a stale verdict, not a live defect.",
+    "method": "For each family, every node in source-receipt.json carrying a sha256 was walked, its repository path resolved (pathInRepository, path, repositoryPath, record or file), and the bytes on disk rehashed. Historical blobs were recovered from git to confirm each prior pin was exact when written.",
+    "result": "15 of 16 path-bearing pins recompute exactly. 1 is stale (CT). 5 further nodes carry a digest and no path; all 5 resolved by content hash in mounted master_library."
+  },
+
+  "custodyIndexUsed": {
+    "roots": ["private/source-imports", "private/human-source-returns"],
+    "filesIndexed": 500,
+    "distinctDigests": 500,
+    "nonEmptyCheck": "the index was asserted non-empty before any negative was believed; a zero-file index would have been refused rather than reported as universal absence",
+    "absentCustodies": ["d_source_packs", "nationwide_recovery_pool_2026_09_02", "operational Nationwide tree", "Google Drive custody"]
+  },
+
+  "environmentDefectFoundAndCorrected": {
+    "what": "git worktree add inherits core.sparseCheckout from the parent repository. The inherited cone excludes /data/* except /data/rcap-grade-a/, so data/record-clearing/, data/rcap-ledger/ and data/rcap-all50/ were absent from a freshly created worktree while remaining tracked in git.",
+    "howItPresented": "the first rehash pass reported all six shared committed records ABSENT — a universal negative over files that are tracked and present in HEAD",
+    "whyItMatters": "a lane that trusts that pass concludes every source is missing and records six false BLOCKED_SOURCE rows. This is the same broken-denominator shape the corpus index guards against, arriving through git configuration rather than through custody mounting. It is very likely the cause of the AR verifier's own caveat that the ACIC binaries 'were not reachable in this sparse checkout'.",
+    "correction": "git sparse-checkout set was widened to include /data/record-clearing/, /data/rcap-ledger/ and /data/rcap-all50/ before any digest was believed. Worktree-local configuration only; no tracked file changed.",
+    "recommendation": "lane setup instructions should widen the sparse cone explicitly, or lanes should assert that a known-tracked path is present on disk before treating any absence as evidence"
+  },
+
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "CT",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "answersVerdict": {
+        "lane": "vf03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+      },
+      "stoppedBy": "the claim gate: the rapid-repair grant on this family is held by FIX01 (released 2026-09-04T17:09:54.318Z). FIX12 holds no grant and did not write the family.",
+      "theDefectIsReal": true,
+      "whatIsWrong": "SOURCE_IDENTITY. One of four compositionSources pins does not re-bind. data/rcap-ledger/completed-output-counsel-manifest.json is pinned at 99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c / 321161 bytes and the bytes at this base rehash to fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 / 321306 bytes. The other three pins re-bind exactly.",
+      "digests": [
+        { "path": "data/record-clearing/legal-design-intake/CT.memo.json", "pinned": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448", "recomputed": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448", "resolution": "MATCH" },
+        { "path": "data/rcap-all50/guidance-packets/ct.json", "pinned": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023", "recomputed": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023", "resolution": "MATCH" },
+        { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1", "recomputed": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1", "resolution": "MATCH" },
+        { "path": "data/rcap-ledger/completed-output-counsel-manifest.json", "pinned": "99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c", "pinnedBytes": 321161, "recomputed": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56", "recomputedBytes": 321306, "resolution": "STALE" }
+      ],
+      "causeEstablished": {
+        "pinWasExactAt": "eab70f9265c837929c0b73fc208e6c5c1db80670",
+        "proof": "git show eab70f926:data/rcap-ledger/completed-output-counsel-manifest.json | sha256sum == 99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c, recomputed in this lane",
+        "driftedBy": "cb6cbf45eca2df8befa57905b51a658859b2323f — 'chore(rcap): project Virginia pardon route mapping', which changed the shared ledger without touching this packet"
+      },
+      "substantiveComparisonAcrossTheDrift": {
+        "familyRowsBefore": 57,
+        "familyRowsAfter": 57,
+        "familyRowsModified": 1,
+        "theModifiedRow": "rcap-ks-custom-pleading — intendedPaidPathwaysUnblocked gained KS:municipal-arrest-record-expungement-under-12-4516a and KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "otherChange": "exceptions.pathwaysWithNoFamilyBridge 192 -> 191",
+        "connecticutContent": "the only CT row in the ledger, rcap-ct-guidance-implementation, is byte-identical across the drift",
+        "conclusion": "nothing this packet relies on changed. This is a whole-file identity move, the same shape already cured under identityRefresh for AR, OK and WA — not a packet grounded on a wrong source."
+      },
+      "theRepairThisNeeds": "Refresh the whole-file identity pin on compositionSources[3] to fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 / 321306 bytes, and record an identityRefresh block in the shape AR, OK and WA already use: was 99e8029120d705df8970d0deba651a95b00f4b81097c46a28ac8d0e128f8c93c / 321161, previousPinLastSeenAtCommit eab70f926, anchorsCompared 1, anchorsIdentical 1, with the reason that the bound CT content is unchanged and only the whole-file identity moved.",
+      "whyThisLaneDidNotApplyIt": "FIX12 holds no grant on this family. Under claim.mjs the destination of a released grant is chosen by Captain — the ledger's own transfer records are stamped with Captain dispatch reasons and grant() hardcodes grantedBy Captain. A lane moving a grant onto itself is the one thing the fail-closed gate exists to prevent, and this lane was issued only --assert and --release.",
+      "participantFacingBytes": {
+        "moved": false,
+        "why": "no byte was written by this lane; and the repair this family needs is confined to source-receipt.json, which is not delivered to a participant",
+        "boundary.pdf": "d05de02906fe2632b75d1a91acb2d2cd84a073c1d918e11aed57556d2742872c",
+        "canonical.pdf": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+        "standingReceiptStands": true
+      },
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersBeforeMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request at 1dabf8cc6 => PASS_COMPLETE, 5/9 written, all nine counters zero"
+    },
+
+    {
+      "itemId": "ar-nonconviction-seal-set",
+      "familyId": "ar-nonconviction-seal-set",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "AR",
+      "directory": "data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "answersVerdict": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "bebc0489688b69040a72bb0ca42251370d7cb573",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "stoppedBy": "the claim gate: the rapid-repair grant is held by FIX08 (released 2026-09-04T22:31:49.996Z). FIX12 holds no grant.",
+      "theDefectIsReal": false,
+      "alreadyRepaired": "The stale pin vf01 found has been cured. The receipt now pins data/record-clearing/legal-design-packet-set-manifests.json at 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec / 3683419 bytes, which is what the bytes on disk rehash to, and carries an identityRefresh recording the prior pin bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66 with anchors 1/1 identical.",
+      "digests": [
+        { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec", "recomputed": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec", "resolution": "MATCH", "previousPin": "bd6ceaa6931b68d71baebf41d551bd5bfef4f203fa0a6c4dbadebbe4d9d8bd66", "curedBy": "identityRefresh 2026-09-04" },
+        { "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json", "pinned": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470", "resolution": "MATCH" },
+        { "sourceId": "official-form:ACIC-PETITION-TO-SEAL-NONCONVICTION", "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61", "bytes": 529888, "resolution": "RESOLVED_BY_CONTENT_HASH", "custody": "master_library", "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf" },
+        { "sourceId": "official-form:ACIC-ORDER-TO-SEAL-NONCONVICTION", "sha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a", "bytes": 274824, "resolution": "RESOLVED_BY_CONTENT_HASH", "custody": "master_library", "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf" }
+      ],
+      "openQuestionClosed": "vf01 explicitly withheld a claim on the two ACIC binaries: 'their private binaries were not reachable in this sparse checkout and were not claimed as independently rehashed here.' Both have now been independently rehashed from the bytes in mounted master_library and both match the pinned digests and byte lengths exactly. That caveat is discharged.",
+      "whatThisFamilyNeeds": "a different-verifier re-read, not a repair",
+      "participantFacingBytes": { "moved": false, "boundary.pdf": "8737d13ab5c420759139c2f880bb4785013753d356729464350cfe6fe4f3d871", "canonical.pdf": "28436bb896bcf2e8ca414f6a0635af19df9cf2b07317dbd5fe4a2614a7d591e5", "standingReceiptStands": true },
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersBeforeMeasuredBy": "verify-packet-completeness.mjs --family ar-nonconviction-seal-set at 1dabf8cc6 => PASS_COMPLETE, 13/78 written, all nine counters zero"
+    },
+
+    {
+      "itemId": "nc_146_dismissal_petition-set",
+      "familyId": "nc_146_dismissal_petition-set",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "NC",
+      "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "answersVerdict": {
+        "lane": "vf04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+        "note": "this row carries no finding body — failedObligations[0].finding is null"
+      },
+      "stoppedBy": "the claim gate: the rapid-repair grant is held by FIX04 (released 2026-09-04T22:42:07.763Z). FIX12 holds no grant.",
+      "theDefectIsReal": false,
+      "alreadyRepaired": "Both committed-record pins re-bind exactly and all three official binaries resolve by content hash in mounted master_library.",
+      "digests": [
+        { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec", "resolution": "MATCH" },
+        { "path": "data/record-clearing/legal-design-track-registry.json", "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee", "resolution": "MATCH" },
+        { "sourceId": "AOC-CR-287", "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed", "bytes": 257828, "resolution": "RESOLVED_BY_CONTENT_HASH", "custody": "master_library", "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf" },
+        { "sourceId": "AOC-CR-287-INSTRUCTIONS", "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7", "bytes": 217744, "resolution": "RESOLVED_BY_CONTENT_HASH", "custody": "master_library", "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf" },
+        { "sourceId": "AOC-CV-226", "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f", "bytes": 269426, "resolution": "RESOLVED_BY_CONTENT_HASH", "custody": "master_library", "heldAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf" }
+      ],
+      "doubleIndexingObserved": {
+        "what": "MASTER_QUEUE.json indexes each of these three NC binaries twice — once under mounted master_library as official-form:<FORM-NUMBER> at path STATES/NC/..., and once under the absent d_source_packs custody as source-sha256:<digest> at path private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/..., with the same sha256 on both sides. That inflates boundCount from 3 to 6.",
+        "doesItBlock": "no. The receipt itself binds only the master_library side and every digest resolves. The duplication lives in the queue projection, not in the family's own custody record.",
+        "recommendation": "worth de-duplicating in the queue generator so the absent-custody twin cannot later be read as an unresolvable source, but it is not a defect in this family"
+      },
+      "whatThisFamilyNeeds": "a different-verifier re-read, not a repair",
+      "participantFacingBytes": { "moved": false, "boundary.pdf": "af582b143c3ef2da24ed5e769e7e1fbe240309186b8fc72dccbceeb3ecc6f251", "canonical.pdf": "81d71db0020bdef1204898013cb9fd16a8cf3155c0f864c837a21945b1e40fb1", "standingReceiptStands": true },
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersBeforeMeasuredBy": "verify-packet-completeness.mjs --family nc_146_dismissal_petition-set at 1dabf8cc6 => PASS_COMPLETE, 14/197 written, all nine counters zero"
+    },
+
+    {
+      "itemId": "nv_seal_probation_family-set",
+      "familyId": "nv_seal_probation_family-set",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "NV",
+      "directory": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "answersVerdict": {
+        "lane": "vf10",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json"
+      },
+      "stoppedBy": "the claim gate: the rapid-repair grant is held by FIX06 (released 2026-09-05T01:09:26.533Z, the most recent of the six). FIX12 holds no grant.",
+      "theDefectIsReal": false,
+      "alreadyRepaired": "vf10 found that the receipt 'names two codified grounds and binds neither by SHA-256, so there is no digest to recompute'. Both grounds now carry a sha256 and a byteLength, and both recompute exactly against the bytes on disk.",
+      "digests": [
+        { "path": "data/record-clearing/legal-design-intake/NV.memo.json", "pinned": "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5", "pinnedBytes": 312293, "recomputed": "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5", "resolution": "MATCH" },
+        { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "pinned": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec", "pinnedBytes": 3683419, "recomputed": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec", "resolution": "MATCH" }
+      ],
+      "aNoteOnMeasurement": "These two pins sit under a codifiedGrounds key whose path field is named `record`, not `path` or `pathInRepository`. A receipt walker that only knows the usual path field names reports this family as having no bound sources at all — which is what a first pass in this lane did before the field list was widened. Any sweep over receipts should key on the sha256 node and accept `record` as a path field, or it will manufacture exactly the unbound-source finding vf10 recorded.",
+      "whatThisFamilyNeeds": "a different-verifier re-read, not a repair",
+      "participantFacingBytes": { "moved": false, "boundary.pdf": "40f2540537bc5d72b3a91cda1746f91065e16884ea1d611ae0f75fce16d19055", "canonical.pdf": "8fe5e209783ff5f70a18f8a37045f25126b020b23373aeba98956347440cd041", "standingReceiptStands": true },
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersBeforeMeasuredBy": "verify-packet-completeness.mjs --family nv_seal_probation_family-set at 1dabf8cc6 => PASS_COMPLETE, 12/29 written, all nine counters zero"
+    },
+
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "familyId": "rcap-ok-custom-pleading",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "OK",
+      "directory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "answersVerdict": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+      },
+      "stoppedBy": "the claim gate: the rapid-repair grant is held by FIX02 (released 2026-09-04T19:05:25.069Z). FIX12 holds no grant.",
+      "theDefectIsReal": false,
+      "alreadyRepaired": "vf01 found all three committed-record pins stale. All three now pin the current bytes and each carries an identityRefresh dated 2026-09-04 recording the prior pin, the commit where it was last exact, and an object-for-object anchor comparison.",
+      "digests": [
+        { "path": "data/record-clearing/legal-design-track-registry.json", "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee", "pinnedBytes": 16586150, "resolution": "MATCH", "previousPin": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6", "anchors": "8/8 identical", "previousPinLastSeenAtCommit": "22e6a1fa4" },
+        { "path": "data/record-clearing/legal-design-specifications.json", "pinned": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e", "pinnedBytes": 16829391, "resolution": "MATCH", "previousPin": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5", "anchors": "16/16 identical" },
+        { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1", "pinnedBytes": 2607149, "resolution": "MATCH", "previousPin": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "anchors": "16/16 identical" }
+      ],
+      "pathNote": "vf01 named this third record as route-obligation-candidate.json without a directory. It lives at data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, not under data/record-clearing/. A lane resolving it by the verifier's shorthand path will find nothing and may report it absent.",
+      "whatThisFamilyNeeds": "a different-verifier re-read, not a repair",
+      "participantFacingBytes": { "moved": false, "boundary.pdf": "18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18", "canonical.pdf": "78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1", "standingReceiptStands": true },
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersBeforeMeasuredBy": "verify-packet-completeness.mjs --family rcap-ok-custom-pleading at 1dabf8cc6 => PASS_COMPLETE, 85/254 written, all nine counters zero"
+    },
+
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "jurisdiction": "WA",
+      "directory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+      "failedObligationNames": ["SOURCE_IDENTITY"],
+      "answersVerdict": {
+        "lane": "vf08",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d6f430105dfc942be321b64243a77b666992547a",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+      },
+      "stoppedBy": "the claim gate: the rapid-repair grant is held by FIX03 (released 2026-09-04T19:02:07.993Z). FIX12 holds no grant.",
+      "theDefectIsReal": false,
+      "alreadyRepaired": "Same three national records as OK, same cure. All three pin the current bytes with identityRefresh blocks dated 2026-09-04 and anchor comparisons scoped to this family's own anchors.",
+      "digests": [
+        { "path": "data/record-clearing/legal-design-track-registry.json", "pinned": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee", "resolution": "MATCH", "previousPin": "0a92a1a27ef43fe719d00f121896923036a7d2b90ffa5228b972e4873ffb80e6", "anchors": "2/2 identical" },
+        { "path": "data/record-clearing/legal-design-specifications.json", "pinned": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e", "resolution": "MATCH", "previousPin": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5", "anchors": "4/4 identical" },
+        { "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json", "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1", "resolution": "MATCH", "previousPin": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f", "anchors": "2/2 identical" }
+      ],
+      "whatThisFamilyNeeds": "a different-verifier re-read, not a repair",
+      "participantFacingBytes": { "moved": false, "boundary.pdf": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756", "canonical.pdf": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0", "standingReceiptStands": true },
+      "countersBefore": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "countersBeforeMeasuredBy": "verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks at 1dabf8cc6 => PASS_COMPLETE, 20/48 written, all nine counters zero"
+    }
+  ],
+
+  "determinationsForTheOwner": [
+    {
+      "id": "FIX12-D1",
+      "severity": "high",
+      "question": "Should a shared committed record that many families pin by whole-file SHA-256 be allowed to drift without re-pinning every dependent receipt?",
+      "measured": "Across 357 family receipts: data/record-clearing/legal-design-packet-set-manifests.json is referenced by 64, route-obligation-candidate.json by 52, legal-design-track-registry.json by 27, legal-design-specifications.json by 17, and data/rcap-ledger/completed-output-counsel-manifest.json by 6. Any commit touching one of these invalidates every pin over it at once.",
+      "why": "CT's SOURCE_IDENTITY failure was caused by a Kansas/Virginia bookkeeping edit to a shared ledger. The verifiers themselves observed that 'the drift is national, not Oklahoman' and 'not Washingtonian'. This is a recurring, self-inflicted class: it will keep re-firing across dozens of families every time a shared record is edited.",
+      "options": [
+        "bind the anchored subtree rather than the whole file, so an unrelated edit elsewhere in the record cannot invalidate a pin",
+        "keep whole-file pins but add a factory check that re-pins every dependent receipt in the same commit that edits a shared record",
+        "accept the drift and treat identityRefresh as routine maintenance"
+      ],
+      "thisLaneDidNotDecide": true
+    },
+    {
+      "id": "FIX12-D2",
+      "severity": "high",
+      "question": "Five of these six families are held at FAIL_REPAIR_REQUIRED by a verdict their receipts have already answered. What re-opens them?",
+      "measured": "AR, NC, NV, OK and WA each have every pin recomputing exactly at 1dabf8cc6, and all five already print PASS_COMPLETE with nine counters at zero. Their FAIL_REPAIR_REQUIRED verdicts were read at bases that predate the repairs FIX01/02/03/04/06/08 landed on 2026-09-04 and 2026-09-05.",
+      "whatIsNeeded": "a different-verifier re-read via claim.mjs --transfer <fromVF> <toVF>, exactly as the ledger already records for the earlier FIX12 cohort ('Different-verifier reread after integrated FIX12 repair; all packet PDF bytes are unchanged'). Sending another repair lane at them produces no change and no evidence.",
+      "thisLaneDidNotDecide": true
+    },
+    {
+      "id": "FIX12-D3",
+      "severity": "medium",
+      "question": "Was this cohort dispatched against the right diagnosis?",
+      "measured": "The dispatch identified the deciding technique as content-hash resolution against mounted custodies for sources whose declared paths point into absent custodies. No family in this cohort is blocked that way. Five are stale-pin drift over committed records; one is the same drift uncured. The dispatch's stated bar (PASS_COMPLETE, nine zero counters) was already green on all six before any work and is structurally blind to SOURCE_IDENTITY.",
+      "why": "A lane that took the dispatch at face value would have indexed the custodies, found nothing relevant, and had a live choice between reporting six false BLOCKED_SOURCE rows or reporting six COMPLETED rows with nine honest zero counters that prove nothing. Both are wrong, and the second is the more dangerous because it reads as success.",
+      "recommendation": "repair dispatches for SOURCE_IDENTITY should name a bar that measures source identity, and should carry the verifier's finding body rather than only the obligation name",
+      "thisLaneDidNotDecide": true
+    },
+    {
+      "id": "FIX12-D4",
+      "severity": "medium",
+      "question": "Who may move a released grant onto a lane?",
+      "measured": "All six families in this cohort were granted to other FIX lanes; --assert FIX12 exits 8 GRANTED_ELSEWHERE on every one. claim.mjs --transfer would have succeeded mechanically, and the ledger shows the earlier FIX12 cohort was dispatched exactly that way — but every such record is stamped with a Captain dispatch reason, and grant() hardcodes grantedBy: Captain.",
+      "thisLaneRead": "that choosing the destination of a grant is a dispatch act, not a worker act, and that a lane transferring six grants onto itself is precisely what the fail-closed gate exists to prevent. This lane therefore wrote no family and stopped.",
+      "ifTheOwnerDisagrees": "the CT repair is fully specified in this return and can be applied in minutes by whoever legitimately holds the grant",
+      "thisLaneDidNotDecide": true
+    }
+  ],
+
+  "whatThisReturnDoesNotEstablish": [
+    "that CT's receipt has been repaired — it has not; the defect is live and specified, not cured",
+    "that the five already-repaired families pass SOURCE_IDENTITY — only that every digest they bind recomputes exactly at 1dabf8cc6; the verdict belongs to an independent verifier, not to this lane",
+    "that any participant-facing byte changed — none did, because this lane wrote nothing",
+    "that the packet content of any family is legally correct"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
