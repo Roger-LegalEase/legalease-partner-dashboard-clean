@@ -6,23 +6,23 @@
   "checkpointNumber": 0,
   "checkpointMeans": "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
   "liveFamilyDenominator": 346,
-  "completePacketProven": 147,
+  "completePacketProven": 149,
   "states": {
     "SOURCE_BLOCKED": 6,
     "SOURCE_READY": 82,
-    "LEGAL_BLOCKED": 9,
+    "LEGAL_BLOCKED": 10,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
     "BUILT_RASTER_PENDING": 1,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 12,
+    "VERIFY_PENDING": 6,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 52,
+    "FAIL_REPAIR_REQUIRED": 55,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
     "PRODUCT_PATH_PENDING": 20,
-    "COMPLETE_PACKET_PROVEN": 147,
+    "COMPLETE_PACKET_PROVEN": 149,
     "LEGITIMATE_GUIDANCE_ONLY": 0,
     "WRONG_DELIVERY_TYPE": 1,
     "GUIDANCE_READY": 9,
@@ -39,8 +39,8 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 56,
-    "lanesWithWorkAtDispatch": 40,
-    "lanesProvisionedEmpty": 16,
+    "lanesWithWorkAtDispatch": 38,
+    "lanesProvisionedEmpty": 18,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
   "blockers": [
@@ -88,6 +88,12 @@
     },
     {
       "family": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    },
+    {
+      "family": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
       "exactBlocker": "an open legal input on one of its routes",
       "owner": "counsel",
       "nextAction": "await the counsel determination; do not research it here"

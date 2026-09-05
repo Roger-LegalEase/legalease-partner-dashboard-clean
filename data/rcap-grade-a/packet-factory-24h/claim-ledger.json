@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "54ca16d90de5657ebdda94c29a99d866c23ccb38",
+  "generatedAtCommit": "db04544b770c4863478eb487cd6f499584a1619d",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2164,21 +2164,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T11:34:40.209Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
-      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
-      "itemId": null,
-      "familyIds": [
-        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5184,20 +5169,6 @@
         "ms-misd-1st-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
-      "released": false
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-misd-1st-set",
-      "familyId": "ms-misd-1st-set",
-      "itemId": null,
-      "familyIds": [
-        "ms-misd-1st-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF16",
       "laneKind": "packet-build",
@@ -5274,22 +5245,6 @@
         "ms-nonadj-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-nonadj-set",
-      "familyId": "ms-nonadj-set",
-      "itemId": null,
-      "familyIds": [
-        "ms-nonadj-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF12",
       "laneKind": "packet-build",
@@ -5321,22 +5276,6 @@
         "ms-nonconv-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain consolidation: one reader for the two Mississippi orders FIX36 rebuilt, on VF06; no lane asserted this grant."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ms-nonconv-set",
-      "familyId": "ms-nonconv-set",
-      "itemId": null,
-      "familyIds": [
-        "ms-nonconv-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF05",
       "laneKind": "packet-build",
@@ -5353,11 +5292,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX36",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T15:06:42.207Z",
-      "releaseReason": "CLIPPING_AND_OVERLAP repaired at the shared composed host and in this family's order trailer placement; bytes rebuilt, returned in fix36/rows.json; central raster, independent verification and owner re-review still owed (Replayed by Captain from FIX36 commit 174e37bb5.)"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7885,20 +7822,6 @@
         "va_exp_nonconviction-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "laneKind": "independent-verification",
-      "released": false
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "va_exp_nonconviction-set",
-      "familyId": "va_exp_nonconviction-set",
-      "itemId": null,
-      "familyIds": [
-        "va_exp_nonconviction-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF02",
       "laneKind": "packet-build",
@@ -7915,11 +7838,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX46",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T15:16:11.385Z",
-      "releaseReason": "CLIPPING_AND_OVERLAP repaired: the sole-occupant trailer pull-down moved the closing line onto page 7, which no longer carries only the route trailer. Raster and independent verification owed. (Replayed by Captain from FIX07 commit 6359991d6.)"
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain: re-opened by the dispatch after VF07's FAIL; consolidated onto FIX46 with its sibling defect. No lane asserted it."
     },
     {
       "subjectType": "packet-family",
@@ -8711,22 +8634,6 @@
         "wv_dui_deferral_expungement-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF07",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain consolidation: one reader per group of repaired families; no lane asserted the dealt grant."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "wv_dui_deferral_expungement-set",
-      "familyId": "wv_dui_deferral_expungement-set",
-      "itemId": null,
-      "familyIds": [
-        "wv_dui_deferral_expungement-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF12",
       "laneKind": "packet-build",
@@ -8743,11 +8650,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX46",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T15:16:11.472Z",
-      "releaseReason": "CLIPPING_AND_OVERLAP repaired: the sole-occupant trailer pull-down reassembled the wrapped trailer and pulled the notary officer line onto page 4, which no longer carries a bare machine identifier. Owner-pinned: owner re-review owed, plus raster and independent verification. (Replayed by Captain from FIX07 commit 6359991d6.)"
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Captain: re-opened by the dispatch after VF07's FAIL; consolidated onto FIX46 with its sibling defect. No lane asserted it."
     },
     {
       "subjectType": "packet-family",
@@ -13106,7 +13013,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fa86f5d3bafa8a94978eec702ed547b29023e229e53d89b6c446dd85ed17f24a",
+  "claimsDigest": "efde5ab871cfd14c1bcddb5877a87377b91dacb88a11301bb63b416763f71fce",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28232,6 +28139,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T15:51:55.566Z",
       "reason": "CLIPPING_AND_OVERLAP repaired at the builder: the component identity is now page-foot chrome on every page, the route trailer is out of both court-completed sections and prints once per page it appears on, page counts and all legal text unchanged; return at data/rcap-grade-a/packet-factory-24h/fix45/rows.json. Raster and independent verification still owed. (Replayed by Captain from FIX45 commit 3df753e7d.)"
+    },
+    {
+      "lane": "FIX07",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T15:54:08.227Z",
+      "reason": "Captain: re-opened by the dispatch after VF07's FAIL; consolidated onto FIX46 with its sibling defect. No lane asserted it."
+    },
+    {
+      "lane": "FIX08",
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T15:54:08.428Z",
+      "reason": "Captain: re-opened by the dispatch after VF07's FAIL; consolidated onto FIX46 with its sibling defect. No lane asserted it."
     }
   ],
   "reissues": [
@@ -35070,6 +34995,36 @@
       "familyState": "VERIFY_PENDING",
       "reissuedAt": "2026-09-05T15:45:43Z",
       "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T15:53:43Z",
+      "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "lane": "FIX07",
+      "dispatchNames": "FIX07",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T15:53:43Z",
+      "reason": "the current dispatch names FIX07 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "rapid-repair",
+      "lane": "FIX08",
+      "dispatchNames": "FIX08",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-09-05T15:53:43Z",
+      "reason": "the current dispatch names FIX08 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -39846,6 +39801,28 @@
       "previouslyReleasedAt": "2026-09-05T05:57:01.413Z",
       "transferredAt": "2026-09-05T15:44:19.986Z",
       "reason": "Illinois seal/expunge cohort: il-exp-qualprob-set and il-seal-2yr-set fail the same four obligations (CLIPPING_AND_OVERLAP, KNOWN_PREFILLS, REPEATING_ROWS, SERVICE) at fbd22ae2c on their own builders; one worker on FIX07 repairs both."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX07",
+      "toLane": "FIX46",
+      "previouslyReleasedAt": "2026-09-05T15:54:08.227Z",
+      "transferredAt": "2026-09-05T15:54:08.313Z",
+      "reason": "VF07 at a0fbceb30 (79f387e37) fails CLIPPING_AND_OVERLAP after the FIX07 pull-down: a split block with room left behind, or a notary execution line pulled under the trailer. FIX46 refines the pull-down at the builder."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX46",
+      "previouslyReleasedAt": "2026-09-05T15:54:08.428Z",
+      "transferredAt": "2026-09-05T15:54:08.513Z",
+      "reason": "VF07 at a0fbceb30 (79f387e37) fails CLIPPING_AND_OVERLAP after the FIX07 pull-down: a split block with room left behind, or a notary execution line pulled under the trailer. FIX46 refines the pull-down at the builder."
     }
   ],
   "withdrawals": [
@@ -43535,6 +43512,54 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "withdrawnAt": "2026-09-05T15:42:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "withdrawnAt": "2026-09-05T15:53:43Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-misd-1st-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-09-05T15:53:43Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonadj-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "withdrawnAt": "2026-09-05T15:53:43Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonconv-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-09-05T15:53:43Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "withdrawnAt": "2026-09-05T15:53:43Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_dui_deferral_expungement-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "withdrawnAt": "2026-09-05T15:53:43Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

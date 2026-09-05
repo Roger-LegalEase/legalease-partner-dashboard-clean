@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "54ca16d90de5657ebdda94c29a99d866c23ccb38",
+  "minimumCaptainSha": "db04544b770c4863478eb487cd6f499584a1619d",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -71,20 +71,20 @@
     "remaining": 342,
     "sourceReady": 82,
     "sourceBlocked": 6,
-    "legalBlocked": 9,
-    "verifyPending": 12,
-    "repairRequired": 48,
+    "legalBlocked": 10,
+    "verifyPending": 6,
+    "repairRequired": 51,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 147,
-    "FAIL_REPAIR_REQUIRED": 52,
+    "COMPLETE_PACKET_PROVEN": 149,
+    "FAIL_REPAIR_REQUIRED": 55,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "VERIFY_PENDING": 12,
-    "LEGAL_BLOCKED": 9,
+    "VERIFY_PENDING": 6,
+    "LEGAL_BLOCKED": 10,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "BUILT_RASTER_PENDING": 1,
@@ -165,7 +165,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 9 source obligations across 15 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 9 source obligations across 16 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -10212,21 +10212,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf07",
+        "verifiedAtBase": "a0fbceb30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "foundBy": [
+          "vf07 (current independent verification)"
+        ],
+        "why": "FILING_DESTINATION: BLOCKED_LEGAL_INPUT, named exactly rather than softened. The obligation asks whether the instructions name the court the ROUTE names. The packet names a court and grounds that naming honestly in the compiled profile, and it discloses on its own face that the census records no destination. But the route names none, and the reason it names none is that the route-kind adjudication for this pathway is pending and legal design has not been performed. This lane cannot close that by reading bytes, and will not pass an obligation whose measuring stick does not exist. It is not a FAIL: nothing about the packet's destination statement is wrong on the evidence available to it. | SERVICE: BLOCKED_LEGAL_INPUT. The packet's disclosure is honest and is the right thing to print given what it holds — but the obligation asks who must be served and how, and the answer is absent from the legal record, not from the build. A survivor filing a motion in a criminal case is not told whether the prosecutor must be served, and no lane can supply that from bytes. Naming it here is the point of the result word.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -10246,34 +10255,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. On the filing-instructions page (4), under the heading \"WHEN TO STOP AND GET HELP INSTEAD\", the first bullet prints its markdown source verbatim: \"- **this is the first thing the committed record says about this route:** the compiled Wyoming profile’s own handling rule…\". The four asterisks print as body text at 11pt, opening at x 83 and closing at x 473.5, with no bold applied — the local raster of canonical page 4 into /tmp shows the same weight as the surrounding text, so the delimiters buy nothing and only appear as stray characters. This is the identical defect VF02 failed under CLIPPING_AND_OVERLAP for the Oklahoma human-trafficking family, on the Captain’s standard that CLIPPING_AND_OVERLAP owns the appearance of the delivered page. It is worse placed than most: it is the first words of the passage that tells a trafficking survivor when to stop and get help.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 8,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p4"
-            ],
-            "scan02Class": "d",
-            "scan02Pages": [
-              4
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
@@ -26672,10 +26658,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf06",
+        "verifiedAtBase": "b3467e894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -26706,38 +26692,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "TWO DEFECTS VISIBLE ON DELIVERED PAGES, in canonical and in boundary, read from committed bytes even though FIX36 holds a live repair grant on this family. (1) HARD SPLIT, five pages per fixture — the petition (2), the proposed order (4), the certificate of service (5), the attachment page (6) and the instructions (8) each print \"…first-offender-nontraffic-misdemeanor-conviction-expungemen\" then \"t-99-19-71-1\", severing the word \"expungement\" between \"expungemen\" and \"t\". (2) MACHINE TEXT INSIDE THE COURT’S AND THE PROSECUTOR’S BLOCK — on the proposed order (page 4) the \"Route:\" label and the broken key print below \"JUDICIAL OFFICER OF THE COURT ……\", below \"(the Court alone completes, signs and enters this order)\", and below \"APPROVED AS TO FORM, for the prosecuting authority:\" with its own empty rule; the local raster of canonical page 4 shows the trailer as the last ink on a page whose every other line belongs to the judge or the prosecutor.",
-          "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 16,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p4"
-            ],
-            "scan02Class": "a, c",
-            "scan02Pages": [
-              2,
-              4,
-              5,
-              6,
-              8
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-misd-1st-set.mjs",
@@ -26904,9 +26863,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf07",
-        "verifiedAtBase": "aefd46f7c",
+        "verifiedAtBase": "a0fbceb30",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -26938,39 +26897,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL. Page 4 of the proposed order carries six drawn lines and nothing else: 'JUDGE', 'APPROVED AS TO FORM (completed, if the prosecuting authority approves, by that authority; never pre-signed and never pre-filled):', the prosecutor's signature rule, 'PROSECUTING AUTHORITY', and then the trailer. Nothing is drawn between the prosecutor's caption and the machine text. The page's own words say that block is 'completed, if the prosecuting authority approves, by that authority' and is 'never pre-signed and never pre-filled' — and machine ink is printed inside it. The whole delivered page is the judge's and the prosecutor's execution blocks plus a route key. The repair is the line the family's own sibling ms-diversion-set already prints. Measured fresh on both fixtures: no page is empty, no page carries only route keys, and no route key is split — every printed key reconstructs whole from the content stream, so classes a, b and d are absent here and only SCAN02's class c was in question.",
-          "evidence": {
-            "measuredHere": true,
-            "instrument": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs extractTextItems + groupIntoLines over the composed content stream of every page of both fixtures, plus a local 110dpi pdftoppm raster of the cited page into /tmp/vf07-raster",
-            "pagesReadCanonical": 8,
-            "pagesReadBoundary": 8,
-            "citedPage": 4,
-            "component": "proposed_order",
-            "signatureOrCertificationLineVerbatim": "PROSECUTING AUTHORITY",
-            "linesDrawnBetweenSignatureLineAndTrailer": [],
-            "trailerVerbatim": "Route: obligation:track-only:MS:ms-nonadj",
-            "trailerPresentInBothFixtures": true,
-            "rasterInspected": [
-              "canonical p4"
-            ],
-            "emptyPages": [],
-            "thinnestPageLines": 6,
-            "routeKeyOnlyPages": 0,
-            "hardSplitTokens": 0,
-            "trailerDrawnOnLastPageOfEveryComponent": true,
-            "nonOrderSignaturePagesObserved": []
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonadj-set.mjs",
@@ -27021,11 +26952,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf06",
+        "verifiedAtBase": "b3467e894",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -27055,37 +26988,55 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
+        "COMPONENT_SET"
       ],
       "failedObligations": [
         {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "TWO DEFECTS VISIBLE ON DELIVERED PAGES, in canonical and in boundary. (1) HARD SPLIT on five pages per fixture: \"…non-conviction-expungement-for-dismissal-no-disposition-or-a\" then \"cquittal\", severing the word \"acquittal\" — the very word that names this route’s eligibility ground — between \"a\" and \"cquittal\". (2) MACHINE TEXT INSIDE THE COURT’S AND THE PROSECUTOR’S BLOCK: on the proposed order (page 4) the trailer prints beneath \"JUDICIAL OFFICER OF THE COURT ……\", \"(the Court alone completes, signs and enters this order)\" and \"APPROVED AS TO FORM, for the prosecuting authority:\". Read from the composed content stream and confirmed on a local raster of canonical page 4.",
+          "obligation": "COMPONENT_SET",
+          "finding": "A REQUIRED DOCUMENT THE ROUTE NAMES IS NOT RENDERED, and the family's own records disclose the gap without curing it. product-wiring.json for this family binds data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json by SHA-256 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f — recomputed byte-exact here — declares serviceDisposition 'exact_runtime_route_and_grade_a_specification_installed', and maps that specification's documents onto packet-set manifest component ids. The specification names five documents. Four map to manifest components and are rendered. The fifth, ms-cover-and-contents, role cover_and_contents, order 1, requirement 'required', maps to manifestComponentIds [] — it has no component in data/record-clearing/legal-design-packet-set-manifests.json and nothing renders it. The delivered 8-page packet opens directly on the petition: there is no cover, no packet-contents list, no 'records to have beside you' summary and no signing-and-notarization page anywhere in either fixture, searched for by their own headings. Nothing in build-findings.json or approval-request.json records the omission; the build measured its component set against its own rendered-artifacts.json componentSet and reported 5/5, which is why requiredComponentsMissing reads 0. WHAT THE MISSING PAGE CARRIES, WHICH IS WHY THIS IS NOT COSMETIC. The specification's cover document is where the participant is told 'DO NOT SIGN THE PETITION IN ADVANCE. You must sign the Petition and its Verification in the physical presence of a notary public... The packet is not filing-ready until those steps are complete', and where the packet contents and the records-to-have-beside-you list appear. Its absence removes that warning from the delivered packet entirely. AN OPEN LEGAL INPUT SITS INSIDE THE SAME DEFECT AND A REPAIR LANE MUST NOT GUESS IT. Two committed legal-design records disagree on their face about the notarised verification, and neither is marked as superseding the other. data/record-clearing/legal-design-intake/MS.memo.json — the composition source this family's source-receipt binds by hash — records for this track: notarization 'None on the archived models. Whether any district requires verification or notarization is unresolved; the petition carries a simple truth statement rather than a notarized verification', classified impact 'nonblocking_research_note', affectedElement 'packet_components'. The specification v2.0.0 the product-wiring binds requires the opposite: five notaryOwnedFields, a finalVerificationRequirement that 'the participant signs the petition and verification in the notary's physical presence after the notary administers an oath or affirmation', and the cover page's 'not filing-ready until those steps are complete'. The delivered petition follows the memo — a bare 'I declare that the facts stated in this petition are true and correct', no verification block, no notarial certificate — and this family's own approval-request.json raises the point as counsel question 4, unanswered. THE REPAIR, STATED SO IT CAN BE ACTED ON. The cover half needs no legal answer: either render the specification's required order-1 cover_and_contents document into this packet and give it a component in the packet-set manifest, or record on the owner's authority that the census-v1 overlay is not this specification's representation — that the specification is served only by the Grade-A clinic artifacts at data/rcap-ledger/grade-a/ (12 and 13 pages, documentCount 5) — and correct product-wiring.json, which today asserts the opposite. The jurat half must not be repaired either way until the owner or counsel settles which of the two committed records governs; writing a notarial certificate into the petition on a lane's own reading, or leaving it out on the strength of the memo alone, would both be a lane deciding an open legal question.",
           "evidence": {
-            "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 16,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p4"
+            "measuredAgainst": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json, specificationVersion 2.0.0, packetFamily ms-nonconv-set",
+            "specificationBoundByHashInThisFamilysOwnProductWiring": true,
+            "packetSpecificationSha256Declared": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+            "packetSpecificationSha256RecomputedHere": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+            "documentsTheSpecificationNames": 5,
+            "documentsRenderedInTheDeliveredPacket": 4,
+            "missing": {
+              "documentId": "ms-cover-and-contents",
+              "role": "cover_and_contents",
+              "order": 1,
+              "requirement": "required",
+              "title": "Your Mississippi Non-Conviction Expungement Packet",
+              "manifestComponentIdsInThisFamilysProductWiring": [],
+              "presentInLegalDesignPacketSetManifests": false
+            },
+            "theOtherFourMapCleanly": {
+              "ms-petition-for-expungement": "ms-nonconv-primary-filing-1",
+              "ms-proposed-order": "ms-nonconv-proposed-order-2",
+              "ms-service-and-attachments": [
+                "ms-nonconv-certificate-of-service-3",
+                "ms-nonconv-attachment-4"
+              ],
+              "ms-filing-and-next-steps": "ms-nonconv-instructions-5"
+            },
+            "deliveredPacketOpensOn": "PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD UNDER MISS. CODE ANN. SEC. 99-19-71(4)",
+            "searchedForInTheDeliveredBytes": [
+              "Packet contents",
+              "What this packet is",
+              "Records to have beside you",
+              "five-part",
+              "notary",
+              "verification"
             ],
-            "scan02Class": "a, c",
-            "scan02Pages": [
-              2,
-              4,
-              5,
-              6,
-              8
-            ],
-            "presentInCanonical": true,
-            "presentInBoundary": true,
-            "countersSayZero": true
+            "foundInTheDeliveredBytes": 0,
+            "requiredComponentsMissingCounter": 0,
+            "whyTheCounterIsZero": "the counter compares the delivered pages against reports/rendered-artifacts.json's own componentSet, which declares the five components this build authored. Measured against the build's own declaration the packet is 5/5; measured against the specification the route binds it is 4/5. That is a source-authored default, and it is the reason this obligation is measured against the specification and not against the report."
           }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",
@@ -42127,11 +42078,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf07",
+        "verifiedAtBase": "a0fbceb30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -42166,28 +42119,51 @@
       "failedObligations": [
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 7 of seven — the last page the participant is handed, attributed to filing_instructions — carries one line and nothing else: \"Route: obligation:track-only:VA:va_exp_nonconviction\". The local raster into /tmp shows a blank sheet with that line near the top. The packet ends on a page that tells the participant nothing about filing. This lane recorded a PASS for this family at base f1cb31429 on the other fourteen obligations; that reading stands and is carried, but the delivered-page appearance does not.",
+          "finding": "FAIL, in canonical and in boundary. Answering the question this lane was sent to answer: the three-line last page is NOT a defect for being three lines — the prose above the trailer is exactly what the previous route-key-only page lacked, and this lane passes short closing pages elsewhere. The defect is what the pull-down left behind. It moved the closing PARAGRAPH down onto page 7 and left the paragraph's own HEADING on page 6, where four row slots still stood free and the block needed three. So page 6 now ends on a heading with an empty two inches under it, and page 7 — the last sheet the participant is handed — opens on two unattributed sentences. In the page's own words: page 6's final line promises 'WHAT THIS PACKET IS NOT' and says nothing; page 7 answers a question it does not ask. No machine text sits inside any court's or prosecuting authority's block anywhere in this packet: the clerk's certification band on page 1 carries no ink at all, and the trailers on pages 3 and 4 each stand below a page-authored sentence in the preparer's voice. REPAIR: pull the heading block down with its body — keep-with-next on the heading, one block — so page 7 reads WHAT THIS PACKET IS NOT, the two rows, then the trailer. The machinery is already on this host; it moved the wrong half of the unit.",
           "evidence": {
             "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 18,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p7"
-            ],
-            "scan02Class": "b",
-            "scan02Pages": [
-              7
-            ],
             "presentInCanonical": true,
             "presentInBoundary": true,
-            "countersSayZero": true
+            "pagesReadPerFixture": 7,
+            "citedPages": [
+              6,
+              7
+            ],
+            "component": "filing_instructions",
+            "page6LastDrawnLineVerbatim": "WHAT THIS PACKET IS NOT",
+            "page7EveryDrawnLineVerbatim": [
+              "This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice,",
+              "it is not filed for you, and it does not decide whether the court will grant expungement.",
+              "Route: obligation:track-only:VA:va_exp_nonconviction"
+            ],
+            "geometry": {
+              "page6LastRowYMax": 654.39,
+              "lastAvailableRowYMax": 712.39,
+              "freeRowSlotsRemainingOnPage6": 4,
+              "rowSlotsTheMovedBlockNeeded": 3,
+              "note": "two prose rows plus the one blank spacer row that precedes them"
+            },
+            "rasterInspected": [
+              "canonical p6",
+              "canonical p7"
+            ],
+            "whatTheRasterShows": "Page 6 ends on the heading WHAT THIS PACKET IS NOT with roughly two inches of clear sheet beneath it and nothing under the heading. Page 7 opens on the two rows of prose that belong under that heading, with no heading above them, then the trailer.",
+            "ruleLimb": "(c) SPLIT BLOCK WITH ROOM LEFT BEHIND",
+            "limbsNotTriggered": {
+              "routeKeyOnlyPages": 0,
+              "emptyPages": 0,
+              "machineTextInsideACourtOrProsecutorBlock": false,
+              "brokenRouteKeys": 0,
+              "markdownDelimiters": 0,
+              "overlappingRows": 0,
+              "inkOutsideThe468ptColumn": 0
+            }
           }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
@@ -46411,11 +46387,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "lane": "vf07",
+        "verifiedAtBase": "a0fbceb30",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -46450,28 +46428,58 @@
       "failedObligations": [
         {
           "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "DEFECT VISIBLE ON A DELIVERED PAGE, in canonical and in boundary. Page 4 of eleven, attributed to supporting_affidavit, carries one line of ink — \"obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge\" — with no \"Route:\" label and nothing else on the sheet, so what prints is a bare machine identifier with nothing to tell a reader what it is. Read from the composed content stream and confirmed on a local raster of canonical page 4 into /tmp. This lane’s own earlier PASS at base ebc44031e covered the other fourteen obligations; the delivered page fails this one.",
+          "finding": "FAIL, in canonical and in boundary. The bare unlabelled identifier VF08 read is genuinely gone — the trailer prints whole with its 'Route:' label and both unit keys reconstruct intact — and that half of the repair holds. What replaced it is worse placed. To give the trailer company the pull-down took a NOTARY'S EXECUTION LINE down with it, off a page that still had three free row slots for a block needing two. So the jurat is now split across the page turn: the sentence 'Taken, subscribed and sworn to before me this ...... day of .................., 20......' ends page 3, and the officer signs at the top of page 4 on a sheet that identifies no case, no court and no affiant. Answering this lane's question directly: the three-line page is not a defect for being three lines — it is a defect because of WHICH three lines. In the page's own words, page 3 says of that block 'completed by that officer, never by you and never by this packet' — and this packet then draws its own machine text directly beneath the officer's signature rule with nothing in the preparer's voice standing between them. That is the same class the Mississippi order was repaired for, reproduced here by the repair itself. REPAIR: never elect a third party's execution line as the trailer's companion. Either keep the whole jurat on page 3, where it fits, or move the jurat WHOLE — the parenthetical, the 'Taken, subscribed and sworn' sentence and the officer line as one block — and print the family's own preparer-voice closer between that block and the trailer, exactly as ms-diversion-set and the repaired ms-nonadj-set now do.",
           "evidence": {
             "measuredHere": true,
-            "fixturesRead": 2,
-            "pagesRead": 22,
-            "method": "composed content stream at appearance level, plus a local raster of the cited pages into /tmp",
-            "rasteredLocally": [
-              "canonical p4"
-            ],
-            "scan02Class": "b",
-            "scan02Pages": [
-              4
-            ],
             "presentInCanonical": true,
             "presentInBoundary": true,
-            "countersSayZero": true
+            "pagesReadPerFixture": 11,
+            "citedPages": [
+              3,
+              4
+            ],
+            "component": "supporting_affidavit",
+            "page3LastThreeDrawnLinesVerbatim": [
+              "(You sign this affidavit before a notary public or other officer authorized to administer oaths, and not",
+              "before. The block below is completed by that officer, never by you and never by this packet.)",
+              "Taken, subscribed and sworn to before me this ...... day of .................., 20......"
+            ],
+            "page4EveryDrawnLineVerbatim": [
+              "Officer authorized to administer oaths ............................................",
+              "Route: obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-1-motion-to-dismiss ;",
+              "obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge"
+            ],
+            "linesDrawnBetweenTheOfficerLineAndTheTrailer": [],
+            "geometry": {
+              "page3LastRowYMax": 668.89,
+              "lastAvailableRowYMax": 712.39,
+              "freeRowSlotsRemainingOnPage3": 3,
+              "rowSlotsTheMovedBlockNeeded": 2,
+              "note": "the officer line plus its one blank spacer row"
+            },
+            "rasterInspected": [
+              "canonical p3",
+              "canonical p4"
+            ],
+            "whatTheRasterShows": "Page 3 ends on the jurat sentence with roughly two inches of clear sheet beneath it. Page 4 is a bare sheet carrying the officer's signature rule at the top and the two-row route trailer immediately under it — no caption, no case number, no defendant's name, no jurat sentence, nothing else.",
+            "ruleLimbs": [
+              "(b) MACHINE TEXT INSIDE ANOTHER'S BLOCK",
+              "(c) SPLIT BLOCK WITH ROOM LEFT BEHIND"
+            ],
+            "limbsNotTriggered": {
+              "routeKeyOnlyPages": 0,
+              "emptyPages": 0,
+              "brokenRouteKeys": 0,
+              "markdownDelimiters": 0,
+              "overlappingRows": 0,
+              "inkOutsideThe468ptColumn": 0
+            }
           }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
