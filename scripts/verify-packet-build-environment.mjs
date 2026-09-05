@@ -908,18 +908,67 @@ check(
     const corpusIndex = readJson(CORPUS_INDEX, env);
     const corpusPaths = makeCorpusEntryResolver(corpusIndex, { repoRoot: env, masterLibraryRoot: root });
     const entryByPath = new Map((corpusIndex?.entries ?? []).map((e) => [e.path, e]));
+    /*
+     * And a path is only findable when the custody that holds it is MOUNTED.
+     * Only two of the five custodies the index names are mounted in a worker
+     * container, so a source whose declared path points into d_source_packs or
+     * the recovery pool reads as absent even when the identical bytes sit in
+     * the Master Library under a different path. VF-G measured it: three
+     * Louisiana sources reported "3 of 3 do not bind" for two families while
+     * every digest resolved byte-exact, byteLength included. A build lane that
+     * trusts this check stops on a family whose sources are all held.
+     *
+     * So a declared path that does not produce the pinned bytes falls back to
+     * the digest itself, looked up across every mounted custody the index
+     * names. This cannot weaken the check: the pin is the same SHA-256 either
+     * way, bytes that are nowhere still fail, and a file that is present at
+     * the declared path but hashes to something else still fails at that path
+     * before the fallback is consulted. What changes is that "held somewhere
+     * mounted" stops being reported as "not held", and the resolution is named
+     * so a source sitting in the wrong custody is visible rather than silent.
+     */
+    let byDigest = null;
+    const digestIndex = () => {
+      if (byDigest) return byDigest;
+      byDigest = new Map();
+      for (const entry of corpusIndex?.entries ?? []) {
+        const digest = String(entry?.sha256 ?? "");
+        if (!/^[0-9a-f]{64}$/.test(digest) || byDigest.has(digest)) continue;
+        const p = corpusPaths.resolve(entry);
+        if (p && fs.existsSync(p)) byDigest.set(digest, { path: p, custody: entry.custody ?? null, declaredPath: entry.path ?? null });
+      }
+      return byDigest;
+    };
+
     const results = resolved.sources.map((s) => {
       const entry = entryByPath.get(s.path);
       const p = (entry && corpusPaths.resolve(entry)) ?? path.join(root, s.path);
-      if (!fs.existsSync(p)) return { ...s, present: false, observed: null, bound: false };
-      const observed = sha256(p);
-      return { ...s, present: true, observed, bound: observed === s.sha256 };
+      if (fs.existsSync(p)) {
+        const observed = sha256(p);
+        if (observed === s.sha256) return { ...s, present: true, observed, bound: true, resolvedBy: "declared path" };
+        return { ...s, present: true, observed, bound: false, resolvedBy: "declared path" };
+      }
+      const held = digestIndex().get(s.sha256);
+      if (!held) return { ...s, present: false, observed: null, bound: false, resolvedBy: null };
+      const observed = sha256(held.path);
+      return {
+        ...s, present: true, observed, bound: observed === s.sha256,
+        resolvedBy: "content hash across the mounted custodies",
+        heldAt: held.path, heldInCustody: held.custody,
+        declaredPathIsUnreachableHere: s.path
+      };
     });
     const ok = results.every((r) => r.bound);
     return {
       ok, family: FAMILY, tier: resolved.tier, custodyClass: resolved.custodyClass, commissionAcquisition: resolved.commissionAcquisition,
-      sources: results.map((r) => ({ sourceId: r.sourceId, present: r.present, bound: r.bound, pinned: r.sha256, observed: r.observed })),
-      detail: ok ? `${results.length}/${results.length} source(s) bind by exact SHA-256 (${resolved.tier})`
+      sources: results.map((r) => ({
+        sourceId: r.sourceId, present: r.present, bound: r.bound, pinned: r.sha256, observed: r.observed,
+        resolvedBy: r.resolvedBy ?? null,
+        ...(r.heldAt ? { heldAt: r.heldAt, heldInCustody: r.heldInCustody, declaredPathIsUnreachableHere: r.declaredPathIsUnreachableHere } : {})
+      })),
+      boundByContentHashRatherThanDeclaredPath: results.filter((r) => r.bound && r.resolvedBy !== "declared path").length,
+      detail: ok
+        ? `${results.length}/${results.length} source(s) bind by exact SHA-256 (${resolved.tier})${results.some((r) => r.resolvedBy !== "declared path") ? `; ${results.filter((r) => r.resolvedBy !== "declared path").length} found by content hash because the declared path is in a custody that is not mounted here` : ""}`
         : `${results.filter((r) => !r.bound).length} of ${results.length} source(s) do not bind`
     };
   }

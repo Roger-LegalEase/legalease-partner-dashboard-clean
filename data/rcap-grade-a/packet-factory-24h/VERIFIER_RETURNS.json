@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 676,
-    "independentVerdicts": 224,
+    "rows": 679,
+    "independentVerdicts": 227,
     "failRepairRequired": 63,
-    "passIndependent": 149
+    "passIndependent": 152
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
@@ -6845,6 +6845,20 @@
       "superseded": true
     },
     {
+      "familyId": "in_conviction_misd-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_conviction_misd-set",
+      "superseded": false
+    },
+    {
       "familyId": "in_infraction_nondisclosure-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
@@ -6975,16 +6989,16 @@
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
       "isIndependentVerification": true,
-      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
       "failedObligations": [
         {
-          "obligation": "COMPONENT_SET",
+          "obligation": "REQUIRED_BEFORE_FILING",
           "finding": null,
-          "evidence": null
+          "evidence": "See defects INS1-A and INS1-B in repair-assignments.json. participant-instructions.md makes two statements about the delivered artifact that its own bytes contradict, and both would misdirect a participant: (A) lines 42 and 46 state that 'only the Appearance on pages 1-2 carries form boxes for the participant's own details', that the petition's caption, its 'Comes now the Petitioner' line and its paragraph 1 full-name blank 'carry no form boxes at all', 'nor does the proposed order's caption; nor does the Confidential Information Form's cause number or name', that the packet filled in 'on the Appearance only', and instruct the participant to 'Copy the caption across every document' — while cap-PetitionerFullName is ONE shared field spanning source pages 1,3,5,7,8,9,13 and IS filled on all seven, cap-COUNTY spans pp.1,3,7,9 and is filled on all four, and Address spans pp.1,13 and is filled on both. The build's own reports/participant-name-placement.json records the same 16 placements, so the packet's two artifacts contradict each other and the bytes side with the placement report. (B) the instructions direct the participant to complete named PDF form fields and interactive controls — line 54 'The Appearance's caption has a dropdown for the court type', line 90 'a dropdown; inside the PDF, DD-cap-CourtType', line 100 'the two election boxes (Check Box9, Check Box10) | tick the relief', line 103 'PetFullSSN', and the whole insert table at lines 114-119 — but BOTH delivered fixtures are fully flattened: 0 AcroForm fields and 0 widget annotations on every one of the 15 + 4 pages. There is no dropdown to open and no box to tick."
         }
       ],
       "failedObligationNames": [
-        "COMPONENT_SET"
+        "REQUIRED_BEFORE_FILING"
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
@@ -7189,6 +7203,34 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_void_seal_marijuana_synthetic_salvia-set",
       "superseded": true
+    },
+    {
+      "familyId": "la-977-misdemeanor-conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-977-misdemeanor-conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "la-978-felony-conviction-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-978-felony-conviction-set",
+      "superseded": false
     },
     {
       "familyId": "la-987-set-aside-and-dismiss-set",
