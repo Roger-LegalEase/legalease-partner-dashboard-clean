@@ -22,6 +22,7 @@ The platform wrote only the identity and contact facts it holds: full legal name
 
 There is no checkout and nothing to file from this guide. Do not submit it to a court or agency. Contact the Delaware SBI Expungement Section at 302-739-5884 and use https://dsp.delaware.gov/expungements/ to confirm the current process.
 Have the listed record and case facts available. Ask whether the automatic process has reached the case. If SBI determines eligibility, wait for its letter and follow only the current instructions and any fee information SBI provides.
+Cost: the court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved and is not stated here. Under 11 Del. C. Sec. 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.
 Stop and get help if SBI denies mandatory eligibility, directs a court petition, the record remains uncleared, a listed case fact is uncertain, or immigration, firearms, licensing, registry, or law-enforcement-employment consequences may be involved.
 
 ## Protected items left blank

@@ -69,7 +69,9 @@ const FAMILY = makeAgencyGuidanceFamily({
       paragraphs: [
         "Start with the Delaware State Police, State Bureau of Identification, Expungement Section. Call 302-739-5884. The official process page is https://dsp.delaware.gov/expungements/.",
         "Tell SBI you are checking mandatory or automatic expungement under 11 Del. C. Secs. 4373 and 4373A. Ask whether the automatic process has reached the case and what identifying or case information SBI needs to review it.",
-        "If SBI determines that the person is eligible, SBI provides an eligibility letter and instructions. Wait for that letter and follow only the current directions it contains. Do not send this guide, invent an application, or send a payment based on this guide. No fee amount, waiver procedure, mailing address, portal, or submission method is asserted here."
+        "If SBI determines that the person is eligible, SBI provides an eligibility letter and instructions. Wait for that letter and follow only the current directions it contains. Do not send this guide, invent an application, or send a payment based on this guide. No mailing address, portal, or submission method is asserted here.",
+        "Cost, as the committed Delaware record states it: the court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved and is not stated here; confirm it with SBI.",
+        "Fee waiver and conversion, as the same record states it: under 11 Del. C. Sec. 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment. Unpaid fines, fees, or restitution where that waiver or conversion is needed is a stop condition on this route, not a step to take from this guide."
       ]
     },
     {
@@ -135,6 +137,7 @@ const FAMILY = makeAgencyGuidanceFamily({
   instructions: [
     "There is no checkout and nothing to file from this guide. Do not submit it to a court or agency. Contact the Delaware SBI Expungement Section at 302-739-5884 and use https://dsp.delaware.gov/expungements/ to confirm the current process.",
     "Have the listed record and case facts available. Ask whether the automatic process has reached the case. If SBI determines eligibility, wait for its letter and follow only the current instructions and any fee information SBI provides.",
+    "Cost: the court instructions state a $75 filing fee on the mandatory path after the SBI letter. The SBI's own current fee is not source-approved and is not stated here. Under 11 Del. C. Sec. 4372(l), if an outstanding fine or fee is unpaid for reasons other than wilful noncompliance and the person is otherwise eligible, the court may grant the expungement and waive the fines or fees or convert them to a civil judgment.",
     "Stop and get help if SBI denies mandatory eligibility, directs a court petition, the record remains uncleared, a listed case fact is uncertain, or immigration, firearms, licensing, registry, or law-enforcement-employment consequences may be involved."
   ],
   buildFindings: [
@@ -144,7 +147,7 @@ const FAMILY = makeAgencyGuidanceFamily({
     },
     {
       finding: "The committed route metadata is guidance-only, userFiled false, checkout-ineligible, and payment-product-ineligible.",
-      consequence: "The guide makes no checkout, filing, service, fee-amount, waiver, portal, or mailing-address claim."
+      consequence: "The guide makes no checkout, filing, service, portal, or mailing-address claim. It states the $75 mandatory-path filing fee and the Sec. 4372(l) waiver-or-conversion limb exactly as the committed Delaware memo states them, and asserts no SBI fee of its own."
     },
     {
       finding: "The committed Delaware profile directs the participant to SBI at 302-739-5884 and records that SBI supplies an eligibility letter and instructions if eligible.",
