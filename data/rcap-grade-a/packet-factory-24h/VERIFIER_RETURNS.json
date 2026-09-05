@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 800,
+    "rows": 801,
     "independentVerdicts": 240,
-    "failRepairRequired": 51,
+    "failRepairRequired": 50,
     "passIndependent": 174
   },
   "failRepairRequiredFamilies": [
@@ -71,7 +71,6 @@
     "in_infraction_nondisclosure-set",
     "mi_setaside_trafficking-set",
     "nc_145_5_felony-set",
-    "nc_146_acquittal_petition-set",
     "nj_arrest_no_conviction-set",
     "nm_conviction-set",
     "nm_identity_theft-set",
@@ -9959,6 +9958,303 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_acquittal_petition-set",
+      "superseded": true
+    },
+    {
+      "familyId": "nc_146_acquittal_petition-set",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "lane": "vf07",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ff4dee3ab",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "blockedLegalObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "OPEN QUESTION, named exactly, for an owner rather than for this family — the same one VF02 recorded for Vermont, on a different form. WHAT PASSES. Every measurable half of this obligation holds. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and visualDefects 0 in both fixtures; no glyph is unfittable or refused. Rastered locally at 200 dpi into /tmp and differenced pixel-for-pixel against the pinned source, the canonical petition pages carry 6281 added pixels on page 1 and 600 on page 2, and every one of them falls inside a write box or a checkbox rect — 0 unexplained, 0 removed. Packet page 3 is pixel-identical to the pinned instructions binary (0 added, 0 removed). No value crosses a printed line or another value. On the boundary fixture, with a 39-character name, a 52-character street address and a 20-character case number, 13532 added pixels are again 0 unexplained and every long value clears its box: tightest right clearances 12.38pt (street address), 4.66pt (case number), 4.50pt (State). No invisible writes anywhere: 0 live widgets, 0 annotations, no AcroForm, no OCProperties, no JavaScript, no XFA, 0 text render mode 3 and 0 white-fill-before-text across all 386 streams of each fixture. WHAT IS NOT SETTLED. All 14 checkbox widgets of AOC-CR-288 are delivered with a stroked black border the pinned source does not paint. Read from the pinned binary: every one of the 14 has /AS /Off, an /AP /N dictionary whose only state is /Yes, and no /MK /BC, so under PDF 32000-1 12.5.5 a conforming viewer paints nothing there. In the delivered bytes each is a flattened form XObject placed at the widget's own rect whose whole content is '0 0 0 RG 0 w [] 0 d … h S' — a black stroke of the full widget rectangle. It is visible: at 200 dpi each of the 14 regions gains between 27 and 136 dark pixels over the pinned source, and magnified the form's own thin printed box is delivered as a visibly heavier double-struck one. A ZERO-WRITE BASELINE was built here by running the repository's own scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned AOC-CR-288 with writtenFields empty; rastered at the same 200 dpi, all 14 checkbox regions are PIXEL-IDENTICAL to the delivered packet (0 differing pixels at every one of the 14). So the squares are not a mark this family makes; they are what the shared normalization produces for a widget whose current appearance state has no appearance stream. Both halves of RI-OFF-APPEARANCE's own test therefore point opposite ways, which is why this is recorded as blocked rather than passed or failed, and why it is not decided here.",
+          "evidence": {
+            "measuredHere": true,
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+            "visualDefects": 0,
+            "rasterDpi": 200,
+            "rastersDeletedAfterMeasuring": true,
+            "canonicalPage1AddedPixels": 6281,
+            "canonicalPage1UnexplainedPixels": 0,
+            "canonicalPage2AddedPixels": 600,
+            "canonicalPage2UnexplainedPixels": 0,
+            "canonicalPage3DiffAgainstPinnedInstructions": {
+              "added": 0,
+              "removed": 0
+            },
+            "boundaryPage1AddedPixels": 13532,
+            "boundaryPage1UnexplainedPixels": 0,
+            "boundaryTightestRightClearancePt": {
+              "streetAddress": 12.38,
+              "caseNumber": 4.66,
+              "state": 4.5
+            },
+            "invisibleWriteScan": {
+              "liveWidgets": 0,
+              "annotations": 0,
+              "acroForm": false,
+              "ocProperties": false,
+              "javaScript": false,
+              "xfa": false,
+              "textRenderMode3": 0,
+              "whiteFillBeforeText": 0,
+              "streamsScannedPerFixture": 386
+            },
+            "checkboxWidgets": 14,
+            "everyOneHasAsOffWithNoOffAppearance": true,
+            "sourceMkBorderColour": null,
+            "deliveredStreamPerWidget": "1 0 0 1 0 0 cm q 0 0 0 RG 0 w [] 0 d … 0 0 m 0 H l W H l W 0 l h S Q",
+            "zeroWriteBaseline": {
+              "howItWasBuilt": "node: PDFDocument.load(pinned AOC-CR-288) then sanitizeAndFlatten(doc, { writtenFields: new Set() }) from scripts/rcap-official-forms/rcap-active-content.mjs, saved and rastered at 200 dpi",
+              "checkboxRectsPixelIdenticalToDelivered": 14,
+              "checkboxRectsDiffering": 0,
+              "whatThatProves": "this family added none of the 14 squares; the shared flattening step produces them"
+            },
+            "perWidget": [
+              {
+                "widget": "District",
+                "page": "p1",
+                "rectPt": {
+                  "x": 369.04,
+                  "y": 715.738,
+                  "size": 9.48
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "Superior",
+                "page": "p1",
+                "rectPt": {
+                  "x": 425.8,
+                  "y": 715.738,
+                  "size": 9.48
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "CkBox_Attchmt",
+                "page": "p1",
+                "rectPt": {
+                  "x": 41.5,
+                  "y": 472.789,
+                  "size": 9.48
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "SeekingExpunge15A-146Cbx",
+                "page": "p1",
+                "rectPt": {
+                  "x": 56,
+                  "y": 213.787,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerCbx",
+                "page": "p1",
+                "rectPt": {
+                  "x": 502.93,
+                  "y": 175.566,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerAttorneyCbx",
+                "page": "p1",
+                "rectPt": {
+                  "x": 502.93,
+                  "y": 164.932,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerNotConvictedFelonyMisdemeanorCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 41.43,
+                  "y": 701.232,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerIsEligibleCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 116.4,
+                  "y": 689.979,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionerIsNotEligibleCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 144.99,
+                  "y": 689.979,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionGrantedCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 41.7,
+                  "y": 617.636,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "PetitionDeniedCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 41.33,
+                  "y": 545.817,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "DeputyCSCCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 435.23,
+                  "y": 433.069,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "AssistantCSCCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 487.8,
+                  "y": 432.898,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              },
+              {
+                "widget": "ClerkOfSuperiorCourtCbx",
+                "page": "p2",
+                "rectPt": {
+                  "x": 435.23,
+                  "y": 421.416,
+                  "size": 9.68
+                },
+                "sourceApNStates": [
+                  "/Yes"
+                ],
+                "sourceAs": "/Off",
+                "sourcePaintsForAs": "nothing",
+                "deliveredPaints": "black stroked rectangle of the full widget rect"
+              }
+            ],
+            "extraDarkPixelsAt200dpiVsPinnedSource": {
+              "District": 27,
+              "Superior": 29,
+              "CkBox_Attchmt": 27,
+              "SeekingExpunge15A-146Cbx": 57,
+              "PetitionerCbx": 84,
+              "PetitionerAttorneyCbx": 108,
+              "PetitionerNotConvictedFelonyMisdemeanorCbx": 54,
+              "PetitionerIsEligibleCbx": 55,
+              "PetitionerIsNotEligibleCbx": 82,
+              "PetitionGrantedCbx": 82,
+              "PetitionDeniedCbx": 57,
+              "DeputyCSCCbx": 136,
+              "AssistantCSCCbx": 54,
+              "ClerkOfSuperiorCourtCbx": 108
+            },
+            "whereTheRepairBelongs": "scripts/rcap-official-forms/rcap-active-content.mjs — suppressSynthesizedSelectionAppearances exists and installs an empty form XObject for the missing state, but sanitizeAndFlatten and finalizeOfficialForm both default suppressSynthesizedAppearances to false and scripts/build-census-v1-nc_146_acquittal_petition-set.mjs does not pass it. Not this family's to change and not whitelistable per family."
+          }
+        }
+      ],
+      "blockedLegalObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nc_146_acquittal_petition-set",
       "superseded": false
     },

@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9b5c6f2ea21c0a1aed7b37de80f45456caa7ea19",
+  "minimumCaptainSha": "986f826ded87e512cdff8dbaf6942560b8cf9fbb",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -71,8 +71,8 @@
     "remaining": 342,
     "sourceReady": 82,
     "sourceBlocked": 6,
-    "legalBlocked": 13,
-    "verifyPending": 5,
+    "legalBlocked": 14,
+    "verifyPending": 4,
     "repairRequired": 45,
     "sumsToDenominator": true
   },
@@ -83,10 +83,10 @@
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
     "SOURCE_BLOCKED": 6,
-    "LEGAL_BLOCKED": 13,
+    "LEGAL_BLOCKED": 14,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 5,
+    "VERIFY_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -164,7 +164,7 @@
     "familiesPerBuilder": 3.4,
     "targetPerBuilder": "15 to 25",
     "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 82 do, so a full roster of 24 builders averages 3.4 families each rather than 15 to 25.",
-    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 19 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
+    "whatWouldChangeIt": "The source conveyor. 10 source obligations across 20 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 24: 24 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
@@ -28193,21 +28193,30 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "lane": "vf07",
+        "verifiedAtBase": "ff4dee3ab",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
-      "legalInputStatus": "SETTLED",
+      "rasterEnrolmentRefusal": [
+        "an open legal input"
+      ],
+      "legalInputStatus": "OPEN_LEGAL_INPUT",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
       "terminalTreatment": null,
-      "legalInputBasis": null,
+      "legalInputBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
       "wave2LegalBlock": null,
       "ownerCorrectionRequired": null,
       "legalHoldReclassification": null,
-      "laneReturnLegalHold": null,
+      "laneReturnLegalHold": {
+        "familyId": "nc_146_acquittal_petition-set",
+        "foundBy": [
+          "vf07 (current independent verification)"
+        ],
+        "why": "CLIPPING_AND_OVERLAP: OPEN QUESTION, named exactly, for an owner rather than for this family — the same one VF02 recorded for Vermont, on a different form. WHAT PASSES. Every measurable half of this obligation holds. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and visualDefects 0 in both fixtures; no glyph is unfittable or refused. Rastered locally at 200 dpi into /tmp and differenced pixel-for-pixel against the pinned source, the canonical petition pages carry 6281 added pixels on page 1 and 600 on page 2, and every one of them falls inside a write box or a checkbox rect — 0 unexplained, 0 removed. Packet page 3 is pixel-identical to the pinned instructions binary (0 added, 0 removed). No value crosses a printed line or another value. On the boundary fixture, with a 39-character name, a 52-character street address and a 20-character case number, 13532 added pixels are again 0 unexplained and every long value clears its box: tightest right clearances 12.38pt (street address), 4.66pt (case number), 4.50pt (State). No invisible writes anywhere: 0 live widgets, 0 annotations, no AcroForm, no OCProperties, no JavaScript, no XFA, 0 text render mode 3 and 0 white-fill-before-text across all 386 streams of each fixture. WHAT IS NOT SETTLED. All 14 checkbox widgets of AOC-CR-288 are delivered with a stroked black border the pinned source does not paint. Read from the pinned binary: every one of the 14 has /AS /Off, an /AP /N dictionary whose only state is /Yes, and no /MK /BC, so under PDF 32000-1 12.5.5 a conforming viewer paints nothing there. In the delivered bytes each is a flattened form XObject placed at the widget's own rect whose whole content is '0 0 0 RG 0 w [] 0 d … h S' — a black stroke of the full widget rectangle. It is visible: at 200 dpi each of the 14 regions gains between 27 and 136 dark pixels over the pinned source, and magnified the form's own thin printed box is delivered as a visibly heavier double-struck one. A ZERO-WRITE BASELINE was built here by running the repository's own scripts/rcap-official-forms/rcap-active-content.mjs sanitizeAndFlatten over the pinned AOC-CR-288 with writtenFields empty; rastered at the same 200 dpi, all 14 checkbox regions are PIXEL-IDENTICAL to the delivered packet (0 differing pixels at every one of the 14). So the squares are not a mark this family makes; they are what the shared normalization produces for a widget whose current appearance state has no appearance stream. Both halves of RI-OFF-APPEARANCE's own test therefore point opposite ways, which is why this is recorded as blocked rather than passed or failed, and why it is not decided here.",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+      },
       "executionReclassification": null,
       "executionOwner": null,
       "nextExecutableAction": null,
@@ -28227,19 +28236,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "ROUTE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "ROUTE_IDENTITY",
-          "finding": null,
-          "evidence": "the same defect as nc_145_5_felony-set. production-field-map.json, source-receipt.json and the printed route line say 'obligation:track-only:NC:nc_146_acquittal_petition'; MASTER_QUEUE, the worklist, the census candidate and product-wiring.json all say 'obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146'. The packet's key is absent from canonical-route-universe.json, which carries the sibling obligation:track-only:NC:nc_146_dismissal_petition."
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "LEGAL_BLOCKED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",

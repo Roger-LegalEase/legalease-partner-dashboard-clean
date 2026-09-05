@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "9b5c6f2ea21c0a1aed7b37de80f45456caa7ea19",
+  "generatedAtCommit": "986f826ded87e512cdff8dbaf6942560b8cf9fbb",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5463,21 +5463,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "nc_146_acquittal_petition-set",
-      "familyId": "nc_146_acquittal_petition-set",
-      "itemId": null,
-      "familyIds": [
-        "nc_146_acquittal_petition-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX55",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "nc_146_dismissal_petition-set",
       "familyId": "nc_146_dismissal_petition-set",
       "itemId": null,
@@ -7996,22 +7981,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-01T19:08:54.116Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "vt_seal_nonconviction-set",
-      "familyId": "vt_seal_nonconviction-set",
-      "itemId": null,
-      "familyIds": [
-        "vt_seal_nonconviction-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "VF02 BLOCKED_LEGAL_INPUT at a71d69523: fourteen obligations pass on the FIX43 bytes (canonical 0b657ac8, boundary 4851f377, RASTER_PASS run 33975085036); CLIPPING_AND_OVERLAP is blocked on one owner question outside the family: the shared flattening synthesizes a black 14.4pt border at fourteen checkbox widgets of 200-00130 and 200-00132 whose /Off state ships no appearance stream, which the official forms do not print; RI-OFF-APPEARANCE covers only an unchanged /Off appearance. Return at data/rcap-grade-a/packet-factory-24h/vf02/rows.json (Captain release after integrating VF02 commit 334468c3b)."
     },
     {
       "subjectType": "packet-family",
@@ -12926,7 +12895,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "53f9e492f812dfa8c1bdb7ec643ce3995ce1995a4f2aeaa0c01645be5e5d29df",
+  "claimsDigest": "ca33ceed73e6e80b13e59c95210783bc0dd6205725b0839e4404eab737eed291",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44536,6 +44505,22 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "withdrawnAt": "2026-09-05T17:21:02Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_146_acquittal_petition-set",
+      "operation": "rapid-repair",
+      "lane": "FIX55",
+      "withdrawnAt": "2026-09-05T17:45:34Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-05T17:45:34Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
