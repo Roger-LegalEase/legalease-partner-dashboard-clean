@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "6ad9c55bdbae3f7a71ca898e7d50a7288ad8faa5",
+  "minimumCaptainSha": "311c6be14f1d6a309ba9765112920ae6f1129028",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 8,
+    "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
-    "remaining": 338,
+    "remaining": 337,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 13,
     "verifyPending": 4,
-    "repairRequired": 55,
+    "repairRequired": 54,
     "sumsToDenominator": true
   },
   "byState": {
@@ -111,6 +111,7 @@
     "families": [
       "il-seal-edu-set",
       "nc_145_5_felony-set",
+      "nj_arrest_no_conviction-set",
       "nj_disorderly_persons-set",
       "nj_indictable_conviction-set",
       "nj_ordinance-set",
@@ -31409,8 +31410,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX62",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31435,7 +31436,8 @@
         "rcap-oh-custom-pleading-clean-tracks",
         "ri_nonconviction_sealing-set"
       ],
-      "exclusiveScript": false
+      "exclusiveScript": false,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "nj_clean_slate-set",
@@ -31719,7 +31721,7 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX57",
+      "activeOwner": "FIX62",
       "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
       "buildScriptExists": true,
@@ -31908,7 +31910,7 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX57",
+      "activeOwner": "FIX62",
       "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
       "buildScriptExists": true,
@@ -32096,7 +32098,7 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX57",
+      "activeOwner": "FIX62",
       "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
       "buildScriptExists": true,
