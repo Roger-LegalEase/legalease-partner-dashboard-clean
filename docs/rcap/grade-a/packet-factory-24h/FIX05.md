@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `382a0843c0587c3da7eca0fde32d74069d43b08b` (or the newer dispatch base)
+**Minimum required ancestor:** `b2e3d2aa2190a4f16677e714104331598e9987ef` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ca-17b-reduction-set' \
   --codex-cloud \
-  --minimum-captain-sha 382a0843c0587c3da7eca0fde32d74069d43b08b
+  --minimum-captain-sha b2e3d2aa2190a4f16677e714104331598e9987ef
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 7 exact families before reading or writing family content:
+- Assert only these 6 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ca-17b-reduction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'il-cannabis-vacate-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'nc_145_5_felony-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ri_multiple_misdemeanors-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'ut_pet_dismissed_without_prejudice-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'al-misd-conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 'rcap-wi-custom-pleading'`
@@ -63,12 +62,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 7 families
+## The 6 families
 
 - `ca-17b-reduction-set`
 - `il-cannabis-vacate-set`
 - `nc_145_5_felony-set`
-- `ri_multiple_misdemeanors-set`
 - `ut_pet_dismissed_without_prejudice-set`
 - `al-misd-conviction-set`
 - `rcap-wi-custom-pleading`
@@ -87,14 +85,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/il/il-cannabis-vacate-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
 - `scripts/build-census-v1-ca-17b-reduction-set.mjs`
 - `scripts/build-census-v1-il-cannabis-vacate-set.mjs`
 - `scripts/build-census-v1-nc_145_5_felony-set.mjs`
-- `scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs`
 - `scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs`
 - `scripts/build-census-v1-al-misd-conviction-set.mjs`
 - `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`

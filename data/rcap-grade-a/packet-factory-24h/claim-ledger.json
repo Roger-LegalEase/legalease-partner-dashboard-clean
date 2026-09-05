@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "382a0843c0587c3da7eca0fde32d74069d43b08b",
+  "generatedAtCommit": "b2e3d2aa2190a4f16677e714104331598e9987ef",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5970,8 +5970,9 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:21:09.630Z",
+      "releaseReason": "VF04 FAIL_REPAIR_REQUIRED at a667d6de0: KNOWN_PREFILLS and CLIPPING_AND_OVERLAP -- page 20 (and 24) writes COUNTY OF Bernalillo directly above source-printed SIXTH JUDICIAL DISTRICT COURT (Bernalillo is Second, boundary Sierra is Seventh); matter.court written into both blanks of 4-953 item 2's unelected branch. Verdict extracted; source-identity question recorded for the district-printed form."
     },
     {
       "subjectType": "packet-family",
@@ -5990,6 +5991,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "familyId": "nm_conviction-set",
+      "itemId": null,
+      "familyIds": [
+        "nm_conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "nm_identity_theft-set",
       "familyId": "nm_identity_theft-set",
       "itemId": null,
@@ -6000,8 +6016,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:21:10.025Z",
+      "releaseReason": "VF05 FAIL_REPAIR_REQUIRED at a667d6de0: the same 4-222 wrong-court caption (page 11) and item-2 branch writes as nm_conviction-set. Verdict extracted."
     },
     {
       "subjectType": "packet-family",
@@ -6017,6 +6034,21 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T22:52:11.335Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "familyId": "nm_identity_theft-set",
+      "itemId": null,
+      "familyIds": [
+        "nm_identity_theft-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7055,8 +7087,9 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:21:09.761Z",
+      "releaseReason": "VF04 FAIL_REPAIR_REQUIRED at a667d6de0: CLIPPING_AND_OVERLAP -- pages 8 and 13 carry nothing but an obligation:unit:RI block, it prints under the clerk certification line of the proposed order, and a key splits certified-co / pies; the RI host's private splitter. Order matches the owner decision. Verdict extracted; to repair at the host."
     },
     {
       "subjectType": "packet-family",
@@ -7075,6 +7108,22 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "familyId": "ri_first_offender_felony-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_first_offender_felony-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX35",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Dealt and never launched; moving to FIX35."
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "ri_first_offender_misdemeanor-set",
       "familyId": "ri_first_offender_misdemeanor-set",
       "itemId": null,
@@ -7085,8 +7134,9 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:21:10.160Z",
+      "releaseReason": "VF05 FAIL_REPAIR_REQUIRED at a667d6de0: CLIPPING_AND_OVERLAP -- page 8 route-key-only, two keys split mid-token; the RI host's private splitter. Verdict extracted; to repair at the host."
     },
     {
       "subjectType": "packet-family",
@@ -7102,6 +7152,22 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-05T03:38:38.641Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "itemId": null,
+      "familyIds": [
+        "ri_first_offender_misdemeanor-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX35",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Dealt and never launched; moving to FIX35."
     },
     {
       "subjectType": "packet-family",
@@ -7159,10 +7225,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX35",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Dealt and never launched; moving to FIX35."
     },
     {
       "subjectType": "packet-family",
@@ -7477,9 +7544,9 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "The generator's verification deal shrank to the lanes it emits and named VF04 for this family; no worker was executing on VF11. Captain moves the grant to the dealt lane."
+      "released": true,
+      "releasedAt": "2026-09-05T11:21:09.897Z",
+      "releaseReason": "VF04 PASS_COMPLETE_INDEPENDENT at a667d6de0 on 4cbe29ec/9b905898: all three Statement-of-Inability source values draw nothing at their rects. Open note: no field-appearance-semantics entry for this family's fee-waiver-statement-4 though six sibling enclosures carry one; clean via the family's own cleared_before_flatten. Verdict extracted."
     },
     {
       "subjectType": "packet-family",
@@ -13010,7 +13077,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5ecd15b89f3a2e18bdc2e0dc0ba5172db7b43b2f00f04ba8aed03ab7cb7dba05",
+  "claimsDigest": "93a534c8d0053e56d2a3651e9407e2693157b5eb67a5424248e08abd17bffd22",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27479,6 +27546,78 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T11:14:22.026Z",
       "reason": "VF01 FAIL_REPAIR_REQUIRED at 48449fe39: KNOWN_PREFILLS (held case number whose prefix names its court is not written though rwcOriginatingCourt is required; field-map rows excuse it as unheld against build-findings), REQUIRED_BEFORE_FILING, CLIPPING_AND_OVERLAP (judicial district written onto the District Court branch of paragraph 12 on the magistrate fixture). San Juan refusal correct, COMPONENT_SET complete. Open counsel note: pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under Second and Seventh district counties. Verdict extracted; to repair."
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "nm_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:21:09.630Z",
+      "reason": "VF04 FAIL_REPAIR_REQUIRED at a667d6de0: KNOWN_PREFILLS and CLIPPING_AND_OVERLAP -- page 20 (and 24) writes COUNTY OF Bernalillo directly above source-printed SIXTH JUDICIAL DISTRICT COURT (Bernalillo is Second, boundary Sierra is Seventh); matter.court written into both blanks of 4-953 item 2's unelected branch. Verdict extracted; source-identity question recorded for the district-printed form."
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:21:09.761Z",
+      "reason": "VF04 FAIL_REPAIR_REQUIRED at a667d6de0: CLIPPING_AND_OVERLAP -- pages 8 and 13 carry nothing but an obligation:unit:RI block, it prints under the clerk certification line of the proposed order, and a key splits certified-co / pies; the RI host's private splitter. Order matches the owner decision. Verdict extracted; to repair at the host."
+    },
+    {
+      "lane": "VF04",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_probation_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:21:09.897Z",
+      "reason": "VF04 PASS_COMPLETE_INDEPENDENT at a667d6de0 on 4cbe29ec/9b905898: all three Statement-of-Inability source values draw nothing at their rects. Open note: no field-appearance-semantics entry for this family's fee-waiver-statement-4 though six sibling enclosures carry one; clean via the family's own cleared_before_flatten. Verdict extracted."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "nm_identity_theft-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:21:10.025Z",
+      "reason": "VF05 FAIL_REPAIR_REQUIRED at a667d6de0: the same 4-222 wrong-court caption (page 11) and item-2 branch writes as nm_conviction-set. Verdict extracted."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:21:10.160Z",
+      "reason": "VF05 FAIL_REPAIR_REQUIRED at a667d6de0: CLIPPING_AND_OVERLAP -- page 8 route-key-only, two keys split mid-token; the RI host's private splitter. Verdict extracted; to repair at the host."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:21:26.285Z",
+      "reason": "Dealt and never launched; moving to FIX35."
+    },
+    {
+      "lane": "FIX08",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:21:26.628Z",
+      "reason": "Dealt and never launched; moving to FIX35."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T11:21:26.982Z",
+      "reason": "Dealt and never launched; moving to FIX35."
     }
   ],
   "reissues": [
@@ -38381,6 +38520,39 @@
       "previouslyReleasedAt": "2026-09-05T09:34:51.808Z",
       "transferredAt": "2026-09-05T11:07:18.543Z",
       "reason": "VF01 at 7a1e2c417: REQUIRED_BEFORE_FILING -- 20 AcroForm checkboxes across 200-00130, 200-00132 and 600-00228 (12/2/6) carry no field-map row, including the stipulation consent-to-email YES/NO and the field the packet's own route mark lands on; 600-00228 is generated and prefilled though its condition is unmet and its disposition is do_not_file."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_multiple_misdemeanors-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX35",
+      "previouslyReleasedAt": "2026-09-05T11:21:26.285Z",
+      "transferredAt": "2026-09-05T11:21:26.422Z",
+      "reason": "CLIPPING_AND_OVERLAP from the Rhode Island host's private character-accumulating splitToken (build-census-v1-ri_decriminalized-set.mjs): hard-split route keys and route-key-only pages on three families. One writer for the host: move it onto the shared scripts/rcap-custom-pleading/split-token.mjs and repaginate the trailer so no page is route-key-only, gated so ri_decriminalized-set (proven) stays byte-identical or is listed for re-proof."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_felony-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX08",
+      "toLane": "FIX35",
+      "previouslyReleasedAt": "2026-09-05T11:21:26.628Z",
+      "transferredAt": "2026-09-05T11:21:26.777Z",
+      "reason": "CLIPPING_AND_OVERLAP from the Rhode Island host's private character-accumulating splitToken (build-census-v1-ri_decriminalized-set.mjs): hard-split route keys and route-key-only pages on three families. One writer for the host: move it onto the shared scripts/rcap-custom-pleading/split-token.mjs and repaginate the trailer so no page is route-key-only, gated so ri_decriminalized-set (proven) stays byte-identical or is listed for re-proof."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_first_offender_misdemeanor-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX35",
+      "previouslyReleasedAt": "2026-09-05T11:21:26.982Z",
+      "transferredAt": "2026-09-05T11:21:27.113Z",
+      "reason": "CLIPPING_AND_OVERLAP from the Rhode Island host's private character-accumulating splitToken (build-census-v1-ri_decriminalized-set.mjs): hard-split route keys and route-key-only pages on three families. One writer for the host: move it onto the shared scripts/rcap-custom-pleading/split-token.mjs and repaginate the trailer so no page is route-key-only, gated so ri_decriminalized-set (proven) stays byte-identical or is listed for re-proof."
     }
   ],
   "withdrawals": [

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `382a0843c0587c3da7eca0fde32d74069d43b08b` (or the newer dispatch base)
+**Minimum required ancestor:** `b2e3d2aa2190a4f16677e714104331598e9987ef` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'de_mandatory_expungement-set' \
   --codex-cloud \
-  --minimum-captain-sha 382a0843c0587c3da7eca0fde32d74069d43b08b
+  --minimum-captain-sha b2e3d2aa2190a4f16677e714104331598e9987ef
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 4 exact families before reading or writing family content:
+- Assert only these 5 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'de_mandatory_expungement-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nm_conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nm_release_without_conviction-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'al-diversion-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'nv_seal_probation_family-set'`
@@ -60,9 +61,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 5 families
 
 - `de_mandatory_expungement-set`
+- `nm_conviction-set`
 - `nm_release_without_conviction-set`
 - `al-diversion-set`
 - `nv_seal_probation_family-set`
@@ -79,10 +81,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/**`
 - `scripts/build-census-v1-de_mandatory_expungement-set.mjs`
+- `scripts/build-census-v1-nm_conviction-set.mjs`
 - `scripts/build-census-v1-nm_release_without_conviction-set.mjs`
 - `scripts/build-census-v1-nv_seal_probation_family-set.mjs`
 

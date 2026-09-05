@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "382a0843c0587c3da7eca0fde32d74069d43b08b",
+  "minimumCaptainSha": "b2e3d2aa2190a4f16677e714104331598e9987ef",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 6,
+    "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
-    "remaining": 340,
+    "remaining": 337,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 13,
-    "repairRequired": 46,
+    "verifyPending": 8,
+    "repairRequired": 47,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 149,
-    "FAIL_REPAIR_REQUIRED": 52,
+    "COMPLETE_PACKET_PROVEN": 150,
+    "FAIL_REPAIR_REQUIRED": 56,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -86,7 +86,7 @@
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 13,
+    "VERIFY_PENDING": 8,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -113,6 +113,9 @@
       "la-987-set-aside-and-dismiss-set",
       "mi_setaside_trafficking-set",
       "nh_petition_nonconviction_pre2019-set",
+      "ri_first_offender_felony-set",
+      "ri_first_offender_misdemeanor-set",
+      "ri_multiple_misdemeanors-set",
       "vt_seal_nonconviction-set"
     ],
     "staleRosterFamilies": [
@@ -31984,8 +31987,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -32014,11 +32024,45 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Two of the fifteen writes on Form 4-953 page 1 put matter.court on the WRONG BRANCH of item 2's either/or. The field map's own labels say so: NM-4-953/p1-y14592-x44556 is 'Judicial district in which Petitioner has pending expungement cases' and NM-4-953/p1-y11832-x30888 is 'Judicial district court the pending expungement cases are before'. The delivered page therefore reads '[ ] Petitioner has no pending expungement cases in the Second Judicial District. [ ] Petitioner has the following pending expungement case or cases in the Second Judicial District ... pending before the Second Judicial District Court): ______' with NEITHER box marked and the case-number line blank. The packet holds no pending-expungement fact; it asserts a district for cases the participant has not claimed exist. Same defect in the boundary fixture with 'Seventh'. Every other write matches its printed label and its expected value, and the held case number D-202-CR-2016-02885 is written where the form asks for it by originating court (item 4, District Court case number(s)), not into the caption's clerk-assigned 'No.' blank.",
+          "evidence": {
+            "misplacedWrites": [
+              "NM-4-953/p1-y14592-x44556",
+              "NM-4-953/p1-y11832-x30888"
+            ],
+            "writesTotalPerFixture": 39,
+            "writesMatchingExpected": 39,
+            "glyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A defect visible on two delivered pages. Packet page 20 (Form 4-222 page 1) and packet page 24 (the Order on Application for Free Process bound with it) print 'SIXTH JUDICIAL DISTRICT COURT' as source-shipped ink, and this build writes matter.county on the line immediately above it: the canonical page reads 'STATE OF NEW MEXICO / COUNTY OF Bernalillo / SIXTH JUDICIAL DISTRICT COURT' and the boundary page reads the same with 'Sierra'. Bernalillo is in the Second Judicial District and Sierra in the Seventh, and the packet's other six documents caption 'Second'/'Seventh' correctly. The build's own write composes with the source's ink into a caption naming a court the participant has not chosen and cannot file in. participant-instructions.md discloses it and tells the filer to cross the line out by hand, which is a disclosure, not a correct caption. Verified by 110 dpi raster of page 20 and by text extraction of both fixtures. No other appearance defect: 0 words outside the MediaBox on any of the 52 pages, no text render mode 3 or 7, no zero-size font, no white-on-white write, no orphan or fragment page, no printed route key.",
+          "evidence": {
+            "wrongCourtPages": [
+              20,
+              24
+            ],
+            "rasterInspected": [
+              1,
+              20
+            ],
+            "wordsOutsidePageBox": 0,
+            "invisibleWriteConstructs": 0,
+            "unfittable": 0
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_conviction-set.mjs",
@@ -32146,8 +32190,15 @@
       },
       "sourceReconciliation": null,
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf05",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -32176,11 +32227,36 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Two of the fifteen writes on Form 4-951 page 1 put matter.court on the WRONG BRANCH of item 2's either/or, exactly as in nm_conviction-set. The field map's own labels are 'Judicial district in which Petitioner has pending expungement cases' and 'Judicial district court the pending expungement cases are before'. The delivered page prints 'Second' in the 'has no pending cases' blank AND in both blanks of the mutually exclusive 'has the following pending expungement case or cases' branch, with neither box marked and the case-number line blank; the packet holds no pending-expungement fact. Everything else is written where its printed label puts it - and the specific New Mexico failure mode is absent: at item 6 the build writes the district into '[ ] District Court in the ___ Judicial District' and leaves '[ ] District Attorney for the ___ Judicial District' empty, so no district attorney is read as the filer's own attorney. The held case number D-202-CR-2019-01147 is written at item 4 'Case number', where the form asks for it by originating court, and not into the caption's clerk-assigned 'No.' blank.",
+          "evidence": {
+            "misplacedWrites": 2,
+            "writesTotalPerFixture": 27,
+            "districtAttorneyLineLeftBlank": true,
+            "glyphsOutsideMeasuredWriteBoxes": 0
+          }
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "The same wrong-court caption as nm_conviction-set, because the same Form 4-222 binary (809c66a7) is enclosed. Packet page 11 prints 'STATE OF NEW MEXICO / COUNTY OF Bernalillo / SIXTH JUDICIAL DISTRICT COURT' in the canonical fixture and the same with 'Sierra' in the boundary; the bound Order on Application for Free Process repeats 'SIXTH JUDICIAL DISTRICT COURT' further on. Bernalillo is in the Second Judicial District and Sierra in the Seventh, and the packet's other three documents caption the correct district. The county is this build's own write, composed directly above source-shipped ink naming a court the participant has not chosen. The instructions disclose it and tell the filer to strike the line by hand, which is a disclosure and not a correct caption. Otherwise clean: 0 words outside the MediaBox on any of the 34 pages, no text render mode 3 or 7, no zero-size font, no white-on-white write, no orphan or fragment page, no printed route key, no unfittable value.",
+          "evidence": {
+            "wrongCourtPages": [
+              11
+            ],
+            "wordsOutsidePageBox": 0,
+            "invisibleWriteConstructs": 0
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nm_identity_theft-set.mjs",
@@ -37093,8 +37169,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37123,13 +37206,37 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "Route-key-only pages and a hard-split token on delivered pages. A four-line block beginning 'Route: obligation:unit:RI:ri_first_offender_felony:...' is printed at the foot of composed pages 6 and 14, and packet pages 8 and 13 of 14 contain NOTHING BUT that block - page 8 is notice-package page 2 and page 13 is filing-instructions page 5, both otherwise blank. The third key is split mid-token across a line break so the page prints '...stage-3-notice-hearing-and-certified-co' / 'pies'. Page 6 is the proposed order, so a Rhode Island Superior Court justice is handed internal machine route identifiers directly beneath the clerk's certification line. Confirmed by 110 dpi raster of page 8 and by full text extraction of every page in both fixtures. Otherwise clean: 0 words outside the MediaBox on any of the 28 pages, no invisible-write construct, no source-shipped ink, no unfittable value.",
+          "evidence": {
+            "routeKeyOnlyPages": [
+              8,
+              13
+            ],
+            "routeKeyFooterPages": [
+              6,
+              8,
+              13,
+              14
+            ],
+            "hardSplitToken": "obligation:unit:RI:ri_first_offender_felony:ri-first-offender-felony-stage-3-notice-hearing-and-certified-copies",
+            "rasterInspected": [
+              8
+            ],
+            "wordsOutsidePageBox": 0
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX35",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
@@ -37140,7 +37247,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ri_first_offender_misdemeanor-set",
@@ -37217,8 +37325,15 @@
         "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
       },
       "verifierSourceHold": null,
-      "selectedIndependentVerdict": null,
-      "rasterEnrolmentRefusal": null,
+      "selectedIndependentVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf05",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+      },
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -37247,13 +37362,32 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A route-key-only page and hard-split tokens on delivered pages. Packet page 8 of 13 - notice-package page 2 - contains nothing but the block 'Route: obligation:unit:RI:ri_first_offender_misdemeanor:...stage-1... ; ...stage-2... ; ...stage-3...', and the same block prints at the foot of composed pages 6 and 12. Page 6 is the proposed order, so the internal identifiers appear directly beneath the clerk's certification line on the document handed to a District Court judge. Two of the three keys are split mid-token across a line break, printing as 'court-motion-an' / 'd-affidavit' and 'notice-hearing-a' / 'nd-certified-copies'. Otherwise clean: 0 words outside the MediaBox on any of the 26 pages, no invisible-write construct, no source-shipped ink, no unfittable value.",
+          "evidence": {
+            "routeKeyOnlyPages": [
+              8
+            ],
+            "routeKeyFooterPages": [
+              6,
+              8,
+              12
+            ],
+            "hardSplitTokens": 2,
+            "wordsOutsidePageBox": 0
+          }
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "state": "FAIL_REPAIR_REQUIRED",
+      "activeOwner": "FIX35",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
@@ -37264,7 +37398,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ri_marijuana-set",
@@ -37514,8 +37649,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX35",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
@@ -37526,7 +37661,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ri_nonconviction_sealing-set",
@@ -39181,10 +39317,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "current-byte-independent-verification-il-tx-batch-018",
-        "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
-        "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-il-tx-batch-018/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf04",
+        "verifiedAtBase": "d7e293f81",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -39215,31 +39351,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "PROTECTED_FIELDS",
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture.",
-          "evidence": null
-        },
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "The instructions assign every financial fact plus the signature date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate.",
-          "evidence": null
-        },
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map.",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs",
