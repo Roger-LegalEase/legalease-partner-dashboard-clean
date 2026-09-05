@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+  "workerId": "FIX53",
+  "laneKind": "repair",
+  "assignedBase": "122f72353",
+  "branch": "fix53-az-limited-render",
+  "scope": "az_marijuana_expungement_limited_jurisdiction-set only",
+  "rows": [
+    {
+      "itemId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "jurisdiction": "AZ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill",
+      "buildHost": "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX53 az_marijuana_expungement_limited_jurisdiction-set -> CLAIM_OK FIX53 az_marijuana_expungement_limited_jurisdiction-set (repair, grant set eb191b574717270f), exit 0.",
+      "verdictRepaired": {
+        "lane": "VF06",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "369884e64",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "fixturesConfirmedBeforeAnyEdit": {
+        "canonicalSha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+        "boundarySha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+        "matchesVf06": true,
+        "recomputedHere": "sha256sum on the committed fixtures at base 122f72353 before the builder was opened for edit."
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The standing RASTER_PASS receipt for workflow run 33923497915 bound canonical f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e and boundary 61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058. This repair moved both, so the receipt no longer binds and a central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened or edited by this lane; the family's product-wiring.json acceptanceReceipt is null, with the reason written into the file.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. VF06's FAIL_REPAIR_REQUIRED at 369884e64 stands in product-wiring.json lastIndependentVerification, unedited. No verdict is written here and none of the fifteen obligations is scored.",
+        "THE SIBLING FAMILY az_marijuana_expungement_arrest_no_charges-set. Read and left alone. It is a different grant and it does not share the repaired pattern: it builds AOC CREM3F as an AcroForm family and writes participant ink as a Form XObject appearance placed at the measured widget rectangle, with no drawRectangle anywhere in the file and no drawn rule. Nothing here transfers to it and nothing was changed in it.",
+        "THE BUILDER/GENERATOR OWNERSHIP CONFLICT ON product-wiring.json. FIX48's finding is reproduced below and reported, not fixed. scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs was not opened.",
+        "LEGAL INPUT. Nothing on this route is blocked on legal input and none was sought. The registry marks the track SETTLED; its one unresolvedQuestion (appeal timing after denial) is untouched by this repair, which moved no word of participant-facing text."
+      ],
+      "whatChanged": "ONE RENDER LOOP AND THE TWELVE BOXES IT WRITES INTO, IN ONE FILE. In scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs render(), the three statements after `const { x, y, width, height } = row.rect` were an opaque white drawRectangle(x-1, y-1, width+2, height+2), a 0.6pt black drawLine from (x,y) to (x+width,y), and the drawText. The rectangle and the line are DELETED. render() now draws the participant value and nothing else. WHY DELETING THEM WAS NOT ENOUGH ON ITS OWN. The white fill existed because these write boxes STRADDLED the rule they were meant to write on: eleven of the twelve had their bottom edge 1.5 to 5 pt BELOW the form's printed rule, and with the baseline 2pt above the box bottom the AOC's own rule crossed the middle of every value. That was rendered here and read as an image before anything else was written: with the fill and the line removed and the rects untouched, every contact value, the defendant name, the date of birth and both case numbers come out struck through by the printed rule. So the boxes moved off the rules. HOW THE NEW BOXES WERE DERIVED. The pinned source (AOC CREM2F-071221, sha256 4875e08b..., 72602 bytes) was loaded with pdf-lib, stamped with stampDeterministic and saved with NO writes, then rastered at 600 dpi (0.12 pt per raster row). For each declared write box the form's own printed writing rule inside it was located, and the new rect is the space DIRECTLY ABOVE that rule, clamped horizontally to the rule's own printed extent rounded DOWN to the quarter point, so a box can only be shorter than the rule the form prints and never longer. x never moves left, the top edge never rises, and the height is 10.5pt (enough for a 9pt Helvetica line: ascender 0.718em above a baseline 2pt up, descender 0.212em below it). Every one of the twelve boxes was then re-measured against the same 600 dpi baseline and contains ZERO pixels of printed source ink. THE TWELVE RECTS, old -> new (x, y, width, height): p1-person-filing 140,679,255,13 -> 140,683,254.75,10.5. p1-mailing-address 155,663,240,13 -> 155,667.75,239.75,10.5. p1-city-state-zip 175,647,220,13 -> 175,651.75,219.75,10.5. p1-email 145,631,250,13 -> 145,636.5,249.75,10.5. p1-phone 180,615,215,13 -> 180,619.75,214.75,10.5. p1-caption-case 360,513,215,13 -> 360,513,70,13. p1-defendant 79,454,300,13 -> 79,458.75,160.75,10.5. p1-date-of-birth 180,415,150,13 -> 180,419.75,73.25,10.5. p1-item3-case 205,97,365,13 -> 205,102,332.75,10.5. p3-mailing-address 75,707,495,13 -> 75,709.25,428,10.5. p3-phone 75,670,495,13 -> 75,671.75,428,10.5. p3-email 75,631,495,13 -> 75,633.25,428,10.5. THE FIVE WIDTH SHRINKS ARE THE OVERLAP HALF OF THE DEFECT. p1-caption-case 215 -> 70 pt so the case number stays inside the CASE Number cell, whose right border the AOC prints at x 430.44, instead of running to 574.6 through the cell border, the gutter, the title cell's left border and the 'Petition to Expunge' title. p1-defendant 300 -> 160.75 and p1-date-of-birth 150 -> 73.25 so neither crosses the caption table's inner double rules at x 259.2-261.5 and 272.8-275.0. p1-item3-case 365 -> 332.75 so it stops at the end of the form's dashed leader (x 537.84) instead of covering the leader and its sentence-ending period. The three page-3 boxes 495 -> 428 so they stop where the AOC's rule stops (x 503.04) instead of 67 pt past it. p1-caption-case IS THE ONE BOX WITH NO PRINTED RULE INSIDE IT. The form's CASE-number rule is at y 504.2-505.0, below where this build writes the number beside the printed label. That placement is unchanged and no rule is drawn under it, because the form draws none there. TWO SUPPORTING EDITS IN THE SAME FILE. (1) fontSize() now takes the box height and returns the largest size at or below 9pt whose ink fits in BOTH directions, refusing rather than letting a glyph escape upward over a printed rule; nothing clips these glyphs, so the box is only honoured if the type is chosen to fit it. Two of the twenty-four fixture values step down as a result: the boundary case number to 8pt and the boundary defendant name to 8.5pt, both read back legibly off the 150 dpi raster. (2) selfTest() now asserts the clearance as an invariant against a pinned PRINTED_RULES table of the eleven rules measured off the paper: no write box may have its bottom on a printed rule or its right edge past the end of one, and p1-caption-case must end at or before x 430. It is asserted rather than commented because the old geometry looked perfectly reasonable in the source and was wrong only against the paper. EXPECTED_ARTIFACTS is repinned to the new digests. WHAT DID NOT CHANGE. No participant fact is written or refused differently: WRITES still carries the same twelve fields bound to the same seven facts, REFUSALS is untouched at thirty rows, the terminal-field count is still 42, and no protected, election or attorney field gained ink. participant-instructions.md is byte-identical, so every one of the registry's eight self-help stop conditions and the post-generation handoff sentence stand exactly as repair-clusters left them. The route key, the route selection id, the source binding, generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0 are unchanged. In production-field-map.json the ONLY changed lines are the twelve rects' x/y/width/height; no label, refusal, disposition or route key moved.",
+      "fieldMapChanged": "YES, and only in the way the assignment permits. Twelve write boxes shrank to stay off printed rules and off printed cell borders: eleven raised their bottom edge above the rule they straddled (height 13 -> 10.5), and six narrowed (p1-caption-case, p1-defendant, p1-date-of-birth, p1-item3-case and the three page-3 boxes; the five p1 contact boxes also lost 0.25pt where their right edge sat 0.08pt past the end of the printed rule). No box moved left, none grew, no box top rose, and nothing else in the field map changed.",
+      "pixelMeasurements": {
+        "instrument": "Zero-write baseline: the pinned CREM2F loaded with pdf-lib and stampDeterministic applied, saved with NO writes. Baseline and both fixtures rastered with pdftoppm at 150 dpi (page raster 1275x1650, grayscale) into /tmp/fix53/raster and compared pixel-for-pixel; ink <= 160, paper >= 230. A pixel dark on the baseline and white on the delivered page is printed ink the packet ERASED; a pixel white on the baseline and dark on the delivered page is ink the packet ADDED. Glyph boxes are the pdftotext -bbox boxes of words present on the delivered page and absent from the baseline, padded 1pt. The same baseline was also rastered at 600 dpi to derive the new geometry. All rasters deleted after measuring.",
+        "everyPageOfBothFixturesRasteredBeforeAndAfter": true,
+        "before": {
+          "canonical": {
+            "printedInkRemovedTotal": {
+              "page1": 6588,
+              "page2": 0,
+              "page3": 2656,
+              "allPages": 9244
+            },
+            "printedInkRemovedOutsideParticipantGlyphBoxes": {
+              "page1": 5086,
+              "page2": 0,
+              "page3": 2122,
+              "allPages": 7208
+            },
+            "inkAddedOutsideDeclaredWriteBoxes": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0
+            }
+          },
+          "boundary": {
+            "printedInkRemovedTotal": {
+              "page1": 5919,
+              "page2": 0,
+              "page3": 2643,
+              "allPages": 8562
+            },
+            "printedInkRemovedOutsideParticipantGlyphBoxes": {
+              "page1": 3687,
+              "page2": 0,
+              "page3": 1790,
+              "allPages": 5477
+            },
+            "inkAddedOutsideDeclaredWriteBoxes": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0
+            }
+          },
+          "captionTableVerticalRulesPage1": {
+            "measuredOver": "the caption table's vertical extent y 400-545 pt, per x-band, canonical / boundary",
+            "defendant-cell-left-double-rule": "963 printed, 231 severed / 231 severed",
+            "defendant-cell-right-double-rule": "724 printed, 174 severed / 174 severed",
+            "case-number-cell-right-border": "747 printed, 90 severed / 70 severed",
+            "title-cell-left-border": "972 printed, 120 severed / 120 severed",
+            "title-cell-right-border": "252 printed, 30 severed / 30 severed"
+          },
+          "titleCellRegionPage1": {
+            "region": "x 434-580 pt, y 500-530 pt (the gutter and the 'Petition to Expunge' title cell)",
+            "inkAddedByPacket": "253 canonical / 259 boundary",
+            "printedInkRemoved": "175 canonical / 175 boundary"
+          },
+          "agreementWithVf06": "VF06 measured 9246 canonical and 8627 boundary erased pixels with its own thresholds; this lane measures 9244 and 8562 on the same bytes. The finding reproduces."
+        },
+        "after": {
+          "canonical": {
+            "printedInkRemovedTotal": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0,
+              "allPages": 0
+            },
+            "printedInkRemovedOutsideParticipantGlyphBoxes": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0,
+              "allPages": 0
+            },
+            "inkAddedTotal": {
+              "page1": 6259,
+              "page2": 0,
+              "page3": 2476
+            },
+            "inkAddedOutsideDeclaredWriteBoxes": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0
+            }
+          },
+          "boundary": {
+            "printedInkRemovedTotal": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0,
+              "allPages": 0
+            },
+            "printedInkRemovedOutsideParticipantGlyphBoxes": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0,
+              "allPages": 0
+            },
+            "inkAddedTotal": {
+              "page1": 9586,
+              "page2": 0,
+              "page3": 3977
+            },
+            "inkAddedOutsideDeclaredWriteBoxes": {
+              "page1": 0,
+              "page2": 0,
+              "page3": 0
+            }
+          },
+          "captionTableVerticalRulesPage1": "All five bands intact on both fixtures: 963/963, 724/724, 747/747, 972/972 and 252/252 printed pixels surviving, 0 severed.",
+          "titleCellRegionPage1": "0 pixels of packet ink and 0 pixels of printed ink removed, on both fixtures. No mark from any cell crosses into the title.",
+          "everyParticipantWritePresentAndLegible": "All twelve values re-read from the final bytes inside their measured boxes by the builder's own proveWrites, and read again as images off the 150 dpi rasters of both fixtures: the page-1 contact block, the caption cell (defendant name and date of birth), the CASE Number cell, paragraph 3, and all three page-3 contact lines. Each value now sits ON the rule the AOC prints, with no white gap, no orphan stub and no second rule."
+        },
+        "rastersWrittenTo": "/tmp/fix53 (150 dpi and 600 dpi), deleted after measuring"
+      },
+      "digests": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "before": {
+            "sha256": "f6151d95f9e0c81c41792ba0a93d5803abacec253494eca2c89398c20eb6725e",
+            "byteLength": 91386,
+            "pageCount": 3
+          },
+          "after": {
+            "sha256": "d82d2df0f6e16c61cb8dfd3d405945a4b92fc885b4dd99ed07058d880023614f",
+            "byteLength": 91028,
+            "pageCount": 3
+          }
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "before": {
+            "sha256": "61118f0203f15a628a958d750ee0ba1d8b2211b9d8fa6cca6a5bc1ff2edd9058",
+            "byteLength": 91479,
+            "pageCount": 3
+          },
+          "after": {
+            "sha256": "aa1bade440c1417966bd1579d6b5084f0961942b18fb8643e1835e3d4c1181c8",
+            "byteLength": 91130,
+            "pageCount": 3
+          }
+        },
+        "digestsMovedInThisLane": true
+      },
+      "deterministicRebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<worktree>/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+        "runs": 2,
+        "byteIdenticalToEachOther": true,
+        "comparedHow": "diff -r of the whole family directory between the two runs, not just the two PDFs. Every file identical.",
+        "selfTest": "node scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs --self-test -> SELF_TEST_OK, exit 0, including the new printed-rule clearance invariant."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Measured here before and after by running node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_limited_jurisdiction-set: PASS_COMPLETE, 12/42 written, all nine zero on both sides. The nine were ALSO all zero over the defective bytes, which is exactly why they are not evidence here: no counter asks what a packet erased from the official form, and glyph-outside-box arithmetic passed because every mark sat inside a declared write box. The pixel measurements above are the instrument that moved.",
+      "verifiers": {
+        "verify-packet-completeness.mjs (family)": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_marijuana_expungement_limited_jurisdiction-set -> PASS_COMPLETE, 12/42 written, nine counters zero. Run before the edit and again after. exit 0 both times.",
+        "verify-packet-completeness.mjs (corpus)": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs -> 241 families audited, 240 PASS_COMPLETE, 1 FAIL_MISSING_PREFILLS (pa_6308_underage-set) and corpus unclassifiedBlanks 6, both pre-existing and both PA's, identical to what FIX48 recorded and unchanged by this lane. exit 0.",
+        "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh. exit 0.",
+        "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 dispositioned by appearance-registry and 3 by clearSourceCarriedTextValues. exit 0.",
+        "rcap-scan01-composed-pdf-text-integrity.mjs": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs -> 249 directories swept, this family shipsComposedPdf false, 2 fixtures, 6 pages, 0 defects. exit 0. The sweep writes data/rcap-grade-a/packet-factory-24h/scan01/raw-sweep.json, which is not tracked at this base and was NOT committed; the untracked file was removed after reading, leaving the tree as it was.",
+        "builder --self-test": "SELF_TEST_OK az_marijuana_expungement_limited_jurisdiction-set, exit 0. 42 terminal fields, 7 required-before-filing, 15 selection controls, 2 protected, the registry's eight stop conditions and handoff sentence all still present in the generated instructions, and the new printed-rule clearance invariant satisfied by all twelve boxes.",
+        "appearanceLevelCheck": "Not taken from the builder's report of writes. Every page of both fixtures was rastered at 150 dpi and read as an image, before and after, against a zero-write baseline of the pinned source. The measurements are under pixelMeasurements."
+      },
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family 'az_marijuana_expungement_limited_jurisdiction-set' --codex-cloud --minimum-captain-sha d8ef81d502619f48f57cbe0bf4a85b56711fbe4d, run ONCE in this container at 122f72353 with MASTER_LIBRARY_SOURCE_DIR and RCAP_BUNDLE_EXTRACT exported to the mounted Master Library: PACKET_BUILD_ENVIRONMENT_NOT_READY, 11/14 passed, 3 failed, 3 not applicable, exit 1. Recorded as it printed rather than smoothed. THE THREE FAILURES. (1) corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry was resolved by name here and is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', custody master_library, which is another state's file and not reachable from this family; this is the same single absence VF06 recorded. The custodies d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted here and were excluded from the sample. (2) private_is_git_ignored: reported as 'private/ is NOT git-ignored'. It IS ignored: the check runs `git check-ignore -q private/` and the trailing slash fails with 'pathspec private/ is beyond a symbolic link', because this lane's assignment mounts the corpus by symlinking private to the read-only tree at /home/user/legalease-partner-dashboard-clean/private. `git check-ignore -q private` exits 0, .gitignore line 53 is 'private/', and `git ls-files private/` is empty, so nothing beneath private/ is tracked and no source byte can enter a commit. (3) assignment_present_in_this_checkout: no assignment file in this checkout names this family, which is expected for a repair lane dispatched by grant rather than by a launch-control assignment; the grant was confirmed instead by claim.mjs --assert, which returned CLAIM_OK. THE CHECKS THAT MATTER FOR THIS BUILD ALL PASSED: family_sources_bind 1/1 by exact SHA-256, master_library_mounted, master_library_complete (499 files, 329 PDFs, 51 jurisdictions), pdf_lib_importable 1.17.1, worktree_clean, cloud_checkout_contains_captain_base, and stale_artifact_block_consulted.",
+      "productWiring": {
+        "acceptanceReceipt": null,
+        "whatThisLaneDidToTheFile": "Restored the committed binding block after the builder destroyed it, then nulled the acceptance receipt and wrote the reason into the file as binding.whyTheAcceptanceReceiptIsNull. The receipt bound the superseded canonical f6151d95.. and boundary 61118f02..; leaving it standing over bytes nobody has rendered would be a signature block that no longer signs anything. Every other field of the binding block -- family, jurisdiction, routeKeys, deliveryType, instrumentKinds, packetComponents, fieldMap, instructions, renderedArtifacts, sourceReceipt, sourceVersion, lastIndependentVerification (vf06 FAIL_REPAIR_REQUIRED at 369884e64, correctly still standing), paymentEligible, sponsorshipEligible, whyPaymentIsClosed and maintenanceRelationship -- is byte-identical to HEAD. The whole diff on this file is 2 insertions and 8 deletions.",
+        "fix48BuilderBehaviourReproducedHere": "CONFIRMED, exactly as FIX48 described it. Line 404 of the builder writes product-wiring.json from its own six-key template -- schemaVersion, familyId, routeKeys, generationAllowed, runtimeSelectable, commercialRoutesOpened, productionTouched -- and the whole binding block is gone from the file after every run. It was observed here on the first rebuild by diffing against a copy taken before the build, and the committed block was restored with git checkout. The builder and scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs disagree about who owns this file and the builder's version is the poorer of the two. Fixing that disagreement is outside this lane's grant and generate-product-wiring.mjs was not opened. ANY LANE THAT REBUILDS THIS FAMILY MUST SAVE product-wiring.json FIRST AND RESTORE IT AFTER, or the binding block is silently lost."
+      },
+      "acceptanceReceipt": null,
+      "queuesTouched": "None. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened or edited, and no other lane's rows.json was written.",
+      "legalRecordsTouched": "None. data/record-clearing/legal-design-track-registry.json was read by the builder and not written. participant-instructions.md is byte-identical.",
+      "filesChanged": [
+        "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-limited-jurisdiction-set--official-pdf-fill/reports/independent-visual-review.json",
+        "data/rcap-grade-a/packet-factory-24h/fix53/rows.json"
+      ],
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES. Both fixture digests moved, so the standing RASTER_PASS receipt for run 33923497915 stops binding and a fresh central raster is owed on canonical d82d2df0.. and boundary aa1bade4... This lane rastered locally with pdftoppm to MEASURE the repair and asserts no acceptance from it. RASTER_QUEUE.json was not touched and product-wiring.json's acceptanceReceipt is null.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verified none of them. VF06's FAIL_REPAIR_REQUIRED stands until an independent lane re-reads the new bytes. No verdict is written here.",
+        "THE SIBLING FAMILY az_marijuana_expungement_arrest_no_charges-set. Read to answer whether it shares the pattern. It does not -- it is an AcroForm CREM3F family whose writer emits a Form XObject appearance at the measured widget rectangle, with no opaque fill and no drawn rule anywhere in the file -- and it was not edited. A different grant.",
+        "THE product-wiring.json OWNERSHIP CONFLICT. FIX48's finding was reproduced and recorded; generate-product-wiring.mjs was not opened and the builder's overwrite was not fixed.",
+        "VISUAL AND COUNSEL REVIEW, and the track's one open release blocker (appeal timing after denial). Untouched and unaffected: no participant-facing word moved."
+      ],
+      "selfVerified": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row grants no route, opens no payment path and promotes no build status. It repairs one visual obligation on one family and says so."
+    }
+  ]
+}
