@@ -35,10 +35,10 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 713,
-    "independentVerdicts": 234,
+    "rows": 716,
+    "independentVerdicts": 235,
     "failRepairRequired": 57,
-    "passIndependent": 168
+    "passIndependent": 169
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -54,7 +54,6 @@
     "ar-pardon-seal-set",
     "az_marijuana_expungement_arrest_no_charges-set",
     "az_marijuana_expungement_limited_jurisdiction-set",
-    "az_wrongful_arrest_clearance-set",
     "co_motion_seal_conviction-set",
     "co_petition_seal_arrest-set",
     "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
@@ -79,6 +78,7 @@
     "nh_petition_nonconviction_pre2019-set",
     "nh_petition_vacated-set",
     "nj_arrest_no_conviction-set",
+    "nm_release_without_conviction-set",
     "nv_seal_probation_family-set",
     "oh_marijuana_expungement-set",
     "pa_pardon_expungement-set",
@@ -2068,6 +2068,20 @@
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_wrongful_arrest_clearance-set",
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -2330,7 +2344,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "az_wrongful_arrest_clearance-set",
@@ -8985,6 +8999,46 @@
     {
       "familyId": "nj_arrest_no_conviction-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "A write must match the printed label of the box it lands in, and a fact the packet holds must appear on the page that asserts it.",
+          "evidence": "Three writes land on a box whose printed caption is not what was written, and one held fact is written on one page and left blank on the page that swears to it. (1) DefAddr2 = participant.city_state_zip is written into the widget captioned '(city)' and DefAddr3 = participant.phone into the widget captioned '(state, zip code)', on delivered pages 18, 27, 30, 35, 38, 40 and 43. Delivered page 18 reads '(city) Newark, NJ 07102' and '(state, zip code) 973-555-0142', with the same telephone correctly repeated on the '(your telephone number)' line below it; the participant's state and ZIP never reach the box printed for them. Widget rectangles page 18: DefAddr2 x 70.982 y 677.053 w 264.088, DefAddr3 x 125.275 y 658.850 w 209.969. The same three-line block repeats at page 27 (Order for Hearing), page 30 (proposed Expungement Order) and the Form D/E/F/G letters at 35, 38, 40 and 43. (2) The arrest date is held - matter.arrest_date is written as 2019-03-08 on delivered page 31 - and the sworn petition's own paragraph 1 on page 18, 'I was arrested/taken into custody on (date) ____', is delivered blank; CN-10557 carries no AcroForm widget over that blank (every page-18 widget was listed from the census and none sits on that baseline), so nothing was written and nothing was declared."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Every participant blank on a delivered page must be listed by its printed caption; the petition's own arrest date is not.",
+          "evidence": "The 50 declared items are correct as far as they go: all 50 were checked against participant-instructions.md and all 50 are listed there, every one by the caption the form prints, none by an internal field name, and nothing the court completes is demanded of the participant - jdgmntDocket1-4 and jdgmntAmt1-4, the page-32 monies-owed section that NJ.memo.json manualCompletionItems records as the court's, are absent from the list and delivered blank, as are sigHearJdg, sigFinalJdg and expungDocketNum. The failure is a blank the list does not contain: the arrest date in paragraph 1 of the Petition, delivered page 18, printed 'I was arrested/taken into custody on (date)'. It is a participant blank on a verified petition, it is delivered empty, and it appears nowhere in the 50. The list carries the same printed caption only for the Addendum page (contArrestDt, page 20). The plea-bargain pair on the same page ('Was the dismissal a result of a plea bargain? [ ] Yes [ ] No') is likewise delivered unmarked and undisclosed, through the PARTICIPANT_ELECTION_GENUINE path that carries no disclosure condition - the same contract gap FIX25 recorded on Alabama and did not repair here."
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "finding": "A row is completed or left untouched; a row with a date and a docket number and no statute looks finished and is not.",
+          "evidence": "Delivered page 31, Expungement Order (Form C - Continued), arrest row (1) reads '(date) 2019-03-08 arrest/custody on the charge of violating N.J.S.A. (statute) ______ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) 24-CR-001234'. Two cells of the row are written and the third, arrest1Statute, is blank and declared requiredBeforeFiling. Rows (2) to (5) are wholly blank, which is correct. The builder's own row-integrity rule covers only part of the row: scripts/build-census-v1-nj_arrest_no_conviction-set.mjs declares repeatingRowGroups [{row: 'Expungement Order (Form C), arrest table row 1, delivered page 31', fields: ['arrest1Dt','arrest1CaseNum']}] and omits arrest1Statute. The counter reads 0 because rowKeyOf() requires a named Item/Row/Line marker in the field name and these three carry none."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A defect visible on a delivered page fails this obligation even when the counters are green.",
+          "evidence": "Two defects visible on delivered pages, neither of them clipping. (1) Delivered page 19, Petition item c - the branch for a dismissal 'after conditional discharge, conditional dismissal, Pretrial Intervention Program (PTI), Veterans Diversion Program, Juvenile Conference Committee, Intake Service Conference, or deferred disposition' - carries the ink 'Example Court' in '(name of Court)', while item c's own checkbox is unmarked and its date and offence blanks are empty. The cause is a catch-all field match: dismissCrt is ONE AcroForm field with TWO widgets, index 0 on page 18 at x 315.144 y 179.395 in item a and index 1 on page 19 at x 314.515 y 674.833 in item c, and the build writes matter.court to the field rather than to the item-a widget. The packet therefore prints, on a petition verified under N.J.S.A. 2C:52-7, a court name inside a diversion branch that its own self-help stop list tells the participant to stop on. Present on both fixtures. (2) The caption-block mis-fill described under KNOWN_PREFILLS is visible on seven delivered pages, including the sworn petition at 18 and the proposed Expungement Order at 30: the line printed '(state, zip code)' carries a telephone number. Boundary values fit their boxes at reduced size with no overlap, so nothing is clipped; the ink is in the wrong box."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf06",
       "isIndependentVerification": true,
       "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
@@ -9002,7 +9056,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_arrest_no_conviction-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "nj_arrest_no_conviction-set",
@@ -9534,6 +9588,40 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nm_release_without_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "d7e293f81",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "A known fact must be written on the page and the line it belongs to, and no fact may be written onto a branch the case does not use.",
+          "evidence": "Two failures on Form 4-952. (1) The held case number is written on neither line of paragraph 4, delivered page 2, while the packet holds it and holds the required intake answer that decides the line; the field-map rows justify the blanks with 'the platform holds no value for this', which the family's own build-findings.json contradicts. See thePf28Questions.theHeldCaseNumber. (2) The judicial district is written into the District Court branch of the paragraph [11.] 12 election, delivered page 3, field NM-4-952/p3-y39984-x20340 at x 205.4 y 401.84, whose own printedLine the field map records as '[ ] District Court in the ____________ Judicial District' under 'The charges sought to be expunged were originally disposed of or originated in (select one)'. The canonical page 3 prints 'Second' there and the boundary prints 'Seventh' - on a fixture whose case number is M-51-MR-2019-00417 and which PF28 and the build script both describe as a magistrate-court case. The three lower-court location lines beside it are blank, no box is ticked, and the write is on the one branch the case does not use. It is the same assertion PF28 refused to make with the case number, made one paragraph later with a different fact. Every one of the 35 writes is otherwise visible above or beside its own printed caption, checked page by page rather than by field name, including all five Form 4-222 writes on delivered pages 15 and 18."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "REQUIRED_BEFORE_FILING is available only where the platform holds no value for the fact.",
+          "evidence": "The disclosure limb passes completely: all 175 declared items were matched against participant-instructions.md by their disclosure labels and 0 are missing, and the guide carries a section of its own for the case-number line and another for the fee-waiver caption. The declaration limb fails on the two paragraph-4 case-number rows, which claim the disposition on a GENUINELY UNAVAILABLE ground that the family's own findings record contradicts. A declared required-before-filing item whose fact the platform holds is a known fact not written, not a permitted blank."
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "A defect visible on a delivered page fails this obligation even when the counters are green.",
+          "evidence": "Source-shipped ink naming the wrong court on a delivered sworn page. Delivered page 15 (Form 4-222, Application for Free Process and Affidavit of Indigency, 'I request that the court enter an order ... and give upon my oath or affirmation the following statement') prints 'SIXTH JUDICIAL DISTRICT COURT' as page content, and the build writes the county into the blank immediately above it, so the canonical caption reads 'COUNTY OF Bernalillo / SIXTH JUDICIAL DISTRICT COURT' and the boundary 'COUNTY OF Sierra / SIXTH JUDICIAL DISTRICT COURT'. Bernalillo is the Second Judicial District and Sierra the Seventh; the Sixth is Grant, Hidalgo and Luna. Delivered page 20 (Form 4-223, Order on Application for Free Process) prints the same line with the county blank. No widget covers those coordinates in the pinned binary, so the district cannot be set or cleared by filling the form, and the build's own write of the county sharpens the contradiction rather than causing it. The build records this as blocking_for_release and the instructions tell the participant to strike the line by hand or get their district's copy, which is honest mitigation and not a cure: the page as delivered still names a court that is not the participant's. Second, the undisclosed paragraph-12 write recorded under KNOWN_PREFILLS is visible ink on a branch of a printed '(select one)' that the case does not use, and the instructions - which do tell the participant to strike the Sixth District line - say nothing about it. Otherwise clean: 21 pages of both fixtures were read; no glyph outside a measured write box, no raw markdown, no stray delimiter, no fragment or route-key-only page, no orphaned signature page, and the four struck-through amendment rules on Form 4-959 page 1 are correctly carried as printed rules that are not blanks with nothing written on them."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
       "superseded": false
     },
     {

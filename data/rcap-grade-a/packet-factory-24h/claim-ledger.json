@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "738de4fc37fca23fb3a5f6ce12e101897f15abe5",
+  "generatedAtCommit": "5e9951951ef06ffb57583bccc15be879962068d2",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1108,9 +1108,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "The generator's verification deal shrank to the lanes it emits and named VF01 for this family; no worker was executing on VF11. Captain moves the grant to the dealt lane."
+      "released": true,
+      "releasedAt": "2026-09-05T11:14:21.759Z",
+      "releaseReason": "VF01 PASS_COMPLETE_INDEPENDENT at 48449fe39 on 276e1ab9/fcfc45c3, RASTER_PASS 33960054973 bound; FIX28's three repairs hold on the delivered pages. Verdict extracted."
     },
     {
       "subjectType": "packet-family",
@@ -5849,8 +5849,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:14:21.894Z",
+      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 48449fe39: KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, REPEATING_ROWS, CLIPPING_AND_OVERLAP -- dismissCrt two-widget field prints Example Court on page 19; DefAddr2/DefAddr3 put city-state-zip in the (city) box and the telephone in the (state, zip) box on pages 18, 27, 30, 35, 38, 40, 43; paragraph-1 arrest date held and printed on 31 but blank and undisclosed on 18; Form C row (1) ships date and docket with the statute blank. The 50 captions are right. Verdict extracted; to repair."
     },
     {
       "subjectType": "packet-family",
@@ -5862,11 +5863,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX25",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T10:08:55.685Z",
-      "releaseReason": "REQUIRED_BEFORE_FILING repaired at its root on NJ-CN-10557: 19 rows the participant cannot supply before filing reclassified to their true owners with reasons read off the form's face and NJ.memo.json manualCompletionItems, 50 remaining blanks given printed captions, and assertPrintedCaptionInvariants added to the build and --check. Nine counters zero before and after; no participant-facing PDF byte moved; return at data/rcap-grade-a/packet-factory-24h/fix25/fix25-required-before-filing-two-plus-one.json (Replayed by Captain from FIX25 commit 75023cc13.)"
+      "releasedAt": "2026-09-05T10:08:55.685Z"
     },
     {
       "subjectType": "packet-family",
@@ -6030,8 +6030,9 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T11:14:22.026Z",
+      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 48449fe39: KNOWN_PREFILLS (held case number whose prefix names its court is not written though rwcOriginatingCourt is required; field-map rows excuse it as unheld against build-findings), REQUIRED_BEFORE_FILING, CLIPPING_AND_OVERLAP (judicial district written onto the District Court branch of paragraph 12 on the magistrate fixture). San Juan refusal correct, COMPONENT_SET complete. Open counsel note: pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under Second and Seventh district counties. Verdict extracted; to repair."
     },
     {
       "subjectType": "packet-family",
@@ -6048,6 +6049,21 @@
       "released": true,
       "releasedAt": "2026-09-05T09:49:12.945Z",
       "releaseReason": "PF28 built the family at 6a435d4ad: canonical 318378ba / boundary ae38969c, 21 pages, nine counters zero, 7/7 sources by hash, San Juan county packet bound but not rendered (conditional on a county neither fixture meets). BUILT_RASTER_PENDING; central raster and independent verification owed. Captain release at integration."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "familyId": "nm_release_without_conviction-set",
+      "itemId": null,
+      "familyIds": [
+        "nm_release_without_conviction-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6104,7 +6120,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6239,7 +6255,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6404,7 +6420,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6901,7 +6917,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -12979,7 +12995,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "00d9f8297933ec660460756f2d523375804fc112a14c850450250f7eca1d158f",
+  "claimsDigest": "753a84360f1717d19224dec02617ab51b792ce4fd41519002c53b12080abd679",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27421,6 +27437,33 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T11:12:06.286Z",
       "reason": "VF08 PASS_COMPLETE_INDEPENDENT at f7f114c51 on 78910c46/587838be; page 9 ruled PASS under CLIPPING_AND_OVERLAP as a self-identifying continuation of the page-8 list. Verdict extracted."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:14:21.759Z",
+      "reason": "VF01 PASS_COMPLETE_INDEPENDENT at 48449fe39 on 276e1ab9/fcfc45c3, RASTER_PASS 33960054973 bound; FIX28's three repairs hold on the delivered pages. Verdict extracted."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "nj_arrest_no_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:14:21.894Z",
+      "reason": "VF01 FAIL_REPAIR_REQUIRED at 48449fe39: KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, REPEATING_ROWS, CLIPPING_AND_OVERLAP -- dismissCrt two-widget field prints Example Court on page 19; DefAddr2/DefAddr3 put city-state-zip in the (city) box and the telephone in the (state, zip) box on pages 18, 27, 30, 35, 38, 40, 43; paragraph-1 arrest date held and printed on 31 but blank and undisclosed on 18; Form C row (1) ships date and docket with the statute blank. The 50 captions are right. Verdict extracted; to repair."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "nm_release_without_conviction-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-09-05T11:14:22.026Z",
+      "reason": "VF01 FAIL_REPAIR_REQUIRED at 48449fe39: KNOWN_PREFILLS (held case number whose prefix names its court is not written though rwcOriginatingCourt is required; field-map rows excuse it as unheld against build-findings), REQUIRED_BEFORE_FILING, CLIPPING_AND_OVERLAP (judicial district written onto the District Court branch of paragraph 12 on the magistrate fixture). San Juan refusal correct, COMPONENT_SET complete. Open counsel note: pages 15 and 20 print source ink SIXTH JUDICIAL DISTRICT COURT under Second and Seventh district counties. Verdict extracted; to repair."
     }
   ],
   "reissues": [
