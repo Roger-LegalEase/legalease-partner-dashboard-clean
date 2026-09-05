@@ -5026,10 +5026,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:35:11.588Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -5907,10 +5907,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:16:32.392Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6397,10 +6397,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX72",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T01:09:26.533Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13587,7 +13587,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "5770e8b132a9c4673e90029ceada3462449d3be552d591e2d2d1763211f8cea9",
+  "claimsDigest": "54cb729c699e032ec7f858fc170b6ecc696b8aa528b6d15c7df22088b39a5ddf",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43434,6 +43434,39 @@
       "previouslyReleasedAt": "2026-09-05T21:16:32.271Z",
       "transferredAt": "2026-09-05T22:16:15.923Z",
       "reason": "Independent read owed after the FIX68 fitAppearancesToRect opt-in and the central raster receipt from run 33994313031 on 5cc23772e; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ne-setaside-custodial-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-05T21:16:32.392Z",
+      "transferredAt": "2026-09-05T22:16:36.887Z",
+      "reason": "Independent read owed after the FIX68 fitAppearancesToRect opt-in and the central raster receipt from run 33994313031 on 5cc23772e; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF02",
+      "previouslyReleasedAt": "2026-09-05T21:35:11.588Z",
+      "transferredAt": "2026-09-05T22:16:37.010Z",
+      "reason": "Independent read owed after FIX69 (MC 227b dinfo composed from the three held facts) and the central raster receipt from run 33994558261 on 53c0ef6d1; fifteen obligations on the delivered bytes, nine counters measured, no score carried from VF05's pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nv_seal_probation_family-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX72",
+      "previouslyReleasedAt": "2026-09-05T01:09:26.533Z",
+      "transferredAt": "2026-09-05T22:16:37.124Z",
+      "reason": "VF09 FAIL SELF_HELP_STOP at ba5dc7e5a: the twelfth recorded stop condition is half-dropped; the guide's final stop bullet carries 'any pending charge' but not 'any conviction during the clean period other than a minor moving or standing traffic violation'; add the intervening-conviction limb in the memo's shape, rebuild, confirm all twelve conditions reach participant-instructions.md; SOURCE_IDENTITY was repaired by the FIX08 cluster commit and is not this lane's; re-read then owed."
     }
   ],
   "grants": [
