@@ -102,9 +102,22 @@ export const WRITE = (fact) => ({ policy: "write", fact });
 
 /**
  * The platform holds no value for this and the participant supplies it before
- * filing. `what` is what the packet tells them to write.
+ * filing.
+ *
+ * `what` is what the packet tells the PARTICIPANT to write, and it lands in the
+ * "What to write" column of a table a self-represented litigant reads. It is
+ * kept in their language.
+ *
+ * `whyTheBuildDoesNotHoldIt` is for the reviewer and the record: which shared
+ * protect rule refused the write, which registry descriptor is missing, which
+ * fact the intake never collects. That belongs in the field map and in
+ * build-findings.json, and it does not belong in a filing instruction. The two
+ * were one string in the first version of this and the participant's table read
+ * "the shared fact registry has no descriptor for other names or aliases",
+ * which is true, is the right thing to record, and is not something to say to
+ * someone trying to file a petition.
  */
-export const SUPPLY = (what) => ({ policy: "supply", what });
+export const SUPPLY = (what, whyTheBuildDoesNotHoldIt = null) => ({ policy: "supply", what, buildNote: whyTheBuildDoesNotHoldIt });
 
 /** A signature, a signature date, a notarial certificate, a court-only blank. */
 export const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
@@ -387,6 +400,7 @@ export async function censusFlat(source) {
         section: entry.section, effectiveLabel: entry.label,
         policy: entry.policy, fact: entry.fact ?? null,
         refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
+        buildNote: entry.buildNote ?? null,
         condition: entry.condition ?? null
       };
       // A symbol-font control has an authored origin and no measurable width,
@@ -478,6 +492,7 @@ export async function censusAcroForm(source) {
       section: entry.section, effectiveLabel: entry.label, bindingLabel: entry.bindingLabel ?? entry.label,
       policy: entry.policy, fact: entry.fact ?? null,
       refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
+      buildNote: entry.buildNote ?? null,
       condition: entry.condition ?? null,
       printedTextAtCoordinate: (pageText.find((p) => p.page === (widgets[0]?.page ?? 1))?.lines ?? [])
         .filter((l) => widgets[0] && Math.abs(l.y - widgets[0].rect.y) <= 16)
@@ -527,6 +542,7 @@ export async function censusAcroForm(source) {
         section: entry.section, effectiveLabel: entry.label,
         policy: entry.policy, fact: entry.fact ?? null,
         refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
+        buildNote: entry.buildNote ?? null,
         condition: entry.condition ?? null
       });
     }
@@ -862,7 +878,8 @@ export function mapFor(source, census, report, isFlat) {
       requiredBeforeFiling: true, identity: `${source.documentId} blank ${r.key}`,
       factId: null, routeDetermined: false,
       why: `the platform holds no value for this and the participant supplies it before filing: ${r.what}`,
-      participantMustSupply: r.what
+      participantMustSupply: r.what,
+      ...(r.buildNote ? { whyTheBuildDoesNotHoldIt: r.buildNote } : {})
     });
   }
 
@@ -992,7 +1009,8 @@ export function requiredBeforeFilingItems(maps) {
     .map((r) => ({
       document: m.documentId, field: r.field, page: r.page,
       section: r.sectionHeading, disclosureLabel: r.effectiveLabel,
-      identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
+      identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply,
+      ...(r.whyTheBuildDoesNotHoldIt ? { whyTheBuildDoesNotHoldIt: r.whyTheBuildDoesNotHoldIt } : {})
     })));
 }
 

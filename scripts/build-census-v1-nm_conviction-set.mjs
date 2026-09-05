@@ -247,7 +247,7 @@ function participantInstructions({ rbf, controls, inapplicable }) {
   out.push("- **Every signature and every signature date.** Forms 4-953 and 4-960.3 are affirmed under penalty of perjury.");
   out.push("- **Everything below the caption of Form 4-956.** The certificate of service states, under penalty of perjury, when you posted the petition and to whom. Service has not happened when this packet is prepared and the platform knows nothing about it.");
   out.push("- **Everything Form 4-960 and Form 4-960.3 assert about the sixty-three day period** — whether each party objected, whether anything is pending against you, what your most recent conviction was. None of it is knowable now.");
-  out.push("- **Every agency, sheriff, police and district-attorney line.** The platform's shared field semantics protect them from being written by a build, because a slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds.");
+  out.push("- **Every agency, sheriff, police and district-attorney line.** Naming the agencies is yours to do — the packet does not do it for you, because a list of agencies on a court form is more often the court's than yours, and getting it wrong is the kind of mistake that is hard to undo. Your answers are the source; copy them onto the lines the tables below name.");
   out.push("- **The hearing details, the judge's name and the court's signature block on Form 4-960.1.**");
   out.push("- **Everything below the caption of the order.**");
   out.push("- **Every attorney block, and the whole attorney certificate on page 5 of Form 4-222.** This packet is prepared for someone filing without a lawyer.");

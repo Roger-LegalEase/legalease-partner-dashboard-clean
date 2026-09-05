@@ -267,7 +267,7 @@ export const DICTIONARY_4_222 = Object.freeze({
   /* ---- page 3, section F -------------------------------------------------- */
   "I live at": {
     section: HOUSEHOLD, label: "I live at, your full mailing address on one line",
-    ...SUPPLY("your full address on one line -- street, city, state and ZIP. The platform holds every part of it and writes the street and the city, state and ZIP separately on page 4; the shared fact registry has no one-line address fact to put on a single line, and the gap is recorded in build-findings.json")
+    ...SUPPLY("your full address on one line: street, city, state and ZIP. It is the same address written out in parts on page 4", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line. Reported to the owner of the registry in build-findings.json.")
   },
   "and the head of the household is": { section: HOUSEHOLD, label: "The head of the household is", ...SUPPLY("who the head of your household is, which may be you") },
   "Name 1": HOUSEHOLD_ROW(1, "name", "Name"),
@@ -376,11 +376,11 @@ export const DICTIONARY_4_222 = Object.freeze({
    */
   "STATE OF NEW MEXICO": {
     section: ORDER_CAPTION, label: "COUNTY OF, in the caption of the order for free process",
-    ...SUPPLY("the same county as page 1, on the caption of the order you give the judge. The form's author named this field after the line printed above it, so the shared fact registry reads it as the applicant's state rather than as a county, and the build refuses to write rather than write the wrong fact into a caption")
+    ...SUPPLY("the same county as page 1, on the caption of the order you give the judge", "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as the applicant's STATE rather than as a county. The guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it.")
   },
   "SIXTH JUDICIAL DISTRICT COURT": {
     section: ORDER_CAPTION, label: "Name of the Petitioner in the caption of the order for free process",
-    ...SUPPLY("your name, the same as page 1, on the caption of the order you give the judge. The form's author named this field after the line printed above it, so the shared fact registry reads it as a court rather than as a name, and the build refuses to write rather than write the wrong fact into a caption")
+    ...SUPPLY("your name, the same as page 1, on the caption of the order you give the judge", "the author of Form 4-223 named every field on pages 6 and 7 after the line printed ABOVE it, so the shared fact registry reads this one as a COURT rather than as a person's name. The guard that refuses an explicit mapping the field name contradicts is doing its job, and this build does not go round it.")
   },
   "v": {
     section: ORDER_CAPTION, label: "Name of the Respondent in the caption of the order for free process",

@@ -77,12 +77,7 @@ const captionRows = (keys) => ({
 const ALIAS_LINES = (section, keys) => ({
   [keys[0]]: {
     section, label: "Other names or aliases by which Petitioner has been known, first line",
-    ...SUPPLY(
-      "every other name your records might be under -- a former name, a nickname, an alias. Your intake collected them, "
-      + "and the shared fact registry has no descriptor for other names or aliases: the only name descriptor whose "
-      + "pattern reaches a line like this is your own FULL LEGAL NAME, and writing that here would put your legal name on "
-      + "the alias line of a petition sworn under penalty of perjury"
-    )
+    ...SUPPLY("every other name your records might be under: a former name, a nickname, an alias", "the shared fact registry has no descriptor for other names or aliases: the only name descriptor whose pattern reaches a line like this is the petitioner's own FULL LEGAL NAME, so binding it would put the petitioner's legal name on the alias line of a petition sworn under penalty of perjury. Reported to the owner of the registry in build-findings.json.")
   },
   [keys[1]]: { section, label: "Other names or aliases, second line", ...OPTIONAL("the second of three lines the form gives for a list of unknown length") },
   [keys[2]]: { section, label: "Other names or aliases, third line", ...OPTIONAL("the third of three lines the form gives for a list of unknown length") }
@@ -142,8 +137,12 @@ export const DICTIONARY_4_953 = {
   "p1-y29856-x11700": { section: P1, label: "City", ...WRITE("participant.city") },
   "p1-y29856-x28536": { section: P1, label: "State", ...WRITE("participant.state") },
   "p1-y29856-x45036": { section: P1, label: "Zip Code", ...WRITE("participant.zip") },
-  "p1-y30048-x50400": { section: P1, label: "Zip Code, printed continuation of the same blank", ...OPTIONAL("the form prints a short second run after the Zip Code rule; the ZIP is written on the rule itself and this carries a ZIP+4 extension if the participant has one") },
-  "p1-y28272-x16764": { section: P1, label: "Home Phone #", ...SUPPLY("your home telephone number, if you have one. The intake for this track collects your name, date of birth, mailing address and case facts and asks for no telephone number, and the platform will not put one on a petition sworn under penalty of perjury without holding it") },
+  "p1-y30048-x50400": NOT_A_BLANK(
+    "the tail of the Zip Code rule, drawn a second time as underscore glyphs. Measured at x504 to x534 on the same "
+    + "printed line as the Zip Code stroke, which spans x450.36 to x534, so it sits INSIDE that rule rather than beside "
+    + "it. The ZIP is written on the rule and this is the same blank, not a second one"
+  ),
+  "p1-y28272-x16764": { section: P1, label: "Home Phone #", ...SUPPLY("your home telephone number, if you have one", "the intake for this track asks for no telephone number and no e-mail address. Home, work and cell are three different facts, and writing one held number into any of them would assert on a petition sworn under penalty of perjury which kind of number it is.") },
   "p1-y28464-x33072": { section: P1, label: "Work Phone #", ...SUPPLY("your work telephone number, if you have one") },
   "p1-y28464-x45012": { section: P1, label: "Cell #", ...SUPPLY("your mobile telephone number, if you have one") },
   ...ALIAS_LINES(P1, ["p1-y22116-x9000", "p1-y20532-x9000", "p1-y18948-x9000"]),
@@ -164,13 +163,13 @@ export const DICTIONARY_4_953 = {
 
   "p2-y60684-x23388": { section: P4, label: "District Court case number(s) that are the subject of the petition", ...WRITE("matter.case_number") },
   "p2-y59304-x37188": { section: P4, label: "Metropolitan, Magistrate or Municipal Court case number(s)", ...SUPPLY("the case number in any metropolitan, magistrate or municipal court, if the case was there too") },
-  "p2-y57924-x29880": { section: P4, label: "Law Enforcement Agency case number(s)", ...SUPPLY("the case number the law enforcement agency gave this matter, from your records. The platform's shared field semantics protect every agency and law-enforcement line from being written by a build") },
+  "p2-y57924-x29880": { section: P4, label: "Law Enforcement Agency case number(s)", ...SUPPLY("the case number the law enforcement agency gave this matter, from your records", "the platform's shared field semantics protect every agency, sheriff, police and law-enforcement line from being written by a build, because a slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds. The value is in the participant's intake.") },
   "p2-y56544-x17856": { section: P4, label: "Arrest number(s)", ...SUPPLY("the arrest number from your fingerprint card or RAP sheet") },
 
   "p2-y52404-x25488": { section: P5, label: "Court of Appeals case number(s) related to the petition", ...OPTIONAL("most petitions have no related appellate case; the participant fills this only if theirs does, and the platform holds no appellate record") },
   "p2-y51024-x24516": { section: P5, label: "Supreme Court case number(s) related to the petition", ...OPTIONAL("most petitions have no related Supreme Court case; the participant fills this only if theirs does") },
 
-  "p2-y42744-x21732": { section: P6, label: "Date of offense or arrest for the first conviction", ...SUPPLY("the date of the offence or the arrest for the first conviction you are asking to expunge, from the record. The intake collects an approximate date and this line goes on a petition sworn under penalty of perjury") },
+  "p2-y42744-x21732": { section: P6, label: "Date of offense or arrest for the first conviction", ...SUPPLY("the date of the offence or the arrest for the first conviction you are asking to expunge, from the record", "the intake collects an approximate date and this line goes on a petition sworn under penalty of perjury.") },
   "p2-y41364-x31824": { section: P6, label: "Name and statute or ordinance number of the first offence", ...SUPPLY("the name of the offence and the statute or ordinance number, exactly as the record states them") },
   "p2-y39984-x21636": { section: P6, label: "Date the sentence for the first conviction was completed", ...SUPPLY("the date you completed the sentence for that conviction — this is what the waiting period in paragraph 9 runs from") },
   "p2-y38604-x21168": { section: P6, label: "Date the fines and fees for the first conviction were paid", ...SUPPLY("the date you finished paying the fines and fees for that conviction") },
@@ -207,12 +206,12 @@ export const DICTIONARY_4_953 = {
   "p3-y35412-x9000": HAND_BOX(P13, "Agency holding records: District Court", "mark it if the district court holds records of this case"),
   "p3-y35412-x20340": { section: P13, label: "Judicial district of the District Court holding the records", ...WRITE("matter.court") },
   "p3-y34032-x9000": HAND_BOX(P13, "Agency holding records: County Sheriff's Department", "mark it if the county sheriff holds records of this case"),
-  "p3-y34032-x10416": { section: P13, label: "County of the Sheriff's Department holding the records", ...SUPPLY("the county whose sheriff's department holds records of this case, which need not be the county you are filing in. The platform's shared field semantics protect every sheriff, police, agency and law-enforcement line from being written by a build, because a slot naming agencies is more often the court's than the participant's; this paragraph is one of the places where it is yours") },
+  "p3-y34032-x10416": { section: P13, label: "County of the Sheriff's Department holding the records", ...SUPPLY("the county whose sheriff's department holds records of this case, which need not be the county you are filing in", "the platform's shared field semantics protect every agency, sheriff, police and law-enforcement line from being written by a build, because a slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds. The value is in the participant's intake.") },
   "p3-y32652-x9000": HAND_BOX(P13, "Agency holding records: District Attorney", "mark it if the district attorney holds records of this case"),
-  "p3-y32652-x22320": { section: P13, label: "Judicial district of the prosecuting office that holds the records", ...SUPPLY("the judicial district of the district attorney who holds records of this case. The platform's shared field semantics protect every district-attorney and prosecutor line from being written by a build, so this one is yours to complete") },
+  "p3-y32652-x22320": { section: P13, label: "Judicial district of the prosecuting office that holds the records", ...SUPPLY("the judicial district of the district attorney who holds records of this case", "the platform's shared field semantics protect every district-attorney and prosecutor line from being written by a build.") },
   "p3-y31272-x9000": HAND_BOX(P13, "Agency holding records: New Mexico Department of Public Safety", "mark it if the Department of Public Safety holds records of this case. On this track it is served with the petition, so it almost certainly does"),
   "p3-y29892-x9000": HAND_BOX(P13, "Agency holding records: Law Enforcement Agency that arrested Petitioner", "mark it if a law enforcement agency holds records of this case, and write the agency's name on the line beside the box"),
-  "p3-y29892-x43848": { section: P13, label: "Name of the Law Enforcement Agency that arrested Petitioner, first line", ...SUPPLY("the law enforcement agency that arrested you — the agency you named in your intake. The platform's shared field semantics protect every agency and law-enforcement line from being written by a build") },
+  "p3-y29892-x43848": { section: P13, label: "Name of the Law Enforcement Agency that arrested Petitioner, first line", ...SUPPLY("the law enforcement agency that arrested you, which is the agency you named when you answered our questions", "the platform's shared field semantics protect every agency, sheriff, police and law-enforcement line from being written by a build, because a slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds. The value is in the participant's intake.") },
   "p3-y28512-x9000": { section: P13, label: "Name of the Law Enforcement Agency that arrested Petitioner, second line", ...SUPPLY("the rest of the agency's name and its address, if the line above is not enough") },
   "p3-y27132-x9000": HAND_BOX(P13, "Agency holding records: Metropolitan, Magistrate or Municipal Court", "mark it if a metropolitan, magistrate or municipal court holds records of this case"),
   "p3-y27132-x31968": { section: P13, label: "Location of the Metropolitan, Magistrate or Municipal Court holding the records", ...SUPPLY("the town or city that court sits in — the intake collects the court and not the place it sits") },
@@ -232,9 +231,9 @@ export const DICTIONARY_4_953 = {
   "p3-y13596-x7608": NOT_A_BLANK("a printed bullet mark, not a place anyone writes"),
 
   "p3-y13344-x11604": HAND_BOX(P15, "A copy of this Petition will be mailed to the three responding parties", "mark it, and then actually mail it. On this track service is required: you mail the petition and everything attached to it, by first-class United States mail, to the district attorney, the Department of Public Safety and the agency that arrested you"),
-  "p3-y10584-x30036": { section: P15, label: "Judicial district of the prosecuting office the petition will be mailed to", ...SUPPLY("the judicial district of the district attorney where your charge originated. The platform's shared field semantics protect every district-attorney line from being written by a build") },
+  "p3-y10584-x30036": { section: P15, label: "Judicial district of the prosecuting office the petition will be mailed to", ...SUPPLY("the judicial district of the district attorney where your charge originated", "the platform's shared field semantics protect every district-attorney and prosecutor line from being written by a build.") },
   "p4-y70344-x16404": { section: P15, label: "Address of the prosecuting office the petition will be mailed to", ...SUPPLY("the street address of that district attorney's office, which you get from the court or from the office itself") },
-  "p4-y64824-x16392": { section: P15, label: "Name of the law enforcement agency that arrested Petitioner, in the mailing list", ...SUPPLY("the name of the agency that arrested you. The platform's shared field semantics protect every agency and law-enforcement line from being written by a build") },
+  "p4-y64824-x16392": { section: P15, label: "Name of the law enforcement agency that arrested Petitioner, in the mailing list", ...SUPPLY("the name of the agency that arrested you", "the platform's shared field semantics protect every agency, sheriff, police and law-enforcement line from being written by a build, because a slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds. The value is in the participant's intake.") },
   "p4-y62064-x16656": { section: P15, label: "Address of the law enforcement agency that arrested Petitioner", ...SUPPLY("the street address of that agency") },
   "p4-y58176-x7608": NOT_A_BLANK("a printed bullet mark, not a place anyone writes"),
   "p4-y57924-x12276": HAND_BOX(P16, "FBI and DPS RAP sheets are attached", "mark it once you have attached your FBI and DPS Record of Arrest and Prosecution sheets. They must be dated no more than ninety days before you file"),
@@ -250,7 +249,7 @@ export const DICTIONARY_4_953 = {
   "p4-y16524-x7200": { section: SIGN, label: "Printed name of Petitioner", ...WRITE("participant.full_legal_name") },
   "p4-y16524-x36000": { section: SIGN, label: "Date beside the printed name of Petitioner", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. The petition is affirmed under penalty of perjury under the laws of the State of New Mexico, and the date it is affirmed is the date the participant signs it") },
   "p4-y13764-x7200": { section: SIGN, label: "Signature of Petitioner", ...PROTECT(SIGNATURE, "signature or date field; the participant signs their own petition and no build signs it for them") },
-  "p4-y11004-x7200": { section: SIGN, label: "Mailing Address of the Petitioner on page 4", ...SUPPLY("your full mailing address on this one line -- street, city, state and ZIP. The platform holds every part of it and writes them separately in paragraph 1; the shared fact registry has no one-line mailing-address fact and its only address descriptor is the street line") },
+  "p4-y11004-x7200": { section: SIGN, label: "Mailing Address of the Petitioner on page 4", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in paragraph 1", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.") },
   "p4-y8244-x7200": { section: SIGN, label: "Telephone Number of the Petitioner on page 4", ...SUPPLY("your telephone number, so the court can reach you") },
   "p4-y8244-x36000": { section: SIGN, label: "Email of the Petitioner on page 4", ...SUPPLY("your e-mail address, if you have one") },
 
@@ -279,12 +278,7 @@ const CERT_SIGN = "The certificate's signature block";
 const CERT_ATTY = "The certificate's attorney block";
 
 const AFTER_MAILING = (label, what) => ({
-  section: CERT, label,
-  ...SUPPLY(
-    `${what}. Everything below the caption of this form is you certifying, under penalty of perjury, when you mailed the `
-    + "petition and to whom. Service has not happened when this packet is prepared and the platform has no knowledge of "
-    + "it, so nothing here is filled in for you"
-  )
+  section: CERT, label, ...SUPPLY(what, "everything below the caption of a certificate of service is the petitioner certifying under penalty of perjury when they posted the petition and to whom. Service has not happened when the packet is prepared and the platform has no knowledge of it; the shared field semantics protect a service block for the same reason.")
 });
 
 export const DICTIONARY_4_956 = {
@@ -296,7 +290,7 @@ export const DICTIONARY_4_956 = {
   "p1-y41712-x26232": AFTER_MAILING("The date the petition was filed", "the date the court clerk stamped your petition as filed, which is not the date you posted it"),
   "p1-y37572-x10800": HAND_BOX(CERT, "Mailed to the New Mexico Department of Public Safety", "mark it once you have posted a copy to the Department of Public Safety at P.O. Box 1628, Santa Fe, New Mexico 87504-1628, which the form prints for you"),
   "p1-y34812-x10800": HAND_BOX(CERT, "Mailed to the district attorney", "mark it once you have posted a copy to the district attorney"),
-  "p1-y34812-x27420": AFTER_MAILING("Judicial district of the prosecuting office you mailed to", "the judicial district of the district attorney you posted to. The platform's shared field semantics protect every district-attorney line from being written by a build"),
+  "p1-y34812-x27420": AFTER_MAILING("Judicial district of the prosecuting office you mailed to", "the judicial district of the district attorney you posted to"),
   "p1-y33432-x14400": AFTER_MAILING("Address of the prosecuting office you mailed to", "the street address you posted it to"),
   "p1-y30672-x10800": HAND_BOX(CERT, "Mailed to the law enforcement agency that arrested Petitioner", "mark it once you have posted a copy to the agency that arrested you"),
   "p1-y29292-x14400": AFTER_MAILING("Address of the law enforcement agency you mailed to", "the street address you posted it to"),
@@ -334,11 +328,7 @@ const NOTICE_ATTY = "The notice's attorney block";
 const NOTICE_CERT = "The certificate of service at the foot of the notice";
 
 const SECOND_STAGE = (section, label, what) => ({
-  section, label,
-  ...SUPPLY(
-    `${what}. This notice is filed sixty-three days or more after you mail the petition, and it states what happened in `
-    + "that period. None of it is knowable when this packet is prepared"
-  )
+  section, label, ...SUPPLY(what, "this form is filed sixty-three days or more after the petition is served and states what happened in that period. None of it is knowable when the packet is prepared.")
 });
 
 export const DICTIONARY_4_960 = {
@@ -346,7 +336,7 @@ export const DICTIONARY_4_960 = {
 
   "p1-y37500-x10800": HAND_BOX(NOTICE, "Notice of the Petition has been provided by first-class mail", "mark it once you have posted the petition to all three responding parties"),
   "p1-y35208-x14400": HAND_BOX(NOTICE, "Notice was provided to the District Attorney", "mark it once you have posted a copy to the district attorney"),
-  "p1-y35208-x29400": SECOND_STAGE(NOTICE, "Judicial district of the prosecuting office the notice was provided to", "the judicial district of the district attorney you posted to. The platform's shared field semantics protect every district-attorney line from being written by a build"),
+  "p1-y35208-x29400": SECOND_STAGE(NOTICE, "Judicial district of the prosecuting office the notice was provided to", "the judicial district of the district attorney you posted to"),
   "p1-y33828-x14400": HAND_BOX(NOTICE, "Notice was provided to the New Mexico Department of Public Safety", "mark it once you have posted a copy to the Department of Public Safety"),
   "p1-y32448-x14400": HAND_BOX(NOTICE, "Notice was provided to the law enforcement agency that arrested Petitioner", "mark it once you have posted a copy to the agency that arrested you"),
   "p1-y29868-x10800": HAND_BOX(NOTICE, "At least sixty-three days have passed since Petitioner mailed the Petition", "mark it only when sixty-three days have actually passed. Rule 1-077.1(G) gives the responding parties sixty days from service and Rule 1-006(C) adds three for service by mail"),
@@ -366,7 +356,7 @@ export const DICTIONARY_4_960 = {
 
   "p2-y61044-x7200": { section: NOTICE_SIGN, label: "Printed name of Petitioner on the notice", ...WRITE("participant.full_legal_name") },
   "p2-y58284-x7200": { section: NOTICE_SIGN, label: "Signature of Petitioner on the notice", ...PROTECT(SIGNATURE, "signature or date field; the participant signs their own notice") },
-  "p2-y55524-x7200": { section: NOTICE_SIGN, label: "Mailing Address of the Petitioner on the notice", ...SUPPLY("your full mailing address on this one line -- street, city, state and ZIP. The shared fact registry has no one-line mailing-address fact and its only address descriptor is the street line") },
+  "p2-y55524-x7200": { section: NOTICE_SIGN, label: "Mailing Address of the Petitioner on the notice", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.") },
   "p2-y52764-x7200": { section: NOTICE_SIGN, label: "Telephone Number of the Petitioner on the notice", ...SUPPLY("your telephone number") },
   "p2-y50004-x7200": { section: NOTICE_SIGN, label: "Date beneath the Petitioner's signature on the notice", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. It is the date the participant signs the notice, which is at least sixty-three days after this packet is prepared") },
 
@@ -379,12 +369,12 @@ export const DICTIONARY_4_960 = {
   "p2-y20988-x22332": AFTER_MAILING("The day of the month you mailed this notice", "the day of the month on which you posted this notice"),
   "p2-y20988-x31944": AFTER_MAILING("The month you mailed this notice", "the month in which you posted this notice"),
   "p2-y20988-x40956": AFTER_MAILING("The year you mailed this notice", "the year in which you posted this notice"),
-  "p2-y16836-x7200": AFTER_MAILING("Name of the prosecuting office this notice was mailed to", "the district attorney's office you posted this notice to. The platform's shared field semantics protect every district-attorney line from being written by a build"),
+  "p2-y16836-x7200": AFTER_MAILING("Name of the prosecuting office this notice was mailed to", "the district attorney's office you posted this notice to"),
   "p2-y15456-x22164": AFTER_MAILING("Judicial district of that prosecuting office", "the judicial district of that district attorney"),
   "p2-y14076-x7200": AFTER_MAILING("Address of the prosecuting office this notice was mailed to", "the street address you posted it to"),
   "p2-y11316-x7200": AFTER_MAILING("Telephone of the prosecuting office this notice was mailed to", "the telephone number of that office"),
   "p3-y64824-x10092": AFTER_MAILING("Telephone number of the New Mexico Department of Public Safety, after the printed area code", "the rest of the Department of Public Safety's telephone number; the form prints the area code (505) for you"),
-  "p3-y59304-x7200": AFTER_MAILING("Name of the law enforcement agency this notice was mailed to", "the agency that arrested you. The platform's shared field semantics protect every agency and law-enforcement line from being written by a build"),
+  "p3-y59304-x7200": AFTER_MAILING("Name of the law enforcement agency this notice was mailed to", "the agency that arrested you"),
   "p3-y56544-x7200": AFTER_MAILING("Address of the law enforcement agency this notice was mailed to", "the street address you posted it to"),
   "p3-y56352-x7200": NOT_A_BLANK("a printed rule drawn under the address line above it; the address is written on the underscore run, and this stroke is the same line drawn twice by the form"),
   "p3-y53784-x7200": AFTER_MAILING("Telephone of the law enforcement agency this notice was mailed to", "the telephone number of that agency"),
@@ -408,10 +398,8 @@ const AFF_SIGN = "The affirmation's signature block";
 
 const AFFIRMED = (label, what) => ({
   section: AFF, label,
-  ...SUPPLY(
-    `${what}. This affirmation is sworn under penalty of perjury and describes your situation on the day you sign it, `
-    + "sixty-three days or more after this packet is prepared. Nothing in it is knowable now"
-  )
+  ...SUPPLY(`${what} -- as it is on the day you sign, which is at least sixty-three days after this packet was prepared`,
+    "the affirmation is sworn under penalty of perjury and describes the participant's situation on the day they sign it. Nothing in it is knowable when the packet is prepared.")
 });
 
 export const DICTIONARY_4_960_3 = {
@@ -436,7 +424,7 @@ export const DICTIONARY_4_960_3 = {
   "p2-y53964-x7200": { section: AFF_SIGN, label: "Printed name of Petitioner on the affirmation", ...WRITE("participant.full_legal_name") },
   "p2-y53964-x36000": { section: AFF_SIGN, label: "Date beside the printed name on the affirmation", ...PROTECT(SIGNATURE, "signature or date field; never completed by this build. The affirmation is made under penalty of perjury and the date is the date the participant signs it") },
   "p2-y51204-x7200": { section: AFF_SIGN, label: "Signature of Petitioner on the affirmation", ...PROTECT(SIGNATURE, "signature or date field; the participant affirms and signs this themselves") },
-  "p2-y48444-x7200": { section: AFF_SIGN, label: "Mailing Address of the Petitioner on the affirmation", ...SUPPLY("your full mailing address on this one line -- street, city, state and ZIP. The shared fact registry has no one-line mailing-address fact and its only address descriptor is the street line") }
+  "p2-y48444-x7200": { section: AFF_SIGN, label: "Mailing Address of the Petitioner on the affirmation", ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.") }
 };
 
 /* ------------------------------------------------------------------ *

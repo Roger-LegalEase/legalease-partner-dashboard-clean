@@ -164,19 +164,13 @@ const DICTIONARY_4_951 = {
   "p1-y32616-x45036": { section: P1, label: "Zip Code", ...WRITE("participant.zip") },
   "p1-y31032-x16764": {
     section: P1, label: "Home Phone #",
-    ...SUPPLY("your home telephone number, if you have one. The intake for this track collects your name, date of birth, mailing address and case facts and asks for no telephone number, and the platform will not put one on a petition sworn under penalty of perjury without holding it")
+    ...SUPPLY("your home telephone number, if you have one", "the intake for this track collects the participant's name, other names, date of birth, mailing location and case facts and asks for no telephone number and no e-mail address. Home, work and cell are three different facts in any case, and writing one held number into any of them would assert on a petition sworn under penalty of perjury which kind of number it is.")
   },
   "p1-y31224-x33072": { section: P1, label: "Work Phone #", ...SUPPLY("your work telephone number, if you have one") },
   "p1-y31032-x43500": { section: P1, label: "Cell #", ...SUPPLY("your mobile telephone number, if you have one") },
   "p1-y26460-x9000": {
     section: P1, label: "Other names or aliases by which Petitioner has been known, first line",
-    ...SUPPLY(
-      "every other name your arrest records might be under -- a former name, a nickname, an alias. Your intake collected "
-      + "them, and the shared fact registry has no descriptor for other names or aliases: the only name descriptor whose "
-      + "pattern reaches a line like this is the petitioner's own FULL LEGAL NAME, and writing that here would put your "
-      + "legal name on the alias line of a petition sworn under penalty of perjury. The registry gap is recorded in "
-      + "build-findings.json"
-    )
+    ...SUPPLY("every other name your arrest records might be under: a former name, a nickname, an alias", "the shared fact registry has no descriptor for other names or aliases: the only name descriptor whose pattern reaches a line like this is the petitioner's own FULL LEGAL NAME, so binding it would put the petitioner's legal name on the alias line of a petition sworn under penalty of perjury. Reported to the owner of the registry in build-findings.json.")
   },
   "p1-y24876-x9000": {
     section: P1, label: "Other names or aliases, second line",
@@ -207,12 +201,12 @@ const DICTIONARY_4_951 = {
   /* ---- page 2, section 4 ------------------------------------------------ */
   "p2-y60684-x14856": {
     section: P4, label: "Case name of the criminal case",
-    ...SUPPLY("the name of the criminal case you were improperly named in, exactly as it appears on the record — the intake collects the case number, the court, the agency and the date, and not the case name, and a criminal case may be captioned under a name that is not yours")
+    ...SUPPLY("the name of the criminal case you were improperly named in, exactly as it appears on the record", "the intake for this track collects the case number, the court, the arresting agency and the approximate date, and not the case name. A criminal case may be captioned under a name that is not the participant's, which is the premise of this track.")
   },
   "p2-y59304-x15924": { section: P4, label: "Case number of the criminal case", ...WRITE("matter.case_number") },
   "p2-y57924-x16092": {
     section: P4, label: "Date of filing of the criminal case",
-    ...SUPPLY("the date the criminal case was filed, from the record — the intake collects the approximate date of the arrest or charge, which is not the same date, and this is a petition sworn under penalty of perjury")
+    ...SUPPLY("the date the criminal case was filed, from the record", "the intake collects the approximate date of the arrest or the charge, which is not the date the case was filed. This blank sits on a petition sworn under penalty of perjury.")
   },
 
   /* ---- page 2, section 5 ------------------------------------------------ */
@@ -231,31 +225,18 @@ const DICTIONARY_4_951 = {
   "p2-y43524-x9000": AGENCY_BOX("Agency holding records: County Sheriff's Department", "mark it if the county sheriff holds records of this case"),
   "p2-y43524-x10416": {
     section: P6, label: "County of the Sheriff's Department holding the records",
-    ...SUPPLY(
-      "the county whose sheriff's department holds records of this case, which need not be the county you are filing in. "
-      + "The platform's shared field semantics protect every sheriff, police, agency and law-enforcement line from being "
-      + "written by a build, because a slot naming agencies is more often the court's than the participant's; section 6 of "
-      + "this petition is one of the places where it is yours, and it is yours to complete"
-    )
+    ...SUPPLY("the county whose sheriff's department holds records of this case, which need not be the county you are filing in", "the platform's shared field semantics protect every agency, sheriff, police and law-enforcement line from being written by a build, because a slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds. The value is in the participant's intake.")
   },
   "p2-y42144-x9000": AGENCY_BOX("Agency holding records: District Attorney", "mark it if the district attorney holds records of this case"),
   "p2-y42144-x22320": {
     section: P6, label: "Judicial district of the prosecuting office that holds the records",
-    ...SUPPLY(
-      "the judicial district of the district attorney who holds records of this case -- the same district you are filing "
-      + "in, unless the charges came from somewhere else. The platform's shared field semantics protect every "
-      + "district-attorney and prosecutor line from being written by a build, so this one is yours to complete"
-    )
+    ...SUPPLY("the judicial district of the district attorney who holds records of this case, which is the district you are filing in unless the charges came from somewhere else", "the platform's shared field semantics protect every district-attorney and prosecutor line from being written by a build.")
   },
   "p2-y40764-x9000": AGENCY_BOX("Agency holding records: New Mexico Department of Public Safety", "mark it if the Department of Public Safety holds records of this case"),
   "p2-y39384-x9000": AGENCY_BOX("Agency holding records: Law Enforcement Agency", "mark it if a law enforcement agency holds records of this case — the agency named beside the box is the one your intake gave"),
   "p2-y39384-x31980": {
     section: P6, label: "Name of the Law Enforcement Agency holding the records",
-    ...SUPPLY(
-      "the law enforcement agency that holds records of this case -- the agency you named in your intake. The platform's "
-      + "shared field semantics protect every agency and law-enforcement line from being written by a build, because a "
-      + "slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds"
-    )
+    ...SUPPLY("the law enforcement agency that holds records of this case, which is the agency you named when you answered our questions", "the platform's shared field semantics protect every agency, sheriff, police and law-enforcement line from being written by a build, because a slot naming agencies is more often a court's list of who must seal than a participant's statement of who holds. The value is in the participant's intake.")
   },
   "p2-y38004-x9000": AGENCY_BOX("Agency holding records: Metropolitan, Magistrate or Municipal Court", "mark it if a metropolitan, magistrate or municipal court holds records of this case"),
   "p2-y38004-x31860": {
@@ -296,12 +277,7 @@ const DICTIONARY_4_951 = {
   /* ---- page 3, the petitioner's contact block --------------------------- */
   "p3-y68964-x7200": {
     section: SIGN, label: "Mailing Address of the Petitioner on page 3",
-    ...SUPPLY(
-      "your full mailing address on this one line -- street, city, state and ZIP. The platform holds every part of it and "
-      + "writes the street, city, state and ZIP separately in section 1 on page 1; the shared fact registry has no "
-      + "one-line mailing-address fact, its only address descriptor is the street line, and a street with no city on the "
-      + "line the court writes to is worse than a line you complete yourself. The gap is recorded in build-findings.json"
-    )
+    ...SUPPLY("your full mailing address on this one line: street, city, state and ZIP. It is the same address you gave us, written out in parts in section 1 on page 1", "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and a street with no city on the line the court writes to is worse than a line the participant completes. Reported to the owner of the registry in build-findings.json.")
   },
   "p3-y66204-x7200": { section: SIGN, label: "Telephone Number of the Petitioner on page 3", ...SUPPLY("your telephone number, so the court can reach you") },
   "p3-y66204-x36000": { section: SIGN, label: "Email of the Petitioner on page 3", ...SUPPLY("your e-mail address, if you have one") },

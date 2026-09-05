@@ -117,10 +117,11 @@ const PARTICIPANT_PARTS = {
   "p1-y16826-x7202": {
     section: PETITIONER_BLOCK, label: "Petitioner Address",
     ...SUPPLY(
-      "your full mailing address on this one line -- street, city, state and ZIP. The court mails the notice of hearing "
-      + "to it. The platform holds every part of it, and the shared fact registry has no one-line mailing-address fact: "
-      + "the only address descriptor is the street line, and a street with no city on the line the court mails to is worse "
-      + "than a line you complete yourself. The gap is recorded in build-findings.json"
+      "your full mailing address on this one line: street, city, state and ZIP. This is the address the court mails the "
+      + "notice of hearing to",
+      "the shared fact registry has no one-line mailing-address fact; its only address descriptor is the street line, and "
+      + "a street with no city on the line the court mails to is worse than a line the participant completes. Reported to "
+      + "the owner of the registry in build-findings.json."
     )
   },
   "p1-y14066-x7202": {
