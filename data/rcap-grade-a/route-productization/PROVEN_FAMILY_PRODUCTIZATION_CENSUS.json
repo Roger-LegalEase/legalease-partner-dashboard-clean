@@ -217,7 +217,7 @@
     "data/rcap-grade-a/fulfillment-authority-projection.json": "b9cfc708e0523150d1a42bab584afd960812c142770bda84d351142a6f7b5dca",
     "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
     "data/rcap-ledger/completed-output-counsel-manifest.json": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
-    "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json": "574acbb5ecb92ef2f7f62e6e779b9dcfa9159265ce95ca12101c573309fca820",
+    "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json": "c6e0d65fcaf732e179df1971e31cce6321113e33d89738c66b2cf224729ccc15",
     "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json": "243ad71c2fb930136e16ed0c2a36cd0765bc28dde4f8572136cb63118a1465e6",
     "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json": "abfc97b9681eaae59c1598bb769e4dbce7bd77ddc7bb2990ab7b4d363a77a713",
     "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_ACCEPTANCE.json": "2b12960750f5d1b051d409b550af97d19cfa69989794fa31c22721aa9c50af60",
@@ -230,14 +230,14 @@
     "provenFamiliesWithEveryObligationResolvedToARuntimeRoute": 68,
     "provenFamiliesWithNoRuntimeRouteAtAll": 72,
     "provenFamiliesWithARouteScopedArtifact": 113,
-    "provenFamiliesWithCurrentLegalApproval": 6,
+    "provenFamiliesWithCurrentLegalApproval": 7,
     "provenFamiliesInsideAnyOwnerApproval": 52,
     "provenFamiliesWithAFulfillmentAuthorityRecord": 5,
-    "provenFamiliesMeetingEveryGeneratorPrecondition": 4,
+    "provenFamiliesMeetingEveryGeneratorPrecondition": 5,
     "provenFamiliesWithAtLeastOneStepOnlyRogerCanTake": 106,
-    "provenFamiliesOneBoundedEngineeringStepFromARecord": 5,
+    "provenFamiliesOneBoundedEngineeringStepFromARecord": 4,
     "provenFamiliesEngineeringOwnableButMoreThanOneStepAway": 34,
-    "provenFamiliesReadyForGenerationNow": 0,
+    "provenFamiliesReadyForGenerationNow": 1,
     "hostedConsumerCanariesOnRecord": 0,
     "hostedSponsoredCanariesOnRecord": 0,
     "operationallySellableRoutes": 0,
@@ -245,7 +245,8 @@
   },
   "byBlocker": {
     "AWAITING_HOSTED_CANARIES_AND_THE_LAUNCH_GATES": 5,
-    "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW": 5,
+    "READY_FOR_FULFILLMENT_AUTHORITY_GENERATION": 1,
+    "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW": 4,
     "SPECIFICATION_LEGAL_SECTIONS_UNBOUND": 6,
     "NO_COMPLETED_OUTPUT_LEGAL_APPROVAL_FOR_THIS_FAMILY": 50,
     "APPROVED_SHIPPING_DIGEST_MOVED_SINCE_APPROVAL": 2,
@@ -256,12 +257,13 @@
   },
   "byFirstUnmetChainLink": {
     "hostedConsumerCanary": 3,
+    "fulfillmentAuthorityRecord": 1,
     "routeScopedArtifact": 8,
-    "currentLegalApproval": 57,
+    "currentLegalApproval": 56,
     "exactRuntimeRoute": 73
   },
   "generatorPreconditionFailureFrequency": {
-    "P10": 135,
+    "P10": 134,
     "P04": 132,
     "P05": 132,
     "P07": 10,
@@ -344,25 +346,6 @@
         "jurisdiction": "GA",
         "routeIds": [
           "GA:restriction-and-sealing-of-a-pardoned-felony"
-        ],
-        "remainingStepCount": 1,
-        "remainingSteps": [
-          {
-            "stepId": "S6_expandThePostApprovalChangeAuditRow",
-            "owner": "a Captain audit lane reading diffs",
-            "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
-            "closesPreconditions": [
-              "P10"
-            ]
-          }
-        ],
-        "ownerApprovalAlreadyCoveringTheFamily": "OWN-ADOPT-2026-09-02-BATCH-53"
-      },
-      {
-        "familyId": "ms-misd-1st-set",
-        "jurisdiction": "MS",
-        "routeIds": [
-          "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
         ],
         "remainingStepCount": 1,
         "remainingSteps": [
@@ -4930,7 +4913,14 @@
       }
     ]
   },
-  "readyForFulfillmentAuthorityGenerationNow": [],
+  "readyForFulfillmentAuthorityGenerationNow": [
+    {
+      "familyId": "ms-misd-1st-set",
+      "routeIds": [
+        "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+      ]
+    }
+  ],
   "evaluatorPaymentOpenWithoutAFulfillmentRecord": {
     "note": "These routes already return paymentAllowed=true at the evaluator while the fulfillment registry has no record for them. The registry fails closed, so nothing is sellable; the disagreement between the two layers is recorded here rather than resolved.",
     "routes": [
@@ -5941,6 +5931,123 @@
       "why": "Every in-repository link is closed for this family; the next three links each need a hosted environment or a named human."
     },
     {
+      "familyId": "ms-misd-1st-set",
+      "jurisdiction": "MS",
+      "factoryState": "COMPLETE_PACKET_PROVEN",
+      "implementationStrategy": "custom_pleading",
+      "routeCount": 1,
+      "inFirstRouteCohort": false,
+      "firstRouteCohortUnmetConditions": [
+        "verdictCurrentAndDeclaresItsBase",
+        "noSubstantiveLegalChangeSinceThatApproval"
+      ],
+      "routes": [
+        {
+          "obligationRouteKey": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+          "obligationRouteKind": "track-pathway",
+          "exactRuntimeRouteId": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+          "exactRuntimeRouteIdSource": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json:routeContractId",
+          "whyThereIsNoRuntimeRouteId": null,
+          "currentServiceDisposition": "paid_packet_intended",
+          "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
+          "inLaunchGraph": true,
+          "launchGraphAvailability": "UNFINISHED",
+          "launchGraphUnmetOperationalGates": [
+            "paymentAllowed",
+            "ownerApprovedLegalDesign",
+            "technicalApprovalCurrent",
+            "deterministicArtifactProven"
+          ],
+          "launchGraphPaymentAllowed": false,
+          "launchGraphOperationallySellable": false,
+          "launchGraphFulfillmentAuthorityAdmitted": false,
+          "factoryV2Admitted": false,
+          "ratificationStatus": "ratified_deployable",
+          "ratificationDecisionAuthority": "Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets",
+          "packetSpecification": {
+            "path": "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
+            "sha256": "4ba87c4a5d3dca6efdbfcd2c0b3d9e5dd87fa87bc1e9f11da0f79cc75afedd94",
+            "legalSectionsBound": true,
+            "legalSectionsBoundByOwnerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+            "approvedArtifactCount": 2
+          },
+          "publicWitnessFixture": {
+            "present": true,
+            "expectedPaymentAllowed": false
+          },
+          "fulfillmentAuthorityRecord": {
+            "exists": false,
+            "recordId": null,
+            "schemaVersion": null,
+            "projectedState": null,
+            "projectedCommercialStatus": null,
+            "missingProof": []
+          }
+        }
+      ],
+      "chain": {
+        "provenPacket": {
+          "met": true,
+          "basis": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json:families[ms-misd-1st-set].state=COMPLETE_PACKET_PROVEN"
+        },
+        "exactRuntimeRoute": {
+          "met": true,
+          "routeIds": [
+            "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+          ],
+          "obligationKeysWithoutARuntimeRoute": []
+        },
+        "routeScopedArtifact": {
+          "met": true,
+          "basis": "one route, one family: the family assembly is the route artifact",
+          "rasterState": "RASTER_PASS"
+        },
+        "currentLegalApproval": {
+          "met": true,
+          "instrument": "OWN-ADOPT-2026-09-02-BATCH-53",
+          "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+          "approvedShippingDigestsStillCurrent": true,
+          "postApprovalChangeAuditVerdict": "COVERED_BY_EXISTING_APPROVAL",
+          "auditIsMachineCheckable": true
+        },
+        "runtimeWiring": {
+          "met": true,
+          "routesInLaunchGraph": [
+            "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+          ],
+          "routesAbsentFromLaunchGraph": []
+        },
+        "fulfillmentAuthorityRecord": {
+          "met": false,
+          "routesWithARecord": [],
+          "unmetGeneratorPreconditionCount": 0
+        },
+        "hostedConsumerCanary": {
+          "met": false,
+          "basis": "no hosted consumer canary receipt exists in this repository for any route; the only hosted-canary return on record, data/rcap-grade-a/codex-cloud/cs2-hosted-canary-first4-4ceb/RETURN.json, records zero canaries executed"
+        },
+        "hostedSponsoredCanary": {
+          "met": false,
+          "basis": "no hosted sponsored canary receipt exists in this repository for any route"
+        },
+        "operationallySellable": {
+          "met": false,
+          "basis": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1: operationallySellable=false"
+        }
+      },
+      "chainFirstUnmetLink": "fulfillmentAuthorityRecord",
+      "unmetGeneratorPreconditions": [],
+      "unmetGeneratorPreconditionCount": 0,
+      "remainingStepsToAFulfillmentRecord": [],
+      "remainingStepCount": 0,
+      "remainingStepsOnlyRogerCanTake": [],
+      "blocker": "READY_FOR_FULFILLMENT_AUTHORITY_GENERATION",
+      "blockerOwner": "engineering",
+      "onlyRogerCanDoThis": false,
+      "singleNextAction": "Add this route to EXACT_PRODUCTIZED_ROUTES in scripts/generate-rcap-grade-a-fulfillment-authority.mjs and regenerate.",
+      "why": "Every one of the generator's twenty-two preconditions is met and no record exists."
+    },
+    {
       "familyId": "ms-misd-addl-set",
       "jurisdiction": "MS",
       "factoryState": "COMPLETE_PACKET_PROVEN",
@@ -6773,146 +6880,6 @@
         "operationallySellable": {
           "met": false,
           "basis": "GA:restriction-and-sealing-of-a-pardoned-felony: operationallySellable=false"
-        }
-      },
-      "chainFirstUnmetLink": "currentLegalApproval",
-      "unmetGeneratorPreconditions": [
-        {
-          "id": "P10",
-          "requirement": "a post-approval change-audit row exists for the family",
-          "measured": "no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
-        }
-      ],
-      "unmetGeneratorPreconditionCount": 1,
-      "remainingStepsToAFulfillmentRecord": [
-        {
-          "stepId": "S6_expandThePostApprovalChangeAuditRow",
-          "preconditions": [
-            "P10",
-            "P12",
-            "P13",
-            "P14",
-            "P15"
-          ],
-          "owner": "a Captain audit lane reading diffs",
-          "onlyRogerCanDoThis": false,
-          "work": "write or expand the family's post-approval change-audit row to the machine-checkable shape",
-          "closesPreconditions": [
-            "P10"
-          ]
-        }
-      ],
-      "remainingStepCount": 1,
-      "remainingStepsOnlyRogerCanTake": [],
-      "blocker": "NO_MACHINE_CHECKABLE_POST_APPROVAL_CHANGE_AUDIT_ROW",
-      "blockerOwner": "Captain lane, reading diffs",
-      "onlyRogerCanDoThis": false,
-      "singleNextAction": "Expand this family's row in data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json to the machine-checkable shape the DC, IL, MS, NV, VA and WY rows already carry: reviewedAgainstApprovalRecordId, currentShippingArtifact fixture hashes, currentSourceIdentity, currentIndependentVerification and currentRasterPins. The row classifies diffs against the decision record's own two lists; it creates no approval.",
-      "why": "P10: no row in POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json"
-    },
-    {
-      "familyId": "ms-misd-1st-set",
-      "jurisdiction": "MS",
-      "factoryState": "COMPLETE_PACKET_PROVEN",
-      "implementationStrategy": "custom_pleading",
-      "routeCount": 1,
-      "inFirstRouteCohort": false,
-      "firstRouteCohortUnmetConditions": [
-        "verdictCurrentAndDeclaresItsBase",
-        "noSubstantiveLegalChangeSinceThatApproval"
-      ],
-      "routes": [
-        {
-          "obligationRouteKey": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
-          "obligationRouteKind": "track-pathway",
-          "exactRuntimeRouteId": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
-          "exactRuntimeRouteIdSource": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json:routeContractId",
-          "whyThereIsNoRuntimeRouteId": null,
-          "currentServiceDisposition": "paid_packet_intended",
-          "currentCommercialState": "LAUNCH_GRAPH_CLOSED",
-          "inLaunchGraph": true,
-          "launchGraphAvailability": "UNFINISHED",
-          "launchGraphUnmetOperationalGates": [
-            "paymentAllowed",
-            "ownerApprovedLegalDesign",
-            "technicalApprovalCurrent",
-            "deterministicArtifactProven"
-          ],
-          "launchGraphPaymentAllowed": false,
-          "launchGraphOperationallySellable": false,
-          "launchGraphFulfillmentAuthorityAdmitted": false,
-          "factoryV2Admitted": false,
-          "ratificationStatus": "ratified_deployable",
-          "ratificationDecisionAuthority": "Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets",
-          "packetSpecification": {
-            "path": "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
-            "sha256": "edecbc55093d2b82155d2fd9b0ca8116321c8490d10e8bac09d512c896894cdf",
-            "legalSectionsBound": true,
-            "legalSectionsBoundByOwnerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
-            "approvedArtifactCount": 2
-          },
-          "publicWitnessFixture": {
-            "present": true,
-            "expectedPaymentAllowed": false
-          },
-          "fulfillmentAuthorityRecord": {
-            "exists": false,
-            "recordId": null,
-            "schemaVersion": null,
-            "projectedState": null,
-            "projectedCommercialStatus": null,
-            "missingProof": []
-          }
-        }
-      ],
-      "chain": {
-        "provenPacket": {
-          "met": true,
-          "basis": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json:families[ms-misd-1st-set].state=COMPLETE_PACKET_PROVEN"
-        },
-        "exactRuntimeRoute": {
-          "met": true,
-          "routeIds": [
-            "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
-          ],
-          "obligationKeysWithoutARuntimeRoute": []
-        },
-        "routeScopedArtifact": {
-          "met": true,
-          "basis": "one route, one family: the family assembly is the route artifact",
-          "rasterState": "RASTER_PASS"
-        },
-        "currentLegalApproval": {
-          "met": false,
-          "instrument": "OWN-ADOPT-2026-09-02-BATCH-53",
-          "ownerQualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
-          "approvedShippingDigestsStillCurrent": true,
-          "postApprovalChangeAuditVerdict": "no_post_approval_change_audit_row",
-          "auditIsMachineCheckable": false
-        },
-        "runtimeWiring": {
-          "met": true,
-          "routesInLaunchGraph": [
-            "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
-          ],
-          "routesAbsentFromLaunchGraph": []
-        },
-        "fulfillmentAuthorityRecord": {
-          "met": false,
-          "routesWithARecord": [],
-          "unmetGeneratorPreconditionCount": 1
-        },
-        "hostedConsumerCanary": {
-          "met": false,
-          "basis": "no hosted consumer canary receipt exists in this repository for any route; the only hosted-canary return on record, data/rcap-grade-a/codex-cloud/cs2-hosted-canary-first4-4ceb/RETURN.json, records zero canaries executed"
-        },
-        "hostedSponsoredCanary": {
-          "met": false,
-          "basis": "no hosted sponsored canary receipt exists in this repository for any route"
-        },
-        "operationallySellable": {
-          "met": false,
-          "basis": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1: operationallySellable=false"
         }
       },
       "chainFirstUnmetLink": "currentLegalApproval",

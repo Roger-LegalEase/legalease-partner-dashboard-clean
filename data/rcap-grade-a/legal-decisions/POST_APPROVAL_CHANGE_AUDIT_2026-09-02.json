@@ -2,8 +2,8 @@
   "schemaVersion": "rcap-post-approval-change-audit/v1",
   "producedBy": "Captain, from a read-only audit lane's diff reading, with every decisive claim re-measured independently before it was recorded here",
   "producedOn": "2026-09-02",
-  "lastExpandedOn": "2026-09-04",
-  "lastExpansionReviewBase": "072f97bf1c92b1f6de0ccca565734da1cc285456",
+  "lastExpandedOn": "2026-09-05",
+  "lastExpansionReviewBase": "af1293347a363b68ce8e867c69444c032868d649",
   "question": "For each first-cohort candidate, does any change made after the decision owner's completed-output approval fall in the class that requires a NEW decision, or is it all in the class the existing approval already covers?",
   "controllingRecord": {
     "recordId": "auth-2026-08-19-owner-legal-approval-completed-output",
@@ -702,6 +702,120 @@
       },
       "decisiveEvidence": "The approved family tree and builder never changed; both exact PDF pins, the design track, packet-set, census row and compiled pathway remain identical. The canonical-to-boundary diff is limited to the separately approved synthetic identity and reflow. Later Wyoming commits addressed other families and source rows, not wy_fel_1502-set.",
       "whyTheFamilyApprovalDoesNotOpenTheRoute": "The family-level approval and this audit do not resolve the route's manual review or local filing gates and create no commercial authority.",
+      "mayEnterTheFirstCohort": true
+    },
+    {
+      "familyId": "ms-misd-1st-set",
+      "verdict": "COVERED_BY_EXISTING_APPROVAL",
+      "routesServed": 1,
+      "reviewedAtCaptainBase": "af1293347a363b68ce8e867c69444c032868d649",
+      "reviewedAgainstApprovalRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "whichListItIsOn": "byte-identical approved shipping artifacts; the one post-approval change in the family directory is a source-receipt identityRefresh whose bound anchors are byte-identical, which is bookkeeping of a shared record's container identity and not a change to anything the participant receives or to any legal statement",
+      "approvedScope": {
+        "decisionOwner": "Roger Roman",
+        "effectiveDate": "2026-09-02",
+        "ownerRecordEnteredByCommit": "8f8a68562d24e330da958edabca71da0a090e8bd",
+        "recordedApplicationBase": "47a32ceb52a3c3c7c9cd4ef445b2fce786ffe1c5",
+        "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+        "ownerPinnedFixtures": [
+          {
+            "fixture": "canonical",
+            "sha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897"
+          },
+          {
+            "fixture": "boundary",
+            "sha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5"
+          }
+        ]
+      },
+      "postApprovalPathAndByteCensus": {
+        "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading",
+        "familyTreeObjectAtRecordedApplicationBase": "0809d94e687064edb3a05cb404676e1625b08667",
+        "familyTreeObjectNow": "b2eae99d0569248cf341e845b1a7c03d6a0813a6",
+        "substantiveFamilyPathCommitsAfterApproval": [],
+        "bookkeepingFamilyPathCommitsAfterApproval": [
+          {
+            "commit": "5b74dd31b",
+            "date": "2026-09-05",
+            "path": "source-receipt.json",
+            "what": "identityRefresh of the whole-file pin on data/record-clearing/legal-design-packet-set-manifests.json (80d88d69 -> 6076f734) after unrelated work rewrote that shared record; anchorsCompared 1, anchorsIdentical 1, previous pin last seen at 148382ab2"
+          }
+        ],
+        "builder": {
+          "path": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+          "gitBlobAtApprovalAndNow": "9c9a1b1176017780a5bd34f6538d1a839f29e231",
+          "commitsAfterApproval": []
+        },
+        "unchangedExactObjects": {
+          "legalDesignTrackJsonStringifySha256": "1a11b1ad2a84e666b84c2c7a1e5ffe72e96546188bb3f0ef83bd8b2f8ac5c669",
+          "legalDesignTrackSource": "data/record-clearing/legal-design-intake/MS.memo.json track ms-misd-1st, identical at 47a32ceb5 and now",
+          "packetSetJsonStringifySha256": "18513a42ba2d891760ce4783735342005e8568bf4a4eecb28506cabd7d58249f",
+          "packetSetSource": "data/record-clearing/legal-design-packet-set-manifests.json packetSetId ms-misd-1st-set, identical at 47a32ceb5 and now"
+        },
+        "bookkeepingOnlyChanges": "Only source-receipt.json differs between the family tree at the application base and now, and the diff is the identityRefresh block above. The fixtures, field map, instructions and rendered-artifacts report are byte-identical to the approval."
+      },
+      "currentShippingArtifact": {
+        "sourceReceiptSha256": "0f2ce34a14dc50179e15b931055a54d9366928e027c4ad02480ab6a02a58e5ef",
+        "participantInstructionsSha256": "52dbdb6394744fd5f73ae598fe96bea468c41b4c1b051a0f3f337cbd5a45edb4",
+        "productionFieldMapSha256": "92a25a2b904e632821f3af531858426dac0166c1cf863c993a877fc0ef09e766",
+        "renderedArtifactsReportSha256": "968e575e3e3354395b4496e64de99e0deb4f190d6d49e9c234af0a4f6d20c067",
+        "fixtures": [
+          {
+            "fixture": "canonical",
+            "sha256ApprovedAndNow": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+            "pageCountNow": 8
+          },
+          {
+            "fixture": "boundary",
+            "sha256ApprovedAndNow": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+            "pageCountNow": 8
+          }
+        ]
+      },
+      "currentSourceIdentity": {
+        "allSourcesExact": true,
+        "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+        "identity": "No source binary and no statewide form; grounded on MS.memo.json track ms-misd-1st under Miss. Code Ann. § 99-19-71(1) and the packet-set manifest, with the source receipt's committed-record pins re-verified; the one refreshed pin binds an anchor that is byte-identical to the one the approval read."
+      },
+      "currentIndependentVerification": {
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifierId": "vf02",
+        "verifiedAtBase": null,
+        "verifiedAtBaseNote": "the vf02 row declares no base; it is the current, unsuperseded verdict in VERIFIER_RETURNS and its rasterState is RASTER_PASS on the receipt below",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+        "verifierRowJsonStringifySha256Now": "cd6924f659415d32f8b55ab5bc64175855123c9e0b6273d7c0cd9bfa1677bbec"
+      },
+      "currentRasterPins": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33547709781",
+        "jobId": "99990088798",
+        "canonicalSha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+        "boundarySha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+        "coversTheWholeFamily": true
+      },
+      "substantiveSurfaceRead": {
+        "routeIdentity": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1; runtime MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+        "components": [
+          "petition for expungement under § 99-19-71(1)",
+          "proposed order of expungement",
+          "certificate of service",
+          "filing instructions"
+        ],
+        "destination": "The court that entered the conviction -- justice, county, circuit or municipal -- named in the caption with its county or city; the participant confirms the court and the prosecuting authority with that court's records office.",
+        "feeAndWaiver": "No amount is printed: § 99-19-72's reach is a recorded open question, and the participant confirms the amount and any pauper's-affidavit route with the records office.",
+        "serviceNoticeAndHearing": "Service on the prosecuting authority that handled the case (district attorney, county or municipal prosecuting attorney, or city prosecutor), recorded on the certificate of service; the APPROVED AS TO FORM block is never pre-signed.",
+        "selfHelpStops": [
+          "first-offender status uncertain, or any prior conviction anywhere",
+          "any prior expunged case",
+          "the offence may be a traffic violation",
+          "the offence is a DUI",
+          "a municipal-court conviction alongside justice-court convictions",
+          "not a United States citizen"
+        ],
+        "participantLanguage": "The participant supplies and initials the two statements that are theirs alone (nontraffic, first offender) only if true, obtains the certified judgment, docket, zero-balance sheet and their own criminal history before filing, and leaves every signature, date, finding, entry line and fee amount blank."
+      },
+      "decisiveEvidence": "The approved family tree differs from the current one in exactly one file, source-receipt.json, and that diff is an identityRefresh block recording that the shared packet-set-manifests record's container identity moved while the one anchor this family binds is byte-identical. The builder blob, both fixture digests (equal to the owner's pinned digests), the field map, the instructions, the rendered-artifacts report, the MS.memo track object and the packet-set manifest object are identical at the application base and now. The current independent verdict is PASS_COMPLETE_INDEPENDENT and the raster receipt binds exactly the approved digests.",
+      "whyTheFamilyApprovalDoesNotOpenTheRoute": "The family-level approval and this audit do not resolve the route's hosted consumer and sponsored canaries, its runtime readiness gates, or the open § 99-19-72 fee question, and create no commercial authority.",
       "mayEnterTheFirstCohort": true
     }
   ],
