@@ -2911,22 +2911,49 @@ async function renderComposedPdf(fullText, title, layout = {}) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman);
   const fontSize = 11, lineHeight = layout.lineHeight ?? 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
+  const fits = (s) => font.widthOfTextAtSize(s, fontSize) <= maxWidth;
+  /*
+   * A token with no space in it still has break points of its own.
+   *
+   * Chopping an unbreakable run at whichever character first reaches the margin
+   * is how a route key ships as "...-expung" / "ement". Breaking at the token's
+   * own separators -- colon, underscore, slash, dot, hyphen -- ends every row on
+   * a boundary a reader can read across. A run carrying no separator at all is
+   * still hard-split, because dropping it is not an option, but that is the last
+   * resort rather than the first move.
+   *
+   * No token in either of this family's fixtures is wide enough to reach here --
+   * the widest is the DUI pathway route key at 432.8pt against a 468pt column --
+   * so this changes no delivered byte today. It is carried because the fault is
+   * real, is one long participant value away, and was measured in this shape on
+   * another family.
+   */
   const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
+    const chunks = [];
+    let current = "";
+    const flushOversized = () => {
+      while (!fits(current)) {
+        let cut = current.length - 1;
+        while (cut > 1 && !fits(current.slice(0, cut))) cut--;
+        chunks.push(current.slice(0, cut));
+        current = current.slice(cut);
+      }
+    };
+    for (const piece of token.split(/(?<=[:_/.-])/)) {
+      if (current && !fits(`${current}${piece}`)) { chunks.push(current); current = piece; }
+      else current += piece;
+      flushOversized();
     }
     if (current) chunks.push(current);
     return chunks;
   };
   const wrap = (line) => {
     if (!line) return [""];
-    const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
+    const words = line.split(/\s+/).flatMap((w) => fits(w) ? [w] : splitToken(w));
     const rows = []; let current = "";
     for (const w of words) {
       const candidate = current ? `${current} ${w}` : w;
-      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) current = candidate;
+      if (fits(candidate)) current = candidate;
       else { if (current) rows.push(current); current = w; }
     }
     if (current) rows.push(current);
@@ -2958,7 +2985,35 @@ async function renderComposedPdf(fullText, title, layout = {}) {
   const pageTop = height - margin;
   const linesPerPage = Math.floor((pageTop - margin) / lineHeight) + 1;
 
-  const layoutPlan = (collapsed) => {
+  /*
+   * Rule 1b: the closing execution unit is one block, blank lines and all.
+   *
+   * Rule 1 stopped the contact block being torn in half, but it stopped it by
+   * pushing the whole run of four contact lines onto the next page -- and that
+   * next page then held nothing else. Three of this family's five routes shipped
+   * a page carrying a printed name, a mailing address, a telephone number, an
+   * email address and the route footer, and nothing whatever to say what any of
+   * it belonged to: assembled canonical and boundary pages 4, 25 and 31, and the
+   * same page again inside the felony, DUI and marijuana per-route PDFs. The
+   * signature line those details execute -- "DATE ... SIGNATURE OF PETITIONER"
+   * -- and the sentence explaining that the petitioner signs personally were
+   * both on the page before.
+   *
+   * The signature line, the instruction that governs it, the petitioner's own
+   * contact details and the route footer that closes the document are one thing
+   * to a reader. They are now one block: the page break falls before the
+   * signature line or not at all, and the participant meets a signature page
+   * that says on its own face what is being signed.
+   *
+   * Rule 1 alone could not see this. A block there is a run of consecutive
+   * non-empty lines, and blank separators divide this unit into three of them.
+   */
+  const EXECUTION_LINE = /\bSIGNATURE OF PETITIONER\b/;
+  const executionStart = rows.findIndex((row) => EXECUTION_LINE.test(row));
+  let executionEnd = rows.length;
+  while (executionEnd > 0 && rows[executionEnd - 1] === "") executionEnd -= 1;
+
+  const layoutPlan = (collapsed, keepExecutionWhole) => {
     const placement = [];
     const drawnPerPage = [];
     let pageIndex = 0, cursor = pageTop;
@@ -2978,6 +3033,12 @@ async function renderComposedPdf(fullText, title, layout = {}) {
       while (end < rows.length && rows[end] !== "") end += 1;
       const blockLength = end - index;
       if (cursor < margin - 1e-9) nextPage();
+      // Rule 1b: the closing execution unit is measured whole, blanks included.
+      if (keepExecutionWhole && index === executionStart && executionStart >= 0) {
+        let span = 0;
+        for (let k = executionStart; k < executionEnd; k += 1) if (!collapsed.has(k)) span += 1;
+        if (span > slotsLeft() && span <= linesPerPage) nextPage();
+      }
       // Rule 1: a block that fits on a page of its own is never split.
       if (blockLength > slotsLeft() && blockLength <= linesPerPage) nextPage();
       for (; index < end; index += 1) {
@@ -2994,21 +3055,43 @@ async function renderComposedPdf(fullText, title, layout = {}) {
   // last slot of a page and pushing one following line onto a page of its own is
   // the other shape of the same defect, and it is what the per-component
   // 14-point leading was hiding on the pardoned-conviction route.
-  const collapsed = new Set();
-  let plan = layoutPlan(collapsed);
-  for (let pass = 0; pass < 8; pass += 1) {
-    const lonely = plan.drawnPerPage.findIndex((count, index) => index > 0 && count === 1);
-    if (lonely < 0) break;
-    const first = plan.placement.find((entry) => entry.page === lonely);
-    let before = first.row - 1;
-    let collapsedAny = false;
-    while (before >= 0 && rows[before] === "") {
-      if (!collapsed.has(before)) { collapsed.add(before); collapsedAny = true; }
-      before -= 1;
+  const settle = (keepExecutionWhole) => {
+    const collapsed = new Set();
+    let plan = layoutPlan(collapsed, keepExecutionWhole);
+    for (let pass = 0; pass < 8; pass += 1) {
+      const lonely = plan.drawnPerPage.findIndex((count, index) => index > 0 && count === 1);
+      if (lonely < 0) break;
+      const first = plan.placement.find((entry) => entry.page === lonely);
+      let before = first.row - 1;
+      let collapsedAny = false;
+      while (before >= 0 && rows[before] === "") {
+        if (!collapsed.has(before)) { collapsed.add(before); collapsedAny = true; }
+        before -= 1;
+      }
+      if (!collapsedAny) break;   // the line genuinely does not fit; that is not a stranded line
+      plan = layoutPlan(collapsed, keepExecutionWhole);
     }
-    if (!collapsedAny) break;   // the line genuinely does not fit; that is not a stranded line
-    plan = layoutPlan(collapsed);
-  }
+    return plan;
+  };
+
+  /*
+   * Rule 1b costs a page when it fires, so it fires only where the defect is.
+   *
+   * Laid out without it, most components close on the page they started closing
+   * on -- the blank collapsed by Rule 2 buys back the slot the unit needed, and
+   * the signature line, the contact details and the footer sit together already.
+   * Forcing the unit onto a fresh page there would add a page to a component
+   * that never had the defect: the pardoned-conviction boundary packet went from
+   * seven pages to eight for nothing.
+   *
+   * So the layout is settled once as before, and Rule 1b is applied only if that
+   * settled layout actually divides the unit across a page break.
+   */
+  const unitPages = (plan) => new Set(
+    plan.placement.filter((e) => e.row >= executionStart && e.row < executionEnd).map((e) => e.page),
+  ).size;
+  let plan = settle(false);
+  if (executionStart >= 0 && unitPages(plan) > 1) plan = settle(true);
 
   /*
    * Proof, not intention: every block that fits on a page landed on one page.
@@ -3018,6 +3101,25 @@ async function renderComposedPdf(fullText, title, layout = {}) {
    * is a block. A block taller than a whole page is exempt and still flows.
    */
   const pageOfRow = new Map(plan.placement.map((entry) => [entry.row, entry.page]));
+
+  /*
+   * Proof, not intention, for Rule 1b: every drawn row of the closing execution
+   * unit landed on one page. This is the assertion that no packet can ship a
+   * page of contact details severed from the signature line they execute.
+   */
+  if (executionStart >= 0) {
+    let span = 0;
+    for (let k = executionStart; k < executionEnd; k += 1) if (pageOfRow.has(k)) span += 1;
+    if (span <= linesPerPage) {
+      const first = pageOfRow.get(executionStart);
+      for (let k = executionStart; k < executionEnd; k += 1) {
+        if (!pageOfRow.has(k)) continue;
+        assert.equal(pageOfRow.get(k), first,
+          `${title}: the closing execution unit was split across a page break at ${JSON.stringify(rows[k].slice(0, 60))}`);
+      }
+    }
+  }
+
   for (let index = 0; index < rows.length;) {
     if (rows[index] === "") { index += 1; continue; }
     let end = index;

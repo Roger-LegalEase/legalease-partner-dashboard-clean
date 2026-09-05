@@ -510,22 +510,50 @@ async function renderComposedPdf(fullText, title) {
   const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
   const maxWidth = width - 2 * margin;
   const pageTop = height - margin;
+  const fits = (s) => font.widthOfTextAtSize(s, fontSize) <= maxWidth;
+  /*
+   * A token with no space in it still has break points of its own.
+   *
+   * This packet cites the Collateral Consequences Resource Center profile as a
+   * bare URL, and the URL is one whitespace-free token wider than the text
+   * column. The renderer used to chop it at whichever character first reached
+   * the margin, so page 1 of both fixtures printed
+   * "...-pardon-expungeme" and opened the next line "nt-sealing/")": a citation
+   * a participant cannot read off the page, cannot type, and cannot recognise
+   * as one address.
+   *
+   * It now breaks at the token's own separators -- colon, underscore, slash,
+   * dot, hyphen -- so each row ends on a boundary the reader already knows how
+   * to read across. A run carrying no separator at all is still hard-split,
+   * because dropping it is not an option, but that is now the last resort
+   * rather than the first move.
+   */
   const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
+    const chunks = [];
+    let current = "";
+    const flushOversized = () => {
+      while (!fits(current)) {
+        let cut = current.length - 1;
+        while (cut > 1 && !fits(current.slice(0, cut))) cut--;
+        chunks.push(current.slice(0, cut));
+        current = current.slice(cut);
+      }
+    };
+    for (const piece of token.split(/(?<=[:_/.-])/)) {
+      if (current && !fits(`${current}${piece}`)) { chunks.push(current); current = piece; }
+      else current += piece;
+      flushOversized();
     }
     if (current) chunks.push(current);
     return chunks;
   };
   const wrap = (line) => {
     if (!line) return [""];
-    const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
+    const words = line.split(/\s+/).flatMap((w) => fits(w) ? [w] : splitToken(w));
     const rows = []; let current = "";
     for (const w of words) {
       const candidate = current ? `${current} ${w}` : w;
-      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) current = candidate;
+      if (fits(candidate)) current = candidate;
       else { if (current) rows.push(current); current = w; }
     }
     if (current) rows.push(current);
