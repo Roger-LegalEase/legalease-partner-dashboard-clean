@@ -57,7 +57,26 @@ function locate(ledger, lane, subjectId) {
   const candidates = (ledger.claims ?? []).filter((c) => c.subjectType === expectedType && c.subjectId === subjectId && c.laneKind === kind);
   if (candidates.length === 0) die(6, `NOT_GRANTED: no ${kind} lane holds ${subjectId}`);
   if (candidates.length > 1) die(7, `AMBIGUOUS_GRANT: ${subjectId}`);
-  if (candidates[0].lane !== lane) die(8, `GRANTED_ELSEWHERE: ${subjectId} is granted to ${candidates[0].lane}, not ${lane}`);
+  /*
+   * A lane mismatch is refused either way -- asserting a second grant on a
+   * subject another lane already records would make it AMBIGUOUS_GRANT -- but
+   * the two cases are not the same fact and the message used to conflate them.
+   *
+   * A RELEASED grant on another lane means nobody is executing the subject. It
+   * is available, and Captain can --transfer it. Reporting that as
+   * "granted to FIX04" told three lanes in one shift that their families were
+   * being worked by someone else; the colliding grants were released, some of
+   * them minutes earlier by the generated dispatch, and each lane correctly
+   * refused to move a grant onto itself and stopped. That is work not done for
+   * a reason that was not true.
+   */
+  if (candidates[0].lane !== lane) {
+    const held = candidates[0];
+    if (held.released) {
+      die(8, `GRANTED_ELSEWHERE_BUT_RELEASED: ${subjectId} is recorded on ${held.lane}, not ${lane}, and ${held.lane} RELEASED it at ${held.releasedAt ?? "an unrecorded time"}. No lane is executing it. Captain can hand it over with: --transfer ${held.lane} ${lane} ${subjectId} --reason "...". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.`);
+    }
+    die(8, `GRANTED_ELSEWHERE: ${subjectId} is granted to ${held.lane}, not ${lane}, and that grant is LIVE -- another lane is working it now.`);
+  }
   return candidates[0];
 }
 function assertClaim(ledgerPath, lane, subjectId) {
