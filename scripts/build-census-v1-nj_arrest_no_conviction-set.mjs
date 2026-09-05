@@ -2373,14 +2373,35 @@ async function finalizeEastOfficialForm(options) {
       }
       neutralizedChoices.push({ field: field.getName(), type: fieldType(field), sourceValuesRemoved: before });
     }
+    // updateFieldAppearances defaults to TRUE in pdf-lib's save(), and this save
+    // runs immediately after every button widget was forced to /AS /Off. On a
+    // form that ships no /Off stream, pdf-lib answers that missing state with
+    // its default provider -- a stroked square the size of the widget rectangle
+    // -- and writes it into /AP /N /Off HERE, in preparedSourceBytes, before the
+    // shared finalizer is ever entered. The finalizer's own remedy then finds a
+    // state already drawn and correctly installs nothing, so the square reaches
+    // the flattened page as ink the official form does not print. Saving with
+    // appearance generation off leaves each widget's /Off exactly as the pinned
+    // form ships it; the empty appearance is supplied one step later, in the
+    // only place that knows which fields this run actually wrote.
     const preparedSourceBytes = neutralizedChoices.length
-      ? Buffer.from(await sourceDoc.save({ useObjectStreams: false, updateMetadata: false }))
+      ? Buffer.from(await sourceDoc.save({
+        useObjectStreams: false, updateMetadata: false, updateFieldAppearances: false,
+      }))
       : options.sourceBytes;
     const { exactFieldMap = [], ...officialOptions } = options;
     const result = await finalizeOfficialForm({
       ...officialOptions,
       sourceBytes: preparedSourceBytes,
       expectedSha256: sha256(preparedSourceBytes),
+      // FIX50's opt-in, for every document this host finalizes. With the save
+      // above no longer synthesizing the missing /Off state, this is what keeps
+      // sanitizeAndFlatten's updateFieldAppearances from synthesizing it
+      // instead: an EMPTY appearance is installed for the current state of an
+      // unwritten check box or radio widget that has none, so flatten stamps
+      // nothing there. A widget that ships its own /Off appearance, and a box
+      // this run ticked, are both untouched.
+      suppressSynthesizedAppearances: true,
     });
     result.report.boundOriginalSourceSha256 = options.expectedSha256 ?? sha256(options.sourceBytes);
     result.report.choiceNeutralization = {
