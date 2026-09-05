@@ -6893,10 +6893,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX41",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T10:59:57.851Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7091,10 +7091,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX42",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain release of a stale grant: FIX01 was integrated at a8931f0e0 and its worker is gone; no lane writes under this grant. The family still owes repair (VF03 FAIL; FIX35 measured two route-key-only pages and the trailer under the clerk certification) and goes to FIX42 on the repaired Rhode Island host."
     },
     {
       "subjectType": "packet-family",
@@ -13096,9 +13097,24 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "itemId": null,
+      "familyId": "ri_decriminalized-set",
+      "familyIds": [
+        "ri_decriminalized-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX42",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
     }
   ],
-  "claimsDigest": "46ef1561cb392391838f7fc9dc14690eeb28d1d25c22e326f3804e77879cd4d6",
+  "claimsDigest": "0045ba22c77294b9e77558261b44a89e8190f7e5b714bff5776d044599650f2e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27810,6 +27826,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T11:59:45.014Z",
       "reason": "Captain release: this grant was re-opened by the dispatch at 2026-09-05T11:51:56Z, two minutes after FIX35 released the family with CLIPPING_AND_OVERLAP repaired at the shared Rhode Island host and before that repair was committed (a8a42767c), so the generator still read the family as owing repair. No lane asserted it and no byte was written under it. The repair on record is FIX35's (05151bc8c, integrated at a8a42767c); the family owes a fresh raster and an independent read, not a second repair."
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T12:02:37.210Z",
+      "reason": "Captain release of a stale grant: FIX01 was integrated at a8931f0e0 and its worker is gone; no lane writes under this grant. The family still owes repair (VF03 FAIL; FIX35 measured two route-key-only pages and the trailer under the clerk certification) and goes to FIX42 on the repaired Rhode Island host."
     }
   ],
   "reissues": [
@@ -38840,6 +38865,28 @@
       "previouslyReleasedAt": "2026-09-05T11:30:04.630Z",
       "transferredAt": "2026-09-05T11:30:04.750Z",
       "reason": "VF03 at 458cab82f: COMPONENT_SET (two required process_guidance components render nowhere), PROTECTED_FIELDS (sig.8 placeholder at 0.75 g; three 0.00 at 1 g), CLIPPING_AND_OVERLAP, SELF_HELP_STOP (0 of 10). Dispatch after FIX31 lands on the sibling so the New Hampshire host has one writer at a time; SERVICE BLOCKED_LEGAL_INPUT recorded."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX41",
+      "previouslyReleasedAt": "2026-09-05T10:59:57.851Z",
+      "transferredAt": "2026-09-05T12:02:17.164Z",
+      "reason": "VF01 at 9efb77c08 (1fe84a29f) fails CLIPPING_AND_OVERLAP on the run-33962404350 pins: three route keys chopped mid-word on delivered page 16 by the private character-accumulating splitToken at build-census-v1-rcap-tx-custom-pleading.mjs 1099-1106. FIX06 released its earlier repair; FIX41 takes the shared-splitter repair the same way FIX21 and FIX35 made it."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX42",
+      "previouslyReleasedAt": "2026-09-05T12:02:37.210Z",
+      "transferredAt": "2026-09-05T12:02:37.334Z",
+      "reason": "FIX35 (05151bc8c) measured that the repaired shared Rhode Island host moves this family: two route-key-only pages (8 and 13 of 14) and the trailer under the clerk certification on page 6 are what the pull-down and trailer relocation fix. FIX42 rebuilds it on the repaired host together with ri_decriminalized-set."
     }
   ],
   "withdrawals": [
@@ -42370,6 +42417,19 @@
       "lane": "VF01",
       "withdrawnAt": "2026-09-05T11:55:41Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    }
+  ],
+  "grants": [
+    {
+      "lane": "FIX42",
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "grantedAt": "2026-09-05T12:02:17.390Z",
+      "grantedBy": "Captain",
+      "reason": "Counted COMPLETE_PACKET_PROVEN, but FIX35 (05151bc8c) measured that the repaired shared Rhode Island host moves it: the proposed-order trailer prints under the clerk certification line on page 6 of both delivered fixtures (SCAN02 class c on this family). Its committed bytes are what the pre-repair host produced. FIX42 rebuilds it on the repaired host; it then owes a fresh raster and an independent read, and its proven status is not defended meanwhile.",
+      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
     }
   ]
 }
