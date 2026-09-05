@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "3f1c7b261f8df2fada2924a7d2b5eeb2b19305b4",
+  "minimumCaptainSha": "952bf0e477a2d1544778148dd4a71582d6871c4c",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,19 +66,19 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 14,
+    "activeFamiliesExcluded": 13,
     "guidanceOnly": 0,
-    "remaining": 332,
+    "remaining": 333,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 15,
     "verifyPending": 2,
-    "repairRequired": 39,
+    "repairRequired": 36,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 142,
-    "FAIL_REPAIR_REQUIRED": 53,
+    "FAIL_REPAIR_REQUIRED": 49,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -87,8 +87,8 @@
     "LEGAL_BLOCKED": 15,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "WRONG_DELIVERY_TYPE": 1,
-    "BUILT_RASTER_PENDING": 9
+    "BUILT_RASTER_PENDING": 13,
+    "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 89,
@@ -114,14 +114,13 @@
       "nc_146_dismissal_petition-set",
       "ne-setaside-custodial-set",
       "nh_petition_nonconviction_pre2019-set",
-      "nj_arrest_no_conviction-set",
-      "nj_disorderly_persons-set",
-      "nj_indictable_conviction-set",
-      "nj_ordinance-set",
       "nm_conviction-set",
       "nm_identity_theft-set",
       "nm_release_without_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set",
+      "ut_pet_dismissed_without_prejudice-set",
       "ut_pet_limitations-set",
+      "ut_pet_no_charges-set",
       "va_exp_nonconviction-set"
     ],
     "staleRosterFamilies": [
@@ -30934,9 +30933,7 @@
         "verifiedAtBase": "d7e293f81",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -30995,9 +30992,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX76",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31022,8 +31019,7 @@
         "rcap-oh-custom-pleading-clean-tracks",
         "ri_nonconviction_sealing-set"
       ],
-      "exclusiveScript": false,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": false
     },
     {
       "familyId": "nj_clean_slate-set",
@@ -31207,9 +31203,7 @@
         "verifiedAtBase": "0d4d1d5a1",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31262,9 +31256,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX76",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -31275,8 +31269,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nj_indictable_conviction-set",
@@ -31352,9 +31345,7 @@
         "verifiedAtBase": "0d4d1d5a1",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31413,9 +31404,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX76",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -31426,8 +31417,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nj_ordinance-set",
@@ -31502,9 +31492,7 @@
         "verifiedAtBase": "0d4d1d5a1",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
       },
-      "rasterEnrolmentRefusal": [
-        "the current failed obligations have not been repaired"
-      ],
+      "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -31563,9 +31551,9 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX76",
-      "activeOwnerLane": "rapid-repair",
+      "state": "BUILT_RASTER_PENDING",
+      "activeOwner": null,
+      "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
@@ -31576,8 +31564,7 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true,
-      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
+      "exclusiveScript": true
     },
     {
       "familyId": "nm_conviction-set",
@@ -40298,8 +40285,8 @@
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX83",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -40310,7 +40297,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ut_pet_dismissed_without_prejudice-set",
@@ -40557,8 +40545,8 @@
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX83",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -40569,7 +40557,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ut_pet_limitations-set",
@@ -40865,7 +40854,7 @@
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": "FIX38",
+      "activeOwner": "FIX83",
       "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",
       "buildScriptExists": true,
@@ -41150,8 +41139,8 @@
       "continuationResult": "PASS_COMPLETE",
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX83",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ut_pet_acquittal-set.mjs",
@@ -41162,7 +41151,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ut_pet_remove_link-set",
