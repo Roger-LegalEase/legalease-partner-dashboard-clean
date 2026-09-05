@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "e58357a4433ac466f16288e4c43890ea9b1c9b80",
+  "generatedAtCommit": "6b2dd8fe4fca41cee344b4187b43b939fbcdbb47",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2718,6 +2718,21 @@
         "de_mandatory_expungement-set"
       ],
       "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "de_mandatory_expungement-set",
+      "familyId": "de_mandatory_expungement-set",
+      "itemId": null,
+      "familyIds": [
+        "de_mandatory_expungement-set"
+      ],
+      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF21",
       "laneKind": "packet-build",
@@ -4911,21 +4926,6 @@
     },
     {
       "subjectType": "packet-family",
-      "subjectId": "mi_setaside_marihuana-set",
-      "familyId": "mi_setaside_marihuana-set",
-      "itemId": null,
-      "familyIds": [
-        "mi_setaside_marihuana-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX51",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
       "subjectId": "mi_setaside_trafficking-set",
       "familyId": "mi_setaside_trafficking-set",
       "itemId": null,
@@ -5900,7 +5900,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T10:08:55.685Z"
@@ -6189,7 +6189,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6324,7 +6324,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6489,7 +6489,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6730,7 +6730,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:48:45.224Z"
@@ -6987,7 +6987,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7429,9 +7429,7 @@
       "operation": "independent-verification",
       "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:28:12.418Z",
-      "releaseReason": "VF02 FAIL_REPAIR_REQUIRED at ff3ee6858: CLIPPING_AND_OVERLAP -- pages 9 and 24 print Route: obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure while the census and the family's product-wiring carry obligation:track-only:TX:tx_nd_dwi_deferred; the four Texas siblings agree with their census key. Statement of Inability clean. Verdict extracted; to repair."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -7898,7 +7896,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T16:21:43.145Z"
@@ -13087,7 +13085,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "31bbb4e35a54bbb82e5f91c63d46f4d4ff9a4de97b7615e28c2b11f85b2dd4fc",
+  "claimsDigest": "e690ab3e47972663975f418274a2b09415bc836e07d83189ad40bfc1c2691de4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -35379,6 +35377,16 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T16:49:36Z",
       "reason": "the current dispatch names FIX03 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_deferred-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T17:04:23Z",
+      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
@@ -44127,6 +44135,14 @@
       "operation": "rapid-repair",
       "lane": "FIX50",
       "withdrawnAt": "2026-09-05T16:57:31Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "mi_setaside_marihuana-set",
+      "operation": "rapid-repair",
+      "lane": "FIX51",
+      "withdrawnAt": "2026-09-05T17:04:23Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

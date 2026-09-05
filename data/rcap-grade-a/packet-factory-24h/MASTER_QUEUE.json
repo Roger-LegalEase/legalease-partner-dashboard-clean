@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "e58357a4433ac466f16288e4c43890ea9b1c9b80",
+  "minimumCaptainSha": "6b2dd8fe4fca41cee344b4187b43b939fbcdbb47",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 2,
+    "activeFamiliesExcluded": 3,
     "guidanceOnly": 0,
-    "remaining": 344,
+    "remaining": 343,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 12,
-    "verifyPending": 6,
-    "repairRequired": 46,
+    "verifyPending": 8,
+    "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
@@ -82,12 +82,11 @@
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
-    "VERIFY_PENDING": 6,
+    "VERIFY_PENDING": 8,
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 12,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "BUILT_RASTER_PENDING": 2,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -110,6 +109,7 @@
     ],
     "families": [
       "il-seal-edu-set",
+      "mi_setaside_trafficking-set",
       "ut_pet_limitations-set"
     ],
     "staleRosterFamilies": [
@@ -12069,7 +12069,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-de_mandatory_expungement-set.mjs",
@@ -24791,8 +24791,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX51",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -24803,7 +24803,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "mn_petition_15218-set",
@@ -38673,7 +38674,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
