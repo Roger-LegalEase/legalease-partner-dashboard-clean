@@ -12761,9 +12761,25 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "itemId": null,
+      "familyId": "tx_nd_dwi_probation-set",
+      "familyIds": [
+        "tx_nd_dwi_probation-set"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX22",
+      "laneKind": "repair",
+      "released": true,
+      "releasedAt": "2026-09-05T06:34:27.117Z",
+      "releaseReason": "Repair complete and committed at f2c9f4ed1: the two source-carried zeros on the sworn Statement of Inability are classified render_participant_value_only_when_written and no longer reach either fixture. Fixtures moved (canonical cdc69309ffb7.., boundary 19467b262ffa..), no standing receipt is claimed, acceptanceReceipt is null and a fresh central raster is owed. Independent verification of the repaired bytes is still required and this lane did not perform it."
     }
   ],
-  "claimsDigest": "5f696fd7d6e1dd7fbe81fb4bdfe290aaff2e76cae7dfea6dca1a44c9478cf323",
+  "claimsDigest": "c9b8c07854699503aad192b92687bfc0f0b1052aff398e3fcbd991d1ef04b3e6",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -26881,6 +26897,15 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T06:02:12.850Z",
       "reason": "FIX19 COMPLETED. Same single root as tx_nd_dwi_deferred-set. All three obligations (KNOWN_PREFILLS, PROTECTED_FIELDS, REQUIRED_BEFORE_FILING) re-measured first-hand on the delivered bytes with a negative control and found satisfied; the family needed no change and deliberately received none. Its remedy is the finalizer's clearSourceCarriedTextValues, which deletes /V and every widget /AP before flatten, so a field-appearance-semantics.json entry would classify an appearance that no longer exists; the registry's silence here is correct, not an omission. Full rebuild reproduces both fixtures exactly and diff -r of the family directory reports no differences. Fixtures did NOT move (canonical 4cbe29ec.., boundary 9b905898..); standing raster receipt survives. Committed e6dcb188b."
+    },
+    {
+      "lane": "FIX22",
+      "subjectType": "packet-family",
+      "subjectId": "tx_nd_dwi_probation-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T06:34:27.117Z",
+      "reason": "Repair complete and committed at f2c9f4ed1: the two source-carried zeros on the sworn Statement of Inability are classified render_participant_value_only_when_written and no longer reach either fixture. Fixtures moved (canonical cdc69309ffb7.., boundary 19467b262ffa..), no standing receipt is claimed, acceptanceReceipt is null and a fresh central raster is owed. Independent verification of the repaired bytes is still required and this lane did not perform it."
     }
   ],
   "reissues": [
