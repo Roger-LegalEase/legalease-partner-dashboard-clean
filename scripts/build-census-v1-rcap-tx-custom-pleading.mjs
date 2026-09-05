@@ -110,6 +110,7 @@ import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-w
 import { loadAppearanceSemantics, dispositionsForFamily }
   from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
 import { makeCorpusEntryResolver } from "./lib/corpus-index-paths.mjs";
 import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS }
   from "./rcap-packet-completeness/completeness-contract.mjs";
@@ -1096,15 +1097,20 @@ async function renderComposedPdf(fullText, title) {
     if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
     y -= lineHeight;
   };
-  const splitToken = (token) => {
-    const chunks = []; let current = "";
-    for (const ch of token) {
-      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
-      else current += ch;
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  };
+  /*
+   * The one shared separator-aware splitter, not a private copy.
+   *
+   * A route key too long for the 468pt column is broken at its OWN separators
+   * -- after a colon, underscore, slash, dot or hyphen -- so a reader carries
+   * across the break with the key still legible. The character-accumulating
+   * splitter this replaces cut at whichever glyph first reached the margin,
+   * which is how page 16 came to print "...-after-the-limi" / "tations-period".
+   *
+   * hardSplits is asserted zero after every composed document below: a future
+   * route key with no separator to break on fails the build instead of
+   * shipping a chopped one.
+   */
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
   const wrap = (line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
@@ -1118,6 +1124,8 @@ async function renderComposedPdf(fullText, title) {
     return rows;
   };
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  assert.equal(splitToken.hardSplits, 0,
+    `${title}: a token was chopped mid-word because it carries no separator to break on`);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
 
