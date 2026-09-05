@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX47-TX-ND-DOB",
+  "assignmentId": "FIX47",
+  "assignedBase": "0607f388c",
+  "branch": "fix47-tx-nd-dob",
+  "laneKind": "repair",
+  "scope": "KNOWN_PREFILLS on tx_nd_conviction_no_supervision-set only. NO build artifact, field map, builder, shared helper, queue, specification or legal record was modified by this lane. The only file this lane writes is this return and the claim ledger.",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX47 tx_nd_conviction_no_supervision-set -> CLAIM_OK (repair, grant set f1b0ecddbbc5dd47), exit 0"
+  ],
+  "preflight": {
+    "worktree": "/home/user/fix47-worktree, branch fix47-tx-nd-dob from 0607f388c on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules",
+    "masterLibrarySourceDir": "exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 as scripts/verify-packet-build-environment.mjs resolves it",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0,
+    "throwawayCheckout": "none created; no rebuild was attempted because no source edit was made",
+    "rasters": "none produced; no appearance-level diff was owed because no bytes moved"
+  },
+  "rows": [
+    {
+      "itemId": "tx_nd_conviction_no_supervision-set",
+      "familyId": "tx_nd_conviction_no_supervision-set",
+      "jurisdiction": "TX",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill",
+      "status": "BLOCKED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "buildHost": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs",
+      "whyNotCompleted": "The assignment's mandated repair -- write the held date of birth into the three Month / Day / Year cells on source page 11 of the Statement of Inability -- cannot be delivered under the assignment's own constraints, for a reason established from the pinned binary rather than argued from the record. It is not declined; it is not available to a single-family lane using the shared finalizer as it stands.",
+      "verdictRepaired": null,
+      "obligationsRepaired": [],
+      "verdictPremiseNotFound": {
+        "assignmentStated": "VF04's FAIL row for tx_nd_conviction_no_supervision-set in data/rcap-grade-a/packet-factory-24h/vf04/rows.json at a0fbceb30, verdict FAIL_REPAIR_REQUIRED, failedObligationNames [KNOWN_PREFILLS]",
+        "whatIsActuallyThere": "That file at a0fbceb30 carries exactly one row for this family and its verdict is BLOCKED_BEFORE_CLAIM, not FAIL_REPAIR_REQUIRED. obligationsScored is 0, failedObligationNames is empty, artifactsOpened is 0, readInThisLane is false, and KNOWN_PREFILLS is listed under unmeasuredObligations. VF04 asserted the claim, got exit 8 GRANTED_ELSEWHERE (granted to VF10), and recorded a full stop: 'No file in its directory was opened.' There is therefore no VF04 verdict on this family, no VF04 finding about page 20, and no VF04 repair note. The quoted repair note does not appear anywhere in that row.",
+        "theOnlyVerdictThatExists": "VF10, at base d210669f0e10c2b7e9ed97fafba7971e33e99557, scored all 15 obligations. It scored KNOWN_PREFILLS PASS ('Fifteen writes, and the packet's one-sentence account of them is exactly right against its own bytes -- the only one of the six that is') and failed exactly one obligation, SELF_HELP_STOP, for the absent 'the prosecutor opposes the petition or requests a hearing' stop condition. Nothing in this lane's brief addresses SELF_HELP_STOP and this lane did not touch it.",
+        "consequence": "verdictRepaired is null rather than restated. Writing the assigned verdictRepaired block would put a FAIL_REPAIR_REQUIRED verdict and a [KNOWN_PREFILLS] failure into the factory record under VF04's name, at a base where VF04 recorded the opposite. That is a fabricated citation and this lane will not write one."
+      },
+      "theUnderlyingDefectIsRealAndIsConfirmed": {
+        "confirmedFirstHand": true,
+        "finding": "Independently of the missing verdict, the condition the assignment describes does exist on the delivered bytes. reports/actual-writes.json, read back from the flattened widget appearances of the assembled packet, shows participant.date_of_birth written ONCE, whole, at packet page 11 -- field 'My date of birth / Mi fecha de nacimiento es', drawnText '1994-04-17' canonical and '1972-12-31' boundary. Packet page 20 (Statement source page 11) prints the caption 'My date of birth is / Mi fecha de nacimiento es' above three cells, and all three are blank. The field map gives all three the label 'Date part of the sworn declaration (<field name>)' with reason 'a date written before the Statement is actually sworn would be false' and refusal class signature_or_date_participant_completion. That reason is true of the signing date and is not true of a date of birth, so the label and the refusal reason are both wrong for these three cells. This part of the assignment's description is accurate.",
+        "sourceOfTheMislabel": "scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs, SOI_RULES rule id 'declaration_date', whose regex /^(Day \\/ Día|Month \\/ Mes|Year \\/ Año|Today|Year)$/ sweeps the three date-of-birth cells into the same rule as the signing-date field 'Today' and the notary's 'Year'."
+      },
+      "theBlocker": {
+        "name": "THE MONTH CELL AND THE NOTARY'S MONTH BLANK ARE ONE ACROFORM FIELD WITH TWO WIDGETS",
+        "measuredFrom": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf, sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d, read with pdf-lib in this container.",
+        "widgetGeometry": {
+          "Month / Mes": "ONE field, TWO widgets. widget 0: source page 11, rect x 79.7302 y 495.561 w 49.0948 h 19.898 -- the date-of-birth MONTH cell. widget 1: source page 12, rect x 135.241 y 265.173 w 180.833 h 19.898 -- the NOTARY's blank after 'Juramentado y suscrito ante mí el día de hoy del mes de'.",
+          "Day / Día": "ONE field, ONE widget, source page 11, rect x 134.541 y 495.51 w 49.094 h 19.898.",
+          "Year / Año": "ONE field, ONE widget, source page 11, rect x 193.402 y 495.612 w 50.146 h 19.898.",
+          "Today": "ONE field, ONE widget, source page 11, rect x 97.7522 y 302.312 w 149.9998 h 22 -- the signing date under 'Date (month, day, year)'. Stays refused.",
+          "Year (notary)": "ONE field, ONE widget, source page 12, rect x 343.359 y 264.575 w 29.474 h 20.598 -- the '20____' in the notary's jurat. Stays refused."
+        },
+        "proofByExperiment": "In this container: load the pinned Statement binary with pdf-lib, setText('04') on 'Month / Mes', updateFieldAppearances, flatten, save. pdftotext -f 12 -l 12 -layout on the result prints '04' immediately under 'Juramentado y suscrito ante mí el día de hoy del mes de' and above '____________________________, 20____'. Writing the participant's birth month therefore stamps that month into the NOTARY's section of source page 12 (packet page 21). The probe file was written to /tmp and deleted.",
+        "whyTheFinalizerCannotAvoidIt": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs holds one value per FIELD, not per widget, and says so in its own comment at the fitting step: 'a field holds one value however many places it is printed.' Its three widget-aware options are all about SIZE, not value -- fitTextPerWidget measures each widget's rectangle, applyPerWidgetDefaultAppearanceSizes writes each widget's own /DA size, alignWidgetDefaultAppearanceSizes writes one size to all of them. There is no per-widget value, no widget-index selector on explicitMappings, and no pre-fill hook a caller could use to suppress one widget's appearance. printedDateOrderByField reorders a whole ISO date for printing; it does not split one into parts.",
+        "consequenceForTheAssignment": "The assignment requires, in the same sentence, that the three cells be written and that 'the notary's Year on source page 12 must stay refused; nothing else on either page moves'. With the shared finalizer as it stands those two requirements are in direct contradiction for the Month cell. Writing it moves the notary's month blank on page 12 and is a protected write into a jurat -- the worst class of defect this family's own PROTECTED_FIELDS reading is built to prevent."
+      },
+      "theSecondFactualErrorInTheAssignment": {
+        "assignmentStated": "'written from the held date of birth exactly as the same date is already split on source page 2 (the build already splits it there, so decline nothing)'",
+        "whatIsActuallyThere": "The build does NOT split the date on source page 2. 'My date of birth / Mi fecha de nacimiento es' on source page 2 is a single text field, one widget, rect x 114.57 y 569.24 w 419.081 h 20.949, and the build writes the whole ISO string into it -- '1994-04-17' canonical, '1972-12-31' boundary, as reports/actual-writes.json records at packet page 11. There is no existing split to copy, so the instruction 'decline nothing' rests on a split that does not exist. A split would have to be introduced here for the first time, as three new date-part facts, which is a larger change than the assignment describes and does not by itself clear the two-widget blocker."
+      },
+      "whyTheStatedFallbackIsAlsoUnavailable": "The repair note quoted in the assignment offers, as its second branch, declaring the three cells REQUIRED_BEFORE_FILING with a named reason and disclosing them in participant-instructions.md. scripts/rcap-packet-completeness/completeness-contract.mjs forecloses that branch on this family. REQUIRED_BEFORE_FILING_CONDITIONS condition 3, GENUINELY UNAVAILABLE, reads: 'the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.' The platform holds this participant's date of birth and the packet writes it on packet page 11. classifyBlank enforces the same thing at line 452: a row declaring requiredBeforeFiling with factAvailable true returns KNOWN_FACT_NOT_WRITTEN, which carries knownRequiredFieldsMissing. The gate is reachable only by declaring factAvailable false, which on this packet would be a false declaration made to clear a counter. This lane will not make one.",
+      "whatARealRepairWouldRequire": [
+        "A per-widget value facility in scripts/rcap-official-forms/rcap-official-form-finalize.mjs -- an opt-in, default-off option in the established pattern of fitTextPerWidget, alignWidgetFontSizeToFit and detachNestedControlFields -- that writes a field's value into named widget indices only and leaves the other widgets' appearance streams empty through flatten, with the write recorded per widget so reports/actual-writes.json can still read it back from the flattened appearances.",
+        "Three date-part facts in the builder's own fact map, or a date-part selector on explicitMappings, so the held ISO date of birth can be addressed as month, day and year without binding a whole date to a bare date-component field name -- which scripts/rcap-official-forms/rcap-field-semantics.mjs currently refuses, and which scripts/rcap-official-forms/verify-name-date-component-semantics.mjs holds in place across every committed census.",
+        "Splitting the 'declaration_date' rule in SOI_RULES so the three date-of-birth cells carry the caption the form prints ('My date of birth is / Mi fecha de nacimiento es') while 'Today' and the notary's 'Year' keep the signing-date refusal they correctly have.",
+        "A corpus-wide byte-identity control: the finalizer is read by roughly 250 families, so every other family must be rebuilt against a throwaway control and shown byte-identical before any of it is committed.",
+        "A re-reading of the field map's own blindness to the second widget: the map records ONE row for 'Month / Mes' at page 11 taking widgets[0] only, so the notary's month blank on source page 12 is enumerated nowhere in production-field-map.json. Whoever takes the shared-finalizer change should score that separately."
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster is owed by this lane because no byte moved. The existing RASTER_PASS receipt continues to bind the unchanged digests. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT opened or edited, and product-wiring.json was not touched, so its acceptanceReceipt is whatever the base left it.",
+        "INDEPENDENT VERIFICATION. This lane verifies nothing and writes no verdict. The counters below were re-run only to establish that the family is where the base left it.",
+        "SELF_HELP_STOP. The one obligation VF10 actually failed on this family is untouched by this lane and remains open."
+      ],
+      "whatChanged": "NOTHING IN THE BUILD. No field name changed disposition, because the only disposition change available without the shared-finalizer work would have been either a write that stamps ink into a notary's jurat or a false factAvailable declaration. The three fields keep the state the base left them in, recorded here so the next lane does not have to re-derive it: 'Month / Mes' -- label 'Date part of the sworn declaration (Month / Mes)', PROTECTED_FIELD, class signature_or_date_participant_completion, unchanged; 'Day / Día' -- label 'Date part of the sworn declaration (Day / Día)', PROTECTED_FIELD, class signature_or_date_participant_completion, unchanged; 'Year / Año' -- label 'Date part of the sworn declaration (Year / Año)', PROTECTED_FIELD, class signature_or_date_participant_completion, unchanged. All three labels remain wrong for what the form prints above them, and this lane is recording that rather than papering over it.",
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "ad11ac354908509d7a39f784d68287729cfb032ac2a8ee4d91fde3becd6095f9",
+          "oldByteLength": 664450,
+          "newSha256": "ad11ac354908509d7a39f784d68287729cfb032ac2a8ee4d91fde3becd6095f9",
+          "newByteLength": 664450,
+          "pagesBefore": 24,
+          "pagesAfter": 24
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-conviction-no-supervision-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "47e64f8a04e09e5afdc83e558614de4411d9ca700c2087d482a357413b0afdc7",
+          "oldByteLength": 664825,
+          "newSha256": "47e64f8a04e09e5afdc83e558614de4411d9ca700c2087d482a357413b0afdc7",
+          "newByteLength": 664825,
+          "pagesBefore": 24,
+          "pagesAfter": 24
+        },
+        "digestsMovedInThisLane": false,
+        "note": "Old and new are the same digests because this lane changed no byte. They are recorded rather than omitted so the next lane has the pinned starting point."
+      },
+      "deterministicRebuild": "Not run. No source edit was made, so there was nothing whose determinism this lane could be testing; a rebuild here would have measured the base against itself.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, and they are the whole of the problem rather than evidence of health. No counter can see this defect: the three cells are classified PROTECTED_FIELD through a trusted refusal class, so a blank date of birth beside a written one reads as a correctly refused signature date. That is why VF10 scored KNOWN_PREFILLS PASS and why the condition survived a full 15-obligation reading.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family tx_nd_conviction_no_supervision-set -> PASS_COMPLETE, 15/200 written, nine counters zero, exit 0. Run once; a second run was not owed because nothing moved between them.",
+        "verify-identity-refresh-survives-rebuild.mjs": "NOT RUN. It compares receipts across a rebuild and this lane performed no rebuild.",
+        "source-carried-values verifier": "NOT RUN. It measures a rebuild's treatment of source-carried /V values and this lane performed no rebuild.",
+        "appearance-level check": "NOT RUN as a placement diff, because no bytes moved and a diff of a file against itself proves nothing. The appearance evidence this lane DID take is the flatten probe recorded under theBlocker.proofByExperiment, which is what established that the assigned write is not available."
+      },
+      "hostScope": "SINGLE-FAMILY HOST. scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs is imported by no other file. No shared helper was touched by this lane, so no other family can have moved.",
+      "productWiring": {
+        "acceptanceReceipt": "not touched by this lane",
+        "note": "The assignment directed acceptanceReceipt null and a central raster owed. Neither applies: nulling a receipt that still binds the live digests would retire a valid raster for a repair that did not happen."
+      },
+      "queuesTouched": "none. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened.",
+      "legalRecordsTouched": "none. No specification, no fulfillment-authority registry entry and no legal record was read for edit or edited.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row repairs nothing, promotes nothing, opens no route and grants no approval. It records a blocker with its proof."
+    }
+  ]
+}
