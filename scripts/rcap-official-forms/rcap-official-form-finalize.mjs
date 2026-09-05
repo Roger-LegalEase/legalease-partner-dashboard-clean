@@ -502,6 +502,30 @@ function applyPerWidgetDefaultAppearanceSizes(handle, sizes, fieldDefaultAppeara
   return applied;
 }
 
+/**
+ * The orders a form can print a date in, and how an ISO fact is written in each.
+ *
+ * A closed vocabulary rather than a format string: a caller that can pass
+ * arbitrary punctuation can invent an order this module has never rendered, and
+ * the whole point of naming the order is that it was read off the form.
+ */
+export const PRINTED_DATE_ORDERS = Object.freeze({
+  month_day_year: ({ year, month, day }) => `${month}/${day}/${year}`
+});
+
+/** An ISO date fact, written in the order the form prints beneath the blank. */
+export function isoDateInPrintedOrder(iso, order, fieldName = null) {
+  const render = PRINTED_DATE_ORDERS[order];
+  if (!render) {
+    throw new Error(`unknown printed date order ${JSON.stringify(order)}${fieldName ? ` for field ${JSON.stringify(fieldName)}` : ""}; known orders are ${Object.keys(PRINTED_DATE_ORDERS).join(", ")}`);
+  }
+  const parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso).trim());
+  if (!parts) {
+    throw new Error(`a printed date order was asked for a value that is not an ISO date: ${JSON.stringify(iso)}${fieldName ? ` on field ${JSON.stringify(fieldName)}` : ""}`);
+  }
+  return render({ year: parts[1], month: parts[2], day: parts[3] });
+}
+
 export async function finalizeOfficialForm({
   sourceBytes,
   expectedSha256,
@@ -650,7 +674,42 @@ export async function finalizeOfficialForm({
    * a few families does not get to decide what the others' next rebuild
    * produces. Every caller that does not pass this list is byte-unaffected.
    */
-  clearSourceCarriedTextValues = []
+  clearSourceCarriedTextValues = [],
+  /*
+   * DATE fields whose value is printed in the ORDER THE FORM PRINTS BENEATH IT.
+   *
+   * A date fact is STORED one way and PRINTED another, and until now this
+   * module only knew the first. valueMatchesType requires a date fact to be
+   * YYYY-MM-DD, `let text = String(value)` writes exactly that string, and
+   * nothing between them consults the form. So every family renders ISO,
+   * whatever its form asks for -- which two other families (AR misdemeanor DWI
+   * and CT clean slate) already recorded as a shared-factory question rather
+   * than one of their own.
+   *
+   * The Texas Statement of Inability to Afford Payment of Court Costs is the
+   * case that makes it a defect rather than a convention. Its page 2 prints
+   * "Month Day Year / Mes Dia Ano" on the rule directly beneath the date-of-
+   * birth blank, and the packet drew "1994-04-17" on it. Read in the order the
+   * form names, that is month 1994, day 04, year 17. The ink is not merely
+   * unconventional there; it disagrees with the printed line it sits on.
+   *
+   * The caller names the FIELD and the ORDER, because the caller is the one
+   * that has read the form's own printed line and can be held to it. This
+   * module never guesses an order from a field name, a locale or a
+   * jurisdiction: a date silently reordered by inference is the same defect
+   * pointing the other way.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize,
+   * alignWidgetFontSizeToFit, fitTextPerWidget, detachNestedControlFields and
+   * clearSourceCarriedTextValues above: forty-odd families share this module
+   * and are rebuilt by different workers at different times, and a repair lane
+   * holding one family does not get to decide what the others' next rebuild
+   * produces. Every caller that does not pass this map is byte-unaffected.
+   *
+   * CAPTAIN DECISION: this is the fifth flag with that paragraph. The corpus
+   * needs one rebuild-everything moment, after which these defaults flip.
+   */
+  printedDateOrderByField = {}
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -767,6 +826,20 @@ export async function finalizeOfficialForm({
     const rect = field.widgets?.[0]?.rect ?? null;
     const declaredMax = field.maxLength ?? null;
     let text = String(value);
+    /*
+     * The stored order is the fact's; the printed order is the form's. Only a
+     * field the caller named is reordered, and only a date: asking for an order
+     * on a field that did not resolve to a date descriptor is a caller error and
+     * is thrown rather than ignored, because a silently skipped reorder leaves
+     * the wrong ink on the page with a report that says it was asked for.
+     */
+    const printedOrder = printedDateOrderByField[field.name];
+    if (printedOrder !== undefined) {
+      if (decision.valueType !== "date") {
+        throw new Error(`printedDateOrderByField names ${JSON.stringify(field.name)}, which binds ${decision.factId} as ${decision.valueType} rather than a date`);
+      }
+      text = isoDateInPrintedOrder(text, printedOrder, field.name);
+    }
     if (declaredMax && text.length > declaredMax) {
       // The form's own limit wins over any preference of ours.
       report.refused.push({ field: field.name, reason: "value_exceeds_form_max_length", maxLength: declaredMax, valueLength: text.length, factId: decision.factId });
@@ -837,6 +910,9 @@ export async function finalizeOfficialForm({
     report.written.push({
       field: field.name, factId: decision.factId, kind: "text",
       fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length,
+      ...(printedOrder !== undefined
+        ? { printedDateOrder: printedOrder, storedValue: String(value), printedValue: text }
+        : {}),
       ...(perWidgetFits.length > 1 ? { widgetFontSizes: perWidgetSizes } : {}),
       ...(fittedIndividually.length ? { widgetsFittedIndividually: fittedIndividually.length } : {}),
       ...(widgetsAligned.length ? { widgetFontSizeAligned: widgetsAligned.length } : {})
