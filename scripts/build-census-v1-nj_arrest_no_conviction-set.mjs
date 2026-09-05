@@ -756,7 +756,274 @@ Object.assign(FAMILY, {
        * 30 and 40: "County" on one line and "(where you are filing)" on the
        * next.
        */
-      captions: { ExpungeCntyName: "County (where you are filing)" },
+      /*
+       * FIX25, REQUIRED_BEFORE_FILING.
+       *
+       * VF06 measured the committed guide and found the list of "exact facts
+       * still required before filing" unfit twice over. Both halves come from
+       * one root: classifyRefusal decides OWNERSHIP from the caption the
+       * geometry happened to reach, and falls through to required-before-filing
+       * when it recognises nothing; the same fallible caption is then printed
+       * to the participant as the instruction.
+       *
+       * What that produced, measured on the delivered field map at this base:
+       *
+       *   Nineteen rows the participant CANNOT supply before filing were listed
+       *   as facts they must -- the hearing day, hour and a.m./p.m. the Court
+       *   sets when it signs the Order for Hearing, the years and days of the
+       *   two orders, both judicial signature lines, the Expungement Docket
+       *   Number the kit itself captions "(leave blank - clerk will fill in)",
+       *   the Form E restatement of that court-set hearing, the eight cells of
+       *   the monies-owed section the kit leaves for the court, and the date
+       *   beside the participant's own signature on the Proof of Notice. The
+       *   same file says three lines earlier that court, judge, clerk, hearing
+       *   and post-order fields remain for their proper owners.
+       *
+       *   Fourteen rows displayed a raw internal field name as the instruction
+       *   -- cnt, contOffense2, sigHearJdg, jdgmntDocket1-4, ProbAddrStr,
+       *   MuniCrtsAddrStr, IdbAddrStr and the rest -- and others displayed a
+       *   truncated fragment of a neighbouring line: "(original indict",
+       *   ". I was arre", "an Order of", "a", ",". Naming a source field is not
+       *   an instruction, and a fragment of the wrong line is worse than none.
+       *   Three captions were also read off the WRONG COLUMN of the two-column
+       *   cover-letter address blocks: IdbCnty, FamDivName and FamDivAddrStr
+       *   sit in the right-hand column of page 42 and took the left column's
+       *   words.
+       *
+       * The repair is this table, on the mechanism this host already provides
+       * and on its stated terms: the caption the FORM PRINTS beside the named
+       * widget, read off the printed face of pages 18 to 42 of the delivered
+       * kit and recorded here, never re-derived by a cleverer rule. Where the
+       * printed caption is a block heading rather than an inline label, the
+       * blank is named after an em dash so it can be found on the paper. Every
+       * quoted string below appears on CN-10557.
+       *
+       * Family-scoped like the four settings around it. The same kit backs four
+       * other New Jersey families that are not in this lane's grant, and their
+       * documents declare no table, so their captions are exactly what the
+       * geometry returned and their bytes do not move.
+       *
+       * NOT repaired here, and named so it is not mistaken for settled: the
+       * two-column recipient blocks on pages 37 and 42 are split down the
+       * middle by the same accident. The left column (Prosecutor, Chief of
+       * Police, Warden, Superintendent, Sheriff) is refused as
+       * court/prosecutor/clerk/agency-owned because its harvested caption
+       * happened to contain a trigger word, while the right column (Municipal
+       * Court Administrator, County Probation) is surfaced to the participant.
+       * They are the same kind of blank. This lane makes the surfaced half
+       * intelligible and leaves the split itself to a lane whose finding it is,
+       * because closing it the other way would move rows two other lanes scored
+       * PASS.
+       */
+      captions: {
+        ExpungeCntyName: "County (where you are filing)",
+
+        /* ---- Not the participant's blanks at all. -------------------------
+         *
+         * Each row states the class the completeness contract trusts and the
+         * reason read off this form's own face. None of them can be supplied
+         * before filing, so none of them belongs on a list of facts to supply
+         * before filing.
+         */
+        orderHearYr: {
+          caption: "\u201cIT IS ORDERED this ___ day of ______, ___\u201d, the year \u2014 Order for Hearing (Form B), page 27",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Order for Hearing is dated by the Judge who signs it. The day and month of this same printed line are already refused as court-signed date fields; the year is the third blank of that line and is completed with them.",
+        },
+        hearDay: {
+          caption: "\u201ca Hearing before this Court is set for the ___ day of\u201d \u2014 Order for Hearing (Form B), page 27",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Court sets the hearing when it signs this Order. The date does not exist when the petition is filed, so it is not a blank the participant fills in before filing.",
+        },
+        hearTime: {
+          caption: "\u201cat ___ o\u2019clock\u201d, the hour of the hearing \u2014 Order for Hearing (Form B), page 27",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Court sets the hearing when it signs this Order. The hour does not exist when the petition is filed.",
+        },
+        hearTimeM: {
+          caption: "\u201c___.m.\u201d, the a.m. or p.m. of the hearing \u2014 Order for Hearing (Form B), page 27",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Court sets the hearing when it signs this Order. The hour does not exist when the petition is filed.",
+        },
+        sigHearJdg: {
+          caption: "\u201cJudge, Superior Court of New Jersey\u201d, the signature line \u2014 Order for Hearing (Form B), page 27",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judge signs the Order for Hearing. Nothing is written into it and it is not a blank of this filing.",
+        },
+        orderFinalDay: {
+          caption: "\u201cIT IS ORDERED this ___ day of\u201d \u2014 Expungement Order (Form C), page 30",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Expungement Order is dated by the Judge who signs it, after the hearing. It cannot be dated when the petition is filed.",
+        },
+        sigFinalJdg: {
+          caption: "\u201cJudge, Superior Court of New Jersey\u201d, the signature line \u2014 Expungement Order (Form C), page 33",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judge signs the Expungement Order. Nothing is written into it and it is not a blank of this filing.",
+        },
+        expungDocketNum: {
+          caption: "\u201cExpungement Docket Number\u201d \u2014 Proof of Notice (Form F), page 40",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The kit prints \u201c(leave blank - clerk will fill in)\u201d beside this same caption on pages 18, 27 and 30. The clerk assigns the docket number at filing, so it is not a fact the participant supplies before filing.",
+        },
+        CoverLtrEHearDt: {
+          caption: "\u201cRe: Expungement Hearing: ___ (date)\u201d \u2014 Cover Letter \u2013 Notice of Hearing (Form E), page 38",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "This restates the hearing the Court set in the signed Order for Hearing. It does not exist before filing; it is copied from the signed Order when Form E is mailed.",
+        },
+        CoverLtrEHearTime: {
+          caption: "\u201cat ___ (time)\u201d, the hour of the hearing \u2014 Cover Letter \u2013 Notice of Hearing (Form E), page 38",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "This restates the hearing the Court set in the signed Order for Hearing. It does not exist before filing; it is copied from the signed Order when Form E is mailed.",
+        },
+        sigNoticeDt: {
+          caption: "\u201c(date)\u201d beside \u201c(your signature)\u201d \u2014 Proof of Notice (Form F), page 40",
+          refusalClass: "signature_or_date_participant_completion",
+          reason: "A signature date. It is written when the Proof of Notice is signed, which is after the copies have actually been mailed, and nothing is ever prefilled into it.",
+        },
+
+        /* ---- Petition for Expungement (Form A), paragraph 1, page 18. ---- */
+        arrestOff2: "\u201cand was charged with (name of offense(s))\u201d, the second line \u2014 Petition for Expungement (Form A), paragraph 1, page 18",
+        arrestStatute: "\u201cin violation of N.J.S.A. (statute(s))\u201d \u2014 Petition for Expungement (Form A), paragraph 1, page 18",
+        arrestMuni: "\u201carising out of (municipalities)\u201d \u2014 Petition for Expungement (Form A), paragraph 1, page 18",
+
+        /* ---- Form A paragraph e, the assessments still owed, pages 19 and 21. ---- */
+        oweDocket: "\u201cOriginal indictment/accusation/summons/warrant/complaint/FO or FJ docket number\u201d \u2014 Petition for Expungement (Form A), paragraph e, pages 19 and 21",
+        oweAmt: "\u201cin the amount of $\u201d \u2014 Petition for Expungement (Form A), paragraph e, pages 19 and 21",
+
+        /* ---- Form A \u2013 Addendum Page, one additional arrest, page 20. ---- */
+        cnt: "the paragraph number for this additional arrest \u2014 Petition for Expungement, Form A \u2013 Addendum Page, page 20, which says to number each paragraph starting with 2",
+        contArrestDt: "\u201cI was arrested/taken into custody on (date)\u201d \u2014 Form A \u2013 Addendum Page, page 20",
+        contOffense1: "\u201cand was charged with (name of offense(s))\u201d \u2014 Form A \u2013 Addendum Page, page 20",
+        contOffense2: "\u201cand was charged with (name of offense(s))\u201d, the second line \u2014 Form A \u2013 Addendum Page, page 20",
+        contStatute: "\u201cin violation of N.J.S.A. (statute(s))\u201d \u2014 Form A \u2013 Addendum Page, page 20",
+        contArrestMuni: "\u201carising out of (municipalities)\u201d \u2014 Form A \u2013 Addendum Page, page 20",
+        contOrigNums: "\u201cas set forth in the (original indictment/accusation/summons/warrant/complaint/docket number (include FJ and FO docket number(s) in Family Part matters))\u201d \u2014 Form A \u2013 Addendum Page, page 20",
+        contDsmissOff2: "\u201cthe charge(s) of (name of offense(s))\u201d, the second line of item a \u2014 Form A \u2013 Addendum Page, page 20",
+
+        /* ---- One field, three unrelated blanks. -------------------------- */
+        seek5yrsDetails: "\u201cThe compelling circumstances for the Court to grant me an expungement are as follows\u201d, both boxes on Form A page 22, and the name-change explanation on the Verification, page 24. One form field serves all three, so one answer appears in all three places",
+
+        /* ---- The recipient lines of the two orders and the Proof of Notice. ---- */
+        MuniCrts: "\u201cThe administrator(s) of the ___ Municipal Court(s)\u201d \u2014 Order for Hearing (Form B) page 27, Expungement Order (Form C) page 30, Proof of Notice (Form F) page 40, and the Form E and Form G cover letters, pages 37 and 42",
+        AdminMuniCts: "\u201cThe administrator(s) of the ___ Municipal Court(s)\u201d \u2014 Expungement Order (Form C - Continued), page 31",
+        probDivCntys: "\u201cThe ___ County(ies) Probation Division\u201d \u2014 Order for Hearing (Form B) page 27, Expungement Order (Form C - Continued) page 31, and Proof of Notice (Form F) page 40",
+
+        /* ---- Expungement Order (Form C - Continued), the arrest table, page 31. ---- */
+        arrest1Statute: "\u201c(statute)\u201d, arrest row (1) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest2Dt: "\u201c(date)\u201d, arrest row (2) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest2Statute: "\u201c(statute)\u201d, arrest row (2) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest2CaseNum: "\u201cunder (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)\u201d, arrest row (2) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest3Dt: "\u201c(date)\u201d, arrest row (3) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest3CaseNum: "\u201cunder (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)\u201d, arrest row (3) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest4Dt: "\u201c(date)\u201d, arrest row (4) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest4CaseNum: "\u201cunder (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)\u201d, arrest row (4) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest5Dt: "\u201c(date)\u201d, arrest row (5) \u2014 Expungement Order (Form C - Continued), page 31",
+        arrest5CaseNum: "\u201cunder (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number)\u201d, arrest row (5) \u2014 Expungement Order (Form C - Continued), page 31",
+        fjDocketNums: "\u201c(6) If applicable, including the following Family Part docket numbers in which I am a co-delinquent (FJ docket numbers)\u201d \u2014 Expungement Order (Form C - Continued), page 31",
+
+        /* ---- Expungement Order (Form C), the civil-judgment block, page 32. ----
+         *
+         * FIX25. VF06 read these eight as participant blanks with bad labels, and
+         * this lane started there. The repository says otherwise, plainly and in
+         * one line: NJ.memo.json, track nj_arrest_no_conviction,
+         * manualCompletionItems -- "The monies-owed section of the proposed order
+         * ... The Judiciary kit leaves that section for the court to complete."
+         * The form's own heading agrees: “IT IS FURTHER ORDERED THAT IF MONIES ARE
+         * STILL OWED AT THE TIME THIS EXPUNGEMENT IS ORDERED / A civil judgment is
+         * to be entered in the Judiciary’s automated system in the name of
+         * “Treasurer, State of New Jersey” in the following”. A judgment that is to
+         * be entered at the time the expungement is ordered is not a fact anyone
+         * can supply before filing, and the same guide already says post-order
+         * fields remain with their owners.
+         */
+        jdgmntDocket1: {
+          caption: "\u201cIndictment/accusation/summons/warrant/complaint/ FJ or FO docket number\u201d, first line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+        jdgmntAmt1: {
+          caption: "\u201cin the amount of $\u201d, first line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+        jdgmntDocket2: {
+          caption: "\u201cIndictment/accusation/summons/warrant/complaint/ FJ or FO docket number\u201d, second line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+        jdgmntAmt2: {
+          caption: "\u201cin the amount of $\u201d, second line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+        jdgmntDocket3: {
+          caption: "\u201cIndictment/accusation/summons/warrant/complaint/ FJ or FO docket number\u201d, third line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+        jdgmntAmt3: {
+          caption: "\u201cin the amount of $\u201d, third line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+        jdgmntDocket4: {
+          caption: "\u201cIndictment/accusation/summons/warrant/complaint/ FJ or FO docket number\u201d, fourth line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+        jdgmntAmt4: {
+          caption: "\u201cin the amount of $\u201d, fourth line \u2014 Expungement Order (Form C), the civil-judgment block, page 32",
+          refusalClass: "court_prosecutor_clerk_or_agency_owned",
+          reason: "The Judiciary kit leaves the monies-owed section of the proposed order for the court to complete, and the section is entered at the time the expungement is ordered. NJ.memo.json records this for track nj_arrest_no_conviction under manualCompletionItems.",
+        },
+
+        /* ---- Cover Letter to Court \u2013 For Filing (Form D), page 35. ------- */
+        CoverLtrDDt: "\u201c(date)\u201d \u2014 Cover Letter to Court \u2013 For Filing (Form D), page 35",
+        SccCntyName: "\u201c(county)\u201d, the court address block \u2014 Cover Letter to Court \u2013 For Filing (Form D), page 35",
+        SccAddrStr: "\u201c(address)\u201d, the court address block \u2014 Cover Letter to Court \u2013 For Filing (Form D), page 35",
+        SccAddr2: "\u201c(city, state, zip code)\u201d, the court address block \u2014 Cover Letter to Court \u2013 For Filing (Form D), page 35",
+        enc: "\u201cEnc:\u201d, what you are enclosing \u2014 Cover Letter to Court \u2013 For Filing (Form D), page 35",
+
+        /* ---- The two cover-letter address blocks, pages 37 and 42. --------
+         *
+         * These blanks are the same on both letters and one form field serves
+         * both, so each caption names both pages. Form E goes out after the
+         * signed Order for Hearing comes back and Form G after the Expungement
+         * Order is signed; the addresses can be looked up at any time, which is
+         * why they stay on the list, and the two letter dates say when they are
+         * written.
+         */
+        CoverLtrEDt: "\u201c(date)\u201d \u2014 Cover Letter \u2013 Notice of Hearing (Form E), page 37; written when Form E is mailed, which is after the signed Order for Hearing comes back",
+        CoverLtrGDt: "\u201c(date)\u201d \u2014 Cover Letter \u2013 Notice Expungement Granted (Form G), page 42; written when Form G is mailed, which is after the Expungement Order is signed",
+        MuniCrtsAddrStr: "\u201c(address)\u201d under \u201cMunicipal Court Administrator\u201d \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        MuniCrtsAddr2: "\u201c(city, state, zip code)\u201d under \u201cMunicipal Court Administrator\u201d \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        ProsAddr2: "\u201c(city, state, zip code)\u201d under \u201cProsecutor,\u201d \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        ProbCntyName: "\u201c___ County Probation\u201d, Original County \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        ProbAddrStr: "\u201c(address)\u201d under \u201cCounty Probation, Original County\u201d \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        ProbAddr2: "\u201c(city, state, zip code)\u201d under \u201cCounty Probation, Original County\u201d \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        Prob2CntyName: "\u201c___ County Probation\u201d, Transfer County, used in transfer cases only \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        Prob2AddrStr: "\u201c(address)\u201d under \u201cCounty Probation, Transfer County\u201d, used in transfer cases only \u2014 the Form E and Form G cover letters, pages 37 and 42",
+        Prob2Addr2: "\u201c(city, state, zip code)\u201d under \u201cCounty Probation, Transfer County\u201d, used in transfer cases only \u2014 the Form E and Form G cover letters, pages 37 and 42",
+
+        /* ---- Right-hand column of Form G, page 42. ------------------------
+         *
+         * The three captions below were read off the LEFT column. IdbCnty,
+         * FamDivName and FamDivAddrStr sit at x=320 in the right column and
+         * took the words printed beside them on the left.
+         */
+        IdbCnty: "\u201c___ County Identification Bureau,\u201d \u2014 Cover Letter \u2013 Notice Expungement Granted (Form G), page 42",
+        IdbAddrStr: "\u201c(address)\u201d under \u201cCounty Identification Bureau\u201d \u2014 Cover Letter \u2013 Notice Expungement Granted (Form G), page 42",
+        FamDivName: "\u201c___ County Family Division\u201d \u2014 Cover Letter \u2013 Notice Expungement Granted (Form G), page 42",
+        FamDivAddrStr: "\u201c(address)\u201d under \u201cCounty Family Division\u201d \u2014 Cover Letter \u2013 Notice Expungement Granted (Form G), page 42",
+        FamDivAddr2: "\u201c(city, state, zip code)\u201d under \u201cCounty Identification Bureau\u201d and under \u201cCounty Family Division\u201d \u2014 Cover Letter \u2013 Notice Expungement Granted (Form G), page 42; one form field serves both blocks, so one value appears in both",
+      },
+      /*
+       * FIX25: the invariant this table exists to hold, checked on every build
+       * and by --check. Opt-in per document, because the other four New Jersey
+       * families and the two New York ones have not been through this pass and
+       * a check they cannot meet is a check that gets disabled.
+       */
+      requiredBlanksCarryPrintedCaptions: true,
       /*
        * FIX01/RP-2, REPEATING_ROWS.
        *
@@ -1754,12 +2021,24 @@ function installedRefusalRows(priorMap) {
 /*
  * Applies the document's own caption table to one finished map row.
  *
- * Two shapes, both from the table above. A string is the caption the form
+ * Three shapes, all from the table above. A string is the caption the form
  * prints beside this widget and replaces whatever the geometry reached, on a
  * row that is being surfaced to the participant. COURT_USE_ONLY says the
  * control is not the participant's at all, and turns the row into the court-
  * owned refusal it should always have been -- which also removes it from the
  * "facts still required before filing" list, because it is not one.
+ *
+ * The third shape is an object, { caption, refusalClass, reason }, and it exists
+ * because COURT_USE_ONLY carries ONE reason and that reason is a sentence about
+ * a printed "FOR COURT USE ONLY" rule. The MRTA form has such a rule; the New
+ * Jersey kit does not, and its wrongly-surfaced controls are wrong for four
+ * different true reasons -- a hearing the Court has not yet set, a date on an
+ * order the Court signs, a docket number the form itself says the clerk fills
+ * in, and a signature date. Marking those with COURT_USE_ONLY would put a
+ * sentence about a line that is not on the page into the delivered field map,
+ * which is the same class of defect as the caption it is correcting. So the
+ * object shape lets the row state its own class and its own true reason, read
+ * off that form's printed face, and nothing is reworded to fit a symbol.
  *
  * A candidate_write row is never touched: those rows deliberately carry no
  * caption at all, and giving one a caption would read as "this fact is written
@@ -1776,6 +2055,28 @@ function applyCaptionCorrection(row, correction, documentId) {
     if (scrubbed === (row.effectiveLabel ?? null)) return row;
     return { ...row, effectiveLabel: scrubbed ?? row.field,
       captionBasis: `the caption bytes beside this widget did not decode into readable text; the form's own field name stands in (${documentId})` };
+  }
+  if (correction && typeof correction === "object" && !Array.isArray(correction)) {
+    assert.equal(typeof correction.caption, "string", `${documentId}/${row.field}: caption correction states no caption`);
+    assert.ok(CONTRACT_TRUSTED_REFUSAL_CLASSES.has(correction.refusalClass),
+      `${documentId}/${row.field}: ${correction.refusalClass} is not a refusal class the completeness contract trusts`);
+    assert.equal(typeof correction.reason, "string", `${documentId}/${row.field}: owner correction states no reason`);
+    /*
+     * A fresh row rather than a spread of the old one. The row this replaces
+     * carries requiredBeforeFiling, blankTreatment and an identity, and every
+     * one of those has to GO: a row that keeps them is still counted as a fact
+     * the participant must supply before filing, which is the exact statement
+     * being withdrawn.
+     */
+    return {
+      field: row.field, decision: "refuse", factId: null,
+      refusalClass: correction.refusalClass,
+      blankTreatment: null,
+      effectiveLabel: correction.caption,
+      reason: correction.reason,
+      captionBasis: `read from the printed face of ${documentId}`,
+      widgets: row.widgets,
+    };
   }
   const [marker, caption] = Array.isArray(correction) ? correction : [correction, null];
   if (marker === COURT_USE_ONLY) {
@@ -2834,6 +3135,55 @@ function guidedParticipantInstructions(config, fieldMaps) {
     + `${g.notYours.map((p) => `- ${p}`).join("\n")}\n`;
 }
 
+/*
+ * FIX25: what a document that opts into printed captions must hold.
+ *
+ * Runs at the end of every build and again under --check, on the SAME field map
+ * and instructions the participant receives, so it cannot pass on a build and
+ * fail on the delivered bytes. Four conditions, each of which the delivered
+ * New Jersey packet failed at this lane's base:
+ *
+ *   1. Every blank still declared required-before-filing is named in the
+ *      document's caption table. That is the whole guarantee: a blank reaches
+ *      the participant only after a person read its printed caption off the
+ *      form and recorded it. A row nobody read cannot be surfaced by accident.
+ *   2. No such row displays the form's own internal field name as the
+ *      instruction. Naming a source field is not an instruction.
+ *   3. Nothing the table marked as its owner's -- the Court's, the clerk's, or
+ *      a signature date -- is still counted as a fact the participant must
+ *      supply before filing. Withdrawing the statement means withdrawing it
+ *      from the list, not relabelling it.
+ *   4. Every surfaced caption actually appears in participant-instructions.md.
+ *      A field map that names a blank the guide never mentions has told nobody.
+ */
+function assertPrintedCaptionInvariants(config, fieldMaps, instructions, familyId) {
+  for (const doc of config.documents) {
+    if (doc.requiredBlanksCarryPrintedCaptions !== true) continue;
+    const captions = doc.captions ?? {};
+    const documentMap = fieldMaps.find((row) => row.documentId === doc.documentId);
+    assert.ok(documentMap, `${familyId}/${doc.documentId}: no field map to check captions against`);
+    for (const row of documentMap.fields) {
+      const correction = captions[row.field];
+      const ownerMarked = correction && typeof correction === "object" && !Array.isArray(correction);
+      if (ownerMarked) {
+        assert.notEqual(row.blankTreatment, "REQUIRED_BEFORE_FILING",
+          `${familyId}/${doc.documentId}/${row.field}: marked as its owner's blank but still listed as required before filing`);
+        assert.notEqual(row.requiredBeforeFiling, true,
+          `${familyId}/${doc.documentId}/${row.field}: marked as its owner's blank but still flagged requiredBeforeFiling`);
+        continue;
+      }
+      if (row.blankTreatment !== "REQUIRED_BEFORE_FILING") continue;
+      assert.ok(Object.hasOwn(captions, row.field),
+        `${familyId}/${doc.documentId}/${row.field}: surfaced to the participant with a caption nobody read off the printed form`);
+      const label = row.effectiveLabel ?? "";
+      assert.notEqual(label, row.field,
+        `${familyId}/${doc.documentId}/${row.field}: the instruction is the form's own field name, which is not an instruction`);
+      assert.ok(instructions.includes(label),
+        `${familyId}/${doc.documentId}/${row.field}: participant-instructions.md never asks for "${label}"`);
+    }
+  }
+}
+
 async function buildOfficial(familyId, config) {
   const out = officialOut(familyId, config.jurisdiction);
   // Read what a repair lane installed on this family BEFORE the reset clears
@@ -3274,9 +3624,11 @@ async function buildOfficial(familyId, config) {
       "reports/actual-writes.json", "reports/rendered-artifacts.json", "build-findings.json"],
     commercialAuthority: false, runtimeSelectable: false,
   });
-  writeText(`${out}/participant-instructions.md`, participantInstructions(config, fieldMaps,
+  const instructionsText = participantInstructions(config, fieldMaps,
     artifactReports.flatMap((artifact) => (artifact.heldButNotPrinted ?? [])
-      .map((row) => ({ ...row, documentId: artifact.documentId, fixture: artifact.fixture })))));
+      .map((row) => ({ ...row, documentId: artifact.documentId, fixture: artifact.fixture }))));
+  writeText(`${out}/participant-instructions.md`, instructionsText);
+  assertPrintedCaptionInvariants(config, fieldMaps, instructionsText, familyId);
   console.log(`\n${familyId}: BUILD PASS (${artifactReports.length} PDFs; ${rasterReports.reduce((n, row) => n + row.pages.length, 0)} page rasters)`);
 }
 
@@ -3484,16 +3836,63 @@ async function checkOfficial(familyId, config) {
     const fixtureFacts = factsForJurisdiction(config.jurisdiction, artifact.fixture === "boundary");
     const unwritableFields = liveMap.filter((row) => row.decision !== "candidate_write")
       .map((row) => ({ field: row.field, class: row.refusalClass ?? "route_selection_or_role" }));
-    const finalized = await finalizeEastOfficialForm({
+    const mappings = factMappingsForDocument(doc);
+    /*
+     * FIX25: --check has to run the SAME two passes the build runs.
+     *
+     * buildOfficial finalizes once, sees which declared cells the fitter could
+     * take, and where that leaves a repeatingRowGroups row half-written it
+     * withholds the rest of the row and finalizes again. checkOfficial
+     * finalized once and compared that against the twice-finalized delivered
+     * bytes, so on the one family that declares a row group -- the boundary
+     * Expungement Order arrest row, whose 37-character docket number does not
+     * fit -- it recomputed a document with the date cell written and reported
+     * "deterministic live build does not match stored artifact" against a
+     * correct artifact.
+     *
+     * That made --check unusable exactly where it was needed: a family whose
+     * row-integrity rule is the thing most worth re-proving could not be
+     * checked at all, and any real drift on it was hidden behind a standing
+     * false failure. The loop below is a no-op for every other family on this
+     * host, because nj_arrest_no_conviction-set is the only one that declares
+     * repeatingRowGroups.
+     */
+    const finalizeWith = (explicitMappings, withheld) => finalizeEastOfficialForm({
       sourceBytes: sourceRow.bytes, expectedSha256: doc.sha256,
-      census: liveCensus.fields, facts: fixtureFacts,
-      explicitMappings: factMappingsForDocument(doc),
-      exactFieldMap: liveMap,
-      unwritableFields, documentTextLines: liveCensus.documentTextLines,
+      census: liveCensus.fields, facts: fixtureFacts, explicitMappings,
+      exactFieldMap: withheld.size === 0 ? liveMap
+        : liveMap.map((row) => (withheld.has(row.field)
+          ? { ...row, decision: "refuse", factId: null, blankTreatment: "REQUIRED_BEFORE_FILING",
+            requiredBeforeFiling: true, reason: "WITHHELD_FOR_ROW_INTEGRITY: another cell of this row could not be printed." }
+          : row)),
+      unwritableFields: [...unwritableFields, ...[...withheld].map((field) => ({
+        field, class: "required_before_filing",
+      }))],
+      documentTextLines: liveCensus.documentTextLines,
       alignWidgetFontSizeToFit: doc.alignWidgetFontSizeToFit === true,
       fitTextPerWidget: doc.fitTextPerWidget === true,
       title: `${config.jurisdiction} ${doc.documentId} ${artifact.fixture} review artifact`,
     });
+    let finalized = await finalizeWith(mappings, new Set());
+    const recomputedWithheld = [];
+    for (const group of doc.repeatingRowGroups ?? []) {
+      const declared = group.fields.filter((field) => Object.hasOwn(mappings, field));
+      if (declared.length === 0) continue;
+      const refusedInRow = new Set(finalized.report.refused.map((row) => row.field));
+      const broken = declared.filter((field) => refusedInRow.has(field));
+      if (broken.length === 0 || broken.length === declared.length) continue;
+      for (const field of declared.filter((field) => !refusedInRow.has(field))) recomputedWithheld.push(field);
+    }
+    if (recomputedWithheld.length) {
+      const withheldNames = new Set(recomputedWithheld);
+      const reduced = Object.fromEntries(Object.entries(mappings)
+        .filter(([field]) => !withheldNames.has(field)));
+      finalized = await finalizeWith(reduced, withheldNames);
+      for (const field of recomputedWithheld) {
+        assert.ok(!finalized.report.written.some((written) => written.field === field),
+          `${artifact.file}: ${field} was withheld for row integrity and still carries ink`);
+      }
+    }
     const preSelectionBytes = finalized.bytes;
     let recomputedBytes = finalized.bytes;
     let selectionReport = null;
@@ -3550,6 +3949,8 @@ async function checkOfficial(familyId, config) {
   assert.equal(approval.status, "REQUESTED_NOT_GRANTED");
   assert.equal(approval.commercialAuthority, false);
   assert.equal(approval.runtimeSelectable, false);
+  assertPrintedCaptionInvariants(config, map.documents,
+    fs.readFileSync(abs(`${out}/participant-instructions.md`), "utf8"), familyId);
   console.log(`build-census-v1-${familyId}: CHECK PASS (${rendered.pdfs.length} PDFs; ${rendered.rasters.reduce((n, row) => n + row.pages.length, 0)} rasters)`);
 }
 
