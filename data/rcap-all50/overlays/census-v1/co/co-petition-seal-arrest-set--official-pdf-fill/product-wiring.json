@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "co_petition_seal_arrest-set",
+  "routeKey": "obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+  "routeKeys": [
+    "obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "co_petition_seal_arrest-set",
+    "jurisdiction": "CO",
+    "routeKeys": [
+      "obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "conditional_filing",
+      "primary_filing",
+      "proposed_order",
+      "required_filing"
+    ],
+    "packetComponents": [
+      "component:co_petition_seal_arrest-primary-filing-1",
+      "component:co_petition_seal_arrest-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:JDF-417",
+        "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:JDF-417-ORDER",
+        "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": null,
+    "lastIndependentVerification": null,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "co_petition_seal_arrest-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "co_petition_seal_arrest-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "JDF-417",
+        "file": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c446527450d252fee8a305cbbe52e9560ee19cb585783205f05c4a98656cc3db",
+        "requirement": "required"
+      },
+      {
+        "componentId": "co_petition_seal_arrest-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "JDF-418",
+        "file": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c446527450d252fee8a305cbbe52e9560ee19cb585783205f05c4a98656cc3db",
+        "requirement": "required"
+      }
+    ]
+  }
+}

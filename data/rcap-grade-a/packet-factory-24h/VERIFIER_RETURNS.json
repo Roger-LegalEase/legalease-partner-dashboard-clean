@@ -35,9 +35,9 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 670,
-    "independentVerdicts": 219,
-    "failRepairRequired": 59,
+    "rows": 676,
+    "independentVerdicts": 224,
+    "failRepairRequired": 63,
     "passIndependent": 149
   },
   "failRepairRequiredFamilies": [
@@ -72,9 +72,13 @@
     "in_arrest_no_charges-set",
     "in_infraction_nondisclosure-set",
     "in_section1_petition-set",
+    "la-987-set-aside-and-dismiss-set",
+    "mi_setaside_trafficking-set",
     "nc_145_5_felony-set",
     "nc_146_acquittal_petition-set",
     "nc_146_dismissal_petition-set",
+    "nh_petition_nonconviction_pre2019-set",
+    "nh_petition_vacated-set",
     "nj_arrest_no_conviction-set",
     "nv_seal_probation_family-set",
     "oh_marijuana_expungement-set",
@@ -3118,6 +3122,42 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family city, state, and zip code",
+      "superseded": false
+    },
+    {
+      "familyId": "co_decriminalized_conduct_seal-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_decriminalized_conduct_seal-set",
+      "superseded": false
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": null,
+          "evidence": "The packet-set manifest names FOUR components, every one `requirement: required`: primary-filing-1 -> JDF-612 (rendered), proposed-order-2 -> JDF-615 (rendered), notice-3 (NOT rendered) and second-order-4 (NOT rendered). Both missing components carry officialFormId null and sourceStatus 'identity_unresolved'. The manifest's own packetSetCompleteness reads state 'incomplete', basis: 'The official JDF-611 guide requires a motion, an order, a notice and a second order. The verified corpus holds JDF-612 and JDF-615. The notice and the second order are absent AND their official form numbers are unresolved, so neither the documents nor their identities are established.' (recorded by Captain A, 2026-08-29). The packet therefore delivers 2 of 4 required components. Separately, participant-instructions.md does not disclose the gap: it opens 'This packet is two Colorado Judicial Department forms, filed together' and never tells the participant that the official guide requires two further documents."
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_conviction-set",
       "superseded": false
     },
     {
@@ -7152,6 +7192,30 @@
     },
     {
       "familyId": "la-987-set-aside-and-dismiss-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": null,
+          "evidence": "This is an authority-only composition: custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, sourceBinariesRequired 0, documents[] and sources[] both empty, so no binary hash is owed and none is missing. But the receipt's own bindingMethod claims 'the LA-STATUTORY-FORMS COMPOSE_FROM_AUTHORITY decision and every committed record relied on by the build are re-read and SHA-256-bound at build time', and one of the eight groundingRecords does not bind. data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json is pinned at 484a8944f48431cfa33deafdaeea863b76d05a5a4fee04d13fece32c8e5aa078 / 2010084 B; the file at this base hashes 3a37b3f9cb02bd15cb6aea11639d0f084ac18cb7f022fb7bb9f28732301c23cc / 2016844 B. The other seven pins all re-hash equal. This is NOT the AR-class false failure: I recovered the blob carrying the pinned hash (commit b45f513141cb796e806a4cd4c69c989647d1b190) and compared this family's own MASTER_QUEUE entry object-for-object. It is not byte-identical - at the pinned hash LA read state 'SOURCE_READY', artifactStatus 'NOT_RENDERED', buildScriptExists false, completenessStatus 'NOT_BUILT', counters null. The pin predates this family's own build, so no identityRefresh asserting an unchanged node can cure it. Two further points in the family's favour, both verified here: (a) the identityRefresh that IS present, on data/record-clearing/legal-design-packet-set-manifests.json, is sound - I recovered the historical blob at was.sha256 713ed7ab... from commit 0be1fee76 (exactly the previousPinLastSeenAtCommit it names) and this family's packetSet entry is object-identical to the current one; (b) the pin was ALREADY stale at base 5de917b3, where MASTER_QUEUE hashed 1f4c2f66..., so the earlier VF06 PASS did not catch it and this is a genuine miss rather than later drift. Also inconsistent: allSourcesExact is false here while RI and VT, authority-only compositions in the same posture with zero binaries owed, both declare true; the completeness contract reads that boolean directly and books it to visualDefects."
+        }
+      ],
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "unmeasuredObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
+      "superseded": false
+    },
+    {
+      "familyId": "la-987-set-aside-and-dismiss-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf06",
       "isIndependentVerification": true,
@@ -7162,7 +7226,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ma-bmc-multi-set",
@@ -7445,6 +7509,28 @@
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set",
       "superseded": true
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": null,
+          "evidence": "In the BOUNDARY fixture the case number 2024-0011882-SUPPLEMENTAL-FY is drawn at Helvetica 10 into three caption widgets that are too small for it, and the appearance stream clips it. Measured from the bytes: the string is complete in the stream (hex 323032342D...2D4659 decoded from the /Tx BMC block), text origin Tm x=2.00, required width 163.95pt by Helvetica AFM metrics. Page 1, FlatWidget-6857870938, /BBox [0 0 160.437 10.36] - overflow 5.51pt. Page 2, FlatWidget-9538628408, /BBox [0 0 103 12] - overflow 62.95pt. Page 3, FlatWidget-1316047934, /BBox [0 0 103 12] - overflow 62.95pt. Pages 2 and 3 additionally carry an explicit clip path '2 2 m 2 10 l 101 10 l 101 2 l h W n', so only about 99pt of a 164pt string can appear: pdftotext recovers '2024-0011882-SUPPLEMENTA' on both pages, i.e. the printed case number stops mid-token and loses 'L-FY'. Independently confirmed by MediaBox containment - on boundary pages 2 and 3 the word extends to x=616.8 on a 612pt page. There is no auto-shrink and no unfittable handling: reports/actual-writes.json for the boundary fixture claims unfittable [], nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and matchesExpected true for all three, because the builder's readback reads the string in the appearance stream and never measures whether it fits its box. The canonical fixture is clean - its 14-character case number fits. This is boundary-only, and MI has no raster directory, so no raster receipt covers it."
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_trafficking-set",
+      "superseded": false
     },
     {
       "familyId": "mn_prosecutor_agreed-set",
@@ -7998,6 +8084,56 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
       "superseded": true
+    },
+    {
+      "familyId": "nh_petition_nonconviction_pre2019-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf04",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": "The packet states: 'Ask the clerk what fee applies. The fee for a petition to annul is not established in any source this packet holds, so it is not stated here.' The waiver half is answered - NHJB-2311 with NHJB-2328 are named and prepared. The fee half is not, and the platform holds the figure: NH.memo.json rules.fees for this track states '$125.00 per court location', 'confirmed on the current Circuit Court Filing Fees schedule', and destination.detail repeats 'petitions filed at the same time in one court location share a single $125.00 filing fee.' The packet's sentence is literally true of its OWN bindings - the NH source receipt binds only the four form binaries and carries no groundingRecords, and scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs reads no legal-design record - but the obligation is that the fee is stated, and a filing packet sends the participant to the clerk for a number the platform already holds. Contrast CO in this same cohort, where the identical sentence is accurate because CO.memo records that the source review states no filing fee; the difference is why this is booked as a defect here and not there. This track's memo also records a favourable fact the packet does not pass on: 'No Department of Corrections investigation fee and no Department of Safety or state police fee on this track: RSA 651:5, IX and X(d) exempt a person found not guilty or whose case was dismissed or not prosecuted.'"
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf04/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_nonconviction_pre2019-set",
+      "superseded": false
+    },
+    {
+      "familyId": "nh_petition_vacated-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "5b74dd31bc55c95b87fe46a840902d6772eb7068",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "finding": null,
+          "evidence": "The routeKeys are correct - obligation:track-only:NH:nh_petition_vacated throughout, matching trackId nh_petition_vacated - and participant-instructions.md is correct, both in its heading ('Petition to annul the record of a matter that has been vacated') and its footer. But the field map's routeSelectionNote, the one field whose job is to state the route the packet was built for, names the OTHER family's route: 'The packet states the route it was built for: a petition to annul the record of a matter resolved before 1 January 2019, on the Judicial Branch's own pre-2019 form, under RSA 651:5.' That is the legalName of nh_petition_nonconviction_pre2019, not of this track, whose legalName is 'Petition to Annul the Record of a Vacated Conviction Outside the Automatic Route (RSA 651:5, II, second sentence)'. The cause is visible: with family ids normalised, this family's production-field-map.json is byte-identical to the non-conviction family's, so the prose was carried across unchanged. The record contradicts itself, and the contract's rule is that a packet built for one statutory route must state which route it is. NOTE, and this is NOT the defect: the two families' canonical and boundary fixtures are byte-identical, which is correct here - NH.memo's legalDesignDecision for this track 'directs the pre-2019 petition form family, with packet components, filing, fees, notice, hearing and effect identical to the pre-2019 non-conviction petition'. The packet also discloses the form's printed heading honestly in its 'Read the heading on the petition' section."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": null,
+          "evidence": "The packet states: 'Ask the clerk what fee applies. The fee for a petition to annul is not established in any source this packet holds, so it is not stated here.' The waiver half is answered - NHJB-2311 with NHJB-2328 are named and prepared. The fee half is not, and the platform holds the figure: NH.memo.json rules.fees for this track states '$125.00 per court location', and destination.detail repeats 'petitions filed at the same time in one court location share a single $125.00 filing fee.' The packet's sentence is literally true of its OWN bindings - the NH source receipt binds only the four form binaries and carries no groundingRecords, and scripts/build-census-v1-nh_petition_vacated-set.mjs reads no legal-design record - but the obligation is that the fee is stated, and a filing packet sends the participant to the clerk for a number the platform already holds. Contrast CO in this same cohort, where the identical sentence is accurate because CO.memo records that the source review states no filing fee; the difference is why this is booked as a defect here and not there. On THIS track the omission is heavier, because the fee position is the entire reason the track exists as a separate node. NH.memo's legalDesignDecision says so: it is 'kept as a separate node rather than merged into that track because the fee position differs: the RSA 651:5, IX and X(d) exemptions are written around not-guilty, dismissed and not-prosecuted cases and on the face of the statute do not reach a vacated conviction, which is a real cost difference the participant must be told about before filing.' rules.fees adds that whether the $100 Department of Corrections investigation fee and the Department of Safety and state police fees apply is unresolved and 'on the face of the statute the exemptions do not reach a vacated conviction, so the packet should assume they are payable.' The packet tells the participant none of this: its fee paragraph is byte-identical to the non-conviction family's, which is the one family for which the exemptions DO apply. The single fact the controlling record says must be disclosed before filing on this route is the one fact the packet does not carry."
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "ROUTE_IDENTITY"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_petition_vacated-set",
+      "superseded": false
     },
     {
       "familyId": "nj_arrest_no_conviction-set",
@@ -19254,7 +19390,7 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "grantsNothing": "A verdict moves a family in the queue. It promotes nothing, opens no route, and prepares no review package.",
-  "rowsRefused": 15,
+  "rowsRefused": 17,
   "refusedRows": [
     "vf02/composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief: claims PASS_COMPLETE_INDEPENDENT with 2 unmeasured obligation(s): FEE_AND_WAIVER, SERVICE",
     "vf02/rcap-ks-custom-pleading: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): CLIPPING_AND_OVERLAP",
@@ -19265,6 +19401,8 @@
     "vf05/composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): SELF_HELP_STOP",
     "vf06/composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): SELF_HELP_STOP",
     "vf06/composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): SELF_HELP_STOP",
+    "vf06/ri_marijuana-set: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): ROUTE_OPTIONS",
+    "vf07/vt_exp_deferred_sentence-set: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): ROUTE_OPTIONS",
     "vf08/rcap-ga-guidance-implementation: claims PASS_COMPLETE_INDEPENDENT with 1 unmeasured obligation(s): REPEATING_ROWS",
     "vf09/rcap-sc-custom-pleading: undeclared verdict WRONG_DELIVERY_TYPE",
     "vf10/pa_pardon_expungement-set: undeclared verdict FAIL",
