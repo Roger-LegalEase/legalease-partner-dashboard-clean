@@ -558,6 +558,26 @@ async function renderPrimary(source, census, fixtureName) {
     })),
     facts, explicitMappings, unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
+    /* FIX82. CC-1473 ships seventeen check-box widgets whose current /AS state
+     * (/Off) has no stream in /AP /N, so under ISO 32000-1 12.5.5 a conforming
+     * viewer paints nothing at them and poppler, rendering the pinned binary,
+     * paints nothing. pdf-lib's updateFieldAppearances inside the shared
+     * sanitizeAndFlatten answers that missing state with a stroked square the
+     * size of the widget, which flatten then stamps onto the page: VF03
+     * measured 2299 added dark pixels per fixture standing outside every
+     * declared write box, at every unmarked box on the petition and on its
+     * page-2 checklist, the clerk's own CBCertify among them, and around the
+     * four route-mark boxes.
+     *
+     * FIX50's opt-in supplies the missing /Off state as an EMPTY appearance
+     * instead, so nothing is synthesized and nothing is flattened there. It
+     * never touches a widget of a field this run wrote, and this build's route
+     * marks are not appearances at all: markRouteSelections draws two diagonal
+     * strokes as page content after flatten, so the four marked boxes keep
+     * their mark and lose only the square. VF03's zero-write baseline proved
+     * this exact remedy restores the pinned form's own pixels at all
+     * seventeen rects. */
+    suppressSynthesizedAppearances: true,
     title: FORM_TITLE
   });
   const writtenNames = new Set(report.written.map((w) => w.field));
