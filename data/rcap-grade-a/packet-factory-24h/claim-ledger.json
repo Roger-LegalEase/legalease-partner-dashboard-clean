@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "8d84d9bd72b59e67c969ea6758b7144c27f02b9a",
+  "generatedAtCommit": "73375e9a66ff7ae19e4e6cef5e7a3d54328c9003",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -4532,27 +4532,11 @@
         "la-987-set-aside-and-dismiss-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF02",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "la-987-set-aside-and-dismiss-set",
-      "familyId": "la-987-set-aside-and-dismiss-set",
-      "itemId": null,
-      "familyIds": [
-        "la-987-set-aside-and-dismiss-set"
-      ],
-      "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX32",
+      "lane": "FIX03",
       "laneKind": "repair",
       "released": true,
-      "releasedAt": "2026-09-05T11:40:02.353Z",
-      "releaseReason": "KNOWN_PREFILLS and SOURCE_IDENTITY repaired and committed at f37417c9e; nine counters 0, two rebuilds byte-identical, central raster owed on canonical e3cf9c7c and boundary df7bc150; no self-verification. (Replayed by Captain from FIX32 commit aa3521162.)"
+      "releasedAt": "2026-09-05T11:40:02.353Z"
     },
     {
       "subjectType": "packet-family",
@@ -6044,7 +6028,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX04",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T10:08:55.685Z"
@@ -6333,7 +6317,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX05",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6468,7 +6452,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6633,7 +6617,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -7146,7 +7130,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7617,7 +7601,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T23:59:41.004Z"
@@ -13319,7 +13303,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "52fd896243d2f873577a94aeb8e766ed2b8cead65d49ea1c43900e3d827b6ec4",
+  "claimsDigest": "550c3e0d0876d513743d8eab312f53e9ade385438d798c9ffa824805d8954d08",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -42852,6 +42836,14 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-05T14:22:40Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-987-set-aside-and-dismiss-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "withdrawnAt": "2026-09-05T14:31:23Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `8d84d9bd72b59e67c969ea6758b7144c27f02b9a` (or the newer dispatch base)
+**Minimum required ancestor:** `73375e9a66ff7ae19e4e6cef5e7a3d54328c9003` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708' \
   --codex-cloud \
-  --minimum-captain-sha 8d84d9bd72b59e67c969ea6758b7144c27f02b9a
+  --minimum-captain-sha 73375e9a66ff7ae19e4e6cef5e7a3d54328c9003
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -46,7 +46,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'va_seal_petition_misdemeanor-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'wv_dui_deferral_expungement-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'al-pardoned-felony-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'rcap-wi-custom-pleading'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'pa_pardon_expungement-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -73,7 +73,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `va_seal_petition_misdemeanor-set`
 - `wv_dui_deferral_expungement-set`
 - `al-pardoned-felony-set`
-- `rcap-wi-custom-pleading`
+- `pa_pardon_expungement-set`
 
 ## What you receive
 
@@ -93,13 +93,13 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/va/va-seal-petition-misdemeanor-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/wi/rcap-wi-custom-pleading--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs`
 - `scripts/build-census-v1-il-seal-2yr-set.mjs`
 - `scripts/build-census-v1-ri_nonconviction_sealing-set.mjs`
 - `scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs`
 - `scripts/build-census-v1-al-pardoned-felony-set.mjs`
-- `scripts/build-census-v1-rcap-wi-custom-pleading.mjs`
+- `scripts/build-census-v1-pa_pardon_expungement-set.mjs`
 
 ## Never write here
 

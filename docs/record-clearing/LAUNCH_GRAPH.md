@@ -45,9 +45,9 @@ owner-authorized action through the consumer-delivery control under the all-51 l
 | `CUSTOM_PLEADING_READY` | 0 |
 | `GUIDANCE_READY` | 0 |
 | `HANDOFF_READY` | 5 |
-| `MAINTENANCE_HOLD` | 24 |
+| `MAINTENANCE_HOLD` | 21 |
 | `LEGAL_HOLD` | 8 |
-| `UNFINISHED` | 225 |
+| `UNFINISHED` | 228 |
 
 Per-state counts are carried in `availability.byState` of the JSON ledger.
 

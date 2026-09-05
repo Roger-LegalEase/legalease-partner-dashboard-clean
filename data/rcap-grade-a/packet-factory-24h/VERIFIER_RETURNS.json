@@ -35,7 +35,7 @@
   ],
   "counts": {
     "returnDirectories": 85,
-    "rows": 762,
+    "rows": 763,
     "independentVerdicts": 240,
     "failRepairRequired": 77,
     "passIndependent": 153
@@ -8386,6 +8386,68 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
+      "superseded": true
+    },
+    {
+      "familyId": "la-987-set-aside-and-dismiss-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "97be5bcda",
+      "failedObligations": [
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "No word rectangle overlaps another, nothing falls outside a page, no token is hard-split and no page is a fragment or a route-key-only page - and the standard still fails on the delivered pages. Two pages of the three-part instrument ARE the court's block, and each of them carries machine identifiers as body text: the build's internal component identity in the header of every page, and the route key set in body face one line under the court section's closing sentence with most of the page empty below it. On page 5 the route key is printed twice in succession. A clerk receives an instrument whose court-completed sections carry build metadata, and a duplicated identifier line. REPAIR, actionable and narrow: stop emitting 'Assigned component identity: ...' and 'Route: obligation:...' into the composed page bodies, or move them to a footer that is unmistakably chrome (small face, foot of the page, outside the court's section) and emit the route line once per page rather than once per component; page 4 already renders without one, so the emitter is per-component, not per-page. Neither change touches any legal text, any write, any blank or any page count.",
+          "evidence": {
+            "geometry": {
+              "canonical": {
+                "words": 1393,
+                "overlappingWordPairs": 0,
+                "wordsOutsideTheMediaBox": 0,
+                "inkExtent": "x 60.0-553.0 of 612, all pages within the top and bottom margins"
+              },
+              "boundary": {
+                "words": 1394,
+                "overlappingWordPairs": 0,
+                "wordsOutsideTheMediaBox": 0,
+                "inkExtent": "x 60.0-553.0 of 612"
+              },
+              "hardSplitTokens": 0,
+              "fragmentOrRouteKeyOnlyPages": 0,
+              "note": "the long boundary values wrap or fit; 'TEST-BOUNDARY-2026-0000000000000001' and 'Maria-Alejandra O'Shaughnessy-Whitfield' render as whole tokens on pages 1-3"
+            },
+            "defectOneMachineTextInsideTheCourtsBlock": {
+              "pages": "page 2 and page 3 of both fixtures",
+              "whatPage2Is": "the whole page is the court's section, headed 'PROPOSED RULE - COURT COMPLETES AND ISSUES THIS SECTION'",
+              "whatPage3Is": "the whole page is the court's section, headed 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER'",
+              "inkFound": [
+                "header, y=705.5: 'Assigned component identity: la-987-set-aside-and-dismiss-primary-filing-1'",
+                "body, page 2 y=427.25: 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss'",
+                "body, page 3 y=321.25: 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss'"
+              ],
+              "whyItIsNotPageChrome": "the route line is set in the same Times-Roman 10.25pt as the body, at the same left margin x=60, one blank line below the block's closing sentence (page 2 ends at y=453.75), with 360pt of empty page beneath it. Nothing - not size, not position, not a rule - distinguishes it from a line of the court's own section, and page 4 carries no such line at all, so it is not a per-page footer.",
+              "readMethod": "content-stream Tm placement and Tf size decoded from the object graph, and confirmed on the 110 dpi rasters of pages 2 and 3"
+            },
+            "defectTwoDuplicatedIdentifierLine": {
+              "page": "page 5 of both fixtures",
+              "canonical": "'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss' printed twice, at y=268.25 and again at y=228.5",
+              "boundary": "the same line twice, at y=255 and y=215.25",
+              "betweenThem": "nothing - one blank line, same font, same x=60",
+              "occurrencesOfTheRouteKeyPerFixture": 6
+            },
+            "whatTheCountersSaid": "visualDefects 0. The counters do not reach either defect: both are composed content the build authored, not writes into measured boxes, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is reported 0 for both fixtures."
+          }
+        }
+      ],
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "unmeasuredObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
       "superseded": false
     },

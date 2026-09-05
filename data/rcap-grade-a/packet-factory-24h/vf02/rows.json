@@ -13437,6 +13437,350 @@
           "SERVICE"
         ]
       }
+    },
+    {
+      "itemId": "la-987-set-aside-and-dismiss-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+      "verifier": "VF02 (independent - this lane built none of these packets, repaired none of them and rastered none of them; it wrote into no overlay directory and no build script)",
+      "verifiedAtBase": "97be5bcda",
+      "canonicalSha256": "e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c",
+      "boundarySha256": "df7bc15003233c72d81ee9b0dfdd7b4f3e63705308caa26e5958eae2cbc9be1c",
+      "supersedesNote": "Supersedes the VF01 row at aa866d165 (FAIL_REPAIR_REQUIRED on KNOWN_PREFILLS and SOURCE_IDENTITY) by commit ancestry, over different bytes: FIX32 moved canonical 9e06893a -> e3cf9c7c and boundary a8412820 -> df7bc150. VF01's rows and FIX32's return were read as history and re-measured from zero here; nothing in either was copied forward as a finding.",
+      "preflight": "node scripts/verify-packet-build-environment.mjs --family la-987-set-aside-and-dismiss-set, run once in this worktree at 97be5bcda with MASTER_LIBRARY_SOURCE_DIR=/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. Result: PACKET_BUILD_ENVIRONMENT_NOT_READY, 11/13 passed, 2 failed, 4 not applicable. Recorded honestly rather than rounded up. (1) corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled; the absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', whose whole 'LegalEase Alabama/' custody folder is not in this mount. It is an Alabama pardon-board form, it touches no source of this family, and FIX24, FIX41 and an earlier VF02 checkpoint record the same gap at their own bases. (2) private_is_git_ignored: private/ is reported NOT git-ignored because this container mounts it as a SYMLINK and .gitignore line 53 is the directory pattern 'private/', which a symlink does not match; git status is clean and nothing under private/ was read or written by this lane. Everything this family needs passed: repo_identity, clone_is_complete, worktree_clean, node 22.22.2, pdf-lib 1.17.1, master_library_mounted, master_library_complete (499 files, 329 PDFs, 51 jurisdictions), family_sources_bind (zero-source composition, CUSTOM_PLEADING_FROM_CODIFIED_TEXT), master_library_not_at_operational_path, absent_is_not_empty, stale_artifact_block_consulted (0 artifacts of this family clear the block).",
+      "sourceResolutionMethod": "Sources were resolved BY CONTENT HASH, never by declared path. This family declares zero source binaries (sources[] and documents[] both empty, sourceBinariesRequired 0), so no digest of it resolves through either mounted custody (master_library, human_source_returns) and none is claimed to; what it binds is seven committed repository records, each rehashed from the bytes on disk here. No digest of this family was absent by hash, so no part of SOURCE_IDENTITY is NOT_MEASURABLE_HERE.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "source": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set, read-only (no --write) in this worktree at 97be5bcda: PASS_COMPLETE, 13/33 written, exit 0.",
+        "whyZeroIsNotAPass": "The counters are zero and a defect is still visible on the delivered page. The nine counters measure the writes that were made and the blanks that were earned; they do not measure machine identifiers the build prints as body text of its own composed pages, and a duplicated identifier line is composed content rather than a write, so nothing in the contract counts it."
+      },
+      "rasterState": "RASTER_PASS",
+      "rasterBinding": "Both fixtures were rehashed from disk before anything else was measured: canonical e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c (14924 bytes, 5 pages) and boundary df7bc15003233c72d81ee9b0dfdd7b4f3e63705308caa26e5958eae2cbc9be1c (15146 bytes, 5 pages). Both equal the digests the current RASTER_QUEUE.json receipt is bound to: RASTER_PASS, workflow run 33964023600, job 101301118940, conclusion success, rendered commit 8b377c517f60a6d0c8798a21e163ee9e0142e727, canary job 101300787792 passing in the same run, ingested 2026-09-05T12:06:24Z. So the receipt is over the bytes on disk at this base. Its own coverage block is narrower than the row's verdict word: the gate rendered canonical.pdf only, and boundary.pdf is declared and bound by hash but NOT rendered by it, so a defect appearing only in the boundary fixture is not something this RASTER_PASS excludes. One superseded receipt (run 33923497915, canonical 9e06893a / boundary a8412820) is over the pre-FIX32 bytes, which are no longer on disk, and is correctly marked superseded. The PNG receipts were not fetched here; this lane rendered its own 110 dpi rasters of all five pages of both fixtures locally into /tmp and read them as images.",
+      "inspectionMethod": "Appearance level, not counter level. (1) pdftotext -layout over all five pages of both fixtures. (2) pdftotext -bbox-layout word boxes for every page, tested pairwise for overlap and against the media box for clipping. (3) the composed content stream of every page decoded from the PDF object graph with pdf-lib and read directly - Tf sizes, Tm placement and the hex Tj strings - rather than through a text extractor. (4) 110 dpi local rasters of all ten pages written to /tmp and read as images. (5) /Annots and /AcroForm inspected for flattened widget appearances.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "evidence": {
+            "routeKey": "obligation:track-only:LA:la-987-set-aside-and-dismiss",
+            "routeKeysDeclared": 1,
+            "carriedByCurrentCensus": true,
+            "boundRouteNodeRecomputes": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349 / 3071 canonical bytes",
+            "statute": "La. C.Cr.P. art. 987",
+            "generationAllowed": false,
+            "runtimeSelectable": false,
+            "electionPrintedOnTheFace": [
+              "canonical page 1: 'Misdemeanor or felony and selected Article: Misdemeanor - Article 894(B)'",
+              "boundary page 1: 'Felony - Article 893(E)'"
+            ]
+          },
+          "finding": "The packet is built for the route the record names. production-field-map.json, packet-set-manifest.json and source-receipt.json all carry the single route key obligation:track-only:LA:la-987-set-aside-and-dismiss, the current route-obligation census carries that route, and its route node recanonicalises here to the exact digest the receipt pins. The instrument is the Article 987 set-aside and dismissal predicate, not an expungement, and both the motion and the instructions say so on their own pages. generationAllowed false and runtimeSelectable false, as they should be for a track-only route."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "evidence": {
+            "sourceBinariesRequired": 0,
+            "groundingRecords": 7,
+            "wholeFilePinsRecomputed": 7,
+            "wholeFilePinsMatching": 7,
+            "anchorDigestsRecomputed": 7,
+            "anchorDigestsMatching": 7,
+            "digestsAbsentByHash": 0,
+            "identityRefreshVerifiedIndependently": {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "previousPin": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1 / 2607149",
+              "recomputedFromHistoricalBlob": "git cat-file -p ecd2bde79:<path> | sha256sum = 9816a479... , equal to the pin the block records as 'was'",
+              "commitsTouchingThePathSince": [
+                "2d01b84f7 Regenerate the census at the five-route runtime head"
+              ],
+              "currentPin": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f / 2625273, recomputed equal from disk"
+            }
+          },
+          "finding": "The stale pin VF01 failed at aa866d165 is gone and every binding recomputes. All seven grounding records rehash equal whole file - the LA-STATUTORY-FORMS owner determination, the route-obligation census candidate, LA.memo.json, the track registry, the legal-design specifications, the packet-set manifests and the track source relationships - and all seven of the receipt's second bindings, this family's own entry inside each record under key-ordered canonicalisation, recompute to the digests and canonical byte lengths recorded. The identityRefresh block on the census pin was checked against history rather than taken on its word: the blob at ecd2bde79 hashes to exactly the previous pin, and exactly one commit touched that path since. This family declares no source binary, so nothing here resolves through the mounted corpus and nothing is claimed to."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "evidence": {
+            "componentsDeclared": [
+              "la-987-set-aside-and-dismiss-primary-filing-1",
+              "la-987-set-aside-and-dismiss-instructions-2"
+            ],
+            "componentsRendered": 2,
+            "requiredComponentsMissing": 0,
+            "deliveredPages": 5,
+            "perFixture": "identical in canonical and boundary"
+          },
+          "finding": "Both components the route names are rendered in both fixtures. The primary filing is the mandatory three-part Article 987 instrument on pages 1-3 - Motion to Set Aside Conviction and Dismiss Prosecution, Rule to Show Cause, Order of Dismissal - and the instructions component is pages 4-5, carrying both the participant instructions and the filing instructions."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "BLOCKED_LEGAL_INPUT",
+          "evidence": {
+            "declaredWrites": 13,
+            "writesReadBackFromDeliveredBytes": 13,
+            "perFixture": "13/13 in canonical and 13/13 in boundary, each expected value found verbatim in the extracted page text",
+            "placeholderProseRemaining": 0,
+            "scannedFor": [
+              "fixture court record",
+              "TBD",
+              "[insert",
+              "your name here",
+              "lorem",
+              "placeholder",
+              "{{",
+              "<field>",
+              "TODO",
+              "FIXME",
+              "to be determined"
+            ],
+            "whatPageOneNowCarries": {
+              "canonical": [
+                "Mover full legal name: Jordan Avery Reyes",
+                "Mover date of birth: 1991-04-17",
+                "Conviction offense wording: <captioned dotted blank>",
+                "Conviction statute: <captioned dotted blank>",
+                "Conviction or plea date: 2021-04-17",
+                "Misdemeanor or felony and selected Article: Misdemeanor - Article 894(B)",
+                "Deferred sentence and probation date: 2021-06-01",
+                "Period of the deferred sentence: Two years",
+                "Probation completion date: 2023-06-01"
+              ],
+              "boundary": [
+                "Maria-Alejandra O'Shaughnessy-Whitfield",
+                "1968-12-31",
+                "Conviction offense wording: <captioned dotted blank>",
+                "Conviction statute: <captioned dotted blank>",
+                "2018-12-31",
+                "Felony - Article 893(E)",
+                "2019-02-28",
+                "Period of the deferred sentence: Five years",
+                "2024-02-28"
+              ]
+            },
+            "theOpenQuestion": {
+              "namedExactly": "Whether the Article 987 fixture court record must declare an offence of conviction and a statute of conviction, so that the delivered Motion names the conviction it asks the court to set aside.",
+              "whatTheRecordsDoSay": [
+                "data/record-clearing/legal-design-intake/LA.memo.json, tracks[trackId=la-987-set-aside-and-dismiss], participantInputs.convictionOffense: required - 'What offence were you convicted of, and under what statute?'",
+                "the same track's components[role=primary_filing].notes: 'LegalEase completes the neutral participant and case fields - the caption, docket number, division, parties, THE OFFENCE AND STATUTE, the sentencing date and the deferred-sentence and probation dates'",
+                "legal-design-specifications.json officialFormAssignments[trackId=la-987-set-aside-and-dismiss] and the track registry repeat the same required question and supply no value"
+              ],
+              "whatNoRecordSays": "No record under data/record-clearing/ supplies an offence or a statute of conviction for this track, and none says whether the canonical and boundary fixture court records must declare them. Every other field named in that same sentence of the memo IS printed on both fixtures.",
+              "whyThisIsNotScoredFAIL": "The placeholder prose VF01 failed is gone and nothing was invented in its place. The two fields are declared REQUIRED_BEFORE_FILING with printed captions and are disclosed to the participant, which the completeness contract permits only where the platform genuinely holds no value - and here it holds none. Scoring FAIL would demand a Louisiana statutory citation that no committed record holds, written onto a motion; scoring PASS would assert that a Motion naming no offence and citing no statute is a complete filing, which the memo's own component note contradicts. The records do not settle it, so it is recorded blocked and named."
+            }
+          },
+          "finding": "Every fact the platform holds is written and visible on the page it belongs to: thirteen declared writes per fixture, all thirteen read back from the delivered bytes in both. The placeholder prose VF01 found at aa866d165 - 'Offense wording from the canonical fixture court record', 'Statute citation from the canonical fixture court record' and the boundary deferral-period tail - is absent from every page of both fixtures at content-stream level, and the boundary deferral period now reads 'Five years', which the fixture's own dates (2019-02-28 to 2024-02-28) state. What is left is not a build defect this lane can call: the delivered Motion still names no offence and cites no statute, because the fixture declares neither and no committed legal-design record supplies one, while LA.memo.json's own primary_filing note lists the offence and statute among the neutral case fields LegalEase completes. That is an open legal-design input, named above, and it is for legal-design authority rather than a repair lane."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": {
+            "declaredItems": 4,
+            "namedInParticipantInstructions": 4,
+            "visibleOnTheDeliveredPage": "page 4 of both fixtures, 'Required before filing' table, four rows",
+            "items": [
+              "Conviction offense wording",
+              "Conviction statute",
+              "Has the period of the deferred sentence run? [ ] YES [ ] NO",
+              "Did you successfully complete the terms of your probation? [ ] YES [ ] NO"
+            ],
+            "eachRowCarries": "completenessDisposition REQUIRED_BEFORE_FILING, requiredBeforeFiling true, routeDetermined false, a printed label, an identity and a participantMustSupply sentence"
+          },
+          "finding": "All four declared items are named in participant-instructions.md and reproduced on the delivered instructions page, checked against the file rather than against the build's report. Each is participant-completable, none is route-determined, and none is a fact the packet writes elsewhere. The lead-in sentence was corrected for the count and now reads 'Every item below remains yours alone and is intentionally left blank on the instrument', so the disclosure does not understate the four."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": {
+            "requiredOptionsMissing": 0,
+            "routeSelectionsMade": [
+              {
+                "option": "ARTICLE_987_SET_ASIDE_AND_DISMISS",
+                "authority": "La. C.Cr.P. art. 987",
+                "routeDetermined": true
+              }
+            ],
+            "printedElection": [
+              "canonical: Misdemeanor - Article 894(B)",
+              "boundary: Felony - Article 893(E)"
+            ],
+            "representationElection": "No - use the unrepresented mover block, with the four attorney fields declared NOT_APPLICABLE_ON_THIS_ROUTE and the attorney signature protected"
+          },
+          "finding": "Every route-determined election is made by the packet rather than left to the participant. The statutory Article is stated on the face of the motion in both fixtures, and the represented/unrepresented election is made and carried consistently into the two signature blocks. The two unmarked YES/NO checkboxes on page 1 are sworn participant assertions, not route elections; the committed record forbids auto-completing them and both are disclosed."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": {
+            "incompleteRows": 0,
+            "repeatingStructures": 0
+          },
+          "finding": "The composed instrument carries no repeating row or table structure in either fixture, so no row can carry written cells beside required cells left blank."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": {
+            "protectedWrites": 0,
+            "refusedFieldsWithInk": [],
+            "flattenedWidgetAppearances": 0,
+            "annots": "/Annots [ ] on all five pages of both fixtures; no AcroForm, no widget",
+            "protectedBlanksReadEmptyOnThePage": [
+              "attorney name, bar number, address, telephone and signature",
+              "unrepresented mover signature and its date",
+              "rule return date, time and place, and the judge signature on the Rule to Show Cause",
+              "order findings, the granting/denying and decretal paragraphs, the order date, the order place and the judge signature on the Order of Dismissal"
+            ]
+          },
+          "finding": "No signature, signature date, court-only or prosecutor-only field carries ink in either fixture, read from the delivered bytes and confirmed on the local rasters: each such line renders as a caption and a dotted rule with nothing on it. The Rule page tells the participant to leave every line above blank for the court, the Order page is headed COURT USE ONLY - UNEXECUTED PROPOSED ORDER and prints that no finding has been made and no relief granted, and the district attorney's response is deliberately not printed as a participant field."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": {
+            "canonical": {
+              "declared": "e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c",
+              "recomputed": "e3cf9c7c97c61d68a90baf983a8b0f22d5e5555df9cb49c46e59123b714a593c",
+              "byteLength": 14924,
+              "pages": 5
+            },
+            "boundary": {
+              "declared": "df7bc15003233c72d81ee9b0dfdd7b4f3e63705308caa26e5958eae2cbc9be1c",
+              "recomputed": "df7bc15003233c72d81ee9b0dfdd7b4f3e63705308caa26e5958eae2cbc9be1c",
+              "byteLength": 15146,
+              "pages": 5
+            },
+            "recordsChecked": [
+              "component-page-manifest.json",
+              "reports/rendered-artifacts.json",
+              "reports/actual-writes.json",
+              "product-wiring.json",
+              "RASTER_QUEUE.json"
+            ],
+            "staleDigestReferences": 0
+          },
+          "finding": "Both fixtures recompute to the digests and byte lengths every record names, and no record still names the pre-FIX32 bytes: product-wiring.json now carries the acceptance receipt for run 33964023600 bound to the current canonical, and no reference to 9e06893a or a8412820 survives anywhere in the family directory."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": {
+            "componentOrder": [
+              "la-987-set-aside-and-dismiss-primary-filing-1",
+              "la-987-set-aside-and-dismiss-instructions-2"
+            ],
+            "pagesAssigned": "5 of 5 in both fixtures",
+            "deliveredSequence": "p1 Motion, p2 Rule to Show Cause, p3 Order of Dismissal, p4-5 participant and filing instructions"
+          },
+          "finding": "The delivered page sequence read from the bytes matches component-page-manifest.json page for page in both fixtures, and the manifest's component order matches the packet-set manifest's declared order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "evidence": {
+            "geometry": {
+              "canonical": {
+                "words": 1393,
+                "overlappingWordPairs": 0,
+                "wordsOutsideTheMediaBox": 0,
+                "inkExtent": "x 60.0-553.0 of 612, all pages within the top and bottom margins"
+              },
+              "boundary": {
+                "words": 1394,
+                "overlappingWordPairs": 0,
+                "wordsOutsideTheMediaBox": 0,
+                "inkExtent": "x 60.0-553.0 of 612"
+              },
+              "hardSplitTokens": 0,
+              "fragmentOrRouteKeyOnlyPages": 0,
+              "note": "the long boundary values wrap or fit; 'TEST-BOUNDARY-2026-0000000000000001' and 'Maria-Alejandra O'Shaughnessy-Whitfield' render as whole tokens on pages 1-3"
+            },
+            "defectOneMachineTextInsideTheCourtsBlock": {
+              "pages": "page 2 and page 3 of both fixtures",
+              "whatPage2Is": "the whole page is the court's section, headed 'PROPOSED RULE - COURT COMPLETES AND ISSUES THIS SECTION'",
+              "whatPage3Is": "the whole page is the court's section, headed 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER'",
+              "inkFound": [
+                "header, y=705.5: 'Assigned component identity: la-987-set-aside-and-dismiss-primary-filing-1'",
+                "body, page 2 y=427.25: 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss'",
+                "body, page 3 y=321.25: 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss'"
+              ],
+              "whyItIsNotPageChrome": "the route line is set in the same Times-Roman 10.25pt as the body, at the same left margin x=60, one blank line below the block's closing sentence (page 2 ends at y=453.75), with 360pt of empty page beneath it. Nothing - not size, not position, not a rule - distinguishes it from a line of the court's own section, and page 4 carries no such line at all, so it is not a per-page footer.",
+              "readMethod": "content-stream Tm placement and Tf size decoded from the object graph, and confirmed on the 110 dpi rasters of pages 2 and 3"
+            },
+            "defectTwoDuplicatedIdentifierLine": {
+              "page": "page 5 of both fixtures",
+              "canonical": "'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss' printed twice, at y=268.25 and again at y=228.5",
+              "boundary": "the same line twice, at y=255 and y=215.25",
+              "betweenThem": "nothing - one blank line, same font, same x=60",
+              "occurrencesOfTheRouteKeyPerFixture": 6
+            },
+            "whatTheCountersSaid": "visualDefects 0. The counters do not reach either defect: both are composed content the build authored, not writes into measured boxes, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is reported 0 for both fixtures."
+          },
+          "finding": "No word rectangle overlaps another, nothing falls outside a page, no token is hard-split and no page is a fragment or a route-key-only page - and the standard still fails on the delivered pages. Two pages of the three-part instrument ARE the court's block, and each of them carries machine identifiers as body text: the build's internal component identity in the header of every page, and the route key set in body face one line under the court section's closing sentence with most of the page empty below it. On page 5 the route key is printed twice in succession. A clerk receives an instrument whose court-completed sections carry build metadata, and a duplicated identifier line. REPAIR, actionable and narrow: stop emitting 'Assigned component identity: ...' and 'Route: obligation:...' into the composed page bodies, or move them to a footer that is unmistakably chrome (small face, foot of the page, outside the court's section) and emit the route line once per page rather than once per component; page 4 already renders without one, so the emitter is per-component, not per-page. Neither change touches any legal text, any write, any blank or any page count."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": {
+            "stated": "the clerk of the court that imposed the deferred sentence, in the parish of conviction",
+            "authorityGiven": "Article 986 makes Article 987 the form to be used; Article 986(C) lets a clerk alter it only to show the name of that court",
+            "whereRead": [
+              "filing-instructions.md, first step",
+              "participant-instructions.md",
+              "delivered page 5 of both fixtures"
+            ]
+          },
+          "finding": "The instructions name the court the route names, with its authority, both in the committed markdown and on the delivered page inside the packet."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": {
+            "fee": "ask the clerk before filing; Article 983 governs the cost of an expungement and not this Article 987 set-aside; ordinary motion costs vary by parish and the committed record supplies no figure",
+            "waiver": "Article 987 prescribes no fee waiver, and the Article 988 exemption is an expungement instrument under Article 983(F) that does not reach this filing",
+            "whereRead": "filing-instructions.md and delivered page 5"
+          },
+          "finding": "Both the fee position and the waiver position are stated on the delivered page, and the packet is careful to say why the expungement fee scheme does not apply here rather than importing a figure it does not hold."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": {
+            "whoIsServed": "the district attorney, and the attorney for the defendant or the defendant",
+            "how": "the Rule to Show Cause is directed to the district attorney; the court sets the return date, time and place and the clerk supplies the return information",
+            "whatIsExcluded": "the Articles 979/980 sixty-day objection window is expressly said not to apply, because that scheme governs a motion to expunge"
+          },
+          "finding": "Who must be served and how is stated on the delivered page, with the distinction from the expungement service scheme drawn explicitly rather than left to inference."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": {
+            "conditions": [
+              "district attorney opposition at the contradictory hearing",
+              "any dispute whether the deferred-sentence period ran or probation was successfully completed",
+              "a contested evidentiary hearing",
+              "uncertainty whether the sentence was deferred under Article 893 or Article 894, or deferred at all"
+            ],
+            "whereRead": [
+              "participant-instructions.md 'Stop and get help'",
+              "filing-instructions.md",
+              "delivered page 5 of both fixtures"
+            ]
+          },
+          "finding": "The packet states where self-help ends, on its own delivered page, and also states plainly that this filing clears nothing by itself and that the participant must return to the Article 977 or 978 expungement track afterwards."
+        }
+      },
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "blockedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "observationsNotObligationFailures": [
+        "build-status.json still records status BUILT_RASTER_PENDING, rasterState BUILT_RASTER_PENDING and rasterPages 0, while RASTER_QUEUE.json carries a RASTER_PASS bound to these exact bytes and product-wiring.json carries the matching acceptance receipt. The queue is the authority for rasterState; the family's own build-status is behind it. It names no digest, so it contradicts nothing measured under ARTIFACTS.",
+        "build-findings.json lists no finding for the machine identifiers on the delivered pages, so the build still does not see them; blocking[] is empty.",
+        "The instructions body on page 4 also prints the route key inside a participant-facing sentence - 'Prepared for <name> and only for obligation:track-only:LA:la-987-set-aside-and-dismiss.' That is the same emitter and would be fixed by the same repair, but it is not inside a court's block and is not part of the CLIPPING_AND_OVERLAP failure recorded above.",
+        "FIX32's return names la-977-misdemeanor-conviction-set and la-978-felony-conviction-set as carrying the same placeholder-prose class it repaired here. This lane holds no claim on either family and read neither; the observation is repeated only so it is not lost."
+      ],
+      "grantsNothing": "A FAIL is a verdict and a repair assignment, never an edit. This lane wrote into no overlay directory, no build script and no shared record, released no claim, and opened no route. An independent PASS would prove a packet complete; it would still approve no output."
     }
   ],
   "postfixRead": {

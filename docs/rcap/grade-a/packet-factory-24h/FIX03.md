@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `8d84d9bd72b59e67c969ea6758b7144c27f02b9a` (or the newer dispatch base)
+**Minimum required ancestor:** `73375e9a66ff7ae19e4e6cef5e7a3d54328c9003` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon' \
   --codex-cloud \
-  --minimum-captain-sha 8d84d9bd72b59e67c969ea6758b7144c27f02b9a
+  --minimum-captain-sha 73375e9a66ff7ae19e4e6cef5e7a3d54328c9003
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -45,7 +45,7 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'ms-fel-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'nm_identity_theft-set'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'al-felony-dwop-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'nj_arrest_no_conviction-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'la-987-set-aside-and-dismiss-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -71,7 +71,7 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 - `ms-fel-set`
 - `nm_identity_theft-set`
 - `al-felony-dwop-set`
-- `nj_arrest_no_conviction-set`
+- `la-987-set-aside-and-dismiss-set`
 
 ## What you receive
 
@@ -90,13 +90,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading/**`
 - `data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs`
 - `scripts/build-census-v1-ar-felony-seal-set.mjs`
 - `scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs`
 - `scripts/build-census-v1-ms-fel-set.mjs`
 - `scripts/build-census-v1-nm_identity_theft-set.mjs`
 - `scripts/build-census-v1-al-felony-dwop-set.mjs`
+- `scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs`
 
 ## Never write here
 

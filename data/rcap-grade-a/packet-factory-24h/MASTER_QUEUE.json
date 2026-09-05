@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "8d84d9bd72b59e67c969ea6758b7144c27f02b9a",
+  "minimumCaptainSha": "73375e9a66ff7ae19e4e6cef5e7a3d54328c9003",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,13 +72,13 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 8,
-    "verifyPending": 9,
-    "repairRequired": 64,
+    "verifyPending": 8,
+    "repairRequired": 65,
     "sumsToDenominator": true
   },
   "byState": {
     "COMPLETE_PACKET_PROVEN": 134,
-    "FAIL_REPAIR_REQUIRED": 70,
+    "FAIL_REPAIR_REQUIRED": 71,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
     "SOURCE_READY": 82,
@@ -86,7 +86,7 @@
     "LEGAL_BLOCKED": 8,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 9,
+    "VERIFY_PENDING": 8,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -22424,11 +22424,13 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf01",
-        "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "97be5bcda",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
-      "rasterEnrolmentRefusal": null,
+      "rasterEnrolmentRefusal": [
+        "the current failed obligations have not been repaired"
+      ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": null,
@@ -22458,90 +22460,56 @@
       },
       "failingCounters": [],
       "failedObligationNames": [
-        "KNOWN_PREFILLS",
-        "SOURCE_IDENTITY"
+        "CLIPPING_AND_OVERLAP"
       ],
       "failedObligations": [
         {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "Six of the seven grounding records recompute exactly. The seventh does not: source-receipt.json pins route-obligation-candidate.json at 9816a479…/2607149 B and the file on disk at this base is 4d0eb74b…/2625273 B. The receipt's own bindingMethod says every grounding record is bound twice, whole file and this family's own entry, and only the whole-file half is stale — the family's route node still canonicalises to 3071 bytes and hashes to 0cbbf35e…, unchanged. REPAIR: refresh the groundingRecords[1] sha256 and byteLength to the current file and leave boundEntry alone; the shared census moved because other lanes edited other routes, so no legal content of this family changed and nothing needs rebuilding. Recorded as a FAIL because the obligation is that every source binds by SHA-256 recomputed from the bytes, and this one does not.",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "No word rectangle overlaps another, nothing falls outside a page, no token is hard-split and no page is a fragment or a route-key-only page - and the standard still fails on the delivered pages. Two pages of the three-part instrument ARE the court's block, and each of them carries machine identifiers as body text: the build's internal component identity in the header of every page, and the route key set in body face one line under the court section's closing sentence with most of the page empty below it. On page 5 the route key is printed twice in succession. A clerk receives an instrument whose court-completed sections carry build metadata, and a duplicated identifier line. REPAIR, actionable and narrow: stop emitting 'Assigned component identity: ...' and 'Route: obligation:...' into the composed page bodies, or move them to a footer that is unmistakably chrome (small face, foot of the page, outside the court's section) and emit the route line once per page rather than once per component; page 4 already renders without one, so the emitter is per-component, not per-page. Neither change touches any legal text, any write, any blank or any page count.",
           "evidence": {
-            "pinsChecked": 7,
-            "pinsMatching": 6,
-            "stalePin": {
-              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-              "at": "source-receipt.json groundingRecords[1]",
-              "declaredSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-              "declaredByteLength": 2607149,
-              "recomputedFromDisk": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-              "diskByteLength": 2625273
+            "geometry": {
+              "canonical": {
+                "words": 1393,
+                "overlappingWordPairs": 0,
+                "wordsOutsideTheMediaBox": 0,
+                "inkExtent": "x 60.0-553.0 of 612, all pages within the top and bottom margins"
+              },
+              "boundary": {
+                "words": 1394,
+                "overlappingWordPairs": 0,
+                "wordsOutsideTheMediaBox": 0,
+                "inkExtent": "x 60.0-553.0 of 612"
+              },
+              "hardSplitTokens": 0,
+              "fragmentOrRouteKeyOnlyPages": 0,
+              "note": "the long boundary values wrap or fit; 'TEST-BOUNDARY-2026-0000000000000001' and 'Maria-Alejandra O'Shaughnessy-Whitfield' render as whole tokens on pages 1-3"
             },
-            "boundEntryStillBinds": {
-              "pointer": "routes[routeKey=obligation:track-only:LA:la-987-set-aside-and-dismiss]",
-              "declaredSha256": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349",
-              "recomputedHere": "0cbbf35e2709ddacfb815f16d539a1806d008bfefdfee1d1275d87451d265349",
-              "canonicalByteLength": 3071,
-              "canonicalisation": "JSON with object keys sorted at every depth, no whitespace",
-              "match": true
+            "defectOneMachineTextInsideTheCourtsBlock": {
+              "pages": "page 2 and page 3 of both fixtures",
+              "whatPage2Is": "the whole page is the court's section, headed 'PROPOSED RULE - COURT COMPLETES AND ISSUES THIS SECTION'",
+              "whatPage3Is": "the whole page is the court's section, headed 'COURT USE ONLY - UNEXECUTED PROPOSED ORDER'",
+              "inkFound": [
+                "header, y=705.5: 'Assigned component identity: la-987-set-aside-and-dismiss-primary-filing-1'",
+                "body, page 2 y=427.25: 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss'",
+                "body, page 3 y=321.25: 'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss'"
+              ],
+              "whyItIsNotPageChrome": "the route line is set in the same Times-Roman 10.25pt as the body, at the same left margin x=60, one blank line below the block's closing sentence (page 2 ends at y=453.75), with 360pt of empty page beneath it. Nothing - not size, not position, not a rule - distinguishes it from a line of the court's own section, and page 4 carries no such line at all, so it is not a per-page footer.",
+              "readMethod": "content-stream Tm placement and Tf size decoded from the object graph, and confirmed on the 110 dpi rasters of pages 2 and 3"
             },
-            "ownerDeterminationBinds": {
-              "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
-              "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
-              "match": true,
-              "decision": "LA-STATUTORY-FORMS: COMPOSE_FROM_AUTHORITY"
+            "defectTwoDuplicatedIdentifierLine": {
+              "page": "page 5 of both fixtures",
+              "canonical": "'Route: obligation:track-only:LA:la-987-set-aside-and-dismiss' printed twice, at y=268.25 and again at y=228.5",
+              "boundary": "the same line twice, at y=255 and y=215.25",
+              "betweenThem": "nothing - one blank line, same font, same x=60",
+              "occurrencesOfTheRouteKeyPerFixture": 6
             },
-            "noBinaryOwed": "custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, sourceBinariesRequired 0; there is no official-form binary to rehash and none is claimed."
-          }
-        },
-        {
-          "obligation": "KNOWN_PREFILLS",
-          "finding": "The delivered Motion to Set Aside Conviction and Dismiss Prosecution names no offence and cites no statute. Where the offence wording belongs the page prints 'Offense wording from the canonical fixture court record', and where the statutory citation belongs it prints 'Statute citation from the canonical fixture court record'. Both are declared writes in production-field-map.json bound to case.conviction_offense and case.conviction_statute, so the completeness verifier counts them written and returns knownRequiredFieldsMissing 0 over two fields whose value is a description of where the value should have come from. On the boundary fixture the same defect reaches a third field, the period of the deferred sentence. A court reading this motion cannot tell which conviction it is asked to set aside. REPAIR: the fixture fact map for case.conviction_offense, case.conviction_statute and case.deferral_period must supply an offence description, a Louisiana statutory citation and a stated period; a value that describes the field is not a value.",
-          "evidence": {
-            "placeholderInkOnTheDeliveredPage": [
-              {
-                "fixture": "canonical",
-                "page": 1,
-                "field": "LA-CCRP-ART-987.conviction_statute",
-                "factId": "case.conviction_statute",
-                "labelWordsAt": "x 60.0-137.7, yMin 265.0 (pdftotext -bbox, top-down)",
-                "printedLine": "Conviction statute: Statute citation from the canonical fixture court record"
-              },
-              {
-                "fixture": "canonical",
-                "page": 1,
-                "field": "LA-CCRP-ART-987.conviction_offense",
-                "factId": "case.conviction_offense",
-                "labelWordsAt": "x 60.0-177.9, yMin 251.75",
-                "printedLine": "Conviction offense wording: Offense wording from the canonical fixture court record"
-              },
-              {
-                "fixture": "boundary",
-                "page": 1,
-                "field": "LA-CCRP-ART-987.conviction_statute",
-                "printedLine": "Conviction statute: Statutory citation exactly as it appears on the boundary fixture court record"
-              },
-              {
-                "fixture": "boundary",
-                "page": 1,
-                "field": "LA-CCRP-ART-987.conviction_offense",
-                "printedLine": "Conviction offense wording: Offense wording exactly as it appears on the boundary fixture court record, including the full court-record description"
-              },
-              {
-                "fixture": "boundary",
-                "page": 1,
-                "field": "LA-CCRP-ART-987.deferral_period",
-                "factId": "case.deferral_period",
-                "printedLine": "Period of the deferred sentence: Five years and the full period stated in the boundary fixture court record"
-              }
-            ],
-            "howRead": "pdftotext -layout over the delivered bytes and a 100 dpi raster of page 1 read directly; the strings are visible ink, not metadata.",
-            "comparison": "The same build writes real values for every neighbouring field — 'Misdemeanor - Article 894(B)', '2021-04-17', '2021-06-01', 'Two years', '2023-06-01', 'Tangipahoa Parish', 'TEST-2026-000001' — so this is not a house convention for fixtures. The Arizona family verified in the same read writes 'Possession of a dangerous drug, A.R.S. 13-3407(A)(1), a class 4 felony' in the equivalent field."
+            "whatTheCountersSaid": "visualDefects 0. The counters do not reach either defect: both are composed content the build authored, not writes into measured boxes, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is reported 0 for both fixtures."
           }
         }
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
