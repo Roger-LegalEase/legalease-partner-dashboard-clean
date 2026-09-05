@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "a8a42767c8db15574a239acce89e3836e080fa06",
+  "minimumCaptainSha": "aefd46f7cf0925a1b71151c9e8ec14732c8e560f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -66,14 +66,14 @@
   },
   "denominator": {
     "liveFamilyDenominator": 346,
-    "activeFamiliesExcluded": 7,
+    "activeFamiliesExcluded": 9,
     "guidanceOnly": 0,
-    "remaining": 339,
+    "remaining": 337,
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 7,
-    "verifyPending": 0,
-    "repairRequired": 50,
+    "verifyPending": 2,
+    "repairRequired": 48,
     "sumsToDenominator": true
   },
   "byState": {
@@ -85,8 +85,9 @@
     "SOURCE_BLOCKED": 6,
     "LEGAL_BLOCKED": 7,
     "HANDOFF_READY": 2,
-    "BUILT_RASTER_PENDING": 6,
+    "VERIFY_PENDING": 2,
     "GUIDANCE_READY": 9,
+    "BUILT_RASTER_PENDING": 4,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -112,6 +113,8 @@
       "mi_setaside_trafficking-set",
       "ms-misd-1st-set",
       "nh_petition_vacated-set",
+      "rcap-tx-custom-pleading",
+      "ri_deferred_sentence-set",
       "tx_nd_dwi_deferred-set",
       "ut_pet_limitations-set",
       "vt_seal_nonconviction-set"
@@ -9762,7 +9765,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs",
@@ -22340,7 +22343,7 @@
       ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "BUILT_RASTER_PENDING",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
@@ -36673,8 +36676,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX41",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": null,
@@ -36685,7 +36688,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
@@ -37275,8 +37279,8 @@
       "continuationResult": null,
       "c11Stopped": false,
       "state": "FAIL_REPAIR_REQUIRED",
-      "activeOwner": null,
-      "activeOwnerLane": null,
+      "activeOwner": "FIX42",
+      "activeOwnerLane": "rapid-repair",
       "buildScript": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
       "buildScriptExists": true,
       "sharedBuildHost": "build-census-v1-ri_decriminalized-set.mjs",
@@ -37287,7 +37291,8 @@
       ],
       "prohibitedPaths": [],
       "importedBy": [],
-      "exclusiveScript": true
+      "exclusiveScript": true,
+      "activeOwnershipBasis": "the live Captain-transferred repair claim remains authoritative until it is released"
     },
     {
       "familyId": "ri_first_offender_felony-set",

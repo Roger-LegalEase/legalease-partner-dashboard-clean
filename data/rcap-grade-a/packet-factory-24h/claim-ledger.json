@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a8a42767c8db15574a239acce89e3836e080fa06",
+  "generatedAtCommit": "aefd46f7cf0925a1b71151c9e8ec14732c8e560f",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2005,11 +2005,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T10:36:30.522Z",
-      "releaseReason": "VF02 FAIL_REPAIR_REQUIRED at bd36dba5d: CLIPPING_AND_OVERLAP, page 4 of both fixtures prints raw markdown delimiters as body text (component ok-trafficking-survivor-19c-filing-instructions-2, baseline y=517, x 78.41-89.41 and 369.99-380.99); the composer writes participantFacingObligations with literal asterisks; shared with the WV sibling. Verdict extracted; to repair at the composer."
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -4429,11 +4428,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T10:31:58.237Z",
-      "releaseReason": "VF01 FAIL_REPAIR_REQUIRED at 7a1e2c417 (KNOWN_PREFILLS: placeholder ink on page 1 where the conviction statute and offence wording belong; SOURCE_IDENTITY: route-obligation-candidate pin 9816a479 stale, bound node unchanged -- pin refresh). Verdict extracted; to repair."
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6969,7 +6967,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -13097,24 +13095,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ri_decriminalized-set",
-      "itemId": null,
-      "familyId": "ri_decriminalized-set",
-      "familyIds": [
-        "ri_decriminalized-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX42",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     }
   ],
-  "claimsDigest": "0045ba22c77294b9e77558261b44a89e8190f7e5b714bff5776d044599650f2e",
+  "claimsDigest": "ae75400dc37ef564eb4576fd41778607e4dbe4ffc81150e7001a8d7ba9633276",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -34463,6 +34446,26 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T11:51:56Z",
       "reason": "the current dispatch names FIX08 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-05T10:36:30.522Z",
+      "reissuedAt": "2026-09-05T12:07:40.709Z",
+      "reason": "Fresh independent read owed: FIX30 repaired the visible markdown delimiters VF02 failed at c9bbb6ecd, and run 33963861144 (job 101300684033) rastered the repaired bytes at 6de99244d with a live receipt. VF01 neither built nor repaired this family."
+    },
+    {
+      "lane": "VF02",
+      "subjectType": "packet-family",
+      "subjectId": "la-987-set-aside-and-dismiss-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-05T10:31:58.237Z",
+      "reissuedAt": "2026-09-05T12:07:40.841Z",
+      "reason": "Fresh independent read owed: FIX32 repaired the placeholder prose VF01 failed at aa866d165, and run 33964023600 (job 101301118940) rastered the repaired bytes at 8b377c517 with a live receipt. VF02 neither built nor repaired this family."
     }
   ],
   "transfers": [
@@ -42417,19 +42420,14 @@
       "lane": "VF01",
       "withdrawnAt": "2026-09-05T11:55:41Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
-    }
-  ],
-  "grants": [
+    },
     {
-      "lane": "FIX42",
       "subjectType": "packet-family",
       "subjectId": "ri_decriminalized-set",
       "operation": "rapid-repair",
-      "laneKind": "repair",
-      "grantedAt": "2026-09-05T12:02:17.390Z",
-      "grantedBy": "Captain",
-      "reason": "Counted COMPLETE_PACKET_PROVEN, but FIX35 (05151bc8c) measured that the repaired shared Rhode Island host moves it: the proposed-order trailer prints under the clerk certification line on page 6 of both delivered fixtures (SCAN02 class c on this family). Its committed bytes are what the pre-repair host produced. FIX42 rebuilds it on the repaired host; it then owes a fresh raster and an independent read, and its proven status is not defended meanwhile.",
-      "whyThisWasMintedRatherThanDealt": "the dispatch packer deals grants only to families in the verification or repair queues, and this subject was in neither"
+      "lane": "FIX42",
+      "withdrawnAt": "2026-09-05T12:07:07Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
 }
