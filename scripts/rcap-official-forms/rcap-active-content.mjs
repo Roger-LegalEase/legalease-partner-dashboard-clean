@@ -846,6 +846,123 @@ export function fitAppearanceStreamsToRect(pdfDoc, form, { tolerancePt = APPEARA
 }
 
 /**
+ * A BORDER pdf-lib DRAWS BECAUSE THE WIDGET WAS INTERACTIVE, NOT BECAUSE THE
+ * COURT PRINTED ONE.
+ *
+ * `/MK /BC` is a widget's border colour and `/MK /BG` its background colour.
+ * Under ISO 32000-1 12.5.6.19 both belong to the appearance CHARACTERISTICS a
+ * viewer uses when it has to construct an appearance for itself; a widget that
+ * ships its own `/AP /N` is drawn from that stream and its `/MK` is never
+ * consulted. pdf-lib's default providers read `/MK` unconditionally whenever
+ * they regenerate, so wherever this pipeline leaves a field without a usable
+ * appearance -- by clearing one, or because the source shipped none --
+ * updateFieldAppearances paints a stroked rectangle the size of the widget and
+ * flatten() stamps it on the filing as ordinary ink.
+ *
+ * Colorado's JDF 641 is the measured case, and VF02 measured it: three choice
+ * widgets on page 4 (9B.0, 9B.2 and 9C.0) that the packet deliberately leaves
+ * unanswered, each carrying `/MK /BC [0 0 0]`, delivered as 8,344 dark pixels
+ * of black rectangle at 300 dpi that the Colorado Judicial Department's own
+ * form does not print -- over the top of the single rule the form does print
+ * there, which the widget's own 29-byte `/AP /N` draws.
+ *
+ * The two functions below are the two halves of one remedy, and both act only
+ * on a field this run did NOT write. A written value must keep whatever the
+ * pipeline draws for it, and neither function is ever reached for one.
+ */
+
+/** Every text-showing operand in an appearance stream, unparsed. */
+function textShowingOperands(streamText) {
+  const found = [];
+  const re = /(\((?:\\[\s\S]|[^\\()])*\)|<[0-9A-Fa-f\s]*>|\[[^\]]*\])\s*(?:Tj|TJ|'|")/g;
+  let match;
+  while ((match = re.exec(streamText)) !== null) found.push(match[1]);
+  return found;
+}
+
+/** True when an operand shows at least one character a reader would see. */
+function operandShowsInk(operand) {
+  if (operand.startsWith("(")) return /\S/.test(operand.slice(1, -1).replace(/\\[\s\S]/g, " "));
+  if (operand.startsWith("<")) {
+    const hex = operand.slice(1, -1).replace(/\s+/g, "");
+    for (let i = 0; i < hex.length; i += 2) {
+      const code = parseInt(hex.slice(i, i + 2).padEnd(2, "0"), 16);
+      const whitespace = code === 0x20 || code === 0x09 || code === 0x0a || code === 0x0d || code === 0x00;
+      if (Number.isNaN(code) || !whitespace) return true;
+    }
+    return false;
+  }
+  // A /TJ array: strings interleaved with kerning numbers. Every string in it
+  // is judged the same way, and a number never shows ink.
+  const strings = operand.match(/\((?:\\[\s\S]|[^\\()])*\)|<[0-9A-Fa-f\s]*>/g) ?? [];
+  return strings.some(operandShowsInk);
+}
+
+/**
+ * The widgets of a field whose OWN appearance draws no word.
+ *
+ * "Silent" is a structural property of the stream the source shipped, read from
+ * the bytes: it contains no text-showing operator carrying a character a reader
+ * would see. Such a stream is rules, leaders and line art -- the court's own
+ * drawing of the blank -- and keeping it adds nothing the participant did not
+ * supply. A stream that DOES show text is exactly the chooser prompt, default
+ * or option list the unwritten-input drop exists to remove, so it is not
+ * silent, is not kept, and the drop proceeds unchanged.
+ *
+ * Anything this cannot read for certain is reported as not silent: a state
+ * dictionary, an appearance that is not an indirect stream, an undecodable
+ * stream, and a stream carrying a text operator whose operand this did not
+ * parse. Refusing to keep is always the safe answer, because it is the answer
+ * the pipeline already gives.
+ */
+function widgetsWhoseSourceAppearanceIsSilent(pdfDoc, acroField) {
+  const silent = [];
+  for (const widget of acroField.getWidgets()) {
+    const ap = widget.dict.lookup(PDFName.of("AP"));
+    if (!(ap instanceof PDFDict)) continue;
+    const normal = pdfDoc.context.lookup(ap.get(PDFName.of("N")));
+    if (!(normal instanceof PDFRawStream)) continue;
+    let text;
+    try { text = new TextDecoder().decode(decodePDFRawStream(normal).decode()); } catch { continue; }
+    const operands = textShowingOperands(text);
+    const carriesTextOperator = /(?:^|[\s\]>)])(?:Tj|TJ|'|")(?=[\s(<[/]|$)/.test(text);
+    if (carriesTextOperator && operands.length === 0) continue;
+    if (operands.some(operandShowsInk)) continue;
+    silent.push(widget);
+  }
+  return silent;
+}
+
+/**
+ * Removes the appearance CHARACTERISTICS pdf-lib would synthesise a border and
+ * a background from, for a field this run did not write.
+ *
+ * This is the half of the remedy that covers a widget with no usable source
+ * appearance at all: nothing can be preserved for it, so the entries that make
+ * the synthesised rectangle visible go instead. What pdf-lib then generates for
+ * an unwritten field is an appearance that paints nothing, which is what a
+ * conforming viewer draws from a widget carrying no value.
+ *
+ * `/BG` travels with `/BC` because it is the same synthesised rectangle: the
+ * default providers fill with one and stroke with the other in a single call.
+ * stripWidgetBackground already removes `/BG` on every path that keeps an
+ * appearance, so this adds the border and extends both to the drop path.
+ */
+function neutralizeSynthesizedBorderCharacteristics(acroField) {
+  let removed = 0;
+  for (const widget of acroField.getWidgets()) {
+    const mk = widget.dict.lookup(PDFName.of("MK"));
+    if (!(mk instanceof PDFDict)) continue;
+    for (const key of ["BC", "BG"]) {
+      if (mk.get(PDFName.of(key)) === undefined) continue;
+      mk.delete(PDFName.of(key));
+      removed += 1;
+    }
+  }
+  return removed;
+}
+
+/**
  * Decides, per field, what survives into the flattened page.
  *
  * `writtenFields` are the fields this run actually bound a participant value
@@ -853,10 +970,11 @@ export function fitAppearanceStreamsToRect(pdfDoc, form, { tolerancePt = APPEARA
  * the participant answered and one still showing the form's prompt.
  */
 export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map(),
-  detachOptions = {}) {
+  detachOptions = {}, { suppressSynthesizedWidgetBorders = false } = {}) {
   const report = { commandControlsDropped: [], unselectedChoicesDropped: [], unwrittenParticipantInputsDropped: [],
     sourceAppearancesPreserved: [], backgroundsNeutralized: 0, nonDisplayedWidgetsDropped: 0,
-    fieldsWithNonDisplayedWidgets: [], dispositionsApplied: {} };
+    fieldsWithNonDisplayedWidgets: [], dispositionsApplied: {},
+    silentSourceAppearancesKept: [], synthesizedBorderCharacteristicsRemoved: 0 };
   for (const field of form.getFields()) {
     const name = field.getName();
     const acroField = field.acroField;
@@ -883,7 +1001,28 @@ export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Se
       report.commandControlsDropped.push(name);
       continue;
     }
+    // OPT-IN, and only for a field this run did not write: no border or
+    // background may be synthesised at it from the characteristics a viewer
+    // uses only when it has to construct an appearance itself. Runs before the
+    // drop below and before any appearance is generated, because a rectangle
+    // never asked for is cheaper to prevent than to edit out afterwards.
+    const unwritten = !writtenFields.has(name);
+    const keepSilent = suppressSynthesizedWidgetBorders && unwritten
+      ? widgetsWhoseSourceAppearanceIsSilent(pdfDoc, acroField) : [];
+    if (suppressSynthesizedWidgetBorders && unwritten) {
+      report.synthesizedBorderCharacteristicsRemoved += neutralizeSynthesizedBorderCharacteristics(acroField);
+    }
     if (disposition === APPEARANCE_DISPOSITION.RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN && !writtenFields.has(name)) {
+      // The court's own silent drawing of this blank -- a rule, a leader, line
+      // art and no word -- is kept rather than cleared, so nothing has to be
+      // regenerated in its place. Only under the opt-in, and only when EVERY
+      // widget of the field draws no word: a field showing a prompt on any
+      // widget is dropped whole, as it always was.
+      if (keepSilent.length > 0 && keepSilent.length === acroField.getWidgets().length) {
+        report.silentSourceAppearancesKept.push(name);
+        report.backgroundsNeutralized += stripWidgetBackground(pdfDoc, acroField);
+        continue;
+      }
       // Nothing was written here, so whatever the source draws inside the field
       // is the court's instruction to a person filling it in by hand, or its own
       // prompt, default or option list. It does not go on the filing.
@@ -948,7 +1087,29 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
    * size the court's own form draws it is wrong ink wherever it occurs, and no
    * family can opt out of a specification.
    */
-  fitAppearancesToRect = false } = {}) {
+  fitAppearancesToRect = false,
+  /*
+   * Whether a widget belonging to a field this run did NOT write is stopped
+   * from acquiring a border and background pdf-lib synthesises from its
+   * `/MK /BC` and `/MK /BG` -- by keeping the silent appearance the source
+   * already ships for it where there is one, and by removing those two entries
+   * where there is not.
+   *
+   * Off by default and deliberately, on exactly the reasoning the three options
+   * above give: the families sharing this module are rebuilt by different
+   * workers at different times, and a repair lane holding one family does not
+   * get to decide what the others' next rebuild produces. A caller that does
+   * not pass this keeps the bytes it has, to the byte -- and so does a field
+   * this run wrote, which neither half of the remedy is ever reached for.
+   * See widgetsWhoseSourceAppearanceIsSilent and
+   * neutralizeSynthesizedBorderCharacteristics for what each half refuses.
+   *
+   * CAPTAIN DECISION: like those flags, this default should flip to true once
+   * every family can be rebuilt together. A black rectangle at a question the
+   * packet leaves for the participant to answer is ink the court's form does
+   * not print, wherever it occurs.
+   */
+  suppressSynthesizedWidgetBorders = false } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -970,7 +1131,7 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // background afterwards would mean editing generated streams instead of
       // never asking for the rectangle at all.
       report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions,
-        { walkFieldTree: detachNestedControlFields });
+        { walkFieldTree: detachNestedControlFields }, { suppressSynthesizedWidgetBorders });
       // Before appearances are generated, for the same reason the background
       // strip runs before them: a state supplied here is a state pdf-lib does
       // not regenerate, whereas a stream replaced afterwards would be editing a

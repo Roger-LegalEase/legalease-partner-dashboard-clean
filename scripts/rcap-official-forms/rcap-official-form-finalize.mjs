@@ -901,7 +901,51 @@ export async function finalizeOfficialForm({
    * a judgement about ink. It should not stay opt-in a day longer than the
    * corpus needs to be rebuilt together.
    */
-  fitAppearancesToRect = false
+  fitAppearancesToRect = false,
+  /*
+   * A BORDER THE FORM DOES NOT PRINT, AT A QUESTION THE PACKET LEAVES UNMADE.
+   *
+   * `/MK /BC` and `/MK /BG` are a widget's border and background colours. Under
+   * ISO 32000-1 12.5.6.19 they are appearance CHARACTERISTICS, consulted only
+   * when a viewer has to construct an appearance for itself; a widget that
+   * ships its own `/AP /N` is drawn from that stream and its `/MK` is never
+   * read. pdf-lib's default providers read `/MK` unconditionally whenever they
+   * regenerate, so wherever this pipeline leaves an unwritten field without a
+   * usable appearance -- by clearing one, or because the source shipped none --
+   * updateFieldAppearances paints a stroked rectangle the size of the widget
+   * and flatten() stamps it on the filing.
+   *
+   * Colorado's JDF 641 is the measured case, and VF02 measured it. Its choice
+   * widgets 9B.0, 9B.2 and 9C.0 on page 4 -- an appeal question, an appellate
+   * court line and a restitution question, all three participant elections the
+   * packet deliberately leaves unmade -- are nested below an AcroForm root, so
+   * the unwritten-input drop clears each appearance without detaching the
+   * field, updateFieldAppearances regenerates one from `/MK /BC [0 0 0]`, and
+   * flatten() finds the page through the widget's own `/P`. Delivered: 8,344
+   * dark pixels of black rectangle per fixture at 300 dpi that the Colorado
+   * Judicial Department's form does not print, outside every declared write
+   * box, on top of the single rule the form does print there -- which the
+   * widget's own 29-byte appearance draws and the regeneration discarded.
+   *
+   * Passing true keeps that silent source appearance instead of clearing it,
+   * wherever every widget of an unwritten field draws no word, and removes
+   * `/MK /BC` and `/MK /BG` from an unwritten field's widgets so that anything
+   * still regenerated for one paints nothing. A field this run WROTE is never
+   * touched by either half, and a chooser whose own appearance shows a prompt,
+   * a default or an option list is still dropped whole.
+   *
+   * Opt-in, on the same reasoning as evaluateDeclaredMinimumSize,
+   * alignWidgetFontSizeToFit, fitTextPerWidget, detachNestedControlFields,
+   * clearSourceCarriedTextValues, printedDateOrderByField,
+   * suppressSynthesizedAppearances and fitAppearancesToRect above: the families
+   * sharing this finalizer are rebuilt by different workers at different times,
+   * and a repair lane holding one family does not get to decide what the
+   * others' next rebuild produces. Every caller that does not pass this is
+   * byte-unaffected.
+   *
+   * CAPTAIN DECISION: this is the ninth flag carrying that paragraph.
+   */
+  suppressSynthesizedWidgetBorders = false
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -1427,7 +1471,8 @@ export async function finalizeOfficialForm({
     appearanceDispositions,
     detachNestedControlFields,
     suppressSynthesizedAppearances,
-    fitAppearancesToRect
+    fitAppearancesToRect,
+    suppressSynthesizedWidgetBorders
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
