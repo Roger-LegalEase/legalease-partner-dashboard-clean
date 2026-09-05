@@ -7287,6 +7287,240 @@
     "Stop printing the internal route-key block on participant- and court-facing pages; one of thirteen pages exists only to carry it and another that carries it is the proposed order.",
     "If a provenance stamp must be printed, it must not break tokens: two of the three keys print as 'court-motion-an'/'d-affidavit' and 'notice-hearing-a'/'nd-certified-copies'."
    ]
+  },
+  {
+   "itemId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+   "lane": "VF05",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill",
+   "verifier": "VF05 independent-verification (built none of these families; edited no overlay directory, build script or shared record)",
+   "verifiedAtBase": "b3467e894",
+   "canonicalSha256": "53170a66c1217b01ecae9991c4977c61d2c49b329a913f3c13982639c6e49ef5",
+   "boundarySha256": "7877f06d224ed44b870d92ed9d2dbdaf4c9a471795f8799ce6bb4c414df7bb3d",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "source": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family '<this family>' run read-only in this worktree at b3467e894; result PASS_COMPLETE"
+   },
+   "rasterState": {
+    "currentRasterState": "RASTER_PASS",
+    "workflowRunId": "33973718354",
+    "renderedCommitSha": "d974bcdd801b9c130ac34b959a8541c773dbc171",
+    "receiptDigestsEqualFixtureBytesOnDisk": true,
+    "confirmedHere": "canonical 53170a66c1217b01ecae9991c4977c61d2c49b329a913f3c13982639c6e49ef5 and boundary 7877f06d224ed44b870d92ed9d2dbdaf4c9a471795f8799ce6bb4c414df7bb3d were recomputed from the committed fixture bytes in this worktree and equal the receipt's boundToCanonicalSha256 and boundToBoundarySha256 exactly, so the live RASTER_PASS binds these bytes and not a superseded pair",
+    "expectedPages": 4
+   },
+   "preflight": "node scripts/verify-packet-build-environment.mjs, run once in this worktree with MASTER_LIBRARY_SOURCE_DIR exported: PACKET_BUILD_ENVIRONMENT_NOT_READY, 10/12 passed, 2 failed, 5 not applicable. FAIL 1 private_is_git_ignored: an artefact of the mount shape this assignment prescribes - private/ is a read-only symlink, so `git check-ignore -q private/` exits 128 ('pathspec beyond a symbolic link') and the check reads that as not-ignored; the fact the check protects holds, since `git ls-files private/` is empty and `git check-ignore private` exits 0. FAIL 2 corpus_matches_committed_index: 1 absent of 24 sampled, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'; no source of any of these five families is an Alabama file, and every declared digest for all five resolved by content here. Custodies d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted; private/Nationwide Record Clearing does not exist on this mount.",
+   "priorHistoryReadFresh": {
+    "vf08FailAtAefd46f7c": "FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP, read fresh from data/rcap-grade-a/packet-factory-24h/vf08/rows.json in the tree at b3467e894 (the rows carry verifiedAtBase aefd46f7c but were committed later; the file at aefd46f7c itself does not yet contain them)",
+    "fix03Return": "data/rcap-grade-a/packet-factory-24h/fix03/rows.splitter-cohort-composed.json - the per-builder splitToken was replaced by createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs; FIX03's claim that only the break points moved is confirmed here: every break is now on the key's own underscore and the page and line counts are unchanged",
+    "measuredIndependently": "every obligation above was measured on the current bytes by this lane; no prior row was copied"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "routeKey agrees across product-wiring.json, production-field-map.json, source-receipt.json and MASTER_QUEUE.json: 'obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request'. The printed route trailer appears on canonical pages [2, 4] and boundary pages [2, 4].",
+     "finding": "Built for the route the record names. Every printed trailer reassembles character-for-character to the declared route key, with no fragment left over and no extra character introduced."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "1 committed source record(s), resolved by content hash, never by declared path: I sha256'd 12,146 files across the mounted custodies (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 via the read-only private mount, plus the committed data/ and src/ trees) and matched declared digests against that index. 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef resolved by content to data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json.",
+     "finding": "Every declared source binds by exact SHA-256 recomputed here from the bytes, and each digest resolved to exactly one file by content. custodyClass is CUSTOM_PLEADING_FROM_CODIFIED_TEXT with no source binary committed, which the queue and the receipt agree on; no digest for this family lives in an unmounted custody, so nothing here is NOT_MEASURABLE_HERE."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "componentSet ['agency_request', 'agency_route_sheet']; page-manifest component blocks in canonical ['agency_request', 'agency_route_sheet'] and boundary ['agency_request', 'agency_route_sheet']",
+     "finding": "Every component the route names is rendered and present in both fixtures, and no component appears that the route does not name."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "12 written values across both fixtures, each re-read by me from the extracted text of the fixture bytes rather than from the builder's report; knownRequiredFieldsMissing 0 from verify-packet-completeness.mjs run here",
+     "finding": "Every known required fact is written and visible on the page it belongs to; no expected value was missing from the delivered text."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "requiredBeforeFilingCount 9, 9 items listed, 9 of 9 disclosure labels found in participant-instructions.md by string match",
+     "finding": "Every declared required-before-filing item is named in participant-instructions.md, checked against the file rather than against the count."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "zero selection controls found on any page of either fixture (scanned for '[ ]', box glyphs, 'check one', 'yes/no'); field-map selectionControls 0; requiredOptionsMissing 0",
+     "finding": "No route-determined election is left for the participant: the packet carries no election control at all, and states its statutory ground in its own title and body."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows 0, measured here; every repeated item on the delivered pages renders as an empty dot leader",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "every DATE / SIGNATURE / DATED line in both fixtures listed and read: each carries only dot leaders. protectedWrites 0; actual-writes refusedFieldsWithInk [] and flattened widget appearances 0 in both fixtures",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "canonical.pdf recomputed 53170a66c1217b01ecae9991c4977c61d2c49b329a913f3c13982639c6e49ef5 = rendered-artifacts.json = RASTER_QUEUE receipt; boundary.pdf recomputed 7877f06d224ed44b870d92ed9d2dbdaf4c9a471795f8799ce6bb4c414df7bb3d = rendered-artifacts.json = RASTER_QUEUE receipt",
+     "finding": "Canonical and boundary bytes hash to what the record names, recomputed here from the committed bytes."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "page manifest packetPage values are 1..4 contiguous in both fixtures; component blocks are contiguous and in componentSet order; fixture page count 4 = manifest length = receipt expectedPages 4",
+     "finding": "The rendered page order matches the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "read at appearance level from the composed content stream of both fixtures (word bounding boxes via pdftotext -bbox-layout) and confirmed on a local raster of the previously-failing page(s) into /tmp at 130dpi, deleted after measuring. Zero line-box intersections on any page of either fixture; zero markdown delimiters; no route-key-only page, no fragment page, no thin page. Page box 612x792 with the 72pt left margin held exactly on every line.",
+     "finding": "REPAIRED AND CLEAN. VF08 failed this family at aefd46f7c because the route key broke mid-word on canonical and boundary pages 2 and 4: line one ended '...participant_investigation_and' with no terminating separator and line two opened on an orphan '_finding_request'. On the current bytes the same two pages break the key as '...co_mistaken_identity_expungement:participant_investigation_' / 'and_finding_request' - the break falls on the key's own underscore, the separator stays on line one, and line two opens on no separator. Confirmed on a raster of canonical page 2: the trailer reads cleanly under 'ATTACHED: the identity evidence...'. One heading on pages 1 and 3 reaches x=544.02pt against a 540pt nominal column, 68pt clear of the paper edge, overlapping nothing and clipped nowhere."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures and from participant-instructions.md",
+     "finding": "PASS. Stated, not deferred. The delivered agency route sheet carries 'WHERE IT GOES - To the records unit of the agency that arrested you, or whatever office that agency names for written record enquiries', and says the arrest paperwork names the agency. The packet also states on its face that this route files nothing with any court, which is the destination question's other half."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures and from participant-instructions.md",
+     "finding": "PASS. 'WHAT IT COSTS - Nothing is asked of you anywhere in this packet, and no held source states any charge for making this request. A written request to an agency to look at its own record is not a court filing and carries no filing fee.' The packet also distinguishes the statute's no-cost rule ('No filing fee or other expungement cost may be charged') as belonging to the expungement this route leads to, not to the request."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures, from participant-instructions.md, and from the bound legal-design record under data/record-clearing/",
+     "finding": "PASS. Stated affirmatively and correctly for an agency application: 'Nobody. There is no opposing party, no district attorney to notify and no certificate of service, and no held record states any service requirement for this request. Send it to one place and keep dated proof that you sent it.'"
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures",
+     "finding": "PASS. 'WHEN TO STOP AND GET HELP' prints five stop conditions on the delivered page - agency refuses or finds against you; anyone disputes the arrest account; charges were filed; you are trying to establish innocence of something you were actually arrested for; any immigration question - and the page records that the escalation for a no-finding or a dispute is a lawyer, not a self-help filing."
+    }
+   },
+   "failedObligationNames": [],
+   "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
+  },
+  {
+   "itemId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+   "lane": "VF05",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/co/composed-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-court-petition-after-90-days--custom-pleading",
+   "verifier": "VF05 independent-verification (built none of these families; edited no overlay directory, build script or shared record)",
+   "verifiedAtBase": "b3467e894",
+   "canonicalSha256": "34f8c54501970c7567897d9dfe1e6d17497971f675ba6e7101da28e8efc85739",
+   "boundarySha256": "c5f17a31df94a9860720e5e659ede20cd5327482021880cc0d366c90ec04c9d4",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "source": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family '<this family>' run read-only in this worktree at b3467e894; result PASS_COMPLETE"
+   },
+   "rasterState": {
+    "currentRasterState": "RASTER_PASS",
+    "workflowRunId": "33973718354",
+    "renderedCommitSha": "d974bcdd801b9c130ac34b959a8541c773dbc171",
+    "receiptDigestsEqualFixtureBytesOnDisk": true,
+    "confirmedHere": "canonical 34f8c54501970c7567897d9dfe1e6d17497971f675ba6e7101da28e8efc85739 and boundary c5f17a31df94a9860720e5e659ede20cd5327482021880cc0d366c90ec04c9d4 were recomputed from the committed fixture bytes in this worktree and equal the receipt's boundToCanonicalSha256 and boundToBoundarySha256 exactly, so the live RASTER_PASS binds these bytes and not a superseded pair",
+    "expectedPages": 5
+   },
+   "preflight": "node scripts/verify-packet-build-environment.mjs, run once in this worktree with MASTER_LIBRARY_SOURCE_DIR exported: PACKET_BUILD_ENVIRONMENT_NOT_READY, 10/12 passed, 2 failed, 5 not applicable. FAIL 1 private_is_git_ignored: an artefact of the mount shape this assignment prescribes - private/ is a read-only symlink, so `git check-ignore -q private/` exits 128 ('pathspec beyond a symbolic link') and the check reads that as not-ignored; the fact the check protects holds, since `git ls-files private/` is empty and `git check-ignore private` exits 0. FAIL 2 corpus_matches_committed_index: 1 absent of 24 sampled, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'; no source of any of these five families is an Alabama file, and every declared digest for all five resolved by content here. Custodies d_source_packs and nationwide_recovery_pool_2026_09_02 are not mounted; private/Nationwide Record Clearing does not exist on this mount.",
+   "priorHistoryReadFresh": {
+    "vf08FailAtAefd46f7c": "FAIL_REPAIR_REQUIRED on CLIPPING_AND_OVERLAP, read fresh from data/rcap-grade-a/packet-factory-24h/vf08/rows.json in the tree at b3467e894 (the rows carry verifiedAtBase aefd46f7c but were committed later; the file at aefd46f7c itself does not yet contain them)",
+    "fix03Return": "data/rcap-grade-a/packet-factory-24h/fix03/rows.splitter-cohort-composed.json - the per-builder splitToken was replaced by createTokenSplitter from scripts/rcap-custom-pleading/split-token.mjs; FIX03's claim that only the break points moved is confirmed here: every break is now on the key's own underscore and the page and line counts are unchanged",
+    "measuredIndependently": "every obligation above was measured on the current bytes by this lane; no prior row was copied"
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "routeKey agrees across product-wiring.json, production-field-map.json, source-receipt.json and MASTER_QUEUE.json: 'obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days'. The printed route trailer appears on canonical pages [2, 3, 5] and boundary pages [2, 3, 5].",
+     "finding": "Built for the route the record names. Every printed trailer reassembles character-for-character to the declared route key, with no fragment left over and no extra character introduced."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "1 committed source record(s), resolved by content hash, never by declared path: I sha256'd 12,146 files across the mounted custodies (private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 via the read-only private mount, plus the committed data/ and src/ trees) and matched declared digests against that index. 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef resolved by content to data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json.",
+     "finding": "Every declared source binds by exact SHA-256 recomputed here from the bytes, and each digest resolved to exactly one file by content. custodyClass is CUSTOM_PLEADING_FROM_CODIFIED_TEXT with no source binary committed, which the queue and the receipt agree on; no digest for this family lives in an unmounted custody, so nothing here is NOT_MEASURABLE_HERE."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "componentSet ['primary_filing', 'proposed_order', 'filing_instructions']; page-manifest component blocks in canonical ['primary_filing', 'proposed_order', 'filing_instructions'] and boundary ['primary_filing', 'proposed_order', 'filing_instructions']",
+     "finding": "Every component the route names is rendered and present in both fixtures, and no component appears that the route does not name."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "14 written values across both fixtures, each re-read by me from the extracted text of the fixture bytes rather than from the builder's report; knownRequiredFieldsMissing 0 from verify-packet-completeness.mjs run here",
+     "finding": "Every known required fact is written and visible on the page it belongs to; no expected value was missing from the delivered text."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "requiredBeforeFilingCount 10, 10 items listed, 10 of 10 disclosure labels found in participant-instructions.md by string match",
+     "finding": "Every declared required-before-filing item is named in participant-instructions.md, checked against the file rather than against the count."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "zero selection controls found on any page of either fixture (scanned for '[ ]', box glyphs, 'check one', 'yes/no'); field-map selectionControls 0; requiredOptionsMissing 0",
+     "finding": "No route-determined election is left for the participant: the packet carries no election control at all, and states its statutory ground in its own title and body."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows 0, measured here; every repeated item on the delivered pages renders as an empty dot leader",
+     "finding": "No row carries written cells beside required cells left blank."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "every DATE / SIGNATURE / DATED line in both fixtures listed and read: each carries only dot leaders. protectedWrites 0; actual-writes refusedFieldsWithInk [] and flattened widget appearances 0 in both fixtures",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "canonical.pdf recomputed 34f8c54501970c7567897d9dfe1e6d17497971f675ba6e7101da28e8efc85739 = rendered-artifacts.json = RASTER_QUEUE receipt; boundary.pdf recomputed c5f17a31df94a9860720e5e659ede20cd5327482021880cc0d366c90ec04c9d4 = rendered-artifacts.json = RASTER_QUEUE receipt",
+     "finding": "Canonical and boundary bytes hash to what the record names, recomputed here from the committed bytes."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "page manifest packetPage values are 1..5 contiguous in both fixtures; component blocks are contiguous and in componentSet order; fixture page count 5 = manifest length = receipt expectedPages 5",
+     "finding": "The rendered page order matches the packet manifest."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "read at appearance level from the composed content stream of both fixtures (word bounding boxes via pdftotext -bbox-layout) and confirmed on a local raster of the previously-failing page(s) into /tmp at 130dpi, deleted after measuring. Zero line-box intersections on any page of either fixture; zero markdown delimiters; no route-key-only page, no fragment page, no thin page. Page box 612x792 with the 72pt left margin held exactly on every line.",
+     "finding": "REPAIRED AND CLEAN, AND THE PAGE-3 OBSERVATION IS RULED NOT A DEFECT. VF08 failed this family at aefd46f7c because the key severed the word 'after' as '...participant_court_petition_aft' / 'er_90_days' on pages 2, 3 and 5. On the current bytes all three pages break as '...participant_court_petition_' / 'after_90_days' - on the key's own underscore, separator retained, no orphan. PAGE 3 RULING: VF08 left unscored the observation that on the proposed order the trailer prints below 'DATED ......', below the court's empty signature rule and below '(The court signs here if, and only if, it grants the petition.)'. Measured here on the raster and on the coordinates, it is NOT machine text inside the court's block: the 'Route:' label sits at y=470.49 and the key at y=484.99-509.39, entirely below and outside the court block, whose last element ends at y=451.39; the court's DATED leader (y=397.99, x to 194.52) and signature rule (y=426.99, x to 209.50) carry no ink and the trailer's boxes intersect neither; and the identical trailer prints at the identical structural position on page 2 (after the petitioner's contact block) and page 5 (after prose), so it is a uniform per-page document trailer rather than an element of the signature block. It decides nothing, is signed by nobody, and the page's own parenthetical that nothing on it is completed or decided by this packet remains true."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures and from participant-instructions.md",
+     "finding": "PASS. Stated three times in the delivered bytes and it is what the bound record holds: the petition caption 'DISTRICT COURT, ...... JUDICIAL DISTRICT', the petition body ('the petitioner therefore files this petition in the same district court'), and STEP FIVE 'File the petition, its attachments and the unsigned proposed order with the district court of the judicial district where the arrest occurred'. I re-read the bound decision here: it records 'the person may file the petition in the same district court' and 'VENUE: JUDICIAL DISTRICT OF ARREST'."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures and from participant-instructions.md",
+     "finding": "PASS. The bound decision establishes the answer outright - 'No filing fee or other expungement cost may be charged' - and the packet states it four times in the delivered bytes: the petition title block '(PARTICIPANT FILING AFTER THE EXPIRED 90-DAY AGENCY DEADLINE - NO FILING FEE OR OTHER EXPUNGEMENT COST MAY BE CHARGED)', the petition body at paragraph 5, STEP FIVE 'Pay nothing', and 'No fee is asked anywhere in it'. No waiver route is owed where the statute bars the charge."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures, from participant-instructions.md, and from the bound legal-design record under data/record-clearing/",
+     "finding": "PASS, with a recorded observation. I read the bound record myself: researchTrackDecisions[6] for co_mistaken_identity_expungement has serviceWorkflow: [] and filingVehicle: [] - the committed record establishes no service or delivery rule for this route, so an affirmative 'nobody must be served' would be an invention. The packet does not invent one; it discloses the open point and names a checkable authority: 'How the petition must be delivered, and how certified copies of an order are obtained. Neither is established by the committed record this packet is built from. The office of the district court of the judicial district where the arrest occurred is the authority that can answer both - ask before you file', and STEPS SIX to EIGHT carry the post-order distribution and verification. OBSERVATION, repair-actionable and not a failure: that disclosure lives only in participant-instructions.md. Unlike its four siblings, no delivered PDF page of this family carries a 'WHO MUST BE SERVED' section, so a participant reading only the printed packet sees nothing on service at all. Moving the existing disclosure onto the filing-instructions page would close the gap without adding a legal claim."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "read from the delivered pages of both fixtures",
+     "finding": "PASS. 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' prints six stop conditions on the delivered page, each traceable to the bound decision: no agency mistaken-identity finding (the decision makes the agency request the first output, not this petition); charges were filed; the 90-day deadline has not expired; the finding or no-charge status is disputed; an attempt to establish innocence without an agency finding; any immigration question. 'WHAT THIS PACKET IS NOT' states it is not legal advice, not filed for you and not a promise the court will act."
+    }
+   },
+   "failedObligationNames": [],
+   "grantsNothing": "An independent PASS proves a packet is complete. It approves no output and opens no commercial route."
   }
  ],
  "supersededLaneMembership": {
@@ -8421,5 +8655,22 @@
    "nm_identity_theft-set": "FAIL_REPAIR_REQUIRED",
    "ri_first_offender_misdemeanor-set": "FAIL_REPAIR_REQUIRED"
   }
+ },
+ "vf05ComposedSplitterCohortRead20260905": {
+  "reader": "VF05 independent-verification lane, base b3467e894, branch vf05-composed-reads",
+  "families": [
+   "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+   "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days"
+  ],
+  "verdicts": {
+   "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request": "PASS_COMPLETE_INDEPENDENT",
+   "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days": "PASS_COMPLETE_INDEPENDENT"
+  },
+  "whyThisReaderIsIndependent": "This lane built none of these five families and repaired none of them; FIX03 wrote the splitter change and VF08 wrote the failing verdict it answers. No overlay directory, build script or shared record was edited.",
+  "overlayDirectoriesModified": 0,
+  "buildersModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsReleased": "none - Captain releases centrally"
  }
 }
