@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "c9bbb6ecd5682edc17ea988a3228615396acce27",
+  "generatedAtCommit": "e5408a1a9c2c706c699308fc506bf9230299c0c2",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1136,10 +1136,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX28",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Dealt by the generator at e5408a1a9 and never launched; moving to a lane the Captain will actually dispatch."
     },
     {
       "subjectType": "packet-family",
@@ -3739,7 +3740,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX07",
+      "lane": "FIX06",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T05:57:01.413Z"
@@ -6065,7 +6066,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX08",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T01:09:26.533Z"
@@ -6200,7 +6201,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX08",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.017Z"
@@ -6365,7 +6366,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.884Z"
@@ -6860,7 +6861,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-04T22:42:07.145Z"
@@ -7593,10 +7594,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX04",
+      "lane": "FIX27",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T09:34:51.937Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -7987,6 +7988,21 @@
       "laneKind": "independent-verification",
       "released": true,
       "releasedAt": "2026-09-02T16:06:53.946Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_nonconviction-set",
+      "itemId": null,
+      "familyIds": [
+        "vt_seal_nonconviction-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "laneKind": "independent-verification",
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -12885,7 +12901,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "287eb3ed590ea1050622d455ee9840d84f2cfbe00a9f59e3e9e1716487b0e84a",
+  "claimsDigest": "ac91ea469946a395397b23f463486ec2442cab44ed660268185a566e24f80e8b",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27066,6 +27082,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T09:39:19.314Z",
       "reason": "VF11 returned FAIL_REPAIR_REQUIRED at 3ed0495d (ROUTE_IDENTITY: pages print the retired track-only route key; SOURCE_IDENTITY: census pin 9816a479 drifted to 4d0eb74b; REQUIRED_BEFORE_FILING: undeclared caption court blank on page 1). Verdict extracted into VERIFIER_RETURNS; the family goes to repair."
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T09:45:22.788Z",
+      "reason": "Dealt by the generator at e5408a1a9 and never launched; moving to a lane the Captain will actually dispatch."
     }
   ],
   "reissues": [
@@ -37804,6 +37829,28 @@
       "previouslyReleasedAt": "2026-09-03T06:25:31.275Z",
       "transferredAt": "2026-09-05T09:39:19.442Z",
       "reason": "VF35 (a retired Codex lane) released this grant after its FAIL at base 5c718222; FIX26 found the ARTIFACTS finding no longer reproduces and no fixture byte moved. Moving the released grant to VF12 so a current independent read can clear the stale verdict."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ut_pet_limitations-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX04",
+      "toLane": "FIX27",
+      "previouslyReleasedAt": "2026-09-05T09:34:51.937Z",
+      "transferredAt": "2026-09-05T09:45:22.634Z",
+      "reason": "PAGE_ORDER and SELF_HELP_STOP were repaired by e621bb5a1 but no repair return records it, and owner correction Q4 (no unconfirmed fee figure) is still live while participant-instructions.md quotes a BCI FAQ figure the enclosed forms do not print. FIX27 applies Q4 to this family, confirms the two obligations on the current bytes, and returns a repair row that names them."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX28",
+      "previouslyReleasedAt": "2026-09-05T09:45:22.788Z",
+      "transferredAt": "2026-09-05T09:45:22.916Z",
+      "reason": "VF11 failed ROUTE_IDENTITY, SOURCE_IDENTITY and REQUIRED_BEFORE_FILING at 79f886f26: the pages print the retired track-only route key, the census pin drifted at 2d01b84f, and the page-1 caption court blank is undeclared. Routine rebuild against the current census."
     }
   ],
   "withdrawals": [
