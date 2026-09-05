@@ -137,7 +137,11 @@ Attach certified dispositions and the educational credential evidence identified
 
 ## Filing and notice
 
-File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. The circuit clerk performs statutory service after filing; do not complete court-owned service or order fields. Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.
+File a separate flattened packet with the circuit clerk in each county where an arrest occurred or a charge was brought. In Cook County, file in the district matching the case. Circuit-clerk fees vary; if a fee waiver is needed, complete the included Rule 298 application.
+
+**Who serves, and how.** The circuit court clerk serves, under § 5.2(d)(4). The participant serves no one. You do not mail, hand-deliver, or arrange service yourself, and you do not complete court-owned service or order fields.
+
+**Who is served.** Notice goes to the State's Attorney, the Illinois State Police, the arresting agency, and for municipal ordinance violations the chief legal officer. The objection period is 60 days from service under § 5.2(d)(5)(B). Unless an objection is filed the court shall enter an order granting or denying under § 5.2(d)(6)(B).
 
 ## Stop and get help
 
