@@ -5395,10 +5395,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain consolidation for the SCAN02 splitter cohort: one worker per group of private builders; no lane asserted the dealt grant."
     },
     {
       "subjectType": "packet-family",
@@ -8062,10 +8063,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX06",
+      "lane": "FIX07",
       "laneKind": "repair",
       "released": false,
-      "releasedAt": null
+      "releasedAt": null,
+      "releaseReason": "Captain consolidation for the SCAN02 splitter cohort: one worker per group of private builders; no lane asserted the dealt grant."
     },
     {
       "subjectType": "packet-family",
@@ -13250,7 +13252,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "a579fcbb7d45016450736d2dc5a1d50d5ef9cab42bc5aee263e5ee3b0f8c3a99",
+  "claimsDigest": "f2801259919cbadf79d604a912718dfe1d4ee774e1ecdbb0b798046700a0c792",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -28133,6 +28135,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T14:45:19.444Z",
       "reason": "Captain consolidation for the SCAN02 splitter cohort: one worker per group of private builders, each family its own builder and its own writer; no lane asserted the dealt grant."
+    },
+    {
+      "lane": "FIX06",
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T14:51:04.397Z",
+      "reason": "Captain consolidation for the SCAN02 splitter cohort: one worker per group of private builders; no lane asserted the dealt grant."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonadj-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T14:51:04.575Z",
+      "reason": "Captain consolidation for the SCAN02 splitter cohort: one worker per group of private builders; no lane asserted the dealt grant."
     }
   ],
   "reissues": [
@@ -39418,6 +39438,28 @@
       "previouslyReleasedAt": "2026-09-04T23:59:41.004Z",
       "transferredAt": "2026-09-05T14:45:39.680Z",
       "reason": "SCAN02 splitter cohort: VF08 FAIL at aefd46f7c (eligible-c / onviction-411-0735 on the prosecutor-delivery page); FIX08 repairs the private builder onto the shared splitter."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "va_exp_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX06",
+      "toLane": "FIX07",
+      "previouslyReleasedAt": "2026-09-05T14:51:04.397Z",
+      "transferredAt": "2026-09-05T14:51:04.487Z",
+      "reason": "SCAN02 cohort: FIX07 repairs this family's private builder (VF08/VF07 FAIL at aefd46f7c)."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ms-nonadj-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX07",
+      "previouslyReleasedAt": "2026-09-05T14:51:04.575Z",
+      "transferredAt": "2026-09-05T14:51:04.664Z",
+      "reason": "SCAN02 cohort: FIX07 repairs this family's private builder (VF08/VF07 FAIL at aefd46f7c)."
     }
   ],
   "withdrawals": [
