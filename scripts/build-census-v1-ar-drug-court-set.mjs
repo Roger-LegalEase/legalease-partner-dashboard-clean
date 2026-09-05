@@ -20,6 +20,7 @@ import { captureWidgetContext, extractTextItems, groupIntoLines, normalizeHarves
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { fitTextToWidget, applyFitToTextField, usableWidthOf, HORIZONTAL_PADDING, MIN_READABLE_FONT_SIZE }
   from "./rcap-official-forms/rcap-text-fitting.mjs";
+import { BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(ROOT);
@@ -177,6 +178,53 @@ function captionLeftOnRow(line, rect) {
   return normalizeHarvestedText(text).replace(/[\s:*.]+$/, "").trim().slice(0, CAPTION_MAX_CHARS) || null;
 }
 
+/*
+ * WHICH BLANK, ON WHICH PRINTED LINE.
+ *
+ * VF05 read all 66 required-before-filing rows and found the decisive defect --
+ * `Sex` captioned "Race" -- alongside forty-three rows "named by a mis-derived
+ * fragment of adjacent printed text rather than the field's caption", among
+ * them "1", "2", "A", "prays", "IN TH", "_______ DI", "4.On" and a bare rule of
+ * underscores. The Race/Sex swap was repaired at 26838a27b. The naming was not:
+ * a caption harvested from whatever ink happens to sit nearest a widget is a
+ * fragment whenever the form prints no caption there, and five of these blanks
+ * had no caption at all and fell through to the synthetic string
+ * "ACIC-ORDER-DRUG-COURT-PRE printed blank SID".
+ *
+ * The completeness contract already says what such a row owes:
+ * REQUIRED_BEFORE_FILING_CONDITIONS "IDENTIFIED: the row names the field and
+ * carries a printed label, so the packet can tell the participant which blank
+ * to fill."
+ *
+ * A fragment cannot do that and neither can a rule of underscores. What can is
+ * the pair a person looking at the paper actually uses: the printed LINE the
+ * blank sits on, quoted verbatim from the pinned binary, and WHICH blank on
+ * that line it is, counted left to right from the widget rectangles the form
+ * itself declares. Where the line is nothing but rules -- the offence-list
+ * continuations, the federal-charges continuations -- the sentence that
+ * introduces it is quoted too, because a continuation rule is unreadable alone.
+ *
+ * Nothing here is invented. Every quoted line is asserted to be printed on the
+ * page it is attributed to, in the pinned source, before the build may finish.
+ */
+const hasPrintedWords = (text) => /[A-Za-z]/.test(String(text ?? "").replace(/_+/g, " "));
+
+/** Every widget sitting on one printed line, left to right. */
+function blanksOnPrintedLine(occupants, page, lineIndex) {
+  return (occupants.get(`${page}|${lineIndex}`) ?? []).slice().sort((a, b) => a.x - b.x);
+}
+
+/** The nearest printed line ABOVE this one that carries words rather than rules. */
+function introducingLine(lines, own) {
+  let best = null;
+  for (const line of lines) {
+    if (line.y <= own.y) continue;
+    if (!hasPrintedWords(line.text)) continue;
+    if (!best || line.y < best.y) best = line;
+  }
+  return best ? normalizeHarvestedText(best.text).trim() : null;
+}
+
 /** Drawn text present in the finished page but not in the bound source, page by page. */
 function addedInkByPage(sourceItemsByPage, outputItemsByPage) {
   const key = (item) => `${item.text}\u0000${item.x.toFixed(2)}\u0000${item.y.toFixed(2)}\u0000${item.size.toFixed(2)}`;
@@ -227,11 +275,16 @@ function fieldType(field) {
   return field.constructor.name.replace(/^PDF/, "").toLowerCase();
 }
 
+/** Every printed line of every pinned source page, kept so a quoted line can be proved printed. */
+const PRINTED_PAGE_TEXT = new Map();
+
 async function census(source, bytes) {
   const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   const pages = pdf.getPages();
   assert.equal(pages.length, source.pageCount, `${source.documentId}: page count moved`);
   const lines = pages.map((page) => groupIntoLines(extractTextItems(page)));
+  lines.forEach((pageLines, index) => PRINTED_PAGE_TEXT.set(`${source.documentId}|${index + 1}`,
+    squashPrinted(pageLines.map((line) => line.text).join(" "))));
   const captureInput = new Map();
   const base = pdf.getForm().getFields().map((field) => {
     const widgets = field.acroField.getWidgets().map((widget) => {
@@ -253,6 +306,20 @@ async function census(source, bytes) {
       precomputedLines: lines[index], isFirstPage: index === 0
     })) if (!contexts.has(row.name)) contexts.set(row.name, row);
   });
+
+  /* Which widgets share one printed line, so a blank can be counted along it. */
+  const occupants = new Map();
+  for (const field of base) {
+    for (const widget of field.widgets) {
+      const own = ownPrintedRow(lines[widget.page - 1], widget.rect);
+      if (!own) continue;
+      const lineIndex = lines[widget.page - 1].indexOf(own.line);
+      const key = `${widget.page}|${lineIndex}`;
+      if (!occupants.has(key)) occupants.set(key, []);
+      occupants.get(key).push({ name: field.name, x: widget.rect.x });
+    }
+  }
+
   return base.map((field) => {
     const context = contexts.get(field.name) ?? {};
     const widget = field.widgets[0] ?? null;
@@ -274,10 +341,38 @@ async function census(source, bytes) {
     // the blank by; a fragment harvested off a different row is not.
     const effectiveLabel = (notOnOwnRow ? (corrected ?? printedRow) : harvested)
       ?? `${source.documentId} printed blank ${field.name}`;
+    /*
+     * The blank's own identification: the printed line it sits on and which
+     * blank on that line it is. Independent of the harvest, so a fragment
+     * cannot reach the participant through it.
+     */
+    const lineIndex = own ? lines[widget.page - 1].indexOf(own.line) : -1;
+    /* Two continuation rules on one page print the same characters. Which one
+     * this blank is on is then part of naming it. */
+    const sameTextLines = own
+      ? lines[widget.page - 1]
+        .map((line, index) => ({ line, index }))
+        .filter(({ line }) => squashPrinted(line.text) === squashPrinted(own.line.text))
+        .sort((a, b) => b.line.y - a.line.y)
+      : [];
+    const occurrence = sameTextLines.findIndex((entry) => entry.index === lineIndex);
+    const siblings = own ? blanksOnPrintedLine(occupants, widget.page, lineIndex) : [];
+    const ordinal = siblings.findIndex((entry) => entry.name === field.name && Math.abs(entry.x - widget.rect.x) < 0.01);
+    const printedLineCarriesWords = printedRow !== null && hasPrintedWords(printedRow);
+    const introducedBy = own && !printedLineCarriesWords ? introducingLine(lines[widget.page - 1], own.line) : null;
+
     return { ...field, effectiveLabel, harvestedLabel: context.effectiveLabel ?? null,
       printedRow,
       printedRowBaselineDelta: own ? +own.delta.toFixed(2) : null,
       labelCorrectedFromAnotherPrintedRow: notOnOwnRow,
+      printedLine: printedRow,
+      printedLinePage: widget ? widget.page : null,
+      printedLineCarriesWords,
+      introducedByPrintedLine: introducedBy,
+      blankOrdinalOnPrintedLine: ordinal >= 0 ? ordinal + 1 : null,
+      blanksOnPrintedLine: siblings.length || null,
+      printedLineOccurrenceOnPage: occurrence >= 0 ? occurrence + 1 : null,
+      printedLineOccurrencesOnPage: sameTextLines.length || null,
       labelBasis: notOnOwnRow
         ? `re-read from the widget's own printed row; the harvested caption ${JSON.stringify(context.effectiveLabel)} is not printed on it`
         : context.labelBasis ?? "field-name fallback after measured widget-context harvest" };
@@ -297,6 +392,61 @@ function shouldWrite(source, field) {
   return key;
 }
 
+/*
+ * A required-before-filing row, identified the way the contract asks.
+ *
+ * `identifiedBy` is the participant-facing name. It is built only from things
+ * printed on the pinned form and from the widget rectangles the form declares,
+ * so it names a blank a person can put a finger on:
+ *
+ *   Sex, the 1st of 2 blanks on the printed line "Sex ____________ SID No. ___"
+ *   OFFENSE 01, the 1st of 1 blank on the printed line "_____________________",
+ *     which continues "_____, and charged with the offense(s) of:"
+ *
+ * `suppliedBy` and `suppliedWhen` say who fills it and at what moment, because
+ * a required item with no owner and no moment is not an instruction.
+ */
+const ordinalSuffix = (n) => (n % 100 >= 11 && n % 100 <= 13) ? "th"
+  : ({ 1: "st", 2: "nd", 3: "rd" })[n % 10] ?? "th";
+
+function requiredBeforeFilingRow(common, field, source, suppliedBy, suppliedWhen) {
+  const line = field.printedLine;
+  const ordinal = field.blankOrdinalOnPrintedLine;
+  const total = field.blanksOnPrintedLine;
+  const nth = ordinal === null || total === null
+    ? null
+    : `the ${ordinal}${ordinalSuffix(ordinal)} of ${total} blank${total === 1 ? "" : "s"}`;
+  const repeats = field.printedLineOccurrencesOnPage ?? 1;
+  const whichLine = repeats > 1 && field.printedLineOccurrenceOnPage
+    ? ` (the ${field.printedLineOccurrenceOnPage}${ordinalSuffix(field.printedLineOccurrenceOnPage)} of ${repeats} identical lines on that page, counting from the top)`
+    : "";
+  const where = line === null
+    ? null
+    : `${nth ?? "a blank"} on the printed line "${line}"${whichLine}`;
+  const continues = field.introducedByPrintedLine
+    ? `, which continues "${field.introducedByPrintedLine}"`
+    : "";
+  const identifiedBy = where === null
+    ? `${field.name}, on page ${common.page} of the ${source.officialTitle}`
+    : `${field.name}, ${where}${continues}`;
+  return {
+    ...common,
+    requiredBeforeFiling: true,
+    factAvailable: false,
+    disposition: "REQUIRED_BEFORE_FILING",
+    identifiedBy,
+    printedLine: line,
+    printedLineCarriesWords: field.printedLineCarriesWords === true,
+    introducedByPrintedLine: field.introducedByPrintedLine ?? null,
+    blankOrdinalOnPrintedLine: ordinal,
+    blanksOnPrintedLine: total,
+    printedLineOccurrenceOnPage: field.printedLineOccurrenceOnPage ?? null,
+    printedLineOccurrencesOnPage: field.printedLineOccurrencesOnPage ?? null,
+    suppliedBy,
+    suppliedWhen
+  };
+}
+
 function classifyRefusal(source, field) {
   const common = { fieldId: `${source.documentId}:${field.name}`, fieldName: field.name,
     documentId: source.documentId, page: field.widgets[0]?.page ?? null,
@@ -305,7 +455,9 @@ function classifyRefusal(source, field) {
     pdfType: field.type };
   if (source.role === "order") {
     if (["COURT OF", "DIVISION", "Race", "Sex", "SID"].includes(field.name)) return {
-      ...common, requiredBeforeFiling: true, factAvailable: false,
+      ...requiredBeforeFilingRow(common, field, source,
+        "the participant, copying the underlying court or ACIC record",
+        "before the proposed order is lodged, so it matches the petition it accompanies"),
       reason: "Before filing, copy this blank from the underlying court or ACIC record so the proposed order matches the petition."
     };
     if (/FBI No/i.test(field.name)) return { ...common, completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT",
@@ -331,16 +483,19 @@ function classifyRefusal(source, field) {
       : "The form marks the FBI number optional when known; this is optional participant-authored content and the platform does not invent it."
   };
   /*
-   * The reason no longer splices the harvested caption into a sentence.
+   * The reason says where the answer comes from and nothing else.
    *
-   * Forty-three of these captions are sentence fragments -- "1", "A", "prays",
-   * "IN TH", "_______ DI" -- so the instruction read "supply prays from the
-   * court record", which names nothing a participant can go and obtain. The
-   * blank is identified by the bolded caption and the quoted printed line the
-   * instructions now carry; the reason says where the answer comes from.
+   * It used to splice the harvested caption into a sentence -- "supply prays
+   * from the court record" -- which names nothing a participant can go and
+   * obtain. Identifying the blank is `identifiedBy`'s job, built from the
+   * printed line and the widget rectangles rather than from the harvest.
    */
-  return { ...common, requiredBeforeFiling: true, factAvailable: false,
-    reason: "Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact." };
+  return {
+    ...requiredBeforeFilingRow(common, field, source,
+      "the participant, from the court file, the ACIC criminal history, or the drug-court completion record",
+      "before the petition is signed and filed"),
+    reason: "Before filing, read the printed prompt this blank sits in and supply it from the court, ACIC, program-completion, or case record; the platform does not hold that exact fact."
+  };
 }
 
 function rowsFor(source, fields) {
@@ -540,19 +695,23 @@ function instructions(allRefusals) {
     + `Before filing, obtain the fingerprint card and the ACIC criminal history when the records step applies; compare the criminal history with the court, county, charge, and disposition; then complete these exact official-form blanks from the named record:\n\n`
     + required.map((row) => {
       /*
-       * Name the blank the way the form does, and quote the line it is printed
-       * on.
+       * Name the blank by the printed line it sits on and its position along
+       * that line, then say who supplies it and when.
        *
        * A harvested caption alone was not enough to act on. Forty-three of
        * these rows were named by a fragment -- "1", "A", "prays", "IN TH",
-       * "_______ DI" -- which names nothing a participant can supply, and one
+       * "_______ DI", "4.On" -- which names nothing a participant can supply,
+       * five fell through to a synthetic "printed blank <name>" string, and one
        * row was named by the caption of a DIFFERENT printed row, so the packet
-       * asked for Race twice and never asked for Sex at all. The printed line
-       * is what the participant is looking at, so it is quoted here verbatim.
+       * asked for Race twice and never asked for Sex at all. `identifiedBy` is
+       * built from the printed line and the widget rectangles instead, so it
+       * cannot degrade to a fragment, and each item now carries its owner and
+       * its moment as well as its disposition.
        */
-      const printed = row.printedRow && row.printedRow !== row.effectiveLabel
-        ? ` Printed on the form as: "${row.printedRow}".` : "";
-      return `- **${row.effectiveLabel}** (\`${row.fieldId}\`, page ${row.page}): ${row.reason}${printed}`;
+      return `- **${row.identifiedBy}** (\`${row.fieldId}\`, page ${row.page})\n`
+        + `  - Supplied by: ${row.suppliedBy}.\n`
+        + `  - Supplied when: ${row.suppliedWhen}.\n`
+        + `  - Disposition: ${row.disposition}. ${row.reason}`;
     }).join("\n")
     + `\n\nSign and date the petition yourself after all answers are true. Complete a certificate of service only after service occurred. The proposed order remains unsigned and undated for the judge.\n\n`
     + `Routes: ${ROUTE_KEYS.join("; ")}\n`;
@@ -579,6 +738,45 @@ function checkOutputs() {
   return { familyId: FAMILY_ID, status: "CHECK_OK", artifacts: rendered.artifacts };
 }
 
+/*
+ * The gate. A required-before-filing row that cannot be acted on fails the
+ * build instead of shipping.
+ *
+ * Four things are proved, and the first is the one VF05's finding turns on:
+ * every quoted printed line is actually printed on the page it is attributed
+ * to, in the pinned source binary, so `identifiedBy` can never quote a line the
+ * participant will not find. Then: no row falls back to a synthetic name, every
+ * row carries a disposition that is in the completeness contract's own closed
+ * vocabulary and is one the contract allows, and every row names an owner and a
+ * moment.
+ */
+function assertRequiredBlanksAreIdentified(refusals) {
+  const required = refusals.filter((row) => row.requiredBeforeFiling === true);
+  assert.ok(required.length > 0, "no required-before-filing rows were produced");
+  for (const row of required) {
+    assert.equal(row.disposition, "REQUIRED_BEFORE_FILING",
+      `${row.fieldId}: required blank carries no closed-vocabulary disposition`);
+    assert.equal(BLANK_DISPOSITIONS[row.disposition]?.allowed, true,
+      `${row.fieldId}: ${row.disposition} is not an allowed disposition`);
+    assert.ok(typeof row.identifiedBy === "string" && row.identifiedBy.length > 0,
+      `${row.fieldId}: required blank has no participant-facing identification`);
+    assert.ok(!/printed blank/.test(row.identifiedBy),
+      `${row.fieldId}: required blank fell back to a synthetic name: ${row.identifiedBy}`);
+    assert.ok(typeof row.suppliedBy === "string" && row.suppliedBy.length > 0,
+      `${row.fieldId}: required blank names nobody who supplies it`);
+    assert.ok(typeof row.suppliedWhen === "string" && row.suppliedWhen.length > 0,
+      `${row.fieldId}: required blank names no moment at which it is supplied`);
+    for (const quoted of [row.printedLine, row.introducedByPrintedLine]) {
+      if (quoted === null || quoted === undefined) continue;
+      const printed = PRINTED_PAGE_TEXT.get(`${row.documentId}|${row.page}`);
+      assert.ok(printed !== undefined, `${row.fieldId}: page ${row.page} of ${row.documentId} was not read`);
+      assert.ok(printed.includes(squashPrinted(quoted)),
+        `${row.fieldId}: quoted line is not printed on page ${row.page} of ${row.documentId}: ${JSON.stringify(quoted)}`);
+    }
+  }
+  return required.length;
+}
+
 export async function runFamily(argv = process.argv.slice(2)) {
   const held = verifyAllSources();
   if (argv.includes("--check")) return checkOutputs();
@@ -601,6 +799,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     const rows = rowsFor(source, fieldsById.get(source.documentId));
     writes.push(...rows.writes); refusals.push(...rows.refusals);
   }
+  assertRequiredBlanksAreIdentified(refusals);
   writeJson(`${OUT}/production-field-map.json`, {
     schemaVersion: "rcap-official-form-field-map/v1", familyId: FAMILY_ID, routeKeys: ROUTE_KEYS,
     routeSelectionId: "ar-drug-court-pre-or-post-pair", renderStrategy: "acroform_fill_then_ordered_assembly",
