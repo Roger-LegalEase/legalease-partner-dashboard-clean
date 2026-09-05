@@ -4527,10 +4527,10 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX45",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-05T11:40:02.353Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13167,7 +13167,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "fb082c1ffc562966e2bba5276e6b88a994a403feafac6cd793066867f002a351",
+  "claimsDigest": "ec09bb988b762aa79524adda4b7d5de62357ca24a6c7a04073791ee68b3d8c9e",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -39866,6 +39866,17 @@
       "previouslyReleasedAt": "2026-09-05T14:34:26.472Z",
       "transferredAt": "2026-09-05T15:32:12.095Z",
       "reason": "VF02 at 321938c38 (a616f3989) fails KNOWN_PREFILLS and REQUIRED_BEFORE_FILING: the production field map's boundaryWrites and boundaryRefusals are byte-identical to the canonical side, so the delivered boundary fixture leaves item 1 row a blank while the platform holds that conviction; the repair generates the boundary side from the boundary render. FIX44 takes it; FIX03's grant was released after its earlier repair."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "la-987-set-aside-and-dismiss-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX02",
+      "toLane": "FIX45",
+      "previouslyReleasedAt": "2026-09-05T11:40:02.353Z",
+      "transferredAt": "2026-09-05T15:33:07.867Z",
+      "reason": "VF02 at 97be5bcda (4b6fb1825) fails CLIPPING_AND_OVERLAP: pages 2 and 3 are the court's block and carry the machine component identity and route key as body ink; page 5 prints the key twice. FIX45 repairs the placement at the builder; the KNOWN_PREFILLS legal input (offence and statute) stays with counsel."
     }
   ],
   "withdrawals": [
