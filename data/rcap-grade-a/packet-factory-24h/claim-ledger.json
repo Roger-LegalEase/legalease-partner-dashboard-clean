@@ -6893,8 +6893,9 @@
       "operation": "rapid-repair",
       "lane": "FIX41",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-09-05T12:17:24.785Z",
+      "releaseReason": "CLIPPING_AND_OVERLAP repaired: builder moved onto the shared separator-aware splitter with hardSplits === 0 asserted; 6 hard splits -> 0, fixtures rebuilt, return at data/rcap-grade-a/packet-factory-24h/fix41/rows.json. Central raster owed. (Replayed by Captain from FIX41 commit 63856cd93.)"
     },
     {
       "subjectType": "packet-family",
@@ -7091,9 +7092,9 @@
       "operation": "rapid-repair",
       "lane": "FIX42",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null,
-      "releaseReason": "Captain release of a stale grant: FIX01 was integrated at a8931f0e0 and its worker is gone; no lane writes under this grant. The family still owes repair (VF03 FAIL; FIX35 measured two route-key-only pages and the trailer under the clerk certification) and goes to FIX42 on the repaired Rhode Island host."
+      "released": true,
+      "releasedAt": "2026-09-05T12:17:25.130Z",
+      "releaseReason": "Rebuild complete on the repaired host; both families rebuilt twice byte-identical at FIX35's predicted digests, verifiers run, return written to data/rcap-grade-a/packet-factory-24h/fix42/rows.json. Central raster and independent verification owed. (Replayed by Captain from FIX42 commit 1f5fd5542.)"
     },
     {
       "subjectType": "packet-family",
@@ -13098,7 +13099,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c4ff7deb6387d8321e7e46e91274aced3022205878ee6a152cd4b5d0f68bd7d0",
+  "claimsDigest": "6c951e1f4953e67ed939500015fd7bcf7850a1b9f2a5a0e38c4cf1abd145329a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -27837,6 +27838,24 @@
       "laneKind": "repair",
       "releasedAt": "2026-09-05T12:15:13.758Z",
       "reason": "REQUIRED_BEFORE_FILING repaired: all 20 checkboxes declared with printed captions, dispositions and instructions; 600-00228 delivered unfilled per the manifest's conditional rule. Return at data/rcap-grade-a/packet-factory-24h/fix34/rows.json; independent verification and central raster owed. (Replayed by Captain from FIX34 commit 74e3308c8.)"
+    },
+    {
+      "lane": "FIX41",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-tx-custom-pleading",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T12:17:24.785Z",
+      "reason": "CLIPPING_AND_OVERLAP repaired: builder moved onto the shared separator-aware splitter with hardSplits === 0 asserted; 6 hard splits -> 0, fixtures rebuilt, return at data/rcap-grade-a/packet-factory-24h/fix41/rows.json. Central raster owed. (Replayed by Captain from FIX41 commit 63856cd93.)"
+    },
+    {
+      "lane": "FIX42",
+      "subjectType": "packet-family",
+      "subjectId": "ri_deferred_sentence-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T12:17:25.130Z",
+      "reason": "Rebuild complete on the repaired host; both families rebuilt twice byte-identical at FIX35's predicted digests, verifiers run, return written to data/rcap-grade-a/packet-factory-24h/fix42/rows.json. Central raster and independent verification owed. (Replayed by Captain from FIX42 commit 1f5fd5542.)"
     }
   ],
   "reissues": [
