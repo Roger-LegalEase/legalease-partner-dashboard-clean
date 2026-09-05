@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "88a157ebcc18af761615fa6d0c58de5bb8b73fd6",
+  "generatedAtCommit": "4f089e070e227ffad6705a0e6310f2f50edd26bb",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5463,11 +5463,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T17:50:09.975Z",
-      "releaseReason": "VF03 FAIL_REPAIR_REQUIRED at ff4dee3ab: KNOWN_PREFILLS — a disclosed, reasoned refusal of date of birth and ZIP on AOC-CR-297 does not discharge it because the contract counts a fact written elsewhere in the packet (AOC-CV-226) as available; the capture defect does not position writes, so the repair is h.rbf to h.write at builder lines 551 and 566 and participant-instructions.md line 177. ROUTE_IDENTITY passes (9 canonical, 0 track-only). CLIPPING_AND_OVERLAP is BLOCKED_LEGAL_INPUT on the synthesized square at 60 AOC checkbox widgets, answered by the FIX50 opt-in. Canonical 04557c41, boundary 88dc2fd4, RASTER_PASS run 33927262022 binds. Return at data/rcap-grade-a/packet-factory-24h/vf03/rows.json (Captain release after integrating VF03 commit 671924ec4)."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -13486,7 +13484,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "bc9332e57ca6159daf3e5938405cab18aa2f7e2ceb6a114376359f6a5deb3ef5",
+  "claimsDigest": "6498d14e36df63238ec768556a5ed8831b2978ef9cc8e26ad1dbf9e46d98f487",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -36459,6 +36457,16 @@
       "previouslyReleasedAt": "2026-09-05T17:50:13.919Z",
       "reissuedAt": "2026-09-05T18:30:21.969Z",
       "reason": "Vermont sealing re-read on the FIX58 bytes (RASTER_PASS run 33983515494): the synthesized squares are gone; one lane reads the five families that share one host; vt_seal_pardon-set's contested FILING_DESTINATION, FEE_AND_WAIVER and SERVICE must be scored fresh."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_felony-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-09-05T18:38:24Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
