@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-packet-factory-24h-import-graph/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "Which build scripts are shared, and may a lane own the script its family uses?",
-  "scriptsScanned": 250,
+  "scriptsScanned": 251,
   "rule": "A family worker may own a family-specific script only when no unassigned family imports it. One shared host has one owner.",
   "edges": [
     {
@@ -365,22 +365,11 @@
       "transitiveImports": [],
       "importedBy": [
         "build-census-v1-il-exp-precompletion-set.mjs",
-        "build-census-v1-il-exp-qualprob-set.mjs",
         "build-census-v1-il-seal-nonconv-set.mjs"
       ]
     },
     {
       "script": "build-census-v1-il-exp-precompletion-set.mjs",
-      "imports": [
-        "build-census-v1-il-exp-pardon-set.mjs"
-      ],
-      "transitiveImports": [
-        "build-census-v1-il-exp-pardon-set.mjs"
-      ],
-      "importedBy": []
-    },
-    {
-      "script": "build-census-v1-il-exp-qualprob-set.mjs",
       "imports": [
         "build-census-v1-il-exp-pardon-set.mjs"
       ],
@@ -974,7 +963,6 @@
       "script": "build-census-v1-il-exp-pardon-set.mjs",
       "importers": [
         "il-exp-precompletion-set",
-        "il-exp-qualprob-set",
         "il-seal-nonconv-set"
       ],
       "owner": "UNOWNED_IN_THIS_WAVE"
