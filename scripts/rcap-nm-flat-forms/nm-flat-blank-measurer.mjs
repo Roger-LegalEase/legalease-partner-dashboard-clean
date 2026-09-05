@@ -33,7 +33,7 @@
  *                   whose ToUnicode map yields a private-use codepoint. The
  *                   retained local orders draw every one of their tick boxes
  *                   this way -- twenty-eight on the identity-theft order and
- *                   thirty-eight on the conviction order -- and neither the
+ *                   thirty-six on the conviction order -- and neither the
  *                   bracket reader nor the stroked-box reader can see any of
  *                   them. Only the glyph's own origin is trustworthy, so no
  *                   width is claimed and no write box is ever derived from one.
