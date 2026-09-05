@@ -11832,6 +11832,343 @@
    "buildScriptsModified": 0,
    "sharedRecordsModified": 0,
    "selfVerified": false
+  },
+  {
+   "itemId": "ms-fel-set",
+   "lane": "VF04",
+   "wave": "VF04-FORM-READS-20260905 (post-FIX08 splitter-cohort independent read)",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-fel-set--custom-pleading",
+   "verifier": "CLAUDE-VF04-FORM-READS (independent; built, repaired, rendered and rastered none of these packets)",
+   "verifiedAtBase": "a0fbceb30",
+   "canonicalSha256": "584c7bb5c7de383b2d33df792f245c661ced217a0fde8e202b743f180c52a696",
+   "boundarySha256": "ae89bac9fcf797e06359c1dc79d6d04143f92b172b9541ab98b0d68360a9df1e",
+   "pageCount": 10,
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family <familyId> at base a0fbceb30, run once for this lane and recorded here rather than re-derived per family: PACKET_BUILD_ENVIRONMENT_NOT_READY, 12/13 registered checks passing, 4 not applicable, 1 failing. The single failure is corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled, and the absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' in the master_library custody. Alabama, not a family on this lane, and the same pre-existing corpus gap FIX08 and FIX41 recorded. Two custodies named by the committed index are NOT mounted in this container (d_source_packs, nationwide_recovery_pool_2026_09_02); every source these four families declare was nonetheless resolved BY CONTENT HASH inside the two custodies that are mounted (master_library, human_source_returns), so no digest is unmeasurable here. private/ is git-ignored and tracks nothing (mounted as a real directory whose children are symlinks, so the .gitignore 'private/' pattern matches the way the checker tests it; a bare symlink at private/ does not, which is the failure FIX08 recorded and argued away rather than fixed). master_library_mounted, master_library_complete (499 files / 329 PDFs / 51 jurisdictions), family_sources_bind, master_library_not_at_operational_path, absent_is_not_empty and stale_artifact_block_consulted all pass; 0 artifacts under any of these four families are named by the stale-artifact block.",
+   "method": "Preflight recorded once (above). Receipt digests confirmed against the fixture bytes on disk BEFORE any obligation was measured: for each family the RASTER_QUEUE row's canonicalPdfSha256, boundaryPdfSha256 and the run-33973981303 receipt's boundToCanonicalSha256 / boundToBoundarySha256 were all compared against the SHA-256 this lane recomputed from fixtures/canonical.pdf and fixtures/boundary.pdf; all eight digests over the four families are equal. Sources resolved BY CONTENT HASH across the two mounted custodies rather than by declared path: every declared digest was searched for by walking master_library and human_source_returns and hashing every file. Nine counters measured here with the read-only completeness verifier (no --write). Appearance read from the delivered bytes of BOTH fixtures: page Contents streams inflated and tokenised (pdf-lib 1.17.1), every text-showing operator recovered with its text matrix, font size, fill colour, text render mode and enclosing optional-content marked block; flattened widget appearance XObjects walked the same way and their drawn text width computed against their own BBox from Helvetica AFM metrics to test for clipping. Whole-document text also extracted with pdftotext -layout, and the cited pages rastered locally with pdftoppm into /tmp/vf04c at 100-110 dpi and read by eye. Rasters deleted after measuring. This lane wrote into no overlay directory, no build script and no shared record.",
+   "claim": {
+    "assertedBeforeFamilyContent": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 ms-fel-set",
+    "result": "CLAIM_OK VF04 ms-fel-set (independent-verification, grant set 5300cfc2dafd5a87)",
+    "exitCode": 0,
+    "claimLedgerModified": false,
+    "grantReleased": false,
+    "whyNotReleased": "A worker never releases a grant. Captain releases centrally after integrating this bounded return."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredWith": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-fel-set (read-only)",
+    "focusedVerifierResult": "PASS_COMPLETE 13/59 written, exit 0",
+    "whatTheCountersDoNotSee": "Nine green counters were the STARTING condition of VF08's FAIL row. No counter can see a page whose only ink is a machine trailer, because every character is present and the ink is inside its column. The page-5 ruling below is measured from the delivered bytes and from a local raster, not from these counters."
+   },
+   "rasterState": {
+    "state": "RASTER_PASS",
+    "workflowRunId": "33973981303",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "renderedCommitSha": "1b373f2eee80108ce03c15a1bb3e958d408e7791",
+    "jobId": 101327692782,
+    "digestsConfirmedAgainstDiskHere": true,
+    "boundToCanonicalSha256": "584c7bb5c7de383b2d33df792f245c661ced217a0fde8e202b743f180c52a696",
+    "boundToBoundarySha256": "ae89bac9fcf797e06359c1dc79d6d04143f92b172b9541ab98b0d68360a9df1e",
+    "whatTheCentralGateRendered": [
+     "canonical.pdf"
+    ],
+    "whatTheCentralGateDidNotRender": [
+     "boundary.pdf"
+    ],
+    "howBoundaryWasCovered": "boundary.pdf was not rendered by the central gate. This lane read all 10 of its pages at appearance level; page 5 is line-for-line and coordinate-for-coordinate identical to canonical page 5, and the rest differs only in the stress values."
+   },
+   "supersedes": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "aefd46f7c",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "whatItFound": "Page 5 of ten, attributed to ms-fel-proposed-order-2, carried exactly one line of ink -- the route trailer -- and nothing else, in canonical and boundary alike.",
+    "repairedBy": "FIX08 (sole-occupant trailer pull-down plus the shared token splitter). Its return asks this lane to rule on the residual three-line page 5, and the ruling is recorded under CLIPPING_AND_OVERLAP and in pageFiveRuling below."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "familyId 'ms-fel-set' agrees across source-receipt.json, build-status.json, production-field-map.json, reports/rendered-artifacts.json, reports/actual-writes.json, reports/completeness-counters.json and the queue rows. One routeKey, obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71, printed in the trailer of pages 3, 5, 6, 7, 9 and 10 of both fixtures.",
+     "finding": "The packet is built for the route the record names. Miss. Code Ann. Sec. 99-19-71(2) is stated in the petition's title, in its opening sentence, in the proposed order's recital and decretal paragraphs, in the certificate of service and in the notice."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Resolved by CONTENT HASH, not by declared path. This family declares ZERO document sources and states why: 'the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms [])'. The instructions component confirms it from the other direction on page 8: 'Mississippi has no statewide form.' Nothing is owed from either mounted custody and nothing is missing from one. This lane recomputed the three grounding records the receipt names, all present: data/record-clearing/legal-design-intake/MS.memo.json 6982ae0c6937.. (395826 bytes), data/record-clearing/legal-design-packet-set-manifests.json 6076f7346c41.. (3683419 bytes), data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json f47d0250f463.. (22782 bytes).",
+     "finding": "0 of 0 declared document sources are absent or mismatched, and the zero is correct rather than a gap: Mississippi publishes no form for this route. ONE OBSERVATION, RECORDED RATHER THAN FAILED. The preflight prints, for this family, 'ms-fel-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT): it binds committed legal records by hash inside its builder'. That sentence is a class template and it overstates THIS builder: source-receipt.json carries no committedRecords array, its three groundingRecords carry no sha256, and scripts/build-census-v1-ms-fel-set.mjs re-reads no anchor statement -- unlike the Arizona family on this same lane, whose builder binds three records by hash and verifies 13 anchors, and unlike the sibling ms-misd-addl-set, whose codified authority is hash-pinned in the fulfillment registry. Nothing here is misbound; what is missing is the digest that would let a later reader prove the memo the pages were composed from is the memo on disk. The four digests above are recorded so that reader has one. Repair-actionable in the builder, and it does not hold this verdict."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "Six components declared in the owner-approved packet-set manifest, all six required, none conditional, and all six rendered: primary-filing-1 (pages 1-3), proposed-order-2 (4-5), certificate-of-service-3 (6), attachment-4 (7), instructions-5 (8-9), notice-6 (10). requiredComponentsMissing = 0. Each is identifiable on the delivered page by its own heading: 'PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD', 'PROPOSED ORDER OF EXPUNGEMENT', 'CERTIFICATE OF SERVICE', 'DOCUMENTS TO OBTAIN BEFORE FILING', 'FILING INSTRUCTIONS AND WHAT THIS ORDER DOES NOT DO', 'TEN DAYS' WRITTEN NOTICE TO THE DISTRICT ATTORNEY'.",
+     "finding": "Every component the route names is rendered and present in both fixtures. The proposed order is composed rather than official, which the manifest authorises by declaring role proposed_order with outputStrategy custom_pleading and officialFormId null, and the document declares it on its own face: 'THIS DOCUMENT IS A PROPOSED ORDER. It is unexecuted. It records no finding this Court has made and nothing in it asserts that the Court has acted.'"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "Thirteen writes, read off the delivered pages: the petitioner's name in the COMES NOW sentence and again as 'Petitioner's name: Jordan Avery Reyes', with 'Date of birth: 1986-04-17', 'Mailing address: 42 Magnolia Street, Hattiesburg, MS 39401', 'Telephone: 601-555-0142' and 'Email: jordan.reyes@example.org' on page 1; the name in the order's recital on page 4; 'I, Jordan Avery Reyes, certify...' and the signature-block name on page 6; the name on pages 7, 8 and 9; and on page 10 the name in the PLEASE TAKE NOTICE sentence plus the full PRINTED NAME / ADDRESS / TELEPHONE / EMAIL block. knownRequiredFieldsMissing = 0 and requiredFactsNotCollected = 0. This lane specifically looked for the Texas failure mode on this family -- a fact written on one page and refused on another -- and found none: every fact the packet holds is written at every place the composed pages ask for it, and the contact block on page 10 repeats page 1 exactly.",
+     "finding": "Every known required fact is written and visible on the page it belongs to. The one identity-shaped blank that is refused, the caption PETITIONER line, is refused for a reasoned and genuinely different fact -- 'your name as the record states it in the criminal cause, which may differ from the name you use now' -- and is declared and disclosed rather than hidden."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "36 declared items and requiredBeforeFilingCount 36. Checked against the file: every one of the 36 disclosure labels appears in participant-instructions.md. They are the caption court, county, cause number and petitioner name on each of the four captioned components; the conviction facts on page 2 (felony of conviction as the record words it, Mississippi Code section, date of offense, date of arrest, arresting agency, agency case number, date of conviction, judgment as entered); and the district attorney's identity on the certificate and on the notice, refused because 'the platform holds no district attorney identity for any Mississippi district and the committed record forbids hardcoding one'.",
+     "finding": "Every declared item is named in participant-instructions.md. Each is participant-completable, each carries an auditable per-field reason rather than a policy sentence, and none is a fact the packet writes elsewhere."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing = 0 and no election control is drawn anywhere in the packet -- 0 checkboxes, 0 radios, 0 bracketed elections and 0 annotations on any page of either fixture. The caption court line offers four courts because Sec. 99-19-71(2) does (justice / county / circuit / municipal), and which applies is a record fact copied from the sentencing order, not an election the packet makes.",
+     "finding": "Every route-determined election is selected, by the packet naming Sec. 99-19-71(2) in prose on every component. The three items that could be mistaken for elections -- the twelve-category exclusion determination, the rehabilitation showing and the common-nucleus statement -- are not route elections: the committed record lists each as a manual completion item reserved to the participant, counsel or the court, and the instructions say so."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows = 0. Independently: the packet renders no repeating table. Paragraph 2 of the petition is a list of separate labelled blanks (felony of conviction, code section, date of offense, date of arrest, arresting agency, agency case number, date of conviction, judgment as entered), every one of them empty, so no written cell sits beside a blank required cell.",
+     "finding": "No row carries written cells beside required cells left blank. Every conviction-fact blank on page 2 is empty together, which is the correct state for a record the platform has not seen."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "protectedWrites = 0 and refusedFieldsWithInk is empty. Independently on the bytes, walking every text-showing operator: page 3's 'DATE .............................. SIGNATURE OF PETITIONER ........................................' is blank rules only; the whole court block on page 4 is blank -- both FINDS rules, the 'SO ORDERED AND ADJUDGED this ...... day of ......, 20.....' line, the JUDGE rule and the 'APPROVED AS TO FORM:' Prosecuting authority rule; the certificate of service on page 6 leaves the district attorney identity, the address served, the manner of service, the date served and the participant's signature and date all blank; page 10 leaves the hearing date, the date and the signature blank. No seal is written.",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. Each of the three pages that carries a protected block also says so in its own words, including page 5's whole content: 'They are not the participant's to complete.'"
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "canonical.pdf recomputes to 584c7bb5c7de383b2d33df792f245c661ced217a0fde8e202b743f180c52a696 (26821 bytes, 10 pages) and boundary.pdf to ae89bac9fcf797e06359c1dc79d6d04143f92b172b9541ab98b0d68360a9df1e (27297 bytes, 10 pages). Both equal the RASTER_QUEUE row, the run-33973981303 receipt and rendered-artifacts.json, and both equal the newSha256 pair FIX08 declared, so the bytes on disk are the repaired bytes.",
+     "finding": "Canonical and boundary bytes hash to what the record names, in all four places that name them."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "The page manifest declares 1-3 primary-filing-1, 4-5 proposed-order-2, 6 certificate-of-service-3, 7 attachment-4, 8-9 instructions-5, 10 notice-6. The delivered order read from the bytes matches heading for heading, including page 5 as the second page of the proposed order rather than the first page of the certificate. Identical in boundary. Page count 10 in both fixtures, unchanged by FIX08's pull-down.",
+     "finding": "The rendered page order matches the packet manifest, page for page, in both fixtures."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "Page 8: 'WHERE THIS IS FILED. File the petition, the proposed order and the certificate of service with the CIRCUIT CLERK OF THE COUNTY OF CONVICTION - the court in which the conviction was had. Mississippi has no statewide form, so call that clerk before filing to ask about that district's own requirements.'",
+     "finding": "The instructions name the court the route names, name which three components go to it, and are honest that no statewide form exists so local practice governs."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "Page 8: 'WHAT IT COSTS. NO FEE AMOUNT IS PUBLISHED IN THIS PACKET, and that is deliberate rather than an omission.' It states that Sec. 99-19-72 levies a fee on a petition under Sec. 99-19-71 and that this is such a petition on the face of that section, that the current text of Sec. 99-19-72 could not be retrieved for the committed records, and directs the participant to the circuit clerk of the county of conviction for the amount. It then names the open question -- whether the Sec. 99-19-72 fee reaches petitions in justice or municipal court, since the collection mechanism names the circuit clerk. 'ABOUT A FEE WAIVER. No waiver procedure specific to expungement is established in the records this packet is built from. Ask THE SAME CIRCUIT CLERK ... about a pauper's affidavit before you pay.' This is the owner direction recorded at OWNER_CORRECTIONS_REQUIRED.json Q4 for this family, which the receipt names as a grounding record.",
+     "finding": "The fee and the waiver route are stated, as a reasoned and owner-directed refusal to publish an unconfirmed figure rather than as silence, with the office that answers named twice and the residual uncertainty stated to the participant."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Page 8: 'WHO YOU SERVE, AND THE ONE HARD DEADLINE. Serve the DISTRICT ATTORNEY for the county of conviction, by United States mail or hand delivery, and file the certificate of service as your evidence of it. Section 99-19-71(2)(b) requires TEN (10) DAYS' written notice to the district attorney BEFORE ANY HEARING.' The packet then ships the instruments: a captioned certificate of service (page 6) and a captioned ten-day notice (page 10), and page 6 repeats the deadline in its own words -- '(At least TEN DAYS must pass between this date and any hearing on the petition.)'",
+     "finding": "Who must be served, and how, is stated, the statutory deadline is stated three times on three different pages, and the packet supplies both documents that prove it rather than only describing them."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "Page 8 opens on 'BEFORE ANYTHING ELSE: GET A LAWYER TO REVIEW THIS. The committed legal record on this route says so without qualification. Every felony conviction carries mandatory attorney review before filing.' Page 9 carries 'WHEN TO STOP AND GET HELP INSTEAD.', beginning '- ALWAYS, on this route.' and then naming the exclusion list including the 2026 HB 1546 additions, any prior expungement, the common-nucleus question, unpaid fines costs or restitution, the Sec. 99-19-71(5) public-official bar, non-citizenship, and district attorney objection or a contested hearing.",
+     "finding": "The packet states where self-help ends, and on this route it states that self-help never fully begins: attorney review is mandatory on the committed record and the packet says so first, before the filing instructions, rather than at the end."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "Whole standard measured on the current bytes of BOTH fixtures, 10 pages each, 250 text-showing operators in canonical and 254 in boundary. ROUTE-KEY-ONLY PAGES: 0 -- the defect VF08 failed. Every page carrying the trailer (3, 5, 6, 7, 9, 10) also carries prose, and page 5, the one VF08 named, now carries the order's closing disclosure above its footer. HARD-SPLIT TOKENS: 0 -- the route key fits the 468pt column unbroken on every page that carries it, so the shared splitter FIX08 installed is never reached here and no key breaks at all. NO MACHINE TEXT INSIDE THE COURT'S BLOCK: page 4's last drawn line is 'Prosecuting authority' with 0 drawn lines below it; the whole court block stays together on page 4 and no trailer, route key or identifier is drawn inside it. ORPHANED SIGNATURE PAGES: 0 -- no signature block stands alone on a page; the petitioner's signature sits on page 3 above the declaration and the judge's on page 4 inside the order. OVERLAP: 0 -- each composed line is a single text-showing operator at x=72.0 and no two share a baseline. CLIPPING: 0 -- every operator falls inside the 612x792 MediaBox on all 20 pages, boundary's long stress values included. INVISIBLE WRITES: 0 -- no operator in text render mode 3 or 7, no white-on-white fill, no show inside an optional-content marked block. SOURCE-SHIPPED INK: not applicable; every page is composed and no official form slice is carried. TRAILER SPACING: 29pt above the trailer on page 5, the house gap, not Rhode Island's 14.5pt squeeze. Confirmed on a local raster of canonical page 5 at 100 dpi read by eye.",
+     "finding": "No ink outside a measured write box and no defect visible on a delivered page. The route-key-only page VF08 failed is gone, re-measured here rather than read from FIX08's report. The residual thin page 5 is ruled on in full under pageFiveRuling: thin, not defective."
+    }
+   },
+   "pageFiveRuling": {
+    "question": "FIX08's return states that ms-fel page 5 is now short enough to score as a fragment page under SCAN01 and asks this lane to rule whether prose plus trailer on that page is a visible defect on a delivered page.",
+    "ruling": "NO. Page 5 is thin, not defective.",
+    "inThePagesOwnWords": "Its entire delivered content is a sentence addressed to the reader and the footer that closes the component: '(The findings, the date of entry, the judge's signature and the prosecuting authority's approval as to form are all left blank. They are not the participant's to complete.)' and, 29pt beneath it, 'Route: obligation:track-pathway:MS:ms-fel:eligible-felony-conviction-expungement-99-19-71'. That sentence begins and ends on this page, names the four blanks the reader has just turned away from, and says who owns them. A reader turning to page 5 meets no broken word, no truncated line, no identifier without context and no ink where it does not belong.",
+    "whatIsOnThePage": "Three drawn lines, all 11pt Times-Roman at x=72.0: prose at y=720.0 and y=705.5, the trailer at y=676.5. The lower 85 per cent of the page is blank. Identical in boundary.",
+    "whyThatIsNotTheDefectVF08Failed": "VF08 failed page 5 because every line on it was a machine route identifier -- 'a page inside a proposed order the court is asked to sign that says nothing to the court'. That is exactly what has changed. The page now says something, and what it says is the disclosure the order needs: that nothing in the court's block has been filled in and that filling it is not the participant's job.",
+    "whySparsenessIsNotItselfADefect": "SCAN01's fragment_page is a line-count screen, not the obligation. The obligation is measured on what is visible on a delivered page, and a low line count is not a visible defect; a page that ends a component early is an ordinary pagination outcome. This lane gave the same answer for Rhode Island pages 8 and 13 at base 4dd482867, and gives it again here on the same reasoning rather than on the precedent alone.",
+    "theSpacingCheckRIFailed": "Rhode Island's pull-down consumed the paragraph break and left its trailer 14.5pt below the prose where the house convention is 29pt. That did not happen here. Both Mississippi pull-down pages keep the full 29pt gap -- ms-fel page 5 prose at 720.0/705.5 and trailer at 676.5, ms-misd-addl page 4 prose at 720.0/705.5 and trailer at 676.5/662.0 -- so the trailer reads as a footer and not as a fourth line of the sentence. This lane looked for the RI defect specifically and it is absent.",
+    "theCourtsBlockIsIntactOnPageFour": "Page 4 keeps the whole court block together and unbroken: the FINDS rules, 'IT IS THEREFORE ORDERED AND ADJUDGED...', 'IT IS FURTHER ORDERED...', 'SO ORDERED AND ADJUDGED this ...... day of ......, 20.....', the JUDGE rule, 'APPROVED AS TO FORM:' and the Prosecuting authority rule. The last drawn line of page 4 is 'Prosecuting authority' and there are 0 drawn lines below it. No machine text sits inside the court's block, and the judge's signature is not orphaned onto a page of its own.",
+    "theOneThingRecordedRatherThanFailed": "The route trailer is machine text and it does appear on a page of a document the court is asked to sign -- page 5 for ms-fel, page 4 for ms-misd-addl. It is below the court's block rather than inside it, and every composed proposed order in this corpus carries the same footer, Rhode Island's included, which passed at base 4dd482867. Recorded here as measured, not as a defect in these two families. Whether machine trailers belong on order components at all is a corpus-wide design question for the Captain and cannot be answered inside one family's read.",
+    "rasterEvidence": "canonical page 5 rendered at 100 dpi with pdftoppm into /tmp/vf04c and read by eye, alongside ms-misd-addl canonical page 4. Rasters deleted after measuring."
+   },
+   "proposedOrderIsComposedAndAuthorised": {
+    "whyThisWasChecked": "A composed proposed order needed an explicit owner decision in Rhode Island, so this lane checked whether Mississippi has one before passing a family that ships two pages of order the court is asked to sign.",
+    "theRhodeIslandDecisionDoesNotReachHere": "OWN-RI-PROPOSED-ORDER-2026-09-05 is jurisdiction-scoped. Its familiesMoved list is the five Rhode Island families and its whatThisDoesNotEstablish denies any wider grant, so it authorises nothing in Mississippi and was not read as if it did.",
+    "whatDoesAuthoriseIt": "data/record-clearing/legal-design-packet-set-manifests.json declares ms-fel-proposed-order-2 with role proposed_order, requirement required, outputStrategy custom_pleading and officialFormId null. That is the design authority for composing rather than filling, and the packet honours the same boundary the Rhode Island decision draws: the order populates objective case and route facts only, and the findings, the grant, the entry date, the judge's signature, the prosecuting authority's approval as to form and the seal are all blank.",
+    "whatIsStillOpenAndIsNotThisLanesToClose": "The Mississippi manifest carries no owner approval field and this family carries no fulfillment-authority registry record, so no counsel or owner sign-off on the exact composed order bytes is recorded anywhere this lane can read. That is an output gate, not a defect in these bytes, and it is not a source blocker. It is named here so it is not mistaken for having been discharged by this PASS."
+   },
+   "failedObligationNames": [],
+   "notMeasurableHere": [],
+   "blockedLegalInput": [],
+   "ownerPinned": "DISPUTED, and reported rather than resolved. FIX08's return records ownerPinned true and ownerRereviewOwed true because its assignment stated both Mississippi families are owner-pinned, while VF08's own row for this family records ownerPinned false and ownerPinnedRecord null; FIX08 named the disagreement rather than settling it. This lane cannot settle it either: there is no fulfillment-authority registry record for ms-fel-set, and OWNER_BATCH_ADOPTION_2026-09-02.json is reachable only through the sibling family's record. Read the protective way: the bytes moved under FIX08, so if a pin exists the owner's re-review is owed on canonical 584c7bb5.. and boundary ae89bac9.., and this independent PASS does not stand in for it.",
+   "ownerPinnedRecord": null,
+   "grantsNothing": "An independent PASS proves this packet is complete on these bytes. It approves no output, opens no commercial route, and discharges neither the owner re-review FIX08 named nor the counsel reading of the composed proposed order.",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "selfVerified": false
+  },
+  {
+   "itemId": "ms-misd-addl-set",
+   "lane": "VF04",
+   "wave": "VF04-FORM-READS-20260905 (post-FIX08 splitter-cohort independent read)",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading",
+   "verifier": "CLAUDE-VF04-FORM-READS (independent; built, repaired, rendered and rastered none of these packets)",
+   "verifiedAtBase": "a0fbceb30",
+   "canonicalSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+   "boundarySha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36",
+   "pageCount": 8,
+   "readInFullBecause": "This family carries two Grade-A fulfillment records, both currently revoked with the reason 'First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict'. This read is one of the conditions for reinstating them, so every one of the fifteen obligations was measured here on the current bytes rather than carried from any earlier PASS.",
+   "preflight": "node scripts/verify-packet-build-environment.mjs --family <familyId> at base a0fbceb30, run once for this lane and recorded here rather than re-derived per family: PACKET_BUILD_ENVIRONMENT_NOT_READY, 12/13 registered checks passing, 4 not applicable, 1 failing. The single failure is corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled, and the absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf' in the master_library custody. Alabama, not a family on this lane, and the same pre-existing corpus gap FIX08 and FIX41 recorded. Two custodies named by the committed index are NOT mounted in this container (d_source_packs, nationwide_recovery_pool_2026_09_02); every source these four families declare was nonetheless resolved BY CONTENT HASH inside the two custodies that are mounted (master_library, human_source_returns), so no digest is unmeasurable here. private/ is git-ignored and tracks nothing (mounted as a real directory whose children are symlinks, so the .gitignore 'private/' pattern matches the way the checker tests it; a bare symlink at private/ does not, which is the failure FIX08 recorded and argued away rather than fixed). master_library_mounted, master_library_complete (499 files / 329 PDFs / 51 jurisdictions), family_sources_bind, master_library_not_at_operational_path, absent_is_not_empty and stale_artifact_block_consulted all pass; 0 artifacts under any of these four families are named by the stale-artifact block.",
+   "method": "Preflight recorded once (above). Receipt digests confirmed against the fixture bytes on disk BEFORE any obligation was measured: for each family the RASTER_QUEUE row's canonicalPdfSha256, boundaryPdfSha256 and the run-33973981303 receipt's boundToCanonicalSha256 / boundToBoundarySha256 were all compared against the SHA-256 this lane recomputed from fixtures/canonical.pdf and fixtures/boundary.pdf; all eight digests over the four families are equal. Sources resolved BY CONTENT HASH across the two mounted custodies rather than by declared path: every declared digest was searched for by walking master_library and human_source_returns and hashing every file. Nine counters measured here with the read-only completeness verifier (no --write). Appearance read from the delivered bytes of BOTH fixtures: page Contents streams inflated and tokenised (pdf-lib 1.17.1), every text-showing operator recovered with its text matrix, font size, fill colour, text render mode and enclosing optional-content marked block; flattened widget appearance XObjects walked the same way and their drawn text width computed against their own BBox from Helvetica AFM metrics to test for clipping. Whole-document text also extracted with pdftotext -layout, and the cited pages rastered locally with pdftoppm into /tmp/vf04c at 100-110 dpi and read by eye. Rasters deleted after measuring. This lane wrote into no overlay directory, no build script and no shared record.",
+   "claim": {
+    "assertedBeforeFamilyContent": true,
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 ms-misd-addl-set",
+    "result": "CLAIM_OK VF04 ms-misd-addl-set (independent-verification, grant set 5300cfc2dafd5a87)",
+    "exitCode": 0,
+    "claimLedgerModified": false,
+    "grantReleased": false,
+    "whyNotReleased": "A worker never releases a grant. Captain releases centrally after integrating this bounded return."
+   },
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "measuredWith": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-addl-set (read-only)",
+    "focusedVerifierResult": "PASS_COMPLETE 9/37 written, exit 0",
+    "whatTheCountersDoNotSee": "Nine green counters were the STARTING condition of VF08's FAIL row, and SCAN01 never scored this family's trailer-only page as route_key_only_page either, because its second trailer row begins '; obligation:' and SCAN01's test recognises only a single unspaced token or a line starting 'Route:'. VF08 read the page correctly by eye. This read repeats that by eye rather than trusting either instrument."
+   },
+   "rasterState": {
+    "state": "RASTER_PASS",
+    "workflowRunId": "33973981303",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "renderedCommitSha": "1b373f2eee80108ce03c15a1bb3e958d408e7791",
+    "jobId": 101327692850,
+    "digestsConfirmedAgainstDiskHere": true,
+    "boundToCanonicalSha256": "3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399",
+    "boundToBoundarySha256": "e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36",
+    "whatTheCentralGateRendered": [
+     "canonical.pdf"
+    ],
+    "whatTheCentralGateDidNotRender": [
+     "boundary.pdf"
+    ],
+    "howBoundaryWasCovered": "boundary.pdf was not rendered by the central gate. This lane read all 8 of its pages at appearance level; page 4 is line-for-line and coordinate-for-coordinate identical to canonical page 4, and the rest differs only in the stress values."
+   },
+   "supersedes": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "aefd46f7c",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "whatItFound": "Page 4 of eight, attributed to ms-misd-addl-proposed-order-2, carried only the two-line machine trailer and nothing else, in canonical and boundary alike.",
+    "repairedBy": "FIX08 (sole-occupant trailer pull-down plus the shared token splitter)."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "familyId 'ms-misd-addl-set' agrees across source-receipt.json, build-status.json, production-field-map.json, reports/rendered-artifacts.json, reports/actual-writes.json, reports/completeness-counters.json and the queue rows. TWO routeKeys are declared and both are printed in the trailer of pages 2, 4, 5, 6 and 8 of both fixtures: obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3 and obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6. Both strings equal, character for character, the routeId of the two revoked fulfillment records in data/rcap-grade-a/fulfillment-authority-registry.json.",
+     "finding": "The packet is built for the routes the record names, both of them, and the delivered pages name both sections rather than one: the petition's title reads '(MISS. CODE ANN. SEC. 9-11-15(3) OR SEC. 21-23-7(6))' and its first paragraph is a two-line table telling the participant which section a justice-court conviction and a municipal-court conviction take."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "evidence": "Resolved by CONTENT HASH, not by declared path. Zero document sources are declared and the zero is correct: neither Sec. 9-11-15(3) nor Sec. 21-23-7(6) has a published form, and the instructions say 'Justice and municipal courts are the least standardized courts in Mississippi.' What this family DOES bind by exact SHA-256 is its codified authority, and unlike its ms-fel sibling that binding is written down: each of the two fulfillment records carries a boundInputs block, and this lane recomputed every digest in both from the bytes on disk. classificationEvidence data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/source-receipt.json declared 35584ad89935.. MATCH; track_authority data/record-clearing/legal-design-intake/MS.memo.json declared 6982ae0c6937.. MATCH; legal_authority data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json declared 32321a977941.. MATCH; packet_specification_authority data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json declared e870e694b917.. MATCH. The fourth, packet_set_authority, is a selector-scoped stable-stringify digest of the ms-misd-addl-set entry rather than a whole-file digest, so it is recorded as declared rather than recomputed by a file hash.",
+     "finding": "Every source this family binds binds by exact SHA-256 recomputed from the bytes here: 4 of 5 authority inputs re-hashed byte-exact and the fifth is a scoped digest of a selector rather than of a file. 0 absent, 0 mismatched, 0 NOT_MEASURABLE_HERE. Both revoked records point at authority that has not moved since they were written."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "evidence": "Five components declared in the owner-approved packet-set manifest, all required, none conditional, all five rendered: primary-filing-1 (pages 1-2), proposed-order-2 (3-4), certificate-of-service-3 (5), attachment-4 (6), instructions-5 (7-8). requiredComponentsMissing = 0, and each is identifiable on the delivered page by its own heading.",
+     "finding": "Every component the route names is rendered and present in both fixtures. The proposed order is composed rather than official, which the manifest authorises (role proposed_order, outputStrategy custom_pleading, officialFormId null), and page 3 declares it: 'THIS DOCUMENT IS A PROPOSED ORDER. It is unexecuted. It records no finding this Court has made and nothing in it asserts that the Court has acted.'"
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "evidence": "Nine writes, read off the delivered pages: the petitioner's name in the COMES NOW sentence and again as 'Petitioner's name: Jordan Avery Reyes', with 'Date of birth: 1990-04-17', 'Mailing address: 42 Magnolia Street, Hattiesburg, MS 39401', 'Telephone: 601-555-0142' and 'Email: jordan.reyes@example.org' on page 1; the name in the order's recital on page 3; 'I, Jordan Avery Reyes, certify...' and the signature-block name on page 5; the name on pages 6 and 7. knownRequiredFieldsMissing = 0 and requiredFactsNotCollected = 0. This lane specifically looked for the Texas failure mode -- a held fact written on one page and refused on another -- and found none.",
+     "finding": "Every known required fact is written and visible on the page it belongs to. The caption PETITIONER line is the only identity-shaped blank and it is refused for a different fact, declared and disclosed: 'your name as the record states it in the criminal cause, which may differ from the name you use now'."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "evidence": "20 declared items and requiredBeforeFilingCount 20. Checked against the file: every one of the 20 disclosure labels appears in participant-instructions.md. They include the branch itself -- section_brought_under on the petition and order_section on the proposed order -- plus the caption court, place, cause number and petitioner name on each captioned component, the conviction_list, the date of the last conviction in ANY court, and the prosecuting authority's identity, address, service manner and service date.",
+     "finding": "Every declared item is named in participant-instructions.md, and each is participant-completable and reasoned per field. The conviction_list and last_conviction_any_court_date matter here more than usual: the two-year clock runs from the last conviction in any court, and the packet asks for that date explicitly rather than inferring it."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "evidence": "requiredOptionsMissing = 0 and no election control is drawn anywhere -- 0 checkboxes, 0 radios, 0 annotations on any page of either fixture. The one thing that looks like an election is the section line on page 1, 'This petition is brought under Miss. Code Ann. Sec. ..............................', and the packet does not fill it. Its reason is recorded and reasoned: 'the committed record established that every operative element of the two is identical and that they differ only in which court is petitioned and which prosecutor is noticed. Which branch applies therefore follows from which court convicted the participant, which is a record fact copied from the certified judgment.'",
+     "finding": "Every route-determined election is selected, and the section line is not one. This family binds BOTH routes rather than one, so there is no single statutory route the packet was built for that it is failing to state; it states both, in a printed two-line table, and asks the participant to copy the branch from the certified judgment. That is the case-determined exception the completeness contract created, used for what it was created for."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "evidence": "incompleteRows = 0. Independently: paragraph 2 of the petition asks the participant to list each conviction -- charge, cause number and conviction date -- on four dotted rules, and all four are empty in both fixtures. No cell beside them carries a write.",
+     "finding": "No row carries written cells beside required cells left blank. The conviction list is wholly empty, which is correct for records the platform has not seen."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "evidence": "protectedWrites = 0 and refusedFieldsWithInk is empty. Independently on the bytes: page 2's 'DATE .......... SIGNATURE OF PETITIONER ..........' is blank rules; the whole court block on page 3 is blank -- both FINDS rules, 'SO ORDERED AND ADJUDGED this ...... day of ......, 20.....', the JUDGE rule and the 'APPROVED AS TO FORM:' Prosecuting authority rule; the certificate on page 5 leaves the prosecuting authority's identity, the address served, the manner, the date served and the participant's signature and date blank. No seal is written.",
+     "finding": "No signature, signature date, certificate of mailing, court-only or prosecutor-only field carries ink. Page 5 states the rule in its own words -- '(Service dates are written when service is actually made. No prosecutor's name or address is printed here: the platform holds none for any Mississippi justice or municipal court and does not guess one.)' -- and page 4's whole content is the same statement about the court's block."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "evidence": "canonical.pdf recomputes to 3c7588be6f1734cab76c30035cb9eb404dc6e0d78eeb9e3971415ed2cedf1399 (21325 bytes, 8 pages) and boundary.pdf to e2b8cebcb089a20777cfb31bcd5b70340729690bf5232894e7e8adf81fcada36 (21646 bytes, 8 pages). Both equal the RASTER_QUEUE row, the run-33973981303 receipt and rendered-artifacts.json, and both equal the newSha256 pair FIX08 declared.",
+     "finding": "Canonical and boundary bytes hash to what the record names. The two revoked fulfillment records were bound to the superseded canonical 7878f2c0.., so whatever is done with them must be done against these digests and not those."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "evidence": "The page manifest declares 1-2 primary-filing-1, 3-4 proposed-order-2, 5 certificate-of-service-3, 6 attachment-4, 7-8 instructions-5. The delivered order read from the bytes matches heading for heading, with page 4 the second page of the proposed order. Identical in boundary. Page count 8 in both, unchanged by FIX08's pull-down.",
+     "finding": "The rendered page order matches the packet manifest, page for page, in both fixtures."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "evidence": "Page 7: 'WHICH SECTION, AND WHERE THIS IS FILED. Both sections say the same thing and which applies depends only on which court convicted you. Convicted in JUSTICE COURT .... Miss. Code Ann. Sec. 9-11-15(3), filed with the clerk of that justice court. Convicted in MUNICIPAL COURT .. Miss. Code Ann. Sec. 21-23-7(6), filed with the clerk of that municipal court.' Then 'File with the CLERK OF THE COURT IN WHICH THE CONVICTIONS WERE HAD', with 'ONE PETITION PER COURT. Each court expunges only its own misdemeanors. Convictions in two courts need two petitions.'",
+     "finding": "The instructions name the court each of the two routes names, tie the choice to the fact that decides it, and state the scope limit that most often defeats this route -- one court per petition -- three separate times across pages 1, 6 and 7."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "evidence": "Page 7: 'The $150 filing fee you may have read about is levied by Miss. Code Ann. Sec. 99-19-72 on petitions to expunge an offense under Sec. 99-19-71. THIS PETITION IS NOT BROUGHT UNDER SEC. 99-19-71. It is brought under Sec. 9-11-15(3) or Sec. 21-23-7(6), and the Sec. 99-19-72 fee does not reach those sections by its terms. Neither Sec. 9-11-15(3) nor Sec. 21-23-7(6) specifies a fee of its own. So the honest answer is: no fee amount is established for this route in the records this packet is built from, and the $150 figure is not yours to pay unless that court itself charges it for some other reason.' The waiver: 'No waiver procedure is established for these sections either. Ask THE SAME CLERK.' The receipt names the search that produced this -- src/lib/rcap-engine/compiled/profiles/MS-mississippi.json packetGenerator.feeRules, whose only fee line is keyed to Sec. 99-19-71.",
+     "finding": "The fee and the waiver route are stated, and the packet does the harder thing than quoting a number: it names the wrong number the participant is likely to have met, shows why it belongs to a different section, and sends them to the clerk who actually sets it."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "evidence": "Page 7: 'WHO YOU SERVE. The PROSECUTING AUTHORITY for that court receives PRIOR NOTICE - the municipal prosecuting attorney on the Sec. 21-23-7(6) branch, and the equivalent prosecutor for the justice court on the Sec. 9-11-15(3) branch. Serve by United States mail or hand delivery and file the certificate of service as your evidence.' The captioned certificate on page 5 carries the same branch-aware wording on its own face and provides the blanks for the name, office, address, manner and date.",
+     "finding": "Who must be served, and how, is stated for each of the two branches separately, and the instrument that evidences it ships with the packet rather than being described only in the instructions."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "evidence": "Page 7 opens on 'GET AN ADVOCATE OR A LAWYER FOR THE HEARING ... the three-element showing is DISCRETIONARY ADVOCACY made in open court, not a form to fill. You will stand up and persuade a judge.' Page 8 carries 'WHEN TO STOP AND GET HELP INSTEAD.', beginning '- Whenever this track is in play', then convictions in more than one court, any conviction in any court within the last two years, an expectation that the driving record will be cleared, and non-citizenship. It closes by naming who answers what: 'the clerk of the justice or municipal court answers filing mechanics, and the Mississippi Criminal Information Center issues the criminal history record the two-year element depends on.'",
+     "finding": "The packet states where self-help ends, and states it as the character of the route rather than as a list of edge cases: the relief turns on an open-court showing that is advocacy, and the packet says a participant will have to stand up and persuade a judge."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "evidence": "Whole standard measured on the current bytes of BOTH fixtures, 8 pages each, 198 text-showing operators in canonical and 200 in boundary. ROUTE-KEY-ONLY PAGES: 0 -- the defect VF08 failed. Page 4, the page VF08 named, now carries the order's closing disclosure above its two trailer rows; every other trailer page (2, 5, 6, 8) carries full prose. HARD-SPLIT TOKENS: 0 -- both route keys fit the 468pt column unbroken wherever they are drawn, so neither is ever split. THE LEADING SEMICOLON, MEASURED AND NOT A DEFECT: the trailer prints two keys and the second row opens '; obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6'. This lane tested it against the rule that keys break only at their own separators and never onto an orphan hyphen, and it passes both ways: the first key is complete on its own line, ending '-9-11-15-3', and the second is complete on its own line. Neither key is broken; the semicolon is the delimiter BETWEEN two whole keys, leading its line rather than trailing the previous one. A reader meets two complete identifiers, not one chopped one, which is the distinction the rule draws. NO MACHINE TEXT INSIDE THE COURT'S BLOCK: page 3's last drawn line is 'Prosecuting authority' with 0 drawn lines below it; the whole court block stays on page 3. ORPHANED SIGNATURE PAGES: 0. OVERLAP: 0 -- one text-showing operator per line at x=72.0, no shared baselines. CLIPPING: 0 -- every operator inside the 612x792 MediaBox on all 16 pages, boundary's stress values included. INVISIBLE WRITES: 0 -- no render mode 3 or 7, no white-on-white, no optional-content block. SOURCE-SHIPPED INK: not applicable; every page composed. TRAILER SPACING: 29pt above the trailer on page 4 (prose 720.0/705.5, trailer 676.5/662.0), the house gap, not Rhode Island's 14.5pt squeeze. Confirmed on a local raster of canonical page 4 at 100 dpi read by eye.",
+     "finding": "No ink outside a measured write box and no defect visible on a delivered page. The trailer-only page VF08 read is gone, re-measured here rather than read from FIX08's report. Page 4 remains short -- four drawn lines -- and is ruled thin rather than defective on the same reasoning recorded in the ms-fel page-five ruling: its own words are a complete disclosure that begins and ends on the page."
+    }
+   },
+   "theTwoRevokedFulfillmentRecords": {
+    "records": [
+     "grade-a-ms-additional-justice-court-misdemeanor-relief-9-11-15-3-v1",
+     "grade-a-ms-additional-municipal-court-misdemeanor-relief-21-23-7-6-v1"
+    ],
+    "registry": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "revocationReasonAsWritten": "First-cohort evidence refusal: ms-misd-addl-set has no current independent complete verdict (revoked 2026-09-05 by scripts/generate-rcap-grade-a-fulfillment-authority.mjs).",
+    "whatThisRowSupplies": "A current independent complete verdict on the current bytes, measured across all fifteen obligations, with the nine counters measured here and every codified-authority digest recomputed here.",
+    "whatThisRowDoesNotDo": "It does not reinstate either record and it must not be read as reinstating them. This lane edited no registry, no legal record and no shared record, and reinstatement is the generator's and the owner's to perform against these digests -- canonical 3c7588be.. and boundary e2b8cebc.. -- and not against the superseded 7878f2c0.. / 96c13766.. pair the revoked records were bound to. FIX08 also names an owner re-review as owed because the pinned bytes moved, and this PASS does not stand in for it.",
+    "otherConditionsThisLaneCanSeeAreStillOpen": "The registry's own rule states that a record binds current packet, raster, independent-verification, owner-audit, codified-authority, provider and fixture evidence together. This row answers the independent-verification condition and confirms the raster receipt and the codified authority. It says nothing about the provider, owner-audit or fixture conditions, and product-wiring.json still carries no acceptanceReceipt."
+   },
+   "failedObligationNames": [],
+   "notMeasurableHere": [],
+   "blockedLegalInput": [],
+   "ownerPinned": true,
+   "ownerPinnedRecord": "OWN-ADOPT-2026-09-02-BATCH-53, recorded by VF08 and carried by FIX08. The legal authority behind both fulfillment records is OWNER_BATCH_ADOPTION_2026-09-02.json, whose digest 32321a977941.. this lane recomputed byte-exact.",
+   "ownerRereviewOwed": "YES. FIX08 moved the pinned bytes (canonical 7878f2c0.. -> 3c7588be..). The owner's re-review is owed on the new digests before anything is done with the two revoked records.",
+   "grantsNothing": "An independent PASS proves this packet is complete on these bytes. It approves no output, opens no commercial route, reinstates no fulfillment record, and discharges neither the owner re-review nor the counsel reading of the composed proposed order.",
+   "overlayDirectoriesModified": 0,
+   "buildScriptsModified": 0,
+   "sharedRecordsModified": 0,
+   "selfVerified": false
   }
  ],
  "supersededLaneMembership": {
@@ -12380,6 +12717,18 @@
   "commercialRoutesOpened": 0,
   "productionTouched": false,
   "builtOrRepairedByThisLane": 0,
-  "rowsAppendedNotAltered": "appended 2 rows in this commit; earlier rows untouched"
+  "rowsAppendedNotAltered": "appended 4 rows across two commits (az_wrongful_arrest_clearance-set, tx_nd_conviction_no_supervision-set, then ms-fel-set, ms-misd-addl-set); earlier rows untouched",
+  "verdicts": {
+   "PASS_COMPLETE_INDEPENDENT": [
+    "az_wrongful_arrest_clearance-set",
+    "ms-fel-set",
+    "ms-misd-addl-set"
+   ],
+   "FAIL_REPAIR_REQUIRED": [
+    "tx_nd_conviction_no_supervision-set"
+   ],
+   "BLOCKED_LEGAL_INPUT": [],
+   "NOT_MEASURABLE_HERE": []
+  }
  }
 }
