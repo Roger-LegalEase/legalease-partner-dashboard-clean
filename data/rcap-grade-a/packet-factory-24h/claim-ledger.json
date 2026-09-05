@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f7eb842833f3ba81a6814edc7b4e430faff7246f",
+  "generatedAtCommit": "acd721a717c9ebde44f3f32d2453d2e1f8b6c645",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -5930,20 +5930,6 @@
         "nh_petition_nonconviction_pre2019-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nh_petition_nonconviction_pre2019-set",
-      "familyId": "nh_petition_nonconviction_pre2019-set",
-      "itemId": null,
-      "familyIds": [
-        "nh_petition_nonconviction_pre2019-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF02",
       "laneKind": "packet-build",
@@ -7187,21 +7173,6 @@
       "operation": "rapid-repair",
       "lane": "FIX06",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ri_decriminalized-set",
-      "familyId": "ri_decriminalized-set",
-      "itemId": null,
-      "familyIds": [
-        "ri_decriminalized-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
       "released": false,
       "releasedAt": null
     },
@@ -13252,7 +13223,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "097b3285fd39347dbfc56f0675a607148474ecaa4071fd11ac7edee3eb186a80",
+  "claimsDigest": "6643a345c2cddde37495f692f294cc05ab556531ef907747493839adf4aa84ff",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43083,6 +43054,22 @@
       "operation": "independent-verification",
       "lane": "VF04",
       "withdrawnAt": "2026-09-05T14:50:13Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nh_petition_nonconviction_pre2019-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-05T14:55:33Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ri_decriminalized-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-09-05T14:55:33Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

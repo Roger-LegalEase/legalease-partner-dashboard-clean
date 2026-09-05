@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `f7eb842833f3ba81a6814edc7b4e430faff7246f`
+**Minimum required ancestor:** `acd721a717c9ebde44f3f32d2453d2e1f8b6c645`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -240,7 +240,7 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 - canonical `data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf` — `fb1299a8f953939ea6d76cd99532281687e12e2e18ca3eccaabe365e9ecf8dce`
 - boundary `data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf` — `88a64e5ebd448197ce1c6ce89cf4c45247a97db25fa7008ca25773193564cf75`
 - expected pages 10 · requested scale 2.5
-- built by VF01
+- built by (no builder lane recorded)
 
 ### ri_marijuana-set
 

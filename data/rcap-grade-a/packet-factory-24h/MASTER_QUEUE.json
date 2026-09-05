@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "f7eb842833f3ba81a6814edc7b4e430faff7246f",
+  "minimumCaptainSha": "acd721a717c9ebde44f3f32d2453d2e1f8b6c645",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,12 +72,12 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 8,
-    "verifyPending": 5,
+    "verifyPending": 3,
     "repairRequired": 63,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 138,
+    "COMPLETE_PACKET_PROVEN": 140,
     "FAIL_REPAIR_REQUIRED": 68,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
@@ -87,7 +87,7 @@
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
     "BUILT_RASTER_PENDING": 2,
-    "VERIFY_PENDING": 5,
+    "VERIFY_PENDING": 3,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -31119,10 +31119,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "c9bbb6ecd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "4dd482867",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -31153,105 +31153,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "PROTECTED_FIELDS",
-        "SELF_HELP_STOP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "PROTECTED_FIELDS",
-          "finding": "THE SIGNATURE BOX OF THE FEE-WAIVER MOTION CARRIES VISIBLE INK IN BOTH FIXTURES. Packet page 4 is NHJB-2311 page 1, the Motion for Waiver of Filing Fee. Its Signature of Filer box — AcroForm field sig.8, widget /Rect [322.444, 303.983, 189.297 x 15.84], reaching the page as flattened appearance /FlatWidget-735569487 — carries the string 'Enter /s/ before name', set in /TiBo 12pt at fill 0.75 g. Rasterised here at 150 dpi it is plainly legible grey text sitting on the signature rule, directly above the printed label 'Signature of Filer'. The packet did not write it: it is the source form's own placeholder appearance, whose /TU reads '(If filing electronically, please type /s/ then your name to sign this document. Ex. /s/ John Doe)'. The field map refuses sig.8 with refusalClass signature_or_date_participant_completion and the reason 'you sign this yourself'; refusing to WRITE a field does not clear the appearance the source ships in it, and this family has no entry in data/rcap-all50/shared/field-appearance-semantics.json, so the structural default preserve_source_appearance carried it through. Under that registry's own vocabulary the correct disposition is render_participant_value_only_when_written — a placeholder is a participant input, and 'unwritten, it contributes nothing, so the source placeholder or default never reaches the filing'. This packet ships flattened, so the participant cannot make it disappear by typing: they will sign, or write /s/, over grey text that is already there. participant-instructions.md step 7 discloses it ('The signature line on NHJB-2311 already reads \"Enter /s/ before name\". That is the form's own instruction') and reads it as court text; the tooltip and the render-on-type behaviour say it is a placeholder, not printed form text. SECOND, INVISIBLE INSTANCE OF THE SAME CLASS, on the sworn financial affidavit: NHJB-2328 fields 12.total, money.total and monthly.total each ship /V '0' and an appearance stream '(0.00) Tj' at fill 1 g — WHITE. The build preserved all three. On the page they are invisible: rasterised at 150 dpi the three Total lines are blank. In the delivered text layer they are not: pdftotext -layout of fixtures/canonical.pdf returns 'Total $ 0.00' three times — on the weekly take-home total (page 6, item 12), the money-presently-available total (page 6, item 13) and the monthly household expense total (page 7, item 14) — while every line feeding each total is blank. That is a sworn zero for income, for available money and for monthly expenses, extractable by any e-filing system, reader or indexer that reads the text layer of what was filed. participant-instructions.md step 6 tells the participant 'The form prints Total $ 0.00 under each column... Cross the 0.00 out and write the real total' — an instruction to strike through something that does not appear on the paper. THE REPAIR: add tx-style entries to data/rcap-all50/shared/field-appearance-semantics.json for this family — nh_petition_nonconviction_pre2019-set:NHJB-2311 field sig.8 and nh_petition_nonconviction_pre2019-set:NHJB-2328 fields 12.total, money.total, monthly.total — all four disposition render_participant_value_only_when_written, with sourceAppearanceWhenUnwritten 'Enter /s/ before name', '0', '0', '0' and the widget rects above; then correct step 6 and step 7 of participant-instructions.md, which describe an artifact that will no longer exist. This is the identical defect the TX Statement of Inability entry already documents and suppresses: 'two sworn zeroes on financial lines the participant never answered, and a date on the Option 1 declaration page beside a signature line the packet deliberately leaves blank.'",
-          "evidence": {
-            "visibleSourceInkOnAProtectedField": [
-              {
-                "page": 4,
-                "component": "NHJB-2311",
-                "sourcePage": 1,
-                "field": "sig.8",
-                "printedLabel": "Signature of Filer",
-                "rect": [
-                  322.444,
-                  303.983,
-                  189.297,
-                  15.84
-                ],
-                "flattenedAppearance": "/FlatWidget-735569487",
-                "text": "Enter /s/ before name",
-                "font": "/TiBo 12",
-                "fill": "0.75 g (grey, legible)",
-                "inBothFixtures": true,
-                "origin": "source placeholder appearance, /V empty"
-              }
-            ],
-            "invisibleSourceInkOnSwornFinancialTotals": [
-              {
-                "page": 6,
-                "component": "NHJB-2328",
-                "sourcePage": 1,
-                "field": "12.total",
-                "printedLabel": "Total (weekly take-home)",
-                "sourceV": "0",
-                "appearance": "(0.00) Tj at 1 g",
-                "visibleOnPage": false,
-                "inTextLayer": true
-              },
-              {
-                "page": 6,
-                "component": "NHJB-2328",
-                "sourcePage": 1,
-                "field": "money.total",
-                "printedLabel": "Total (money presently available)",
-                "sourceV": "0",
-                "appearance": "(0.00) Tj at 1 g",
-                "visibleOnPage": false,
-                "inTextLayer": true
-              },
-              {
-                "page": 7,
-                "component": "NHJB-2328",
-                "sourcePage": 2,
-                "field": "monthly.total",
-                "printedLabel": "Total (monthly household expenses)",
-                "sourceV": "0",
-                "appearance": "(0.00) Tj at 1 g",
-                "visibleOnPage": false,
-                "inTextLayer": true
-              }
-            ],
-            "familyInAppearanceSemanticsRegistry": false,
-            "howMeasured": "each flattened appearance stream decoded from the delivered bytes and read for its fill operator and text; the same fields read first-hand from the pinned sources at master_library; pages 4, 6 and 7 rasterised here at 150 dpi; pdftotext -layout run over the delivered canonical."
-          }
-        },
-        {
-          "obligation": "SELF_HELP_STOP",
-          "finding": "THE PACKET DOES NOT STATE WHERE SELF-HELP ENDS, AND THE COMMITTED RECORD THAT SAYS WHERE IT ENDS IS FULLY POPULATED. data/record-clearing/legal-design-track-registry.json holds a track nh_petition_nonconviction_pre2019 carrying eight selfHelpStopConditions (nine selfHelpBoundaries). NOT ONE OF THE EIGHT REACHES THE PARTICIPANT. Searched, by exact string and then by topic word, across every .md and .json in the family directory and across pdftotext of the delivered canonical: 0 of 8 present; the words firearm, immigration, background-check, opposition, tribal and '3 years' appear nowhere in participant-instructions.md. The instructions file has no stop section at all — its headings run 'One offence, one petition', 'Where you file this', 'What it costs', 'What you must do before you file', four per-form item tables, 'The choices that are yours', 'What the platform deliberately left blank', 'What annulment does, and what it does not do' — and the nine delivered pages are the four official forms, with no composed instructions page on which a stop could live. The nearest sentence, 'this packet does not decide whether you are eligible for one', is a disclaimer of what the packet is; it names no condition, no lawyer and no legal-aid resource. FOUR OF THE EIGHT ARE SUBSTANTIVE WARNINGS A PARTICIPANT CAN BE HARMED BY NOT HAVING: RSA 651:5, IV bars a further petition more often than every three years, so a participant who was denied within the last three years is about to spend $125 on a petition the statute bars; the annulment will not be recognised federally or for immigration; RSA 651:5, XVII says a private background-check database need not remove the record; and annulment does not restore firearm rights. THE MEASUREMENT IS COMPARATIVE, not a standard invented here: the same registry diff run against the other three official-pdf-fill families this lane holds returns in_arrest_no_charges 13 of 13 carried, ri_decriminalized 5 of 5, tx_nd_veterans_court 7 of 7. Only New Hampshire returns zero. THE REPAIR: add a 'Where self-help ends' section to participant-instructions.md carrying the eight registry conditions in the registry's own words, with a named New Hampshire legal-aid or lawyer-referral resource, in the shape the Indiana, Rhode Island and Texas families already use.",
-          "evidence": {
-            "registryTrack": "data/record-clearing/legal-design-track-registry.json#nh_petition_nonconviction_pre2019",
-            "registryStopConditions": 8,
-            "carriedIntoThePacket": 0,
-            "missing": 8,
-            "missingConditions": [
-              "Prosecutor opposition.",
-              "The participant requests a hearing.",
-              "Multiple charges across multiple courts, which means multiple petitions and multiple filing fees.",
-              "Federal, military, tribal or out-of-state records.",
-              "A prior annulment petition denied within the last 3 years, because RSA 651:5, IV bars a further petition more frequently than every 3 years.",
-              "The participant needs the annulment recognized federally or for immigration. It will not be.",
-              "The participant expects a private background-check database to remove the record. RSA 651:5, XVII says it need not.",
-              "The participant expects annulment to restore firearm rights. It does not."
-            ],
-            "comparativeControl": {
-              "in_arrest_no_charges": "13/13",
-              "ri_decriminalized": "5/5",
-              "tx_nd_veterans_court": "7/7",
-              "nh_petition_nonconviction_pre2019": "0/8"
-            }
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
@@ -37156,10 +37062,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf07",
-        "verifiedAtBase": "aefd46f7c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "4dd482867",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -37190,39 +37096,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "FAIL. Squarely the precedent. Page 5 of the same proposed order prints, in the page's own words, 'EVERYTHING BELOW THIS LINE IS THE COURT'S. It is left blank on purpose. No finding, no grant, no denial, no condition, no signature, no date of entry, no certification and no seal is written here by the moving party or by LegalEase.' Page 6 is entirely that declared block — the Court's findings, the grant/deny marks, the relief marks, 'Entered as an order of the Court:', 'Justice / Judge', 'Certification or attestation by the Clerk:' — and directly beneath the clerk's certification line LegalEase writes 'Route: obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement', with its 'Composed by LegalEase for Jordan Avery Reyes' disclaimer set as the continuation of that same paragraph, AFTER the machine key rather than before it. The page's declaration that nothing there is written by LegalEase is falsified on its own face. This is the identical defect VF04 recorded for ri_first_offender_felony-set and VF06 for ri_multiple_misdemeanors-set, on the identical Rhode Island order shape, and OWN-RI-PROPOSED-ORDER-2026-09-05 lists 'certification' among what stays blank. Measured fresh on both fixtures: no page is empty, no page carries only route keys, and no route key is split — every printed key reconstructs whole from the content stream, so classes a, b and d are absent here and only SCAN02's class c was in question.",
-          "evidence": {
-            "measuredHere": true,
-            "instrument": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs extractTextItems + groupIntoLines over the composed content stream of every page of both fixtures, plus a local 110dpi pdftoppm raster of the cited page into /tmp/vf07-raster",
-            "pagesReadCanonical": 10,
-            "pagesReadBoundary": 10,
-            "citedPage": 6,
-            "component": "ri_decriminalized-proposed-order-2",
-            "signatureOrCertificationLineVerbatim": "Certification or attestation by the Clerk: ............................................",
-            "linesDrawnBetweenSignatureLineAndTrailer": [],
-            "trailerVerbatim": "Route: obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement",
-            "trailerPresentInBothFixtures": true,
-            "rasterInspected": [
-              "canonical p6"
-            ],
-            "emptyPages": [],
-            "thinnestPageLines": 21,
-            "routeKeyOnlyPages": 0,
-            "hardSplitTokens": 0,
-            "trailerDrawnOnLastPageOfEveryComponent": true,
-            "nonOrderSignaturePagesObserved": []
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ri_decriminalized-set.mjs",
