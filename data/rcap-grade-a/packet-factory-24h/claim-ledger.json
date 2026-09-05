@@ -1540,9 +1540,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX70",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX70 so one worker holds one lane label; no work was done on FIX01."
     },
     {
       "subjectType": "packet-family",
@@ -4965,9 +4967,11 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX71",
       "laneKind": "repair",
-      "released": false
+      "released": false,
+      "releasedAt": null,
+      "releaseReason": "Consolidated onto FIX71 so one worker holds one lane label; no work was done on FIX05."
     },
     {
       "subjectType": "packet-family",
@@ -8480,10 +8484,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:07:20.821Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8511,10 +8515,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF02",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:07:20.937Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8542,10 +8546,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF03",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:07:21.121Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8573,10 +8577,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF04",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:07:21.291Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -8653,8 +8657,8 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T21:07:21.417Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -13587,7 +13591,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "0b590394defb17d79318fff65006b5741579685c4c7a164aaebf63e39068f8cc",
+  "claimsDigest": "2c433d8e161f4ce7a99eb52cf61c15419399f67587eb80bca09d410b60ca2168",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -30225,6 +30229,24 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-09-05T21:56:22.021Z",
       "reason": "VF02 read at ab018b86a: FAIL_REPAIR_REQUIRED on COMPONENT_SET, the required instructions component omits five of the seven contents ME.memo.json specifies and affirms the CR-289 paragraph 1 recital that PL 2025 c. 513 superseded; sweep 14/14, synthesized squares discharged; rows.json at 3a41875d1"
+    },
+    {
+      "lane": "FIX01",
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T21:58:11.802Z",
+      "reason": "Consolidated onto FIX70 so one worker holds one lane label; no work was done on FIX01."
+    },
+    {
+      "lane": "FIX05",
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-prost-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-09-05T21:58:12.010Z",
+      "reason": "Consolidated onto FIX71 so one worker holds one lane label; no work was done on FIX05."
     }
   ],
   "reissues": [
@@ -37283,6 +37305,16 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-09-05T21:57:07Z",
       "reason": "the current dispatch names FIX05 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF05",
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_pardon-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-05T21:07:21.417Z",
+      "reissuedAt": "2026-09-05T21:58:12.636Z",
+      "reason": "Independent read owed after FIX67 (the shared host opts the five families into fitAppearancesToRect; field 15 delivered at its 14.4pt Rect, sweep 161/161) and the central raster receipt from run 33993870603 on 1e2df14e9; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read; vt_seal_dui-set still carries the FEE_AND_WAIVER counsel item and may be BLOCKED_LEGAL_INPUT on that alone."
     }
   ],
   "transfers": [
@@ -43269,6 +43301,72 @@
       "previouslyReleasedAt": "2026-09-05T17:50:11.197Z",
       "transferredAt": "2026-09-05T21:47:00.343Z",
       "reason": "Independent read owed after FIX65 (suppressSynthesizedAppearances opt-in at the builder's finalizeOfficialForm call) and the central raster receipt from run 33993241558 on 0d4d1d5a1; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_motion_seal_nonconviction-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX01",
+      "toLane": "FIX70",
+      "previouslyReleasedAt": "2026-09-05T21:58:11.802Z",
+      "transferredAt": "2026-09-05T21:58:11.906Z",
+      "reason": "VF02 FAIL CLIPPING_AND_OVERLAP at ab018b86a: five JDF-477 Group_6_0 radios ship an 18pt /Off bevel stamped unscaled against a 13.68pt Rect (sweep 70/75, 2951 pixels per fixture outside the write box); add the fitAppearancesToRect opt-in beside suppressSynthesizedAppearances at the builder's finalizeOfficialForm call, rebuild, confirm the sweep reaches 75/75 and the bevels sit inside their Rects; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-prost-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "fromLane": "FIX05",
+      "toLane": "FIX71",
+      "previouslyReleasedAt": "2026-09-05T21:58:12.010Z",
+      "transferredAt": "2026-09-05T21:58:12.114Z",
+      "reason": "VF02 FAIL COMPONENT_SET at ab018b86a: the required instructions component (me-seal-prost-instructions-2) omits five of the seven contents ME.memo.json specifies for the track and twice affirms the CR-289 paragraph 1 recital that PL 2025 c. 513 superseded; rewrite participant-instructions.md from the memo so every specified content is present and the recital is disclosed as out of date and left to manual completion; no fixture byte may move unless the recital write itself must change; raster and re-read then owed."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_18_to_21-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF01",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-05T21:07:20.821Z",
+      "transferredAt": "2026-09-05T21:58:12.221Z",
+      "reason": "Independent read owed after FIX67 (the shared host opts the five families into fitAppearancesToRect; field 15 delivered at its 14.4pt Rect, sweep 161/161) and the central raster receipt from run 33993870603 on 1e2df14e9; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read; vt_seal_dui-set still carries the FEE_AND_WAIVER counsel item and may be BLOCKED_LEGAL_INPUT on that alone."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_dui-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF02",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-05T21:07:20.937Z",
+      "transferredAt": "2026-09-05T21:58:12.324Z",
+      "reason": "Independent read owed after FIX67 (the shared host opts the five families into fitAppearancesToRect; field 15 delivered at its 14.4pt Rect, sweep 161/161) and the central raster receipt from run 33993870603 on 1e2df14e9; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read; vt_seal_dui-set still carries the FEE_AND_WAIVER counsel item and may be BLOCKED_LEGAL_INPUT on that alone."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_felony-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF03",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-05T21:07:21.121Z",
+      "transferredAt": "2026-09-05T21:58:12.428Z",
+      "reason": "Independent read owed after FIX67 (the shared host opts the five families into fitAppearancesToRect; field 15 delivered at its 14.4pt Rect, sweep 161/161) and the central raster receipt from run 33993870603 on 1e2df14e9; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read; vt_seal_dui-set still carries the FEE_AND_WAIVER counsel item and may be BLOCKED_LEGAL_INPUT on that alone."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "vt_seal_misdemeanor-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF04",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-05T21:07:21.291Z",
+      "transferredAt": "2026-09-05T21:58:12.532Z",
+      "reason": "Independent read owed after FIX67 (the shared host opts the five families into fitAppearancesToRect; field 15 delivered at its 14.4pt Rect, sweep 161/161) and the central raster receipt from run 33993870603 on 1e2df14e9; fifteen obligations on the delivered bytes, nine counters measured, no score carried from the pre-repair read; vt_seal_dui-set still carries the FEE_AND_WAIVER counsel item and may be BLOCKED_LEGAL_INPUT on that alone."
     }
   ],
   "grants": [
