@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "646e8b762c1180f2887ba19df01a52fd46328378",
+  "minimumCaptainSha": "9ed655249f7064fb558a51cf8c8361b4232dd923",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
@@ -72,12 +72,12 @@
     "sourceReady": 82,
     "sourceBlocked": 6,
     "legalBlocked": 13,
-    "verifyPending": 7,
+    "verifyPending": 6,
     "repairRequired": 45,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 153,
+    "COMPLETE_PACKET_PROVEN": 154,
     "FAIL_REPAIR_REQUIRED": 48,
     "PRODUCT_PATH_PENDING": 20,
     "OUT_OF_SCOPE": 5,
@@ -86,7 +86,7 @@
     "LEGAL_BLOCKED": 13,
     "HANDOFF_READY": 2,
     "GUIDANCE_READY": 9,
-    "VERIFY_PENDING": 7,
+    "VERIFY_PENDING": 6,
     "WRONG_DELIVERY_TYPE": 1
   },
   "bySourceStatus": {
@@ -38563,9 +38563,9 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "d7e293f81",
+        "verifiedAtBase": "61a898123",
         "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
       },
       "rasterEnrolmentRefusal": null,
@@ -38597,36 +38597,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "CLIPPING_AND_OVERLAP"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "CLIPPING_AND_OVERLAP",
-          "finding": "A PARTICIPANT-FACING PAGE PRINTS AN INTERNAL ROUTE KEY THAT THE CENSUS DOES NOT CARRY, in both fixtures, on two pages. WHAT IS ON THE PAGE: packet page 9 (composed proof-of-delivery page) and packet page 24 (last instructions page) each end with the line 'Route: obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure'. Drawn as body text, not a faint watermark: page 9 at xMin 104.09 yMin 629.99 xMax 466.40 yMax 639.89, page 24 at xMin 104.09 yMin 296.49 xMax 466.40 yMax 306.39, byte-identical coordinates in the boundary fixture. Rasterised here at 100 dpi, page 9 shows it plainly legible at full body size beneath the parenthetical. WHY IT IS A DEFECT: that exact string exists nowhere in this repository except this family's own builder (scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs) and this family's own outputs (source-receipt.json, production-field-map.json, participant-instructions.md). The route-obligation census v1 carries this family under obligation:track-only:TX:tx_nd_dwi_deferred - in category-a-implementation-waves.json, identity-resolution/batch-2/resolved.json, source-custody-reconciliation.json and source-queue-reconciliation.json - and the family's own product-wiring.json, which is generated from the census, declares obligation:track-only:TX:tx_nd_dwi_deferred too. src/lib/legal-authority/routes/route-splits.json does not mention tx_nd_dwi_deferred at all. THE SIBLINGS SETTLE IT: all four other Texas nondisclosure families have a source-receipt routeKey identical to their product-wiring routeKey and present in the census - tx_nd_veterans_court and tx_nd_probation_misdemeanor on track-only keys, tx_nd_dwi_probation on obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure and tx_nd_conviction_no_supervision on its own track-pathway key, each with census hits. This family is the only one of the five whose printed key has none, and the suffix it prints ('first-offense-dwi-nondisclosure') is the DWI-PROBATION sibling's pathway suffix carried onto the deferred-adjudication track. EVERYTHING ELSE ON THE PAGES IS CLEAN, and should survive the repair: zero words fall outside the 612x792 mediabox in either fixture, zero written values collide with printed text anywhere in the 24 pages (a positional scan over all fifteen writes finds none; the only geometric overlap on page 20 is between two of the form's own printed label lines), no markdown delimiter or template token reaches any page, no orphaned signature page, no fragment page, no hard-split token, and the composed pages are full self-describing pages rather than route-key-only leaves.",
-          "evidence": {
-            "pagesCarryingThePrintedKey": [
-              9,
-              24
-            ],
-            "fixturesAffected": [
-              "canonical",
-              "boundary"
-            ],
-            "printedKey": "obligation:track-pathway:TX:tx_nd_dwi_deferred:first-offense-dwi-nondisclosure",
-            "censusKey": "obligation:track-only:TX:tx_nd_dwi_deferred",
-            "censusHitsForPrintedKey": 0,
-            "filesCarryingPrintedKeyRepoWide": 4,
-            "wordsOutsideMediabox": 0,
-            "valueOnPrintedTextCollisions": 0,
-            "markupTokensOnPage": 0,
-            "pagesRasterisedAndRead": 3
-          }
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
